@@ -221,8 +221,12 @@ export class FakeState {
 /** What `vi.mock('../src/platform')` returns: pairs and 101 responses without the runtime. */
 export const platformShim = {
   websocketPair: () => fakePair() as unknown as { client: WebSocket; server: WebSocket },
-  upgradeResponse: (client: WebSocket) =>
-    ({ status: 101, webSocket: client }) as unknown as Response,
+  upgradeResponse: (client: WebSocket, protocol: string) =>
+    ({
+      status: 101,
+      webSocket: client,
+      headers: new Headers({ 'Sec-WebSocket-Protocol': protocol }),
+    }) as unknown as Response,
   pingPongPair: () => ({ request: '{"ping":1}', response: '{"pong":1}' }),
 }
 

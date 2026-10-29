@@ -1,13 +1,16 @@
 /**
- * A `SessionObject` under the shim, as the conformance suite's `ConformanceServer` and as the
- * room the object-specific tests drive directly.
+ * A `SessionObject` under the shim, as the shared conformance suite's server and as the room
+ * the object-specific tests drive directly. Connections follow the connection contract: `?client=`
+ * plus the `as-live.v1`, `j.`, `r.` subprotocols, or a bearer controller token.
  */
 import { toBase64Url } from '@shared/live/bytes'
-import { announcedLimits, HUB_LIMITS, randomId, type HubLimits } from '@actionstations/relay-core'
-import type { ConformanceFactory, ConnectOptions } from '../../core/test/conformance'
+import type { SessionHubOptions } from '@shared/live/hub'
+import type { ConnectOptions, ServerFactory } from '@shared/live/server-conformance'
+import type { Transport } from '@shared/live/transport'
+import { randomId, WS_SUBPROTOCOL } from '@actionstations/relay-core'
 import type { Env } from '../src/env'
 import { SessionObject } from '../src/session-object'
-import { FakeState, socketOf, transportOf } from './shim'
+import { FakeState, socketOf, transportOf, type FakeSocket } from './shim'
 
 export interface Room {
   state: FakeState
@@ -16,11 +19,15 @@ export interface Room {
   sessionId: string
   controllerToken: string
   clock: { now: number }
-  limits: HubLimits
   /** A fresh object on the same state: what the runtime does after hibernation. */
   wake(): SessionObject
   action(action: string, body?: unknown, token?: string): Promise<Response>
-  connect(opts: ConnectOptions): Promise<Response>
+  connect(
+    opts: ConnectOptions,
+    over?: { protocols?: string; query?: Record<string, string> },
+  ): Promise<Response>
+  lastIndex(): number
+  connected(): string[]
 }
 
 export const START = Date.UTC(2026, 9, 28, 12, 0, 0)
@@ -37,22 +44,22 @@ export function fakeEnv(): Env {
   }
 }
 
-export async function createRoom(
-  options: {
-    limits?: Partial<HubLimits>
-    joinTokenHash?: string
-  } = {},
-): Promise<Room> {
+export interface RoomOptions {
+  sessionId?: string
+  joinTokenHash?: string
+  hub?: Partial<SessionHubOptions>
+}
+
+export async function createRoom(options: RoomOptions = {}): Promise<Room> {
   const state = new FakeState()
   const env = fakeEnv()
   const clock = { now: START }
-  const limits: HubLimits = { ...HUB_LIMITS.relay, ...options.limits }
   const make = () => {
-    const object = new SessionObject(state.asState(), env, () => clock.now, limits)
+    const object = new SessionObject(state.asState(), env, () => clock.now, options.hub ?? {})
     state.bind(object)
     return object
   }
-  const sessionId = randomId()
+  const sessionId = options.sessionId ?? randomId()
   const room: Room = {
     state,
     env,
@@ -60,7 +67,6 @@ export async function createRoom(
     sessionId,
     controllerToken: '',
     clock,
-    limits,
     wake() {
       room.object = make()
       return room.object
@@ -74,18 +80,29 @@ export async function createRoom(
         }),
       )
     },
-    connect(opts) {
-      const query = new URLSearchParams({ c: opts.clientId })
-      if (opts.joinToken) query.set('j', toBase64Url(opts.joinToken))
-      if (opts.resumeToken) query.set('r', toBase64Url(opts.resumeToken))
+    connect(opts, over = {}) {
+      const query = new URLSearchParams({ client: opts.clientId, ...over.query })
+      const protocols = [WS_SUBPROTOCOL]
+      if (opts.joinToken) protocols.push(`j.${toBase64Url(opts.joinToken)}`)
+      if (opts.resumeToken) protocols.push(`r.${toBase64Url(opts.resumeToken)}`)
       const headers: Record<string, string> = {
         Upgrade: 'websocket',
+        'Sec-WebSocket-Protocol': over.protocols ?? protocols.join(', '),
         'CF-Connecting-IP': '203.0.113.7',
       }
       if (opts.controller) headers.Authorization = `Bearer ${room.controllerToken}`
       return room.object.fetch(
         new Request(`https://relay/v1/sessions/${sessionId}/ws?${query}`, { headers }),
       )
+    },
+    lastIndex() {
+      const rows = state.sql.exec(`SELECT COALESCE(MAX(idx), 0) AS n FROM envelopes`).toArray()
+      return Number(rows[0]!.n)
+    },
+    connected() {
+      return [...state.sockets]
+        .filter((s) => s.readyState === 1)
+        .map((s) => (s.deserializeAttachment() as { clientId: string }).clientId)
     },
   }
   const created = await room.object.fetch(
@@ -102,23 +119,69 @@ export async function createRoom(
   return room
 }
 
-export const sessionObjectFactory: ConformanceFactory = async ({ limits }) => {
-  const room = await createRoom({ limits })
+/** A transport that was refused before the handshake: one close, no frames. */
+function refusedTransport(code: number): Transport {
   return {
-    sessionId: room.sessionId,
-    limits: announcedLimits(room.limits),
-    async connect(opts) {
-      return transportOf(socketOf(await room.connect(opts)))
+    send: () => {},
+    close: () => {},
+    onFrame: () => () => {},
+    onClose: (cb) => {
+      queueMicrotask(() => cb(code, 'refused before the handshake'))
+      return () => {}
     },
-    async kick(clientId) {
-      await room.action('kick', { client: clientId })
+  }
+}
+
+export async function connectTransport(room: Room, opts: ConnectOptions): Promise<Transport> {
+  const res = await room.connect(opts)
+  if (res.status !== 101) return refusedTransport(res.status === 403 ? 4005 : 1008)
+  return transportOf(socketOf(res))
+}
+
+/** The Durable Object as the shared conformance suite's server. */
+export const sessionObjectFactory: ServerFactory = async (opts) => {
+  const {
+    sessionId,
+    joinTokenHash,
+    framesPerMinute,
+    limits,
+    storedEnvelopes,
+    storedBytes,
+    rowWriteBudget,
+    catchupBytes,
+  } = opts
+  const room = await createRoom({
+    sessionId,
+    joinTokenHash,
+    hub: {
+      framesPerMinute,
+      limits,
+      storedEnvelopes,
+      storedBytes,
+      rowWriteBudget,
+      catchupBytes,
+      kind: opts.kind,
     },
-    async setJoinTokenHash(hex) {
-      await room.action('join-token', { joinTokenHash: hex })
+  })
+  return {
+    connect: (o) => connectTransport(room, o),
+    kick: (id) => void room.action('kick', { client: id }),
+    end: () => void room.action('end'),
+    // The suite expects the rotation to be in effect at once: write the hub's state row directly.
+    setJoinTokenHash: (hex) => {
+      room.state.sql.exec(
+        `INSERT INTO state (key, value) VALUES ('hub', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value`,
+        JSON.stringify({ joinTokenHash: hex, ended: false }),
+      )
     },
-    async end() {
-      await room.action('end')
+    get lastIndex() {
+      return room.lastIndex()
     },
-    storedCount: () => room.state.sql.count('envelopes'),
+    get connected() {
+      return room.connected()
+    },
+    stop: async () => {
+      for (const s of [...room.state.sockets] as FakeSocket[]) s.close(1001, 'stop')
+    },
   }
 }

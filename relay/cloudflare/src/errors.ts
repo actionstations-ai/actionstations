@@ -10,12 +10,19 @@ import { nextUtcMidnight } from './env'
 export const DAILY_LIMIT_MESSAGE =
   'The Action Stations relay has reached today’s free limit. Switch this session to This computer or Your server, or try after 00:00 UTC.'
 
-const LIMIT_WORDS = /exceed|limit|quota|too many|out of|storage|overloaded|rate/i
+/**
+ * The runtime's own wording for a plan limit: an "exceeded"/"reached" with a "limit" or "quota"
+ * in a plain `Error` (never a TypeError or RangeError, which are bugs). Developers' docs for
+ * Durable Objects limits and Workers limits use these words; a programming error does not.
+ */
+const LIMIT_WORDS =
+  /\b(limit|quota)\b.*\b(exceeded|reached)\b|\b(exceeded|exceeds)\b.*\b(limit|quota)\b/i
 
-/** Whether an error thrown by the runtime looks like a free-plan limit rather than a bug. */
 export function isLimitError(err: unknown): boolean {
-  const message = err instanceof Error ? err.message : typeof err === 'string' ? err : ''
-  return LIMIT_WORDS.test(message)
+  if (!(err instanceof Error)) return false
+  if (err instanceof TypeError || err instanceof RangeError || err instanceof SyntaxError)
+    return false
+  return LIMIT_WORDS.test(err.message)
 }
 
 export function json(body: unknown, status = 200, headers: Record<string, string> = {}): Response {

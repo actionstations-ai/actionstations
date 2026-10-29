@@ -29,15 +29,28 @@ Record the date and who checked in the release notes (see step 5).
 
 ## 1. What protects the shared daily allowance
 
-Every session is capped so one busy or hostile session cannot spend the day's free allowance
-(spec 0408, "Allowance budget"): 60 devices; 64 KiB per message; 30 messages a minute per
-participant with bursts of 10, 600 a minute per controller and per session; 4,000 stored
-messages; blobs up to 8 MiB each and 64 MiB per session; 20 reconnects per device per hour;
-and account-wide **25 sessions a day** (UTC), counted by the `QuotaObject`. Past a cap the
-client gets `relay.error` (`RATE_LIMITED`, `STORE_FULL`, `BLOB_QUOTA`, `SESSION_FULL`) or `503
-DAILY_LIMIT` for the 26th session, and the app says what to do. The caps live in
-`relay/core/src/limits.ts` (`HUB_LIMITS.relay`) and `relay/cloudflare/src/env.ts`
-(`SESSIONS_PER_DAY`); change them only with the budget table in the spec.
+Every session is capped so one busy or hostile session cannot spend the day's free allowance,
+and every address is capped so one person cannot take the day (spec 0408, "Allowance budget"):
+
+- Per session (`RELAY_HUB_OPTIONS` in `src/env.ts`): 60 devices; 64 KiB per message; 30 messages
+  a minute per participant; 1,500 stored messages and 12 MiB of them; a lifetime budget of 3,600
+  row writes (a stored message is two, a media chunk two, a device one); blobs up to 8 MiB each
+  and 64 MiB per session. Controllers are bound by the same store caps: past them their frames
+  still reach connected devices but are not kept for late joiners, and the app is told.
+- Per address: **3 sessions a day** (IPv6 counted by /64); per account: **25 sessions a day**
+  (UTC), both counted durably by the `QuotaObject`. Session creation is accepted only as
+  `application/json` without an `Origin` header, so a web page cannot spend the quota; the
+  desktop app sends neither a browser `Origin` nor another content type.
+- Worst day: 25 × 3,600 = 90,000 row writes, under the plan's 100,000; catch-up reads stay
+  under the 5,000,000 rows read.
+
+Past a cap the client gets `relay.error` (`RATE_LIMITED`, `STORE_FULL`, `BLOB_QUOTA`,
+`SESSION_FULL`), `429` for an address that has created its share, or `503 DAILY_LIMIT` for the
+26th session, and the app says what to do. Change the caps only with the budget table in the spec.
+
+A Turnstile challenge on session creation was considered and not adopted: the controller is a
+desktop app, not a browser, and the caps above with no payment method bound the harm. Revisit if
+the metrics (step 4) show creations being refused on ordinary days.
 
 ## 2. Build
 
@@ -67,6 +80,7 @@ sends anonymous usage telemetry to Cloudflare unless told not to: export
 
 ```
 cd relay/cloudflare
+export WRANGLER_SEND_METRICS=false
 pnpm dlx wrangler@4.155.0 login          # browser OAuth to the project's account; no API token is stored anywhere
 pnpm dlx wrangler@4.155.0 whoami         # confirm the account name before going on
 pnpm dlx wrangler@4.155.0 deploy
@@ -92,8 +106,10 @@ the machine.
   week and before raising any cap (spec 0408, open question 3).
 - Plan and payment method again (step 0). A deploy cannot change them, but the check is cheap.
 - `pnpm dlx wrangler@4.155.0 tail` only while debugging: it streams connection events (session
-  and client ids, close codes, country) to your terminal and nowhere else. Nothing is persisted,
-  and payloads, join tokens and controller tokens never appear in it.
+  and client ids, close codes, request URLs) to your terminal and nowhere else. Nothing is
+  persisted. Payloads never appear in it, and neither do tokens: the connection contract carries
+  the join and resume tokens in the WebSocket subprotocol and the controller token in the
+  `Authorization` header, and the relay refuses any token in a query string.
 
 ## 5. Release notes
 

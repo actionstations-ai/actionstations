@@ -422,7 +422,10 @@ export class LiveClient {
       this.lastIndex = batch.payload.to
       this.storage.set(this.storageKey('index'), String(this.lastIndex))
     }
+    // One page per request (spec 0406 catch-up): the server cuts a batch by entries and bytes;
+    // the client asks for the next page from where it stopped until the last one says done.
     if (batch.payload.done) await this.releaseHeldBack()
+    else this.requestCatchup(batch.payload.to)
   }
 
   private async releaseHeldBack(): Promise<void> {

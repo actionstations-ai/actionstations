@@ -6,7 +6,7 @@
  * controller never opens a socket to its own computer.
  */
 import type { CryptoProvider } from './crypto/provider'
-import { SessionHub, type HubClient, type HubEvent, type StoredBlob } from './hub'
+import { SessionHub, type HubClient, type HubEvent, type HubStore, type StoredBlob } from './hub'
 import type { ConnectionKind, Limits } from './protocol'
 import type { ClientId, Envelope } from './schemas'
 import type { Transport } from './transport'
@@ -19,9 +19,13 @@ export interface MemoryServerOptions {
   crypto: CryptoProvider
   version?: string
   now?: () => number
+  store?: HubStore
+  limits?: Partial<Limits>
   framesPerMinute?: number
   storedEnvelopes?: number
   storedBytes?: number
+  rowWriteBudget?: number
+  catchupBytes?: number
   onEvent?: (event: HubEvent) => void
 }
 

@@ -1,13 +1,10 @@
 /**
- * `@actionstations/relay-core`: the live play server contract (spec 0406) as a state machine,
- * with its stores, limits, tokens and HTTP shapes. Adapters: `relay/cloudflare` (spec 0408),
- * `relay/node` (spec 0409) and the in-app LAN server (spec 0407). This package imports the
- * protocol's schemas, limits and byte helpers from `src/shared/live/` and nothing with a key.
+ * `@actionstations/relay-core`: what the two relay adapters share and the hub does not provide.
+ * The server contract itself is `SessionHub` in `src/shared/live/hub.ts` (one implementation for
+ * the LAN server, the relay and the self-hosted server); this package adds the HTTP shapes, the
+ * connection contract, tokens and edge rate windows. It imports the protocol's schemas, limits
+ * and byte helpers from `src/shared/live/` and nothing with a key.
  */
 export * from './api'
-export * from './frames'
-export * from './hub'
-export * from './limits'
 export * from './quota'
-export * from './store'
 export * from './tokens'

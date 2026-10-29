@@ -10,8 +10,13 @@ export function websocketPair(): { client: WebSocket; server: WebSocket } {
   return { client: pair[0], server: pair[1] }
 }
 
-export function upgradeResponse(client: WebSocket): Response {
-  return new Response(null, { status: 101, webSocket: client })
+/** The handshake answer; `protocol` is the subprotocol the server selected (`as-live.v1`). */
+export function upgradeResponse(client: WebSocket, protocol: string): Response {
+  return new Response(null, {
+    status: 101,
+    webSocket: client,
+    headers: { 'Sec-WebSocket-Protocol': protocol },
+  })
 }
 
 export function pingPongPair(): WebSocketRequestResponsePair {

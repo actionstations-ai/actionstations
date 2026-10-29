@@ -3,13 +3,17 @@ import { dailyLimitResponse, errorResponse, isLimitError } from '../src/errors'
 import { START } from './do-harness'
 
 describe('errors', () => {
-  it('recognises the runtime’s free-plan limit errors', () => {
+  it('recognises the runtime’s plan-limit errors and nothing else', () => {
     expect(
       isLimitError(new Error('Durable Object storage operation exceeded the daily limit')),
     ).toBe(true)
-    expect(isLimitError(new Error('Too many requests'))).toBe(true)
-    expect(isLimitError('quota reached')).toBe(true)
-    expect(isLimitError(new TypeError('x is not a function'))).toBe(false)
+    expect(isLimitError(new Error('Daily request quota reached'))).toBe(true)
+    expect(isLimitError(new Error('Rows written limit exceeded'))).toBe(true)
+    expect(isLimitError(new Error('Too many requests'))).toBe(false)
+    expect(isLimitError(new Error('storage failed'))).toBe(false)
+    expect(isLimitError(new TypeError('limit exceeded'))).toBe(false)
+    expect(isLimitError(new RangeError('Maximum call stack size exceeded, limit'))).toBe(false)
+    expect(isLimitError('quota reached')).toBe(false)
     expect(isLimitError(undefined)).toBe(false)
   })
 
@@ -18,8 +22,7 @@ describe('errors', () => {
     expect(res.status).toBe(503)
     expect(res.headers.get('Retry-After')).toBe(String(12 * 3600))
     expect(res.headers.get('Cache-Control')).toBe('no-store')
-    const body = (await res.json()) as { error: { code: string } }
-    expect(body.error.code).toBe('DAILY_LIMIT')
+    expect(((await res.json()) as { error: { code: string } }).error.code).toBe('DAILY_LIMIT')
   })
 
   it('answers 500 INTERNAL without the error’s text for anything else', async () => {

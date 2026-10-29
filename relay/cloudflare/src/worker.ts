@@ -1,16 +1,16 @@
 /**
- * The Worker: routes the API to the session objects, counts sessions against the daily quota,
+ * The Worker: routes the API to the session objects, counts sessions against the daily quotas,
  * answers `/v1/health`, and hands everything else to the static assets (the player page).
  *
  * Nothing here reads a frame. The Worker sees request metadata, the Durable Object sees sealed
  * frames, and neither holds a key (spec 0406 "What each party sees").
  */
+import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
 import {
   CreateSessionBody,
-  LIMITS,
-  PROTOCOL_VERSION,
   SlidingWindow,
   apiError,
+  createRequestProblem,
   randomId,
   sessionRoute,
   type HealthResponse,
@@ -28,7 +28,7 @@ import type { QuotaResult } from './quota-object'
 export { QuotaObject } from './quota-object'
 export { SessionObject } from './session-object'
 
-/** Best-effort caps per address, in this isolate's memory; Cloudflare's own limits sit behind them. */
+/** Best-effort caps per address, in this isolate's memory; the quota object holds the durable ones. */
 const creates = new SlidingWindow<string>(CREATES_PER_IP_PER_MINUTE, 60_000)
 const upgrades = new SlidingWindow<string>(UPGRADES_PER_IP_PER_MINUTE, 60_000)
 
@@ -42,16 +42,23 @@ export function health(env: Env): HealthResponse {
   }
 }
 
-function tooMany(retryAfterMs: number): Response {
-  return json(apiError('RATE_LIMITED', 'Too many requests from this address'), 429, {
+function tooMany(message: string, retryAfterMs: number): Response {
+  return json(apiError('RATE_LIMITED', message), 429, {
     'Retry-After': String(Math.max(1, Math.ceil(retryAfterMs / 1000))),
   })
 }
 
+/**
+ * Session creation is the one request that costs the shared allowance, so it is the one that
+ * must come from the desktop app: JSON, no `Origin` (a browser always sends one), a per-address
+ * minute window here and a per-address and per-day count in the quota object.
+ */
 async function createSession(request: Request, env: Env, now: number): Promise<Response> {
+  const problem = createRequestProblem(request.headers)
+  if (problem) return json(problem, problem.error.code === 'FORBIDDEN' ? 403 : 415)
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown'
   const allowed = creates.hit(ip, now)
-  if (!allowed.ok) return tooMany(allowed.retryAfterMs)
+  if (!allowed.ok) return tooMany('Too many requests from this address', allowed.retryAfterMs)
   const text = await request.text()
   let raw: unknown
   try {
@@ -63,9 +70,18 @@ async function createSession(request: Request, env: Env, now: number): Promise<R
   if (!body.success) return json(apiError('INVALID', 'Bad request body'), 400)
   const quota = env.QUOTA.get(env.QUOTA.idFromName(QUOTA_OBJECT_NAME))
   const taken = (await (
-    await quota.fetch('https://quota/take', { method: 'POST' })
+    await quota.fetch('https://quota/take', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: ip }),
+    })
   ).json()) as QuotaResult
-  if (!taken.ok) return dailyLimitResponse(now)
+  if (!taken.ok) {
+    if (taken.reason === 'address') {
+      return tooMany('This address has created its share of today’s sessions', taken.resetAt - now)
+    }
+    return dailyLimitResponse(now)
+  }
   const sessionId = randomId()
   const object = env.SESSIONS.get(env.SESSIONS.idFromName(sessionId))
   return object.fetch(`https://session/v1/sessions/${sessionId}/create`, {
@@ -87,11 +103,12 @@ export async function handle(request: Request, env: Env, now = Date.now()): Prom
     return createSession(request, env, now)
   }
   const route = sessionRoute(pathname)
-  if (route) {
+  if (route && route.action !== 'events' && route.action !== 'send' && route.action !== 'blob') {
     if (route.action === 'ws') {
       const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown'
       const allowed = upgrades.hit(ip, now)
-      if (!allowed.ok) return tooMany(allowed.retryAfterMs)
+      if (!allowed.ok)
+        return tooMany('Too many connections from this address', allowed.retryAfterMs)
     }
     const object = env.SESSIONS.get(env.SESSIONS.idFromName(route.sessionId))
     return object.fetch(request)

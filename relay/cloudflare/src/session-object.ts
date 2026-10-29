@@ -1,53 +1,60 @@
 /**
  * One Durable Object per session: the sockets (hibernation API), the SQLite store, the retention
- * alarm, and the HTTP actions a controller calls with its token. All session logic is
- * `SessionHub` from the core; this class only owns what the Workers runtime gives it.
+ * alarm, and the HTTP actions a controller calls with its token. All session logic is the
+ * shared `SessionHub` (src/shared/live/hub.ts); this class owns only what the Workers runtime
+ * gives it and what the relay adds: controller tokens, retention, hibernation.
  *
  * Hibernation: between messages the object may be evicted from memory while its sockets stay
  * open. On the next event the object is constructed again, `ctx.getWebSockets()` returns the
- * sockets, and each socket's attachment (client id, controller flag, connect time) rebuilds its
- * `Connection`; `SessionHub.attach` registers them without a new hello. Per-sender `seq`, client
- * identities and frames are in SQLite, so nothing a client relies on lives only in memory.
+ * sockets, and each socket's attachment (client id, controller flag, connect time) re-registers
+ * it with `SessionHub.restore()`, with no new hello. Everything a client relies on is in SQLite.
  */
+import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
+import { SessionHub, type HubClient, type HubEvent, type SessionHubOptions } from '@shared/live/hub'
 import {
   CreateSessionBody,
-  HUB_LIMITS,
   JoinTokenBody,
   KickBody,
-  RETENTION_MS,
-  SessionHub,
-  TOMBSTONE_MS,
-  announcedLimits,
+  SlidingWindow,
+  WS_SUBPROTOCOL,
   apiError,
   bearerToken,
-  isControllerAuth,
+  hashBearerToken,
+  matchesAny,
+  parseConnect,
+  randomToken,
   sessionRoute,
-  wsAuth,
-  type Connection,
-  type HubLimits,
-  type LogEvent,
 } from '@actionstations/relay-core'
-import type { Attachment, Env } from './env'
+import {
+  ACTIONS_PER_SESSION_PER_MINUTE,
+  MAX_CONTROLLER_TOKENS,
+  RELAY_HUB_OPTIONS,
+  RETENTION_MS,
+  TOMBSTONE_MS,
+  type Attachment,
+  type Env,
+} from './env'
 import { errorResponse, json } from './errors'
 import { pingPongPair, upgradeResponse, websocketPair } from './platform'
-import { SqliteStore } from './sqlite-store'
+import { SqliteHubStore, type SessionRecord } from './sqlite-store'
 
 /** Largest body any action reads. */
 const MAX_BODY = 4096
 
 export class SessionObject {
-  private readonly store: SqliteStore
+  private readonly store: SqliteHubStore
   private hub: SessionHub | undefined
-  private readonly conns = new WeakMap<WebSocket, Connection>()
+  private readonly clients = new WeakMap<WebSocket, HubClient>()
+  private readonly actions = new SlidingWindow<string>(ACTIONS_PER_SESSION_PER_MINUTE, 60_000)
 
-  /** `now` and `limits` exist for tests; the runtime passes `state` and `env` only. */
+  /** `now` and `hubOverrides` exist for tests; the runtime passes `state` and `env` only. */
   constructor(
     private readonly state: DurableObjectState,
     private readonly env: Env,
     private readonly now: () => number = () => Date.now(),
-    private readonly limits: HubLimits = HUB_LIMITS.relay,
+    private readonly hubOverrides: Partial<SessionHubOptions> = {},
   ) {
-    this.store = new SqliteStore(state.storage.sql)
+    this.store = new SqliteHubStore(state.storage.sql)
     state.setWebSocketAutoResponse(pingPongPair())
   }
 
@@ -67,18 +74,26 @@ export class SessionObject {
     if (created) return this.create(request, created[1]!)
     const route = sessionRoute(url.pathname)
     if (!route) return json(apiError('NOT_FOUND', 'No such route'), 404)
-    // The id in the path named this object; the stored metadata says which session it holds.
-    const meta = this.store.meta()
-    if (!meta || meta.sessionId !== route.sessionId) {
+    const record = this.store.record()
+    if (!record || record.sessionId !== route.sessionId) {
       return json(apiError('NOT_FOUND', 'Unknown session'), 404)
     }
-    const hub = this.hubFor(route.sessionId)
-    if (route.action === 'ws') return this.upgrade(request, url, hub)
+    if (route.action === 'ws') return this.upgrade(request, url, record)
+    if (!['kick', 'join-token', 'end', 'controllers'].includes(route.action)) {
+      return json(apiError('NOT_FOUND', 'No such route'), 404)
+    }
     if (request.method !== 'POST') return json(apiError('METHOD_NOT_ALLOWED', 'POST only'), 405)
-    if (!(await hub.isControllerToken(bearerToken(request.headers.get('Authorization'))))) {
+    if (!(await this.isController(record, bearerToken(request.headers.get('Authorization'))))) {
       return json(apiError('UNAUTHORIZED', 'A controller token is required'), 401)
     }
-    if (hub.ended) return json(apiError('SESSION_ENDED', 'Session ended'), 410)
+    const allowed = this.actions.hit(route.action, this.now())
+    if (!allowed.ok) {
+      return json(apiError('RATE_LIMITED', 'Too many requests for this session'), 429, {
+        'Retry-After': String(Math.max(1, Math.ceil(allowed.retryAfterMs / 1000))),
+      })
+    }
+    if (record.endedAt !== undefined) return json(apiError('SESSION_ENDED', 'Session ended'), 410)
+    const hub = this.hubFor()
     switch (route.action) {
       case 'kick': {
         const body = KickBody.safeParse(await readJson(request))
@@ -92,14 +107,30 @@ export class SessionObject {
         hub.setJoinTokenHash(body.data.joinTokenHash)
         return new Response(null, { status: 204 })
       }
-      case 'end': {
-        hub.end()
-        await this.state.storage.setAlarm(hub.tombstoneExpiresAt ?? this.now() + TOMBSTONE_MS)
+      case 'end':
+        await this.endSession(record, hub)
         return new Response(null, { status: 204 })
+      default: {
+        if (record.controllerTokenHashes.length >= MAX_CONTROLLER_TOKENS) {
+          return json(
+            apiError(
+              'CONFLICT',
+              `A session has at most ${MAX_CONTROLLER_TOKENS} controller tokens`,
+            ),
+            409,
+          )
+        }
+        const token = randomToken()
+        record.controllerTokenHashes.push(await hashBearerToken(token))
+        this.store.setRecord(record)
+        return json({ controllerToken: token }, 201)
       }
-      case 'controllers':
-        return json({ controllerToken: await hub.addController() }, 201)
     }
+  }
+
+  private async isController(record: SessionRecord, token: string | undefined): Promise<boolean> {
+    if (!token) return false
+    return matchesAny(await hashBearerToken(token), record.controllerTokenHashes)
   }
 
   /** The Worker's `POST /v1/sessions` after the quota said yes: the id is in the path. */
@@ -107,130 +138,149 @@ export class SessionObject {
     if (request.method !== 'POST') return json(apiError('METHOD_NOT_ALLOWED', 'POST only'), 405)
     const body = CreateSessionBody.safeParse(await readJson(request))
     if (!body.success) return json(apiError('INVALID', 'Bad request body'), 400)
-    if (this.store.meta()) return json(apiError('INVALID', 'Session already exists'), 409)
-    const hub = this.hubFor(sessionId)
-    const { meta, controllerToken } = await hub.create({ joinTokenHash: body.data.joinTokenHash })
-    await this.state.storage.setAlarm(meta.expiresAt)
-    return json(
-      { sessionId, controllerToken, caps: announcedLimits(this.limits), expiresAt: meta.expiresAt },
-      201,
-    )
+    if (this.store.record()) return json(apiError('CONFLICT', 'Session already exists'), 409)
+    const controllerToken = randomToken()
+    const createdAt = this.now()
+    const record: SessionRecord = {
+      sessionId,
+      createdAt,
+      expiresAt: createdAt + RETENTION_MS,
+      controllerTokenHashes: [await hashBearerToken(controllerToken)],
+    }
+    this.store.setRecord(record)
+    const hub = this.hubFor(body.data.joinTokenHash ?? '')
+    await this.state.storage.setAlarm(record.expiresAt)
+    return json({ sessionId, controllerToken, caps: hub.limits, expiresAt: record.expiresAt }, 201)
   }
 
-  private async upgrade(request: Request, url: URL, hub: SessionHub): Promise<Response> {
+  private async upgrade(request: Request, url: URL, record: SessionRecord): Promise<Response> {
     if (request.headers.get('Upgrade')?.toLowerCase() !== 'websocket') {
       return json(apiError('INVALID', 'Expected a WebSocket upgrade'), 426)
     }
-    const auth = wsAuth(url.searchParams, request.headers.get('Authorization'))
-    if (!auth) return json(apiError('INVALID', 'Missing or bad client id'), 400)
-    const { client, server } = websocketPair()
-    const attachment: Attachment = {
-      clientId: auth.clientId,
-      controller: isControllerAuth(auth),
-      since: this.now(),
+    const parsed = parseConnect({
+      query: url.searchParams,
+      authorization: request.headers.get('Authorization'),
+      protocols: request.headers.get('Sec-WebSocket-Protocol') ?? '',
+    })
+    if (!parsed.ok)
+      return json(apiError(parsed.code, parsed.message), parsed.code === 'FORBIDDEN' ? 403 : 400)
+    const { auth } = parsed
+    const controller = auth.controllerToken !== undefined
+    if (controller && !(await this.isController(record, auth.controllerToken))) {
+      return json(apiError('UNAUTHORIZED', 'Bad controller token'), 401)
     }
+    const { client, server } = websocketPair()
+    const attachment: Attachment = { clientId: auth.clientId, controller, since: this.now() }
     this.state.acceptWebSocket(server, [auth.clientId])
     server.serializeAttachment(attachment)
-    const conn = this.connectionFor(server, attachment, request.headers.get('CF-Connecting-IP'))
-    await hub.accept(conn, auth)
-    return upgradeResponse(client)
+    const hub = this.hubFor()
+    const handle = await hub.attach(socketFor(server), {
+      clientId: auth.clientId,
+      joinToken: auth.joinToken,
+      resumeToken: auth.resumeToken,
+      controller,
+    })
+    this.clients.set(server, handle)
+    return upgradeResponse(client, WS_SUBPROTOCOL)
+  }
+
+  private async endSession(record: SessionRecord, hub: SessionHub): Promise<void> {
+    hub.end()
+    record.endedAt = this.now()
+    this.store.setRecord(record)
+    await this.state.storage.setAlarm(record.endedAt + TOMBSTONE_MS)
   }
 
   // ---- sockets ---------------------------------------------------------------------------
 
   async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer): Promise<void> {
-    const conn = this.known(ws)
-    if (conn) this.hubForSocket().onFrame(conn, message)
+    const client = this.clientFor(ws)
+    if (!client) return
+    if (typeof message !== 'string') return ws.close(1003, 'Text frames only')
+    client.receive(message)
   }
 
-  async webSocketClose(ws: WebSocket, code: number): Promise<void> {
-    const conn = this.known(ws)
-    if (conn) this.hubForSocket().onClose(conn, code)
+  async webSocketClose(ws: WebSocket): Promise<void> {
+    this.clientFor(ws)?.detach()
   }
 
   async webSocketError(ws: WebSocket): Promise<void> {
-    const conn = this.known(ws)
-    if (conn) this.hubForSocket().onClose(conn, 1006)
+    this.clientFor(ws)?.detach()
   }
 
-  /** The hub for a socket event: the session id is in the stored metadata. */
-  private hubForSocket(): SessionHub {
-    const meta = this.store.meta()
-    return this.hubFor(meta?.sessionId ?? '')
-  }
-
-  private known(ws: WebSocket): Connection | undefined {
-    this.hubForSocket()
-    return this.conns.get(ws)
+  /** The hub's handle for a socket, rebuilt from the attachment after a hibernation. */
+  private clientFor(ws: WebSocket): HubClient | undefined {
+    const hub = this.hubFor()
+    const known = this.clients.get(ws)
+    if (known) return known
+    const attachment = ws.deserializeAttachment() as Attachment | null
+    if (!attachment) return undefined
+    const handle = hub.restore(socketFor(ws), attachment)
+    this.clients.set(ws, handle)
+    return handle
   }
 
   /**
-   * The hub, built on first use after a (re)start: every open socket is re-attached from its
-   * attachment, so the roster is what the runtime says it is.
+   * The hub, built on first use after a (re)start, with every open socket re-attached from its
+   * attachment so routing and presence see the roster the runtime holds.
    */
-  private hubFor(sessionId: string): SessionHub {
+  private hubFor(joinTokenHash = ''): SessionHub {
     if (this.hub) return this.hub
+    const record = this.store.record()
     const hub = new SessionHub({
-      sessionId,
-      store: this.store,
+      sessionId: record?.sessionId ?? '',
       kind: 'relay',
-      limits: this.limits,
+      joinTokenHash,
+      crypto: createWebCryptoProvider(),
+      store: this.store,
       version: this.env.RELAY_VERSION ?? 'dev',
       now: this.now,
-      log: (event) => this.log(event),
-      retentionMs: RETENTION_MS,
+      onEvent: (event) => this.log(event),
+      ...RELAY_HUB_OPTIONS,
+      ...this.hubOverrides,
     })
     this.hub = hub
     for (const ws of this.state.getWebSockets()) {
+      if (this.clients.has(ws)) continue
       const attachment = ws.deserializeAttachment() as Attachment | null
-      if (!attachment) continue
-      const conn = this.connectionFor(ws, attachment, null)
-      hub.attach(conn, attachment.since)
+      if (attachment) this.clients.set(ws, hub.restore(socketFor(ws), attachment))
     }
     return hub
-  }
-
-  private connectionFor(ws: WebSocket, attachment: Attachment, remote: string | null): Connection {
-    const conn: Connection = {
-      clientId: attachment.clientId,
-      controller: attachment.controller,
-      send: (frame) => ws.send(frame),
-      close: (code, reason) => ws.close(code, reason),
-      ...(remote ? { remote } : {}),
-    }
-    this.conns.set(ws, conn)
-    return conn
   }
 
   // ---- retention -------------------------------------------------------------------------
 
   /** `createdAt + 72 h`: end and tombstone. `endedAt + 1 h`: forget the session entirely. */
   async alarm(): Promise<void> {
-    const meta = this.store.meta()
-    if (!meta) return
+    const record = this.store.record()
+    if (!record) return
     const now = this.now()
-    if (meta.endedAt !== undefined) {
-      if (now >= meta.endedAt + TOMBSTONE_MS) {
+    if (record.endedAt !== undefined) {
+      if (now >= record.endedAt + TOMBSTONE_MS) {
         this.hub = undefined
         await this.state.storage.deleteAll()
         this.store.ensureSchema()
       } else {
-        await this.state.storage.setAlarm(meta.endedAt + TOMBSTONE_MS)
+        await this.state.storage.setAlarm(record.endedAt + TOMBSTONE_MS)
       }
       return
     }
-    if (now >= meta.expiresAt) {
-      const hub = this.hubFor(meta.sessionId)
-      hub.end()
-      await this.state.storage.setAlarm(hub.tombstoneExpiresAt ?? now + TOMBSTONE_MS)
-      return
-    }
-    await this.state.storage.setAlarm(meta.expiresAt)
+    if (now >= record.expiresAt) return this.endSession(record, this.hubFor())
+    await this.state.storage.setAlarm(record.expiresAt)
   }
 
   /** Connection events for `wrangler tail` only (spec 0408 FR-9); nothing is persisted. */
-  private log(event: LogEvent): void {
-    console.log(JSON.stringify({ at: this.now(), ...event }))
+  private log(event: HubEvent): void {
+    console.log(
+      JSON.stringify({ at: this.now(), session: this.store.record()?.sessionId, ...event }),
+    )
+  }
+}
+
+function socketFor(ws: WebSocket) {
+  return {
+    send: (frame: string) => ws.send(frame),
+    close: (code: number, reason: string) => ws.close(code, reason),
   }
 }
 
