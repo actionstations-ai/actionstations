@@ -183,3 +183,44 @@
     font-size: clamp(1.5rem, 4vw, 2rem);
   }
 }
+
+/* The promoted hot wash on the projector (#415): white on black, large type, no color-only meaning. */
+.present-hw {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  overflow-y: auto;
+}
+.present-hw__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 3.5rem);
+}
+.present-hw__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+.present-hw h2 {
+  margin: 0 0 var(--space-3);
+  font-size: clamp(1.25rem, 2.6vw, 2.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid white;
+  padding-bottom: var(--space-2);
+}
+.present-hw ul {
+  margin: 0;
+  padding-left: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: clamp(1.25rem, 2.8vw, 2.75rem);
+  line-height: var(--leading-tight);
+}
+@media (max-width: 900px) {
+  .present-hw__columns {
+    grid-template-columns: 1fr;
+  }
+}

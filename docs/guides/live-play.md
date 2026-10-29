@@ -287,3 +287,13 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 **After the exercise.** The page shows your observations, read-only. Copy what you need: a later visit to the link does not keep them. Without a device, use the printed EEG packet and type the results into the Evaluation tab afterwards.
 
 **For the facilitator.** In the Live tab, **Evaluators** lists who has joined, lets you set each one's watch list (empty means everything) and turns **Show expected actions to evaluators** on or off. In the Facilitate Evaluation tab, **Live observations** shows a coverage matrix (task by evaluator), the latest observations with filters, **Ask to watch** (a notice to one evaluator's device) and every recorded observation with its source. Live observations are saved in `scenarios/<id>/evaluation.json` as `source: 'live'`, labelled "Evaluator 1", "Evaluator 2" in join order.
+
+## Hot wash from devices
+
+- **Open it.** In the **Hot wash board** tab (or the **On devices** section of the Hot wash tab) press **Open on devices**. Every device gets a notice, and **More, Hot wash** lets players and evaluators add an item: a strength, an improvement, or an answer to one of the scenario's hot wash questions, optionally about an inject. Observers can read the board but not post.
+- **Anonymity.** The composer says what is shown. By default the post carries the poster's role (and, in a named session, the facilitator also sees the name). **Post without my role** removes it: no role or name is shown, logged or exported for that item. One device's items are counted by an anonymous reference, never identified.
+- **Moderation.** Items show on every device at once. Tick **Review before showing** to hold them until you press **Accept**. **Hide** removes an item from devices and the board without deleting it from the log; **Restore** brings it back. A player may withdraw their own item for two minutes.
+- **Agree.** Players tap the **▲** count on another item once. The board sorts by count.
+- **Group and promote.** Tick items (keyboard or touch), then **Group selected**, **Name group**, **Promote**. A promoted group is one finding ("name (3 contributions)") in the Hot wash tab under **From devices** and in the AAR/IP draft. **Edit text** fixes a typo; the original stays in the log. **Tag** links items to an objective, capability or inject. A promoted item is locked until you **Unpromote** it.
+- **Projector.** **Show on screen** shows the promoted items only, large, with no roles, names or counts.
+- **Close.** **Close on devices** makes the board read-only.

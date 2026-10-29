@@ -1,6 +1,6 @@
 # Spec 0415: Live play: hot wash contributions from devices
 
-Issue: #415 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #411 · Related: #418, #417, #419, #425 (hot wash transcription), #421
+Issue: #415 · Milestone: 0.6.0 · Status: Implemented (#415, ADR-0052) · Depends on: #406, #407, #411 · Related: #418, #417, #419, #425 (hot wash transcription), #421
 
 ## Summary
 
@@ -182,3 +182,10 @@ None. `FacilitatorState.hotwash` is 0419's addition with a default; a `facilitat
 2. **Should players see each other's items at all?** Recommendation: yes (the shared board). A board nobody else sees is a survey, and 0422 already covers that; seeing items prompts "+1" instead of six duplicates.
 3. **Should +1 counts show on the projector?** Recommendation: no on the promoted view (it is the facilitator's curated list); yes on the facilitator's board.
 4. **Evaluators posting hot wash items.** Recommendation: allowed, attributed as "Evaluator" (their label), since evaluators often surface the sharpest improvements; the facilitator can hide anything out of place.
+
+## Implementation notes
+
+- Promote returns the `FacilitatorState.hotwash` entry and the Facilitate page adds it (it owns `facilitator.json`); `live:hotwash-promote` and `live:hotwash-unpromote` return `{ entry | entryId, board }` instead of `FacilitatorState`. Entries keep the existing kinds `strength | improvement | other` and ids `dev-<id>`.
+- The presentation view is a `hotwash: true` target of `present()` (route `/present/:p/:s/hotwash/board`) and reads the board from main.
+- Not built here: reading a past session's board (FR-11), windowed columns above 100 items, the capability tag source beyond the scenario's evaluation guides.
+- Answers to a question are `kind: other` with `questionId` (`hwq-<n>`, the question's position).

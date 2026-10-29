@@ -152,3 +152,5 @@ When the critique gets no JSON from the model (a 32k context the full request ov
 - Media was produced manually for only a handful of injects (I-02a, I-04, I-06, I-06b, I-10b). The app should make media cheap enough to produce for all social/visual/audio injects.
 - Hand-off/role assignment uses the Player Briefing's team table; an ICS-203 pre-fill would be a nice addition.
 - No facilitator timeline tool; the app's Facilitator Mode covers this.
+
+**Collecting the hot wash from devices.** When the exercise runs on devices, the facilitator can open the hot wash so participants add strengths and areas for improvement from their phones, anonymously if they prefer. This keeps the loudest voice from setting the record. The facilitator groups near-duplicates, promotes the findings the room agrees on, and keeps the discussion spoken; the board collects, it does not replace the conversation.

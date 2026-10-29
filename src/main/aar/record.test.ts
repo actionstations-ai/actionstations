@@ -197,6 +197,29 @@ describe('assembleRecord', () => {
     expect(r.notes.some((n) => n.ref === 'note:obs_live_note_00001')).toBe(false)
   })
 
+  it('counts a finding promoted from devices once: the entry replaces the logged items it came from', () => {
+    const base = assembleRecord(scenario, { facilitator, live })
+    const promotedInLog = base.hotwash.filter((h) => h.ref.startsWith('hw:') && h.promoted)
+    const withEntry = assembleRecord(scenario, {
+      facilitator: {
+        ...facilitator,
+        hotwash: [
+          ...facilitator.hotwash,
+          {
+            id: 'dev-abc',
+            kind: 'improvement',
+            text: 'Two incident numbers (3 contributions)',
+            at: '2026-10-28T16:52:00.000Z',
+          },
+        ],
+      },
+      live,
+    })
+    expect(withEntry.hotwash.some((h) => h.ref === 'hw:dev-abc')).toBe(true)
+    expect(withEntry.hotwash.filter((h) => h.promoted)).toHaveLength(0)
+    expect(withEntry.hotwash.length).toBe(base.hotwash.length - promotedInLog.length + 1)
+  })
+
   it('gives every item a unique ref and lists them all as citable', () => {
     const r = assembleRecord(scenario, { facilitator, evaluation, live, surveys: [survey] })
     const all = [

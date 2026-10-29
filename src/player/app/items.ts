@@ -55,6 +55,7 @@ export interface Item {
 export interface InjectView {
   releaseId: string
   /** The MSEL row the release came from (evaluators match it to their tasks). */
+  /** The MSEL row this release is, so a hot wash item can point at it (#415). */
   rowId?: string
   injectType: string
   headline?: string
@@ -78,8 +79,6 @@ export function itemKey(msg: Pick<Opened, 'from' | 'seq'>): string {
 
 /** Message types that produce no item here because another spec owns them. */
 export const DEFERRED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
-  'hotwash.item',
-  'hotwash.update',
   'vote.cast',
   'survey.response',
   'eval.assign',

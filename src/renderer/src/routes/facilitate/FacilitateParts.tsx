@@ -17,6 +17,7 @@ import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
 import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
+import { HotWashBoard } from './live/HotWashBoard'
 import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
 import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
@@ -205,6 +206,9 @@ export function SidePanel(props: {
         <Tabs.Trigger value="votes" className="fac-tabs__trigger">
           {VOTES.tab}
         </Tabs.Trigger>
+        <Tabs.Trigger value="hotwash-board" className="fac-tabs__trigger">
+          Hot wash board
+        </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="inject" className="fac-tabs__panel">
         {selected && (
@@ -265,6 +269,9 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="messages" className="fac-tabs__panel">
         <MessagesPanel projectPath={props.projectPath} scenario={props.scenario} />
+      </Tabs.Content>
+      <Tabs.Content value="hotwash-board" className="fac-tabs__panel">
+        <HotWashBoard projectPath={props.projectPath} scenario={props.scenario} update={update} />
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
         <LivePanel

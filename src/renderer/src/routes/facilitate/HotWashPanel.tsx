@@ -14,7 +14,9 @@ import { Badge } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { CitationChips } from '../scenarios/CitationChips'
 import { countRatings, type RatingCounts } from './evaluation'
-import { DecisionLog, HotwashCapture } from './HotWashCapture'
+import { DecisionLog, DeviceHotwash, HotwashCapture } from './HotWashCapture'
+import { HotWashControls } from './live/HotWashControls'
+import { useLiveHotwash } from './live/use-live-hotwash'
 import type { UpdateState } from './use-delivery-actions'
 import { HotwashRecordings } from './HotwashRecordings'
 
@@ -190,6 +192,7 @@ export function HotWashPanel({
   const questions = scenario.hotwash?.questions ?? []
   const metrics = scenario.rubric?.metrics ?? []
   const record = useIpcQuery('evaluation:get', { projectPath, scenarioId: scenario.id })
+  const live = useLiveHotwash(projectPath, scenario.id, update)
   const allNotes = notesFor(
     scenario.msel.map((r) => r.id),
     scenario.msel,
@@ -198,7 +201,12 @@ export function HotWashPanel({
   const capture = { scenario, state, update, exerciseTime }
   return (
     <div className="fac-hotwash">
+      <section aria-labelledby="fac-hw-devices-open">
+        <h2 id="fac-hw-devices-open">On devices</h2>
+        <HotWashControls live={live} />
+      </section>
       <HotwashCapture {...capture} />
+      <DeviceHotwash {...capture} />
       <DecisionLog {...capture} />
       <section aria-labelledby="fac-hw-questions">
         <h2 id="fac-hw-questions">Hot wash questions</h2>

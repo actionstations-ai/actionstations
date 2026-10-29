@@ -61,6 +61,11 @@ const {
   onVoteClosed,
   recordVote,
   voteScope,
+  openHotwash,
+  closeHotwash,
+  hotwashBoard,
+  updateHotwash,
+  promoteHotwash,
 } = await import('./session')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
@@ -433,6 +438,107 @@ describe('messages through a running session (#413)', () => {
       )
     })
     expect(messageThreads(projectPath, scenarioId)).toEqual([])
+    await endSession(projectPath, scenarioId)
+  })
+})
+
+describe('hot wash contributions through a running session (#415)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  const post = (
+    p: Awaited<ReturnType<typeof joinAsPlayer>>,
+    over: Record<string, unknown> = {},
+  ): Promise<string> => {
+    const itemId = newId(p.crypto)
+    return p.client
+      .send('hotwash.item', 'controller', {
+        itemId,
+        kind: 'improvement',
+        text: 'Two incident numbers',
+        anonymous: false,
+        ...over,
+      } as never)
+      .then(() => itemId)
+  }
+
+  it('opens, takes role and anonymous items, counts +1, groups and promotes, and logs without seats on anonymous ones', async () => {
+    const { projectPath, scenarioId } = await setup()
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const ops = await joinAsPlayer(started.invites!.players.url, 'Dana', 'ops')
+    const pio = await joinAsPlayer(started.invites!.players.url, 'Sam', 'pio')
+    const pioSecond = await joinAsPlayer(started.invites!.players.url, 'Lee', 'pio')
+    expect(ops.welcome.features.hotwash).toBe(true)
+    expect(ops.welcome.hotwash?.method).toBe('3up3down')
+
+    const updates: Opened<'hotwash.update'>[] = []
+    const notices: string[] = []
+    pioSecond.client.on('hotwash.update', (m) => updates.push(m))
+    pioSecond.client.on('controller.notice', (m) => notices.push(m.payload.kind))
+
+    await openHotwash(projectPath, scenarioId, false)
+    await vi.waitFor(() => expect(notices).toEqual(['hotwash.open']))
+
+    const roleItem = await post(ops)
+    const anonItem = await post(pio, { anonymous: true, text: 'No FBI number in the plan' })
+    await vi.waitFor(() =>
+      expect(updates.filter((u) => u.payload.action === 'accept')).toHaveLength(2),
+    )
+    const accepted = updates.map((u) => u.payload)
+    expect(accepted[0]).toMatchObject({ itemId: roleItem, roleId: 'ops' })
+    expect(accepted[1]).toMatchObject({ itemId: anonItem, text: 'No FBI number in the plan' })
+    expect(accepted[1]).not.toHaveProperty('roleId')
+    expect(updates[0]!.signedBy).toBe('host')
+
+    await post(pioSecond, { plusOneOf: roleItem, text: '', anonymous: true })
+    await vi.waitFor(() =>
+      expect(updates.at(-1)!.payload).toMatchObject({ action: 'tag', plus: 1 }),
+    )
+
+    await updateHotwash(projectPath, scenarioId, {
+      action: 'group',
+      itemIds: [roleItem, anonItem],
+      label: 'Incident numbering',
+    })
+    const { entry, board } = await promoteHotwash(projectPath, scenarioId, roleItem)
+    expect(entry).toMatchObject({
+      kind: 'improvement',
+      text: 'Incident numbering (2 contributions)',
+    })
+    expect(entry.id).toMatch(/^dev-/)
+    expect(board.groups[0]).toMatchObject({ label: 'Incident numbering', promoted: true })
+    await vi.waitFor(() =>
+      expect(updates.filter((u) => u.payload.action === 'promote')).toHaveLength(2),
+    )
+
+    await closeHotwash(projectPath, scenarioId)
+    await vi.waitFor(() => expect(notices).toEqual(['hotwash.open', 'hotwash.close']))
+    // Closed: a new item is dropped and logged, never shown.
+    await post(ops, { text: 'Too late' })
+    await vi.waitFor(() => {
+      const log = readLog(projectPath, scenarioId, started.session!.id)
+      expect(
+        log.some((e) => e.kind === 'anomaly' && JSON.stringify(e.data).includes('closed')),
+      ).toBe(true)
+    })
+    expect(hotwashBoard(projectPath, scenarioId).items).toHaveLength(2)
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    const items = log.filter((e) => e.kind === 'hotwash.item')
+    expect(items).toHaveLength(2)
+    expect(items[0]!.actor.seat).toEqual({ kind: 'player', roleId: 'ops' })
+    expect(items[1]!.actor.seat).toBeUndefined()
+    expect(log.map((e) => e.kind)).toEqual(
+      expect.arrayContaining(['hotwash.open', 'hotwash.plus', 'hotwash.promoted', 'hotwash.close']),
+    )
+    expect(JSON.stringify(log)).not.toContain(pio.identity.clientId)
     await endSession(projectPath, scenarioId)
   })
 })

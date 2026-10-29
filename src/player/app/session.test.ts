@@ -94,7 +94,13 @@ function hangingTransport(kind: 'websocket' | 'fetch'): Handle {
   }
 }
 
-async function room(opts: { wsFails?: boolean; seats?: HarnessController['seatDefs'] } = {}) {
+async function room(
+  opts: {
+    wsFails?: boolean
+    seats?: HarnessController['seatDefs']
+    hotwash?: NonNullable<Parameters<typeof HarnessController.create>[0]>['hotwash']
+  } = {},
+) {
   /** While true, new connections hang (the server is unreachable). */
   const outage = { on: false }
   const controller = await HarnessController.create({
@@ -102,6 +108,7 @@ async function room(opts: { wsFails?: boolean; seats?: HarnessController['seatDe
     scenarioTitle: 'Flight to Nowhere',
     sessionName: 'Test run',
     ...(opts.seats ? { seats: opts.seats } : {}),
+    ...(opts.hotwash ? { hotwash: opts.hotwash } : {}),
   })
   controller.base = 'http://127.0.0.1:8485'
   const transports: Handle[] = []
@@ -869,6 +876,159 @@ describe('PlayerSession as an evaluator (#416)', () => {
       'offline T-03',
     ])
     expect(controller.observations.size).toBe(3)
+  })
+})
+
+describe('PlayerSession hot wash (#415)', () => {
+  async function seated() {
+    const r = await room({
+      hotwash: {
+        method: '3up3down',
+        questions: [{ id: 'hwq-1', topic: 'Coordination', text: 'What slowed Ops and IT?' }],
+      },
+    })
+    const join = async (seat: string, link: 'players' | 'staff' = 'players') => {
+      const p = r.player(link)
+      await p.session.start()
+      await flush()
+      await p.session.chooseSeat(seat, '')
+      await flush()
+      return p
+    }
+    const ops = await join('ops-director')
+    const pio = await join('pio')
+    const evaluator = await join('evaluators', 'staff')
+    return { ...r, ops, pio, evaluator }
+  }
+  const item = (kind: 'strength' | 'improvement' | 'other', text: string, anonymous = false) => ({
+    kind,
+    text,
+    anonymous,
+  })
+
+  it('gets the prompts in the welcome and learns the hot wash opened', async () => {
+    const { controller, ops } = await seated()
+    expect(ops.state().info?.hotwash?.questions[0]).toMatchObject({ id: 'hwq-1' })
+    expect(ops.state().hotwash.open).toBe(false)
+    await controller.hotwash.openOnDevices()
+    await flush()
+    expect(ops.state().hotwash.open).toBe(true)
+    expect(ops.announced.at(-1)).toBe('The hot wash is open')
+    await controller.hotwash.closeOnDevices()
+    await flush()
+    expect(ops.state().hotwash.open).toBe(false)
+  })
+
+  it('shows an item to every device with the role, or without it when anonymous', async () => {
+    const { controller, ops, pio, evaluator } = await seated()
+    await controller.hotwash.openOnDevices()
+    await flush()
+    await ops.session.postHotwash(item('improvement', 'Two incident numbers'))
+    await pio.session.postHotwash(item('improvement', 'No FBI number', true))
+    await flush()
+    const seenByEvaluator = Object.values(evaluator.state().hotwash.items)
+    expect(seenByEvaluator.map((i) => [i.text, i.roleId])).toEqual([
+      ['Two incident numbers', 'ops-director'],
+      ['No FBI number', undefined],
+    ])
+    expect(Object.values(ops.state().hotwash.items).every((i) => i.shown)).toBe(true)
+    expect(Object.values(ops.state().hotwash.items).filter((i) => i.mine)).toHaveLength(1)
+    expect(controller.hotwash.logged).toEqual([
+      expect.objectContaining({ anonymous: false, seat: 'ops-director' }),
+      expect.objectContaining({ anonymous: true }),
+    ])
+    expect(controller.hotwash.logged[1]).not.toHaveProperty('seat')
+  })
+
+  it('holds an item for review until the facilitator shows it', async () => {
+    const { controller, ops, pio } = await seated()
+    await controller.hotwash.openOnDevices(true)
+    await flush()
+    await ops.session.postHotwash(item('strength', 'Clear PA script'))
+    await flush()
+    const [mine] = Object.values(ops.state().hotwash.items)
+    expect(mine).toMatchObject({ mine: true, shown: false })
+    expect(Object.keys(pio.state().hotwash.items)).toHaveLength(0)
+    await controller.hotwash.accept(mine!.itemId)
+    await flush()
+    expect(Object.values(pio.state().hotwash.items)[0]).toMatchObject({ shown: true })
+    expect(ops.state().hotwash.items[mine!.itemId]).toMatchObject({ mine: true, shown: true })
+  })
+
+  it('counts one +1 per device, never for the author', async () => {
+    const { controller, ops, pio, evaluator } = await seated()
+    await controller.hotwash.openOnDevices()
+    await flush()
+    await ops.session.postHotwash(item('improvement', 'Two incident numbers'))
+    await flush()
+    const id = Object.keys(ops.state().hotwash.items)[0]!
+    await pio.session.plusHotwash(id)
+    await pio.session.plusHotwash(id)
+    await ops.session.plusHotwash(id)
+    await evaluator.session.plusHotwash(id)
+    await flush()
+    expect(evaluator.state().hotwash.items[id]!.plus).toBe(2)
+    expect(ops.state().hotwash.items[id]!.plus).toBe(2)
+  })
+
+  it('withdraws an own item inside two minutes', async () => {
+    const { controller, ops, pio } = await seated()
+    await controller.hotwash.openOnDevices()
+    await flush()
+    await ops.session.postHotwash(item('other', 'Oops, wrong channel'))
+    await flush()
+    const id = Object.keys(ops.state().hotwash.items)[0]!
+    await ops.session.withdrawHotwash(id)
+    await flush()
+    expect(ops.state().hotwash.items[id]).toBeUndefined()
+    expect(pio.state().hotwash.items[id]).toBeUndefined()
+  })
+
+  it('follows the facilitator: edit, group with a label, promote, hide', async () => {
+    const { controller, ops, pio } = await seated()
+    await controller.hotwash.openOnDevices()
+    await flush()
+    await ops.session.postHotwash(item('improvement', 'Two numbrs'))
+    await pio.session.postHotwash(item('improvement', 'Which number?'))
+    await flush()
+    const [a, b] = Object.keys(pio.state().hotwash.items)
+    await controller.hotwash.edit(a!, 'Two numbers')
+    await controller.hotwash.group([a!, b!], 'Incident numbering')
+    await controller.hotwash.promote([a!, b!])
+    await flush()
+    expect(pio.state().hotwash.items[a!]).toMatchObject({
+      text: 'Two numbers',
+      groupLabel: 'Incident numbering',
+      promoted: true,
+    })
+    await controller.hotwash.hide(b!)
+    await flush()
+    expect(pio.state().hotwash.items[b!]).toBeUndefined()
+  })
+
+  it('a device that joins later sees the board and that the hot wash is open', async () => {
+    const { controller, ops, player } = await seated()
+    await controller.hotwash.openOnDevices()
+    await flush()
+    await ops.session.postHotwash(item('strength', 'Clear PA script'))
+    await flush()
+    const late = player()
+    await late.session.start()
+    await flush()
+    await late.session.chooseSeat('asc', '')
+    await flush()
+    expect(late.state().hotwash.open).toBe(true)
+    expect(Object.values(late.state().hotwash.items).map((i) => i.text)).toEqual([
+      'Clear PA script',
+    ])
+  })
+
+  it('does not post while the hot wash is closed', async () => {
+    const { controller, ops } = await seated()
+    await ops.session.postHotwash(item('strength', 'Too early'))
+    await flush()
+    expect(Object.keys(ops.state().hotwash.items)).toHaveLength(0)
+    expect(controller.hotwash.items.size).toBe(0)
   })
 })
 

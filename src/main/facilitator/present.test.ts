@@ -113,6 +113,12 @@ describe('presentation window', () => {
     )
   })
 
+  it('routes the hot wash board to its own present hash', () => {
+    expect(presentHash({ projectPath: target.projectPath, scenarioId: 'S1', hotwash: true })).toBe(
+      '/present/%2FUsers%2Fa%2FNCIA.asproj/S1/hotwash/board',
+    )
+  })
+
   it('opens a frameless window on the second display with the main window webPreferences', () => {
     const owner = new FakeWindow({})
     present(target, { owner: owner as never })

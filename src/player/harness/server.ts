@@ -367,6 +367,10 @@ async function runAction(
         },
         targets,
       )
+    case 'hotwash-open':
+      return controller.hotwash.openOnDevices(body.review === true)
+    case 'hotwash-close':
+      return controller.hotwash.closeOnDevices()
     case 'clock':
       return controller.setClock(body.clock as ClockState)
     case 'reseat':
