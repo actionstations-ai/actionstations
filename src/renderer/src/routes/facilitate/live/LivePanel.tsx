@@ -5,6 +5,7 @@
 // recovery text appears inline.
 import { useState } from 'react'
 import type { InviteView, LanAddress, LiveSessionStatus } from '@shared/schemas/live'
+import { useIpcQuery } from '../../../lib/query'
 import { Button } from '../../../components/ui'
 import { toast } from '../../../components/toast-store'
 import { QrCode } from './QrCode'
@@ -297,6 +298,17 @@ function Running(props: {
   )
 }
 
+function StageProgress(props: { projectPath: string; scenarioId: string }) {
+  const stage = useIpcQuery('live:stage-status', props)
+  const s = stage.data
+  if (!s || (!s.running && s.failed.length === 0)) return null
+  return (
+    <p className="muted" role="status">
+      {s.running ? LIVE.staging(s.staged, s.total) : LIVE.stagingFailed(s.failed.length)}
+    </p>
+  )
+}
+
 export function LivePanel(props: { projectPath: string; scenarioId: string }) {
   const live = useLiveSession(props.projectPath, props.scenarioId)
   if (live.loading) return <p className="muted">Loading…</p>
@@ -309,6 +321,7 @@ export function LivePanel(props: { projectPath: string; scenarioId: string }) {
           {LIVE.error}: {live.error}
         </p>
       )}
+      {running && <StageProgress projectPath={props.projectPath} scenarioId={props.scenarioId} />}
       {running && live.status ? (
         <Running
           status={live.status}

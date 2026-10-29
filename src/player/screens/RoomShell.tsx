@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { focusHeading } from '../app/a11y'
-import { isInboxItem } from '../app/items'
+import { inboxItems } from '../app/items'
 import type { Prefs } from '../app/prefs'
 import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
@@ -41,7 +41,7 @@ export function RoomShell({
     const view = seat
       ? { clientId, kind: seat.kind, roleId: seat.role?.id, teamId: seat.role?.teamId }
       : undefined
-    return items.filter((i) => isInboxItem(i, view) && !read.has(i.key)).length
+    return inboxItems(items, view).filter((i) => !read.has(i.key)).length
   }, [items, read, seat, clientId])
 
   useEffect(() => {

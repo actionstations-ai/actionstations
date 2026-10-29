@@ -11,6 +11,7 @@ import { SessionKeys } from '@shared/live/crypto/keys'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { createIdentity } from '@shared/live/identity'
 import { parseInvite } from '@shared/live/invite'
+import type { Opened } from '@shared/live/codec'
 import type { WelcomePayload } from '@shared/live/schemas'
 import type { SessionLogEntry } from '@shared/schemas/live'
 import { httpGet, wsTransport } from './transport/lan/test-clients'
@@ -41,8 +42,16 @@ vi.mock('electron', () => ({
   },
 }))
 
-const { startSession, endSession, status, stopLiveSession, activeSession } =
-  await import('./session')
+const {
+  startSession,
+  endSession,
+  status,
+  stopLiveSession,
+  activeSession,
+  releaseInject,
+  releaseSummaries,
+  retractInject,
+} = await import('./session')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
 const { resetSettingsCache } = await import('../settings/store')
@@ -234,6 +243,89 @@ describe('live session host (#407)', () => {
     expect(status(projectPath, scenarioId)).toEqual({ connected: 0 })
     await expect(endSession(projectPath, scenarioId)).rejects.toThrow(/No live session/)
     expect(newId(createWebCryptoProvider())).toHaveLength(22)
+  })
+})
+
+describe('inject delivery through a running session (#412)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  async function withRow() {
+    const { projectPath, scenarioId } = await setup()
+    const scenario = await getScenario(projectPath, scenarioId)
+    await saveScenario(
+      projectPath,
+      {
+        ...scenario,
+        msel: [
+          {
+            id: 'I-01',
+            phaseId: 'p1',
+            time: '0:30',
+            from: 'Gate agent',
+            toRoleIds: ['ops'],
+            event: 'The FIDS boards go dark.',
+            expectedAction: 'Call the duty manager',
+            purposeTag: 'DECISION_POINT',
+            citations: [],
+            locked: false,
+          },
+        ] as never,
+      },
+      { by: 'user' },
+    )
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    return { projectPath, scenarioId, started }
+  }
+
+  it('sends a release to the seat it is for, takes its receipts, and withdraws it', async () => {
+    const { projectPath, scenarioId, started } = await withRow()
+    const ops = await joinAsPlayer(started.invites!.players.url, 'Dana', 'ops')
+    const pio = await joinAsPlayer(started.invites!.players.url, 'Sam', 'pio')
+    const opsGot = new Promise<Opened<'inject.release'>>((r) => ops.client.on('inject.release', r))
+    const opsRecall = new Promise<Opened<'inject.recall'>>((r) => ops.client.on('inject.recall', r))
+
+    const summary = await releaseInject(projectPath, scenarioId, { rowId: 'I-01' })
+    const msg = await opsGot
+    expect(msg.to).toBe('role:ops')
+    expect(msg.payload).toMatchObject({
+      mselRowId: 'I-01',
+      sender: 'Gate agent',
+      targets: ['role:ops'],
+      text: { body: 'The FIDS boards go dark.' },
+    })
+    expect(msg.payload).not.toHaveProperty('expectedAction')
+
+    const send = (c: typeof ops, status: 'delivered' | 'read') =>
+      c.client.send('inject.receipt', 'controller', {
+        releaseId: summary.releaseId,
+        status,
+        at: Date.now(),
+      })
+    await send(ops, 'delivered')
+    await send(ops, 'read')
+    await send(pio, 'read')
+    await vi.waitFor(async () => {
+      const [s] = await releaseSummaries(projectPath, scenarioId)
+      expect(s!.counts).toEqual({ to: 1, delivered: 1, read: 1, actioned: 0 })
+    })
+
+    await retractInject(projectPath, scenarioId, summary.releaseId)
+    expect((await opsRecall).payload).toMatchObject({ reason: 'withdrawn' })
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(log.map((e) => e.kind)).toEqual(
+      expect.arrayContaining(['inject.release', 'inject.receipt', 'inject.retract', 'anomaly']),
+    )
+    expect(log.filter((e) => e.kind === 'inject.receipt')).toHaveLength(2)
+    expect(JSON.stringify(log)).not.toContain(ops.identity.clientId)
+    await endSession(projectPath, scenarioId)
   })
 })
 

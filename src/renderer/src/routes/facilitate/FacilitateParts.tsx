@@ -12,6 +12,7 @@ import { projectKey } from '../../state/project'
 import { EvaluationTab } from './EvaluationTab'
 import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
+import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
 import { LIVE } from './live/strings'
 import type { TimelineEntry } from './Timeline'
@@ -154,6 +155,8 @@ export function SidePanel(props: {
   onDeliver: (rowId: string) => void
   onUndo: (rowId: string) => void
   onShow: (entry: TimelineEntry) => void
+  /** Live play delivery (#412); absent when the page has no session support. */
+  live?: LiveDelivery
 }) {
   const { selected, state, update } = props
   return (
@@ -193,6 +196,7 @@ export function SidePanel(props: {
             onDeliver={() => props.onDeliver(selected.row.id)}
             onUndo={() => props.onUndo(selected.row.id)}
             onShow={() => props.onShow(selected)}
+            {...(props.live ? { live: props.live } : {})}
             seam={props.scenario.seams?.find((x) => x.id === selected.row.seamId)}
           />
         )}

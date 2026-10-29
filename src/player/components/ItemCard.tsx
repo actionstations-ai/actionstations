@@ -8,6 +8,8 @@ export interface ItemCardProps {
   onDismiss?: (key: string) => void
   /** Open the More tab an announcement points to (disabled until that feature lands). */
   onOpenTab?: (tab: NonNullable<Item['tab']>) => void
+  /** Open an inject's detail (media, text version, receipts). */
+  onOpen?: (key: string) => void
   /** A seat or team name for a `role:` or `team:` destination, when the page knows one. */
   nameFor?: (to: string) => string | undefined
 }
@@ -24,7 +26,15 @@ function destinationLabel(to: string, nameFor?: ItemCardProps['nameFor']): strin
  * The generic card for an inbox or feed item: exact text, never HTML. #412 replaces the inject
  * variant with media and receipts; this one stays the fallback for every text item.
  */
-export function ItemCard({ item, unread, onRead, onDismiss, onOpenTab, nameFor }: ItemCardProps) {
+export function ItemCard({
+  item,
+  unread,
+  onRead,
+  onDismiss,
+  onOpenTab,
+  onOpen,
+  nameFor,
+}: ItemCardProps) {
   const headingId = `item-${item.key.replace(/[^A-Za-z0-9_-]/g, '_')}`
   const level = item.level ?? 'info'
   const classes = [
@@ -47,13 +57,13 @@ export function ItemCard({ item, unread, onRead, onDismiss, onOpenTab, nameFor }
         </h2>
       </header>
       {item.body ? <p className="card__body">{item.body}</p> : null}
-      {item.altText ? (
+      {item.altText && !item.inject ? (
         <p className="card__alt">
           <span className="card__meta-label">{STRINGS.item.altText}: </span>
           {item.altText}
         </p>
       ) : null}
-      {item.attachments ? (
+      {item.attachments && !item.inject ? (
         <p className="card__meta">{STRINGS.item.attachments(item.attachments)}</p>
       ) : null}
       {item.kind === 'inject' ? (
@@ -70,7 +80,17 @@ export function ItemCard({ item, unread, onRead, onDismiss, onOpenTab, nameFor }
         </p>
       ) : null}
       <div className="card__actions">
-        {unread && onRead ? (
+        {item.inject && onOpen ? (
+          <button
+            type="button"
+            className="btn btn--small btn--primary"
+            aria-label={STRINGS.inject.openLabel(item.title)}
+            onClick={() => onOpen(item.key)}
+          >
+            {STRINGS.inject.open}
+          </button>
+        ) : null}
+        {unread && onRead && !item.inject ? (
           <button type="button" className="btn btn--small" onClick={() => onRead(item.key)}>
             {STRINGS.inbox.markRead}
           </button>

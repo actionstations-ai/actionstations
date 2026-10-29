@@ -2,10 +2,12 @@ import { useEffect, useRef, type KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
 import { AudioLines, MessageSquare, Timer } from 'lucide-react'
 import type { Inject } from '@shared/schemas/inject'
+import type { ReleaseSummary } from '@shared/schemas/live'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
 import { injectTypeInfo } from '@shared/taxonomy'
 import { Badge, Button, TagChip } from '../../components/ui'
 import { groupByPhase } from '../../lib/msel'
+import { receiptLine } from './live/use-live-delivery'
 
 export interface TimelineEntry {
   row: MselRow
@@ -16,6 +18,8 @@ export interface TimelineEntry {
   due: boolean
   deliveredAt: string | undefined
   hasNote: boolean
+  /** Who got it on their device, when a live session released this row (#412). */
+  live?: ReleaseSummary | undefined
 }
 
 export interface TimelineProps {
@@ -40,7 +44,13 @@ function Thumb({ entry }: { entry: TimelineEntry }) {
 }
 
 function RowStatus({ entry }: { entry: TimelineEntry }) {
-  if (entry.deliveredAt) return <Badge tone="ok">Delivered {entry.deliveredAt}</Badge>
+  if (entry.deliveredAt)
+    return (
+      <>
+        <Badge tone="ok">Delivered {entry.deliveredAt}</Badge>
+        {entry.live ? <span className="fac-row__receipts">{receiptLine(entry.live)}</span> : null}
+      </>
+    )
   if (entry.due) return <Badge tone="warn">Due now</Badge>
   return null
 }

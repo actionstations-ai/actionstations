@@ -23,6 +23,8 @@ export function useLiveSession(projectPath: string, scenarioId: string) {
     () =>
       subscribe('live:changed', (e) => {
         void queryClient.invalidateQueries({ queryKey: ['live:session-status'] })
+        if (e.reason === 'staging')
+          void queryClient.invalidateQueries({ queryKey: ['live:stage-status'] })
         if (e.reason === 'error' && e.message) setError(e.message)
       }),
     [],

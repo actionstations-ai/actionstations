@@ -7,6 +7,7 @@ import { clockMinutes, exerciseStamp } from './clock'
 import type { MselRow } from '@shared/schemas/scenario'
 import { unfireRow } from './compliance'
 import { deliveryAction } from './delivery'
+import type { LiveDelivery } from './live/use-live-delivery'
 import type { TimelineEntry } from './Timeline'
 import type { useFacilitatorState } from './use-facilitator-state'
 
@@ -25,6 +26,8 @@ export interface ActionDeps {
   fireRow?: (s: FacilitatorState, row: MselRow, minutes: number) => FacilitatorState
   /** Labels of the regulations a row's delivery starts clocks for. */
   startsClocks?: (row: MselRow) => string[]
+  /** Live play (#412): when a session runs, Deliver also puts the inject on devices. */
+  live?: LiveDelivery
 }
 
 export function deliveredMessage(
@@ -60,7 +63,7 @@ function usePresent(projectPath: string, scenarioId: string, displayId: string) 
 }
 
 export function useDeliveryActions(d: ActionDeps) {
-  const { entries, state, update, onSelect, onAnnounce, fireRow, startsClocks } = d
+  const { entries, state, update, onSelect, onAnnounce, fireRow, startsClocks, live } = d
   const present = usePresent(d.projectPath, d.scenarioId, d.displayId)
 
   const deliver = useCallback(
@@ -77,13 +80,20 @@ export function useDeliveryActions(d: ActionDeps) {
       onSelect(rowId)
       const action = deliveryAction(entry.inject)
       if (action.kind === 'present' || action.kind === 'play') void present(entry, action.asset.id)
+      if (live?.active) {
+        void live
+          .release(rowId)
+          .catch((err: Error) =>
+            toast.error('Delivered to the room, but not to devices', err.message),
+          )
+      }
       const clocks = startsClocks?.(entry.row) ?? []
       onAnnounce(
         deliveredMessage(entry, action.kind) +
           (clocks.length ? ` — reporting clock started: ${clocks.join(', ')}` : ''),
       )
     },
-    [entries, state, update, present, onSelect, onAnnounce, fireRow, startsClocks],
+    [entries, state, update, present, onSelect, onAnnounce, fireRow, startsClocks, live],
   )
 
   const undo = useCallback(
@@ -92,9 +102,14 @@ export function useDeliveryActions(d: ActionDeps) {
         const { [rowId]: _drop, ...rest } = s.delivered
         return unfireRow({ ...s, delivered: rest }, rowId)
       })
+      if (live?.active && live.summary(rowId)) {
+        void live
+          .withdraw(rowId)
+          .catch((err: Error) => toast.error('Could not withdraw from devices', err.message))
+      }
       onAnnounce(`${rowId} marked not delivered`)
     },
-    [update, onAnnounce],
+    [update, onAnnounce, live],
   )
   return { present, deliver, undo }
 }

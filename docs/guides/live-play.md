@@ -42,6 +42,14 @@ A reload keeps your seat and history. A late joiner gets the whole history for t
 - **Update needed:** if the page is older than the server, it asks you to reload.
 - **This device id is in use:** another browser connected with the id this page saved (for example the same link restored on another device). **Join as a new device** continues with a fresh id.
 
+## Injects on your device
+
+- **Inbox and feed.** An inject for your seat (or your team) lands in the inbox; one for everyone lands in the feed. **Open** shows it in full.
+- **The artifact and its text.** The picture, video or audio is the same one the facilitator has. **Text version** (collapsed) holds the exact text of the inject; screen readers read it as the image's description. **Open full size** shows the larger image in a window you close with Close or Escape. Audio does not play by itself; it has a transcript, and video has captions when the inject has voice lines.
+- **Read and actioned.** The facilitator sees that your device received the inject, that you read it (the detail was open for a second) and, if you press **Mark as actioned**, that you acted on it. Receipts are by seat, not by person, unless the session records names.
+- **Withdrawn.** If the facilitator takes an inject back, it leaves your inbox and the feed says "Withdrawn by the facilitator".
+- **Evaluators and observers** see every inject, marked "Not addressed to you".
+
 ## Privacy
 
 The page makes requests only to the computer or server that served it: no fonts, scripts, images or trackers from anywhere else, and the content security policy the page ships with forbids them. Exercise traffic is end-to-end encrypted (ADR-0027); the servers hold no key. The browser keeps the device id and the position in the stream for this tab only (`sessionStorage`), the theme and cue preferences for this browser (`localStorage`), and the display name in memory. **About → Forget this device** clears the id and keys for the session from this browser.
@@ -52,6 +60,16 @@ The page makes requests only to the computer or server that served it: no fonts,
 - Try it without the app: `pnpm dev:player` serves the built page from a scripted session on `http://127.0.0.1:8485` and prints the players and staff links, a per-role card, and `curl` lines for notices, injects, clock changes, reseat, kick and end. Set `PLAYER_NO_WS=1` to exercise the fetch fallback. Open the links in a phone browser on the same machine or through the browser's device emulation.
 - Tests: `pnpm exec vitest run src/player` (state, reconnect, catch-up, screens) and `pnpm exec playwright test e2e/live/` (five simulated devices against the harness, plus the axe-core audit in light and dark at 100 % and 200 %). Screenshots land in `.tmp/live/`.
 - Where features plug in: `src/player/app/items.ts` turns an opened frame into an inbox or feed item (the generic text card is the fallback), `src/player/screens/MoreScreen.tsx` lists the tabs, `src/player/features/<name>/` is each sub-spec's folder. Design: [ADR-0033](../adr/0033-player-page-bundle.md); spec: [0411](../specs/0411-player-page.md).
+
+## Delivering injects to devices
+
+With a session running, **Deliver** on a row also sends the inject to the devices of the people it is for, in the Inject panel's **Devices** section:
+
+- **Targets.** Computed from the MSEL row: the row's roles (a whole team becomes the team), everyone for "All" or an inject shown on the main screen. **Edit targets** changes them before delivering. **Send to devices** off keeps the inject off the devices (the rest of Deliver is unchanged).
+- **Expected actions.** **Show expected actions to evaluators** adds the row's expected action to the evaluators' copy only, sealed with the staff key. Players never receive it, nor the instructor note.
+- **Receipts.** The timeline shows "to 3 · 3 delivered · 2 read · 1 actioned" and the panel lists each seat with times. **Resend** sends the same inject to another role or team. **Undo deliver** also withdraws it from devices.
+- **Media.** Files are sealed on this computer and staged when the session starts ("Staging media 14/26" in the Live tab). Template pages go as a phone-sized picture plus the full-size original. A file over the connection's limit is left out and the device is told it is shown on the main screen.
+- **Not covered by Deliver.** Printing and reading aloud are still done by you; players cannot send injects to each other.
 
 ## Remote and hybrid: the Action Stations relay
 

@@ -19,6 +19,7 @@ import {
   type Seat as SeatDef,
   type WelcomePayload,
 } from '@shared/live/schemas'
+import { teamSlug } from '@shared/live/targets'
 import type { Attribution } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
 
@@ -54,17 +55,8 @@ export type Seating =
 
 type SeatShape = Omit<SeatDef, 'taken'>
 
-function teamId(role: Role): string | undefined {
-  const slug = role.team
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60)
-  return slug || undefined
-}
-
 function seatOfRole(role: Role): SeatShape {
-  const team = teamId(role)
+  const team = teamSlug(role.team)
   return {
     id: role.id,
     name: role.name.slice(0, 80),

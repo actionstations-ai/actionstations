@@ -13,6 +13,8 @@ import {
   screenAsset,
   type DeliveryAction,
 } from './delivery'
+import { LiveInjectSection } from './live/LiveInjectSection'
+import type { LiveDelivery } from './live/use-live-delivery'
 import type { TimelineEntry } from './Timeline'
 import { injectAlt } from '../../lib/inject-alt'
 import type { ScenarioSeam } from '@shared/schemas/scenario'
@@ -33,6 +35,8 @@ export interface InjectPanelProps {
   onShow: () => void
   /** The plan seam the row tests (#427): controller panel only, never the presented screen. */
   seam?: ScenarioSeam | undefined
+  /** Live play delivery (#412): targets, receipts, resend and withdraw while a session runs. */
+  live?: LiveDelivery
 }
 
 /** FR-10: the two passages the players are about to run into, for the facilitator's eyes. */
@@ -171,7 +175,9 @@ export function InjectPanel(p: InjectPanelProps) {
       <div className="row">
         {p.entry.deliveredAt ? (
           <Button key="undo" onClick={p.onUndo}>
-            Undo deliver
+            {p.live?.active && p.live.summary(row.id)
+              ? 'Undo deliver (withdraws from devices)'
+              : 'Undo deliver'}
           </Button>
         ) : (
           <Button key="deliver" variant="primary" onClick={p.onDeliver} aria-keyshortcuts="D">
@@ -182,6 +188,7 @@ export function InjectPanel(p: InjectPanelProps) {
           <Monitor size={16} aria-hidden /> Show on screen
         </Button>
       </div>
+      {p.live?.active && <LiveInjectSection live={p.live} scenario={p.scenario} entry={p.entry} />}
       <Preview projectPath={p.projectPath} entry={p.entry} />
       <dl className="fac-panel__facts">
         <dt>Event</dt>

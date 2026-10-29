@@ -10,7 +10,7 @@
  */
 import type { Opened } from '../../shared/live/codec'
 import type { MessageType } from '../../shared/live/protocol'
-import type { ClientId, Destination } from '../../shared/live/schemas'
+import type { BlobRef, ClientId, Destination } from '../../shared/live/schemas'
 import { RESERVED_ROLE_IDS, type Seat } from '../../shared/live/schemas'
 import { formatClock, parseExerciseTime } from './clock'
 import { STRINGS } from './strings'
@@ -46,6 +46,21 @@ export interface Item {
   tab?: FeatureTab
   /** The feature's own id (release, vote, survey): what later specs key on. */
   ref?: string
+  /** Inject releases (#412): the exact text, media, captions and who it was addressed to. */
+  inject?: InjectView
+  /** The facilitator withdrew this inject; the inbox hides it and the feed says so. */
+  withdrawn?: boolean
+}
+
+export interface InjectView {
+  releaseId: string
+  injectType: string
+  headline?: string
+  text: string
+  media: BlobRef[]
+  captionsVtt?: string
+  expectsResponse: boolean
+  targets: string[]
 }
 
 export interface SeatView {
@@ -62,7 +77,6 @@ export function itemKey(msg: Pick<Opened, 'from' | 'seq'>): string {
 /** Message types that produce no item here because another spec owns them. */
 export const DEFERRED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'message.send',
-  'inject.recall',
   'hotwash.item',
   'hotwash.update',
   'vote.cast',
@@ -98,6 +112,7 @@ export function itemFromMessage(msg: Opened, clockMinAt: (ts: number) => number)
       const min = parseExerciseTime(p.exerciseTime) ?? at
       return {
         ...base,
+        key: `inject:${p.releaseId}:${msg.to}`,
         kind: 'inject',
         atMin: min,
         exerciseTime: p.exerciseTime,
@@ -107,6 +122,29 @@ export function itemFromMessage(msg: Opened, clockMinAt: (ts: number) => number)
         ...(p.sender ? { sender: p.sender } : {}),
         attachments: p.media.length,
         ref: p.releaseId,
+        inject: {
+          releaseId: p.releaseId,
+          injectType: p.injectType,
+          ...(p.text.headline ? { headline: p.text.headline } : {}),
+          text: p.text.body,
+          media: p.media,
+          ...(p.captionsVtt ? { captionsVtt: p.captionsVtt } : {}),
+          expectsResponse: p.expectsResponse ?? false,
+          targets: p.targets,
+        },
+      }
+    }
+    case 'inject.recall': {
+      const p = (msg as Opened<'inject.recall'>).payload
+      return {
+        ...base,
+        ...(p.releaseId ? { key: `recall:${p.releaseId}:${msg.to}` } : {}),
+        kind: 'notice',
+        title: STRINGS.feed.withdrawn,
+        body: p.text ?? STRINGS.feed.withdrawnText,
+        level: 'info',
+        dismissible: true,
+        ...(p.releaseId ? { ref: p.releaseId } : {}),
       }
     }
     case 'controller.notice': {
@@ -220,15 +258,43 @@ export function seatDestinations(seat: SeatView): Set<string> {
 
 /** Items addressed to this seat (role, team or device), notices excepted: those are feed. */
 export function isInboxItem(item: Item, seat: SeatView | undefined): boolean {
-  if (!seat || item.kind !== 'inject') return false
+  if (!seat || item.kind !== 'inject' || item.withdrawn) return false
   return seatDestinations(seat).has(item.to)
 }
 
 /** Items everyone saw plus notices, clock changes and announcements addressed to this seat. */
 export function isFeedItem(item: Item, seat: SeatView | undefined): boolean {
+  if (item.withdrawn) return false
   if (item.to === 'all') return true
   if (item.kind === 'inject') return false
   return seat !== undefined && seatDestinations(seat).has(item.to)
+}
+
+/** One entry per release or withdrawal, whichever of its frames (role, team, all) came first. */
+function releaseKey(item: Item): string {
+  if (item.inject) return `release:${item.inject.releaseId}`
+  if (item.type === 'inject.recall' && item.ref) return `recall:${item.ref}`
+  return item.key
+}
+
+function onePerRelease(items: Item[]): Item[] {
+  const seen = new Set<string>()
+  return items.filter((i) => {
+    const k = releaseKey(i)
+    if (seen.has(k)) return false
+    seen.add(k)
+    return true
+  })
+}
+
+/** What the inbox lists for a seat: its injects, once each (a release may arrive by role and by team). */
+export function inboxItems(items: readonly Item[], seat: SeatView | undefined): Item[] {
+  return onePerRelease(items.filter((i) => isInboxItem(i, seat)))
+}
+
+/** What the feed lists for a seat, once per release or withdrawal. */
+export function feedItems(items: readonly Item[], seat: SeatView | undefined): Item[] {
+  return onePerRelease(items.filter((i) => isFeedItem(i, seat)))
 }
 
 /** Newest on top: by exercise time, then by arrival. */
@@ -256,7 +322,20 @@ export function insertItem(items: readonly Item[], item: Item): Item[] {
 }
 
 function sameItem(a: Item, b: Item): boolean {
-  return a.title === b.title && a.body === b.body && a.atMin === b.atMin && a.to === b.to
+  return (
+    a.title === b.title &&
+    a.body === b.body &&
+    a.atMin === b.atMin &&
+    a.to === b.to &&
+    a.withdrawn === b.withdrawn
+  )
+}
+
+/** Whether an inject was addressed to this seat (an evaluator's copy of someone else's is not). */
+export function addressedToSeat(item: Item, seat: SeatView | undefined): boolean {
+  if (!seat || !item.inject) return false
+  const mine = seatDestinations(seat)
+  return item.inject.targets.some((t) => t === 'all' || mine.has(t))
 }
 
 /** Seat and team names for `role:` and `team:` destinations, from the seats the controller sent. */

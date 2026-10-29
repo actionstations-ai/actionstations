@@ -516,6 +516,85 @@ describe('PlayerSession', () => {
   })
 })
 
+describe('PlayerSession inject delivery (#412)', () => {
+  const received = (controller: HarnessController, status: string) =>
+    controller.received.filter(
+      (m) => m.type === 'inject.receipt' && (m.payload as { status: string }).status === status,
+    )
+
+  async function seated() {
+    const r = await room()
+    const ops = r.player()
+    await ops.session.start()
+    await flush()
+    await ops.session.chooseSeat('ops-director', '')
+    await flush()
+    return { ...r, ops }
+  }
+
+  it('sends one delivered receipt per release, even when it arrives by role and by team', async () => {
+    const { controller, ops } = await seated()
+    await controller.release({ title: 'Tweet', body: 'text', expectsResponse: true }, [
+      'role:ops-director',
+      'team:ops',
+    ])
+    await flush()
+    const { inboxItems } = await import('./items')
+    expect(inboxItems(ops.state().items, ops.session.seatView())).toHaveLength(1)
+    expect(received(controller, 'delivered')).toHaveLength(1)
+    await ops.session.sendReceipt(ops.state().items[0]!.inject!.releaseId, 'delivered')
+    await flush()
+    expect(received(controller, 'delivered')).toHaveLength(1)
+  })
+
+  it('sends no receipt for an inject that was not addressed to this seat', async () => {
+    const { controller } = await seated()
+    await controller.release({ title: 'For PIO', body: 'x' }, ['role:pio'])
+    await flush()
+    expect(received(controller, 'delivered')).toHaveLength(0)
+  })
+
+  it('queues read and actioned receipts and marks the release actioned', async () => {
+    const { controller, ops } = await seated()
+    const id = await controller.release({ title: 'Memo', body: 'text', expectsResponse: true }, [
+      'all',
+    ])
+    await flush()
+    await ops.session.sendReceipt(id, 'read')
+    await ops.session.sendReceipt(id, 'actioned')
+    await flush()
+    expect(received(controller, 'read')).toHaveLength(1)
+    expect(received(controller, 'actioned')).toHaveLength(1)
+    expect(ops.state().actioned.has(id)).toBe(true)
+  })
+
+  it('hides a withdrawn inject from the inbox and says so in the feed', async () => {
+    const { controller, ops } = await seated()
+    const id = await controller.release({ title: 'Oops', body: 'wrong one' }, ['role:ops-director'])
+    await flush()
+    await controller.recall(id, ['role:ops-director'])
+    await flush()
+    const view = ops.session.seatView()!
+    const { isInboxItem, isFeedItem } = await import('./items')
+    const items = ops.state().items
+    expect(items.filter((i) => isInboxItem(i, view))).toHaveLength(0)
+    expect(items.filter((i) => isFeedItem(i, view)).map((i) => i.body)).toEqual([
+      'Withdrawn by the facilitator',
+    ])
+    expect(items.find((i) => i.inject)?.withdrawn).toBe(true)
+  })
+
+  it('downloads and opens a sealed blob, and drops its URL when the last view lets go', async () => {
+    const { controller, ops } = await seated()
+    const bytes = new Uint8Array([1, 2, 3, 4])
+    const ref = await controller.client.putBlob(
+      { kind: 'image', mime: 'image/png', name: 'device' },
+      bytes,
+    )
+    await expect(ops.session.fetchBlob(ref)).resolves.toEqual(bytes)
+  })
+})
+
 describe('sanitizeName', () => {
   it('trims, strips control and zero-width characters and caps at 40', () => {
     expect(sanitizeName('  Dana\u0007​ Lee\n ')).toBe('Dana Lee')
