@@ -48,6 +48,12 @@ Turn a domain off with its **Enabled** switch if your organization never runs th
 
 An installed pack can replace an included template, prompt or workflow (the review says, for example, **Replaces Action Stations Core: tweet**), but it cannot reuse an included domain's id or name, or an included pack's id.
 
+## Credit and community packs
+
+Each pack names its author and anyone else credited (templates, prompts, documents, translation, review). Browse shows "By Ann and 2 contributors"; the review screen and an installed pack's details list everyone with their roles, and the search box matches contributor names. A pack whose id starts with `ai.actionstations.` shows **Official**; every other pack shows **Community**. A community pack is reviewed by a maintainer before it is listed, but check the review screen as you would for any pack.
+
+When the catalog lists them, Browse also shows how many people endorsed a pack with a thumbs-up on GitHub and how many organizations confirmed using it, with the date the counts were read. The app does not fetch these itself and does not sort by them. To share a pack, open the issue form linked from actionstations.ai/packs/share.
+
 ## Install a pack
 
 Every way of installing ends on the same review page, and the **Install** button exists only there. Opening or dropping a file never installs it.

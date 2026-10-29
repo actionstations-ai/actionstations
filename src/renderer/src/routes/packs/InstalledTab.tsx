@@ -12,6 +12,7 @@ import { PackDescription } from './PackDescription'
 import {
   KIND_LABEL,
   archiveShaText,
+  contributorText,
   countsText,
   itemsByKind,
   replacesText,
@@ -32,6 +33,12 @@ function PackDetails({ pack }: { pack: InstalledPackView }) {
           <>
             <dt>Author</dt>
             <dd>{pack.author.name}</dd>
+          </>
+        )}
+        {pack.contributors && pack.contributors.length > 0 && (
+          <>
+            <dt>Contributors</dt>
+            <dd>{pack.contributors.map(contributorText).join('; ')}</dd>
           </>
         )}
         {pack.license && (

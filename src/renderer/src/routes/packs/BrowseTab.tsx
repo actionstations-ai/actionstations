@@ -14,11 +14,14 @@ import { PackCatalogsSection } from '../settings/PackCatalogsSection'
 import {
   KIND_LABEL,
   NO_FILTER,
+  creditLine,
+  endorsementText,
   entryState,
   facets,
   filterEntries,
   formatBytes,
   latestEntries,
+  sourceLabel,
   type BrowseEntry,
   type BrowseFilter,
 } from './pack-format'
@@ -66,7 +69,7 @@ function Filters(props: {
             className="input"
             type="search"
             value={f.query}
-            placeholder="Name, author, tag…"
+            placeholder="Name, author, contributor, tag…"
             onChange={(e) => set({ query: e.target.value })}
           />
         )}
@@ -149,11 +152,13 @@ function EntryCard(props: {
       </h2>
       <p>{e.summary}</p>
       <p className="pack-row__meta">
-        <span>By {e.author.name}</span>
+        <span>By {creditLine(e.author.name, e.contributors)}</span>
+        <span>{sourceLabel(e.id)}</span>
         <span>{e.license}</span>
         <span>{formatBytes(e.size)}</span>
         <span>From {catalogName}</span>
       </p>
+      {e.endorsements && <p className="muted">{endorsementText(e.endorsements)}</p>}
       <div className="row pack-row__badges">
         {e.kinds.map((k) => (
           <Badge key={k}>{KIND_LABEL[k].many}</Badge>

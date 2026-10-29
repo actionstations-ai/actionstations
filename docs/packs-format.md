@@ -94,7 +94,8 @@ An archive must have exactly one reading, so that every zip tool sees the same f
 | `version`       | string   | yes                       | semantic version, prerelease allowed, no build metadata (`1.0.0`, `1.1.0-beta.1`)                                                                                                                                                                                                                                        |
 | `summary`       | string   | yes                       | one line, ≤ 200                                                                                                                                                                                                                                                                                                          |
 | `description`   | string   | no                        | Markdown, ≤ 20 000; shown as text-only Markdown (raw HTML is not rendered)                                                                                                                                                                                                                                               |
-| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email`                                                                                                                                                                                                                                                                           |
+| `author`        | object   | yes                       | `name` (required), `url` (http/https), `email` (never published), `github` (user name)                                                                                                                                                                                                                                   |
+| `contributors`  | object[] | no                        | up to 50 credited people or organizations: `name` (1–200), `url` (http/https), `github` (user name), `roles` (one or more of `author`, `templates`, `prompts`, `documents`, `examples`, `translation`, `review`). See "Credit and endorsements".                                                                         |
 | `license`       | string   | yes                       | SPDX expression for the pack's own content (`CC-BY-4.0`, `MIT OR Apache-2.0`, `LicenseRef-…`)                                                                                                                                                                                                                            |
 | `homepage`      | string   | no                        | http/https URL                                                                                                                                                                                                                                                                                                           |
 | `minAppVersion` | string   | yes                       | semantic version; the app refuses to install when it is older. Packs need the app's pack support, so in practice `0.3.0` or later.                                                                                                                                                                                       |
@@ -155,6 +156,10 @@ Pack authors can check their templates' goldens with the app's renderer: `pnpm b
   "summary": "More social and messaging inject templates.",
   "description": "Adds a livestream chat overlay and a community forum thread.",
   "author": { "name": "Action Stations", "url": "https://actionstations.ai" },
+  "contributors": [
+    { "name": "Action Stations", "roles": ["author", "templates"] },
+    { "name": "Dana Reyes", "github": "dana-reyes", "roles": ["review"] }
+  ],
   "license": "CC-BY-4.0",
   "minAppVersion": "0.3.0",
   "domains": [],
@@ -301,17 +306,26 @@ In a project, regulations and frameworks resolve like domain profiles: the proje
 
 The bundled regulations and frameworks live in `packs/regulations/` and `packs/frameworks/` and belong to the core pack. A unit test fails when any bundled record's `verifiedOn` is 12 months old or more, so each release re-checks the deadlines against their sources. NIST CSF 2.0 is converted from the NIST CPRT export by `scripts/import-csf.mjs` (run once per CSF revision; the output is committed).
 
+## Credit and endorsements
+
+`contributors` credits everyone who made a pack, including translators and reviewers; `author` stays required and is the credited owner. The Packs screen shows the author, "and N contributors" and the full list with roles in the details, and Browse search matches contributor names. `author.email` is for the maintainer's use: the catalog builder drops it and the site never prints it.
+
+Catalog entries may also carry `contributors`, `source` (`official` or `community`, informational), `review` (`reviewedAt`, `appVersion`) and `endorsements` (`thumbsUp`, `usedBy`, `url`, `asOf`). Endorsements are GitHub thumbs-up reactions on the pack's issue in `actionstations-ai/packs`, read by the maintainer when the catalog is built, plus a curated count of organizations that confirmed using the pack. The app never fetches counts itself and never sorts by them. The app derives the **Official** label from the id prefix `ai.actionstations.`; every other id shows **Community**, whatever a catalog says. Older apps ignore all of these fields, so `formatVersion` and `catalogVersion` stay 1.
+
+Community packs are shared through the issue form at https://github.com/actionstations-ai/packs and reviewed by a maintainer with the validators; only licenses that allow redistribution (CC0, CC-BY-4.0, CC-BY-SA-4.0, MIT, Apache-2.0, or a reviewed `LicenseRef-`) are accepted.
+
 ## Catalog index.json
 
 Served as static JSON (GitHub Pages for the official one). The app fetches it only for catalog URLs the user added, and only when the user opens Browse or presses Refresh.
 
-| Field            | Type     | Required | Rules                                                                |
-| ---------------- | -------- | -------- | -------------------------------------------------------------------- |
-| `catalogVersion` | integer  | yes      | `1`; a larger value: "this catalog needs a newer version of the app" |
-| `name`           | string   | yes      | 1–100                                                                |
-| `updated`        | string   | yes      | ISO 8601 date-time with `Z` or offset                                |
-| `homepage`       | string   | no       | http/https URL                                                       |
-| `packs`          | object[] | yes      | ≤ 5000 entries, below; `id`+`version` unique                         |
+| Field                                              | Type     | Required                                | Rules                                                                |
+| -------------------------------------------------- | -------- | --------------------------------------- | -------------------------------------------------------------------- |
+| `catalogVersion`                                   | integer  | yes                                     | `1`; a larger value: "this catalog needs a newer version of the app" |
+| `name`                                             | string   | yes                                     | 1–100                                                                |
+| `updated`                                          | string   | yes                                     | ISO 8601 date-time with `Z` or offset                                |
+| `homepage`                                         | string   | no                                      | http/https URL                                                       |
+| `contributors`, `source`, `review`, `endorsements` | no       | optional; see "Credit and endorsements" |
+| `packs`                                            | object[] | yes                                     | ≤ 5000 entries, below; `id`+`version` unique                         |
 
 Pack entry:
 

@@ -128,6 +128,7 @@ function emptyManifest(id: string): PackManifest {
     summary: '',
     description: '',
     author: BUNDLED_MAP.author,
+    contributors: [],
     license: BUNDLED_MAP.license,
     minAppVersion: '0.0.0',
     domains: [],
@@ -224,6 +225,7 @@ export function loadSourcePacks(
     const base = a?.manifest ?? emptyManifest(spec.id)
     const manifest: PackManifest = {
       ...base,
+      contributors: [],
       name: spec.name,
       summary: spec.summary,
       description: spec.description,
