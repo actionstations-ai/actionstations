@@ -21,6 +21,7 @@ import {
   type ParagraphChild,
 } from 'docx'
 import { Lexer, type Token, type Tokens } from 'marked'
+import { eegView } from './eeg'
 import { hasHeading, stripEndNote, stripSectionMarkers } from './escape'
 import type { ExportModel } from './model'
 import { EXERCISE_MARKING } from './page'
@@ -351,6 +352,76 @@ export async function handbookDocx(model: ExportModel): Promise<Buffer> {
     new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [run('End of Handbook', { italics: true })],
+    }),
+  ])
+  return Packer.toBuffer(doc)
+}
+
+const RATING_BOXES = '☐ M   ☐ P   ☐ N   ☐ NO'
+
+/** One EEG as Word blocks: heading, objectives, target, the critical tasks table, note space. */
+function eegBlocks(eeg: ReturnType<typeof eegView>['eegs'][number]): Block[] {
+  const out: Block[] = [
+    heading2(`Exercise Evaluation Guide ${eeg.index}: ${eeg.capability}`),
+    new Paragraph({ children: [run(eeg.definition, { italics: true })], spacing: { after: 120 } }),
+  ]
+  if (eeg.objectives.length)
+    out.push(
+      new Paragraph({ children: [run('Exercise objectives: ', { bold: true })] }),
+      ...eeg.objectives.map((o) => new Paragraph({ children: [run(o)], bullet: { level: 0 } })),
+    )
+  if (eeg.target)
+    out.push(
+      new Paragraph({
+        children: [run('Capability target: ', { bold: true }), run(eeg.target)],
+        spacing: { after: 120 },
+      }),
+    )
+  out.push(
+    table(
+      ['#', 'Critical task', 'Source', 'Expected by', 'Observation Keys', 'Rating', 'Notes'],
+      eeg.tasks.map((t) => [
+        t.id,
+        t.timing ? `${t.task} (${t.timing})` : t.task,
+        t.source,
+        t.expectedBy,
+        t.keys,
+        RATING_BOXES,
+        '',
+      ]),
+    ),
+    new Paragraph(''),
+  )
+  for (const label of ['Observation notes', 'Analysis', 'Strengths', 'Areas for improvement'])
+    out.push(
+      new Paragraph({ heading: HeadingLevel.HEADING_3, children: [run(label)] }),
+      new Paragraph(''),
+      new Paragraph(''),
+    )
+  return out
+}
+
+/** The EEG packet as a Word document (#421), from the same view as the PDF. */
+export async function eegDocx(model: ExportModel): Promise<Buffer> {
+  const label = 'Exercise Evaluation Guides'
+  const view = eegView(model)
+  const doc = buildDocument(model, label, [
+    ...titleBlocks(model, 'Exercise Evaluation Guides (EEG)', [
+      ['Exercise date', '____________'],
+      ['Evaluator', '____________'],
+    ]),
+    new Paragraph({
+      children: [
+        run(
+          'Rate each critical task M (met), P (partially met), N (not met) or NO (not observed) and note what you saw. Ratings describe how the plan was followed, not how a person performed.',
+        ),
+      ],
+      spacing: { after: 200 },
+    }),
+    ...view.eegs.flatMap(eegBlocks),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [run(view.endNote, { italics: true })],
     }),
   ])
   return Packer.toBuffer(doc)

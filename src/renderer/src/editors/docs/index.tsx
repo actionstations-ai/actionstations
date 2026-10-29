@@ -5,6 +5,7 @@ import { Button } from '../../components/ui'
 import { MarkdownDocEditor } from './MarkdownDocEditor'
 import { DOC_LABELS, DOC_ORDER } from './owners'
 export { PendingSavesNote } from './PendingSavesNote'
+import { EvaluationEditor } from './structured/EvaluationEditor'
 import { HotwashEditor } from './structured/HotwashEditor'
 import { ObjectivesRolesEditor } from './structured/ObjectivesRolesEditor'
 import { OverviewEditor } from './structured/OverviewEditor'
@@ -18,6 +19,8 @@ export type TabProps = PartEditorProps
 export const OverviewTab = (props: TabProps) => <OverviewEditor {...props} />
 
 export const RubricTab = (props: TabProps) => <RubricEditor {...props} />
+
+export const EvaluationTab = (props: TabProps) => <EvaluationEditor {...props} />
 
 export function ObjectivesTab(props: TabProps) {
   return (

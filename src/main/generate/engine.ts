@@ -3,10 +3,12 @@
 // step, resume from the first step without an ok run, and re-run of a single step that marks
 // everything downstream stale (never auto-rerun). The exported step helpers are shared with
 // repair-msel.ts (generate:repair), which runs the same repairs on a finished scenario.
+import { orderedCapabilities } from '@shared/core-capabilities'
 import {
   exerciseMinutes,
   type BriefingOutput,
   type CritiqueOutput,
+  type EegOutput,
   type HandbookOutput,
   type HotwashOutput,
   type LintWarning,
@@ -63,6 +65,7 @@ import {
 } from './lint'
 import { INJECT_PLAYER_VOICE } from './lint-structure'
 import { goalSummary, phaseBeats, type MselMapResult } from './mappers'
+import { applyEeg, EEG_ROW } from './mappers-eeg'
 import {
   capRoles,
   convertToFacilitatorPrompt,
@@ -97,10 +100,22 @@ export const PIPELINE_STAGES: Stage[] = [
   'msel_phase',
   'controller_handbook',
   'rubric',
+  'eeg',
   'player_briefing',
   'hotwash',
   'critique',
 ]
+
+/**
+ * Stages nothing downstream reads (#421): a re-run of one of them marks nothing stale and
+ * keeps a ready scenario ready, so "Generate evaluation guides" on a finished scenario adds
+ * the EEGs without touching the other documents (FR-12).
+ */
+export const INDEPENDENT_STAGES: ReadonlySet<Stage> = new Set<Stage>(['eeg'])
+
+/** Why the eeg stage refuses to run against an empty retrieval. */
+export const EEG_NO_SECTIONS =
+  'no plan sections found for the objectives; import the plans or widen the brief'
 
 export const CITATION_DROPPED = 'CITATION_DROPPED'
 export const ROLE_KEY_UNKNOWN = 'ROLE_KEY_UNKNOWN'
@@ -244,6 +259,7 @@ export async function call<T>(
   input: StepInput,
   vars: Record<string, unknown>,
   maxRetrieved?: number,
+  requireRetrieval?: string,
 ): Promise<StageResult<T>> {
   const { env, step } = input
   const result = await runStage<T>({
@@ -255,6 +271,7 @@ export async function call<T>(
     deps: env.deps,
     index: env.index,
     ...(maxRetrieved !== undefined ? { maxRetrieved } : {}),
+    ...(requireRetrieval ? { requireRetrieval } : {}),
   })
   return { ...result, output: stripKeysDeep(result.output) }
 }
@@ -655,6 +672,53 @@ async function stepRubric(input: StepInput): Promise<StageRun> {
   return r.run
 }
 
+/**
+ * Objectives → Core Capabilities and one EEG per capability (#421). Every critical task must
+ * cite a retrieved plan section, so the stage refuses to run against an empty retrieval
+ * instead of relaxing the requirement: an EEG without plan citations is a generic one.
+ */
+async function stepEeg(input: StepInput): Promise<StageRun> {
+  const { scenario: s, env } = input
+  const capabilities = orderedCapabilities(env.domain.profile.coreCapabilities)
+  const r = await call<EegOutput>(
+    input,
+    vars(input, {
+      capabilities,
+      objectives: s.objectives.map((o) => ({ name: o.name, text: o.text })),
+    }),
+    undefined,
+    EEG_NO_SECTIONS,
+  )
+  const applied = applyEeg(s, r.output, r.retrieved)
+  clearPipelineWarnings(s, (w) => w.rowId === EEG_ROW)
+  noteDropped(s, 'eeg', applied.dropped, env.ctx)
+  const extra = { stage: 'eeg' as const }
+  for (const name of applied.unknownObjectives)
+    env.ctx.log(`eeg: "${name}" is not an objective of this scenario; skipped`, 'warn', extra)
+  for (const u of applied.unknownRows)
+    env.ctx.log(
+      `eeg: task "${u.task}" named unknown row(s) ${u.ids.join(', ')}; dropped`,
+      'warn',
+      extra,
+    )
+  for (const u of applied.unknownRoles)
+    env.ctx.log(`eeg: task "${u.task}" expected "${u.key}", which is not a role key`, 'warn', extra)
+  for (const id of applied.unknownCapabilities)
+    env.ctx.log(`eeg: "${id}" is not one of the 32 Core Capabilities; dropped`, 'warn', extra)
+  if (applied.keptLocked)
+    env.ctx.log(
+      `eeg: ${applied.keptLocked} locked task(s) kept from the previous run`,
+      'info',
+      extra,
+    )
+  env.ctx.log(
+    `eeg: ${s.evaluation.eegs.length} evaluation guide(s), ${s.evaluation.eegs.reduce((n, e) => n + e.criticalTasks.length, 0)} critical task(s)`,
+    'info',
+    extra,
+  )
+  return r.run
+}
+
 async function stepBriefing(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const firstRows = s.msel.slice(0, 4).map((r) => rowVars(r, s.roles))
@@ -991,7 +1055,7 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
   // Pipeline warnings about rows that no longer exist go; the lints are recomputed.
   const rowIds = new Set(s.msel.map((x) => x.id))
   const live = (w: LintWarning): boolean =>
-    !w.rowId || w.rowId === OVERVIEW_ROW || rowIds.has(w.rowId)
+    !w.rowId || w.rowId === OVERVIEW_ROW || w.rowId === EEG_ROW || rowIds.has(w.rowId)
   s.warnings = [
     ...s.warnings.filter(
       (w) => PIPELINE_WARNINGS.has(w.code) && w.code !== FACILITY_UNKNOWN_ID && live(w),
@@ -1010,6 +1074,7 @@ const EXECUTORS: Record<string, (input: StepInput) => Promise<StageRun>> = {
   msel_phase: stepMselPhase,
   controller_handbook: stepHandbook,
   rubric: stepRubric,
+  eeg: stepEeg,
   player_briefing: stepBriefing,
   hotwash: stepHotwash,
   critique: stepCritique,
@@ -1172,6 +1237,7 @@ export async function rerunStep(
     {
       recordFailure: false,
       onSuccess: (s) => {
+        if (INDEPENDENT_STAGES.has(step.stage)) return
         stale = markStale(s, step)
         if (s.status === 'ready') s.status = 'draft'
       },

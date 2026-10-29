@@ -101,6 +101,43 @@ describe('document HTML', () => {
     expect(count(html, 'End of Handbook')).toBe(1)
   })
 
+  it('EEG packet: one landscape guide per capability with cited tasks, keys and rating boxes (#421)', () => {
+    const model = fixtureModel()
+    const html = buildDocumentHtml(model, 'eeg', 'pdf')
+    expect(html).toContain('@page eeg { size: letter landscape;')
+    expect(html).toContain('Exercise Evaluation Guides (EEG)')
+    expect(count(html, 'class="eeg"')).toBe(model.scenario.evaluation.eegs.length)
+    for (const name of [
+      'Public Information and Warning',
+      'Operational Coordination',
+      'Infrastructure Systems',
+      'Cybersecurity',
+    ])
+      expect(html).toContain(name)
+    // Task text, its source section and its observation keys with the rows' times.
+    expect(html).toContain('Notify the FBI Cyber Task Force and CISA')
+    expect(html).toContain('TIRP 13.7 Checklist: Cybersecurity Incident')
+    expect(html).toContain('ASP 6.4 Access Control System Failure (Cyber/Power)')
+    expect(html).toContain('I-06 (1:15), I-09 (2:00)')
+    expect(count(html, 'class="eeg__rating"')).toBe(15)
+    // Objectives mapped to their capabilities; no observations, no player names.
+    expect(html).toContain('Operational Coordination, Infrastructure Systems')
+    expect(html).not.toMatch(/<script/i)
+    // The MSEL and the deck reference the tasks per row.
+    expect(buildDocumentHtml(model, 'msel', 'pdf')).toContain(
+      'Evaluate: T-07 · Operational Coordination',
+    )
+    expect(buildDocumentHtml(model, 'deck', 'pdf')).toMatch(/Evaluate: T-02, [^<]*T-14 · /)
+  })
+
+  it('EEG packet says so when the scenario has no guides yet', () => {
+    const model = fixtureModel()
+    model.scenario.evaluation = { objectiveCapabilities: [], eegs: [] }
+    const html = buildDocumentHtml(model, 'eeg', 'pdf')
+    expect(html).toContain('No evaluation guides have been generated')
+    expect(count(html, 'class="eeg"')).toBe(0)
+  })
+
   it('handbook falls back to structured data without handbook.md', () => {
     const model = fixtureModel()
     model.docs.handbook = ''
@@ -175,6 +212,7 @@ describe('planTargets', () => {
       'exercise_plan_pdf',
       'surveys_pdf',
       'survey_results_pdf',
+      'eeg_pdf',
       'json',
       'markdown',
       'zip',

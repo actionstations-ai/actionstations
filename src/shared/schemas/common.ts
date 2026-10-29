@@ -45,13 +45,16 @@ export const RelPath = z
     message: 'Path must be relative and stay inside the project',
   })
 
+/** Caps on a citation's text; retrieval writes quotes of at most 200 characters. */
+export const CITATION_LIMITS = { documentTitle: 500, headingPath: 1000, quote: 2000 } as const
+
 export const Citation = z.object({
   documentId: Id,
-  documentTitle: z.string(),
+  documentTitle: z.string().max(CITATION_LIMITS.documentTitle),
   /** e.g. "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure" */
-  headingPath: z.string(),
+  headingPath: z.string().max(CITATION_LIMITS.headingPath),
   page: z.number().int().positive().optional(),
-  quote: z.string().optional(),
+  quote: z.string().max(CITATION_LIMITS.quote).optional(),
   chunkId: z.number().int().optional(),
 })
 export type Citation = z.infer<typeof Citation>

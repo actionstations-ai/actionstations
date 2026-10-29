@@ -9,6 +9,7 @@ import { Button, EmptyState } from '../../components/ui'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { projectKey } from '../../state/project'
+import { EvaluationTab } from './EvaluationTab'
 import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
 import type { TimelineEntry } from './Timeline'
@@ -145,6 +146,8 @@ export function SidePanel(props: {
   scenario: Scenario
   state: FacilitatorState
   selected: TimelineEntry | undefined
+  /** The exercise clock ("H:MM"), recorded with each rating. */
+  exerciseTime: string
   update: UpdateState
   onDeliver: (rowId: string) => void
   onUndo: (rowId: string) => void
@@ -156,6 +159,9 @@ export function SidePanel(props: {
       <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
         <Tabs.Trigger value="inject" className="fac-tabs__trigger">
           Inject
+        </Tabs.Trigger>
+        <Tabs.Trigger value="evaluation" className="fac-tabs__trigger">
+          Evaluation
         </Tabs.Trigger>
         <Tabs.Trigger value="hotwash" className="fac-tabs__trigger">
           Hot wash
@@ -181,8 +187,16 @@ export function SidePanel(props: {
           />
         )}
       </Tabs.Content>
+      <Tabs.Content value="evaluation" className="fac-tabs__panel">
+        <EvaluationTab
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          selected={selected}
+          exerciseTime={props.exerciseTime}
+        />
+      </Tabs.Content>
       <Tabs.Content value="hotwash" className="fac-tabs__panel">
-        <HotWashPanel scenario={props.scenario} state={state} />
+        <HotWashPanel projectPath={props.projectPath} scenario={props.scenario} state={state} />
       </Tabs.Content>
       <Tabs.Content value="notes" className="fac-tabs__panel">
         <GeneralNotes state={state} update={update} />

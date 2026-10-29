@@ -66,6 +66,15 @@ describe('scenario readiness', () => {
     })
   })
 
+  it('asks for evaluation guides on a ready scenario that has none, and stays ready (#421)', () => {
+    const all = rowIds.map((id) => inject(id, true))
+    const without = { ...scenario, evaluation: { objectiveCapabilities: [], eegs: [] } }
+    expect(readiness(without, all, [])).toMatchObject({ status: 'ready', next: 'evaluation' })
+    // The guides never gate the earlier steps.
+    expect(readiness(without, all, [error]).next).toBe('fix-errors')
+    expect(readiness(without, [], []).next).toBe('write-injects')
+  })
+
   it('points at the MSEL when there are no rows, and keeps archived scenarios archived', () => {
     expect(readiness({ ...scenario, msel: [] }, [], []).next).toBe('msel')
     expect(readiness({ ...scenario, status: 'archived' }, [], []).status).toBe('archived')

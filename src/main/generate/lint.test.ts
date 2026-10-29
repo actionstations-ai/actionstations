@@ -34,7 +34,8 @@ describe('lintScenario on the hand-built Scenario 3', () => {
     for (const w of warnings) byCode.set(w.code, [...(byCode.get(w.code) ?? []), w.message])
     // Scenario 3 has no explicit DECISION_POINT tag in phases 2–3 (its I-06/I-09 are tagged
     // CORE_NARRATIVE) and the airline liaison / ASC are not addressed in every phase;
-    // everything else — timing, ids, STARTEX/ENDEX, mix, rubric, citations — passes.
+    // everything else — timing, ids, STARTEX/ENDEX, mix, rubric, citations — passes. Its
+    // evaluation guides (#421) cover the decision and recovery rows, not every noise row (info).
     const allowed = new Set([
       'ROLE_NO_INJECT',
       'NO_DECISION_POINT',
@@ -44,6 +45,7 @@ describe('lintScenario on the hand-built Scenario 3', () => {
       'DENSITY_LOW',
       'MSEL_NO_CITATIONS',
       'OVERVIEW_NO_SECTIONS',
+      'EEG_ROW_UNCOVERED',
     ])
     const unexpected = warnings.filter((w) => !allowed.has(w.code))
     expect(unexpected, JSON.stringify(unexpected, null, 2)).toEqual([])

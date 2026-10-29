@@ -236,6 +236,140 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       },
     ],
   },
+  EegOutput: {
+    objectiveCapabilities: [
+      {
+        objective: 'Communication',
+        capabilities: [
+          {
+            capability: 'public_information_and_warning',
+            why: 'Holding statements and rumor control across PIO, Ops and IT.',
+          },
+        ],
+      },
+      {
+        objective: 'Decision Making',
+        capabilities: [
+          {
+            capability: 'operational_coordination',
+            why: 'The Go Dark call needs Ops and IT in one command structure.',
+          },
+          {
+            capability: 'infrastructure_systems',
+            why: 'Stabilizing FIDS, BHS and PA with manual workarounds.',
+          },
+        ],
+      },
+      {
+        objective: 'Technical Analysis',
+        capabilities: [
+          { capability: 'cybersecurity', why: 'Finding and isolating the AODB compromise.' },
+        ],
+      },
+    ],
+    eegs: [
+      {
+        capability: 'public_information_and_warning',
+        target:
+          'The PIO issues plain-language holding statements through the PA, FIDS, social media and the website within minutes of the first misinformation.',
+        criticalTasks: [
+          {
+            task: 'Use the PA system in plain language and social media to tell passengers what to do',
+            citation: 'C1',
+            expectedBy: 'pio',
+            rowIds: ['I-04', 'I-06b', 'I-12'],
+          },
+          {
+            task: 'Issue a holding statement before the first media deadline',
+            citation: 'C1',
+            expectedBy: 'pio',
+            rowIds: ['I-12'],
+          },
+          {
+            task: 'Correct the rumor of a physical threat with a factual update',
+            citation: 'C1',
+            expectedBy: 'pio',
+            rowIds: ['I-06b'],
+          },
+        ],
+      },
+      {
+        capability: 'operational_coordination',
+        target:
+          'Ops assumes Operational Incident Command, IT assumes Technical Incident Command, and the two decide the FIDS shutdown together.',
+        criticalTasks: [
+          {
+            task: 'Assume Operational Incident Command and notify all tenants of the system failure',
+            citation: 'C1',
+            expectedBy: 'ops',
+            rowIds: ['I-08', 'I-09'],
+          },
+          {
+            task: 'Decide whether to take FIDS down and switch to manual information',
+            citation: 'C1',
+            expectedBy: 'ops',
+            rowIds: ['I-09'],
+          },
+          {
+            task: 'Activate manual and analog workarounds: whiteboards, bullhorns, gate announcements',
+            citation: 'C1',
+            expectedBy: 'ops',
+            rowIds: ['I-10'],
+          },
+        ],
+      },
+      {
+        capability: 'infrastructure_systems',
+        target:
+          'FIDS, BHS and PA are stabilized with manual procedures and restored from a clean backup only after verification.',
+        criticalTasks: [
+          {
+            task: 'Activate manual baggage sort procedures when the BHS fails',
+            citation: 'C1',
+            expectedBy: 'ops',
+            rowIds: ['I-07'],
+          },
+          {
+            task: 'Begin recovery from backups on a clean system',
+            citation: 'C1',
+            expectedBy: 'it',
+            rowIds: ['I-13'],
+          },
+          {
+            task: 'Verify restored data before publishing it to the screens',
+            citation: 'C1',
+            expectedBy: 'ops',
+            rowIds: ['I-14', 'I-15'],
+          },
+        ],
+      },
+      {
+        capability: 'cybersecurity',
+        target:
+          'IT identifies the compromised workstation, isolates it and preserves evidence for the FBI Cyber Task Force.',
+        criticalTasks: [
+          {
+            task: 'Identify and isolate the affected systems',
+            citation: 'C1',
+            expectedBy: 'it',
+            rowIds: ['I-08b', 'I-09'],
+          },
+          {
+            task: 'Notify the FBI Cyber Task Force and CISA',
+            citation: 'C1',
+            expectedBy: 'it',
+            rowIds: ['I-09'],
+          },
+          {
+            task: 'Preserve logs and the capture before any system is rebuilt',
+            citation: 'C1',
+            expectedBy: 'it',
+            rowIds: ['I-08b', 'I-12c'],
+          },
+        ],
+      },
+    ],
+  },
   BriefingOutput: {
     currentTime: '09:00 AM',
     weather: 'Clear, 65°F. Winds calm.',

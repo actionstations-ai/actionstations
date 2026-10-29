@@ -22,6 +22,7 @@ import {
 } from './lint-structure'
 import { CLOCK_MISMATCH, DATE_DRIFT, lintBrief, START_TIME_MISMATCH } from './lint-brief'
 import { BRIEF_THREAT_ADDED, ENDEX_EARLY, lintDrift } from './lint-drift'
+import { lintEeg } from './lint-eeg'
 import {
   CONTACT_REAL_LOOKING,
   lintRealism,
@@ -577,6 +578,7 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintDensity(scenario),
     ...lintCitations(scenario),
     ...lintRubric(scenario),
+    ...lintEeg(scenario),
   ]
 }
 

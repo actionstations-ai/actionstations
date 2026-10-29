@@ -11,6 +11,7 @@ import { isActive } from './live-log'
 import { LiveLogPanel } from './LiveLogPanel'
 import {
   DocumentsTab,
+  EvaluationTab,
   ObjectivesTab,
   OverviewTab,
   PendingSavesNote,
@@ -20,7 +21,7 @@ import { InjectDeck } from '../../editors/inject/InjectDeck'
 import { WarningsSection } from './ScenarioSections'
 import { GlossaryButton } from '../../components/Glossary'
 import { NextActionBar } from './NextActionBar'
-import { STATUS_LABEL, STATUS_TONE, type Readiness } from './readiness'
+import { isReadyNext, STATUS_LABEL, STATUS_TONE, type Readiness } from './readiness'
 import { useReadiness } from './use-readiness'
 import { StageTimeline } from './StageTimeline'
 import { useLiveLog } from './use-live-log'
@@ -78,6 +79,7 @@ function ScenarioTabs(props: {
     ['injects', <InjectsTabLabel key="injects" readiness={props.readiness} />],
     ['documents', 'Documents'],
     ['rubric', 'Rubric'],
+    ['evaluation', 'Evaluation'],
     ['warnings', `Warnings (${props.lintCount ?? scenario.warnings.length})`],
   ]
   return (
@@ -118,6 +120,10 @@ function ScenarioTabs(props: {
         <PanelHeading>Rubric</PanelHeading>
         <RubricTab {...docProps} />
       </Tabs.Content>
+      <Tabs.Content value="evaluation" className="tabs__panel">
+        <PanelHeading>Evaluation</PanelHeading>
+        <EvaluationTab {...docProps} />
+      </Tabs.Content>
       <Tabs.Content value="warnings" className="tabs__panel">
         <PanelHeading>Warnings</PanelHeading>
         <WarningsSection
@@ -148,7 +154,7 @@ function HeaderActions(props: {
       <Link className="btn" to={`${base}/surveys`}>
         <ClipboardList size={16} aria-hidden /> Surveys
       </Link>
-      {r?.next !== 'run' && (
+      {!(r && isReadyNext(r.next)) && (
         <>
           <Link className="btn" to={`${base}/facilitate`}>
             <Presentation size={16} aria-hidden /> Facilitate

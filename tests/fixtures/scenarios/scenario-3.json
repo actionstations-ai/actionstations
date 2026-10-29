@@ -588,6 +588,285 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-communication",
+        "capability": "public_information_and_warning",
+        "why": "Holding statements, rumor control and passenger direction across PIO, Ops and IT while the screens cannot be trusted."
+      },
+      {
+        "objectiveId": "obj-decision",
+        "capability": "operational_coordination",
+        "why": "The Go Dark and restoration calls need Ops and IT in one command structure with the airlines informed."
+      },
+      {
+        "objectiveId": "obj-decision",
+        "capability": "infrastructure_systems",
+        "why": "FIDS, BHS and PA are stabilized with manual procedures and restored only after verification."
+      },
+      {
+        "objectiveId": "obj-technical",
+        "capability": "cybersecurity",
+        "why": "Finding the compromised credential and workstation in the AODB logs, isolating it and preserving evidence."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO and Airport Operations give passengers accurate, plain-language direction by PA, social media and the NCIA website while the FIDS cannot be trusted, and counter rumors with facts.",
+        "objectiveRefs": ["obj-communication"],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "public_information_and_warning",
+            "task": "Use the PA system in plain language, social media and the NCIA website to tell passengers what to do while the FIDS cannot be trusted",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Airport Operations shall use all available means — Public Address (PA) system (plain language), Flight Information Display Systems (FIDS), social media (X/Twitter, Facebook), NCIA website, direct communication with tenants and stakeholders."
+            },
+            "expectedBy": "pio",
+            "rowIds": ["I-04", "I-06b", "I-10"],
+            "objectiveRefs": ["obj-communication"],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "public_information_and_warning",
+            "task": "Provide general flight information in the terminal by whiteboards and PA announcements while the FIDS are dark",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight information."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-09", "I-10"],
+            "objectiveRefs": ["obj-communication"],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "public_information_and_warning",
+            "task": "Communicate directly with tenants and stakeholders about the system failure and its operational impact",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Operational Incident Command (Ops Manager); notify all tenants of system failure and operational impact; activate manual/analog workarounds (whiteboards, bullhorns); manage passenger flow and provide information."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-07", "I-08", "I-13b"],
+            "objectiveRefs": ["obj-communication"],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "public_information_and_warning",
+            "task": "Counter the rumor of a physical threat to aircraft with a factual update on every channel the plan names",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Airport Operations shall use all available means — Public Address (PA) system (plain language), Flight Information Display Systems (FIDS), social media (X/Twitter, Facebook), NCIA website, direct communication with tenants and stakeholders."
+            },
+            "expectedBy": "pio",
+            "rowIds": ["I-06b", "I-12"],
+            "objectiveRefs": ["obj-communication"],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "Ops assumes Operational Incident Command and IT assumes Technical Incident Command, and the two take the FIDS shutdown and restoration decisions together.",
+        "objectiveRefs": ["obj-decision"],
+        "criticalTasks": [
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Assume Operational Incident Command when the technical incident affects terminal operations",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Operational Incident Command (Ops Manager); notify all tenants of system failure and operational impact; activate manual/analog workarounds (whiteboards, bullhorns); manage passenger flow and provide information."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-08", "I-09"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Assume Technical Incident Command and identify the affected systems",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system."
+            },
+            "expectedBy": "it-director",
+            "rowIds": ["I-02", "I-09"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "Decide whether to silence the PA and take the FIDS dark, and switch the terminal to manual information",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight information."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-06", "I-09"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "Activate manual and analog workarounds: whiteboards, bullhorns and gate announcements by the airlines",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Operational Incident Command (Ops Manager); notify all tenants of system failure and operational impact; activate manual/analog workarounds (whiteboards, bullhorns); manage passenger flow and provide information."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-05", "I-10"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "FIDS, BHS and PA are stabilized with the plan's manual procedures and brought back only after the restored data is verified with the airlines.",
+        "objectiveRefs": ["obj-decision"],
+        "criticalTasks": [
+          {
+            "id": "T-09",
+            "capability": "infrastructure_systems",
+            "task": "Activate manual baggage sort procedures with the airlines when the BHS stops",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "Airlines/Ops activate manual baggage sort procedures (severe delays); TSA reverts to manual bag screening."
+            },
+            "expectedBy": "ops-director",
+            "rowIds": ["I-07"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "infrastructure_systems",
+            "task": "Have the airlines make all announcements manually at the gates while the FIDS are down",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight information."
+            },
+            "expectedBy": "airline-liaison",
+            "rowIds": ["I-09", "I-10"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "infrastructure_systems",
+            "task": "Update the FIDS and resume gate announcements only after the restored data is verified with the airlines",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+              "quote": "Airlines/Tenants: re-staff; **update FIDS and provide gate announcements**; prioritize access/functional needs."
+            },
+            "expectedBy": "airline-liaison",
+            "rowIds": ["I-14", "I-15"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "infrastructure_systems",
+            "task": "Deploy guards to critical portals for manual badge inspection if the access control system is affected",
+            "citation": {
+              "documentId": "asp",
+              "documentTitle": "Airport Security Program",
+              "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power)",
+              "quote": "All Fail-Secure doors mechanically lock. The ASC deploys LEOs or guards to critical portals (Employee Entry Gates, Jet Bridge Doors) for manual inspection."
+            },
+            "expectedBy": "asc",
+            "rowIds": ["I-10b"],
+            "objectiveRefs": ["obj-decision"],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "IT identifies the compromised credential and workstation from the AODB logs, isolates them, preserves evidence and notifies the FBI Cyber Task Force and CISA before recovery.",
+        "objectiveRefs": ["obj-technical"],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "cybersecurity",
+            "task": "Identify and isolate the affected systems and the compromised workstation",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system."
+            },
+            "expectedBy": "it-director",
+            "rowIds": ["I-02", "I-08b", "I-09"],
+            "objectiveRefs": ["obj-technical"],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "cybersecurity",
+            "task": "Notify the FBI Cyber Task Force and CISA",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system."
+            },
+            "expectedBy": "it-director",
+            "rowIds": ["I-09"],
+            "objectiveRefs": ["obj-technical"],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "cybersecurity",
+            "task": "Begin recovery from backups on a clean system, without rebuilding the compromised host first",
+            "citation": {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system."
+            },
+            "expectedBy": "it-director",
+            "rowIds": ["I-13", "I-14b"],
+            "objectiveRefs": ["obj-technical"],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Ask the room to identify three things that went well and three things that broke/failed.",

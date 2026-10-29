@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
 import type { FacilitatorState } from '@shared/ipc'
 import { mediaUrl } from '@shared/media-url'
+import { formatExerciseTime } from '@shared/schemas/common'
 import type { Inject } from '@shared/schemas/inject'
 import type { Scenario } from '@shared/schemas/scenario'
 import { PageHeader } from '../../components/ui'
@@ -196,6 +197,7 @@ function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEnt
         scenario={scenario}
         state={state}
         selected={f.selected}
+        exerciseTime={formatExerciseTime(f.minutes)}
         update={update}
         onDeliver={deliver}
         onUndo={undo}

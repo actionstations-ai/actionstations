@@ -114,6 +114,26 @@ test('edit the handbook and a rubric cell, reload, files on disk match', async (
       .click()
     await expect(page.getByText('All changes saved').first()).toBeVisible()
 
+    // Evaluation (#421): add a capability to an objective, edit a critical task, save.
+    await page.getByRole('tab', { name: 'Evaluation' }).click()
+    await expect(
+      page.getByRole('region', { name: 'Evaluation guide: Cybersecurity' }),
+    ).toBeVisible()
+    const technical = page.getByRole('listitem').filter({ hasText: 'Technical Analysis' }).first()
+    await technical.getByRole('button', { name: 'Add capability' }).click()
+    await page
+      .getByRole('combobox', { name: 'Objective 3 capability 2' })
+      .selectOption('situational_assessment')
+    const task = page.getByRole('textbox', { name: 'Task T-14', exact: true })
+    await task.fill('Notify the FBI Cyber Task Force and CISA within one hour')
+    await page.getByRole('textbox', { name: 'Task T-14 timing' }).fill('within one hour')
+    await shoot(page, 'evaluation')
+    await page
+      .getByRole('region', { name: 'Evaluation guides' })
+      .getByRole('button', { name: 'Save' })
+      .click()
+    await expect(page.getByText('All changes saved').first()).toBeVisible()
+
     // Reload: edits come back from disk.
     await page.reload()
     await page.waitForLoadState('domcontentloaded')
@@ -123,6 +143,13 @@ test('edit the handbook and a rubric cell, reload, files on disk match', async (
       'Ops kept bad data on the screens.',
     )
     await expect(page.getByRole('textbox', { name: 'Metric 1 points' })).toHaveValue('25')
+    await page.getByRole('tab', { name: 'Evaluation' }).click()
+    await expect(page.getByRole('textbox', { name: 'Task T-14', exact: true })).toHaveValue(
+      'Notify the FBI Cyber Task Force and CISA within one hour',
+    )
+    await expect(page.getByRole('combobox', { name: 'Objective 3 capability 2' })).toHaveValue(
+      'situational_assessment',
+    )
     await page.getByRole('tab', { name: 'Documents' }).click()
     await expect(
       page
@@ -132,12 +159,36 @@ test('edit the handbook and a rubric cell, reload, files on disk match', async (
 
     const onDisk = JSON.parse(
       readFileSync(join(projectPath, 'scenarios', id, 'scenario.json'), 'utf8'),
-    ) as { rubric: { metrics: { fail: string; points: number }[] }; msel: unknown[] }
+    ) as {
+      rubric: { metrics: { fail: string; points: number }[] }
+      msel: unknown[]
+      evaluation: {
+        objectiveCapabilities: { objectiveId: string; capability: string }[]
+        eegs: {
+          capability: string
+          criticalTasks: { id: string; task: string; timing?: string }[]
+        }[]
+      }
+    }
     expect(onDisk.rubric.metrics[0]).toMatchObject({
       fail: 'Ops kept bad data on the screens.',
       points: 25,
     })
     expect(onDisk.msel).toHaveLength(24)
+    expect(onDisk.evaluation.objectiveCapabilities).toContainEqual(
+      expect.objectContaining({
+        objectiveId: 'obj-technical',
+        capability: 'situational_assessment',
+      }),
+    )
+    expect(
+      onDisk.evaluation.eegs
+        .find((e) => e.capability === 'cybersecurity')
+        ?.criticalTasks.find((t) => t.id === 'T-14'),
+    ).toMatchObject({
+      task: 'Notify the FBI Cyber Task Force and CISA within one hour',
+      timing: 'within one hour',
+    })
 
     // Structured tabs render (screenshots for review).
     await page.getByRole('tab', { name: 'Overview' }).click()

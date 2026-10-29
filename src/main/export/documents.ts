@@ -1,5 +1,6 @@
 // Build the full HTML of each exported document (MSEL, Master Inject Deck, C/E Handbook,
 // Player Briefing Packet, Exercise Plan) from templates/export and the export model.
+import { eegView } from './eeg'
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
 import { dropDuplicateHeaderFacts } from './header-facts'
 import { BLANK_FORMS, embedBlankForm, type EmbeddedForm } from './forms'
@@ -48,6 +49,11 @@ function mselSection(model: ExportModel, prefix: string): string {
 
 function deckSection(model: ExportModel, prefix: string, mode: RenderMode): string {
   return renderExportTemplate('deck', deckView(model, prefix, mode))
+}
+
+/** The EEG packet (#421): one guide per capability, blank rating boxes, no observations. */
+function eegSection(model: ExportModel, prefix: string): string {
+  return renderExportTemplate('eeg', eegView(model, prefix))
 }
 
 /** A generated document's markdown minus its end note and the header facts it repeats. */
@@ -199,6 +205,8 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
       return wrap(model, doc, deckSection(model, '', mode), [])
     case 'handbook':
       return wrap(model, doc, handbookSection(model, ''), [])
+    case 'eeg':
+      return wrap(model, doc, eegSection(model, ''), [])
     case 'briefing': {
       const forms = packetForms()
       return wrap(model, doc, briefingSection(model, '', forms), forms)

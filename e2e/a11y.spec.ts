@@ -115,6 +115,7 @@ const SCREENS: Screen[] = [
       ['injects', /^Injects/],
       ['documents', /^Documents/],
       ['rubric', /^Rubric/],
+      ['evaluation', /^Evaluation/],
       ['warnings', /^Warnings/],
     ] as const
   ).map(([name, re]) => ({

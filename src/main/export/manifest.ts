@@ -2,7 +2,9 @@
 // scenario.md (front matter manifest per docs/05 §Export manifest — id, version, generated
 // at, provider summary, sha256 of every media file — followed by a readable body).
 import { dump } from 'js-yaml'
+import { capabilityName } from '@shared/core-capabilities'
 import type { Scenario, StageRun } from '@shared/schemas'
+import { citationSource } from './eeg'
 import { mdCell, mdTable, stripSectionMarkers } from './escape'
 import type { ExportedFile } from './media'
 import type { ExportModel } from './model'
@@ -151,6 +153,30 @@ function injectsMd(model: ExportModel): string[] {
   ]
 }
 
+/** The evaluation guides (#421): capability, target, and the cited critical tasks per row. */
+function evaluationMd(s: Scenario): string[] {
+  if (!s.evaluation.eegs.length) return []
+  const roleName = (id: string | undefined): string =>
+    s.roles.find((r) => r.id === id)?.abbreviation ?? id ?? ''
+  return [
+    '## Evaluation guides',
+    ...s.evaluation.eegs.flatMap((e) => [
+      `### ${capabilityName(e.capability)}`,
+      ...(e.target ? [`**Capability target:** ${e.target}`] : []),
+      mdTable(
+        ['Task', 'Critical task', 'Source', 'Expected by', 'Observation keys'],
+        e.criticalTasks.map((t) => [
+          t.id,
+          t.timing ? `${t.task} (${t.timing})` : t.task,
+          citationSource(t.citation),
+          roleName(t.expectedBy),
+          t.rowIds.join(', '),
+        ]),
+      ),
+    ]),
+  ]
+}
+
 function documentMd(title: string, md: string): string[] {
   const body = stripSectionMarkers(md).trim()
   if (!body) return []
@@ -173,6 +199,7 @@ export function scenarioMarkdown(model: ExportModel, media: ExportedFile[]): str
     '# Master Scenario Events List',
     ...mselMd(s),
     ...injectsMd(model),
+    ...evaluationMd(s),
     ...documentMd('Controller / Evaluator Handbook', model.docs.handbook),
     ...documentMd('Player Briefing Packet', model.docs.briefing),
   ]

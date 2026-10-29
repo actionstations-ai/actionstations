@@ -3,7 +3,7 @@ import JSZip from 'jszip'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => process.cwd() } }))
 const { fixtureModel } = await import('../../../tests/fixtures/export/model')
-const { briefingDocx, handbookDocx } = await import('./docx')
+const { briefingDocx, eegDocx, handbookDocx } = await import('./docx')
 
 async function documentXml(buf: Buffer): Promise<string> {
   const zip = await JSZip.loadAsync(buf)
@@ -27,6 +27,16 @@ describe('DOCX export', () => {
     expect(xml).toContain('Team A: Airport Operations (Command)')
     expect(xml).toContain('&lt;script&gt;alert(1)&lt;/script&gt;')
     expect(xml).not.toContain('<script>')
+  })
+
+  it('EEGs: one heading per capability and the critical tasks as a table (#421)', async () => {
+    const xml = await documentXml(await eegDocx(fixtureModel()))
+    expect(xml).toContain('Exercise Evaluation Guide 1: Public Information and Warning')
+    expect(xml).toContain('Exercise Evaluation Guide 4: Cybersecurity')
+    expect(xml).toContain('Notify the FBI Cyber Task Force and CISA')
+    expect(xml).toContain('TIRP 13.7 Checklist: Cybersecurity Incident')
+    expect(xml).toContain('☐ M   ☐ P   ☐ N   ☐ NO')
+    expect(xml).toContain('End of Exercise Evaluation Guides')
   })
 
   it('names Action Stations as the creator when the project has no organization (#233)', async () => {

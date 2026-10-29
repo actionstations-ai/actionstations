@@ -69,6 +69,11 @@ const PLAIN: Record<string, string> = {
   INJECT_TEXT_FAILED: "An inject's text could not be written.",
   INJECT_TEXT_FALLBACK: 'An inject uses placeholder text because writing it failed.',
   INJECT_TYPE_FALLBACK: 'An inject was given a different type than planned.',
+  EEG_CAPABILITY_MISSING: 'An objective is not mapped to any Core Capability.',
+  EEG_TASK_UNLINKED: 'A critical task is linked to no event where evaluators could observe it.',
+  EEG_ROW_UNCOVERED: 'An event has no critical task from the evaluation guides.',
+  EEG_TASK_UNCITED: 'A critical task does not cite a plan section.',
+  EEG_CAPABILITY_UNKNOWN: 'An evaluation guide names a capability that is not one of the 32.',
   CRITIQUE: 'The review pass suggests an improvement.',
 }
 

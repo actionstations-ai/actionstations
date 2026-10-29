@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { ThreatFamilyId } from '../domains/schema'
 import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, WallClock } from './common'
+import { Evaluation } from './evaluation'
 import { Role } from './project'
 import { ProviderRef } from './provider'
 import { PurposeTag } from '../taxonomy'
@@ -125,6 +126,7 @@ export const STAGES = [
   'media_render',
   'controller_handbook',
   'rubric',
+  'eeg',
   'player_briefing',
   'hotwash',
   'critique',
@@ -227,6 +229,11 @@ export const Scenario = z.looseObject({
     })
     .default({}),
   rubric: Rubric.optional(),
+  /**
+   * Objectives → Core Capabilities and the Exercise Evaluation Guides (#421). Empty for
+   * scenarios written before the eeg stage existed; "Generate evaluation guides" fills it.
+   */
+  evaluation: Evaluation.default({ objectiveCapabilities: [], eegs: [] }),
   hotwash: HotWash.optional(),
   simcellScripts: z.array(SimcellScript).default([]),
   /** Resources for the ICS-201 critical resource status table. */

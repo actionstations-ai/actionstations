@@ -1,6 +1,7 @@
 // View models for the export templates: plain data derived from the scenario, injects and
 // documents. All strings stay raw here; the templates escape them.
 import { pathToFileURL } from 'node:url'
+import { capabilityName } from '@shared/core-capabilities'
 import { mediaUrl } from '@shared/media-url'
 import type { Inject, MediaAsset, MselRow, Phase, Scenario } from '@shared/schemas'
 import { injectTypeInfo, PURPOSE_TAG_INFO, type PurposeTag } from '@shared/taxonomy'
@@ -64,6 +65,19 @@ export function toText(row: MselRow, s: Scenario): string {
 const citationText = (row: { citations: { headingPath: string }[] }): string =>
   row.citations.map((c) => c.headingPath).join('; ')
 
+/**
+ * The row's evaluation reference (#421): the critical task ids that name it and their
+ * capabilities ("T-05, T-07 · Operational Coordination"); '' when no task does.
+ */
+export function evaluationText(s: Scenario, rowId: string): string {
+  const tasks = s.evaluation.eegs
+    .flatMap((e) => e.criticalTasks)
+    .filter((t) => t.rowIds.includes(rowId))
+  if (!tasks.length) return ''
+  const capabilities = [...new Set(tasks.map((t) => capabilityName(t.capability)))]
+  return `${tasks.map((t) => t.id).join(', ')} · ${capabilities.join(', ')}`
+}
+
 function phaseHours(p: Phase): string {
   return `(Hour ${p.startTime} – ${p.endTime})`
 }
@@ -72,7 +86,7 @@ export function phaseHeading(p: Phase): string {
   return `Phase ${p.index + 1}: ${p.title}`
 }
 
-interface Fact {
+export interface Fact {
   label: string
   value: string
 }
@@ -134,6 +148,7 @@ export function mselView(model: ExportModel, prefix: string) {
         event: r.event,
         expectedAction: r.expectedAction,
         refs: citationText(r),
+        evaluation: evaluationText(s, r.id),
         tag: tagView(r.purposeTag),
         rowClass: r.purposeTag === 'DECISION_POINT' ? 'is-decision' : '',
       })),
@@ -291,6 +306,8 @@ function deckPage(
     },
     note: inject?.instructorNote ?? '',
     refs: citationText(inject ?? row),
+    expectedAction: row.expectedAction,
+    evaluation: evaluationText(s, row.id),
   }
 }
 

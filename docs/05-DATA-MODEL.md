@@ -86,8 +86,38 @@ Scenario {
   phases: Phase[],
   msel: MselRow[],                          // ordered
   documents: { handbook: MdRef, briefing: MdRef, rubric: Rubric, hotwash: HotWash },
+  evaluation: Evaluation,                   // #421: objectives → Core Capabilities, EEGs; empty before the eeg stage ran
   simcellScripts: SimcellScript[],
   provenance: StageRun[]                    // what provider/prompt produced each part
+}
+
+// Exercise evaluation (#421; src/shared/schemas/evaluation.ts, src/shared/core-capabilities.ts).
+// The 32 FEMA Core Capabilities ship as static data (id, name, mission areas, definition).
+Evaluation {
+  objectiveCapabilities: { objectiveId, capability: CoreCapabilityId, why }[],
+  eegs: Eeg[]
+}
+Eeg { capability: CoreCapabilityId, target /* HSEEP capability target */, objectiveRefs[], criticalTasks: CriticalTask[] }
+CriticalTask {
+  id,                                        // "T-03"; locked tasks keep their id across re-runs
+  capability: CoreCapabilityId, task, citation: Citation,   // the plan section the task comes from (required)
+  expectedBy?: roleId, timing?,              // "within 30 minutes", as the plan states it
+  rowIds[], objectiveRefs[], locked          // rows where an evaluator should look for it
+}
+// The live evaluator form (#416) consumes { id, capability, task, citation, expectedBy? }; later
+// specs add fields and never rename or remove those.
+RowCriterion { id /* taskId or "<rowId>:expected" */, rowId, text, taskId?, capability?, citation? }
+// derived by src/main/generate/eeg-criteria.ts (evaluation:criteria), never stored: a row's linked
+// tasks, else its expected action as one criterion (control cards excepted)
+
+// scenarios/<id>/evaluation.json — observations recorded outside live play (Facilitate screen,
+// paper EEGs typed up). Live-play observations (#416) arrive in the session log; #419 reads both.
+EvaluationRecord { formatVersion: 1, observations: Observation[], updatedAt }   // loose (ADR-0016)
+Observation {
+  id, at, exerciseTime?, rowId?, taskId?, criterionId?,
+  rating: 'met'|'partial'|'not_met'|'not_observed',    // HSEEP's four values; counts, never a score
+  note, evaluator? /* free label, "Evaluator 2"; never a person's name by default */,
+  source: 'facilitate'|'paper'|'live'
 }
 
 Phase { id, index, title, goal, startTime, endTime }

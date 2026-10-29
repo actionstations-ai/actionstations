@@ -11,6 +11,7 @@ const LABELS: Record<string, string> = {
   media_render: 'Media render',
   controller_handbook: 'Controller handbook',
   rubric: 'Rubric',
+  eeg: 'Evaluation guides',
   player_briefing: 'Player briefing',
   hotwash: 'Hot wash',
   critique: 'Critique',

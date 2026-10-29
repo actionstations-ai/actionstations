@@ -14,9 +14,9 @@ The CSAAP project was set up as a **knowledge base**, and scenarios were authore
    - Plus a terminal map, and FEMA **ICS-201** and **ICS-203** forms (link: https://training.fema.gov/icsresource/icsforms.aspx).
 3. The plans were seeded with **deliberate hooks** the scenarios later pull on: specific section numbers (TIRP 13.6, ASP 6.4), named systems and hostnames, generator gaps, the 15-minute PACS cache window, the no-24/7-vendor-VPN rule. **The generator should do the same in reverse: find hooks in the user's documents and build injects that force players to open the plan.**
 
-## 2. Scenario package = five documents
+## 2. Scenario package = five documents, plus the evaluation guides
 
-Every scenario ships as a set. The generator's output schema mirrors these exactly.
+Every scenario ships as a set. The generator's output schema mirrors these exactly. Since 0.6.0 the set also carries the **Exercise Evaluation Guides** (#421): every objective maps to FEMA Core Capabilities, and each capability gets an EEG whose critical tasks are the actions the organization's own plans require, cited by section. Scenario 3 was written before EEGs existed; its guides in `tests/fixtures/scenarios/scenario-3.json` are the hand-written reference (Public Information and Warning, Operational Coordination, Infrastructure Systems, Cybersecurity; tasks from TIRP 1.4.5, 4.5, 13.6, 13.7 and ASP 6.4).
 
 | Document | Audience | Contents (from Scenario 3) |
 |---|---|---|
@@ -25,6 +25,7 @@ Every scenario ships as a set. The generator's output schema mirrors these exact
 | **Controller/Evaluator Handbook** | Instructor | Exercise overview & objectives; room setup (U-shape, isolated PIO table, projector, whiteboard for ICS-201); Rules of Play (SimCell role, time jumps, handling artificialities); **Grading rubric** (4 metrics × Fail/Pass/Excellence with points); Hot Wash guide ("3-Up, 3-Down" + scenario-specific questions) |
 | **Player Briefing Packet** | Students | Situation brief (time, weather, load, status board); the anomaly as players first see it; mission statement; **Team assignments & standing orders** (one table per team); Rules of engagement ("This is an exercise", "REAL WORLD" stop phrase, time jumps, artifacts are intelligence); blank ICS-201 with map sketch, situation summary, objectives, critical resource status table |
 | **Inject media** | Players (handed/displayed) | PNG screenshots of tweets/posts, printed tickets/memos/logs, FIDS board image, photos for the main screen, audio for PA/radio |
+| **Exercise Evaluation Guides** | Evaluators | One per Core Capability (HSEEP 2020 layout): the objectives it serves, a capability target in the organization's words, 3–8 critical tasks each citing the plan section it comes from, the role expected to perform it, its timing, and the injects (observation keys) where it should be seen; M / P / N / NO rating boxes, observation notes, analysis. Ratings are about procedures, never grades of people |
 
 ## 2a. The method is domain-neutral (ADR-0014)
 

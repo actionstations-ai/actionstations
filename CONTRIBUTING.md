@@ -206,6 +206,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | [0020](docs/adr/0020-bundled-packs.md)                     | Built-in content ships as bundled packs                                         |
 | [0021](docs/adr/0021-local-tools-setup.md)                 | Optional setup of local model tools, or cloud APIs only                         |
 | [0023](docs/adr/0023-free-github-actions.md)               | GitHub Actions where it is free (release installers)                            |
+| [0025](docs/adr/0025-core-capabilities-and-eegs.md)        | Core Capabilities and Exercise Evaluation Guides from the plans                 |
 | [0026](docs/adr/0026-surveys-anonymous-by-construction.md) | Surveys are anonymous by construction                                           |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
