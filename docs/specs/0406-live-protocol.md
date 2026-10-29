@@ -878,6 +878,16 @@ source of truth for the wire format:
     L4: an invite epoch above `MAX_EPOCH` is an `InviteError`. L3 is in the threat model
     (leaked players link).
   - The fragment now also carries the controller ECDH public key (165 bytes, 220 characters).
+- **After the independent re-review of that pull request (#452, all Low; regression tests in
+  `codec.test.ts` and `client.test.ts`):** the per-message key for frames sealed to the
+  controller is `HKDF(ECDH shared secret, salt = the epoch's players encryption key, info =
+as-live/v1/to-controller/<session>)`, so the controller's public key alone cannot produce an
+  acceptable `vote.cast` or `survey.response`; since `k: "c"` names no epoch the controller tries
+  each epoch it holds, newest first. `LiveClient` clamps `relay.hello.caps` to the protocol limits
+  of the connection kind the client chose (`kind` option, else its `limits`, else the relay's),
+  never to the kind the server announces. The live frames held back during a catch-up are
+  bounded (`HELD_BACK`: 500 frames, 8 MiB, 15 s) and applied when a bound is reached even if the
+  server never sent `done: true`.
 
 ## Security and privacy
 

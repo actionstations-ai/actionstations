@@ -245,7 +245,7 @@ export const HKDF_INFO = {
   join: (sessionId: string) => `as-live/v1/join/${sessionId}`,
   kek: (clientId: string, epoch: number) => `as-live/v1/kek/${clientId}/${epoch}`,
   blob: (blobId: string) => `as-live/v1/blob/${blobId}`,
-  /** Per-message key for frames sealed to the controller (ECDH with the key in the invite). */
+  /** Per-message key for frames sealed to the controller (ECDH with the key in the invite, salted with the epoch's players key). */
   toController: (sessionId: string) => `as-live/v1/to-controller/${sessionId}`,
   /** A staff device's proof in `join` that it holds the current staff root. */
   staffProof: (sessionId: string, clientId: string, ecdhPub: string) =>

@@ -23,6 +23,7 @@ import {
   LIMITS,
   MAX_SEQ_HINT,
   PROTOCOL_VERSION,
+  type ConnectionKind,
   type DropReason,
   type Limits,
   type MessageType,
@@ -62,8 +63,31 @@ export interface LiveClientOptions {
   ecdh?: KeyPair
   roster?: ControllerRosterPayload
   storage?: KeyValue
+  /**
+   * The connection kind this client chose; the server's announced caps are clamped to its
+   * protocol limits, never to the kind the server claims (#452). Without it, `limits` (else the
+   * relay's, the smallest) is the ceiling.
+   */
+  kind?: ConnectionKind
   limits?: Limits
   now?: () => number
+  /** Bounds on the live frames held back during a catch-up (#452); defaults in `HELD_BACK`. */
+  heldBack?: Partial<HeldBackBounds>
+}
+
+export interface HeldBackBounds {
+  /** Frames held before the buffer is released whether or not the catch-up finished. */
+  maxFrames: number
+  /** Bytes held before the buffer is released. */
+  maxBytes: number
+  /** Milliseconds after `catchup.request` before the buffer is released. */
+  timeoutMs: number
+}
+
+export const HELD_BACK: HeldBackBounds = {
+  maxFrames: 500,
+  maxBytes: 8 * 1024 * 1024,
+  timeoutMs: 15_000,
 }
 
 export interface SendOptions {
@@ -75,9 +99,9 @@ export interface SendOptions {
 type Handler<T extends MessageType> = (msg: Opened<T>) => void
 type DropHandler = (reason: DropReason, detail?: string, envelope?: Envelope) => void
 
-/** Each announced cap clamped to the protocol's maximum for that connection kind. */
-export function clampLimits(announced: Limits, kind: keyof typeof LIMITS): Limits {
-  const max = LIMITS[kind]
+/** Each announced cap clamped to a ceiling: the protocol's limits for the client's connection kind. */
+export function clampLimits(announced: Limits, ceiling: ConnectionKind | Limits): Limits {
+  const max = typeof ceiling === 'string' ? LIMITS[ceiling] : ceiling
   const out = { ...announced }
   for (const k of Object.keys(max) as (keyof Limits)[]) {
     out[k] = Math.max(1, Math.min(announced[k], max[k]))
@@ -102,6 +126,11 @@ export class LiveClient {
   private destinations: Set<string> | undefined
   /** Live frames held back while a catch-up is in flight, applied after its last batch. */
   private heldBack: string[] | undefined
+  private heldBackBytes = 0
+  private catchupTimer: ReturnType<typeof setTimeout> | undefined
+  private readonly bounds: HeldBackBounds
+  /** The caps this client never exceeds, whatever a server announces. */
+  private readonly ceiling: Limits
   private readonly handlers = new Map<MessageType, Set<Handler<MessageType>>>()
   private readonly anyHandlers = new Set<Handler<MessageType>>()
   private readonly dropHandlers = new Set<DropHandler>()
@@ -121,7 +150,9 @@ export class LiveClient {
   constructor(private readonly opts: LiveClientOptions) {
     this.storage = opts.storage ?? new MemoryKeyValue()
     this.now = opts.now ?? (() => Date.now())
-    this.limits = opts.limits ?? LIMITS.relay
+    this.ceiling = opts.kind ? LIMITS[opts.kind] : (opts.limits ?? LIMITS.relay)
+    this.limits = opts.limits ?? this.ceiling
+    this.bounds = { ...HELD_BACK, ...opts.heldBack }
     this.roster = opts.roster
     this.uploader = opts.role === 'controller' ? 'controller' : 'player'
     this.seq = Number(this.storage.get(this.storageKey('seq')) ?? 0)
@@ -222,6 +253,9 @@ export class LiveClient {
   /** Ask the server for stored frames after `after`; live frames are held until the last batch. */
   requestCatchup(after = this.lastIndex): void {
     this.heldBack ??= []
+    if (this.catchupTimer) clearTimeout(this.catchupTimer)
+    // A server that never sends `done: true` must not stall the client or grow its memory.
+    this.catchupTimer = setTimeout(() => void this.releaseHeldBack(), this.bounds.timeoutMs)
     void this.send('catchup.request', 'controller', { after })
   }
 
@@ -291,6 +325,13 @@ export class LiveClient {
     // of a newer live one from the same sender; server frames still flow.
     if (this.heldBack && !isServerFrame(frame)) {
       this.heldBack.push(frame)
+      this.heldBackBytes += frame.length
+      if (
+        this.heldBack.length >= this.bounds.maxFrames ||
+        this.heldBackBytes >= this.bounds.maxBytes
+      ) {
+        await this.releaseHeldBack()
+      }
       return
     }
     await this.openAndDispatch(frame)
@@ -359,8 +400,8 @@ export class LiveClient {
 
   /** The server's hello is advisory: caps are clamped to the protocol's and the seq hint bounded. */
   private applyHello(msg: Opened<'relay.hello'>): void {
-    const { caps, server, yourLastSeq } = msg.payload
-    this.limits = clampLimits(caps, server.kind)
+    const { caps, yourLastSeq } = msg.payload
+    this.limits = clampLimits(caps, this.ceiling)
     if (Number.isInteger(yourLastSeq) && yourLastSeq <= MAX_SEQ_HINT && yourLastSeq > this.seq) {
       this.seq = yourLastSeq
       this.storage.set(this.storageKey('seq'), String(this.seq))
@@ -385,8 +426,11 @@ export class LiveClient {
   }
 
   private async releaseHeldBack(): Promise<void> {
+    if (this.catchupTimer) clearTimeout(this.catchupTimer)
+    this.catchupTimer = undefined
     const frames = this.heldBack ?? []
     this.heldBack = undefined
+    this.heldBackBytes = 0
     for (const frame of frames) await this.openAndDispatch(frame)
   }
 
@@ -449,6 +493,8 @@ export class LiveClient {
   }
 
   close(code?: number, reason?: string): void {
+    if (this.catchupTimer) clearTimeout(this.catchupTimer)
+    this.catchupTimer = undefined
     this.opts.transport.close(code, reason)
     this.setState('closed')
   }

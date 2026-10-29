@@ -24,6 +24,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Live play protocol hardening from the independent re-review of #449 (#452, all Low): frames sealed to the controller now derive their per-message key with the epoch's players key as the HKDF salt, so holding the controller's public key alone cannot produce a vote, answer or receipt the controller accepts (the controller opens frames under every epoch it still holds, so a device one rotation behind is not cut off); `LiveClient` clamps a server's announced caps to the protocol limits of the connection kind the client chose, never to the kind the server claims; and the live frames held back during a catch-up are bounded (500 frames, 8 MiB, 15 s), after which they are applied even if the server never finished the catch-up. Each has a regression test.
 - Installers never ship onnxruntime's CUDA or TensorRT providers (#401). A native Linux x64 build downloaded them (272 MB) although the app runs the CPU provider; `electron-builder.yml` leaves them out, the release workflow skips the download, and `package-smoke` fails if they appear.
 
 ## [0.5.1] - 2026-10-28
