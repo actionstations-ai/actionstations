@@ -1,7 +1,12 @@
 import { useId, useState, type FormEvent } from 'react'
 import { parseExerciseTime } from '../../app/clock'
 import { groupName } from './assignment'
-import { RATING_ORDER, type ObservationInput, type Rating } from './observations'
+import {
+  RATING_ORDER,
+  type LocalObservation,
+  type ObservationInput,
+  type Rating,
+} from './observations'
 import { EVAL, RATING_TEXT } from './strings'
 
 /** An observation the guides did not anticipate (FR-6): a note, a time, and optionally a capability, rating and inject. */
@@ -10,19 +15,25 @@ export function GeneralObservation({
   rowIds,
   exerciseNow,
   onSave,
+  initial,
+  onClose,
 }: {
+  /** A saved general observation to revise; the form opens filled in and keeps its id. */
+  initial?: LocalObservation
+  /** Called after a save or cancel when editing. */
+  onClose?: () => void
   capabilities: readonly string[]
   rowIds: readonly string[]
   exerciseNow: () => string
   onSave: (input: ObservationInput) => void
 }) {
   const id = useId()
-  const [open, setOpen] = useState(false)
-  const [note, setNote] = useState('')
-  const [time, setTime] = useState('')
-  const [capability, setCapability] = useState('')
-  const [rating, setRating] = useState('')
-  const [row, setRow] = useState('')
+  const [open, setOpen] = useState(Boolean(initial))
+  const [note, setNote] = useState(initial?.notes ?? '')
+  const [time, setTime] = useState(initial?.exerciseTime ?? '')
+  const [capability, setCapability] = useState(initial?.capability ?? '')
+  const [rating, setRating] = useState<string>(initial?.rating ?? '')
+  const [row, setRow] = useState(initial?.mselRowId ?? '')
   const [error, setError] = useState('')
 
   const reset = () => {
@@ -33,6 +44,7 @@ export function GeneralObservation({
     setRow('')
     setError('')
     setOpen(false)
+    onClose?.()
   }
   const submit = (e: FormEvent) => {
     e.preventDefault()
@@ -40,6 +52,7 @@ export function GeneralObservation({
     const exerciseTime = time.trim() || exerciseNow()
     if (parseExerciseTime(exerciseTime) === undefined) return setError(EVAL.timeInvalid)
     onSave({
+      ...(initial ? { observationId: initial.observationId } : {}),
       kind: 'note',
       notes: note.trim(),
       exerciseTime,
@@ -60,7 +73,7 @@ export function GeneralObservation({
   return (
     <form className="evalgeneral" onSubmit={submit} aria-labelledby={`${id}-title`}>
       <h3 id={`${id}-title`} className="h3">
-        {EVAL.addGeneral}
+        {initial ? EVAL.editGeneral : EVAL.addGeneral}
       </h3>
       <div className="field">
         <label className="field__label" htmlFor={`${id}-note`}>
@@ -130,7 +143,7 @@ export function GeneralObservation({
             ))}
           </select>
         </div>
-        {rowIds.length ? (
+        {rowIds.length || row ? (
           <div className="field">
             <label className="field__label" htmlFor={`${id}-row`}>
               {EVAL.generalRow}
@@ -142,7 +155,7 @@ export function GeneralObservation({
               onChange={(e) => setRow(e.target.value)}
             >
               <option value="">{EVAL.noInject}</option>
-              {rowIds.map((r) => (
+              {[...new Set([...(row ? [row] : []), ...rowIds])].map((r) => (
                 <option key={r} value={r}>
                   {r}
                 </option>

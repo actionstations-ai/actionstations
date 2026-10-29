@@ -140,6 +140,22 @@ describe('document HTML', () => {
     expect(buildDocumentHtml(model, 'deck', 'pdf')).toMatch(/Evaluate: T-02, [^<]*T-14 · /)
   })
 
+  it('EEG packet: one blank copy per evaluator seat, each labelled and with unique ids (#421)', () => {
+    const model = { ...fixtureModel(), evaluatorCopies: 3 }
+    const html = buildDocumentHtml(model, 'eeg', 'pdf')
+    expect(count(html, 'class="eeg"')).toBe(3 * model.scenario.evaluation.eegs.length)
+    for (const n of [1, 2, 3]) expect(html).toContain(`Evaluator ${n}`)
+    expect(html).not.toContain('Evaluator ____')
+    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1])
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('EEG packet: a single copy keeps the blank Evaluator line (#421)', () => {
+    const html = buildDocumentHtml(fixtureModel(), 'eeg', 'pdf')
+    expect(html).toContain('____________')
+    expect(html).not.toContain('Evaluator 1')
+  })
+
   it('EEG packet says so when the scenario has no guides yet', () => {
     const model = fixtureModel()
     model.scenario.evaluation = { objectiveCapabilities: [], eegs: [] }

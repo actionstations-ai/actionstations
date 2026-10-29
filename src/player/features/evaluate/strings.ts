@@ -47,6 +47,8 @@ export const EVAL = {
   pending: (n: number) => `${n} ${n === 1 ? 'observation' : 'observations'} waiting to send`,
   allSent: 'Everything is sent.',
   addGeneral: 'Add an observation not tied to a task',
+  editGeneral: 'Edit observation',
+  editGeneralFor: (time: string) => `Edit the observation from ${time}`,
   generalHeading: 'Other observations',
   generalNote: 'Observation',
   generalCapability: 'Capability (optional)',

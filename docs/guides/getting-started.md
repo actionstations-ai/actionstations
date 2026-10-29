@@ -234,6 +234,7 @@ Everything is stored in `<project>/scenarios/<id>/`: `scenario.json`, the idea i
 - Select rows with their checkboxes to **Shift times by** a number of minutes or **Move to** another phase.
 - **Renumber IDs…** previews and applies `I-01`, `I-02`, … in time order; rubric links and the injects attached to each row follow the new IDs.
 - Lock a row (padlock) to keep it when the MSEL stage is re-run.
+- Rows that the evaluation guides link to show "Criteria: T-01, T-04" under the expected action. **Criteria column** in the toolbar adds a read-only column with the same task ids (hover for the task text); the arrow keys skip it.
 - The lint bar shows the current warnings; warnings never block saving.
 - Edits save automatically, also when you switch tab or page right after an edit. A save only replaces the phases and MSEL rows: if the scenario changed meanwhile (a job or another editor wrote it), your edit is applied onto the newer copy. **Undo**/**Redo** and **History** (saved snapshots you can restore) are in the toolbar.
 

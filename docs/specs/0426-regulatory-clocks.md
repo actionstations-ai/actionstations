@@ -435,7 +435,7 @@ Not built yet (follow-up issue):
   and `MselPhaseOutput.triggers`, and the optional model-assisted mapping (`compliance:suggest-model`,
   `ComplianceMapOutput`, FR-12).
 - Session log entries (`compliance.trigger`, `compliance.clock`) wait for the session log (#417);
-  the AAR inputs (FR-15) wait for #419. `compliance:coverage` already returns the `K<n>` cite keys
+  the AAR clock inputs (FR-15) are in since #498 as `clk:K<n>` evidence (started clocks with their result; the control coverage summary is not sent yet). `compliance:coverage` already returns the `K<n>` cite keys
   for clocks.
 - Firing a trigger from a live-play message (FR-6c) waits for #418; the state is ready for it
   (`by: 'live'`).

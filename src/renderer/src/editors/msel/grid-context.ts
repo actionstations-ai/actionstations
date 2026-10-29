@@ -4,6 +4,7 @@
 // is passed to each row as props.
 import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useRef } from 'react'
 import type { Role } from '@shared/schemas/project'
+import type { RowCriterion } from '@shared/schemas/evaluation'
 import type { Phase, ScenarioSeam } from '@shared/schemas/scenario'
 import type { GroundingResult } from '@shared/schemas/grounding'
 import type { BranchMark } from './branch-ops'
@@ -34,6 +35,10 @@ export interface GridShared {
   seams?: ScenarioSeam[] | undefined
   /** Row id -> branch lane (spec 0430); rows on the trunk have no entry. */
   branchMarks?: ReadonlyMap<string, BranchMark> | undefined
+  /** Evaluation criteria by row id (#421), for the Criteria column and the expected-action line. */
+  criteria?: ReadonlyMap<string, RowCriterion[]> | undefined
+  /** The Criteria column is on. */
+  showCriteria?: boolean | undefined
   /** Row ids dimmed by the path filter. */
   offPath?: ReadonlySet<string> | undefined
   /** Set in a regional exercise: partner-owned rows get a badge and are read-only (#497). */

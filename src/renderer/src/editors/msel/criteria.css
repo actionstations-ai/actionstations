@@ -1,0 +1,22 @@
+/* Evaluation criteria in the MSEL grid (#421): the Criteria column is off until the toolbar
+   toggle turns it on, and the line under the expected action stays small and quiet. */
+.msel-editor__grid:not(.has-criteria) .msel-editor__col-criteria,
+.msel-editor__grid:not(.has-criteria) .msel-editor__c-criteria {
+  display: none;
+}
+
+.msel-editor__col-criteria {
+  width: 6rem;
+}
+
+.msel-editor__c-criteria {
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+.msel-editor__criteria-line {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}

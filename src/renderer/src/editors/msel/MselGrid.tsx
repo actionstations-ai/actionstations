@@ -27,6 +27,7 @@ import {
 } from 'react'
 import { useListWindow, WINDOW_AT, type ListWindow } from '../use-list-window'
 import { GridActionsContext, GridSharedContext, colOn, type GridContextValue } from './grid-context'
+import { clsx } from 'clsx'
 import { COLUMNS, cellId, type Cell, type Line } from './grid-nav'
 import {
   displayItems,
@@ -36,6 +37,7 @@ import {
   type DisplayItem,
 } from './grid-lines'
 import { groupDraft, type Draft } from './model'
+import './criteria.css'
 import { MselRowView } from './MselRowView'
 import { PhaseRowView } from './PhaseRowView'
 
@@ -258,9 +260,21 @@ export function MselGrid(props: GridProps) {
       seams: ctx.seams,
       branchMarks: ctx.branchMarks,
       offPath: ctx.offPath,
+      criteria: ctx.criteria,
+      showCriteria: ctx.showCriteria,
       regional: ctx.regional,
     }),
-    [ctx.roles, ctx.phases, ctx.grounding, ctx.seams, ctx.branchMarks, ctx.offPath, ctx.regional],
+    [
+      ctx.roles,
+      ctx.phases,
+      ctx.grounding,
+      ctx.seams,
+      ctx.branchMarks,
+      ctx.offPath,
+      ctx.regional,
+      ctx.criteria,
+      ctx.showCriteria,
+    ],
   )
   const onKeyDown = gridKeyHandler(ctx, lines, onFocusRequest)
   const onDrag = useCallback(
@@ -282,7 +296,7 @@ export function MselGrid(props: GridProps) {
               role="grid"
               aria-label="Master Scenario Events List"
               aria-rowcount={items.length + 1}
-              className="table msel-editor__grid"
+              className={clsx('table msel-editor__grid', ctx.showCriteria && 'has-criteria')}
               onKeyDown={onKeyDown}
             >
               <GridHead headRef={headRef} />

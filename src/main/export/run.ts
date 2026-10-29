@@ -433,8 +433,16 @@ function exportOptionsOf(opts: ExportOptions): ExportOptions {
     ...(opts.playerLanguages ? { playerLanguages: opts.playerLanguages } : {}),
     ...(opts.largePrint ? { largePrint: true } : {}),
     ...(opts.allowUnreviewed ? { allowUnreviewed: true } : {}),
+    ...(opts.evaluatorCopies && opts.evaluatorCopies > 1
+      ? { evaluatorCopies: opts.evaluatorCopies }
+      : {}),
     ...(opts.controllerLanguages?.length ? { controllerLanguages: opts.controllerLanguages } : {}),
   }
+}
+
+/** The model with the EEG packet's copy count set (#421); unchanged for one copy. */
+function withEvaluatorCopies(model: ExportModel, copies: number | undefined): ExportModel {
+  return copies && copies > 1 ? { ...model, evaluatorCopies: copies } : model
 }
 
 /** Run an export job: every planned target in order, one progress step each. */
@@ -453,7 +461,7 @@ export async function runExport(
   await ensureDir(folder)
   const result: ExportResult = { folder, files: [], warnings: [] }
   const state: RunState = {
-    model,
+    model: withEvaluatorCopies(model, opts.evaluatorCopies),
     names,
     folder,
     media: [],

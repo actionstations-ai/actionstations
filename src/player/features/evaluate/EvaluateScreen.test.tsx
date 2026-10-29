@@ -203,6 +203,40 @@ describe('EvaluateScreen', () => {
     expect(screen.getByText('Clear hand-offs at shift change')).toBeTruthy()
   })
 
+  it('edits a general observation after saving, as a new revision of the same observation', async () => {
+    const { saved } = setup()
+    fireEvent.click(screen.getByRole('button', { name: /Add an observation not tied to a task/ }))
+    fireEvent.change(screen.getByLabelText('Observation'), { target: { value: 'First wording' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save observation' }))
+    await waitFor(() => expect(saved).toHaveLength(1))
+    fireEvent.click(screen.getByRole('button', { name: 'Edit the observation from 1:20' }))
+    expect((screen.getByLabelText('Observation') as HTMLTextAreaElement).value).toBe(
+      'First wording',
+    )
+    fireEvent.change(screen.getByLabelText('Observation'), { target: { value: 'Better wording' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save observation' }))
+    await waitFor(() => expect(saved).toHaveLength(2))
+    expect(saved[1]).toMatchObject({
+      observationId: saved[0]!.observationId,
+      revision: 2,
+      notes: 'Better wording',
+    })
+    expect(screen.queryByText('First wording')).toBeNull()
+    expect(screen.getByText('Better wording')).toBeTruthy()
+  })
+
+  it('keeps the original observation when an edit is cancelled', async () => {
+    const { saved } = setup()
+    fireEvent.click(screen.getByRole('button', { name: /Add an observation not tied to a task/ }))
+    fireEvent.change(screen.getByLabelText('Observation'), { target: { value: 'Keep me' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save observation' }))
+    await waitFor(() => expect(saved).toHaveLength(1))
+    fireEvent.click(screen.getByRole('button', { name: 'Edit the observation from 1:20' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.getByText('Keep me')).toBeTruthy()
+    expect(saved).toHaveLength(1)
+  })
+
   it('shows a waiting message until the assignment arrives', () => {
     setup({ assignment: undefined })
     expect(screen.getByText('Waiting for your tasks from the facilitator.')).toBeTruthy()
@@ -220,6 +254,7 @@ describe('EvaluateScreen', () => {
     const radios = screen.getAllByRole('radio', { name: /Met/ })
     expect(radios[0]!.closest('fieldset')!.disabled).toBe(true)
     expect(screen.queryByRole('button', { name: /Add an observation/ })).toBeNull()
+    expect(screen.queryByRole('button', { name: /Edit the observation/ })).toBeNull()
   })
 })
 

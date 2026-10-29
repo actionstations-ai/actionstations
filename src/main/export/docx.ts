@@ -23,7 +23,7 @@ import {
 } from 'docx'
 import { Lexer, type Token, type Tokens } from 'marked'
 import { aarView, type AarView } from './aar'
-import { eegView } from './eeg'
+import { eegView, evaluatorCopies } from './eeg'
 import { hasHeading, stripEndNote, stripSectionMarkers } from './escape'
 import type { ExportModel } from './model'
 import { EXERCISE_MARKING } from './page'
@@ -414,14 +414,14 @@ function eegBlocks(eeg: ReturnType<typeof eegView>['eegs'][number]): Block[] {
   return out
 }
 
-/** The EEG packet as a Word document (#421), from the same view as the PDF. */
-export async function eegDocx(model: ExportModel): Promise<Buffer> {
-  const label = 'Exercise Evaluation Guides'
-  const view = eegView(model)
-  const doc = buildDocument(model, label, [
+/** One copy of the EEG packet as Word blocks; `copy` names the evaluator seat when several print. */
+function eegCopyBlocks(model: ExportModel, copy: number | undefined): Block[] {
+  const view = eegView(model, '', copy)
+  return [
+    ...(copy && copy > 1 ? [new Paragraph({ pageBreakBefore: true, children: [] })] : []),
     ...titleBlocks(model, 'Exercise Evaluation Guides (EEG)', [
       ['Exercise date', '____________'],
-      ['Evaluator', '____________'],
+      ['Evaluator', copy ? `Evaluator ${copy}` : '____________'],
     ]),
     new Paragraph({
       children: [
@@ -436,8 +436,16 @@ export async function eegDocx(model: ExportModel): Promise<Buffer> {
       alignment: AlignmentType.CENTER,
       children: [run(view.endNote, { italics: true })],
     }),
-  ])
-  return Packer.toBuffer(doc)
+  ]
+}
+
+/** The EEG packet as a Word document (#421), from the same view as the PDF: one copy per evaluator seat. */
+export async function eegDocx(model: ExportModel): Promise<Buffer> {
+  const copies = evaluatorCopies(model)
+  const blocks = Array.from({ length: copies }, (_, i) =>
+    eegCopyBlocks(model, copies > 1 ? i + 1 : undefined),
+  ).flat()
+  return Packer.toBuffer(buildDocument(model, 'Exercise Evaluation Guides', blocks))
 }
 
 type AarCapability = AarView['capabilities'][number]

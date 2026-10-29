@@ -9,6 +9,7 @@ import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { useExportJob } from './use-export-job'
+import { EvaluatorCopiesOption } from './EvaluatorCopiesOption'
 import { PlayerMaterialOptions } from './PlayerMaterialOptions'
 import { usePlayerMaterial } from './use-player-material'
 import {
@@ -270,6 +271,7 @@ function useExportForm(projectPath: string, scenarioId: string) {
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
   const [sourceCheck, setSourceCheck] = useState(false)
+  const [evaluatorCopies, setEvaluatorCopies] = useState(1)
   const player = usePlayerMaterial(projectPath, scenarioId)
   const onDone = useCallback((e: JobDoneEvent) => setResult(asExportResult(e.result)), [])
   const { jobId, job, running, run } = useExportJob(projectPath, scenarioId, onDone)
@@ -292,6 +294,7 @@ function useExportForm(projectPath: string, scenarioId: string) {
         ...player.options(),
         sitmanPlayerEdition,
         sourceCheck: sourceCheck && targets.includes('msel_pdf'),
+        ...(evaluatorCopies > 1 ? { evaluatorCopies } : {}),
       })
     } catch (err) {
       setStartError(errorText(err))
@@ -305,6 +308,8 @@ function useExportForm(projectPath: string, scenarioId: string) {
     setSitmanPlayerEdition,
     sourceCheck,
     setSourceCheck,
+    evaluatorCopies,
+    setEvaluatorCopies,
     player,
     projectPath,
     scenarioId,
@@ -365,6 +370,13 @@ function ExportForm(props: {
         {...{ selected: targets, onToggle: form.toggle, disabled: running }}
       >
         <PlayerEditionOption form={form} />
+        {targets.some((t) => t === 'eeg_pdf' || t === 'docx') && (
+          <EvaluatorCopiesOption
+            value={form.evaluatorCopies}
+            onChange={form.setEvaluatorCopies}
+            disabled={running}
+          />
+        )}
       </TargetGroup>
       <TargetGroup
         legend="Classroom set (PDF)"

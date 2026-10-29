@@ -4,6 +4,7 @@ import {
   HOTWASH_ITEM_KIND_LABELS,
   type EvidenceRef,
   type ExerciseRecord,
+  type RecordLine,
 } from '@shared/schemas/aar'
 import { RATING_LABELS } from '@shared/schemas/evaluation'
 
@@ -36,6 +37,15 @@ function surveyLine(record: ExerciseRecord, ref: EvidenceRef): EvidenceLine | un
         ? q.choices.map((c) => `${c.text}: ${c.count}`).join(', ')
         : `${q.n} answers`
   return { ref, kind: 'Survey question', meta: `${survey.title} · ${detail}`, text: q.text }
+}
+
+function lineOf(
+  list: RecordLine[] | undefined,
+  ref: EvidenceRef,
+  kind: string,
+): EvidenceLine | undefined {
+  const item = list?.find((x) => x.ref === ref)
+  return item && { ref, kind, meta: item.meta ?? '', text: item.text }
 }
 
 /** One ref → one readable line; undefined when the record no longer holds it. */
@@ -106,6 +116,12 @@ export function resolveEvidence(
         }
       )
     }
+    case 'trk':
+      return lineOf(record.tracker, ref, 'Tracker')
+    case 'clk':
+      return lineOf(record.clocks, ref, 'Regulatory clock')
+    case 'tr':
+      return lineOf(record.transcripts, ref, 'Hot wash recording')
     case 'survey':
       return surveyLine(record, ref)
     default:

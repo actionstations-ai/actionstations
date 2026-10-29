@@ -263,8 +263,7 @@ Observations and notes are exercise records about procedures; the UI never asks 
 
 ## Follow-ups
 
-- MSEL grid: a read-only "Criteria" column toggle (task ids per row) and the inject editor's criteria line under the expected action. The grid's column set is fixed and keyboard-navigated; adding a column is its own change.
-- One blank EEG copy per evaluator seat once seats exist (#416).
+- Done in #498: the MSEL grid's read-only "Criteria" column toggle (task ids per row, skipped by the arrow keys) and the criteria line under the expected action; the export option `evaluatorCopies` prints one blank EEG packet per evaluator seat (Evaluator 1, 2, …) in the PDF and DOCX.
 - Example projects: run the `eeg` stage with `scripts/make-example.mjs` and package the guides.
 
 ## Open questions

@@ -14,6 +14,7 @@ import { useTrackedJob } from '../../state/use-jobs'
 import { isConflict } from '../../editors/docs/conflict'
 import { useLatest } from '../../editors/docs/use-latest'
 import { projectKey } from '../../state/project'
+import { TranscriptCloudWarning } from './TranscriptCloudWarning'
 
 type Run =
   | { phase: 'idle' }
@@ -181,6 +182,7 @@ export function DraftAarButton(props: DraftAarProps) {
               onChange={(e) => setInstructions(e.target.value)}
             />
           </div>
+          <TranscriptCloudWarning projectPath={projectPath} scenarioId={scenarioId} />
           <SessionPicker sessions={list} value={chosen} onChange={setSessionId} />
         </div>
       </Dialog>

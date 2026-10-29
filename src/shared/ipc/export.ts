@@ -68,6 +68,8 @@ export const ExportOptions = z.object({
   largePrint: z.boolean().optional(),
   /** Export translations nobody has reviewed; every page is stamped (spec 0435 FR-11). */
   allowUnreviewed: z.boolean().optional(),
+  /** EEG packet: one blank copy per evaluator seat, each labelled "Evaluator N" (#421). */
+  evaluatorCopies: z.number().int().min(1).max(20).optional(),
   /** Also write the handbook and controller materials in Spanish, to facilitator/es/. */
   controllerLanguages: z.array(z.literal('es')).max(1).optional(),
 })

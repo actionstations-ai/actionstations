@@ -231,6 +231,28 @@ test.describe('evaluator observations over the harness', () => {
     await page.getByRole('button', { name: /Feed/ }).first().click()
     await expect(page.getByText('Please watch for T-05 at the next inject.')).toBeVisible()
 
+    // A general observation can be corrected after saving: same observation, next revision.
+    await page.getByRole('button', { name: /More/ }).click()
+    await page.getByRole('button', { name: /Evaluate/ }).click()
+    await page.getByRole('button', { name: /Add an observation not tied to a task/ }).click()
+    await page
+      .getByLabel('Observation', { exact: true })
+      .fill('Shift change hand-off was verbal only')
+    await page.getByRole('button', { name: 'Save observation' }).click()
+    await expect.poll(() => controller.observations.size).toBe(5)
+    await page.getByRole('button', { name: /^Edit the observation from/ }).click()
+    await page
+      .getByLabel('Observation', { exact: true })
+      .fill('Shift change hand-off was verbal only, nothing written down')
+    await page.getByRole('button', { name: 'Save observation' }).click()
+    await expect(
+      page.getByText('Shift change hand-off was verbal only, nothing written down'),
+    ).toBeVisible()
+    await expect
+      .poll(() => [...controller.observations.values()].find((o) => o.kind === 'note')?.revision)
+      .toBe(2)
+    expect(controller.observations.size).toBe(5)
+
     // A second evaluator on a 320 px phone: no horizontal scroll, and the form passes axe.
     const phone = await open(
       browser,

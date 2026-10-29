@@ -25,6 +25,7 @@ import {
   type ControlCard,
 } from './operations'
 import { SaveBanner, SaveStatus } from './SaveBanner'
+import { useCriteria } from './criteria-model'
 import { useGridState, useRowWarnings, useSnap, type GridState } from './use-grid-state'
 import { useMselEditor, type MselEditorApi } from './use-msel-editor'
 import { useRowOps } from './use-row-ops'
@@ -61,6 +62,7 @@ function EditorTop(props: {
   scenario: Scenario
   applyInsert: (ins: Inserted | null) => void
   snap: [number, (step: number) => void]
+  criteria: { show: boolean; toggle: () => void }
 }) {
   const { editor, grid, dialogs, scenario, applyInsert } = props
   const { state } = editor
@@ -94,6 +96,8 @@ function EditorTop(props: {
         onUndo={editor.undo}
         onRedo={editor.redo}
         onHistory={() => dialogs.setHistoryOpen(true)}
+        showCriteria={props.criteria.show}
+        onToggleCriteria={props.criteria.toggle}
       />
       <SaveStatus status={state.status} />
     </div>
@@ -166,6 +170,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     togglePhaseSelect: sel.togglePhase,
     openSources: (key) => setSourcesRow(draft.rows.find((r) => r.key === key)?.row.id ?? null),
   })
+  const criteria = useCriteria(projectPath, scenario.id)
   const ctx: GridContextValue = {
     actions: ops.actions,
     active: grid.active,
@@ -180,6 +185,8 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     branchMarks: branchView.marks,
     offPath: branchView.off,
     regional,
+    criteria: criteria.byRow,
+    showCriteria: criteria.show,
   }
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)
@@ -188,7 +195,21 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
   useRowJump(jump, jumpTo)
   const sources = { grounding, row: sourcesRow, open: setSourcesRow }
   const path = { filter: pathFilter, set: setPathFilter }
-  return { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources, path }
+  return {
+    editor,
+    draft,
+    lint,
+    sel,
+    grid,
+    dialogs,
+    ops,
+    ctx,
+    snap,
+    jumpTo,
+    sources,
+    path,
+    criteria,
+  }
 }
 
 export function MselEditor(props: { projectPath: string; scenario: Scenario; jump?: RowJump }) {
@@ -207,6 +228,7 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         scenario={scenario}
         applyInsert={ops.applyInsert}
         snap={snap}
+        criteria={m.criteria}
       />
       <LintBar warnings={lint.data} checking={lint.isFetching} onJump={jumpTo} />
       <BranchesPanel

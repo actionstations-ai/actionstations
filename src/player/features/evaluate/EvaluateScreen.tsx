@@ -80,6 +80,7 @@ function Form({
   const released = useReleased(session)
   const [filter, setFilter] = useState<TaskFilter>('mine')
   const [limit, setLimit] = useState(false)
+  const [editing, setEditing] = useState<string>()
 
   const roleName = (id: string) => info?.seats.find((s) => s.id === id)?.name ?? id
   const tasks = useMemo(() => assignment?.tasks ?? [], [assignment])
@@ -218,14 +219,40 @@ function Form({
                 {EVAL.generalHeading}
               </h2>
               <ul>
-                {generals.map((o) => (
-                  <li key={o.observationId}>
-                    <span className="mono">{o.exerciseTime}</span> {o.notes}
-                    {o.capability ? (
-                      <span className="muted"> · {groupName(o.capability)}</span>
-                    ) : null}
-                  </li>
-                ))}
+                {generals.map((o) =>
+                  editing === o.observationId && !ended ? (
+                    <li key={o.observationId}>
+                      <GeneralObservation
+                        initial={o}
+                        capabilities={capabilities}
+                        rowIds={[...new Set(released.map((r) => r.rowId))]}
+                        exerciseNow={() => session.exerciseTimeNow()}
+                        onSave={save}
+                        onClose={() => setEditing(undefined)}
+                      />
+                    </li>
+                  ) : (
+                    <li key={o.observationId}>
+                      <span className="mono">{o.exerciseTime}</span> {o.notes}
+                      {o.capability ? (
+                        <span className="muted"> · {groupName(o.capability)}</span>
+                      ) : null}
+                      {!ended ? (
+                        <>
+                          {' '}
+                          <button
+                            type="button"
+                            className="btn btn--quiet"
+                            aria-label={EVAL.editGeneralFor(o.exerciseTime)}
+                            onClick={() => setEditing(o.observationId)}
+                          >
+                            Edit
+                          </button>
+                        </>
+                      ) : null}
+                    </li>
+                  ),
+                )}
               </ul>
             </section>
           ) : null}

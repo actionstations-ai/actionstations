@@ -12,6 +12,7 @@ import type { SurveySummary } from '@shared/schemas/survey'
 import { readEvaluation } from '../evaluation/store'
 import { readFacilitatorState } from '../facilitator/state'
 import { getScenario } from '../scenario/store'
+import { readDerived, type DerivedParts } from './sources/derived'
 import { evaluationPart } from './sources/evaluation'
 import { facilitatorPart, hasFacilitatorEvidence } from './sources/facilitator'
 import { livePart, readLiveLog, type LiveLogResult } from './sources/live-log'
@@ -21,6 +22,7 @@ export interface RecordParts {
   facilitator?: FacilitatorState
   evaluation?: EvaluationRecord
   live?: LiveLogResult
+  derived?: DerivedParts
   surveys?: SurveySummary[]
   warnings?: string[]
 }
@@ -95,6 +97,9 @@ export function assembleRecord(scenario: Scenario, parts: RecordParts): Exercise
       evaluation: observations.some((o) => o.source !== 'live'),
       live: !!parts.live,
       surveys: surveys.length > 0,
+      tracker: !!parts.derived?.tracker.length,
+      clocks: !!parts.derived?.clocks.length,
+      transcripts: !!parts.derived?.transcripts.length,
     },
     ...(parts.live ? { liveSessionId: parts.live.sessionId } : {}),
     delivered: mergeDelivered(scenario, fac?.delivered ?? [], live?.delivered ?? []),
@@ -106,6 +111,9 @@ export function assembleRecord(scenario: Scenario, parts: RecordParts): Exercise
     messages: live?.messages ?? [],
     messageCounts: live?.messageCounts ?? [],
     surveys,
+    ...(parts.derived?.tracker.length ? { tracker: parts.derived.tracker } : {}),
+    ...(parts.derived?.clocks.length ? { clocks: parts.derived.clocks } : {}),
+    ...(parts.derived?.transcripts.length ? { transcripts: parts.derived.transcripts } : {}),
     warnings,
   })
 }
@@ -130,8 +138,9 @@ export async function buildExerciseRecord(
       return [] as SurveySummary[]
     }),
   ])
+  const derived = await readDerived(root, scenario, facilitator, warnings)
   return {
     scenario,
-    record: assembleRecord(scenario, { facilitator, evaluation, live, surveys, warnings }),
+    record: assembleRecord(scenario, { facilitator, evaluation, live, derived, surveys, warnings }),
   }
 }
