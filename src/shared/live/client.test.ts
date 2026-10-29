@@ -41,6 +41,7 @@ interface Device {
 }
 
 async function startRoom(kind: ConnectionKind = 'lan') {
+  const connectionKind = kind
   const ctl = await makeController(crypto)
   const server = new MemoryServer({
     sessionId: ctl.sessionId,
@@ -56,6 +57,7 @@ async function startRoom(kind: ConnectionKind = 'lan') {
     crypto,
     controllerPub: ctl.controllerPub,
     signer: ctl.signing.privateKey,
+    kind,
   })
   const inbox: Opened[] = []
   controller.onAny((m) => inbox.push(m))
@@ -98,6 +100,7 @@ async function startRoom(kind: ConnectionKind = 'lan') {
       crypto,
       controllerPub: invite.controllerPub,
       ecdh,
+      kind: connectionKind,
     })
     client.setDestinations(roles)
     const device: Device = {
@@ -770,3 +773,135 @@ describe('client identity', () => {
 
 /** Keeps the Controller type referenced for the helpers above. */
 export type _RoomController = Controller
+
+/** A client over a hand-driven transport: the test plays the server. */
+function handDriven() {
+  const frames: string[] = []
+  let deliver: (f: string) => void = () => {}
+  const transport: Transport = {
+    send: (f) => frames.push(f),
+    close: () => {},
+    onFrame: (cb) => ((deliver = cb), () => {}),
+    onClose: () => () => {},
+  }
+  return { frames, transport, deliver: (f: string) => deliver(f) }
+}
+
+function helloFrom(
+  sessionId: string,
+  to: string,
+  kind: ConnectionKind,
+  caps = LIMITS[kind],
+): string {
+  const hello: Envelope = {
+    v: PROTOCOL_VERSION,
+    session: sessionId,
+    seq: 0,
+    from: 'server',
+    to: `client:${to}`,
+    type: 'relay.hello',
+    ts: 1,
+    payload: { index: 0, yourLastSeq: 0, server: { kind, version: 'x', protocol: [1] }, caps },
+  }
+  return JSON.stringify(hello)
+}
+
+describe('hardening from the #449 re-review (#452)', () => {
+  it('a server claiming to be a LAN server cannot raise the caps of a client that chose the relay', async () => {
+    const ctl = await makeController(crypto)
+    const { transport, deliver } = handDriven()
+    const client = new LiveClient({
+      transport,
+      keys: ctl.keys,
+      clientId: IDS.controller,
+      role: 'controller',
+      crypto,
+      controllerPub: ctl.controllerPub,
+      signer: ctl.signing.privateKey,
+      kind: 'relay',
+    })
+    deliver(helloFrom(ctl.sessionId, IDS.controller, 'lan'))
+    await settle()
+    expect(client.limits).toEqual(LIMITS.relay)
+    // A client built with explicit limits (the app's LAN controller) is capped by those.
+    const { transport: t2, deliver: d2 } = handDriven()
+    const lan = new LiveClient({
+      transport: t2,
+      keys: ctl.keys,
+      clientId: IDS.controller,
+      role: 'controller',
+      crypto,
+      controllerPub: ctl.controllerPub,
+      signer: ctl.signing.privateKey,
+      limits: LIMITS.lan,
+    })
+    d2(helloFrom(ctl.sessionId, IDS.controller, 'self-hosted', LIMITS['self-hosted']))
+    await settle()
+    expect(lan.limits.blobBytes).toBe(LIMITS['self-hosted'].blobBytes) // under the LAN ceiling
+    expect(lan.limits.playerBlobBytes).toBe(LIMITS.lan.playerBlobBytes) // over it: clamped
+    d2(helloFrom(ctl.sessionId, IDS.controller, 'lan', { ...LIMITS.lan, envelopeBytes: 2 ** 30 }))
+    await settle()
+    expect(lan.limits.envelopeBytes).toBe(LIMITS.lan.envelopeBytes)
+    expect(clampLimits({ ...LIMITS.lan, clients: 9 }, LIMITS.relay).clients).toBe(9)
+  })
+
+  it('the held-back buffer is released at its frame cap when a server never finishes the catch-up', async () => {
+    const ctl = await makeController(crypto)
+    const { transport, deliver } = handDriven()
+    const client = new LiveClient({
+      transport,
+      keys: ctl.keys,
+      clientId: IDS.controller,
+      role: 'controller',
+      crypto,
+      controllerPub: ctl.controllerPub,
+      signer: ctl.signing.privateKey,
+      kind: 'lan',
+      heldBack: { maxFrames: 5, timeoutMs: 60_000 },
+    })
+    deliver(helloFrom(ctl.sessionId, IDS.controller, 'lan'))
+    await settle()
+    client.requestCatchup(0)
+    // Live frames from a peer (not server frames) arrive; the catch-up never says done.
+    for (let i = 0; i < 4; i++) deliver(`{"bogus":${i}}`)
+    await settle()
+    expect(client.drops.PARSE).toBe(0) // still held
+    deliver('{"bogus":4}')
+    await settle()
+    expect(client.drops.PARSE).toBe(5) // released and applied (and dropped as garbage)
+    deliver('{"bogus":5}')
+    await settle()
+    expect(client.drops.PARSE).toBe(6) // no longer holding
+    client.close()
+  })
+
+  it('the held-back buffer is released at its byte cap and after the timeout', async () => {
+    const ctl = await makeController(crypto)
+    const { transport, deliver } = handDriven()
+    const client = new LiveClient({
+      transport,
+      keys: ctl.keys,
+      clientId: IDS.controller,
+      role: 'controller',
+      crypto,
+      controllerPub: ctl.controllerPub,
+      signer: ctl.signing.privateKey,
+      kind: 'lan',
+      heldBack: { maxFrames: 1000, maxBytes: 100, timeoutMs: 30 },
+    })
+    deliver(helloFrom(ctl.sessionId, IDS.controller, 'lan'))
+    await settle()
+    client.requestCatchup(0)
+    deliver(`{"pad":"${'x'.repeat(120)}"}`)
+    await settle()
+    expect(client.drops.PARSE).toBe(1) // over 100 bytes: released at once
+    client.requestCatchup(0)
+    deliver('{"bogus":1}')
+    await settle()
+    expect(client.drops.PARSE).toBe(1) // held
+    await new Promise((r) => setTimeout(r, 60))
+    expect(client.drops.PARSE).toBe(2) // the timeout released it
+    expect(client.state).toBe('joined')
+    client.close()
+  })
+})

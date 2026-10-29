@@ -193,15 +193,21 @@ export function sealPlain<T extends PlaintextType>(
   return { ...header, payload: parsed.data as Record<string, unknown> }
 }
 
-/** Per-message key for a frame sealed to the controller: ECDH with the key from the invite. */
+/**
+ * Per-message key for a frame sealed to the controller: ECDH with the key from the invite, then
+ * HKDF with that epoch's players key as the salt. The salt binds the frame to the session's key
+ * material, so holding the controller's public key alone (a leaked link's visible part, a captured
+ * page) is not enough to seal a frame the controller accepts (#452).
+ */
 async function controllerKey(
   crypto: CryptoProvider,
   keys: SessionKeys,
   ephemeralPriv: PrivateKey,
   peerPub: Uint8Array,
+  playersEnc: Uint8Array,
 ): Promise<Uint8Array> {
   const shared = await crypto.ecdhDerive(ephemeralPriv, peerPub)
-  return crypto.hkdf(shared, HKDF_INFO.toController(keys.sessionId), 32)
+  return crypto.hkdf(shared, HKDF_INFO.toController(keys.sessionId), 32, playersEnc)
 }
 
 async function sealingMaterial(
@@ -214,8 +220,17 @@ async function sealingMaterial(
   if (!keys.controllerEcdhPub) {
     throw new SealError('NO_CONTROLLER_KEY', 'No controller key to seal to (invite incomplete)')
   }
+  const players = keys.epoch(epoch ?? keys.currentEpoch)
+  if (!players)
+    throw new SealError('NO_CONTROLLER_KEY', `Unknown epoch ${epoch ?? keys.currentEpoch}`)
   const ephemeral = await crypto.ecdhGenerate()
-  const key = await controllerKey(crypto, keys, ephemeral.privateKey, keys.controllerEcdhPub)
+  const key = await controllerKey(
+    crypto,
+    keys,
+    ephemeral.privateKey,
+    keys.controllerEcdhPub,
+    players.playersEnc,
+  )
   return { name: CONTROLLER_KEY_NAME, key, e: toBase64Url(ephemeral.publicKey) }
 }
 
@@ -317,20 +332,35 @@ function openPlain(e: Envelope, base: Base, drop: Drop): OpenResult {
 }
 
 type KeyLookup =
-  | { ok: true; key: Uint8Array; kind: SealKind }
+  | { ok: true; keys: Uint8Array[]; kind: SealKind }
   | { ok: false; reason: 'UNKNOWN_EPOCH' | 'STAFF_ONLY' | 'CONTROLLER_ONLY' }
 
-/** The AES key that opens `c`: a session key by epoch, or the controller's ECDH-derived key. */
+/**
+ * The AES key(s) that may open `c`: a session key by epoch, or, for the controller, one
+ * ECDH-derived key per epoch it knows (newest first), since `k: "c"` names no epoch and a sender
+ * may still be on the previous players key for a moment after a rotation.
+ */
 async function lookupKey(ctx: OpenContext, c: Ciphertext): Promise<KeyLookup> {
-  if (c.k !== CONTROLLER_KEY_NAME) return ctx.keys.lookup(c.k)
+  if (c.k !== CONTROLLER_KEY_NAME) {
+    const found = ctx.keys.lookup(c.k)
+    return found.ok ? { ok: true, keys: [found.key], kind: found.kind } : found
+  }
   if (!ctx.keys.controllerEcdh) return { ok: false, reason: 'CONTROLLER_ONLY' }
-  const key = await controllerKey(
-    ctx.crypto,
-    ctx.keys,
-    ctx.keys.controllerEcdh.privateKey,
-    fromBase64Url(c.e!),
-  )
-  return { ok: true, key, kind: 'controller' }
+  const keys: Uint8Array[] = []
+  for (const epoch of ctx.keys.knownEpochs.reverse()) {
+    const e = ctx.keys.epoch(epoch)
+    if (!e) continue
+    keys.push(
+      await controllerKey(
+        ctx.crypto,
+        ctx.keys,
+        ctx.keys.controllerEcdh.privateKey,
+        fromBase64Url(c.e!),
+        e.playersEnc,
+      ),
+    )
+  }
+  return { ok: true, keys, kind: 'controller' }
 }
 
 async function openSealed(
@@ -360,7 +390,7 @@ async function openSealed(
     return drop('WRONG_KEY', `${type} to ${e.to} under the ${lookup.kind} key`)
   }
 
-  const opened = await decryptPayload(ctx, lookup.key, c, aad, type)
+  const opened = await decryptWithAny(ctx, lookup.keys, c, aad, type)
   if (!opened.ok) return drop(opened.reason, opened.detail)
   const payload = opened.payload
   if (!allowedKeys(type, payload, e.to).has(lookup.kind)) {
@@ -397,6 +427,22 @@ function checkScope(
 
 type Decrypted =
   { ok: true; payload: unknown } | { ok: false; reason: 'BAD_TAG' | 'PARSE'; detail?: string }
+
+/** Try each candidate key; only a tag failure moves on to the next one. */
+async function decryptWithAny(
+  ctx: OpenContext,
+  keys: Uint8Array[],
+  c: Ciphertext,
+  aad: string,
+  type: SealedType,
+): Promise<Decrypted> {
+  let last: Decrypted = { ok: false, reason: 'BAD_TAG' }
+  for (const key of keys) {
+    last = await decryptPayload(ctx, key, c, aad, type)
+    if (last.ok || last.reason !== 'BAD_TAG') return last
+  }
+  return last
+}
 
 async function decryptPayload(
   ctx: OpenContext,
