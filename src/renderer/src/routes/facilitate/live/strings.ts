@@ -16,10 +16,18 @@ export const LIVE = {
   securityLegend: 'Connection security',
   https: 'HTTPS with a certificate made for this session (recommended)',
   httpsHelp:
-    'Each device shows one certificate warning the first time; the fingerprint below lets players check it. Messages are end-to-end encrypted either way.',
-  http: 'Plain HTTP',
+    'Each device shows one certificate warning the first time; the fingerprint below lets players check it.',
+  http: 'Plain HTTP (not recommended)',
   httpWarning:
-    'No warning on the phones, but anyone on the same Wi-Fi could change the page players load. Use only on a network you trust. Session content stays encrypted end to end.',
+    'No warning on the phones, but anyone on the same network can change the page players load and, through it, read and impersonate everything in the session. Use only on a network where you trust every device.',
+  confirmHttp:
+    'Start on plain HTTP? Anyone on this network can read and impersonate session content. Choose HTTPS unless you trust every device on the network.',
+  httpBadge:
+    'Plain HTTP: anyone on this network can read and impersonate session content. Stop and restart with HTTPS if you are not sure.',
+  publicAddress:
+    'This is a public address: devices beyond the local network may reach the session.',
+  confirmPublic:
+    'The chosen address is public, not a local network address. Devices beyond the room may reach this session. Start anyway?',
   attributionLegend: 'Attribution',
   attributionRole: 'By role (HSEEP non-attribution): the record keeps roles, never names',
   attributionNamed: 'Named: the record also keeps the display name each player typed',

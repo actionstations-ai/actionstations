@@ -14,6 +14,7 @@ import {
   KEY_BY_TYPE,
   NONCE_BYTES,
   PLAINTEXT_TYPES,
+  REKEY_GRACE_MS,
   SIGNED_TYPES,
   type DropReason,
   type Limits,
@@ -110,6 +111,8 @@ export interface OpenContext {
   limits?: Limits
   /** Server arrival index to attach (catch-up). */
   index?: number
+  /** Wall clock for the rekey grace period; tests inject it. */
+  now?: () => number
 }
 
 export class SealError extends Error {
@@ -336,9 +339,21 @@ type KeyLookup =
   | { ok: false; reason: 'UNKNOWN_EPOCH' | 'STAFF_ONLY' | 'CONTROLLER_ONLY' }
 
 /**
+ * Epochs whose players key may salt a frame to the controller: the current one, plus the one
+ * before it for `REKEY_GRACE_MS` after the rotation so a device mid-reconnect is not cut off.
+ * Older epochs never: a kicked device holds them and must not keep speaking to the controller.
+ */
+export function controllerEpochs(keys: SessionKeys, now: number): number[] {
+  const current = keys.currentEpoch
+  const since = keys.epochAddedAt(current)
+  const previous = keys.knownEpochs.filter((e) => e < current).at(-1)
+  const inGrace = since !== undefined && now - since < REKEY_GRACE_MS
+  return previous !== undefined && inGrace ? [current, previous] : [current]
+}
+
+/**
  * The AES key(s) that may open `c`: a session key by epoch, or, for the controller, one
- * ECDH-derived key per epoch it knows (newest first), since `k: "c"` names no epoch and a sender
- * may still be on the previous players key for a moment after a rotation.
+ * ECDH-derived key per admissible epoch (`controllerEpochs`), since `k: "c"` names no epoch.
  */
 async function lookupKey(ctx: OpenContext, c: Ciphertext): Promise<KeyLookup> {
   if (c.k !== CONTROLLER_KEY_NAME) {
@@ -347,7 +362,7 @@ async function lookupKey(ctx: OpenContext, c: Ciphertext): Promise<KeyLookup> {
   }
   if (!ctx.keys.controllerEcdh) return { ok: false, reason: 'CONTROLLER_ONLY' }
   const keys: Uint8Array[] = []
-  for (const epoch of ctx.keys.knownEpochs.reverse()) {
+  for (const epoch of controllerEpochs(ctx.keys, (ctx.now ?? Date.now)())) {
     const e = ctx.keys.epoch(epoch)
     if (!e) continue
     keys.push(

@@ -51,7 +51,8 @@ export function resourcesDir(): string {
  * the current build; a missing folder serves a placeholder page.
  */
 export function playerBundleDir(): string {
-  if (process.env.TTX_PLAYER_BUNDLE) return resolve(process.env.TTX_PLAYER_BUNDLE)
+  if (!app.isPackaged && process.env.TTX_PLAYER_BUNDLE)
+    return resolve(process.env.TTX_PLAYER_BUNDLE)
   return app.isPackaged
     ? join(process.resourcesPath, 'app-resources', 'player')
     : join(unpackagedRoot(), 'out', 'player')

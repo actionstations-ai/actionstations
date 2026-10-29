@@ -1,10 +1,13 @@
 /**
- * The query string a device presents on `/ws`, `/events`, `/send` and `/blobs` (spec 0406
- * lifecycle): `j` the join token, `c` the client id, `r` the resume token, all base64url.
- * Validated with the protocol's own shapes before anything reaches the hub.
+ * How a device presents itself on `/ws`, `/events`, `/send` and `/blobs` (spec 0406 lifecycle,
+ * `src/shared/live/connect-url.ts`): the client id in the query, the join and resume tokens in
+ * the WebSocket subprotocol list or in the `X-AS-Join` / `X-AS-Resume` headers, never in the
+ * URL (a query string lands in logs and proxies; a request that carries one is refused).
+ * Everything is validated with the protocol's own shapes before the hub sees it.
  */
-import { z } from 'zod'
+import type { IncomingHttpHeaders } from 'node:http'
 import { fromBase64Url } from '@shared/live/bytes'
+import { JOIN_HEADER, parseConnectRequest } from '@shared/live/connect-url'
 import { JOIN_TOKEN_BYTES, RESUME_TOKEN_BYTES } from '@shared/live/protocol'
 import { Base64Url22 } from '@shared/live/schemas/envelope'
 
@@ -14,15 +17,12 @@ export interface ConnectParams {
   resumeToken: Uint8Array
 }
 
-const Token = z.string().regex(/^[A-Za-z0-9_-]{16,64}$/)
+export type ConnectRefusal = 'TOKEN_IN_QUERY' | 'MALFORMED' | 'BAD_PROTOCOL'
+export type ConnectParse =
+  { ok: true; params: ConnectParams } | { ok: false; reason: ConnectRefusal }
 
-const Query = z.object({
-  j: Token,
-  c: Base64Url22,
-  r: Token,
-})
-
-function bytesOf(text: string, length: number): Uint8Array | undefined {
+function bytesOf(text: string | undefined, length: number): Uint8Array | undefined {
+  if (!text) return undefined
   try {
     const bytes = fromBase64Url(text)
     return bytes.length === length ? bytes : undefined
@@ -31,23 +31,37 @@ function bytesOf(text: string, length: number): Uint8Array | undefined {
   }
 }
 
-/** The connect parameters, or undefined when anything is missing or malformed. */
-export function parseConnectParams(search: URLSearchParams): ConnectParams | undefined {
-  const parsed = Query.safeParse({
-    j: search.get('j') ?? undefined,
-    c: search.get('c') ?? search.get('client') ?? undefined,
-    r: search.get('r') ?? undefined,
+/**
+ * The connect parameters of an upgrade (`protocols` = `Sec-WebSocket-Protocol`) or of a
+ * fallback request (`headers`). Both tokens are required: a device always has a resume token.
+ */
+export function parseConnectParams(input: {
+  search: URLSearchParams
+  protocols?: string | string[] | undefined
+  headers?: IncomingHttpHeaders
+}): ConnectParse {
+  const parsed = parseConnectRequest({
+    search: input.search,
+    ...(input.protocols !== undefined ? { protocols: input.protocols } : {}),
+    ...(input.headers ? { headers: input.headers } : {}),
   })
-  if (!parsed.success) return undefined
-  const joinToken = bytesOf(parsed.data.j, JOIN_TOKEN_BYTES)
-  const resumeToken = bytesOf(parsed.data.r, RESUME_TOKEN_BYTES)
-  if (!joinToken || !resumeToken) return undefined
-  return { clientId: parsed.data.c, joinToken, resumeToken }
+  if (!parsed.ok) {
+    if (parsed.reason === 'TOKEN_IN_QUERY') return { ok: false, reason: 'TOKEN_IN_QUERY' }
+    if (parsed.reason === 'BAD_PROTOCOL') return { ok: false, reason: 'BAD_PROTOCOL' }
+    return { ok: false, reason: 'MALFORMED' }
+  }
+  const { clientId, joinToken, resumeToken } = parsed.request
+  if (!Base64Url22.safeParse(clientId).success) return { ok: false, reason: 'MALFORMED' }
+  const join = bytesOf(joinToken, JOIN_TOKEN_BYTES)
+  const resume = bytesOf(resumeToken, RESUME_TOKEN_BYTES)
+  if (!join || !resume) return { ok: false, reason: 'MALFORMED' }
+  return { ok: true, params: { clientId, joinToken: join, resumeToken: resume } }
 }
 
-/** Only the join token (the blob route): 16 bytes, base64url. */
-export function parseJoinToken(search: URLSearchParams): Uint8Array | undefined {
-  const j = search.get('j')
-  if (!j || !Token.safeParse(j).success) return undefined
-  return bytesOf(j, JOIN_TOKEN_BYTES)
+/** Only the join token (the blob route), from the `X-AS-Join` header: 16 bytes, base64url. */
+export function parseJoinToken(headers: IncomingHttpHeaders): Uint8Array | undefined {
+  const raw = headers[JOIN_HEADER]
+  const text = Array.isArray(raw) ? raw[0] : raw
+  if (!text || !/^[A-Za-z0-9_-]{16,64}$/.test(text)) return undefined
+  return bytesOf(text, JOIN_TOKEN_BYTES)
 }

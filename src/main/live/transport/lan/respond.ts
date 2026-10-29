@@ -62,6 +62,8 @@ export type HttpErrorCode =
   | 'TOO_LARGE'
   | 'RATE_LIMITED'
   | 'SESSION_ENDED'
+  | 'MISDIRECTED'
+  | 'FORBIDDEN'
 
 const STATUS: Record<HttpErrorCode, number> = {
   NOT_FOUND: 404,
@@ -72,6 +74,8 @@ const STATUS: Record<HttpErrorCode, number> = {
   TOO_LARGE: 413,
   RATE_LIMITED: 429,
   SESSION_ENDED: 410,
+  MISDIRECTED: 421,
+  FORBIDDEN: 403,
 }
 
 export function sendError(res: ServerResponse, code: HttpErrorCode, message: string): void {

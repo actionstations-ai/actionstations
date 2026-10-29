@@ -26,6 +26,8 @@ export const liveChannels = {
       connection: LiveConnection,
       attribution: Attribution.default('role'),
       name: z.string().max(120).optional(),
+      /** Confirmed in the UI: bind to a public (non-private) address. */
+      allowPublicAddress: z.boolean().default(false),
     }),
     LiveSessionStatus,
   ),

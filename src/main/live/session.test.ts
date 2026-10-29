@@ -11,6 +11,7 @@ import { SessionKeys } from '@shared/live/crypto/keys'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { createIdentity } from '@shared/live/identity'
 import { parseInvite } from '@shared/live/invite'
+import type { WelcomePayload } from '@shared/live/schemas'
 import type { SessionLogEntry } from '@shared/schemas/live'
 import { httpGet, wsTransport } from './transport/lan/test-clients'
 
@@ -83,7 +84,7 @@ function readLog(projectPath: string, scenarioId: string, sessionId: string): Se
 }
 
 /** A phone: keys from the players link, its own identity, a WebSocket to the LAN server. */
-async function joinAsPlayer(inviteUrl: string, name: string, requestedRole: string) {
+async function joinAsPlayer(inviteUrl: string, name: string, requestedRole?: string) {
   const crypto = createWebCryptoProvider()
   const invite = parseInvite(inviteUrl)
   const keys = new SessionKeys(invite.sessionId, crypto, {
@@ -106,17 +107,19 @@ async function joinAsPlayer(inviteUrl: string, name: string, requestedRole: stri
     controllerPub: invite.controllerPub,
     ecdh,
   })
-  const welcomed = new Promise<void>((resolve) => client.on('welcome', () => resolve()))
+  const welcomed = new Promise<WelcomePayload>((resolve) =>
+    client.on('welcome', (m) => resolve(m.payload)),
+  )
   const ended = new Promise<void>((resolve) => client.on('session.end', () => resolve()))
   await new Promise<void>((resolve) => client.onState((s) => s === 'hello' && resolve()))
   await client.send('join', 'controller', {
     name,
     kind: 'player',
-    requestedRole,
+    ...(requestedRole ? { requestedRole } : {}),
     ecdhPub: Buffer.from(ecdh.publicKey).toString('base64url'),
   })
-  await welcomed
-  return { client, identity, ended }
+  const welcome = await welcomed
+  return { client, identity, ended, welcome, keys, ecdh, crypto }
 }
 
 describe('live session host (#407)', () => {
@@ -231,5 +234,81 @@ describe('live session host (#407)', () => {
     expect(status(projectPath, scenarioId)).toEqual({ connected: 0 })
     await expect(endSession(projectPath, scenarioId)).rejects.toThrow(/No live session/)
     expect(newId(createWebCryptoProvider())).toHaveLength(22)
+  })
+})
+
+describe('join handshake and roster privacy (#411 contract, #457 review L4 and H1)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  it('a first join without a seat gets the lobby (seats, no role); naming a seat gets it; others appear under pseudonyms', async () => {
+    const { projectPath, scenarioId } = await setup()
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const url = started.invites!.players.url
+    const lobby = await joinAsPlayer(url, 'Dana')
+    expect(lobby.welcome.role).toBeUndefined()
+    expect(lobby.welcome.seats?.map((s) => [s.id, s.kind, s.taken])).toEqual([
+      ['ops', 'player', 0],
+      ['pio', 'player', 0],
+      ['evaluators', 'evaluator', 0],
+      ['observers', 'observer', 0],
+    ])
+    // The second join names the seat.
+    const seated = new Promise<WelcomePayload>((resolve) =>
+      lobby.client.on('welcome', (m) => resolve(m.payload)),
+    )
+    await lobby.client.send('join', 'controller', {
+      name: 'Dana',
+      kind: 'player',
+      requestedRole: 'ops',
+      ecdhPub: Buffer.from(lobby.ecdh.publicKey).toString('base64url'),
+    })
+    const welcome = await seated
+    expect(welcome.role?.id).toBe('ops')
+    expect(welcome.seats?.find((s) => s.id === 'ops')?.taken).toBe(1)
+    expect(lobby.client.state).toBe('joined')
+    // A second device sees the first one's seat under a pseudonym, never its client id.
+    const second = await joinAsPlayer(url, 'Lee', 'pio')
+    const others = second.welcome.roster.filter((r) => r.roleId === 'ops')
+    expect(others).toHaveLength(1)
+    expect(others[0]!.client).toMatch(/^[A-Za-z0-9_-]{22}$/)
+    expect(others[0]!.client).not.toBe(lobby.identity.clientId)
+    expect(others[0]!.name).toBe('') // role attribution: no names
+    // A wrong kind for a seat and a staff seat from a players link are refused.
+    const evaluator = await joinAsPlayer(url, 'Eve', 'evaluators')
+    expect(evaluator.welcome.rejected?.reason).toBe('not_allowed')
+    await endSession(projectPath, scenarioId)
+  })
+
+  it('ignores a device that keeps re-joining after twenty joins and logs the flood once', async () => {
+    const { projectPath, scenarioId } = await setup()
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const player = await joinAsPlayer(started.invites!.players.url, 'Dana', 'ops')
+    let welcomes = 1
+    player.client.on('welcome', () => welcomes++)
+    for (let i = 0; i < 25; i++) {
+      await player.client.send('join', 'controller', {
+        name: 'Dana',
+        kind: 'player',
+        ecdhPub: Buffer.from(player.ecdh.publicKey).toString('base64url'),
+      })
+    }
+    await new Promise((r) => setTimeout(r, 300))
+    expect(welcomes).toBe(20)
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(log.filter((e) => e.kind === 'anomaly' && e.data.what === 'join flood')).toHaveLength(1)
+    await endSession(projectPath, scenarioId)
   })
 })

@@ -409,6 +409,37 @@ LiveSession`, `live:lan-addresses`, `live:lan-switch-address`, `live:firewall-gu
   multi-client coverage is the conformance suite over real WebSocket and SSE clients and
   `session.test.ts` with a real participant `LiveClient`.
 
+### After the security review of the pull request (#457)
+
+- **Connect contract (shared with #411, `src/shared/live/connect-url.ts`):** the client id is the only
+  connect parameter in a URL (`?client=`). The WebSocket carries the tokens in its subprotocol
+  list (`as-live.v1`, `j.<joinToken>`, `r.<resumeToken>`; the server echoes `as-live.v1`); the
+  stream, send and blob requests carry them in `X-AS-Join` / `X-AS-Resume`. A token in a query
+  string is refused (400) so it can never land in a log.
+- **Join handshake (#411):** a first `join` without `requestedRole` gets a lobby `welcome` (no
+  `role`, the `seats` with `taken` counts); a `join` naming a seat gets the seated welcome; a
+  device already seated gets its seat back. `welcome.roster` shows other devices under per-session
+  pseudonyms, never their client ids.
+- **Host and Origin:** every request must name the bound `address:port` in `Host` (421
+  otherwise); a WebSocket upgrade with an `Origin` other than the server's is refused (403).
+- **Quotas in the hub:** the frame rate limit is per identity (survives reconnects) and per
+  remote address (3×); an address may register at most 4 identities; participants may send 6
+  `catchup.request`s a minute; each participant identity has an upload budget of 4 × its blob
+  cap for the session, participants share a 64 MiB pool separate from the controller's quota, and
+  uploads not completed within 2 minutes are dropped. `LIMITS.lan` is now 128 MiB a blob and
+  512 MiB a session, since blobs live in the app's memory.
+- **Back-pressure:** an SSE stream whose reader stalls past 8 MiB is dropped; blob downloads
+  stream chunk by chunk with drain, at most two at once per address; `/send` and `/blobs` go
+  through the connection flood guard.
+- **Plain HTTP** is confirmed before start, named as letting anyone on the network read and
+  impersonate session content, and shown as a warning for the whole session. A public (non-RFC 1918) address is refused unless the facilitator confirms (`allowPublicAddress`).
+- A bind failure rejects `live:session-start` instead of crashing main; `TTX_LIVE_BIND` and
+  `TTX_PLAYER_BUNDLE` apply to unpackaged runs only; a device's `join` frames are ignored after
+  20 in a session (logged once).
+- **Rekey grace (`REKEY_GRACE_MS`, 60 s):** the controller opens frames sealed to it under the
+  previous epoch's players key only within the grace period after a rotation, so a kicked
+  device cannot keep speaking to the controller with an old key.
+
 ## Open questions
 
 1. **Default transport security on the LAN: HTTPS (self-signed) or plain HTTP?** Self-signed

@@ -42,6 +42,8 @@ import { startLanServer, type LanServer } from './transport/lan/server'
 
 /** Frames a participant may send per minute on the LAN (spec 0407 Security). */
 const LAN_FRAMES_PER_MINUTE = 60
+/** `join` frames one device may send in a session before the rest are ignored (#457 review H1). */
+const MAX_JOINS_PER_CLIENT = 20
 
 interface Active {
   session: LiveSession
@@ -55,6 +57,8 @@ interface Active {
   lanLog: LanLog
   log: LogWriter
   seats: Seats
+  /** `join` frames seen per client, for the join throttle. */
+  joins: Map<ClientId, number>
   /** Per-session salt for `clientRef`; memory only, so refs are unlinkable after the session. */
   salt: Uint8Array
   powerSave?: number
@@ -71,25 +75,37 @@ export interface StartSessionRequest {
   connection: LiveConnection
   attribution: Attribution
   name?: string
+  /** The facilitator confirmed binding to a public (non-private) address. */
+  allowPublicAddress?: boolean
 }
 
 const sessionDir = (root: string, scenarioId: string, sessionId: string): string =>
   safeJoin(scenarioLayout(root, scenarioId).dir, 'live', sessionId)
 
-/** The bind address: `TTX_LIVE_BIND` (tests), else the chosen or recommended LAN address. */
-function bindAddress(requested: string | undefined): string {
-  const override = process.env.TTX_LIVE_BIND
+/** The bind address: `TTX_LIVE_BIND` (unpackaged test runs only), else the chosen or recommended LAN address. */
+function bindAddress(requested: string | undefined, allowPublic = false): string {
+  const override = !app.isPackaged && process.env.TTX_LIVE_BIND
   if (override) return override
-  const chosen = chooseAddress(listLanAddresses(), requested)
-  if (!chosen) {
-    throw new AppError(
-      'VALIDATION',
-      requested
-        ? `${requested} is not one of this computer's addresses`
-        : 'This computer is not on a network',
-    )
-  }
-  return chosen.address
+  const choice = chooseAddress(listLanAddresses(), requested, allowPublic)
+  if (choice.ok) return choice.address.address
+  const message = {
+    unknown: `${requested} is not one of this computer's addresses`,
+    none: 'This computer is not on a network',
+    public: `${requested ?? 'The chosen address'} is a public address. Confirm that you want devices beyond the local network to reach this session.`,
+  }[choice.reason]
+  throw new AppError('VALIDATION', message, { reason: choice.reason })
+}
+
+/** A per-session pseudonym for a client id: SHA-256 with the session salt, 16 bytes, base64url. */
+async function pseudonym(
+  a: Pick<Active, 'crypto' | 'salt'>,
+  clientId: ClientId,
+): Promise<ClientId> {
+  const bytes = new TextEncoder().encode(`roster:${clientId}`)
+  const salted = new Uint8Array(a.salt.length + bytes.length)
+  salted.set(a.salt)
+  salted.set(bytes, a.salt.length)
+  return toBase64Url((await a.crypto.sha256(salted)).slice(0, 16))
 }
 
 async function clientRef(a: Active, clientId: ClientId): Promise<string> {
@@ -121,8 +137,22 @@ function emitChanged(reason: 'started' | 'stopped' | 'presence' | 'error', messa
 
 /** Log first, then answer (spec 0418: the log is the source of truth, state follows it). */
 async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
-  const seating = await a.seats.seat(msg)
+  const joins = (a.joins.get(msg.from) ?? 0) + 1
+  a.joins.set(msg.from, joins)
   const ref = await clientRef(a, msg.from)
+  if (joins > MAX_JOINS_PER_CLIENT) {
+    // Logged once, then ignored: a device cannot grow the log or the roster by re-joining.
+    if (joins === MAX_JOINS_PER_CLIENT + 1) {
+      await a.log.append({
+        kind: 'anomaly',
+        actor: { kind: 'client', clientRef: ref },
+        data: { what: 'join flood', ignoredAfter: MAX_JOINS_PER_CLIENT },
+        env: { from: ref, seq: msg.seq },
+      })
+    }
+    return
+  }
+  const seating = await a.seats.seat(msg)
   if (!seating.ok) {
     await a.log.append({
       kind: 'anomaly',
@@ -247,9 +277,10 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     signer: signing.privateKey,
     limits: LIMITS.lan,
   })
-  const address = bindAddress(req.connection.address)
+  const address = bindAddress(req.connection.address, req.allowPublicAddress)
   const dir = sessionDir(root, req.scenarioId, sessionId)
   const log = await LogWriter.open(join(dir, 'log.jsonl'), req.attribution)
+  const salt = crypto.random(16)
   const a: Active = {
     session: {
       id: sessionId,
@@ -277,8 +308,10 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
       sessionName: req.name?.trim() || scenario.title,
       scenarioTitle: scenario.title,
       clock: () => cachedClock,
+      pseudonym: (id) => pseudonym({ crypto, salt }, id),
     }),
-    salt: crypto.random(16),
+    joins: new Map(),
+    salt,
     unsubscribe: [],
     dir,
   }
@@ -292,6 +325,8 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     await openLan(a, address, req.connection.tls, req.connection.port)
   } catch (err) {
     client.close()
+    hub.end()
+    await log.flush()
     throw err
   }
   a.session.joinUrlPublic = a.lan!.status.url
@@ -380,7 +415,7 @@ export async function switchAddress(address: string): Promise<LanServerStatus> {
   if (!a || !a.lan || a.session.connection.kind !== 'lan') {
     throw new AppError('NOT_FOUND', 'No live session is running')
   }
-  const bound = bindAddress(address)
+  const bound = bindAddress(address, true)
   await a.lan.stop()
   await openLan(a, bound, a.session.connection.tls, a.session.connection.port)
   a.session = {

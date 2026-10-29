@@ -49,8 +49,14 @@ export function useLiveSession(projectPath: string, scenarioId: string) {
     firewall: firewall.data,
     busy,
     error,
-    start: (connection: LiveConnectionInput, attribution: 'role' | 'named') =>
-      run('starting', () => call('live:session-start', { ...req, connection, attribution })),
+    start: (
+      connection: LiveConnectionInput,
+      attribution: 'role' | 'named',
+      allowPublicAddress = false,
+    ) =>
+      run('starting', () =>
+        call('live:session-start', { ...req, connection, attribution, allowPublicAddress }),
+      ),
     stop: () => run('stopping', () => call('live:session-end', req)),
     switchAddress: (address: string) =>
       run('switching', () => call('live:lan-switch-address', { address })),

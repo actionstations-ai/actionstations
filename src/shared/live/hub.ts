@@ -53,6 +53,8 @@ export interface HubAttachOptions {
   resumeToken?: Uint8Array
   /** A connection the transport authenticated as the controller (in-process, or a controller token). */
   controller?: boolean
+  /** Remote address, for the per-address caps; absent in process. */
+  remote?: string
 }
 
 /** The hub's handle on one attached connection. */
@@ -80,8 +82,23 @@ export interface SessionHubOptions {
   crypto: CryptoProvider
   version?: string
   now?: () => number
-  /** Frames a participant may send per minute (token bucket); controllers are exempt. Default: no limit. */
+  /**
+   * Frames a participant identity (client id, bound to its resume token) may send per minute, a
+   * token bucket that survives reconnects; controllers are exempt. Default: no limit.
+   */
   framesPerMinute?: number
+  /** Frames per minute from one remote address across all its identities. Default: 3 × framesPerMinute. */
+  framesPerMinutePerRemote?: number
+  /** Distinct participant identities one remote address may register. Default 4. */
+  maxIdentitiesPerRemote?: number
+  /** `catchup.request` frames an identity may send per minute. Default 6. */
+  catchupsPerMinute?: number
+  /** Sealed bytes one participant identity may upload in the session (complete or not). Default 4 × playerBlobBytes. */
+  playerUploadBudgetBytes?: number
+  /** Sealed bytes all participants' blobs may hold together; the controller's quota is separate. Default min(blobsTotalBytes, 64 MiB). */
+  playersBlobPoolBytes?: number
+  /** A blob not completed within this time is dropped and its bytes freed. Default 2 min. */
+  incompleteBlobTtlMs?: number
   /** Stored envelopes before participants get `STORE_FULL`; controller frames are always stored. */
   storedEnvelopes?: number
   /** Stored envelope bytes (JSON) before participants get `STORE_FULL`. */
@@ -92,21 +109,53 @@ export interface SessionHubOptions {
 interface Conn {
   clientId: ClientId
   controller: boolean
+  remote?: string
   socket: HubSocket
   lastSeq: number
   since: number
   open: boolean
-  tokens: number
-  refilledAt: number
 }
 
 export interface StoredBlob {
   uploader: ClientId
+  controller: boolean
   count: number
   chunks: Map<number, string>
   bytes: number
   done: boolean
+  startedAt: number
 }
+
+/** A token bucket: `perMinute` burst, refilled at that rate. */
+class Bucket {
+  private tokens: number
+  private refilledAt: number
+  constructor(
+    private readonly perMinute: number,
+    now: number,
+  ) {
+    this.tokens = perMinute
+    this.refilledAt = now
+  }
+  take(now: number): boolean {
+    this.tokens = Math.min(
+      this.perMinute,
+      this.tokens + ((now - this.refilledAt) / 60_000) * this.perMinute,
+    )
+    this.refilledAt = now
+    if (this.tokens < 1) return false
+    this.tokens -= 1
+    return true
+  }
+}
+
+const MiB = 1024 * 1024
+export const HUB_DEFAULTS = {
+  maxIdentitiesPerRemote: 4,
+  catchupsPerMinute: 6,
+  playersBlobPoolBytes: 64 * MiB,
+  incompleteBlobTtlMs: 120_000,
+} as const
 
 /** What the hub remembers about a client id: who may use it. */
 type Identity = { kind: 'controller' } | { kind: 'participant'; resumeHash: string }
@@ -119,14 +168,28 @@ export class SessionHub {
   readonly stored: Envelope[] = []
   storedBytes = 0
   readonly blobs = new Map<string, StoredBlob>()
+  /** Sealed bytes of every stored blob, complete or not. */
   blobBytes = 0
+  /** The participants' share of `blobBytes`. */
+  playerBlobBytes = 0
   ended = false
   private joinTokenHash: string
   private readonly conns = new Map<ClientId, Conn>()
   private readonly identities = new Map<ClientId, Identity>()
+  private readonly identitiesByRemote = new Map<string, Set<ClientId>>()
   private readonly lastSeqs = new Map<ClientId, number>()
+  /** Per identity and per remote address; kept for the session, so a reconnect refills nothing. */
+  private readonly buckets = new Map<string, Bucket>()
+  /** Sealed bytes each participant identity has uploaded in the session. */
+  private readonly uploaded = new Map<ClientId, number>()
   private readonly now: () => number
   private readonly framesPerMinute: number
+  private readonly framesPerMinutePerRemote: number
+  private readonly catchupsPerMinute: number
+  private readonly maxIdentitiesPerRemote: number
+  private readonly playerUploadBudget: number
+  private readonly playersBlobPool: number
+  private readonly incompleteBlobTtl: number
   private readonly storeCap: { envelopes: number; bytes: number }
 
   constructor(private readonly opts: SessionHubOptions) {
@@ -134,6 +197,14 @@ export class SessionHub {
     this.joinTokenHash = opts.joinTokenHash
     this.now = opts.now ?? (() => Date.now())
     this.framesPerMinute = opts.framesPerMinute ?? Infinity
+    this.framesPerMinutePerRemote = opts.framesPerMinutePerRemote ?? this.framesPerMinute * 3
+    this.catchupsPerMinute = opts.catchupsPerMinute ?? HUB_DEFAULTS.catchupsPerMinute
+    this.maxIdentitiesPerRemote = opts.maxIdentitiesPerRemote ?? HUB_DEFAULTS.maxIdentitiesPerRemote
+    this.playerUploadBudget = opts.playerUploadBudgetBytes ?? 4 * this.limits.playerBlobBytes
+    this.playersBlobPool =
+      opts.playersBlobPoolBytes ??
+      Math.min(this.limits.blobsTotalBytes, HUB_DEFAULTS.playersBlobPoolBytes)
+    this.incompleteBlobTtl = opts.incompleteBlobTtlMs ?? HUB_DEFAULTS.incompleteBlobTtlMs
     this.storeCap = {
       envelopes: opts.storedEnvelopes ?? STORE_DEFAULTS.envelopes,
       bytes: opts.storedBytes ?? STORE_DEFAULTS.bytes,
@@ -175,12 +246,11 @@ export class SessionHub {
     const conn: Conn = {
       clientId: options.clientId,
       controller: options.controller ?? false,
+      ...(options.remote ? { remote: options.remote } : {}),
       socket,
       lastSeq: 0,
       since: this.now(),
       open: true,
-      tokens: this.framesPerMinute,
-      refilledAt: this.now(),
     }
     const handle = this.handleFor(conn)
     const refuse = (code: number, reason: string, error: RelayErrorCode) => {
@@ -193,6 +263,10 @@ export class SessionHub {
     if (!conn.controller && !(await this.checkJoinToken(options.joinToken))) {
       return refuse(CLOSE_CODES.BAD_JOIN_TOKEN, 'Bad join token', 'BAD_JOIN_TOKEN')
     }
+    const knownIdentity = this.identities.has(conn.clientId)
+    if (!conn.controller && !knownIdentity && conn.remote && this.remoteIsFull(conn.remote)) {
+      return refuse(CLOSE_CODES.RATE_LIMITED, 'Too many devices from this address', 'RATE_LIMITED')
+    }
     if (!(await this.bindIdentity(conn, options.resumeToken))) {
       return refuse(
         CLOSE_CODES.CLIENT_ID_IN_USE,
@@ -200,6 +274,7 @@ export class SessionHub {
         'BAD_RESUME_TOKEN',
       )
     }
+    if (!conn.controller && conn.remote) this.rememberRemote(conn.remote, conn.clientId)
     if (this.conns.size >= this.limits.clients && !this.conns.has(conn.clientId)) {
       return refuse(CLOSE_CODES.SESSION_FULL, 'Session full', 'SESSION_FULL')
     }
@@ -261,6 +336,9 @@ export class SessionHub {
     this.storedBytes = 0
     this.blobs.clear()
     this.blobBytes = 0
+    this.playerBlobBytes = 0
+    this.buckets.clear()
+    this.uploaded.clear()
   }
 
   /** Participants learn nothing about other clients from hello; controllers get the roster. */
@@ -334,18 +412,36 @@ export class SessionHub {
     this.deliver(conn, this.serverFrame(conn, 'relay.error', { code, message, ...extra }))
   }
 
-  /** Token bucket: `framesPerMinute` frames burst, refilled at that rate. Controllers are exempt. */
+  private remoteIsFull(remote: string): boolean {
+    return (this.identitiesByRemote.get(remote)?.size ?? 0) >= this.maxIdentitiesPerRemote
+  }
+
+  private rememberRemote(remote: string, clientId: ClientId): void {
+    let set = this.identitiesByRemote.get(remote)
+    if (!set) this.identitiesByRemote.set(remote, (set = new Set()))
+    set.add(clientId)
+  }
+
+  /** Take one token from the named bucket, creating it at `perMinute` on first use. */
+  private take(name: string, perMinute: number): boolean {
+    if (perMinute === Infinity) return true
+    let bucket = this.buckets.get(name)
+    if (!bucket) this.buckets.set(name, (bucket = new Bucket(perMinute, this.now())))
+    return bucket.take(this.now())
+  }
+
+  /**
+   * A participant's frames are limited per identity and per remote address, with buckets that
+   * live as long as the session: reconnecting or taking a new client id refills nothing.
+   * Controllers are exempt.
+   */
   private rateLimited(conn: Conn): boolean {
-    if (conn.controller || this.framesPerMinute === Infinity) return false
-    const now = this.now()
-    conn.tokens = Math.min(
-      this.framesPerMinute,
-      conn.tokens + ((now - conn.refilledAt) / 60_000) * this.framesPerMinute,
-    )
-    conn.refilledAt = now
-    if (conn.tokens < 1) return true
-    conn.tokens -= 1
-    return false
+    if (conn.controller) return false
+    const byId = this.take(`id:${conn.clientId}`, this.framesPerMinute)
+    const byRemote = conn.remote
+      ? this.take(`remote:${conn.remote}`, this.framesPerMinutePerRemote)
+      : true
+    return !byId || !byRemote
   }
 
   /** Checks in the order the spec fixes: size → parse → from → seq → type allowed → rate → store → route. */
@@ -423,6 +519,12 @@ export class SessionHub {
   private catchup(conn: Conn, e: Envelope): void {
     const req = CatchupRequestPayload.safeParse(e.payload)
     if (!req.success) return this.error(conn, 'INVALID', 'Bad catchup.request')
+    // A catch-up can push the whole store; a participant may ask only a few times a minute.
+    if (!conn.controller && !this.take(`catchup:${conn.clientId}`, this.catchupsPerMinute)) {
+      return this.error(conn, 'RATE_LIMITED', 'Too many catch-up requests', {
+        retryAfterMs: 10_000,
+      })
+    }
     const limit = req.data.limit ?? 100
     let after = req.data.after
     let done = false
@@ -456,11 +558,20 @@ export class SessionHub {
     if (chunk.length > this.limits.chunkBytes)
       return this.error(conn, 'TOO_LARGE', 'Chunk over the cap', { blobId })
     if (index >= count) return this.error(conn, 'INVALID', 'Chunk index out of range', { blobId })
+    this.sweepBlobs()
     let blob = this.blobs.get(blobId)
     if (blob && blob.uploader !== conn.clientId)
       return this.error(conn, 'INVALID', 'Blob belongs to another client', { blobId })
     if (!blob) {
-      blob = { uploader: conn.clientId, count, chunks: new Map(), bytes: 0, done: false }
+      blob = {
+        uploader: conn.clientId,
+        controller: conn.controller,
+        count,
+        chunks: new Map(),
+        bytes: 0,
+        done: false,
+        startedAt: this.now(),
+      }
       this.blobs.set(blobId, blob)
     }
     if (blob.count !== count || blob.done)
@@ -472,13 +583,17 @@ export class SessionHub {
       this.dropBlob(blobId, blob)
       return this.error(conn, 'BLOB_TOO_LARGE', 'Blob over the cap for this uploader', { blobId })
     }
-    if (this.blobBytes + chunk.length > this.limits.blobsTotalBytes) {
+    if (!this.quotaAllows(conn, chunk.length)) {
       this.dropBlob(blobId, blob)
-      return this.error(conn, 'BLOB_QUOTA', 'Session blob quota reached', { blobId })
+      return this.error(conn, 'BLOB_QUOTA', 'Blob quota reached', { blobId })
     }
     blob.chunks.set(index, bytes)
     blob.bytes += chunk.length
     this.blobBytes += chunk.length
+    if (!conn.controller) {
+      this.playerBlobBytes += chunk.length
+      this.uploaded.set(conn.clientId, (this.uploaded.get(conn.clientId) ?? 0) + chunk.length)
+    }
     if (blob.chunks.size === count) {
       blob.done = true
       this.deliver(
@@ -488,9 +603,34 @@ export class SessionHub {
     }
   }
 
+  /**
+   * The controller's uploads count against the session quota alone; participants share a
+   * smaller pool and each identity has a budget for the whole session (freed bytes do not
+   * refill it), so one device cannot fill the host's memory with half-finished uploads.
+   */
+  private quotaAllows(conn: Conn, bytes: number): boolean {
+    if (this.blobBytes + bytes > this.limits.blobsTotalBytes) return false
+    if (conn.controller) return true
+    if (this.playerBlobBytes + bytes > this.playersBlobPool) return false
+    return (this.uploaded.get(conn.clientId) ?? 0) + bytes <= this.playerUploadBudget
+  }
+
   private dropBlob(blobId: string, blob: StoredBlob): void {
     this.blobs.delete(blobId)
     this.blobBytes -= blob.bytes
+    if (!blob.controller) this.playerBlobBytes -= blob.bytes
+  }
+
+  /** Drop uploads that never completed within the TTL; a transport calls this on a timer too. */
+  sweepBlobs(now = this.now()): number {
+    let dropped = 0
+    for (const [blobId, blob] of this.blobs) {
+      if (!blob.done && now - blob.startedAt > this.incompleteBlobTtl) {
+        this.dropBlob(blobId, blob)
+        dropped += 1
+      }
+    }
+    return dropped
   }
 
   private blobGet(conn: Conn, e: Envelope): void {

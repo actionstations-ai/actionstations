@@ -37,9 +37,10 @@ export const LIMITS: Record<ConnectionKind, Limits> = {
   lan: {
     envelopeBytes: 256 * KiB,
     chunkBytes: 180 * KiB,
-    blobBytes: 256 * MiB,
+    // Blobs live in the app's memory on the LAN (#457 review): 128 MiB a blob, 512 MiB a session.
+    blobBytes: 128 * MiB,
     playerBlobBytes: 2 * MiB,
-    blobsTotalBytes: 2 * 1024 * MiB,
+    blobsTotalBytes: 512 * MiB,
     clients: 60,
   },
   relay: {
@@ -264,3 +265,9 @@ export const NONCE_BYTES = 12
 export const EC_PUBLIC_KEY_BYTES = 65
 export const SIGNATURE_BYTES = 64
 export const MAX_EPOCH = 9999
+/**
+ * After a rotation the controller still opens frames sealed to it under the previous epoch's
+ * players key for this long, so a device mid-reconnect is not cut off; after it, a kicked
+ * device's frames under the old epoch are dropped (#457 review).
+ */
+export const REKEY_GRACE_MS = 60_000

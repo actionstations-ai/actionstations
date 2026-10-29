@@ -61,7 +61,12 @@ function Setup(props: {
   addresses: LanAddress[]
   firewall: string | undefined
   busy: LiveBusy
-  onStart: (address: string, tls: 'self-signed' | 'none', attribution: 'role' | 'named') => void
+  onStart: (
+    address: string,
+    tls: 'self-signed' | 'none',
+    attribution: 'role' | 'named',
+    allowPublic: boolean,
+  ) => void
 }) {
   const recommended = props.addresses.find((a) => a.recommended) ?? props.addresses[0]
   const [address, setAddress] = useState(recommended?.address ?? '')
@@ -69,12 +74,17 @@ function Setup(props: {
   const [attribution, setAttribution] = useState<'role' | 'named'>('role')
   const usable = props.addresses.filter((a) => !a.linkLocal)
   const chosen = address || recommended?.address
+  const chosenIsPublic = props.addresses.some((a) => a.address === chosen && !a.private)
+  // Plain HTTP and a public address each need a separate, explicit yes (#457 review M2, L3).
+  const confirmed = () =>
+    (tls !== 'none' || window.confirm(LIVE.confirmHttp)) &&
+    (!chosenIsPublic || window.confirm(LIVE.confirmPublic))
   return (
     <form
       className="live-setup"
       onSubmit={(e) => {
         e.preventDefault()
-        if (chosen) props.onStart(chosen, tls, attribution)
+        if (chosen && confirmed()) props.onStart(chosen, tls, attribution, chosenIsPublic)
       }}
     >
       <p className="muted">{LIVE.intro}</p>
@@ -99,6 +109,11 @@ function Setup(props: {
           onChange={setAddress}
         />
         <p className="field__help muted">{LIVE.addressHelp}</p>
+        {chosenIsPublic && (
+          <p className="live-warning" role="alert">
+            {LIVE.publicAddress}
+          </p>
+        )}
       </div>
       <fieldset className="live-fieldset">
         <legend className="field__label">{LIVE.securityLegend}</legend>
@@ -211,6 +226,11 @@ function Running(props: {
         <strong>{LIVE.running}</strong> · {LIVE.listening(lan.address, lan.port, tls)} ·{' '}
         {LIVE.connected(status.connected)}
       </p>
+      {!tls && (
+        <p className="live-warning" role="alert">
+          {LIVE.httpBadge}
+        </p>
+      )}
       <InviteCard title={LIVE.playersLink} invite={status.invites.players} />
       <div className="row">
         <Button
@@ -303,8 +323,8 @@ export function LivePanel(props: { projectPath: string; scenarioId: string }) {
           addresses={live.addresses}
           firewall={live.firewall?.beforeStart}
           busy={live.busy}
-          onStart={(address, tls, attribution) =>
-            void live.start({ kind: 'lan', address, tls }, attribution)
+          onStart={(address, tls, attribution, allowPublic) =>
+            void live.start({ kind: 'lan', address, tls }, attribution, allowPublic)
           }
         />
       )}

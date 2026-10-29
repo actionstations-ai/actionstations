@@ -72,9 +72,22 @@ describe('listLanAddresses ranking (spec 0407 FR-2)', () => {
 
   it("chooses the requested address only when it is one of the computer's", () => {
     const out = rankAddresses(MACOS)
-    expect(chooseAddress(out, '10.0.0.8')?.interface).toBe('en5')
-    expect(chooseAddress(out, '192.168.99.99')).toBeUndefined()
-    expect(chooseAddress(out)?.address).toBe('192.168.4.20')
+    expect(chooseAddress(out, '10.0.0.8')).toMatchObject({
+      ok: true,
+      address: { interface: 'en5' },
+    })
+    expect(chooseAddress(out, '192.168.99.99')).toEqual({ ok: false, reason: 'unknown' })
+    expect(chooseAddress(out)).toMatchObject({ ok: true, address: { address: '192.168.4.20' } })
+    expect(chooseAddress([])).toEqual({ ok: false, reason: 'none' })
+  })
+
+  it('refuses a public address unless the facilitator confirmed it (#457 review L3)', () => {
+    const out = rankAddresses({ eth0: [v4('203.0.113.5')], eth1: [v4('10.1.2.3')] })
+    expect(chooseAddress(out, '203.0.113.5')).toEqual({ ok: false, reason: 'public' })
+    expect(chooseAddress(out, '203.0.113.5', true)).toMatchObject({ ok: true })
+    // With no request the private address is picked even when a public one ranks first.
+    const publicFirst = rankAddresses({ eth0: [v4('203.0.113.5')] })
+    expect(chooseAddress(publicFirst)).toEqual({ ok: false, reason: 'public' })
   })
 
   it('classifies interface names and private ranges', () => {

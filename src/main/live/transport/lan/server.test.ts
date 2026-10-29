@@ -5,14 +5,14 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { WebSocket } from 'ws'
 import { toBase64Url } from '@shared/live/bytes'
+import { JOIN_HEADER } from '@shared/live/connect-url'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
 import { LIMITS } from '@shared/live/protocol'
 import { LanLog } from './log'
 import { routeOf, startLanServer, type LanServer } from './server'
-import { httpGet } from './test-clients'
+import { connectHeaders, connectQuery, httpGet, wsTransport } from './test-clients'
 
 const crypto = createWebCryptoProvider()
 const SESSION = toBase64Url(new Uint8Array(16).fill(5))
@@ -141,51 +141,117 @@ describe('LAN server HTTP surface', () => {
     expect(res.body.toString()).not.toContain(SESSION)
   })
 
-  it('needs a valid join token on the blob route and knows only its own session', async () => {
+  it('needs a valid join token in the X-AS-Join header on the blob route and knows only its own session', async () => {
     const { lan, origin } = await start()
     running = lan
     const blob = toBase64Url(new Uint8Array(16).fill(9))
     const other = toBase64Url(new Uint8Array(16).fill(1))
-    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/blobs/${blob}`)).status).toBe(401)
+    const url = `${origin}/v1/sessions/${SESSION}/blobs/${blob}`
+    expect((await httpGet(url)).status).toBe(401)
     const wrong = toBase64Url(new Uint8Array(16).fill(8))
+    expect((await httpGet(url, { headers: { [JOIN_HEADER]: wrong } })).status).toBe(401)
+    expect((await httpGet(url, { headers: { [JOIN_HEADER]: toBase64Url(JOIN) } })).status).toBe(404)
+    // The token in the URL is refused even when it is right: it must never land in a log.
+    expect((await httpGet(`${url}?j=${toBase64Url(JOIN)}`)).status).toBe(400)
     expect(
-      (await httpGet(`${origin}/v1/sessions/${SESSION}/blobs/${blob}?j=${wrong}`)).status,
-    ).toBe(401)
-    expect(
-      (await httpGet(`${origin}/v1/sessions/${SESSION}/blobs/${blob}?j=${toBase64Url(JOIN)}`))
-        .status,
-    ).toBe(404)
-    expect(
-      (await httpGet(`${origin}/v1/sessions/${other}/blobs/${blob}?j=${toBase64Url(JOIN)}`)).status,
+      (
+        await httpGet(`${origin}/v1/sessions/${other}/blobs/${blob}`, {
+          headers: { [JOIN_HEADER]: toBase64Url(JOIN) },
+        })
+      ).status,
     ).toBe(404)
     expect((await httpGet(`${origin}/v1/sessions/${other}/events`)).status).toBe(404)
   })
 
-  it('refuses the fallback endpoints without parameters and a send without a stream', async () => {
+  it('refuses the fallback endpoints without the headers, with tokens in the query, and a send without a stream', async () => {
     const { lan, origin } = await start()
     running = lan
-    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/events`)).status).toBe(401)
-    const q = `j=${toBase64Url(JOIN)}&c=${toBase64Url(new Uint8Array(16).fill(3))}&r=${toBase64Url(new Uint8Array(16).fill(4))}`
+    const params = {
+      clientId: toBase64Url(new Uint8Array(16).fill(3)),
+      joinToken: JOIN,
+      resumeToken: new Uint8Array(16).fill(4),
+    }
+    const q = connectQuery(params)
+    const headers = connectHeaders(params)
+    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/events?${q}`)).status).toBe(401)
+    expect(
+      (
+        await httpGet(`${origin}/v1/sessions/${SESSION}/events?${q}&j=${toBase64Url(JOIN)}`, {
+          headers,
+        })
+      ).status,
+    ).toBe(400)
     const send = await httpGet(`${origin}/v1/sessions/${SESSION}/send?${q}`, {
       method: 'POST',
+      headers,
       body: '{}',
     })
     expect(send.status).toBe(409)
-    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/send?${q}`)).status).toBe(405)
-    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/ws?${q}`)).status).toBe(400)
+    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/send?${q}`, { headers })).status).toBe(
+      405,
+    )
+    expect((await httpGet(`${origin}/v1/sessions/${SESSION}/ws?${q}`, { headers })).status).toBe(
+      400,
+    )
   })
 
-  it('rejects a WebSocket upgrade without join parameters before the handshake', async () => {
+  it('rejects a WebSocket upgrade without the subprotocols, with a token in the query, from another Origin, or with a foreign Host', async () => {
     const { lan, origin } = await start()
     running = lan
-    const ws = new WebSocket(`${origin.replace('http', 'ws')}/v1/sessions/${SESSION}/ws`)
-    const outcome = await new Promise<string>((resolve) => {
-      ws.on('unexpected-response', (_req, res) => resolve(`http ${res.statusCode}`))
-      ws.on('open', () => resolve('open'))
-      ws.on('error', (e) => resolve(`error ${e.message}`))
+    const params = {
+      clientId: toBase64Url(new Uint8Array(16).fill(3)),
+      joinToken: JOIN,
+      resumeToken: new Uint8Array(16).fill(4),
+    }
+    const outcome = async (opts: Parameters<typeof wsTransport>[3]) => {
+      const t = await wsTransport(origin, SESSION, params, opts)
+      return new Promise<string>((resolve) => {
+        t.onFrame((f) => resolve(`frame ${(JSON.parse(f) as { type: string }).type}`))
+        t.onClose((code) => resolve(`closed ${code}`))
+      })
+    }
+    expect(await outcome({ protocols: [] })).toBe('closed 400')
+    expect(await outcome({ protocols: ['as-live.v1'] })).toBe('closed 400')
+    expect(await outcome({ query: `j=${toBase64Url(JOIN)}` })).toBe('closed 400')
+    expect(await outcome({ headers: { Origin: 'https://evil.example' } })).toBe('closed 403')
+    expect(await outcome({ headers: { Host: 'attacker.example' } })).toBe('closed 421')
+    // The page's own origin and the bound host are fine; the hub answers hello.
+    expect(await outcome({ headers: { Origin: origin, Host: new URL(origin).host } })).toBe(
+      'frame relay.hello',
+    )
+    expect(lan.connected).toBe(1)
+  })
+
+  it('refuses plain requests whose Host header is not the bound address:port (DNS rebinding)', async () => {
+    const { lan, origin } = await start()
+    running = lan
+    const bad = await httpGet(`${origin}/`, { headers: { Host: 'attacker.example' } })
+    expect(bad.status).toBe(421)
+    expect((await httpGet(`${origin}/v1/health`, { headers: { Host: '127.0.0.1' } })).status).toBe(
+      421,
+    )
+    expect((await httpGet(`${origin}/`)).status).toBe(200)
+  })
+
+  it('rejects, instead of throwing, when the address cannot be bound', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-lan-bad-'))
+    const hub = new SessionHub({ sessionId: SESSION, kind: 'lan', joinTokenHash: 'x', crypto })
+    const started = startLanServer({
+      address: '192.0.2.1',
+      tls: 'none',
+      hub,
+      bundleDir: dir,
+      log: new LanLog(join(dir, 'lan.log')),
+      version: 't',
     })
-    expect(outcome).toMatch(/^(http 400|error .*400)/)
-    expect(lan.connected).toBe(0)
+    const result = await Promise.race([
+      started.then(
+        () => 'resolved',
+        (e: NodeJS.ErrnoException) => `rejected:${e.code}`,
+      ),
+      new Promise<string>((r) => setTimeout(() => r('hung'), 4000)),
+    ])
+    expect(result).toMatch(/^rejected:E/)
   })
 
   it('releases the port at stop and refuses later requests', async () => {

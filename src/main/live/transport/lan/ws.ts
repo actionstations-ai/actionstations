@@ -7,6 +7,7 @@
 import type { IncomingMessage } from 'node:http'
 import type { Duplex } from 'node:stream'
 import { WebSocketServer, type WebSocket } from 'ws'
+import { WS_SUBPROTOCOL } from '@shared/live/connect-url'
 import type { HubClient, SessionHub } from '@shared/live/hub'
 import type { ConnectParams } from './connect-params'
 import type { LanLog } from './log'
@@ -23,8 +24,14 @@ export interface WsAttachContext {
   now?: () => number
 }
 
+/** The tokens ride in the subprotocol list; the server echoes the version entry only. */
 export function createWebSocketServer(maxPayload: number): WebSocketServer {
-  return new WebSocketServer({ noServer: true, maxPayload, perMessageDeflate: false })
+  return new WebSocketServer({
+    noServer: true,
+    maxPayload,
+    perMessageDeflate: false,
+    handleProtocols: (protocols) => (protocols.has(WS_SUBPROTOCOL) ? WS_SUBPROTOCOL : false),
+  })
 }
 
 /** Complete the upgrade and attach the socket to the hub; the hub answers (hello or refusal). */
@@ -97,7 +104,7 @@ async function bind(
         if (ws.readyState === ws.OPEN || ws.readyState === ws.CONNECTING) ws.close(code, reason)
       },
     },
-    params,
+    { ...params, remote },
   )
   attached.client = client
   if (!client.open) return // refused: the hub already sent relay.error and closed

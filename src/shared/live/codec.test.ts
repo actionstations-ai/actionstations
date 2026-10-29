@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { fromBase64Url, toBase64Url } from './bytes'
 import {
   aadFor,
+  controllerEpochs,
   encodeFrame,
   open,
   parseFrame,
@@ -21,6 +22,7 @@ import {
   KEY_BY_TYPE,
   LIMITS,
   PROTOCOL_VERSION,
+  REKEY_GRACE_MS,
   SIGNED_TYPES,
   type MessageType,
   type SealKind,
@@ -1020,5 +1022,40 @@ describe('frames to the controller are bound to the players key (#452)', () => {
       ok: false,
       reason: 'BAD_TAG',
     })
+  })
+})
+
+describe('after a rotation the previous epoch opens only during the grace period (#457 review)', () => {
+  it('a kicked device sealing under the old epoch is dropped once REKEY_GRACE_MS has passed', async () => {
+    const ctl = await makeController()
+    const { controller, playerKeys } = await contexts(ctl)
+    const sealed = await seal(
+      ctl.crypto,
+      playerKeys,
+      header('vote.cast', { from: IDS.playerA, to: 'controller' }),
+      PAYLOAD_FIXTURES['vote.cast'],
+    )
+    const rotatedAt = 1_800_000_000_000
+    await ctl.keys.addEpoch(2, 'staff', ctl.crypto.random(32), rotatedAt)
+    expect(controllerEpochs(ctl.keys, rotatedAt + 1_000)).toEqual([2, 1])
+    expect(controllerEpochs(ctl.keys, rotatedAt + REKEY_GRACE_MS)).toEqual([2])
+    // A device mid-reconnect, still on epoch 1, is heard during the grace period…
+    const during = { ...controller, now: () => rotatedAt + 30_000 }
+    expect((await open(encodeFrame(sealed), during)) as object).toMatchObject({ ok: true })
+    // …a kicked device holding only epoch 1 is not, after it.
+    const after = { ...controller, now: () => rotatedAt + REKEY_GRACE_MS + 1 }
+    const late = await seal(
+      ctl.crypto,
+      playerKeys,
+      header('vote.cast', { from: IDS.playerA, to: 'controller', seq: 2 }),
+      PAYLOAD_FIXTURES['vote.cast'],
+    )
+    expect((await open(encodeFrame(late), after)) as object).toMatchObject({
+      ok: false,
+      reason: 'BAD_TAG',
+    })
+    // Two rotations later, epoch 1 is never admitted, grace or not.
+    await ctl.keys.addEpoch(3, 'staff', ctl.crypto.random(32), rotatedAt + 100_000)
+    expect(controllerEpochs(ctl.keys, rotatedAt + 100_001)).toEqual([3, 2])
   })
 })

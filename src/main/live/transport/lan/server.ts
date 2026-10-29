@@ -5,6 +5,7 @@
  * the listener, the fixed route table and the caps on connections. It exists only between
  * `startLanServer()` and `stop()`.
  */
+import { once } from 'node:events'
 import { createReadStream } from 'node:fs'
 import {
   createServer as createHttpServer,
@@ -36,6 +37,8 @@ const HEADERS_TIMEOUT_MS = 10_000
 const KEEP_ALIVE_TIMEOUT_MS = 65_000
 /** Sockets the listener accepts at once; the hub's client cap is below this. */
 const MAX_SOCKETS = 200
+/** Blob downloads one remote address may run at once. */
+const MAX_BLOB_DOWNLOADS_PER_REMOTE = 2
 
 export interface LanServerOptions {
   /** One of `listLanAddresses()` (or a loopback address in tests); never `0.0.0.0`. */
@@ -88,11 +91,13 @@ async function listenWithFallback(server: Server, address: string, port: number 
   }
   candidates.push(0)
   for (const candidate of candidates) {
-    const ok = await new Promise<boolean>((resolve) => {
+    // Any other error (an address that vanished, EADDRNOTAVAIL) rejects: the caller reports
+    // it and the session never starts; it must not reach the process as an uncaught error.
+    const ok = await new Promise<boolean>((resolve, reject) => {
       const onError = (err: NodeJS.ErrnoException) => {
         server.off('listening', onListening)
         if (err.code === 'EADDRINUSE' || err.code === 'EACCES') return resolve(false)
-        throw err
+        reject(err)
       }
       const onListening = () => {
         server.off('error', onError)
@@ -105,6 +110,11 @@ async function listenWithFallback(server: Server, address: string, port: number 
     if (ok) return
   }
   throw new Error(`No free port on ${address}`)
+}
+
+/** Bytes a base64url string decodes to, without decoding it. */
+function decodedLength(b64url: string): number {
+  return Math.floor((b64url.length * 3) / 4)
 }
 
 export async function startLanServer(opts: LanServerOptions): Promise<LanServer> {
@@ -128,14 +138,23 @@ export async function startLanServer(opts: LanServerOptions): Promise<LanServer>
   server.maxConnections = MAX_SOCKETS
   server.on('upgrade', router.upgrade)
   server.on('clientError', (_err, socket) => socket.destroy())
-  await listenWithFallback(server, opts.address, opts.port)
+  try {
+    await listenWithFallback(server, opts.address, opts.port)
+  } catch (err) {
+    wss.close()
+    throw err
+  }
   const bound = server.address()
   const port = typeof bound === 'object' && bound ? bound.port : 0
   const scheme = cert ? 'https' : 'http'
-  router.origin = `${scheme}://${opts.address}:${port}`
-  router.wsOrigin = `${cert ? 'wss' : 'ws'}://${opts.address}:${port}`
+  router.host = `${opts.address}:${port}`
+  router.origin = `${scheme}://${router.host}`
+  router.wsOrigin = `${cert ? 'wss' : 'ws'}://${router.host}`
   const startedAt = new Date().toISOString()
-  const sweep = setInterval(() => flood.sweep(), 60_000)
+  const sweep = setInterval(() => {
+    flood.sweep()
+    hub.sweepBlobs()
+  }, 60_000)
   void log.write({ event: 'listen', remote: `${opts.address}:${port}`, reason: scheme })
 
   const status = (): LanServerStatus => ({
@@ -181,9 +200,12 @@ export async function startLanServer(opts: LanServerOptions): Promise<LanServer>
 
 /** The route table. Request strings decide a branch; they never become a file path. */
 class Router {
+  /** `address:port`; every request must name it (a DNS-rebinding page cannot). */
+  host = ''
   origin = ''
   wsOrigin = ''
   closing = false
+  private readonly blobDownloads = new Map<string, number>()
 
   constructor(
     private readonly opts: LanServerOptions,
@@ -202,9 +224,15 @@ class Router {
     }
   }
 
+  /** The Host header must be the bound `address:port` (spec 0407 Security; #457 review L1). */
+  private hostOk(req: IncomingMessage): boolean {
+    return req.headers.host === this.host
+  }
+
   request = (req: IncomingMessage, res: ServerResponse): void => {
     const url = this.url(req)
     if (!url || this.closing) return sendError(res, 'NOT_FOUND', 'Not found')
+    if (!this.hostOk(req)) return sendError(res, 'MISDIRECTED', 'Wrong host')
     const routed = routeOf(url.pathname)
     if (!routed) return sendError(res, 'NOT_FOUND', 'Not found')
     if (routed.kind === 'static') return this.serveStatic(req, res, routed.path)
@@ -253,18 +281,31 @@ class Router {
     const remote = remoteOf(req)
     if (route.startsWith('blobs/')) return this.blob(req, res, url, route.slice(6))
     if (route === 'ws') return sendError(res, 'BAD_REQUEST', 'This path is a WebSocket endpoint')
-    const params = parseConnectParams(url.searchParams)
-    if (!params) return sendError(res, 'UNAUTHORIZED', 'Missing or malformed join parameters')
+    const parsed = parseConnectParams({ search: url.searchParams, headers: req.headers })
+    if (!parsed.ok) {
+      return parsed.reason === 'TOKEN_IN_QUERY'
+        ? sendError(
+            res,
+            'BAD_REQUEST',
+            'Tokens go in the X-AS-Join and X-AS-Resume headers, not the URL',
+          )
+        : sendError(res, 'UNAUTHORIZED', 'Missing or malformed join parameters')
+    }
+    const { params } = parsed
     if (route === 'events') {
       if (req.method !== 'GET') return sendError(res, 'METHOD_NOT_ALLOWED', 'Use GET')
       if (this.flood.hit(remote)) return this.flooded(res, remote)
       return this.fallback.events(req, res, params, remote)
     }
     if (req.method !== 'POST') return sendError(res, 'METHOD_NOT_ALLOWED', 'Use POST')
+    if (this.flood.hit(remote)) return this.flooded(res, remote)
     return this.fallback.send(req, res, params, this.opts.hub.limits.envelopeBytes)
   }
 
-  /** `GET …/blobs/:id?j=`: the sealed bytes as one body (the fetch fallback's blob path). */
+  /**
+   * `GET …/blobs/:id` with `X-AS-Join`: the sealed bytes as one body (the fetch fallback's blob path),
+   * streamed chunk by chunk with back-pressure; at most two downloads per address at once.
+   */
   private async blob(
     req: IncomingMessage,
     res: ServerResponse,
@@ -272,19 +313,39 @@ class Router {
     blobId: string,
   ): Promise<void> {
     if (req.method !== 'GET') return sendError(res, 'METHOD_NOT_ALLOWED', 'Use GET')
-    const token = parseJoinToken(url.searchParams)
+    const remote = remoteOf(req)
+    if (this.flood.hit(remote)) return this.flooded(res, remote)
+    if (url.searchParams.has('j')) {
+      return sendError(
+        res,
+        'BAD_REQUEST',
+        'The join token goes in the X-AS-Join header, not the URL',
+      )
+    }
+    const token = parseJoinToken(req.headers)
     if (!token || !(await this.opts.hub.checkJoinToken(token))) {
       return sendError(res, 'UNAUTHORIZED', 'Bad join token')
     }
     if (!Base64Url22.safeParse(blobId).success) return sendError(res, 'NOT_FOUND', 'No such blob')
     const chunks = this.opts.hub.blobChunks(blobId)
     if (!chunks) return sendError(res, 'NOT_FOUND', 'No such blob')
-    const parts = chunks.map((c) => Buffer.from(fromBase64Url(c)))
-    const total = parts.reduce((n, p) => n + p.length, 0)
-    applyCommonHeaders(res)
-    res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Length': total })
-    for (const part of parts) res.write(part)
-    res.end()
+    const active = this.blobDownloads.get(remote) ?? 0
+    if (active >= MAX_BLOB_DOWNLOADS_PER_REMOTE) {
+      return sendError(res, 'RATE_LIMITED', 'Too many downloads at once')
+    }
+    this.blobDownloads.set(remote, active + 1)
+    try {
+      const total = chunks.reduce((n, c) => n + decodedLength(c), 0)
+      applyCommonHeaders(res)
+      res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Length': total })
+      for (const c of chunks) {
+        if (res.destroyed) return
+        if (!res.write(Buffer.from(fromBase64Url(c)))) await once(res, 'drain')
+      }
+      res.end()
+    } finally {
+      this.blobDownloads.set(remote, (this.blobDownloads.get(remote) ?? 1) - 1)
+    }
   }
 
   private flooded(res: ServerResponse, remote: string): void {
@@ -300,6 +361,10 @@ class Router {
       socket.destroy()
     }
     if (this.closing) return reject(503, 'Stopping')
+    if (!this.hostOk(req)) return reject(421, 'Misdirected Request')
+    // A page from another origin (a phishing site, a rebinding attack) never gets a socket.
+    const origin = req.headers.origin
+    if (origin !== undefined && origin !== this.origin) return reject(403, 'Forbidden')
     if (this.flood.hit(remote)) {
       void this.opts.log.write({ event: 'flood', remote })
       return reject(429, 'Too Many Requests')
@@ -309,9 +374,12 @@ class Router {
     if (!url || !routed || routed.kind !== 'v1' || routed.route !== 'ws')
       return reject(404, 'Not Found')
     if (routed.sessionId !== this.opts.hub.sessionId) return reject(404, 'Not Found')
-    const params = parseConnectParams(url.searchParams)
-    if (!params) return reject(400, 'Bad Request')
-    attachWebSocket(this.wss, req, socket, head, params, remote, {
+    const parsed = parseConnectParams({
+      search: url.searchParams,
+      protocols: req.headers['sec-websocket-protocol'] ?? '',
+    })
+    if (!parsed.ok) return reject(400, 'Bad Request')
+    attachWebSocket(this.wss, req, socket, head, parsed.params, remote, {
       hub: this.opts.hub,
       peers: this.peers,
       log: this.opts.log,

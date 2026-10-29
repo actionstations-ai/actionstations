@@ -47,6 +47,7 @@ export interface SessionKeysOptions {
 
 export class SessionKeys {
   private readonly epochs = new Map<number, EpochKeys>()
+  private readonly addedAt = new Map<number, number>()
   private current = 0
   /** Public key frames to the controller are sealed to; the controller's own when `controllerEcdh` is set. */
   readonly controllerEcdhPub: Uint8Array | undefined
@@ -78,7 +79,12 @@ export class SessionKeys {
   }
 
   /** The root a link or a rekey carries, for one epoch. Derives everything else. */
-  async addEpoch(epoch: number, kind: KeyKind, root: Uint8Array): Promise<EpochKeys> {
+  async addEpoch(
+    epoch: number,
+    kind: KeyKind,
+    root: Uint8Array,
+    now: number = Date.now(),
+  ): Promise<EpochKeys> {
     if (!Number.isInteger(epoch) || epoch < 1 || epoch > MAX_EPOCH) throw new Error('Bad epoch')
     if (root.length !== SESSION_KEY_BYTES) throw new Error('Root key must be 32 bytes')
     const keys =
@@ -86,8 +92,14 @@ export class SessionKeys {
         ? await this.deriveFromStaff(epoch, root)
         : await this.derivePlayers(epoch, root)
     this.epochs.set(epoch, keys)
+    this.addedAt.set(epoch, now)
     if (epoch > this.current) this.current = epoch
     return keys
+  }
+
+  /** When this holder learned the epoch (wall clock ms); undefined for an unknown epoch. */
+  epochAddedAt(epoch: number): number | undefined {
+    return this.addedAt.get(epoch)
   }
 
   private async derivePlayers(epoch: number, playersRoot: Uint8Array): Promise<EpochKeys> {
@@ -195,7 +207,12 @@ export class SessionKeys {
 
   /** Drop every epoch before `epoch`; history sealed under them becomes unreadable. */
   forgetBefore(epoch: number): void {
-    for (const e of this.epochs.keys()) if (e < epoch) this.epochs.delete(e)
+    for (const e of this.epochs.keys()) {
+      if (e < epoch) {
+        this.epochs.delete(e)
+        this.addedAt.delete(e)
+      }
+    }
   }
 }
 

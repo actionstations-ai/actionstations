@@ -17,6 +17,8 @@ import type { Peers } from './peers'
 import { applyCommonHeaders, readBody, sendError, sendJson } from './respond'
 
 export const SSE_KEEPALIVE_MS = 20_000
+/** A stream whose reader stalls past this much queued output is dropped, like a WebSocket. */
+export const SSE_MAX_BUFFERED_BYTES = 8 * 1024 * 1024
 
 interface Stream {
   res: ServerResponse
@@ -87,7 +89,9 @@ export class HttpFallback {
     stream.client = await this.ctx.hub.attach(
       {
         send: (frame) => {
-          if (!res.writableEnded) res.write(`id: ${stream.nextId++}\ndata: ${frame}\n\n`)
+          if (res.writableEnded) return
+          if (res.writableLength > SSE_MAX_BUFFERED_BYTES) return res.destroy()
+          res.write(`id: ${stream.nextId++}\ndata: ${frame}\n\n`)
         },
         close: (code, reason) => {
           if (res.writableEnded) return
@@ -96,7 +100,7 @@ export class HttpFallback {
           cleanup(code, reason)
         },
       },
-      params,
+      { ...params, remote },
     )
     if (!stream.client.open) return
     // A reconnect with the same id replaces the old stream, which the hub has already closed.

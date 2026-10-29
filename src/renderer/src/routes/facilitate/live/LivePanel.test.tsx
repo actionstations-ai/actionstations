@@ -123,6 +123,7 @@ describe('Live tab (spec 0407 Renderer)', () => {
       scenarioId: 'scn-1',
       connection: { kind: 'lan', address: '192.168.4.20', tls: 'self-signed' },
       attribution: 'role',
+      allowPublicAddress: false,
     })
     await screen.findByText(LIVE.running, { exact: false })
   })
@@ -167,5 +168,69 @@ describe('Live tab (spec 0407 Renderer)', () => {
   it('draws one path run per horizontal run of dark modules inside a quiet zone', () => {
     const path = qrPath({ size: 3, rows: ['101', '111', '000'] })
     expect(path).toBe('M4 4h1v1h-1zM6 4h1v1h-1zM4 5h3v1h-3z')
+  })
+})
+
+describe('plain HTTP and public addresses need an explicit yes (#457 review M2, L3)', () => {
+  it('asks before starting on plain HTTP, and does not start when the facilitator declines', async () => {
+    const ttx = renderPanel({ connected: 0 })
+    await screen.findByLabelText(LIVE.addressLabel)
+    fireEvent.click(screen.getByLabelText(/Plain HTTP/))
+    expect(screen.getByText(LIVE.httpWarning)).toBeTruthy()
+    window.confirm = vi.fn(() => false)
+    fireEvent.click(screen.getByRole('button', { name: LIVE.start }))
+    await new Promise((r) => setTimeout(r, 20))
+    expect(window.confirm).toHaveBeenCalledWith(LIVE.confirmHttp)
+    expect(ttx.calls('live:session-start')).toHaveLength(0)
+    window.confirm = vi.fn(() => true)
+    fireEvent.click(screen.getByRole('button', { name: LIVE.start }))
+    await waitFor(() => expect(ttx.calls('live:session-start')).toHaveLength(1))
+    expect(ttx.calls('live:session-start')[0]).toMatchObject({
+      connection: { kind: 'lan', tls: 'none' },
+      allowPublicAddress: false,
+    })
+  })
+
+  it('shows the plain-HTTP badge the whole time a session runs on HTTP', async () => {
+    renderPanel({
+      ...RUNNING,
+      lan: { ...RUNNING.lan!, tls: 'none', fingerprintSha256: undefined },
+      session: {
+        ...RUNNING.session!,
+        connection: { kind: 'lan', address: '192.168.4.20', tls: 'none' },
+      },
+    })
+    await screen.findByText(LIVE.httpBadge)
+    expect(screen.queryByText(LIVE.fingerprint)).toBeNull()
+  })
+
+  it('warns about a public address, asks before starting on it, and passes the confirmation on', async () => {
+    const ttx = renderPanel(
+      { connected: 0 },
+      {
+        'live:lan-addresses': () => [
+          ...ADDRESSES,
+          {
+            address: '203.0.113.5',
+            interface: 'eth0',
+            kind: 'ethernet',
+            private: false,
+            linkLocal: false,
+            recommended: false,
+          },
+        ],
+      },
+    )
+    const select = await screen.findByLabelText(LIVE.addressLabel)
+    fireEvent.change(select, { target: { value: '203.0.113.5' } })
+    expect(screen.getByText(LIVE.publicAddress)).toBeTruthy()
+    window.confirm = vi.fn(() => true)
+    fireEvent.click(screen.getByRole('button', { name: LIVE.start }))
+    await waitFor(() => expect(ttx.calls('live:session-start')).toHaveLength(1))
+    expect(window.confirm).toHaveBeenCalledWith(LIVE.confirmPublic)
+    expect(ttx.calls('live:session-start')[0]).toMatchObject({
+      connection: { address: '203.0.113.5' },
+      allowPublicAddress: true,
+    })
   })
 })

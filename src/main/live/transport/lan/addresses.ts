@@ -78,8 +78,23 @@ function readInterfaces(): Interfaces {
   return networkInterfaces() as Interfaces
 }
 
-/** Which address to bind for a session: the request's, else the recommended, else the first. */
-export function chooseAddress(addresses: LanAddress[], requested?: string): LanAddress | undefined {
-  if (requested) return addresses.find((a) => a.address === requested)
-  return addresses.find((a) => a.recommended) ?? addresses[0]
+export type AddressChoice =
+  { ok: true; address: LanAddress } | { ok: false; reason: 'unknown' | 'none' | 'public' }
+
+/**
+ * Which address to bind for a session: the request's, else the recommended, else the first
+ * private one. A public address (not RFC 1918 / 100.64) would put the session on the internet
+ * side of the computer; it needs the facilitator's explicit confirmation (`allowPublic`).
+ */
+export function chooseAddress(
+  addresses: LanAddress[],
+  requested?: string,
+  allowPublic = false,
+): AddressChoice {
+  const address = requested
+    ? addresses.find((a) => a.address === requested)
+    : (addresses.find((a) => a.recommended) ?? addresses.find((a) => a.private) ?? addresses[0])
+  if (!address) return { ok: false, reason: requested ? 'unknown' : 'none' }
+  if (!address.private && !allowPublic) return { ok: false, reason: 'public' }
+  return { ok: true, address }
 }

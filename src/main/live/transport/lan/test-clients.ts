@@ -1,11 +1,13 @@
 /**
  * Headless clients for the LAN server's tests: a `Transport` over a real WebSocket and one over
- * the SSE + POST fallback, built the way the player page (#411) builds its own. Test files only.
+ * the SSE + POST fallback, built the way the player page (#411) builds its own: the client id in
+ * the query, the tokens in the subprotocol list or the `X-AS-*` headers. Test files only.
  */
 import { request as httpRequest, type IncomingMessage } from 'node:http'
 import { request as httpsRequest } from 'node:https'
 import { WebSocket } from 'ws'
 import { toBase64Url } from '@shared/live/bytes'
+import { JOIN_HEADER, RESUME_HEADER, WS_SUBPROTOCOL } from '@shared/live/connect-url'
 import type { Transport } from '@shared/live/transport'
 
 export interface ClientParams {
@@ -14,12 +16,25 @@ export interface ClientParams {
   resumeToken?: Uint8Array
 }
 
+/** `?client=<id>`: the only connect parameter in a URL. */
 export function connectQuery(p: ClientParams): string {
-  const q = new URLSearchParams()
-  if (p.joinToken) q.set('j', toBase64Url(p.joinToken))
-  q.set('c', p.clientId)
-  if (p.resumeToken) q.set('r', toBase64Url(p.resumeToken))
-  return q.toString()
+  return new URLSearchParams({ client: p.clientId }).toString()
+}
+
+/** The subprotocol list a WebSocket presents: the version, then the tokens. */
+export function connectProtocols(p: ClientParams): string[] {
+  const out = [WS_SUBPROTOCOL]
+  if (p.joinToken) out.push(`j.${toBase64Url(p.joinToken)}`)
+  if (p.resumeToken) out.push(`r.${toBase64Url(p.resumeToken)}`)
+  return out
+}
+
+/** The headers the fallback requests (and the blob route) carry. */
+export function connectHeaders(p: ClientParams): Record<string, string> {
+  const h: Record<string, string> = {}
+  if (p.joinToken) h[JOIN_HEADER] = toBase64Url(p.joinToken)
+  if (p.resumeToken) h[RESUME_HEADER] = toBase64Url(p.resumeToken)
+  return h
 }
 
 /** A Transport whose subscribers may attach after frames arrived (like the memory pair). */
@@ -54,19 +69,36 @@ function buffered() {
   }
 }
 
-/** `wss://host:port/v1/sessions/<id>/ws?j=&c=&r=`; a self-signed certificate is accepted. */
+export interface WsOptions {
+  /** Override the subprotocol list (tests of the server's refusals). */
+  protocols?: string[]
+  headers?: Record<string, string>
+  /** Extra query string appended after `client=` (tests of the server's refusals). */
+  query?: string
+}
+
+/** `wss://host:port/v1/sessions/<id>/ws?client=`, tokens in the subprotocols; a self-signed certificate is accepted. */
 export function wsTransport(
   origin: string,
   sessionId: string,
   p: ClientParams,
+  opts: WsOptions = {},
 ): Promise<Transport> {
-  const url = `${origin.replace(/^http/, 'ws')}/v1/sessions/${sessionId}/ws?${connectQuery(p)}`
-  const ws = new WebSocket(url, { rejectUnauthorized: false })
+  const query = connectQuery(p) + (opts.query ? `&${opts.query}` : '')
+  const url = `${origin.replace(/^http/, 'ws')}/v1/sessions/${sessionId}/ws?${query}`
+  const ws = new WebSocket(url, opts.protocols ?? connectProtocols(p), {
+    rejectUnauthorized: false,
+    ...(opts.headers ? { headers: opts.headers } : {}),
+  })
   const buf = buffered()
   const pending: string[] = []
   ws.on('message', (data) => buf.frame(data.toString()))
   ws.on('close', (code, reason) => buf.close(code, reason.toString()))
   ws.on('error', () => buf.close(1006, 'error'))
+  ws.on('unexpected-response', (_req, res) => {
+    res.resume()
+    buf.close(res.statusCode ?? 1006, `http ${res.statusCode}`)
+  })
   ws.on('open', () => {
     for (const f of pending.splice(0)) ws.send(f)
   })
@@ -132,7 +164,7 @@ function parseSse(
   })
 }
 
-/** The fetch fallback: `GET …/events` as the connection, `POST …/send` per frame. */
+/** The fetch fallback: `GET …/events` as the connection, `POST …/send` per frame, tokens in headers. */
 export function sseTransport(
   origin: string,
   sessionId: string,
@@ -142,8 +174,9 @@ export function sseTransport(
   const base = `${origin}/v1/sessions/${sessionId}`
   const buf = buffered()
   const query = connectQuery(p)
+  const headers = connectHeaders(p)
   return new Promise((resolve) => {
-    const stream = req(`${base}/events?${query}`, { rejectUnauthorized: false }, (res) => {
+    const stream = req(`${base}/events?${query}`, { rejectUnauthorized: false, headers }, (res) => {
       if (res.statusCode !== 200) {
         res.resume()
         buf.close(res.statusCode ?? 1006, 'events refused')
@@ -162,7 +195,7 @@ export function sseTransport(
           {
             method: 'POST',
             rejectUnauthorized: false,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { ...headers, 'Content-Type': 'application/json' },
           },
           (res) => {
             res.resume()
