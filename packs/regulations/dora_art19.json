@@ -1,0 +1,63 @@
+{
+  "id": "dora_art19",
+  "label": "DORA Article 19 major ICT-related incident reporting",
+  "jurisdiction": "EU",
+  "authority": "Competent authority (financial supervisor)",
+  "citation": "Regulation (EU) 2022/2554, Article 19; RTS on reporting time limits",
+  "sources": [
+    {
+      "title": "Regulation (EU) 2022/2554 (DORA), EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2022/2554/oj"
+    },
+    {
+      "title": "Bank of Latvia incident reporting summary",
+      "url": "https://www.bank.lv/en/operational-areas/supervision/ict-security-and-cyber-risks/incident-reporting"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "In force since 2025-01-17. Uncertain: secondary sources differ on the intermediate and final report anchors. Check the adopted RTS on reporting time limits.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    { "id": "aware", "label": "Became aware of the incident", "hint": "" },
+    {
+      "id": "classified_major",
+      "label": "Classified as major",
+      "hint": "The entity classifies the incident as major under Article 18."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "initial",
+      "label": "Initial notification",
+      "recipient": "Competent authority",
+      "dueAt": [
+        { "from": "classified_major", "amount": 4, "unit": "hours" },
+        { "from": "aware", "amount": 24, "unit": "hours" }
+      ],
+      "rule": "Within 4 hours of classifying the incident as major, and no later than 24 hours after becoming aware of it.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "intermediate",
+      "label": "Intermediate report",
+      "recipient": "Competent authority",
+      "dueAt": [{ "from": "clock:initial", "amount": 72, "unit": "hours" }],
+      "rule": "Within 72 hours of the initial notification.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "final",
+      "label": "Final report",
+      "recipient": "Competent authority",
+      "dueAt": [{ "from": "clock:intermediate", "amount": 1, "unit": "months" }],
+      "rule": "Within one month of the latest intermediate report.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["dora:Art.19", "dora:Art.17", "nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Financial entities under DORA."
+  }
+}

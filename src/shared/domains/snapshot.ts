@@ -90,6 +90,8 @@ const FIELD_LABELS: Record<keyof DomainProfile, string> = {
   rolePatterns: 'Role patterns',
   agencyPattern: 'Agency pattern',
   coreCapabilities: 'Core Capabilities',
+  regulations: 'Reporting regulations',
+  frameworks: 'Control frameworks',
 }
 
 /** A list field's items as names the diff can compare. */

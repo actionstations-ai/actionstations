@@ -277,7 +277,7 @@ describe('update detection', () => {
     entry({ version: '1.0.0' }),
     entry({ version: '1.2.0' }),
     entry({ version: '2.0.0', minAppVersion: '0.9.0' }), // needs a newer app
-    entry({ version: '1.5.0', formatVersion: 2 }), // newer pack format
+    entry({ version: '1.5.0', formatVersion: 3 }), // newer pack format
     entry({ version: '1.3.0-beta.1' }),
     entry({ id: 'org.example.other', version: '0.1.0' }),
   ]

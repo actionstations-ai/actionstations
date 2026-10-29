@@ -49,6 +49,14 @@ export function isCopyPathAllowed(kind: CopiedPackKind, id: string, rel: string)
       )
     case 'documents': // documents/<docId>/<file>
       return parts.length === 3 && parts[0] === 'documents'
+    case 'regulations': // compliance/regulations/<id>.json (#426)
+    case 'frameworks': // compliance/frameworks/<id>.json
+      return (
+        parts.length === 3 &&
+        parts[0] === 'compliance' &&
+        parts[1] === kind &&
+        parts[2] === `${id}.json`
+      )
     default: // domains and examples are not copied into a project yet
       return false
   }

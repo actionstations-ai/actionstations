@@ -1,7 +1,9 @@
-// The MSEL editor's dialogs and panels: delete with inject, time jump, renumber, history.
+// The MSEL editor's dialogs and panels: delete with inject, time jump, renumber, reporting
+// clocks a row starts (#426), history.
 import type { Scenario } from '@shared/schemas/scenario'
 import { DeleteRowDialog, RenumberDialog, TimeJumpDialog } from './dialogs'
 import { HistoryPanel } from './HistoryPanel'
+import { TriggersDialog } from './TriggersDialog'
 import { draftMsel, type Draft, type Inserted } from './model'
 import { applyRenames, insertTimeJump } from './operations'
 import type { DialogState } from './use-editor-dialogs'
@@ -58,6 +60,22 @@ export function EditorDialogs(p: Props) {
         onApply={() => {
           if (s.renames) p.edit(applyRenames(draft, s.renames))
           s.setRenames(null)
+        }}
+      />
+      <TriggersDialog
+        projectPath={p.projectPath}
+        row={draft.rows.find((r) => r.key === s.triggersFor)?.row ?? null}
+        onCancel={() => s.setTriggersFor(null)}
+        onSave={(triggers) => {
+          const key = s.triggersFor
+          s.setTriggersFor(null)
+          if (key)
+            p.edit({
+              ...draft,
+              rows: draft.rows.map((r) =>
+                r.key === key ? { ...r, row: { ...r.row, triggers } } : r,
+              ),
+            })
         }}
       />
       <HistoryPanel

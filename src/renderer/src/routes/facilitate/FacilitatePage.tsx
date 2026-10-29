@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { ArrowLeft } from 'lucide-react'
 import type { FacilitatorState } from '@shared/ipc'
 import { mediaUrl } from '@shared/media-url'
 import { formatExerciseTime } from '@shared/schemas/common'
 import type { Inject } from '@shared/schemas/inject'
-import type { Scenario } from '@shared/schemas/scenario'
+import type { MselRow, Scenario } from '@shared/schemas/scenario'
+import { scenarioStart } from '@shared/compliance/scenario-time'
+import { regulationLabel, sessionOf } from '@shared/schemas/compliance'
 import { PageHeader } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
@@ -22,7 +24,9 @@ import {
   toggleClock,
 } from './clock'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
+import { fireRowTriggers } from './compliance'
 import { ExerciseClock } from './ExerciseClock'
+import { RegulatoryClocks } from './RegulatoryClocks'
 import { NoMsel, PresentControls, ShortcutsBar, SidePanel, StatusLine } from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
 import { useDeliveryActions, type UpdateState } from './use-delivery-actions'
@@ -138,9 +142,51 @@ function useKeys(
   )
 }
 
+/**
+ * Regulatory clocks (#426): the regulations the project has on (plus any whose trigger already
+ * fired), STARTEX on the scenario calendar, and how a delivered row fires its triggers.
+ */
+function useCompliance(projectPath: string, scenario: Scenario, state: FacilitatorState) {
+  const list = useIpcQuery('compliance:list', { projectPath })
+  const startex = scenario.msel.find((r) => r.purposeTag === 'STARTEX')?.event
+  const { startDate, startWallClock } = scenario.brief
+  const start = useMemo(
+    () => scenarioStart({ startDate, startWallClock, startexText: startex }, new Date()),
+    [startDate, startWallClock, startex],
+  )
+  const fired = useMemo(() => new Set(sessionOf(state).fired.map((f) => f.regulationId)), [state])
+  const all = list.data?.regulations
+  const regulations = useMemo(
+    () =>
+      (all ?? []).filter((r) => r.enabled || fired.has(r.regulation.id)).map((r) => r.regulation),
+    [all, fired],
+  )
+  const enabled = useMemo(
+    () => new Set((all ?? []).filter((r) => r.enabled).map((r) => r.regulation.id)),
+    [all],
+  )
+  const fireRow = useCallback(
+    (s: FacilitatorState, row: MselRow, minutes: number) =>
+      fireRowTriggers(s, row, enabled, minutes, start.at).state,
+    [enabled, start.at],
+  )
+  const startsClocks = useCallback(
+    (row: MselRow) =>
+      (row.triggers ?? [])
+        .filter((t) => enabled.has(t.regulationId))
+        .map((t) => {
+          const reg = all?.find((r) => r.regulation.id === t.regulationId)?.regulation
+          return reg ? regulationLabel(reg) : t.regulationId
+        }),
+    [enabled, all],
+  )
+  return { regulations, start, fireRow, startsClocks }
+}
+
 /** Clock, timeline entries, selection and the delivery actions of facilitator mode. */
 function useFacilitate(p: ViewProps) {
   const { projectPath, scenario, injects, state, update } = p
+  const compliance = useCompliance(projectPath, scenario, state)
   const now = useNow(isRunning(state))
   const minutes = clockMinutes(state, now)
   const entries = useMemo(
@@ -160,6 +206,8 @@ function useFacilitate(p: ViewProps) {
     update,
     onSelect: setSelectedId,
     onAnnounce: setAnnounce,
+    fireRow: compliance.fireRow,
+    startsClocks: compliance.startsClocks,
   })
   const keys = useKeys(p, selected, setSelectedId, actions.deliver)
   return {
@@ -173,6 +221,7 @@ function useFacilitate(p: ViewProps) {
     announce,
     actions,
     keys,
+    compliance,
   }
 }
 
@@ -253,6 +302,13 @@ function FacilitateView(props: ViewProps) {
         onToggle={f.keys.toggle}
         onReset={() => update((s) => resetClock(s))}
         onSet={(m) => update((s) => setClock(s, m, new Date()))}
+      />
+      <RegulatoryClocks
+        regulations={f.compliance.regulations}
+        state={state}
+        update={update}
+        minutes={f.minutes}
+        start={f.compliance.start}
       />
       <StatusLine announce={f.announce} saveStatus={props.saveStatus} />
       <ShortcutsBar on={shortcutsOn} onChange={setShortcutsOn} />

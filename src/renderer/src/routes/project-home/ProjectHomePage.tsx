@@ -6,6 +6,7 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { revealFolder, revealLabel } from '../projects/reveal'
 import { ProjectSettingsForm } from './ProjectSettingsForm'
+import { ComplianceSettings } from './ComplianceSettings'
 import { GlossaryButton } from '../../components/Glossary'
 import { ProjectScenarios } from './ProjectScenarios'
 import { ReadinessChecklist } from './ReadinessChecklist'
@@ -62,7 +63,7 @@ function SettingsDisclosure({ children }: { children: ReactNode }) {
     >
       <summary className="project-settings-details__summary">
         <span className="project-settings-details__label">Project settings</span>
-        <span className="muted"> Organization, domain, brand and default roles</span>
+        <span className="muted"> Organization, domain, brand, default roles and compliance</span>
       </summary>
       <div className="stack project-settings-details__body">{children}</div>
     </details>
@@ -115,6 +116,7 @@ export default function ProjectHomePage() {
       <SettingsDisclosure>
         <ProjectSummary path={query.data.path} project={project} />
         <ProjectSettingsForm key={project.id} path={query.data.path} project={project} />
+        <ComplianceSettings path={query.data.path} />
       </SettingsDisclosure>
     </div>
   )

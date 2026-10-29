@@ -11,6 +11,7 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { presentAsset } from '../facilitate/delivery'
 import './present.css'
+import { ClocksOnScreen } from './ClocksOnScreen'
 import { injectAlt } from '../../lib/inject-alt'
 
 function AudioCard({ src }: { src: string }) {
@@ -93,6 +94,7 @@ export default function PresentPage() {
       {inject.data && !asset && <p className="present__empty">No media for this inject.</p>}
       {inject.isError && <p className="present__empty">Could not load this inject.</p>}
       {showTitle && inject.data && <p className="present__title">{inject.data.title}</p>}
+      <ClocksOnScreen projectPath={projectPath} scenarioId={req.scenarioId} />
     </div>
   )
 }

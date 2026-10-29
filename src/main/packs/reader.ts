@@ -74,6 +74,8 @@ export interface ReadPackOptions {
   trusted?: boolean
   /** Override some byte limits (tests; defaults are PACK_LIMITS). */
   limits?: Partial<PackReadLimits>
+  /** The newest format this reader accepts (tests simulate an older app; default PACK_FORMAT_VERSION). */
+  maxFormatVersion?: number
 }
 
 const sha256 = (b: Buffer | string): string => createHash('sha256').update(b).digest('hex')
@@ -170,12 +172,16 @@ async function crossCheckJszip(
   return undefined
 }
 
-function checkHeader(data: unknown, appVersion: string): PackProblem | undefined {
+function checkHeader(
+  data: unknown,
+  appVersion: string,
+  maxFormat = PACK_FORMAT_VERSION,
+): PackProblem | undefined {
   const header = PackManifestHeader.safeParse(data)
   if (!header.success)
     return { path: PACK_MANIFEST_FILE, message: 'formatVersion is missing or not a number' }
   const { formatVersion, minAppVersion } = header.data
-  if (formatVersion > PACK_FORMAT_VERSION)
+  if (formatVersion > maxFormat)
     return {
       path: PACK_MANIFEST_FILE,
       message: `This pack needs a newer version of the app (pack format ${formatVersion}). ${UPDATE}`,
@@ -197,6 +203,7 @@ async function readManifest(
   raw: Map<string, RawZipEntry>,
   budget: InflateBudget,
   appVersion: string,
+  maxFormat?: number,
 ): Promise<{ manifest: PackManifest; bytes: Buffer } | PackProblem[]> {
   const entry = raw.get(PACK_MANIFEST_FILE)
   if (!entry)
@@ -209,7 +216,7 @@ async function readManifest(
   } catch (e) {
     return [{ path: PACK_MANIFEST_FILE, message: `not valid JSON: ${(e as Error).message}` }]
   }
-  const header = checkHeader(data, appVersion)
+  const header = checkHeader(data, appVersion, maxFormat)
   if (header) return [header]
   const parsed = PackManifest.safeParse(data)
   if (parsed.success) return { manifest: parsed.data, bytes }
@@ -283,7 +290,7 @@ export async function readPack(source: PackSource, opts: ReadPackOptions): Promi
   if (disagreement) return fail([disagreement])
   const raw = new Map(entries.filter((e) => !e.dir).map((e) => [e.name, e]))
   const budget: InflateBudget = { total: 0, limits }
-  const read = await readManifest(buf, raw, budget, opts.appVersion)
+  const read = await readManifest(buf, raw, budget, opts.appVersion, opts.maxFormatVersion)
   if (Array.isArray(read)) return fail(read)
   const { manifest } = read
   const mismatch = compareEntries(manifest, raw)

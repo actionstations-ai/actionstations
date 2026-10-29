@@ -13,7 +13,7 @@ import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import {
-  PACK_KINDS,
+  manifestContents,
   PACK_LIMITS,
   PACK_MANIFEST_FILE,
   packArchiveName,
@@ -221,12 +221,9 @@ function libraryManifest(
     minAppVersion: packMinAppVersion(appVersion),
     domains: [info.domain],
     tags: ['library', 'documents'],
-    contents: Object.fromEntries(
-      PACK_KINDS.map((k) => [
-        k,
-        k === 'documents' ? [...new Set(docs.map((d) => d.path.split('/')[1]!))].sort(byPath) : [],
-      ]),
-    ),
+    contents: manifestContents({
+      documents: [...new Set(docs.map((d) => d.path.split('/')[1]!))].sort(byPath),
+    }),
     documents: [...docs].sort((a, b) => byPath(a.path, b.path)),
     files: [...files.keys()].sort(byPath).map((path) => {
       const b = files.get(path)!

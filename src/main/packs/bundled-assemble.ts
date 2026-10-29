@@ -10,6 +10,8 @@
 //   examples   examples/<slug>/                 (index.sqlite*, .cache/ and dotfiles left out,
 //                                                except project/.gitignore)
 //   documents  packs/documents/<pack>/<slug>/<file>   (<pack> = id without ai.actionstations.)
+//   regulations packs/regulations/<id>.json             (#426; the pack is format 2 then)
+//   frameworks packs/frameworks/<id>.json
 //   README.md  packs/readmes/<pack>.md                 (optional; the pack's root README.md)
 //
 // Strict: every item on disk is mapped to exactly one pack, every mapped item exists, workflows
@@ -21,8 +23,8 @@
 import { existsSync, readdirSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import {
-  PACK_FORMAT_VERSION,
   PACK_KINDS,
+  packFormatVersionFor,
   type PackContents,
   type PackDocument,
   type PackKind,
@@ -44,7 +46,8 @@ export interface AssembledFile {
 
 /** pack.json without files[] (the build hashes them; source mode hashes on demand). */
 export interface AssembledManifest {
-  formatVersion: typeof PACK_FORMAT_VERSION
+  /** 2 when the pack carries regulations or frameworks, else 1 (packFormatVersionFor). */
+  formatVersion: number
   id: string
   name: string
   version: string
@@ -147,6 +150,8 @@ export function itemsOnDisk(root: string): Record<PackKind, string[]> {
     domains: listFiles(join(root, 'packs', 'domains'), '.json'),
     examples: listDirs(join(root, 'examples'), 'example.json'),
     documents,
+    regulations: listFiles(join(root, 'packs', 'regulations'), '.json'),
+    frameworks: listFiles(join(root, 'packs', 'frameworks'), '.json'),
   }
 }
 
@@ -187,6 +192,9 @@ function itemFiles(
         .map((d): [string, string] => [`documents/${d.path}`, join(dir, ...d.path.split('/'))])
         .filter(([, s]) => existsSync(s))
     }
+    case 'regulations':
+    case 'frameworks':
+      return flat([[`${kind}/${id}.json`, join(root, 'packs', kind, `${id}.json`)]])
   }
 }
 
@@ -272,7 +280,7 @@ function packFor(
   return {
     core: spec.core,
     manifest: {
-      formatVersion: PACK_FORMAT_VERSION,
+      formatVersion: packFormatVersionFor(contents),
       id: spec.id,
       name: spec.name,
       version: opts.appVersion,

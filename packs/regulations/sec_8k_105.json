@@ -1,0 +1,44 @@
+{
+  "id": "sec_8k_105",
+  "label": "SEC Form 8-K Item 1.05",
+  "jurisdiction": "US",
+  "authority": "U.S. Securities and Exchange Commission",
+  "citation": "17 CFR 229.106; Form 8-K Item 1.05 (Release 33-11216)",
+  "sources": [
+    {
+      "title": "SEC fact sheet, Release 33-11216",
+      "url": "https://www.sec.gov/files/33-11216-fact-sheet.pdf"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "In force since 2023-12-18 (smaller reporting companies since 2024-06-15). The Attorney General may delay disclosure for national security or public safety.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "us_federal",
+  "triggers": [
+    {
+      "id": "discovered",
+      "label": "Incident discovered",
+      "hint": "The materiality determination must follow without unreasonable delay."
+    },
+    {
+      "id": "materiality_determined",
+      "label": "Materiality determined",
+      "hint": "Players (with counsel) decide the incident is material. The 4 business days start here."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "form_8k",
+      "label": "Form 8-K Item 1.05",
+      "recipient": "SEC (EDGAR)",
+      "dueAt": [{ "from": "materiality_determined", "amount": 4, "unit": "business_days" }],
+      "rule": "File within four business days after determining the incident is material. Check the EDGAR filing deadline (end of day) in the rule.",
+      "injectTypes": ["regulatory_report_form", "press_release"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02", "nist_csf_2:GV.OC-03"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Public companies that file with the SEC."
+  }
+}

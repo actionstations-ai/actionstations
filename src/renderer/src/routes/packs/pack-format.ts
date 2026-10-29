@@ -21,6 +21,8 @@ export const KIND_LABEL: Record<PackKind, { one: string; many: string }> = {
   workflows: { one: 'ComfyUI workflow', many: 'ComfyUI workflows' },
   documents: { one: 'document set', many: 'Reference documents' },
   examples: { one: 'example project', many: 'Example projects' },
+  regulations: { one: 'regulation', many: 'Regulations' },
+  frameworks: { one: 'control framework', many: 'Control frameworks' },
 }
 
 export function formatBytes(n: number): string {

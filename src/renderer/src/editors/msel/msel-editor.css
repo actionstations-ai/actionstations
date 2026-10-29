@@ -509,3 +509,33 @@ thead .msel-editor__c-id {
 .msel-editor__grounding {
   margin-top: var(--space-1);
 }
+
+/* "Starts reporting clocks" dialog (#426) */
+.msel-triggers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.msel-triggers__group {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+}
+.msel-triggers__group legend {
+  font-weight: var(--weight-semibold);
+  padding: 0 var(--space-1);
+}
+.msel-triggers__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.msel-triggers__hint {
+  flex-basis: 100%;
+  margin: 0 0 var(--space-1) var(--space-6);
+  font-size: var(--text-sm);
+}

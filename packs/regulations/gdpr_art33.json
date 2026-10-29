@@ -1,0 +1,36 @@
+{
+  "id": "gdpr_art33",
+  "label": "GDPR Article 33 personal data breach notification",
+  "jurisdiction": "EU",
+  "authority": "Supervisory authority (data protection authority)",
+  "citation": "Regulation (EU) 2016/679, Articles 33 and 34",
+  "sources": [
+    {
+      "title": "Regulation (EU) 2016/679 (GDPR), EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    { "title": "GDPR Article 33 text", "url": "https://gdpr-info.eu/art-33-gdpr/" }
+  ],
+  "status": "in_force",
+  "statusNote": "Data subjects (Article 34) are told without undue delay when the risk is high; there is no fixed number of hours, so that notice has no clock here.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    { "id": "aware", "label": "Controller became aware of a personal data breach", "hint": "" }
+  ],
+  "clocks": [
+    {
+      "id": "authority",
+      "label": "Notification to the supervisory authority",
+      "recipient": "Supervisory authority",
+      "dueAt": [{ "from": "aware", "amount": 72, "unit": "hours" }],
+      "rule": "Without undue delay and, where feasible, not later than 72 hours after becoming aware. A late notification gives the reasons for the delay.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Controllers processing personal data of people in the EU."
+  }
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -68,6 +68,71 @@ describe('facilitator state store', () => {
       ),
     )
     expect((await readFacilitatorState(root, scenarioId)).generalNotes).toBe('save 5')
+  })
+
+  it('reads a facilitator.json written before regulatory clocks without changing it', async () => {
+    const { root, scenarioId } = await newScenario()
+    const legacy = {
+      elapsedMin: 30,
+      delivered: { 'I-01': { at: '2026-10-21T14:01:00.000Z', exerciseTime: '0:05' } },
+      notes: {},
+      generalNotes: 'From 0.6',
+    }
+    writeFileSync(await facilitatorStatePath(root, scenarioId), JSON.stringify(legacy))
+    const state = await readFacilitatorState(root, scenarioId)
+    expect(state).toMatchObject(legacy)
+    expect(state.compliance).toBeUndefined()
+  })
+
+  it('keeps keys it does not know through a read and a save (other features extend the file)', async () => {
+    const { root, scenarioId } = await newScenario()
+    const file = await facilitatorStatePath(root, scenarioId)
+    const fromNewerBuild = {
+      elapsedMin: 12,
+      delivered: {},
+      notes: {},
+      generalNotes: '',
+      live: { sessionId: 'abc', devices: [{ id: 'd1', role: 'player' }] },
+      controller: { holds: ['I-04'] },
+    }
+    writeFileSync(file, JSON.stringify(fromNewerBuild))
+    const read = await readFacilitatorState(root, scenarioId)
+    const withClock = {
+      ...read,
+      compliance: {
+        fired: [
+          {
+            id: 'f1',
+            regulationId: 'circia',
+            triggerId: 'covered_incident',
+            exerciseMin: 12,
+            scenarioAt: '2026-03-12T09:12',
+            by: 'manual' as const,
+            note: '',
+          },
+        ],
+        clocks: {},
+        onScreen: [],
+      },
+    }
+    await writeFacilitatorState(root, scenarioId, withClock)
+    const saved = JSON.parse(readFileSync(file, 'utf8'))
+    expect(saved.live).toEqual(fromNewerBuild.live)
+    expect(saved.controller).toEqual(fromNewerBuild.controller)
+    expect(saved.compliance.fired[0].triggerId).toBe('covered_incident')
+  })
+
+  it('refuses a malformed compliance block instead of dropping it silently', async () => {
+    const { root, scenarioId } = await newScenario()
+    await expect(
+      writeFacilitatorState(root, scenarioId, {
+        elapsedMin: 0,
+        delivered: {},
+        notes: {},
+        generalNotes: '',
+        compliance: { fired: [{ id: '../x' }], clocks: {}, onScreen: [] },
+      } as never),
+    ).rejects.toThrow()
   })
 
   it('rejects unknown scenarios and unsafe ids', async () => {

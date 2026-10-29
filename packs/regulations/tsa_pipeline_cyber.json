@@ -1,0 +1,36 @@
+{
+  "id": "tsa_pipeline_cyber",
+  "label": "TSA pipeline cybersecurity incident reporting",
+  "jurisdiction": "US",
+  "authority": "Transportation Security Administration (TSA)",
+  "citation": "Security Directive Pipeline-2021-01 series",
+  "sources": [
+    { "title": "CRS IN12006", "url": "https://www.everycrsreport.com/reports/IN12006.html" },
+    {
+      "title": "TSA surface cybersecurity NPRM, 89 FR 88488",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2024-11-07/html/2024-24704.htm"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "In force through the SD Pipeline-2021-01 series (reported 01G effective 2026-01-16). The first 2021 directive said 12 hours. Uncertain: check the current version.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    { "id": "incident_identified", "label": "Cybersecurity incident identified", "hint": "" }
+  ],
+  "clocks": [
+    {
+      "id": "cisa_report",
+      "label": "Cybersecurity incident report",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "incident_identified", "amount": 24, "unit": "hours" }],
+      "rule": "Report the cybersecurity incident to CISA within 24 hours of identifying it.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Hazardous liquid and natural gas pipeline owners and operators TSA names."
+  }
+}

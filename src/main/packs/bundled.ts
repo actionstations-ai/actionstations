@@ -139,6 +139,8 @@ function emptyManifest(id: string): PackManifest {
       workflows: [],
       documents: [],
       examples: [],
+      regulations: [],
+      frameworks: [],
     },
     documents: [],
     files: [],
@@ -156,6 +158,8 @@ function sourceResolver(root: string, id: string): (packPath: string) => string 
     ['domains/', ['packs', 'domains']],
     ['examples/', ['examples']],
     ['documents/', ['packs', 'documents', bundledShortName(id)]],
+    ['regulations/', ['packs', 'regulations']],
+    ['frameworks/', ['packs', 'frameworks']],
   ]
   return (packPath) => {
     if (packPath === 'README.md') return readmePath(root, id)

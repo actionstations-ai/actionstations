@@ -1,0 +1,49 @@
+{
+  "id": "nis2_art23",
+  "label": "NIS2 Article 23 incident reporting",
+  "jurisdiction": "EU",
+  "authority": "CSIRT or competent authority",
+  "citation": "Directive (EU) 2022/2555, Article 23",
+  "sources": [
+    {
+      "title": "Directive (EU) 2022/2555 (NIS2), EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "A directive: national transpositions may shorten deadlines (for example 24 hours for trust service providers), so a pack per member state can override this record.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [{ "id": "aware", "label": "Became aware of a significant incident", "hint": "" }],
+  "clocks": [
+    {
+      "id": "early_warning",
+      "label": "Early warning",
+      "recipient": "CSIRT / competent authority",
+      "dueAt": [{ "from": "aware", "amount": 24, "unit": "hours" }],
+      "rule": "Without undue delay and within 24 hours of becoming aware of the significant incident.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "notification",
+      "label": "Incident notification",
+      "recipient": "CSIRT / competent authority",
+      "dueAt": [{ "from": "aware", "amount": 72, "unit": "hours" }],
+      "rule": "Without undue delay and within 72 hours of becoming aware, with an initial assessment.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "final_report",
+      "label": "Final report",
+      "recipient": "CSIRT / competent authority",
+      "dueAt": [{ "from": "clock:notification", "amount": 1, "unit": "months" }],
+      "rule": "No later than one month after the incident notification.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nis2_art21:23", "nis2_art21:23.4.a", "nis2_art21:23.4.b", "nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Essential and important entities under NIS2."
+  }
+}

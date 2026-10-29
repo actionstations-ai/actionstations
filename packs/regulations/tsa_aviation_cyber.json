@@ -1,0 +1,39 @@
+{
+  "id": "tsa_aviation_cyber",
+  "label": "TSA aviation cybersecurity incident reporting",
+  "jurisdiction": "US",
+  "authority": "Transportation Security Administration (TSA)",
+  "citation": "Airport security program amendment (2022) and aircraft operator security directives",
+  "sources": [
+    {
+      "title": "Airport amendment summary (2022)",
+      "url": "https://www.convergint.com/wp-content/uploads/2022/10/TSA-Amendment-2022.pdf"
+    },
+    {
+      "title": "The Record: TSA 24-hour reporting rule for aviation",
+      "url": "https://therecord.media/experts-push-back-on-tsas-24-hour-cybersecurity-incident-reporting-rule-for-aviation-industry/"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "In force through the 2022 airport security program amendment and aircraft operator directives. The texts are partly sensitive security information; the value is from published summaries. Uncertain: check the current amendment.",
+  "verifiedOn": "2026-10-28",
+  "calendar": "none",
+  "triggers": [
+    { "id": "incident_identified", "label": "Cybersecurity incident identified", "hint": "" }
+  ],
+  "clocks": [
+    {
+      "id": "cisa_report",
+      "label": "Cybersecurity incident report",
+      "recipient": "CISA",
+      "dueAt": [{ "from": "incident_identified", "amount": 24, "unit": "hours" }],
+      "rule": "Report the cybersecurity incident to CISA within 24 hours of identifying it.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "cyber_physical", "insider"],
+    "note": "Airports and aircraft operators under a TSA security program."
+  }
+}

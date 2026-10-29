@@ -65,6 +65,10 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
           {item('duplicate', 'Duplicate row')}
           <MoveToPhase r={r} />
           {item('sources', 'Source check…')}
+          {item(
+            'clocks',
+            r.row.triggers?.length ? 'Reporting clocks (on)…' : 'Starts reporting clocks…',
+          )}
           <DropdownMenu.Separator className="msel-menu__separator" />
           <DropdownMenu.Item
             className="msel-menu__item msel-menu__item--danger"

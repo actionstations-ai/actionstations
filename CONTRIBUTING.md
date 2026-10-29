@@ -216,6 +216,7 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 | [0030](docs/adr/0030-hseep-blocks-and-excel-msel.md)          | HSEEP documents as shared blocks; the MSEL workbook with exceljs                                                       |
 | [0031](docs/adr/0031-outbound-gate-and-keyed-placeholders.md) | One outbound gate at provider resolution, with keyed deterministic placeholders                                        |
 | [0039](docs/adr/0039-local-model-benchmark.md)                | Local model benchmark drives the built app with deterministic scoring                                                  |
+| [0040](docs/adr/0040-compliance-packs.md)                     | Regulations and control frameworks as pack data (pack format 2)                                                        |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 

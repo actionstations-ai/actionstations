@@ -28,6 +28,7 @@ import { surveyChannels } from './surveys'
 import { groundingChannels } from './grounding'
 import { aarChannels } from './aar'
 import { ApprovalNeededEvent, privacyChannels } from './privacy'
+import { complianceChannels } from './compliance'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -55,6 +56,13 @@ export { SurveyListItem } from './surveys'
 export { GroundingItemKey } from './grounding'
 export { LiveSessionInfo } from './aar'
 export { ApprovalDecision, ApprovalNeededEvent, PrivacyView } from './privacy'
+export {
+  ComplianceList,
+  ComplianceSource,
+  CoverageReportView,
+  ListedFramework,
+  ListedRegulation,
+} from './compliance'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -128,6 +136,7 @@ export const channels = mergeChannels(
   groundingChannels,
   aarChannels,
   privacyChannels,
+  complianceChannels,
 )
 
 export type Channels = typeof channels

@@ -5,8 +5,9 @@ describe('export targets', () => {
   it('defaults to everything except the optional Word files', () => {
     expect(DEFAULT_TARGETS).not.toContain('docx')
     expect(DEFAULT_TARGETS).toContain('zip')
-    expect(ALL_TARGETS).toHaveLength(18)
+    expect(ALL_TARGETS).toHaveLength(20)
     expect(DEFAULT_TARGETS).toContain('aar_pdf')
+    expect(DEFAULT_TARGETS).not.toContain('coverage_xlsx')
     expect(DEFAULT_TARGETS).toContain('surveys_pdf')
   })
 
