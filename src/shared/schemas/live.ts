@@ -124,19 +124,25 @@ export const LogActor = z.object({
 })
 export type LogActor = z.infer<typeof LogActor>
 
+/**
+ * An id in a log reference: an app id, or a protocol id (22-character base64url, which may
+ * start with "-" or "_"). Message, release, vote, item and survey ids come off the wire.
+ */
+const LogId = z.union([SafeId, z.string().regex(/^[A-Za-z0-9_-]{22}$/)])
+
 export const LogRef = z.object({
-  rowId: SafeId.optional(),
-  releaseId: SafeId.optional(),
-  injectId: SafeId.optional(),
+  rowId: LogId.optional(),
+  releaseId: LogId.optional(),
+  injectId: LogId.optional(),
   channel: Text(140).optional(),
-  messageId: SafeId.optional(),
-  voteId: SafeId.optional(),
-  itemId: SafeId.optional(),
-  groupId: SafeId.optional(),
-  surveyId: SafeId.optional(),
-  observationId: SafeId.optional(),
-  taskId: SafeId.optional(),
-  noticeId: SafeId.optional(),
+  messageId: LogId.optional(),
+  voteId: LogId.optional(),
+  itemId: LogId.optional(),
+  groupId: LogId.optional(),
+  surveyId: LogId.optional(),
+  observationId: LogId.optional(),
+  taskId: LogId.optional(),
+  noticeId: LogId.optional(),
 })
 
 /** One line of `log.jsonl` (spec 0417 FR-2). */
