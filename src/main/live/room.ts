@@ -35,7 +35,15 @@ async function roleNames(root: string, scenarioId: string) {
     name: r.abbreviation || r.name,
     team: r.team,
   }))
-  return { roles, roleName: (id: string | undefined) => roles.find((r) => r.id === id)?.name }
+  const rowWindows: Record<string, number> = {}
+  for (const row of scenario.msel) {
+    if (row.responseWindowMin !== undefined) rowWindows[row.id] = row.responseWindowMin
+  }
+  return {
+    roles,
+    rowWindows,
+    roleName: (id: string | undefined) => roles.find((r) => r.id === id)?.name,
+  }
 }
 
 async function pickSession(root: string, scenarioId: string, sessionId?: string) {
@@ -54,9 +62,15 @@ export async function dashboard(
   if (!id) return null
   if (live) await flushActiveLog(root, scenarioId)
   const path = logFile(root, scenarioId, id)
-  const { roles } = await roleNames(root, scenarioId)
+  const { roles, rowWindows } = await roleNames(root, scenarioId)
+  const session = await readJson(
+    safeJoin(sessionFolder(root, scenarioId, id), SESSION_FILE),
+    LiveSessionSchema,
+  ).catch(() => undefined)
   return dashboardView(await readAll(path), {
     roles,
+    rowWindows,
+    ...(session?.unansweredAfterMin ? { unansweredAfterMin: session.unansweredAfterMin } : {}),
     now: Date.now(),
     live,
     sessionId: id,

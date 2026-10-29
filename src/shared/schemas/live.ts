@@ -64,6 +64,8 @@ export const LiveSession = z.object({
   lastIndex: z.number().int().min(0).default(0),
   /** Counts written when the session ends (spec 0417 FR-1). */
   summary: z.lazy(() => LiveSessionCounts).optional(),
+  /** Minutes before an inject that expects a response is flagged; absent = the default (10). */
+  unansweredAfterMin: z.number().int().min(1).max(240).optional(),
 })
 export type LiveSession = z.infer<typeof LiveSession>
 
@@ -585,6 +587,8 @@ export const RosterRow = z.object({
   kind: z.enum(['player', 'evaluator', 'observer']),
   connected: z.number().int().min(0),
   removed: z.number().int().min(0),
+  /** Devices that left more than a minute ago and have not come back (spec 0417 FR-8). */
+  away: z.number().int().min(0).default(0),
   /** Display names of connected devices; only in a `named` session. */
   names: z.array(z.string()),
   /** A player seat nobody is in. */
@@ -639,6 +643,8 @@ export const DashboardView = z.object({
   unansweredAfterMin: z.number().min(1),
   connected: z.number().int().min(0),
   roster: z.array(RosterRow),
+  /** Devices away across all seats. */
+  away: z.number().int().min(0).default(0),
   injects: z.array(InjectRow),
   unanswered: z.array(UnansweredRow),
   messages: z.object({

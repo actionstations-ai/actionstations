@@ -23,6 +23,8 @@ export interface TimelineEntry {
   hasNote: boolean
   /** Who got it on their device, when a live session released this row (#412). */
   live?: ReleaseSummary | undefined
+  /** Minutes without a response, when the live session has flagged this row (#417). */
+  unansweredMin?: number | undefined
   /** The branch this row is on (spec 0430); absent on the trunk. */
   lane?: { chip: string; label: string } | undefined
   /** Whether the row can be delivered on the path the decisions lead to; absent = yes. */
@@ -61,6 +63,9 @@ function RowStatus({ entry }: { entry: TimelineEntry }) {
       <>
         <Badge tone="ok">Delivered {entry.deliveredAt}</Badge>
         {entry.live ? <span className="fac-row__receipts">{receiptLine(entry.live)}</span> : null}
+        {entry.unansweredMin !== undefined ? (
+          <Badge tone="warn">{`No response · ${Math.floor(entry.unansweredMin)} min`}</Badge>
+        ) : null}
       </>
     )
   if (entry.due) return <Badge tone="warn">Due now</Badge>

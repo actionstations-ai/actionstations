@@ -7,12 +7,17 @@ import { queryClient, useIpcQuery } from '../../../lib/query'
 const DEBOUNCE_MS = 250
 const TICK_MS = 30_000
 
-export function useDashboard(projectPath: string, scenarioId: string, sessionId?: string) {
+export function useDashboard(
+  projectPath: string,
+  scenarioId: string,
+  sessionId?: string,
+  enabled = true,
+) {
   const req = useMemo(
     () => ({ projectPath, scenarioId, ...(sessionId ? { sessionId } : {}) }),
     [projectPath, scenarioId, sessionId],
   )
-  const query = useIpcQuery('live:dashboard', req, { refetchInterval: TICK_MS })
+  const query = useIpcQuery('live:dashboard', req, { refetchInterval: TICK_MS, enabled })
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined
     const off = subscribe('live:changed', () => {

@@ -1,6 +1,7 @@
 // The tables and summaries of the Room (#417, spec 0417 FR-8). Every count is text, every table
 // has a caption and column headers, and nothing relies on colour alone.
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
+import './room-window.css'
 import type { DashboardView, InjectRow } from '@shared/schemas/live'
 import { Badge, Button } from '../../../components/ui'
 import { ANSWER_LABEL, clock, minutes, targetLabel } from './room-format'
@@ -15,6 +16,7 @@ export function RosterSummary({ view }: { view: DashboardView }) {
         <tr>
           <th scope="col">Seat</th>
           <th scope="col">Connected</th>
+          <th scope="col">Away</th>
           <th scope="col">Removed</th>
         </tr>
       </thead>
@@ -27,6 +29,7 @@ export function RosterSummary({ view }: { view: DashboardView }) {
               {r.names.length > 0 && <span className="muted"> ({r.names.join(', ')})</span>}
               {r.empty && <Badge tone="warn">Empty</Badge>}
             </td>
+            <td>{r.away}</td>
             <td>{r.removed}</td>
           </tr>
         ))}
@@ -103,9 +106,39 @@ function useNewUnanswered(
   return message
 }
 
+function WindowSetting(props: { minutes: number; onSet: (minutes: number) => void }) {
+  const [value, setValue] = useState(String(props.minutes))
+  const id = useId()
+  const parsed = Number(value)
+  const valid = Number.isInteger(parsed) && parsed >= 1 && parsed <= 240
+  return (
+    <div className="room-window">
+      <label htmlFor={id}>Flag after (minutes)</label>
+      <input
+        id={id}
+        className="input room-window__input"
+        type="number"
+        min={1}
+        max={240}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <Button
+        size="sm"
+        disabled={!valid || parsed === props.minutes}
+        onClick={() => props.onSet(parsed)}
+      >
+        Set
+      </Button>
+    </div>
+  )
+}
+
 export function UnansweredList(props: {
   view: DashboardView
   onMarkAnswered: (releaseId: string) => void
+  /** Change the session's window; offered while the session runs. */
+  onSetWindow?: (minutes: number) => void
 }) {
   const { unanswered, unansweredAfterMin } = props.view
   const announce = useNewUnanswered(
@@ -121,6 +154,13 @@ export function UnansweredList(props: {
       <p role="status" className="sr-only">
         {announce}
       </p>
+      {props.onSetWindow && props.view.live && (
+        <WindowSetting
+          key={unansweredAfterMin}
+          minutes={unansweredAfterMin}
+          onSet={props.onSetWindow}
+        />
+      )}
       {unanswered.length === 0 ? (
         <p className="muted">
           None. A row that expects a response is flagged after {unansweredAfterMin} minutes without
