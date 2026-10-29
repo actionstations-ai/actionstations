@@ -7,7 +7,7 @@
  */
 import { app, powerSaveBlocker } from 'electron'
 import { join } from 'node:path'
-import { toBase64Url, toHex } from '@shared/live/bytes'
+import { fromBase64Url, toBase64Url, toHex } from '@shared/live/bytes'
 import { LiveClient } from '@shared/live/client'
 import type { Opened } from '@shared/live/codec'
 import { SessionKeys } from '@shared/live/crypto/keys'
@@ -20,6 +20,7 @@ import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/sc
 import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
+  LiveDevice,
   VoteDefinition,
   HotWashAction,
   LanServerStatus,
@@ -27,11 +28,13 @@ import type {
   LiveSession,
   LiveSessionStatus,
 } from '@shared/schemas/live'
+import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
 import { AppError } from '../lib/errors'
 import { emit, onEmit } from '../lib/events'
-import { safeJoin, writeJsonAtomic } from '../lib/fs'
+import { readJson, safeJoin, writeJsonAtomic } from '../lib/fs'
 import { playerBundleDir, userDataPath } from '../lib/paths'
+import type { FacilitatorState } from '@shared/ipc/facilitator'
 import { readFacilitatorState } from '../facilitator/state'
 import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
@@ -59,8 +62,18 @@ import type { Calls, CallSeat } from './calls'
 import { makeBridge, makeCalls, type LinkHost } from './simcell-link'
 import { simcellFor } from '../simcell/registry'
 import { LogWriter } from './log'
-import { countEntries, readAll } from './log-read'
-import { deleteSessionKeys, writeSessionKeys } from './keys'
+import { countEntries, readAll, sessionFolder } from './log-read'
+import { deleteSessionKeys, readSessionKeys, writeSessionKeys } from './keys'
+import {
+  branchEntriesForLive,
+  clockKey,
+  clockPayload,
+  listDevices,
+  rotateKeys,
+  sendStaffNotice,
+  type StaffNotice,
+} from './live-control'
+import { trackClients } from './dashboard'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
 import { requireConsent, isRemote } from './connection'
@@ -80,7 +93,7 @@ const LAN_FRAMES_PER_MINUTE = 60
 /** `join` frames one device may send in a session before the rest are ignored (#457 review H1). */
 const MAX_JOINS_PER_CLIENT = 20
 
-interface Active {
+export interface Active {
   session: LiveSession
   root: string
   crypto: CryptoProvider
@@ -107,6 +120,8 @@ interface Active {
   evaluation: LiveEvaluation
   stage: StageState
   mediaCache: Map<string, BlobRef>
+  /** The clock last published to devices, to skip a save that did not move it. */
+  clockKey?: string
   powerSave?: number
   unsubscribe: (() => void)[]
   dir: string
@@ -142,6 +157,15 @@ function bindAddress(requested: string | undefined, allowPublic = false): string
     public: `${requested ?? 'The chosen address'} is a public address. Confirm that you want devices beyond the local network to reach this session.`,
   }[choice.reason]
   throw new AppError('VALIDATION', message, { reason: choice.reason })
+}
+
+/** A resumed session keeps its address when this computer still has it, else takes the best one. */
+function bindResumed(requested: string | undefined): string {
+  try {
+    return bindAddress(requested)
+  } catch {
+    return bindAddress(undefined)
+  }
 }
 
 /** A per-session pseudonym for a client id: SHA-256 with the session salt, 16 bytes, base64url. */
@@ -661,6 +685,120 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
   }
 }
 
+/** What an interrupted session brings back: its record and the keys read from safeStorage. */
+interface ResumeInput {
+  session: LiveSession
+  crypto: CryptoProvider
+  keys: SessionKeys
+  signing: KeyPair
+}
+
+async function restoreKeys(
+  crypto: CryptoProvider,
+  session: LiveSession,
+  stored: NonNullable<Awaited<ReturnType<typeof readSessionKeys>>>,
+): Promise<ResumeInput> {
+  const ecdh = await crypto.ecdhImport(stored.ecdh.privateJwk as never)
+  if (toBase64Url(ecdh.publicKey) !== stored.ecdh.publicKey) {
+    throw new AppError('VALIDATION', 'The stored keys for this session do not match')
+  }
+  const keys = new SessionKeys(session.id, crypto, { controllerEcdh: ecdh })
+  const epochs = Object.keys(stored.staffRoots).map(Number)
+  for (const epoch of epochs.sort((x, y) => x - y)) {
+    await keys.addEpoch(epoch, 'staff', fromBase64Url(stored.staffRoots[String(epoch)]!))
+  }
+  if (!keys.hasStaff) throw new AppError('VALIDATION', 'The stored keys for this session are empty')
+  const signing = await crypto.ecdsaImport(stored.signing.privateJwk as never)
+  return { session, crypto, keys, signing }
+}
+
+/**
+ * Continue an interrupted session on the same address and port (spec 0417 FR-7). Devices rejoin
+ * with the links they already have. Only the record and the keys come back: messages, votes and
+ * hot wash items in memory restart empty, and what the log holds stays in the log.
+ */
+export async function resumeSession(
+  projectPath: string,
+  scenarioId: string,
+  sessionId: string,
+): Promise<LiveSessionStatus> {
+  if (active || ending) {
+    throw new AppError('CONFLICT', 'A live session is already running. End it first.')
+  }
+  const root = await requireProject(projectPath)
+  const scenario = await getScenario(root, scenarioId)
+  const dir = sessionFolder(root, scenarioId, sessionId)
+  const session = await readJson(safeJoin(dir, 'session.json'), LiveSessionSchema)
+  if (session.endedAt) throw new AppError('CONFLICT', 'This session has already ended.')
+  if (session.connection.kind !== 'lan') {
+    throw new AppError(
+      'CONFLICT',
+      'A session on a relay or your own server cannot be resumed after a restart. Close it as ended and start a new one.',
+    )
+  }
+  const stored = await readSessionKeys(sessionId)
+  if (!stored) {
+    throw new AppError(
+      'NOT_FOUND',
+      'The keys for this session are not stored on this computer, so it cannot be resumed. Close it as ended.',
+    )
+  }
+  const resume = await restoreKeys(createWebCryptoProvider(), session, stored)
+  return startOn(
+    {
+      projectPath,
+      scenarioId,
+      connection: session.connection,
+      attribution: session.attribution,
+      name: session.name,
+      ...(session.surveyOnly ? { surveyOnly: true } : {}),
+    },
+    root,
+    scenario,
+    undefined,
+    resume,
+  )
+}
+
+/** Close what the restart cut off and say so in the log (state follows the log). */
+async function logResume(a: Active, resume: ResumeInput): Promise<void> {
+  const prior = await readAll(a.log.path)
+  const openVotes = new Set<string>()
+  for (const e of prior) {
+    const id = e.ref?.voteId
+    if (!id) continue
+    if (e.kind === 'vote.open') openVotes.add(id)
+    else if (e.kind === 'vote.close') openVotes.delete(id)
+  }
+  // Device references are salted per run, so devices seen before the restart are marked gone.
+  for (const [clientRef, c] of trackClients(prior)) {
+    if (c.state !== 'in') continue
+    await a.log.append({
+      kind: 'client.leave',
+      actor: {
+        kind: 'client',
+        clientRef,
+        seat: { kind: c.kind, ...(c.roleId ? { roleId: c.roleId } : {}) },
+      },
+      data: { reason: 'app restarted' },
+    })
+  }
+  for (const voteId of openVotes) {
+    await a.log.append({
+      kind: 'vote.close',
+      actor: { kind: 'controller' },
+      ref: { voteId },
+      data: { voteId, status: 'interrupted', reason: 'app restarted', results: {}, voted: 0 },
+    })
+  }
+  const lost = Math.max(0, resume.session.lastIndex - (prior.at(-1)?.i ?? 0))
+  await a.log.append({
+    kind: 'session.resume',
+    actor: { kind: 'controller' },
+    data: { connection: 'lan', lostEntries: lost, epoch: a.keys.currentEpoch },
+  })
+}
+
 interface Parts {
   hub?: SessionHub
   transport: Transport
@@ -699,12 +837,13 @@ async function startOn(
   root: string,
   scenario: Awaited<ReturnType<typeof getScenario>>,
   remote: RemoteHandle | undefined,
+  resume?: ResumeInput,
 ): Promise<LiveSessionStatus> {
   const prompts = hotwashPrompts(scenario.hotwash)
-  const crypto = createWebCryptoProvider()
-  const sessionId = remote?.auth.sessionId ?? toBase64Url(crypto.random(16))
-  const keys = await SessionKeys.create(crypto, sessionId)
-  const signing = await crypto.ecdsaGenerate()
+  const crypto = resume?.crypto ?? createWebCryptoProvider()
+  const sessionId = resume?.session.id ?? remote?.auth.sessionId ?? toBase64Url(crypto.random(16))
+  const keys = resume?.keys ?? (await SessionKeys.create(crypto, sessionId))
+  const signing = resume?.signing ?? (await crypto.ecdsaGenerate())
   const controllerId = toBase64Url(crypto.random(16))
   const { hub, transport, limits } = await controllerParts(
     crypto,
@@ -723,28 +862,31 @@ async function startOn(
     signer: signing.privateKey,
     limits,
   })
+  const requested = req.connection.kind === 'lan' ? req.connection.address : undefined
   const address = remote
     ? ''
-    : bindAddress(
-        req.connection.kind === 'lan' ? req.connection.address : undefined,
-        req.allowPublicAddress,
-      )
+    : resume
+      ? bindResumed(requested)
+      : bindAddress(requested, req.allowPublicAddress)
   const dir = sessionDir(root, req.scenarioId, sessionId)
   const log = await LogWriter.open(join(dir, 'log.jsonl'), req.attribution)
   const salt = crypto.random(16)
   const a: Active = {
-    session: {
-      id: sessionId,
-      scenarioId: req.scenarioId,
-      name: req.name?.trim() || scenario.title,
-      startedAt: new Date().toISOString(),
-      connection: req.connection.kind === 'lan' ? { ...req.connection, address } : req.connection,
-      joinUrlPublic: '',
-      attribution: req.attribution,
-      protocolVersion: PROTOCOL_VERSION,
-      ...(req.surveyOnly ? { surveyOnly: true } : {}),
-      lastIndex: 0,
-    },
+    session: resume
+      ? { ...resume.session, connection: { ...req.connection, address } as LiveConnection }
+      : {
+          id: sessionId,
+          scenarioId: req.scenarioId,
+          name: req.name?.trim() || scenario.title,
+          startedAt: new Date().toISOString(),
+          connection:
+            req.connection.kind === 'lan' ? { ...req.connection, address } : req.connection,
+          joinUrlPublic: '',
+          attribution: req.attribution,
+          protocolVersion: PROTOCOL_VERSION,
+          ...(req.surveyOnly ? { surveyOnly: true } : {}),
+          lastIndex: 0,
+        },
     root,
     crypto,
     keys,
@@ -799,6 +941,11 @@ async function startOn(
     throw err
   }
   a.session.joinUrlPublic = a.lan?.status.url ?? `${remote!.origin}/s/${sessionId}`
+  if (a.lan && a.session.connection.kind === 'lan') {
+    // Kept so a resumed session opens on the same port and the links already shared still work.
+    a.session = { ...a.session, connection: { ...a.session.connection, port: a.lan.status.port } }
+  }
+  a.clockKey = clockKey(cachedClock)
   active = a
   wireClient(a)
   a.unsubscribe.push(watchScenarioChanges(a))
@@ -811,16 +958,19 @@ async function startOn(
   )
   simcell.startClock()
   await writeSessionFile(a)
-  await log.append({
-    kind: 'session.start',
-    actor: { kind: 'controller' },
-    data: {
-      connection: req.connection.kind,
-      ...(req.connection.kind === 'lan' ? { tls: req.connection.tls } : {}),
-      attribution: req.attribution,
-      protocol: PROTOCOL_VERSION,
-    },
-  })
+  if (resume) await logResume(a, resume)
+  else {
+    await log.append({
+      kind: 'session.start',
+      actor: { kind: 'controller' },
+      data: {
+        connection: req.connection.kind,
+        ...(req.connection.kind === 'lan' ? { tls: req.connection.tls } : {}),
+        attribution: req.attribution,
+        protocol: PROTOCOL_VERSION,
+      },
+    })
+  }
   await persistKeys(a)
   a.powerSave = powerSaveBlocker.start('prevent-app-suspension')
   await rememberConnection(root, req.scenarioId, req.connection)
@@ -849,10 +999,14 @@ async function rememberConnection(
 /** Best effort: without OS encryption the session still runs, it just cannot be resumed. */
 async function persistKeys(a: Active): Promise<void> {
   try {
-    const staffRoot = a.keys.root('staff')
+    const staffRoots: Record<string, string> = {}
+    for (const epoch of a.keys.knownEpochs) {
+      const root = a.keys.root('staff', epoch)
+      if (root) staffRoots[String(epoch)] = toBase64Url(root)
+    }
     await writeSessionKeys({
       sessionId: a.session.id,
-      staffRoots: staffRoot ? { [String(a.keys.currentEpoch)]: toBase64Url(staffRoot) } : {},
+      staffRoots,
       signing: {
         privateJwk: (await a.crypto.ecdsaExport(a.signing.privateKey)) as unknown as Record<
           string,
@@ -1089,6 +1243,98 @@ export async function markAnswered(
     data: note ? { note: note.slice(0, 500) } : {},
   })
   emitChanged('receipts')
+}
+
+/** Publish the exercise clock to devices when a save moved it (spec 0428 task 7). */
+export async function publishClock(
+  root: string,
+  scenarioId: string,
+  state: FacilitatorState,
+): Promise<void> {
+  const a = active
+  if (!a || a.root !== root || a.session.scenarioId !== scenarioId || a.session.surveyOnly) return
+  const payload = clockPayload(state)
+  const key = clockKey(payload)
+  if (key === a.clockKey) return
+  a.clockKey = key
+  await a.client.send('clock.state', 'all', payload, { key: 'players' })
+  await a.log.append({
+    kind: 'clock.state',
+    actor: { kind: 'controller' },
+    data: { ...payload },
+  })
+}
+
+/** A notice for evaluator devices only; the facilitator speaks to players. */
+export async function sendEvaluatorNotice(
+  root: string,
+  scenarioId: string,
+  notice: StaffNotice,
+): Promise<void> {
+  const a = activeFor(root, scenarioId)
+  await sendStaffNotice(a.client, a.log, a.crypto, notice)
+}
+
+/** Branch decisions and proposals go into the live log beside the rest of the run (spec 0430). */
+export async function logBranchEntries(
+  root: string,
+  scenarioId: string,
+  entries: Parameters<typeof branchEntriesForLive>[0],
+): Promise<void> {
+  const a = active
+  if (!a || a.root !== root || a.session.scenarioId !== scenarioId) return
+  for (const input of branchEntriesForLive(entries)) await a.log.append(input)
+}
+
+function rotationDeps(a: Active) {
+  const remote = a.remote
+  return {
+    client: a.client,
+    keys: a.keys,
+    seats: a.seats,
+    hub: a.hub,
+    ...(remote
+      ? {
+          remote: {
+            kick: (id: string) => remote.client.kick(remote.auth, id),
+            setJoinToken: (hex: string) => remote.client.setJoinToken(remote.auth, hex),
+          },
+        }
+      : {}),
+    log: a.log,
+    refOf: (id: string) => clientRef(a, id),
+    persist: () => persistKeys(a),
+  }
+}
+
+/** Devices seated in the running session. */
+export async function liveDevices(root: string, scenarioId: string): Promise<LiveDevice[]> {
+  const a = activeFor(root, scenarioId)
+  const scenario = await getScenario(root, scenarioId)
+  const roleName = (id: string | undefined) => scenario.roles.find((r) => r.id === id)?.name
+  return listDevices(a.seats, (id) => clientRef(a, id), roleName)
+}
+
+async function seatByRef(a: Active, ref: string): Promise<Seat> {
+  for (const seat of a.seats.byClient.values()) {
+    if ((await clientRef(a, seat.clientId)) === ref) return seat
+  }
+  throw new AppError('NOT_FOUND', 'That device is no longer in the session')
+}
+
+/** Remove one device and move everyone else to a new key, so the removed one cannot rejoin. */
+export async function removeDevice(root: string, scenarioId: string, ref: string): Promise<void> {
+  const a = activeFor(root, scenarioId)
+  await rotateKeys(rotationDeps(a), [await seatByRef(a, ref)])
+  emitChanged('presence')
+}
+
+/** Replace the keys with no one removed: links shared so far stop working for new devices. */
+export async function replaceKeys(root: string, scenarioId: string): Promise<number> {
+  const a = activeFor(root, scenarioId)
+  const epoch = await rotateKeys(rotationDeps(a))
+  emitChanged('started')
+  return epoch
 }
 
 export function isLiveFor(root: string, scenarioId: string): boolean {

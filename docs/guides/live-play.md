@@ -266,12 +266,20 @@ The **Room** tab in Facilitate is the one place to see how a live session is goi
 
 ### Past sessions
 
-The Live tab lists the scenario's earlier sessions with their length and counts. A session that was never ended (the app closed or the computer lost power) is marked **Interrupted**; **Close as ended** ends it at the time of its last entry. This version cannot reconnect devices to an interrupted session.
+The Live tab lists the scenario's earlier sessions with their length and counts. A session that was never ended (the app closed or the computer lost power) is marked **Interrupted**; **Close as ended** ends it at the time of its last entry. **Resume** reopens a session on this computer's network on the same address and port, so the links already shared still work and devices rejoin by themselves. It needs the session keys the app stored in the operating system's keychain; without them (or for a session on the relay or your own server) only **Close as ended** is offered. What was in memory is not rebuilt: messages, open votes, hot wash items and delivery receipts start again from empty, devices that were connected show as gone until they rejoin, and a vote that was open is recorded as interrupted. The log keeps everything that was written before the restart.
 
 - **Export JSON** and **Export CSV** write the log to a file you choose. The CSV opens in a spreadsheet. Names are left out unless the session was run with display names and you tick **Include display names**.
 - **Delete session data** removes the session's log, attachments and staged media from the project folder. It cannot be undone. The facilitator notes and the evaluation for the scenario are not touched.
 
 The log is a plain file in the project folder (`scenarios/<id>/live/<sessionId>/log.jsonl`). It holds the exercise content in the clear, like the rest of the project; protect the folder as you protect the scenario.
+
+### Removing a device and replacing the keys
+
+While a session runs, the Live tab lists the devices by seat. **Remove** disconnects one device and moves everyone else to a new key, so the removed device cannot read anything sent afterwards or join again with its link. **Replace keys** does the same with no one removed: use it when a join link was shared too widely. Links you shared before stop working for new devices, devices already connected carry on, and the QR codes on the Live tab show the new links. Both are recorded in the log.
+
+### What the Facilitate page sends to devices
+
+The exercise clock on every device follows the clock in Facilitate: starting, pausing, moving it or changing its rate is sent once. The Tracker tab reads the live session too: a release that no device has opened after three minutes is flagged, a message or an acted-on receipt from a targeted seat, or a closed vote on the row, counts as the answer, and promises in device messages are offered as suggestions like those from notes. **Prompt the table** gains **Send to evaluator devices** during a session; players never get a tracker notice. Branch decisions and proposal verdicts are written to the session log.
 
 ## Evaluators
 

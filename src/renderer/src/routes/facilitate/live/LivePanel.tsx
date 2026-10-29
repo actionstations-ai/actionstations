@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { LanAddress, LiveConnectionInput, LiveSessionStatus } from '@shared/schemas/live'
 import { useIpcQuery } from '../../../lib/query'
 import { Button } from '../../../components/ui'
+import { DeviceControls } from './DeviceControls'
 import { InviteCard } from './InviteCard'
 import { LiveEvaluators, type WatchRole } from './LiveEvaluators'
 import { ConnectionChooser, type ConnectionKind } from './ConnectionChooser'
@@ -390,6 +391,7 @@ export function LivePanel(props: {
           roles={props.roles ?? []}
         />
       )}
+      {running && <DeviceControls projectPath={props.projectPath} scenarioId={props.scenarioId} />}
       {running && live.status?.remote ? (
         <RemotePanel status={live.status} busy={live.busy} onStop={() => void live.stop()} />
       ) : running && live.status ? (

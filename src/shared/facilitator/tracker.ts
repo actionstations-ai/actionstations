@@ -53,7 +53,7 @@ export interface Flag {
 
 /** The slice of the live-play session log the tracker reads (spec 0428 §4). */
 export interface SessionEntry {
-  kind: 'inject.release' | 'inject.receipt' | 'message.send'
+  kind: 'inject.release' | 'inject.receipt' | 'message.send' | 'vote.close'
   /** Wall time, milliseconds. */
   at: number
   rowId?: string
@@ -86,8 +86,12 @@ const fmtMin = (m: number): string => {
 
 function answeredFromSession(input: TrackerInput): Set<string> {
   const ids = new Set<string>()
-  for (const e of input.session ?? [])
-    if (e.kind === 'message.send' && e.fromPlayer && e.rowId) ids.add(e.rowId)
+  for (const e of input.session ?? []) {
+    if (!e.rowId) continue
+    const player = e.kind === 'message.send' && e.fromPlayer
+    const acted = e.kind === 'inject.receipt' && e.receipt === 'actioned'
+    if (player || acted || e.kind === 'vote.close') ids.add(e.rowId)
+  }
   return ids
 }
 

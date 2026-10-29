@@ -170,6 +170,7 @@ export interface ControllerTools {
   onGoToRow: (rowId: string) => void
   onAnnounce: (text: string) => void
   onAddCommitment: () => void
+  onNotifyEvaluators?: ((text: string, rowId: string) => Promise<void>) | undefined
 }
 
 export function SidePanel(props: {
@@ -297,6 +298,7 @@ export function SidePanel(props: {
           }}
           onAnnounce={tools.onAnnounce}
           onAddCommitment={tools.onAddCommitment}
+          onNotifyEvaluators={tools.onNotifyEvaluators}
         />
       </Tabs.Content>
       <Tabs.Content value="evaluation" className="fac-tabs__panel">

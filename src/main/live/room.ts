@@ -5,6 +5,7 @@
  */
 import { promises as fs } from 'node:fs'
 import { dashboardView } from './dashboard'
+import { trackerFeed, type TrackerFeed } from './tracker-feed'
 import type { DashboardView, LiveSession, LogTailEntry } from '@shared/schemas/live'
 import { AppError } from '../lib/errors'
 import { exists, readJson, safeJoin, writeJsonAtomic } from '../lib/fs'
@@ -141,4 +142,13 @@ export async function deleteSession(
   const dir = sessionFolder(root, scenarioId, sessionId)
   if (!(await exists(dir))) throw new AppError('NOT_FOUND', 'No such session')
   await fs.rm(dir, { recursive: true, force: true })
+}
+
+/** The running session's log as the Facilitate tracker reads it; empty when none runs here. */
+export async function trackerFeedFor(root: string, scenarioId: string): Promise<TrackerFeed> {
+  const { id, live } = await pickSession(root, scenarioId)
+  if (!id || !live) return { live: false, session: [], messages: [] }
+  await flushActiveLog(root, scenarioId)
+  const { roles } = await roleNames(root, scenarioId)
+  return trackerFeed(await readAll(logFile(root, scenarioId, id)), roles)
 }
