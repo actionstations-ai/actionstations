@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { IsoDateTime } from './common'
 import { RecentProject } from './project'
+import { PrivacySettings } from './privacy'
 import { ProviderConfig, ProviderRouting } from './provider'
 import { SetupSettings } from './setup'
 
@@ -132,5 +133,7 @@ export const AppSettings = z.object({
   /** Opt-in check for a newer release (#442); asks first, never on by default. */
   updates: UpdateSettings.default(() => ({ check: 'ask' as const, askedCount: 0 })),
   surveys: SurveySettings.default({ minResponses: 3 }),
+  /** What goes to cloud providers: review policy and redaction defaults (#433). */
+  privacy: PrivacySettings.default(() => PrivacySettings.parse({})),
 })
 export type AppSettings = z.infer<typeof AppSettings>

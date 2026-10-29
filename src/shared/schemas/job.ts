@@ -24,6 +24,12 @@ export type JobKind = z.infer<typeof JobKind>
 export const JobStatus = z.enum(['queued', 'running', 'paused', 'done', 'error', 'cancelled'])
 export type JobStatus = z.infer<typeof JobStatus>
 
+export const JobAwaiting = z.object({
+  kind: z.literal('cloud-approval'),
+  requestId: z.string(),
+})
+export type JobAwaiting = z.infer<typeof JobAwaiting>
+
 export const Job = z.object({
   id: Id,
   kind: JobKind,
@@ -39,6 +45,11 @@ export const Job = z.object({
   updatedAt: IsoDateTime,
   /** Resumable after app restart (has checkpoints). */
   resumable: z.boolean().default(false),
+  /**
+   * The job is paused in place until the user approves a cloud request (#433). The status stays
+   * `running` so older builds still read jobs.json.
+   */
+  awaiting: JobAwaiting.optional(),
 })
 export type Job = z.infer<typeof Job>
 
@@ -50,6 +61,8 @@ export const JobProgressEvent = z.object({
   message: z.string(),
   stage: z.string().optional(),
   itemId: z.string().optional(),
+  /** Set while the job waits for a cloud approval (#433); absent otherwise. */
+  awaiting: JobAwaiting.optional(),
 })
 export type JobProgressEvent = z.infer<typeof JobProgressEvent>
 

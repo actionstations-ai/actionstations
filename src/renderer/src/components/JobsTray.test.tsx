@@ -6,6 +6,8 @@ import { afterEach, describe, expect, it } from 'vitest'
 import type { Job } from '@shared/schemas/job'
 import { mockTtx } from '../routes/documents/test-utils'
 import { JobsTray } from './JobsTray'
+import { useApprovals } from './privacy/approvals-store'
+import { manifest } from './privacy/test-fixtures'
 
 const job = (over: Partial<Job>): Job => ({
   id: 'E1',
@@ -64,6 +66,47 @@ describe('JobsTray (#197)', () => {
     act(() => ttx.emit('job:done', { jobId: 'P1', kind: 'generate-injects', status: 'cancelled' }))
     act(() => ttx.emit('job:done', { jobId: 'I1', kind: 'ingest', status: 'done' }))
     await waitFor(() => expect(screen.queryByRole('region')).toBeNull())
+  })
+
+  it('shows a job waiting for a cloud approval with a Review button (#433)', async () => {
+    const ttx = mockTtx({
+      'jobs:list': () => [job({ id: 'G1', kind: 'generate-scenario' })],
+      'privacy:pending': () => [manifest({ requestId: 'R9', jobId: 'G1' })],
+    })
+    render(
+      <MemoryRouter>
+        <JobsTray />
+      </MemoryRouter>,
+    )
+    const tray = await screen.findByRole('region', { name: /Background jobs/ })
+    act(() =>
+      ttx.emit('job:progress', {
+        jobId: 'G1',
+        kind: 'generate-scenario',
+        status: 'running',
+        progress: 0.2,
+        message: 'Drafting',
+        awaiting: { kind: 'cloud-approval', requestId: 'R9' },
+      }),
+    )
+    expect(await within(tray).findByText('Waiting for your approval')).toBeTruthy()
+    await userEvent.click(
+      within(tray).getByRole('button', { name: 'Review: Generating the scenario' }),
+    )
+    await waitFor(() => expect(useApprovals.getState().openId).toBe('R9'))
+
+    act(() =>
+      ttx.emit('job:progress', {
+        jobId: 'G1',
+        kind: 'generate-scenario',
+        status: 'running',
+        progress: 0.3,
+        message: 'Drafting',
+      }),
+    )
+    expect(within(tray).queryByText('Waiting for your approval')).toBeNull()
+    expect(within(tray).queryByRole('button', { name: /Review/ })).toBeNull()
+    useApprovals.setState({ pending: [], openId: null })
   })
 
   it('renders nothing when no job runs', async () => {

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import { Button } from '../../components/ui'
+import { CloudMarker } from '../../components/privacy/CloudMarker'
 import { useIpcQuery } from '../../lib/query'
 import { ModelInput } from './ModelInput'
 import type { ModelPurpose } from './model-suggestions'
@@ -101,12 +102,19 @@ function RoutingRow(props: {
   const projectScope = props.onOverride !== undefined
   const editable = !projectScope || props.overriding
   const provider = props.providers.find((p) => p.id === value?.providerId)
+  const effectiveId = editable ? value?.providerId : props.inherited?.providerId
+  const effective = props.providers.find((p) => p.id === effectiveId)
   return (
     <tr>
       <th scope="row" className="routing-task">
         <span className="routing-task__label">{info.label}</span>
         <span className="muted routing-task__purpose">{info.purpose}</span>
         {info.task === 'embed' && <EmbeddingNote />}
+        {effective && (
+          <span className="routing-task__purpose">
+            <CloudMarker config={effective} />
+          </span>
+        )}
       </th>
       {projectScope && (
         <td>

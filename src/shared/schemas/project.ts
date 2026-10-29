@@ -6,6 +6,7 @@ import {
 } from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
 import { PackId, PackPath, SemVer } from './pack'
+import { ProjectPrivacy } from './privacy'
 import { ProviderRouting } from './provider'
 
 export const PROJECT_FORMAT_VERSION = 1
@@ -145,6 +146,8 @@ export const Project = z.looseObject({
   promptOverrides: z.array(z.string()).default([]),
   documents: z.array(DocumentMeta).default([]),
   scenarios: z.array(ScenarioMeta).default([]),
+  /** Overrides of the global cloud review and redaction settings (#433). */
+  privacy: ProjectPrivacy.optional(),
 })
 export type Project = z.infer<typeof Project>
 

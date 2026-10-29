@@ -7,8 +7,31 @@ import { useJobsConnection } from '../state/use-jobs'
 import { CancelJobButton } from './CancelJobButton'
 import { InterruptedJobActions } from './InterruptedJobActions'
 import { jobScreen, trayJobs } from './jobs-tray-model'
-import { ProgressBar } from './ui'
+import { refreshPending, useApprovals } from './privacy/approvals-store'
+import { Button, ProgressBar } from './ui'
 import './jobs-tray.css'
+
+/** Open the approval dialog for the request a job waits on (#433). */
+function ReviewButton({ job, label }: { job: TrackedJob; label: string }) {
+  const open = useApprovals((s) => s.open)
+  const review = async () => {
+    const requestId = job.awaiting?.requestId
+    const list = await refreshPending().catch(() => useApprovals.getState().pending)
+    const match =
+      list.find((p) => p.requestId === requestId) ?? list.find((p) => p.jobId === job.id)
+    if (match) open(match.requestId)
+  }
+  return (
+    <Button
+      size="sm"
+      variant="primary"
+      aria-label={`Review: ${label}`}
+      onClick={() => void review()}
+    >
+      Review
+    </Button>
+  )
+}
 
 function TrayItem({ job }: { job: TrackedJob }) {
   const label = JOB_LABEL[job.kind]
@@ -20,7 +43,12 @@ function TrayItem({ job }: { job: TrackedJob }) {
         {to ? <Link to={to}>{label}</Link> : label}
         {paused && <span className="jobs-tray__state"> · interrupted</span>}
       </span>
-      {!paused && <span className="jobs-tray__message">{job.message}</span>}
+      {!paused && (
+        <span className="jobs-tray__message">
+          {job.awaiting ? 'Waiting for your approval' : job.message}
+        </span>
+      )}
+      {!paused && job.awaiting && <ReviewButton job={job} label={label} />}
       {paused ? (
         <InterruptedJobActions job={job} context={label} />
       ) : (

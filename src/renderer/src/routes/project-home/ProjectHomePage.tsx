@@ -9,6 +9,7 @@ import { ProjectSettingsForm } from './ProjectSettingsForm'
 import { GlossaryButton } from '../../components/Glossary'
 import { ProjectScenarios } from './ProjectScenarios'
 import { ReadinessChecklist } from './ReadinessChecklist'
+import { CloudPrivacySummary } from './CloudPrivacySummary'
 import './project-home.css'
 import { errorText } from '../../lib/errors'
 
@@ -110,6 +111,7 @@ export default function ProjectHomePage() {
       />
       <ReadinessChecklist path={query.data.path} project={project} />
       <ProjectScenarios path={query.data.path} scenarios={project.scenarios} />
+      <CloudPrivacySummary projectPath={query.data.path} showLink />
       <SettingsDisclosure>
         <ProjectSummary path={query.data.path} project={project} />
         <ProjectSettingsForm key={project.id} path={query.data.path} project={project} />

@@ -25,6 +25,8 @@ import {
   mediaProviderFor,
   providerTaskSupport,
   textProviderFor,
+  connectionTestMediaProvider,
+  connectionTestTextProvider,
 } from '../../providers/resolve'
 
 const HEALTH_TIMEOUT_MS = 10_000
@@ -87,7 +89,7 @@ async function checkHealth(config: ProviderConfig): Promise<ProviderHealth> {
 async function runTest(config: ProviderConfig, model: string | undefined) {
   const started = Date.now()
   try {
-    const provider = await textProviderFor(config)
+    const provider = await connectionTestTextProvider(config)
     const signal = AbortSignal.timeout(TEST_TIMEOUT_MS)
     const chosen = model ?? config.defaultModel ?? (await provider.listModels(signal))[0]?.id
     const res = await provider.chat({
@@ -114,7 +116,7 @@ async function runSpeechTest(config: ProviderConfig, text?: string, voiceStyle?:
   const started = Date.now()
   const outDir = await fs.mkdtemp(join(tmpdir(), 'ttx-speech-'))
   try {
-    const provider = await mediaProviderFor(config)
+    const provider = await connectionTestMediaProvider(config)
     if (!provider.capabilities().has('audio'))
       throw new AppError('VALIDATION', `${config.label} does not generate speech`)
     const line = (text?.trim() || SPEECH_SAMPLE).slice(0, SPEECH_MAX_CHARS)

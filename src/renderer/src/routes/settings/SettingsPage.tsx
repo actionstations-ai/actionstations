@@ -10,6 +10,7 @@ import { errorText } from '../../lib/errors'
 import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
 import { UpdatesSection } from './UpdatesSection'
+import { PrivacySection } from './PrivacySection'
 
 const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'system', label: 'Match system' },
@@ -276,6 +277,7 @@ export default function SettingsPage() {
           <LocalToolsSection settings={settings.data} />
           <GenerationSection settings={settings.data} />
           <SurveysSection settings={settings.data} />
+          <PrivacySection />
           <EmbeddingsSection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />
           <UpdatesSection />

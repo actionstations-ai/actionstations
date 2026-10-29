@@ -21,6 +21,7 @@ import {
   createTextProvider,
   listAdapterKinds,
 } from './registry'
+import { guardEmbeddingProvider, guardMediaProvider, guardTextProvider } from './outbound'
 import type { AdapterModule, EmbeddingProvider, MediaProvider, TextProvider } from './types'
 
 export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
@@ -210,14 +211,37 @@ export function forgetProvider(providerId: string): void {
     if (key.startsWith(`${providerId}\u0000`)) instances.delete(key)
 }
 
+/**
+ * A provider as callers get it: requests to a cloud provider go through the outbound gate
+ * (#433: preview, approval, redaction, send log); local providers are returned as they are.
+ */
 export async function textProviderFor(config: ProviderConfig): Promise<TextProvider> {
   const secret = await secretFor(config)
-  return cached('text', config, secret, () => createTextProvider(config, secret))
+  return cached('text', config, secret, () =>
+    guardTextProvider(createTextProvider(config, secret), config),
+  )
 }
 
 export async function mediaProviderFor(config: ProviderConfig): Promise<MediaProvider> {
   const secret = await secretFor(config)
-  return cached('media', config, secret, () => createMediaProvider(config, secret))
+  return cached('media', config, secret, () =>
+    guardMediaProvider(createMediaProvider(config, secret), config),
+  )
+}
+
+/**
+ * Without the gate, for the Providers page connection tests and the Workflows page test
+ * renders only: they send fixed sample text the user asked for, never project content.
+ */
+export async function connectionTestTextProvider(config: ProviderConfig): Promise<TextProvider> {
+  const secret = await secretFor(config)
+  return cached('text-test', config, secret, () => createTextProvider(config, secret))
+}
+
+/** See connectionTestTextProvider. */
+export async function connectionTestMediaProvider(config: ProviderConfig): Promise<MediaProvider> {
+  const secret = await secretFor(config)
+  return cached('media-test', config, secret, () => createMediaProvider(config, secret))
 }
 
 function modelFor(task: ProviderTask, ref: ProviderRef, config: ProviderConfig): string {
@@ -270,7 +294,7 @@ export async function resolveEmbeddingProvider(
   const model = modelFor('embed', ref, config)
   const secret = await secretFor(config)
   const provider = cached(`embed-${model}`, config, secret, () =>
-    createEmbeddingProvider(config, model, secret),
+    guardEmbeddingProvider(createEmbeddingProvider(config, model, secret), config),
   )
   return { provider, providerId: config.id, model }
 }

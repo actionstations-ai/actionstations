@@ -27,6 +27,7 @@ import { updateChannels } from './updates'
 import { surveyChannels } from './surveys'
 import { groundingChannels } from './grounding'
 import { aarChannels } from './aar'
+import { ApprovalNeededEvent, privacyChannels } from './privacy'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -53,6 +54,7 @@ export { UpdateStatus } from './updates'
 export { SurveyListItem } from './surveys'
 export { GroundingItemKey } from './grounding'
 export { LiveSessionInfo } from './aar'
+export { ApprovalDecision, ApprovalNeededEvent, PrivacyView } from './privacy'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -125,6 +127,7 @@ export const channels = mergeChannels(
   surveyChannels,
   groundingChannels,
   aarChannels,
+  privacyChannels,
 )
 
 export type Channels = typeof channels
@@ -153,6 +156,10 @@ export const events = {
   'templates:changed': TemplatesChangedEvent,
   /** The update check's setting or result changed: refetch updates:status (#442). */
   'updates:changed': z.object({}),
+  /** A cloud request waits for the user's approval (#433): open the approval dialog. */
+  'outbound:approval-needed': ApprovalNeededEvent,
+  /** A pending cloud request was answered or dropped (cancelled job): refetch privacy:pending. */
+  'outbound:approval-settled': z.object({ requestId: z.string() }),
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

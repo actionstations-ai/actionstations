@@ -10,6 +10,7 @@ import {
   Plug,
   Presentation,
   Settings,
+  ShieldCheck,
   Sparkles,
   type LucideIcon,
 } from 'lucide-react'
@@ -27,4 +28,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   library: BookOpen,
   providers: Plug,
   packs: Package,
+  privacy: ShieldCheck,
 }

@@ -29,8 +29,10 @@ export function jobsFilePath(): string | undefined {
 export function pauseInterrupted(job: Job): Job {
   if (job.status !== 'queued' && job.status !== 'running') return job
   const resumable = RESUMABLE_KINDS.includes(job.kind) && !!job.scenarioId && !!job.projectPath
+  // A cloud approval cannot outlive the app session that asked for it (#433).
+  const { awaiting: _awaiting, ...rest } = job
   return {
-    ...job,
+    ...rest,
     status: 'paused',
     resumable,
     message: resumable ? 'Interrupted — resumable' : 'Interrupted by app exit',

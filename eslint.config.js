@@ -46,6 +46,18 @@ export default tseslint.config(
               group: ['@anthropic-ai/*', 'openai', 'ollama'],
               message: 'Provider SDKs only inside src/main/providers/*',
             },
+            {
+              // #433: providers are built only in providers/resolve.ts, which wraps cloud ones in
+              // the outbound gate. Building one elsewhere would bypass preview and redaction.
+              group: ['**/providers/registry'],
+              importNames: ['createTextProvider', 'createEmbeddingProvider', 'createMediaProvider'],
+              message: 'Get providers from providers/resolve (outbound gate), not the registry',
+            },
+            {
+              group: ['**/providers/text/**/adapter', '**/providers/media/**/adapter'],
+              message:
+                'Get providers from providers/resolve (outbound gate), not an adapter module',
+            },
           ],
         },
       ],

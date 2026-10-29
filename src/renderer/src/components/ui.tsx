@@ -153,13 +153,15 @@ export function Dialog(props: {
   description?: string
   children: ReactNode
   footer?: ReactNode
+  /** Extra class on the dialog box (e.g. a wider variant). */
+  className?: string
 }) {
   const returnFocus = useReturnFocus(props.open)
   return (
     <RDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
       <RDialog.Portal>
         <RDialog.Overlay className="dialog-overlay" />
-        <RDialog.Content className="dialog" onCloseAutoFocus={returnFocus}>
+        <RDialog.Content className={clsx('dialog', props.className)} onCloseAutoFocus={returnFocus}>
           <RDialog.Title asChild>
             <h2>{props.title}</h2>
           </RDialog.Title>

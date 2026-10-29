@@ -183,8 +183,16 @@ async function callWithRepair(
 ): Promise<Parsed> {
   const { ctx, stage, itemId } = call
   const extra = { stage, ...(itemId ? { itemId } : {}) }
-  const chat = (): Promise<ChatResponse> =>
-    conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
+  const chat = async (): Promise<ChatResponse> => {
+    const res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
+    if (res.unknownPlaceholders?.length)
+      ctx.log(
+        `REDACTION_UNKNOWN: the reply used placeholders this project never issued (${res.unknownPlaceholders.join(', ')}); they were left as written`,
+        'warn',
+        extra,
+      )
+    return res
+  }
   let res = await chat()
   account(run, res)
   let parsed = parseOutput(res, schema)
@@ -245,6 +253,21 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
       ...(fm.modelHints.maxTokens !== undefined ? { maxTokens: fm.modelHints.maxTokens } : {}),
       json: jsonSpec(name, schema),
       signal: ctx.signal,
+      outbound: {
+        jobId: ctx.jobId,
+        projectPath,
+        task: fm.task,
+        stage,
+        ...(itemId ? { itemId } : {}),
+        excerpts: retrieved.map(({ hit }) => ({
+          chunkId: hit.chunkId,
+          documentId: hit.documentId,
+          documentTitle: hit.documentTitle,
+          headingPath: hit.headingPath,
+          ...(hit.page !== undefined ? { page: hit.page } : {}),
+          text: hit.text,
+        })),
+      },
     },
     messages: [{ role: 'user', content: rendered.user }],
     onToken: (text) => ctx.token(stage, text, itemId),
