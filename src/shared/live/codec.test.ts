@@ -976,3 +976,49 @@ describe('the noble provider runs the full codec path', () => {
     ).toBe(true)
   })
 })
+
+describe('frames to the controller are bound to the players key (#452)', () => {
+  it('a sender holding only the controller ECDH public key, not the session key, cannot seal an acceptable frame', async () => {
+    const ctl = await makeController()
+    const { controller } = await contexts(ctl)
+    // The attacker saw the invite's controller keys but has no root: it makes one up.
+    const attacker = new SessionKeys(IDS.session, ctl.crypto, {
+      controllerEcdhPub: ctl.keys.controllerEcdhPub,
+    })
+    await attacker.addEpoch(1, 'players', ctl.crypto.random(32))
+    const forged = await seal(
+      ctl.crypto,
+      attacker,
+      header('vote.cast', { from: IDS.playerA, to: 'controller' }),
+      PAYLOAD_FIXTURES['vote.cast'],
+    )
+    expect((forged.payload as Ciphertext).k).toBe('c')
+    expect((await open(encodeFrame(forged), controller)) as object).toMatchObject({
+      ok: false,
+      reason: 'BAD_TAG',
+    })
+  })
+
+  it('a frame sealed under the previous epoch still opens on the controller after a rotation', async () => {
+    const ctl = await makeController()
+    const { controller, playerKeys } = await contexts(ctl)
+    const env = await seal(
+      ctl.crypto,
+      playerKeys,
+      header('inject.receipt', { from: IDS.playerA, to: 'controller' }),
+      PAYLOAD_FIXTURES['inject.receipt'],
+    )
+    await ctl.keys.addEpoch(2, 'staff', ctl.crypto.random(32))
+    expect(ctl.keys.currentEpoch).toBe(2)
+    expect((await open(encodeFrame(env), controller)) as object).toMatchObject({
+      ok: true,
+      msg: { key: 'controller' },
+    })
+    // A controller that forgot epoch 1 cannot open it any more.
+    ctl.keys.forgetBefore(2)
+    expect((await open(encodeFrame(env), controller)) as object).toMatchObject({
+      ok: false,
+      reason: 'BAD_TAG',
+    })
+  })
+})
