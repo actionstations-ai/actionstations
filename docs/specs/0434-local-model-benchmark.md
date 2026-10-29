@@ -402,7 +402,7 @@ Where the code differs from the text above, and why:
   `budgetGb` is in the app's 10^9 units, like `TEXT_TIERS`.
 - **Memory fit**: size on disk plus a context-cache estimate of a tenth of the weights at 32k
   (at least 0.25 GB). A tier's budget is its lower bound; the lowest tier assumes 5.5 GB.
-- **Remote refusal**: #433 had not merged, so the runner has its own loopback-only check.
+- **Remote refusal**: the runner has its own loopback-only check, stricter than `isRemoteProvider` of #433 (a benchmark never needs a host other than this machine).
 - **Grounding**: #423 merged before this shipped, so scoring version 1 includes support
   (FR-11 b, from `grounding:scenario`) and the grounding of `whyItTeaches` (FR-13, from
   `grounding:ideas`), using the checker's own label. Support is (grounded − unsupported) /
