@@ -120,7 +120,7 @@ describe('cli', () => {
       },
     })
     expect(await main(['service', 'install', '--dry-run'], win)).toBe(0)
-    expect(win.out[0]).toContain('sc.exe create ActionStationsRelay')
+    expect(win.out[0]).toContain('schtasks /Create /F /TN ActionStationsRelay')
     expect(win.out.some((l) => l.startsWith('netsh advfirewall'))).toBe(true)
     expect(existsSync(join(dir, 'ActionStationsRelay', 'config.toml'))).toBe(false)
     const linux = io({
