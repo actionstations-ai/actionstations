@@ -3,6 +3,8 @@ import type { SessionEndPayload } from '../../shared/live/schemas'
 import type { PlayerSession } from '../app/session'
 import { useStore } from '../app/store'
 import { STRINGS } from '../app/strings'
+import { EndedObservations } from '../features/evaluate/EndedObservations'
+import type { EvaluatorFeature } from '../features/evaluate/evaluator'
 
 function Shell({
   heading,
@@ -56,11 +58,18 @@ export function InvalidLinkScreen({ message }: { message: string | undefined }) 
   )
 }
 
-export function EndedScreen({ ended }: { ended: SessionEndPayload | undefined }) {
+export function EndedScreen({
+  ended,
+  evaluate,
+}: {
+  ended: SessionEndPayload | undefined
+  evaluate?: EvaluatorFeature | undefined
+}) {
   return (
     <Shell heading={STRINGS.ended.heading} screen="ended">
       {ended?.message ? <p className="ended__message">{ended.message}</p> : null}
       <p>{ended?.reason === 'cancelled' ? STRINGS.ended.cancelled : STRINGS.ended.endex}</p>
+      {evaluate ? <EndedObservations feature={evaluate} /> : null}
       <p className="muted">{STRINGS.ended.closed}</p>
     </Shell>
   )

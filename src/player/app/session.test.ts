@@ -751,6 +751,127 @@ describe('PlayerSession messages (#413)', () => {
   })
 })
 
+describe('PlayerSession as an evaluator (#416)', () => {
+  const tasks = [
+    {
+      id: 'T-01',
+      capability: 'operational_communications',
+      task: 'Notify the airlines',
+      citation: { documentTitle: 'AEP', headingPath: 'AEP › App. 6' },
+      rowIds: ['I-06'],
+    },
+  ]
+  const assignment = { watch: { roleIds: [], capabilities: [] }, showExpected: true, tasks }
+
+  async function evaluatorRoom() {
+    const r = await room()
+    await r.controller.setAssignment(assignment)
+    const e = r.player('staff')
+    await e.session.start()
+    await flush()
+    await e.session.chooseSeat('evaluators', '')
+    await flush(6)
+    return { ...r, e }
+  }
+
+  it('receives its assignment after taking the evaluator seat, and a player never does', async () => {
+    const { player, e, controller } = await evaluatorRoom()
+    expect(e.session.evaluate?.state.get().assignment).toMatchObject({
+      label: 'Evaluator 1',
+      revision: 1,
+      tasks: [{ id: 'T-01' }],
+    })
+    const p = player('players')
+    await p.session.start()
+    await flush()
+    await p.session.chooseSeat('ops-director', '')
+    await flush(6)
+    expect(p.session.evaluate?.state.get().assignment).toBeUndefined()
+    expect(controller.received.filter((m) => m.type === 'eval.assign')).toEqual([])
+  })
+
+  it('takes a newer revision from the controller and ignores a replay of the old one', async () => {
+    const { e, controller } = await evaluatorRoom()
+    await controller.setAssignment({ ...assignment, watch: { roleIds: ['pio'], capabilities: [] } })
+    await flush(6)
+    expect(e.session.evaluate?.state.get().assignment).toMatchObject({
+      revision: 2,
+      watch: { roleIds: ['pio'] },
+    })
+  })
+
+  it('sends a rating to the controller with its revision, and an edit as revision 2', async () => {
+    const { e, controller } = await evaluatorRoom()
+    await e.session.evaluate!.save({
+      kind: 'task',
+      taskId: 'T-01',
+      rating: 'partial',
+      notes: 'Late',
+      exerciseTime: '1:12',
+      mselRowId: 'I-06',
+    })
+    await flush(6)
+    await e.session.evaluate!.save({
+      kind: 'task',
+      taskId: 'T-01',
+      rating: 'met',
+      notes: 'Late',
+      exerciseTime: '1:12',
+      mselRowId: 'I-06',
+    })
+    await flush(6)
+    expect(controller.observationLog.map((o) => [o.payload.revision, o.payload.rating])).toEqual([
+      [1, 'partial'],
+      [2, 'met'],
+    ])
+    expect([...controller.observations.values()][0]).toMatchObject({ rating: 'met', revision: 2 })
+    expect(e.session.evaluate!.state.get().observations[0]).toMatchObject({ sentRevision: 2 })
+  })
+
+  it('a player device that sends an observation is refused by the controller', async () => {
+    const { player, controller } = await evaluatorRoom()
+    const p = player('players')
+    await p.session.start()
+    await flush()
+    await p.session.chooseSeat('ops-director', '')
+    await flush(6)
+    await p.session.sendAction('eval.observation', 'controller', {
+      observationId: 'P'.repeat(22),
+      revision: 1,
+      kind: 'note',
+      notes: 'x',
+      exerciseTime: '1:00',
+      observedAt: Date.now(),
+    })
+    await flush(6)
+    expect(controller.observations.size).toBe(0)
+    expect(controller.refusedObservations).toHaveLength(1)
+  })
+
+  it('keeps ratings made offline and sends them once, in order, when the connection returns', async () => {
+    const { e, controller, transports } = await evaluatorRoom()
+    e.session.offline()
+    transports.at(-1)!.drop()
+    await flush()
+    for (const id of ['T-01', 'T-02', 'T-03']) {
+      await e.session.evaluate!.save({
+        kind: 'note',
+        notes: `offline ${id}`,
+        exerciseTime: '1:30',
+      })
+    }
+    expect(controller.observationLog).toHaveLength(0)
+    e.timers.advance(60_000)
+    await flush(10)
+    expect(controller.observationLog.map((o) => o.payload.notes)).toEqual([
+      'offline T-01',
+      'offline T-02',
+      'offline T-03',
+    ])
+    expect(controller.observations.size).toBe(3)
+  })
+})
+
 describe('sanitizeName', () => {
   it('trims, strips control and zero-width characters and caps at 40', () => {
     expect(sanitizeName('  Dana\u0007​ Lee\n ')).toBe('Dana Lee')

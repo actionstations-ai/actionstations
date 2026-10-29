@@ -5,8 +5,9 @@ import type { Prefs, TextSize, Theme } from '../app/prefs'
 import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
 import { STRINGS } from '../app/strings'
+import { EvaluateScreen } from '../features/evaluate/EvaluateScreen'
 
-type View = 'menu' | 'settings' | 'about'
+type View = 'menu' | 'settings' | 'about' | 'evaluate'
 
 interface Entry {
   id: string
@@ -45,12 +46,18 @@ export function MoreScreen({
     {
       id: 'evaluate',
       label: STRINGS.more.evaluate,
-      why: seat?.kind !== 'evaluator' ? STRINGS.more.evaluatorsOnly : reason(features?.eval),
+      ...(seat?.kind !== 'evaluator'
+        ? { why: STRINGS.more.evaluatorsOnly }
+        : features?.eval
+          ? { onOpen: () => setView('evaluate') }
+          : { why: reason(features?.eval) }),
     },
     { id: 'settings', label: STRINGS.more.settings, onOpen: () => setView('settings') },
     { id: 'about', label: STRINGS.more.about, onOpen: () => setView('about') },
   ]
 
+  if (view === 'evaluate')
+    return <EvaluateScreen session={session} onBack={() => setView('menu')} />
   if (view === 'settings')
     return <SettingsScreen prefsStore={prefsStore} onBack={() => setView('menu')} />
   if (view === 'about')

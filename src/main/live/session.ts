@@ -28,7 +28,7 @@ import type {
 } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
 import { AppError } from '../lib/errors'
-import { emit } from '../lib/events'
+import { emit, onEmit } from '../lib/events'
 import { safeJoin, writeJsonAtomic } from '../lib/fs'
 import { playerBundleDir, userDataPath } from '../lib/paths'
 import { readFacilitatorState } from '../facilitator/state'
@@ -49,6 +49,8 @@ import {
 } from './delivery-service'
 import { storeAttachment } from './attachments'
 import { Messages, type MessageRole, type MessageSeat } from './messages'
+import { LiveEvaluation } from './evaluation'
+import { upsertObservation } from '../evaluation/store'
 import { LogWriter } from './log'
 import { countEntries, readAll } from './log-read'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
@@ -92,6 +94,7 @@ interface Active {
   delivery: Delivery
   messages: Messages
   votes: Votes
+  evaluation: LiveEvaluation
   stage: StageState
   mediaCache: Map<string, BlobRef>
   powerSave?: number
@@ -166,7 +169,15 @@ function connectedCount(a: Active | undefined): number {
 
 function emitChanged(
   reason:
-    'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging' | 'messages' | 'votes',
+    | 'started'
+    | 'stopped'
+    | 'presence'
+    | 'error'
+    | 'receipts'
+    | 'staging'
+    | 'messages'
+    | 'votes'
+    | 'evaluation',
   message?: string,
   threadId?: string,
 ) {
@@ -219,6 +230,7 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
     })
   }
   await a.client.send('welcome', `client:${msg.from}`, seating.welcome)
+  if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
 }
 
 async function onPresence(a: Active, msg: Opened<'presence'>): Promise<void> {
@@ -245,6 +257,11 @@ function wireClient(a: Active): void {
       'inject.receipt',
       (msg) => void a.delivery.onReceipt(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
     ),
+    a.client.on('eval.observation', (msg) => {
+      // Sealed to the controller: only a device's own frame to the controller is an observation.
+      if (msg.to !== 'controller') return
+      void a.evaluation.onObservation(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.on('message.send', (msg) => {
       // Only a device's own frame to the controller is a player message; anything else on the
       // channel (another device's echo, a forged frame) is not handled here.
@@ -306,6 +323,51 @@ function makeDelivery(getActive: () => Active, roles: readonly Role[]): Delivery
       })
     },
   })
+}
+
+/** Evaluation's view of the session: sending as the controller, seated devices, the log, the record. */
+function makeEvaluation(getActive: () => Active): LiveEvaluation {
+  const view = (s: Seat) => ({
+    clientId: s.clientId,
+    kind: s.kind,
+    staff: s.staff,
+    online: s.online,
+    name: s.name,
+  })
+  return new LiveEvaluation({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'staff' }),
+    log: { append: (input) => getActive().log.append(input) },
+    seats: () => [...getActive().seats.byClient.values()].map(view),
+    seatOf: (id) => {
+      const s = getActive().seats.byClient.get(id)
+      return s ? view(s) : undefined
+    },
+    clientRef: (id) => clientRef(getActive(), id),
+    scenario: () => getScenario(getActive().root, getActive().session.scenarioId),
+    save: (observation) =>
+      upsertObservation(getActive().root, getActive().session.scenarioId, observation),
+    attribution: () => getActive().session.attribution,
+    now: () => Date.now(),
+    newId: () => toBase64Url(getActive().crypto.random(16)),
+    changed: () => emitChanged('evaluation'),
+  })
+}
+
+/** Re-send assignments shortly after the scenario's evaluation guides are saved. */
+function watchScenarioChanges(a: Active): () => void {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const off = onEmit((name, payload) => {
+    const p = payload as { path?: string; what?: string; scenarioId?: string }
+    if (name !== 'project:changed' || p.what !== 'scenario') return
+    if (p.scenarioId !== a.session.scenarioId) return
+    clearTimeout(timer)
+    timer = setTimeout(() => void a.evaluation.refresh().catch(() => undefined), 400)
+  })
+  return () => {
+    clearTimeout(timer)
+    off()
+  }
 }
 
 function messageRoles(roles: readonly Role[]): MessageRole[] {
@@ -541,6 +603,7 @@ async function startOn(
     delivery: makeDelivery(() => a, scenario.roles),
     messages: makeMessages(() => a, scenario.roles),
     votes: makeVotes(() => a, scenario.roles),
+    evaluation: makeEvaluation(() => a),
     stage: emptyStage(),
     mediaCache: new Map(),
     unsubscribe: [],
@@ -565,6 +628,7 @@ async function startOn(
   a.session.joinUrlPublic = a.lan?.status.url ?? `${remote!.origin}/s/${sessionId}`
   active = a
   wireClient(a)
+  a.unsubscribe.push(watchScenarioChanges(a))
   await writeSessionFile(a)
   await log.append({
     kind: 'session.start',
@@ -724,6 +788,22 @@ export const sendMessage = (
   scenarioId: string,
   req: Parameters<Messages['sendControllerMessage']>[0],
 ) => activeFor(root, scenarioId).messages.sendControllerMessage(req)
+
+export const evaluationCoverage = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).evaluation.coverage()
+
+export const setEvaluatorWatch = (
+  root: string,
+  scenarioId: string,
+  ref: string,
+  watch: Parameters<LiveEvaluation['setWatch']>[1],
+) => activeFor(root, scenarioId).evaluation.setWatch(ref, watch)
+
+export const askEvaluator = (root: string, scenarioId: string, ref: string, text: string) =>
+  activeFor(root, scenarioId).evaluation.ask(ref, text)
+
+export const showExpectedToEvaluators = (root: string, scenarioId: string, on: boolean) =>
+  activeFor(root, scenarioId).evaluation.setShowExpected(on)
 
 export const markMessageHandled = (root: string, scenarioId: string, messageId: string) =>
   activeFor(root, scenarioId).messages.markHandled(messageId)

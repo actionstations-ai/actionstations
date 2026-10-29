@@ -51,7 +51,7 @@ export function App({
       screen = <RoomShell session={session} prefsStore={prefsStore} bundleVersion={bundleVersion} />
       break
     case 'ended':
-      screen = <EndedScreen ended={ended} />
+      screen = <EndedScreen ended={ended} evaluate={session.evaluate} />
       break
     case 'removed':
       screen = <RemovedScreen />

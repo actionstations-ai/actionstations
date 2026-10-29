@@ -296,6 +296,7 @@ export const LiveChangedEvent = z.object({
     'staging',
     'messages',
     'votes',
+    'evaluation',
   ]),
   sessionId: SessionId.optional(),
   /** With `messages`: the thread that changed, so the panel fetches only that one. */
@@ -647,3 +648,59 @@ export const DashboardView = z.object({
   }),
 })
 export type DashboardView = z.infer<typeof DashboardView>
+
+// ---- evaluator observations (#416) ----
+
+/** The roles and capabilities an evaluator watches; empty lists mean "everything". */
+export const EvaluatorWatch = z.object({
+  roleIds: z.array(SafeId).max(64),
+  capabilities: z.array(SafeId).max(32),
+})
+export type EvaluatorWatch = z.infer<typeof EvaluatorWatch>
+
+const CoverageRating = z.enum(['met', 'partial', 'not_met', 'not_observed'])
+const ClientRef = z.string().regex(/^[a-f0-9]{8}$/)
+
+export const CoverageEvaluator = z.object({
+  clientRef: ClientRef,
+  /** "Evaluator 1": assigned in join order, never a person's name. */
+  label: Text(60),
+  displayName: Text(60).optional(),
+  online: z.boolean(),
+  watch: EvaluatorWatch,
+  observations: z.number().int().min(0),
+})
+export type CoverageEvaluator = z.infer<typeof CoverageEvaluator>
+
+export const CoverageTask = z.object({ id: SafeId, capability: SafeId, text: Text(500) })
+
+export const CoverageCell = z.object({
+  taskId: SafeId,
+  clientRef: ClientRef,
+  rating: CoverageRating,
+})
+
+export const CoverageLatest = z.object({
+  observationId: SafeId,
+  clientRef: ClientRef,
+  label: Text(60),
+  taskId: SafeId.optional(),
+  capability: SafeId.optional(),
+  rating: CoverageRating.optional(),
+  note: Text(4000),
+  exerciseTime: ExerciseTime,
+  at: z.number(),
+})
+
+/** The controller's view of live observations: who has rated what (task by evaluator). */
+export const CoverageView = z.object({
+  showExpected: z.boolean(),
+  evaluators: z.array(CoverageEvaluator).max(60),
+  tasks: z.array(CoverageTask).max(200),
+  cells: z.array(CoverageCell).max(12_000),
+  latest: z.array(CoverageLatest).max(50),
+  /** Tasks with a rating other than "not observed" from any evaluator. */
+  covered: z.number().int().min(0),
+  observations: z.number().int().min(0),
+})
+export type CoverageView = z.infer<typeof CoverageView>

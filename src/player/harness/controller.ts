@@ -20,6 +20,8 @@ import {
   type ClientKind,
   type ClockState,
   type Destination,
+  type EvalAssignPayload,
+  type EvalObservationPayload,
   type InjectReleasePayload,
   type Seat,
   type WelcomePayload,
@@ -127,6 +129,16 @@ export class HarnessController {
   /** Message ids pinned to the hot wash (log-only, as the app does). */
   readonly pinned: string[] = []
   private readonly echoes = new Map<string, Record<string, unknown>>()
+  /** Evaluator observations the controller accepted, every revision in arrival order (#416). */
+  readonly observationLog: { from: ClientId; payload: EvalObservationPayload }[] = []
+  /** The highest revision of each observation, as the app keeps it. */
+  readonly observations = new Map<string, EvalObservationPayload>()
+  /** Observations dropped because the sender was not an evaluator holding the staff key. */
+  readonly refusedObservations: ClientId[] = []
+  /** Sent to each evaluator after its welcome; `setAssignment` changes it and re-sends. */
+  private assignment: Pick<EvalAssignPayload, 'watch' | 'showExpected' | 'tasks'> | undefined
+  private assignmentRevision = 0
+  private readonly evaluatorLabels = new Map<ClientId, string>()
 
   private constructor(
     readonly crypto: CryptoProvider,
@@ -142,6 +154,7 @@ export class HarnessController {
     client.onAny((m) => this.received.push(m))
     client.on('join', (m) => void this.onJoin(m))
     client.on('message.send', (m) => void this.onMessage(m))
+    client.on('eval.observation', (m) => this.onObservation(m))
     client.on('presence', (m) => {
       const entry = this.roster.get(m.payload.client)
       if (entry) entry.connected = m.payload.state === 'online'
@@ -281,6 +294,61 @@ export class HarnessController {
       },
     }
     await this.client.send('welcome', `client:${entry.clientId}`, payload)
+    if (seat && entry.kind === 'evaluator' && entry.staff) await this.sendAssignment(entry.clientId)
+  }
+
+  // ---- evaluator observations (spec 0416) ----
+
+  private onObservation(m: Opened<'eval.observation'>): void {
+    const entry = this.roster.get(m.from)
+    if (m.to !== 'controller' || !entry?.roleId || entry.kind !== 'evaluator' || !entry.staff) {
+      this.refusedObservations.push(m.from)
+      return
+    }
+    this.observationLog.push({ from: m.from, payload: m.payload })
+    const known = this.observations.get(`${m.from}:${m.payload.observationId}`)
+    if (!known || m.payload.revision > known.revision)
+      this.observations.set(`${m.from}:${m.payload.observationId}`, m.payload)
+  }
+
+  private evaluatorLabel(clientId: ClientId): string {
+    let label = this.evaluatorLabels.get(clientId)
+    if (!label) {
+      label = `Evaluator ${this.evaluatorLabels.size + 1}`
+      this.evaluatorLabels.set(clientId, label)
+    }
+    return label
+  }
+
+  /** Give every seated evaluator these tasks; a later call is a new revision. */
+  async setAssignment(
+    a: Pick<EvalAssignPayload, 'watch' | 'showExpected' | 'tasks'> | undefined,
+  ): Promise<void> {
+    this.assignment = a
+    this.assignmentRevision += 1
+    for (const e of this.roster.values()) {
+      if (e.kind === 'evaluator' && e.staff && e.roleId && e.connected) {
+        await this.sendAssignment(e.clientId)
+      }
+    }
+  }
+
+  private async sendAssignment(clientId: ClientId): Promise<void> {
+    if (!this.assignment) return
+    if (this.assignmentRevision === 0) this.assignmentRevision = 1
+    await this.client.send(
+      'eval.assign',
+      `client:${clientId}`,
+      {
+        assignmentId: toBase64Url(new TextEncoder().encode(`assignment-${clientId}`))
+          .slice(0, 22)
+          .padEnd(22, 'A'),
+        revision: this.assignmentRevision,
+        label: this.evaluatorLabel(clientId),
+        ...this.assignment,
+      },
+      { key: 'staff' },
+    )
   }
 
   private async reject(

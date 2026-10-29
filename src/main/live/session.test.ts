@@ -103,7 +103,12 @@ function readLog(projectPath: string, scenarioId: string, sessionId: string): Se
 }
 
 /** A phone: keys from the players link, its own identity, a WebSocket to the LAN server. */
-async function joinAsPlayer(inviteUrl: string, name: string, requestedRole?: string) {
+async function joinAsPlayer(
+  inviteUrl: string,
+  name: string,
+  requestedRole?: string,
+  kind: 'player' | 'evaluator' = 'player',
+) {
   const crypto = createWebCryptoProvider()
   const invite = parseInvite(inviteUrl)
   const keys = new SessionKeys(invite.sessionId, crypto, {
@@ -133,7 +138,7 @@ async function joinAsPlayer(inviteUrl: string, name: string, requestedRole?: str
   await new Promise<void>((resolve) => client.onState((s) => s === 'hello' && resolve()))
   await client.send('join', 'controller', {
     name,
-    kind: 'player',
+    kind,
     ...(requestedRole ? { requestedRole } : {}),
     ecdhPub: Buffer.from(ecdh.publicKey).toString('base64url'),
   })
@@ -671,5 +676,110 @@ describe('decision-point votes through a running session (#414)', () => {
     const log = readLog(projectPath, scenarioId, started.session!.id)
     const close = log.filter((e) => e.kind === 'vote.close').at(-1)!
     expect(close.data).toMatchObject({ status: 'interrupted', voted: 1 })
+  })
+})
+
+describe('evaluator observations through a running session (#416)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  const evaluation = {
+    objectiveCapabilities: [],
+    eegs: [
+      {
+        capability: 'operational_communications',
+        target: '',
+        objectiveRefs: [],
+        criticalTasks: [
+          {
+            id: 'T-01',
+            capability: 'operational_communications',
+            task: 'Notify the airlines within 15 minutes',
+            citation: { documentId: 'd1', documentTitle: 'AEP', headingPath: 'AEP > App. 6' },
+            rowIds: ['I-01'],
+            objectiveRefs: [],
+            locked: false,
+          },
+        ],
+      },
+    ],
+  }
+
+  it('sends the assignment to the evaluator only, takes an observation into evaluation.json and the log', async () => {
+    const { projectPath, scenarioId } = await setup()
+    await saveScenario(
+      projectPath,
+      { ...(await getScenario(projectPath, scenarioId)), evaluation } as never,
+      { by: 'user' },
+    )
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const player = await joinAsPlayer(started.invites!.players.url, 'Sam', 'pio')
+    const seenByPlayer: string[] = []
+    player.client.on('eval.assign', (m) => seenByPlayer.push(m.type))
+    const evaluator = await joinAsPlayer(
+      started.invites!.staff.url,
+      'Kim',
+      'evaluators',
+      'evaluator',
+    )
+    const assigned: Opened<'eval.assign'>[] = []
+    evaluator.client.on('eval.assign', (m) => assigned.push(m))
+    await vi.waitFor(() => expect(assigned.length).toBeGreaterThan(0))
+    expect(assigned.at(-1)!.payload).toMatchObject({ label: 'Evaluator 1', showExpected: true })
+    expect(assigned.at(-1)!.payload.tasks[0]).toMatchObject({ id: 'T-01', rowIds: ['I-01'] })
+    expect(assigned.at(-1)!.signedBy).toBe('host')
+
+    await evaluator.client.send('eval.observation', 'controller', {
+      observationId: newId(evaluator.crypto),
+      revision: 1,
+      kind: 'task',
+      taskId: 'T-01',
+      rating: 'met',
+      notes: 'Airlines told at 1:09',
+      exerciseTime: '1:09',
+      observedAt: Date.now(),
+      mselRowId: 'I-01',
+    })
+    const recordPath = join(projectPath, 'scenarios', scenarioId, 'evaluation.json')
+    await vi.waitFor(() => expect(existsSync(recordPath)).toBe(true))
+    const record = JSON.parse(readFileSync(recordPath, 'utf8'))
+    expect(record.observations).toHaveLength(1)
+    expect(record.observations[0]).toMatchObject({
+      taskId: 'T-01',
+      rating: 'met',
+      source: 'live',
+      evaluator: 'Evaluator 1',
+    })
+    expect(seenByPlayer).toEqual([])
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(log.map((e) => e.kind)).toEqual(
+      expect.arrayContaining(['eval.assign', 'eval.observation']),
+    )
+    expect(JSON.stringify(log)).not.toContain(evaluator.identity.clientId)
+
+    // A player's observation is dropped and logged, never saved.
+    await player.client.send('eval.observation', 'controller', {
+      observationId: newId(player.crypto),
+      revision: 1,
+      kind: 'note',
+      notes: 'sneaky',
+      exerciseTime: '1:10',
+      observedAt: Date.now(),
+    })
+    await vi.waitFor(() =>
+      expect(
+        readLog(projectPath, scenarioId, started.session!.id).some((e) => e.kind === 'anomaly'),
+      ).toBe(true),
+    )
+    expect(JSON.parse(readFileSync(recordPath, 'utf8')).observations).toHaveLength(1)
+    await endSession(projectPath, scenarioId)
   })
 })

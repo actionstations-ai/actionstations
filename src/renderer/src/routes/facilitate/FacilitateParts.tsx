@@ -267,7 +267,11 @@ export function SidePanel(props: {
         <MessagesPanel projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
-        <LivePanel projectPath={props.projectPath} scenarioId={props.scenario.id} />
+        <LivePanel
+          projectPath={props.projectPath}
+          scenarioId={props.scenario.id}
+          roles={props.scenario.roles}
+        />
         <SessionsList projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="room" className="fac-tabs__panel">

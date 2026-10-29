@@ -109,6 +109,13 @@ export const Observation = z.object({
   taskId: Id.optional(),
   criterionId: z.string().min(1).max(EVALUATION_LIMITS.criterionId).optional(),
   rating: Rating,
+  /**
+   * `note`: a strength or an area for improvement not tied to a task (#416). Its rating is
+   * `not_observed` unless the evaluator chose one; coverage counts task observations only.
+   */
+  kind: z.enum(['task', 'note']).optional(),
+  /** The capability a general note concerns, when the evaluator named one. */
+  capability: CoreCapabilityId.optional(),
   note: z.string().max(EVALUATION_LIMITS.note).default(''),
   /** Free label such as "Evaluator 2"; never a person's name by default. */
   evaluator: z.string().max(EVALUATION_LIMITS.evaluator).optional(),

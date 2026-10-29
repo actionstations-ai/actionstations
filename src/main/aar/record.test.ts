@@ -173,6 +173,30 @@ describe('assembleRecord', () => {
     expect(r.notes.some((n) => n.ref === 'note:obs_live_note_00001')).toBe(true)
   })
 
+  it('reads live observations from evaluation.json alone once it holds them, so none counts twice (#416)', () => {
+    const withLive = EvaluationRecord.parse({
+      ...evaluation,
+      observations: [
+        ...evaluation.observations,
+        {
+          id: 'live-aaaaaaaa-obs_live_T07_000001',
+          at: '2026-10-28T14:30:00.000Z',
+          taskId: 'T-07',
+          rating: 'met',
+          note: 'Done.',
+          evaluator: 'Evaluator 1',
+          source: 'live',
+        },
+      ],
+    })
+    const r = assembleRecord(scenario, { evaluation: withLive, live })
+    const ids = r.observations.map((o) => o.id)
+    expect(ids).toContain('live-aaaaaaaa-obs_live_T07_000001')
+    expect(ids).not.toContain('obs_live_T07_000001')
+    expect(ids).not.toContain('obs_live_T13_000001')
+    expect(r.notes.some((n) => n.ref === 'note:obs_live_note_00001')).toBe(false)
+  })
+
   it('gives every item a unique ref and lists them all as citable', () => {
     const r = assembleRecord(scenario, { facilitator, evaluation, live, surveys: [survey] })
     const all = [

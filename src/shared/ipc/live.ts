@@ -7,6 +7,8 @@ import {
   Attribution,
   ConnectionTestResult,
   Fingerprint,
+  CoverageView,
+  EvaluatorWatch,
   FirewallGuidance,
   Ipv4,
   LanAddress,
@@ -26,6 +28,7 @@ import {
 } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
+const ClientRef = z.string().regex(/^[a-f0-9]{8}$/)
 
 /**
  * Live play (#418). One domain file for every `live:*` channel; the sub-specs add theirs here in
@@ -156,6 +159,17 @@ export const liveChannels = {
     S.extend({ voteId: z.string(), displayId: z.number().optional() }),
     z.void(),
   ),
+  /** Who has rated which critical task in the running session (#416). */
+  'live:eval-coverage': channel(S, CoverageView),
+  /** Set the roles and capabilities one evaluator watches; the assignment is re-sent. */
+  'live:eval-watch': channel(S.extend({ clientRef: ClientRef, watch: EvaluatorWatch }), z.void()),
+  /** "Please watch for T-04": a notice to one evaluator's device. */
+  'live:eval-ask': channel(
+    S.extend({ clientRef: ClientRef, text: z.string().trim().min(1).max(500) }),
+    z.void(),
+  ),
+  /** Show the plan's expected actions to evaluators (re-sends every assignment). */
+  'live:eval-show-expected': channel(S.extend({ on: z.boolean() }), z.void()),
 }
 
 export { LiveChangedEvent }

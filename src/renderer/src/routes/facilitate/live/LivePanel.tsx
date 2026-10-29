@@ -8,6 +8,7 @@ import type { LanAddress, LiveConnectionInput, LiveSessionStatus } from '@shared
 import { useIpcQuery } from '../../../lib/query'
 import { Button } from '../../../components/ui'
 import { InviteCard } from './InviteCard'
+import { LiveEvaluators, type WatchRole } from './LiveEvaluators'
 import { ConnectionChooser, type ConnectionKind } from './ConnectionChooser'
 import { RemotePanel } from './RemotePanel'
 import { RemoteSetup } from './RemoteSetup'
@@ -364,7 +365,12 @@ function Chooser(props: {
   )
 }
 
-export function LivePanel(props: { projectPath: string; scenarioId: string }) {
+export function LivePanel(props: {
+  projectPath: string
+  scenarioId: string
+  /** The scenario's roles, for the evaluators' watch lists. */
+  roles?: readonly WatchRole[]
+}) {
   const live = useLiveSession(props.projectPath, props.scenarioId)
   if (live.loading) return <p className="muted">Loading…</p>
   const running = live.status?.session && !live.status.session.endedAt
@@ -377,6 +383,13 @@ export function LivePanel(props: { projectPath: string; scenarioId: string }) {
         </p>
       )}
       {running && <StageProgress projectPath={props.projectPath} scenarioId={props.scenarioId} />}
+      {running && (
+        <LiveEvaluators
+          projectPath={props.projectPath}
+          scenarioId={props.scenarioId}
+          roles={props.roles ?? []}
+        />
+      )}
       {running && live.status?.remote ? (
         <RemotePanel status={live.status} busy={live.busy} onStop={() => void live.stop()} />
       ) : running && live.status ? (

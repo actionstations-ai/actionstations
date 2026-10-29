@@ -270,3 +270,20 @@ The Live tab lists the scenario's earlier sessions with their length and counts.
 - **Delete session data** removes the session's log, attachments and staged media from the project folder. It cannot be undone. The facilitator notes and the evaluation for the scenario are not touched.
 
 The log is a plain file in the project folder (`scenarios/<id>/live/<sessionId>/log.jsonl`). It holds the exercise content in the clear, like the rest of the project; protect the folder as you protect the scenario.
+
+## Evaluators
+
+Evaluators join with the **staff link** (Live tab, **Show staff link**) and choose the Evaluator seat. A player's link cannot open it, and a player's device never receives the evaluators' material.
+
+**On the evaluator's device.** Open **More > Evaluate**. The form lists the critical tasks from the exercise's Exercise Evaluation Guides, grouped by Core Capability, each with the plan section it comes from, the role expected to do it, the timing and the inject rows to watch. If expected actions are shown (the default), each inject's own expected action is also listed. Rate each task **Met**, **Partial**, **Not met** or **Not observed**, add a note, check the exercise time (filled from the clock) and the linked inject. Write about roles and procedures, never names.
+
+- **Watch for** appears when an inject is released and lists the tasks it should trigger, until you rate them or dismiss the entry.
+- **My watch list** shows the roles and capabilities the facilitator gave you; **All tasks**, **Unrated** and **Due now** change the view.
+- **Add an observation not tied to a task** records something the guides did not expect.
+- A line at the bottom says how many observations are waiting to send.
+
+**Offline.** Keep rating with no signal. Observations are kept on the device and sent, once each and in order, when it reconnects. Editing a rating sends a new revision; the controller keeps the latest and logs every one.
+
+**After the exercise.** The page shows your observations, read-only. Copy what you need: a later visit to the link does not keep them. Without a device, use the printed EEG packet and type the results into the Evaluation tab afterwards.
+
+**For the facilitator.** In the Live tab, **Evaluators** lists who has joined, lets you set each one's watch list (empty means everything) and turns **Show expected actions to evaluators** on or off. In the Facilitate Evaluation tab, **Live observations** shows a coverage matrix (task by evaluator), the latest observations with filters, **Ask to watch** (a notice to one evaluator's device) and every recorded observation with its source. Live observations are saved in `scenarios/<id>/evaluation.json` as `source: 'live'`, labelled "Evaluator 1", "Evaluator 2" in join order.

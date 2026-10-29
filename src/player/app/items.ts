@@ -54,6 +54,8 @@ export interface Item {
 
 export interface InjectView {
   releaseId: string
+  /** The MSEL row the release came from (evaluators match it to their tasks). */
+  rowId?: string
   injectType: string
   headline?: string
   text: string
@@ -123,6 +125,7 @@ export function itemFromMessage(msg: Opened, clockMinAt: (ts: number) => number)
         ref: p.releaseId,
         inject: {
           releaseId: p.releaseId,
+          rowId: p.mselRowId,
           injectType: p.injectType,
           ...(p.text.headline ? { headline: p.text.headline } : {}),
           text: p.text.body,
