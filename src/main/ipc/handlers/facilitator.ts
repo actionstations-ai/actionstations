@@ -3,6 +3,7 @@ import { AppError } from '../../lib/errors'
 import { exists } from '../../lib/fs'
 import { requireProject } from '../../project/guard'
 import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
+import { logBranchEntries, publishClock } from '../../live/session'
 import { appendBranchingEntries, checkBranchingReplay } from '../../facilitator/branching-log'
 import { closePresent, isPresenting, listDisplays, present } from '../../facilitator/present'
 import { engagementCacheFile } from '../../render/engagement'
@@ -29,13 +30,22 @@ export default defineHandlers({
 
   'facilitator:state-save': async ({ projectPath, scenarioId, state }) => {
     const root = await requireProject(projectPath)
-    return writeFacilitatorState(root, scenarioId, state)
+    const saved = await writeFacilitatorState(root, scenarioId, state)
+    // Devices follow the clock; a failure to tell them never fails the save.
+    await publishClock(root, scenarioId, saved).catch((e: unknown) =>
+      console.error('[live] clock.state:', (e as Error).message),
+    )
+    return saved
   },
 
   'facilitator:branching-append': async ({ projectPath, scenarioId, entries }) => {
     const root = await requireProject(projectPath)
     await requireScenarioDir(root, scenarioId)
-    return appendBranchingEntries(root, scenarioId, entries)
+    const hashes = await appendBranchingEntries(root, scenarioId, entries)
+    await logBranchEntries(root, scenarioId, entries).catch((e: unknown) =>
+      console.error('[live] branch log:', (e as Error).message),
+    )
+    return hashes
   },
 
   'facilitator:branching-replay': async ({ projectPath, scenarioId }) => {

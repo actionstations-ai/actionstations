@@ -653,13 +653,18 @@ export class HarnessController {
     })
   }
 
+  /** Move every joined device to a new key epoch; `removed` devices are left out of it. */
+  async rotateKeys(removed: ClientId[] = []): Promise<void> {
+    const kept: RekeyClient[] = [...this.roster.values()]
+      .filter((e) => !removed.includes(e.clientId) && e.joins > 0)
+      .map((e) => ({ clientId: e.clientId, ecdhPub: e.ecdhPub, staff: e.staff }))
+    await this.client.rotate(kept, removed)
+    this.server.setJoinTokenHash(await this.keys.joinTokenHash())
+  }
+
   /** Remove a device: rotate the key without it, then have the server close it with 4003. */
   async kick(clientId: ClientId): Promise<void> {
-    const kept: RekeyClient[] = [...this.roster.values()]
-      .filter((e) => e.clientId !== clientId && e.joins > 0)
-      .map((e) => ({ clientId: e.clientId, ecdhPub: e.ecdhPub, staff: e.staff }))
-    await this.client.rotate(kept, [clientId])
-    this.server.setJoinTokenHash(await this.keys.joinTokenHash())
+    await this.rotateKeys([clientId])
     this.roster.delete(clientId)
     this.server.kick(clientId)
   }

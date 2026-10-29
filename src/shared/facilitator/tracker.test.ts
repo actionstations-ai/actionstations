@@ -101,6 +101,21 @@ describe('T1 unanswered inject', () => {
     ]
     expect(evaluate(input({ ...base, minutes: 60, session }))).toEqual([])
   })
+  it('counts an actioned receipt or a closed vote on the row as the answer', () => {
+    const actioned: SessionEntry[] = [
+      { kind: 'inject.receipt', at: 0, rowId: 'I-01', receipt: 'actioned' },
+    ]
+    const voted: SessionEntry[] = [{ kind: 'vote.close', at: 0, rowId: 'I-01' }]
+    expect(evaluate(input({ ...base, minutes: 60, session: actioned }))).toEqual([])
+    expect(evaluate(input({ ...base, minutes: 60, session: voted }))).toEqual([])
+  })
+  it('does not count a read receipt or a controller message as the answer', () => {
+    const session: SessionEntry[] = [
+      { kind: 'inject.receipt', at: 0, rowId: 'I-01', receipt: 'read' },
+      { kind: 'message.send', at: 0, rowId: 'I-01', fromPlayer: false },
+    ]
+    expect(evaluate(input({ ...base, minutes: 60, session }))).toHaveLength(1)
+  })
   it('keeps a dismissal', () => {
     const s = dismissFlag(base.state, 'T1:I-01', at.iso, 'on purpose')
     expect(evaluate(input({ state: s, minutes: 60 }))).toEqual([])

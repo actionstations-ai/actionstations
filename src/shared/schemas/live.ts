@@ -612,6 +612,18 @@ export const InjectRow = z.object({
 })
 export type InjectRow = z.infer<typeof InjectRow>
 
+/** A device seated in the running session, as the kick control lists it (spec 0417). */
+export const LiveDevice = z.object({
+  /** The device's reference in the session log; the real client id never leaves the main process. */
+  clientRef: z.string().max(40),
+  kind: z.enum(['player', 'evaluator', 'observer', 'simcell']),
+  label: z.string().max(120),
+  name: z.string().max(120).optional(),
+  staff: z.boolean(),
+  online: z.boolean(),
+})
+export type LiveDevice = z.infer<typeof LiveDevice>
+
 export const UnansweredRow = z.object({
   releaseId: z.string(),
   rowId: z.string(),

@@ -27,6 +27,7 @@ export function SessionRow(props: {
   onView: () => void
   onExport: (format: 'json' | 'csv') => void
   onClose: () => void
+  onResume?: (() => void) | undefined
   onDelete: () => void
 }) {
   const { session: s } = props
@@ -57,6 +58,16 @@ export function SessionRow(props: {
         >
           Export CSV
         </Button>
+        {s.interrupted && props.onResume && (
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={props.onResume}
+            aria-label={`Resume ${s.name}`}
+          >
+            Resume
+          </Button>
+        )}
         {s.interrupted && (
           <Button size="sm" onClick={props.onClose} aria-label={`Close ${s.name} as ended`}>
             Close as ended
@@ -79,7 +90,11 @@ export function SessionsList(props: { projectPath: string; scenario: Scenario })
   const base = { projectPath: props.projectPath, scenarioId: props.scenario.id }
   const sessions = useIpcQuery('live:sessions-list', base)
   const [viewing, setViewing] = useState<string | undefined>()
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['live:sessions-list'] })
+  const refresh = () =>
+    Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['live:sessions-list'] }),
+      queryClient.invalidateQueries({ queryKey: ['live:session-status'] }),
+    ])
   const run = (fn: () => Promise<unknown>, failure: string) =>
     void fn()
       .then(refresh)
@@ -108,6 +123,12 @@ export function SessionsList(props: { projectPath: string; scenario: Scenario })
               session={s}
               onView={() => setViewing(viewing === s.id ? undefined : s.id)}
               onExport={(format) => void exportLog({ ...base, sessionId: s.id }, format, false)}
+              onResume={() =>
+                run(
+                  () => call('live:session-resume', { ...base, sessionId: s.id }),
+                  'Could not resume the session',
+                )
+              }
               onClose={() =>
                 run(
                   () => call('live:session-close', { ...base, sessionId: s.id }),

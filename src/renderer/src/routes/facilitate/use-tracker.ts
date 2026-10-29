@@ -1,21 +1,60 @@
 // The tracker's flags for the page (spec 0428 FR-13): evaluated on every clock tick, announced
 // once each, and the facilitator's notes scanned for promises when they change.
 import { useEffect, useMemo, useRef } from 'react'
+import { subscribe } from '../../lib/api'
+import { queryClient, useIpcQuery } from '../../lib/query'
 import type { FacilitatorState } from '@shared/ipc'
 import { detectCommitments, parseClockTime, suggestionId } from '@shared/facilitator/commitments'
-import { addSuggestions, evaluate, markAnswered, type Flag } from '@shared/facilitator/tracker'
+import {
+  addSuggestions,
+  evaluate,
+  markAnswered,
+  type Flag,
+  type SessionEntry,
+} from '@shared/facilitator/tracker'
 import { exerciseMinutes } from '@shared/schemas/common'
 import type { Scenario } from '@shared/schemas/scenario'
 import type { UpdateState } from './use-delivery-actions'
 
+const FEED_TICK_MS = 30_000
+const NO_FEED = { live: false, session: [], messages: [], fetchedAt: 0 } as const
+
+/** The running live session's receipts, answers and message text (empty without a session). */
+export function useLiveFeed(projectPath: string, scenarioId: string) {
+  const req = useMemo(() => ({ projectPath, scenarioId }), [projectPath, scenarioId])
+  const query = useIpcQuery('live:tracker-feed', req, { refetchInterval: FEED_TICK_MS })
+  useEffect(
+    () =>
+      subscribe('live:changed', () => {
+        void queryClient.invalidateQueries({ queryKey: ['live:tracker-feed'] })
+      }),
+    [],
+  )
+  // `fetchedAt` is the clock for the "not opened" rule: the feed refreshes every 30 s.
+  return query.data ? { ...query.data, fetchedAt: query.dataUpdatedAt } : NO_FEED
+}
+
 /** The flags open at this minute. */
-export function useFlags(scenario: Scenario, state: FacilitatorState, minutes: number): Flag[] {
+export function useFlags(
+  scenario: Scenario,
+  state: FacilitatorState,
+  minutes: number,
+  session?: readonly SessionEntry[],
+  nowMs?: number,
+): Flag[] {
   const { msel, phases } = scenario
   // Whole minutes are enough: every rule works in minutes, so the list changes at most once a minute.
   const minute = Math.floor(minutes)
   return useMemo(
-    () => evaluate({ msel, phases, state, minutes: minute }),
-    [msel, phases, state, minute],
+    () =>
+      evaluate({
+        msel,
+        phases,
+        state,
+        minutes: minute,
+        ...(session?.length && nowMs ? { session, nowMs } : {}),
+      }),
+    [msel, phases, state, minute, session, nowMs],
   )
 }
 
@@ -57,7 +96,7 @@ export function parseDue(text: string, nowMin: number, scenario: Scenario): numb
   return (((wall - start) % 1440) + 1440) % 1440
 }
 
-type StaleNote = readonly [key: string, text: string]
+type StaleNote = readonly [key: string, text: string, rowId?: string]
 
 /** Add suggestions for the promises in `stale` notes and remember that they were read. */
 function scanNotes(
@@ -65,14 +104,15 @@ function scanNotes(
   stale: StaleNote[],
   minutes: number,
   scenario: Scenario,
+  source: 'note' | 'message' = 'note',
 ): FacilitatorState {
   const wall = startWallMin(scenario)
   let next = s
-  for (const [key, text] of stale) {
+  for (const [key, text, rowId] of stale) {
     const found = detectCommitments(text, minutes, {
-      source: 'note',
+      source,
       sourceRef: key,
-      ...(key !== 'general' ? { rowId: key } : {}),
+      ...(rowId ? { rowId } : source === 'note' && key !== 'general' ? { rowId: key } : {}),
       ...(wall !== undefined ? { startWallMin: wall } : {}),
     })
     next = addSuggestions(next, found)
@@ -111,6 +151,28 @@ export function useNoteScan(
     )
     return () => clearTimeout(timer)
   }, [notes, generalNotes, scanned, minute, scenario, update])
+}
+
+/**
+ * Look for promises in what devices send during a live session (spec 0428 task 7). Each message
+ * is read once; suggestions wait for the facilitator, like those from notes.
+ */
+export function useMessageScan(
+  scenario: Scenario,
+  state: FacilitatorState,
+  minutes: number,
+  update: UpdateState,
+  messages: readonly { messageId: string; text: string; rowId?: string }[],
+): void {
+  const scanned = state.tracker?.scanned
+  const minute = Math.floor(minutes)
+  useEffect(() => {
+    const stale: StaleNote[] = messages
+      .filter((m) => scanned?.[`msg:${m.messageId}`] !== suggestionId('n', m.text))
+      .map((m) => [`msg:${m.messageId}`, m.text, m.rowId])
+    if (stale.length === 0) return
+    update((s) => scanNotes(s, stale, minute, scenario, 'message'), { debounce: true })
+  }, [messages, scanned, minute, scenario, update])
 }
 
 /** The moment recorded with an answer. */

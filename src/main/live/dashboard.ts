@@ -58,7 +58,7 @@ function seatKey(e: SessionLogEntry): { seat: string; kind: SeatKind } {
   return { seat: e.actor.seat?.roleId ?? 'unassigned', kind: 'player' }
 }
 
-function trackClients(entries: readonly SessionLogEntry[]): Map<string, Client> {
+export function trackClients(entries: readonly SessionLogEntry[]): Map<string, Client> {
   const clients = new Map<string, Client>()
   for (const e of entries) {
     const ref = e.actor.clientRef
@@ -134,7 +134,7 @@ interface Release {
   answer?: { by: InjectRow['answered']; at: number }
 }
 
-function collectReleases(entries: readonly SessionLogEntry[]): Map<string, Release> {
+export function collectReleases(entries: readonly SessionLogEntry[]): Map<string, Release> {
   const out = new Map<string, Release>()
   for (const e of entries) {
     const id = e.ref?.releaseId

@@ -28,6 +28,8 @@ export interface TrackerPanelProps {
   onGoToRow: (rowId: string) => void
   onAnnounce: (text: string) => void
   onAddCommitment: () => void
+  /** Set while a live session runs: send a line to evaluator devices (never to players). */
+  onNotifyEvaluators?: ((text: string, rowId: string) => Promise<void>) | undefined
 }
 
 function AnswerForm(props: { onSubmit: (by: string, note: string) => void; onCancel: () => void }) {
@@ -109,6 +111,18 @@ function RowFlag(props: TrackerPanelProps & { flag: Flag }) {
         <p className="fac-tracker__nudge" role="note">
           Say: “{nudgeText(flag, props.scenario)}”
         </p>
+      )}
+      {mode === 'prompt' && props.onNotifyEvaluators && (
+        <Button
+          size="sm"
+          onClick={() =>
+            void props.onNotifyEvaluators!(nudgeText(flag, props.scenario), rowId)
+              .then(() => props.onAnnounce('Sent to evaluator devices'))
+              .catch(() => props.onAnnounce('Could not send to evaluator devices'))
+          }
+        >
+          Send to evaluator devices
+        </Button>
       )}
       {mode === 'answer' && (
         <AnswerForm

@@ -39,7 +39,10 @@ const delivered = (ids: Record<string, string>) =>
     ]),
   )
 
-function setup(initial: Partial<FacilitatorState> = {}) {
+function setup(
+  initial: Partial<FacilitatorState> = {},
+  extra: Record<string, (req: never) => unknown> = {},
+) {
   let saved: FacilitatorState = {
     elapsedMin: 0,
     delivered: {},
@@ -59,7 +62,8 @@ function setup(initial: Partial<FacilitatorState> = {}) {
     'facilitator:present-status': () => ({ open: false }),
     'render:engagement': () => ({ path: '.cache/engagement/INJ06b/10.png', step: 10 }),
     'render:engagement-clear': () => undefined,
-  })
+    ...extra,
+  } as never)
   renderAt(
     projectUrl(`scenarios/${scenario.id}/facilitate`),
     '/p/:projectKey/scenarios/:scenarioId/facilitate',
@@ -261,6 +265,102 @@ describe('tracker (spec 0428 FR-13..17)', () => {
       rules: { 'color-contrast': { enabled: false }, region: { enabled: false } },
     })
     expect(result.violations.map((v) => v.id)).toEqual([])
+  })
+})
+
+describe('live session feed in the tracker (spec 0428 task 7)', () => {
+  const state = { elapsedMin: 40, delivered: delivered({ 'I-04': '0:20' }) }
+  const feed = (over: Record<string, unknown> = {}) => ({
+    live: true,
+    session: [{ kind: 'inject.release', at: Date.now() - 10 * 60_000, rowId: 'I-04' }],
+    messages: [],
+    ...over,
+  })
+
+  it('flags a release nobody opened on a device, and clears when it is read', async () => {
+    let current = feed()
+    const ttx = setup(state, { 'live:tracker-feed': () => current })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /Tracker/ }))
+    const open = await screen.findByRole('list', { name: 'Open items' })
+    expect(
+      await within(open).findByText(/I-04 was sent to devices and nobody has opened it/),
+    ).toBeTruthy()
+    current = feed({
+      session: [
+        ...current.session,
+        { kind: 'inject.receipt', at: Date.now(), rowId: 'I-04', receipt: 'read' },
+      ],
+    })
+    ttx.emit('live:changed', { reason: 'receipts', connected: 3 })
+    await waitFor(() => expect(within(open).queryByText(/nobody has opened it/)).toBeNull())
+  })
+
+  it('counts a device message on the row as the answer', async () => {
+    setup(state, {
+      'live:tracker-feed': () =>
+        feed({
+          session: [
+            { kind: 'inject.receipt', at: Date.now(), rowId: 'I-04', receipt: 'read' },
+            { kind: 'message.send', at: Date.now(), rowId: 'I-04', fromPlayer: true },
+          ],
+        }),
+    })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /Tracker/ }))
+    await screen.findByRole('list', { name: 'Open items' }).catch(() => undefined)
+    expect(screen.queryByText(/I-04 .*no response for/)).toBeNull()
+  })
+
+  it('suggests a commitment from a device message once, and adds nothing until accepted', async () => {
+    const ttx = setup(
+      { elapsedMin: 30 },
+      {
+        'live:tracker-feed': () =>
+          feed({
+            session: [],
+            messages: [
+              {
+                messageId: 'm1',
+                text: "We'll notify the airlines within 20 minutes.",
+                rowId: 'I-04',
+                at: Date.now(),
+              },
+            ],
+          }),
+      },
+    )
+    await waitFor(() => expect(ttx.saved().tracker?.suggestions).toHaveLength(1))
+    expect(ttx.saved().tracker?.suggestions[0]).toMatchObject({
+      source: 'message',
+      sourceRef: 'msg:m1',
+      rowId: 'I-04',
+    })
+    expect(ttx.saved().tracker?.commitments).toEqual([])
+  })
+
+  it('sends a prompt to evaluator devices only while a session runs', async () => {
+    const ttx = setup(state, {
+      'live:tracker-feed': () => feed({ session: [] }),
+      'live:staff-notice': () => undefined,
+    })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /Tracker/ }))
+    await user.click(await screen.findByRole('button', { name: 'Prompt the table' }))
+    await user.click(await screen.findByRole('button', { name: 'Send to evaluator devices' }))
+    await waitFor(() =>
+      expect(ttx.calls('live:staff-notice')).toEqual([
+        expect.objectContaining({ rowId: 'I-04', level: 'warning' }),
+      ]),
+    )
+  })
+
+  it('offers no evaluator button without a session', async () => {
+    setup(state)
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('tab', { name: /Tracker/ }))
+    await user.click(await screen.findByRole('button', { name: 'Prompt the table' }))
+    expect(screen.queryByRole('button', { name: 'Send to evaluator devices' })).toBeNull()
   })
 })
 

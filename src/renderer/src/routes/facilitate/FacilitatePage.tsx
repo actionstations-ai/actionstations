@@ -30,7 +30,14 @@ import { CommitmentDialog } from './TrackerPanel'
 import { TimelineFilter } from './TimelineFilter'
 import { useTimelineFilter } from './use-timeline-filter'
 import { useClockControls } from './use-clock-controls'
-import { answerNow, useAnnounceFlags, useFlags, useNoteScan } from './use-tracker'
+import {
+  answerNow,
+  useAnnounceFlags,
+  useFlags,
+  useLiveFeed,
+  useMessageScan,
+  useNoteScan,
+} from './use-tracker'
 import { availability, pathFor } from './branching'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { fireRowTriggers } from './compliance'
@@ -227,9 +234,11 @@ function useControllerTools(
   },
 ) {
   const { scenario, state, update } = p
-  const flags = useFlags(scenario, state, minutes)
+  const feed = useLiveFeed(p.projectPath, scenario.id)
+  const flags = useFlags(scenario, state, minutes, feed.session, feed.fetchedAt)
   useAnnounceFlags(flags, h.onAnnounce)
   useNoteScan(scenario, state, minutes, update)
+  useMessageScan(scenario, state, minutes, update, feed.messages)
   const [commitmentOpen, setCommitmentOpen] = useState(false)
   const [deliverToId, setDeliverToId] = useState<string>()
   const isAnswered = useCallback(
@@ -255,6 +264,16 @@ function useControllerTools(
     onGoToRow: h.onSelect,
     onAnnounce,
     onAddCommitment: () => setCommitmentOpen(true),
+    onNotifyEvaluators: feed.live
+      ? (text: string, rowId: string) =>
+          call('live:staff-notice', {
+            projectPath: p.projectPath,
+            scenarioId: scenario.id,
+            text,
+            level: 'warning',
+            rowId,
+          })
+      : undefined,
   }
   return { tools, commitmentOpen, setCommitmentOpen, deliverToId, setDeliverToId, onAnswer }
 }
