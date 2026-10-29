@@ -6,11 +6,15 @@
 export const RELAY_URL = 'https://relay.actionstations.ai'
 export const RELAY_HOST = 'relay.actionstations.ai'
 
+declare const __RELAY_PLAYER_BUNDLE_SHA256__: string | undefined
+
 /**
- * SHA-256 of the player bundle shipped with this app, set by the release build. Empty means "not
- * set in this build": the test then reports the relay's hash without judging it.
+ * SHA-256 of the player bundle shipped with this app, injected by electron.vite.config.ts from
+ * out/player when the app is built. Empty means "not set in this build" (dev, unit tests): the
+ * test then reports the relay's hash without judging it.
  */
-export const RELAY_PLAYER_BUNDLE_SHA256 = ''
+export const RELAY_PLAYER_BUNDLE_SHA256: string =
+  typeof __RELAY_PLAYER_BUNDLE_SHA256__ === 'string' ? __RELAY_PLAYER_BUNDLE_SHA256__ : ''
 
 /** Server keys live in secrets under this name, one per server address. */
 export const SERVER_KEY_PREFIX = 'live-server-'

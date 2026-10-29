@@ -18,6 +18,7 @@ step "typecheck";                   pnpm typecheck
 UNIT_LOG="$(mktemp -t ttx-unit-log.XXXXXX)"
 trap 'rm -f "$UNIT_LOG"' EXIT
 step "unit tests";                  pnpm test 2>&1 | tee "$UNIT_LOG"
+step "relay under workerd";          pnpm --filter @actionstations/relay-cloudflare test:workers
 if [[ "$QUICK" != "--quick" ]]; then
   step "build check";               pnpm build:check
   step "template render tests";     pnpm test:templates

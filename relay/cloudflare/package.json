@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-public.mjs",
+    "test:workers": "vitest run -c vitest.workers.config.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "bundle:check": "node scripts/build-public.mjs && WRANGLER_SEND_METRICS=false pnpm dlx wrangler@4.155.0 deploy --dry-run --outdir dist",
     "dev": "node scripts/build-public.mjs && WRANGLER_SEND_METRICS=false pnpm dlx wrangler@4.155.0 dev"
@@ -14,5 +15,8 @@
   "dependencies": {
     "@actionstations/relay-core": "workspace:*",
     "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.4.11"
   }
 }

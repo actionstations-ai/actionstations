@@ -59,13 +59,18 @@ From the repository root, on a machine with the dependencies installed:
 ```
 pnpm install --frozen-lockfile
 pnpm typecheck && pnpm test                      # the relay's tests run with the app's
+pnpm --filter @actionstations/relay-cloudflare test:workers   # the same relay under workerd
 pnpm --filter @actionstations/relay-cloudflare build
 ```
 
 `build` runs `scripts/build-public.mjs`: it copies the player page from `out/player/` (built by
 `pnpm build:player`, issue #411) into `public/` and writes `public/manifest.json` with
 `playerBundleSha256`. Without a player build it hashes the placeholder page; `/v1/health` reports
-that hash either way. Then bundle without deploying:
+that hash either way. `test:workers` runs the Worker and both Durable Object classes in workerd, the real Workers
+runtime (`@cloudflare/vitest-plugin`): a WebSocket hello, a hibernation eviction followed by an
+action that must reach the restored socket, the retention alarm, and the per-message cap. The
+bundled workerd can be older than the `compatibility_date` in `wrangler.toml`, so the test config
+pins an older date; a deploy uses `wrangler.toml`'s. Then bundle without deploying:
 
 ```
 pnpm --filter @actionstations/relay-cloudflare bundle:check   # wrangler deploy --dry-run --outdir dist
@@ -115,8 +120,11 @@ the machine.
 
 Each app release that changes the relay lists the Worker version id (`wrangler deployments
 list`), the `playerBundleSha256`, and the date of the step 0 checks. The app's
-`RELAY_PLAYER_BUNDLE_SHA256` constant (issue #410) is updated in the same release so **Test**
-can say whether the relay serves the bundle this app shipped with.
+`RELAY_PLAYER_BUNDLE_SHA256` constant (issue #410) needs no manual update: `electron-vite build`
+hashes `out/player` (`scripts/player-bundle-hash.mjs`, the same hash `build` writes into
+`manifest.json`) into the app, and `pnpm build:player` runs first in every build script. Deploy the
+relay from the same commit as the release so **Test** can say whether the relay serves the bundle
+this app shipped with; check that `/v1/health` reports `node scripts/player-bundle-hash.mjs`'s output.
 
 ## When a limit is reached
 
