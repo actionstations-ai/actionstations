@@ -7,6 +7,7 @@ import {
   FolderOpen,
   LayoutList,
   MessageSquareText,
+  Network,
   Package,
   Plug,
   Landmark,
@@ -37,4 +38,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   redlines: FileDiff,
   drills: Repeat2,
   'micro-drills': Timer,
+  regional: Network,
 }

@@ -512,3 +512,5 @@ The website was started against a draft of this format. Differences:
 - Catalog entry: `formatVersion` added (optional, default 1); `url` must be https; `kinds` non-empty; `id`+`version` unique, several versions allowed. Catalog `homepage` added (optional).
 - Folders: workflows need their `<id>.bindings.json`; examples need `project/project.json`; no SVG anywhere; the only template HTML file is `template.html`.
 - Format 2 (#426): `formatVersion` may be `2`; `contents` gains `regulations` and `frameworks`; folders `regulations/` and `frameworks/` (flat `<id>.json`). See [Regulations and frameworks](#regulations-and-frameworks-format-2).
+
+Exercise bundles for regional exercises (`.asexercise`) reuse these archive rules and add a signature; see [exercise-bundle-format.md](exercise-bundle-format.md).

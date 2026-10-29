@@ -15,6 +15,7 @@ import { changeFromEvent, changeFromJob, createInvalidator } from './state/inval
 import { useJobsStore } from './state/jobs'
 import { OpenRequests } from './routes/projects/OpenRequests'
 import { PackOpenRequests } from './routes/packs/PackOpenRequests'
+import { ExerciseOpenRequests } from './routes/regional/ExerciseOpenRequests'
 import { DomainsGate, DomainsSync } from './state/domains'
 import { InjectTypesSync } from './state/inject-types'
 import { ApprovalHost } from './components/privacy/ApprovalHost'
@@ -113,6 +114,7 @@ export function App() {
               <SkipLink />
               <OpenRequests />
               <PackOpenRequests />
+              <ExerciseOpenRequests />
               <ApprovalHost />
               <div className="shell">
                 <Sidebar />

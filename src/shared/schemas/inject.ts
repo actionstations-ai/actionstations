@@ -100,6 +100,12 @@ export const Inject = z.looseObject({
   includeInDeck: z.boolean().default(true),
   locked: z.boolean().default(false),
   updatedAt: IsoDateTime.optional(),
+  /** Regional exercises (spec 0440): the organization that wrote it, and its revision. */
+  owner: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]{1,40}$/)
+    .optional(),
+  revision: z.number().int().min(1).optional(),
 })
 export type Inject = z.infer<typeof Inject>
 

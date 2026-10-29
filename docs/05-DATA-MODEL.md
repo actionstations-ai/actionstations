@@ -463,6 +463,7 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |
 | `jobs.json` | Persisted job records so interrupted generation shows as resumable |
 | `packs/<id>/<version>/` | Installed packs, verified against their `pack.json` hashes, read-only (ADR-0018) |
+| `settings.json` `regional.orgs` | Organization identities for regional exercises (#440): name, prefix, public signing key, fingerprint, live key. Private keys are in `secrets.json` as `org-key-<orgId>` |
 | `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
 | `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
@@ -481,3 +482,7 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `settings.json` `simcell.capability` | `{ "<providerId>/<model>": { level, passed, failed, checkedAt } }`, the model check result per provider and model. |
 
 The session log (`log.jsonl`) gains `simcell.draft` (draft text, final text, checks, whether edited), `call.ring`, `call.answer` (text or transcript, audio size, never the audio) and `call.end`.
+
+## Regional exercises (`scenarios/<id>/regional.json`, #440)
+
+`RegionalState` (`src/shared/schemas/regional.ts`): exercise id, role (host or participant), this organization, the organizations with their pinned keys, frame version, received slice revisions, sharing settings, cross-organization channels, proposals and the revisions this computer last exported. `MselRow`, `Inject` and `Role` gain optional `owner`, `revision`, `visibility`, `publicSummary`, `dependsOn`; `Scenario.regional` points at the file. Single-organization scenarios are unchanged. Bundle format: [exercise-bundle-format.md](exercise-bundle-format.md).

@@ -142,7 +142,25 @@ export const SimcellSettings = z.object({
 })
 export type SimcellSettings = z.infer<typeof SimcellSettings>
 
+/** Organization identities for regional exercises (spec 0440). Public values only; keys are in secrets. */
+export const RegionalIdentity = z.object({
+  orgId: z.string().regex(/^[a-z0-9][a-z0-9-]{1,40}$/),
+  name: z.string().min(1).max(120),
+  prefix: z.string().regex(/^[A-Z]{2,6}$/),
+  /** Ed25519 public key (base64 SPKI DER) that signs exercise bundles. */
+  publicKey: z.string(),
+  fingerprint: z.string(),
+  /** P-256 public key (base64url, 65 bytes) used as a co-controller in a live session. */
+  liveKey: z.string(),
+  createdAt: z.string(),
+})
+export type RegionalIdentity = z.infer<typeof RegionalIdentity>
+
 export const AppSettings = z.object({
+  /** Organization identities on this computer, by orgId (spec 0440). */
+  regional: z
+    .object({ orgs: z.record(z.string(), RegionalIdentity).default({}) })
+    .default({ orgs: {} }),
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
   /** Global default routing; a project's providerRouting overrides per task. */

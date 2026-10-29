@@ -1,6 +1,6 @@
 # Spec 0440: Regional exercises across organizations
 
-Issue: #440 · Milestone: 0.9.0 · Status: Draft · Depends on: #406 (session protocol), #408 / #409 / #410 (connections), #413 (messages), #417 (session log) · Related: ADR-0018 (packs), `docs/packs-format.md`, #429 (SimCell assistant)
+Issue: #440 · Milestone: 0.9.0 · Status: Implemented (core) · Depends on: #406 (session protocol), #408 / #409 / #410 (connections), #413 (messages), #417 (session log) · Related: ADR-0018 (packs), `docs/packs-format.md`, #429 (SimCell assistant)
 
 ## Summary
 
@@ -285,3 +285,11 @@ No network call is made during planning. The live session uses only the connecti
 4. **Full session log sharing.** Recommendation: per-organization slices by default; full log only by explicit host setting after all organizations agree, recorded in the frame so every party sees it.
 5. **Key trust model.** Recommendation: per-exercise pinning with out-of-band fingerprint comparison; no certificate authority. It costs nothing and fits organizations that already talk by phone while planning.
 6. **Signing for packs too?** Recommendation: not in this issue. If packs gain signing later, reuse `src/main/regional/keys.ts` and record it in a separate ADR.
+
+## Implementation notes (as built)
+
+- ADR-0062 (not NNNN). Organization ids are the lowercase prefix; paths use the prefix (`slices/AIR.json`). Rows and roles are reserved to an organization by their id prefix and owner, injects by their row.
+- `from.liveKey` was added to the signed manifest so the host can list each partner's P-256 controller key in the roster; the Ed25519 bundle key cannot sign live messages.
+- `regional:export`, `:inspect`, `:merge-*` and `:import-merged` take a file path chosen in the renderer's dialog; `regional:pin` and `:merge-apply` also take the scenario and (apply) the slice paths. The fingerprint is typed by the user, not ticked.
+- Shared rows are the host's `START`, `END`, `TJ-*`, `PH-*` rows and rows with format `time_jump`.
+- Not built yet: `ownerFilter` in the generation engine (user saves are guarded; generation can still rewrite a partner's rows), owner badges and read-only rows in the MSEL editor, sending the roster over a live connection and the co-controller connect and scoped release on the Facilitate page (the roster builder, per-organization log slices and the protocol scope checks exist).
