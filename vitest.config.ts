@@ -10,7 +10,8 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}'],
+    // relay/: the live play servers (specs 0408, 0409) share this run, so ci:local covers them.
+    include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}', 'relay/*/test/**/*.test.ts'],
     exclude: ['**/node_modules/**', 'e2e/**', 'out/**'],
     // Renderer component tests opt in with a `// @vitest-environment happy-dom` header.
     environment: 'node',

@@ -120,3 +120,54 @@ The listener is bound to the one address you chose, on port 8485 (or the next fr
 | "A live session is already running"               | One session per app. Stop it from the scenario where it runs, or quit and reopen the app.                                                      |
 | Port 8485 is busy                                 | The app moves to the next free port automatically; the status line and the QR code show it. Firewall rules written for 8485 need the new port. |
 | "could not store the session keys" in the app log | The operating system keychain is unavailable (common on Linux without a keyring). The session runs; it cannot be resumed after a crash.        |
+
+## Remote and hybrid: the Action Stations relay
+
+The relay is a small service the project runs on Cloudflare's free plan. It forwards encrypted
+messages between your app and the players' browsers, keeps them only so a player who joins late
+or reconnects can catch up, and deletes them when you end the session or after 72 hours at the
+latest.
+
+**What the relay sees:** session ids, device ids, connection times and IP addresses, the size
+and timing of messages, and opaque destinations. **What it cannot see:** any content: inject text
+or media, messages, votes, notes, names, or the keys. Its source is in this repository under
+[`relay/`](../../relay/README.md).
+
+### Limits, in plain numbers
+
+The relay costs nothing to run and stays that way because every session is capped:
+
+- 60 devices in a session.
+- Messages up to 64 KiB; media files up to 8 MiB each and 64 MiB per session. The app tells you
+  which injects are too large for the relay and offers to show them on the main screen instead.
+- 30 messages a minute per participant (short bursts are fine), 600 a minute per session,
+  4,000 stored messages.
+- 20 reconnects per device per hour.
+- 25 sessions a day across everyone who uses the relay (the day resets at 00:00 UTC).
+
+### If you see "The Action Stations relay has reached today's free limit"
+
+The shared daily allowance is used up. Nothing is wrong with your exercise and nothing is
+billed to anyone. You can:
+
+1. Switch the session to **This computer** if everyone is in the room, or to **Your server** if
+   your organization runs one.
+2. Try again after 00:00 UTC.
+
+Other messages you may see: **Session is full (60 devices)**: a device must leave before another
+can join. **Too many messages; slow down**: a device sent more than its share; it continues after
+a short pause.
+
+### Privacy
+
+The relay never contacts your computer on its own, and the app never contacts the relay unless
+you chose it for a session. Cloudflare, like any internet host, sees the TLS connection and IP
+addresses. Players' browsers load the player page from the relay; the app checks the page's
+published hash when you press **Test** and warns if it differs from the one this version shipped
+with.
+
+## Your own server
+
+For networks without internet or where no third party is acceptable, the same server runs on
+your hardware. The install guide lands with issue #409; the design is in spec
+[0409](../specs/0409-live-self-hosted-server.md).

@@ -37,6 +37,9 @@ export default tseslint.config(
       'node_modules',
       'out',
       'dist',
+      // Relay adapters' bundles and wrangler state (relay/*/.gitignore).
+      'relay/*/dist',
+      'relay/*/.wrangler',
       'release',
       'coverage',
       'reference',

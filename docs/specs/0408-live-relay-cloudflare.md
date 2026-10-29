@@ -1,6 +1,6 @@
 # Spec 0408: Live play: Action Stations relay on Cloudflare's free plan
 
-Issue: #408 · Milestone: 0.6.0 · Status: Draft · Depends on: #406 · Related: #418 (epic), #407 (shares the core), #409 (Node adapter of the same core), #410 (connection choice), #411 (player bundle)
+Issue: #408 · Milestone: 0.6.0 · Status: Implemented (core, Cloudflare adapter, deploy guide; first deploy, live and load tests, and the app transport (#410) open) · Depends on: #406 · Related: #418 (epic), #407 (shares the core), #409 (Node adapter of the same core), #410 (connection choice), #411 (player bundle)
 
 ## Summary
 
@@ -312,7 +312,7 @@ logged-in developer keeps both out). `scripts/check-workflows.mjs` is unchanged.
   retention, how to run your own (#409), how to report a problem.
 - `docs/guides/live-play.md` section "Remote and hybrid: the Action Stations relay": when to
   use it, the limits in plain numbers, the daily-limit message and what to do.
-- `docs/adr/0025-live-relay-hosting.md`: Cloudflare free plan, repository location, hand
+- `docs/adr/0034-live-relay-hosting.md`: Cloudflare free plan, repository location, hand
   deploy, caps, and the reasons.
 
 ## Security and privacy
@@ -389,11 +389,59 @@ inject round trip, end. Covers the app ↔ relay path without the internet.
    `RELAY_PLAYER_BUNDLE_SHA256` constants in `src/shared/ipc/live.ts`, close-code → message
    mapping, pre-staging hook for #412; tests against a local core server.
 5. **Deploy, docs, ADR.** `relay/cloudflare/DEPLOY.md`, `relay/README.md`,
-   `docs/adr/0025-live-relay-hosting.md`, `docs/guides/live-play.md` relay section; first hand
+   `docs/adr/0034-live-relay-hosting.md`, `docs/guides/live-play.md` relay section; first hand
    deploy to the free account; `live.test.ts` and `e2e/live/relay.spec.ts`.
 6. **Load test and budget check.** `LOAD=1` script, numbers written into the budget table of
    this spec and `relay/README.md`; adjust caps if the measurements disagree with the
    estimates.
+
+## Changes after implementation
+
+Made in the pull request for #408; the sections above keep the original design where they
+still hold.
+
+- **Owner decisions.** The relay code lives in this repository under `relay/` (open question 1);
+  the hostname is `relay.actionstations.ai` from the start, since the zone's DNS is already on
+  Cloudflare (open question 2); the account must be on the Workers Free plan with no payment
+  method, and `relay/cloudflare/DEPLOY.md` makes checking both the first step of every deploy.
+  Nothing was deployed in the pull request.
+- **Core API.** `SessionHub` is the spec's class with a synchronous `SessionStore` (every backend
+  is synchronous: Durable Object `sql.exec`, `node:sqlite`, a Map), which keeps a frame's
+  processing atomic. `accept(conn, auth)` takes the wire form (`clientId`, `joinToken`,
+  `resumeToken` as base64url, or `controllerToken`; `trustedController` for the LAN server's
+  in-process controller) and does the refusal itself (`relay.error` then the close code).
+  `attach(conn, since)` re-registers a connection after a hibernation without a hello. `create()`
+  mints the controller token; `addController()` mints a co-controller's. `frames.ts` validates
+  the whole `Envelope` schema (which only requires `payload` to be an object), not a separate
+  header schema: that is what `MemoryServer` does and it costs the same.
+- **Caps.** `HubLimits` adds `storedEnvelopes` and `rates` to the protocol's `Limits`
+  (`relay/core/src/limits.ts`). Controllers get their own rate (600 a minute, bursts of 60),
+  because a blob upload is many frames; participants keep 30 a minute with bursts of 10. A
+  rate-limited frame is dropped with `RATE_LIMITED` and `retryAfterMs`; a connection that keeps
+  going past its burst is closed with `4008`. Past `storedEnvelopes`, participant frames are
+  refused with `STORE_FULL` and controller frames are still stored.
+- **Session creation.** `POST /v1/sessions` takes `{ v, joinTokenHash? }` and no `name`: the
+  server stores no name at all. The hash is optional because the join token is derived from the
+  session id the server is about to mint; the app sets it with `POST …/join-token` right after.
+  Until then no participant can connect.
+- **`MemoryServer` corrected** (`src/shared/live/transport-memory.ts`) where it strayed from
+  this spec and 0406: a refused connection no longer produces a `presence offline` to the
+  controller, and catch-up never returns a client's own frames. The conformance suite is the
+  regression test.
+- **Tests.** `@cloudflare/vitest-pool-workers` pins vitest 4 and the repository is on 5, so the
+  Durable Object runs under a shim (`relay/cloudflare/test/shim.ts`: `SqlStorage` on
+  `node:sqlite`, a `DurableObjectState` with alarms, hibernatable fake sockets whose server end
+  reports to whichever object is bound) inside the root Vitest run; `scripts/local-ci.sh` gains
+  no step. The Worker bundle is checked with `wrangler deploy --dry-run`. `@cloudflare/workers-types`
+  is not used (it replaces the DOM globals `src/shared/live` compiles against); the adapter
+  declares the runtime slice it uses in `src/workers-runtime.d.ts`. The live test, the load test
+  and `e2e/live/relay.spec.ts` are follow-ups that need a deployed or `wrangler dev` relay.
+- **Tooling.** `wrangler` is run through `pnpm dlx` at a pinned version and is not a dependency,
+  so the lockfile stays small and the release workflow installs nothing for the relay.
+  `pnpm typecheck` covers `relay/core` and `relay/cloudflare`.
+- **App transport (task 4)** belongs to #410 with the connection choice; `RELAY_URL` and the
+  bundle-hash constant land there.
+- The ADR is `docs/adr/0034-live-relay-hosting.md` (0025 was taken when the work landed).
 
 ## Open questions
 
