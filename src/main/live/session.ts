@@ -80,6 +80,7 @@ import { requireConsent, isRemote } from './connection'
 import {
   attachController,
   createRemoteSession,
+  reopenRemoteSession,
   endRemoteSession,
   type RemoteHandle,
 } from './remote-session'
@@ -730,12 +731,6 @@ export async function resumeSession(
   const dir = sessionFolder(root, scenarioId, sessionId)
   const session = await readJson(safeJoin(dir, 'session.json'), LiveSessionSchema)
   if (session.endedAt) throw new AppError('CONFLICT', 'This session has already ended.')
-  if (session.connection.kind !== 'lan') {
-    throw new AppError(
-      'CONFLICT',
-      'A session on a relay or your own server cannot be resumed after a restart. Close it as ended and start a new one.',
-    )
-  }
   const stored = await readSessionKeys(sessionId)
   if (!stored) {
     throw new AppError(
@@ -744,6 +739,7 @@ export async function resumeSession(
     )
   }
   const resume = await restoreKeys(createWebCryptoProvider(), session, stored)
+  const remote = await reopenRemote(session, stored.controllerToken)
   return startOn(
     {
       projectPath,
@@ -755,9 +751,24 @@ export async function resumeSession(
     },
     root,
     scenario,
-    undefined,
+    remote,
     resume,
   )
+}
+
+/** A remote session is reattached with the token stored at start; the server may have dropped it. */
+async function reopenRemote(
+  session: LiveSession,
+  controllerToken: string | undefined,
+): Promise<RemoteHandle | undefined> {
+  if (!isRemote(session.connection)) return undefined
+  if (!controllerToken) {
+    throw new AppError(
+      'NOT_FOUND',
+      'This session was started before resume was possible on a server. Close it as ended and start a new one.',
+    )
+  }
+  return reopenRemoteSession(session.connection, { sessionId: session.id, controllerToken })
 }
 
 /** Close what the restart cut off and say so in the log (state follows the log). */
@@ -795,7 +806,7 @@ async function logResume(a: Active, resume: ResumeInput): Promise<void> {
   await a.log.append({
     kind: 'session.resume',
     actor: { kind: 'controller' },
-    data: { connection: 'lan', lostEntries: lost, epoch: a.keys.currentEpoch },
+    data: { connection: a.session.connection.kind, lostEntries: lost, epoch: a.keys.currentEpoch },
   })
 }
 
@@ -873,7 +884,12 @@ async function startOn(
   const salt = crypto.random(16)
   const a: Active = {
     session: resume
-      ? { ...resume.session, connection: { ...req.connection, address } as LiveConnection }
+      ? {
+          ...resume.session,
+          connection: remote
+            ? resume.session.connection
+            : ({ ...req.connection, address } as LiveConnection),
+        }
       : {
           id: sessionId,
           scenarioId: req.scenarioId,
@@ -1021,6 +1037,7 @@ async function persistKeys(a: Active): Promise<void> {
         publicKey: toBase64Url(a.keys.controllerEcdhPub!),
       },
       lastSeq: 0,
+      ...(a.remote ? { controllerToken: a.remote.auth.controllerToken } : {}),
     })
   } catch (err) {
     console.error('[live] could not store the session keys:', (err as Error).message)
