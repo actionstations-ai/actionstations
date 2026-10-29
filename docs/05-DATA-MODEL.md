@@ -341,8 +341,9 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | File | Contents |
 |---|---|
 | `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`) |
-| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<projectId>` entries: each project's 32-byte redaction key (#433) |
+| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<key>` entries: each project's 32-byte redaction key, filed under a hash of the project id and folder path (#433) |
 | `cloud-sends.jsonl` | Send log for cloud requests made outside a project (#433); same lines as the project file |
+| `redaction/<key>.bin` | Values each project has redacted (#433), AES-256-GCM with a key derived from the project's redaction key; `<key>` hashes the project id and folder path |
 | `prompts/<name>.md` | Global prompt overrides (project overrides live in `<project>/prompts/`) |
 | `models/` | Downloaded local embedding models (only via the explicit download action) |
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |

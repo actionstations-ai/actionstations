@@ -448,6 +448,12 @@ Where the code differs from or adds to the design above, and why:
   `connection-test`.
 - **Send log** `requestHash` is an HMAC with the project's redaction key. The gate compares the
   hash of the exact body it sends with the approved hash.
+- **After the re-review:** the values a project has redacted are stored in
+  `<userData>/redaction/<key>.bin`, AES-256-GCM with a key derived from the project's redaction
+  key, and re-issued in order at the start of a session, so a saved output naming someone the
+  patterns would miss is still redacted after a restart. Per-computer data (relaxed settings, the
+  redaction key, the stored values) is filed under a hash of the project id and the folder's real
+  path, so a copied folder or a crafted project.json reusing a known id inherits none of it.
 - **Name column** cells under a Name header are names without the given-name list check.
 
 ## Open questions

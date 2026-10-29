@@ -39,6 +39,19 @@ export class RedactionRegistry {
 
   constructor(private readonly key: Buffer) {}
 
+  /** Called after a new value is issued (persistence, see settings.ts). */
+  onIssue?: () => void
+
+  /** Issued values in issue order: re-issuing them in this order gives the same placeholders. */
+  entries(): PlaceholderEntry[] {
+    return [...this.byPlaceholder.values()]
+  }
+
+  /** A key derived from the project key for one purpose (encrypting the stored values). */
+  derivedKey(purpose: string): Buffer {
+    return createHmac('sha256', this.key).update(`derive\u0000${purpose}`).digest()
+  }
+
   /** "PERSON_7F3K" → entry (case-insensitive). */
   lookup(token: string): PlaceholderEntry | undefined {
     return this.byPlaceholder.get(token.toUpperCase())
@@ -137,6 +150,7 @@ export class RedactionRegistry {
       if (!this.byPlaceholder.has(token)) {
         this.byKey.set(k, token)
         this.byPlaceholder.set(token, { category, value })
+        this.onIssue?.()
         return token
       }
     }

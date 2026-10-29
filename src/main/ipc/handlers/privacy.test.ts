@@ -1,6 +1,6 @@
 // privacy:* through the IPC dispatcher (#433).
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { CloudSendEntry, OutboundManifest } from '@shared/schemas'
@@ -23,6 +23,11 @@ const { markProjectOpen } = await import('../../lib/project-registry')
 const { getSettings, resetSettingsCache } = await import('../../settings/store')
 const { approvals } = await import('../../providers/outbound')
 const { appendSend } = await import('../../providers/outbound/send-log')
+const { flushRegistries, localProjectKey, registryFor, resetRegistries } =
+  await import('../../providers/outbound/settings')
+const { redactText } = await import('../../providers/outbound/redact')
+const { emptyContext } = await import('../../providers/outbound/detect')
+const { REDACTION_CATEGORIES } = await import('@shared/schemas')
 
 async function call<T>(channel: string, req?: unknown): Promise<T> {
   const res = await dispatch(handlers, channel, req)
@@ -60,7 +65,7 @@ describe('privacy settings', () => {
     // Only the stricter part travels in project.json; the relaxation stays on this computer.
     expect((await loadProject(projectPath)).privacy).toEqual({ review: 'every-request' })
     const settings = await getSettings()
-    const { id } = await loadProject(projectPath)
+    const id = await localProjectKey(projectPath, await loadProject(projectPath))
     expect(settings.projectPrivacy[id]).toEqual({
       review: 'every-request',
       redact: { email: false },
@@ -206,5 +211,101 @@ describe('privacy:sends', () => {
       before: '2026-10-02T00:00:00.000Z',
     })
     expect(older).toHaveLength(1)
+  })
+})
+
+describe('redacted values across restarts and copies (#454 re-review)', () => {
+  const ALL = new Set(REDACTION_CATEGORIES)
+  const redactIn = async (path: string, text: string) =>
+    redactText(text, ALL, emptyContext(), await registryFor(path))
+
+  beforeEach(() => resetRegistries())
+
+  it('after a restart, a saved output naming someone the patterns miss still goes as a placeholder', async () => {
+    const first = await redactIn(projectPath, 'Call Chief Zubair Oyelaran at the EOC.')
+    const placeholder = first.spans[0]!.placeholder
+    await flushRegistries()
+    resetRegistries() // a new app session: a new registry instance
+    const saved = await redactIn(projectPath, 'Zubair Oyelaran opens the EOC at 0800.')
+    expect(saved.text).toBe(`${placeholder} opens the EOC at 0800.`)
+  })
+
+  it('after a restart, the gate sends a saved stage output with the name as a placeholder', async () => {
+    const { guardText } = await import('../../providers/outbound/gate')
+    const { Approvals } = await import('../../providers/outbound/approvals')
+    const { PrivacySettings } = await import('@shared/schemas')
+    const config = {
+      id: 'cloud',
+      kind: 'mock' as const,
+      label: 'Cloud',
+      baseUrl: 'https://api.example.com/v1',
+      options: {},
+      enabled: true,
+    }
+    const sent: string[] = []
+    const inner = {
+      id: 'cloud',
+      kind: 'mock' as const,
+      config,
+      listModels: async () => [],
+      health: async () => ({ ok: true }),
+      chat: async (req: { messages: { content: string }[] }) => {
+        sent.push(JSON.stringify(req))
+        return {
+          text: 'ok',
+          model: 'm',
+          usage: { inputTokens: 1, outputTokens: 1 },
+          finishReason: 'stop' as const,
+          latencyMs: 0,
+        }
+      },
+    }
+    const deps = {
+      approvals: new Approvals({ needed: () => {}, settled: () => {}, cancelJob: () => {} }),
+      privacy: async () => PrivacySettings.parse({ review: 'off' }),
+      context: async () => emptyContext(),
+      registry: registryFor,
+      enabled: () => ALL,
+      log: async () => undefined,
+      knownProject: async () => true,
+    }
+    const send = (content: string) =>
+      guardText(inner, config, deps).chat({
+        messages: [{ role: 'user', content }],
+        outbound: { projectPath, excerpts: [] },
+      })
+    await send('Call Chief Zubair Oyelaran at the EOC.')
+    await flushRegistries()
+    resetRegistries()
+    await send('Saved overview: Zubair Oyelaran opens the EOC at 0800.')
+    expect(sent[1]).not.toMatch(/Zubair|Oyelaran/)
+    expect(sent[1]).toMatch(/\[\[PERSON_[A-Z2-7]{4,}\]\] opens the EOC/)
+  })
+
+  it('keeps the values encrypted in the settings folder, never in the project folder', async () => {
+    await redactIn(projectPath, 'Call Chief Zubair Oyelaran.')
+    await flushRegistries()
+    const dir = join(process.env.TTX_USER_DATA!, 'redaction')
+    const files = readdirSync(dir)
+    expect(files).toHaveLength(1)
+    expect(readFileSync(join(dir, files[0]!)).toString('latin1')).not.toMatch(/Zubair|Oyelaran/)
+    expect(readdirSync(projectPath).some((f) => f.includes('redaction'))).toBe(false)
+  })
+
+  it('a copied project folder gets neither the relaxed settings nor the key', async () => {
+    await call('privacy:set', {
+      projectPath,
+      settings: { redact: { person: false } },
+    })
+    const original = await redactIn(projectPath, 'Call Chief Zubair Oyelaran.')
+    const copy = join(mkdtempSync(join(tmpdir(), 'ttx-copy-')), 'Copy.asproj')
+    cpSync(projectPath, copy, { recursive: true })
+    markProjectOpen(copy)
+    expect(existsSync(join(copy, 'project.json'))).toBe(true)
+    const view = await call<{ effective: { redact: object } }>('privacy:get', { projectPath: copy })
+    expect(view.effective.redact).toEqual({})
+    const copied = await redactIn(copy, 'Call Chief Zubair Oyelaran.')
+    expect(copied.text).not.toContain('Zubair')
+    expect(copied.text).not.toBe(original.text)
   })
 })

@@ -13,6 +13,7 @@ import {
   enabledCategories,
   privacyFor,
   registryFor,
+  localProjectKey,
   stricterPart,
 } from '../../providers/outbound/settings'
 import { updateSettings } from '../../settings/store'
@@ -39,7 +40,7 @@ async function saveGlobal(settings: ProjectPrivacy): Promise<void> {
  * relax the defaults. The stricter part is also written to project.json so it travels.
  */
 async function saveProject(root: string, settings: ProjectPrivacy, clear: boolean): Promise<void> {
-  const { id } = await loadProject(root)
+  const id = await localProjectKey(root, await loadProject(root))
   const local = defined(settings)
   const empty = clear || Object.keys(local).length === 0
   const saved = await updateSettings((s) => {

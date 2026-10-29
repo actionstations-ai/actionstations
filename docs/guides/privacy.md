@@ -9,7 +9,7 @@ A provider is a cloud provider when:
 - it is **Anthropic**, or
 - its base URL points anywhere other than this computer (`127.0.0.1`, `localhost`, `::1`). An OpenAI-compatible endpoint such as OpenRouter, a remote Ollama server or a ComfyUI machine elsewhere all count.
 
-A server on your own network (for example `192.168.1.20` or `gpu.local`) also counts as cloud until you open the provider (**Providers → Edit**) and tick **On my network, treat as local**. Only do that for a machine you control. The option is offered only for private network addresses (`10.x`, `172.16-31.x`, `192.168.x`, `169.254.x`, IPv6 `fc00::/7` and `fe80::/10`) and `.local`, `.lan`, `.home.arpa` and `.internal` names, never for a public host. It applies to the address it was ticked for: change the base URL and the provider is cloud again until you tick it again.
+A server on your own network (for example `192.168.1.20` or `gpu.local`) also counts as cloud until you open the provider (**Providers → Edit**) and tick **On my network, treat as local**. Only do that for a machine you control. The option is offered only for private network addresses (`10.x`, `172.16-31.x`, `192.168.x`, `169.254.x`, IPv6 `fc00::/7` and `fe80::/10`) and `.local`, `.lan`, `.home.arpa` and `.internal` names, never for a public host. Names such as `gpu.local` or `box.internal` rely on your network's DNS: mark one only if it resolves to your own machine. It applies to the address it was ticked for: change the base URL and the provider is cloud again until you tick it again.
 
 On Ollama, models whose names end in `-cloud` (for example `gpt-oss:120b-cloud`) run on ollama.com, so requests to them are cloud requests even though they go through the Ollama app on your computer.
 
@@ -39,7 +39,7 @@ Your approval covers the exact request you saw. If anything changes before it is
 
 ## When the app asks
 
-Set in **Settings → Privacy** for all projects, and per project on **Cloud and privacy** (in the project's Advanced section). A project's choices are kept on this computer. Only the part that is stricter than your defaults (asking more often, more categories, more Always-redact terms) is also written into the project file, so it travels with the folder. Settings that arrive in a project file (a copied project, an example) can make review and redaction stricter, never looser; examples and packs never carry them.
+Set in **Settings → Privacy** for all projects, and per project on **Cloud and privacy** (in the project's Advanced section). A project's choices are kept on this computer, for that project in that folder: a copy of the folder starts from your defaults. Only the part that is stricter than your defaults (asking more often, more categories, more Always-redact terms) is also written into the project file, so it travels with the folder. Settings that arrive in a project file (a copied project, an example) can make review and redaction stricter, never looser; examples and packs never carry them.
 
 - **Ask when new plan excerpts would be sent** (default): ask before the first cloud request of a job, then again whenever a request would send a plan excerpt you have not approved in that job, and for each image, video or voice prompt not yet approved. With **Send and approve these documents for this job**, a text-only generation usually asks once. Other text (prompts, earlier results) goes without asking; names and contact details in it are still redacted.
 - **Ask for any new content** (strictest short of every request): also ask whenever a request would send anything else not yet approved in that job, such as a new prompt, an earlier stage's result or facility facts. Most stages of a generation ask once.
@@ -60,7 +60,7 @@ Redaction is on by default for all four categories. Each value becomes a placeho
 
 Redaction does not apply to embedding requests: search over placeholders would not work. Image, video and voice prompts are redacted with plain words instead of placeholders (a name becomes "a staff member", a phone number "a phone number"), because images and audio cannot be changed back. A video's input image is shown in the dialog, and the approval covers that exact image.
 
-A value the app has already replaced in a project is replaced again wherever it appears later, even where the patterns would not find it on their own, so a name restored into one stage's result is never sent in the clear by the next stage.
+A value the app has already replaced in a project is remembered (encrypted with the project's key in the app's settings folder, never in the project folder) and replaced again wherever it appears later, also after a restart, even where the patterns would not find it on their own, so a name restored into one stage's result is never sent in the clear by the next stage.
 
 ### What it finds, and what it misses
 

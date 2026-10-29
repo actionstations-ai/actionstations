@@ -244,7 +244,7 @@ function NetworkField(props: { draft: Draft; set: SetDraft }) {
         On my network, treat as local
       </label>
       <span id="provider-network-hint" className="field__hint">
-        {`Requests to ${host} leave this computer, so they are treated as cloud requests: you review what is sent and names, phone numbers, emails and addresses are redacted. Tick this only if ${host} is a machine you control on your own network. Only private network addresses and .local or .lan names can be marked.`}
+        {`Requests to ${host} leave this computer, so they are treated as cloud requests: you review what is sent and names, phone numbers, emails and addresses are redacted. Tick this only if ${host} is a machine you control on your own network. Only private network addresses and .local, .lan or .internal names can be marked; those names rely on your network's DNS, so tick this only if the name resolves to your own machine.`}
       </span>
     </div>
   )
