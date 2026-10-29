@@ -1,4 +1,4 @@
-# ADR-0036: Local model benchmark drives the built app with deterministic scoring
+# ADR-0039: Local model benchmark drives the built app with deterministic scoring
 
 Date: 2026-10-29 · Status: Accepted · Issue: #434
 
