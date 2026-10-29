@@ -37,6 +37,10 @@ export const ScenarioBrief = z.object({
     .optional(),
   /** Narrative date of STARTEX ("2026-03-12"); regulatory clocks count business days from it (#426). */
   startDate: z.iso.date().optional(),
+  /** Set when the scenario was started from the program's "propose next exercise" (#424). */
+  programProposal: z
+    .object({ at: z.string(), correctiveActionIds: z.array(z.string()).max(200).default([]) })
+    .optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 

@@ -118,6 +118,8 @@ export const CorrectiveAction = z.object({
   status: z.enum(['open', 'in_progress', 'done']).default('open'),
   /** A locked action survives a re-draft. */
   locked: z.boolean().default(false),
+  /** The exercise program's corrective action this was imported as (#424). */
+  programActionId: Id.optional(),
 })
 export type CorrectiveAction = z.infer<typeof CorrectiveAction>
 

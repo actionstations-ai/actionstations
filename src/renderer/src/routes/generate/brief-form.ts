@@ -18,6 +18,8 @@ export interface BriefDraft {
   threatFamily?: ThreatFamilyId
   /** Plan seams to test (#427): plan-conflicts.json finding ids, at most three. */
   seamIds: string[]
+  /** Set when the brief came from the program's "propose next exercise" (#424). */
+  programProposal?: { at: string; correctiveActionIds: string[] }
 }
 
 export type BriefErrors = Partial<Record<keyof BriefDraft, string>>
@@ -90,6 +92,24 @@ export function toBrief(d: BriefDraft, suggested?: ThreatFamilyId): ScenarioBrie
     ...(d.startDate ? { startDate: d.startDate } : {}),
     ...(threatFamily ? { threatFamily } : {}),
     ...(d.seamIds.length ? { seamIds: d.seamIds.slice(0, MAX_SEAMS) } : {}),
+    ...(d.programProposal ? { programProposal: d.programProposal } : {}),
+  }
+}
+
+/** Constraints and corrective actions handed over by the program's proposal (router state). */
+export function draftFromProposal(state: unknown, base: BriefDraft = emptyDraft()): BriefDraft {
+  const p = (
+    state as { programProposal?: { constraints?: unknown; correctiveActionIds?: unknown } } | null
+  )?.programProposal
+  if (!p || !Array.isArray(p.constraints) || !Array.isArray(p.correctiveActionIds)) return base
+  const text = (v: unknown[]) => v.filter((x): x is string => typeof x === 'string')
+  return {
+    ...base,
+    constraints: text(p.constraints),
+    programProposal: {
+      at: new Date().toISOString(),
+      correctiveActionIds: text(p.correctiveActionIds),
+    },
   }
 }
 

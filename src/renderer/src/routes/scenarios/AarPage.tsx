@@ -173,6 +173,12 @@ export default function AarPage() {
                 hasDraft
                 onDone={draft.reload}
               />
+              <Link
+                className="btn"
+                to={`/program/import/${projectKey(projectPath)}/${scenario.id}`}
+              >
+                Send corrective actions to program
+              </Link>
               <Link className="btn" to={`${base}/export`}>
                 <Download size={16} aria-hidden /> Export…
               </Link>

@@ -1,0 +1,286 @@
+// The program folder store (#424, ADR-0043). Folder layout:
+//   <Name>.asprogram/
+//     program.json  schedule.json  corrective-actions/<id>.json  imports/<id>.json
+//     projects/<projectId>.json (snapshots)  exports/  .lock.json  .gitignore
+// Everything read from the folder is validated with zod: it may sit on shared storage and be
+// written by another computer. Writes are atomic, one file per record, with a revision
+// (sha256 of the file's text) so two people editing the same record are told, not overwritten.
+import { createHash, randomUUID } from 'node:crypto'
+import { promises as fs, rmSync, writeFileSync } from 'node:fs'
+import { hostname, userInfo } from 'node:os'
+import { join, resolve } from 'node:path'
+import { app } from 'electron'
+import type { z } from 'zod'
+import {
+  LockInfo,
+  PROGRAM_FORMAT_VERSION,
+  Program,
+  Schedule,
+  type OpenProgramSummary,
+} from '@shared/schemas'
+import { AppError } from '../lib/errors'
+import { emit } from '../lib/events'
+import { ensureDir, exists, safeJoin, slugify, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
+import { newId, nowIso } from '../lib/ids'
+import { updateSettings } from '../settings/store'
+
+export const PROGRAM_EXT = '.asprogram'
+const PROGRAM_FILE = 'program.json'
+const PROGRAM_GITIGNORE = ['exports/', '.lock.json', ''].join('\n')
+
+/** Well-known locations inside a program folder. All results are guarded absolute paths. */
+export const programPaths = (root: string) => ({
+  root: resolve(root),
+  file: safeJoin(root, PROGRAM_FILE),
+  schedule: safeJoin(root, 'schedule.json'),
+  actions: safeJoin(root, 'corrective-actions'),
+  action: (id: string) => safeJoin(root, 'corrective-actions', `${id}.json`),
+  imports: safeJoin(root, 'imports'),
+  import: (id: string) => safeJoin(root, 'imports', `${id}.json`),
+  projects: safeJoin(root, 'projects'),
+  snapshot: (projectId: string) => safeJoin(root, 'projects', `${projectId}.json`),
+  exports: safeJoin(root, 'exports'),
+  lock: safeJoin(root, '.lock.json'),
+})
+
+export const isProgramFolder = (path: string): Promise<boolean> =>
+  exists(join(path, PROGRAM_FILE))
+
+export const revisionOf = (text: string): string =>
+  createHash('sha256').update(text).digest('hex')
+
+/** A file's parsed value and the revision a later save must be based on. */
+export interface Revisioned<T> {
+  value: T
+  revision: string
+}
+
+/** Read and validate one JSON file; a bad file is a VALIDATION error naming the file. */
+export async function readRevisioned<S extends z.ZodType>(
+  path: string,
+  schema: S,
+): Promise<Revisioned<z.output<S>>> {
+  let text: string
+  try {
+    text = await fs.readFile(path, 'utf8')
+  } catch (e) {
+    if ((e as NodeJS.ErrnoException).code === 'ENOENT')
+      throw new AppError('NOT_FOUND', `Not found: ${path}`)
+    throw e
+  }
+  let json: unknown
+  try {
+    json = JSON.parse(text)
+  } catch (e) {
+    throw new AppError('VALIDATION', `Invalid JSON in ${path}: ${(e as Error).message}`)
+  }
+  const parsed = schema.safeParse(json)
+  if (!parsed.success)
+    throw new AppError('VALIDATION', `Invalid data in ${path}`, parsed.error.issues)
+  return { value: parsed.data, revision: revisionOf(text) }
+}
+
+export const jsonText = (value: unknown): string => JSON.stringify(value, null, 2) + '\n'
+
+function appVersion(): string {
+  try {
+    return app.getVersion()
+  } catch {
+    return '0.0.0'
+  }
+}
+
+export interface CreateProgramInput {
+  parentDir: string
+  name: string
+  orgName?: string
+  startYear: number
+  years?: number
+}
+
+export async function createProgram(input: CreateProgramInput): Promise<OpenProgramSummary> {
+  const root = resolve(input.parentDir, slugify(input.name) + PROGRAM_EXT)
+  if (await exists(root)) throw new AppError('CONFLICT', `A folder already exists at ${root}`)
+  const now = nowIso()
+  const program = Program.parse({
+    formatVersion: PROGRAM_FORMAT_VERSION,
+    id: newId(),
+    name: input.name,
+    orgName: input.orgName ?? '',
+    createdAt: now,
+    updatedAt: now,
+    appVersion: appVersion(),
+    cycle: { startYear: input.startYear, years: input.years ?? 3 },
+  })
+  const paths = programPaths(root)
+  for (const dir of [paths.actions, paths.imports, paths.projects]) await ensureDir(dir)
+  await writeFileAtomic(join(root, '.gitignore'), PROGRAM_GITIGNORE)
+  await writeJsonAtomic(paths.file, program)
+  await writeJsonAtomic(paths.schedule, Schedule.parse({}))
+  await rememberProgram(root, program)
+  return summarize(root)
+}
+
+export async function loadProgram(root: string): Promise<Program> {
+  if (!(await isProgramFolder(root)))
+    throw new AppError('NOT_FOUND', `Not a program folder: ${resolve(root)}`)
+  return (await readRevisioned(programPaths(root).file, Program)).value
+}
+
+export async function loadSchedule(root: string): Promise<Revisioned<Schedule>> {
+  const path = programPaths(root).schedule
+  if (!(await exists(path))) return { value: Schedule.parse({}), revision: 'new' }
+  return readRevisioned(path, Schedule)
+}
+
+/** The program, its schedule and who else has it open: what the Program screens load. */
+export async function summarize(root: string): Promise<OpenProgramSummary> {
+  const path = resolve(root)
+  const lock = await otherLock(path)
+  const schedule = await loadSchedule(path)
+  return {
+    path,
+    program: await loadProgram(path),
+    schedule: schedule.value,
+    scheduleRevision: schedule.revision,
+    ...(lock ? { lock } : {}),
+  }
+}
+
+/** Remember the folder as the active program and in the recent list. */
+export async function rememberProgram(root: string, program: Program): Promise<void> {
+  const path = resolve(root)
+  await updateSettings((s) => {
+    const rest = s.program.recent.filter((r) => resolve(r.path) !== path)
+    s.program = {
+      activePath: path,
+      recent: [{ path, name: program.name, openedAt: nowIso() }, ...rest].slice(0, 10),
+    }
+  })
+}
+
+export async function openProgram(path: string): Promise<OpenProgramSummary> {
+  const root = resolve(path)
+  const program = await loadProgram(root)
+  await rememberProgram(root, program)
+  if (program.lock) await acquireLock(root)
+  return summarize(root)
+}
+
+export async function closeProgram(): Promise<void> {
+  await releaseAllLocks()
+  await updateSettings((s) => {
+    delete s.program.activePath
+  })
+}
+
+const queues = new Map<string, Promise<unknown>>()
+
+/** Serialize work on one program folder, so a revision check and its write never interleave. */
+export async function withProgramLock<T>(root: string, fn: () => Promise<T>): Promise<T> {
+  const key = resolve(root)
+  const prev = queues.get(key) ?? Promise.resolve()
+  const run = prev.catch(() => undefined).then(fn)
+  queues.set(key, run)
+  try {
+    return await run
+  } finally {
+    if (queues.get(key) === run) queues.delete(key)
+  }
+}
+
+export type ProgramChange = 'program' | 'actions' | 'schedule' | 'snapshots'
+export const announce = (root: string, what: ProgramChange): void =>
+  emit('program:changed', { path: resolve(root), what })
+
+/**
+ * Read-modify-write program.json. `baseUpdatedAt` is the updatedAt the caller edited from; when
+ * program.json changed since, the save is refused with CONFLICT so nobody's edit is lost.
+ */
+export async function updateProgram(
+  root: string,
+  mutate: (p: Program) => Program | void,
+  baseUpdatedAt?: string,
+): Promise<Program> {
+  const next = await withProgramLock(root, async () => {
+    const current = await loadProgram(root)
+    if (baseUpdatedAt && current.updatedAt !== baseUpdatedAt)
+      throw new AppError('CONFLICT', 'The program was changed by someone else.', { theirs: current })
+    const draft = structuredClone(current)
+    const saved = Program.parse({ ...(mutate(draft) ?? draft), updatedAt: nowIso() })
+    await writeJsonAtomic(programPaths(root).file, saved)
+    return saved
+  })
+  announce(root, 'program')
+  return next
+}
+
+// Advisory presence lock (FR-13): shows "Also open by <host>", never blocks editing.
+const HOLDER = randomUUID()
+const held = new Set<string>()
+
+async function readLockFile(root: string): Promise<LockInfo | null> {
+  try {
+    const parsed = LockInfo.safeParse(JSON.parse(await fs.readFile(programPaths(root).lock, 'utf8')))
+    return parsed.success ? parsed.data : null
+  } catch {
+    return null
+  }
+}
+
+/** Another app's lock on this folder, or null when the lock is ours or absent. */
+export async function otherLock(root: string): Promise<LockInfo | null> {
+  const lock = await readLockFile(root)
+  return lock && lock.holder !== HOLDER ? lock : null
+}
+
+export async function acquireLock(root: string): Promise<void> {
+  const path = resolve(root)
+  if (held.has(path)) return
+  const info: LockInfo = {
+    host: hostname(),
+    user: safeUser(),
+    pid: process.pid,
+    at: nowIso(),
+    holder: HOLDER,
+  }
+  try {
+    await writeJsonAtomic(programPaths(path).lock, info)
+    held.add(path)
+  } catch {
+    // A read-only share still opens; the lock is advisory.
+  }
+}
+
+function safeUser(): string {
+  try {
+    return userInfo().username
+  } catch {
+    return ''
+  }
+}
+
+export async function releaseAllLocks(): Promise<void> {
+  for (const path of [...held]) {
+    held.delete(path)
+    if ((await readLockFile(path))?.holder === HOLDER)
+      await fs.rm(programPaths(path).lock, { force: true })
+  }
+}
+
+/** For app quit, where async work is not awaited. */
+export function releaseAllLocksSync(): void {
+  for (const path of [...held]) {
+    try {
+      rmSync(programPaths(path).lock, { force: true })
+    } catch {
+      // Nothing to do: the lock is advisory.
+    }
+  }
+  held.clear()
+}
+
+/** Tests only. */
+export function writeLockForTest(root: string, info: LockInfo): void {
+  writeFileSync(programPaths(root).lock, jsonText(info))
+}

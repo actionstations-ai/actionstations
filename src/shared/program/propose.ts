@@ -1,0 +1,218 @@
+// "Propose next exercise" (FR-10): a pure, seedless ranking of the Core Capabilities and plan
+// sections the program has seen, with the reasons written out. The model never runs this; the
+// person decides what to do with the list.
+//
+//   score = 3 x open actions (1.5 each when overdue)
+//         + 2 x priority (1 when a cycle priority names it and no completed exercise addressed it)
+//         + years since last exercised (capped at the cycle length; never = cycle length + 1)
+//         + 1 when a planned exercise in the current or next quarter already names it
+import { capabilityName } from '../core-capabilities'
+import type {
+  ProgramAction,
+  ExerciseProposal,
+  PlanSectionRef,
+  ProjectSnapshot,
+  ProposalItem,
+  Program,
+  Schedule,
+} from '../schemas/program'
+import { actionLabel, isActive, isOverdue } from './status'
+
+const TOP_ITEMS = 8
+const CONSTRAINT_ITEMS = 3
+const MS_PER_YEAR = 365.25 * 24 * 3600 * 1000
+
+export const sectionKey = (s: Pick<PlanSectionRef, 'documentId' | 'headingPath'>): string =>
+  `${s.documentId}|${s.headingPath}`
+
+const sectionLabel = (s: PlanSectionRef): string => s.headingPath || s.documentTitle
+
+interface Subject {
+  key: string
+  label: string
+  /** Exercise dates of scenarios that were run and cite this subject. */
+  exercised: string[]
+  /** Does the subject appear in this action? */
+  inAction: (a: ProgramAction) => boolean
+  priorityIds: string[]
+}
+
+const month = (iso: string): string => iso.slice(0, 7)
+
+function quarterOf(date: Date): { year: number; quarter: number } {
+  return { year: date.getUTCFullYear(), quarter: Math.floor(date.getUTCMonth() / 3) + 1 }
+}
+
+function plannedSoon(
+  schedule: Schedule,
+  now: Date,
+): (has: (e: Schedule['exercises'][number]) => boolean) => boolean {
+  const cur = quarterOf(now)
+  const next =
+    cur.quarter === 4 ? { year: cur.year + 1, quarter: 1 } : { ...cur, quarter: cur.quarter + 1 }
+  const inWindow = (e: Schedule['exercises'][number]): boolean => {
+    if (e.status !== 'planned' && e.status !== 'scheduled') return false
+    const q = 'date' in e.when ? quarterOf(new Date(`${e.when.date}T00:00:00Z`)) : e.when
+    return (
+      (q.year === cur.year && q.quarter === cur.quarter) ||
+      (q.year === next.year && q.quarter === next.quarter)
+    )
+  }
+  return (has) => schedule.exercises.some((e) => inWindow(e) && has(e))
+}
+
+function addExercised(map: Map<string, Subject>, key: string, make: () => Subject, at?: string) {
+  const subject = map.get(key) ?? make()
+  map.set(key, subject)
+  if (at) subject.exercised.push(at)
+}
+
+function collectSubjects(program: Program, snapshots: ProjectSnapshot[], actions: ProgramAction[]) {
+  const caps = new Map<string, Subject>()
+  const secs = new Map<string, Subject>()
+  const capSubject = (id: string): Subject => ({
+    key: id,
+    label: capabilityName(id),
+    exercised: [],
+    inAction: (a) => a.coreCapabilities.includes(id as never),
+    priorityIds: program.priorities
+      .filter((p) => p.coreCapabilities.includes(id as never))
+      .map((p) => p.id),
+  })
+  const secSubject = (s: PlanSectionRef): Subject => ({
+    key: sectionKey(s),
+    label: sectionLabel(s),
+    exercised: [],
+    inAction: (a) => a.planSections.some((x) => sectionKey(x) === sectionKey(s)),
+    priorityIds: [],
+  })
+  for (const snap of snapshots)
+    for (const sc of snap.scenarios) {
+      for (const c of sc.coreCapabilities)
+        addExercised(caps, c, () => capSubject(c), sc.exercisedAt)
+      for (const s of sc.planSections)
+        addExercised(secs, sectionKey(s), () => secSubject(s), sc.exercisedAt)
+    }
+  for (const a of actions) {
+    for (const c of a.coreCapabilities) addExercised(caps, c, () => capSubject(c))
+    for (const s of a.planSections) addExercised(secs, sectionKey(s), () => secSubject(s))
+  }
+  for (const p of program.priorities)
+    for (const c of p.coreCapabilities) addExercised(caps, c, () => capSubject(c))
+  return { caps, secs }
+}
+
+interface Context {
+  program: Program
+  schedule: Schedule
+  actions: ProgramAction[]
+  now: Date
+  today: string
+  soon: ReturnType<typeof plannedSoon>
+}
+
+function priorityAddressed(ctx: Context, subject: Subject, isCapability: boolean): boolean {
+  if (!isCapability) return false
+  const { startYear, years } = ctx.program.cycle
+  const inCycle = (d: string): boolean => {
+    const y = Number(d.slice(0, 4))
+    return y >= startYear && y < startYear + years
+  }
+  const done = ctx.schedule.exercises.some(
+    (e) =>
+      e.status === 'completed' &&
+      e.coreCapabilities.includes(subject.key as never) &&
+      inCycle(e.completedAt ?? ('date' in e.when ? e.when.date : `${e.when.year}-01-01`)),
+  )
+  return done || subject.exercised.some(inCycle)
+}
+
+function scoreSubject(ctx: Context, subject: Subject, isCapability: boolean): ProposalItem {
+  const reasons: string[] = []
+  const open = ctx.actions.filter((a) => isActive(a) && subject.inAction(a))
+  const overdue = open.filter((a) => isOverdue(a, ctx.today))
+  let score = 3 * (open.length - overdue.length) + 4.5 * overdue.length
+  if (open.length) {
+    const late = overdue.length ? ` (${overdue.map(actionLabel).join(', ')} overdue)` : ''
+    reasons.push(`${open.length} open ${open.length === 1 ? 'action' : 'actions'}${late}`)
+  }
+  const priorities = subject.priorityIds.filter(
+    () => !priorityAddressed(ctx, subject, isCapability),
+  )
+  if (priorities.length) {
+    score += 2
+    const first = ctx.program.priorities.find((p) => p.id === priorities[0])
+    const n = ctx.program.priorities.findIndex((p) => p.id === priorities[0]) + 1
+    reasons.push(
+      `priority P-${n} not yet addressed in this cycle${first ? ` (${first.text})` : ''}`,
+    )
+  }
+  const last = subject.exercised.sort().at(-1)
+  const cap = ctx.program.cycle.years
+  const years = last
+    ? Math.min(cap, (ctx.now.getTime() - new Date(last).getTime()) / MS_PER_YEAR)
+    : cap + 1
+  score += Math.max(0, years)
+  reasons.push(last ? `last exercised ${month(last)}` : 'never exercised')
+  const planned = ctx.soon((e) =>
+    isCapability
+      ? e.coreCapabilities.includes(subject.key as never)
+      : e.planSections.some((s) => sectionKey(s) === subject.key),
+  )
+  if (planned) {
+    score += 1
+    reasons.push('already on the schedule for this or next quarter')
+  }
+  return { key: subject.key, label: subject.label, score: Math.round(score * 10) / 10, reasons }
+}
+
+const rank = (items: ProposalItem[]): ProposalItem[] =>
+  items.sort((a, b) => b.score - a.score || a.label.localeCompare(b.label)).slice(0, TOP_ITEMS)
+
+function constraintFor(item: ProposalItem, what: 'capability' | 'section'): string {
+  const detail = item.reasons.length ? ` (${item.reasons.join('; ')})` : ''
+  return what === 'capability'
+    ? `Must test the ${item.label} capability${detail}`
+    : `Must test ${item.label}${detail}`
+}
+
+export function proposeNextExercise(
+  program: Program,
+  schedule: Schedule,
+  snapshots: ProjectSnapshot[],
+  actions: ProgramAction[],
+  now: Date = new Date(),
+): ExerciseProposal {
+  const ctx: Context = {
+    program,
+    schedule,
+    actions,
+    now,
+    today: now.toISOString().slice(0, 10),
+    soon: plannedSoon(schedule, now),
+  }
+  const { caps, secs } = collectSubjects(program, snapshots, actions)
+  const capabilities = rank([...caps.values()].map((s) => scoreSubject(ctx, s, true)))
+  const planSections = rank([...secs.values()].map((s) => scoreSubject(ctx, s, false)))
+  const top = [
+    ...capabilities.slice(0, CONSTRAINT_ITEMS),
+    ...planSections.slice(0, CONSTRAINT_ITEMS),
+  ]
+  const topKeys = new Set(top.map((t) => t.key))
+  const wanted = actions.filter(
+    (a) =>
+      isActive(a) &&
+      (a.coreCapabilities.some((c) => topKeys.has(c)) ||
+        a.planSections.some((s) => topKeys.has(sectionKey(s)))),
+  )
+  return {
+    capabilities,
+    planSections,
+    correctiveActionIds: wanted.map((a) => a.id),
+    suggestedConstraints: [
+      ...capabilities.slice(0, CONSTRAINT_ITEMS).map((i) => constraintFor(i, 'capability')),
+      ...planSections.slice(0, CONSTRAINT_ITEMS).map((i) => constraintFor(i, 'section')),
+      ...wanted.map((a) => `Verify ${actionLabel(a)}: ${a.title}`),
+    ],
+  }
+}

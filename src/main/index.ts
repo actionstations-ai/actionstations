@@ -18,6 +18,7 @@ import { registerMediaProtocol, registerMediaScheme } from './lib/media-protocol
 import { appDataDir, documentsDir, resourcesDir } from './lib/paths'
 import { APP_NAME, migrateUserData } from './lib/rename-migration'
 import { finishRenameMigration } from './settings/finish-rename-migration'
+import { releaseAllLocksSync } from './program/store'
 import { createQuitGuard, resetRendererReady } from './lib/quit-guard'
 // Load every provider adapter at startup so a broken adapter fails the launch smoke test
 // instead of crashing later on first use.
@@ -252,6 +253,8 @@ app.on('before-quit', (e) => {
   void stopHotwashRecordings()
   shutdownRenderPool()
   toolProcesses.stopAll()
+  // The advisory presence lock of an open exercise program (#424) must not outlive the app.
+  releaseAllLocksSync()
   if (isSessionRunning()) {
     e.preventDefault()
     void stopLiveSession().finally(() => app.quit())

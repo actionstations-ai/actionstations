@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { IsoDateTime } from './common'
+import { ProgramSettings } from './program'
 import { RecentProject } from './project'
 import { PrivacySettings, ProjectPrivacy } from './privacy'
 import { ProviderConfig, ProviderRouting } from './provider'
@@ -140,5 +141,7 @@ export const AppSettings = z.object({
    * defaults; a project file's own `privacy` may only make them stricter.
    */
   projectPrivacy: z.record(z.string().max(128), ProjectPrivacy).default({}),
+  /** The active exercise program folder and the ones opened before (#424). */
+  program: ProgramSettings.default(() => ({ recent: [] })),
 })
 export type AppSettings = z.infer<typeof AppSettings>

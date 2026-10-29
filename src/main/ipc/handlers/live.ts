@@ -15,6 +15,7 @@ import {
   switchAddress,
 } from '../../live/session'
 import { requireProject } from '../../project/guard'
+import { refreshProgramOfProject } from '../../program/snapshot'
 import { defineHandlers } from '../registry'
 
 export default defineHandlers({
@@ -42,7 +43,10 @@ export default defineHandlers({
 
   'live:session-end': async ({ projectPath, scenarioId }) => {
     const root = await requireProject(projectPath)
-    return endSession(root, scenarioId)
+    const ended = await endSession(root, scenarioId)
+    // A linked exercise program learns the scenario was run (#424); never blocks the caller.
+    void refreshProgramOfProject(root)
+    return ended
   },
 
   'live:lan-addresses': () => listLanAddresses(),

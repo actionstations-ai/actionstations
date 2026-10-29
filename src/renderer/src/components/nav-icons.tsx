@@ -8,6 +8,7 @@ import {
   MessageSquareText,
   Package,
   Plug,
+  Landmark,
   Presentation,
   Settings,
   ShieldCheck,
@@ -29,4 +30,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   providers: Plug,
   packs: Package,
   privacy: ShieldCheck,
+  program: Landmark,
 }

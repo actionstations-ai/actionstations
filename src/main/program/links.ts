@@ -1,0 +1,112 @@
+// Linking projects to a program (FR-3) and finding a linked project again (NFR-5, security).
+// A path in program.json is data from shared storage: it is followed only to a project the user
+// opened, or one that sits beside the program folder and holds a project.json with the same id.
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
+import { Project, type Program, type ProgramProjectLink } from '@shared/schemas'
+import { AppError } from '../lib/errors'
+import { exists, readJson } from '../lib/fs'
+import { nowIso } from '../lib/ids'
+import { isKnownProject } from '../lib/project-registry'
+import { loadProject, updateProject } from '../project/store'
+import { getSettings } from '../settings/store'
+import { promises as fs } from 'node:fs'
+import { announce, programPaths, updateProgram } from './store'
+
+const isInside = (base: string, target: string): boolean => {
+  const rel = relative(resolve(base), resolve(target))
+  return !!rel && !rel.startsWith('..') && !isAbsolute(rel)
+}
+
+/** POSIX-relative to `base` when `target` sits inside it, else the absolute path. */
+export function storedPath(base: string, target: string): string {
+  return isInside(base, target)
+    ? relative(resolve(base), resolve(target)).split(sep).join('/')
+    : resolve(target)
+}
+
+const hasParentSegment = (p: string): boolean => p.split(/[\\/]/).includes('..')
+
+async function projectIdAt(path: string): Promise<string | null> {
+  try {
+    return (await readJson(join(path, 'project.json'), Project)).id
+  } catch {
+    return null
+  }
+}
+
+export interface ResolvedLink {
+  path: string | null
+  reachable: boolean
+}
+
+/** relative (beside the program) -> absolute -> a recent project with the same id. */
+export async function resolveProjectPath(
+  link: ProgramProjectLink,
+  programRoot: string,
+): Promise<ResolvedLink> {
+  const parent = dirname(resolve(programRoot))
+  const candidate = isAbsolute(link.path)
+    ? resolve(link.path)
+    : hasParentSegment(link.path)
+      ? null
+      : resolve(parent, link.path)
+  if (candidate) {
+    const trusted = isInside(parent, candidate) || (await isKnownProject(candidate))
+    if (trusted && (await projectIdAt(candidate)) === link.projectId)
+      return { path: candidate, reachable: true }
+  }
+  for (const r of (await getSettings()).recentProjects) {
+    if (
+      (await exists(join(r.path, 'project.json'))) &&
+      (await projectIdAt(r.path)) === link.projectId
+    )
+      return { path: resolve(r.path), reachable: true }
+  }
+  return { path: null, reachable: false }
+}
+
+export async function linkProject(programRoot: string, projectRoot: string): Promise<Program> {
+  const project = await loadProject(projectRoot)
+  const root = resolve(programRoot)
+  const program = await updateProgram(root, (p) => {
+    if (project.program && project.program.id !== p.id)
+      throw new AppError(
+        'CONFLICT',
+        `"${project.name}" is already linked to another program. Unlink it there first.`,
+      )
+    const link: ProgramProjectLink = {
+      projectId: project.id,
+      name: project.name,
+      path: storedPath(dirname(root), projectRoot),
+      linkedAt: p.projects.find((l) => l.projectId === project.id)?.linkedAt ?? nowIso(),
+      lastSeenAt: nowIso(),
+    }
+    p.projects = [...p.projects.filter((l) => l.projectId !== project.id), link]
+  })
+  await updateProject(projectRoot, (pr) => {
+    pr.program = { id: program.id, path: storedPath(dirname(resolve(projectRoot)), root) }
+  })
+  return program
+}
+
+export async function unlinkProject(programRoot: string, projectId: string): Promise<Program> {
+  const root = resolve(programRoot)
+  let link: ProgramProjectLink | undefined
+  const program = await updateProgram(root, (p) => {
+    link = p.projects.find((l) => l.projectId === projectId)
+    p.projects = p.projects.filter((l) => l.projectId !== projectId)
+  })
+  if (link) {
+    const found = await resolveProjectPath(link, root)
+    if (found.path) {
+      const project = await loadProject(found.path)
+      if (project.program?.id === program.id)
+        await updateProject(found.path, (pr) => {
+          delete pr.program
+        })
+    }
+  }
+  await fs.rm(programPaths(root).snapshot(projectId), { force: true })
+  announce(root, 'snapshots')
+  return program
+}

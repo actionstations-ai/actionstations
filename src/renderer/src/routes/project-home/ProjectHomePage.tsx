@@ -11,6 +11,7 @@ import { GlossaryButton } from '../../components/Glossary'
 import { ProjectScenarios } from './ProjectScenarios'
 import { ReadinessChecklist } from './ReadinessChecklist'
 import { CloudPrivacySummary } from './CloudPrivacySummary'
+import { ProgramLink } from './ProgramLink'
 import './project-home.css'
 import { errorText } from '../../lib/errors'
 
@@ -112,6 +113,7 @@ export default function ProjectHomePage() {
       />
       <ReadinessChecklist path={query.data.path} project={project} />
       <ProjectScenarios path={query.data.path} scenarios={project.scenarios} />
+      <ProgramLink project={project} />
       <CloudPrivacySummary projectPath={query.data.path} showLink />
       <SettingsDisclosure>
         <ProjectSummary path={query.data.path} project={project} />
