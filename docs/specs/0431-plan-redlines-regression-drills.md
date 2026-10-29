@@ -1,6 +1,6 @@
 # Spec 0431: Plan redlines and regression drills
 
-Issue: #431 · Milestone: 0.8.0 · Status: Draft · Depends on: #419 (AAR/IP draft), #421 (EEG criteria and observations), #424 (corrective actions) · Related: #417 (session log), #423 (grounding labels), #430 (branches: the played path), #438 (drill trend)
+Issue: #431 · Milestone: 0.8.0 · Status: Implemented · Depends on: #419 (AAR/IP draft), #421 (EEG criteria and observations), #424 (corrective actions) · Related: #417 (session log), #423 (grounding labels), #430 (branches: the played path), #438 (drill trend)
 
 ## Summary
 
@@ -339,3 +339,39 @@ ADR when the work lands (next free number): `docs/adr/NNNN-docx-tracked-changes.
 3. **Should accepted redlines be applied to the ingested text automatically to create "plan v2" inside the app?** Recommendation: no. The organization's plan owner controls the plan; the app proposes and later verifies. Importing the real updated plan is the only path to "applied".
 4. **Drill scenario: copy or reference the source injects?** Recommendation: copy (as designed). The drill may be edited (updated plan text in an inject), and the source scenario must stay as it was exercised for the AAR.
 5. **Verdict when a criterion is `not_observed` in the drill.** Recommendation: ignore it in the verdict and show it; a drill that never reached the row says nothing about the gap. If every criterion of an action is not observed, the verdict is `partial` with the note "not observed".
+
+## As built
+
+Differences from the design above, and the reasons. The open questions were settled as recommended.
+
+- **Word-level tracked changes.** The excerpt is word-diffed against the proposal and only the
+  changed words become `w:del` / `w:ins` (FR-4 said "applied at the paragraphs"); runs around them
+  keep their formatting. Paragraph marks are never removed. Text in tables, text boxes or revisions
+  already in the file goes to the memo. `word/settings.xml` is left alone (no `w:trackRevisions`) so
+  NFR-4's byte-identical rule holds; Word shows revisions without it. An excerpt written with
+  Markdown bold or code marks is also tried without them.
+- **Section text** comes from the existing `index.chunks()` filtered by heading path (and its
+  subsections when the heading has no text of its own), not a new `chunksForHeading` method.
+- **Memo PDF** is built from an inline HTML string with the shared print CSS, not a
+  `templates/export/change-memo.html` file. The memo "Version" line is the import date.
+- **Author** of tracked changes is the fixed text "Action Stations"; the `redlines.author`
+  setting was not added.
+- **Hand-written proposals** (`redlines:create`) take only the scenario, plan, section and words;
+  main fills in the project, titles, hash, page and source kind, and refuses words that are not in
+  the section.
+- **Drill schema.** `Drill` gains `actionCriteria` (corrective action id to the `rowId|criterionId`
+  keys its verdict rests on, taken from the AAR's evidence refs when the drill is drafted), so a run
+  needs neither the AAR nor the source session. `drills:save` takes a `DrillPlan` (a draft plus an
+  optional id); `drills:record-run` records a run on demand; `redlines:preview-tracked` runs the
+  real matcher. The AAR's own corrective action ids stand in when the AAR was not imported to a
+  program.
+- **Session end.** `src/main/live/end-hooks.ts` runs registered hooks after a session ends
+  normally; the drill hook records a run for any drill built on that scenario. The Facilitate
+  summary button was not added: **Plan a regression drill** and **Propose plan redlines** are links
+  in the AAR page, and **Create drill** is on the Drills page.
+- **Program.** `program/actions.ts` gains `addVerification` (a verification record without a status
+  change, for partial and fail). Actions that are not in the linked program are skipped.
+- **Dashboard (#438).** It had not merged, so `drillRuns` and `redlineCount` are not filled; the
+  drill file and the redline files hold what it needs.
+- **Not done:** the heading tree's redline count (`HeadingTree.tsx`), and per-redline "latest
+  drill verdict" on the card.

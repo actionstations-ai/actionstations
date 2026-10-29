@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Clapperboard,
+  FileDiff,
   FileStack,
   FileText,
   FolderOpen,
@@ -10,6 +11,7 @@ import {
   Plug,
   Landmark,
   Presentation,
+  Repeat2,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -31,4 +33,6 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   packs: Package,
   privacy: ShieldCheck,
   program: Landmark,
+  redlines: FileDiff,
+  drills: Repeat2,
 }

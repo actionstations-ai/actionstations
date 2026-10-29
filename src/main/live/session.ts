@@ -49,6 +49,7 @@ import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LogWriter } from './log'
 import { deleteSessionKeys, writeSessionKeys } from './keys'
 import { Seats, type Seat } from './seats'
+import { runSessionEndHooks } from './end-hooks'
 import { chooseAddress, listLanAddresses } from './transport/lan/addresses'
 import { LanLog } from './transport/lan/log'
 import { startLanServer, type LanServer } from './transport/lan/server'
@@ -672,11 +673,16 @@ async function stopActive(reason: 'endex' | 'cancelled'): Promise<LiveSession> {
   if (ending) return ending
   const a = active
   if (!a) throw new AppError('NOT_FOUND', 'No live session is running')
-  ending = teardown(a, reason).finally(() => {
-    active = undefined
-    ending = undefined
-    emit('live:changed', { reason: 'stopped', sessionId: a.session.id, connected: 0 })
-  })
+  ending = teardown(a, reason)
+    .then(async (session) => {
+      if (reason === 'endex') await runSessionEndHooks(a.root, session.scenarioId, session.id)
+      return session
+    })
+    .finally(() => {
+      active = undefined
+      ending = undefined
+      emit('live:changed', { reason: 'stopped', sessionId: a.session.id, connected: 0 })
+    })
   return ending
 }
 

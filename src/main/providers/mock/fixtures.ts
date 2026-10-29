@@ -521,6 +521,23 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       },
     ],
   },
+  // The excerpt is a sentence of the e2e and test plan fixtures (a PIO release rule), so the
+  // verbatim check passes against them (#431).
+  RedlineOutput: {
+    proposals: [
+      {
+        originalExcerpt: 'The PIO may release information after consulting the Incident Commander.',
+        proposedText:
+          'The PIO releases information after written approval from the Incident Commander or, when the Incident Commander is unavailable within 15 minutes, the Deputy Incident Commander.',
+        rationale:
+          'In the exercise the PIO waited 40 minutes for approval because no alternate was named. The change names an alternate approver and a time limit.',
+      },
+    ],
+  },
+  DrillStartexOutput: {
+    situationMd:
+      'The terminal is on manual procedures. The Incident Commander has confirmed the data error and the PIO is preparing the first public statement.',
+  },
   CritiqueOutput: { issues: [], summary: 'No blocking issues found.' },
   // No verdicts and no quotes: the checker's own labels stand and plan conflicts stay
   // unconfirmed (a verdict without a verbatim quote is discarded, #423).

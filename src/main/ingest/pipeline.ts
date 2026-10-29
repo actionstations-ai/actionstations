@@ -396,6 +396,7 @@ export interface DocumentPatch {
   shortName?: string
   kind?: DocumentKind
   tags?: string[]
+  supersedesDocumentId?: string | null
 }
 
 /** Edit metadata; a new title/shortName/kind re-chunks from text.md so citations follow. */
@@ -405,6 +406,11 @@ export async function updateDocument(
   patch: DocumentPatch,
 ): Promise<DocumentMeta> {
   const before = await loadMeta(root, documentId)
+  if (patch.supersedesDocumentId) {
+    if (patch.supersedesDocumentId === documentId)
+      throw new AppError('VALIDATION', 'A document cannot replace itself')
+    await loadMeta(root, patch.supersedesDocumentId)
+  }
   const next = await mutateMeta(root, documentId, (m) => ({
     ...m,
     ...(patch.title !== undefined ? { title: patch.title.trim() || m.title } : {}),
@@ -412,6 +418,9 @@ export async function updateDocument(
     ...(patch.kind !== undefined ? { kind: patch.kind } : {}),
     ...(patch.tags !== undefined
       ? { tags: [...new Set(patch.tags.map((t) => t.trim()).filter(Boolean))] }
+      : {}),
+    ...(patch.supersedesDocumentId !== undefined
+      ? { supersedesDocumentId: patch.supersedesDocumentId ?? undefined }
       : {}),
   }))
   const citationChanged =

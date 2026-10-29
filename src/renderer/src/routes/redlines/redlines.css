@@ -1,0 +1,94 @@
+/* Redlines (#431): proposal cards and the word diff. Tokens only. */
+.redlines-page > * + * {
+  margin-top: var(--space-4);
+}
+.redlines-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.redlines-bar {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.redline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.redline {
+  display: grid;
+  gap: var(--space-2);
+}
+.redline__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.redline__where {
+  flex: 1;
+  margin: 0;
+  font-size: var(--text-md);
+  overflow-wrap: anywhere;
+}
+.redline__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.redline__reason,
+.redline__file {
+  overflow-wrap: anywhere;
+}
+.redline__file {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+.redline__context {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-border);
+  background: var(--color-surface-sunken);
+  max-height: 16rem;
+  overflow: auto;
+}
+.redline__editor {
+  display: grid;
+  gap: var(--space-2);
+}
+.redline-propose__list {
+  border: 0;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.redline-propose__row,
+.redline-check {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+.redline-files {
+  padding-left: var(--space-4);
+}
+
+.diff {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.diff__del {
+  color: var(--color-danger);
+  text-decoration: line-through;
+}
+.diff__ins {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+.diff__legend {
+  margin: 0;
+}

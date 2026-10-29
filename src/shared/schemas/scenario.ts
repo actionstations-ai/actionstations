@@ -41,6 +41,8 @@ export const ScenarioBrief = z.object({
   programProposal: z
     .object({ at: z.string(), correctiveActionIds: z.array(z.string()).max(200).default([]) })
     .optional(),
+  /** Set when the scenario is a regression drill built from another scenario (#431). */
+  drillOf: z.object({ drillId: Id, sourceScenarioId: Id }).optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 
@@ -257,6 +259,10 @@ export const STAGES = [
   'plan_conflict',
   /** On demand after the exercise (#419); not part of the scenario pipeline. */
   'aar',
+  /** Revised wording for a plan section from an AAR finding (#431); on demand. */
+  'plan_redline',
+  /** The STARTEX situation summary of a regression drill (#431); on demand. */
+  'drill_startex',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>

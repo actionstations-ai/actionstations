@@ -179,6 +179,18 @@ export default function AarPage() {
               >
                 Send corrective actions to program
               </Link>
+              <Link
+                className="btn"
+                to={`/p/${projectKey(projectPath)}/redlines?scenario=${scenario.id}`}
+              >
+                Propose plan redlines
+              </Link>
+              <Link
+                className="btn"
+                to={`/p/${projectKey(projectPath)}/drills?create=1&scenario=${scenario.id}`}
+              >
+                Plan a regression drill
+              </Link>
               <Link className="btn" to={`${base}/export`}>
                 <Download size={16} aria-hidden /> Export…
               </Link>

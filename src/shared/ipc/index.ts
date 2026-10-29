@@ -32,6 +32,7 @@ import { complianceChannels } from './compliance'
 import { liveChannels, LiveChangedEvent } from './live'
 import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
 import { programChannels } from './program'
+import { redlineChannels } from './redlines'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -153,6 +154,7 @@ export const channels = mergeChannels(
   liveChannels,
   hotwashChannels,
   programChannels,
+  redlineChannels,
 )
 
 export type Channels = typeof channels
@@ -213,6 +215,10 @@ export const events = {
       /** aar.json or documents/aar.md changed (#419). */
       'aar',
       'hotwash',
+      /** redlines/ changed (#431). */
+      'redlines',
+      /** drills/ changed (#431). */
+      'drills',
     ]),
     scenarioId: z.string().optional(),
   }),

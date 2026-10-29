@@ -29,6 +29,8 @@ export const documentChannels = {
         shortName: z.string().optional(),
         kind: DocumentKind.optional(),
         tags: z.array(z.string()).optional(),
+        /** The older version of the plan this document replaces; null clears it (#431). */
+        supersedesDocumentId: SafeId.nullable().optional(),
       }),
     }),
     DocumentMeta,
