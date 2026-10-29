@@ -251,3 +251,4 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
 | `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
+| `live/sessions/<sessionId>.json` | A running live session's secrets (ADR-0027; written by #407–#410): staff root per epoch, controller signing key as JWK, controller token, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
