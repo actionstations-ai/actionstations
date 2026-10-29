@@ -371,7 +371,8 @@ Differences from the design above, and the reasons. The open questions were sett
   in the AAR page, and **Create drill** is on the Drills page.
 - **Program.** `program/actions.ts` gains `addVerification` (a verification record without a status
   change, for partial and fail). Actions that are not in the linked program are skipped.
-- **Dashboard (#438).** It had not merged, so `drillRuns` and `redlineCount` are not filled; the
-  drill file and the redline files hold what it needs.
+- **Dashboard (#438).** The project snapshot now fills `scenarios[].drillRuns` (one entry per recorded
+  run of the drill built as that scenario, counting corrective action verdicts) and
+  `documents[].redlineCount` (redlines not rejected).
 - **Not done:** the heading tree's redline count (`HeadingTree.tsx`), and per-redline "latest
   drill verdict" on the card.

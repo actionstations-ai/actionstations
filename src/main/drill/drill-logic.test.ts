@@ -16,6 +16,7 @@ const { withControlCards, selectedRows, fallbackSituation } = await import('./bu
 const { reresolveCitations, supersessionMap, nearestHeading } = await import('./citations')
 const { actionVerdicts } = await import('./record')
 const { resultsCsv } = await import('./export')
+const { drillRunsOf } = await import('../program/snapshot')
 
 const scenario = Scenario.parse(
   JSON.parse(readFileSync(resolve('tests/fixtures/scenarios/scenario-3.json'), 'utf8')),
@@ -187,5 +188,27 @@ describe('run verdicts and results', () => {
     expect(lines[0]).toBe('Run date,Session,Kind,Row,Id,Result')
     expect(lines[1]).toBe("2026-06-10,,Criterion,I-06,'=T-07,Partial")
     expect(lines[2]).toBe('2026-06-10,,Corrective action,,a,Fail')
+  })
+})
+
+describe('program snapshot', () => {
+  it('counts corrective action verdicts per run of the drill built as the scenario', () => {
+    const run = (verdicts: ('pass' | 'fail' | 'partial')[]) => ({
+      id: 'r',
+      ranAt: '2026-06-10T10:00:00.000Z',
+      documentHashes: {},
+      criteria: [],
+      correctiveActions: verdicts.map((verdict, i) => ({ id: `a${i}`, verdict })),
+      programRecorded: false,
+    })
+    const drills = [
+      { drillScenarioId: 'd1', runs: [run(['pass', 'pass', 'fail']), run(['partial'])] },
+      { drillScenarioId: 'other', runs: [run(['pass'])] },
+    ] as never
+    expect(drillRunsOf(drills, 'd1')).toEqual([
+      { ranAt: '2026-06-10T10:00:00.000Z', pass: 2, fail: 1, partial: 0 },
+      { ranAt: '2026-06-10T10:00:00.000Z', pass: 0, fail: 0, partial: 1 },
+    ])
+    expect(drillRunsOf(drills, 'none')).toBeUndefined()
   })
 })
