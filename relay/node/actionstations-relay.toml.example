@@ -1,0 +1,22 @@
+# Action Stations relay (self-hosted) settings. Copy to <data-dir>/config.toml or pass --config.
+# Flags and AS_RELAY_* environment variables override these (file < environment < flags).
+
+port = 8485
+bind = "0.0.0.0"                       # or one address, to listen on one interface only
+host = ["ttx.internal", "10.20.0.5"]   # names and addresses for the certificate's SANs and the printed URLs
+data-dir = "/var/lib/actionstations-relay"
+tls = "self-signed"                    # or "/etc/actionstations-relay/cert.pem,/etc/actionstations-relay/key.pem"
+# insecure-http = true                 # plain HTTP: only behind a reverse proxy that terminates TLS
+retention-hours = 72                   # sessions are deleted this long after creation at the latest (max 72)
+max-sessions = 20                      # live sessions at once
+max-clients = 60                       # devices per session
+allow = []                             # e.g. ["10.0.0.0/8", "192.168.0.0/16", "fd00::/8"]; empty = any address
+blobs = "db"                           # "disk" keeps media chunks as files under <data-dir>/blobs
+# log-dir = "/var/log/actionstations-relay"   # default: <data-dir>/logs
+log-level = "info"                     # or "warn"; there is no level that prints messages
+
+[limits]                               # overrides of the protocol defaults, each with a ceiling
+# envelope-bytes = 262144              # 256 KiB (max 4 MiB)
+# blob-bytes = 67108864                # 64 MiB per media file (max 1 GiB)
+# blobs-total-bytes = 1073741824       # 1 GiB per session (max 8 GiB)
+# stored-envelopes = 20000             # messages kept per session for late joiners (max 200000)

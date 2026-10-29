@@ -1,0 +1,38 @@
+# The self-hosted server with Docker Compose (spec 0409). From the repository root:
+#   docker compose -f relay/node/compose.yaml up -d
+#   docker compose -f relay/node/compose.yaml logs      # the first run prints the server key and the certificate fingerprint
+# Or use the published image instead of building: image: ghcr.io/actionstations-ai/actionstations-relay:<version>
+services:
+  relay:
+    build:
+      context: ../..
+      dockerfile: relay/node/Dockerfile
+    image: actionstations-relay:local
+    container_name: actionstations-relay
+    restart: unless-stopped
+    ports:
+      - '8485:8485'
+    environment:
+      AS_RELAY_TLS: self-signed
+      # AS_RELAY_HOST: ttx.internal,10.20.0.5     # names and addresses for the certificate and the printed URLs
+      # AS_RELAY_ALLOW: 10.0.0.0/8,fd00::/8        # empty: any address
+      # AS_RELAY_MAX_SESSIONS: '20'
+      # AS_RELAY_RETENTION_HOURS: '72'            # at most 72
+    volumes:
+      - relay-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    user: '10001:10001'
+    # The server makes no outbound connection. To have Docker enforce it as well, give the
+    # container an internal network for everything but the published port:
+    # networks: [internal]
+# networks:
+#   internal:
+#     internal: true
+volumes:
+  relay-data:

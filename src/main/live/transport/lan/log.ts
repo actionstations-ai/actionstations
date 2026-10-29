@@ -25,6 +25,11 @@ export interface LanLogRecord {
   transport?: 'ws' | 'sse' | 'post' | 'local'
 }
 
+/** Where a transport writes its connection events; the LAN server and the self-hosted server each bring one. */
+export interface ConnectionLog {
+  write(record: LanLogRecord): Promise<void> | void
+}
+
 const SAFE_REASON = /[^\x20-\x7e]/g
 
 /** Strip a URL to its path: no query (`?j=<joinToken>`), no fragment (the key). */

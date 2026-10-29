@@ -214,8 +214,8 @@ with.
 ## Your own server
 
 For networks without internet or where no third party is acceptable, the same server runs on
-your hardware. The install guide lands with issue #409; the design is in spec
-[0409](../specs/0409-live-self-hosted-server.md).
+your hardware. Your IT team installs it with Docker, a systemd unit or a Windows startup task and
+gives you its address and a server key; see the [install guide](self-hosted-server.md).
 
 ## Decision-point votes
 

@@ -1,0 +1,12 @@
+# Only what the image build reads: the workspace files, the relay packages and the shared sources.
+*
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!tsconfig.base.json
+!relay/core
+!relay/node
+!src/shared
+!src/main/live/transport/lan
+relay/*/node_modules
+relay/node/dist

@@ -1,6 +1,6 @@
 # Spec 0409: Live play: self-hosted session server for offline networks
 
-Issue: #409 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #408 (relay core) · Related: #418 (epic), #407 (shares the fallback transport), #410 (connection choice, fingerprint pinning)
+Issue: #409 · Milestone: 0.6.0 · Status: Implemented (server); app client in #410 · Depends on: #406, #408 (relay core) · Related: #418 (epic), #407 (shares the fallback transport), #410 (connection choice, fingerprint pinning)
 
 ## Summary
 
@@ -100,6 +100,16 @@ caps, playerBundleSha256, fingerprintSha256 }` (fingerprint only when self-signe
 - LDAP/SSO; the server key is the only credential and it protects session creation only.
 - A web admin UI; the CLI and logs are the interface.
 - Serving the facilitator app over the web.
+
+### As built (differences from the design below)
+
+- **Layout.** `relay/node/src` is flat (`config`, `sqlite-store`, `sessions`, `routes`, `server`, `serve`, `tls`, `allowlist`, `logs`, `admin`, `static`, `service`, `cli`, `server-key`). There is no `relay/node/src/service/` folder and no `relay-core` store contract: the server is the shared `SessionHub` (`src/shared/live/hub.ts`) with a `HubStore`, tested by `hub-store-conformance.ts` and `server-conformance.ts`.
+- **Shared transport.** WebSocket and SSE + POST are the LAN server's `ws.ts`, `fallback.ts`, `respond.ts` and `connect-params.ts`, imported from `src/main/live/transport/lan/`. They take a `ConnectionLog` interface, and `ws.ts` accepts a controller the server authenticated (`Authorization: Bearer` on the upgrade).
+- **Storage.** One `sessions` row per session holds the adapter record, the hub state and the running totals; envelopes, seqs, identities, blobs and chunks are keyed by session id. The `PRAGMA user_version` is 1.
+- **Windows.** `service install` creates a startup task as LocalService (`schtasks`), not an `sc.exe` service: a console program cannot answer the service manager (error 1053). The firewall rule and data-directory rights are as designed.
+- **Logs.** Connection records have no byte count (the redaction guard refuses a `bytes` field).
+- **Per-address identity cap.** The hub's limit on new device identities per address is raised to the session's client cap, since devices behind a gateway share an address.
+- **Not in this change.** `self-hosted-client.ts` (certificate pinning, server key in `safeStorage`), the e2e spec and the release job that uploads binaries and the image follow with #410; the image is documented, not published (open question 5, decided by the owner's constraint).
 
 ## Design
 

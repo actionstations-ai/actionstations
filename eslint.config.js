@@ -76,6 +76,58 @@ export default tseslint.config(
     rules: { 'no-restricted-imports': ['error', { patterns: PROVIDER_PATTERNS }] },
   },
   {
+    // The self-hosted live play server makes no outbound connection (spec 0409 FR-7): no HTTP
+    // client, no DNS, no sockets out. relay/node/test/no-outbound.test.ts proves it at runtime.
+    files: ['relay/node/src/**/*.ts'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        { name: 'fetch', message: 'The server makes no outbound connection (spec 0409 FR-7)' },
+        {
+          name: 'XMLHttpRequest',
+          message: 'The server makes no outbound connection (spec 0409 FR-7)',
+        },
+        { name: 'WebSocket', message: 'The server makes no outbound connection (spec 0409 FR-7)' },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            'node:dns',
+            'dns',
+            'node:dns/promises',
+            'dns/promises',
+            'node:dgram',
+            'dgram',
+            'undici',
+            'node-fetch',
+            'axios',
+          ].map((name) => ({
+            name,
+            message: 'The server makes no outbound connection (spec 0409 FR-7)',
+          })),
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'CallExpression[callee.object.name=/^(http|https)$/][callee.property.name=/^(request|get)$/]',
+          message: 'The server makes no outbound connection (spec 0409 FR-7)',
+        },
+        {
+          selector:
+            'CallExpression[callee.object.name=/^(net|tls)$/][callee.property.name=/^(connect|createConnection)$/]',
+          message: 'The server makes no outbound connection (spec 0409 FR-7)',
+        },
+        {
+          selector: 'CallExpression[callee.name=/^(connect|createConnection)$/]',
+          message: 'The server makes no outbound connection (spec 0409 FR-7)',
+        },
+      ],
+    },
+  },
+  {
     files: ['src/renderer/**/*.{ts,tsx}'],
     languageOptions: { globals: { ...globals.browser } },
     plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },

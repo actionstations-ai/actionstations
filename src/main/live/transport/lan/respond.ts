@@ -3,6 +3,7 @@
  * carries, the HTML content security policy, JSON errors without stack traces.
  */
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { fromBase64Url } from '@shared/live/bytes'
 
 export const COMMON_HEADERS: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
@@ -132,4 +133,25 @@ export function drained(res: ServerResponse): Promise<void> {
 export function remoteOf(req: IncomingMessage): string {
   const addr = req.socket.remoteAddress ?? 'unknown'
   return addr.startsWith('::ffff:') ? addr.slice(7) : addr
+}
+
+/** Bytes a base64url string decodes to, without decoding it. */
+function decodedLength(b64url: string): number {
+  return Math.floor((b64url.length * 3) / 4)
+}
+
+/**
+ * A sealed blob as one body (the fetch fallback's blob path), written chunk by chunk with
+ * back-pressure. A reader that disconnects mid-download ends the wait, so the caller can
+ * release whatever it counted.
+ */
+export async function sendBlob(res: ServerResponse, chunks: string[]): Promise<void> {
+  const total = chunks.reduce((n, c) => n + decodedLength(c), 0)
+  applyCommonHeaders(res)
+  res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Length': total })
+  for (const c of chunks) {
+    if (res.destroyed) return
+    if (!res.write(Buffer.from(fromBase64Url(c)))) await drained(res)
+  }
+  res.end()
 }
