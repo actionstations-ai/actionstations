@@ -674,3 +674,127 @@
 .fac-rclock__screen {
   font-size: var(--text-sm);
 }
+
+/* Live tab (#407): setup form, invite cards, status. Tokens only. */
+.live-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.live-heading {
+  font-size: var(--text-lg);
+  margin: 0;
+}
+.live-setup,
+.live-running {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.live-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+.live-radio {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  line-height: 1.4;
+}
+.live-radio input {
+  margin-top: 0.3em;
+  flex: none;
+}
+.live-radio__help {
+  display: block;
+  font-size: var(--text-sm);
+}
+.live-warning {
+  color: var(--color-warning);
+  background: var(--color-warning-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+.live-note {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2, var(--color-surface));
+}
+.live-note--warning {
+  border-color: var(--color-warning);
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.live-note__title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  margin: 0 0 var(--space-1);
+}
+.live-status {
+  flex-wrap: wrap;
+}
+.live-invite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.live-invite__title {
+  font-size: var(--text-md);
+  margin: 0;
+}
+.live-invite__help {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+.live-invite__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+.live-qr {
+  flex: none;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+.live-invite__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+.live-invite__url {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+.live-fingerprint {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+}
+.live-fingerprint code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
+}
+.live-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.live-switch .row {
+  gap: var(--space-2);
+}

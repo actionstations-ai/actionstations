@@ -29,6 +29,7 @@ import { groundingChannels } from './grounding'
 import { aarChannels } from './aar'
 import { ApprovalNeededEvent, privacyChannels } from './privacy'
 import { complianceChannels } from './compliance'
+import { liveChannels, LiveChangedEvent } from './live'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -137,6 +138,7 @@ export const channels = mergeChannels(
   aarChannels,
   privacyChannels,
   complianceChannels,
+  liveChannels,
 )
 
 export type Channels = typeof channels
@@ -169,6 +171,8 @@ export const events = {
   'outbound:approval-needed': ApprovalNeededEvent,
   /** A pending cloud request was answered or dropped (cancelled job): refetch privacy:pending. */
   'outbound:approval-settled': z.object({ requestId: z.string() }),
+  /** A live session started, stopped or changed its device count (#407): refetch live:session-status. */
+  'live:changed': LiveChangedEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

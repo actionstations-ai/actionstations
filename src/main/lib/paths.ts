@@ -45,5 +45,17 @@ export function resourcesDir(): string {
   return app.isPackaged ? join(process.resourcesPath, 'app-resources') : unpackagedRoot()
 }
 
+/**
+ * The player web bundle the LAN server serves (#407, built by #411 into `out/player/` and
+ * shipped as `app-resources/player/`). Unpackaged runs read `out/player/` so `pnpm dev` serves
+ * the current build; a missing folder serves a placeholder page.
+ */
+export function playerBundleDir(): string {
+  if (process.env.TTX_PLAYER_BUNDLE) return resolve(process.env.TTX_PLAYER_BUNDLE)
+  return app.isPackaged
+    ? join(process.resourcesPath, 'app-resources', 'player')
+    : join(unpackagedRoot(), 'out', 'player')
+}
+
 export const resourcePath = (...p: string[]): string => join(resourcesDir(), ...p)
 export const userDataPath = (...p: string[]): string => join(userDataDir(), ...p)

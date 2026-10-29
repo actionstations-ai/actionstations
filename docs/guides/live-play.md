@@ -52,3 +52,70 @@ The page makes requests only to the computer or server that served it: no fonts,
 - Try it without the app: `pnpm dev:player` serves the built page from a scripted session on `http://127.0.0.1:8485` and prints the players and staff links, a per-role card, and `curl` lines for notices, injects, clock changes, reseat, kick and end. Set `PLAYER_NO_WS=1` to exercise the fetch fallback. Open the links in a phone browser on the same machine or through the browser's device emulation.
 - Tests: `pnpm exec vitest run src/player` (state, reconnect, catch-up, screens) and `pnpm exec playwright test e2e/live/` (five simulated devices against the harness, plus the axe-core audit in light and dark at 100 % and 200 %). Screenshots land in `.tmp/live/`.
 - Where features plug in: `src/player/app/items.ts` turns an opened frame into an inbox or feed item (the generic text card is the fallback), `src/player/screens/MoreScreen.tsx` lists the tabs, `src/player/features/<name>/` is each sub-spec's folder. Design: [ADR-0033](../adr/0033-player-page-bundle.md); spec: [0411](../specs/0411-player-page.md).
+
+## In the room: this computer
+
+Your laptop serves the player page and relays the session's encrypted messages to the devices on the room's Wi-Fi. No internet, no account, no IT ticket. Nothing listens until you start a session, and nothing listens after you stop it or quit the app.
+
+### Start a session
+
+1. Open a scenario and choose **Facilitate**.
+2. In the side panel, open the **Live** tab.
+3. **Network address**: the list shows this computer's IPv4 addresses with the interface each one belongs to. The Wi-Fi address is marked **recommended**; pick another if the phones are on a different network (an Ethernet segment, for example). VPN and virtual adapters are listed last and never recommended. If the list is empty, the computer is not on a network; if it shows only a self-assigned address (169.254.x.x), the network did not hand out an address and phones will not reach it.
+4. **Connection security**: keep **HTTPS with a certificate made for this session** unless you have a reason not to. Each phone shows one certificate warning the first time it opens the page; the fingerprint shown under the QR code lets a player compare. **Plain HTTP** shows no warning but lets anyone on the same Wi-Fi change the page players load; use it only on a network you trust. Session content is end-to-end encrypted either way.
+5. **Attribution**: **By role** (the HSEEP default) keeps roles and never names in the record. **Named** also records the display name each player typed.
+6. Read the firewall note (below) and press **Start session**.
+
+The status line shows the address and port, HTTPS or HTTP, and how many devices are connected; it updates as devices join and leave. The computer is kept awake while the session runs.
+
+### Join links and QR codes
+
+Two links exist per session, each with its QR code:
+
+- **Players link**: show it on the main screen. Every player scans it.
+- **Staff link**: for controllers, evaluators and SimCell helpers only. It opens expected actions and evaluator material, so never show it on the main screen; use **Show staff link** and hand it over directly.
+
+The key that decrypts the session travels only in the part of the link after `#`, which browsers never send to any server. **Copy link** puts the full link on the clipboard.
+
+**Switch address** restarts the listener on another address with a new certificate and new QR codes; devices reconnect by scanning again.
+
+### Firewall prompts
+
+The first time the app listens, your operating system asks:
+
+- **macOS**: "Do you want the application Action Stations to accept incoming network connections?" Choose **Allow**. If you chose Deny, open System Settings → Network → Firewall → Options, find Action Stations and set it to "Allow incoming connections", then start the session again. Unsigned builds may ask on every launch.
+- **Windows**: "Windows Defender Firewall has blocked some features of this app." Tick **Private networks** and choose **Allow access**. If the room's Wi-Fi is set to **Public**, Windows blocks incoming connections regardless: Settings → Network & Internet → Wi-Fi → the network → Network profile → **Private**, or ask IT.
+- **Linux**: most desktops ask nothing. With `ufw` enabled, allow the port shown in the status line (`sudo ufw allow 8485/tcp`).
+
+When no device has connected a minute after the QR code went up, the Live tab shows these recovery steps again. The usual causes: the phones are on a different network (guest networks often keep devices apart; a phone hotspot from the laptop or the relay are the workarounds), the firewall prompt was denied, or the QR code shows an address this computer no longer has.
+
+### Certificate warnings per phone
+
+- **Android, Chrome**: "Your connection is not private" → **Advanced** → **Proceed to 192.168.x.x (unsafe)**. **Certificate details** shows the fingerprint to compare.
+- **iPhone, Safari**: "This Connection Is Not Private" → **Show Details** → **visit this website** → **Visit Website**. Safari shows no fingerprint. Safari also refuses the page's live connection on a certificate it has not trusted, so the page falls back to a fetch-based connection automatically; nothing to do.
+- **Desktop browsers**: as Chrome on Android; Firefox has **Advanced** → **Accept the Risk and Continue**.
+
+### What is served, to whom
+
+The listener is bound to the one address you chose, on port 8485 (or the next free port up to 8495, else one the system assigns; the QR code always carries the real one). It serves: the player page and its files, `/v1/health` (server kind, version, protocol, caps; nothing about the session), and the session endpoints, which need the join token from the invite. Anything else is a 404. Every response carries a strict content security policy and no-store caching. The server makes no outbound connection. Session messages are ciphertext to the server; it stores them in memory for late joiners and drops them at the end.
+
+### Logs
+
+- `scenarios/<scenario>/live/<session>/log.jsonl` in the project folder: the session record (who joined by role, what happened), written by the app. It never contains client ids, join tokens, keys, IP addresses or, in a **By role** session, names. `session.json` beside it describes the session.
+- `userData/live/lan.log` (rotated at 5 MB × 3): connection events with time, remote address, client id and close code; never a message.
+- `userData/live/sessions/<session>.json`: the session's keys, encrypted with the operating system's keychain, deleted when the session ends.
+
+### Stop
+
+**Stop session** sends "Session ended" to every device, closes the port and writes the end time into the session folder. Quitting the app does the same first.
+
+### Troubleshooting
+
+| Symptom                                           | Check                                                                                                                                          |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| "This computer is not on a network"               | Join a Wi-Fi network or plug in Ethernet, then reopen the Live tab.                                                                            |
+| Phones cannot open the page                       | Same Wi-Fi? Firewall allowed (above)? Does the address in the QR code match the computer's current one (use **Switch address**)?               |
+| The page opens but never connects                 | On Safari the fetch fallback should take over by itself. Elsewhere, the certificate warning must be accepted on the page first. Try reloading. |
+| "A live session is already running"               | One session per app. Stop it from the scenario where it runs, or quit and reopen the app.                                                      |
+| Port 8485 is busy                                 | The app moves to the next free port automatically; the status line and the QR code show it. Firewall rules written for 8485 need the new port. |
+| "could not store the session keys" in the app log | The operating system keychain is unavailable (common on Linux without a keyring). The session runs; it cannot be resumed after a crash.        |

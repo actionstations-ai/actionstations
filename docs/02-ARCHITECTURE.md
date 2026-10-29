@@ -28,6 +28,7 @@
 - **Renderer** is a pure UI over IPC. Uses TanStack Query for IPC calls, Zustand for local UI state. No Node integration; `contextIsolation: true`; preload exposes a typed `window.api` generated from `src/shared/ipc.ts`.
 - **Hidden render window** (`render/`): loads inject templates (HTML/CSS + JSON data) and captures PNG via `webContents.capturePage` or PDF via `printToPDF`. Pooled; one window per render job queue. Render windows get no IPC bridge.
 - **Presentation window** (`facilitator/present.ts`, facilitator mode): shows one inject's media full-screen on a second display. It loads the app's own `index.html#/present/…` with the same preload and sandbox as the main window, so it is a trusted app view (`registerIpc` accepts it) with no extra privileges.
+- **LAN session server** (`live/transport/lan/`, ADR-0032): runs in main, only while a live session started with "This computer" is running. Bound to one chosen address, HTTPS with a per-session certificate by default; serves the player bundle, `/v1/health` and the session endpoints (WebSocket, SSE + POST fallback, blobs) over the shared `SessionHub` from `src/shared/live/hub.ts`. The controller attaches in process (no socket to itself). `live:session-end`, app quit and test teardown stop it; nothing listens otherwise.
 - **One generation job per scenario.** While a generation job runs for a scenario, `scenarios:save` and `scenarios:doc-save` for it return `CONFLICT` ("Generation is running for this scenario"); editors keep the user's edits and retry after `job:done`.
 - **Worker threads** for ingestion (pdf parsing, OCR, embedding) so the UI never stalls.
 
@@ -52,6 +53,7 @@ MyAirport.asproj/
     idea.json                  # the idea the scenario was developed from, if any
     facilitator.json           # facilitator mode: exercise clock, delivered injects, hot wash notes
     evaluation.json            # evaluators' observations against the EEG criteria (#421)
+    live/<sessionId>/          # live play sessions (#407, #417): session.json + log.jsonl; no keys
     injects/<injectId>.json
     documents/{handbook,briefing,rubric,hotwash}.md
     media/<injectId>/<assetId>.{png,mp4,wav}

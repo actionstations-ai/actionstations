@@ -12,6 +12,8 @@ import { projectKey } from '../../state/project'
 import { EvaluationTab } from './EvaluationTab'
 import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
+import { LivePanel } from './live/LivePanel'
+import { LIVE } from './live/strings'
 import type { TimelineEntry } from './Timeline'
 import type { UpdateState } from './use-delivery-actions'
 import type { SaveStatus } from './use-facilitator-state'
@@ -169,6 +171,9 @@ export function SidePanel(props: {
         <Tabs.Trigger value="notes" className="fac-tabs__trigger">
           General notes
         </Tabs.Trigger>
+        <Tabs.Trigger value="live" className="fac-tabs__trigger">
+          {LIVE.tab}
+        </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="inject" className="fac-tabs__panel">
         {selected && (
@@ -211,6 +216,9 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="notes" className="fac-tabs__panel">
         <GeneralNotes state={state} update={update} />
+      </Tabs.Content>
+      <Tabs.Content value="live" className="fac-tabs__panel">
+        <LivePanel projectPath={props.projectPath} scenarioId={props.scenario.id} />
       </Tabs.Content>
     </Tabs.Root>
   )

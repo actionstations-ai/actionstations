@@ -1,6 +1,6 @@
 # Spec 0407: Live play: serve sessions from this computer over the room's Wi-Fi
 
-Issue: #407 · Milestone: 0.6.0 · Status: Draft · Depends on: #406 · Related: #418 (epic), #408 (relay core reuse), #410 (connection choice), #411 (player page), #417 (dashboard)
+Issue: #407 · Milestone: 0.6.0 · Status: Implemented (ADR-0032; see "Changes in implementation") · Depends on: #406 · Related: #418 (epic), #408 (relay core reuse), #410 (connection choice), #411 (player page), #417 (dashboard)
 
 ## Summary
 
@@ -349,6 +349,65 @@ each) and over HTTP; macOS and Windows firewall prompts appear once and the guid
    room: this computer" (addresses, HTTPS vs HTTP, certificate warnings per phone, firewall
    prompts, troubleshooting); screenshots in `docs/guides/images/`; `docs/02-ARCHITECTURE.md`
    process-boundaries note ("LAN session server runs in main, only during a session").
+
+## Changes in implementation
+
+Made while building (#407, ADR-0032); the text above is the design, this list is where the code
+differs and why:
+
+- **Shared core location.** `relay/core` (#408) was not on `main` when this landed, so the
+  server contract lives in `src/shared/live/hub.ts` (`SessionHub`), extracted from
+  `MemoryServer`, which is now a thin in-process adapter over it. The LAN server's WebSocket and
+  SSE connections attach to the same hub; the controller attaches through the memory adapter.
+  Convergence with `relay/core` is a follow-up with #408: one hub, both conformance suites.
+- **Hub behaviour fixed to the 0406 text:** catch-up never returns a client's own frames (the
+  earlier `MemoryServer` did); `STORE_FULL` is answered to participants without eviction once
+  20,000 envelopes or 64 MiB are stored, because arrival indexes are array positions and
+  evicting receipts would shift them. Controller frames are always stored.
+- **Module layout.** `src/main/live/transport/lan/` holds `server.ts` (listener, route table,
+  upgrade), `ws.ts`, `fallback.ts` (SSE + POST, here rather than in `relay/core`; #409 lifts
+  it), `connect-params.ts`, `respond.ts`, `peers.ts` (device set and flood guard), `static.ts`,
+  `cert.ts`, `addresses.ts`, `firewall.ts`, `log.ts`. `src/main/live/` holds `session.ts`,
+  `seats.ts` (join → welcome), `invites.ts` (links and QR matrices), `log.ts` (0417 writer),
+  `keys.ts`. The renderer panel is `routes/facilitate/live/LivePanel.tsx` (setup and running
+  states in one file), `QrCode.tsx`, `use-live-session.ts`, `strings.ts`.
+- **Static files** are mapped by walking the bundle folder (`index.html` plus files with known
+  extensions, depth 4, 2,000 files) rather than from a `manifest.json`, so the LAN server does
+  not depend on #411's manifest format. The `electron-builder.yml` `extraResources` entry for
+  `out/player` lands with #411 (its task 3), since `electron-builder` refuses a missing source.
+- **QR codes** are computed in main (`qrcode`) and sent to the renderer as a module matrix the
+  panel draws as one SVG path: no `innerHTML`, no second QR library in the renderer. The invite
+  URL with its fragment crosses IPC to the panel for display and copy and is never logged.
+- **Connect parameters** are `?j=<joinToken>&c=<clientId>&r=<resumeToken>` on `/ws`, `/events`
+  and `/send` (0406's names; `client=` is accepted as an alias for `c`), all base64url and
+  length-checked before the hub sees them. A malformed set is refused before the WebSocket
+  handshake (HTTP 400) and with 401 on the fallback routes. `GET …/blobs/:id?j=` requires the
+  join token too.
+- **Oversize frames** are cut by `ws` (`maxPayload = envelopeBytes`, close 1009) and by the
+  fallback (413) before the hub reads them; in process the hub answers `relay.error TOO_LARGE`.
+  The conformance suite accepts either. There is no close code 4013.
+- **Rate limit** is a token bucket of 60 frames a minute per participant in the hub
+  (`framesPerMinute`); the controller is exempt. Connection attempts over 10/s per address are
+  dropped for 10 s. The listener accepts at most 200 sockets; a client whose send buffer passes
+  8 MiB is dropped.
+- **SSE framing:** `id: <n>` and `data: <frame>` per frame, `: keep-alive` every 20 s, and a
+  final `event: close` with `{ code, reason }` so the page sees the same close codes as a
+  WebSocket. A POST is accepted only for an open stream with the same client id and (timing-safe)
+  resume token: 409 without a stream, 401 on a mismatch, 202 when handed to the hub.
+- **IPC** (`src/shared/ipc/live.ts`): `live:session-start { projectPath, scenarioId, connection,
+attribution, name? } → LiveSessionStatus`, `live:session-status`, `live:session-end →
+LiveSession`, `live:lan-addresses`, `live:lan-switch-address`, `live:firewall-guidance`; event
+  `live:changed { reason, sessionId?, connected, message? }`. `LiveSessionStatus` carries the
+  session, the `LanServerStatus`, both `InviteView`s (players and staff: URL, epoch, QR matrix)
+  and `noConnectionsForMs` for FR-8. Shapes are in `src/shared/schemas/live.ts`.
+- **Session log** entries carry `env.from` as the salted `clientRef`, not the raw client id
+  (0417 FR-4 over FR-2's wording). Seats: a staff claim without a valid proof is refused
+  `not_allowed`; a `requestedRole` outside the scenario is refused; a player without a role is
+  seated without one (0411 owns role choice and the full roster).
+- **E2E** is `e2e/live/lan.spec.ts` (start from the Live tab, health over HTTPS, join page in a
+  second context, stop, port refused). Inject release to a phone needs #411 and #412; the
+  multi-client coverage is the conformance suite over real WebSocket and SSE clients and
+  `session.test.ts` with a real participant `LiveClient`.
 
 ## Open questions
 
