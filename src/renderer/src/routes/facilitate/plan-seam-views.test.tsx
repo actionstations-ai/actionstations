@@ -6,7 +6,8 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { useState } from 'react'
 import { afterEach, describe, expect, it } from 'vitest'
 import { Inject } from '@shared/schemas/inject'
-import { MselRow, type ScenarioSeam } from '@shared/schemas/scenario'
+import type { FacilitatorState } from '@shared/ipc'
+import { MselRow, Scenario, type ScenarioSeam } from '@shared/schemas/scenario'
 import { controllerBlock } from '@shared/seams'
 import { viewFor } from '../../editors/msel/cell-content'
 import { InjectForm } from '../../editors/inject/InjectForm'
@@ -119,6 +120,24 @@ describe('inject editor note', () => {
 })
 
 describe('facilitator panel', () => {
+  const scenario = Scenario.parse({
+    id: 'S1',
+    projectId: 'P1',
+    title: 'Seams',
+    createdAt: '2026-10-28T12:00:00.000Z',
+    updatedAt: '2026-10-28T12:00:00.000Z',
+    brief: {},
+    msel: [row],
+    seams: [seam],
+  })
+  const state: FacilitatorState = {
+    elapsedMin: 0,
+    delivered: {},
+    notes: {},
+    generalNotes: '',
+    hotwash: [],
+    decisions: [],
+  }
   const entry = {
     row,
     inject,
@@ -133,6 +152,10 @@ describe('facilitator panel', () => {
     render(
       <InjectPanel
         projectPath={PROJECT}
+        scenario={scenario}
+        state={state}
+        update={() => undefined}
+        exerciseTime="0:30"
         entry={entry}
         note=""
         onNote={() => undefined}

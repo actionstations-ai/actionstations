@@ -334,7 +334,7 @@ function MediaBriefSection({ draft, onChange }: Pick<FormProps, 'draft' | 'onCha
 /** A written note and the generated plan-seam block (#427) as one stored note. */
 function joinNote(written: string, block: string): string {
   if (!block) return written
-  return written.trim() ? `${written.trimEnd()}\n\n${block}` : block
+  return written.trim() ? `${written}\n\n${block}` : block
 }
 
 /**

@@ -321,6 +321,8 @@ describe('the controller block (FR-7)', () => {
     })
     expect(upsertControllerBlock(once, undefined)).toBe('Keep the reporter on the line.')
     expect(upsertControllerBlock(undefined, seam)).toBe(controllerBlock(seam))
+    // A note being typed keeps its trailing space while the block stays attached.
+    expect(splitControllerBlock(`Hold the \n\n${controllerBlock(seam)}`).note).toBe('Hold the ')
   })
 })
 

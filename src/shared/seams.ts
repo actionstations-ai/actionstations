@@ -112,9 +112,10 @@ export function controllerBlock(seam: ScenarioSeam): string {
 export function splitControllerBlock(note: string | undefined): { note: string; block: string } {
   const text = note ?? ''
   const m = BLOCK_START.exec(text)
-  if (!m) return { note: text.trimEnd(), block: '' }
+  if (!m) return { note: text, block: '' }
   const at = m.index + (m[0].startsWith('\n') ? 1 : 0)
-  return { note: text.slice(0, m.index).trimEnd(), block: text.slice(at).trim() }
+  // Only the blank-line separator goes: a note being typed keeps its trailing space.
+  return { note: text.slice(0, m.index).replace(/\n$/, ''), block: text.slice(at).trim() }
 }
 
 /**
@@ -122,7 +123,7 @@ export function splitControllerBlock(note: string | undefined): { note: string; 
  * a seam the block is removed.
  */
 export function upsertControllerBlock(note: string | undefined, seam?: ScenarioSeam): string {
-  const { note: written } = splitControllerBlock(note)
+  const written = splitControllerBlock(note).note.trimEnd()
   if (!seam) return written
   const block = controllerBlock(seam)
   return written ? `${written}\n\n${block}` : block
