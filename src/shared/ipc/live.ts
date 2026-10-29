@@ -11,9 +11,12 @@ import {
   LiveChangedEvent,
   LiveConnection,
   LiveSession,
+  LiveMessage,
   LiveSessionStatus,
+  MessageTarget,
   ReleaseSummary,
   StageStatus,
+  ThreadSummary,
 } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
@@ -64,6 +67,32 @@ export const liveChannels = {
   'live:receipts': channel(S, z.array(ReleaseSummary)),
   /** Progress of the media staging that starts with the session. */
   'live:stage-status': channel(S, StageStatus),
+  /** Threads with the players and the SimCell, newest activity first (#413). */
+  'live:threads': channel(S, z.array(ThreadSummary)),
+  /** One thread's messages (the panel fetches only the thread named by `live:changed`). */
+  'live:thread': channel(S.extend({ channel: z.string().max(60) }), z.array(LiveMessage)),
+  /** Seats and teams the controller can start a thread with, and connected devices. */
+  'live:message-targets': channel(S, z.array(MessageTarget)),
+  /** Answer in a thread as a persona, or start one (`live:thread-open` first is optional). */
+  'live:message-send': channel(
+    S.extend({
+      channel: z.string().max(60),
+      text: z.string().trim().min(1).max(2000),
+      persona: z.string().trim().min(1).max(80),
+      showPlayedBy: z.boolean().default(true),
+      replyTo: z.string().max(40).optional(),
+    }),
+    LiveMessage,
+  ),
+  'live:message-handled': channel(S.extend({ messageId: z.string().max(40) }), z.void()),
+  'live:message-star': channel(
+    S.extend({ messageId: z.string().max(40), on: z.boolean() }),
+    z.void(),
+  ),
+  /** Pin a message to the hot wash: a `message.pinned` log entry the AAR reads. */
+  'live:message-pin': channel(S.extend({ messageId: z.string().max(40) }), z.void()),
+  /** Open an empty thread to a role, team or device (the first message follows). */
+  'live:thread-open': channel(S.extend({ channel: z.string().max(60) }), ThreadSummary),
 }
 
 export { LiveChangedEvent }

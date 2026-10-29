@@ -5,10 +5,18 @@ import {
   activeLanPort,
   activeSession,
   endSession,
+  markMessageHandled,
+  messageTargets,
+  messageThread,
+  messageThreads,
+  openMessageThread,
+  pinMessage,
   releaseInject,
   releaseSummaries,
   resendInject,
   retractInject,
+  sendMessage,
+  starMessage,
   stageProgress,
   startSession,
   status,
@@ -73,4 +81,28 @@ export default defineHandlers({
 
   'live:stage-status': async ({ projectPath, scenarioId }) =>
     stageProgress(await requireProject(projectPath), scenarioId),
+
+  'live:threads': async ({ projectPath, scenarioId }) =>
+    messageThreads(await requireProject(projectPath), scenarioId),
+
+  'live:thread': async ({ projectPath, scenarioId, channel }) =>
+    messageThread(await requireProject(projectPath), scenarioId, channel),
+
+  'live:message-targets': async ({ projectPath, scenarioId }) =>
+    messageTargets(await requireProject(projectPath), scenarioId),
+
+  'live:thread-open': async ({ projectPath, scenarioId, channel }) =>
+    openMessageThread(await requireProject(projectPath), scenarioId, channel),
+
+  'live:message-send': async ({ projectPath, scenarioId, ...req }) =>
+    sendMessage(await requireProject(projectPath), scenarioId, req),
+
+  'live:message-handled': async ({ projectPath, scenarioId, messageId }) =>
+    markMessageHandled(await requireProject(projectPath), scenarioId, messageId),
+
+  'live:message-star': async ({ projectPath, scenarioId, messageId, on }) =>
+    starMessage(await requireProject(projectPath), scenarioId, messageId, on),
+
+  'live:message-pin': async ({ projectPath, scenarioId, messageId }) =>
+    pinMessage(await requireProject(projectPath), scenarioId, messageId),
 })

@@ -14,6 +14,7 @@ import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
 import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
+import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
 import { LIVE } from './live/strings'
 import type { TimelineEntry } from './Timeline'
 import type { UpdateState } from './use-delivery-actions'
@@ -177,6 +178,9 @@ export function SidePanel(props: {
         <Tabs.Trigger value="live" className="fac-tabs__trigger">
           {LIVE.tab}
         </Tabs.Trigger>
+        <Tabs.Trigger value="messages" className="fac-tabs__trigger">
+          <MessagesTabLabel projectPath={props.projectPath} scenarioId={props.scenario.id} />
+        </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="inject" className="fac-tabs__panel">
         {selected && (
@@ -220,6 +224,9 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="notes" className="fac-tabs__panel">
         <GeneralNotes state={state} update={update} />
+      </Tabs.Content>
+      <Tabs.Content value="messages" className="fac-tabs__panel">
+        <MessagesPanel projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
         <LivePanel projectPath={props.projectPath} scenarioId={props.scenario.id} />

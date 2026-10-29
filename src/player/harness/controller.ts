@@ -100,6 +100,20 @@ function newSessionId(crypto: CryptoProvider): string {
   return toBase64Url(crypto.random(16))
 }
 
+/** A message the harness saw or sent (spec 0413), for assertions. */
+export interface HarnessMessage {
+  messageId: string
+  channel: string
+  /** `player` for a seat's message, `controller` for a reply. */
+  from: 'player' | 'controller'
+  roleId?: string
+  text: string
+  persona?: string
+  /** Sizes of the attachments the controller fetched and opened. */
+  attachmentBytes: number[]
+  at: number
+}
+
 export class HarnessController {
   readonly roster = new Map<ClientId, RosterEntry>()
   readonly seatDefs: SeatDef[]
@@ -108,6 +122,11 @@ export class HarnessController {
   /** Every frame the controller received, for assertions. */
   readonly received: Opened[] = []
   private releases = 0
+  /** Messages in order, both directions. */
+  readonly messageLog: HarnessMessage[] = []
+  /** Message ids pinned to the hot wash (log-only, as the app does). */
+  readonly pinned: string[] = []
+  private readonly echoes = new Map<string, Record<string, unknown>>()
 
   private constructor(
     readonly crypto: CryptoProvider,
@@ -122,6 +141,7 @@ export class HarnessController {
     this.clock = opts.clock ?? { elapsedMin: 0, rate: 1 }
     client.onAny((m) => this.received.push(m))
     client.on('join', (m) => void this.onJoin(m))
+    client.on('message.send', (m) => void this.onMessage(m))
     client.on('presence', (m) => {
       const entry = this.roster.get(m.payload.client)
       if (entry) entry.connected = m.payload.state === 'online'
@@ -286,6 +306,90 @@ export class HarnessController {
       },
       rejected: { reason, message },
     })
+  }
+
+  // ---- messages (spec 0413) ----
+
+  private ownsChannel(entry: RosterEntry, channel: string): boolean {
+    return channel === `role:${entry.roleId}` || channel === `client:${entry.clientId}`
+  }
+
+  /** A seat's message: check it owns the channel, open attachments, record, echo to the channel. */
+  private async onMessage(m: Opened<'message.send'>): Promise<void> {
+    const entry = this.roster.get(m.from)
+    if (m.to !== 'controller' || !entry?.roleId || entry.kind !== 'player') return
+    const p = m.payload
+    if (!this.ownsChannel(entry, p.channel)) return
+    const echo = this.echoes.get(p.messageId)
+    if (echo) return void (await this.sendEcho(p.channel, echo))
+    const attachmentBytes: number[] = []
+    for (const ref of p.attachments) attachmentBytes.push((await this.client.getBlob(ref)).length)
+    this.messageLog.push({
+      messageId: p.messageId,
+      channel: p.channel,
+      from: 'player',
+      roleId: entry.roleId,
+      text: p.text,
+      attachmentBytes,
+      at: Date.now(),
+    })
+    const payload = {
+      messageId: toBase64Url(this.crypto.random(16)),
+      channel: p.channel,
+      text: p.text,
+      attachments: p.attachments,
+      echoOf: p.messageId,
+      fromRole: entry.roleId,
+      ...(p.replyTo ? { replyTo: p.replyTo } : {}),
+    }
+    this.echoes.set(p.messageId, payload)
+    await this.sendEcho(p.channel, payload)
+  }
+
+  private async sendEcho(channel: string, payload: Record<string, unknown>): Promise<void> {
+    await this.client.send('message.send', channel as Destination, payload as never, {
+      key: 'players',
+      sign: true,
+    })
+  }
+
+  /** Answer in a thread as a persona (signed, so the page trusts it). */
+  async reply(
+    channel: Destination,
+    text: string,
+    persona = 'SimCell',
+    opts: { showPlayedBy?: boolean; replyTo?: string } = {},
+  ): Promise<string> {
+    const messageId = toBase64Url(this.crypto.random(16))
+    await this.client.send(
+      'message.send',
+      channel,
+      {
+        messageId,
+        channel,
+        text,
+        persona,
+        showPlayedBy: opts.showPlayedBy ?? true,
+        attachments: [],
+        ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
+      },
+      { key: 'players', sign: true },
+    )
+    this.messageLog.push({
+      messageId,
+      channel,
+      from: 'controller',
+      text,
+      persona,
+      attachmentBytes: [],
+      at: Date.now(),
+    })
+    return messageId
+  }
+
+  /** Pin a message to the hot wash: recorded only, like the app's `message.pinned` log entry. */
+  pin(messageId: string): void {
+    this.pinned.push(messageId)
   }
 
   // ---- facilitator actions ----

@@ -132,14 +132,14 @@ describe('RoomShell', () => {
     expect(headings(feed)).toEqual(['Time jump to 2:00'])
   })
 
-  it('Messages is present but disabled with a reason; More explains every disabled entry', async () => {
+  it('Messages opens the SimCell conversation; More explains every disabled entry', async () => {
     seated()
     const user = userEvent.setup()
     const messages = screen.getByRole('button', { name: /Messages/ })
-    expect(messages.getAttribute('aria-disabled')).toBe('true')
-    expect(describedBy(messages)).toBe('Messages to the SimCell open in a later update.')
+    expect(messages.getAttribute('aria-disabled')).toBeNull()
     await user.click(messages)
-    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('Inbox')
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('SimCell')
+    expect(screen.getByRole('log')).toBeTruthy()
 
     await user.click(screen.getByRole('button', { name: 'More' }))
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('More')

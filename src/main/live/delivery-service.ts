@@ -52,7 +52,7 @@ const NO_RESPONSE_TAGS = new Set([
 export const expectsResponse = (row: Pick<MselRow, 'expectedAction' | 'purposeTag'>): boolean =>
   row.expectedAction.trim() !== '' && !NO_RESPONSE_TAGS.has(row.purposeTag)
 
-function formatClock(c: ClockState, now: number): string {
+export function formatClock(c: ClockState, now: number): string {
   const running =
     c.runningSince === undefined ? 0 : ((now - c.runningSince) / 60_000) * (c.rate || 1)
   const whole = Math.max(0, Math.floor(c.elapsedMin + Math.max(0, running)))

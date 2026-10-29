@@ -128,7 +128,7 @@ export const LogRef = z.object({
   rowId: SafeId.optional(),
   releaseId: SafeId.optional(),
   injectId: SafeId.optional(),
-  channel: Text(40).optional(),
+  channel: Text(140).optional(),
   messageId: SafeId.optional(),
   voteId: SafeId.optional(),
   itemId: SafeId.optional(),
@@ -229,8 +229,10 @@ export const FirewallGuidance = z.object({
 export type FirewallGuidance = z.infer<typeof FirewallGuidance>
 
 export const LiveChangedEvent = z.object({
-  reason: z.enum(['started', 'stopped', 'presence', 'error', 'receipts', 'staging']),
+  reason: z.enum(['started', 'stopped', 'presence', 'error', 'receipts', 'staging', 'messages']),
   sessionId: SessionId.optional(),
+  /** With `messages`: the thread that changed, so the panel fetches only that one. */
+  threadId: Text(60).optional(),
   connected: z.number().int().min(0),
   message: Text(300).optional(),
 })
@@ -273,3 +275,67 @@ export const StageStatus = z.object({
   failed: z.array(z.object({ injectId: SafeId, reason: Text(300) })),
 })
 export type StageStatus = z.infer<typeof StageStatus>
+
+/** Who wrote a message (spec 0413 FR-7); the log and the renderer never see a live client id. */
+export const MessageFrom = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('client'),
+    /** Role id, or `evaluators` / `observers`. */
+    seat: SafeId,
+    seatLabel: Text(120),
+    clientRef: z.string().regex(/^[a-f0-9]{8}$/),
+    displayName: Text(60).optional(),
+  }),
+  z.object({ kind: z.literal('controller'), persona: Text(80) }),
+])
+export type MessageFrom = z.infer<typeof MessageFrom>
+
+/** An image a player sent, kept under the session folder (path is project-relative). */
+export const MessageAttachment = z.object({
+  blobId: z.string(),
+  mime: z.enum(['image/jpeg', 'image/png', 'image/webp']),
+  bytes: z.number().int().positive(),
+  sha256: z.string().regex(/^[a-f0-9]{64}$/),
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional(),
+  path: Text(500),
+})
+export type MessageAttachment = z.infer<typeof MessageAttachment>
+
+/** `channel` is `role:<id>`, `team:<slug>` or `client:<clientRef>` (spec 0413 FR-1). */
+export const LiveMessage = z.object({
+  messageId: z.string(),
+  channel: Text(60),
+  /** Epoch ms on the controller's clock. */
+  at: z.number(),
+  exerciseTime: ExerciseTime,
+  from: MessageFrom,
+  text: Text(2000),
+  attachments: z.array(MessageAttachment).max(3),
+  replyTo: z.string().optional(),
+  /** Controller messages: show the "played by SimCell" caption on the device. */
+  showPlayedBy: z.boolean().optional(),
+  handledAt: z.number().optional(),
+  starred: z.boolean(),
+  pinned: z.boolean(),
+})
+export type LiveMessage = z.infer<typeof LiveMessage>
+
+export const ThreadSummary = z.object({
+  channel: Text(60),
+  label: Text(160),
+  messages: z.number().int().min(0),
+  lastActivity: z.number(),
+  lastText: Text(200),
+  /** Player messages since the controller last opened the thread. */
+  unread: z.number().int().min(0),
+  /** When the oldest player message still waiting for an answer arrived (epoch ms). */
+  waitingSince: z.number().optional(),
+  /** The last persona the controller used here, preselected in the picker. */
+  lastPersona: Text(80).optional(),
+})
+export type ThreadSummary = z.infer<typeof ThreadSummary>
+
+/** Where the controller may start or continue a thread. */
+export const MessageTarget = z.object({ channel: Text(60), label: Text(160) })
+export type MessageTarget = z.infer<typeof MessageTarget>

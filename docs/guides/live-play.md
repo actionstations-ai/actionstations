@@ -189,3 +189,19 @@ with.
 For networks without internet or where no third party is acceptable, the same server runs on
 your hardware. The install guide lands with issue #409; the design is in spec
 [0409](../specs/0409-live-self-hosted-server.md).
+
+## Messages with the SimCell
+
+On your device:
+
+- **Messages tab.** Write to the SimCell to call the vendor, answer the reporter or ask for something. Enter sends; Shift+Enter starts a new line. **Reply to SimCell** on an inject quotes it above your message.
+- **Photos.** Add up to three. Each is shrunk on your device to fit the connection and loses its location data before it is sent. Describe it in the box that appears (optional).
+- **Answers** come from whoever the facilitator is playing ("Channel 5 newsroom"), with "played by SimCell" under them unless the facilitator turned it off. A ✓ means the controller has your message. If you are offline, text waits and goes when you are back; a message with a photo shows **Not sent** and **Try again**.
+- You only see your own conversations (your role, your team, or a call to your device).
+
+For the facilitator, in the **Messages** tab beside **Live**:
+
+- **Threads** are listed by last activity with how long the oldest unanswered message has waited. **Message a role, team or device** starts one.
+- **Reply as** picks who is speaking: the SimCell scripts' roles, the senders in the MSEL, SimCell, Controller, or any name. The scripts for that persona appear under the thread; **Insert** puts a question or concession in the box without sending it.
+- **Mark handled** clears the waiting time for a message that needs no answer. **Star** marks it for the AAR. **Pin to hot wash** records it in the session log for the hot wash. Players never see these marks.
+- The log keeps each message with the role (never the name at attribution by role) and exercise time; the controller is always recorded as the sender of an answer.

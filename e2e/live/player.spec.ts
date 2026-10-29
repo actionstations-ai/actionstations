@@ -224,10 +224,10 @@ test.describe('player page over the harness', () => {
     expect(controller.state().roster.filter((r) => r.roleId === 'pio')).toHaveLength(1)
   })
 
-  test('More, Settings and About: disabled tabs explain themselves; theme and text size persist', async () => {
+  test('More, Settings and About: disabled entries explain themselves; theme and text size persist', async () => {
     const ops = players[0]!
     const messages = ops.page.getByRole('button', { name: /Messages/ })
-    await expect(messages).toHaveAttribute('aria-disabled', 'true')
+    await expect(messages).not.toHaveAttribute('aria-disabled', 'true')
     await ops.page.getByRole('button', { name: 'More' }).click()
     await expect(ops.page.getByRole('button', { name: /Hot wash/ })).toHaveAttribute(
       'aria-disabled',
