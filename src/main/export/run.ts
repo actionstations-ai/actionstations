@@ -10,9 +10,10 @@ import type { JobContext } from '../jobs/manager'
 import { renderPdf } from '../render/window'
 import { buildDocumentHtml, EXPORT_DOC_LABELS, type ExportDoc } from './documents'
 import { completenessMarkdown, completenessReport } from './completeness'
-import { briefingDocx, eegDocx, handbookDocx } from './docx'
+import { aarDocx, briefingDocx, eegDocx, handbookDocx } from './docx'
 import { explanDocx, handbookHseepDocx, sitmanDocx } from './hseep/docx'
 import { blankFormDocument } from './forms'
+import { improvementPlanWorkbook } from './improvement-plan'
 import { scenarioJson, scenarioMarkdown } from './manifest'
 import { exportMedia, type ExportedFile } from './media'
 import type { ExportModel } from './model'
@@ -41,6 +42,7 @@ const ZIP_NEEDS: ExportTarget[] = [
   'sitman_pdf',
   'handbook_hseep_pdf',
   'msel_xlsx',
+  'aar_pdf',
   'media',
   'json',
   'markdown',
@@ -60,6 +62,7 @@ const ORDER: ExportTarget[] = [
   'explan_pdf',
   'sitman_pdf',
   'handbook_hseep_pdf',
+  'aar_pdf',
   'docx',
   'json',
   'markdown',
@@ -84,12 +87,17 @@ const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof Docum
   explan_pdf: { doc: 'explan', file: 'explan' },
   sitman_pdf: { doc: 'sitman', file: 'sitman' },
   handbook_hseep_pdf: { doc: 'handbook_hseep', file: 'handbookHseep' },
+  aar_pdf: { doc: 'aar', file: 'aar' },
 }
 
 /** The EEG packet needs guides to print; a scenario without any gets a warning, not a file. */
 const hasEegs = (model: ExportModel): boolean => model.scenario.evaluation.eegs.length > 0
 const NO_EEGS =
   'No evaluation guides yet: generate them on the Scenario page (Evaluation tab) to export the EEG packet'
+
+/** The AAR/IP needs a draft to print (#419); a scenario without one gets a warning, not a file. */
+const NO_AAR =
+  'No After-Action Report yet: draft it on the Facilitate screen after the exercise to export the AAR/IP'
 
 export interface ExportResult {
   folder: string
@@ -198,8 +206,8 @@ async function writePdf(
   )
 }
 
-/** Every Word document: the classroom handbook and briefing, the HSEEP set (#420) and the EEG
- *  packet when the scenario has guides (#421). */
+/** Every Word document: the classroom handbook and briefing, the HSEEP set (#420), the EEG
+ *  packet when the scenario has guides (#421) and the AAR/IP when a draft exists (#419). */
 async function writeDocx(state: RunState): Promise<void> {
   const { model, names } = state
   await writeOut(state, names.handbookDocx, await handbookDocx(model))
@@ -208,12 +216,17 @@ async function writeDocx(state: RunState): Promise<void> {
   await writeOut(state, names.sitmanDocx, await sitmanDocx(model, 'facilitator'))
   await writeOut(state, names.handbookHseepDocx, await handbookHseepDocx(model))
   if (hasEegs(model)) await writeOut(state, names.eegsDocx, await eegDocx(model))
+  if (model.aar) await writeOut(state, names.aarDocx, await aarDocx(model))
 }
 
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
   if (target === 'eeg_pdf' && !hasEegs(state.model)) {
     state.result.warnings.push(NO_EEGS)
+    return
+  }
+  if (target === 'aar_pdf' && !state.model.aar) {
+    state.result.warnings.push(NO_AAR)
     return
   }
   if (pdf) {
@@ -226,6 +239,13 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     }
     if (target === 'handbook_pdf')
       await writeHandouts(state, 'controller_handouts', 'controllerHandouts')
+    // The Improvement Plan tracker sheet travels with the AAR/IP (spec 0419 FR-11).
+    if (target === 'aar_pdf')
+      await writeOut(
+        state,
+        state.names.improvementPlanXlsx,
+        await improvementPlanWorkbook(state.model),
+      )
     return
   }
   switch (target) {
@@ -283,6 +303,7 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   sitman_pdf: 'Situation Manual PDF',
   handbook_hseep_pdf: 'C/E Handbook (HSEEP) PDF',
   msel_xlsx: 'MSEL workbook',
+  aar_pdf: 'After-Action Report / Improvement Plan',
   media: 'media files',
   json: 'scenario.json',
   markdown: 'scenario.md',

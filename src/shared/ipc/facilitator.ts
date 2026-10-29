@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { SafeId } from '../schemas/common'
+import { HotwashItemKind } from '../schemas/aar'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
 
@@ -13,8 +14,40 @@ export const FacilitatorState = z.object({
     .default({}),
   notes: z.record(z.string(), z.string()).default({}),
   generalNotes: z.string().default(''),
+  /**
+   * Hot wash 3-Up / 3-Down items captured in the room (#419, FR-3): the same vocabulary as the
+   * live `hotwash.item` message, so an exercise without live play still produces evidence.
+   */
+  hotwash: z
+    .array(
+      z.object({
+        id: SafeId,
+        kind: HotwashItemKind,
+        text: z.string().max(4000),
+        objectiveRef: z.string().max(128).optional(),
+        rowId: z.string().max(64).optional(),
+        at: z.string(),
+      }),
+    )
+    .default([]),
+  /** Decision log (#419, FR-3): what was decided, when, by which role (never a person). */
+  decisions: z
+    .array(
+      z.object({
+        id: SafeId,
+        at: z.string(),
+        exerciseTime: z.string().max(8).optional(),
+        rowId: z.string().max(64).optional(),
+        text: z.string().max(4000),
+        /** Role id, never a name. */
+        byRole: z.string().max(128).optional(),
+      }),
+    )
+    .default([]),
 })
 export type FacilitatorState = z.infer<typeof FacilitatorState>
+export type FacilitatorHotwashItem = FacilitatorState['hotwash'][number]
+export type FacilitatorDecision = FacilitatorState['decisions'][number]
 
 export const facilitatorChannels = {
   'facilitator:state-get': channel(S, FacilitatorState),

@@ -42,6 +42,7 @@ export const SCENARIO_OWNER_KINDS: readonly JobKind[] = [
   'generate-injects',
   'render-media',
   'repair-scenario',
+  'draft-aar',
 ]
 /** What a job is doing, for banners and the jobs tray. */
 export const JOB_LABEL: Record<JobKind, string> = {
@@ -55,6 +56,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'generate-injects': 'Writing injects',
   'render-media': 'Rendering media',
   'repair-scenario': 'Repairing the scenario',
+  'draft-aar': 'Drafting the AAR/IP',
   export: 'Exporting',
   'pack-download': 'Downloading a pack',
   'tool-install': 'Installing a local tool',

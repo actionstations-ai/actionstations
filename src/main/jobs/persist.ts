@@ -10,7 +10,7 @@ import { isRenameRetryable, RENAME_RETRY_DELAYS_MS } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { userDataPath } from '../lib/paths'
 
-export const RESUMABLE_KINDS: readonly JobKind[] = ['generate-scenario', 'rerun-stage']
+export const RESUMABLE_KINDS: readonly JobKind[] = ['generate-scenario', 'rerun-stage', 'draft-aar']
 const MAX_RECORDS = 100
 const WRITE_DELAY_MS = 150
 

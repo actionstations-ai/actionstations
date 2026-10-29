@@ -12,6 +12,7 @@ export const JobKind = z.enum([
   'generate-injects',
   'render-media',
   'repair-scenario',
+  'draft-aar',
   'export',
   'pack-download',
   'tool-install',

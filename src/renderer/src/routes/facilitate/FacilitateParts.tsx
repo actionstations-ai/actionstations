@@ -174,6 +174,10 @@ export function SidePanel(props: {
         {selected && (
           <InjectPanel
             projectPath={props.projectPath}
+            scenario={props.scenario}
+            state={state}
+            update={update}
+            exerciseTime={props.exerciseTime}
             entry={selected}
             note={state.notes[selected.row.id] ?? ''}
             onNote={(text) =>
@@ -196,7 +200,13 @@ export function SidePanel(props: {
         />
       </Tabs.Content>
       <Tabs.Content value="hotwash" className="fac-tabs__panel">
-        <HotWashPanel projectPath={props.projectPath} scenario={props.scenario} state={state} />
+        <HotWashPanel
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          state={state}
+          update={update}
+          exerciseTime={props.exerciseTime}
+        />
       </Tabs.Content>
       <Tabs.Content value="notes" className="fac-tabs__panel">
         <GeneralNotes state={state} update={update} />

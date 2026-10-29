@@ -16,6 +16,7 @@ const LABELS: Record<string, string> = {
   hotwash: 'Hot wash',
   sitman: 'SitMan modules',
   critique: 'Critique',
+  aar: 'After-action report',
 }
 
 export const stageLabel = (stage: string): string => LABELS[stage] ?? stage

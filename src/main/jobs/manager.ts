@@ -41,6 +41,7 @@ const CONCURRENCY: Partial<Record<JobKind, number>> = {
   'rerun-stage': 1,
   'generate-injects': 1,
   'repair-scenario': 1,
+  'draft-aar': 1,
   'model-pull': 1,
   'plan-check': 1,
   'grounding-verify': 1,
@@ -55,6 +56,7 @@ export const SCENARIO_OWNER_KINDS: readonly JobKind[] = [
   'generate-injects',
   'render-media',
   'repair-scenario',
+  'draft-aar',
 ]
 const MAX_LOG = 2000
 const MAX_TOKENS_PER_STAGE = 200_000

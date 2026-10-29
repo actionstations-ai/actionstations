@@ -10,7 +10,7 @@ import { requireProject } from '../project/guard'
 import { claimScenario } from '../scenario/busy'
 import { rerunStep, runPipeline, type StepKey } from './engine'
 
-type ScenarioJobKind = 'generate-scenario' | 'rerun-stage'
+type ScenarioJobKind = 'generate-scenario' | 'rerun-stage' | 'draft-aar'
 
 /** Start a job that owns `scenarioId` until it settles; CONFLICT when another job owns it. */
 export function startScenarioJob(

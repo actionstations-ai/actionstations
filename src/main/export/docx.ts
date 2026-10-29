@@ -22,6 +22,7 @@ import {
   type ParagraphChild,
 } from 'docx'
 import { Lexer, type Token, type Tokens } from 'marked'
+import { aarView, type AarView } from './aar'
 import { eegView } from './eeg'
 import { hasHeading, stripEndNote, stripSectionMarkers } from './escape'
 import type { ExportModel } from './model'
@@ -431,6 +432,182 @@ export async function eegDocx(model: ExportModel): Promise<Buffer> {
       spacing: { after: 200 },
     }),
     ...view.eegs.flatMap(eegBlocks),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [run(view.endNote, { italics: true })],
+    }),
+  ])
+  return Packer.toBuffer(doc)
+}
+
+type AarCapability = AarView['capabilities'][number]
+type AarFinding = AarCapability['strengths'][number]
+
+/** Markdown prose as body blocks with headings kept below the finding's own heading. */
+function proseBlocks(md: string): Block[] {
+  return tokenBlocks(new Lexer({ gfm: true }).lex(stripSectionMarkers(md)), 3, { n: 0 })
+}
+
+function aarFindingBlocks(kind: 'Strength' | 'Area for Improvement', f: AarFinding): Block[] {
+  const out: Block[] = [
+    new Paragraph({
+      heading: HeadingLevel.HEADING_4,
+      children: [run(`${kind} ${f.n}: ${f.title}`)],
+    }),
+  ]
+  if (kind === 'Area for Improvement')
+    out.push(new Paragraph({ children: [run('Analysis:', { bold: true })] }))
+  out.push(...proseBlocks(f.analysisMd))
+  if (f.reference)
+    out.push(new Paragraph({ children: [run('Reference: ', { bold: true }), run(f.reference)] }))
+  if (kind === 'Area for Improvement') {
+    out.push(
+      new Paragraph({
+        children: [run('Recommendation: ', { bold: true }), run(f.recommendation)],
+      }),
+      ...f.actions.map(
+        (a) =>
+          new Paragraph({
+            children: [run(`${a.action} (${a.element})`)],
+            bullet: { level: 0 },
+          }),
+      ),
+    )
+  }
+  out.push(
+    new Paragraph({
+      children: [run(`Evidence: ${f.evidence}`, { italics: true })],
+      spacing: { after: 160 },
+    }),
+  )
+  return out
+}
+
+function aarCapabilityBlocks(c: AarCapability): Block[] {
+  const out: Block[] = [
+    new Paragraph({ heading: HeadingLevel.HEADING_3, children: [run(c.capability)] }),
+  ]
+  if (c.objectives.length)
+    out.push(new Paragraph({ children: [run(`Objectives: ${c.objectives.join('; ')}`)] }))
+  out.push(
+    new Paragraph({
+      children: [
+        run('Rating: ', { bold: true }),
+        c.rating ? run(c.rating, { bold: true }) : run('Rating pending', { italics: true }),
+      ],
+    }),
+  )
+  if (c.rationale) out.push(new Paragraph({ children: [run(c.rationale)] }))
+  out.push(new Paragraph({ heading: HeadingLevel.HEADING_4, children: [run('Strengths')] }))
+  if (!c.strengths.length)
+    out.push(new Paragraph({ children: [run('No strengths recorded for this capability.')] }))
+  for (const f of c.strengths) out.push(...aarFindingBlocks('Strength', f))
+  out.push(
+    new Paragraph({ heading: HeadingLevel.HEADING_4, children: [run('Areas for Improvement')] }),
+  )
+  if (!c.areas.length)
+    out.push(
+      new Paragraph({ children: [run('No areas for improvement recorded for this capability.')] }),
+    )
+  for (const f of c.areas) out.push(...aarFindingBlocks('Area for Improvement', f))
+  return out
+}
+
+const IP_COLUMNS = [
+  'Core Capability',
+  'Issue/Area for Improvement',
+  'Corrective Action',
+  'Capability Element',
+  'Primary Responsible Organization',
+  'Organization POC',
+  'Start Date',
+  'Completion Date',
+]
+
+/**
+ * The AAR/IP as a Word document (#419), from the same view as the PDF. The prose a person
+ * edited in documents/aar.md is used when the view carries it; only confirmed ratings print.
+ */
+export async function aarDocx(model: ExportModel): Promise<Buffer> {
+  const label = 'After-Action Report / Improvement Plan'
+  const view = aarView(model)
+  if (view.missing) {
+    return Packer.toBuffer(
+      buildDocument(model, label, [
+        ...titleBlocks(model, label, []),
+        new Paragraph({ children: [run(view.missing, { italics: true })] }),
+      ]),
+    )
+  }
+  const findings = view.findingsHtml
+    ? markdownBlocks(`## Findings\n\n${view.findingsMd}`)
+    : view.capabilities.flatMap(aarCapabilityBlocks)
+  const doc = buildDocument(model, label, [
+    ...titleBlocks(model, label, [
+      ['Exercise date', model.aar?.exerciseDate ?? '____________'],
+      ['Status', view.draft ? 'Draft (ratings pending)' : 'Reviewed'],
+    ]),
+    heading2('Exercise Overview'),
+    table(
+      ['Item', 'Detail'],
+      view.overview.map((r) => [r.label, r.value]),
+    ),
+    new Paragraph({ children: [run(view.evidence)], spacing: { before: 120, after: 200 } }),
+    heading2('Executive Summary'),
+    ...proseBlocks(view.summaryMd),
+    heading2('Analysis of Core Capabilities'),
+    table(
+      ['Objective', 'Core Capability', 'P', 'S', 'M', 'U', 'Status'],
+      view.ratings.map((r) => [
+        r.objective,
+        r.capability,
+        ...r.marks.map((m) => (m.marked ? 'X' : '')),
+        r.pending ? 'Rating pending' : '',
+      ]),
+    ),
+    new Paragraph({ heading: HeadingLevel.HEADING_3, children: [run('Ratings Definitions')] }),
+    ...view.legend.map(
+      (l) =>
+        new Paragraph({
+          children: [run(`${l.label} (${l.code}): `, { bold: true }), run(l.definition)],
+          spacing: { after: 80 },
+        }),
+    ),
+    ...findings,
+    heading2('Appendix A: Improvement Plan'),
+    ...(view.plan.length
+      ? [
+          table(
+            IP_COLUMNS,
+            view.plan.map((r) => [
+              r.capability,
+              r.issue,
+              r.action,
+              r.element,
+              r.organization,
+              r.poc,
+              r.startDate,
+              r.dueDate,
+            ]),
+          ),
+        ]
+      : [new Paragraph({ children: [run('No corrective actions yet.')] })]),
+    heading2('Appendix B: Exercise Participants'),
+    ...(view.organizations.length
+      ? view.organizations.map((o) => new Paragraph({ children: [run(o)], bullet: { level: 0 } }))
+      : [
+          new Paragraph({
+            children: [run('Participating organizations to be completed (organizations only).')],
+          }),
+        ]),
+    ...(view.hasFeedback
+      ? [heading2('Appendix C: Participant Feedback Summary'), ...proseBlocks(view.feedbackMd)]
+      : []),
+    heading2('Appendix D: Acronyms'),
+    table(
+      ['Acronym', 'Meaning'],
+      view.acronyms.map((a) => [a.term, a.meaning]),
+    ),
     new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [run(view.endNote, { italics: true })],

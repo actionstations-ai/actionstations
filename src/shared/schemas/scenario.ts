@@ -197,6 +197,8 @@ export const STAGES = [
   'grounding_verify',
   /** Model confirmation of a plan conflict (#423); not part of the pipeline. */
   'plan_conflict',
+  /** On demand after the exercise (#419); not part of the scenario pipeline. */
+  'aar',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>
@@ -242,7 +244,8 @@ export type LintWarning = z.infer<typeof LintWarning>
  *  Scenario.documents are project-root-relative (scenarios/<id>/documents/handbook.md).
  *  `handouts` (player handouts: reference cards, evidence packets, clue cards) and
  *  `controller_handouts` (facilitator-only material such as a clue-card deck with controller
- *  notes) are optional and written by hand, never by a generation stage. */
+ *  notes) are optional and written by hand, never by a generation stage. `aar` is the
+ *  After-Action Report / Improvement Plan drafted after the exercise (#419). */
 export const SCENARIO_DOCS = [
   'overview',
   'handbook',
@@ -250,6 +253,7 @@ export const SCENARIO_DOCS = [
   'hotwash',
   'handouts',
   'controller_handouts',
+  'aar',
 ] as const
 /** Document kinds no generation stage writes. */
 export const HANDOUT_DOCS = [
@@ -293,6 +297,8 @@ export const Scenario = z.looseObject({
       hotwash: RelPath.optional(),
       handouts: RelPath.optional(),
       controller_handouts: RelPath.optional(),
+      /** The After-Action Report / Improvement Plan draft (#419), rendered from aar.json. */
+      aar: RelPath.optional(),
     })
     .default({}),
   rubric: Rubric.optional(),

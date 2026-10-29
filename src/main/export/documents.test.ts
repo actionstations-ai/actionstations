@@ -4,7 +4,8 @@ import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
 process.env.TTX_RESOURCES = resolve('.')
-const { fixtureModel } = await import('../../../tests/fixtures/export/model')
+const { fixtureAar, fixtureModel } = await import('../../../tests/fixtures/export/model')
+const { renderAarMarkdown } = await import('../aar/markdown')
 const { buildDocumentHtml } = await import('./documents')
 const { scopeCss, embedBlankForm } = await import('./forms')
 const { planTargets } = await import('./run')
@@ -255,9 +256,88 @@ describe('planTargets', () => {
       'explan_pdf',
       'sitman_pdf',
       'handbook_hseep_pdf',
+      'aar_pdf',
       'json',
       'markdown',
       'zip',
     ])
+  })
+})
+
+describe('AAR/IP document (#419)', () => {
+  it('prints the HSEEP layout with only confirmed ratings and a landscape Improvement Plan', () => {
+    const model = fixtureModel({ aar: fixtureAar() })
+    const html = buildDocumentHtml(model, 'aar', 'pdf')
+    expect(html).toContain('@page aar { size: letter;')
+    expect(html).toContain('@page aar-ip { size: letter landscape;')
+    expect(html).toContain('class="doc doc--aar"')
+    for (const heading of [
+      'Exercise Overview',
+      'Executive Summary',
+      'Analysis of Core Capabilities',
+      'Appendix A: Improvement Plan',
+      'Appendix B: Exercise Participants',
+      'Appendix D: Acronyms',
+    ])
+      expect(html, heading).toContain(heading)
+    // No participant feedback was recorded: no Appendix C.
+    expect(html).not.toContain('Appendix C')
+    // Status: a rating is still pending, and the document says so instead of printing it.
+    expect(html).toContain('Draft (ratings pending)')
+    expect(html).toContain('Rating pending')
+    // The confirmed rating is marked once; the proposed M of Operational Coordination is not.
+    const rows = html.split('<tr>').filter((r) => r.includes('aar-ratings__mark'))
+    const marked = rows.filter((r) => r.includes('aar-ratings__mark">X<'))
+    expect(marked).toHaveLength(1)
+    expect(marked[0]).toContain('Public Information and Warning')
+    expect(rows.find((r) => r.includes('Operational Coordination'))).toContain('Rating pending')
+    expect(html).not.toContain('Performed with Major Challenges (M)</strong>')
+    // Findings with reference and evidence lines, never raw refs.
+    expect(html).toContain('Strength 1: Plain-language PA and social media messages')
+    expect(html).toContain('TIRP 1.4.5')
+    expect(html).toContain('Evidence: note on I-06; 1 observation; 1 hot wash item')
+    expect(html).not.toContain('obs:O-I-04-T-01')
+    // Appendix A: the eight columns, the typed organization and the proposed role in brackets.
+    for (const col of [
+      'Core Capability',
+      'Issue/Area for Improvement',
+      'Corrective Action',
+      'Capability Element',
+      'Primary Responsible Organization',
+      'Organization POC',
+      'Start Date',
+      'Completion Date',
+    ])
+      expect(html).toContain(`<th scope="col">${col}</th>`)
+    expect(html).toContain('NCIA Public Affairs')
+    expect(html).toContain('[IC]')
+    expect(count(html, '<td>Revise TIRP 13.6')).toBe(1)
+    expect(html).toContain('Skyline Airways')
+    expect(html).toContain('Airport Operational Database')
+    expect(html).toContain('End of After-Action Report / Improvement Plan')
+  })
+
+  it('takes the edited prose from documents/aar.md and the tables from aar.json', () => {
+    const aar = fixtureAar()
+    const model = fixtureModel({ aar })
+    model.docs.aar = renderAarMarkdown(aar, model.scenario, 'NCIA')
+      .replace('The exercise tested the response', 'EDITED SUMMARY: the exercise tested')
+      .replace('Plain-language PA and social media messages', 'EDITED FINDING TITLE')
+    const html = buildDocumentHtml(model, 'aar', 'pdf')
+    expect(html).toContain('EDITED SUMMARY')
+    expect(html).toContain('EDITED FINDING TITLE')
+    expect(count(html, 'class="section aar-capability"')).toBe(0)
+    expect(count(html, 'Appendix A: Improvement Plan')).toBe(1)
+  })
+
+  it('escapes model text in findings and says when no draft exists', () => {
+    const aar = fixtureAar()
+    aar.capabilities[0]!.strengths[0]!.title = '<img src=x onerror=alert(1)>'
+    aar.capabilities[0]!.strengths[0]!.analysisMd = '<script>steal()</script> fine'
+    const html = buildDocumentHtml(fixtureModel({ aar }), 'aar', 'pdf')
+    expect(html).not.toMatch(/<script|<img src=x/i)
+    const none = buildDocumentHtml(fixtureModel(), 'aar', 'preview')
+    expect(none).toContain('No After-Action Report yet')
+    expect(none).not.toContain('Appendix A')
   })
 })

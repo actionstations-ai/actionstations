@@ -12,6 +12,10 @@ export const routes: RouteDef[] = [
     component: lazy(() => import('./ScenarioPage')),
   },
   {
+    path: '/p/:projectKey/scenarios/:scenarioId/aar',
+    component: lazy(() => import('./AarPage')),
+  },
+  {
     path: '/p/:projectKey/scenarios/:scenarioId/injects/:injectId',
     component: lazy(() => import('../../editors/inject/InjectEditorPage')),
   },

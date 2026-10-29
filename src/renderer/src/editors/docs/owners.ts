@@ -7,6 +7,7 @@ export const DOC_LABELS: Record<ScenarioDocKind, string> = {
   overview: 'MSEL document',
   handouts: 'Player handouts',
   controller_handouts: 'Controller materials',
+  aar: 'After-Action Report / Improvement Plan',
 }
 export const DOC_ORDER: ScenarioDocKind[] = [
   'handbook',
@@ -15,6 +16,7 @@ export const DOC_ORDER: ScenarioDocKind[] = [
   'overview',
   'handouts',
   'controller_handouts',
+  'aar',
 ]
 
 /** The generation stage that writes each document; handouts are written by hand only. */
@@ -23,6 +25,8 @@ export const DOC_STAGE: Partial<Record<ScenarioDocKind, Stage>> = {
   briefing: 'player_briefing',
   hotwash: 'hotwash',
   overview: 'scenario_overview',
+  /** Drafted on demand from the exercise record (#419), never by the pipeline. */
+  aar: 'aar',
 }
 
 export type StructuredPart =

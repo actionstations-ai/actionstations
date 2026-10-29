@@ -2,8 +2,9 @@ import { describe, expect, it, vi } from 'vitest'
 import JSZip from 'jszip'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => process.cwd() } }))
-const { fixtureModel, hseepFixtureModel } = await import('../../../tests/fixtures/export/model')
-const { briefingDocx, eegDocx, handbookDocx } = await import('./docx')
+const { fixtureAar, fixtureModel, hseepFixtureModel } =
+  await import('../../../tests/fixtures/export/model')
+const { aarDocx, briefingDocx, eegDocx, handbookDocx } = await import('./docx')
 const { explanDocx, handbookHseepDocx, sitmanDocx } = await import('./hseep/docx')
 const { FILL_IN } = await import('./hseep')
 
@@ -39,6 +40,28 @@ describe('DOCX export', () => {
     expect(xml).toContain('TIRP 13.7 Checklist: Cybersecurity Incident')
     expect(xml).toContain('☐ M   ☐ P   ☐ N   ☐ NO')
     expect(xml).toContain('End of Exercise Evaluation Guides')
+  })
+
+  it('AAR/IP: HSEEP headings, confirmed ratings only and the Improvement Plan table (#419)', async () => {
+    const xml = await documentXml(await aarDocx(fixtureModel({ aar: fixtureAar() })))
+    for (const heading of [
+      'Exercise Overview',
+      'Executive Summary',
+      'Analysis of Core Capabilities',
+      'Appendix A: Improvement Plan',
+      'Appendix D: Acronyms',
+    ])
+      expect(xml, heading).toContain(heading)
+    expect(xml).toContain('Primary Responsible Organization')
+    expect(xml).toContain('Revise TIRP 13.6 so the Go Dark decision is taken jointly')
+    expect(xml).toContain('Rating pending')
+    expect(xml).toContain('Performed with Some Challenges (S)')
+    // The proposed M appears once, in the ratings legend, never as a capability's rating.
+    expect(xml.split('Performed with Major Challenges (M)')).toHaveLength(2)
+    expect(xml).toContain('Evidence: note on I-09; 1 observation; 1 decision')
+    expect(xml).not.toContain('obs:O-I-09-T-07')
+    const none = await documentXml(await aarDocx(fixtureModel()))
+    expect(none).toContain('No After-Action Report yet')
   })
 
   it('names Action Stations as the creator when the project has no organization (#233)', async () => {

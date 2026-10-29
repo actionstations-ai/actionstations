@@ -48,6 +48,8 @@ const BY_WHAT: Record<What, string[]> = {
   surveys: ['surveys:'],
   /** plan-conflicts.json changed: a plan check ran or a finding was dismissed (#423). */
   'plan-conflicts': ['plan-check:'],
+  /** The AAR/IP draft or its document changed (#419). */
+  aar: ['aar:', 'scenarios:doc-get', 'scenarios:history', 'scenarios:get', 'export:preview-html'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
@@ -62,6 +64,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'generate-injects': SCENARIO_WORK,
   'render-media': SCENARIO_WORK,
   'repair-scenario': SCENARIO_WORK,
+  'draft-aar': [...SCENARIO_WORK, 'aar:'],
   export: [],
   'pack-download': [],
   'tool-install': ['setup:', 'providers:'],

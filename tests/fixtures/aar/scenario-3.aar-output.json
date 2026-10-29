@@ -1,0 +1,137 @@
+{
+  "executiveSummaryMd": "This tabletop exercise tested North Coast International Airport's response to manipulated flight information: a compromised credential altered the AODB so the FIDS, baggage sortation and PA misled passengers for most of a morning. The plans held where they were specific. The TIRP 13.6 checklist carried the move to manual boarding announcements, the PIO's standing orders kept a rumour from becoming a confirmed attack, and IT preserved evidence before restoring. Two gaps matter most: the Go Dark decision has no joint decision step, so Operations and IT decided it in two rooms twelve minutes apart, and the plan names no owner for the gate whiteboards that carry flight information once the screens are dark. External notification to the FBI Cyber Task Force and CISA happened only when prompted.",
+  "capabilities": [
+    {
+      "capability": "public_information_and_warning",
+      "proposedRating": "S",
+      "ratingRationale": "The holding statement, the manual gate announcements and the rumour control all followed the plan; the statement left passengers without a source of gate information.",
+      "strengths": [
+        {
+          "title": "Holding statement used as the plan intends",
+          "analysisMd": "The PIO had the TIRP holding statement ready before the Channel 5 call and declined to confirm a cyber attack until IT confirmed one, as the role's standing order requires. The viral rumour was answered with a factual update rather than silence.",
+          "evidence": ["note:I-12", "hw:hw-up-2"],
+          "citations": ["S1"]
+        },
+        {
+          "title": "One voice to the airlines",
+          "analysisMd": "Every Operations decision reached the airline station managers through the Airline Liaison within minutes, so the gates heard one version of the manual procedure.",
+          "evidence": ["hw:hw-up-1", "note:general"],
+          "citations": ["S3"]
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "title": "Public statement gave no source of gate information",
+          "analysisMd": "The holding statement said what the airport knew and did not know, but not where passengers should get gate assignments while the screens were dark. TIRP 1.4.5 expects the PA and website to carry that direction.",
+          "evidence": ["note:I-12"],
+          "citations": ["S1"],
+          "recommendation": "Add a standing line to the holding statement that names the manual sources of flight information (gate staff, whiteboards, the airline's app).",
+          "correctiveActions": [
+            {
+              "action": "Add the manual flight-information sources to the TIRP holding statement templates",
+              "element": "planning",
+              "ownerRole": "pio"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "capability": "operational_coordination",
+      "proposedRating": "M",
+      "ratingRationale": "Incident command was established and the TIRP 13.6 checklist followed, but the Go Dark decision and the restoration order were each taken in one room and reached the other late.",
+      "strengths": [
+        {
+          "title": "TIRP 13.6 checklist used from the first system fault",
+          "analysisMd": "The FIDS / BHS failure checklist was open from 1:15 and the team worked it step by step for the manual boarding announcements and the baggage sort.",
+          "evidence": ["note:general", "dec:dec-1"],
+          "citations": ["S3"]
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "title": "Go Dark decided in two rooms",
+          "analysisMd": "Operations silenced the PA within four minutes, but the FIDS stayed on for twelve more while IT debated whether the feed was clean. The Go Dark call was made by Operations alone at 1:27 and reached IT afterwards. TIRP 13.6 lists the manual procedures but not who decides to take the displays dark, or when.",
+          "evidence": ["note:I-06", "hw:hw-down-1", "dec:dec-1"],
+          "citations": ["S3"],
+          "recommendation": "Make the Go Dark decision an explicit joint step in TIRP 13.6: Operational Incident Command decides with Technical Incident Command present, within a stated time of the first confirmed false display.",
+          "correctiveActions": [
+            {
+              "action": "Add a Go Dark decision step with a decision owner and a time limit to TIRP 13.6",
+              "element": "planning",
+              "ownerRole": "ops-director"
+            },
+            {
+              "action": "Run a thirty-minute drill of the Go Dark decision and manual announcements each quarter",
+              "element": "exercises",
+              "ownerRole": "ops-director"
+            }
+          ]
+        },
+        {
+          "title": "Nobody owns the gate whiteboards",
+          "analysisMd": "Once the screens went dark, flight information at the gates depended on whiteboards that no role is assigned to keep current. Operations improvised with the Airline Liaison an hour later.",
+          "evidence": ["hw:hw-down-2", "note:general"],
+          "citations": ["S3"],
+          "recommendation": "Name the role that owns gate whiteboards during a FIDS outage and the source they copy from.",
+          "correctiveActions": [
+            {
+              "action": "Assign gate whiteboard ownership in TIRP 13.6 and stock each gate podium with a board and markers",
+              "element": "organization",
+              "ownerRole": "airline-liaison"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "capability": "infrastructure_systems",
+      "proposedRating": "S",
+      "ratingRationale": "Manual baggage and announcement procedures were activated; the delay was in deciding to activate them.",
+      "strengths": [
+        {
+          "title": "Manual procedures activated with the airlines",
+          "analysisMd": "The manual baggage sort and gate announcements were activated through the Airline Liaison once the Go Dark decision was made, as TIRP 13.6 requires.",
+          "evidence": ["hw:hw-up-1", "dec:dec-1"],
+          "citations": ["S3"]
+        }
+      ],
+      "areasForImprovement": []
+    },
+    {
+      "capability": "cybersecurity",
+      "proposedRating": "M",
+      "ratingRationale": "Evidence was preserved and the workstation isolated, but external notification to the FBI Cyber Task Force and CISA happened only when the facilitator prompted it.",
+      "strengths": [
+        {
+          "title": "Evidence preserved before restoration",
+          "analysisMd": "IT preserved the AODB logs before touching the compromised server and waited for a clean backup rather than rebuilding the compromised host.",
+          "evidence": ["hw:hw-up-3", "dec:dec-2"],
+          "citations": ["S4"]
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "title": "External notification waited for a prompt",
+          "analysisMd": "TIRP 13.7 requires notifying the FBI Cyber Task Force and CISA once a cybersecurity incident is confirmed. The compromised credential was confirmed at 2:00; the notification was made at 2:20 after the facilitator asked.",
+          "evidence": ["note:I-09", "hw:hw-down-3"],
+          "citations": ["S4"],
+          "recommendation": "Put the external notification on the Technical Incident Command checklist as a timed step with the contact numbers on the card.",
+          "correctiveActions": [
+            {
+              "action": "Add a timed FBI and CISA notification step with contacts to the TIRP 13.7 checklist card",
+              "element": "planning",
+              "ownerRole": "it-director"
+            },
+            {
+              "action": "Brief the IT on-call roster on the notification step at the next shift briefing",
+              "element": "training",
+              "ownerRole": "it-director"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "participantFeedbackMd": ""
+}

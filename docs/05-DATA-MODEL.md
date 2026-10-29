@@ -155,7 +155,9 @@ FacilitatorState {
   elapsedMin, runningSince?,                 // exercise clock: minutes when last paused/started + wall-clock anchor
   delivered: Record<rowId, { at, exerciseTime }>,
   notes: Record<rowId, string>,              // per-inject hot wash notes
-  generalNotes
+  generalNotes,
+  hotwash: { id, kind: 'strength'|'improvement'|'other', text, objectiveRef?, rowId?, at }[],  // 3-Up / 3-Down items (#419)
+  decisions: { id, at, exerciseTime?, rowId?, text, byRole? /* role id, never a name */ }[]      // decision log (#419)
 }
 
 // One generation job per scenario: while it runs, scenarios:save / scenarios:doc-save for that
@@ -240,6 +242,43 @@ GroundingResult {
 The label shown is `override ?? model ?? label`. Results are kept at scenario level, not on `MselRow` or `Inject`, so an older build that strips unknown row keys loses nothing. Idea labels are in `ideas.json` under `grounding` (keys `idea:<id>`).
 
 `<project>/plan-conflicts.json` (`src/shared/schemas/plan-conflicts.ts`): `{ formatVersion: 1, checkedAt, documents[{ id, sha256 }], stats?{ candidates, sent, skipped }, findings: PlanFinding[] }`. A finding is a `contradiction` (slot, slot label, subject, passages `a` and `b` with document, heading path, page, chunk id and the statement's text, the two values, the model verdict and its quotes) or a `dangling_reference` (passage `a` and the missing target), with `status` open / dismissed / confirmed / outdated and an optional note. Its id is sha256 of the slot and both spans (16 hex), so a re-run keeps decisions for unchanged passages.
+## After-Action Report / Improvement Plan (`scenarios/<id>/aar.json`, #419)
+
+Schemas in `src/shared/schemas/aar.ts` (ADR-0035). `aar.json` is the structured report; `documents/aar.md` is rendered from it in the HSEEP 2020 layout with `<!-- section:name -->` markers (`overview`, `summary`, `ratings`, `findings`, `ip`, `participants`, `feedback`, `acronyms`). The structured editor re-renders the table sections on save and leaves the prose sections (`summary`, `findings`, `feedback`) as a person edited them. History: `history/aar-json.jsonl` for the data, `history/aar.jsonl` for the document.
+
+```ts
+Aar {                                       // loose (ADR-0016)
+  formatVersion: 1, createdAt, updatedAt, exerciseDate?,
+  executiveSummaryMd, participantFeedbackMd,
+  sourcesUsed: ('facilitator'|'evaluation'|'live'|'surveys')[],   // what the record held when drafted
+  liveSessionId?,
+  capabilities: CapabilityAnalysis[],
+  participatingOrganizations: string[],     // Appendix B; organizations only, seeded from conduct
+  acronyms: { term, meaning }[],            // Appendix D, on top of the built-in HSEEP terms
+  provenance: StageRun[]
+}
+CapabilityAnalysis {
+  capability: CoreCapabilityId,
+  rating?: 'P'|'S'|'M'|'U',                 // confirmed by a person; the only one that prints
+  proposedRating?, ratingRationale,         // the model's proposal; absent without evidence
+  observationCounts: { met, partial, not_met, not_observed },
+  objectiveRefs[], strengths: Finding[], areasForImprovement: Finding[]
+}
+Finding { id, title, analysisMd, citations: Citation[], evidence: EvidenceRef[] /* ≥ 1 */,
+  objectiveRefs[], recommendation, correctiveActions: CorrectiveAction[], locked }
+CorrectiveAction { id, action, element: 'planning'|'organization'|'equipment'|'training'|'exercises',
+  ownerRole? /* proposed */, ownerOrganization, poc, startDate?, dueDate? /* typed by a person */,
+  status: 'open'|'in_progress'|'done', locked }
+EvidenceRef = 'note:<rowId>' | 'note:general' | 'obs:<id>' | 'hw:<id>' | 'dec:<id>' | 'vote:<id>'
+            | 'msg:<id>' | 'survey:<surveyId>[:<questionId>]' | 'log:<index>'
+
+// The exercise record the draft is built from (never stored; aar:record returns it):
+ExerciseRecord { sources: { facilitator, evaluation, live, surveys }, liveSessionId?, delivered[],
+  notes[], hotwash[], decisions[], observations: Observation[], votes[], messages[], messageCounts[],
+  surveys: SurveySummary[], warnings[] }   // every item carries its EvidenceRef; role labels, no names
+```
+
+Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (spec 0417; read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
 
 ## SQLite (index.sqlite, rebuildable)
 

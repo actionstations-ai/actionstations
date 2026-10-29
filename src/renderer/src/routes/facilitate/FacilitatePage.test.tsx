@@ -54,6 +54,8 @@ function setup(initial: Partial<FacilitatorState> = {}) {
     delivered: {},
     notes: {},
     generalNotes: '',
+    hotwash: [],
+    decisions: [],
     ...initial,
   }
   let record: { formatVersion: number; observations: Observation[]; updatedAt: string } = {
@@ -262,5 +264,64 @@ describe('FacilitatePage evaluation (#421)', () => {
     })
     await user.click(await screen.findByRole('button', { name: 'Clear' }))
     await waitFor(() => expect(ttx.record().observations).toHaveLength(0))
+  })
+
+  it('captures 3-Up / 3-Down items and logs a decision for the AAR record (#419)', async () => {
+    const ttx = setup({ elapsedMin: 80 })
+    const user = userEvent.setup()
+    await screen.findByRole('region', { name: 'Timeline' })
+    // Nothing recorded yet: the draft has nothing to rest on.
+    const draft = () => screen.getByRole('button', { name: 'Draft AAR/IP' }) as HTMLButtonElement
+    expect(draft().disabled).toBe(true)
+    await user.click(screen.getByRole('tab', { name: 'Hot wash' }))
+    const form = screen.getByRole('form', { name: 'Add a hot wash item' })
+    await user.click(within(form).getByRole('radio', { name: 'To improve' }))
+    await user.type(within(form).getByLabelText('Hot wash item'), 'One voice on the PA.')
+    await user.selectOptions(within(form).getByLabelText('Inject'), 'I-06')
+    await user.click(within(form).getByRole('button', { name: 'Add item' }))
+    await waitFor(() => expect(ttx.saved().hotwash).toHaveLength(1))
+    expect(ttx.saved().hotwash[0]).toMatchObject({
+      kind: 'improvement',
+      text: 'One voice on the PA.',
+      rowId: 'I-06',
+    })
+    const toImprove = screen.getByRole('region', { name: 'To improve' })
+    expect(within(toImprove).getByDisplayValue('One voice on the PA.')).toBeTruthy()
+    expect(draft().disabled).toBe(false)
+
+    // A decision from the hot wash panel, tied to a role (never a name) and the clock.
+    const log = screen.getByRole('form', { name: 'Log a decision' })
+    await user.type(within(log).getByLabelText('Decision'), 'Take the FIDS dark.')
+    await user.selectOptions(within(log).getByLabelText('Decided by'), 'ops-director')
+    expect((within(log).getByLabelText('Exercise time (H:MM)') as HTMLInputElement).value).toBe(
+      '1:20',
+    )
+    await user.click(within(log).getByRole('button', { name: 'Log decision' }))
+    await waitFor(() => expect(ttx.saved().decisions).toHaveLength(1))
+    expect(ttx.saved().decisions[0]).toMatchObject({
+      text: 'Take the FIDS dark.',
+      byRole: 'ops-director',
+      exerciseTime: '1:20',
+    })
+    await user.click(screen.getByRole('button', { name: /Remove decision Take the FIDS dark/ }))
+    await waitFor(() => expect(ttx.saved().decisions).toHaveLength(0))
+  })
+
+  it('logs a decision on the selected inject from the inject panel (#419)', async () => {
+    const ttx = setup({ elapsedMin: 75 })
+    const user = userEvent.setup()
+    await screen.findByRole('region', { name: 'Timeline' })
+    await user.click(screen.getAllByRole('button', { name: /I-06/ })[0]!)
+    await user.click(screen.getByRole('button', { name: 'Log decision' }))
+    const form = screen.getByRole('form', { name: 'Log a decision on I-06' })
+    await user.type(within(form).getByLabelText('Decision on I-06'), 'Silence the PA.')
+    await user.click(within(form).getByRole('button', { name: 'Log decision' }))
+    await waitFor(() => expect(ttx.saved().decisions).toHaveLength(1))
+    expect(ttx.saved().decisions[0]).toMatchObject({ rowId: 'I-06', text: 'Silence the PA.' })
+    expect(
+      within(screen.getByRole('region', { name: 'Decisions on I-06' })).getByText(
+        'Silence the PA.',
+      ),
+    ).toBeTruthy()
   })
 })

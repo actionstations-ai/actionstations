@@ -21,7 +21,14 @@ import {
 const at = (iso: string) => new Date(iso)
 const T0 = at('2026-10-21T14:00:00.000Z')
 const plus = (min: number) => new Date(T0.getTime() + min * 60_000)
-const base: FacilitatorState = { elapsedMin: 0, delivered: {}, notes: {}, generalNotes: '' }
+const base: FacilitatorState = {
+  elapsedMin: 0,
+  delivered: {},
+  notes: {},
+  generalNotes: '',
+  hotwash: [],
+  decisions: [],
+}
 
 const row = (id: string, time: string, purposeTag = 'CORE_NARRATIVE'): MselRow =>
   ({

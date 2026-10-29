@@ -7,7 +7,14 @@ import { unsavedItems } from '../../editors/unsaved-work'
 import { FakeIpcError, PROJECT, mockTtx } from '../documents/test-utils'
 import { useFacilitatorState } from './use-facilitator-state'
 
-const EMPTY: FacilitatorState = { elapsedMin: 0, delivered: {}, notes: {}, generalNotes: '' }
+const EMPTY: FacilitatorState = {
+  elapsedMin: 0,
+  delivered: {},
+  notes: {},
+  generalNotes: '',
+  hotwash: [],
+  decisions: [],
+}
 
 function setup(failures: number) {
   let left = failures

@@ -1,7 +1,8 @@
 /* Exported exercise documents (MSEL, Master Inject Deck, C/E Handbook, Player Briefing,
    Exercise Plan). US Letter, printed in a sandboxed window with bundled fonts only.
    Running headers/footers are @page margin boxes generated per document (page.ts).
-   Named pages: msel (landscape), deck, handbook, briefing, cover, form (full bleed). */
+   Named pages: msel (landscape), deck, handbook, briefing, eeg (landscape), aar, aar-ip
+   (the AAR's Improvement Plan appendix, landscape), cover, form (full bleed). */
 
 :root {
   --ink: #16181b;
@@ -98,6 +99,9 @@ figure {
 }
 .doc--eeg {
   page: eeg;
+}
+.doc--aar {
+  page: aar;
 }
 .doc--cover {
   page: cover;
@@ -785,6 +789,116 @@ figure {
 }
 .eeg__lines--short {
   height: 0.8in;
+}
+
+/* ---- After-Action Report / Improvement Plan (#419) ---- */
+.aar-missing {
+  font-style: italic;
+  color: var(--muted);
+}
+.aar-draft {
+  border: 1.5pt solid var(--ink);
+  padding: 5pt 9pt;
+  margin-bottom: 12pt;
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.aar-overview th {
+  width: 26%;
+  text-align: left;
+  background: var(--fill);
+  font-weight: 600;
+}
+.aar-evidence {
+  margin-top: 6pt;
+  font-size: 8.5pt;
+  color: var(--ink-2);
+}
+.aar-analysis h3,
+.aar-capability h4 {
+  margin-top: 10pt;
+  margin-bottom: 4pt;
+  font-size: 10pt;
+}
+.aar-ratings__mark {
+  width: 0.35in;
+  text-align: center;
+  font-weight: 700;
+}
+.aar-ratings__status {
+  width: 1.1in;
+  font-style: italic;
+  color: var(--muted);
+}
+.aar-legend {
+  margin-top: 4pt;
+  font-size: 8.5pt;
+}
+.aar-legend dt {
+  font-weight: 600;
+  margin-top: 4pt;
+}
+.aar-legend dd {
+  margin: 0 0 2pt;
+  color: var(--ink-2);
+}
+.aar-capability {
+  break-inside: avoid-page;
+}
+.aar-capability > h3 {
+  border-top: 1.5pt solid var(--ink);
+  padding-top: 6pt;
+  font-size: 12pt;
+}
+.aar-capability__meta,
+.aar-capability__rating {
+  font-size: 9pt;
+  margin-bottom: 4pt;
+}
+.aar-finding {
+  margin: 6pt 0 10pt;
+  padding-left: 10pt;
+  border-left: 1.5pt solid var(--rule);
+  break-inside: avoid;
+}
+.aar-finding h5 {
+  font-size: 9.5pt;
+  margin-bottom: 3pt;
+}
+.aar-finding p {
+  margin-bottom: 3pt;
+}
+.aar-finding__element {
+  color: var(--muted);
+}
+.aar-finding__evidence {
+  font-size: 8pt;
+  color: var(--muted);
+  font-style: italic;
+}
+.aar-ip {
+  page: aar-ip;
+  break-before: page;
+  break-after: page;
+}
+.aar-ip__table {
+  margin-top: 8pt;
+  font-size: 8pt;
+}
+.aar-ip__table th,
+.aar-ip__table td {
+  vertical-align: top;
+}
+.aar-ip__table th:nth-child(3),
+.aar-ip__table td:nth-child(3) {
+  width: 26%;
+}
+.aar-appendix {
+  break-before: page;
+}
+.aar-acronyms td:first-child {
+  width: 1.2in;
 }
 
 /* ---- Exercise Plan cover ---- */

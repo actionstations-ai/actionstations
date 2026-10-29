@@ -139,7 +139,8 @@ export function MarkdownDocEditor(props: DocEditorProps) {
   const [showHistory, setShowHistory] = useState(false)
   const edited = useEditedSinceGeneration(props)
   const empty = d.doc.data !== undefined && !d.doc.data.markdown.trim() && !d.dirty
-  const stage = DOC_STAGE[props.kind]
+  // The AAR/IP is re-drafted from its own page (#419), not through a pipeline stage re-run.
+  const stage = props.kind === 'aar' ? undefined : DOC_STAGE[props.kind]
 
   return (
     <div className="doc-editor" onKeyDown={docKeys(d, () => setLinkOpen(true))}>

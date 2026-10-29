@@ -29,6 +29,8 @@ import { useDeliveryActions, type UpdateState } from './use-delivery-actions'
 import { useFacilitatorState, type SaveStatus } from './use-facilitator-state'
 import { usePresenting } from './use-presenting'
 import { useShortcuts, useShortcutsEnabled, type ShortcutKeys } from './use-shortcuts'
+import { DraftAarButton } from '../scenarios/DraftAarButton'
+import { hasRecordEvidence } from '../scenarios/aar-evidence'
 import './facilitate.css'
 
 /** Re-render every second while the clock runs (and every 15 s for the local time). */
@@ -224,13 +226,21 @@ function FacilitateView(props: ViewProps) {
         title={scenario.title}
         description="Run the exercise: keep the clock, deliver injects to the room, capture notes for the hot wash."
         actions={
-          <PresentControls
-            displayId={f.displayId}
-            onDisplay={f.setDisplayId}
-            presenting={presenting}
-            selected={f.selected}
-            onPresent={show}
-          />
+          <>
+            <PresentControls
+              displayId={f.displayId}
+              onDisplay={f.setDisplayId}
+              presenting={presenting}
+              selected={f.selected}
+              onPresent={show}
+            />
+            <DraftAarButton
+              projectPath={props.projectPath}
+              scenarioId={scenario.id}
+              hasEvidence={hasRecordEvidence(state)}
+              hasDraft={!!scenario.documents.aar}
+            />
+          </>
         }
       />
       <ExerciseClock
