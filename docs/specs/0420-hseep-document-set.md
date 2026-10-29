@@ -1,6 +1,6 @@
 # Spec 0420: Complete HSEEP document set and Excel MSEL
 
-Issue: #420 · Milestone: 0.6.0 · Status: Draft · Depends on: #421 (Core Capabilities and EEGs) · Related: #419 (AAR/IP), #422 (surveys)
+Issue: #420 · Milestone: 0.6.0 · Status: Implemented · Depends on: #421 (Core Capabilities and EEGs) · Related: #419 (AAR/IP), #422 (surveys)
 
 ## Summary
 
@@ -207,6 +207,18 @@ Exercise details hold a point of contact's name, phone and email. They are store
 6. **HSEEP C/E Handbook layout and bundle order.** `templates/export/handbook-hseep.html`, `hseep.ts handbookHseepView`, `documents.ts` (bundle order, EEG appendix from #421), `docx.ts handbookHseepDocx`, tests; `docs/04-TABLETOP-METHODOLOGY.md` §2 table gains the HSEEP set.
 7. **Completeness report and Export page.** `src/main/export/completeness.ts`, `export:completeness` channel and handler, `ExportPage.tsx` (HSEEP group, report, player-edition checkbox), `export-report.md` in `run.ts`, tests.
 8. **Fixtures, examples, docs.** `tests/fixtures/export/scenario-3.{conduct,sitman}.json`, `tests/content/hseep-scenario-3.test.ts`, example projects regenerated with `sitman`, `docs/guides/getting-started.md` export section, `README.md` feature list.
+
+## Implementation notes (where the code differs from the design above)
+
+- `scenario.conduct` is `ConductDetails.optional()` and read through `conductOf(scenario)`, which fills the defaults. Same result as `.default({})` for readers, but older scenario files are not rewritten with a block of empty fields on their next save.
+- The three HSEEP documents are built as block lists in `src/main/export/hseep/` (`explan.ts`, `sitman.ts`, `handbook.ts`, shared parts in `common.ts`) and rendered by one template, `templates/export/hseep.html`, and one Word writer, `hseep/docx.ts`, so PDF and Word always carry the same sections (ADR-0030). There is no separate `explan.html`, `sitman.html` or `handbook-hseep.html`.
+- A fourth HSEEP target, `handbook_hseep_pdf`, writes the HSEEP-layout C/E Handbook on its own; otherwise it existed only inside the Exercise Plan bundle. All four HSEEP targets are selected by default and pulled in by the ZIP.
+- EEG content (#421) is read through `src/main/export/evaluation.ts` (`evaluationOf()` returns undefined until #421 maps its schema there). Mission areas, Core Capabilities, critical tasks and the EEG appendix print fill-in lines or "not prepared yet" until then; the rating scale defaults to HSEEP's P/S/M/U.
+- Delivery Method values: Phone, Radio, Email, Social media, Document / handout, Visual (main screen), Audio, Verbal / facilitator (`DELIVERY_METHODS` in `taxonomy.ts`; per type `deliveryMethod`, else a per-category default; `deliveryMethodFor()`).
+- Event Type: control cards are STARTEX, TIME_JUMP and ENDEX rows; a row with no expected action is Contextual; the rest are Injects.
+- Acronyms are not seeded automatically: the form has **Add standard acronyms** (HSEEP terms plus role abbreviations), and the documents print that same list while the designer's list is empty.
+- `readiness.ts` is unchanged: the completeness report on the Export page (with its link to the Exercise details tab) carries the "add exercise details" and "generate SitMan modules" prompts, and an existing scenario without a `sitman` run shows the stage as the next step of **Continue**.
+- The example projects are not regenerated with `sitman` content in this change (follow-up); they export with phase goals as narrative.
 
 ## Open questions
 

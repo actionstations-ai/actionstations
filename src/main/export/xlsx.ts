@@ -1,5 +1,5 @@
 // The MSEL as an Excel workbook (#420) in the common HSEEP column layout: sheet "MSEL" with one
-// row per MSEL row, plus Overview, Objectives, Roles and Legend. Written with exceljs (ADR-0027).
+// row per MSEL row, plus Overview, Objectives, Roles and Legend. Written with exceljs (ADR-0030).
 // Every cell is a plain string: no formulas, no macros, no external links. Model text that
 // starts like a formula (= + - @) gets a leading space so no spreadsheet evaluates it.
 import ExcelJS from 'exceljs'
