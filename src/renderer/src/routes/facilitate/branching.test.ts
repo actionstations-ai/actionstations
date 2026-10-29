@@ -7,6 +7,7 @@ import {
   buildRecord,
   minutesLeft,
   pathFor,
+  playableBranches,
   withRecord,
 } from './branching'
 
@@ -96,5 +97,14 @@ describe('override window and timeout', () => {
     expect(minutesLeft(timed, '1:30', 95)).toBe(5)
     expect(minutesLeft(timed, '1:30', 101)).toBe(-1)
     expect(minutesLeft(timed, undefined, 95)).toBeUndefined()
+  })
+})
+
+describe('playableBranches', () => {
+  it('offers the branches that are on the path being played', () => {
+    const s = branchedScenario()
+    expect(playableBranches(s, pathFor(s, base())).map((b) => b.id)).toEqual([])
+    const state = withRecord(base(), close({ pay: 9 }), 'seed')
+    expect(playableBranches(s, pathFor(s, state)).map((b) => b.id)).toEqual(['b1'])
   })
 })

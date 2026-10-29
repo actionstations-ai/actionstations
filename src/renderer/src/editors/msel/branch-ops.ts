@@ -51,6 +51,14 @@ function rejoinCandidate(d: Draft, row: MselRow): string | undefined {
     .sort((a, b) => exerciseMinutes(a.time) - exerciseMinutes(b.time))[0]?.id
 }
 
+/** Minutes after the decision for a starter row: inside the gap to the next row, at most ten. */
+function seedOffset(d: Draft, anchor: MselRow): number {
+  const next = rowsOf(d).find((r) => r.id === rejoinCandidate(d, anchor))
+  if (!next) return 10
+  const gap = exerciseMinutes(next.time) - exerciseMinutes(anchor.time)
+  return Math.max(1, Math.min(10, Math.floor(gap / 2)))
+}
+
 function seedRow(
   d: Draft,
   anchor: MselRow,
@@ -58,7 +66,7 @@ function seedRow(
   suffix: string,
   label: string,
 ): DraftRow {
-  const time = formatExerciseTime(exerciseMinutes(anchor.time) + 10)
+  const time = formatExerciseTime(exerciseMinutes(anchor.time) + seedOffset(d, anchor))
   const row: MselRow = {
     id: takeId(d, `${anchor.id}${suffix}`),
     phaseId: anchor.phaseId,

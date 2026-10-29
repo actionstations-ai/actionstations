@@ -6,6 +6,7 @@ import { briefWithThreat, profileFor } from '../../generate/domain'
 import { PIPELINE_STAGES } from '../../generate/engine'
 import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
 import { startInjectJob, runInjectsJob, runMediaJob } from '../../generate/injects'
+import { runProposeInject } from '../../generate/propose-inject'
 import { runRepairJob } from '../../generate/repair'
 import { continueJob, registerScenarioResumers, rerunJob } from '../../generate/scenario-jobs'
 import { jobs } from '../../jobs/manager'
@@ -76,6 +77,17 @@ export default defineHandlers({
       scenarioId,
       (ctx) => runInjectsJob(root, scenarioId, opts, ctx),
       opts,
+    )
+    return { jobId: job.id }
+  },
+  'generate:propose-inject': async ({ projectPath, scenarioId, ...req }) => {
+    const root = await requireProject(projectPath)
+    const job = startInjectJob(
+      'generate-injects',
+      root,
+      scenarioId,
+      (ctx) => runProposeInject(root, scenarioId, req, ctx),
+      req,
     )
     return { jobId: job.id }
   },

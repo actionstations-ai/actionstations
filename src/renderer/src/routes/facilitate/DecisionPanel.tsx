@@ -23,6 +23,7 @@ import {
   withRecord,
 } from './branching'
 import { exerciseStamp } from './clock'
+import { ProposeInject } from './ProposeInjectCard'
 import type { UpdateState } from './use-delivery-actions'
 
 interface Props {
@@ -285,6 +286,7 @@ export function DecisionPanel(props: Props) {
         </p>
       )}
       <ClosedList {...props} close={close} />
+      <ProposeInject {...props} path={path} />
       <ReplayCheck projectPath={props.projectPath} scenarioId={scenario.id} />
     </div>
   )

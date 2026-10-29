@@ -2,13 +2,14 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { branchedScenario } from '@shared/branching/fixture'
 import { FacilitatorState } from '@shared/ipc/facilitator'
 import { Scenario } from '@shared/schemas/scenario'
 import { mockTtx } from '../documents/test-utils'
 import { DecisionPanel } from './DecisionPanel'
 
+beforeEach(() => mockTtx({}))
 afterEach(() => cleanup())
 
 const scenario = (rule?: Scenario['msel'][number]['decision']) => {

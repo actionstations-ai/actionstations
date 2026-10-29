@@ -148,6 +148,13 @@ SitMan {
 }
 
 MselRow {
+  // Branching (#430): branchId? names the lane the row is on (absent = trunk); decision? is the
+  // fork a DECISION_POINT row opens: { id, question, options[2..8]{ id, label, branchId? },
+  // rule (plurality | majority | threshold{optionId,minShare} | controller | unanimous),
+  // defaultOptionId, timeoutMin?, mode, votingRoleIds[] }.
+  // Scenario.branches?: Branch[] { id, label, decisionId, optionId, rejoinRowId?, rationale }
+  // is absent when there are none; a scenario with branches is written as formatVersion 2.
+  // facilitator.json branching?: { seed?, decisions: DecisionRecord[], proposals[] }.
   id,                                        // "I-07", "I-07b"
   phaseId, time, wallClock?, from, toRoleIds[], event, expectedAction,
   purposeTag: PurposeTag, injectId?,        // null for STARTEX/ENDEX/TIME_JUMP rows without a deck page

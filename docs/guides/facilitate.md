@@ -47,3 +47,19 @@ The audio is deleted once its transcript is saved. To keep it (for example to re
 against the recording), tick **Keep the audio after its transcript is saved** under
 Recordings. **Delete audio** removes it at any time and keeps the transcript. New projects
 list hot wash audio in their `.gitignore`.
+
+## Branching decisions
+
+A scenario with branches (see the MSEL editor's **Branches** panel) adds a **Decisions** tab to Facilitate.
+
+1. Deliver the decision row. The rows after it wait ("Waits for the decision") and the decision opens in the tab.
+2. Count the room's votes: type how many hands went up for each option, then press **Decide by rule**. The rule you set when you designed the decision picks the option; a tie or no votes gives the default. Under the "controller decides" rule, or whenever the room's discussion deserves it, press **Controller chooses** and an option.
+3. The branch not taken shows "Not taken" in the timeline and cannot be delivered. Deliver the chosen branch's rows as usual.
+4. Changed your mind? **Override…** is offered until the first row of the chosen branch has been delivered. It needs a short reason, and the earlier decision stays in the record.
+5. A decision with a timeout closes by itself when the time is up, using the votes entered so far.
+
+**Propose next inject** (at the foot of the tab) asks the model for one more row in a branch that is playing. Read the card: **Accept** adds the row to the branch (it is still not delivered), **Reject** throws it away. Both are recorded.
+
+**Replay check** replays the recorded decisions and deliveries against the scenario and says whether they match what the app recorded; if the scenario was edited after the run it says so instead. The record is `scenarios/<id>/live/local/log.jsonl` and holds counts, never names.
+
+To print what happened, export **MSEL of one path** (the decisions taken and the path played) from the Export page.

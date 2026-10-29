@@ -135,3 +135,11 @@ export function minutesLeft(
   const [h, m] = deliveredExerciseTime.split(':').map(Number)
   return (h ?? 0) * 60 + (m ?? 0) + decision.timeoutMin - nowMinutes
 }
+
+/** Branches that are on the path being played: the ones a proposal can extend. */
+export function playableBranches(scenario: BranchScenario, path: ActivePath | undefined) {
+  const onPath = new Set(path?.rows.map((r) => r.id))
+  return (scenario.branches ?? []).filter((b) =>
+    scenario.msel.some((r) => r.branchId === b.id && onPath.has(r.id)),
+  )
+}
