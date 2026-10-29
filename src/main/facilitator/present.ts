@@ -26,6 +26,8 @@ export interface PresentTarget {
   voteId?: string
   /** Show the promoted hot wash board instead of an inject (#415). */
   hotwash?: boolean
+  /** Show a branch decision: the question, its options and, once taken, the choice (#430). */
+  decisionId?: string
 }
 
 /** Preview size when there is no second display. */
@@ -62,6 +64,9 @@ export function chooseDisplay(
 export function presentHash(t: PresentTarget): string {
   if (t.voteId) {
     return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/vote/${t.voteId}`
+  }
+  if (t.decisionId) {
+    return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/decision/${t.decisionId}`
   }
   if (t.hotwash) {
     return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/hotwash/board`

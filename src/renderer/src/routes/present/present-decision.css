@@ -1,0 +1,47 @@
+/* A branch decision on the projector (#494, spec 0430): white on black in both themes. */
+.present-decision {
+  --present-row: clamp(1.25rem, 2.6vw, 2.75rem);
+  align-items: flex-start;
+  padding: var(--space-8);
+}
+.present-decision__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+.present-decision__head {
+  font-size: var(--present-row);
+  color: rgb(214 214 214);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.present-decision__question {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.2vw, 4rem);
+  line-height: var(--leading-tight);
+}
+.present-decision__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--present-row);
+}
+.present-decision__option {
+  padding: var(--space-3) var(--space-5);
+  border: 3px solid rgb(214 214 214);
+  border-radius: var(--radius-md);
+}
+.present-decision__option--chosen {
+  border-color: rgb(255 210 31);
+  background: rgb(38 38 38);
+  font-weight: 700;
+}
+.present-decision__status {
+  margin: 0;
+  font-size: var(--text-2xl);
+  color: rgb(214 214 214);
+}

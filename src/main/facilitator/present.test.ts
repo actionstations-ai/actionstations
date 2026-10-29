@@ -106,6 +106,12 @@ describe('presentation window', () => {
     expect(chooseDisplay([displays[0]] as never, 1)).toBeUndefined()
   })
 
+  it('routes a branch decision to its own view', () => {
+    expect(
+      presentHash({ projectPath: '/Users/a/NCIA.asproj', scenarioId: 'S1', decisionId: 'd1' }),
+    ).toBe('/present/%2FUsers%2Fa%2FNCIA.asproj/S1/decision/d1')
+  })
+
   it('routes to the app document with a present hash', () => {
     expect(presentHash(target)).toBe('/present/%2FUsers%2Fa%2FNCIA.asproj/S1/INJ1')
     expect(presentHash({ ...target, assetId: 'photo-01' })).toBe(
