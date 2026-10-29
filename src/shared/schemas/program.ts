@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { CoreCapabilityId } from '../core-capabilities'
 import { CapabilityElement } from './aar'
 import { Citation, Id, IsoDateTime } from './common'
+import { MicroDrillSummary } from './micro-drill'
 import { DocumentKind } from './project'
 
 export const PROGRAM_FORMAT_VERSION = 1
@@ -319,6 +320,8 @@ export const ProjectSnapshot = z.looseObject({
     }),
   ),
   scenarios: z.array(SnapshotScenario),
+  /** Finished micro-drill runs (#437): totals only, no answers and no names. */
+  drills: z.array(MicroDrillSummary).max(1000).optional(),
 })
 export type ProjectSnapshot = z.infer<typeof ProjectSnapshot>
 

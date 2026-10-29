@@ -15,6 +15,7 @@ import {
   Settings,
   ShieldCheck,
   Sparkles,
+  Timer,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -35,4 +36,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   program: Landmark,
   redlines: FileDiff,
   drills: Repeat2,
+  'micro-drills': Timer,
 }

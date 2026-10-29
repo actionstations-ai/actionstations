@@ -238,6 +238,30 @@ describe('plan sections', () => {
     expect(top.lastCitedAt).toBe('2026-05-10T15:00:00.000Z')
   })
 
+  it('counts micro-drill runs apart from exercises: practised, but still never exercised (#437)', () => {
+    const drill = (runId: string, at: string) => ({
+      drillId: 'md1',
+      runId,
+      at,
+      planSection: section('Emergency Operations Plan', 'EOP › 6 Public Information › 6.4 Chain'),
+      coreCapabilities: [],
+      participants: 2,
+      minutes: 14,
+      coverage: 0.7,
+      hintsUsed: 3,
+    })
+    const a = snapshot('a', [], {
+      drills: [drill('r1', '2026-09-01T10:00:00.000Z'), drill('r2', '2026-10-01T10:00:00.000Z')],
+    })
+    const h = computeHealth(input({ snapshots: [a] }), {}, NOW)
+    const top = h.sections.find((s) => s.depth === 1 && s.headingPath === '6 Public Information')!
+    const deep = h.sections.find((s) => s.headingPath === '6 Public Information › 6.4 Chain')!
+    expect(top).toMatchObject({ practisedRuns: 2, lastPractisedAt: '2026-10-01T10:00:00.000Z' })
+    expect(deep.practisedRuns).toBe(2)
+    expect(top).toMatchObject({ timesCited: 0, never: true })
+    expect(h.sections.find((s) => s.headingPath === '9 Recovery')!.practisedRuns).toBeUndefined()
+  })
+
   it('marks declared sections that no exercise cited as never', () => {
     const h = computeHealth(input(), {}, NOW)
     const recovery = h.sections.find((s) => s.headingPath === '9 Recovery')!

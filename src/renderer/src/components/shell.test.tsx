@@ -126,6 +126,7 @@ describe('app shell', () => {
         'Prompt overrides',
         'Redlines',
         'Drills',
+        'Micro-drills',
         'Provider routing',
         'Cloud and privacy',
       ])

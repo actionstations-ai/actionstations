@@ -73,6 +73,9 @@ export const SectionHealth = z.object({
   exercises: z.array(ExerciseRef),
   openActions: z.number().int(),
   redlines: z.number().int().optional(),
+  /** Finished micro-drill runs on this section (#437), counted apart from exercises. */
+  practisedRuns: z.number().int().optional(),
+  lastPractisedAt: IsoDateTime.optional(),
   never: z.boolean(),
 })
 export type SectionHealth = z.infer<typeof SectionHealth>
