@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { HttpUrl, IsoDateTime } from './common'
+import { HazardSettings } from './hazards'
 import { Fingerprint } from './live'
 import { CapabilityResult } from './persona'
 import { MapsSettings } from './maps'
@@ -192,5 +193,7 @@ export const AppSettings = z.object({
   simcell: SimcellSettings.default({ capability: {} }),
   /** Online maps (off by default) and the state map catalog (#436). */
   maps: MapsSettings.default(() => MapsSettings.parse({})),
+  /** Optional public hazard data (#439); off until the user turns it on. */
+  hazards: HazardSettings.default(() => ({ enabled: false })),
 })
 export type AppSettings = z.infer<typeof AppSettings>

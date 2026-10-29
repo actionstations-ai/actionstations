@@ -20,8 +20,9 @@ describe('useIdeasJob', () => {
         brief: { userPrompt: 'insider threat' },
         count: 12,
         fromSeams: false,
+        useHazards: false,
       },
-      { projectPath: PROJECT, brief: {}, count: 6, fromSeams: false },
+      { projectPath: PROJECT, brief: {}, count: 6, fromSeams: false, useHazards: false },
     ])
     expect(result.current.jobId).toBe('IDEAS2')
     expect(result.current.running).toBe(true)

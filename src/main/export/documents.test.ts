@@ -148,6 +148,29 @@ describe('document HTML', () => {
     expect(count(html, 'class="eeg"')).toBe(0)
   })
 
+  describe('hazard data sources (#439)', () => {
+    const appendix =
+      '## Hazard data sources\n\n- Credit: U.S. Geological Survey. Accessed 2026-10-29.'
+
+    it('the handbook ends with the sources and their attribution', () => {
+      const model = fixtureModel()
+      model.hazardAppendix = appendix
+      const html = buildDocumentHtml(model, 'handbook', 'pdf')
+      expect(html).toContain('Hazard data sources')
+      expect(html).toContain('Credit: U.S. Geological Survey')
+    })
+
+    it('a scenario without a snapshot has no such section, and player material never has it', () => {
+      expect(buildDocumentHtml(fixtureModel(), 'handbook', 'pdf')).not.toContain(
+        'Hazard data sources',
+      )
+      const model = fixtureModel()
+      model.hazardAppendix = appendix
+      for (const doc of ['briefing', 'handouts'] as const)
+        expect(buildDocumentHtml(model, doc, 'pdf'), doc).not.toContain('Hazard data sources')
+    })
+  })
+
   describe('plan seams (#427)', () => {
     const SPAN = 'All public releases must be approved by the Public Information Officer.'
     function seamModel() {

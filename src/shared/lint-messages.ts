@@ -51,6 +51,8 @@ const PLAIN: Record<string, string> = {
     'An outside agency closes the incident, orders or forbids a step, or approves recovery; that is your organization’s call.',
   RESTORE_TOO_FAST: 'Systems are fully restored implausibly soon after they broke.',
   CONTACT_REAL_LOOKING: 'An email address, web address or phone number may belong to someone real.',
+  HAZARD_AS_CURRENT:
+    'An event repeats an alert, magnitude or declaration number from a dated hazard snapshot as if it were current.',
   QUANTITY_OVER_LIMIT: 'An event names a quantity larger than a limit in your facility facts.',
   DENSITY_LOW: 'A phase has few events for its length; players may sit idle.',
   DENSITY_HIGH: 'A phase has many events for its length; players may be swamped.',

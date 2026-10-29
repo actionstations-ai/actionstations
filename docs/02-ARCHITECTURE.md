@@ -186,6 +186,7 @@ Secrets: `safeStorage.encryptString` → app `userData/secrets.json`; never in p
 ## Security
 
 - `contextIsolation`, no `remote`, CSP on renderer, sandboxed hidden render window with no network (templates are local).
+- Hazard data (ADR-0061) adds a third kind, made only when the user turns it on in Settings and presses Fetch: GETs to `api.weather.gov`, `earthquake.usgs.gov`, `firms.modaps.eosdis.nasa.gov` and `www.fema.gov` (`src/main/hazards/http.ts`: https, same-host redirects only, 30 s, 5 MB, rounded coordinates). Results are saved as a snapshot in the project and generation reads only that.
 - The app makes two kinds of network call on its own, both only after the user turns them on: pack catalogs the user added (ADR-0018), and the update check (ADR-0024), one GET to `api.github.com/repos/actionstations-ai/actionstations/releases/latest` at most once a day with the setting on, or on **Check now**. It sends only the fixed URL and a `User-Agent: ActionStations/<version>`, follows no redirects, reads at most 1 MB and never downloads an installer.
 - Cloud requests pass the outbound gate (see Providers): preview, approval bound to the request hash, optional redaction with placeholders whose mapping never leaves main-process memory, and a content-free send log.
 - Validate every IPC payload with zod. Path-join guards so a malicious `scenario.json` can't escape the project folder.

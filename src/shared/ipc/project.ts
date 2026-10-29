@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { Brand, OpenProject, OrgType, RecentProject, Role } from '../schemas/project'
+import { ProjectLocation } from '../schemas/hazards'
 import { ProviderRouting } from '../schemas/provider'
 import { patchOf, SafeId } from '../schemas/common'
 import { DomainProfileOverrides } from '../domains/schema'
@@ -102,6 +103,8 @@ export const projectChannels = {
         brand: patchOf(Brand).optional(),
         defaultRoles: z.array(Role).optional(),
         providerRouting: ProviderRouting.optional(),
+        /** Where the organization is (#439); null clears it. */
+        location: ProjectLocation.nullable().optional(),
       }),
     }),
     OpenProject,

@@ -1,6 +1,6 @@
 # Spec 0439: Optional live hazard data for scenarios
 
-Issue: #439 · Milestone: 0.9.0 · Status: Draft · Depends on: — · Related: #21 (secrets), ADR-0014 (domain profiles), ADR-0016 (forward-compatible files)
+Issue: #439 · Milestone: 0.9.0 · Status: Implemented · Depends on: — · Related: #21 (secrets), ADR-0014 (domain profiles), ADR-0016 (forward-compatible files)
 
 ## Summary
 
@@ -327,6 +327,19 @@ Network calls happen only after the user turned the feature on and pressed Fetch
 6. **Infrastructure layer import.** `sources/infrastructure.ts` (worker), `hazards:import-layer`, UI, tests.
 7. **Generation use.** `summary.ts`, `src/main/generate/vars.ts`, `prompts/ideate.md` and `prompts/scenario_overview.md` blocks, `brief.hazardSnapshotId`, `IdeasPanel.tsx` checkbox, realism lint in `lint-realism.ts`, tests.
 8. **Attribution and docs.** Handbook appendix in `src/main/export/documents.ts`, `docs/guides/hazard-data.md`, ADR, data model and architecture docs.
+
+## Changes made in implementation
+
+- `hazards:fetch` and `hazards:import-layer` return the finished snapshot instead of a `jobId`; the
+  sources are few and each is capped at 30 s, so a job added nothing (ADR-0061).
+- Layer files are parsed in the main process with the size, count and coordinate limits, not in a
+  worker thread.
+- `hazards:plan` and `hazards:fetch` take `options` (FIRMS days, quake radius and magnitude);
+  `hazards:firms-signup-open` opens the FIRMS page from main, so the renderer sends no URL.
+- Test builds map the four hosts to a local server with `TTX_HAZARD_BASE` (ignored unless
+  `NODE_ENV` is `test` and the app is not packaged).
+- Prompt versions went from 3 to 4. The scenario provenance line is part of the handbook appendix;
+  a separate provenance panel was not added.
 
 ## Open questions
 

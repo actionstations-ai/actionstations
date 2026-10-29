@@ -197,6 +197,7 @@ describe('GeneratePage', () => {
         brief: { userPrompt: 'baggage' },
         count: 3,
         fromSeams: false,
+        useHazards: false,
       }),
     )
     act(() =>

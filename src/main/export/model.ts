@@ -21,6 +21,8 @@ import { loadProject } from '../project/store'
 import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
 import { minResponsesSetting, surveySummary } from '../surveys/results'
 import { listSurveys } from '../surveys/store'
+import { hazardAppendix } from '../hazards/appendix'
+import { getSnapshot } from '../hazards/store'
 import { evaluationOf, type ExportEvaluation } from './evaluation'
 import type { DocLang } from './lang'
 import { planMediaFiles, scenarioNumber, type PlannedMedia } from './naming'
@@ -73,6 +75,8 @@ export interface ExportModel {
   coverage?: CoverageReport
   /** Branch decisions taken in the run (spec 0430); empty when none were recorded. */
   decisions?: DecisionRecord[]
+  /** Handbook appendix text for the scenario's hazard snapshot (#439); absent without one. */
+  hazardAppendix?: string
   /** Document language (spec 0435); English when absent. */
   lang?: DocLang
   /** Large-print layer on (spec 0435 FR-17). */
@@ -148,7 +152,20 @@ export async function loadExportModel(
     aar: await readAar(root, scenarioId),
     decisions: (await readFacilitatorState(root, scenarioId)).branching?.decisions ?? [],
     ...(await optionalCoverage(root, scenarioId, now)),
+    ...(await optionalHazards(root, scenario)),
   }
+}
+
+/** The hazard sources appendix; a snapshot that is gone is left out, never an error. */
+async function optionalHazards(
+  root: string,
+  scenario: Scenario,
+): Promise<{ hazardAppendix?: string }> {
+  const id = scenario.brief.hazardSnapshotId
+  if (!id) return {}
+  const snapshot = await getSnapshot(root, id).catch(() => undefined)
+  const text = snapshot ? hazardAppendix(snapshot) : ''
+  return text ? { hazardAppendix: text } : {}
 }
 
 /** The coverage report; an export never fails because of it (it is logged and left out). */

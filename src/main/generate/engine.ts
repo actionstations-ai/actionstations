@@ -10,6 +10,7 @@ import {
   type CritiqueOutput,
   type EegOutput,
   type HandbookOutput,
+  type HazardSnapshot,
   type HotwashOutput,
   type LintWarning,
   type MselPhaseOutput,
@@ -89,6 +90,9 @@ import {
 import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
 import { baseVars, dataSafe, rowVars } from './vars'
+import { lintHazardCurrency } from './lint-realism'
+import { getSnapshot } from '../hazards/store'
+import { hazardSummary } from '../hazards/summary'
 import {
   lintSeamsOutdated,
   phaseSeams,
@@ -215,6 +219,10 @@ export interface Env {
   /** The project's domain profile and the scenario's threat family (ADR-0014). */
   domain: DomainContext
   idea?: ScenarioIdea
+  /** The hazard snapshot summary for scenario_overview (#439); absent without a snapshot. */
+  hazards?: string
+  /** The snapshot itself, for the dated-values lint. */
+  hazardSnapshot?: HazardSnapshot
   ctx: JobContext
   /**
    * Documents a running step wrote, held until its checkpoint (#209): a failed or cancelled
@@ -332,7 +340,10 @@ const vars = (input: StepInput, extra: Record<string, unknown> = {}): Record<str
 
 async function stepOverview(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
-  const r = await call<OverviewOutput>(input, vars(input))
+  const r = await call<OverviewOutput>(
+    input,
+    vars(input, env.hazards ? { hazards: dataSafe(env.hazards) } : {}),
+  )
   const org = {
     orgName: env.project.orgName || env.project.name,
     ...(env.project.brand.city ? { city: env.project.brand.city } : {}),
@@ -1206,6 +1217,7 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
     ),
     ...lintFacilityIds(s, env.facility),
     ...lintScenario(s, env.domain),
+    ...lintHazardCurrency(s, env.hazardSnapshot),
     ...lintSeamsOutdated(s, s.seams.length ? await loadSeamFindings(env.root) : undefined),
     ...critique,
   ]
@@ -1344,6 +1356,12 @@ export function stepLabel(s: Scenario, step: StepKey): string {
   return p ? `msel_phase ${p.index + 1}/${s.phases.length} "${p.title}"` : 'msel_phase'
 }
 
+/** The snapshot the scenario was started with, or undefined when it is gone. */
+async function snapshotFor(root: string, scenario: Scenario): Promise<HazardSnapshot | undefined> {
+  const id = scenario.brief.hazardSnapshotId
+  return id ? getSnapshot(root, id).catch(() => undefined) : undefined
+}
+
 export async function openEnv(root: string, scenario: Scenario, ctx: JobContext): Promise<Env> {
   const deps = await pipelineDeps()
   const [project, index, idea] = await Promise.all([
@@ -1353,7 +1371,20 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
   ])
   const facility = await deps.loadFacilityFacts(root, project)
   const domain = domainContext(project, scenario)
-  return { root, deps, index, project, facility, domain, ...(idea ? { idea } : {}), ctx }
+  const hazardSnapshot = await snapshotFor(root, scenario)
+  const hazards = hazardSnapshot ? hazardSummary(hazardSnapshot) : ''
+  return {
+    root,
+    deps,
+    index,
+    project,
+    facility,
+    domain,
+    ...(idea ? { idea } : {}),
+    ...(hazards ? { hazards } : {}),
+    ...(hazardSnapshot ? { hazardSnapshot } : {}),
+    ctx,
+  }
 }
 
 /** Run every step that has no ok run yet, in order. This is both "generate" and "continue". */

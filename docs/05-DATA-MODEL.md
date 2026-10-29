@@ -486,3 +486,20 @@ The session log (`log.jsonl`) gains `simcell.draft` (draft text, final text, che
 ## Regional exercises (`scenarios/<id>/regional.json`, #440)
 
 `RegionalState` (`src/shared/schemas/regional.ts`): exercise id, role (host or participant), this organization, the organizations with their pinned keys, frame version, received slice revisions, sharing settings, cross-organization channels, proposals and the revisions this computer last exported. `MselRow`, `Inject` and `Role` gain optional `owner`, `revision`, `visibility`, `publicSummary`, `dependsOn`; `Scenario.regional` points at the file. Single-organization scenarios are unchanged. Bundle format: [exercise-bundle-format.md](exercise-bundle-format.md).
+
+## Hazard snapshots (`hazards/`, `project.json` `location`, #439, ADR-0061)
+
+`src/shared/schemas/hazards.ts`.
+
+- `project.json` `location`: `label`, `lat`, `lon` (full precision), optional `stateFips` and
+  `countyFips`, `sendPrecision` (0.01 or 0.1). Only values rounded to `sendPrecision` are sent.
+- `hazards/index.json`: `active` (the snapshot ideas use) and the list of snapshots (id, label,
+  fetchedAt, pinned). At most 10 snapshots; pinned and active ones are not dropped.
+- `hazards/<id>.json`: a snapshot. `request` (rounded values sent), `sources[]` (id, request URL
+  with any key replaced by `<MAP_KEY>`, status ok / empty / error / skipped, HTTP status,
+  attribution, access time), and the normalized records: `alerts`, `forecast`, `earthquakes`
+  (recent, historical), `fires`, `declarations`, `infrastructure` (imported layers). Raw
+  responses are not kept.
+- `scenario.brief.hazardSnapshotId` and the idea's `hazardSnapshotId` name the snapshot a
+  scenario was written with. `settings.json` `hazards.enabled` is the opt-in switch; the FIRMS
+  key is in `secrets.json` under `firms`, as ciphertext.
