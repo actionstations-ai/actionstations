@@ -111,6 +111,25 @@ describe('session creation and the server key', () => {
   })
 })
 
+describe('probing the server key', () => {
+  it('says whether the key is accepted without creating a session', async () => {
+    const s = await start()
+    const ok = await http(`${s.url}/v1/sessions/probe`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${s.serverKey}` },
+      body: '{}',
+    })
+    const bad = await http(`${s.url}/v1/sessions/probe`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${'x'.repeat(43)}` },
+      body: '{}',
+    })
+    expect(ok.status).toBe(200)
+    expect(bad.status).toBe(401)
+    expect(s.db.records()).toHaveLength(0)
+  })
+})
+
 describe('controller actions', () => {
   it('needs the controller token; the server key is not one', async () => {
     const s = await start()

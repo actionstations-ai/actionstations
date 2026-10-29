@@ -85,6 +85,10 @@ export async function handleRequest(
     if (method !== 'POST') return fail(res, 'METHOD_NOT_ALLOWED', 'POST only')
     return createSession(ctx, req, res)
   }
+  if (url.pathname === '/v1/sessions/probe') {
+    if (method !== 'POST') return fail(res, 'METHOD_NOT_ALLOWED', 'POST only')
+    return probeKey(ctx, req, res)
+  }
   const route = sessionRoute(url.pathname)
   if (route) return sessionRequest(ctx, req, res, url, route)
   if (url.pathname.startsWith('/v1/')) return fail(res, 'NOT_FOUND', 'No such route')
@@ -102,6 +106,28 @@ async function readJson(req: IncomingMessage, res: ServerResponse): Promise<unkn
   }
 }
 
+/** `POST /v1/sessions/probe`: whether the server key is accepted, without making a session. */
+async function probeKey(
+  ctx: RouteContext,
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  if (!allowKeyAttempt(ctx, req, res)) return
+  if (!(await isServerKey(ctx.dataDir, bearerToken(req.headers.authorization)))) {
+    return fail(res, 'UNAUTHORIZED', 'A server key is required to create sessions')
+  }
+  sendJson(res, 200, { ok: true })
+}
+
+/** Counts a server-key attempt for the sender's address; answers 429 and returns false past the cap. */
+function allowKeyAttempt(ctx: RouteContext, req: IncomingMessage, res: ServerResponse): boolean {
+  const window = keyAttempts.get(ctx) ?? new SlidingWindow<string>(KEY_ATTEMPTS_PER_MINUTE, 60_000)
+  keyAttempts.set(ctx, window)
+  if (window.hit(remoteOf(req), ctx.now()).ok) return true
+  fail(res, 'RATE_LIMITED', 'Too many attempts from this address')
+  return false
+}
+
 async function createSession(
   ctx: RouteContext,
   req: IncomingMessage,
@@ -113,11 +139,7 @@ async function createSession(
   if (problem) {
     return sendJson(res, problem.error.code === 'FORBIDDEN' ? 403 : 415, problem)
   }
-  const window = keyAttempts.get(ctx) ?? new SlidingWindow<string>(KEY_ATTEMPTS_PER_MINUTE, 60_000)
-  keyAttempts.set(ctx, window)
-  if (!window.hit(remoteOf(req), ctx.now()).ok) {
-    return fail(res, 'RATE_LIMITED', 'Too many attempts from this address')
-  }
+  if (!allowKeyAttempt(ctx, req, res)) return
   if (!(await isServerKey(ctx.dataDir, bearerToken(req.headers.authorization)))) {
     return fail(res, 'UNAUTHORIZED', 'A server key is required to create sessions')
   }

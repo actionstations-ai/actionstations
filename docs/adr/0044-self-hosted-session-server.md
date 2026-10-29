@@ -23,4 +23,4 @@ An organization with no internet, or with a rule against third-party services, n
 - `node:sqlite` is newer than `better-sqlite3` and its API is smaller. The `HubStore` interface isolates it; switching is one file.
 - The server runs one process per data directory. Clustering and high availability are out of scope.
 - Devices behind a gateway or reverse proxy share one address, so the hub's per-address limit on new device identities is raised to the session's client cap; the client cap is the bound on this server.
-- The app side (the "Your server" client with certificate pinning) is a separate change with #410.
+- The app side (the "Your server" client, #410, is a separate change.
