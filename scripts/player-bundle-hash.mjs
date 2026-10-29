@@ -3,10 +3,31 @@
 // writes into manifest.json: every served file's path and bytes in sorted order, without
 // manifest.json (which only lists the files) and _headers (server configuration).
 //   node scripts/player-bundle-hash.mjs [dir]
-import { existsSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { bundleHash, listFiles } from '../relay/cloudflare/scripts/build-public.mjs'
+
+// Kept in step with build-public.mjs (not imported: electron.vite.config.ts bundles this file,
+// and a test checks the two agree).
+function listFiles(dir, base = dir) {
+  const out = []
+  for (const entry of readdirSync(dir).sort()) {
+    const full = join(dir, entry)
+    if (statSync(full).isDirectory()) out.push(...listFiles(full, base))
+    else out.push(relative(base, full).split('\\').join('/'))
+  }
+  return out
+}
+
+function bundleHash(dir, files) {
+  const hash = createHash('sha256')
+  for (const file of files) {
+    hash.update(file + '\n')
+    hash.update(readFileSync(join(dir, file)))
+  }
+  return hash.digest('hex')
+}
 
 /** The bundle hash of `dir`, or '' when no player build is there. */
 export function playerBundleSha256(dir = resolve('out/player')) {
