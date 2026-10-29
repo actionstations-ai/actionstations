@@ -3,6 +3,7 @@
  * facilitator. Nothing here reads the disk; `now` is passed in so the unanswered rules are
  * testable with a fixed clock. State follows the log, so a past session is read the same way.
  */
+import { DEFAULT_RESPONSE_WINDOW_MIN } from '@shared/facilitator/tracker'
 import type {
   DashboardView,
   InjectRow,
@@ -11,7 +12,8 @@ import type {
   UnansweredRow,
 } from '@shared/schemas/live'
 
-export const DEFAULT_UNANSWERED_AFTER_MIN = 10
+/** The same window the Facilitate tracker uses (spec 0428), so the two views agree. */
+export const DEFAULT_UNANSWERED_AFTER_MIN = DEFAULT_RESPONSE_WINDOW_MIN
 
 export interface DashboardRole {
   id: string

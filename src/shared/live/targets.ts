@@ -4,6 +4,7 @@
  */
 import type { Role } from '../schemas/project'
 import type { MselRow } from '../schemas/scenario'
+import { rolesOfTeams } from '../facilitator/recipients'
 import { Destination } from './schemas/envelope'
 
 /** The `team:` slug of a team name, or undefined for a role with no team. */
@@ -23,12 +24,14 @@ const isDestination = (d: string): boolean => Destination.safeParse(d).success
  * nobody go to `all`; otherwise each role, with a whole team collapsed to `team:<slug>`.
  */
 export function resolveTargets(
-  row: Pick<MselRow, 'toRoleIds' | 'toLabel'>,
+  row: Pick<MselRow, 'toRoleIds' | 'toLabel'> & { toTeams?: readonly string[] | undefined },
   deliveryMode: string | undefined,
   roles: readonly Pick<Role, 'id' | 'team'>[],
 ): Destination[] {
   const label = row.toLabel?.trim().toLowerCase()
-  const ids = [...new Set(row.toRoleIds)].filter((id) => isDestination(`role:${id}`))
+  const ids = [...new Set([...row.toRoleIds, ...rolesOfTeams(row.toTeams ?? [], roles)])].filter(
+    (id) => isDestination(`role:${id}`),
+  )
   if (deliveryMode === 'display_main_screen' || label === 'all' || ids.length === 0) return ['all']
   const wanted = new Set(ids)
   const teams = new Map<string, string[]>()

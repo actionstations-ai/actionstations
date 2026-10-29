@@ -50,6 +50,23 @@ export const renderChannels = {
     z.object({ projectPath: z.string().optional() }).optional(),
     z.array(TemplateInfo),
   ),
+  /**
+   * Re-render a social inject with the counts it has reached `minutes` after delivery, into
+   * .cache/engagement (spec 0428). The same step reuses its file.
+   */
+  'render:engagement': channel(
+    z.object({
+      projectPath: z.string(),
+      scenarioId: SafeId,
+      injectId: SafeId,
+      minutes: z.number().nonnegative().max(100_000),
+      /** Exercise minutes per cached image; 1 by default. */
+      refreshMin: z.number().min(1).max(600).optional(),
+    }),
+    z.object({ path: z.string(), step: z.number().int().nonnegative() }),
+  ),
+  /** Delete the engagement renders of a project (when Facilitate closes). */
+  'render:engagement-clear': channel(z.object({ projectPath: z.string() }), z.void()),
   'render:preview': channel(
     z.object({
       type: z.string(),

@@ -1,5 +1,6 @@
 // MSEL view helpers shared by screens that list rows (facilitator timeline, deck views).
 import type { Role } from '@shared/schemas/project'
+import { recipients } from '@shared/facilitator/recipients'
 import type { MselRow, Phase } from '@shared/schemas/scenario'
 
 export interface PhaseGroup {
@@ -21,10 +22,5 @@ export function groupByPhase(phases: Phase[], rows: MselRow[]): PhaseGroup[] {
 }
 
 export function toLabel(row: MselRow, roles: Role[]): string {
-  if (row.toLabel) return row.toLabel
-  const names = row.toRoleIds.map(
-    (id) =>
-      roles.find((r) => r.id === id)?.abbreviation || roles.find((r) => r.id === id)?.name || id,
-  )
-  return names.join(', ') || '—'
+  return recipients(row, roles).label
 }

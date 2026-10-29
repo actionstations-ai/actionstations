@@ -158,6 +158,9 @@ MselRow {
   // facilitator.json branching?: { seed?, decisions: DecisionRecord[], proposals[] }.
   id,                                        // "I-07", "I-07b"
   phaseId, time, wallClock?, from, toRoleIds[], event, expectedAction,
+  toTeams?: string[],                       // Role.team names; recipients = toRoleIds + every role on a listed team (#428)
+  expectsResponse?: boolean,                // flag silence on this row; absent = by purpose tag (#428)
+  responseWindowMin?: number,               // exercise minutes to wait before flagging; absent = 10
   purposeTag: PurposeTag, injectId?,        // null for STARTEX/ENDEX/TIME_JUMP rows without a deck page
   locked: boolean
 }
@@ -169,7 +172,15 @@ MselRow {
 // scenarios/<id>/facilitator.json — facilitator mode session state
 FacilitatorState {
   elapsedMin, runningSince?,                 // exercise clock: minutes when last paused/started + wall-clock anchor
-  delivered: Record<rowId, { at, exerciseTime }>,
+  delivered: Record<rowId, { at, exerciseTime, recipients?: roleId[] }>,  // recipients: set when "Deliver to…" changed the plan (#428)
+  rate?: number,                             // clock speed 0.25..60, absent = 1 (#428)
+  clockLog?: { at, kind: 'start'|'pause'|'set'|'nudge'|'rate'|'reset'|'jump', fromMin, toMin, rate, note? }[],  // newest 5000 (#428)
+  tracker?: {                                // unanswered injects and commitments (#428)
+    responses: Record<rowId, { at, exerciseMin, by?, note, source: 'manual'|'message'|'vote'|'note', ref? }>,
+    commitments: { id, text, owner, madeAtMin, dueAtMin?, rowId?, source, sourceRef?, status: 'open'|'kept'|'missed'|'dropped', closedAtMin? }[],
+    suggestions: { id, text, dueAtMin?, rowId?, source, sourceRef? }[],   // found by the rules, waiting for the facilitator
+    dismissed: Record<flagId, { at, reason }>, scanned: Record<noteKey, hash>
+  },
   notes: Record<rowId, string>,              // per-inject hot wash notes
   generalNotes,
   hotwash: { id, kind: 'strength'|'improvement'|'other', text, objectiveRef?, rowId?, at }[],  // 3-Up / 3-Down items (#419)
@@ -192,6 +203,10 @@ Inject {
   fields: Record<string, unknown>,          // validated by templates/injects/<type>/schema.json
   variant?: string,                         // template variant; the template's first when absent
   instructorNote?, citations: Citation[],
+  engagement?: {                            // simulated likes and replies for a social post (#428)
+    curve: 'surge'|'steady'|'fade', start: Record<metric, int>, peak: Record<metric, int>,
+    peakAtMin, replies: { id, atMin, author, handle?, text }[]
+  },
   assets: MediaAsset[],
   versions: { at, by: 'user'|'ai', snapshot }[],
   locked: boolean

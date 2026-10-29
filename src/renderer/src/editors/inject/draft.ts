@@ -16,6 +16,8 @@ export interface InjectDraft {
   citations: Inject['citations']
   includeInDeck: boolean
   mediaBrief: Inject['mediaBrief']
+  /** Simulated likes and replies for a social post (spec 0428). */
+  engagement: Inject['engagement']
 }
 
 export function draftOf(inject: Inject): InjectDraft {
@@ -29,6 +31,7 @@ export function draftOf(inject: Inject): InjectDraft {
     citations: inject.citations,
     includeInDeck: inject.includeInDeck,
     mediaBrief: inject.mediaBrief,
+    engagement: inject.engagement,
   }
 }
 
@@ -69,6 +72,8 @@ export function applyDraft(latest: Inject, draft: InjectDraft): Inject {
   else delete next.instructorNote
   if (draft.mediaBrief) next.mediaBrief = draft.mediaBrief
   else delete next.mediaBrief
+  if (draft.engagement) next.engagement = draft.engagement
+  else delete next.engagement
   return next
 }
 

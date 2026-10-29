@@ -12,6 +12,28 @@ export const DeliveryMode = z.enum([
 ])
 export type DeliveryMode = z.infer<typeof DeliveryMode>
 
+/**
+ * How a social post's counts grow after delivery (spec 0428 FR-9). `start` and `peak` map metric
+ * names (likes, reposts, ...) to counts; the template's field map says where each one goes.
+ */
+export const EngagementReply = z.object({
+  id: Id,
+  /** Exercise minutes after delivery. */
+  atMin: z.number().nonnegative().max(600),
+  author: z.string().max(80),
+  handle: z.string().max(40).optional(),
+  text: z.string().max(560),
+})
+export const EngagementPlan = z.object({
+  curve: z.enum(['surge', 'steady', 'fade']).default('steady'),
+  start: z.record(z.string(), z.number().int().nonnegative()).default({}),
+  peak: z.record(z.string(), z.number().int().nonnegative()).default({}),
+  peakAtMin: z.number().positive().max(600).default(30),
+  replies: z.array(EngagementReply).max(40).default([]),
+})
+export type EngagementPlan = z.infer<typeof EngagementPlan>
+export type EngagementReply = z.infer<typeof EngagementReply>
+
 /** Media generation plan for an inject (filled by the inject_media_brief stage). */
 export const MediaBrief = z.object({
   /** Which render paths to run. */
@@ -66,6 +88,8 @@ export const Inject = z.looseObject({
   /** Template variant (meta.json `variants`); the template's first variant when absent. */
   variant: z.string().optional(),
   instructorNote: z.string().optional(),
+  /** Simulated likes, shares and replies for a social post (spec 0428); absent = static. */
+  engagement: EngagementPlan.optional(),
   citations: z.array(Citation).default([]),
   mediaBrief: MediaBrief.optional(),
   assets: z.array(MediaAsset).default([]),

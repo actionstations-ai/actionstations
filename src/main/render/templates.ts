@@ -53,6 +53,24 @@ export const TemplateMeta = z.object({
    * built-in types: their taxonomy entry stays the one in src/shared/taxonomy.ts.
    */
   taxonomy: TemplateTaxonomy.optional(),
+  /**
+   * Where the template shows counts and comments, so Facilitate can grow them (spec 0428):
+   * `metrics` maps a metric name to a field path ("metrics.likes"); `replies` names a comment
+   * list field and the keys of an item. Built-in social templates are mapped in code.
+   */
+  engagement: z
+    .object({
+      metrics: z.record(z.string().max(40), z.string().max(80)),
+      replies: z
+        .object({
+          field: z.string().max(80),
+          max: z.number().int().min(1).max(20),
+          authorKey: z.string().max(40).default('author'),
+          textKey: z.string().max(40).default('text'),
+        })
+        .optional(),
+    })
+    .optional(),
 })
 export type TemplateMeta = z.infer<typeof TemplateMeta>
 

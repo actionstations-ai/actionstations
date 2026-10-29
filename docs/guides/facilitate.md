@@ -63,3 +63,30 @@ A scenario with branches (see the MSEL editor's **Branches** panel) adds a **Dec
 **Replay check** replays the recorded decisions and deliveries against the scenario and says whether they match what the app recorded; if the scenario was edited after the run it says so instead. The record is `scenarios/<id>/live/local/log.jsonl` and holds counts, never names.
 
 To print what happened, export **MSEL of one path** (the decisions taken and the path played) from the Export page.
+
+## Controller tools
+
+### Clock control
+
+- **−5, −1, +1, +5, +15** move the clock. The keys `[` and `]` move it one minute and `Shift+[` and `Shift+]` five minutes (they follow the single-key shortcuts switch).
+- **Rate** runs the clock faster or slower than real time: 0.5×, 1×, 2×, 4× or 10×. Type a rate up to 60× in the **Rate** box next to **Set time** for a quick demonstration. A change applies from that moment on.
+- Moving the clock back past rows you already delivered asks what to do: **Keep them delivered** (the default) or **Mark them not delivered**, which clears their delivered time and, with live play, takes them off players' devices. **Reset** asks once rows have been delivered.
+- Every change is written to a clock log (when, from and to which exercise time, rate, reason) in `facilitator.json`.
+
+### Delivering to a team or role
+
+A row can address a team ("Operations team") as well as roles; choose teams in the **To** cell of the MSEL editor. **Deliver to…** (`Shift+D`) lets you change the recipients for one delivery: the plan is preselected and your choice is stored with the delivery. Chips above the timeline show only the rows for a team or role (rows for everyone always show); the choice is remembered for the scenario. The hand-out line reads "Print / hand to Operations team (3 seats)".
+
+### Engagement on social posts
+
+For a tweet, Facebook, Instagram, Reddit or TikTok post, the inject editor has an **Engagement** section: how the counts grow (surge, steady or fade), when they peak, and replies that appear at set times. Misinformation and pressure injects start with a surge. After you deliver the post, the **Inject** tab shows the counts as they are now, and **Refresh on screen** redraws the post with them on the presentation window; **Auto-refresh** does it every 5 or 10 exercise minutes, at most once every 20 seconds. The template draws all the text. The pictures are a cache in the project's `.cache/engagement` folder and are deleted when you leave Facilitate.
+
+### Tracker
+
+The **Tracker** tab lists what needs a look:
+
+- an inject that expects an answer (core narrative, pressure, misinformation, clue, technical hurdle, decision point, operational friction) and has had none 10 minutes after delivery (set a different window on the row);
+- a commitment whose due time has passed, or that has been open 30 minutes with no time;
+- at the end of a phase, an expected action nobody recorded (shown as a note).
+
+**Mark answered** (`A`) records who and a line on the answer. **Add a commitment** (`C`) takes what was promised, who promised it and a time such as `10:30` (scenario time) or `+20`. Notes you type are read on this computer for promises ("we'll notify the FAA by 10:30"); matches appear under **Suggestions** and nothing is added until you press **Add**. **Prompt the table** shows a line for you to say aloud; the tracker never sends anything to players. New items are announced once to screen readers. The report of response times and commitment outcomes (`tracker:report`) feeds the after-action draft.

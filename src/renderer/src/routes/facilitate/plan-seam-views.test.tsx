@@ -162,6 +162,12 @@ describe('facilitator panel', () => {
         onDeliver={() => undefined}
         onUndo={() => undefined}
         onShow={() => undefined}
+        minutes={0}
+        onDeliverTo={() => undefined}
+        answered={false}
+        onAnswer={() => undefined}
+        onShowEngagement={() => undefined}
+        onAnnounce={() => undefined}
         {...(withSeam ? { seam } : {})}
       />,
     )

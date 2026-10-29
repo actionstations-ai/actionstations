@@ -1,6 +1,6 @@
 # Spec 0428: Controller tools and unanswered-inject tracker
 
-Issue: #428 · Milestone: 0.7.0 · Status: Draft · Depends on: — (works without live play) · Related: #417 (controller dashboard and session log), #412 (deliver injects to devices), #413 (messages), #411 (player page), #419 (AAR/IP draft), #426 (regulatory clocks), #433 (redaction preview)
+Issue: #428 · Milestone: 0.7.0 · Status: Implemented in part (see Implementation notes) · Depends on: — (works without live play) · Related: #417 (controller dashboard and session log), #412 (deliver injects to devices), #413 (messages), #411 (player page), #419 (AAR/IP draft), #426 (regulatory clocks), #433 (redaction preview)
 
 ## Summary
 
@@ -396,3 +396,14 @@ Likes 1,284 ↑  Reposts 412  Replies 96 · next reply in 3 min (@LakeportMom)
    whether to intervene, because silence can be part of the exercise.
 4. **Commitment detection languages.** _Recommendation:_ English phrase lists in 0.7.0, kept in
    `commitments.ts` as data per language, so #435 can add others.
+
+## Implementation notes (PR for #428)
+
+Built as specified except for these changes, made so the code and older files stay compatible:
+
+- `rate`, `clockLog` and `tracker` are optional keys without a schema default (absent = 1, none, none), like the #426 keys; `MselRow.toTeams` is optional for the same reason.
+- Recall on rewind: "Mark not delivered" reuses Undo, which already sends `inject.recall` (open question 1 taken as recommended). The rate select goes to 10×, the typed rate field to 60× (open question 2). No automatic notices (3). English phrase lists as data (4).
+- Responses in the tracker are `tracker.responses`, kept by row id; T2 and the automatic responses from `message.send` and votes are implemented as pure rules over an optional session slice (`SessionEntry`) but are not yet fed from the live session log, and `clock.state` and `controller.notice` are not published. Follow-up for the live-play hooks (task 7).
+- Not built: the model scan (`tracker:scan-model`, `prompts/commitment_scan.md`, FR-16), **Suggest replies** (FR-12), the per-team hand-out sheet, and the "show reply on screen" pages for tweets. Notes are scanned by rules for suggestions instead.
+- `tracker:report` returns response minutes, unanswered rows and commitment outcomes; the AAR draft does not read it yet.
+- The unanswered window is shared with the Room dashboard through `DEFAULT_RESPONSE_WINDOW_MIN`.
