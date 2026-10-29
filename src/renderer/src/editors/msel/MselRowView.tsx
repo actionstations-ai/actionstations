@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { clsx } from 'clsx'
 import { GripVertical, Lock, LockOpen } from 'lucide-react'
 import { memo } from 'react'
+import { decisionSummary } from './branch-ops'
 import { editorFor, POPOVER_COLS, viewFor } from './cell-content'
 import { GridCell } from './grid-cell'
 import { focusProps, useGridActions, useGridShared, useRowRef } from './grid-context'
@@ -49,7 +50,9 @@ function ContentCell(props: {
 }) {
   const { r, col, editing } = props
   const g = useGridActions()
-  const { roles, phases, grounding, seams } = useGridShared()
+  const { roles, phases, grounding, seams, branchMarks, offPath } = useGridShared()
+  const mark = col === 'id' ? branchMarks?.get(r.row.id) : undefined
+  const off = col === 'id' && !!offPath?.has(r.row.id)
   const result = col === 'citations' ? grounding?.[`row:${r.row.id}`] : undefined
   const seam = col === 'tag' && r.row.seamId ? seams?.find((x) => x.id === r.row.seamId) : undefined
   const view = (
@@ -61,6 +64,15 @@ function ContentCell(props: {
         grounding: result,
         ...(seam ? { seam } : {}),
       })}
+      {mark && (
+        <span className="msel-editor__chip">
+          Branch {mark.chip}: {mark.label}
+        </span>
+      )}
+      {off && <span className="sr-only">Not on the selected path</span>}
+      {col === 'event' && r.row.decision && (
+        <span className="msel-editor__decision">{decisionSummary(r.row.decision)}</span>
+      )}
     </div>
   )
   return (
@@ -142,6 +154,7 @@ function MselRowViewImpl(p: RowViewProps) {
     transition: sortable.transition,
   }
   const ref = useRowRef(setNodeRef, p.measure)
+  const shared = useGridShared()
   return (
     <tr
       ref={ref}
@@ -154,6 +167,8 @@ function MselRowViewImpl(p: RowViewProps) {
         'msel-editor__row',
         CONTROL_TAGS.has(r.row.purposeTag) && 'msel-editor__row--control',
         isDragging && 'is-dragging',
+        r.row.branchId && 'msel-editor__row--branch',
+        shared.offPath?.has(r.row.id) && 'msel-editor__row--off-path',
         !!p.warnings?.length && 'has-warning',
       )}
     >

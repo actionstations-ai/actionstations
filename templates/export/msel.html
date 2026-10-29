@@ -98,7 +98,15 @@
           <td class="cell-id">{{id}}</td>
           <td>{{from}}</td>
           <td>{{to}}</td>
-          <td>{{event}}{{#if refs}}<span class="refs">Ref: {{refs}}</span>{{/if}}</td>
+          <td>
+            {{event}}{{#if options.length}}
+            <ul class="decision-options">
+              {{#each options}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+            {{/if}}{{#if refs}}<span class="refs">Ref: {{refs}}</span>{{/if}}
+          </td>
           <td>
             {{expectedAction}}{{#if evaluation}}<span class="refs">Evaluate: {{evaluation}}</span
             >{{/if}}
@@ -111,6 +119,68 @@
         {{/each}}
       </tbody>
     </table>
+    {{#each branches}}
+    <table class="msel-table msel-branch msel-branch--{{depth}}">
+      <caption class="msel-branch__title">
+        {{title}}
+      </caption>
+      <colgroup>
+        <col class="col-time" />
+        <col class="col-id" />
+        <col class="col-from" />
+        <col class="col-to" />
+        <col class="col-event" />
+        <col class="col-action" />
+        <col class="col-tag" />
+        {{#if showCheck}}
+        <col class="col-check" />
+        {{/if}}
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Inject ID</th>
+          <th scope="col">From</th>
+          <th scope="col">To</th>
+          <th scope="col">Event / Message</th>
+          <th scope="col">Expected Action</th>
+          <th scope="col">Purpose</th>
+          {{#if showCheck}}
+          <th scope="col">Source check</th>
+          {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rows}}
+        <tr class="{{rowClass}}">
+          <td class="cell-time">
+            {{time}}{{#if wallClock}}<span class="wall">{{wallClock}}</span>{{/if}}
+          </td>
+          <td class="cell-id">{{id}}</td>
+          <td>{{from}}</td>
+          <td>{{to}}</td>
+          <td>
+            {{event}}{{#if options.length}}
+            <ul class="decision-options">
+              {{#each options}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+            {{/if}}{{#if refs}}<span class="refs">Ref: {{refs}}</span>{{/if}}
+          </td>
+          <td>
+            {{expectedAction}}{{#if evaluation}}<span class="refs">Evaluate: {{evaluation}}</span
+            >{{/if}}
+          </td>
+          <td>{{> tag tag}}</td>
+          {{#if showCheck}}
+          <td class="cell-check">{{check}}</td>
+          {{/if}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/each}}
   </section>
   {{/each}}
 </section>

@@ -23,12 +23,15 @@ import {
   setClock,
   toggleClock,
 } from './clock'
+import { availability, pathFor } from './branching'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { fireRowTriggers } from './compliance'
 import { ExerciseClock } from './ExerciseClock'
 import { RegulatoryClocks } from './RegulatoryClocks'
 import { NoMsel, PresentControls, ShortcutsBar, SidePanel, StatusLine } from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
+import { hasBranches } from '@shared/branching/graph'
+import { useBranchLog } from './use-branch-log'
 import { useLiveDelivery } from './live/use-live-delivery'
 import { useDeliveryActions, type UpdateState } from './use-delivery-actions'
 import { useFacilitatorState, type SaveStatus } from './use-facilitator-state'
@@ -59,7 +62,11 @@ function buildEntries(
 ): TimelineEntry[] {
   const byId = new Map(injects.map((i) => [i.id, i]))
   const byRow = new Map(injects.map((i) => [i.mselRowId, i]))
+  const path = pathFor(scenario, state)
+  const lanes = new Map((scenario.branches ?? []).map((b) => [b.id, b]))
   return scenario.msel.map((row) => {
+    const lane = row.branchId ? lanes.get(row.branchId) : undefined
+    const available = availability(path, row.id)
     const inject = (row.injectId && byId.get(row.injectId)) || byRow.get(row.id)
     const thumb = imageAsset(inject)
     return {
@@ -68,7 +75,12 @@ function buildEntries(
       target: toLabel(row, scenario.roles),
       thumbUrl: thumb ? mediaUrl(projectPath, thumb.path) : undefined,
       hasAudio: !!audioAsset(inject),
-      due: isDue(row, minutes, state.delivered),
+      due: available === 'on_path' && isDue(row, minutes, state.delivered),
+      ...(path ? { availability: available } : {}),
+      ...(lane ? { lane: { chip: lane.id.toUpperCase(), label: lane.label } } : {}),
+      ...(path?.openDecision?.id === row.decision?.id && row.decision
+        ? { decisionOpen: true }
+        : {}),
       deliveredAt: state.delivered[row.id]?.exerciseTime,
       hasNote: !!state.notes[row.id]?.trim(),
     }
@@ -131,17 +143,18 @@ function useKeys(
   deliver: (rowId: string) => void,
 ): Omit<ShortcutKeys, 'record' | 'stopRecording'> {
   const { update, scenario, state } = p
+  const playable = useMemo(() => pathFor(scenario, state)?.rows ?? scenario.msel, [scenario, state])
   return useMemo(
     () => ({
       toggle: () => update((s) => toggleClock(s, new Date())),
       next: () => {
-        const due = dueRows(scenario.msel, clockMinutes(state, new Date()), state.delivered)[0]
-        const next = due ?? nextRow(scenario.msel, state.delivered)
+        const due = dueRows(playable, clockMinutes(state, new Date()), state.delivered)[0]
+        const next = due ?? nextRow(playable, state.delivered)
         if (next) onSelect(next.id)
       },
       deliver: () => selected && deliver(selected.row.id),
     }),
-    [update, scenario.msel, state, selected, deliver, onSelect],
+    [update, playable, state, selected, deliver, onSelect],
   )
 }
 
@@ -205,6 +218,7 @@ function useFacilitate(p: ViewProps) {
   const [displayId, setDisplayId] = useState('')
   const [announce, setAnnounce] = useState('')
   const selected = entries.find((e) => e.row.id === selectedId) ?? entries[0]
+  const branchLog = useBranchLog(projectPath, scenario.id)
   const actions = useDeliveryActions({
     projectPath,
     scenarioId: scenario.id,
@@ -217,6 +231,9 @@ function useFacilitate(p: ViewProps) {
     fireRow: compliance.fireRow,
     startsClocks: compliance.startsClocks,
     live,
+    branching: hasBranches(scenario)
+      ? { path: pathFor(scenario, state), log: branchLog }
+      : undefined,
   })
   const keys = useKeys(p, selected, setSelectedId, actions.deliver)
   return {
@@ -233,6 +250,7 @@ function useFacilitate(p: ViewProps) {
     keys,
     compliance,
     live,
+    branchLog,
   }
 }
 
@@ -265,6 +283,11 @@ function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEnt
         onUndo={undo}
         onShow={props.onShow}
         live={f.live}
+        branching={
+          hasBranches(scenario)
+            ? { minutes: f.minutes, onLog: f.branchLog, onAnnounce: f.setAnnounce }
+            : undefined
+        }
       />
     </div>
   )

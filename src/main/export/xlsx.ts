@@ -12,6 +12,7 @@ import {
   PURPOSE_TAGS,
 } from '@shared/taxonomy'
 import { citationLabel } from '../generate/docs'
+import { buildGraph, hasBranches } from '@shared/branching/graph'
 import { tasksForRow } from './evaluation'
 import { exerciseOverviewFacts } from './hseep'
 import { objectiveText } from './hseep/common'
@@ -162,20 +163,108 @@ export function mselRowValues(model: ExportModel, row: MselRow, phase: string): 
   return MSEL_COLUMNS.map((c) => values[c.key])
 }
 
+const BRANCH_COLUMN: ColumnSpec = { key: 'branch', header: 'Branch', width: 22 }
+
+/** The MSEL columns; a branched scenario gets a Branch column after the inject number. */
+const columnsFor = (branched: boolean): readonly ColumnSpec[] =>
+  branched ? [MSEL_COLUMNS[0], BRANCH_COLUMN, ...MSEL_COLUMNS.slice(1)] : MSEL_COLUMNS
+
+/** "B1 Pay" for a branch row, "" on the trunk. */
+function branchCell(model: ExportModel, row: MselRow): string {
+  const b = model.scenario.branches?.find((x) => x.id === row.branchId)
+  return b ? `${b.id.toUpperCase()} ${b.label}` : ''
+}
+
+function sheetRow(model: ExportModel, row: MselRow, phase: string, branched: boolean): string[] {
+  const values = mselRowValues(model, row, phase)
+  return branched ? [values[0]!, branchCell(model, row), ...values.slice(1)] : values
+}
+
 function mselSheet(model: ExportModel): SheetSpec {
+  const branched = hasBranches(model.scenario)
   const rows: string[][] = []
   const styles: RowStyle[] = []
   groupRows(model.scenario).forEach(({ phase, rows: msel }, band) => {
     const label = phase ? phaseHeading(phase) : 'Additional events'
     for (const r of msel) {
-      rows.push(mselRowValues(model, r, label))
+      rows.push(sheetRow(model, r, label, branched))
       styles.push({
         fill: BANDS[band % BANDS.length]!,
         italic: CONTROL_TAGS.has(r.purposeTag),
       })
     }
   })
-  return { name: 'MSEL', columns: MSEL_COLUMNS, rows, style: (i) => styles[i] }
+  return { name: 'MSEL', columns: columnsFor(branched), rows, style: (i) => styles[i] }
+}
+
+/** Excel sheet names: at most 31 characters, none of []:*?/\ , unique within the workbook. */
+function sheetName(raw: string, taken: Set<string>): string {
+  const base =
+    raw
+      .replace(/[[\]:*?/\\]/g, ' ')
+      .trim()
+      .slice(0, 31) || 'Branch'
+  let name = base
+  for (let n = 2; taken.has(name.toLowerCase()); n++) name = `${base.slice(0, 28)} ${n}`
+  taken.add(name.toLowerCase())
+  return name
+}
+
+/** One sheet per branch with its rows (same columns as the MSEL sheet). */
+function branchSheets(model: ExportModel): SheetSpec[] {
+  const s = model.scenario
+  if (!hasBranches(s)) return []
+  const taken = new Set(['msel', 'decisions', 'overview', 'objectives', 'roles', 'legend'])
+  const phaseOf = (r: MselRow) => {
+    const p = s.phases.find((x) => x.id === r.phaseId)
+    return p ? phaseHeading(p) : 'Additional events'
+  }
+  return [...buildGraph(s).branches.values()].map((node) => ({
+    name: sheetName(`Branch ${node.branch.id.toUpperCase()} ${node.branch.label}`, taken),
+    columns: columnsFor(true),
+    rows: node.rows.map((r) => sheetRow(model, r, phaseOf(r), true)),
+  }))
+}
+
+const branchRejoin = (model: ExportModel, branchId: string | undefined): string => {
+  const b = model.scenario.branches?.find((x) => x.id === branchId)
+  return b ? (b.rejoinRowId ?? 'Ends the exercise') : ''
+}
+
+/** Every decision with one line per option: where it leads and how it is decided. */
+function decisionsSheet(model: ExportModel): SheetSpec[] {
+  const decisions = [...buildGraph(model.scenario).decisions.values()]
+  if (!decisions.length || !hasBranches(model.scenario)) return []
+  const rows = decisions.flatMap(({ row, decision: d }) =>
+    d.options.map((o) => [
+      row.id,
+      row.time,
+      d.question,
+      o.label,
+      o.branchId ? o.branchId.toUpperCase() : 'Continues',
+      branchRejoin(model, o.branchId),
+      d.rule.kind,
+      o.id === d.defaultOptionId ? 'Yes' : '',
+      d.timeoutMin ? String(d.timeoutMin) : '',
+    ]),
+  )
+  return [
+    {
+      name: 'Decisions',
+      columns: [
+        { key: 'row', header: 'Decision row', width: 14 },
+        { key: 'time', header: 'Time', width: 10 },
+        { key: 'question', header: 'Question', width: 50, wrap: true },
+        { key: 'option', header: 'Option', width: 28, wrap: true },
+        { key: 'branch', header: 'Branch', width: 10 },
+        { key: 'rejoin', header: 'Rejoins at', width: 14 },
+        { key: 'rule', header: 'Rule', width: 14 },
+        { key: 'default', header: 'Default', width: 10 },
+        { key: 'timeout', header: 'Timeout (min)', width: 14 },
+      ],
+      rows,
+    },
+  ]
 }
 
 const KV: ColumnSpec[] = [
@@ -262,6 +351,8 @@ export function mselWorkbook(model: ExportModel): Promise<Buffer> {
   return tableWorkbook(
     [
       mselSheet(model),
+      ...branchSheets(model),
+      ...decisionsSheet(model),
       overviewSheet(model),
       objectivesSheet(model),
       rolesSheet(model),

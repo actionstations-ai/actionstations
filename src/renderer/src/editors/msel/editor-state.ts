@@ -1,5 +1,6 @@
 // Editor state machine: the draft, session undo/redo, and save bookkeeping. Pure reducer.
 import type { Rubric, Scenario } from '@shared/schemas/scenario'
+import { remapRejoins } from './branch-ops'
 import { draftFromScenario, draftMsel, type Draft } from './model'
 
 export const UNDO_LIMIT = 200
@@ -150,10 +151,13 @@ export function mergeDraft(
   savedIds: Record<string, string>,
 ): Scenario {
   const rubric = remapRubric(base.rubric, savedIds, draft)
+  const { branches: _old, ...rest } = base
+  const branches = remapRejoins(draft, savedIds)
   return {
-    ...base,
+    ...rest,
     phases: draft.phases,
     msel: draftMsel(draft),
+    ...(branches?.length ? { branches } : {}),
     ...(rubric ? { rubric } : {}),
   }
 }

@@ -7,6 +7,9 @@ import { clockMinutes, exerciseStamp } from './clock'
 import type { MselRow } from '@shared/schemas/scenario'
 import { unfireRow } from './compliance'
 import { deliveryAction } from './delivery'
+import type { ActivePath } from '@shared/branching/active-path'
+import { availability, openEntry, releaseEntry } from './branching'
+import type { BranchLog } from './use-branch-log'
 import type { LiveDelivery } from './live/use-live-delivery'
 import type { TimelineEntry } from './Timeline'
 import type { useFacilitatorState } from './use-facilitator-state'
@@ -28,6 +31,8 @@ export interface ActionDeps {
   startsClocks?: (row: MselRow) => string[]
   /** Live play (#412): when a session runs, Deliver also puts the inject on devices. */
   live?: LiveDelivery
+  /** Branching (spec 0430): the path that can be delivered, and the run log. */
+  branching?: { path: ActivePath | undefined; log: BranchLog } | undefined
 }
 
 export function deliveredMessage(
@@ -64,15 +69,27 @@ function usePresent(projectPath: string, scenarioId: string, displayId: string) 
 
 export function useDeliveryActions(d: ActionDeps) {
   const { entries, state, update, onSelect, onAnnounce, fireRow, startsClocks, live } = d
+  const branching = d.branching
   const present = usePresent(d.projectPath, d.scenarioId, d.displayId)
 
   const deliver = useCallback(
     (rowId: string) => {
       const entry = entries.find((e) => e.row.id === rowId)
       if (!entry || state.delivered[rowId]) return
+      if (branching && availability(branching.path, rowId) !== 'on_path') {
+        onAnnounce(`${rowId} is not on the path the decisions lead to, so it cannot be delivered`)
+        return
+      }
       const now = new Date()
       const minutes = clockMinutes(state, now)
       const stamp = { at: now.toISOString(), exerciseTime: exerciseStamp(minutes) }
+      if (branching) {
+        const decision = entry.row.decision
+        branching.log([
+          releaseEntry(entry.row, stamp.exerciseTime),
+          ...(decision ? [openEntry(entry.row, decision.id, stamp.exerciseTime)] : []),
+        ])
+      }
       update((s) => {
         const next = { ...s, delivered: { ...s.delivered, [rowId]: stamp } }
         return fireRow ? fireRow(next, entry.row, minutes) : next
@@ -93,7 +110,7 @@ export function useDeliveryActions(d: ActionDeps) {
           (clocks.length ? ` — reporting clock started: ${clocks.join(', ')}` : ''),
       )
     },
-    [entries, state, update, present, onSelect, onAnnounce, fireRow, startsClocks, live],
+    [entries, state, update, present, onSelect, onAnnounce, fireRow, startsClocks, live, branching],
   )
 
   const undo = useCallback(
@@ -107,9 +124,10 @@ export function useDeliveryActions(d: ActionDeps) {
           .withdraw(rowId)
           .catch((err: Error) => toast.error('Could not withdraw from devices', err.message))
       }
+      branching?.log([{ kind: 'inject.retract', rowId, data: {} }])
       onAnnounce(`${rowId} marked not delivered`)
     },
-    [update, onAnnounce, live],
+    [update, onAnnounce, live, branching],
   )
   return { present, deliver, undo }
 }

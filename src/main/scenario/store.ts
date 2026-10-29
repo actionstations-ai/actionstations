@@ -4,6 +4,7 @@
 // The generation pipeline (#25) depends only on these signatures.
 import { promises as fs } from 'node:fs'
 import {
+  formatVersionFor,
   Inject,
   MAX_INJECT_VERSIONS,
   Scenario,
@@ -56,7 +57,8 @@ async function syncMeta(root: string, scenario: Scenario): Promise<void> {
 function parseScenario(value: unknown): Scenario {
   const r = Scenario.safeParse(value)
   if (!r.success) throw new AppError('VALIDATION', 'Invalid scenario', r.error.issues)
-  return r.data
+  // Branched scenarios write format 2 so older builds refuse them; the rest stay at 1 (#430).
+  return { ...r.data, formatVersion: formatVersionFor(r.data) }
 }
 
 async function requireScenarioDir(root: string, scenarioId: string) {

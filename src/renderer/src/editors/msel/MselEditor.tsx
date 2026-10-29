@@ -1,13 +1,15 @@
 // MSEL grid editor (FR-6): inline editing, drag to retime, bulk shift, control cards,
 // renumbering, lint warnings, undo/redo and snapshot history. Saves are optimistic and
 // debounced; a running generation job (CONFLICT) never loses the user's edits.
-import { useState, type KeyboardEvent } from 'react'
+import { useMemo, useState, type KeyboardEvent } from 'react'
 import type { Scenario } from '@shared/schemas/scenario'
 import { useIpcQuery } from '../../lib/query'
 import { isDirty } from './editor-state'
 import { EditorDialogs } from './EditorDialogs'
 import { useEditorDialogs, type DialogState } from './use-editor-dialogs'
 import type { GridContextValue } from './grid-context'
+import { BranchesPanel } from './BranchesPanel'
+import { branchMarks, offPathRowIds, type PathFilter } from './branch-ops'
 import { LintBar } from './LintBar'
 import { SourceCheckBar } from './SourceCheckBar'
 import { GroundingDetails } from '../../components/GroundingDetails'
@@ -106,6 +108,20 @@ function useRowJump(jump: RowJump | undefined, jumpTo: (rowId: string) => void) 
   }
 }
 
+/** Branch marks and path-filter dimming for the grid; undefined (stable) without branches. */
+function useBranchView(draft: Draft, filter: PathFilter) {
+  const hasBranches = !!draft.branches?.length
+  const marks = hasBranches ? branchMarks(draft) : undefined
+  const off = hasBranches ? offPathRowIds(draft, filter) : undefined
+  const marksKey = marks ? JSON.stringify([...marks]) : ''
+  const offKey = off ? [...off].join('|') : ''
+  /* eslint-disable react-hooks/exhaustive-deps -- the keys are the content of marks / off */
+  const stableMarks = useMemo(() => marks, [marksKey])
+  const stableOff = useMemo(() => off, [offKey])
+  /* eslint-enable react-hooks/exhaustive-deps */
+  return { marks: stableMarks, off: stableOff }
+}
+
 function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump | undefined) {
   const editor = useMselEditor(projectPath, scenario)
   const draft = editor.state.draft
@@ -117,6 +133,8 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
   const snap = useSnap()
   const grounding = useIpcQuery('grounding:scenario', { projectPath, scenarioId: scenario.id })
   const [sourcesRow, setSourcesRow] = useState<string | null>(null)
+  const [pathFilter, setPathFilter] = useState<PathFilter>('all')
+  const branchView = useBranchView(draft, pathFilter)
   const ops = useRowOps({
     draft,
     edit: editor.edit,
@@ -138,6 +156,8 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     warnings,
     grounding: grounding.data?.items,
     seams: scenario.seams,
+    branchMarks: branchView.marks,
+    offPath: branchView.off,
   }
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)
@@ -145,13 +165,14 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
   }
   useRowJump(jump, jumpTo)
   const sources = { grounding, row: sourcesRow, open: setSourcesRow }
-  return { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources }
+  const path = { filter: pathFilter, set: setPathFilter }
+  return { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources, path }
 }
 
 export function MselEditor(props: { projectPath: string; scenario: Scenario; jump?: RowJump }) {
   const { projectPath, scenario } = props
   const m = useEditorModel(projectPath, scenario, props.jump)
-  const { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources } = m
+  const { editor, draft, lint, sel, grid, dialogs, ops, ctx, snap, jumpTo, sources, path } = m
   const { state, edit } = editor
 
   return (
@@ -166,6 +187,14 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         snap={snap}
       />
       <LintBar warnings={lint.data} checking={lint.isFetching} onJump={jumpTo} />
+      <BranchesPanel
+        draft={draft}
+        edit={edit}
+        selected={sel.selected}
+        filter={path.filter}
+        onFilter={path.set}
+        onJump={jumpTo}
+      />
       <SourceCheckBar
         projectPath={projectPath}
         scenarioId={scenario.id}

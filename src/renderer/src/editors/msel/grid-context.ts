@@ -6,6 +6,7 @@ import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useRe
 import type { Role } from '@shared/schemas/project'
 import type { Phase, ScenarioSeam } from '@shared/schemas/scenario'
 import type { GroundingResult } from '@shared/schemas/grounding'
+import type { BranchMark } from './branch-ops'
 import type { Move } from './CellEditors'
 import type { Cell, ColumnId } from './grid-nav'
 
@@ -30,6 +31,10 @@ export interface GridShared {
   grounding?: Record<string, GroundingResult> | undefined
   /** The plan seams the scenario tests (#427), for the Seam tag on seam rows. */
   seams?: ScenarioSeam[] | undefined
+  /** Row id -> branch lane (spec 0430); rows on the trunk have no entry. */
+  branchMarks?: ReadonlyMap<string, BranchMark> | undefined
+  /** Row ids dimmed by the path filter. */
+  offPath?: ReadonlySet<string> | undefined
 }
 
 /** Everything the grid needs from the editor (`actions` must keep its identity). */

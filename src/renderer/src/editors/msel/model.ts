@@ -1,7 +1,7 @@
 // Pure MSEL editing model: the draft the grid edits, ordering, retiming and row operations.
 // No React and no I/O, so every rule here is unit-tested in model.test.ts.
 import { exerciseMinutes, formatExerciseTime } from '@shared/schemas/common'
-import type { MselRow, Phase, Scenario } from '@shared/schemas/scenario'
+import type { Branch, MselRow, Phase, Scenario } from '@shared/schemas/scenario'
 
 /** A row plus a stable key: MSEL ids are user-editable and may be duplicated mid-edit. */
 export interface DraftRow {
@@ -12,6 +12,8 @@ export interface DraftRow {
 export interface Draft {
   phases: Phase[]
   rows: DraftRow[]
+  /** The scenario's branches (spec 0430); absent or empty when it has none. */
+  branches?: Branch[]
 }
 
 let keySeq = 0
@@ -21,11 +23,15 @@ export const PHASE_LINE_PREFIX = 'phase:'
 export const phaseLineKey = (phaseId: string): string => `${PHASE_LINE_PREFIX}${phaseId}`
 
 /** Draft from a scenario, reusing keys of rows that keep their id (focus survives refreshes). */
-export function draftFromScenario(s: Pick<Scenario, 'phases' | 'msel'>, prev?: Draft): Draft {
+export function draftFromScenario(
+  s: Pick<Scenario, 'phases' | 'msel' | 'branches'>,
+  prev?: Draft,
+): Draft {
   const pool = new Map<string, string[]>()
   for (const r of prev?.rows ?? []) pool.set(r.row.id, [...(pool.get(r.row.id) ?? []), r.key])
   const rows = s.msel.map((row) => ({ key: pool.get(row.id)?.shift() ?? newRowKey(), row }))
-  return { phases: [...s.phases].sort((a, b) => a.index - b.index), rows }
+  const branches = s.branches?.length ? { branches: s.branches } : {}
+  return { phases: [...s.phases].sort((a, b) => a.index - b.index), rows, ...branches }
 }
 
 export const draftMsel = (d: Draft): MselRow[] => d.rows.map((r) => r.row)

@@ -13,6 +13,8 @@ import {
   type Role,
   type Scenario,
 } from '@shared/schemas'
+import { hasBranches } from '@shared/branching/graph'
+import { lintBranches } from '@shared/branching/lint'
 import { domainContext, roleHeuristics, type DomainContext } from './domain'
 import {
   DUPLICATE_EVENT,
@@ -559,9 +561,15 @@ function lintRubric(s: Scenario): W[] {
  * All deterministic lints for a scenario. Safe to call on a partially generated scenario.
  * `domain` (the project's profile and the scenario's threat family) shapes the mix rules.
  */
-export function lintScenario(scenario: Scenario, domainIn?: DomainContext): LintWarning[] {
+export function lintScenario(full: Scenario, domainIn?: DomainContext): LintWarning[] {
+  // Branch rows run in parallel with the trunk, so the trunk rules (timing, one ENDEX, phase
+  // mix) read the trunk alone; the branch rules read the whole MSEL (spec 0430).
+  const scenario = hasBranches(full)
+    ? { ...full, msel: full.msel.filter((r) => !r.branchId) }
+    : full
   const domain = contextFor(scenario, domainIn)
   return [
+    ...lintBranches(full),
     ...lintTiming(scenario),
     ...lintIds(scenario),
     ...lintBoundaries(scenario),

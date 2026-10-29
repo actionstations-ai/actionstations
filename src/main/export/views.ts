@@ -4,6 +4,9 @@ import { pathToFileURL } from 'node:url'
 import { capabilityName } from '@shared/core-capabilities'
 import { mediaUrl } from '@shared/media-url'
 import type { Inject, MediaAsset, MselRow, Phase, Scenario } from '@shared/schemas'
+import { effectiveDecisions } from '@shared/branching/active-path'
+import { defaultDecisions } from '@shared/branching/default-path'
+import { buildGraph, hasBranches, pathOrder, type BranchNode } from '@shared/branching/graph'
 import { injectTypeInfo, PURPOSE_TAG_INFO, type PurposeTag } from '@shared/taxonomy'
 import { safeJoin } from '../lib/fs'
 import type { ExportModel } from './model'
@@ -146,23 +149,93 @@ export function mselView(model: ExportModel, prefix: string) {
       heading: phase ? phaseHeading(phase) : 'Additional events',
       hours: phase ? phaseHours(phase) : '',
       goal: phase?.goal ?? '',
-      rows: rows.map((r) => ({
-        time: r.time,
-        wallClock: r.wallClock ?? '',
-        id: r.id,
-        from: r.from,
-        to: toText(r, s),
-        event: r.event,
-        expectedAction: r.expectedAction,
-        refs: citationText(r),
-        evaluation: evaluationText(s, r.id),
-        tag: tagView(r.purposeTag),
-        check: checkCell(model.sourceCheck?.[r.id], r),
-        showCheck: !!model.sourceCheck,
-        rowClass: r.purposeTag === 'DECISION_POINT' ? 'is-decision' : '',
-      })),
+      rows: rows.filter((r) => !r.branchId || !hasBranches(s)).map((r) => mselRowView(model, r)),
+      branches: branchSections(model, rows),
     })),
   }
+}
+
+/** One MSEL row as the templates read it. */
+export function mselRowView(model: ExportModel, r: MselRow) {
+  const s = model.scenario
+  return {
+    time: r.time,
+    wallClock: r.wallClock ?? '',
+    id: r.id,
+    from: r.from,
+    to: toText(r, s),
+    event: r.event,
+    options: decisionOptions(r),
+    expectedAction: r.expectedAction,
+    refs: citationText(r),
+    evaluation: evaluationText(s, r.id),
+    tag: tagView(r.purposeTag),
+    check: checkCell(model.sourceCheck?.[r.id], r),
+    showCheck: !!model.sourceCheck,
+    rowClass: r.purposeTag === 'DECISION_POINT' ? 'is-decision' : '',
+  }
+}
+
+/** A decision row lists its options and where each leads: "Pay → Branch B1". */
+function decisionOptions(r: MselRow): string[] {
+  const d = r.decision
+  if (!d) return []
+  const dflt = d.options.find((o) => o.id === d.defaultOptionId)?.label
+  return [
+    ...d.options.map(
+      (o) => `${o.label} → ${o.branchId ? `Branch ${o.branchId.toUpperCase()}` : 'continue'}`,
+    ),
+    `Rule: ${d.rule.kind}${dflt ? `; default ${dflt}` : ''}`,
+  ]
+}
+
+/** "Branch B1 — Pay the ransom (rows I-12a…I-15a; rejoins I-16)" */
+export function branchTitle(node: BranchNode): string {
+  const { branch, rows } = node
+  const span = rows.length
+    ? rows.length === 1
+      ? `rows ${rows[0]!.id}`
+      : `rows ${rows[0]!.id}…${rows[rows.length - 1]!.id}`
+    : 'no rows'
+  const end = branch.rejoinRowId ? `rejoins ${branch.rejoinRowId}` : 'ends the exercise'
+  return `Branch ${branch.id.toUpperCase()} — ${branch.label} (${span}; ${end})`
+}
+
+/**
+ * The branches whose decision row is in `phaseRows`, each as a shaded sub-table printed after
+ * the phase's trunk table; branches of a branch follow their parent (depth-first).
+ */
+function branchSections(model: ExportModel, phaseRows: MselRow[]) {
+  const s = model.scenario
+  if (!hasBranches(s)) return []
+  const graph = buildGraph(s)
+  const out: {
+    title: string
+    depth: number
+    showCheck: boolean
+    columns: number
+    rows: ReturnType<typeof mselRowView>[]
+  }[] = []
+  const visit = (rows: MselRow[], depth: number) => {
+    for (const r of rows)
+      for (const o of r.decision?.options ?? []) {
+        const node = o.branchId ? graph.branches.get(o.branchId) : undefined
+        if (!node || out.some((x) => x.title === branchTitle(node))) continue
+        out.push({
+          title: branchTitle(node),
+          depth,
+          showCheck: !!model.sourceCheck,
+          columns: model.sourceCheck ? 8 : 7,
+          rows: node.rows.map((x) => mselRowView(model, x)),
+        })
+        visit(node.rows, depth + 1)
+      }
+  }
+  visit(
+    phaseRows.filter((r) => !r.branchId),
+    1,
+  )
+  return out
 }
 
 /** Where an image file is loaded from: file: URL for the PDF window, ttx-media: for preview. */
@@ -331,4 +404,59 @@ export function teamRows(s: Scenario) {
 export function titleFacts(model: ExportModel, extra: [string, string][] = []): Fact[] {
   const s = model.scenario
   return facts([['Location', locationText(s)], ['Duration', durationText(s)], ...extra])
+}
+
+const RULE_WORDS: Record<string, string> = {
+  plurality: 'most votes',
+  majority: 'majority',
+  threshold: 'threshold',
+  controller: 'controller',
+  unanimous: 'unanimous',
+}
+
+/**
+ * The linear MSEL of one path (spec 0430): the path the recorded decisions led to when the
+ * exercise was run, else the default path with the branches it leaves out listed.
+ */
+export function pathView(model: ExportModel, prefix: string) {
+  const s = model.scenario
+  const graph = buildGraph(s)
+  const played = [...effectiveDecisions(model.decisions ?? []).values()]
+  const chosen = new Map(played.map((r) => [r.decisionId, r.optionId]))
+  const rows = pathOrder(s, played.length ? chosen : defaultDecisions(s))
+  const onPath = new Set(rows.map((r) => r.id))
+  return {
+    prefix,
+    title: {
+      id: `${prefix}path-title`,
+      eyebrow: played.length ? 'MSEL: path played' : 'MSEL: default path',
+      heading: scenarioHeading(model),
+      sub: s.subtitle ?? '',
+      facts: facts([
+        ['Location', locationText(s)],
+        ['Duration', durationText(s)],
+      ]),
+    },
+    heading: played.length ? 'Events on the path played' : 'Events on the default path',
+    rows: rows.map((r) => mselRowView(model, r)),
+    taken: played.map((rec) => {
+      const d = graph.decisions.get(rec.decisionId)?.decision
+      const votes = Object.entries(rec.input.tally)
+        .map(([id, n]) => `${d?.options.find((o) => o.id === id)?.label ?? id}: ${n}`)
+        .join(', ')
+      return {
+        time: rec.exerciseTime,
+        question: d?.question ?? rec.decisionId,
+        chosen: d?.options.find((o) => o.id === rec.optionId)?.label ?? rec.optionId,
+        by: rec.by === 'vote' ? (RULE_WORDS[rec.rule.kind] ?? rec.rule.kind) : rec.by,
+        note: rec.note,
+        votes: rec.input.cast ? votes : '',
+      }
+    }),
+    alternatives: played.length
+      ? []
+      : [...graph.branches.values()]
+          .filter((n) => n.rows.length && n.rows.every((r) => !onPath.has(r.id)))
+          .map(branchTitle),
+  }
 }

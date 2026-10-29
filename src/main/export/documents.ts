@@ -16,6 +16,7 @@ import {
   assetSrc,
   deckView,
   mselView,
+  pathView,
   scenarioHeading,
   teamRows,
   titleFacts,
@@ -24,13 +25,14 @@ import {
   type RenderMode,
 } from './views'
 
-export type ExportDoc = DocKey | 'exercise_plan' | 'handouts' | 'controller_handouts'
+export type ExportDoc = DocKey | 'exercise_plan' | 'handouts' | 'controller_handouts' | 'path'
 
 export const EXPORT_DOC_LABELS: Record<ExportDoc, string> = {
   ...DOC_LABELS,
   exercise_plan: 'Exercise Plan',
   handouts: 'Player Handouts',
   controller_handouts: 'Controller Materials',
+  path: 'MSEL (one path)',
 }
 
 function formatDate(iso: string): string {
@@ -253,6 +255,8 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
   switch (doc) {
     case 'msel':
       return wrap(model, doc, mselSection(model, ''), [])
+    case 'path':
+      return wrap(model, doc, renderExportTemplate('path', pathView(model, '')), [])
     case 'deck':
       return wrap(model, doc, deckSection(model, '', mode), [])
     case 'handbook':

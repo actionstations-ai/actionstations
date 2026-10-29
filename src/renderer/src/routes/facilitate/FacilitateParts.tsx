@@ -9,6 +9,8 @@ import { Button, EmptyState } from '../../components/ui'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { projectKey } from '../../state/project'
+import { DecisionPanel } from './DecisionPanel'
+import type { BranchLog } from './use-branch-log'
 import { EvaluationTab } from './EvaluationTab'
 import { HotWashPanel } from './HotWashPanel'
 import { InjectPanel } from './InjectPanel'
@@ -158,6 +160,8 @@ export function SidePanel(props: {
   onShow: (entry: TimelineEntry) => void
   /** Live play delivery (#412); absent when the page has no session support. */
   live?: LiveDelivery
+  /** Present when the scenario has branches (spec 0430): shows the Decisions tab. */
+  branching?: { minutes: number; onLog: BranchLog; onAnnounce: (text: string) => void } | undefined
 }) {
   const { selected, state, update } = props
   return (
@@ -166,6 +170,11 @@ export function SidePanel(props: {
         <Tabs.Trigger value="inject" className="fac-tabs__trigger">
           Inject
         </Tabs.Trigger>
+        {props.branching && (
+          <Tabs.Trigger value="decisions" className="fac-tabs__trigger">
+            Decisions
+          </Tabs.Trigger>
+        )}
         <Tabs.Trigger value="evaluation" className="fac-tabs__trigger">
           Evaluation
         </Tabs.Trigger>
@@ -205,6 +214,19 @@ export function SidePanel(props: {
           />
         )}
       </Tabs.Content>
+      {props.branching && (
+        <Tabs.Content value="decisions" className="fac-tabs__panel">
+          <DecisionPanel
+            projectPath={props.projectPath}
+            scenario={props.scenario}
+            state={state}
+            update={update}
+            minutes={props.branching.minutes}
+            onLog={props.branching.onLog}
+            onAnnounce={props.branching.onAnnounce}
+          />
+        </Tabs.Content>
+      )}
       <Tabs.Content value="evaluation" className="fac-tabs__panel">
         <EvaluationTab
           projectPath={props.projectPath}

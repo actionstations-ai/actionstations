@@ -1028,3 +1028,32 @@ figure {
     min-height: 8in;
   }
 }
+
+/* Branches (spec 0430): a shaded, indented sub-table after the phase that holds the decision. */
+.msel-branch {
+  margin-top: 8pt;
+  margin-left: 1cm;
+  width: calc(100% - 1cm);
+}
+.msel-branch--2 {
+  margin-left: 2cm;
+  width: calc(100% - 2cm);
+}
+.msel-branch__title {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  font-size: 9pt;
+  padding: 3pt 0;
+}
+.msel-branch tbody td {
+  background: #eef2f6;
+}
+.msel-branch tbody tr:nth-child(even) td {
+  background: #e6ebf1;
+}
+.decision-options {
+  margin: 3pt 0 0;
+  padding-left: 12pt;
+  font-size: 8pt;
+}

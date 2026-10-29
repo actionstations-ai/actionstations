@@ -29,6 +29,11 @@ export const HSEEP_TARGETS: TargetOption[] = [
 /** The classroom set: the five documents the exercise has always exported. */
 export const DOCUMENT_TARGETS: TargetOption[] = [
   { id: 'msel_pdf', label: 'MSEL', hint: 'Landscape events table, grouped by phase' },
+  {
+    id: 'path_pdf',
+    label: 'MSEL of one path',
+    hint: 'Branched scenarios only: the path played (with the decisions taken) or the default path',
+  },
   { id: 'deck_pdf', label: 'Master Inject Deck', hint: 'One inject per page with its media' },
   {
     id: 'handbook_pdf',
@@ -131,6 +136,7 @@ const OPT_IN = new Set<ExportTarget>([
   'conducttr_csv',
   'eoc_package',
   'cap_xml',
+  'path_pdf',
 ])
 
 /** Everything except the optional Word files, the compliance exports and the other-platform exports. */

@@ -1008,4 +1008,49 @@
   .fac-msg {
     grid-template-columns: 1fr;
   }
+/* Branching (spec 0430) */
+.fac-row--branch .fac-row__main {
+  box-shadow: inset 4px 0 0 var(--color-accent);
+}
+.fac-row--off-path {
+  opacity: 0.6;
+}
+.fac-row__lane {
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+}
+.fac-decisions,
+.fac-decision,
+.fac-decision__closed,
+.fac-decision__override {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.fac-decision__closed {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fac-decision__tally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.fac-decision__tally label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.fac-decision__num {
+  width: 5rem;
+}
+.fac-decision__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }

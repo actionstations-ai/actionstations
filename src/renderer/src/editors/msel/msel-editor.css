@@ -539,3 +539,88 @@ thead .msel-editor__c-id {
   margin: 0 0 var(--space-1) var(--space-6);
   font-size: var(--text-sm);
 }
+
+/* Branches (spec 0430): a left bar and a text chip mark a branch row; off-path rows are dimmed. */
+.msel-editor__row--branch td:first-child {
+  box-shadow: inset 4px 0 0 var(--color-accent);
+}
+.msel-editor__row--off-path td {
+  opacity: 0.55;
+}
+.msel-editor__chip {
+  display: inline-block;
+  margin-top: var(--space-1);
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  background: var(--color-surface-sunken);
+}
+.msel-editor__decision {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.branches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+}
+.branches .row,
+.branches__controls,
+.branches__move,
+.branches__branch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.branches__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.branches .select,
+.branches .input {
+  width: auto;
+  min-height: 2rem;
+  padding: var(--space-1) var(--space-2);
+}
+.branches__num {
+  width: 5rem;
+}
+.branches__body,
+.branches__decisions,
+.branches__options,
+.branches__lanes,
+.branches__candidates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.branches__decision {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.branches__lanes {
+  padding-left: var(--space-4);
+}
+.branches__chip {
+  padding: 0 var(--space-2);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
