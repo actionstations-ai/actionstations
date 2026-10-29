@@ -31,6 +31,10 @@
 - **One generation job per scenario.** While a generation job runs for a scenario, `scenarios:save` and `scenarios:doc-save` for it return `CONFLICT` ("Generation is running for this scenario"); editors keep the user's edits and retry after `job:done`.
 - **Worker threads** for ingestion (pdf parsing, OCR, embedding) so the UI never stalls.
 
+## Live play protocol (`src/shared/live/`, ADR-0027)
+
+One versioned message protocol carries a live exercise between the facilitator's app and participants' devices over any of three servers (the laptop on the room's Wi-Fi, the relay, an organization's own server). Every payload is AES-256-GCM ciphertext with the envelope header as AAD under one of two session keys: the **players key** every device holds and the **staff key** only controllers, evaluators and SimCell devices hold (expected actions, evaluator material, controller notes); everything a device sends to the controller is sealed to the controller alone with a per-message ECDH key. Controller frames are ECDSA P-256 signed; the public keys and the session key travel only in the invite link's `#fragment`. A device proves a staff seat with a key-derived proof and owns its client id through a resume token. Servers import the schemas and limits only and never hold a key. `LiveClient` is the state machine both the app and the player page run over a four-method `Transport`; `MemoryServer` implements the server contract in process for tests. Crypto runs on WebCrypto, with a lazily loaded `@noble/*` fallback for the player page in a non-secure context. Spec: `docs/specs/0406-live-protocol.md`.
+
 ## Storage
 
 Project folder layout (portable, git-friendly):

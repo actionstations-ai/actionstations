@@ -5,7 +5,7 @@ title = "Action Stations gitleaks config"
 [extend]
 useDefault = true
 
-# Cryptographic test vectors for the live play protocol (#406): the published NIST AES-GCM
+# Cryptographic test vectors for the live play protocol (ADR-0024): the published NIST AES-GCM
 # and RFC 5869 HKDF cases plus P-256 keys generated for this file and used nowhere else. The
 # generic-api-key rule matches the AES test keys. Nothing in the file grants access to anything;
 # both crypto providers must reproduce every entry, so the values cannot be changed or redacted.

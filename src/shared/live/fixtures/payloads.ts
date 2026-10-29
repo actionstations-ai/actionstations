@@ -1,0 +1,241 @@
+/**
+ * One valid payload per message type. Tests feed these through the schemas and the codec;
+ * later specs may reuse them as the shape to build on.
+ */
+import type { PayloadInputByType } from '../schemas'
+
+export const IDS = {
+  session: 'session-00000000000000',
+  controller: 'controller-00000000000',
+  playerA: 'playerA-00000000000000',
+  playerB: 'playerB-00000000000000',
+  evaluator: 'evaluator-000000000000',
+  release: 'release-00000000000000',
+  vote: 'vote-00000000000000000',
+  survey: 'survey-000000000000000',
+  item: 'item-00000000000000000',
+  message: 'message-00000000000000',
+  assignment: 'assignment-00000000000',
+  observation: 'observation-0000000000',
+  call: 'call-00000000000000000',
+  notice: 'notice-000000000000000',
+  blob: 'blob-00000000000000000',
+} as const
+
+/** 65 bytes base64url: an uncompressed P-256 point shape (not a real point; schema tests only). */
+export const FAKE_POINT = 'B' + 'A'.repeat(86)
+export const NONCE = 'AAAAAAAAAAAAAAAA'
+
+export const BLOB_REF = {
+  blobId: IDS.blob,
+  kind: 'image' as const,
+  mime: 'image/png',
+  bytes: 1234,
+  sha256: 'a'.repeat(64),
+  k: 's1',
+  n: NONCE,
+  name: 'device',
+  width: 1200,
+  height: 630,
+}
+
+export const CLOCK = { elapsedMin: 12.5, runningSince: 1_700_000_000_000, rate: 1 }
+
+export const PAYLOAD_FIXTURES: PayloadInputByType = {
+  join: {
+    name: 'Ops Director seat',
+    kind: 'player',
+    requestedRole: 'ops-director',
+    ecdhPub: FAKE_POINT,
+  },
+  welcome: {
+    client: IDS.playerA,
+    kind: 'player',
+    attribution: 'role',
+    role: { id: 'ops-director', name: 'Operations Director', abbreviation: 'OPS' },
+    sessionName: 'Spring full-scale rehearsal',
+    scenarioTitle: 'FIDS and BHS outage',
+    clock: CLOCK,
+    roster: [
+      { client: IDS.playerA, name: 'Ops Director seat', roleId: 'ops-director', kind: 'player' },
+    ],
+    features: { messages: true, votes: true, hotwash: true, surveys: false, eval: true },
+  },
+  presence: { client: IDS.playerA, state: 'online', at: 1_700_000_000_000 },
+  'catchup.request': { after: 0, limit: 100 },
+  'catchup.batch': { from: 0, to: 0, entries: [], done: true },
+  'clock.state': { ...CLOCK, reason: 'start' },
+  'inject.release': {
+    releaseId: IDS.release,
+    mselRowId: 'I-06',
+    injectId: 'inj-06',
+    title: 'FIDS boards go dark',
+    injectType: 'fids_board',
+    deliveryMode: 'hand_to_role',
+    sender: 'Terminal operations',
+    text: {
+      headline: 'FIDS outage',
+      body: 'All departure boards in Terminal B show no data.',
+      altText: 'A dark FIDS board',
+    },
+    exerciseTime: '0:45',
+    targets: ['role:ops-director'],
+    media: [BLOB_REF],
+    expectsResponse: true,
+  },
+  'inject.receipt': { releaseId: IDS.release, status: 'read', at: 1_700_000_000_000 },
+  'inject.recall': {
+    releaseId: IDS.release,
+    mselRowId: 'I-06',
+    reason: 'withdrawn',
+    targets: ['role:ops-director'],
+  },
+  'message.send': {
+    messageId: IDS.message,
+    channel: 'role:ops-director',
+    text: 'Can you confirm the boards are down on both levels?',
+    attachments: [],
+  },
+  'vote.open': {
+    voteId: IDS.vote,
+    question: 'Activate the EOC now?',
+    options: [
+      { id: 'yes', label: 'Yes, activate' },
+      { id: 'no', label: 'Not yet' },
+    ],
+    anonymous: true,
+    allowChange: true,
+    targets: ['all'],
+  },
+  'vote.cast': { voteId: IDS.vote, optionId: 'yes', rationale: 'Two systems are down.' },
+  'vote.close': {
+    voteId: IDS.vote,
+    status: 'closed',
+    results: [
+      { optionId: 'yes', count: 4 },
+      { optionId: 'no', count: 1 },
+    ],
+    voted: 5,
+    eligible: 6,
+    reveal: true,
+  },
+  'hotwash.item': {
+    itemId: IDS.item,
+    kind: 'improvement',
+    text: 'The PIO had no FIDS status feed.',
+    anonymous: true,
+  },
+  'hotwash.update': { itemId: IDS.item, action: 'promote', objectiveId: 'obj-2' },
+  'survey.open': {
+    surveyId: IDS.survey,
+    title: 'Participant feedback',
+    questions: [
+      {
+        id: 'q1',
+        kind: 'scale',
+        text: 'The exercise met its objectives.',
+        min: 1,
+        max: 5,
+        required: true,
+      },
+    ],
+    anonymous: true,
+    targets: ['all'],
+  },
+  'survey.response': { surveyId: IDS.survey, answers: [{ questionId: 'q1', value: 4 }] },
+  'survey.close': { surveyId: IDS.survey },
+  'eval.assign': {
+    assignmentId: IDS.assignment,
+    revision: 1,
+    label: 'Operations and PIO',
+    watch: { roleIds: ['ops-director', 'pio'], capabilities: ['operational-coordination'] },
+    showExpected: true,
+    tasks: [
+      {
+        id: 't1',
+        capability: 'operational-coordination',
+        task: 'Activates the EOC within 15 minutes of the second system failure.',
+        citation: {
+          documentTitle: 'Airport Emergency Plan',
+          headingPath: 'Section 4 › 4.2 Activation',
+          page: 12,
+        },
+        expectedBy: 'ops-director',
+        rowIds: ['I-06', 'I-07'],
+      },
+    ],
+  },
+  'eval.observation': {
+    observationId: IDS.observation,
+    revision: 1,
+    kind: 'task',
+    taskId: 't1',
+    rating: 'partial',
+    notes: 'EOC activated at 0:58, after the third inject.',
+    exerciseTime: '0:58',
+    observedAt: 1_700_000_000_000,
+  },
+  'call.ring': {
+    callId: IDS.call,
+    turn: 1,
+    persona: { name: 'Dana Reyes', organization: 'Channel 5 News' },
+    transcript: 'Is it true the airport has lost its departure boards?',
+    canSpeak: true,
+    targets: ['role:pio'],
+  },
+  'call.answer': {
+    callId: IDS.call,
+    turn: 1,
+    text: 'We are looking into reports of a display issue.',
+  },
+  'call.end': { callId: IDS.call, turn: 2, reason: 'completed', by: 'controller' },
+  'controller.notice': {
+    noticeId: IDS.notice,
+    kind: 'text',
+    level: 'info',
+    text: 'Ten-minute break. Play resumes at 10:40.',
+    targets: ['all'],
+    dismissible: true,
+  },
+  'controller.roster': {
+    revision: 1,
+    controllers: [
+      {
+        id: 'metro-transit',
+        name: 'Metro Transit controller',
+        publicKey: FAKE_POINT,
+        scope: { rowPrefixes: ['T-'], roleIds: ['transit-ops'] },
+      },
+    ],
+  },
+  'session.end': {
+    reason: 'endex',
+    at: 1_700_000_000_000,
+    message: 'ENDEX. Hot wash in ten minutes.',
+  },
+  'session.rekey': {
+    epoch: 2,
+    key: 'players',
+    controllerEcdhPub: FAKE_POINT,
+    wrapped: { n: NONCE, c: 'A'.repeat(64) },
+  },
+  'relay.hello': {
+    index: 0,
+    yourLastSeq: 0,
+    clients: [],
+    server: { kind: 'lan', version: '0.6.0', protocol: [1] },
+    caps: {
+      envelopeBytes: 262144,
+      chunkBytes: 196608,
+      blobBytes: 268435456,
+      playerBlobBytes: 2097152,
+      blobsTotalBytes: 2147483648,
+      clients: 60,
+    },
+  },
+  'relay.error': { code: 'RATE_LIMITED', message: 'Slow down', retryAfterMs: 1000 },
+  'relay.blob.put': { blobId: IDS.blob, index: 0, count: 1, bytes: 'AAAA' },
+  'relay.blob.get': { blobId: IDS.blob },
+  'relay.blob.chunk': { blobId: IDS.blob, index: 0, count: 1, bytes: 'AAAA' },
+  'relay.blob.done': { blobId: IDS.blob, stored: true, totalBytes: 3 },
+}
