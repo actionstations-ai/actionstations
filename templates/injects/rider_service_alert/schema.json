@@ -9,12 +9,14 @@
     "agency": {
       "type": "string",
       "description": "Transit agency name",
-      "examples": ["Riverbend Transit"]
+      "examples": ["Riverbend Transit"],
+      "x-translate": false
     },
     "alertId": {
       "type": "string",
       "description": "Alert id",
-      "examples": ["RT-ALERT-26-4471"]
+      "examples": ["RT-ALERT-26-4471"],
+      "x-translate": false
     },
     "routes": {
       "type": "array",
@@ -29,7 +31,8 @@
           "id": {
             "type": "string",
             "description": "Route short name shown in the route badge",
-            "examples": ["Red", "22"]
+            "examples": ["Red", "22"],
+            "x-translate": false
           },
           "mode": {
             "type": "string",
@@ -48,7 +51,8 @@
           "color": {
             "type": "string",
             "description": "Route colour as a hex code, e.g. #d6322a",
-            "examples": ["#d6322a"]
+            "examples": ["#d6322a"],
+            "x-translate": false
           }
         }
       }
@@ -120,12 +124,14 @@
     "updatedAt": {
       "type": "string",
       "description": "Last update time",
-      "examples": ["7:18 AM"]
+      "examples": ["7:18 AM"],
+      "x-translate": false
     },
     "clock": {
       "type": "string",
       "description": "Phone status-bar time (app variant)",
-      "examples": ["7:21"]
+      "examples": ["7:21"],
+      "x-translate": false
     }
   }
 }

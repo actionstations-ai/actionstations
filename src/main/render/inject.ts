@@ -12,7 +12,13 @@
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { isAbsolute, relative, sep } from 'node:path'
-import { Inject, type Brand, type MediaAsset } from '@shared/schemas'
+import {
+  Inject,
+  type Brand,
+  type InjectTranslation,
+  type MediaAsset,
+  type SupportedLanguage,
+} from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import {
   ensureDir,
@@ -29,6 +35,7 @@ import { loadProject, projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { saveInject } from '../scenario/store'
 import { composeDocument } from './compose'
+import { translatedInject } from '../translate/inject'
 import { adoptPackTemplate } from './template-copies'
 import { loadTemplate, validateFields, type TemplateMeta } from './templates'
 import { renderPdf, renderPng } from './window'
@@ -166,6 +173,27 @@ export async function renderInjectAssets(
   inject: Inject,
   opts: RenderInjectOptions = {},
 ): Promise<RenderedInject> {
+  const assets = await renderTemplateAssets(root, scenarioId, inject, opts)
+  const old = inject.assets.filter((a) => TEMPLATE_ROLES.has(a.role))
+  const kept = inject.assets.filter((a) => !TEMPLATE_ROLES.has(a.role))
+  await removeOldOutputs(
+    root,
+    safeJoin(projectPaths(root).scenarioMedia(scenarioId), inject.id),
+    old,
+  )
+  return { inject: { ...inject, assets: [...kept, ...assets] }, assets }
+}
+
+/**
+ * Render the template with the inject's fields (or the translated ones, with `lang`) into
+ * media files and return the assets written. Callers decide which old assets they replace.
+ */
+async function renderTemplateAssets(
+  root: string,
+  scenarioId: string,
+  inject: Inject,
+  opts: RenderInjectOptions & { lang?: string },
+): Promise<MediaAsset[]> {
   // Copy-on-use: rendering a pack template type takes the template into the project first.
   await adoptPackTemplate(root, inject.type)
   const template = loadTemplate(inject.type, root)
@@ -177,6 +205,8 @@ export async function renderInjectAssets(
     type: inject.type,
     projectRoot: root,
     fields: inject.fields,
+    title: inject.title,
+    ...(opts.lang ? { lang: opts.lang } : {}),
     ...(opts.brand ? { brand: opts.brand } : {}),
     ...(logo ? { logo } : {}),
     ...(variant ? { variant } : {}),
@@ -189,6 +219,7 @@ export async function renderInjectAssets(
     provider: 'template',
     templateId: template.meta.type,
     templateVersion: template.meta.version,
+    ...(opts.lang ? { lang: opts.lang } : {}),
     createdAt: nowIso(),
   }
   const write = async (ext: string, data: Buffer): Promise<{ id: string; path: string }> => {
@@ -222,10 +253,28 @@ export async function renderInjectAssets(
     })
   }
 
-  const old = inject.assets.filter((a) => TEMPLATE_ROLES.has(a.role))
-  const kept = inject.assets.filter((a) => !TEMPLATE_ROLES.has(a.role))
-  await removeOldOutputs(root, mediaDir, old)
-  return { inject: { ...inject, assets: [...kept, ...assets] }, assets }
+  return assets
+}
+
+/**
+ * Render an inject's translation (spec 0435 FR-9): the same template with the translated
+ * fields, `lang` set, labels from labels/<lang>.json. AI photographs are reused as they are.
+ * Returns the translation with its new render assets; the caller saves the inject.
+ */
+export async function renderInjectTranslation(
+  root: string,
+  scenarioId: string,
+  inject: Inject,
+  lang: SupportedLanguage,
+  opts: RenderInjectOptions = {},
+): Promise<InjectTranslation> {
+  const stored = inject.translations?.[lang]
+  if (!stored) throw new AppError('NOT_FOUND', `Inject ${inject.id} has no ${lang} translation`)
+  const translated = translatedInject(inject, lang, root)
+  const assets = await renderTemplateAssets(root, scenarioId, translated, { ...opts, lang })
+  const mediaDir = safeJoin(projectPaths(root).scenarioMedia(scenarioId), inject.id)
+  await removeOldOutputs(root, mediaDir, stored.assets)
+  return { ...stored, assets }
 }
 
 const injectLocks = new Map<string, Promise<unknown>>()

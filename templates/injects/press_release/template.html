@@ -18,7 +18,7 @@
         brand.region}}, {{brand.region}}{{/if}}{{/if}}
       </div>
     </div>
-    <div class="nr">News Release</div>
+    <div class="nr">{{t 'News Release'}}</div>
   </header>
 
   <div class="meta">
@@ -30,7 +30,7 @@
     </div>
     {{#if fields.mediaContact}}
     <div class="contact">
-      <b>Media Contact:</b><br />
+      <b>{{t 'Media Contact:'}}</b><br />
       {{fields.mediaContact.name}}{{#if fields.mediaContact.title}},
       {{fields.mediaContact.title}}{{/if}}<br />
       {{fields.mediaContact.phone}}{{#if fields.mediaContact.email}} ·

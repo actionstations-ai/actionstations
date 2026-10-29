@@ -14,6 +14,8 @@ export const Provenance = z.object({
   templateId: z.string().optional(),
   templateVersion: z.string().optional(),
   postFx: z.array(z.string()).optional(),
+  /** Language of a translated render (spec 0435); absent = the English source. */
+  lang: z.string().max(12).optional(),
   createdAt: IsoDateTime,
 })
 export type Provenance = z.infer<typeof Provenance>

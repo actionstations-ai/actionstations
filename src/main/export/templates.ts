@@ -6,6 +6,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { AppError } from '../lib/errors'
 import { resourcePath } from '../lib/paths'
+import { exportStrings, type DocLang } from './lang'
 
 export const exportTemplatesDir = (): string => resourcePath('templates', 'export')
 
@@ -22,8 +23,17 @@ export type ExportTemplateName =
   | 'eeg'
   | 'hseep'
   | 'aar'
+  | 'player-injects'
 
 const hb = Handlebars.create()
+
+/** {{t 'English text'}}: the chrome string in the document language (spec 0435 FR-13). */
+hb.registerHelper('t', (...args: unknown[]) => {
+  const options = args.pop() as Handlebars.HelperOptions
+  const english = String(args[0] ?? '')
+  const strings = (options.data?.strings ?? {}) as Record<string, string>
+  return strings[english] ?? english
+})
 let partialsLoaded = false
 
 function readTemplateFile(...parts: string[]): string {
@@ -44,10 +54,14 @@ function loadPartials(): void {
 }
 
 /** Render one export template with `context` (strings escaped; SafeString passes through). */
-export function renderExportTemplate(name: ExportTemplateName, context: object): string {
+export function renderExportTemplate(
+  name: ExportTemplateName,
+  context: object,
+  lang: DocLang = 'en',
+): string {
   loadPartials()
   const fn = hb.compile(readTemplateFile(`${name}.html`), { strict: false })
-  return fn(context)
+  return fn(context, { data: { strings: exportStrings(lang) } })
 }
 
 /** Mark HTML produced by trusted code (sanitized markdown, template forms) as safe. */

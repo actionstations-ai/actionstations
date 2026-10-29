@@ -9,7 +9,11 @@ import { defaultDecisions } from '@shared/branching/default-path'
 import { buildGraph, hasBranches, pathOrder, type BranchNode } from '@shared/branching/graph'
 import { injectTypeInfo, PURPOSE_TAG_INFO, type PurposeTag } from '@shared/taxonomy'
 import { safeJoin } from '../lib/fs'
+import { loadTemplate } from '../render/templates'
+import { isControllerOnlyRow } from '../translate/scope'
+import { localizeRendition, tr, type DocLang } from './lang'
 import type { ExportModel } from './model'
+import { injectText } from './text-rendition'
 import type { PlannedMedia } from './naming'
 
 export type RenderMode = 'pdf' | 'preview'
@@ -51,8 +55,8 @@ export function locationText(s: Scenario): string {
   return s.overview?.location ?? ''
 }
 
-export const durationText = (s: Scenario): string =>
-  `${s.brief.durationHours} ${s.brief.durationHours === 1 ? 'Hour' : 'Hours'}`
+export const durationText = (s: Scenario, lang?: DocLang): string =>
+  `${s.brief.durationHours} ${tr(lang, s.brief.durationHours === 1 ? 'Hour' : 'Hours')}`
 
 function audienceText(s: Scenario): string {
   return s.overview?.targetAudience || s.brief.audience.join(', ')
@@ -344,6 +348,59 @@ function phaseLabel(rows: MselRow[], rowId: string, phases: Map<string, Phase>):
   return phase ? `${phaseHeading(phase)} ${phaseHours(phase)}` : 'Additional events'
 }
 
+/** The inject's words, one line per paragraph (spec 0435 FR-15, spec 0432 FR-13). */
+export function renditionLines(model: ExportModel, inject: Inject): string[] {
+  let schema: Record<string, unknown> | undefined
+  try {
+    schema = loadTemplate(inject.type, model.root).schema
+  } catch {
+    schema = undefined
+  }
+  const text = localizeRendition(injectText(inject, schema), model.lang)
+  return text
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+}
+
+/** Cards of the injects that go to players: not the rows only controllers or the SimCell see. */
+export function playerInjectsView(model: ExportModel, prefix: string, mode: RenderMode) {
+  const s = model.scenario
+  const byRow = new Map(model.injects.map((i) => [i.mselRowId, i]))
+  const rows = groupRows(s)
+    .flatMap((g) => g.rows)
+    .filter((row) => {
+      const inject = byRow.get(row.id)
+      return !!inject && inject.includeInDeck !== false && !isControllerOnlyRow(row, s)
+    })
+  const cards = rows.map((row) => {
+    const inject = byRow.get(row.id)!
+    const image = primaryImage(inject, model.available)
+    return {
+      title: inject.title || row.event.split(/(?<=[.!?])\s/)[0] || row.id,
+      from: row.from,
+      to: toText(row, s),
+      lines: renditionLines(model, inject),
+      image: image && {
+        src: assetSrc(model, image.path, mode),
+        alt: `${formatLabel(row, inject)}: ${inject.title}`,
+      },
+    }
+  })
+  return {
+    prefix,
+    title: {
+      id: `${prefix}player-injects-title`,
+      eyebrow: tr(model.lang, 'Player Injects'),
+      heading: scenarioHeading(model),
+      sub: s.subtitle ?? '',
+      facts: titleFacts(model),
+    },
+    cards,
+    endNote: tr(model.lang, 'End of Player Injects'),
+  }
+}
+
 function deckPage(
   model: ExportModel,
   row: MselRow,
@@ -376,6 +433,8 @@ function deckPage(
     image: imagePath && {
       src: assetSrc(model, imagePath, mode),
       alt: `${format} for inject ${row.id}: ${inject?.title ?? row.event}`,
+      // The words of the picture as real text, read by a screen reader after the image.
+      lines: inject ? renditionLines(model, inject) : [],
     },
     audio: audio && {
       fileName: audio.fileName,
@@ -403,7 +462,12 @@ export function teamRows(s: Scenario) {
 
 export function titleFacts(model: ExportModel, extra: [string, string][] = []): Fact[] {
   const s = model.scenario
-  return facts([['Location', locationText(s)], ['Duration', durationText(s)], ...extra])
+  const lang = model.lang
+  return facts([
+    [tr(lang, 'Location'), locationText(s)],
+    [tr(lang, 'Duration'), durationText(s, lang)],
+    ...extra,
+  ])
 }
 
 const RULE_WORDS: Record<string, string> = {

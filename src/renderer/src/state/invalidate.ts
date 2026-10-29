@@ -29,9 +29,11 @@ const BY_WHAT: Record<What, string[]> = {
     'evaluation:',
     'export:preview-html',
     'grounding:',
+    'translate:',
   ],
   injects: [
     'injects:',
+    'translate:',
     'scenarios:',
     'render:',
     'facilitator:',
@@ -84,6 +86,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'build-drill': ['drills:', 'scenarios:'],
   'drill-export': ['drills:'],
   'build-micro-drill': ['microdrills:'],
+  translate: [...SCENARIO_WORK, 'translate:'],
 }
 
 export interface Change {

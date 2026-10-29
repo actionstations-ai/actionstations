@@ -293,7 +293,17 @@ describe('providers:task-support', () => {
         'providers:task-support',
       )
     expect(Object.keys(support).sort()).toEqual(
-      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'transcribe', 'video'].sort(),
+      [
+        'audio',
+        'critique',
+        'draft',
+        'embed',
+        'ideate',
+        'image',
+        'transcribe',
+        'translate',
+        'video',
+      ].sort(),
     )
     expect(support.draft!.kinds).toEqual(expect.arrayContaining(['anthropic', 'openai-compatible']))
     expect(support.draft!.providerIds.sort()).toEqual([lm.id, mock.id].sort())
@@ -370,7 +380,17 @@ describe('routing:get / set', () => {
     expect(list).toEqual([expect.objectContaining({ id: 'mock', kind: 'mock' })])
     const { effective } = await call<{ effective: Record<string, unknown> }>('routing:get', {})
     expect(Object.keys(effective).sort()).toEqual(
-      ['audio', 'critique', 'draft', 'embed', 'ideate', 'image', 'transcribe', 'video'].sort(),
+      [
+        'audio',
+        'critique',
+        'draft',
+        'embed',
+        'ideate',
+        'image',
+        'transcribe',
+        'translate',
+        'video',
+      ].sort(),
     )
   })
 })

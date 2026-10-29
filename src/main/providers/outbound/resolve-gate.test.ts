@@ -70,7 +70,7 @@ type GatedTask = Exclude<ProviderTask, 'transcribe'>
 describe('provider resolution and the outbound gate', () => {
   it('covers every task some adapter serves', () => {
     expect(new Set(cases.map(([t]) => t))).toEqual(
-      new Set(['ideate', 'draft', 'critique', 'embed', 'image', 'video', 'audio']),
+      new Set(['ideate', 'draft', 'critique', 'translate', 'embed', 'image', 'video', 'audio']),
     )
   })
 

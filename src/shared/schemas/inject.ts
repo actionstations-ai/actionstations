@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { Citation, Id, IsoDateTime } from './common'
 import { MediaAsset } from './media'
+import { InjectTranslation, SupportedLanguage } from './translation'
 import { InjectType } from '../taxonomy'
 
 export const DeliveryMode = z.enum([
@@ -69,6 +70,8 @@ export const Inject = z.looseObject({
   mediaBrief: MediaBrief.optional(),
   assets: z.array(MediaAsset).default([]),
   versions: z.array(InjectVersion).default([]),
+  /** Player-language translations (spec 0435); English stays in the fields above. */
+  translations: z.partialRecord(SupportedLanguage, InjectTranslation).optional(),
   /** Include a page for this inject in the Master Inject Deck. */
   includeInDeck: z.boolean().default(true),
   locked: z.boolean().default(false),

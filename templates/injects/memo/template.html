@@ -27,30 +27,30 @@
     <div class="ref">Ref. {{fields.memoNumber}}</div>
     {{/if}}
   </header>
-  <h1 class="title">Memorandum</h1>
+  <h1 class="title">{{t 'Memorandum'}}</h1>
   <table class="hdr">
     <tr>
-      <th>TO:</th>
+      <th>{{t 'TO:'}}</th>
       <td>{{fields.to}}</td>
     </tr>
     <tr>
-      <th>FROM:</th>
+      <th>{{t 'FROM:'}}</th>
       <td>
         {{fields.from}}{{#if fields.initials}}<span class="ink">{{fields.initials}}</span>{{/if}}
       </td>
     </tr>
     {{#if fields.cc}}
     <tr>
-      <th>CC:</th>
+      <th>{{t 'CC:'}}</th>
       <td>{{fields.cc}}</td>
     </tr>
     {{/if}}
     <tr>
-      <th>DATE:</th>
+      <th>{{t 'DATE:'}}</th>
       <td>{{fields.date}}</td>
     </tr>
     <tr>
-      <th>SUBJECT:</th>
+      <th>{{t 'SUBJECT:'}}</th>
       <td class="subj">{{fields.subject}}</td>
     </tr>
   </table>
@@ -61,6 +61,6 @@
   {{/if}}
   <footer class="foot">
     <span>{{default fields.classification 'INTERNAL — NOT FOR PUBLIC RELEASE'}}</span>
-    <span>Page 1 of 1</span>
+    <span>{{t 'Page 1 of 1'}}</span>
   </footer>
 </div>

@@ -30,6 +30,14 @@ import { clocksCsv, coverageCsv, coverageWorkbook, hasCoverage } from './coverag
 import { hasBranches } from '@shared/branching/graph'
 import { distributionEntries, writeZip } from './zip'
 import {
+  hasContent,
+  prepareSpanish,
+  wantsEnglishPlayers,
+  writeControllerSpanish,
+  writePlayerVariants,
+  type VariantState,
+} from './variants'
+import {
   writeCapXml,
   writeConducttr,
   writeEocPackage,
@@ -43,6 +51,7 @@ const ZIP_NEEDS: ExportTarget[] = [
   'deck_pdf',
   'handbook_pdf',
   'briefing_pdf',
+  'player_injects_pdf',
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
@@ -70,6 +79,7 @@ const ORDER: ExportTarget[] = [
   'deck_pdf',
   'handbook_pdf',
   'briefing_pdf',
+  'player_injects_pdf',
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
@@ -102,6 +112,7 @@ const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof Docum
   deck_pdf: { doc: 'deck', file: 'deck' },
   handbook_pdf: { doc: 'handbook', file: 'handbook' },
   briefing_pdf: { doc: 'briefing', file: 'briefing' },
+  player_injects_pdf: { doc: 'player_injects', file: 'playerInjects' },
   exercise_plan_pdf: { doc: 'exercise_plan', file: 'exercisePlan' },
   eeg_pdf: { doc: 'eeg', file: 'eegs' },
   explan_pdf: { doc: 'explan', file: 'explan' },
@@ -154,6 +165,14 @@ interface RunState {
   /** Participant survey forms written by this run: the only survey files players/ may get. */
   playerSurveyForms: string[]
   options: ExportOptions
+  /** The model in Spanish when the export asks for it (spec 0435). */
+  es?: ExportModel | undefined
+  /** English files for players/ beyond the usual ones (player injects, large print). */
+  playerExtra: string[]
+  /** Spanish files for players/es/. */
+  playerEs: string[]
+  warnings: string[]
+  write: VariantState['write']
 }
 
 /** One printable form per survey in surveys/; participant forms are also allowed in players/. */
@@ -262,6 +281,8 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     state.result.warnings.push(NO_AAR)
     return
   }
+  // A scenario with no injects for players has no player injects to print.
+  if (target === 'player_injects_pdf' && !hasContent(state.model, 'player_injects')) return
   if (pdf) {
     await writePdf(state, pdf.doc, pdf.file)
     if (target === 'sitman_pdf' && state.options.sitmanPlayerEdition)
@@ -269,9 +290,18 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     if (target === 'briefing_pdf') {
       await writeBlankForms(state)
       await writeHandouts(state, 'handouts', 'handouts')
+      await writePlayerVariants(state, 'briefing')
+      await writePlayerVariants(state, 'handouts')
     }
-    if (target === 'handbook_pdf')
+    if (target === 'player_injects_pdf') {
+      if (wantsEnglishPlayers(state.options)) state.playerExtra.push(state.names.playerInjects)
+      await writePlayerVariants(state, 'player_injects')
+    }
+    if (target === 'handbook_pdf') {
       await writeHandouts(state, 'controller_handouts', 'controllerHandouts')
+      await writeControllerSpanish(state, 'handbook')
+      await writeControllerSpanish(state, 'controller_handouts')
+    }
     // The Improvement Plan tracker sheet travels with the AAR/IP (spec 0419 FR-11).
     if (target === 'aar_pdf')
       await writeOut(
@@ -317,7 +347,17 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       const zipPath = join(outDir, state.names.zip)
       await writeZip(
         zipPath,
-        distributionEntries(state.folder, state.names, state.result.files, state.playerSurveyForms),
+        distributionEntries(
+          state.folder,
+          state.names,
+          state.result.files,
+          state.playerSurveyForms,
+          {
+            english: wantsEnglishPlayers(state.options),
+            extra: state.playerExtra,
+            es: state.playerEs,
+          },
+        ),
       )
       state.result.zipPath = zipPath
       state.result.files.push(zipPath)
@@ -354,6 +394,7 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   deck_pdf: 'Master Inject Deck PDF',
   handbook_pdf: 'Controller / Evaluator Handbook PDF',
   briefing_pdf: 'Player Briefing Packet PDF',
+  player_injects_pdf: 'Player Injects PDF',
   exercise_plan_pdf: 'Exercise Plan PDF',
   surveys_pdf: 'survey forms',
   survey_results_pdf: 'survey results PDF',
@@ -375,6 +416,17 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   zip: 'distribution ZIP',
 }
 
+/** The options a run keeps: only those that were set. */
+function exportOptionsOf(opts: ExportOptions): ExportOptions {
+  return {
+    ...(opts.sitmanPlayerEdition ? { sitmanPlayerEdition: true } : {}),
+    ...(opts.playerLanguages ? { playerLanguages: opts.playerLanguages } : {}),
+    ...(opts.largePrint ? { largePrint: true } : {}),
+    ...(opts.allowUnreviewed ? { allowUnreviewed: true } : {}),
+    ...(opts.controllerLanguages?.length ? { controllerLanguages: opts.controllerLanguages } : {}),
+  }
+}
+
 /** Run an export job: every planned target in order, one progress step each. */
 export async function runExport(
   model: ExportModel,
@@ -389,16 +441,22 @@ export async function runExport(
   })
   const folder = join(await assertOutDir(outDir), names.folder)
   await ensureDir(folder)
+  const result: ExportResult = { folder, files: [], warnings: [] }
   const state: RunState = {
     model,
     names,
     folder,
     media: [],
-    options: { ...(opts.sitmanPlayerEdition ? { sitmanPlayerEdition: true } : {}) },
-    result: { folder, files: [], warnings: [] },
+    options: exportOptionsOf(opts),
+    result,
     playerSurveyForms: [],
+    playerExtra: [],
+    playerEs: [],
+    warnings: result.warnings,
+    write: (rel, data) => writeOut(state, rel, data),
     ...(opts.surveyIds?.length ? { surveyIds: opts.surveyIds } : {}),
   }
+  await prepareSpanish(state)
   const plan = planTargets(targets)
   for (const [i, target] of plan.entries()) {
     ctx.throwIfCancelled()

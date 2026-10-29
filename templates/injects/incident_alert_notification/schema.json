@@ -8,12 +8,14 @@
     "sender": {
       "type": "string",
       "description": "Issuing agency. Falls back to brand.aliases.org.",
-      "examples": ["Milford County Emergency Management", "Riverbend Regional Transit Authority"]
+      "examples": ["Milford County Emergency Management", "Riverbend Regional Transit Authority"],
+      "x-translate": false
     },
     "senderShortCode": {
       "type": "string",
       "description": "SMS short code or sender address the alert comes from.",
-      "examples": ["67283", "alerts@milfordcounty.example"]
+      "examples": ["67283", "alerts@milfordcounty.example"],
+      "x-translate": false
     },
     "headline": {
       "type": "string",
@@ -30,12 +32,14 @@
     "issuedAt": {
       "type": "string",
       "description": "Issue time as the device or document shows it.",
-      "examples": ["2:14 PM", "Tue 21 Oct 2026 14:14 EDT"]
+      "examples": ["2:14 PM", "Tue 21 Oct 2026 14:14 EDT"],
+      "x-translate": false
     },
     "expiresAt": {
       "type": "string",
       "description": "Expiry time.",
-      "examples": ["Tue 21 Oct 2026 20:14 EDT"]
+      "examples": ["Tue 21 Oct 2026 20:14 EDT"],
+      "x-translate": false
     },
     "areaAffected": {
       "type": "string",
@@ -59,7 +63,8 @@
     "moreInfoUrl": {
       "type": "string",
       "description": "Plain-text web address for more information (not a link).",
-      "examples": ["milfordcounty.example/alerts"]
+      "examples": ["milfordcounty.example/alerts"],
+      "x-translate": false
     },
     "severity": {
       "type": "string",
@@ -75,7 +80,8 @@
     "clock": {
       "type": "string",
       "description": "Phone status-bar clock (wea and sms variants).",
-      "examples": ["2:14"]
+      "examples": ["2:14"],
+      "x-translate": false
     }
   },
   "additionalProperties": false

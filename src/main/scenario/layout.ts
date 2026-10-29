@@ -1,7 +1,7 @@
 // Scenario folder layout and per-scenario write lock.
 import { resolve } from 'node:path'
 import { SafeId } from '@shared/schemas/common'
-import type { ScenarioDocKind } from '@shared/schemas'
+import type { ScenarioDocKind, SupportedLanguage } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { safeJoin, toRel } from '../lib/fs'
 import { projectPaths } from '../project/store'
@@ -27,6 +27,9 @@ export function scenarioLayout(root: string, scenarioId: string) {
     documents: safeJoin(dir, 'documents'),
     doc: (kind: ScenarioDocKind) => safeJoin(dir, 'documents', `${kind}.md`),
     /** Project-root-relative path stored in Scenario.documents. */
+    /** A translated document (spec 0435): documents/<kind>.<lang>.md. */
+    translatedDoc: (kind: ScenarioDocKind, lang: SupportedLanguage) =>
+      safeJoin(dir, 'documents', `${kind}.${lang}.md`),
     docRel: (kind: ScenarioDocKind) => toRel(root, safeJoin(dir, 'documents', `${kind}.md`)),
     media: safeJoin(dir, 'media'),
     /** Surveys (#422): <surveyId>.json definitions and <surveyId>.responses.jsonl answers. */

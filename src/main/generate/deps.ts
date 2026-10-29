@@ -9,7 +9,7 @@ import type { SaveOptions } from '../scenario/store'
 import type { FacilityFacts } from './facility'
 import { asTask } from './task-errors'
 
-export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
+export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique' | 'translate'>
 
 export interface ScenarioStoreDeps {
   createScenario(

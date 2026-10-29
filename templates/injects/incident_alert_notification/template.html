@@ -25,19 +25,19 @@
     </div>
   </header>
   <div class="thread">
-    <div class="sep">Text Message<br /><b>Today {{fields.issuedAt}}</b></div>
+    <div class="sep">{{t 'Text Message'}}<br /><b>Today {{fields.issuedAt}}</b></div>
     <div class="bub">
-      {{#if fields.isTest}}<b>THIS IS A TEST. </b>{{/if}}<b>{{default fields.sender (default brand.aliases.org "Emergency Management")}}:</b> {{upper fields.headline}}. {{fields.body}}
+      {{#if fields.isTest}}<b>{{t 'THIS IS A TEST.'}} </b>{{/if}}<b>{{default fields.sender (default brand.aliases.org "Emergency Management")}}:</b> {{upper fields.headline}}. {{fields.body}}
       {{#each fields.instructions}}<br />- {{this}}{{/each}}
-      {{#if fields.moreInfoUrl}}<br />Info: <span class="link">{{fields.moreInfoUrl}}</span>{{/if}}
-      <br />Reply STOP to opt out.
+      {{#if fields.moreInfoUrl}}<br />{{t 'Info:'}} <span class="link">{{fields.moreInfoUrl}}</span>{{/if}}
+      <br />{{t 'Reply STOP to opt out.'}}
     </div>
-    <div class="receipt">Delivered via emergency notification service</div>
+    <div class="receipt">{{t 'Delivered via emergency notification service'}}</div>
   </div>
 
   {{else if (eq variant "email")}}
   <div class="mail">
-    <div class="band"><span>{{upper (default fields.severity "warning")}}</span>{{#if fields.isTest}}<b>THIS IS A TEST</b>{{/if}}</div>
+    <div class="band"><span>{{upper (default fields.severity "warning")}}</span>{{#if fields.isTest}}<b>{{t 'THIS IS A TEST'}}</b>{{/if}}</div>
     <div class="hdr">
       <div class="subj">[{{upper (default fields.severity "warning")}}] {{fields.headline}}</div>
       <div class="from">
@@ -50,37 +50,37 @@
       </div>
     </div>
     <div class="content">
-      {{#if fields.areaAffected}}<p class="area"><b>Area:</b> {{fields.areaAffected}}</p>{{/if}}
+      {{#if fields.areaAffected}}<p class="area"><b>{{t 'Area:'}}</b> {{fields.areaAffected}}</p>{{/if}}
       <p>{{nl2br fields.body}}</p>
       {{#if fields.instructions.length}}
-      <h3>What to do</h3>
+      <h3>{{t 'What to do'}}</h3>
       <ul>{{#each fields.instructions}}<li>{{this}}</li>{{/each}}</ul>
       {{/if}}
       <table class="meta">
-        <tr><th>Issued</th><td>{{fields.issuedAt}}</td></tr>
-        {{#if fields.expiresAt}}<tr><th>Expires</th><td>{{fields.expiresAt}}</td></tr>{{/if}}
-        {{#if fields.moreInfoUrl}}<tr><th>More info</th><td class="link">{{fields.moreInfoUrl}}</td></tr>{{/if}}
+        <tr><th>{{t 'Issued'}}</th><td>{{fields.issuedAt}}</td></tr>
+        {{#if fields.expiresAt}}<tr><th>{{t 'Expires'}}</th><td>{{fields.expiresAt}}</td></tr>{{/if}}
+        {{#if fields.moreInfoUrl}}<tr><th>{{t 'More info'}}</th><td class="link">{{fields.moreInfoUrl}}</td></tr>{{/if}}
       </table>
-      <p class="small">You are receiving this message because you registered for emergency alerts. Do not reply to this email.</p>
+      <p class="small">{{t 'You are receiving this message because you registered for emergency alerts. Do not reply to this email.'}}</p>
     </div>
   </div>
 
   {{else if (eq variant "siren_pa")}}
   <div class="card">
     <div class="ch">
-      <span>SIREN / PA MESSAGE SCRIPT</span>
+      <span>{{t 'SIREN / PA MESSAGE SCRIPT'}}</span>
       <b>{{upper (default fields.severity "warning")}}</b>
     </div>
-    {{#if fields.isTest}}<div class="test">THIS IS A TEST — READ “THIS IS A TEST” BEFORE AND AFTER</div>{{/if}}
+    {{#if fields.isTest}}<div class="test">{{t 'THIS IS A TEST — READ “THIS IS A TEST” BEFORE AND AFTER'}}</div>{{/if}}
     <table class="meta">
-      <tr><th>Issued by</th><td>{{default fields.sender (default brand.aliases.org "Emergency Management")}}</td></tr>
-      {{#if fields.areaAffected}}<tr><th>Zones</th><td>{{fields.areaAffected}}</td></tr>{{/if}}
-      <tr><th>Issued</th><td>{{fields.issuedAt}}</td></tr>
-      {{#if fields.expiresAt}}<tr><th>Expires</th><td>{{fields.expiresAt}}</td></tr>{{/if}}
+      <tr><th>{{t 'Issued by'}}</th><td>{{default fields.sender (default brand.aliases.org "Emergency Management")}}</td></tr>
+      {{#if fields.areaAffected}}<tr><th>{{t 'Zones'}}</th><td>{{fields.areaAffected}}</td></tr>{{/if}}
+      <tr><th>{{t 'Issued'}}</th><td>{{fields.issuedAt}}</td></tr>
+      {{#if fields.expiresAt}}<tr><th>{{t 'Expires'}}</th><td>{{fields.expiresAt}}</td></tr>{{/if}}
     </table>
     <div class="steps">
-      <p class="cue">1 · Sound <b>ALERT TONE</b> 3 minutes, steady</p>
-      <p class="cue">2 · Read slowly, twice:</p>
+      <p class="cue">{{t '1 · Sound'}} <b>{{t 'ALERT TONE'}}</b> {{t '3 minutes, steady'}}</p>
+      <p class="cue">{{t '2 · Read slowly, twice:'}}</p>
     </div>
     <div class="script">
       <p class="lead">{{upper fields.headline}}.</p>
@@ -89,7 +89,7 @@
       {{#if fields.moreInfoUrl}}<p>For more information go to {{fields.moreInfoUrl}}.</p>{{/if}}
     </div>
     <div class="steps">
-      <p class="cue">3 · Repeat every 10 minutes until cancelled</p>
+      <p class="cue">{{t '3 · Repeat every 10 minutes until cancelled'}}</p>
     </div>
     <div class="sign"><span>Read by: ____________</span><span>Time: ________</span></div>
   </div>
@@ -101,16 +101,16 @@
     <div class="note">
       <div class="nh">
         <span class="ni"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 23 21H1z" fill="#fff" /><path d="M11 8.5h2v6h-2zM11 16.5h2v2h-2z" fill="#c92a2a" /></svg></span>
-        <span class="na">EMERGENCY ALERTS</span>
+        <span class="na">{{t 'EMERGENCY ALERTS'}}</span>
         <span class="nt">{{default fields.issuedAt "now"}}</span>
       </div>
       <div class="ntitle">{{#if fields.isTest}}Test Alert{{else}}Emergency Alert{{/if}}</div>
       <div class="nclass">{{#if (eq fields.severity "emergency")}}Extreme alert{{else if (eq fields.severity "warning")}}Severe alert{{else}}Public Safety Alert{{/if}}</div>
       <div class="nbody">
-        {{#if fields.isTest}}<b>THIS IS A TEST. </b>{{/if}}<b>{{upper fields.headline}}:</b> {{fields.body}}{{#if fields.moreInfoUrl}} {{fields.moreInfoUrl}}{{/if}} -{{default fields.sender (default brand.aliases.org "Emergency Management")}}
+        {{#if fields.isTest}}<b>{{t 'THIS IS A TEST.'}} </b>{{/if}}<b>{{upper fields.headline}}:</b> {{fields.body}}{{#if fields.moreInfoUrl}} {{fields.moreInfoUrl}}{{/if}} -{{default fields.sender (default brand.aliases.org "Emergency Management")}}
       </div>
     </div>
-    <div class="hint">Press for more</div>
+    <div class="hint">{{t 'Press for more'}}</div>
     <div class="home"></div>
   </div>
   {{/if}}

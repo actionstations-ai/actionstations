@@ -1,6 +1,6 @@
 # Spec 0435: Translation and accessible player material
 
-Issue: #435 · Milestone: 0.9.0 · Status: Draft · Depends on: #432 (text rendition of injects) · Related: #420 (HSEEP document set), #422 (surveys), #411 (player web page), ADR-0007 (structured output), ADR-0012 (inject stages)
+Issue: #435 · Milestone: 0.9.0 · Status: Implemented · Depends on: #432 (text rendition of injects) · Related: #420 (HSEEP document set), #422 (surveys), #411 (player web page), ADR-0007 (structured output), ADR-0012 (inject stages)
 
 ## Summary
 
@@ -194,3 +194,15 @@ Chromium's `printToPDF({ generateTaggedPDF: true })` (Electron 45 in this repo) 
 3. **Exercise marking in Spanish.** Recommendation: "EJERCICIO" for exercise markings, matching FEMA's Spanish usage; put it in the glossary defaults so planners can change it. Verify against FEMA Spanish exercise materials before release.
 4. **Translate controller material at all in this release?** Recommendation: ship the option (FR-12) but leave it off by default; it reuses the same pipeline and costs little to build.
 5. **Large print for controller material?** Recommendation: player material only in this release; controllers rarely need it, and the CSS layer makes adding it a one-line change.
+
+## Implementation notes (where the build differs from this draft)
+
+- `languages`, `translations` (scenario), `translations` (inject) and `glossary` (project) are optional with no default, so existing files and code that builds scenarios and injects by hand are unchanged; readers treat absent as empty.
+- FR-3 also keeps a string field with a `maxLength` of 8 or less as written (initials, codes), because a translation cannot fit and the template check would refuse it.
+- FR-9: translated renders are made when a Spanish export runs, not when the text is translated, so a picture always matches the reviewed text. They are stored on the inject's translation (`assets`, `provenance.lang`).
+- FR-13: `templates/export/strings/es.json` maps each English chrome string to its translation (the English text stays at the call site and is the fallback), instead of named keys. There is no `en.json`.
+- FR-10: Spanish files are written to `<export folder>/es/` (names with `-es`), so the ZIP has `facilitator/es/` and `players/es/`. Language choice affects the briefing, handouts and the new **Player injects** document; the ICS forms, ExPlan, player SitMan and survey forms stay English.
+- FR-15: the player-injects PDF is a new document (`player_injects_pdf`, `templates/export/player-injects.html`), because the Master Inject Deck is controller material. The deck gets the same hidden text block after each picture; its `alt` stays a short label.
+- Tasks 4 and 7: the `t` helper, `labels/es.json` for the listed templates (except `text_message` and `cap_alert`, which have no static labels or already carry their Spanish block), and `x-translate` marks (plus `tweet`) are done; Spanish template goldens (`preview.es.json`) are not. veraPDF and a screen-reader read-through were not run in this build; `scripts/check-pdf-accessibility.mjs` is ready for them.
+- Surveys (#422) are not translated yet; they join the set in a follow-up.
+- Open questions resolved as recommended: block by default with the stamped override (1), `es-US` (2), "EJERCICIO" in the glossary defaults and in the default running marking, marked as needing confirmation against FEMA Spanish exercise material (3), controller translation available and off by default (4), large print for player material only (5).

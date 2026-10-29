@@ -14,17 +14,20 @@
         "parent": {
           "type": "string",
           "description": "Parent department above the organization (federal look)",
-          "examples": ["U.S. Department of Justice"]
+          "examples": ["U.S. Department of Justice"],
+          "x-translate": false
         },
         "organization": {
           "type": "string",
           "description": "Organization name",
-          "examples": ["Federal Bureau of Investigation", "Lakeshore Mutual Insurance Company"]
+          "examples": ["Federal Bureau of Investigation", "Lakeshore Mutual Insurance Company"],
+          "x-translate": false
         },
         "office": {
           "type": "string",
           "description": "Office, division or field office",
-          "examples": ["Cleveland Field Office"]
+          "examples": ["Cleveland Field Office"],
+          "x-translate": false
         },
         "address": {
           "type": "array",
@@ -32,13 +35,20 @@
           "items": {
             "type": "string",
             "examples": ["1501 Lakeside Avenue", "Cleveland, Ohio 44114"]
-          }
+          },
+          "x-translate": false
         },
-        "phone": { "type": "string", "description": "Main phone", "examples": ["(216) 555-0140"] },
+        "phone": {
+          "type": "string",
+          "description": "Main phone",
+          "examples": ["(216) 555-0140"],
+          "x-translate": false
+        },
         "web": {
           "type": "string",
           "description": "Web address (fictional)",
-          "examples": ["lakeshoremutual.example"]
+          "examples": ["lakeshoremutual.example"],
+          "x-translate": false
         },
         "fromProject": {
           "type": "boolean",
@@ -48,15 +58,22 @@
         "tagline": {
           "type": "string",
           "description": "Short tagline under a corporate name",
-          "examples": ["Commercial Cyber & Aviation Risk"]
+          "examples": ["Commercial Cyber & Aviation Risk"],
+          "x-translate": false
         }
       }
     },
-    "date": { "type": "string", "description": "Letter date", "examples": ["May 22, 2026"] },
+    "date": {
+      "type": "string",
+      "description": "Letter date",
+      "examples": ["May 22, 2026"],
+      "x-translate": false
+    },
     "referenceNumber": {
       "type": "string",
       "description": "File, case or claim number",
-      "examples": ["318A-CV-4471982"]
+      "examples": ["318A-CV-4471982"],
+      "x-translate": false
     },
     "referenceLabel": {
       "type": "string",
@@ -74,15 +91,28 @@
       "additionalProperties": false,
       "required": ["name"],
       "properties": {
-        "name": { "type": "string", "examples": ["Ms. Linda Chen"] },
-        "title": { "type": "string", "examples": ["Director of Information Technology"] },
-        "organization": { "type": "string", "examples": ["North Coast International Airport"] },
+        "name": {
+          "type": "string",
+          "examples": ["Ms. Linda Chen"],
+          "x-translate": false
+        },
+        "title": {
+          "type": "string",
+          "examples": ["Director of Information Technology"],
+          "x-translate": false
+        },
+        "organization": {
+          "type": "string",
+          "examples": ["North Coast International Airport"],
+          "x-translate": false
+        },
         "address": {
           "type": "array",
           "items": {
             "type": "string",
             "examples": ["5400 Airport Parkway", "Akron, Ohio 44312"]
-          }
+          },
+          "x-translate": false
         }
       }
     },
@@ -114,24 +144,40 @@
       "additionalProperties": false,
       "required": ["name"],
       "properties": {
-        "name": { "type": "string", "examples": ["Daniel R. Smith"] },
-        "title": { "type": "string", "examples": ["Supervisory Special Agent"] },
+        "name": {
+          "type": "string",
+          "examples": ["Daniel R. Smith"],
+          "x-translate": false
+        },
+        "title": {
+          "type": "string",
+          "examples": ["Supervisory Special Agent"],
+          "x-translate": false
+        },
         "signature": {
           "type": "string",
           "description": "Name as signed (rendered in handwriting); omit for no signature",
-          "examples": ["Daniel R. Smith"]
+          "examples": ["Daniel R. Smith"],
+          "x-translate": false
         }
       }
     },
     "cc": {
       "type": "array",
       "description": "Copy recipients",
-      "items": { "type": "string", "examples": ["Airport Security Coordinator, NCIA"] }
+      "items": {
+        "type": "string",
+        "examples": ["Airport Security Coordinator, NCIA"]
+      },
+      "x-translate": false
     },
     "enclosures": {
       "type": "array",
       "description": "Enclosures",
-      "items": { "type": "string", "examples": ["Preservation schedule (1 page)"] }
+      "items": {
+        "type": "string",
+        "examples": ["Preservation schedule (1 page)"]
+      }
     },
     "marking": {
       "type": "string",

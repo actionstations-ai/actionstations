@@ -294,6 +294,11 @@ describe('scopeCss', () => {
     expect(out).toContain('@media print {\n.s .a, .s .b>c {x:y}')
     expect(out).not.toMatch(/@page|@font-face/)
   })
+  it('embeds the form body: the template root, with its language, is found', () => {
+    const form = embedBlankForm('ics_201_prefill', 'ICS 201')
+    expect(form.html).toContain('<main lang="en" class="inject-root inject-ics_201_prefill"')
+    expect(form.html).toContain('INCIDENT BRIEFING')
+  })
   it('scopes the shipped ICS 201 template without leaking a bare selector', () => {
     const form = embedBlankForm('ics_201_prefill', 'ICS 201')
     for (const rule of form.css.split('\n').filter((l) => l.includes('{') && !l.startsWith('@')))
@@ -313,6 +318,7 @@ describe('planTargets', () => {
       'deck_pdf',
       'handbook_pdf',
       'briefing_pdf',
+      'player_injects_pdf',
       'exercise_plan_pdf',
       'surveys_pdf',
       'survey_results_pdf',

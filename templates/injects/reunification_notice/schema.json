@@ -13,12 +13,14 @@
     "org": {
       "type": "string",
       "description": "Issuing organization (school district, university, venue operator, employer)",
-      "examples": ["Riverbend Unified School District"]
+      "examples": ["Riverbend Unified School District"],
+      "x-translate": false
     },
     "site": {
       "type": "string",
       "description": "The incident site families must not go to",
-      "examples": ["Riverbend High School, 2200 Mill River Rd"]
+      "examples": ["Riverbend High School, 2200 Mill River Rd"],
+      "x-translate": false
     },
     "headline": {
       "type": "string",
@@ -28,7 +30,8 @@
     "issuedAt": {
       "type": "string",
       "description": "Date and time issued",
-      "examples": ["Tuesday, October 21, 2026, 11:42 a.m."]
+      "examples": ["Tuesday, October 21, 2026, 11:42 a.m."],
+      "x-translate": false
     },
     "situation": {
       "type": "string",
@@ -45,25 +48,31 @@
         "name": {
           "type": "string",
           "description": "Reunification site name",
-          "examples": ["Riverbend Community Center, Gymnasium"]
+          "examples": ["Riverbend Community Center, Gymnasium"],
+          "x-translate": false
         },
         "address": {
           "type": "string",
           "description": "Street address and entrance",
-          "examples": ["1200 Lake Ave, Riverbend (enter from the north lot on Elm St)"]
+          "examples": ["1200 Lake Ave, Riverbend (enter from the north lot on Elm St)"],
+          "x-translate": false
         }
       }
     },
     "opensAt": {
       "type": "string",
       "description": "When the reunification site opens to families",
-      "examples": ["12:30 p.m."]
+      "examples": ["12:30 p.m."],
+      "x-translate": false
     },
     "steps": {
       "type": "array",
       "description": "'What to expect' steps, in order",
       "maxItems": 6,
-      "items": { "type": "string", "description": "Step" },
+      "items": {
+        "type": "string",
+        "description": "Step"
+      },
       "examples": [
         [
           "Check in at the request tables and fill out one reunification card per student.",
@@ -75,14 +84,20 @@
       "type": "array",
       "description": "What to bring",
       "maxItems": 5,
-      "items": { "type": "string", "description": "Item" },
+      "items": {
+        "type": "string",
+        "description": "Item"
+      },
       "examples": [["Government-issued photo ID (driver's license, passport, state ID)"]]
     },
     "doNot": {
       "type": "array",
       "description": "What not to do",
       "maxItems": 5,
-      "items": { "type": "string", "description": "Instruction" },
+      "items": {
+        "type": "string",
+        "description": "Instruction"
+      },
       "examples": [["Do not go to Riverbend High School. Roads around the school are closed."]]
     },
     "transport": {
@@ -98,13 +113,20 @@
         "name": {
           "type": "string",
           "description": "Line or office name",
-          "examples": ["Family Information Line"]
+          "examples": ["Family Information Line"],
+          "x-translate": false
         },
-        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-3300"] },
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-3300"],
+          "x-translate": false
+        },
         "web": {
           "type": "string",
           "description": "Updates web address (.example)",
-          "examples": ["riverbendusd.example/alerts"]
+          "examples": ["riverbendusd.example/alerts"],
+          "x-translate": false
         }
       }
     },
@@ -113,26 +135,44 @@
       "description": "Translated line for non-English-speaking families (defaults to a Spanish line)",
       "examples": [
         "Todos los estudiantes están a salvo. Recoja a su estudiante en el centro de reunificación con una identificación con foto."
-      ]
+      ],
+      "x-translate": false
     },
     "cardNo": {
       "type": "string",
       "description": "Card serial number (card variant)",
-      "examples": ["0417"]
+      "examples": ["0417"],
+      "x-translate": false
     },
     "student": {
       "type": "object",
       "description": "Student (or employee, attendee) to be released, written by the requester (card variant)",
       "additionalProperties": false,
       "properties": {
-        "name": { "type": "string", "description": "Student name", "examples": ["Maya Okafor"] },
-        "grade": { "type": "string", "description": "Grade or year", "examples": ["10"] },
+        "name": {
+          "type": "string",
+          "description": "Student name",
+          "examples": ["Maya Okafor"],
+          "x-translate": false
+        },
+        "grade": {
+          "type": "string",
+          "description": "Grade or year",
+          "examples": ["10"],
+          "x-translate": false
+        },
         "teacher": {
           "type": "string",
           "description": "Teacher at the time of the incident",
-          "examples": ["Mr. Delgado"]
+          "examples": ["Mr. Delgado"],
+          "x-translate": false
         },
-        "homeroom": { "type": "string", "description": "Homeroom or room", "examples": ["B-214"] }
+        "homeroom": {
+          "type": "string",
+          "description": "Homeroom or room",
+          "examples": ["B-214"],
+          "x-translate": false
+        }
       }
     },
     "requester": {
@@ -143,14 +183,20 @@
         "name": {
           "type": "string",
           "description": "Requester name",
-          "examples": ["Grace Okafor"]
+          "examples": ["Grace Okafor"],
+          "x-translate": false
         },
         "relationship": {
           "type": "string",
           "description": "Relationship to the student",
           "examples": ["Mother"]
         },
-        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-7781"] },
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-7781"],
+          "x-translate": false
+        },
         "idType": {
           "type": "string",
           "description": "ID shown",
@@ -176,22 +222,26 @@
         "runner": {
           "type": "string",
           "description": "Runner who brought the student",
-          "examples": ["J. Pham"]
+          "examples": ["J. Pham"],
+          "x-translate": false
         },
         "releasedAt": {
           "type": "string",
           "description": "Time released",
-          "examples": ["1:52 p.m."]
+          "examples": ["1:52 p.m."],
+          "x-translate": false
         },
         "staffInitials": {
           "type": "string",
           "description": "Initials of the releasing staff member",
-          "examples": ["LM"]
+          "examples": ["LM"],
+          "x-translate": false
         },
         "location": {
           "type": "string",
           "description": "Release point",
-          "examples": ["Door 3"]
+          "examples": ["Door 3"],
+          "x-translate": false
         },
         "notes": {
           "type": "string",

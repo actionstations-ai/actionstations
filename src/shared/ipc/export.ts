@@ -7,6 +7,8 @@ export const EXPORT_TARGETS = [
   'deck_pdf',
   'handbook_pdf',
   'briefing_pdf',
+  /** One card per inject that goes to players: picture plus its words as text (spec 0435). */
+  'player_injects_pdf',
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
@@ -56,6 +58,18 @@ export const ExportOptions = z.object({
   sitmanPlayerEdition: z.boolean().optional(),
   /** msel_pdf (controller material only): add the source-check label column (#423). */
   sourceCheck: z.boolean().optional(),
+  /** Languages of the player material (briefing, handouts, player injects); English when absent (spec 0435). */
+  playerLanguages: z
+    .array(z.enum(['en', 'es']))
+    .min(1)
+    .max(2)
+    .optional(),
+  /** Also write the large-print variant of the player material (spec 0435 FR-17). */
+  largePrint: z.boolean().optional(),
+  /** Export translations nobody has reviewed; every page is stamped (spec 0435 FR-11). */
+  allowUnreviewed: z.boolean().optional(),
+  /** Also write the handbook and controller materials in Spanish, to facilitator/es/. */
+  controllerLanguages: z.array(z.literal('es')).max(1).optional(),
 })
 export type ExportOptions = z.infer<typeof ExportOptions>
 

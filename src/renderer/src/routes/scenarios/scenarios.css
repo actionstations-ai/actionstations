@@ -544,3 +544,48 @@
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
+
+/* Languages tab and translation review (spec 0435). Tokens only. */
+.translation-items {
+  width: 100%;
+  border-collapse: collapse;
+}
+.translation-items th,
+.translation-items td {
+  text-align: left;
+  padding: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border);
+  vertical-align: top;
+}
+.translation-editor__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+@media (max-width: 50rem) {
+  .translation-editor__cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.translation-editor__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.translation-editor__col textarea[readonly] {
+  background: var(--color-surface-sunken);
+}
+.translation-editor__flags {
+  margin: 0;
+  padding-left: var(--space-4);
+  color: var(--color-warning-text, var(--color-text));
+}
+.glossary-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.glossary-table th,
+.glossary-table td {
+  text-align: left;
+  padding: var(--space-1) var(--space-2);
+}

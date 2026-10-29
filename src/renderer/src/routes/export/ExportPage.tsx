@@ -9,6 +9,8 @@ import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey, projectKey } from '../../state/project'
 import { useExportJob } from './use-export-job'
+import { PlayerMaterialOptions } from './PlayerMaterialOptions'
+import { usePlayerMaterial } from './use-player-material'
 import {
   asExportResult,
   DEFAULT_TARGETS,
@@ -268,6 +270,7 @@ function useExportForm(projectPath: string, scenarioId: string) {
   const [result, setResult] = useState<ExportJobResult | null>(null)
   const [startError, setStartError] = useState('')
   const [sourceCheck, setSourceCheck] = useState(false)
+  const player = usePlayerMaterial(projectPath, scenarioId)
   const onDone = useCallback((e: JobDoneEvent) => setResult(asExportResult(e.result)), [])
   const { jobId, job, running, run } = useExportJob(projectPath, scenarioId, onDone)
 
@@ -286,6 +289,7 @@ function useExportForm(projectPath: string, scenarioId: string) {
     setStartError('')
     try {
       await run(outDir, targets, {
+        ...player.options(),
         sitmanPlayerEdition,
         sourceCheck: sourceCheck && targets.includes('msel_pdf'),
       })
@@ -301,6 +305,9 @@ function useExportForm(projectPath: string, scenarioId: string) {
     setSitmanPlayerEdition,
     sourceCheck,
     setSourceCheck,
+    player,
+    projectPath,
+    scenarioId,
     outDir,
     chooseFolder,
     result,
@@ -363,6 +370,12 @@ function ExportForm(props: {
         legend="Classroom set (PDF)"
         options={DOCUMENT_TARGETS}
         {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      />
+      <PlayerMaterialOptions
+        form={form.player}
+        disabled={running}
+        projectPath={form.projectPath}
+        scenarioId={form.scenarioId}
       />
       <label className="export-target">
         <input

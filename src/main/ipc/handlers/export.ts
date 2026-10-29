@@ -5,6 +5,7 @@ import { completenessReport } from '../../export/completeness'
 import { buildDocumentHtml } from '../../export/documents'
 import { loadExportModel } from '../../export/model'
 import { assertOutDir, runExport } from '../../export/run'
+import { assertSpanishReady } from '../../export/variants'
 import { jobs } from '../../jobs/manager'
 import { requireProject } from '../../project/guard'
 import { contextFor, regroundScenario } from '../../grounding/project'
@@ -35,6 +36,8 @@ export default defineHandlers({
     await ensureDefaultOutDir(outDir, [root, projectPath])
     await assertOutDir(outDir)
     const model = await loadExportModel(root, scenarioId)
+    // A translation nobody reviewed is refused here, before the job starts (spec 0435 FR-11).
+    if (options) await assertSpanishReady(model, options)
     if (options?.sourceCheck) model.sourceCheck = await sourceCheckColumn(root, model.scenario)
     const job = jobs.start(
       'export',

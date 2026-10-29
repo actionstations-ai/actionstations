@@ -140,6 +140,7 @@ export function documentFileNames(
     eocFolder: `${t}-${scenario ? `S${scenario.scenarioNo}-` : ''}eoc`,
     report: 'export-report.md',
     handouts: `${t}-Player-Handouts.pdf`,
+    playerInjects: `${t}-Player-Injects.pdf`,
     controllerHandouts: `${t}-Controller-Materials.pdf`,
     surveyResults: `${t}-Survey-Results.pdf`,
     aar: `${t}-After-Action-Report.pdf`,
@@ -152,6 +153,21 @@ export function documentFileNames(
   }
 }
 export type DocumentFileNames = ReturnType<typeof documentFileNames>
+
+/**
+ * A document's file name for a language and print size (spec 0435): `-es` for Spanish,
+ * `-large-print` for the large-print variant, in that order, before the extension.
+ */
+export function variantFileName(
+  name: string,
+  variant: { lang?: string | undefined; largePrint?: boolean | undefined },
+): string {
+  const dot = name.lastIndexOf('.')
+  const base = dot < 0 ? name : name.slice(0, dot)
+  const ext = dot < 0 ? '' : name.slice(dot)
+  const lang = variant.lang && variant.lang !== 'en' ? `-${variant.lang}` : ''
+  return `${base}${lang}${variant.largePrint ? '-large-print' : ''}${ext}`
+}
 
 /**
  * A printable survey form (#422): `<Title>-Survey-<Survey title>-<id tag>.pdf`, unique per

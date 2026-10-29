@@ -29,6 +29,13 @@ export interface RunningText {
   footer: string
   /** Centre of header and footer; the exercise details' marking (#420), else EXERCISE_MARKING. */
   marking?: string
+  /** "Page" / "of" in the document language (spec 0435). */
+  pageWord?: string
+  ofWord?: string
+  /** Printed under the marking on every page: the unreviewed machine translation stamp. */
+  stamp?: string
+  /** Large-print documents: bigger running text. */
+  largePrint?: boolean
 }
 
 const BOX_FONT = `font-family: 'Inter', Arial, sans-serif; font-size: 7pt; color: #45494f; white-space: nowrap;`
@@ -36,13 +43,22 @@ const MARK_FONT = `font-family: 'Inter', Arial, sans-serif; font-size: 7pt; font
 
 function marginBoxes(text: RunningText, docLabel: string): string {
   const marking = text.marking || EXERCISE_MARKING
+  const size = text.largePrint ? '11pt' : '7pt'
+  const box = BOX_FONT.replace('7pt', size)
+  const mark = MARK_FONT.replace('7pt', size)
+  const centre = text.stamp
+    ? `${cssString(marking)} "\\A" ${cssString(text.stamp)}`
+    : cssString(marking)
+  const centreStyle = text.stamp ? `${mark} white-space: pre; text-align: center;` : mark
+  const pageWord = text.pageWord ?? 'Page'
+  const ofWord = text.ofWord ?? 'of'
   return `
-  @top-left { content: ${cssString(text.title)}; ${BOX_FONT} vertical-align: bottom; padding-bottom: 10pt; }
-  @top-center { content: ${cssString(marking)}; ${MARK_FONT} vertical-align: bottom; padding-bottom: 10pt; }
-  @top-right { content: ${cssString(docLabel)}; ${BOX_FONT} vertical-align: bottom; padding-bottom: 10pt; }
-  @bottom-left { content: ${cssString(text.footer)}; ${BOX_FONT} vertical-align: top; padding-top: 10pt; }
-  @bottom-center { content: ${cssString(marking)}; ${MARK_FONT} vertical-align: top; padding-top: 10pt; }
-  @bottom-right { content: "Page " counter(page) " of " counter(pages); ${BOX_FONT} vertical-align: top; padding-top: 10pt; }`
+  @top-left { content: ${text.largePrint ? 'none' : cssString(text.title)}; ${box} vertical-align: bottom; padding-bottom: 10pt; }
+  @top-center { content: ${cssString(marking)}; ${mark} vertical-align: bottom; padding-bottom: 10pt; }
+  @top-right { content: ${text.largePrint ? 'none' : cssString(docLabel)}; ${box} vertical-align: bottom; padding-bottom: 10pt; }
+  @bottom-left { content: ${cssString(text.footer)}; ${box} vertical-align: top; padding-top: 10pt; }
+  @bottom-center { content: ${centre}; ${centreStyle} vertical-align: top; padding-top: 10pt; }
+  @bottom-right { content: ${cssString(`${pageWord} `)} counter(page) ${cssString(` ${ofWord} `)} counter(pages); ${box} vertical-align: top; padding-top: 10pt; }`
 }
 
 const PORTRAIT_MARGIN = 'margin: 0.85in 0.75in 0.8in;'
@@ -59,9 +75,13 @@ const NO_BOXES = [
   .join(' ')
 
 /** @page rules for every named page, with this export's running text. */
-export function pageCss(text: RunningText, defaultLabel: string): string {
+export function pageCss(
+  text: RunningText,
+  defaultLabel: string,
+  translate: (english: string) => string = (s) => s,
+): string {
   const named = (name: DocKey, size: string, margin: string) =>
-    `@page ${name} { size: ${size}; ${margin} ${marginBoxes(text, DOC_LABELS[name])} }`
+    `@page ${name} { size: ${size}; ${margin} ${marginBoxes(text, translate(DOC_LABELS[name]))} }`
   return [
     `@page { size: letter; ${PORTRAIT_MARGIN} ${marginBoxes(text, defaultLabel)} }`,
     named('msel', 'letter landscape', LANDSCAPE_MARGIN),
@@ -73,6 +93,8 @@ export function pageCss(text: RunningText, defaultLabel: string): string {
     named('sitman', 'letter', PORTRAIT_MARGIN),
     named('sitman_player', 'letter', PORTRAIT_MARGIN),
     named('handbook_hseep', 'letter', PORTRAIT_MARGIN),
+    // Player injects (spec 0435) have their own running label.
+    `@page player_injects { size: letter; ${PORTRAIT_MARGIN} ${marginBoxes(text, translate('Player Injects'))} }`,
     named('aar', 'letter', PORTRAIT_MARGIN),
     // Appendix A of the AAR/IP (#419): the eight-column Improvement Plan prints landscape.
     `@page aar-ip { size: letter landscape; ${LANDSCAPE_MARGIN} ${marginBoxes(text, DOC_LABELS.aar)} }`,

@@ -8,28 +8,38 @@
     "orgName": {
       "type": "string",
       "description": "Organization on the letterhead (defaults to brand.aliases.org)",
-      "examples": ["Northeast Central Interstate Airport"]
+      "examples": ["Northeast Central Interstate Airport"],
+      "x-translate": false
     },
     "department": {
       "type": "string",
       "description": "Issuing department under the organization name",
-      "examples": ["Baggage Handling Systems"]
+      "examples": ["Baggage Handling Systems"],
+      "x-translate": false
     },
     "to": {
       "type": "string",
       "description": "Recipient",
-      "examples": ["Airport Operations Center (AOC)"]
+      "examples": ["Airport Operations Center (AOC)"],
+      "x-translate": false
     },
     "from": {
       "type": "string",
       "description": "Sender",
-      "examples": ["BHS Control Room (Duty Manager)"]
+      "examples": ["BHS Control Room (Duty Manager)"],
+      "x-translate": false
     },
-    "cc": { "type": "string", "description": "Copies to", "examples": ["Terminal Duty Manager"] },
+    "cc": {
+      "type": "string",
+      "description": "Copies to",
+      "examples": ["Terminal Duty Manager"],
+      "x-translate": false
+    },
     "date": {
       "type": "string",
       "description": "Date and time as written on the memo",
-      "examples": ["October 14, 2025 · 10:31 AM"]
+      "examples": ["October 14, 2025 · 10:31 AM"],
+      "x-translate": false
     },
     "subject": {
       "type": "string",
@@ -50,7 +60,8 @@
     "memoNumber": {
       "type": "string",
       "description": "Reference number printed top right",
-      "examples": ["BHS-2025-1014-01"]
+      "examples": ["BHS-2025-1014-01"],
+      "x-translate": false
     },
     "body": {
       "type": "string",
@@ -60,12 +71,14 @@
     "signatureBlock": {
       "type": "string",
       "description": "Name and title under the body (newlines kept)",
-      "examples": ["BHS Duty Manager\nBaggage Handling Systems Control Room"]
+      "examples": ["BHS Duty Manager\nBaggage Handling Systems Control Room"],
+      "x-translate": false
     },
     "initials": {
       "type": "string",
       "description": "Handwritten initials next to the FROM line, as on a signed paper memo",
-      "examples": ["RM"]
+      "examples": ["RM"],
+      "x-translate": false
     },
     "classification": {
       "type": "string",

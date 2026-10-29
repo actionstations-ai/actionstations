@@ -77,6 +77,7 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'build-drill': 'Building the drill',
   'drill-export': 'Exporting drill results',
   'build-micro-drill': 'Building the short drill',
+  translate: 'Translating player material',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

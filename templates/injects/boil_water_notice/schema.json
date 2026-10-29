@@ -21,12 +21,14 @@
     "utility": {
       "type": "string",
       "description": "Public water system name (the exercising utility)",
-      "examples": ["City of Riverbend Water Department"]
+      "examples": ["City of Riverbend Water Department"],
+      "x-translate": false
     },
     "pwsId": {
       "type": "string",
       "description": "State public water system ID",
-      "examples": ["OH4401234"]
+      "examples": ["OH4401234"],
+      "x-translate": false
     },
     "noticeType": {
       "type": "string",
@@ -42,7 +44,8 @@
     "issuedAt": {
       "type": "string",
       "description": "Date and time issued",
-      "examples": ["October 21, 2026, 4:30 p.m."]
+      "examples": ["October 21, 2026, 4:30 p.m."],
+      "x-translate": false
     },
     "affectedArea": {
       "type": "string",
@@ -58,7 +61,10 @@
       "type": "array",
       "description": "'What should I do?' bullets",
       "maxItems": 6,
-      "items": { "type": "string", "description": "Instruction" },
+      "items": {
+        "type": "string",
+        "description": "Instruction"
+      },
       "examples": [
         [
           "DO NOT DRINK THE WATER WITHOUT BOILING IT FIRST. Bring all water to a boil, let it boil for one minute, and let it cool before using."
@@ -83,18 +89,26 @@
         "name": {
           "type": "string",
           "description": "Contact name or office",
-          "examples": ["Water Quality Division"]
+          "examples": ["Water Quality Division"],
+          "x-translate": false
         },
-        "phone": { "type": "string", "description": "Phone", "examples": ["(555) 014-2290"] },
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-2290"],
+          "x-translate": false
+        },
         "web": {
           "type": "string",
           "description": "Web address (.example)",
-          "examples": ["riverbendwater.example/advisory"]
+          "examples": ["riverbendwater.example/advisory"],
+          "x-translate": false
         },
         "address": {
           "type": "string",
           "description": "Mailing address",
-          "examples": ["400 Water Works Rd, Riverbend, OH 44877"]
+          "examples": ["400 Water Works Rd, Riverbend, OH 44877"],
+          "x-translate": false
         }
       }
     },
@@ -103,12 +117,14 @@
       "description": "Required non-English line (defaults to the EPA Spanish sentence)",
       "examples": [
         "Este informe contiene información muy importante sobre su agua de beber. Tradúzcalo o hable con alguien que lo entienda bien."
-      ]
+      ],
+      "x-translate": false
     },
     "dateDistributed": {
       "type": "string",
       "description": "Date distributed (footer)",
-      "examples": ["10/21/2026"]
+      "examples": ["10/21/2026"],
+      "x-translate": false
     }
   },
   "additionalProperties": false

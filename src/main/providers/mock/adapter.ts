@@ -18,6 +18,7 @@ import { HashEmbedder } from '../embedding/hash'
 import { MockSpeechToTextProvider } from './speech'
 import { MOCK_FIXTURES } from './fixtures'
 import { mockMicroDrillAssess } from './micro-drill'
+import { mockTranslation } from './translate'
 
 const { WaveFile } = wavefile
 
@@ -59,6 +60,8 @@ export class MockTextProvider implements TextProvider {
     let value: unknown
     if (responder) value = await responder(req)
     else if (name === 'MicroDrillAssessOutput') value = mockMicroDrillAssess(req)
+    else if (name === 'TranslateDocument' || name === 'TranslateInject')
+      value = mockTranslation(req)
     else if (req.json && name in MOCK_FIXTURES) value = MOCK_FIXTURES[name as StageOutputSchemaName]
     else if (req.json) throw new Error(`Mock provider has no fixture for ${name}`)
     else value = 'Mock response.'

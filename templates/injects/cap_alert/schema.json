@@ -31,19 +31,22 @@
       "type": "string",
       "description": "Unique alert id",
       "maxLength": 120,
-      "examples": ["EXERCISE-RCEM-2026-0042"]
+      "examples": ["EXERCISE-RCEM-2026-0042"],
+      "x-translate": false
     },
     "sender": {
       "type": "string",
       "description": "Sender id, usually an e-mail style address of the alerting authority",
       "maxLength": 120,
-      "examples": ["alerts@rookcounty-em.example"]
+      "examples": ["alerts@rookcounty-em.example"],
+      "x-translate": false
     },
     "senderName": {
       "type": "string",
       "description": "Name of the sending authority",
       "maxLength": 120,
-      "examples": ["Rook County Emergency Management"]
+      "examples": ["Rook County Emergency Management"],
+      "x-translate": false
     },
     "status": {
       "type": "string",
@@ -61,7 +64,10 @@
       "type": "string",
       "description": "For Update and Cancel: \"sender,identifier,sent\" of the alert it changes",
       "maxLength": 300,
-      "examples": ["alerts@rookcounty-em.example,EXERCISE-RCEM-2026-0041,2026-10-21T13:40:00-04:00"]
+      "examples": [
+        "alerts@rookcounty-em.example,EXERCISE-RCEM-2026-0041,2026-10-21T13:40:00-04:00"
+      ],
+      "x-translate": false
     },
     "sent": {
       "type": "string",
@@ -291,25 +297,30 @@
           "type": "string",
           "description": "Spanish headline",
           "maxLength": 160,
-          "examples": ["Advertencia de inundacion repentina"]
+          "examples": ["Advertencia de inundacion repentina"],
+          "x-translate": false
         },
         "description": {
           "type": "string",
-          "description": "Spanish description"
+          "description": "Spanish description",
+          "x-translate": false
         },
         "instruction": {
           "type": "string",
-          "description": "Spanish instruction"
+          "description": "Spanish instruction",
+          "x-translate": false
         },
         "cmamText": {
           "type": "string",
           "description": "Spanish WEA text, at most 90 characters",
-          "maxLength": 90
+          "maxLength": 90,
+          "x-translate": false
         },
         "cmamLongText": {
           "type": "string",
           "description": "Spanish WEA text, at most 360 characters",
-          "maxLength": 360
+          "maxLength": 360,
+          "x-translate": false
         }
       }
     }

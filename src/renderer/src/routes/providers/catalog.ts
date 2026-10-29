@@ -31,6 +31,12 @@ export const TASKS: TaskInfo[] = [
     purpose: 'Reviews drafts against your plans and the exercise objectives.',
   },
   {
+    task: 'translate',
+    label: 'Translation',
+    purpose:
+      'Translates player material into Spanish for a person to review. Uses the model that writes drafts when not set.',
+  },
+  {
     task: 'embed',
     label: 'Embeddings',
     purpose: 'Indexes documents for search and generation context.',

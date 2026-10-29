@@ -102,7 +102,7 @@
   </address>
 
   {{#if fields.subject}}
-  <p class="re"><span>Re:</span> {{fields.subject}}</p>
+  <p class="re"><span>{{t 'Re:'}}</span> {{fields.subject}}</p>
   {{/if}} {{#if fields.salutation}}
   <p class="salutation">{{fields.salutation}}</p>
   {{/if}}
@@ -126,7 +126,7 @@
     </div>
     {{/if}} {{#if fields.cc.length}}
     <div>
-      <dt>cc:</dt>
+      <dt>{{t 'cc:'}}</dt>
       <dd>{{join fields.cc "; "}}</dd>
     </div>
     {{/if}}

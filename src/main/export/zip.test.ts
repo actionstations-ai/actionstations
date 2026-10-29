@@ -178,3 +178,69 @@ describe('distribution ZIP', () => {
     expect(names_).toContain('facilitator/media/S3-I04-tweet.png')
   })
 })
+
+describe('players/ with languages and large print (spec 0435 FR-10)', () => {
+  const esBriefing = 'Flight-to-Nowhere-Player-Briefing-Packet-es.pdf'
+  const esInjects = 'Flight-to-Nowhere-Player-Injects-es.pdf'
+
+  /** The folder of exportFolder() plus Spanish files in es/ and the extra English ones. */
+  function withVariants() {
+    const { dir, files } = exportFolder()
+    mkdirSync(join(dir, 'es'))
+    for (const f of [join('es', esBriefing), join('es', esInjects), names.playerInjects]) {
+      writeFileSync(join(dir, f), f)
+      files.push(join(dir, f))
+    }
+    return { dir, files }
+  }
+
+  it('puts the Spanish files in players/es/ and the extra English files in players/', () => {
+    const { dir, files } = withVariants()
+    const entries = distributionEntries(dir, names, files, [], {
+      extra: [names.playerInjects],
+      es: [esBriefing, esInjects],
+    })
+    const players = entries.filter((e) => e.name.startsWith('players/')).map((e) => e.name)
+    expect(players).toContain(`players/es/${esBriefing}`)
+    expect(players).toContain(`players/es/${esInjects}`)
+    expect(players).toContain(`players/${names.playerInjects}`)
+    expect(players).toContain(`players/${names.briefing}`)
+  })
+
+  it('Spanish only: the English briefing and handouts stay out of players/', () => {
+    const { dir, files } = withVariants()
+    const entries = distributionEntries(dir, names, files, [], { english: false, es: [esBriefing] })
+    const players = entries.filter((e) => e.name.startsWith('players/')).map((e) => e.name)
+    expect(players).not.toContain(`players/${names.briefing}`)
+    expect(players).toContain(`players/es/${esBriefing}`)
+    expect(players).toContain(`players/${names.ics201}`)
+  })
+
+  it('facilitator/ still gets the Spanish files, including controller ones', () => {
+    const { dir, files } = withVariants()
+    const names_ = distributionEntries(dir, names, files, [], { es: [esBriefing] }).map(
+      (e) => e.name,
+    )
+    expect(names_).toContain(`facilitator/es/${esBriefing}`)
+  })
+
+  it('refuses a controller file under players/es/', () => {
+    const entries = [
+      { source: '/x', name: `players/es/${esBriefing}` },
+      { source: '/x', name: 'players/es/Flight-to-Nowhere-Controller-Evaluator-Handbook-es.pdf' },
+    ]
+    expect(() => assertPlayersOnly(entries, names, [], { es: [esBriefing] })).toThrow(
+      /Refusing to put facilitator material in players\/.*Handbook-es/,
+    )
+  })
+
+  it('refuses a Spanish file nobody listed, and a missing listed file', () => {
+    const { dir, files } = withVariants()
+    expect(() => distributionEntries(dir, names, files, [], { es: ['missing-es.pdf'] })).toThrow(
+      /missing from the export/,
+    )
+    expect(() =>
+      assertPlayersOnly([{ source: '/x', name: `players/es/${esBriefing}` }], names, []),
+    ).toThrow(/Refusing/)
+  })
+})

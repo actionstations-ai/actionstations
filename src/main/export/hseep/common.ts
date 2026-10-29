@@ -7,9 +7,12 @@ import { seededAcronyms, sortedAcronyms } from '@shared/hseep'
 import type { Phase, Scenario } from '@shared/schemas'
 import { goalSummary, wallClockAt, DEFAULT_START_WALL_CLOCK } from '../../generate/mappers'
 import { capabilitiesFor } from '../evaluation'
+import { tr } from '../lang'
 import type { ExportModel } from '../model'
 import { groupRows, locationText } from '../views'
 import { h3, h4, list, para, type Block, type Fact } from './blocks'
+
+const DEFAULT_MARKING = 'EXERCISE — FOR TRAINING USE'
 
 export const EXERCISE_TYPE_LABEL = 'Tabletop Exercise (TTX)'
 
@@ -314,8 +317,11 @@ export function acronymsTable(model: ExportModel): Block {
   }
 }
 
-export const markingOf = (model: ExportModel): string =>
-  model.conduct.marking.trim() || 'EXERCISE — FOR TRAINING USE'
+/** The exercise marking; the default one follows the document language (spec 0435 FR-6). */
+export const markingOf = (model: ExportModel): string => {
+  const marking = model.conduct.marking.trim()
+  return !marking || marking === DEFAULT_MARKING ? tr(model.lang, DEFAULT_MARKING) : marking
+}
 
 export function realWorldBlocks(model: ExportModel): Block[] {
   return [

@@ -263,6 +263,7 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
     expect(players).toEqual([
       'players/Flight-to-Nowhere-ExPlan.pdf',
       'players/Flight-to-Nowhere-Player-Briefing-Packet.pdf',
+      'players/Flight-to-Nowhere-Player-Injects.pdf',
       'players/Flight-to-Nowhere-SitMan-Player-Edition.pdf',
       'players/ICS-201-Incident-Briefing-blank.pdf',
       'players/ICS-203-Organization-Assignment-List-blank.pdf',

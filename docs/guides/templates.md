@@ -122,8 +122,17 @@ The context has these keys (`derived` is empty for most types, see [Derived valu
 | `join`             | `{{join fields.tags ', '}}`                  | Joins a list.                                                                                |
 | `json`             | `{{json fields}}`                            | JSON text (debugging).                                                                       |
 | `times`            | `{{#times 5}}…{{/times}}`                    | Repeats a block, with `@index`.                                                              |
+| `t`                | `{{t 'what_to_do' 'What should I do?'}}`     | Template chrome in the document language (see Translation); the English text when no label.  |
 
 Built-in Handlebars blocks (`{{#if}}`, `{{#unless}}`, `{{#each}}`, `{{#with}}`, `{{else if}}`) work as usual.
+
+### Translation
+
+Players can get an inject in Spanish ([guide](translation-and-accessibility.md)). Three things make a template ready for it.
+
+- **Say what must not be translated.** The app translates only string fields that read as language. A field is kept exactly as written when its schema has `enum`, `const`, `pattern`, `format`, a `maxLength` of 8 or less, or `"x-translate": false`. Mark identifiers, handles, codes, phone numbers, URLs, times, proper names and image briefs with `"x-translate": false` (`{ "type": "string", "x-translate": false }`); the template checker ignores unknown schema keywords, so nothing else changes. A field a person reads as part of the message needs no mark.
+- **Translate the chrome with `labels/<lang>.json`.** Put static words ("What should I do?", "Reply") through `{{t 'key' 'English text'}}` (or `{{t 'English text'}}`, which uses the text as the key) and add `labels/es.json` beside `template.html`: a flat map of key to string, 64 KB at most, one file per language code. The `t` helper falls back to the English written in the call, so a template without `labels/es.json` renders its Spanish field text in English chrome. The checker refuses a labels file that is not a flat string map.
+- **`lang` is set for you.** A render for a language puts `lang="es"` on `<html>` and on the inject root, and the inject's title in `<title>`.
 
 ### Derived values
 
