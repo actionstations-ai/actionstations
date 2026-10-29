@@ -1,6 +1,6 @@
 # Spec 0425: Private hot wash transcription for the AAR
 
-Issue: #425 · Milestone: 0.7.0 · Status: Draft · Depends on: — · Related: #419 (AAR/IP draft), #417 (session log), #415 (hot wash from devices), #433 (preview and redact what goes to cloud models), #429 (SimCell voice calls)
+Issue: #425 · Milestone: 0.7.0 · Status: Implemented (see Implementation notes) · Depends on: — · Related: #419 (AAR/IP draft), #417 (session log), #415 (hot wash from devices), #433 (preview and redact what goes to cloud models), #429 (SimCell voice calls)
 
 ## Summary
 
@@ -440,3 +440,30 @@ segments are never returned.
 4. **Recording the whole exercise, not only the hot wash.** _Recommendation:_ allowed (FR-5) but
    not promoted. The consent dialog wording covers "this session", and the AAR treats any
    recording as a source.
+
+## Implementation notes (#425)
+
+Where the build differs from the text above, and why:
+
+- **Retention (owner decision, overrides FR-12 and Open question 1):** audio is deleted once its
+  transcript is saved, unless the project setting `hotwash.keepAudio` is on. Settings are
+  `HotwashSettings { keepAudio, showRecordingNotice }` in `project.json`.
+- **Consent (FR-6):** asked before every recording, not only the first, so every
+  `consentConfirmedAt` is a fresh confirmation.
+- **Channels:** `hotwash:mic-arm` arms the permission before `getUserMedia` (record-start comes
+  after the stream opens); `hotwash:import-start` starts an import; `hotwash:recording-status`
+  and the `hotwash:recording` event drive the presentation notice; `providers:delete-speech-model`
+  removes a model. `hotwash:transcript-save` carries `recordingId`.
+- **Windowing (FR-9):** a seek loop instead of fixed 30 s / 5 s overlap windows. Fixed overlap
+  with midpoint ownership lost sentences at window boundaries in measurement; the seek loop
+  re-hears a cut-off last segment from its start. The resume point is the next window's start.
+- **Language:** transformers.js has no language detection, so multilingual models get the
+  language the user picks (English by default).
+- **Capture:** the AudioContext runs at 16 kHz (Chromium resamples); `audio.pcm` holds a
+  placeholder WAV header that Stop or recovery fills in, then it is renamed to `audio.wav`.
+- **Import (FR-8):** limited to 1 GB and two hours, since decoding happens in memory.
+- **Models:** pins and dtypes in `speech/local-whisper/models.ts`; measurements in ADR-0041.
+- **Not in this change (follow-ups):** `local-detect` probes for whisper.cpp / speaches /
+  mlx-audio servers; session log entries (#417); export options for transcripts and audio
+  (FR-15; nothing hot wash related is exported today, which matches the default); the AAR
+  cloud-provider warning (FR-14, with #419/#433); x64 speed measurement on the Windows VM.

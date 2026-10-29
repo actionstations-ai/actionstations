@@ -30,6 +30,23 @@ describe('useShortcuts', () => {
     expect(k.deliver).toHaveBeenCalledTimes(1)
   })
 
+  it('maps R to record, pause or resume and Shift+R to stop the recording', () => {
+    const k = { ...keys(), record: vi.fn(), stopRecording: vi.fn() }
+    renderHook(() => useShortcuts(k, true))
+    press('r')
+    press('R', window, { shiftKey: true })
+    expect(k.record).toHaveBeenCalledTimes(1)
+    expect(k.stopRecording).toHaveBeenCalledTimes(1)
+  })
+
+  it('ignores R when the page has no recorder', () => {
+    const k = keys()
+    renderHook(() => useShortcuts(k, true))
+    const e = new KeyboardEvent('keydown', { key: 'r', bubbles: true, cancelable: true })
+    window.dispatchEvent(e)
+    expect(e.defaultPrevented).toBe(false)
+  })
+
   it('leaves keys to text fields and Space to a focused button, and can be switched off', () => {
     const k = keys()
     const { rerender } = renderHook(({ on }) => useShortcuts(k, on), {

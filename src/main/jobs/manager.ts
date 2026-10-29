@@ -48,6 +48,7 @@ const CONCURRENCY: Partial<Record<JobKind, number>> = {
   'model-pull': 1,
   'plan-check': 1,
   'grounding-verify': 1,
+  transcribe: 1,
 }
 /**
  * Jobs that own their scenario while they run (scenario/busy). A new one supersedes any

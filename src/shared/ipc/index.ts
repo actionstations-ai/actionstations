@@ -30,6 +30,7 @@ import { aarChannels } from './aar'
 import { ApprovalNeededEvent, privacyChannels } from './privacy'
 import { complianceChannels } from './compliance'
 import { liveChannels, LiveChangedEvent } from './live'
+import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -64,6 +65,7 @@ export {
   ListedFramework,
   ListedRegulation,
 } from './compliance'
+export { HotwashListing, MicArmResult, SpeechModelView } from './hotwash'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -139,6 +141,7 @@ export const channels = mergeChannels(
   privacyChannels,
   complianceChannels,
   liveChannels,
+  hotwashChannels,
 )
 
 export type Channels = typeof channels
@@ -173,6 +176,8 @@ export const events = {
   'outbound:approval-settled': z.object({ requestId: z.string() }),
   /** A live session started, stopped or changed its device count (#407): refetch live:session-status. */
   'live:changed': LiveChangedEvent,
+  /** A hot wash recording started or stopped (#425): the presentation notice follows it. */
+  'hotwash:recording': HotwashRecordingEvent,
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([
@@ -191,6 +196,7 @@ export const events = {
       'plan-conflicts',
       /** aar.json or documents/aar.md changed (#419). */
       'aar',
+      'hotwash',
     ]),
     scenarioId: z.string().optional(),
   }),

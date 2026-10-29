@@ -89,7 +89,7 @@ export interface DownloadProgress {
 
 export function assertModelId(model: string): void {
   if (!MODEL_ID.test(model) || model.includes('..'))
-    throw new AppError('VALIDATION', `Invalid embedding model id "${model}"`)
+    throw new AppError('VALIDATION', `Invalid model id "${model}"`)
 }
 
 export function modelDims(model: string): number {
@@ -97,8 +97,7 @@ export function modelDims(model: string): number {
 }
 
 export function isModelDownloaded(modelsDir: string, model: string): boolean {
-  assertModelId(model)
-  return REQUIRED_FILES.every((f) => existsSync(join(modelsDir, model, f)))
+  return hasModelFiles(modelsDir, model, REQUIRED_FILES)
 }
 
 /** Aggregates per-file byte counts into one overall fraction. */
@@ -210,20 +209,35 @@ async function keepExisting(dest: string, expected: string | undefined): Promise
   return false
 }
 
+/** A commit and the sha256 of each file at it, for any model family (embeddings, speech). */
+export interface FileSetPin {
+  revision: string
+  sha256: Record<string, string>
+}
+
+/** True when every file of `files` exists for `model` under modelsDir. */
+export function hasModelFiles(modelsDir: string, model: string, files: readonly string[]): boolean {
+  assertModelId(model)
+  return files.every((f) => existsSync(join(modelsDir, model, f)))
+}
+
 /**
- * Download `model` into modelsDir from the Hugging Face hub. Files already present are kept,
- * so a cancelled or failed download resumes where it stopped. Cancelling aborts the transfer.
+ * Download `files` of `model` into modelsDir from the Hugging Face hub, at the pinned commit
+ * (else `main`) with each pinned file checked against its sha256. Files already present are
+ * kept when they match, so a cancelled or failed download resumes where it stopped.
+ * Cancelling aborts the transfer. Shared by embeddings and speech to text (#425).
  */
-export async function downloadModel(
+export async function downloadModelFiles(
   modelsDir: string,
   model: string,
+  files: readonly string[],
+  pin: FileSetPin | undefined,
   opts: DownloadOptions = {},
 ): Promise<void> {
   assertModelId(model)
   const track = progressTracker(opts.onProgress ?? (() => undefined))
-  const pin = (opts.pins ?? MODEL_PINS)[model]
   const revision = pin?.revision ?? 'main'
-  for (const file of REQUIRED_FILES) {
+  for (const file of files) {
     if (opts.signal?.aborted) throw cancelled()
     const dest = join(modelsDir, model, file)
     const expected = pin?.sha256[file]
@@ -243,6 +257,15 @@ export async function downloadModel(
     )
     track({ status: 'done', file })
   }
-  if (!isModelDownloaded(modelsDir, model))
+  if (!hasModelFiles(modelsDir, model, files))
     throw new AppError('PROVIDER', `Download of ${model} finished but model files are missing`)
+}
+
+/** Download an embedding model (REQUIRED_FILES at its MODEL_PINS commit). */
+export async function downloadModel(
+  modelsDir: string,
+  model: string,
+  opts: DownloadOptions = {},
+): Promise<void> {
+  await downloadModelFiles(modelsDir, model, REQUIRED_FILES, (opts.pins ?? MODEL_PINS)[model], opts)
 }

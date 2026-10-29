@@ -18,11 +18,20 @@ import {
   adapterFor,
   createEmbeddingProvider,
   createMediaProvider,
+  createSpeechToTextProvider,
   createTextProvider,
   listAdapterKinds,
 } from './registry'
 import { guardEmbeddingProvider, guardMediaProvider, guardTextProvider } from './outbound'
-import type { AdapterModule, EmbeddingProvider, MediaProvider, TextProvider } from './types'
+import { LOCAL_WHISPER_CONFIG } from './speech/local-whisper/provider'
+import { assertLocalSpeechProvider, isLoopbackUrl } from './speech/local-only'
+import type {
+  AdapterModule,
+  EmbeddingProvider,
+  MediaProvider,
+  SpeechToTextProvider,
+  TextProvider,
+} from './types'
 
 export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
 export type MediaTask = Extract<ProviderTask, 'image' | 'video' | 'audio'>
@@ -141,6 +150,7 @@ export function tasksForKind(kind: ProviderKind): ProviderTask[] {
     ...(adapter.createText ? TEXT_TASKS : []),
     ...(adapter.createEmbedding ? (['embed'] as const) : []),
     ...MEDIA_TASKS.filter((t) => media.has(t)),
+    ...(adapter.createSpeechToText ? (['transcribe'] as const) : []),
   ]
 }
 
@@ -300,3 +310,30 @@ export async function resolveEmbeddingProvider(
 }
 
 export type { EmbeddingProvider }
+
+// ---- speech to text (#425) ---------------------------------------------------------------
+
+export { assertLocalSpeechProvider, isLoopbackUrl }
+
+export interface ResolvedSpeech {
+  provider: SpeechToTextProvider
+  providerId: string
+  model?: string
+}
+
+/**
+ * The provider for `transcribe`: the routed one when it runs on this computer, else the
+ * built-in Whisper models when nothing is routed.
+ */
+export async function resolveSpeechToTextProvider(projectPath?: string): Promise<ResolvedSpeech> {
+  const ref = (await getRoutingView(projectPath)).effective.transcribe
+  const config = ref ? await configFor(ref.providerId, 'transcribe') : LOCAL_WHISPER_CONFIG
+  assertLocalSpeechProvider(config)
+  const secret = config.id === LOCAL_WHISPER_CONFIG.id ? undefined : await secretFor(config)
+  const provider = cached('speech', config, secret, () =>
+    createSpeechToTextProvider(config, secret),
+  )
+  // Only a model chosen on the routing row: a provider's default model is its chat model.
+  const model = ref?.model
+  return { provider, providerId: config.id, ...(model ? { model } : {}) }
+}

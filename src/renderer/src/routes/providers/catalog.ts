@@ -50,6 +50,12 @@ export const TASKS: TaskInfo[] = [
     label: 'Audio',
     purpose: 'Voices radio calls, voicemails and PA announcements (local TTS servers included).',
   },
+  {
+    task: 'transcribe',
+    label: 'Transcription',
+    purpose:
+      'Turns hot wash recordings into text on this computer. Only local providers are accepted; without one, the built-in Whisper model is used.',
+  },
 ]
 
 export const KIND_LABELS: Record<ProviderKind, string> = {
@@ -59,6 +65,7 @@ export const KIND_LABELS: Record<ProviderKind, string> = {
   comfyui: 'ComfyUI',
   'system-tts': 'System voice',
   template: 'Template',
+  'local-whisper': 'Built-in Whisper',
   mock: 'Mock',
 }
 
