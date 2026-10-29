@@ -241,7 +241,16 @@ export const FirewallGuidance = z.object({
 export type FirewallGuidance = z.infer<typeof FirewallGuidance>
 
 export const LiveChangedEvent = z.object({
-  reason: z.enum(['started', 'stopped', 'presence', 'error', 'receipts', 'staging', 'messages']),
+  reason: z.enum([
+    'started',
+    'stopped',
+    'presence',
+    'error',
+    'receipts',
+    'staging',
+    'messages',
+    'votes',
+  ]),
   sessionId: SessionId.optional(),
   /** With `messages`: the thread that changed, so the panel fetches only that one. */
   threadId: Text(60).optional(),
@@ -351,3 +360,85 @@ export type ThreadSummary = z.infer<typeof ThreadSummary>
 /** Where the controller may start or continue a thread. */
 export const MessageTarget = z.object({ channel: Text(60), label: Text(160) })
 export type MessageTarget = z.infer<typeof MessageTarget>
+/** Fewest devices a role needs in a by-role vote to be shown by name (spec 0414 FR-7). */
+export const VOTE_MIN_K = 2
+export const VOTE_DEFAULT_K = 3
+
+/** What the facilitator fills in to open a vote (spec 0414 FR-1); option ids are assigned on open. */
+export const VoteDefinition = z.object({
+  question: z.string().trim().min(1).max(300),
+  options: z.array(z.string().trim().min(1).max(80)).min(2).max(8),
+  /** True (default): ballots are unlinkable to devices and roles. False: the by-role mode. */
+  anonymous: z.boolean().default(true),
+  /** Who may vote: `all`, or roles and teams. */
+  targets: z.array(z.string()).min(1).max(64).default(['all']),
+  allowChange: z.boolean().default(true),
+  /** Countdown in seconds; the vote closes itself. */
+  durationSec: z.number().int().min(10).max(3600).optional(),
+  /** Players may add a short reason, anonymous like the ballot. */
+  rationalePrompt: z.string().trim().min(1).max(200).optional(),
+  /** Devices see the running tally while the vote is open. */
+  liveResults: z.boolean().default(false),
+  /** Ids for the options (a branch decision's own ids); `o1`, `o2`… when absent. */
+  optionIds: z.array(SafeId).max(8).optional(),
+  /** The branch decision this vote answers (spec 0430). */
+  decisionId: SafeId.optional(),
+  /** A role needs this many devices in scope to be shown by name; never below 2. */
+  k: z.number().int().min(VOTE_MIN_K).max(10).default(VOTE_DEFAULT_K),
+})
+export type VoteDefinition = z.infer<typeof VoteDefinition>
+
+export const VoteStatus = z.enum(['open', 'closed', 'interrupted'])
+export type VoteStatus = z.infer<typeof VoteStatus>
+
+/** One option's line in a tally. */
+export const VoteOptionView = z.object({
+  id: SafeId,
+  label: Text(80),
+  count: z.number().int().min(0),
+})
+export type VoteOptionView = z.infer<typeof VoteOptionView>
+
+/** A vote as the Facilitate page and the presentation window show it. Never carries a device. */
+export const VoteView = z.object({
+  voteId: z.string(),
+  rowId: SafeId.optional(),
+  decisionId: SafeId.optional(),
+  question: Text(300),
+  options: z.array(VoteOptionView),
+  anonymous: z.boolean(),
+  status: VoteStatus,
+  openedAt: z.number(),
+  closedAt: z.number().optional(),
+  /** Exercise clock ("H:MM") when it closed. */
+  closedClock: Text(8).optional(),
+  closesAt: z.number().optional(),
+  voted: z.number().int().min(0),
+  eligible: z.number().int().min(0),
+  /** Counts per role and option after k-folding; by-role votes only. */
+  byRole: z
+    .array(
+      z.object({
+        roleId: z.string(),
+        label: Text(80),
+        optionId: SafeId,
+        count: z.number().int().min(0),
+      }),
+    )
+    .optional(),
+  /** Reasons by option, shown after close; never attributed. */
+  rationales: z.array(z.object({ optionId: SafeId, text: Text(280) })).optional(),
+  liveResults: z.boolean(),
+  recorded: z.boolean(),
+  canReopen: z.boolean(),
+  /** The text recording this result as a decision would write. */
+  decisionText: Text(400).optional(),
+})
+export type VoteView = z.infer<typeof VoteView>
+
+/** Roles in scope with fewer devices than `k`: the warning before a by-role vote. */
+export const VoteScope = z.object({
+  eligible: z.number().int().min(0),
+  smallRoles: z.array(z.object({ roleId: SafeId, label: Text(80), devices: z.number().int() })),
+})
+export type VoteScope = z.infer<typeof VoteScope>

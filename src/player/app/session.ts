@@ -28,6 +28,7 @@ import type {
 } from '../../shared/live/schemas'
 import type { KeyValue, Transport } from '../../shared/live/transport'
 import { MediaCache } from '../features/injects/media'
+import { applyClose, applyOpen, mayVote, type VoteMap } from '../features/votes/votes'
 import type { Announcer } from './a11y'
 import { elapsedMinutes, formatClock } from './clock'
 import {
@@ -111,6 +112,8 @@ export interface PlayerState {
   messages: ChatMessage[]
   /** An inject the player is replying to; the Messages tab opens on it. */
   compose?: { releaseId: string; title: string; nonce: number }
+  /** Votes this device has heard of, by vote id (spec 0414). */
+  votes: VoteMap
   read: ReadonlySet<string>
   dismissed: ReadonlySet<string>
   /** Release ids this device marked as actioned. */
@@ -208,6 +211,7 @@ export class PlayerSession {
       clockOffsetMs: 0,
       items: [],
       messages: [],
+      votes: {},
       read: new Set(),
       dismissed: new Set(),
       actioned: new Set(),
@@ -241,7 +245,8 @@ export class PlayerSession {
     this.outbox = new Outbox(
       this.deps.outboxStore ?? createOutboxStore(),
       inv.sessionId,
-      (action) => this.sendAction(action.type, action.to, action.payload),
+      (action) =>
+        this.sendAction(action.type, action.to, action.payload).then(() => this.afterSend(action)),
       () => this.state.connection === 'connected' && this.state.phase === 'seated',
     )
     this.store.set({
@@ -462,6 +467,12 @@ export class PlayerSession {
         return
       case 'relay.error':
         return this.applyRelayError((msg as Opened<'relay.error'>).payload)
+      case 'vote.open':
+        if (this.applyVoteOpen(msg as Opened<'vote.open'>)) return
+        break
+      case 'vote.close':
+        this.applyVoteClose(msg as Opened<'vote.close'>)
+        break
       case 'presence':
       case 'relay.blob.chunk':
       case 'relay.blob.done':
@@ -715,6 +726,49 @@ export class PlayerSession {
 
   clearReply(): void {
     this.store.set({ compose: undefined })
+  }
+
+  /** A `vote.open`. Returns true for an update of a vote already known (no new feed entry). */
+  private applyVoteOpen(msg: Opened<'vote.open'>): boolean {
+    const { votes, isNew, reopened } = applyOpen(this.state.votes, msg, this.now())
+    this.store.set({ votes })
+    const seat = this.seatView()
+    if ((isNew || reopened) && mayVote(votes[msg.payload.voteId]!, seat) && !this.state.catchingUp)
+      this.deps.announcer.announce(STRINGS.votes.announceOpen(msg.payload.question))
+    return !isNew && !reopened
+  }
+
+  private applyVoteClose(msg: Opened<'vote.close'>): void {
+    const votes = applyClose(this.state.votes, msg, this.now())
+    this.store.set({ votes })
+    if (!this.state.catchingUp) this.deps.announcer.announce(STRINGS.votes.announceClosed)
+  }
+
+  /** Cast or change this device's ballot. It goes out now, or on reconnect (spec 0414 NFR-5). */
+  async castVote(voteId: string, optionId: string, rationale?: string): Promise<void> {
+    const vote = this.state.votes[voteId]
+    if (!vote || vote.status !== 'open' || !this.outbox) return
+    if (vote.mine && !vote.allowChange) return
+    if (!vote.options.some((o) => o.id === optionId)) return
+    const reason = vote.rationalePrompt ? rationale?.trim().slice(0, 280) : undefined
+    this.store.set((s) => ({
+      votes: { ...s.votes, [voteId]: { ...vote, mine: optionId, ballotSent: false } },
+    }))
+    await this.outbox.enqueue({
+      id: `vote:${voteId}:${this.now()}`,
+      type: 'vote.cast',
+      to: 'controller',
+      payload: { voteId, optionId, ...(reason ? { rationale: reason } : {}) },
+    })
+  }
+
+  /** Called after the outbox sent an action: a ballot that went out is no longer waiting. */
+  private afterSend(action: { type: string; payload: Record<string, unknown> }): void {
+    if (action.type !== 'vote.cast') return
+    const id = String(action.payload.voteId)
+    const vote = this.state.votes[id]
+    if (!vote || vote.mine !== action.payload.optionId) return
+    this.store.set((s) => ({ votes: { ...s.votes, [id]: { ...vote, ballotSent: true } } }))
   }
 
   /** Download and open an inject's media (sealed under the session key). */

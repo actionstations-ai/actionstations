@@ -4,6 +4,7 @@ import { firewallGuidance } from '../../live/transport/lan/firewall'
 import {
   activeLanPort,
   activeSession,
+  closeVote,
   endSession,
   markMessageHandled,
   messageTargets,
@@ -11,6 +12,12 @@ import {
   messageThreads,
   openMessageThread,
   pinMessage,
+  getVote,
+  listVotes,
+  openVote,
+  recordVote,
+  reopenVote,
+  voteScope,
   releaseInject,
   releaseSummaries,
   resendInject,
@@ -22,9 +29,11 @@ import {
   status,
   switchAddress,
 } from '../../live/session'
+import { BrowserWindow } from 'electron'
+import { present } from '../../facilitator/present'
 import { requireProject } from '../../project/guard'
 import { refreshProgramOfProject } from '../../program/snapshot'
-import { defineHandlers } from '../registry'
+import { defineHandlers, type HandlerContext } from '../registry'
 
 export default defineHandlers({
   'live:session-start': async ({ projectPath, scenarioId, connection, attribution, name }) => {
@@ -105,4 +114,36 @@ export default defineHandlers({
 
   'live:message-pin': async ({ projectPath, scenarioId, messageId }) =>
     pinMessage(await requireProject(projectPath), scenarioId, messageId),
+  'live:vote-open': async ({ projectPath, scenarioId, definition, rowId }) =>
+    openVote(await requireProject(projectPath), scenarioId, definition, rowId),
+
+  'live:vote-close': async ({ projectPath, scenarioId, voteId }) =>
+    closeVote(await requireProject(projectPath), scenarioId, voteId),
+
+  'live:vote-reopen': async ({ projectPath, scenarioId, voteId }) =>
+    reopenVote(await requireProject(projectPath), scenarioId, voteId),
+
+  'live:votes': async ({ projectPath, scenarioId }) =>
+    listVotes(await requireProject(projectPath), scenarioId),
+
+  'live:vote-scope': async ({ projectPath, scenarioId, targets, k }) =>
+    voteScope(await requireProject(projectPath), scenarioId, targets, k),
+
+  'live:vote-record': async ({ projectPath, scenarioId, voteId }) =>
+    recordVote(await requireProject(projectPath), scenarioId, voteId),
+
+  'live:vote-present': async ({ projectPath, scenarioId, voteId, displayId }, ctx) => {
+    const root = await requireProject(projectPath)
+    getVote(root, scenarioId, voteId)
+    present(
+      { projectPath: root, scenarioId, voteId },
+      { ...(displayId !== undefined ? { displayId } : {}), ...ownerOf(ctx) },
+    )
+  },
 })
+
+function ownerOf(ctx: HandlerContext): { owner?: BrowserWindow } {
+  const sender = ctx.event?.sender
+  const owner = sender ? BrowserWindow.fromWebContents(sender) : null
+  return owner ? { owner } : {}
+}

@@ -21,10 +21,12 @@ export function MoreScreen({
   session,
   prefsStore,
   bundleVersion,
+  onOpenVotes,
 }: {
   session: PlayerSession
   prefsStore: Store<Prefs>
   bundleVersion: string
+  onOpenVotes?: () => void
 }) {
   const [view, setView] = useState<View>('menu')
   const info = useStore(session.store, (s) => s.info)
@@ -33,7 +35,11 @@ export function MoreScreen({
   const reason = (on: boolean | undefined) =>
     on === false ? STRINGS.more.featureOff : STRINGS.more.laterUpdate
   const entries: Entry[] = [
-    { id: 'votes', label: STRINGS.more.votes, why: reason(features?.votes) },
+    {
+      id: 'votes',
+      label: STRINGS.more.votes,
+      ...(features?.votes ? { onOpen: () => onOpenVotes?.() } : { why: reason(features?.votes) }),
+    },
     { id: 'hotwash', label: STRINGS.more.hotwash, why: reason(features?.hotwash) },
     { id: 'surveys', label: STRINGS.more.surveys, why: reason(features?.surveys) },
     {

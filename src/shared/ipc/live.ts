@@ -17,6 +17,9 @@ import {
   ReleaseSummary,
   StageStatus,
   ThreadSummary,
+  VoteDefinition,
+  VoteScope,
+  VoteView,
 } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
@@ -93,6 +96,38 @@ export const liveChannels = {
   'live:message-pin': channel(S.extend({ messageId: z.string().max(40) }), z.void()),
   /** Open an empty thread to a role, team or device (the first message follows). */
   'live:thread-open': channel(S.extend({ channel: z.string().max(60) }), ThreadSummary),
+  /** Open a vote on devices (#414). `rowId` ties it to the MSEL decision point it came from. */
+  'live:vote-open': channel(
+    S.extend({ definition: VoteDefinition, rowId: SafeId.optional() }),
+    VoteView,
+  ),
+  /** Close the open vote and send the result to devices. */
+  'live:vote-close': channel(S.extend({ voteId: z.string() }), VoteView),
+  /** Open a vote again within two minutes of closing it. */
+  'live:vote-reopen': channel(S.extend({ voteId: z.string() }), VoteView),
+  /** Every vote of the running session, newest first. */
+  'live:votes': channel(S, z.array(VoteView)),
+  /** Devices in scope and the roles under `k`, for the warning before a by-role vote. */
+  'live:vote-scope': channel(
+    S.extend({ targets: z.array(z.string()).min(1).max(64), k: z.number().int().min(2).max(10) }),
+    VoteScope,
+  ),
+  /** Mark a closed vote as recorded; returns the decision entry to add to the decision log. */
+  'live:vote-record': channel(
+    S.extend({ voteId: z.string() }),
+    z.object({
+      id: SafeId,
+      at: z.string(),
+      exerciseTime: z.string(),
+      rowId: SafeId.optional(),
+      text: z.string(),
+    }),
+  ),
+  /** Show a vote's tally in the presentation window. */
+  'live:vote-present': channel(
+    S.extend({ voteId: z.string(), displayId: z.number().optional() }),
+    z.void(),
+  ),
 }
 
 export { LiveChangedEvent }

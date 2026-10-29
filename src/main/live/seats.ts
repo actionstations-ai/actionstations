@@ -67,7 +67,7 @@ function seatOfRole(role: Role): SeatShape {
 }
 
 const STAFF_SEAT_KINDS: ReadonlySet<ClientKind> = new Set(['evaluator', 'simcell'])
-const FEATURES = { messages: true, votes: false, hotwash: false, surveys: false, eval: false }
+const FEATURES = { messages: true, votes: true, hotwash: false, surveys: false, eval: false }
 
 export class Seats {
   readonly byClient = new Map<ClientId, Seat>()

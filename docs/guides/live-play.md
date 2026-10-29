@@ -190,6 +190,24 @@ For networks without internet or where no third party is acceptable, the same se
 your hardware. The install guide lands with issue #409; the design is in spec
 [0409](../specs/0409-live-self-hosted-server.md).
 
+## Decision-point votes
+
+On your device, a **Vote now** bar appears under the header when the facilitator opens a vote for your seat. Open it, pick one option (the options are a radio group with large targets) and press **Cast vote**. You can change your vote with **Change vote** until it closes, unless the facilitator turned that off. If the facilitator asked for a reason, a box takes up to 280 characters; it is anonymous like the vote. When the vote closes you see the result, with your own choice marked, or a line saying the facilitator will show it on the main screen. If you were offline when it closed, the page says the vote closed before your ballot arrived and that it was not counted. A countdown, when there is one, is read out at 30 and 10 seconds. Evaluators, observers and players the vote is not for see "Vote in progress" and no ballot.
+
+For the facilitator, in the **Votes** tab beside **Live** (a session must be running):
+
+- **Open a vote.** Start from an MSEL row that has a decision, or write a new question with two to eight options (one per line). Choose who votes (everyone, or roles and teams), whether people may change their vote, whether to ask why, whether devices show the running tally (off by default: seeing the tally before voting changes votes), and a countdown. On a row with a decision, **Open vote** in the Inject panel opens it with one click. Only one vote is open at a time.
+- **Show on screen** opens the presentation window on the vote: the question, a bar per option with its count and percent as text, "N of M voted" and the status. **Close** freezes the tally and sends the result to devices. **Reopen** is offered for two minutes after closing.
+- **Record as decision** adds the result to the decision log on the vote's row, so the hot wash and the AAR can use it without reading the session log.
+- **Decisions that fork the exercise** (branching) open as votes from here too: the vote uses the decision's own options, its anonymous or by-role mode and its voting roles, and the Decisions tab reads the tally from it when it closes the decision by its rule.
+
+### Anonymity and the group-size guard
+
+- **Anonymous** (default). The session log has the final tally and one line per ballot with the option and the time: no device, no seat, no role. To let people change their vote, the app keeps a list of which device voted what in memory only; it is dropped two minutes after the vote closes (the reopen window) and is never written to disk. A changed ballot is a second line that names the option it replaced.
+- **By role** shows the result split by role. Before it opens, the form warns when a role in scope has fewer devices than the group size; a role under that size is shown and logged as **Other** (so a principal and a deputy cannot be told apart from a larger group). The group size is 3 by default and never below 2. If the people folded into Other would be a single device, that row is left out of the split (their vote still counts in the totals).
+- **Reasons** are logged as separate lines with the option and the text, never with who wrote them.
+- A vote that is still open when the session ends is closed as **ended early** with the tally so far.
+
 ## Messages with the SimCell
 
 On your device:

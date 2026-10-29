@@ -17,8 +17,11 @@ export interface DisplayInfo {
 export interface PresentTarget {
   projectPath: string
   scenarioId: string
-  injectId: string
+  /** An inject's media; absent when the window shows a vote. */
+  injectId?: string
   assetId?: string
+  /** Show this vote's tally instead of an inject (#414). */
+  voteId?: string
 }
 
 /** Preview size when there is no second display. */
@@ -53,7 +56,12 @@ export function chooseDisplay(
 
 /** Hash route (without '#') the presentation window shows. */
 export function presentHash(t: PresentTarget): string {
-  const base = ['present', encodeURIComponent(t.projectPath), t.scenarioId, t.injectId].join('/')
+  if (t.voteId) {
+    return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/vote/${t.voteId}`
+  }
+  const base = ['present', encodeURIComponent(t.projectPath), t.scenarioId, t.injectId ?? ''].join(
+    '/',
+  )
   return `/${base}${t.assetId ? `?asset=${encodeURIComponent(t.assetId)}` : ''}`
 }
 

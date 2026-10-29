@@ -290,7 +290,12 @@ function mapVotes(entries: LogEntry[]): RecordVote[] {
     } else if (e.kind === 'vote.cast') {
       const v = votes.get(voteId)
       const option = str(e.data.optionId, 64)
-      if (v && option) v.casts.set(option, (v.casts.get(option) ?? 0) + 1)
+      if (v && option) {
+        v.casts.set(option, (v.casts.get(option) ?? 0) + 1)
+        // A changed ballot replaces the one it came from (it carries no device, only the option).
+        const from = str(e.data.changedFrom, 64)
+        if (from) v.casts.set(from, Math.max(0, (v.casts.get(from) ?? 0) - 1))
+      }
     } else if (e.kind === 'vote.close') {
       const v = votes.get(voteId)
       if (!v) continue

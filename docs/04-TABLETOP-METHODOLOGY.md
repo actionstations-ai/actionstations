@@ -67,7 +67,7 @@ Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:
 
 **Role coverage.** Define 4–5 player roles (Ops Director/IC, IT Director, PIO, ASC/Security-LEO, Airline Liaison) and make sure every role receives injects in every phase. The PIO track (social, rumor, media deadline) is a first-class storyline, not garnish.
 
-**Inject mix per phase.** At least: one CORE_NARRATIVE, one PRESSURE or MISINFORMATION for PIO, one NOISE or RED_HERRING, one CLUE/TECH item for IT; one DECISION_POINT somewhere in phases 2–3.
+**Inject mix per phase.** At least: one CORE_NARRATIVE, one PRESSURE or MISINFORMATION for PIO, one NOISE or RED_HERRING, one CLUE/TECH item for IT; one DECISION_POINT somewhere in phases 2–3. A decision point can carry a vote (its `decision`: a question and two to eight options): in live play the facilitator puts it to the room so that every seat is counted, not just the loudest, and the tally (anonymous, or by role with small groups folded into Other) becomes part of the decision record the hot wash and the AAR read.
 
 **Realism devices.** Concrete artifacts: ticket numbers, hostnames and IPs consistent with the ASP's schema, actual flight numbers, named local references (Browns tickets, Channel 5, Cleveland Moms Group), a script name (`random_gate_generator.ps1`), a SQL statement. Humor in the fake data ("Flight 666 to Purgatory") is fine and memorable; it is the *players'* data that must stay plausible.
 
