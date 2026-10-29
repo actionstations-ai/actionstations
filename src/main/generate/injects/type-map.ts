@@ -75,6 +75,8 @@ export const TYPE_FALLBACKS: Record<string, string[]> = {
   alarm_summary: ['scada_hmi', 'system_log', 'siem_alert'],
   nws_weather_warning: ['incident_alert_notification', 'regulatory_notice', 'memo'],
   notam: ['regulatory_notice', 'official_letter', 'memo'],
+  cap_alert: ['incident_alert_notification', 'nws_weather_warning', 'regulatory_notice'],
+  eas_broadcast: ['news_chyron_still', 'incident_alert_notification', 'nws_weather_warning'],
   rider_service_alert: ['incident_alert_notification', 'text_message', 'tweet'],
   ics_213_general_message: ['memo', 'ics_201_prefill', 'email'],
   ics_214_activity_log: ['system_log', 'sitrep', 'memo'],
@@ -168,6 +170,10 @@ export const KEY_FIELDS: Record<string, string> = {
     'systemName, site, clock, operator, counts, alarms[{time,priority,tag,source,description,value,state}]',
   nws_weather_warning:
     'office, product, issued, warningFor[], until, at, hazard, source, impact, locations[], actions[]',
+  cap_alert:
+    'identifier, sender, senderName, status (Exercise|Test), msgType, sent, expires, category, event, urgency, severity, certainty, eventCode, easOrg, areaDesc, sameCodes[], headline, description, instruction, cmamText (<= 90 chars), cmamLongText (<= 360 chars)',
+  eas_broadcast:
+    'originator, event (SAME code), locations[] (6-digit SAME), areaNames[], issued, purgeMinutes, station (EXERCISE or a fictional call sign), details',
   notam:
     'notamNumber, facility, location, effectiveStart, effectiveEnd, text, tfr{type,reason,radiusNm,floor,ceiling,restrictions[]}',
   rider_service_alert:

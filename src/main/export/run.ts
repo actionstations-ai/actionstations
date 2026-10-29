@@ -28,6 +28,12 @@ import {
 import { mselWorkbook } from './xlsx'
 import { clocksCsv, coverageCsv, coverageWorkbook, hasCoverage } from './coverage'
 import { distributionEntries, writeZip } from './zip'
+import {
+  writeCapXml,
+  writeConducttr,
+  writeEocPackage,
+  type PlatformContext,
+} from './platforms/write'
 
 /** Everything the ZIP's facilitator/ and players/ folders are built from. */
 const ZIP_NEEDS: ExportTarget[] = [
@@ -51,6 +57,9 @@ const ZIP_NEEDS: ExportTarget[] = [
 /** Fixed execution order: media before markdown (checksums), ZIP last. */
 const ORDER: ExportTarget[] = [
   'media',
+  'conducttr_csv',
+  'eoc_package',
+  'cap_xml',
   'msel_xlsx',
   'coverage_xlsx',
   'coverage_csv',
@@ -77,8 +86,12 @@ export function planTargets(targets: ExportTarget[]): ExportTarget[] {
   const wanted = new Set(targets)
   if (wanted.has('zip')) ZIP_NEEDS.forEach((t) => wanted.add(t))
   if (wanted.has('markdown')) wanted.add('media')
+  if (PLATFORM_TARGETS.some((t) => wanted.has(t))) wanted.add('media')
   return ORDER.filter((t) => wanted.has(t))
 }
+
+/** Targets that copy the media files into a platform's layout (spec 0432). */
+const PLATFORM_TARGETS: ExportTarget[] = ['conducttr_csv', 'eoc_package']
 
 const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof DocumentFileNames }>> = {
   msel_pdf: { doc: 'msel', file: 'msel' },
@@ -222,6 +235,17 @@ async function writeDocx(state: RunState): Promise<void> {
   if (model.aar) await writeOut(state, names.aarDocx, await aarDocx(model))
 }
 
+function platformContext(state: RunState): PlatformContext {
+  return {
+    model: state.model,
+    names: state.names,
+    folder: state.folder,
+    media: state.media,
+    written: (path) => state.result.files.push(path),
+    warnings: state.result.warnings,
+  }
+}
+
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
   if (target === 'eeg_pdf' && !hasEegs(state.model)) {
@@ -261,6 +285,12 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       state.result.warnings.push(...media.warnings)
       return
     }
+    case 'conducttr_csv':
+      return writeConducttr(platformContext(state))
+    case 'eoc_package':
+      return writeEocPackage(platformContext(state))
+    case 'cap_xml':
+      return writeCapXml(platformContext(state))
     case 'surveys_pdf':
       return writeSurveyForms(state)
     case 'survey_results_pdf':
@@ -329,6 +359,9 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   coverage_xlsx: 'compliance coverage workbook',
   coverage_csv: 'compliance coverage CSV',
   media: 'media files',
+  conducttr_csv: 'Conducttr MEL CSV',
+  eoc_package: 'WebEOC / SimulationDeck package',
+  cap_xml: 'CAP XML files',
   json: 'scenario.json',
   markdown: 'scenario.md',
   docx: 'Word documents',

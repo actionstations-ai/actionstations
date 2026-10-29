@@ -133,7 +133,7 @@ function rowObjectives(model: ExportModel, row: MselRow): string[] {
   return [...new Set(refs.map(name))]
 }
 
-function mselRowValues(model: ExportModel, row: MselRow, phase: string): string[] {
+export function mselRowValues(model: ExportModel, row: MselRow, phase: string): string[] {
   const inject: Inject | undefined = model.injects.find((i) => i.mselRowId === row.id)
   const format = inject?.type ?? row.format
   const tasks = tasksForRow(model.evaluation, row.id)

@@ -15,6 +15,7 @@ import {
   DOCUMENT_TARGETS,
   COMPLIANCE_TARGETS,
   FILE_TARGETS,
+  PLATFORM_TARGETS,
   HSEEP_TARGETS,
   PREVIEW_DOCS,
   rememberOutDir,
@@ -382,6 +383,11 @@ function ExportForm(props: {
       <TargetGroup
         legend="Compliance"
         options={COMPLIANCE_TARGETS}
+        {...{ selected: targets, onToggle: form.toggle, disabled: running }}
+      />
+      <TargetGroup
+        legend="For other platforms"
+        options={PLATFORM_TARGETS}
         {...{ selected: targets, onToggle: form.toggle, disabled: running }}
       />
       <TargetGroup

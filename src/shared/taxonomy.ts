@@ -233,6 +233,10 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
     defaultDelivery: 'display_main_screen',
   }),
   t('nws_weather_warning', 'NWS weather warning', 'operational', ['template']),
+  t('cap_alert', 'CAP alert (IPAWS)', 'operational', ['template']),
+  t('eas_broadcast', 'EAS broadcast', 'operational', ['template'], {
+    defaultDelivery: 'display_main_screen',
+  }),
   t('notam', 'NOTAM / TFR', 'operational', ['template'], {
     domains: ['airport', 'stadium_venue', 'unmanned_systems'],
   }),

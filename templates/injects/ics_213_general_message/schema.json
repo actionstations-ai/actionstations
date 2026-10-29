@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ICS 213 General Message",
-  "description": "FEMA ICS Form 213 General Message: a written message between incident personnel (blocks 1-8 and the reply). Every field is optional: the 'blank' variant prints the empty form; the default variant shows the values as typed entries with handwritten signatures and reply.",
+  "description": "FEMA ICS Form 213 General Message: a written message between incident personnel (blocks 1-8 and the reply). Every field is optional: the 'blank' variant prints the empty form; the default variant shows the values as typed entries with handwritten signatures and reply. Blocks 1-10 and their labels follow the FEMA ICS Forms Booklet (FEMA 502-2); no field is added beyond the form.",
   "type": "object",
   "properties": {
     "incidentName": {
@@ -30,7 +30,11 @@
       "type": "object",
       "description": "Block 3. Sender name and ICS position",
       "properties": {
-        "name": { "type": "string", "description": "Sender name", "examples": ["Luis Ortega"] },
+        "name": {
+          "type": "string",
+          "description": "Sender name",
+          "examples": ["Luis Ortega"]
+        },
         "position": {
           "type": "string",
           "description": "Sender ICS position or title",
@@ -65,7 +69,11 @@
       "type": "object",
       "description": "Block 8. Who approved the message",
       "properties": {
-        "name": { "type": "string", "description": "Approver name", "examples": ["Luis Ortega"] },
+        "name": {
+          "type": "string",
+          "description": "Approver name",
+          "examples": ["Luis Ortega"]
+        },
         "signature": {
           "type": "string",
           "description": "Signature as handwritten (usually initial and surname)",
@@ -88,7 +96,11 @@
       "type": "object",
       "description": "Block 10. Who wrote the reply",
       "properties": {
-        "name": { "type": "string", "description": "Name", "examples": ["Dana Whitfield"] },
+        "name": {
+          "type": "string",
+          "description": "Name",
+          "examples": ["Dana Whitfield"]
+        },
         "position": {
           "type": "string",
           "description": "Position or title",

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NOTAM / TFR",
-  "description": "A single FAA Notice to Air Missions. Variant 'text' is a NOTAM Search result with the raw NOTAM text in monospace (domestic/FDC format, upper case, '..' separators). Variant 'tfr' is the TFR detail page for a Temporary Flight Restriction (14 CFR 99.7 special security instructions over a stadium, 91.137 disaster/hazard area, 91.145 airshow), with the tfr block filled. Places and venues are simulated; the FAA and its facility identifiers stay real.",
+  "description": "A single FAA Notice to Air Missions. Variant 'text' is a NOTAM Search result with the raw NOTAM text in monospace (domestic/FDC format, upper case, '..' separators). Variant 'tfr' is the TFR detail page for a Temporary Flight Restriction (14 CFR 99.7 special security instructions over a stadium, 91.137 disaster/hazard area, 91.145 airshow), with the tfr block filled. Places and venues are simulated; the FAA and its facility identifiers stay real. Variant 'icao' renders the ICAO format (heading, Q line and items A) to G)) for international use; the FAA domestic format of variant 'text' stays the default. Every variant carries the exercise marking.",
   "type": "object",
   "required": ["notamNumber", "facility", "location", "effectiveStart", "effectiveEnd", "text"],
   "properties": {
@@ -72,7 +72,11 @@
           "description": "Radius in nautical miles",
           "examples": ["3"]
         },
-        "floor": { "type": "string", "description": "Lower altitude", "examples": ["Surface"] },
+        "floor": {
+          "type": "string",
+          "description": "Lower altitude",
+          "examples": ["Surface"]
+        },
         "ceiling": {
           "type": "string",
           "description": "Upper altitude",
@@ -82,13 +86,144 @@
           "type": "array",
           "description": "Operating restrictions and requirements, one per line",
           "maxItems": 6,
-          "items": { "type": "string", "description": "Restriction" },
+          "items": {
+            "type": "string",
+            "description": "Restriction"
+          },
           "examples": [["No UAS operations without an FAA waiver or authorization."]]
         },
         "pointOfContact": {
           "type": "string",
           "description": "Controlling / coordinating facility contact",
           "examples": ["FAA System Operations Support Center, 202-267-8276"]
+        }
+      }
+    },
+    "icao": {
+      "type": "object",
+      "description": "ICAO-format fields (icao variant). The Q line is built by the app from these.",
+      "additionalProperties": false,
+      "properties": {
+        "series": {
+          "type": "string",
+          "description": "NOTAM series letter",
+          "pattern": "^[A-Z]$",
+          "examples": ["A"]
+        },
+        "number": {
+          "type": "string",
+          "description": "Number and year",
+          "pattern": "^[0-9]{4}/[0-9]{2}$",
+          "examples": ["0412/26"]
+        },
+        "type": {
+          "type": "string",
+          "description": "N new, R replace, C cancel",
+          "enum": ["N", "R", "C"],
+          "examples": ["N"]
+        },
+        "replaces": {
+          "type": "string",
+          "description": "For R and C: the NOTAM replaced or cancelled",
+          "maxLength": 12,
+          "examples": ["A0398/26"]
+        },
+        "fir": {
+          "type": "string",
+          "description": "Q) FIR / ICAO location",
+          "pattern": "^[A-Z]{4}$",
+          "examples": ["KZOB"]
+        },
+        "qCode": {
+          "type": "string",
+          "description": "Q code",
+          "pattern": "^Q[A-Z]{4}$",
+          "examples": ["QRTCA"]
+        },
+        "traffic": {
+          "type": "string",
+          "description": "Traffic: I IFR, V VFR, IV both, K checklist",
+          "enum": ["I", "V", "IV", "K"],
+          "examples": ["IV"]
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Purpose letters: N immediate attention, B pre-flight bulletin, O operations, M miscellaneous, K checklist",
+          "pattern": "^[NBOMK]{1,4}$",
+          "examples": ["NBO"]
+        },
+        "scope": {
+          "type": "string",
+          "description": "Scope letters: A aerodrome, E en route, W navigation warning, K checklist",
+          "pattern": "^[AEWK]{1,3}$",
+          "examples": ["W"]
+        },
+        "lower": {
+          "type": "string",
+          "description": "Lower limit, flight level (3 digits)",
+          "pattern": "^[0-9]{1,3}$",
+          "examples": ["000"]
+        },
+        "upper": {
+          "type": "string",
+          "description": "Upper limit, flight level (3 digits)",
+          "pattern": "^[0-9]{1,3}$",
+          "examples": ["029"]
+        },
+        "coordinates": {
+          "type": "string",
+          "description": "Centre point ddmmN/Sdddmm E/W",
+          "pattern": "^[0-9]{4}[NS][0-9]{5}[EW]$",
+          "examples": ["4128N08143W"]
+        },
+        "radiusNm": {
+          "type": "string",
+          "description": "Radius in nautical miles",
+          "pattern": "^[0-9]{1,3}$",
+          "examples": ["3"]
+        },
+        "location": {
+          "type": "string",
+          "description": "A) location indicator",
+          "pattern": "^[A-Z]{4}$",
+          "examples": ["KZOB"]
+        },
+        "from": {
+          "type": "string",
+          "description": "B) start, YYMMDDhhmm UTC",
+          "pattern": "^[0-9]{10}$",
+          "examples": ["2610261600"]
+        },
+        "to": {
+          "type": "string",
+          "description": "C) end, YYMMDDhhmm UTC, or PERM",
+          "maxLength": 14,
+          "examples": ["2610262300"]
+        },
+        "schedule": {
+          "type": "string",
+          "description": "D) schedule, optional",
+          "maxLength": 120,
+          "examples": ["DAILY 1600-2300"]
+        },
+        "text": {
+          "type": "string",
+          "description": "E) the NOTAM text, upper case",
+          "examples": [
+            "TEMPORARY FLIGHT RESTRICTIONS. NO UNMANNED AIRCRAFT OPS PERMITTED UNLESS AUTHORIZED BY ATC."
+          ]
+        },
+        "lowerLimit": {
+          "type": "string",
+          "description": "F) lower limit",
+          "maxLength": 20,
+          "examples": ["SFC"]
+        },
+        "upperLimit": {
+          "type": "string",
+          "description": "G) upper limit",
+          "maxLength": 20,
+          "examples": ["2999FT AGL"]
         }
       }
     }

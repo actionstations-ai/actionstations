@@ -20,6 +20,12 @@ export const EXPORT_TARGETS = [
   'coverage_xlsx',
   'coverage_csv',
   'media',
+  /** Conducttr "Import MEL" CSV plus its media list (#432). */
+  'conducttr_csv',
+  /** MSEL as XLSX/CSV, inject text files and media for WebEOC / SimulationDeck; unverified (#432). */
+  'eoc_package',
+  /** CAP 1.2 XML for every CAP alert inject, marked as an exercise (#432). */
+  'cap_xml',
   'json',
   'markdown',
   'docx',

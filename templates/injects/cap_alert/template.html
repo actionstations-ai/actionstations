@@ -1,0 +1,96 @@
+<div class="tool">
+  <header class="bar">
+    <p class="bar-name">Alert Origination</p>
+    <p class="bar-step">
+      <span class="step-review">Review and send</span><span class="step-xml">CAP 1.2 message</span>
+    </p>
+  </header>
+  <p class="banner">EXERCISE · NOT A REAL ALERT · {{derived.status}}</p>
+
+  <!-- ===== review ===== -->
+  <section class="v-review">
+    <h1>{{derived.headline}}</h1>
+    <table class="facts">
+      <tr>
+        <th>Status</th>
+        <td>{{derived.status}}</td>
+        <th>Message type</th>
+        <td>{{fields.msgType}}</td>
+      </tr>
+      <tr>
+        <th>Scope</th>
+        <td>Public</td>
+        <th>Category</th>
+        <td>{{fields.category}}</td>
+      </tr>
+      <tr>
+        <th>Event</th>
+        <td>{{fields.event}} ({{fields.eventCode}})</td>
+        <th>Response</th>
+        <td>{{default (join fields.responseType ", ") "None"}}</td>
+      </tr>
+      <tr>
+        <th>Urgency</th>
+        <td>{{fields.urgency}}</td>
+        <th>Severity</th>
+        <td>{{fields.severity}}</td>
+      </tr>
+      <tr>
+        <th>Certainty</th>
+        <td>{{fields.certainty}}</td>
+        <th>EAS originator</th>
+        <td>{{fields.easOrg}}</td>
+      </tr>
+      <tr>
+        <th>Sender</th>
+        <td colspan="3">{{fields.senderName}} ({{fields.sender}})</td>
+      </tr>
+      <tr>
+        <th>Effective</th>
+        <td>{{derived.effective}}</td>
+        <th>Expires</th>
+        <td>{{derived.expires}}</td>
+      </tr>
+      <tr>
+        <th>Area</th>
+        <td colspan="3">
+          {{fields.areaDesc}}<br /><span class="codes">SAME: {{join fields.sameCodes ", "}}</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Channels</th>
+        <td colspan="3">{{default derived.channels "None selected"}}</td>
+      </tr>
+    </table>
+    <h2>Description</h2>
+    <p class="text">{{fields.description}}</p>
+    <h2>Instruction</h2>
+    <p class="text">{{fields.instruction}}</p>
+    <div class="wea">
+      <div>
+        <h2>WEA text (90)</h2>
+        <p class="box">{{fields.cmamText}}</p>
+        <p class="count {{#if derived.shortOver}}over{{/if}}">
+          {{derived.shortCount}} / 90 characters
+        </p>
+      </div>
+      <div>
+        <h2>WEA long text (360)</h2>
+        <p class="box">{{fields.cmamLongText}}</p>
+        <p class="count {{#if derived.longOver}}over{{/if}}">
+          {{derived.longCount}} / 360 characters
+        </p>
+      </div>
+    </div>
+    {{#if derived.hasEs}}
+    <h2>Spanish (es-US)</h2>
+    <p class="text">{{derived.esHeadline}}</p>
+    {{/if}}
+    <p class="send">Send is disabled: this is an exercise message.</p>
+  </section>
+
+  <!-- ===== xml ===== -->
+  <section class="v-xml">
+    <pre class="xml">{{derived.xml}}</pre>
+  </section>
+</div>

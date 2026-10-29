@@ -93,7 +93,7 @@ The template is a Handlebars body. The composer wraps it in a full document:
 </body>
 ```
 
-The context has four keys:
+The context has these keys (`derived` is empty for most types, see [Derived values](#derived-values)):
 
 | Key       | Contents                                                                                                                                                |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,6 +124,10 @@ The context has four keys:
 | `times`            | `{{#times 5}}…{{/times}}`                    | Repeats a block, with `@index`.                                                              |
 
 Built-in Handlebars blocks (`{{#if}}`, `{{#unless}}`, `{{#each}}`, `{{#with}}`, `{{else if}}`) work as usual.
+
+### Derived values
+
+Some strings must be exact and are computed, not written: a SAME header, VTEC and UGC lines, CAP times and XML, an ICAO Q line. Templates cannot compute them, so the app does it in main before rendering (`src/main/render/derived/`, one module per inject type) and gives the template a fifth context key, `derived`, beside `fields` (it never replaces a field). Write `{{derived.sameHeader}}`, not your own formatting. Types with derived values: `cap_alert`, `eas_broadcast`, `nws_weather_warning`, `notam`. A pack template of the same type gets the same data; packs cannot add derivation code.
 
 ### Styles, fonts and the sandbox
 

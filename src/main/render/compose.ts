@@ -9,6 +9,7 @@ import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
 import { loadTemplate, sharedDir, type LoadedTemplate } from './templates'
 import { paginate, rowGroups, type RowGroup } from './paginate'
+import { deriveFields } from './derived'
 
 export interface ComposeInput {
   type: string
@@ -170,6 +171,7 @@ export function composeDocument(
   const variant = input.variant ?? t.meta.variants[0] ?? 'default'
   const body = compile(t)({
     fields: input.fields,
+    derived: deriveFields(input.type, input.fields),
     brand: {
       ...(input.brand ?? { aliases: {} }),
       ...(input.logo ? { logo: fileUrl(input.logo) } : {}),

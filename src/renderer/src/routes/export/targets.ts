@@ -97,16 +97,43 @@ export const COMPLIANCE_TARGETS: TargetOption[] = [
   },
 ]
 
+/** MSEL and alert formats other exercise platforms read (#432); off by default, facilitator only. */
+export const PLATFORM_TARGETS: TargetOption[] = [
+  {
+    id: 'conducttr_csv',
+    label: 'Conducttr MEL (CSV)',
+    hint: "Columns of Conducttr's Import MEL template, plus a list of media to upload. Checked against its documentation, not a live import",
+  },
+  {
+    id: 'eoc_package',
+    label: 'WebEOC / SimulationDeck package (unverified format)',
+    hint: 'MSEL as XLSX and CSV, one text file per inject and the media. These platforms publish no import format, so it is not tested',
+  },
+  {
+    id: 'cap_xml',
+    label: 'CAP 1.2 XML for CAP alert injects',
+    hint: 'One file per CAP alert, marked as an exercise. Load it only into a training or test system, never a live one',
+  },
+]
+
 export const ALL_TARGETS: ExportTarget[] = [
   ...HSEEP_TARGETS,
   ...DOCUMENT_TARGETS,
   ...COMPLIANCE_TARGETS,
+  ...PLATFORM_TARGETS,
   ...FILE_TARGETS,
 ].map((t) => t.id)
 
-const OPT_IN = new Set<ExportTarget>(['docx', 'coverage_xlsx', 'coverage_csv'])
+const OPT_IN = new Set<ExportTarget>([
+  'docx',
+  'coverage_xlsx',
+  'coverage_csv',
+  'conducttr_csv',
+  'eoc_package',
+  'cap_xml',
+])
 
-/** Everything except the optional Word files and the compliance exports. */
+/** Everything except the optional Word files, the compliance exports and the other-platform exports. */
 export const DEFAULT_TARGETS: ExportTarget[] = ALL_TARGETS.filter((t) => !OPT_IN.has(t))
 
 export type PreviewDoc = (typeof PREVIEW_DOC_IDS)[number]
