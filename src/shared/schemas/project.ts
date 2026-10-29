@@ -9,6 +9,7 @@ import { Id, IsoDateTime, RelPath } from './common'
 import { PackId, PackPath, SemVer } from './pack'
 import { ProjectPrivacy } from './privacy'
 import { ProviderRouting } from './provider'
+import { HotwashSettings } from './hotwash'
 
 export const PROJECT_FORMAT_VERSION = 1
 
@@ -151,6 +152,8 @@ export const Project = z.looseObject({
   privacy: ProjectPrivacy.optional(),
   /** Regulations and frameworks switched on or off for this project (#426); absent = profile defaults. */
   compliance: ProjectCompliance.optional(),
+  /** Hot wash recording options (#425); absent until first changed. */
+  hotwash: HotwashSettings.optional(),
 })
 export type Project = z.infer<typeof Project>
 

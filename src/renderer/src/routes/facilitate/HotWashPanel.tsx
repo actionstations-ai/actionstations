@@ -16,6 +16,7 @@ import { CitationChips } from '../scenarios/CitationChips'
 import { countRatings, type RatingCounts } from './evaluation'
 import { DecisionLog, HotwashCapture } from './HotWashCapture'
 import type { UpdateState } from './use-delivery-actions'
+import { HotwashRecordings } from './HotwashRecordings'
 
 interface NoteLine {
   row: MselRow
@@ -256,6 +257,7 @@ export function HotWashPanel({
           </article>
         ))}
       </section>
+      <HotwashRecordings projectPath={projectPath} scenarioId={scenario.id} />
       <section aria-labelledby="fac-hw-notes">
         <h2 id="fac-hw-notes">All inject notes</h2>
         <NoteList lines={allNotes} empty="No inject notes captured yet." />

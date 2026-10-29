@@ -45,7 +45,7 @@ async function route(task: ProviderTask, c: ProviderConfig): Promise<void> {
   if (c.kind === 'anthropic') await setSecret(c.id, 'sk-test-key')
 }
 
-async function resolved(task: ProviderTask): Promise<unknown> {
+async function resolved(task: GatedTask): Promise<unknown> {
   if (task === 'embed') return (await resolve.resolveEmbeddingProvider()).provider
   if (task === 'image' || task === 'video' || task === 'audio')
     return (await resolve.resolveMediaProvider(task)).provider
@@ -60,9 +60,12 @@ beforeEach(() => {
   resolve.resetResolveState()
 })
 
-const cases = Object.entries(resolve.providerTaskSupport()).flatMap(([task, kinds]) =>
+const all = Object.entries(resolve.providerTaskSupport()).flatMap(([task, kinds]) =>
   kinds.map((kind) => [task as ProviderTask, kind] as const),
 )
+// Transcription never reaches the gate: a remote provider is refused outright (#425).
+const cases = all.filter(([task]) => task !== 'transcribe')
+type GatedTask = Exclude<ProviderTask, 'transcribe'>
 
 describe('provider resolution and the outbound gate', () => {
   it('covers every task some adapter serves', () => {
@@ -73,15 +76,26 @@ describe('provider resolution and the outbound gate', () => {
 
   it.each(cases)('%s via %s: a remote config is always gated', async (task, kind) => {
     await route(task, config(kind, true))
-    expect(isGuarded(await resolved(task))).toBe(true)
+    expect(isGuarded(await resolved(task as GatedTask))).toBe(true)
   })
+
+  it.each(all.filter(([task, kind]) => task === 'transcribe' && kind === 'openai-compatible'))(
+    '%s via %s: a remote config is refused, a local one runs ungated',
+    async (task, kind) => {
+      await route(task, config(kind, true))
+      await expect(resolve.resolveSpeechToTextProvider()).rejects.toThrow(/only on this computer/)
+      resolve.resetResolveState()
+      await route(task, config(kind, false))
+      expect(isGuarded((await resolve.resolveSpeechToTextProvider()).provider)).toBe(false)
+    },
+  )
 
   // Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
   it.each(cases.filter(([, kind]) => kind !== 'anthropic' && kind !== 'ollama'))(
     '%s via %s: a local config is never gated',
     async (task, kind) => {
       await route(task, config(kind, false))
-      expect(isGuarded(await resolved(task))).toBe(false)
+      expect(isGuarded(await resolved(task as GatedTask))).toBe(false)
     },
   )
 

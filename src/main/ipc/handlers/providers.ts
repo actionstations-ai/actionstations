@@ -18,6 +18,7 @@ import { detectLocalServices } from '../../providers/local-detect'
 import { detectSystemVoice } from '../../providers/media/system-tts/service'
 import { canPullModels, pullProviderModel, type PullProgress } from '../../providers/model-pull'
 import { jobs } from '../../jobs/manager'
+import { isLocalSpeechProvider } from '../../providers/speech/local-only'
 import {
   assertRoutingTargetsExist,
   configFor,
@@ -233,7 +234,14 @@ async function taskSupport() {
   return Object.fromEntries(
     Object.entries(byKind).map(([task, kinds]) => [
       task,
-      { kinds, providerIds: providers.filter((p) => kinds.includes(p.kind)).map((p) => p.id) },
+      {
+        kinds,
+        providerIds: providers
+          .filter((p) => kinds.includes(p.kind))
+          // Transcription is offered only to providers on this computer (#425).
+          .filter((p) => task !== 'transcribe' || isLocalSpeechProvider(p))
+          .map((p) => p.id),
+      },
     ]),
   ) as Record<keyof typeof byKind, { kinds: ProviderConfig['kind'][]; providerIds: string[] }>
 }

@@ -6,7 +6,7 @@ import { useParams, useSearchParams } from 'react-router'
 import { Pause, Play, Volume2 } from 'lucide-react'
 import { mediaUrl } from '@shared/media-url'
 import type { MediaAsset } from '@shared/schemas/media'
-import { call } from '../../lib/api'
+import { call, subscribe } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { presentAsset } from '../facilitate/delivery'
@@ -58,6 +58,23 @@ function Media(props: { projectPath: string; asset: MediaAsset; alt: string }) {
   return null
 }
 
+/** "This discussion is being recorded" while a hot wash recording runs (#425 FR-6). */
+function useRecordingNotice(): boolean {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    let live = true
+    call('hotwash:recording-status')
+      .then((s) => live && setShow(s.recording && s.notice))
+      .catch(() => undefined)
+    const off = subscribe('hotwash:recording', (e) => setShow(e.recording && e.notice))
+    return () => {
+      live = false
+      off()
+    }
+  }, [])
+  return show
+}
+
 export default function PresentPage() {
   const params = useParams()
   const [search] = useSearchParams()
@@ -70,6 +87,7 @@ export default function PresentPage() {
   const inject = useIpcQuery('injects:get', req)
   const asset = presentAsset(inject.data, search.get('asset'))
   const showTitle = search.get('title') === '1'
+  const recordingNotice = useRecordingNotice()
 
   useEffect(() => {
     document.title = 'Presentation'
@@ -95,6 +113,11 @@ export default function PresentPage() {
       {inject.isError && <p className="present__empty">Could not load this inject.</p>}
       {showTitle && inject.data && <p className="present__title">{inject.data.title}</p>}
       <ClocksOnScreen projectPath={projectPath} scenarioId={req.scenarioId} />
+      {recordingNotice && (
+        <p className="present__recording" role="status">
+          <span className="present__recording-dot" aria-hidden /> This discussion is being recorded
+        </p>
+      )}
     </div>
   )
 }

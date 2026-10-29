@@ -7,7 +7,7 @@ import { AppError } from '../lib/errors'
 export interface HttpRequest {
   method?: 'GET' | 'POST' | 'DELETE'
   headers?: Record<string, string>
-  /** JSON-serialised when not a string. */
+  /** JSON-serialised unless a string or FormData (multipart, e.g. audio uploads). */
   body?: unknown
   signal?: AbortSignal
   /** Time allowed until response headers arrive (per attempt). Default 120 s. */
@@ -101,8 +101,9 @@ function sleep(ms: number, signal?: AbortSignal): Promise<void> {
 
 const cancelled = (): AppError => new AppError('CANCELLED', 'Cancelled')
 
-function encodeBody(body: unknown): string | undefined {
+function encodeBody(body: unknown): string | FormData | undefined {
   if (body === undefined) return undefined
+  if (body instanceof FormData) return body
   return typeof body === 'string' ? body : JSON.stringify(body)
 }
 
@@ -153,7 +154,9 @@ async function attemptFetch(url: string, req: HttpRequest): Promise<Response> {
   const t = setTimeout(() => timer.abort(), timeoutMs)
   const signal = req.signal ? AbortSignal.any([req.signal, timer.signal]) : timer.signal
   const body = encodeBody(req.body)
-  const headers = { ...(body !== undefined ? { 'content-type': 'application/json' } : {}) }
+  // FormData sets its own multipart content type (with the boundary).
+  const json = body !== undefined && !(body instanceof FormData)
+  const headers = { ...(json ? { 'content-type': 'application/json' } : {}) }
   try {
     return await fetchSameOrigin(
       url,

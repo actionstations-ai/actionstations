@@ -35,6 +35,8 @@ import { usePresenting } from './use-presenting'
 import { useShortcuts, useShortcutsEnabled, type ShortcutKeys } from './use-shortcuts'
 import { DraftAarButton } from '../scenarios/DraftAarButton'
 import { hasRecordEvidence } from '../scenarios/aar-evidence'
+import { RecorderControls } from './RecorderControls'
+import { useRecorder, type Recorder } from './use-recorder'
 import './facilitate.css'
 
 /** Re-render every second while the clock runs (and every 15 s for the local time). */
@@ -126,7 +128,7 @@ function useKeys(
   selected: TimelineEntry | undefined,
   onSelect: (rowId: string) => void,
   deliver: (rowId: string) => void,
-): ShortcutKeys {
+): Omit<ShortcutKeys, 'record' | 'stopRecording'> {
   const { update, scenario, state } = p
   return useMemo(
     () => ({
@@ -219,6 +221,7 @@ function useFacilitate(p: ViewProps) {
     displayId,
     setDisplayId,
     announce,
+    setAnnounce,
     actions,
     keys,
     compliance,
@@ -258,6 +261,35 @@ function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEnt
   )
 }
 
+/** R starts (consent dialog first), pauses or resumes the recording; Shift+R stops it. */
+function recorderKeys(recorder: Recorder, openConsent: () => void) {
+  const { phase } = recorder.state
+  return {
+    record: () => {
+      if (phase === 'idle') openConsent()
+      else if (phase === 'recording') void recorder.pause()
+      else if (phase === 'paused') void recorder.resume()
+    },
+    stopRecording: () => {
+      if (phase === 'recording' || phase === 'paused') void recorder.stop()
+    },
+  }
+}
+
+/** The hot wash recorder for this scenario (#425) and the listing it shows. */
+function useHotwashRecorder(props: ViewProps, minutes: number) {
+  const { projectPath, scenario } = props
+  const listing = useIpcQuery('hotwash:list', { projectPath, scenarioId: scenario.id })
+  const refetch = listing.refetch
+  const onChange = useCallback(() => void refetch(), [refetch])
+  const recorder = useRecorder(
+    { projectPath, scenarioId: scenario.id, exerciseMin: Math.floor(minutes) },
+    onChange,
+  )
+  const [consentOpen, setConsentOpen] = useState(false)
+  return { listing: listing.data, recorder, consentOpen, setConsentOpen }
+}
+
 function FacilitateView(props: ViewProps) {
   const { scenario, state, update } = props
   const f = useFacilitate(props)
@@ -265,7 +297,13 @@ function FacilitateView(props: ViewProps) {
     void f.actions.present(entry, screenAsset(entry.inject)?.id)
   const presenting = usePresenting()
   const [shortcutsOn, setShortcutsOn] = useShortcutsEnabled()
-  useShortcuts(f.keys, shortcutsOn)
+  const hw = useHotwashRecorder(props, f.minutes)
+  const { recorder, setConsentOpen } = hw
+  const keys = useMemo(
+    () => ({ ...f.keys, ...recorderKeys(recorder, () => setConsentOpen(true)) }),
+    [f.keys, recorder, setConsentOpen],
+  )
+  useShortcuts(keys, shortcutsOn)
 
   return (
     <div className="page page--wide fac-page">
@@ -309,6 +347,15 @@ function FacilitateView(props: ViewProps) {
         update={update}
         minutes={f.minutes}
         start={f.compliance.start}
+      />
+      <RecorderControls
+        recorder={hw.recorder}
+        freeBytes={hw.listing?.freeBytes}
+        keepAudio={hw.listing?.settings.keepAudio ?? false}
+        shortcutsOn={shortcutsOn}
+        consentOpen={hw.consentOpen}
+        onConsentOpenChange={hw.setConsentOpen}
+        onAnnounce={f.setAnnounce}
       />
       <StatusLine announce={f.announce} saveStatus={props.saveStatus} />
       <ShortcutsBar on={shortcutsOn} onChange={setShortcutsOn} />

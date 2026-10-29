@@ -9,6 +9,7 @@ export const PROVIDER_TASKS = [
   'image',
   'video',
   'audio',
+  'transcribe',
 ] as const
 export const ProviderTask = z.enum(PROVIDER_TASKS)
 export type ProviderTask = z.infer<typeof ProviderTask>
@@ -20,6 +21,7 @@ export const ProviderKind = z.enum([
   'comfyui',
   'system-tts',
   'template',
+  'local-whisper',
   'mock',
 ])
 export type ProviderKind = z.infer<typeof ProviderKind>
@@ -52,7 +54,9 @@ export const ModelInfo = z.object({
   id: z.string(),
   label: z.string().optional(),
   contextWindow: z.number().int().optional(),
-  kind: z.enum(['chat', 'embedding', 'image', 'video', 'audio', 'unknown']).default('chat'),
+  kind: z
+    .enum(['chat', 'embedding', 'image', 'video', 'audio', 'speech', 'unknown'])
+    .default('chat'),
   /** Size on disk when the server reports it (Ollama); used to prefer the most capable model. */
   sizeBytes: z.number().nonnegative().optional(),
 })

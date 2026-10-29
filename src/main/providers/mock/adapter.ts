@@ -15,6 +15,7 @@ import type {
   TextProvider,
 } from '../types'
 import { HashEmbedder } from '../embedding/hash'
+import { MockSpeechToTextProvider } from './speech'
 import { MOCK_FIXTURES } from './fixtures'
 
 const { WaveFile } = wavefile
@@ -133,4 +134,5 @@ export const adapter: AdapterModule = {
   createText: (config) => new MockTextProvider(config),
   createEmbedding: () => new HashEmbedder(),
   createMedia: (config) => new MockMediaProvider(config),
+  createSpeechToText: (config) => new MockSpeechToTextProvider(config),
 }

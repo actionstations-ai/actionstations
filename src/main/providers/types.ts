@@ -144,6 +144,44 @@ export interface MediaProvider {
   generate(job: MediaJob, onProgress?: (p: MediaProgress) => void): Promise<MediaOutput[]>
 }
 
+export interface TranscribeJob {
+  /** Absolute path of a 16 kHz mono PCM16 WAV inside the project. */
+  audioPath: string
+  model?: string
+  /** ISO 639-1 code; undefined means English for the built-in models (no detection). */
+  language?: string
+  /** Resume here: audio before this second is already transcribed. */
+  fromSec?: number
+  signal?: AbortSignal
+}
+
+export interface TranscriptSegmentOut {
+  startSec: number
+  endSec: number
+  text: string
+  avgLogProb?: number
+}
+
+/** Progress after each finished window: everything before doneUntilSec is final. */
+export interface TranscribeProgress {
+  segments: TranscriptSegmentOut[]
+  doneUntilSec: number
+  /** 0..1 of the whole recording. */
+  progress: number
+}
+
+export interface SpeechToTextProvider {
+  readonly id: string
+  readonly kind: ProviderKind
+  readonly config: ProviderConfig
+  listModels(signal?: AbortSignal): Promise<ModelInfo[]>
+  health(signal?: AbortSignal): Promise<ProviderHealth>
+  transcribe(
+    job: TranscribeJob,
+    onWindow: (p: TranscribeProgress) => void | Promise<void>,
+  ): Promise<{ language: string; model: string }>
+}
+
 /** What an adapter module exports (src/main/providers/<area>/<name>/adapter.ts). */
 export interface AdapterModule {
   kind: ProviderKind
@@ -154,6 +192,8 @@ export interface AdapterModule {
     model: string,
   ) => EmbeddingProvider
   createMedia?: (config: ProviderConfig, secret: string | undefined) => MediaProvider
+  /** Speech to text (#425). Only adapters that run on this computer may provide it. */
+  createSpeechToText?: (config: ProviderConfig, secret: string | undefined) => SpeechToTextProvider
   /** Default config used by onboarding/detection, if this adapter talks to a localhost service. */
   localDefaults?: { label: string; baseUrl: string }[]
 }
