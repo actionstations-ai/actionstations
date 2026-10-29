@@ -27,6 +27,7 @@ import {
 } from './surveys'
 import { mselWorkbook } from './xlsx'
 import { clocksCsv, coverageCsv, coverageWorkbook, hasCoverage } from './coverage'
+import { hasBranches } from '@shared/branching/graph'
 import { distributionEntries, writeZip } from './zip'
 import {
   writeCapXml,
@@ -38,6 +39,7 @@ import {
 /** Everything the ZIP's facilitator/ and players/ folders are built from. */
 const ZIP_NEEDS: ExportTarget[] = [
   'msel_pdf',
+  'path_pdf',
   'deck_pdf',
   'handbook_pdf',
   'briefing_pdf',
@@ -64,6 +66,7 @@ const ORDER: ExportTarget[] = [
   'coverage_xlsx',
   'coverage_csv',
   'msel_pdf',
+  'path_pdf',
   'deck_pdf',
   'handbook_pdf',
   'briefing_pdf',
@@ -95,6 +98,7 @@ const PLATFORM_TARGETS: ExportTarget[] = ['conducttr_csv', 'eoc_package']
 
 const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof DocumentFileNames }>> = {
   msel_pdf: { doc: 'msel', file: 'msel' },
+  path_pdf: { doc: 'path', file: 'path' },
   deck_pdf: { doc: 'deck', file: 'deck' },
   handbook_pdf: { doc: 'handbook', file: 'handbook' },
   briefing_pdf: { doc: 'briefing', file: 'briefing' },
@@ -252,6 +256,8 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
     state.result.warnings.push(NO_EEGS)
     return
   }
+  // The one-path MSEL only exists for branched scenarios; others have nothing to print.
+  if (target === 'path_pdf' && !hasBranches(state.model.scenario)) return
   if (target === 'aar_pdf' && !state.model.aar) {
     state.result.warnings.push(NO_AAR)
     return
@@ -344,6 +350,7 @@ async function writeReport(state: RunState): Promise<void> {
 
 const TARGET_LABELS: Record<ExportTarget, string> = {
   msel_pdf: 'MSEL PDF',
+  path_pdf: 'MSEL path PDF',
   deck_pdf: 'Master Inject Deck PDF',
   handbook_pdf: 'Controller / Evaluator Handbook PDF',
   briefing_pdf: 'Player Briefing Packet PDF',

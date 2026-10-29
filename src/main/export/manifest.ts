@@ -5,6 +5,7 @@ import { coverageMarkdown, hasCoverage } from './coverage'
 import { dump } from 'js-yaml'
 import { capabilityName } from '@shared/core-capabilities'
 import type { Scenario, StageRun } from '@shared/schemas'
+import { buildGraph, hasBranches } from '@shared/branching/graph'
 import { citationSource } from './eeg'
 import { mdCell, mdTable, stripSectionMarkers } from './escape'
 import type { ExportedFile } from './media'
@@ -107,16 +108,27 @@ function rolesMd(s: Scenario): string[] {
 }
 
 function mselMd(s: Scenario): string[] {
+  const branched = hasBranches(s)
   return groupRows(s).flatMap(({ phase, rows }) => [
     phase
       ? `## ${phaseHeading(phase)} (Hour ${phase.startTime} – ${phase.endTime})`
       : '## Additional events',
     ...(phase?.goal ? [`Goal: ${phase.goal}`] : []),
     mdTable(
-      ['Time', 'Inject ID', 'From', 'To', 'Event / Message', 'Expected Action', 'Purpose'],
+      [
+        'Time',
+        'Inject ID',
+        ...(branched ? ['Branch'] : []),
+        'From',
+        'To',
+        'Event / Message',
+        'Expected Action',
+        'Purpose',
+      ],
       rows.map((r) => [
         r.time,
         r.id,
+        ...(branched ? [r.branchId ? r.branchId.toUpperCase() : 'Trunk'] : []),
         r.from,
         toText(r, s),
         r.event,
@@ -125,6 +137,33 @@ function mselMd(s: Scenario): string[] {
       ]),
     ),
   ])
+}
+
+/** "Decisions and branches" after the phases (spec 0430 FR-15). */
+function branchesMd(s: Scenario): string[] {
+  if (!hasBranches(s)) return []
+  const graph = buildGraph(s)
+  const decisions = [...graph.decisions.values()].flatMap(({ row, decision: d }) => [
+    `### ${mdCell(d.question)} (row ${row.id}, rule: ${d.rule.kind})`,
+    mdTable(
+      ['Option', 'Leads to', 'Default'],
+      d.options.map((o) => [
+        o.label,
+        o.branchId ? `Branch ${o.branchId.toUpperCase()}` : 'Continues',
+        o.id === d.defaultOptionId ? 'Yes' : '',
+      ]),
+    ),
+  ])
+  const branches = mdTable(
+    ['Branch', 'Label', 'Rows', 'Rejoins'],
+    [...graph.branches.values()].map((n) => [
+      n.branch.id.toUpperCase(),
+      n.branch.label,
+      n.rows.map((r) => r.id).join(', '),
+      n.branch.rejoinRowId ?? 'Ends the exercise',
+    ]),
+  )
+  return ['## Decisions and branches', ...decisions, branches]
 }
 
 function injectsMd(model: ExportModel): string[] {
@@ -199,6 +238,7 @@ export function scenarioMarkdown(model: ExportModel, media: ExportedFile[]): str
     ...rolesMd(s),
     '# Master Scenario Events List',
     ...mselMd(s),
+    ...branchesMd(s),
     ...injectsMd(model),
     ...evaluationMd(s),
     ...documentMd('Controller / Evaluator Handbook', model.docs.handbook),

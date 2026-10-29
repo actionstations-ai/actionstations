@@ -309,6 +309,7 @@ describe('planTargets', () => {
       'media',
       'msel_xlsx',
       'msel_pdf',
+      'path_pdf',
       'deck_pdf',
       'handbook_pdf',
       'briefing_pdf',

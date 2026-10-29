@@ -3,6 +3,7 @@ import { AppError } from '../../lib/errors'
 import { exists } from '../../lib/fs'
 import { requireProject } from '../../project/guard'
 import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
+import { appendBranchingEntries, checkBranchingReplay } from '../../facilitator/branching-log'
 import { closePresent, isPresenting, listDisplays, present } from '../../facilitator/present'
 import { scenarioLayout } from '../../scenario/layout'
 import { requireScenarioDir } from '../../scenario/store'
@@ -28,6 +29,18 @@ export default defineHandlers({
   'facilitator:state-save': async ({ projectPath, scenarioId, state }) => {
     const root = await requireProject(projectPath)
     return writeFacilitatorState(root, scenarioId, state)
+  },
+
+  'facilitator:branching-append': async ({ projectPath, scenarioId, entries }) => {
+    const root = await requireProject(projectPath)
+    await requireScenarioDir(root, scenarioId)
+    return appendBranchingEntries(root, scenarioId, entries)
+  },
+
+  'facilitator:branching-replay': async ({ projectPath, scenarioId }) => {
+    const root = await requireProject(projectPath)
+    await requireScenarioDir(root, scenarioId)
+    return checkBranchingReplay(root, scenarioId)
   },
 
   'facilitator:displays': () => listDisplays(),

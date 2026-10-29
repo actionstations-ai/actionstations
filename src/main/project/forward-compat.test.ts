@@ -44,7 +44,7 @@ describe('forward compatibility of persisted files (#208)', () => {
   it('keeps unknown scenario.json keys through a save and writes a format version', async () => {
     const s = await createScenario(root, { title: 'T', brief: ScenarioBrief.parse({}) })
     const file = join(root, 'scenarios', s.id, 'scenario.json')
-    expect(readJsonFile(file).formatVersion).toBe(SCENARIO_FORMAT_VERSION)
+    expect(readJsonFile(file).formatVersion).toBe(1)
     writeJsonFile(file, { ...readJsonFile(file), futureField: 'kept' })
     const loaded = await getScenario(root, s.id)
     await saveScenario(root, { ...loaded, title: 'Edited' }, { by: 'user' })
@@ -66,6 +66,22 @@ describe('forward compatibility of persisted files (#208)', () => {
     const err = await getScenario(root, s.id).catch((e: unknown) => e)
     expect(err).toMatchObject({ code: 'VALIDATION' })
     expect(JSON.stringify(err)).toMatch(/newer version of Action Stations/)
+  })
+
+  it('writes format 2 only for a branched scenario, and a build that knows only 1 would refuse it (#430)', async () => {
+    const s = await createScenario(root, { title: 'Fork', brief: ScenarioBrief.parse({}) })
+    const file = join(root, 'scenarios', s.id, 'scenario.json')
+    expect(readJsonFile(file)).not.toHaveProperty('branches')
+    const branch = { id: 'b1', label: 'Pay', decisionId: 'd1', optionId: 'pay' }
+    await saveScenario(
+      root,
+      { ...s, branches: [branch].map((b) => ({ ...b, rationale: '' })) },
+      { by: 'user' },
+    )
+    expect(readJsonFile(file).formatVersion).toBe(2)
+    const loaded = await getScenario(root, s.id)
+    await saveScenario(root, { ...loaded, branches: [] }, { by: 'user' })
+    expect(readJsonFile(file).formatVersion).toBe(1)
   })
 
   it('keeps unknown inject keys through a save', async () => {

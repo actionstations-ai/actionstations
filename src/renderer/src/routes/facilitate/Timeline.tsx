@@ -7,6 +7,7 @@ import type { MselRow, Phase } from '@shared/schemas/scenario'
 import { injectTypeInfo } from '@shared/taxonomy'
 import { Badge, Button, TagChip } from '../../components/ui'
 import { groupByPhase } from '../../lib/msel'
+import type { RowAvailability } from './branching'
 import { receiptLine } from './live/use-live-delivery'
 
 export interface TimelineEntry {
@@ -20,6 +21,12 @@ export interface TimelineEntry {
   hasNote: boolean
   /** Who got it on their device, when a live session released this row (#412). */
   live?: ReleaseSummary | undefined
+  /** The branch this row is on (spec 0430); absent on the trunk. */
+  lane?: { chip: string; label: string } | undefined
+  /** Whether the row can be delivered on the path the decisions lead to; absent = yes. */
+  availability?: RowAvailability | undefined
+  /** This is the decision row the path is cut at. */
+  decisionOpen?: boolean | undefined
 }
 
 export interface TimelineProps {
@@ -44,6 +51,9 @@ function Thumb({ entry }: { entry: TimelineEntry }) {
 }
 
 function RowStatus({ entry }: { entry: TimelineEntry }) {
+  if (entry.availability === 'not_taken') return <Badge tone="neutral">Not taken</Badge>
+  if (entry.availability === 'waiting') return <Badge tone="neutral">Waits for the decision</Badge>
+  if (entry.decisionOpen && !entry.deliveredAt) return <Badge tone="warn">Decision open</Badge>
   if (entry.deliveredAt)
     return (
       <>
@@ -71,6 +81,8 @@ function TimelineRow(props: {
         entry.due && 'fac-row--due',
         entry.deliveredAt && 'fac-row--delivered',
         props.selected && 'fac-row--selected',
+        entry.availability && entry.availability !== 'on_path' && 'fac-row--off-path',
+        entry.lane && 'fac-row--branch',
       )}
     >
       <button
@@ -88,6 +100,11 @@ function TimelineRow(props: {
           <span className="fac-row__meta">
             <span>To {entry.target}</span>
             <TagChip tag={row.purposeTag} />
+            {entry.lane && (
+              <span className="fac-row__lane">
+                Branch {entry.lane.chip}: {entry.lane.label}
+              </span>
+            )}
             <span>{typeLabel(entry.inject?.type ?? row.format)}</span>
             {entry.hasNote && (
               <span className="fac-row__note">
@@ -116,6 +133,7 @@ function TimelineRow(props: {
         <Button
           size="sm"
           variant={entry.due ? 'primary' : 'default'}
+          disabled={!!entry.availability && entry.availability !== 'on_path'}
           onClick={props.onDeliver}
           aria-label={`Deliver ${row.id}`}
         >

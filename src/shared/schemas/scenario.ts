@@ -77,6 +77,80 @@ export const Phase = z.object({
 })
 export type Phase = z.infer<typeof Phase>
 
+/** How a branch decision turns a tally into an option (spec 0430 FR-4). Pure; never a model. */
+export const BranchRule = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('plurality') }),
+  z.object({ kind: z.literal('majority') }),
+  z.object({ kind: z.literal('threshold'), optionId: Id, minShare: z.number().min(0).max(1) }),
+  z.object({ kind: z.literal('controller') }),
+  z.object({ kind: z.literal('unanimous') }),
+])
+export type BranchRule = z.infer<typeof BranchRule>
+
+export const DecisionOption = z.object({
+  id: Id,
+  label: z.string().min(1).max(80),
+  description: z.string().default(''),
+  /** Branch that plays when chosen; absent = continue on the current path. */
+  branchId: Id.optional(),
+})
+export type DecisionOption = z.infer<typeof DecisionOption>
+
+const slugOption = (label: string, i: number): string =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40) || `option-${i + 1}`
+
+/** Reads the vote-only shape ({ question, options: string[] }) as a decision (spec 0430 FR-2). */
+function fromVoteOnlyDecision(value: unknown): unknown {
+  if (!value || typeof value !== 'object') return value
+  const v = value as Record<string, unknown>
+  if (!Array.isArray(v.options) || !v.options.some((o) => typeof o === 'string')) return value
+  const options = v.options.map((o, i) =>
+    typeof o === 'string' ? { id: slugOption(o, i), label: o } : o,
+  )
+  const first = (options[0] as { id?: string } | undefined)?.id
+  return {
+    ...v,
+    id: v.id ?? 'decision',
+    options,
+    defaultOptionId: v.defaultOptionId ?? first,
+  }
+}
+
+/** A fork on a DECISION_POINT row: a question, 2-8 options, a rule and a default (spec 0430). */
+export const Decision = z.preprocess(
+  fromVoteOnlyDecision,
+  z.object({
+    id: Id,
+    question: z.string().min(1),
+    options: z.array(DecisionOption).min(2).max(8),
+    mode: z.enum(['anonymous', 'by_role']).default('anonymous'),
+    rule: BranchRule.default({ kind: 'plurality' }),
+    defaultOptionId: Id,
+    /** Minutes of exercise clock after the row is delivered; absent = no timeout. */
+    timeoutMin: z.number().int().positive().optional(),
+    /** Which roles' votes count; empty = everyone in the room. */
+    votingRoleIds: z.array(Id).default([]),
+  }),
+)
+export type Decision = z.infer<typeof Decision>
+
+/** A labelled path that plays when its decision option is chosen. */
+export const Branch = z.object({
+  id: Id,
+  label: z.string().min(1).max(80),
+  decisionId: Id,
+  optionId: Id,
+  /** MselRow.id where play continues; absent = the branch ends the exercise (ENDEX row). */
+  rejoinRowId: z.string().optional(),
+  /** What this branch teaches. */
+  rationale: z.string().default(''),
+})
+export type Branch = z.infer<typeof Branch>
+
 /** A regulation trigger an MSEL row fires when it is delivered (#426). */
 export const MselRowTrigger = z.object({ regulationId: ComplianceId, triggerId: ComplianceId })
 export type MselRowTrigger = z.infer<typeof MselRowTrigger>
@@ -112,6 +186,10 @@ export const MselRow = z.object({
     .array(z.object({ ref: z.string().max(120), by: z.enum(['rule', 'model']) }))
     .max(100)
     .optional(),
+  /** The branch this row belongs to (spec 0430); absent = trunk. */
+  branchId: Id.optional(),
+  /** The fork this row opens; meaningful on a DECISION_POINT row. */
+  decision: Decision.optional(),
 })
 export type MselRow = z.infer<typeof MselRow>
 
@@ -327,15 +405,22 @@ export const HANDOUT_DOCS = [
 export const ScenarioDocKind = z.enum(SCENARIO_DOCS)
 export type ScenarioDocKind = z.infer<typeof ScenarioDocKind>
 
-/** scenario.json format; missing means 1. A newer file is refused rather than rewritten. */
-export const SCENARIO_FORMAT_VERSION = 1
+/** scenario.json format; missing means 1, branched scenarios write 2. A newer file is refused. */
+export const SCENARIO_FORMAT_VERSION = 2
+
+/**
+ * The version a scenario is written with: 2 only when it has branches (so a build that does
+ * not know branches refuses the file instead of showing every branch as trunk rows), else 1.
+ */
+export const formatVersionFor = (s: { branches?: unknown[] | undefined }): 1 | 2 =>
+  s.branches?.length ? 2 : 1
 
 /** Loose like Project (see PROJECT_FORMAT_VERSION): unknown keys survive a save (#208). */
 export const Scenario = z.looseObject({
   formatVersion: z
     .number()
     .int()
-    .default(SCENARIO_FORMAT_VERSION)
+    .default(1)
     .refine((v) => v <= SCENARIO_FORMAT_VERSION, {
       message: `This scenario was saved by a newer version of Action Stations (format newer than ${SCENARIO_FORMAT_VERSION}). Update the app to open it.`,
     }),
@@ -385,6 +470,8 @@ export const Scenario = z.looseObject({
   grounding: ScenarioGrounding.optional(),
   /** Plan seams the scenario tests (#427), snapshotted from plan-conflicts.json. */
   seams: z.array(ScenarioSeam).default([]),
+  /** Branches of the MSEL (spec 0430); absent when there are none, so unbranched files are unchanged. */
+  branches: z.array(Branch).optional(),
 })
 export type Scenario = z.infer<typeof Scenario>
 

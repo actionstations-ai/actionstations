@@ -5,7 +5,7 @@ describe('export targets', () => {
   it('defaults to everything except the optional Word files', () => {
     expect(DEFAULT_TARGETS).not.toContain('docx')
     expect(DEFAULT_TARGETS).toContain('zip')
-    expect(ALL_TARGETS).toHaveLength(23)
+    expect(ALL_TARGETS).toHaveLength(24)
     expect(DEFAULT_TARGETS).toContain('aar_pdf')
     expect(DEFAULT_TARGETS).not.toContain('coverage_xlsx')
     for (const t of ['conducttr_csv', 'eoc_package', 'cap_xml'] as const)

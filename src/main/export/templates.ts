@@ -12,6 +12,7 @@ export const exportTemplatesDir = (): string => resourcePath('templates', 'expor
 export type ExportTemplateName =
   | 'layout'
   | 'msel'
+  | 'path'
   | 'deck'
   | 'handbook'
   | 'briefing'

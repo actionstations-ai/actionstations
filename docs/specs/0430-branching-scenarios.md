@@ -1,6 +1,6 @@
 # Spec 0430: Branching scenarios decided by rules
 
-Issue: #430 · Milestone: 0.8.0 · Status: Draft · Depends on: #414 (decision-point voting), #417 (session log) · Related: #421 (expected actions), #423 (grounding labels), #431 (drills reuse the run path)
+Issue: #430 · Milestone: 0.8.0 · Status: Implemented in part (see "As built") · Depends on: #414 (decision-point voting), #417 (session log) · Related: #421 (expected actions), #423 (grounding labels), #431 (drills reuse the run path)
 
 ## Summary
 
@@ -309,3 +309,14 @@ ADR when the work lands (next free number): `docs/adr/NNNN-branching-rules-decid
 4. **Allow a branch to rejoin a later phase?** Recommendation: yes, as long as the rejoin row is later in time; the export prints the branch in the phase of its decision and notes the rejoin phase.
 5. **Should "Propose next inject" also be offered on the trunk?** Recommendation: no in 0.8.0. On the trunk the designer already wrote the rows; the feature exists for thin branches. Revisit if facilitators ask.
 6. **0414 ships `MselRow.decision` with `options: string[]` in 0.6.0; this spec widens it.** Recommendation: land the preprocess in 0414's task 1 if the two are built close together (option objects from day one cost nothing); otherwise the preprocess here converts on read and no file is migrated.
+
+## As built
+
+Implemented: FR-1 to FR-10, FR-12 to FR-16 and the exports and tests of the spec, in one change (ADR-0049). The code differs from the text above in these places:
+
+- `Scenario.branches` is optional rather than defaulting to `[]`, so a scenario without branches stays byte-identical after a save (FR-1). The format version default is 1; `formatVersionFor` returns 2 when there are branches and the store stamps it.
+- The grid does not move branch rows under their decision row. They stay in phase and time order with a "Branch B1: Pay" label and a left bar, and the path filter dims rows. Lane ordering would have broken drag-to-retime.
+- Decisions, releases, proposal verdicts and the replay state go to a local-only log (`scenarios/<id>/live/local/log.jsonl`) with `facilitator:branching-append` and `facilitator:branching-replay`; the hash is stored in `live/local/state.json` by main. Appending to a live session's `log.jsonl` waits for the live-play log writer to be shared with the facilitator side. The seed is a UUID created with the first decision and kept in `facilitator.json`; nothing here uses randomness.
+- `path_pdf` uses the decisions in `facilitator.json` (the run on this computer) and takes no `sessionId`.
+- The row a proposal adds records no provenance stage (the Stage enum has no `branch_inject`); the prompt `branch_inject` runs as stage `msel_phase`.
+- Grounding labels on proposals (#423), the `branch_plan` generation stage (FR-11), the presentation-screen decision view, `BRANCH_*` repairs in `repair-msel.ts` and the decision dialog (the Branches panel edits decisions inline) are left for follow-ups.

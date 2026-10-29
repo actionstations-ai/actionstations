@@ -115,6 +115,7 @@ export function documentFileNames(
   const base = scenario ? `${t}-S${scenario.scenarioNo}-${scenarioTag(scenario.scenarioId)}` : t
   return {
     msel: `${t}-MSEL.pdf`,
+    path: `${t}-MSEL-Path.pdf`,
     deck: `${t}-Master-Inject-Deck.pdf`,
     handbook: `${t}-Controller-Evaluator-Handbook.pdf`,
     briefing: `${t}-Player-Briefing-Packet.pdf`,

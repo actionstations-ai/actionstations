@@ -13,7 +13,9 @@ import {
   type Survey,
   type SurveySummary,
 } from '@shared/schemas'
+import type { DecisionRecord } from '@shared/ipc/facilitator'
 import { readAar } from '../aar/store'
+import { readFacilitatorState } from '../facilitator/state'
 import { safeJoinReal } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
@@ -68,6 +70,8 @@ export interface ExportModel {
   aar: Aar | null
   /** Compliance coverage and regulatory clocks (#426); absent when it could not be built. */
   coverage?: CoverageReport
+  /** Branch decisions taken in the run (spec 0430); empty when none were recorded. */
+  decisions?: DecisionRecord[]
 }
 
 /** Surveys with their summaries, the anonymity threshold from settings applied. */
@@ -135,6 +139,7 @@ export async function loadExportModel(
     conduct: conductOf(scenario),
     ...optionalEvaluation(scenario),
     aar: await readAar(root, scenarioId),
+    decisions: (await readFacilitatorState(root, scenarioId)).branching?.decisions ?? [],
     ...(await optionalCoverage(root, scenarioId, now)),
   }
 }

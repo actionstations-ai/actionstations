@@ -188,7 +188,7 @@ describe('assembling the bundled packs', () => {
     const core = r.packs[0]!.manifest.contents
     expect(core.templates).toContain('tweet')
     expect(core.templates).not.toContain('fids_board')
-    expect(core.prompts).toHaveLength(19)
+    expect(core.prompts).toHaveLength(20)
     expect(core.domains).toEqual(['generic'])
     // Goldens never ship.
     expect(r.packs.flatMap((p) => p.files).some((f) => f.path.includes('__golden__'))).toBe(false)

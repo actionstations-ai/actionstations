@@ -81,6 +81,19 @@ const PLAIN: Record<string, string> = {
   EEG_TASK_UNCITED: 'A critical task does not cite a plan section.',
   EEG_CAPABILITY_UNKNOWN: 'An evaluation guide names a capability that is not one of the 32.',
   CRITIQUE: 'The review pass suggests an improvement.',
+  BRANCH_UNREACHABLE: 'A branch can never play: no choice at its decision leads to it.',
+  BRANCH_DEAD_END: 'A branch neither rejoins the exercise nor ends with an end card.',
+  BRANCH_REJOIN_BACKWARD:
+    'A branch rejoins at an event that is earlier than its last event, or not on the main line.',
+  BRANCH_CYCLE: 'A branch rejoins a path that leads back to itself.',
+  BRANCH_EMPTY: 'A branch has no events yet.',
+  BRANCH_ROLE_GAP: 'A role gets nothing for half an hour or more in a branch.',
+  BRANCH_TIME_ORDER: 'A branch event is timed before its decision or after the rejoin point.',
+  BRANCH_DEPTH: 'Decisions are nested more than three levels deep.',
+  DECISION_NO_DEFAULT: 'A decision has no default option to fall back on.',
+  DECISION_OPTION_ORPHAN: 'A decision option points at a branch that does not exist.',
+  DECISION_NOT_DECISION_POINT:
+    'A decision sits on an event that is not tagged as a decision point.',
   GROUNDING_UNSUPPORTED:
     'An expected action or controller note is not supported by the plan passages it cites.',
   GROUNDING_REVIEW:

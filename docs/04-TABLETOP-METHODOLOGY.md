@@ -79,6 +79,12 @@ Scenario 3 is a template for a good classroom TTX. Reproduce the pattern:
 
 **Hot wash.** "3-Up, 3-Down" plus 3 scenario-specific discussion questions that hit the learning objectives (trust in data, Ops↔IT communication gap, insider as crime scene vs. tech ticket).
 
+### Branches (#430, ADR-0049)
+
+A decision-point inject can fork the MSEL: each option of the decision leads to a labelled branch of rows that rejoins the main line at a later row or ends the exercise with an end card. Use branches where the consequence of a call is the lesson ("pay or rebuild"): the room then plays what follows from its own choice instead of hearing "let's assume you rebuilt". Which branch plays is decided by a rule set in advance (most votes, majority, a threshold for one option, unanimous, or the controller) with a default for ties and missing votes, and the facilitator can override with a recorded reason. A model may write a branch's rows at design time, and may propose one more row during the exercise, but it never chooses the branch: language models in simulated crises escalate unpredictably and react to wording (Rivera et al., FAccT 2024; Lamparth et al., AIES 2024), so state is computed by rules and the run is logged so it can be replayed.
+
+Keep branches short (three to six rows), give every role something to do in each, and rejoin as soon as the paths can share a story again.
+
 ## 4. Authoring workflow that worked (and what the app should automate)
 
 | Manual step | App equivalent |

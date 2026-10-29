@@ -35,6 +35,19 @@ export const generateChannels = {
     P.extend({ scenarioId: SafeId, rowIds: z.array(SafeId).optional() }),
     JobRef,
   ),
+  /**
+   * One proposed row for a branch (spec 0430 FR-10). The job result is a ProposalResult; the
+   * scenario is not changed: a person accepts the row and the renderer saves it.
+   */
+  'generate:propose-inject': channel(
+    P.extend({
+      scenarioId: SafeId,
+      branchId: SafeId,
+      afterRowId: z.string().max(64).optional(),
+      instructions: z.string().max(1000).optional(),
+    }),
+    JobRef,
+  ),
   'generate:media': channel(
     P.extend({
       scenarioId: SafeId,
