@@ -1,0 +1,34 @@
+{
+  "name": "@actionstations/relay-node",
+  "version": "0.1.0",
+  "description": "The Action Stations live play server for an organization's own network: the relay core on Node with SQLite storage, TLS, no outbound connections (spec 0409).",
+  "license": "SEE LICENSE IN ../../LICENSE.md",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "actionstations-relay": "./dist/server.cjs"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:public": "node scripts/copy-player.mjs",
+    "build:sea": "node scripts/build-sea.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "start": "node dist/server.cjs serve"
+  },
+  "dependencies": {
+    "@actionstations/relay-core": "workspace:*",
+    "@peculiar/asn1-schema": "^3.0.0",
+    "@peculiar/x509": "^3.1.0",
+    "asn1js": "^4.0.0",
+    "reflect-metadata": "^0.2.2",
+    "smol-toml": "^1.9.1",
+    "ws": "^8.22.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
+    "esbuild": "^0.28.2",
+    "postject": "1.0.0-alpha.6"
+  }
+}

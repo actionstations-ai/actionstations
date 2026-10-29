@@ -8,19 +8,24 @@ import type { IncomingMessage } from 'node:http'
 import type { Duplex } from 'node:stream'
 import { WebSocketServer, type WebSocket } from 'ws'
 import { WS_SUBPROTOCOL } from '@shared/live/connect-url'
-import type { HubClient, SessionHub } from '@shared/live/hub'
-import type { ConnectParams } from './connect-params'
-import type { LanLog } from './log'
+import type { HubAttachOptions, HubClient, SessionHub } from '@shared/live/hub'
+import type { ConnectionLog } from './log'
 import type { Peers } from './peers'
 
 export const PING_INTERVAL_MS = 25_000
 export const IDLE_TIMEOUT_MS = 60_000
 const MAX_BUFFERED_BYTES = 8 * 1024 * 1024
 
+/** Who is connecting: a device with join and resume tokens, or a controller its server authenticated. */
+export type WsParams = Pick<
+  HubAttachOptions,
+  'clientId' | 'joinToken' | 'resumeToken' | 'controller'
+>
+
 export interface WsAttachContext {
   hub: SessionHub
   peers: Peers
-  log: LanLog
+  log: ConnectionLog
   now?: () => number
 }
 
@@ -40,7 +45,7 @@ export function attachWebSocket(
   req: IncomingMessage,
   socket: Duplex,
   head: Buffer,
-  params: ConnectParams,
+  params: WsParams,
   remote: string,
   ctx: WsAttachContext,
 ): void {
@@ -51,7 +56,7 @@ export function attachWebSocket(
 
 async function bind(
   ws: WebSocket,
-  params: ConnectParams,
+  params: WsParams,
   remote: string,
   ctx: WsAttachContext,
 ): Promise<void> {

@@ -12,7 +12,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { timingSafeEqual } from 'node:crypto'
 import type { HubClient, SessionHub } from '@shared/live/hub'
 import type { ConnectParams } from './connect-params'
-import type { LanLog } from './log'
+import type { ConnectionLog } from './log'
 import type { Peers } from './peers'
 import { applyCommonHeaders, readBody, sendError, sendJson } from './respond'
 
@@ -30,7 +30,7 @@ interface Stream {
 export interface FallbackContext {
   hub: SessionHub
   peers: Peers
-  log: LanLog
+  log: ConnectionLog
 }
 
 export class HttpFallback {

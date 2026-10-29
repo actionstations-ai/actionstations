@@ -15,7 +15,6 @@ import {
 import { createServer as createHttpsServer } from 'node:https'
 import type { Duplex } from 'node:stream'
 import type { WebSocketServer } from 'ws'
-import { fromBase64Url } from '@shared/live/bytes'
 import type { SessionHub } from '@shared/live/hub'
 import { PROTOCOL_VERSION } from '@shared/live/protocol'
 import { Base64Url22 } from '@shared/live/schemas/envelope'
@@ -27,9 +26,9 @@ import type { LanLog } from './log'
 import { Flood, Peers } from './peers'
 import {
   applyCommonHeaders,
-  drained,
   htmlCsp,
   remoteOf,
+  sendBlob,
   sendError,
   sendHtml,
   sendJson,
@@ -117,11 +116,6 @@ async function listenWithFallback(server: Server, address: string, port: number 
     if (ok) return
   }
   throw new Error(`No free port on ${address}`)
-}
-
-/** Bytes a base64url string decodes to, without decoding it. */
-function decodedLength(b64url: string): number {
-  return Math.floor((b64url.length * 3) / 4)
 }
 
 export async function startLanServer(opts: LanServerOptions): Promise<LanServer> {
@@ -342,16 +336,7 @@ class Router {
     }
     this.blobDownloads.set(remote, active + 1)
     try {
-      const total = chunks.reduce((n, c) => n + decodedLength(c), 0)
-      applyCommonHeaders(res)
-      res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Length': total })
-      for (const c of chunks) {
-        if (res.destroyed) return
-        // A reader that disconnects mid-download never drains: the wait ends on close too, so
-        // the per-address slot is released in `finally`.
-        if (!res.write(Buffer.from(fromBase64Url(c)))) await drained(res)
-      }
-      res.end()
+      await sendBlob(res, chunks)
     } finally {
       this.blobDownloads.set(remote, (this.blobDownloads.get(remote) ?? 1) - 1)
     }

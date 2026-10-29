@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2023"],
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "@shared/*": ["../../src/shared/*"],
+      "@main/*": ["../../src/main/*"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*"]
+}
