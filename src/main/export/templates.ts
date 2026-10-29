@@ -10,7 +10,15 @@ import { resourcePath } from '../lib/paths'
 export const exportTemplatesDir = (): string => resourcePath('templates', 'export')
 
 export type ExportTemplateName =
-  'layout' | 'msel' | 'deck' | 'handbook' | 'briefing' | 'cover' | 'survey' | 'survey-results'
+  | 'layout'
+  | 'msel'
+  | 'deck'
+  | 'handbook'
+  | 'briefing'
+  | 'cover'
+  | 'survey'
+  | 'survey-results'
+  | 'eeg'
 
 const hb = Handlebars.create()
 let partialsLoaded = false

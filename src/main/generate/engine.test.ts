@@ -106,9 +106,36 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     expect(s.rubric?.metrics.map((m) => m.points)).toEqual([30, 30, 20, 20])
     expect(s.hotwash?.questions.length).toBeGreaterThan(0)
     expect(s.simcellScripts.length).toBeGreaterThan(0)
+    // The eeg stage (#421) mapped objectives to capabilities and wrote cited EEGs whose tasks
+    // link existing rows; unknown rows (I-12c is not in phase 3 here) were dropped.
+    expect(s.evaluation.objectiveCapabilities.map((p) => p.capability)).toEqual([
+      'public_information_and_warning',
+      'operational_coordination',
+      'infrastructure_systems',
+      'cybersecurity',
+    ])
+    expect(s.evaluation.objectiveCapabilities[0]?.objectiveId).toBe(s.objectives[0]?.id)
+    expect(s.evaluation.eegs).toHaveLength(4)
+    const tasks = s.evaluation.eegs.flatMap((e) => e.criticalTasks)
+    expect(tasks.map((t) => t.id)).toEqual(
+      tasks.map((_, i) => `T-${String(i + 1).padStart(2, '0')}`),
+    )
+    for (const t of tasks) {
+      expect(t.citation.chunkId, t.task).toEqual(expect.any(Number))
+      for (const id of t.rowIds)
+        expect(
+          s.msel.some((r) => r.id === id),
+          id,
+        ).toBe(true)
+    }
+    expect(tasks.find((t) => t.task.startsWith('Decide whether'))).toMatchObject({
+      expectedBy: 'ops',
+      rowIds: ['I-09'],
+      objectiveRefs: [s.objectives[1]?.id],
+    })
     // Every step has an ok run with provenance.
     const steps = planSteps(s)
-    expect(steps).toHaveLength(12)
+    expect(steps).toHaveLength(13)
     for (const step of steps) {
       const run = runFor(s, step)
       expect(run?.status, step.stage).toBe('ok')
@@ -133,11 +160,19 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     const briefing = readFileSync(join(projectPath, s.documents.briefing!), 'utf8')
     expect(briefing).toContain('### 4. Incident Briefing Form (ICS-201)')
     expect(briefing).toContain('| FIDS Screens | | |')
-    // Lints ran on a conforming MSEL: nothing beyond the dropped citation and density notes.
+    // Lints ran on a conforming MSEL: nothing beyond the dropped citation, density notes and
+    // the rows the EEG fixture's tasks do not cover (info).
     const codes = new Set(s.warnings.map((w) => w.code))
     expect(
       [...codes].filter(
-        (c) => !['CITATION_DROPPED', 'DENSITY_LOW', 'DENSITY_HIGH', 'DENSITY_DENSE'].includes(c),
+        (c) =>
+          ![
+            'CITATION_DROPPED',
+            'DENSITY_LOW',
+            'DENSITY_HIGH',
+            'DENSITY_DENSE',
+            'EEG_ROW_UNCOVERED',
+          ].includes(c),
       ),
     ).toEqual([])
     // Tokens streamed per stage and item.
@@ -378,6 +413,7 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     for (const stage of [
       'controller_handbook',
       'rubric',
+      'eeg',
       'player_briefing',
       'hotwash',
       'critique',
@@ -409,9 +445,60 @@ describe('scenario pipeline (mock provider, shipped prompts)', () => {
     expect(overviewCalls).toEqual([])
     expect(done.title).toBe('Flight to Nowhere')
     expect(done.status).toBe('ready')
-    expect(planSteps(done)).toHaveLength(10)
+    expect(planSteps(done)).toHaveLength(11)
     expect(done.provenance.every((r) => r.status === 'ok' || r.stage === 'msel_phase')).toBe(true)
     expect(planSteps(done).every((st) => runFor(done, st)?.status === 'ok')).toBe(true)
+  })
+
+  it('re-running the eeg stage keeps a ready scenario ready, marks nothing stale and keeps locked tasks', async () => {
+    const { scenario: s } = await generate()
+    // The designer locks one task and sets its timing by hand; the re-run must keep it as is.
+    const locked = structuredClone(s)
+    const task = locked.evaluation.eegs[1]!.criticalTasks[0]!
+    task.locked = true
+    task.timing = 'within 15 minutes (set by hand)'
+    const store = await import('../scenario/store')
+    await store.saveScenario(projectPath, locked, { by: 'user' })
+    const { jobId } = await invoke('generate:rerun-stage', {
+      projectPath,
+      scenarioId: s.id,
+      stage: 'eeg',
+      instructions: 'Fewer tasks.',
+    })
+    const job = await jobs.wait(jobId)
+    expect(job.status, job.error).toBe('done')
+    const after = await getScenario(projectPath, s.id)
+    expect(after.status).toBe('ready')
+    for (const stage of ['player_briefing', 'hotwash', 'critique'] as const)
+      expect(runFor(after, { stage })?.status, stage).toBe('ok')
+    const kept = after.evaluation.eegs.flatMap((e) => e.criticalTasks).find((t) => t.id === task.id)
+    expect(kept).toMatchObject({ locked: true, timing: task.timing })
+    // The fresh task with the same capability and text was replaced by the locked one, not doubled.
+    expect(
+      after.evaluation.eegs[1]!.criticalTasks.filter((t) =>
+        /Operational Incident Command/.test(t.task),
+      ),
+    ).toHaveLength(1)
+  })
+
+  it('the eeg stage fails with a clear message when nothing is retrieved, without calling the model', async () => {
+    const calls: string[] = []
+    setMockResponse('EegOutput', () => {
+      calls.push('eeg')
+      return {}
+    })
+    const { scenario: s } = await generate()
+    calls.length = 0
+    index.search = async () => []
+    const { jobId } = await invoke('generate:rerun-stage', {
+      projectPath,
+      scenarioId: s.id,
+      stage: 'eeg',
+    })
+    const job = await jobs.wait(jobId)
+    expect(job.status).toBe('error')
+    expect(job.error).toMatch(/no plan sections found for the objectives/)
+    expect(calls).toEqual([])
   })
 
   it('rejects stages the scenario pipeline does not own', async () => {

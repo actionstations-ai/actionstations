@@ -22,6 +22,7 @@ function exportFolder(): { dir: string; files: string[] } {
     names.handbook,
     names.briefing,
     names.exercisePlan,
+    names.eegs,
     'scenario.json',
     'scenario.md',
   ])
@@ -54,6 +55,8 @@ describe('distribution ZIP', () => {
         'facilitator/Flight-to-Nowhere-MSEL.pdf',
         'facilitator/Flight-to-Nowhere-Master-Inject-Deck.pdf',
         'facilitator/Flight-to-Nowhere-Controller-Evaluator-Handbook.pdf',
+        // The EEG packet is facilitator material (#421): never in players/.
+        'facilitator/Flight-to-Nowhere-EEGs.pdf',
         'facilitator/forms/ICS-201-Incident-Briefing-blank.pdf',
         'facilitator/media/S3-I04-tweet.png',
         'facilitator/scenario.json',
@@ -113,6 +116,8 @@ describe('distribution ZIP', () => {
       names.deck,
       names.handbook,
       names.exercisePlan,
+      names.eegs,
+      names.eegsDocx,
       'scenario.json',
       'media/S3-I04-tweet.png',
     ]) {

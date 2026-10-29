@@ -183,6 +183,25 @@ test('facilitator: clock, deliver to a second window, notes persist', async () =
     // Hot wash note on the delivered inject, autosaved.
     await page.getByLabel('Hot wash notes for I-06').fill('Ops kept the FIDS on for 12 minutes.')
     await expect(page.locator('.fac-status')).toContainText('Saved')
+
+    // Evaluation (#421): rate one of I-06's criteria (a critical task from the TIRP) with a note.
+    await page.getByRole('tab', { name: 'Evaluation' }).click()
+    await page.getByLabel('Evaluator label (optional)').fill('Evaluator 2')
+    const rating = page.getByRole('group', { name: /^Rating for Decide whether to silence the PA/ })
+    await expect(rating).toBeVisible()
+    await rating.getByRole('radio', { name: 'Partial' }).check()
+    await expect(rating.getByRole('radio', { name: 'Partial' })).toBeChecked()
+    await page.getByLabel('Note for T-07').fill('PA silenced after 12 minutes; FIDS stayed on.')
+    await expect
+      .poll(async () => {
+        const record = await invoke<{ observations: { id: string; note: string }[] }>(
+          'evaluation:get',
+          { projectPath, scenarioId },
+        )
+        return record.observations.find((o) => o.id === 'O-I-06-T-07')?.note
+      })
+      .toBe('PA silenced after 12 minutes; FIDS stayed on.')
+    await page.screenshot({ path: join(OUT, 'light-evaluation.png') })
     await page.getByRole('tab', { name: 'General notes' }).click()
     await page.getByRole('textbox', { name: 'General notes' }).fill('PIO joined late.')
     await expect(page.locator('.fac-status')).toContainText('Saved')
@@ -198,12 +217,21 @@ test('facilitator: clock, deliver to a second window, notes persist', async () =
     await page.screenshot({ path: join(OUT, 'dark-facilitate.png') })
     await present.screenshot({ path: join(OUT, 'dark-present.png') })
     await page.getByRole('tab', { name: 'Hot wash' }).click()
-    await expect(page.getByText('Ops kept the FIDS on for 12 minutes.')).toBeVisible()
+    // The inject note shows under the task it belongs to and in "All inject notes".
+    await expect(page.getByText('Ops kept the FIDS on for 12 minutes.').first()).toBeVisible()
+    // The rating rolls up under its objective and capability, with the plan citation.
+    const coordination = page.getByRole('region', { name: 'Operational Coordination' })
+    await expect(coordination.getByText('Partial 1')).toBeVisible()
+    await expect(coordination.getByText(/PA silenced after 12 minutes/)).toBeVisible()
+    await expect(
+      coordination.getByText('13.6 Scenario C: FIDS / BHS System Failure').first(),
+    ).toBeVisible()
     await page.screenshot({ path: join(OUT, 'dark-hotwash.png') })
     await setTheme([page, present], 'light')
     await page.screenshot({ path: join(OUT, 'light-hotwash.png') })
 
-    // Reload: clock, delivery and notes come back from facilitator.json.
+    // Reload: clock, delivery and notes come back from facilitator.json; the rating from
+    // evaluation.json.
     await page.reload()
     await expect(page.getByRole('timer', { name: 'Exercise time' })).toHaveText(/^1:15:\d\d$/)
     await expect(page.getByRole('button', { name: 'Resume', exact: true })).toBeVisible()
@@ -212,6 +240,13 @@ test('facilitator: clock, deliver to a second window, notes persist', async () =
     await expect(page.getByLabel('Hot wash notes for I-06')).toHaveValue(
       'Ops kept the FIDS on for 12 minutes.',
     )
+    await page.getByRole('tab', { name: 'Evaluation' }).click()
+    await expect(
+      page
+        .getByRole('group', { name: /^Rating for Decide whether to silence the PA/ })
+        .getByRole('radio', { name: 'Partial' }),
+    ).toBeChecked()
+    await page.getByRole('tab', { name: 'Inject' }).click()
     const saved = await invoke<{ notes: Record<string, string>; generalNotes: string }>(
       'facilitator:state-get',
       { projectPath, scenarioId },

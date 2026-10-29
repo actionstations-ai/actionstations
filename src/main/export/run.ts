@@ -9,7 +9,7 @@ import { ensureDir, writeFileAtomic } from '../lib/fs'
 import type { JobContext } from '../jobs/manager'
 import { renderPdf } from '../render/window'
 import { buildDocumentHtml, EXPORT_DOC_LABELS, type ExportDoc } from './documents'
-import { briefingDocx, handbookDocx } from './docx'
+import { briefingDocx, eegDocx, handbookDocx } from './docx'
 import { blankFormDocument } from './forms'
 import { scenarioJson, scenarioMarkdown } from './manifest'
 import { exportMedia, type ExportedFile } from './media'
@@ -33,6 +33,7 @@ const ZIP_NEEDS: ExportTarget[] = [
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
+  'eeg_pdf',
   'media',
   'json',
   'markdown',
@@ -47,6 +48,7 @@ const ORDER: ExportTarget[] = [
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
+  'eeg_pdf',
   'docx',
   'json',
   'markdown',
@@ -67,7 +69,13 @@ const PDF_DOCS: Partial<Record<ExportTarget, { doc: ExportDoc; file: keyof Docum
   handbook_pdf: { doc: 'handbook', file: 'handbook' },
   briefing_pdf: { doc: 'briefing', file: 'briefing' },
   exercise_plan_pdf: { doc: 'exercise_plan', file: 'exercisePlan' },
+  eeg_pdf: { doc: 'eeg', file: 'eegs' },
 }
+
+/** The EEG packet needs guides to print; a scenario without any gets a warning, not a file. */
+const hasEegs = (model: ExportModel): boolean => model.scenario.evaluation.eegs.length > 0
+const NO_EEGS =
+  'No evaluation guides yet: generate them on the Scenario page (Evaluation tab) to export the EEG packet'
 
 export interface ExportResult {
   folder: string
@@ -164,6 +172,10 @@ async function writeHandouts(
 
 async function runTarget(state: RunState, target: ExportTarget, outDir: string): Promise<void> {
   const pdf = PDF_DOCS[target]
+  if (target === 'eeg_pdf' && !hasEegs(state.model)) {
+    state.result.warnings.push(NO_EEGS)
+    return
+  }
   if (pdf) {
     const html = buildDocumentHtml(state.model, pdf.doc, 'pdf')
     await writeOut(
@@ -199,7 +211,10 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeOut(state, 'scenario.md', scenarioMarkdown(state.model, state.media))
     case 'docx':
       await writeOut(state, state.names.handbookDocx, await handbookDocx(state.model))
-      return writeOut(state, state.names.briefingDocx, await briefingDocx(state.model))
+      await writeOut(state, state.names.briefingDocx, await briefingDocx(state.model))
+      if (hasEegs(state.model))
+        await writeOut(state, state.names.eegsDocx, await eegDocx(state.model))
+      return
     case 'zip': {
       const zipPath = join(outDir, state.names.zip)
       await writeZip(
@@ -221,6 +236,7 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   exercise_plan_pdf: 'Exercise Plan PDF',
   surveys_pdf: 'survey forms',
   survey_results_pdf: 'survey results PDF',
+  eeg_pdf: 'Exercise Evaluation Guides PDF',
   media: 'media files',
   json: 'scenario.json',
   markdown: 'scenario.md',

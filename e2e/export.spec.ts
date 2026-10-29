@@ -158,8 +158,10 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       '-Controller-Evaluator-Handbook.pdf',
       '-Player-Briefing-Packet.pdf',
       '-Exercise-Plan.pdf',
+      '-EEGs.pdf',
       '-Controller-Evaluator-Handbook.docx',
       '-Player-Briefing-Packet.docx',
+      '-EEGs.docx',
     ]) {
       expect(
         files.some((f) => f === `Flight-to-Nowhere${suffix}`),
@@ -197,6 +199,14 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
     expect(await briefing.text(briefing.pages)).toMatch(/ICS 201/)
     const plan = await pdfInfo(join(folder, 'Flight-to-Nowhere-Exercise-Plan.pdf'))
     expect(plan.pages).toBeGreaterThan(deck.pages + msel.pages)
+    // EEG packet (#421): landscape, one guide per capability after the intro page, cited tasks.
+    const eegs = await pdfInfo(join(folder, 'Flight-to-Nowhere-EEGs.pdf'))
+    expect(eegs.landscape).toBe(true)
+    expect(eegs.pages).toBeGreaterThanOrEqual(5)
+    expect(await eegs.text(1)).toContain('Exercise Evaluation Guides')
+    const eegText = (await Promise.all([2, 3, 4, 5].map((n) => eegs.text(n)))).join(' ')
+    expect(eegText).toContain('Cybersecurity')
+    expect(eegText).toContain('TIRP 13.7')
 
     // ZIP tree: facilitator/ has everything, players/ only the packet and blank forms.
     const zip = await JSZip.loadAsync(readFileSync(job.result!.zipPath!))
@@ -211,6 +221,7 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       expect.arrayContaining([
         'facilitator/Flight-to-Nowhere-MSEL.pdf',
         'facilitator/Flight-to-Nowhere-Master-Inject-Deck.pdf',
+        'facilitator/Flight-to-Nowhere-EEGs.pdf',
         'facilitator/scenario.json',
         'facilitator/scenario.md',
         `facilitator/media/${media[0]}`,

@@ -10,7 +10,7 @@ import { Button, ProgressBar } from '../../components/ui'
 import { call, IpcError } from '../../lib/api'
 import { useScenarioJob } from '../../editors/inject/use-scenario-job'
 import { projectKey } from '../../state/project'
-import type { Readiness } from './readiness'
+import { isReadyNext, type Readiness } from './readiness'
 
 const JOB_LABEL: Partial<Record<JobKind, string>> = {
   'generate-scenario': 'Generating the scenario',
@@ -54,13 +54,16 @@ function useStartJob(
   track: (id: string, k: JobKind) => void,
   onJob: (jobId: string) => void,
 ) {
-  return async (kind: 'generate-injects' | 'render-media') => {
+  return async (kind: 'generate-injects' | 'render-media' | 'evaluation') => {
     try {
+      // The eeg stage alone (#421): nothing downstream depends on it, so the scenario stays ready.
       const { jobId } =
         kind === 'generate-injects'
           ? await call('generate:injects', { projectPath, scenarioId })
-          : await call('generate:media', { projectPath, scenarioId })
-      track(jobId, kind)
+          : kind === 'render-media'
+            ? await call('generate:media', { projectPath, scenarioId })
+            : await call('generate:rerun-stage', { projectPath, scenarioId, stage: 'eeg' })
+      track(jobId, kind === 'evaluation' ? 'rerun-stage' : kind)
       onJob(jobId)
     } catch (e) {
       const conflict = e instanceof IpcError && e.code === 'CONFLICT'
@@ -82,6 +85,8 @@ function headline(r: Readiness): string {
       return `Next: render media (${r.rendered}/${r.rows})`
     case 'fix-errors':
       return `Next: fix ${plural(r.errors, 'error')} found by the checks`
+    case 'evaluation':
+      return 'Ready. Next: generate the evaluation guides'
     case 'run':
       return 'Ready: export or facilitate'
   }
@@ -132,12 +137,17 @@ export function NextActionBar(props: {
             Show the errors
           </Button>
         )}
-        {r.next === 'run' && (
+        {r.next === 'evaluation' && (
+          <Button variant="primary" disabled={busy} onClick={() => void start('evaluation')}>
+            Generate evaluation guides
+          </Button>
+        )}
+        {isReadyNext(r.next) && (
           <>
             <Link className="btn" to={`${base}/facilitate`}>
               <Presentation size={16} aria-hidden /> Facilitate
             </Link>
-            <Link className="btn btn--primary" to={`${base}/export`}>
+            <Link className={r.next === 'run' ? 'btn btn--primary' : 'btn'} to={`${base}/export`}>
               <Download size={16} aria-hidden /> Export…
             </Link>
           </>
@@ -174,6 +184,14 @@ function Hint({ r }: { r: Readiness }) {
       <p className="muted">
         The automatic checks (<Term id="lint">lint</Term>) found problems players would notice. You
         can still export.
+      </p>
+    )
+  if (r.next === 'evaluation')
+    return (
+      <p className="muted">
+        Exercise Evaluation Guides map each objective to FEMA Core Capabilities and list the actions
+        your plans require, with citations, for evaluators to rate during the exercise. One model
+        call; nothing else in the scenario changes.
       </p>
     )
   return (

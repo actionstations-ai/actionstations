@@ -13,6 +13,7 @@ export const DOC_LABELS = {
   deck: 'Master Inject Deck',
   handbook: 'Controller / Evaluator Handbook',
   briefing: 'Player Briefing Packet',
+  eeg: 'Exercise Evaluation Guides',
 } as const
 export type DocKey = keyof typeof DOC_LABELS
 
@@ -59,6 +60,7 @@ export function pageCss(text: RunningText, defaultLabel: string): string {
     named('deck', 'letter', PORTRAIT_MARGIN),
     named('handbook', 'letter', PORTRAIT_MARGIN),
     named('briefing', 'letter', PORTRAIT_MARGIN),
+    named('eeg', 'letter landscape', LANDSCAPE_MARGIN),
     `@page cover { size: letter; margin: 0.9in 0.85in 0.8in; ${NO_BOXES} @bottom-center { content: ${cssString(EXERCISE_MARKING)}; ${MARK_FONT} } }`,
     `@page form { size: letter; margin: 0; ${NO_BOXES} }`,
   ].join('\n')

@@ -107,6 +107,8 @@
       <h3>Instructor note</h3>
       <p>{{note}}</p>
     </aside>
+    {{/if}} {{#if evaluation}}
+    <p class="refs">Expected action: {{expectedAction}}<br />Evaluate: {{evaluation}}</p>
     {{/if}} {{#if refs}}
     <p class="refs">Doctrine: {{refs}}</p>
     {{/if}}

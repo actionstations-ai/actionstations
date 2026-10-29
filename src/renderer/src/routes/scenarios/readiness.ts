@@ -7,7 +7,12 @@ import { deckEntries } from '../../editors/inject/deck-model'
 
 export type ReadinessStatus = 'draft' | 'injects-written' | 'media-rendered' | 'ready' | 'archived'
 
-export type NextAction = 'msel' | 'write-injects' | 'render-media' | 'fix-errors' | 'run'
+/** 'evaluation': the scenario is ready but has no evaluation guides yet (#421, FR-12). */
+export type NextAction =
+  'msel' | 'write-injects' | 'render-media' | 'fix-errors' | 'evaluation' | 'run'
+
+/** The scenario can be exported and facilitated (the guides are an addition, not a gate). */
+export const isReadyNext = (next: NextAction): boolean => next === 'run' || next === 'evaluation'
 
 export interface Readiness {
   /** MSEL rows (each becomes one inject, control cards included). */
@@ -56,7 +61,9 @@ export function readiness(
         ? 'render-media'
         : errors
           ? 'fix-errors'
-          : 'run'
+          : !(scenario.evaluation?.eegs.length ?? 0)
+            ? 'evaluation'
+            : 'run'
   return {
     rows,
     written,
@@ -70,7 +77,7 @@ export function readiness(
 
 function statusOf(scenario: Scenario, next: NextAction): ReadinessStatus {
   if (scenario.status === 'archived') return 'archived'
-  if (next === 'run') return 'ready'
+  if (isReadyNext(next)) return 'ready'
   if (next === 'fix-errors') return 'media-rendered'
   if (next === 'render-media') return 'injects-written'
   return 'draft'

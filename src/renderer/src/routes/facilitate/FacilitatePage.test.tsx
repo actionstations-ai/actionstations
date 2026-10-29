@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, screen, waitFor, within } from '@testing-libra
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import type { FacilitatorState } from '@shared/ipc'
+import type { Observation, RowCriterion } from '@shared/schemas/evaluation'
 import { Inject } from '@shared/schemas/inject'
 import { Scenario } from '@shared/schemas/scenario'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
@@ -30,6 +31,23 @@ const memo = Inject.parse({
   deliveryMode: 'hand_to_role',
 })
 
+/** The criteria main derives for the rows these tests rate (evaluation:criteria). */
+const CRITERIA: RowCriterion[] = [
+  {
+    id: 'T-07',
+    rowId: 'I-06',
+    text: 'Decide whether to silence the PA and take the FIDS dark',
+    taskId: 'T-07',
+    capability: 'operational_coordination',
+    citation: {
+      documentId: 'tirp',
+      documentTitle: 'TIRP',
+      headingPath: 'TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure',
+    },
+  },
+  { id: 'I-01:expected', rowId: 'I-01', text: 'Ops logs a ticket with IT.' },
+]
+
 function setup(initial: Partial<FacilitatorState> = {}) {
   let saved: FacilitatorState = {
     elapsedMin: 0,
@@ -38,11 +56,35 @@ function setup(initial: Partial<FacilitatorState> = {}) {
     generalNotes: '',
     ...initial,
   }
+  let record: { formatVersion: number; observations: Observation[]; updatedAt: string } = {
+    formatVersion: 1,
+    observations: [],
+    updatedAt: '2026-10-28T14:00:00.000Z',
+  }
   const ttx = mockTtx({
     'scenarios:get': () => scenario,
     'injects:list': () => [fids, memo],
     'facilitator:state-get': () => saved,
     'facilitator:state-save': (req: { state: FacilitatorState }) => (saved = req.state),
+    'evaluation:criteria': () => CRITERIA,
+    'evaluation:get': () => record,
+    'evaluation:observe': (req: { observation: Observation }) => {
+      record = {
+        ...record,
+        observations: [
+          ...record.observations.filter((o) => o.id !== req.observation.id),
+          req.observation,
+        ],
+      }
+      return record
+    },
+    'evaluation:remove': (req: { observationId: string }) => {
+      record = {
+        ...record,
+        observations: record.observations.filter((o) => o.id !== req.observationId),
+      }
+      return record
+    },
     'facilitator:displays': () => [
       { id: 1, label: 'Built-in', primary: true, width: 1512, height: 982 },
       { id: 2, label: 'Projector', primary: false, width: 1920, height: 1080 },
@@ -56,7 +98,7 @@ function setup(initial: Partial<FacilitatorState> = {}) {
     '/p/:projectKey/scenarios/:scenarioId/facilitate',
     FacilitatePage,
   )
-  return { ...ttx, saved: () => saved }
+  return { ...ttx, saved: () => saved, record: () => record }
 }
 
 const lastSave = (calls: unknown[]) => (calls.at(-1) as { state: FacilitatorState }).state
@@ -154,5 +196,71 @@ describe('FacilitatePage', () => {
     const metric = screen.getByRole('article', { name: 'Operational Coordination' })
     expect(within(metric).getByText('Found the IP')).toBeTruthy()
     expect(screen.getByText(/At what point did you stop trusting the screens/)).toBeTruthy()
+  })
+})
+
+describe('FacilitatePage evaluation (#421)', () => {
+  it('rates a criterion of the selected inject, stores a note, and rolls it up in the hot wash', async () => {
+    const ttx = setup({ elapsedMin: 75 })
+    const user = userEvent.setup()
+    await screen.findByRole('region', { name: 'Timeline' })
+    await user.click(screen.getAllByRole('button', { name: /I-06/ })[0]!)
+    await user.click(screen.getByRole('tab', { name: 'Evaluation' }))
+    await user.type(screen.getByLabelText('Evaluator label (optional)'), 'Evaluator 2')
+    const group = await screen.findByRole('group', {
+      name: 'Rating for Decide whether to silence the PA and take the FIDS dark',
+    })
+    expect(
+      within(group)
+        .getAllByRole('radio')
+        .map((r) => (r as HTMLInputElement).value),
+    ).toEqual(['met', 'partial', 'not_met', 'not_observed'])
+    await user.click(within(group).getByRole('radio', { name: 'Partial' }))
+    await waitFor(() => expect(ttx.record().observations).toHaveLength(1))
+    expect(ttx.record().observations[0]).toMatchObject({
+      id: 'O-I-06-T-07',
+      rowId: 'I-06',
+      taskId: 'T-07',
+      criterionId: 'T-07',
+      rating: 'partial',
+      exerciseTime: '1:15',
+      evaluator: 'Evaluator 2',
+      source: 'facilitate',
+    })
+    const note = await screen.findByLabelText('Note for T-07')
+    await user.type(note, 'PA silenced after 12 minutes')
+    await act(() => new Promise((r) => setTimeout(r, NOTE_SAVE_DELAY_MS + 100)))
+    expect(ttx.record().observations[0]?.note).toBe('PA silenced after 12 minutes')
+    // No field asks for a player's name.
+    expect(screen.queryByLabelText(/player/i)).toBeNull()
+
+    await user.click(screen.getByRole('tab', { name: 'Hot wash' }))
+    const capability = screen.getByRole('region', { name: 'Operational Coordination' })
+    expect(within(capability).getByText('Partial 1')).toBeTruthy()
+    expect(within(capability).getByText(/PA silenced after 12 minutes/)).toBeTruthy()
+    expect(
+      within(capability).getAllByText('13.6 Scenario C: FIDS / BHS System Failure').length,
+    ).toBeGreaterThan(0)
+    expect(screen.getByRole('article', { name: 'Decision Making' })).toBeTruthy()
+  })
+
+  it('rates a row no task covers by its expected action and can clear the rating', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await screen.findByRole('region', { name: 'Timeline' })
+    await user.click(screen.getAllByRole('button', { name: /I-01/ })[0]!)
+    await user.click(screen.getByRole('tab', { name: 'Evaluation' }))
+    const group = await screen.findByRole('group', {
+      name: 'Rating for Ops logs a ticket with IT.',
+    })
+    expect(screen.getByText('Expected action')).toBeTruthy()
+    await user.click(within(group).getByRole('radio', { name: 'Met' }))
+    await waitFor(() => expect(ttx.record().observations).toHaveLength(1))
+    expect(ttx.record().observations[0]).toMatchObject({
+      id: 'O-I-01-I-01_expected',
+      rating: 'met',
+    })
+    await user.click(await screen.findByRole('button', { name: 'Clear' }))
+    await waitFor(() => expect(ttx.record().observations).toHaveLength(0))
   })
 })

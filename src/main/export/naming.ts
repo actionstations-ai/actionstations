@@ -121,6 +121,8 @@ export function documentFileNames(
     exercisePlan: `${t}-Exercise-Plan.pdf`,
     handbookDocx: `${t}-Controller-Evaluator-Handbook.docx`,
     briefingDocx: `${t}-Player-Briefing-Packet.docx`,
+    eegs: `${t}-EEGs.pdf`,
+    eegsDocx: `${t}-EEGs.docx`,
     handouts: `${t}-Player-Handouts.pdf`,
     controllerHandouts: `${t}-Controller-Materials.pdf`,
     surveyResults: `${t}-Survey-Results.pdf`,

@@ -43,6 +43,7 @@ MyAirport.asproj/
     scenario.json              # overview, objectives, roles, phases, msel (inject refs)
     idea.json                  # the idea the scenario was developed from, if any
     facilitator.json           # facilitator mode: exercise clock, delivered injects, hot wash notes
+    evaluation.json            # evaluators' observations against the EEG criteria (#421)
     injects/<injectId>.json
     documents/{handbook,briefing,rubric,hotwash}.md
     media/<injectId>/<assetId>.{png,mp4,wav}
@@ -111,7 +112,7 @@ Hybrid: FTS5 BM25 + vector cosine → reciprocal rank fusion → optional LLM re
 ```
 ideate ─┐
         ├─► scenario_overview ─► objectives_roles ─► phase_plan ─► msel_phase×N ─► inject_text×M ─► inject_media_brief×M ─► media_render×M
-        │                                                                                     └─► controller_handbook ─► rubric ─► player_briefing ─► hotwash ─► critique
+        │                                                                                     └─► controller_handbook ─► rubric ─► eeg ─► player_briefing ─► hotwash ─► critique
 ```
 
 Each stage: `{ id, inputs, promptRef, providerTask, outputSchema (zod), retrievalPlan }`. Stages produce JSON validated against schema; on validation failure, one automatic repair attempt with the error fed back, then surface to user. Any stage can be re-run; downstream stages are marked stale, not auto-rerun.

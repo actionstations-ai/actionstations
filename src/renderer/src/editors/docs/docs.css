@@ -329,6 +329,55 @@
   font-family: var(--font-mono);
 }
 
+/* Evaluation guides (#421) */
+.eval-editor__objective {
+  font-size: var(--text-md);
+  font-weight: var(--weight-regular);
+  margin: 0;
+}
+.eval-editor__mapping {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(14rem, 2fr) auto;
+  align-items: end;
+  gap: var(--space-3);
+}
+.eval-editor__eeg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.eval-editor__eeg-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.eval-editor__areas {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.eval-editor__task-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.eval-editor__task-foot {
+  justify-content: space-between;
+}
+.eval-editor__criteria summary {
+  cursor: pointer;
+  font-weight: var(--weight-medium);
+}
+.eval-editor__criteria .table {
+  margin-top: var(--space-3);
+}
+@media (max-width: 60rem) {
+  .eval-editor__mapping {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Chips */
 .chips-field {
   display: flex;

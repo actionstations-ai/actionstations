@@ -1,0 +1,133 @@
+<section class="doc doc--eeg" aria-labelledby="{{prefix}}eeg-title">
+  {{> title title}}
+  <section class="section">
+    <h2>How to use these guides</h2>
+    <ul class="list prose">
+      <li>
+        One guide per Core Capability the exercise objectives exercise ({{intro.count}} in all).
+        Each critical task is an action the organization's own plan requires; the
+        <strong>Source</strong> column names the section.
+      </li>
+      <li>
+        <strong>Observation Keys</strong> name the MSEL injects where the task should be seen. Rate
+        each task <strong>M</strong> (met), <strong>P</strong> (partially met),
+        <strong>N</strong> (not met) or <strong>NO</strong> (not observed) and note what you saw.
+      </li>
+      <li>
+        Ratings describe how the plan was followed, not how a person performed. Notes go to the hot
+        wash and the after-action report; do not name players.
+      </li>
+    </ul>
+  </section>
+  {{#if intro.objectives.length}}
+  <section class="section">
+    <h2>Objectives and capabilities</h2>
+    <table class="grid eeg-objectives">
+      <caption class="sr-only">
+        Exercise objectives and the Core Capabilities they map to
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Objective</th>
+          <th scope="col">Core Capabilities</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each intro.objectives}}
+        <tr>
+          <td>{{#if name}}<strong>{{name}}:</strong> {{/if}}{{text}}</td>
+          <td>{{#if capabilities}}{{capabilities}}{{else}}—{{/if}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}} {{#unless eegs.length}}
+  <p class="prose">No evaluation guides have been generated for this scenario yet.</p>
+  {{/unless}} {{#each eegs}}
+  <article class="eeg" aria-labelledby="{{id}}">
+    <header class="eeg__head">
+      <p class="eeg__eyebrow">Exercise Evaluation Guide {{index}}</p>
+      <h2 id="{{id}}">{{capability}}</h2>
+      <p class="eeg__areas">Mission area{{#if areas}}s: {{areas}}{{/if}}</p>
+      <p class="eeg__definition">{{definition}}</p>
+    </header>
+    <dl class="eeg__meta">
+      {{#if objectives.length}}
+      <dt>Exercise objectives</dt>
+      <dd>
+        <ul class="list">
+          {{#each objectives}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </dd>
+      {{/if}} {{#if target}}
+      <dt>Capability target</dt>
+      <dd>{{target}}</dd>
+      {{/if}}
+    </dl>
+    <table class="grid eeg-tasks">
+      <caption class="sr-only">
+        Critical tasks for {{capability}}
+      </caption>
+      <colgroup>
+        <col class="col-task-id" />
+        <col class="col-task" />
+        <col class="col-source" />
+        <col class="col-by" />
+        <col class="col-keys" />
+        <col class="col-rating" />
+        <col class="col-notes" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Critical task</th>
+          <th scope="col">Source</th>
+          <th scope="col">Expected by</th>
+          <th scope="col">Observation Keys</th>
+          <th scope="col">Rating</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tasks}}
+        <tr>
+          <td class="mono">{{id}}</td>
+          <td>{{task}}{{#if timing}}<span class="eeg__timing">{{timing}}</span>{{/if}}</td>
+          <td class="eeg__source">{{source}}</td>
+          <td>{{expectedBy}}</td>
+          <td class="eeg__keys">{{keys}}</td>
+          <td class="eeg__rating">
+            <span class="box"></span>M <span class="box"></span>P <span class="box"></span>N
+            <span class="box"></span>NO
+          </td>
+          <td></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <section class="eeg__notes">
+      <h3>Observation notes</h3>
+      <div class="eeg__lines" aria-hidden="true"></div>
+    </section>
+    <section class="eeg__analysis">
+      <div>
+        <h3>Analysis</h3>
+        <div class="eeg__lines eeg__lines--short" aria-hidden="true"></div>
+      </div>
+      <div>
+        <h3>Strengths</h3>
+        <div class="eeg__lines eeg__lines--short" aria-hidden="true"></div>
+      </div>
+      <div>
+        <h3>Areas for improvement</h3>
+        <div class="eeg__lines eeg__lines--short" aria-hidden="true"></div>
+      </div>
+    </section>
+  </article>
+  {{/each}} {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}}
+</section>

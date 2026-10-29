@@ -30,13 +30,18 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
     label: 'Survey results',
     hint: 'Summary of the responses so far (facilitator only)',
   },
+  {
+    id: 'eeg_pdf',
+    label: 'Exercise Evaluation Guides',
+    hint: 'One EEG per Core Capability, critical tasks with plan citations and rating boxes',
+  },
 ]
 
 export const FILE_TARGETS: TargetOption[] = [
   { id: 'media', label: 'Media files', hint: 'PNG, PDF, WAV + MP3, MP4 named S<n>-I<id>-<type>' },
   { id: 'json', label: 'scenario.json', hint: 'Full scenario with injects inlined' },
   { id: 'markdown', label: 'scenario.md', hint: 'Readable copy with media checksums' },
-  { id: 'docx', label: 'Word documents', hint: 'Handbook and Player Briefing as .docx' },
+  { id: 'docx', label: 'Word documents', hint: 'Handbook, Player Briefing and EEGs as .docx' },
   {
     id: 'zip',
     label: 'Distribution ZIP',
@@ -49,7 +54,7 @@ export const ALL_TARGETS: ExportTarget[] = [...DOCUMENT_TARGETS, ...FILE_TARGETS
 /** Everything except the optional Word files. */
 export const DEFAULT_TARGETS: ExportTarget[] = ALL_TARGETS.filter((t) => t !== 'docx')
 
-export type PreviewDoc = 'msel' | 'deck' | 'handbook' | 'briefing' | 'exercise_plan'
+export type PreviewDoc = 'msel' | 'deck' | 'handbook' | 'briefing' | 'exercise_plan' | 'eeg'
 
 export const PREVIEW_DOCS: { id: PreviewDoc; label: string }[] = [
   { id: 'msel', label: 'MSEL' },
@@ -57,6 +62,7 @@ export const PREVIEW_DOCS: { id: PreviewDoc; label: string }[] = [
   { id: 'handbook', label: 'Handbook' },
   { id: 'briefing', label: 'Briefing' },
   { id: 'exercise_plan', label: 'Exercise Plan' },
+  { id: 'eeg', label: 'EEGs' },
 ]
 
 /** Toggle one target, keeping the canonical order. */

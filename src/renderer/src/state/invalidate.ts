@@ -12,9 +12,9 @@ type What = EventPayload<'project:changed'>['what']
 const BY_WHAT: Record<What, string[]> = {
   project: ['project:', 'examples:', 'embeddings:status', 'routing:get'],
   documents: ['documents:', 'embeddings:status', 'project:get', 'retrieve:search'],
-  scenarios: ['scenarios:', 'project:get', 'facilitator:', 'export:preview-html', 'surveys:'],
+  scenarios: ['scenarios:', 'project:get', 'facilitator:', 'evaluation:', 'export:preview-html', 'surveys:'],
   // A scenario save (every MSEL autosave) leaves the inject files alone: no injects:list.
-  scenario: ['scenarios:', 'project:get', 'facilitator:', 'export:preview-html'],
+  scenario: ['scenarios:', 'project:get', 'facilitator:', 'evaluation:', 'export:preview-html'],
   injects: ['injects:', 'scenarios:', 'render:', 'facilitator:', 'export:preview-html'],
   media: ['injects:', 'render:', 'facilitator:', 'export:preview-html'],
   prompts: ['prompts:'],

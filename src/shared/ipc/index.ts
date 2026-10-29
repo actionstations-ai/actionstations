@@ -15,6 +15,7 @@ import { renderChannels } from './render'
 import { comfyChannels } from './comfy'
 import { exportChannels } from './export'
 import { facilitatorChannels, PresentChangedEvent } from './facilitator'
+import { evaluationChannels } from './evaluation'
 import { exampleChannels } from './examples'
 import { domainChannels, DomainsChangedEvent } from './domains'
 import { packChannels, PacksChangedEvent } from './packs'
@@ -102,6 +103,7 @@ export const channels = mergeChannels(
   comfyChannels,
   exportChannels,
   facilitatorChannels,
+  evaluationChannels,
   exampleChannels,
   domainChannels,
   packChannels,

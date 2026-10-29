@@ -96,6 +96,9 @@ figure {
 .doc--briefing {
   page: briefing;
 }
+.doc--eeg {
+  page: eeg;
+}
 .doc--cover {
   page: cover;
 }
@@ -605,6 +608,138 @@ figure {
   break-before: page;
 }
 
+/* ---- Exercise Evaluation Guides (landscape, one guide per page) ---- */
+.eeg-objectives td:first-child {
+  width: 62%;
+}
+.eeg {
+  break-before: page;
+}
+.eeg__head {
+  border-top: 3pt solid var(--ink);
+  padding-top: 8pt;
+  margin-bottom: 8pt;
+}
+.eeg__eyebrow {
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eeg__head h2 {
+  font-size: 16pt;
+  font-weight: 700;
+  margin-top: 2pt;
+}
+.eeg__areas {
+  font-size: 8.5pt;
+  color: var(--muted);
+  margin-top: 2pt;
+}
+.eeg__definition {
+  font-family: var(--serif);
+  font-size: 9.5pt;
+  color: var(--ink-2);
+  margin-top: 4pt;
+}
+.eeg__meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 3pt 12pt;
+  margin-bottom: 8pt;
+  font-size: 9pt;
+}
+.eeg__meta dt {
+  font-weight: 700;
+}
+.eeg__meta dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 9.5pt;
+}
+.eeg-tasks {
+  table-layout: fixed;
+  font-size: 8.2pt;
+}
+.eeg-tasks .col-task-id {
+  width: 5%;
+}
+.eeg-tasks .col-task {
+  width: 30%;
+}
+.eeg-tasks .col-source {
+  width: 15%;
+}
+.eeg-tasks .col-by {
+  width: 8%;
+}
+.eeg-tasks .col-keys {
+  width: 12%;
+}
+.eeg-tasks .col-rating {
+  width: 13%;
+}
+.eeg-tasks .col-notes {
+  width: 17%;
+}
+.eeg-tasks td {
+  height: 30pt;
+}
+.eeg__timing {
+  display: block;
+  margin-top: 2pt;
+  font-size: 7.4pt;
+  color: var(--muted);
+}
+.eeg__source,
+.eeg__keys {
+  font-size: 7.6pt;
+  color: var(--ink-2);
+}
+.eeg__rating {
+  white-space: nowrap;
+  font-weight: 600;
+}
+.eeg__rating .box::before {
+  content: '\2610';
+  font-weight: 400;
+  margin-right: 1pt;
+}
+.eeg__notes,
+.eeg__analysis {
+  margin-top: 8pt;
+  break-inside: avoid;
+}
+.eeg__notes h3,
+.eeg__analysis h3 {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3pt;
+}
+.eeg__analysis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10pt;
+}
+.eeg__lines {
+  height: 1.1in;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 17pt,
+    var(--rule-light) 17pt,
+    var(--rule-light) 17.75pt
+  );
+  border-bottom: 0.75pt solid var(--rule-light);
+}
+.eeg__lines--short {
+  height: 0.8in;
+}
+
 /* ---- Exercise Plan cover ---- */
 .cover {
   height: 9.2in;
@@ -700,8 +835,14 @@ figure {
     padding: 0.75in 0.7in;
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
   }
-  .doc--msel {
+  .doc--msel,
+  .doc--eeg {
     width: 11in;
+  }
+  .eeg {
+    border-top: 1px dashed #b9b6ad;
+    padding-top: 16px;
+    margin-top: 24px;
   }
   .inject-page,
   .phase:first-of-type,

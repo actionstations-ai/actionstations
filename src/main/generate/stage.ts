@@ -38,6 +38,11 @@ export interface StageCall {
   index: SearchIndex
   /** At most this many retrieved sections go into the prompt (a smaller request, #347). */
   maxRetrieved?: number
+  /**
+   * Fail with this message, before the model is called, when retrieval finds nothing: for a
+   * stage whose output is worthless without the plans (the EEGs, #421).
+   */
+  requireRetrieval?: string
 }
 
 export interface StageResult<T> {
@@ -213,6 +218,8 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
     retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal),
   )
   if (call.maxRetrieved !== undefined) retrieved.splice(call.maxRetrieved)
+  if (call.requireRetrieval && !retrieved.length)
+    throw new AppError('VALIDATION', `Stage ${stage} failed: ${call.requireRetrieval}`)
   const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
   const rendered = deps.renderPrompt(prompt, {
     ...call.vars,

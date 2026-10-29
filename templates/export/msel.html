@@ -93,7 +93,10 @@
           <td>{{from}}</td>
           <td>{{to}}</td>
           <td>{{event}}{{#if refs}}<span class="refs">Ref: {{refs}}</span>{{/if}}</td>
-          <td>{{expectedAction}}</td>
+          <td>
+            {{expectedAction}}{{#if evaluation}}<span class="refs">Evaluate: {{evaluation}}</span
+            >{{/if}}
+          </td>
           <td>{{> tag tag}}</td>
         </tr>
         {{/each}}

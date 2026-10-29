@@ -4,6 +4,7 @@
 // prompt) into full Citation objects; a citation key the prompt never showed is
 // rejected by the lint pass, so models cannot invent sections.
 import { z } from 'zod'
+import { CoreCapabilityId } from '../core-capabilities'
 import { PurposeTag } from '../taxonomy'
 
 /** Key of a retrieved chunk as presented in the prompt, e.g. "C3". */
@@ -149,6 +150,46 @@ export const RubricOutput = z.object({
 })
 export type RubricOutput = z.infer<typeof RubricOutput>
 
+/**
+ * The eeg stage (#421): each objective's Core Capabilities, and one Exercise Evaluation Guide
+ * per capability whose critical tasks each cite one retrieved plan section. A task without a
+ * resolvable citation is dropped by the mapper: the plans, not the model, decide what counts.
+ */
+export const EegOutput = z.object({
+  objectiveCapabilities: z
+    .array(
+      z.object({
+        objective: z.string().describe('exact objective name'),
+        capabilities: z
+          .array(z.object({ capability: CoreCapabilityId, why: z.string() }))
+          .min(1)
+          .max(3),
+      }),
+    )
+    .min(1),
+  eegs: z
+    .array(
+      z.object({
+        capability: CoreCapabilityId,
+        target: z.string(),
+        criticalTasks: z
+          .array(
+            z.object({
+              task: z.string(),
+              citation: CitationKey,
+              expectedBy: z.string().optional().describe('role key'),
+              timing: z.string().optional(),
+              rowIds: z.array(z.string()),
+            }),
+          )
+          .min(3)
+          .max(8),
+      }),
+    )
+    .min(1),
+})
+export type EegOutput = z.infer<typeof EegOutput>
+
 export const BriefingOutput = z.object({
   currentTime: z.string(),
   weather: z.string(),
@@ -201,6 +242,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   MediaBriefOutput,
   HandbookOutput,
   RubricOutput,
+  EegOutput,
   BriefingOutput,
   HotwashOutput,
   CritiqueOutput,

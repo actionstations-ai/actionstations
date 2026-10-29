@@ -166,6 +166,12 @@ export const DomainProfile = z.object({
   rolePatterns: RolePatterns.default({}),
   /** Extra agencies and regulators (regex source, alternation) that facility.ts extracts. */
   agencyPattern: z.string().optional(),
+  /**
+   * FEMA Core Capability ids this domain most often exercises (#421); the eeg prompt shows
+   * them first. Without the field the common three plus Cybersecurity and Infrastructure
+   * Systems lead (src/shared/core-capabilities.ts).
+   */
+  coreCapabilities: z.array(z.string()).optional(),
 })
 export type DomainProfile = z.infer<typeof DomainProfile>
 

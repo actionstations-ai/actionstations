@@ -10,6 +10,7 @@ export const EXPORT_TARGETS = [
   'exercise_plan_pdf',
   'surveys_pdf',
   'survey_results_pdf',
+  'eeg_pdf',
   'media',
   'json',
   'markdown',
@@ -35,7 +36,7 @@ export const exportChannels = {
     z.object({
       projectPath: z.string(),
       scenarioId: SafeId,
-      doc: z.enum(['msel', 'deck', 'handbook', 'briefing', 'exercise_plan']),
+      doc: z.enum(['msel', 'deck', 'handbook', 'briefing', 'exercise_plan', 'eeg']),
     }),
     z.object({ html: z.string() }),
   ),
