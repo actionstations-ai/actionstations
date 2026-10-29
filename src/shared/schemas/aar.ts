@@ -288,7 +288,13 @@ export type ExerciseRecord = z.infer<typeof ExerciseRecord>
 /** Every evidence ref the record can be cited with. */
 export function recordRefs(record: ExerciseRecord): Set<string> {
   const refs = new Set<string>()
-  for (const list of [record.notes, record.hotwash, record.decisions, record.votes, record.messages])
+  for (const list of [
+    record.notes,
+    record.hotwash,
+    record.decisions,
+    record.votes,
+    record.messages,
+  ])
     for (const item of list) refs.add(item.ref)
   for (const o of record.observations) refs.add(o.ref)
   for (const s of record.surveys) {

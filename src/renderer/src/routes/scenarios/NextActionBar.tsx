@@ -198,8 +198,8 @@ function Hint({ r }: { r: Readiness }) {
   if (r.next === 'draft-aar')
     return (
       <p className="muted">
-        The Facilitate screen captured notes, hot wash items or decisions. The After-Action Report
-        / Improvement Plan is drafted from them (and from observations, live play and surveys); you
+        The Facilitate screen captured notes, hot wash items or decisions. The After-Action Report /
+        Improvement Plan is drafted from them (and from observations, live play and surveys); you
         confirm the ratings and set the owners.
       </p>
     )

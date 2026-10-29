@@ -22,7 +22,9 @@ const read = (rel: string): string => readFileSync(resolve(ROOT, rel), 'utf8')
 const GOLDEN = 'tests/fixtures/aar/scenario-3.aar.md'
 
 const scenario = Scenario.parse(JSON.parse(read('tests/fixtures/scenarios/scenario-3.json')))
-const facilitator = FacilitatorState.parse(JSON.parse(read('tests/fixtures/aar/scenario-3.facilitator.json')))
+const facilitator = FacilitatorState.parse(
+  JSON.parse(read('tests/fixtures/aar/scenario-3.facilitator.json')),
+)
 const output = AarOutput.parse(JSON.parse(read('tests/fixtures/aar/scenario-3.aar-output.json')))
 const live = parseLog(read('tests/fixtures/live/session-scenario-3.jsonl'))
 
@@ -55,7 +57,13 @@ function draft() {
     previous: null,
     newId: () => `aar-${String(++n).padStart(3, '0')}`,
   })
-  const aar = assembleAar(applied, output, { built: { scenario, record }, previous: null }, run, NOW)
+  const aar = assembleAar(
+    applied,
+    output,
+    { built: { scenario, record }, previous: null },
+    run,
+    NOW,
+  )
   return { record, applied, aar }
 }
 

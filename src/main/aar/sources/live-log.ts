@@ -122,7 +122,10 @@ async function sessionInfo(dir: string, id: string): Promise<LiveSessionInfo> {
 }
 
 /** Sessions with a log, ended ones first (most recent end first), then interrupted ones. */
-export async function listLiveSessions(root: string, scenarioId: string): Promise<LiveSessionInfo[]> {
+export async function listLiveSessions(
+  root: string,
+  scenarioId: string,
+): Promise<LiveSessionInfo[]> {
   const dir = liveDir(root, scenarioId)
   const names = await fs.readdir(dir).catch(() => [] as string[])
   const infos: LiveSessionInfo[] = []
@@ -255,7 +258,10 @@ function mapMessages(entries: LogEntry[], scenario: Scenario) {
 function voteOptions(raw: unknown): { id: string; label: string }[] {
   if (!Array.isArray(raw)) return []
   return raw
-    .map((o) => ({ id: str((o as { id?: unknown })?.id, 64), label: str((o as { label?: unknown })?.label, 200) }))
+    .map((o) => ({
+      id: str((o as { id?: unknown })?.id, 64),
+      label: str((o as { label?: unknown })?.label, 200),
+    }))
     .filter((o) => o.id)
     .slice(0, 10)
 }
@@ -295,7 +301,10 @@ function mapVotes(entries: LogEntry[]): RecordVote[] {
           int((r as { count?: unknown })?.count),
         ]),
       )
-      v.vote.options = v.options.map((o) => ({ label: o.label || o.id, count: counts.get(o.id) ?? 0 }))
+      v.vote.options = v.options.map((o) => ({
+        label: o.label || o.id,
+        count: counts.get(o.id) ?? 0,
+      }))
       v.vote.voted = int(e.data.voted)
       if (e.data.eligible !== undefined) v.vote.eligible = int(e.data.eligible)
       v.closed = true
@@ -303,7 +312,10 @@ function mapVotes(entries: LogEntry[]): RecordVote[] {
   }
   return [...votes.values()].map((v) => {
     if (v.closed) return v.vote
-    const options = v.options.map((o) => ({ label: o.label || o.id, count: v.casts.get(o.id) ?? 0 }))
+    const options = v.options.map((o) => ({
+      label: o.label || o.id,
+      count: v.casts.get(o.id) ?? 0,
+    }))
     const voted = options.reduce((n, o) => n + o.count, 0)
     return { ...v.vote, options, voted }
   })
@@ -336,7 +348,11 @@ function mapHotwash(entries: LogEntry[]): RecordHotwashItem[] {
       if (target) target.plusOnes += 1
     } else if (retractOf || e.kind === 'hotwash.retract') {
       items.delete(retractOf || itemId)
-    } else if (e.kind === 'hotwash.update' || e.kind === 'hotwash.promoted' || e.kind === 'hotwash.unpromoted') {
+    } else if (
+      e.kind === 'hotwash.update' ||
+      e.kind === 'hotwash.promoted' ||
+      e.kind === 'hotwash.unpromoted'
+    ) {
       applyHotwashUpdate(items, itemId, e)
     }
   }
@@ -346,7 +362,12 @@ function mapHotwash(entries: LogEntry[]): RecordHotwashItem[] {
 function applyHotwashUpdate(items: Map<string, RecordHotwashItem>, itemId: string, e: LogEntry) {
   const item = items.get(itemId)
   if (!item) return
-  const action = e.kind === 'hotwash.promoted' ? 'promote' : e.kind === 'hotwash.unpromoted' ? 'unpromote' : str(e.data.action, 20)
+  const action =
+    e.kind === 'hotwash.promoted'
+      ? 'promote'
+      : e.kind === 'hotwash.unpromoted'
+        ? 'unpromote'
+        : str(e.data.action, 20)
   switch (action) {
     case 'hide':
       items.delete(itemId)

@@ -27,9 +27,33 @@ const record = assembleRecord(scenario, {
     formatVersion: 1,
     updatedAt: '2026-10-28T17:00:00.000Z',
     observations: [
-      { id: 'O-1', at: '2026-10-28T14:20:00.000Z', rowId: 'I-06', taskId: 'T-07', rating: 'partial', note: '', source: 'facilitate' },
-      { id: 'O-2', at: '2026-10-28T14:21:00.000Z', rowId: 'I-09', taskId: 'T-07', rating: 'met', note: '', source: 'facilitate' },
-      { id: 'O-3', at: '2026-10-28T14:22:00.000Z', rowId: 'I-09', taskId: 'T-13', rating: 'not_met', note: '', source: 'facilitate' },
+      {
+        id: 'O-1',
+        at: '2026-10-28T14:20:00.000Z',
+        rowId: 'I-06',
+        taskId: 'T-07',
+        rating: 'partial',
+        note: '',
+        source: 'facilitate',
+      },
+      {
+        id: 'O-2',
+        at: '2026-10-28T14:21:00.000Z',
+        rowId: 'I-09',
+        taskId: 'T-07',
+        rating: 'met',
+        note: '',
+        source: 'facilitate',
+      },
+      {
+        id: 'O-3',
+        at: '2026-10-28T14:22:00.000Z',
+        rowId: 'I-09',
+        taskId: 'T-13',
+        rating: 'not_met',
+        note: '',
+        source: 'facilitate',
+      },
     ],
   },
 })
@@ -55,13 +79,17 @@ const ctx = (previous: Aar | null = null): ApplyContext => ({
   newId: () => `id-${++n}`,
 })
 
-const area = (over: Partial<AarOutput['capabilities'][number]['areasForImprovement'][number]> = {}) => ({
+const area = (
+  over: Partial<AarOutput['capabilities'][number]['areasForImprovement'][number]> = {},
+) => ({
   title: 'Go Dark decided apart',
   analysisMd: 'IT decided alone.',
   evidence: ['note:I-09'],
   citations: ['S1'],
   recommendation: 'Make it a joint call.',
-  correctiveActions: [{ action: 'Revise TIRP 13.6', element: 'planning' as const, ownerRole: 'ops-director' }],
+  correctiveActions: [
+    { action: 'Revise TIRP 13.6', element: 'planning' as const, ownerRole: 'ops-director' },
+  ],
   ...over,
 })
 
@@ -73,8 +101,18 @@ const output = (over: Partial<AarOutput['capabilities'][number]> = {}): AarOutpu
       proposedRating: 'S',
       ratingRationale: 'Mostly worked.',
       strengths: [
-        { title: 'PA silenced fast', analysisMd: 'Four minutes.', evidence: ['[note:I-06]', 'obs:O-1'], citations: ['C1', 'S2', 'C9'] },
-        { title: 'Invented', analysisMd: 'No evidence.', evidence: ['note:I-99', 'obs:nope'], citations: [] },
+        {
+          title: 'PA silenced fast',
+          analysisMd: 'Four minutes.',
+          evidence: ['[note:I-06]', 'obs:O-1'],
+          citations: ['C1', 'S2', 'C9'],
+        },
+        {
+          title: 'Invented',
+          analysisMd: 'No evidence.',
+          evidence: ['note:I-99', 'obs:nope'],
+          citations: [],
+        },
       ],
       areasForImprovement: [area()],
       ...over,
@@ -87,7 +125,9 @@ describe('scenarioCitations', () => {
     const list = scenarioCitations(scenario)
     expect(list[0]!.key).toBe('S1')
     expect(list.map((c) => c.key)).toEqual(list.map((_, i) => `S${i + 1}`))
-    const ids = list.map((c) => `${c.citation.documentId}|${c.citation.headingPath}|${c.citation.page ?? ''}`)
+    const ids = list.map(
+      (c) => `${c.citation.documentId}|${c.citation.headingPath}|${c.citation.page ?? ''}`,
+    )
     expect(new Set(ids).size).toBe(ids.length)
     expect(list.some((c) => c.citation.headingPath.includes('13.6'))).toBe(true)
   })
@@ -113,7 +153,9 @@ describe('applyAar', () => {
     expect(strength.citations[0]!.quote).toContain('FBI')
     expect(r.droppedCitations).toEqual(['C9'])
     const areaFinding = r.capabilities[0]!.areasForImprovement[0]!
-    expect(areaFinding.citations[0]!.headingPath).toBe(scenarioCitations(scenario)[0]!.citation.headingPath)
+    expect(areaFinding.citations[0]!.headingPath).toBe(
+      scenarioCitations(scenario)[0]!.citation.headingPath,
+    )
   })
 
   it('maps corrective actions with role ids and empty owner fields for a person to fill', () => {
@@ -133,14 +175,30 @@ describe('applyAar', () => {
     )
     const actions = r.capabilities[0]!.areasForImprovement[0]!.correctiveActions
     expect(actions).toHaveLength(2)
-    expect(actions[0]).toMatchObject({ ownerRole: 'ops-director', ownerOrganization: '', poc: '', status: 'open', locked: false })
+    expect(actions[0]).toMatchObject({
+      ownerRole: 'ops-director',
+      ownerOrganization: '',
+      poc: '',
+      status: 'open',
+      locked: false,
+    })
     expect(actions[1]!.ownerRole).toBeUndefined()
     expect(r.unknownRoles).toEqual(['mayor'])
   })
 
   it('counts observations per capability and fills objective refs from the scenario', () => {
-    expect(observationCounts(record, scenario, 'operational_coordination')).toEqual({ met: 1, partial: 1, not_met: 0, not_observed: 0 })
-    expect(observationCounts(record, scenario, 'cybersecurity')).toEqual({ met: 0, partial: 0, not_met: 1, not_observed: 0 })
+    expect(observationCounts(record, scenario, 'operational_coordination')).toEqual({
+      met: 1,
+      partial: 1,
+      not_met: 0,
+      not_observed: 0,
+    })
+    expect(observationCounts(record, scenario, 'cybersecurity')).toEqual({
+      met: 0,
+      partial: 0,
+      not_met: 1,
+      not_observed: 0,
+    })
     const cap = applyAar(output(), ctx()).capabilities[0]!
     expect(cap.observationCounts).toEqual({ met: 1, partial: 1, not_met: 0, not_observed: 0 })
     expect(cap.objectiveRefs).toEqual(['obj-decision'])
@@ -153,15 +211,41 @@ describe('applyAar', () => {
       {
         executiveSummaryMd: '',
         capabilities: [
-          { capability: 'public_information_and_warning', proposedRating: 'P', ratingRationale: '', strengths: [], areasForImprovement: [] },
-          { capability: 'not_a_capability' as never, ratingRationale: '', strengths: [], areasForImprovement: [] },
-          { capability: 'operational_coordination', proposedRating: 'M', ratingRationale: 'Rated.', strengths: [], areasForImprovement: [] },
-          { capability: 'operational_coordination', proposedRating: 'P', ratingRationale: 'Twice.', strengths: [], areasForImprovement: [] },
+          {
+            capability: 'public_information_and_warning',
+            proposedRating: 'P',
+            ratingRationale: '',
+            strengths: [],
+            areasForImprovement: [],
+          },
+          {
+            capability: 'not_a_capability' as never,
+            ratingRationale: '',
+            strengths: [],
+            areasForImprovement: [],
+          },
+          {
+            capability: 'operational_coordination',
+            proposedRating: 'M',
+            ratingRationale: 'Rated.',
+            strengths: [],
+            areasForImprovement: [],
+          },
+          {
+            capability: 'operational_coordination',
+            proposedRating: 'P',
+            ratingRationale: 'Twice.',
+            strengths: [],
+            areasForImprovement: [],
+          },
         ],
       },
       ctx(),
     )
-    expect(r.capabilities.map((c) => c.capability)).toEqual(['public_information_and_warning', 'operational_coordination'])
+    expect(r.capabilities.map((c) => c.capability)).toEqual([
+      'public_information_and_warning',
+      'operational_coordination',
+    ])
     expect(r.capabilities[0]!.proposedRating).toBeUndefined()
     expect(r.capabilities[0]!.ratingRationale).toMatch(/Not enough evidence/)
     // Observations exist for this capability, so the proposal stands; the duplicate is skipped.
@@ -181,16 +265,47 @@ describe('applyAar', () => {
         {
           ...first.capabilities[0]!,
           rating: 'M',
-          strengths: [{ ...first.capabilities[0]!.strengths[0]!, title: 'PA silenced fast', analysisMd: 'Edited by hand.', locked: true }],
+          strengths: [
+            {
+              ...first.capabilities[0]!.strengths[0]!,
+              title: 'PA silenced fast',
+              analysisMd: 'Edited by hand.',
+              locked: true,
+            },
+          ],
           areasForImprovement: [
             {
               ...first.capabilities[0]!.areasForImprovement[0]!,
               correctiveActions: [
-                { ...first.capabilities[0]!.areasForImprovement[0]!.correctiveActions[0]!, ownerOrganization: 'Airport Operations', poc: 'Duty manager', dueDate: '2027-03-31', status: 'in_progress' },
-                { id: 'kept', action: 'Buy whiteboards', element: 'equipment', ownerOrganization: 'Facilities', poc: '', status: 'open', locked: true },
+                {
+                  ...first.capabilities[0]!.areasForImprovement[0]!.correctiveActions[0]!,
+                  ownerOrganization: 'Airport Operations',
+                  poc: 'Duty manager',
+                  dueDate: '2027-03-31',
+                  status: 'in_progress',
+                },
+                {
+                  id: 'kept',
+                  action: 'Buy whiteboards',
+                  element: 'equipment',
+                  ownerOrganization: 'Facilities',
+                  poc: '',
+                  status: 'open',
+                  locked: true,
+                },
               ],
             },
-            { id: 'lf', title: 'Locked area', analysisMd: 'Kept.', citations: [], evidence: ['hw:hw-1'], objectiveRefs: [], recommendation: 'Keep.', correctiveActions: [], locked: true },
+            {
+              id: 'lf',
+              title: 'Locked area',
+              analysisMd: 'Kept.',
+              citations: [],
+              evidence: ['hw:hw-1'],
+              objectiveRefs: [],
+              recommendation: 'Keep.',
+              correctiveActions: [],
+              locked: true,
+            },
           ],
         },
         {
@@ -215,7 +330,13 @@ describe('applyAar', () => {
     expect(cap.strengths[0]!.analysisMd).toBe('Edited by hand.')
     expect(cap.strengths[0]!.locked).toBe(true)
     const actions = cap.areasForImprovement[0]!.correctiveActions
-    expect(actions[0]).toMatchObject({ ownerOrganization: 'Airport Operations', poc: 'Duty manager', dueDate: '2027-03-31', status: 'in_progress', locked: false })
+    expect(actions[0]).toMatchObject({
+      ownerOrganization: 'Airport Operations',
+      poc: 'Duty manager',
+      dueDate: '2027-03-31',
+      status: 'in_progress',
+      locked: false,
+    })
     expect(actions[1]).toMatchObject({ id: 'kept', locked: true })
     expect(cap.areasForImprovement[1]!.title).toBe('Locked area')
     // A capability the model dropped but a person rated stays in the report.
