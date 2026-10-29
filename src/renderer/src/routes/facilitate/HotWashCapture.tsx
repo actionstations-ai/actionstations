@@ -14,6 +14,7 @@ import {
   HOTWASH_ITEM_KINDS,
   type HotwashItemKind,
 } from '@shared/schemas/aar'
+import { DEVICE_HOTWASH_PREFIX } from '@shared/schemas/live'
 import type { Scenario } from '@shared/schemas/scenario'
 import { Button } from '../../components/ui'
 import { newItemId } from '../../editors/docs/owners'
@@ -209,7 +210,9 @@ export function HotwashCapture(props: CaptureProps) {
         Write about procedures and plans, not people.
       </p>
       {HOTWASH_ITEM_KINDS.map((kind) => {
-        const items = props.state.hotwash.filter((h) => h.kind === kind)
+        const items = props.state.hotwash.filter(
+          (h) => h.kind === kind && !h.id.startsWith(DEVICE_HOTWASH_PREFIX),
+        )
         return (
           <section key={kind} aria-label={HOTWASH_ITEM_KIND_LABELS[kind]}>
             <h3>
@@ -233,6 +236,47 @@ export function HotwashCapture(props: CaptureProps) {
         )
       })}
       <AddHotwashItem {...props} />
+    </section>
+  )
+}
+
+/** Items promoted from the hot wash board on devices (#415), editable like the ones above. */
+export function DeviceHotwash(props: CaptureProps) {
+  const items = props.state.hotwash.filter((h) => h.id.startsWith(DEVICE_HOTWASH_PREFIX))
+  return (
+    <section aria-labelledby="fac-hw-devices" className="fac-hotwash__capture">
+      <h2 id="fac-hw-devices">From devices</h2>
+      {items.length ? (
+        <>
+          <p className="muted">
+            Promoted from what players and evaluators posted. They go into the report with the items
+            above.
+          </p>
+          {HOTWASH_ITEM_KINDS.map((kind) => {
+            const ofKind = items.filter((h) => h.kind === kind)
+            if (!ofKind.length) return null
+            return (
+              <section key={kind} aria-label={`From devices: ${HOTWASH_ITEM_KIND_LABELS[kind]}`}>
+                <h3>{HOTWASH_ITEM_KIND_LABELS[kind]}</h3>
+                <ul className="fac-capture__list">
+                  {ofKind.map((item) => (
+                    <HotwashItemRow
+                      key={item.id}
+                      item={item}
+                      scenario={props.scenario}
+                      update={props.update}
+                    />
+                  ))}
+                </ul>
+              </section>
+            )
+          })}
+        </>
+      ) : (
+        <p className="muted fac-hotwash__empty">
+          Nothing promoted from devices yet. Promote items on the Hot wash board tab.
+        </p>
+      )}
     </section>
   )
 }

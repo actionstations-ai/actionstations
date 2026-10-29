@@ -6,6 +6,7 @@
 import type { FacilitatorState } from '@shared/ipc/facilitator'
 import { ExerciseRecord, type RecordObservation } from '@shared/schemas/aar'
 import type { EvaluationRecord } from '@shared/schemas/evaluation'
+import { DEVICE_HOTWASH_PREFIX } from '@shared/schemas/live'
 import type { Scenario } from '@shared/schemas/scenario'
 import type { SurveySummary } from '@shared/schemas/survey'
 import { readEvaluation } from '../evaluation/store'
@@ -57,6 +58,21 @@ function mergeObservations(...lists: RecordObservation[][]): RecordObservation[]
 }
 
 /** Assemble the record from whichever parts exist (pure; the file reads are in buildExerciseRecord). */
+/**
+ * Items promoted from the hot wash board are in `facilitator.json` as one entry per finding
+ * (a group is one entry with its label). The log holds the same items one by one, marked
+ * promoted; once the facilitator state has device entries, those would repeat them.
+ */
+function mergeHotwash(
+  fromFacilitator: ExerciseRecord['hotwash'],
+  fromLog: ExerciseRecord['hotwash'],
+) {
+  const hasDeviceEntries = fromFacilitator.some((h) =>
+    h.ref.startsWith(`hw:${DEVICE_HOTWASH_PREFIX}`),
+  )
+  return [...fromFacilitator, ...fromLog.filter((h) => !(hasDeviceEntries && h.promoted))]
+}
+
 export function assembleRecord(scenario: Scenario, parts: RecordParts): ExerciseRecord {
   const fac = parts.facilitator ? facilitatorPart(parts.facilitator, scenario) : undefined
   // Live observations are in evaluation.json (latest revision, one schema); the log keeps the
@@ -83,7 +99,7 @@ export function assembleRecord(scenario: Scenario, parts: RecordParts): Exercise
     ...(parts.live ? { liveSessionId: parts.live.sessionId } : {}),
     delivered: mergeDelivered(scenario, fac?.delivered ?? [], live?.delivered ?? []),
     notes: [...(fac?.notes ?? []), ...(live?.notes ?? [])],
-    hotwash: [...(fac?.hotwash ?? []), ...(live?.hotwash ?? [])],
+    hotwash: mergeHotwash(fac?.hotwash ?? [], live?.hotwash ?? []),
     decisions: fac?.decisions ?? [],
     observations,
     votes: live?.votes ?? [],

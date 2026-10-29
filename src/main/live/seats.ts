@@ -41,6 +41,8 @@ export interface SeatingContext {
   attribution: Attribution
   sessionName: string
   scenarioTitle: string
+  /** The hot wash prompts devices show; sent with every welcome. */
+  hotwash?: WelcomePayload['hotwash']
   clock: () => ClockState
   /**
    * A per-session pseudonym for a client id (22 base64url characters): what other devices see
@@ -67,7 +69,7 @@ function seatOfRole(role: Role): SeatShape {
 }
 
 const STAFF_SEAT_KINDS: ReadonlySet<ClientKind> = new Set(['evaluator', 'simcell'])
-const FEATURES = { messages: true, votes: true, hotwash: false, surveys: false, eval: true }
+const FEATURES = { messages: true, votes: true, hotwash: true, surveys: false, eval: true }
 
 export class Seats {
   readonly byClient = new Map<ClientId, Seat>()
@@ -108,6 +110,7 @@ export class Seats {
       clock: this.ctx.clock(),
       seats: this.seats(),
       features: FEATURES,
+      ...(this.ctx.hotwash ? { hotwash: this.ctx.hotwash } : {}),
     }
   }
 

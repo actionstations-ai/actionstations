@@ -8,6 +8,10 @@ export const routes: RouteDef[] = [
     component: lazy(() => import('./PresentVote')),
   },
   {
+    path: '/present/:projectKey/:scenarioId/hotwash/board',
+    component: lazy(() => import('./PresentHotwash')),
+  },
+  {
     path: '/present/:projectKey/:scenarioId/:injectId',
     component: lazy(() => import('./PresentPage')),
   },

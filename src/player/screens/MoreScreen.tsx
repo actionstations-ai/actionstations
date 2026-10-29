@@ -6,8 +6,9 @@ import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
 import { STRINGS } from '../app/strings'
 import { EvaluateScreen } from '../features/evaluate/EvaluateScreen'
+import { HotWashScreen } from '../features/hotwash/HotWashScreen'
 
-type View = 'menu' | 'settings' | 'about' | 'evaluate'
+type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash'
 
 interface Entry {
   id: string
@@ -41,7 +42,13 @@ export function MoreScreen({
       label: STRINGS.more.votes,
       ...(features?.votes ? { onOpen: () => onOpenVotes?.() } : { why: reason(features?.votes) }),
     },
-    { id: 'hotwash', label: STRINGS.more.hotwash, why: reason(features?.hotwash) },
+    {
+      id: 'hotwash',
+      label: STRINGS.more.hotwash,
+      ...(features?.hotwash
+        ? { onOpen: () => setView('hotwash') }
+        : { why: reason(features?.hotwash) }),
+    },
     { id: 'surveys', label: STRINGS.more.surveys, why: reason(features?.surveys) },
     {
       id: 'evaluate',
@@ -60,6 +67,7 @@ export function MoreScreen({
     return <EvaluateScreen session={session} onBack={() => setView('menu')} />
   if (view === 'settings')
     return <SettingsScreen prefsStore={prefsStore} onBack={() => setView('menu')} />
+  if (view === 'hotwash') return <HotWashScreen session={session} onBack={() => setView('menu')} />
   if (view === 'about')
     return (
       <AboutScreen session={session} bundleVersion={bundleVersion} onBack={() => setView('menu')} />

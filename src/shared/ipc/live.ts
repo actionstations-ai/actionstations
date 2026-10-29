@@ -9,7 +9,10 @@ import {
   Fingerprint,
   CoverageView,
   EvaluatorWatch,
+  BoardView,
   FirewallGuidance,
+  HotWashAction,
+  PromotedEntry,
   Ipv4,
   LanAddress,
   LanServerStatus,
@@ -170,6 +173,46 @@ export const liveChannels = {
   ),
   /** Show the plan's expected actions to evaluators (re-sends every assignment). */
   'live:eval-show-expected': channel(S.extend({ on: z.boolean() }), z.void()),
+  /** Open the hot wash on devices; `review` holds new items until accepted (#415). */
+  'live:hotwash-open': channel(
+    S.extend({ review: z.boolean().default(false), text: z.string().max(500).optional() }),
+    BoardView,
+  ),
+  'live:hotwash-close': channel(S, BoardView),
+  /** The board; also what the Hot wash tab and the projector view read. */
+  'live:hotwash-board': channel(S, BoardView),
+  /** Switch between showing items at once and holding them for review. */
+  'live:hotwash-review': channel(S.extend({ review: z.boolean() }), BoardView),
+  'live:hotwash-update': channel(
+    S.extend({
+      action: HotWashAction,
+      itemIds: z.array(z.string().max(40)).min(1).max(200),
+      label: z.string().max(120).optional(),
+      text: z.string().max(2000).optional(),
+      tags: z
+        .object({
+          objectiveId: SafeId.nullable().optional(),
+          capability: SafeId.nullable().optional(),
+          mselRowId: SafeId.nullable().optional(),
+        })
+        .optional(),
+    }),
+    BoardView,
+  ),
+  /**
+   * Promote an item or group. Returns the entry for `FacilitatorState.hotwash`, which the
+   * Facilitate page adds to its own copy: it owns that file while the page is open.
+   */
+  'live:hotwash-promote': channel(
+    S.extend({ id: z.string().max(40) }),
+    z.object({ entry: PromotedEntry, board: BoardView }),
+  ),
+  'live:hotwash-unpromote': channel(
+    S.extend({ id: z.string().max(40) }),
+    z.object({ entryId: SafeId, board: BoardView }),
+  ),
+  /** Show the promoted board in the presentation window. */
+  'live:hotwash-present': channel(S.extend({ displayId: z.number().optional() }), z.void()),
 }
 
 export { LiveChangedEvent }

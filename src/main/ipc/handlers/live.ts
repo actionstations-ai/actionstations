@@ -12,12 +12,15 @@ import {
   evaluationCoverage,
   setEvaluatorWatch,
   showExpectedToEvaluators,
+  closeHotwash,
   endSession,
+  hotwashBoard,
   markMessageHandled,
   messageTargets,
   messageThread,
   messageThreads,
   openMessageThread,
+  openHotwash,
   pinMessage,
   getVote,
   listVotes,
@@ -25,15 +28,19 @@ import {
   recordVote,
   reopenVote,
   voteScope,
+  promoteHotwash,
   releaseInject,
   releaseSummaries,
   resendInject,
+  setHotwashReview,
   retractInject,
   sendMessage,
   starMessage,
   stageProgress,
   startSession,
   status,
+  unpromoteHotwash,
+  updateHotwash,
   switchAddress,
 } from '../../live/session'
 import { BrowserWindow } from 'electron'
@@ -187,6 +194,36 @@ export default defineHandlers({
     getVote(root, scenarioId, voteId)
     present(
       { projectPath: root, scenarioId, voteId },
+      { ...(displayId !== undefined ? { displayId } : {}), ...ownerOf(ctx) },
+    )
+  },
+
+  'live:hotwash-open': async ({ projectPath, scenarioId, review, text }) =>
+    openHotwash(await requireProject(projectPath), scenarioId, review, text),
+
+  'live:hotwash-close': async ({ projectPath, scenarioId }) =>
+    closeHotwash(await requireProject(projectPath), scenarioId),
+
+  'live:hotwash-board': async ({ projectPath, scenarioId }) =>
+    hotwashBoard(await requireProject(projectPath), scenarioId),
+
+  'live:hotwash-review': async ({ projectPath, scenarioId, review }) =>
+    setHotwashReview(await requireProject(projectPath), scenarioId, review),
+
+  'live:hotwash-update': async ({ projectPath, scenarioId, ...req }) =>
+    updateHotwash(await requireProject(projectPath), scenarioId, req),
+
+  'live:hotwash-promote': async ({ projectPath, scenarioId, id }) =>
+    promoteHotwash(await requireProject(projectPath), scenarioId, id),
+
+  'live:hotwash-unpromote': async ({ projectPath, scenarioId, id }) =>
+    unpromoteHotwash(await requireProject(projectPath), scenarioId, id),
+
+  'live:hotwash-present': async ({ projectPath, scenarioId, displayId }, ctx) => {
+    const root = await requireProject(projectPath)
+    hotwashBoard(root, scenarioId)
+    present(
+      { projectPath: root, scenarioId, hotwash: true },
       { ...(displayId !== undefined ? { displayId } : {}), ...ownerOf(ctx) },
     )
   },

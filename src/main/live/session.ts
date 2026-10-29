@@ -21,6 +21,7 @@ import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
   VoteDefinition,
+  HotWashAction,
   LanServerStatus,
   LiveConnection,
   LiveSession,
@@ -48,6 +49,7 @@ import {
   type StageState,
 } from './delivery-service'
 import { storeAttachment } from './attachments'
+import { HotWash, hotwashPrompts, type HotWashQuestion } from './hotwash'
 import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LiveEvaluation } from './evaluation'
 import { upsertObservation } from '../evaluation/store'
@@ -93,6 +95,7 @@ interface Active {
   salt: Uint8Array
   delivery: Delivery
   messages: Messages
+  hotwash: HotWash
   votes: Votes
   evaluation: LiveEvaluation
   stage: StageState
@@ -177,7 +180,8 @@ function emitChanged(
     | 'staging'
     | 'messages'
     | 'votes'
-    | 'evaluation',
+    | 'evaluation'
+    | 'hotwash',
   message?: string,
   threadId?: string,
 ) {
@@ -271,6 +275,10 @@ function wireClient(a: Active): void {
     a.client.on(
       'vote.cast',
       (msg) => void a.votes.onBallot(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
+    ),
+    a.client.on(
+      'hotwash.item',
+      (msg) => void a.hotwash.onItem(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
     ),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
@@ -458,6 +466,48 @@ function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
   })
 }
 
+/** The hot wash's view of the session: sending as the controller, the seated devices, the log. */
+function makeHotWash(
+  getActive: () => Active,
+  roles: readonly Role[],
+  questions: HotWashQuestion[],
+): HotWash {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new HotWash({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players', sign: true }),
+    log: { append: (input) => getActive().log.append(input) },
+    seatOf: (id) => {
+      const s = getActive().seats.byClient.get(id)
+      if (!s) return undefined
+      const named = getActive().session.attribution === 'named' && s.name
+      return {
+        clientId: s.clientId,
+        kind: s.kind,
+        ...(s.roleId ? { roleId: s.roleId } : {}),
+        label: (s.roleId ? byId.get(s.roleId)?.name : undefined) ?? SEAT_LABELS[s.kind],
+        ...(named ? { displayName: s.name } : {}),
+      }
+    },
+    clientRef: (id) => clientRef(getActive(), id),
+    questions,
+    clock: async () => {
+      const a = getActive()
+      return { time: formatClock(await clockState(a.root, a.session.scenarioId), Date.now()) }
+    },
+    now: () => Date.now(),
+    newId: () => toBase64Url(getActive().crypto.random(16)),
+    changed: () => emitChanged('hotwash'),
+  })
+}
+
+const SEAT_LABELS = {
+  player: 'Player',
+  evaluator: 'Evaluator',
+  observer: 'Observer',
+  simcell: 'SimCell',
+} as const
+
 async function openLan(a: Active, address: string, tls: 'self-signed' | 'none', port?: number) {
   if (!a.hub) throw new AppError('INTERNAL', 'This session has no in-process hub')
   a.lan = await startLanServer({
@@ -537,6 +587,7 @@ async function startOn(
   scenario: Awaited<ReturnType<typeof getScenario>>,
   remote: RemoteHandle | undefined,
 ): Promise<LiveSessionStatus> {
+  const prompts = hotwashPrompts(scenario.hotwash)
   const crypto = createWebCryptoProvider()
   const sessionId = remote?.auth.sessionId ?? toBase64Url(crypto.random(16))
   const keys = await SessionKeys.create(crypto, sessionId)
@@ -595,6 +646,7 @@ async function startOn(
       attribution: req.attribution,
       sessionName: req.name?.trim() || scenario.title,
       scenarioTitle: scenario.title,
+      hotwash: prompts,
       clock: () => cachedClock,
       pseudonym: (id) => pseudonym({ crypto, salt }, id),
     }),
@@ -602,6 +654,7 @@ async function startOn(
     salt,
     delivery: makeDelivery(() => a, scenario.roles),
     messages: makeMessages(() => a, scenario.roles),
+    hotwash: makeHotWash(() => a, scenario.roles, prompts.questions),
     votes: makeVotes(() => a, scenario.roles),
     evaluation: makeEvaluation(() => a),
     stage: emptyStage(),
@@ -770,6 +823,70 @@ export const releaseSummaries = (root: string, scenarioId: string) =>
 
 export const stageProgress = (root: string, scenarioId: string) =>
   stageStatus(activeFor(root, scenarioId))
+
+export const hotwashBoard = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).hotwash.board()
+
+export async function openHotwash(
+  root: string,
+  scenarioId: string,
+  review: boolean,
+  text?: string,
+) {
+  const h = activeFor(root, scenarioId).hotwash
+  await h.openOnDevices(review, text)
+  return h.board()
+}
+
+export async function closeHotwash(root: string, scenarioId: string) {
+  const h = activeFor(root, scenarioId).hotwash
+  await h.closeOnDevices()
+  return h.board()
+}
+
+export function setHotwashReview(root: string, scenarioId: string, review: boolean) {
+  const h = activeFor(root, scenarioId).hotwash
+  h.setReview(review)
+  return h.board()
+}
+
+export async function updateHotwash(
+  root: string,
+  scenarioId: string,
+  req: {
+    action: HotWashAction
+    itemIds: string[]
+    label?: string
+    text?: string
+    tags?: Parameters<HotWash['tagItems']>[1]
+  },
+) {
+  const h = activeFor(root, scenarioId).hotwash
+  const run = {
+    accept: () => h.acceptItems(req.itemIds),
+    hide: () => h.hideItems(req.itemIds),
+    restore: () => h.restoreItems(req.itemIds),
+    edit: () => h.editItem(req.itemIds[0]!, req.text ?? ''),
+    group: () => h.groupItems(req.itemIds, req.label),
+    ungroup: () => h.ungroupItems(req.itemIds),
+    label: () => h.labelGroup(req.itemIds[0]!, req.label ?? ''),
+    tag: () => h.tagItems(req.itemIds, req.tags ?? {}),
+  }
+  await run[req.action]()
+  return h.board()
+}
+
+export async function promoteHotwash(root: string, scenarioId: string, id: string) {
+  const h = activeFor(root, scenarioId).hotwash
+  const entry = await h.promote(id)
+  return { entry, board: h.board() }
+}
+
+export async function unpromoteHotwash(root: string, scenarioId: string, id: string) {
+  const h = activeFor(root, scenarioId).hotwash
+  const entryId = await h.unpromote(id)
+  return { entryId, board: h.board() }
+}
 
 export const messageThreads = (root: string, scenarioId: string) =>
   activeFor(root, scenarioId).messages.summaries()

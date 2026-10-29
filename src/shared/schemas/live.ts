@@ -297,6 +297,7 @@ export const LiveChangedEvent = z.object({
     'messages',
     'votes',
     'evaluation',
+    'hotwash',
   ]),
   sessionId: SessionId.optional(),
   /** With `messages`: the thread that changed, so the panel fetches only that one. */
@@ -704,3 +705,78 @@ export const CoverageView = z.object({
   observations: z.number().int().min(0),
 })
 export type CoverageView = z.infer<typeof CoverageView>
+/** The hot wash action the facilitator takes on one or more board items (spec 0415 FR-6). */
+export const HotWashAction = z.enum([
+  'accept',
+  'hide',
+  'restore',
+  'edit',
+  'group',
+  'ungroup',
+  'label',
+  'tag',
+])
+export type HotWashAction = z.infer<typeof HotWashAction>
+
+/**
+ * One contribution on the board, as the facilitator sees it. The device that sent it is never
+ * here: an anonymous item has no role, and `clientRef` stays in the main process.
+ */
+export const HotWashItem = z.object({
+  itemId: z.string().max(40),
+  kind: z.enum(['strength', 'improvement', 'other']),
+  text: Text(2000),
+  /** The text as first posted, when the facilitator edited it. */
+  originalText: Text(2000).optional(),
+  anonymous: z.boolean(),
+  /** The sender's role, unless they posted without it. */
+  roleLabel: Text(160).optional(),
+  /** Named sessions only, and only when the sender did not post anonymously. */
+  displayName: Text(60).optional(),
+  questionId: SafeId.optional(),
+  mselRowId: SafeId.optional(),
+  objectiveId: SafeId.optional(),
+  capability: SafeId.optional(),
+  at: z.number(),
+  exerciseTime: Text(8),
+  accepted: z.boolean(),
+  hidden: z.boolean(),
+  groupId: z.string().max(40).optional(),
+  plus: z.number().int().min(0),
+  promoted: z.boolean(),
+})
+export type HotWashItem = z.infer<typeof HotWashItem>
+
+export const HotWashGroup = z.object({
+  groupId: z.string().max(40),
+  label: Text(120).optional(),
+  itemIds: z.array(z.string().max(40)),
+  promoted: z.boolean(),
+})
+export type HotWashGroup = z.infer<typeof HotWashGroup>
+
+/** The whole board for the Facilitate tab and the projector view. */
+export const BoardView = z.object({
+  open: z.boolean(),
+  /** True: new items wait in the inbox until the facilitator accepts them. */
+  review: z.boolean(),
+  items: z.array(HotWashItem),
+  groups: z.array(HotWashGroup),
+  /** Prompts the devices show, from the scenario. */
+  questions: z.array(z.object({ id: SafeId, topic: Text(80).optional(), text: Text(500) })),
+})
+export type BoardView = z.infer<typeof BoardView>
+
+/** An entry for `FacilitatorState.hotwash` made by promoting an item or group (spec 0415 FR-7). */
+export const PromotedEntry = z.object({
+  id: SafeId,
+  kind: z.enum(['strength', 'improvement', 'other']),
+  text: Text(4000),
+  objectiveRef: Text(128).optional(),
+  rowId: Text(64).optional(),
+  at: IsoDateTime,
+})
+export type PromotedEntry = z.infer<typeof PromotedEntry>
+
+/** Hot wash entries written from devices carry this id prefix, so the Hot wash tab can group them. */
+export const DEVICE_HOTWASH_PREFIX = 'dev-'

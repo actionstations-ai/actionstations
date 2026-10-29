@@ -29,6 +29,17 @@ import type {
 import type { KeyValue, Transport } from '../../shared/live/transport'
 import { MediaCache } from '../features/injects/media'
 import { applyClose, applyOpen, mayVote, type VoteMap } from '../features/votes/votes'
+import {
+  EMPTY_HOTWASH,
+  addOwn,
+  addPlusMine,
+  applyUpdate as applyHotwashUpdate,
+  canWithdraw,
+  removeOwn,
+  setOpen,
+  type HotwashKind,
+  type HotwashState,
+} from '../features/hotwash/hotwash'
 import type { Announcer } from './a11y'
 import { elapsedMinutes, formatClock } from './clock'
 import {
@@ -112,6 +123,8 @@ export interface PlayerState {
   items: Item[]
   /** Messages with the SimCell for this seat, oldest first (spec 0413). */
   messages: ChatMessage[]
+  /** The hot wash: whether it is open and the shared board (spec 0415). */
+  hotwash: HotwashState
   /** An inject the player is replying to; the Messages tab opens on it. */
   compose?: { releaseId: string; title: string; nonce: number }
   /** Votes this device has heard of, by vote id (spec 0414). */
@@ -217,6 +230,7 @@ export class PlayerSession {
       items: [],
       messages: [],
       votes: {},
+      hotwash: EMPTY_HOTWASH,
       read: new Set(),
       dismissed: new Set(),
       actioned: new Set(),
@@ -471,6 +485,12 @@ export class PlayerSession {
         return this.addChat(msg as Opened<'message.send'>)
       case 'eval.assign':
         return this.addAssignment(msg as Opened<'eval.assign'>)
+      case 'hotwash.update':
+        if (msg.signedBy === 'host') this.applyHotwash(msg as Opened<'hotwash.update'>)
+        return
+      case 'controller.notice':
+        this.applyHotwashNotice(msg as Opened<'controller.notice'>)
+        break
       case 'session.end':
         return this.applyEnd((msg as Opened<'session.end'>).payload)
       case 'session.rekey':
@@ -542,7 +562,14 @@ export class PlayerSession {
   private applyEnd(payload: SessionEndPayload): void {
     this.evaluate?.end()
     this.media.dispose()
-    this.store.set({ ended: payload, items: [], messages: [], info: undefined, roster: [] })
+    this.store.set({
+      ended: payload,
+      items: [],
+      messages: [],
+      hotwash: EMPTY_HOTWASH,
+      info: undefined,
+      roster: [],
+    })
     this.terminal('ended')
   }
 
@@ -762,6 +789,93 @@ export class PlayerSession {
       )
       this.deps.cue?.(this.deps.prefs())
     }
+  }
+
+  private applyHotwash(msg: Opened<'hotwash.update'>): void {
+    const hotwash = applyHotwashUpdate(this.state.hotwash, msg.payload)
+    if (hotwash !== this.state.hotwash) this.store.set({ hotwash })
+  }
+
+  private applyHotwashNotice(msg: Opened<'controller.notice'>): void {
+    const kind = msg.payload.kind
+    if (msg.signedBy !== 'host' || (kind !== 'hotwash.open' && kind !== 'hotwash.close')) return
+    this.store.set((s) => ({ hotwash: setOpen(s.hotwash, kind === 'hotwash.open') }))
+    if (!this.state.catchingUp)
+      this.deps.announcer.announce(
+        kind === 'hotwash.open' ? STRINGS.feed.hotwashOpen : STRINGS.feed.hotwashClosed,
+      )
+  }
+
+  /** Add an item to the hot wash. It shows as waiting until the controller puts it on the board. */
+  async postHotwash(draft: {
+    kind: HotwashKind
+    text: string
+    anonymous: boolean
+    questionId?: string
+    mselRowId?: string
+  }): Promise<void> {
+    const text = draft.text.trim()
+    if (!text || !this.state.hotwash.open || !this.outbox) return
+    const itemId = toBase64Url(this.deps.crypto.random(16))
+    const roleId = this.state.seat?.role?.id
+    this.store.set((s) => ({
+      hotwash: addOwn(
+        s.hotwash,
+        { itemId, ...draft, text, ...(roleId ? { roleId } : {}) },
+        this.now(),
+      ),
+    }))
+    await this.outbox.enqueue({
+      id: `hotwash:${itemId}`,
+      type: 'hotwash.item',
+      to: 'controller',
+      payload: {
+        itemId,
+        kind: draft.kind,
+        text,
+        anonymous: draft.anonymous,
+        ...(draft.questionId ? { questionId: draft.questionId } : {}),
+        ...(draft.mselRowId ? { mselRowId: draft.mselRowId } : {}),
+      },
+    })
+  }
+
+  /** +1 on someone else's item, once per item (spec 0415 FR-5). */
+  async plusHotwash(itemId: string): Promise<void> {
+    const item = this.state.hotwash.items[itemId]
+    if (!item || item.mine || item.plusMine || !this.state.hotwash.open || !this.outbox) return
+    this.store.set((s) => ({ hotwash: addPlusMine(s.hotwash, itemId) }))
+    await this.outbox.enqueue({
+      id: `hotwash-plus:${itemId}`,
+      type: 'hotwash.item',
+      to: 'controller',
+      payload: {
+        itemId: toBase64Url(this.deps.crypto.random(16)),
+        kind: item.kind,
+        text: '',
+        anonymous: true,
+        plusOneOf: itemId,
+      },
+    })
+  }
+
+  /** Take back an item within two minutes of posting it. */
+  async withdrawHotwash(itemId: string): Promise<void> {
+    const item = this.state.hotwash.items[itemId]
+    if (!item || !this.outbox || !canWithdraw(item, this.now())) return
+    this.store.set((s) => ({ hotwash: removeOwn(s.hotwash, itemId) }))
+    await this.outbox.enqueue({
+      id: `hotwash-retract:${itemId}`,
+      type: 'hotwash.item',
+      to: 'controller',
+      payload: {
+        itemId: toBase64Url(this.deps.crypto.random(16)),
+        kind: item.kind,
+        text: '',
+        anonymous: true,
+        retractOf: itemId,
+      },
+    })
   }
 
   /** "Reply to SimCell" on an inject: open the Messages tab with the inject quoted. */

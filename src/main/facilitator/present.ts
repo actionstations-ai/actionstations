@@ -22,6 +22,8 @@ export interface PresentTarget {
   assetId?: string
   /** Show this vote's tally instead of an inject (#414). */
   voteId?: string
+  /** Show the promoted hot wash board instead of an inject (#415). */
+  hotwash?: boolean
 }
 
 /** Preview size when there is no second display. */
@@ -58,6 +60,9 @@ export function chooseDisplay(
 export function presentHash(t: PresentTarget): string {
   if (t.voteId) {
     return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/vote/${t.voteId}`
+  }
+  if (t.hotwash) {
+    return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/hotwash/board`
   }
   const base = ['present', encodeURIComponent(t.projectPath), t.scenarioId, t.injectId ?? ''].join(
     '/',
