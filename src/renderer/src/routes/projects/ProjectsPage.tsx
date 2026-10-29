@@ -11,6 +11,8 @@ import { ExamplesList } from './ExamplesSection'
 import { NewProjectDialog } from './NewProjectDialog'
 import { ProjectCard, type CardAction } from './ProjectCard'
 import { revealFolder } from './reveal'
+import { UpdateBanner } from '../../components/updates/UpdateBanner'
+import { UpdateQuestionCard } from '../../components/updates/UpdateQuestionCard'
 import { TipCard } from './TipCard'
 import { useOpenProject } from './use-open-project'
 import './projects.css'
@@ -102,6 +104,8 @@ export default function ProjectsPage() {
           </>
         }
       />
+      <UpdateBanner />
+      <UpdateQuestionCard />
       <TipCard />
       {empty ? (
         <EmptyState

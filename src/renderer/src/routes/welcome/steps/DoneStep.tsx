@@ -7,6 +7,42 @@ import { call } from '../../../lib/api'
 import { projectKey } from '../../../state/project'
 import { IMPORT_FILTERS } from '../../documents/doc-utils'
 import { useAction } from '../use-setup'
+import { WHAT_IS_SENT } from '../../../components/updates/update-view'
+import { setUpdates, useUpdateStatus } from '../../../components/updates/use-updates'
+
+/**
+ * The update question (#442), unticked: finishing the wizard stores `off` unless the user
+ * ticks it, so the setting never stays "ask" and the Projects screen does not ask again.
+ */
+function UpdateCheckChoice() {
+  const status = useUpdateStatus().data
+  const mode = status?.mode
+  useEffect(() => {
+    if (mode === 'ask') void setUpdates({ check: 'off' }).catch(() => undefined)
+  }, [mode])
+  if (!status) return null
+  const change = (on: boolean) =>
+    setUpdates({ check: on ? 'on' : 'off' }).catch((err: unknown) =>
+      toast.error('Could not save the update check', err),
+    )
+  return (
+    <div className="card stack">
+      <h3>Updates</h3>
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={status.mode === 'on'}
+          aria-describedby="wizard-update-hint"
+          onChange={(e) => void change(e.target.checked)}
+        />
+        <span>Check for new versions of Action Stations when the app starts</span>
+      </label>
+      <p id="wizard-update-hint" className="field__hint">
+        At most once a day. {WHAT_IS_SENT} You can change this in Settings → Updates.
+      </p>
+    </div>
+  )
+}
 
 function ImportDocuments({ projectPath }: { projectPath: string }) {
   const navigate = useNavigate()
@@ -64,6 +100,7 @@ export function DoneStep({ projectPath }: { projectPath?: string | undefined }) 
         </p>
       </div>
       {projectPath && <ImportDocuments projectPath={projectPath} />}
+      <UpdateCheckChoice />
       <nav className="card stack" aria-label="Next steps">
         <h3>Where to next</h3>
         <ul className="wizard-links">

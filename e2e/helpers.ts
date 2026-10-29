@@ -32,9 +32,14 @@ export async function launch(
 ): Promise<Launched> {
   const userData = opts.userData ?? mkdtempSync(join(tmpdir(), 'ttx-e2e-'))
   if (!opts.userData && !opts.onboarding)
+    // Tips (#443) and the update question (#442) stay off screen unless a spec asks for them.
     writeFileSync(
       join(userData, 'settings.json'),
-      JSON.stringify({ onboardingComplete: true, ui: { tips: { enabled: !!opts.tips } } }),
+      JSON.stringify({
+        onboardingComplete: true,
+        ui: { tips: { enabled: !!opts.tips } },
+        updates: { check: 'off' },
+      }),
     )
   const app = await electron.launch({
     args: [...(opts.args ?? []), resolve('out/main/index.js')],

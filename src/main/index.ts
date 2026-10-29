@@ -24,10 +24,20 @@ import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { toolProcesses } from './setup/processes'
+import { scheduleStartupCheck } from './updates/check'
 
 // Must run before app ready.
 registerMediaScheme()
 registerAppScheme()
+
+/**
+ * The startup update check waits this long after the window is ready (#442). Unpackaged runs
+ * (e2e) may shorten it with TTX_UPDATE_DELAY_MS.
+ */
+const UPDATE_CHECK_DELAY_MS =
+  !app.isPackaged && process.env.TTX_UPDATE_DELAY_MS
+    ? Number(process.env.TTX_UPDATE_DELAY_MS)
+    : 10_000
 
 const isDev = !app.isPackaged && !!process.env.ELECTRON_RENDERER_URL
 
@@ -161,6 +171,13 @@ void app.whenReady().then(async () => {
   initTemplateRegistry()
   await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
+  // Opt-in update check (#442): only with the setting on, at most once a day, after the window
+  // is up so it never delays startup.
+  mainWindow?.once('ready-to-show', () => {
+    setTimeout(() => {
+      scheduleStartupCheck().catch((e: unknown) => console.error('[updates]', e))
+    }, UPDATE_CHECK_DELAY_MS)
+  })
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
   })

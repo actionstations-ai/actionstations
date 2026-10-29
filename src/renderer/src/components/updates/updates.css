@@ -1,0 +1,69 @@
+/* Update check (#442): Projects banner, question card, release notes. Tokens only. */
+.update-banner,
+.update-question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+}
+.update-banner__title,
+.update-question__title {
+  font-size: var(--text-lg);
+  overflow-wrap: anywhere;
+}
+.update-question p {
+  margin: 0;
+  max-width: 70ch;
+}
+.update-banner__actions {
+  flex-wrap: wrap;
+}
+.update-notes {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--color-warning);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.update-notes svg {
+  flex: none;
+  margin-top: 0.125rem;
+  color: var(--color-warning);
+}
+.update-notes p {
+  margin: 0;
+}
+.release-notes p {
+  margin: 0;
+}
+.release-notes code {
+  overflow-wrap: anywhere;
+}
+.release-notes .pack-description {
+  overflow-wrap: anywhere;
+}
+.release-notes .pack-description > * + * {
+  margin-top: var(--space-2);
+}
+.update-result {
+  margin: 0;
+}
+.update-actions {
+  flex-wrap: wrap;
+}
+.update-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+}
+.update-facts dt {
+  color: var(--color-text-muted);
+}
+.update-facts dd {
+  margin: 0;
+}

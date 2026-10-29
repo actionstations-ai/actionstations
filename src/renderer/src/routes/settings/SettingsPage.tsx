@@ -9,6 +9,7 @@ import './settings.css'
 import { errorText } from '../../lib/errors'
 import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
+import { UpdatesSection } from './UpdatesSection'
 
 const THEMES: { value: UiSettings['theme']; label: string }[] = [
   { value: 'system', label: 'Match system' },
@@ -229,6 +230,7 @@ export default function SettingsPage() {
           <GenerationSection settings={settings.data} />
           <EmbeddingsSection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />
+          <UpdatesSection />
         </>
       )}
     </div>

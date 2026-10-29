@@ -110,4 +110,11 @@ describe('descriptionHtml', () => {
     expect(html).toContain('alt text')
     expect(html).toContain('site (https://example.org)')
   })
+
+  it('can start the headings at a given level, keeping their order (#442 release notes)', () => {
+    const html = descriptionHtml('Intro\n\n## Highlights\n\n### Fixed\n\ntext', 3)
+    expect(html).toContain('<h3>Highlights</h3>')
+    expect(html).toContain('<h4>Fixed</h4>')
+    expect(descriptionHtml('Intro\n\n## Highlights')).toContain('<h4>Highlights</h4>')
+  })
 })

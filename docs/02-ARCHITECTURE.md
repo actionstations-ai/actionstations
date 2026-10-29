@@ -166,5 +166,6 @@ Secrets: `safeStorage.encryptString` → app `userData/secrets.json`; never in p
 ## Security
 
 - `contextIsolation`, no `remote`, CSP on renderer, sandboxed hidden render window with no network (templates are local).
+- The app makes two kinds of network call on its own, both only after the user turns them on: pack catalogs the user added (ADR-0018), and the update check (ADR-0024), one GET to `api.github.com/repos/actionstations-ai/actionstations/releases/latest` at most once a day with the setting on, or on **Check now**. It sends only the fixed URL and a `User-Agent: ActionStations/<version>`, follows no redirects, reads at most 1 MB and never downloads an installer.
 - Validate every IPC payload with zod. Path-join guards so a malicious `scenario.json` can't escape the project folder.
 - Treat parsed document text as data, never as prompt instructions (wrap retrieved chunks in delimiters and say so in system prompts).
