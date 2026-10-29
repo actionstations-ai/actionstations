@@ -79,6 +79,11 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
 
 export const FILE_TARGETS: TargetOption[] = [
   { id: 'media', label: 'Media files', hint: 'PNG, PDF, WAV + MP3, MP4 named S<n>-I<id>-<type>' },
+  {
+    id: 'live_log',
+    label: 'Live session logs (JSON)',
+    hint: 'One file per live session in facilitator/live-sessions/, without display names. Never in players/',
+  },
   { id: 'json', label: 'scenario.json', hint: 'Full scenario with injects inlined' },
   { id: 'markdown', label: 'scenario.md', hint: 'Readable copy with media checksums' },
   {
@@ -142,6 +147,7 @@ const OPT_IN = new Set<ExportTarget>([
   'eoc_package',
   'cap_xml',
   'path_pdf',
+  'live_log',
 ])
 
 /** Everything except the optional Word files, the compliance exports and the other-platform exports. */
