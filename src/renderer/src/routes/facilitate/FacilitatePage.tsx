@@ -45,6 +45,7 @@ import {
   type ControllerTools,
 } from './FacilitateParts'
 import { Timeline, type TimelineEntry } from './Timeline'
+import { MapTab } from './MapTab'
 import { hasBranches } from '@shared/branching/graph'
 import { useBranchLog } from './use-branch-log'
 import { useLiveDelivery } from './live/use-live-delivery'
@@ -333,23 +334,61 @@ function RunArea(props: ViewProps & { f: Facilitate; onShow: (entry: TimelineEnt
     () => f.entries.filter((e) => addressedTo(e.row, scenario.roles, filter)),
     [f.entries, scenario.roles, filter],
   )
+  const [view, setView] = useState<'timeline' | 'map'>('timeline')
   if (scenario.msel.length === 0)
     return <NoMsel projectPath={projectPath} scenarioId={scenario.id} />
   return (
     <div className="fac-layout">
       <div className="fac-main">
-        <TimelineFilter roles={scenario.roles} value={filter} onChange={setFilter} />
-        {visible.length === 0 && (
-          <p className="muted">No rows are addressed to that team or role.</p>
-        )}
-        <Timeline
-          phases={scenario.phases}
-          entries={visible}
-          selectedId={f.selected?.row.id}
-          onSelect={f.setSelectedId}
-          onDeliver={deliver}
-          onUndo={undo}
-        />
+        <div className="map-tabs" role="tablist" aria-label="Timeline or map">
+          {(['timeline', 'map'] as const).map((v) => (
+            <button
+              key={v}
+              type="button"
+              role="tab"
+              id={`fac-tab-${v}`}
+              aria-selected={view === v}
+              aria-controls={`fac-panel-${v}`}
+              className={view === v ? 'btn btn--primary btn--sm' : 'btn btn--sm'}
+              onClick={() => setView(v)}
+            >
+              {v === 'timeline' ? 'Timeline' : 'Map'}
+            </button>
+          ))}
+        </div>
+        <div
+          role="tabpanel"
+          id={`fac-panel-${view}`}
+          aria-labelledby={`fac-tab-${view}`}
+          className="map-tab-panel"
+        >
+          {view === 'timeline' ? (
+            <>
+              <TimelineFilter roles={scenario.roles} value={filter} onChange={setFilter} />
+              {visible.length === 0 && (
+                <p className="muted">No rows are addressed to that team or role.</p>
+              )}
+              <Timeline
+                phases={scenario.phases}
+                entries={visible}
+                selectedId={f.selected?.row.id}
+                onSelect={f.setSelectedId}
+                onDeliver={deliver}
+                onUndo={undo}
+              />
+            </>
+          ) : (
+            <MapTab
+              projectPath={projectPath}
+              scenario={scenario}
+              state={state}
+              minutes={f.minutes}
+              selectedRowId={f.selected?.row.id}
+              onSelectRow={f.setSelectedId}
+              update={update}
+            />
+          )}
+        </div>
       </div>
       <SidePanel
         tools={f.ct.tools}

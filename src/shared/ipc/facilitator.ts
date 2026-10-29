@@ -183,6 +183,8 @@ export const FacilitatorState = z.looseObject({
         .optional(),
     })
     .optional(),
+  /** The Map tab (#436): which map is shown and whether upcoming rows are drawn. */
+  map: z.object({ mapId: SafeId.optional(), showUpcoming: z.boolean().default(false) }).optional(),
 })
 export type FacilitatorState = z.infer<typeof FacilitatorState>
 export type FacilitatorHotwashItem = FacilitatorState['hotwash'][number]

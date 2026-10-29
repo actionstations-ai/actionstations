@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  MapPinned,
   Clapperboard,
   FileDiff,
   FileStack,
@@ -39,4 +40,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   drills: Repeat2,
   'micro-drills': Timer,
   regional: Network,
+  maps: MapPinned,
 }

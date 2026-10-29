@@ -89,6 +89,8 @@ const BY_KIND: Record<JobKind, string[]> = {
   translate: [...SCENARIO_WORK, 'translate:'],
   'simcell-personas': [],
   'simcell-capability': ['simcell:'],
+  'map-download': ['maps:'],
+  'map-area': ['maps:'],
 }
 
 export interface Change {

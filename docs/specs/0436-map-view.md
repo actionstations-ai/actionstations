@@ -1,6 +1,6 @@
 # Spec 0436: Map view of injects
 
-Issue: #436 · Milestone: 0.9.0 · Status: Draft · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
+Issue: #436 · Milestone: 0.9.0 · Status: Partly implemented (0.9.0 PR 1) · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
 
 ## Summary
 
@@ -589,3 +589,20 @@ offers a lower maximum zoom or the state file.
    Canadian provinces when a user asks, through the same workflow, still under the 2 GiB rule.
 7. **Catalog update check.** Check monthly in the background? _Recommendation:_ only by click,
    or through the #442 opt-in update check, never on its own (Project rules 3).
+
+## Implementation notes (PR 1)
+
+Built: tasks 1, 2 (images), 4 (Facilitate Map tab), 5 to 8, 10. Differences from the text above:
+
+- **Site plans:** PNG, JPEG and WebP only; PDF pages are refused with a message. No tile pyramid:
+  the one image is scaled by the browser. `source` and `image` are the same file, `plan.<ext>`.
+- **IPC:** `maps:get`/`maps:save` return `{ maps, revision }`. `maps:import-plan` and
+  `maps:import-archive` are direct calls (the file is picked with `dialog:open-files`), not jobs.
+  `maps:settings-set`, `maps:basemap` and `maps:fetch` were added; `maps:snapshot` was not.
+- **MapLibre 5 has no `prefetchZoomDelta`.** The engine uses `refreshExpiredTiles: false` and a
+  small tile cache; main never prefetches (ADR-0060).
+- **Offline styles** have no text labels (no glyphs or sprites bundled yet).
+- `MselRow.placeIds` is optional. The Facilitate state keeps `map: { mapId?, showUpcoming }`.
+- **Deferred:** task 3 (MSEL place picker, `msel_phase` places and the rule pass; `matchPlaces` is
+  written and tested), FR-8 (presentation window, exports "Locations" pages, `map.state` for
+  devices), `maps:snapshot`, the #442 update hook, free disk space in the state dialog.

@@ -11,6 +11,7 @@ import { LivePlaySection } from './LivePlaySection'
 import { PackCatalogsSection } from './PackCatalogsSection'
 import { LocalToolsSection } from './LocalToolsSection'
 import { UpdatesSection } from './UpdatesSection'
+import { MapsSection } from './MapsSection'
 import { PrivacySection } from './PrivacySection'
 import { SpeechModelsSection } from './SpeechModelsSection'
 
@@ -283,6 +284,7 @@ export default function SettingsPage() {
           <EmbeddingsSection settings={settings.data} />
           <SpeechModelsSection />
           <LivePlaySection settings={settings.data} />
+          <MapsSection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />
           <UpdatesSection />
         </>
