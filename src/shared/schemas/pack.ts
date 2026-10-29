@@ -88,12 +88,42 @@ export const SpdxExpression = z
 export const PackDomainId = z.string().regex(/^[a-z][a-z0-9_]*$/, 'Invalid domain id')
 export const PackTag = z.string().regex(/^[a-z0-9][a-z0-9-]{0,31}$/, 'Invalid tag')
 
+/** GitHub user name (credit only; nothing is fetched from GitHub). */
+export const GitHubUser = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9-]{0,38}$/, 'Invalid GitHub user')
+
 export const PackAuthor = z.object({
   name: z.string().min(1).max(200),
   url: HttpUrl.optional(),
   email: z.email().optional(),
+  github: GitHubUser.optional(),
 })
 export type PackAuthor = z.infer<typeof PackAuthor>
+
+export const CONTRIBUTOR_ROLES = [
+  'author',
+  'templates',
+  'prompts',
+  'documents',
+  'examples',
+  'translation',
+  'review',
+] as const
+export const ContributorRole = z.enum(CONTRIBUTOR_ROLES)
+export type ContributorRole = z.infer<typeof ContributorRole>
+
+/** Everyone credited for a pack besides (or including) its author (#441). */
+export const PackContributor = z.object({
+  name: z.string().min(1).max(200),
+  url: HttpUrl.optional(),
+  github: GitHubUser.optional(),
+  roles: z.array(ContributorRole).min(1).max(CONTRIBUTOR_ROLES.length),
+})
+export type PackContributor = z.infer<typeof PackContributor>
+export const MAX_CONTRIBUTORS = 50
+
+/** Ids under this prefix belong to the project; the app derives the Official label from it. */
+export const OFFICIAL_PACK_PREFIX = 'ai.actionstations.'
+export const isOfficialPackId = (id: string): boolean => id.startsWith(OFFICIAL_PACK_PREFIX)
 
 const LOOPBACK = new Set(['127.0.0.1', 'localhost', '[::1]'])
 /** Where an archive or catalog is fetched from: https, or http on loopback (local testing). */
@@ -516,6 +546,7 @@ export const PackManifestShape = z.object({
   /** Markdown, shown on the details page (rendered as text-only markdown, no raw HTML). */
   description: z.string().max(20_000).default(''),
   author: PackAuthor,
+  contributors: z.array(PackContributor).max(MAX_CONTRIBUTORS).default([]),
   /** License of the pack's own content; documents[] entries carry their own. */
   license: SpdxExpression,
   homepage: HttpUrl.optional(),
@@ -611,6 +642,19 @@ export const PackCatalogEntry = z.object({
   formatVersion: z.number().int().positive().default(PACK_FORMAT_VERSION),
   summary: z.string().min(1).max(200),
   author: PackAuthor,
+  contributors: z.array(PackContributor).max(MAX_CONTRIBUTORS).default([]),
+  /** Informational; the app derives Official/Community from the id itself. */
+  source: z.enum(['official', 'community']).optional(),
+  /** GitHub reactions and confirmed users, gathered by the maintainer at site build. */
+  endorsements: z
+    .object({
+      thumbsUp: z.number().int().min(0),
+      usedBy: z.number().int().min(0),
+      url: HttpUrl,
+      asOf: IsoDateTime,
+    })
+    .optional(),
+  review: z.object({ reviewedAt: IsoDateTime, appVersion: SemVer }).optional(),
   license: SpdxExpression,
   kinds: z
     .array(PackKind)

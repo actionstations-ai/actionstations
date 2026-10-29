@@ -6,6 +6,8 @@ import {
   PACK_LIMITS,
   PackCatalog,
   PackCatalogEntry,
+  PackContributor,
+  isOfficialPackId,
   PackFetchUrl,
   PackId,
   PackManifest,
@@ -540,5 +542,59 @@ describe('docs/packs-format.md examples', () => {
     expect(blocks('pack').some((b) => (b as { formatVersion: number }).formatVersion === 2)).toBe(
       true,
     )
+  })
+})
+
+describe('contributors and community fields (#441)', () => {
+  const dana = { name: 'Dana Reyes', github: 'dana-reyes', roles: ['review'] }
+
+  it('accepts contributors and an author GitHub user', () => {
+    const m = { ...manifest(), contributors: [dana], author: { name: 'Ann', github: 'ann1' } }
+    expect(PackManifest.safeParse(m).success).toBe(true)
+  })
+
+  it('still parses a pack.json without contributors', () => {
+    const parsed = PackManifest.parse(manifest())
+    expect(parsed.contributors).toEqual([])
+  })
+
+  it('rejects bad GitHub names, empty roles, unknown roles and non-http links', () => {
+    for (const bad of [
+      { ...dana, github: '-bad' },
+      { ...dana, github: 'a'.repeat(40) },
+      { ...dana, roles: [] },
+      { ...dana, roles: ['boss'] },
+      { ...dana, url: 'javascript:alert(1)' },
+    ]) {
+      expect(PackContributor.safeParse(bad).success).toBe(false)
+    }
+  })
+
+  it('caps contributors at 50', () => {
+    const many = Array.from({ length: 51 }, () => dana)
+    expect(PackManifest.safeParse({ ...manifest(), contributors: many }).success).toBe(false)
+  })
+
+  it('parses catalog entries with and without the community fields', () => {
+    const entry = catalog().packs[0]
+    expect(PackCatalogEntry.parse(entry).contributors).toEqual([])
+    const full = PackCatalogEntry.parse({
+      ...entry,
+      contributors: [dana],
+      source: 'community',
+      endorsements: {
+        thumbsUp: 3,
+        usedBy: 1,
+        url: 'https://github.com/actionstations-ai/packs/issues/1',
+        asOf: '2026-10-28T00:00:00Z',
+      },
+      review: { reviewedAt: '2026-10-28T00:00:00Z', appVersion: '0.9.0' },
+    })
+    expect(full.endorsements?.thumbsUp).toBe(3)
+  })
+
+  it('derives Official only from the id prefix', () => {
+    expect(isOfficialPackId('ai.actionstations.core')).toBe(true)
+    expect(isOfficialPackId('org.example.ai.actionstations.core')).toBe(false)
   })
 })

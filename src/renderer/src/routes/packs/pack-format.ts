@@ -9,6 +9,8 @@ import {
   PACK_KINDS,
   compareSemver,
   type PackCatalogEntry,
+  type PackContributor,
+  isOfficialPackId,
   type PackInstallSource,
   type PackItemSummary,
   type PackKind,
@@ -104,9 +106,14 @@ export function filterEntries(list: readonly BrowseEntry[], f: BrowseFilter): Br
     if (f.domain && !e.domains.includes(f.domain)) return false
     if (f.tag && !e.tags.includes(f.tag)) return false
     if (!q) return true
-    return [e.name, e.summary, e.id, e.author.name, ...e.tags].some((s) =>
-      s.toLowerCase().includes(q),
-    )
+    return [
+      e.name,
+      e.summary,
+      e.id,
+      e.author.name,
+      ...e.contributors.map((c) => c.name),
+      ...e.tags,
+    ].some((s) => s.toLowerCase().includes(q))
   })
 }
 
@@ -170,4 +177,28 @@ export function replacesText(
   return item.replacesPack
     ? `Replaces ${item.replacesPack.name}: ${item.id}`
     : `Replaces built-in ${kindOne}`
+}
+
+/** Official/Community is derived from the id, never from what a catalog claims (#441). */
+export function sourceLabel(id: string): 'Official' | 'Community' {
+  return isOfficialPackId(id) ? 'Official' : 'Community'
+}
+
+/** "Name" or "Name and 3 contributors" (contributors other than the author's own entry). */
+export function creditLine(authorName: string, contributors: readonly PackContributor[]): string {
+  const others = contributors.filter((c) => c.name !== authorName).length
+  if (others === 0) return authorName
+  return `${authorName} and ${others} ${others === 1 ? 'contributor' : 'contributors'}`
+}
+
+/** "Name (templates, review)" for the details list. */
+export function contributorText(c: PackContributor): string {
+  return `${c.name} (${c.roles.join(', ')})`
+}
+
+/** Text-only; counts are GitHub reactions gathered when the catalog was built, never fetched here. */
+export function endorsementText(e: NonNullable<PackCatalogEntry['endorsements']>): string {
+  const day = e.asOf.slice(0, 10)
+  const org = e.usedBy === 1 ? 'organization' : 'organizations'
+  return `${e.thumbsUp} endorsements on GitHub · used by ${e.usedBy} ${org} (as of ${day})`
 }

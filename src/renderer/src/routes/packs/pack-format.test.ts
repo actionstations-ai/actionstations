@@ -11,6 +11,9 @@ import {
   latestEntries,
   NO_FILTER,
   sourceText,
+  creditLine,
+  endorsementText,
+  sourceLabel,
 } from './pack-format'
 
 const entry = (over: Partial<PackCatalogEntry>): PackCatalogEntry => ({
@@ -20,6 +23,7 @@ const entry = (over: Partial<PackCatalogEntry>): PackCatalogEntry => ({
   formatVersion: 1,
   summary: 'A pack',
   author: { name: 'Ann' },
+  contributors: [],
   license: 'MIT',
   kinds: ['prompts'],
   domains: [],
@@ -116,5 +120,37 @@ describe('descriptionHtml', () => {
     expect(html).toContain('<h3>Highlights</h3>')
     expect(html).toContain('<h4>Fixed</h4>')
     expect(descriptionHtml('Intro\n\n## Highlights')).toContain('<h4>Highlights</h4>')
+  })
+})
+
+describe('community credit (#441)', () => {
+  it('finds a pack by a contributor name', () => {
+    const list = [
+      { entry: entry({ contributors: [{ name: 'Dana Reyes', roles: ['translation'] }] }) },
+    ] as never
+    expect(filterEntries(list, { ...NO_FILTER, query: 'reyes' })).toHaveLength(1)
+    expect(filterEntries(list, { ...NO_FILTER, query: 'nobody' })).toHaveLength(0)
+  })
+
+  it('counts contributors besides the author in the credit line', () => {
+    const c = (name: string) => ({ name, roles: ['review' as const] })
+    expect(creditLine('Ann', [])).toBe('Ann')
+    expect(creditLine('Ann', [c('Ann'), c('Bo')])).toBe('Ann and 1 contributor')
+    expect(creditLine('Ann', [c('Bo'), c('Cy')])).toBe('Ann and 2 contributors')
+  })
+
+  it('labels Official only for ids under the project prefix', () => {
+    expect(sourceLabel('ai.actionstations.core')).toBe('Official')
+    expect(sourceLabel('org.example.a')).toBe('Community')
+  })
+
+  it('words endorsements as GitHub reactions with a date', () => {
+    const text = endorsementText({
+      thumbsUp: 4,
+      usedBy: 1,
+      url: 'https://github.com/actionstations-ai/packs/issues/7',
+      asOf: '2026-10-28T00:00:00Z',
+    })
+    expect(text).toBe('4 endorsements on GitHub · used by 1 organization (as of 2026-10-28)')
   })
 })

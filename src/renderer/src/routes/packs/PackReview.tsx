@@ -12,6 +12,8 @@ import {
   KIND_LABEL,
   actionLabel,
   archiveShaText,
+  contributorText,
+  sourceLabel,
   formatBytes,
   itemsByKind,
   replacesText,
@@ -36,6 +38,14 @@ function Facts({ r }: { r: PackReview }) {
         {r.author.name}
         {r.author.url && <span className="mono pack-facts__sub">{r.author.url}</span>}
       </dd>
+      <dt>Source</dt>
+      <dd>{sourceLabel(r.id)}</dd>
+      {r.contributors.length > 0 && (
+        <>
+          <dt>Contributors</dt>
+          <dd>{r.contributors.map(contributorText).join('; ')}</dd>
+        </>
+      )}
       {r.homepage && (
         <>
           <dt>Homepage</dt>

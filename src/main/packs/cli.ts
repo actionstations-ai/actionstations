@@ -99,6 +99,7 @@ export function catalogEntry(
     formatVersion: m.formatVersion,
     summary: m.summary,
     author: m.author,
+    contributors: m.contributors,
     license: m.license,
     kinds: PACK_KINDS.filter((k) => m.contents[k].length > 0),
     domains: m.domains,
