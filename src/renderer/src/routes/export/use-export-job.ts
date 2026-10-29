@@ -2,7 +2,7 @@
 // coming back shows the running export (progress, Cancel) or the one that finished meanwhile,
 // and the Export button stays disabled while one runs, so no second export starts.
 import { useCallback } from 'react'
-import type { ExportTarget } from '@shared/ipc'
+import type { ExportOptions, ExportTarget } from '@shared/ipc'
 import type { JobDoneEvent } from '@shared/schemas/job'
 import { call } from '../../lib/api'
 import { latestJob, trackJob, useJobsStore } from '../../state/jobs'
@@ -23,15 +23,26 @@ export function useExportJob(
   const job = useJob(jobId, onDone)
   const running = job?.status === 'queued' || job?.status === 'running'
   const run = useCallback(
-    async (outDir: string, targets: ExportTarget[], surveyIds?: string[]) => {
+    async (
+      outDir: string,
+      targets: ExportTarget[],
+      options: ExportOptions = {},
+      surveyIds?: string[],
+    ) => {
       const { jobId: id } = await call('export:run', {
         projectPath,
         scenarioId,
         outDir,
         targets,
+        options,
         ...(surveyIds?.length ? { surveyIds } : {}),
       })
-      trackJob(id, { kind: 'export', projectPath, scenarioId, payload: { outDir, targets } })
+      trackJob(id, {
+        kind: 'export',
+        projectPath,
+        scenarioId,
+        payload: { outDir, targets, options },
+      })
       return id
     },
     [projectPath, scenarioId],

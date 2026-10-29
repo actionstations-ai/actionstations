@@ -25,9 +25,8 @@ describe('completeness report (#420)', () => {
     expect(report.detailsMissing).toEqual([])
     expect(doc(report, 'explan').ready).toBe(true)
     expect(doc(report, 'sitman').ready).toBe(true)
-    expect(doc(report, 'handbook_hseep').missing).toEqual([
-      'Exercise Evaluation Guides not prepared yet',
-    ])
+    expect(doc(report, 'handbook_hseep').ready).toBe(true)
+    expect(doc(report, 'eeg').missing).toEqual(['Exercise Evaluation Guides not prepared yet'])
   })
 
   it('flags modules without discussion questions', () => {

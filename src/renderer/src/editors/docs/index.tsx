@@ -5,6 +5,7 @@ import { Button } from '../../components/ui'
 import { MarkdownDocEditor } from './MarkdownDocEditor'
 import { DOC_LABELS, DOC_ORDER } from './owners'
 export { PendingSavesNote } from './PendingSavesNote'
+import { ConductDetailsEditor } from './structured/ConductDetailsEditor'
 import { EvaluationEditor } from './structured/EvaluationEditor'
 import { HotwashEditor } from './structured/HotwashEditor'
 import { ObjectivesRolesEditor } from './structured/ObjectivesRolesEditor'
@@ -12,6 +13,7 @@ import { OverviewEditor } from './structured/OverviewEditor'
 import type { PartEditorProps } from './structured/PartFrame'
 import { RubricEditor } from './structured/RubricEditor'
 import { SimcellEditor } from './structured/SimcellEditor'
+import { SitManEditor } from './structured/SitManEditor'
 import './docs.css'
 
 export type TabProps = PartEditorProps
@@ -27,6 +29,16 @@ export function ObjectivesTab(props: TabProps) {
     <div className="stack stack--loose">
       <ObjectivesRolesEditor {...props} />
       <SimcellEditor {...props} />
+    </div>
+  )
+}
+
+/** HSEEP exercise details and SitMan modules (#420). */
+export function ExerciseTab(props: TabProps) {
+  return (
+    <div className="stack stack--loose">
+      <ConductDetailsEditor {...props} />
+      <SitManEditor {...props} />
     </div>
   )
 }

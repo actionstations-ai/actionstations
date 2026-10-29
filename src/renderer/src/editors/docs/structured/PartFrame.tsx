@@ -13,24 +13,53 @@ export interface PartEditorProps {
   onJob?: ((jobId: string) => void) | undefined
 }
 
-/** Heading, save state, save + regenerate actions and the conflict banner for one part. */
-export function PartFrame(
+type Editor = Pick<
+  ReturnType<typeof useScenarioPart>,
+  'dirty' | 'status' | 'error' | 'retry' | 'save'
+>
+
+/** "Regenerate" for a part a generation stage writes. */
+function PartRegenerate(
   props: {
-    title: string
     part: StructuredPart
-    /** Lower-case noun for the regenerate button and dialog. */
     noun: string
     hasContent: boolean
-    editor: Pick<
-      ReturnType<typeof useScenarioPart>,
-      'dirty' | 'status' | 'error' | 'retry' | 'save'
-    >
-    hint?: ReactNode
-    children: ReactNode
+    editor: Editor
   } & PartEditorProps,
 ) {
   const stage = PART_STAGE[props.part]
   const edited = useEditedSince(props.projectPath, props.scenario, stage)
+  const e = props.editor
+  return (
+    <RegenerateButton
+      projectPath={props.projectPath}
+      scenarioId={props.scenario.id}
+      stage={stage}
+      label={props.noun}
+      hasContent={props.hasContent}
+      edited={edited || e.dirty}
+      snapshot={() => e.save('Before regenerating', true)}
+      onJob={props.onJob}
+    />
+  )
+}
+
+/**
+ * Heading, save state, save + regenerate actions and the conflict banner for one part. Parts
+ * no stage writes (exercise details) pass no `part` and get no Regenerate button.
+ */
+export function PartFrame(
+  props: {
+    title: string
+    part?: StructuredPart
+    /** Lower-case noun for the regenerate button and dialog. */
+    noun: string
+    hasContent: boolean
+    editor: Editor
+    hint?: ReactNode
+    children: ReactNode
+  } & PartEditorProps,
+) {
   const e = props.editor
   return (
     <section className="part" aria-label={props.title}>
@@ -46,16 +75,17 @@ export function PartFrame(
       {props.hint && <p className="muted part__hint">{props.hint}</p>}
       <SaveProblem status={e.status} error={e.error} onRetry={() => void e.retry()} />
       {props.children}
-      <RegenerateButton
-        projectPath={props.projectPath}
-        scenarioId={props.scenario.id}
-        stage={stage}
-        label={props.noun}
-        hasContent={props.hasContent}
-        edited={edited || e.dirty}
-        snapshot={() => e.save('Before regenerating', true)}
-        onJob={props.onJob}
-      />
+      {props.part && (
+        <PartRegenerate
+          part={props.part}
+          noun={props.noun}
+          hasContent={props.hasContent}
+          editor={e}
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          onJob={props.onJob}
+        />
+      )}
     </section>
   )
 }

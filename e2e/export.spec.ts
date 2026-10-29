@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import ExcelJS from 'exceljs'
 import JSZip from 'jszip'
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { invoker, launch } from './helpers'
@@ -82,7 +83,15 @@ async function seedFixtureProject(invoke: ReturnType<typeof invoker>) {
     title: 'Flight to Nowhere',
   })
   const fixture = JSON.parse(readFileSync('tests/fixtures/scenarios/scenario-3.json', 'utf8'))
-  const scenario = { ...fixture, id: created.id, projectId: project.id, documents: {} }
+  const scenario = {
+    ...fixture,
+    id: created.id,
+    projectId: project.id,
+    documents: {},
+    // Exercise details and SitMan modules for the HSEEP set (#420).
+    conduct: JSON.parse(readFileSync('tests/fixtures/export/scenario-3.conduct.json', 'utf8')),
+    sitman: JSON.parse(readFileSync('tests/fixtures/export/scenario-3.sitman.json', 'utf8')),
+  }
   await invoke('scenarios:save', { projectPath, scenario })
   for (const [kind, file] of [
     ['handbook', 'controller-handbook.md'],
@@ -148,6 +157,7 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       scenarioId,
       outDir,
       targets: ['zip', 'docx'],
+      options: { sitmanPlayerEdition: true },
     })
     const job = await waitJob(invoke, jobId, 8 * 60_000)
     const folder = job.result!.folder
@@ -162,6 +172,15 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       '-Controller-Evaluator-Handbook.docx',
       '-Player-Briefing-Packet.docx',
       '-EEGs.docx',
+      // The HSEEP set (#420).
+      '-ExPlan.pdf',
+      '-SitMan.pdf',
+      '-SitMan-Player-Edition.pdf',
+      '-CE-Handbook-HSEEP.pdf',
+      '-MSEL.xlsx',
+      '-ExPlan.docx',
+      '-SitMan.docx',
+      '-CE-Handbook-HSEEP.docx',
     ]) {
       expect(
         files.some((f) => f === `Flight-to-Nowhere${suffix}`),
@@ -169,8 +188,36 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
       ).toBe(true)
     }
     expect(files).toEqual(
-      expect.arrayContaining(['scenario.json', 'scenario.md', 'media', 'forms']),
+      expect.arrayContaining([
+        'scenario.json',
+        'scenario.md',
+        'media',
+        'forms',
+        'export-report.md',
+      ]),
     )
+
+    // HSEEP set (#420): the ExPlan is a tagged PDF with the exercise details; the MSEL workbook
+    // opens with one row per MSEL row in the HSEEP columns.
+    const explan = await pdfInfo(join(folder, 'Flight-to-Nowhere-ExPlan.pdf'))
+    expect(explan.tagged).toBe(true)
+    expect(explan.outline).toBeGreaterThan(0)
+    expect(await explan.text(1)).toContain('NCIA 2027 Data Integrity Tabletop Exercise')
+    const sitman = await pdfInfo(join(folder, 'Flight-to-Nowhere-SitMan.pdf'))
+    expect(sitman.pages).toBeGreaterThan(3)
+    const wb = new ExcelJS.Workbook()
+    await wb.xlsx.readFile(join(folder, 'Flight-to-Nowhere-MSEL.xlsx'))
+    const sheet = wb.getWorksheet('MSEL')!
+    expect(sheet.getRow(1).getCell(1).value).toBe('Inject #')
+    expect(sheet.getRow(1).getCell(9).value).toBe('Inject Description')
+    expect(sheet.actualRowCount - 1).toBe(rows)
+    expect(wb.worksheets.map((w) => w.name)).toEqual([
+      'MSEL',
+      'Overview',
+      'Objectives',
+      'Roles',
+      'Legend',
+    ])
 
     // Media: S3-<row>-<type>.<ext>, one rendered picture per inject at least.
     const media = readdirSync(join(folder, 'media'))
@@ -208,17 +255,22 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
     expect(eegText).toContain('Cybersecurity')
     expect(eegText).toContain('TIRP 13.7')
 
-    // ZIP tree: facilitator/ has everything, players/ only the packet and blank forms.
+    // ZIP tree: facilitator/ has everything; players/ the packet, blank forms, the ExPlan and
+    // (asked for here) the SitMan player edition.
     const zip = await JSZip.loadAsync(readFileSync(job.result!.zipPath!))
     const names = Object.keys(zip.files).filter((n) => !zip.files[n]!.dir)
     const players = names.filter((n) => n.startsWith('players/')).sort()
     expect(players).toEqual([
+      'players/Flight-to-Nowhere-ExPlan.pdf',
       'players/Flight-to-Nowhere-Player-Briefing-Packet.pdf',
+      'players/Flight-to-Nowhere-SitMan-Player-Edition.pdf',
       'players/ICS-201-Incident-Briefing-blank.pdf',
       'players/ICS-203-Organization-Assignment-List-blank.pdf',
     ])
     expect(names).toEqual(
       expect.arrayContaining([
+        'facilitator/Flight-to-Nowhere-SitMan.pdf',
+        'facilitator/Flight-to-Nowhere-MSEL.xlsx',
         'facilitator/Flight-to-Nowhere-MSEL.pdf',
         'facilitator/Flight-to-Nowhere-Master-Inject-Deck.pdf',
         'facilitator/Flight-to-Nowhere-EEGs.pdf',
@@ -264,7 +316,8 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
 
     // Export from the screen (keyboard): progress, then the result with "Show in Finder".
     await page.getByRole('checkbox', { name: /Distribution ZIP/ }).uncheck()
-    await page.getByRole('checkbox', { name: /Exercise Plan/ }).uncheck()
+    await page.getByRole('checkbox', { name: /Exercise Plan bundle/ }).uncheck()
+    await expect(page.getByRole('region', { name: 'HSEEP documents' })).toBeVisible()
     await page.getByRole('button', { name: 'Export', exact: true }).focus()
     await page.keyboard.press('Enter')
     await expect(page.getByRole('button', { name: /Show in Finder/ })).toBeVisible({
@@ -273,7 +326,9 @@ test('exports Scenario 3 (mock media) to PDFs, media, manifest, DOCX and ZIP', a
     await expect(page.getByText(/Wrote \d+ files to/)).toBeVisible()
     // One folder per scenario: <Title>-S<n>-<id tag> (#213).
     const [uiFolder] = readdirSync(uiOut).filter((f) => f.startsWith('Flight-to-Nowhere-S'))
-    expect(readdirSync(join(uiOut, uiFolder!))).toContain('Flight-to-Nowhere-MSEL.pdf')
+    expect(readdirSync(join(uiOut, uiFolder!))).toEqual(
+      expect.arrayContaining(['Flight-to-Nowhere-MSEL.pdf', 'Flight-to-Nowhere-MSEL.xlsx']),
+    )
     await screenshotBothThemes(page, 'export-done')
     rmSync(outDir, { recursive: true, force: true })
     rmSync(uiOut, { recursive: true, force: true })

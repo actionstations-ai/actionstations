@@ -15,8 +15,13 @@ export function TextField(props: {
   multiline?: boolean
   rows?: number
   hideLabel?: boolean
+  /** Input type for single-line fields (email, tel, date, time). */
+  type?: 'text' | 'email' | 'tel' | 'date' | 'time'
+  /** Help text under the field, linked with aria-describedby. */
+  hint?: string
 }) {
   const id = useId()
+  const hintId = props.hint ? `${id}-hint` : undefined
   return (
     <div className="field">
       <label className={clsx('field__label', props.hideLabel && 'sr-only')} htmlFor={id}>
@@ -28,15 +33,23 @@ export function TextField(props: {
           className="textarea"
           rows={props.rows ?? 2}
           value={props.value}
+          aria-describedby={hintId}
           onChange={(e) => props.onChange(e.target.value)}
         />
       ) : (
         <input
           id={id}
           className="input"
+          type={props.type ?? 'text'}
           value={props.value}
+          aria-describedby={hintId}
           onChange={(e) => props.onChange(e.target.value)}
         />
+      )}
+      {props.hint && (
+        <span id={hintId} className="field__hint">
+          {props.hint}
+        </span>
       )}
     </div>
   )

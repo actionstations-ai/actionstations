@@ -3,11 +3,12 @@
 // and acronyms, and HSEEP's standard assumptions and artificialities. Exercise details come only
 // from scenario.conduct; a blank detail is '' here and prints as a fill-in line.
 import { threatFamily } from '@shared/domains/threats'
+import { seededAcronyms, sortedAcronyms } from '@shared/hseep'
 import type { Phase, Scenario } from '@shared/schemas'
 import { goalSummary, wallClockAt, DEFAULT_START_WALL_CLOCK } from '../../generate/mappers'
 import { capabilitiesFor } from '../evaluation'
 import type { ExportModel } from '../model'
-import { durationText, groupRows, locationText } from '../views'
+import { groupRows, locationText } from '../views'
 import { h3, h4, list, para, type Block, type Fact } from './blocks'
 
 export const EXERCISE_TYPE_LABEL = 'Tabletop Exercise (TTX)'
@@ -85,7 +86,7 @@ function scope(model: ExportModel): string {
   const n = s.phases.length
   const where = siteText(model) || locationText(s)
   const modules = n ? ` in ${n} ${n === 1 ? 'module' : 'modules'}` : ''
-  return `A ${durationText(s).toLowerCase()} discussion-based tabletop exercise${modules}${where ? ` at ${where}` : ''}.`
+  return `A ${s.brief.durationHours}-hour discussion-based tabletop exercise${modules}${where ? ` at ${where}` : ''}.`
 }
 
 /** The Exercise Overview facts every HSEEP document opens with (and the AAR, #419). */
@@ -294,39 +295,14 @@ export function communicationsTable(model: ExportModel, caption = 'Communication
   }
 }
 
-/** Acronyms every HSEEP document set uses; seeds the list when the designer has none. */
-export const STANDARD_ACRONYMS: [string, string][] = [
-  ['AAR/IP', 'After-Action Report / Improvement Plan'],
-  ['C/E', 'Controller / Evaluator'],
-  ['EEG', 'Exercise Evaluation Guide'],
-  ['ENDEX', 'End of Exercise'],
-  ['ExPlan', 'Exercise Plan'],
-  ['HSEEP', 'Homeland Security Exercise and Evaluation Program'],
-  ['ICS', 'Incident Command System'],
-  ['MSEL', 'Master Scenario Events List'],
-  ['POC', 'Point of Contact'],
-  ['SimCell', 'Simulation Cell'],
-  ['SitMan', 'Situation Manual'],
-  ['STARTEX', 'Start of Exercise'],
-  ['TTX', 'Tabletop Exercise'],
-]
-
 /** The designer's acronyms, else the standard ones plus the role abbreviations; sorted. */
 export function acronymRows(model: ExportModel): string[][] {
-  const own = model.conduct.acronyms.filter((a) => a.term.trim())
-  const pairs: [string, string][] = own.length
-    ? own.map((a) => [a.term.trim(), a.meaning.trim()])
-    : [
-        ...STANDARD_ACRONYMS,
-        ...model.scenario.roles
-          .filter((r) => r.abbreviation && r.abbreviation !== r.name)
-          .map((r): [string, string] => [r.abbreviation, r.name]),
-      ]
-  const seen = new Set<string>()
-  return pairs
-    .filter(([t]) => !seen.has(t.toLowerCase()) && seen.add(t.toLowerCase()))
-    .sort(([a], [b]) => a.localeCompare(b, 'en', { sensitivity: 'base' }))
-    .map(([t, m]) => [t, m])
+  const own = model.conduct.acronyms.map((a): [string, string] => [a.term, a.meaning])
+  const roles = model.scenario.roles
+    .filter((r) => r.abbreviation && r.abbreviation !== r.name)
+    .map((r): [string, string] => [r.abbreviation, r.name])
+  const list = sortedAcronyms(own)
+  return (list.length ? list : seededAcronyms(roles)).map((a) => [a.term, a.meaning])
 }
 
 export function acronymsTable(model: ExportModel): Block {

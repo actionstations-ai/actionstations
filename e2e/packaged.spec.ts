@@ -389,6 +389,22 @@ test.describe('packaged app', () => {
         projectPath,
         scenario: { ...fixture, id: empty.id, projectId: empty.projectId },
       })
+      // exceljs ships in app.asar: the MSEL workbook export works packaged (#420).
+      const xlsxOut = mkdtempSync(join(tmpdir(), 'ttx-packaged-xlsx-'))
+      const xlsxJob = await invoke<{ jobId: string }>('export:run', {
+        projectPath,
+        scenarioId: empty.id,
+        outDir: xlsxOut,
+        targets: ['msel_xlsx'],
+      })
+      await expect
+        .poll(async () => (await invoke<{ status: string }>('jobs:get', xlsxJob)).status, {
+          timeout: 60_000,
+        })
+        .toBe('done')
+      const exported = await invoke<{ result: { files: string[] } }>('jobs:get', xlsxJob)
+      const xlsx = exported.result.files.find((f) => f.endsWith('-MSEL.xlsx'))
+      expect(xlsx && readFileSync(xlsx).subarray(0, 2).toString()).toBe('PK')
       const fids = await invoke<{ id: string }>('injects:create', {
         projectPath,
         scenarioId: empty.id,

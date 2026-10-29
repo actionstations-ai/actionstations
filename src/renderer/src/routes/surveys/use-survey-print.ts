@@ -15,7 +15,7 @@ export function useSurveyPrint(projectPath: string, scenarioId: string) {
     setResult(null)
     setError('')
     try {
-      await job.run(rememberedOutDir(projectPath), targets, surveyIds)
+      await job.run(rememberedOutDir(projectPath), targets, {}, surveyIds)
     } catch (err) {
       setError(errorText(err))
     }

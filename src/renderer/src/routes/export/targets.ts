@@ -1,4 +1,4 @@
-import type { ExportTarget } from '@shared/ipc'
+import type { ExportTarget, PREVIEW_DOC_IDS } from '@shared/ipc'
 
 export interface TargetOption {
   id: ExportTarget
@@ -6,6 +6,27 @@ export interface TargetOption {
   hint: string
 }
 
+/** The HSEEP document set (#420): what an accreditation or grant package expects. */
+export const HSEEP_TARGETS: TargetOption[] = [
+  {
+    id: 'explan_pdf',
+    label: 'Exercise Plan (ExPlan)',
+    hint: 'Objectives, roles, logistics and rules; safe to give players',
+  },
+  {
+    id: 'sitman_pdf',
+    label: 'Situation Manual (SitMan)',
+    hint: 'One module per phase with discussion questions',
+  },
+  {
+    id: 'handbook_hseep_pdf',
+    label: 'C/E Handbook (HSEEP layout)',
+    hint: 'Controller and evaluator instructions in HSEEP order',
+  },
+  { id: 'msel_xlsx', label: 'MSEL workbook (Excel)', hint: 'Sortable MSEL in HSEEP columns' },
+]
+
+/** The classroom set: the five documents the exercise has always exported. */
 export const DOCUMENT_TARGETS: TargetOption[] = [
   { id: 'msel_pdf', label: 'MSEL', hint: 'Landscape events table, grouped by phase' },
   { id: 'deck_pdf', label: 'Master Inject Deck', hint: 'One inject per page with its media' },
@@ -19,7 +40,11 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
     label: 'Player Briefing Packet',
     hint: 'With blank ICS 201 and ICS 203 forms',
   },
-  { id: 'exercise_plan_pdf', label: 'Exercise Plan', hint: 'Cover page plus all four documents' },
+  {
+    id: 'exercise_plan_pdf',
+    label: 'Exercise Plan bundle',
+    hint: 'Cover page, ExPlan, SitMan, handbook, MSEL, deck and briefing in one PDF',
+  },
   {
     id: 'surveys_pdf',
     label: 'Survey forms',
@@ -41,28 +66,40 @@ export const FILE_TARGETS: TargetOption[] = [
   { id: 'media', label: 'Media files', hint: 'PNG, PDF, WAV + MP3, MP4 named S<n>-I<id>-<type>' },
   { id: 'json', label: 'scenario.json', hint: 'Full scenario with injects inlined' },
   { id: 'markdown', label: 'scenario.md', hint: 'Readable copy with media checksums' },
-  { id: 'docx', label: 'Word documents', hint: 'Handbook, Player Briefing and EEGs as .docx' },
+  {
+    id: 'docx',
+    label: 'Word documents',
+    hint: 'Handbooks, Player Briefing, ExPlan, SitMan and EEGs as .docx',
+  },
   {
     id: 'zip',
     label: 'Distribution ZIP',
-    hint: 'facilitator/ (everything) and players/ (briefing, forms, participant surveys)',
+    hint: 'facilitator/ (everything) and players/ (briefing, forms, ExPlan, participant surveys)',
   },
 ]
 
-export const ALL_TARGETS: ExportTarget[] = [...DOCUMENT_TARGETS, ...FILE_TARGETS].map((t) => t.id)
+export const ALL_TARGETS: ExportTarget[] = [
+  ...HSEEP_TARGETS,
+  ...DOCUMENT_TARGETS,
+  ...FILE_TARGETS,
+].map((t) => t.id)
 
 /** Everything except the optional Word files. */
 export const DEFAULT_TARGETS: ExportTarget[] = ALL_TARGETS.filter((t) => t !== 'docx')
 
-export type PreviewDoc = 'msel' | 'deck' | 'handbook' | 'briefing' | 'exercise_plan' | 'eeg'
+export type PreviewDoc = (typeof PREVIEW_DOC_IDS)[number]
 
 export const PREVIEW_DOCS: { id: PreviewDoc; label: string }[] = [
   { id: 'msel', label: 'MSEL' },
   { id: 'deck', label: 'Inject Deck' },
   { id: 'handbook', label: 'Handbook' },
   { id: 'briefing', label: 'Briefing' },
-  { id: 'exercise_plan', label: 'Exercise Plan' },
+  { id: 'explan', label: 'ExPlan' },
+  { id: 'sitman', label: 'SitMan' },
+  { id: 'sitman_player', label: 'SitMan (players)' },
+  { id: 'handbook_hseep', label: 'C/E Handbook (HSEEP)' },
   { id: 'eeg', label: 'EEGs' },
+  { id: 'exercise_plan', label: 'Bundle' },
 ]
 
 /** Toggle one target, keeping the canonical order. */

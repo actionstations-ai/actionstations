@@ -26,7 +26,13 @@ export const DOC_STAGE: Partial<Record<ScenarioDocKind, Stage>> = {
 }
 
 export type StructuredPart =
-  'overview' | 'objectivesRoles' | 'rubric' | 'evaluation' | 'hotwash' | 'simcell'
+  | 'overview'
+  | 'objectivesRoles'
+  | 'rubric'
+  | 'evaluation'
+  | 'hotwash'
+  | 'simcell'
+  | 'sitman'
 
 /** The generation stage that writes each structured part of scenario.json. */
 export const PART_STAGE: Record<StructuredPart, Stage> = {
@@ -36,6 +42,7 @@ export const PART_STAGE: Record<StructuredPart, Stage> = {
   evaluation: 'eeg',
   hotwash: 'hotwash',
   simcell: 'controller_handbook',
+  sitman: 'sitman',
 }
 
 /** When the stage last finished successfully (ISO), or undefined. */

@@ -214,7 +214,7 @@ describe('document HTML', () => {
 
   it('blank exercise details print fill-in lines, never invented values (#420)', () => {
     const html = buildDocumentHtml(fixtureModel(), 'explan', 'pdf')
-    expect(html).toMatch(/<th scope="row">Sponsor<\/th>\s*<td><span class="fill-in">/)
+    expect(html).toMatch(/<th scope="row">Sponsor<\/th>\s*<td>\s*<span class="fill-in">/)
     expect(html).toContain('To be completed')
   })
 })

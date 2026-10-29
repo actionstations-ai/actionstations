@@ -49,10 +49,7 @@ export function completenessReport(model: ExportModel): CompletenessReport {
     {
       doc: 'handbook_hseep',
       label: 'Controller and Evaluator Handbook',
-      missing: [
-        ...(model.docs.handbook.trim() ? [] : ['Controller handbook not generated yet']),
-        ...(model.evaluation?.eegs.length ? [] : [NO_EEGS]),
-      ],
+      missing: [...(model.docs.handbook.trim() ? [] : ['Controller handbook not generated yet'])],
     },
     {
       doc: 'msel_xlsx',
