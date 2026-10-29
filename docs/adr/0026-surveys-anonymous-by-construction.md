@@ -1,4 +1,4 @@
-# ADR-0028: Surveys are anonymous by construction
+# ADR-0026: Surveys are anonymous by construction
 
 Date: 2026-10-28 · Status: Accepted · Issue: #422 · Spec: [0422](../specs/0422-surveys.md) · Related: [spec 0406](../specs/0406-live-protocol.md), [spec 0419](../specs/0419-aar-ip-draft.md)
 
