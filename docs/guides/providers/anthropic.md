@@ -1,6 +1,6 @@
 # Anthropic (Claude)
 
-The Anthropic provider sends generation requests to Claude models through the Anthropic Messages API. It is the only provider in this list that leaves your computer: **prompts, retrieved excerpts of your documents and the scenario so far are sent to Anthropic** for every stage routed to it. Use project routing to keep sensitive projects on local models.
+The Anthropic provider sends generation requests to Claude models through the Anthropic Messages API. It is the only provider in this list that leaves your computer: **prompts, retrieved excerpts of your documents and the scenario so far are sent to Anthropic** for every stage routed to it. Use project routing to keep sensitive projects on local models. Before anything is sent, the app shows the request and asks for your approval, and it replaces names, phone numbers, emails and addresses with placeholders by default: see [What goes to cloud models](../privacy.md).
 
 ## 1. Get an API key
 

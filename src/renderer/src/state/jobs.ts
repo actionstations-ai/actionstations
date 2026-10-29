@@ -3,7 +3,14 @@
 // any screen can reattach to its job after navigation: no screen keeps job ids of its own.
 // Pure reducers below; the connection (subscriptions, list, lookups) follows them.
 import { create } from 'zustand'
-import type { Job, JobDoneEvent, JobKind, JobProgressEvent, JobStatus } from '@shared/schemas/job'
+import type {
+  Job,
+  JobAwaiting,
+  JobDoneEvent,
+  JobKind,
+  JobProgressEvent,
+  JobStatus,
+} from '@shared/schemas/job'
 import { call, subscribe } from '../lib/api'
 
 export interface ItemProgress {
@@ -32,6 +39,8 @@ export interface TrackedJob {
   itemProgress: Record<string, ItemProgress>
   /** Insertion order: higher is newer. */
   seq: number
+  /** The job waits for the user to approve a cloud request (#433). */
+  awaiting?: JobAwaiting
 }
 
 export type JobMap = Record<string, TrackedJob>
@@ -103,6 +112,7 @@ export function withJob(prev: TrackedJob | undefined, job: Job): TrackedJob {
           progress: job.progress,
           message: job.message,
           resumable: job.resumable,
+          awaiting: job.awaiting,
         }),
     ...(job.projectPath ? { projectPath: job.projectPath } : {}),
     ...(job.scenarioId ? { scenarioId: job.scenarioId } : {}),
@@ -134,6 +144,7 @@ export function withProgress(prev: TrackedJob | undefined, e: JobProgressEvent):
     status: e.status,
     progress: e.progress,
     message: e.message,
+    awaiting: e.awaiting,
     items: withItem(base.items, e.itemId),
     itemProgress: e.itemId ? { ...base.itemProgress, [e.itemId]: item } : base.itemProgress,
   }
@@ -149,6 +160,7 @@ export function withDone(prev: TrackedJob | undefined, e: JobDoneEvent): Tracked
     progress: e.status === 'done' ? 1 : base.progress,
     message: e.error ?? message,
     resumable: false,
+    awaiting: undefined,
     ...(e.error ? { error: e.error } : {}),
     ...(e.result !== undefined ? { result: e.result } : {}),
   }

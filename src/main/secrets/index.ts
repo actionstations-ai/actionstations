@@ -1,6 +1,7 @@
 // Secret storage (#21): API keys encrypted with Electron safeStorage in userData/secrets.json.
 // The file holds only ciphertext: { [providerId]: base64(encryptString(key)) }.
 // Keys never go to project folders, settings.json, logs, or the renderer.
+import { randomBytes } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { safeStorage } from 'electron'
 import { SafeId } from '@shared/schemas/common'
@@ -133,7 +134,41 @@ export async function setAsideUndecryptableSecrets(): Promise<string[]> {
     await fs.chmod(aside, 0o600).catch(() => undefined)
     for (const id of failed) delete map[id]
     await writeMap(map)
-    return failed
+    // Redaction keys are replaced on next use; only provider keys need re-entering.
+    return failed.filter((id) => !id.startsWith(REDACTION_PREFIX))
+  })
+}
+
+// ---- project redaction keys (#433) ------------------------------------------------------
+
+/** Map entries for redaction keys; ':' never appears in a provider id, so they cannot clash. */
+const REDACTION_PREFIX = 'redaction:'
+
+/**
+ * The project's redaction key: 32 random bytes, created on first use and kept with the API
+ * keys (encrypted with safeStorage), never in the project folder. Returns undefined when the
+ * OS cannot encrypt: the caller then uses a key that lasts for this app session only.
+ */
+export async function projectRedactionKey(projectId: string): Promise<Buffer | undefined> {
+  if (!SafeId.safeParse(projectId).success)
+    throw new AppError('VALIDATION', 'Invalid project id for the redaction key')
+  if (!encryptionAvailable()) return undefined
+  const entry = REDACTION_PREFIX + projectId
+  return serialized(async () => {
+    const map = await readMap()
+    const cipher = map[entry]
+    if (cipher !== undefined) {
+      try {
+        const key = Buffer.from(safeStorage.decryptString(Buffer.from(cipher, 'base64')), 'base64')
+        if (key.length === 32) return key
+      } catch {
+        // Written under another keychain entry: replace it (only placeholder spellings change).
+      }
+    }
+    const key = randomBytes(32)
+    map[entry] = safeStorage.encryptString(key.toString('base64')).toString('base64')
+    await writeMap(map)
+    return key
   })
 }
 

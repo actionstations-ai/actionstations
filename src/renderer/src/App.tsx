@@ -17,6 +17,7 @@ import { OpenRequests } from './routes/projects/OpenRequests'
 import { PackOpenRequests } from './routes/packs/PackOpenRequests'
 import { DomainsGate, DomainsSync } from './state/domains'
 import { InjectTypesSync } from './state/inject-types'
+import { ApprovalHost } from './components/privacy/ApprovalHost'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -112,6 +113,7 @@ export function App() {
               <SkipLink />
               <OpenRequests />
               <PackOpenRequests />
+              <ApprovalHost />
               <div className="shell">
                 <Sidebar />
                 <main className="main" id="main">

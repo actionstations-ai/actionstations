@@ -91,6 +91,7 @@ describe('createQuitGuard', () => {
         if (answer instanceof Error) throw answer
         return answer
       }),
+      flush: vi.fn(async () => undefined),
       quit: vi.fn(),
     }
     return { deps, q: guard.createQuitGuard(() => undefined, deps) }
@@ -140,5 +141,37 @@ describe('createQuitGuard', () => {
     q.intercept(event())
     await flush()
     expect(deps.ask).toHaveBeenCalledTimes(1)
+  })
+
+  it('finishes pending writes before quitting (#433)', async () => {
+    const order: string[] = []
+    const { deps, q } = setup([])
+    deps.flush.mockImplementation(async () => {
+      await new Promise((r) => setTimeout(r, 5))
+      order.push('flushed')
+    })
+    deps.quit.mockImplementation(() => order.push('quit'))
+    q.intercept(event())
+    await new Promise((r) => setTimeout(r, 20))
+    expect(order).toEqual(['flushed', 'quit'])
+  })
+})
+
+describe('runQuitFlushes', () => {
+  it('waits for registered flushes, and gives up after the timeout', async () => {
+    const { registerQuitFlush, runQuitFlushes } = await import('./quit-flush')
+    let done = false
+    const off = registerQuitFlush(async () => {
+      await new Promise((r) => setTimeout(r, 5))
+      done = true
+    })
+    await runQuitFlushes()
+    expect(done).toBe(true)
+    off()
+    const stuck = registerQuitFlush(() => new Promise<void>(() => undefined))
+    const started = Date.now()
+    await runQuitFlushes(30)
+    expect(Date.now() - started).toBeLessThan(1000)
+    stuck()
   })
 })

@@ -20,7 +20,8 @@ vi.mock('electron', () => ({
   },
 }))
 
-const { getSecret, hasSecret, setSecret, resetSecretsQueue } = await import('./index')
+const { getSecret, hasSecret, projectRedactionKey, setSecret, resetSecretsQueue } =
+  await import('./index')
 
 const KEY = 'sk-ant-test-0123456789abcdef'
 const secretsFile = () => join(process.env.TTX_USER_DATA!, 'secrets.json')
@@ -84,5 +85,32 @@ describe('secrets', () => {
       code: 'PROVIDER',
       message: expect.stringMatching(/could not be decrypted/),
     })
+  })
+})
+
+describe('project redaction keys (#433)', () => {
+  beforeEach(() => {
+    process.env.TTX_USER_DATA = mkdtempSync(join(tmpdir(), 'ttx-secrets-'))
+    storage.available = true
+    resetSecretsQueue()
+  })
+
+  it('creates 32 random bytes once per project and stores only ciphertext', async () => {
+    const a = await projectRedactionKey('proj-a')
+    expect(a).toHaveLength(32)
+    expect(await projectRedactionKey('proj-a')).toEqual(a)
+    expect(await projectRedactionKey('proj-b')).not.toEqual(a)
+    expect(readFileSync(secretsFile(), 'utf8')).not.toContain(a!.toString('base64'))
+  })
+
+  it('returns nothing when the OS cannot encrypt (a session-only key is used instead)', async () => {
+    storage.available = false
+    expect(await projectRedactionKey('proj-a')).toBeUndefined()
+  })
+
+  it('never collides with a provider key of the same id', async () => {
+    await setSecret('proj-a', KEY)
+    await projectRedactionKey('proj-a')
+    expect(await getSecret('proj-a')).toBe(KEY)
   })
 })

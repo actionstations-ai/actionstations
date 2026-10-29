@@ -6,6 +6,7 @@
 // loading) cannot block quitting: the question times out and quitting goes ahead.
 import { randomUUID } from 'node:crypto'
 import { app, dialog, type BrowserWindow } from 'electron'
+import { runQuitFlushes } from './quit-flush'
 
 /** How long main waits for the renderer's answer (it saves pending edits first). */
 export const REPLY_TIMEOUT_MS = 3000
@@ -86,12 +87,15 @@ export async function confirmDiscard(
 export interface QuitGuardDeps {
   ask: (win: BrowserWindow | undefined) => Promise<string[]>
   confirm: (win: BrowserWindow | undefined, items: string[]) => Promise<boolean>
+  /** Pending writes that must finish before exit (bounded by a timeout, see quit-flush.ts). */
+  flush: () => Promise<void>
   quit: () => void
 }
 
 const defaultDeps: QuitGuardDeps = {
   ask: (win) => askRendererForUnsaved(win),
   confirm: confirmDiscard,
+  flush: () => runQuitFlushes(),
   quit: () => app.quit(),
 }
 
@@ -121,6 +125,7 @@ export function createQuitGuard(
     } finally {
       checking = false
     }
+    await deps.flush().catch(() => undefined)
     deps.quit()
   }
 

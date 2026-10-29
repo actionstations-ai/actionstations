@@ -6,7 +6,8 @@ import { defineHandlers } from '../registry'
 import { AppError } from '../../lib/errors'
 import { userDataPath } from '../../lib/paths'
 import { requireProject } from '../../project/guard'
-import { configFor, mediaProviderFor } from '../../providers/resolve'
+import { isRemoteProvider } from '@shared/provider-network'
+import { configFor, connectionTestMediaProvider, mediaProviderFor } from '../../providers/resolve'
 import { ComfyMediaProvider } from '../../providers/media/comfyui/provider'
 import {
   deleteWorkflow,
@@ -35,7 +36,8 @@ async function comfyProvider(providerId: string): Promise<ComfyMediaProvider> {
   const config = await configFor(providerId)
   if (config.kind !== 'comfyui')
     throw new AppError('VALIDATION', `"${config.label}" is not a ComfyUI provider`)
-  const provider = await mediaProviderFor(config)
+  // Test renders and workflow checks on the Workflows page: no project content (#433).
+  const provider = await connectionTestMediaProvider(config)
   if (!(provider instanceof ComfyMediaProvider))
     throw new AppError('INTERNAL', 'ComfyUI adapter is not available')
   return provider
@@ -97,7 +99,11 @@ export default defineHandlers({
       )
     const text = prompt?.trim() || TEST_PROMPT
     const started = Date.now()
-    const [out] = await provider.generate({
+    // A cloud ComfyUI gets the prompt (which the user may have typed) through the outbound gate.
+    const generator = isRemoteProvider(provider.config)
+      ? await mediaProviderFor(provider.config)
+      : provider
+    const [out] = await generator.generate({
       kind: entry.mediaType,
       injectId: 'test',
       workflowId,

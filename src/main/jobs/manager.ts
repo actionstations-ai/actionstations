@@ -1,10 +1,11 @@
 import PQueue from 'p-queue'
-import type { Job, JobKind, JobStatus } from '@shared/schemas'
+import type { Job, JobAwaiting, JobKind, JobStatus } from '@shared/schemas'
 import type { JobLogEntry } from '@shared/ipc'
 import { emit } from '../lib/events'
 import { AppError } from '../lib/errors'
 import { newId, nowIso } from '../lib/ids'
 import { JobsFileWriter, readPersistedJobs } from './persist'
+import { runInJobScope } from './scope'
 
 export interface JobContext {
   jobId: string
@@ -32,6 +33,8 @@ interface JobRecord {
   promise: Promise<unknown>
   /** Called once when the job reaches done / error / cancelled (not persisted). */
   onSettled?: (job: Job) => void
+  /** The message to restore when a cloud approval arrives. */
+  resumeMessage?: string | undefined
 }
 
 const CONCURRENCY: Partial<Record<JobKind, number>> = {
@@ -211,7 +214,12 @@ export class JobManager {
       if (controller.signal.aborted) return
       this.update(rec, { status: 'running', message: 'Running' })
       try {
-        const result = await run(ctx)
+        const scope = {
+          jobId: id,
+          signal: controller.signal,
+          ...(meta.projectPath ? { projectPath: meta.projectPath } : {}),
+        }
+        const result = await runInJobScope(scope, () => run(ctx))
         if (controller.signal.aborted) return this.finish(rec, 'cancelled')
         this.finish(rec, 'done', result)
       } catch (err) {
@@ -263,8 +271,35 @@ export class JobManager {
   }
 
   private emitProgress(rec: JobRecord, extra?: { stage?: string; itemId?: string }): void {
-    const { id, kind, status, progress, message } = rec.job
-    emit('job:progress', { jobId: id, kind, status, progress, message, ...extra })
+    const { id, kind, status, progress, message, awaiting } = rec.job
+    emit('job:progress', {
+      jobId: id,
+      kind,
+      status,
+      progress,
+      message,
+      ...extra,
+      ...(awaiting ? { awaiting } : {}),
+    })
+  }
+
+  /**
+   * Mark a running job as waiting for a cloud approval, or clear the mark (#433). The status
+   * stays `running`; the message says what the job waits for. Unknown or finished jobs: no-op.
+   */
+  setAwaiting(id: string, awaiting: JobAwaiting | undefined): void {
+    const rec = this.jobs.get(id)
+    if (!rec || rec.job.status !== 'running') return
+    if (awaiting) {
+      if (!rec.job.awaiting) rec.resumeMessage = rec.job.message
+      this.update(rec, { awaiting, message: 'Waiting for your approval' })
+      return
+    }
+    if (!rec.job.awaiting) return
+    const { awaiting: _cleared, ...rest } = rec.job
+    rec.job = rest
+    this.update(rec, { message: rec.resumeMessage ?? 'Running' })
+    rec.resumeMessage = undefined
   }
 
   private finish(
@@ -273,6 +308,10 @@ export class JobManager {
     result?: unknown,
     error?: string,
   ): void {
+    if (rec.job.awaiting) {
+      const { awaiting: _cleared, ...rest } = rec.job
+      rec.job = rest
+    }
     this.update(rec, {
       status,
       progress: status === 'done' ? 1 : rec.job.progress,

@@ -1,6 +1,8 @@
 // One configured provider: what it is, whether it answers, and quick actions.
 import { useState } from 'react'
 import { Badge, Button, Dialog } from '../../components/ui'
+import { CloudMarker } from '../../components/privacy/CloudMarker'
+import { cloudMarkerText } from '../../components/privacy/privacy-model'
 import { toast } from '../../components/toast-store'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import { KIND_LABELS, kindUsesKey, type ProviderViewT } from './catalog'
@@ -128,6 +130,14 @@ export function ProviderCard(props: {
         <dd className="mono">{p.baseUrl ?? 'Default'}</dd>
         <dt>Default model</dt>
         <dd className="mono">{p.defaultModel ?? 'None'}</dd>
+        {cloudMarkerText(p) && (
+          <>
+            <dt>Where</dt>
+            <dd>
+              <CloudMarker config={p} />
+            </dd>
+          </>
+        )}
         {(kindUsesKey(p.kind) || p.hasKey || props.keyNeedsReentry) && (
           <>
             <dt>API key</dt>

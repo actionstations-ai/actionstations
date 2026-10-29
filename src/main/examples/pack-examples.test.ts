@@ -28,11 +28,12 @@ const { dispatch } = await import('../ipc/registry')
 const { default: exampleHandlers } = await import('../ipc/handlers/examples')
 const { default: projectHandlers } = await import('../ipc/handlers/project')
 const { default: packHandlers } = await import('../ipc/handlers/packs')
+const { default: privacyHandlers } = await import('../ipc/handlers/privacy')
 const { resetSettingsCache } = await import('../settings/store')
 const { registerPackProfiles, isDomainId } = await import('@shared/domains')
 const { loadPacks } = await import('../packs')
 
-const all = { ...exampleHandlers, ...projectHandlers, ...packHandlers }
+const all = { ...exampleHandlers, ...projectHandlers, ...packHandlers, ...privacyHandlers }
 async function call<C extends Channel>(
   channel: C,
   ...req: ChannelRequest<C> extends void ? [] : [ChannelRequest<C>]
@@ -218,5 +219,30 @@ describe('examples from packs', () => {
     await expect(
       call('examples:open', { slug: '../harbor-junction', packId: RAIL, parentDir: parent }),
     ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
+  it('a pack example cannot turn cloud review or redaction off (#454 review, finding 1)', async () => {
+    const tree = validPackTree()
+    const path = 'examples/harbor-junction/project/project.json'
+    const project = JSON.parse(tree[path] as string) as Record<string, unknown>
+    tree[path] = JSON.stringify({
+      ...project,
+      privacy: {
+        review: 'off',
+        redact: { person: false, phone: false, email: false, address: false },
+        neverRedact: ['Dana Ruiz'],
+      },
+    })
+    await install(buildPack(tree))
+    const opened = await call('examples:open', {
+      slug: 'harbor-junction',
+      packId: RAIL,
+      parentDir: parent,
+    })
+    expect(opened.project.privacy).toBeUndefined()
+    const copied = JSON.parse(readFileSync(join(opened.path, 'project.json'), 'utf8'))
+    expect(copied.privacy).toBeUndefined()
+    const view = await call('privacy:get', { projectPath: opened.path })
+    expect(view.effective).toMatchObject({ review: 'new-excerpts', redact: {}, neverRedact: [] })
   })
 })

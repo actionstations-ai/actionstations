@@ -4,6 +4,8 @@
 // name a provider explicitly (older settings files).
 import type { EmbeddingSettings, ProviderConfig } from '@shared/schemas'
 import { AppError } from '../../lib/errors'
+import { guardEmbeddingProvider } from '../outbound'
+import { DIMENSION_PROBE } from '../outbound/gate'
 import { createEmbeddingProvider } from '../registry'
 import { resolveEmbeddingProvider } from '../resolve'
 import type { EmbeddingProvider } from '../types'
@@ -29,7 +31,7 @@ export interface EmbedderDeps {
 export async function withKnownDims(e: EmbeddingProvider): Promise<EmbeddingProvider> {
   if (e.dims > 0) return e
   try {
-    await e.embed(['dimension probe'])
+    await e.embed([DIMENSION_PROBE])
   } catch (err) {
     const why = err instanceof Error ? err.message : String(err)
     throw new AppError('PROVIDER', `Could not reach the embeddings provider (${e.model}): ${why}`)
@@ -64,9 +66,8 @@ async function providerEmbedder(
   if (!config) throw new AppError('NOT_FOUND', `Embedding provider "${id}" is not configured`)
   if (!config.enabled) throw new AppError('PROVIDER', `Embedding provider "${id}" is disabled`)
   try {
-    return await withKnownDims(
-      createEmbeddingProvider(config, settings.model, deps.secretFor?.(id)),
-    )
+    const raw = createEmbeddingProvider(config, settings.model, deps.secretFor?.(id))
+    return await withKnownDims(guardEmbeddingProvider(raw, config))
   } catch (err) {
     if (err instanceof AppError && (err.code === 'NOT_IMPLEMENTED' || err.code === 'VALIDATION')) {
       throw new AppError(

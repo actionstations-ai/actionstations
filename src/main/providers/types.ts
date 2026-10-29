@@ -21,6 +21,30 @@ export interface JsonSchemaSpec {
   schema: Record<string, unknown>
 }
 
+/** One retrieved plan section in a request (FR-15). */
+export interface OutboundExcerptRef {
+  chunkId: number
+  documentId: string
+  documentTitle: string
+  headingPath: string
+  page?: number
+  text: string
+}
+
+/**
+ * What a request is for, read by the outbound gate (#433) for the preview and the send log.
+ * Adapters never see it: the gate strips it before calling them.
+ */
+export interface OutboundMeta {
+  jobId?: string
+  projectPath?: string
+  /** Routing task ('ideate', 'draft', 'critique'). */
+  task?: string
+  stage?: string
+  itemId?: string
+  excerpts: OutboundExcerptRef[]
+}
+
 export interface ChatRequest {
   model?: string
   system?: string
@@ -33,6 +57,8 @@ export interface ChatRequest {
   /** Ask for structured output. Adapters use tool-use / json_schema when available. */
   json?: JsonSchemaSpec
   signal?: AbortSignal
+  /** Request metadata for the outbound gate; adapters ignore it (FR-15). */
+  outbound?: OutboundMeta
 }
 
 export interface Usage {
@@ -54,6 +80,8 @@ export interface ChatResponse {
   latencyMs: number
   /** How structured output was obtained. */
   structuredVia?: 'tool_use' | 'json_schema' | 'json_object' | 'prompt'
+  /** Placeholders in the reply that this project never issued (REDACTION_UNKNOWN, #433). */
+  unknownPlaceholders?: string[]
 }
 
 export interface TextProvider {

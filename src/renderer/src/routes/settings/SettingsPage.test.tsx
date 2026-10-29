@@ -2,6 +2,7 @@
 import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AppSettings } from '@shared/schemas/settings'
+import { PrivacySettings } from '@shared/schemas/privacy'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, describe, expect, it } from 'vitest'
 import { MemoryRouter } from 'react-router'
@@ -10,7 +11,13 @@ import { FakeIpcError, mockTtx } from '../documents/test-utils'
 import SettingsPage from './SettingsPage'
 
 function setup(handlers: Parameters<typeof mockTtx>[0]) {
-  const ttx = mockTtx(handlers)
+  const privacy = PrivacySettings.parse({})
+  const ttx = mockTtx({
+    'privacy:get': () => ({ global: privacy, effective: privacy }),
+    'providers:list': () => [],
+    'routing:get': () => ({ global: {}, effective: {} }),
+    ...handlers,
+  })
   queryClient.clear()
   render(
     <QueryClientProvider client={queryClient}>

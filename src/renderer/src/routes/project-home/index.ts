@@ -7,4 +7,15 @@ export const routes: RouteDef[] = [
     component: lazy(() => import('./ProjectHomePage')),
     nav: { label: 'Overview', scope: 'project', order: 10, icon: 'folder' },
   },
+  {
+    path: '/p/:projectKey/privacy',
+    component: lazy(() => import('./ProjectPrivacyPage')),
+    nav: {
+      label: 'Cloud and privacy',
+      scope: 'project',
+      order: 82,
+      icon: 'privacy',
+      group: 'advanced',
+    },
+  },
 ]

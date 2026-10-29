@@ -36,6 +36,7 @@ const TEXT_EXT = /\.(?:json|md|txt|csv)$/i
 const LEAVE_OUT: Record<string, string> = {
   [MARKER_FILE]: 'example marker of the source project',
   'packs.json': 'records of copies from other packs',
+  'cloud-sends.jsonl': 'the log of what this computer sent to cloud providers',
   exports: 'exports are rebuilt from the project',
   templates: 'project templates are not part of an example (export them as templates)',
 }
@@ -193,6 +194,8 @@ export async function collectExample(input: ExampleInput): Promise<ExampleOutput
     try {
       if (rel === 'project.json') {
         const value = scrubJson(JSON.parse(await fs.readFile(join(root, rel), 'utf8')), absolute)
+        // Cloud review and redaction are chosen on each computer, never shipped in a pack (#433).
+        delete (value as Record<string, unknown>).privacy
         domainProfile = exampleProject(value as Record<string, unknown>, input.domainId, problems)
         files.set(packPath, Buffer.from(JSON.stringify(value, null, 2) + '\n'))
       } else files.set(packPath, await fileBytes(join(root, rel), rel, absolute))
