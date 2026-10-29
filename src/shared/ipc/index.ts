@@ -37,6 +37,7 @@ import { programChannels } from './program'
 import { redlineChannels } from './redlines'
 import { microDrillChannels } from './microdrills'
 import { translateChannels } from './translate'
+import { simcellChannels, simcellEvents } from './simcell'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -171,6 +172,7 @@ export const channels = mergeChannels(
   redlineChannels,
   microDrillChannels,
   translateChannels,
+  simcellChannels,
 )
 
 export type Channels = typeof channels
@@ -207,6 +209,8 @@ export const events = {
   'live:changed': LiveChangedEvent,
   /** A hot wash recording started or stopped (#425): the presentation notice follows it. */
   'hotwash:recording': HotwashRecordingEvent,
+  /** SimCell drafts changed (#429): refetch simcell:queue. */
+  ...simcellEvents,
   /** Something in a program folder changed (#424): refetch the Program queries. */
   'program:changed': z.object({
     path: z.string(),

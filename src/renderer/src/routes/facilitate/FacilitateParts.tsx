@@ -21,6 +21,7 @@ import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
 import { HotWashBoard } from './live/HotWashBoard'
 import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
+import { SimcellPanel } from './SimcellPanel'
 import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
 import { LiveSurveysSection } from './live/SurveySend'
@@ -230,6 +231,9 @@ export function SidePanel(props: {
         <Tabs.Trigger value="messages" className="fac-tabs__trigger">
           <MessagesTabLabel projectPath={props.projectPath} scenarioId={props.scenario.id} />
         </Tabs.Trigger>
+        <Tabs.Trigger value="simcell" className="fac-tabs__trigger">
+          SimCell
+        </Tabs.Trigger>
         <Tabs.Trigger value="votes" className="fac-tabs__trigger">
           {VOTES.tab}
         </Tabs.Trigger>
@@ -320,6 +324,9 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="hotwash-board" className="fac-tabs__panel">
         <HotWashBoard projectPath={props.projectPath} scenario={props.scenario} update={update} />
+      </Tabs.Content>
+      <Tabs.Content value="simcell" className="fac-tabs__panel">
+        <SimcellPanel projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
         <LivePanel

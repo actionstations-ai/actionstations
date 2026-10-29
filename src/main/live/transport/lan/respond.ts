@@ -7,7 +7,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 export const COMMON_HEADERS: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'no-referrer',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  'Permissions-Policy': 'camera=(), microphone=(self), geolocation=()',
   'Cross-Origin-Opener-Policy': 'same-origin',
 }
 

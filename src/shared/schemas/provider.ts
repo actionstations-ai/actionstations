@@ -7,6 +7,8 @@ export const PROVIDER_TASKS = [
   'critique',
   /** Player-language translation; falls back to the draft route when unset (spec 0435). */
   'translate',
+  /** SimCell replies (#429); falls back to `draft` when not routed. */
+  'roleplay',
   'embed',
   'image',
   'video',

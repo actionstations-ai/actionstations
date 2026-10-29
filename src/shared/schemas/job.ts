@@ -25,6 +25,8 @@ export const JobKind = z.enum([
   'drill-export',
   'build-micro-drill',
   'translate',
+  'simcell-personas',
+  'simcell-capability',
 ])
 export type JobKind = z.infer<typeof JobKind>
 

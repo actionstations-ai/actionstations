@@ -1398,6 +1398,61 @@
 }
 .fac-hw__star {
   font-weight: var(--weight-medium);
+/* SimCell assistant (spec 0429) */
+.fac-simcell {
+  display: grid;
+  gap: var(--space-3);
+}
+.fac-simcell__gate {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.fac-simcell__failed,
+.fac-simcell__flags,
+.fac-simcell__chips,
+.fac-simcell__queue,
+.fac-simcell__waiting {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+.fac-simcell__queue,
+.fac-simcell__waiting {
+  list-style: none;
+  padding-left: 0;
+}
+.fac-simcell__flags {
+  color: var(--color-text);
+  border-left: 4px solid var(--color-warning, var(--color-border-strong));
+  padding-left: var(--space-4);
+}
+.fac-simcell__draft {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+.fac-simcell__quote {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-border-strong);
+}
+.fac-simcell__text {
+  width: 100%;
+  resize: vertical;
+}
+.fac-simcell__actions,
+.fac-simcell__regen {
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.fac-simcell__waiting-row {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
 }
 
 /* Controller tools (spec 0428) */

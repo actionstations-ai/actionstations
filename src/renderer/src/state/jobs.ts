@@ -78,6 +78,8 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'drill-export': 'Exporting drill results',
   'build-micro-drill': 'Building the short drill',
   translate: 'Translating player material',
+  'simcell-personas': 'Filling in persona cards',
+  'simcell-capability': 'Checking the SimCell model',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

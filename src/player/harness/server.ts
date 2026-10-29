@@ -129,7 +129,7 @@ export async function startHarness(opts: HarnessServerOptions): Promise<Harness>
     'cache-control': cache,
     'x-content-type-options': 'nosniff',
     'referrer-policy': 'no-referrer',
-    'permissions-policy': 'camera=(), microphone=(), geolocation=()',
+    'permissions-policy': 'camera=(), microphone=(self), geolocation=()',
     'cross-origin-opener-policy': 'same-origin',
   })
 

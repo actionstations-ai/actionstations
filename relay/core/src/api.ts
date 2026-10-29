@@ -251,7 +251,7 @@ export function playerPageCsp(connectSrc: string[] = []): string {
 
 export const HTML_HEADERS: Record<string, string> = {
   ...API_HEADERS,
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  'Permissions-Policy': 'camera=(), microphone=(self), geolocation=()',
   'Cross-Origin-Opener-Policy': 'same-origin',
 }
 

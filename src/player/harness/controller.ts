@@ -147,6 +147,16 @@ export class HarnessController {
   readonly hotwash = new HarnessHotwash(this)
   /** Surveys sent to devices and the answers that came back (spec 0422). */
   readonly surveys = new HarnessSurveys(this)
+  /** Answers players gave on calls (spec 0429); a spoken answer keeps the WAV bytes. */
+  readonly callAnswers: {
+    from: ClientId
+    callId: string
+    turn: number
+    text?: string
+    audio?: Uint8Array
+  }[] = []
+  /** Calls players hung up. */
+  readonly callEnds: { callId: string; by: string; reason: string }[] = []
 
   private constructor(
     readonly crypto: CryptoProvider,
@@ -165,6 +175,11 @@ export class HarnessController {
     client.on('eval.observation', (m) => this.onObservation(m))
     client.on('hotwash.item', (m) => void this.hotwash.onItem(m))
     client.on('survey.response', (m) => this.surveys.onResponse(m))
+    client.on('call.answer', (m) => void this.onCallAnswer(m))
+    client.on('call.end', (m) => {
+      if (m.payload.by === 'player')
+        this.callEnds.push({ callId: m.payload.callId, by: 'player', reason: m.payload.reason })
+    })
     client.on('presence', (m) => {
       const entry = this.roster.get(m.payload.client)
       if (entry) entry.connected = m.payload.state === 'online'
@@ -464,6 +479,75 @@ export class HarnessController {
       at: Date.now(),
     })
     return messageId
+  }
+
+  // ---- voice calls (spec 0429) ----
+
+  private async onCallAnswer(m: Opened<'call.answer'>): Promise<void> {
+    const p = m.payload
+    const audio = p.audio ? await this.client.getBlob(p.audio) : undefined
+    this.callAnswers.push({
+      from: m.from,
+      callId: p.callId,
+      turn: p.turn,
+      ...(p.text !== undefined ? { text: p.text } : {}),
+      ...(audio ? { audio } : {}),
+    })
+  }
+
+  /** Ring `targets` with a line (signed, so the page trusts it). A repeated `callId` is the next turn. */
+  async ring(
+    targets: Destination[],
+    line: {
+      text: string
+      persona?: { name: string; organization?: string }
+      audio?: { bytes: Uint8Array; durationSec: number }
+      canSpeak?: boolean
+      callId?: string
+      turn?: number
+      expectedWaitSec?: number
+    },
+  ): Promise<{ callId: string; turn: number }> {
+    const callId = line.callId ?? toBase64Url(this.crypto.random(16))
+    const turn = line.turn ?? 1
+    const audio = line.audio
+      ? await this.client.putBlob(
+          { kind: 'audio', mime: 'audio/wav', durationSec: line.audio.durationSec },
+          line.audio.bytes,
+        )
+      : undefined
+    for (const to of targets)
+      await this.client.send(
+        'call.ring',
+        to,
+        {
+          callId,
+          turn,
+          persona: line.persona ?? { name: 'Dana Whitlock', organization: 'Harbor Ledger' },
+          transcript: line.text,
+          ...(audio ? { audio } : {}),
+          canSpeak: line.canSpeak ?? false,
+          ...(line.expectedWaitSec !== undefined ? { expectedWaitSec: line.expectedWaitSec } : {}),
+          targets,
+        },
+        { key: 'players', sign: true },
+      )
+    return { callId, turn }
+  }
+
+  async endCall(
+    targets: Destination[],
+    callId: string,
+    turn: number,
+    reason: 'completed' | 'hangup' | 'no_answer' = 'completed',
+  ): Promise<void> {
+    for (const to of targets)
+      await this.client.send(
+        'call.end',
+        to,
+        { callId, turn, reason, by: 'controller' },
+        { key: 'players', sign: true },
+      )
   }
 
   /** Pin a message to the hot wash: recorded only, like the app's `message.pinned` log entry. */

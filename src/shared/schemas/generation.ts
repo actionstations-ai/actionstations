@@ -9,6 +9,7 @@ import { MicroDrillAssessOutput, MicroDrillBuildOutput } from './micro-drill'
 import { PurposeTag } from '../taxonomy'
 import { GroundingVerifyOutput, PlanConflictOutput } from './grounding'
 import { CapabilityElement, CapabilityRating } from './aar'
+import { PersonasOutput, SimcellDraftOutput } from './persona'
 
 /** Key of a retrieved chunk as presented in the prompt, e.g. "C3". */
 export const CitationKey = z.string().regex(/^C\d+$/)
@@ -367,5 +368,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   DrillStartexOutput,
   MicroDrillBuildOutput,
   MicroDrillAssessOutput,
+  SimcellDraftOutput,
+  PersonasOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS

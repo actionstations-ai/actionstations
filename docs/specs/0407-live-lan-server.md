@@ -158,7 +158,7 @@ interface LanServerStatus {
   `relay.error STORE_FULL` for new non-controller frames (controller frames are always stored).
 - HTTP headers on every response: `Cache-Control: no-store` (except `/assets/*`:
   `public, max-age=31536000, immutable`), `X-Content-Type-Options: nosniff`,
-  `Referrer-Policy: no-referrer`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`,
+  `Referrer-Policy: no-referrer`, `Permissions-Policy: camera=(), microphone=(self), geolocation=()`,
   `Cross-Origin-Opener-Policy: same-origin`, and for HTML:
   `Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src blob:; connect-src 'self'; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`.
   `'self'` resolves to the LAN origin, so `wss:`/`ws:` to the same host is allowed by

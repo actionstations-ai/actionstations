@@ -37,6 +37,12 @@ export const TASKS: TaskInfo[] = [
       'Translates player material into Spanish for a person to review. Uses the model that writes drafts when not set.',
   },
   {
+    task: 'roleplay',
+    label: 'SimCell replies',
+    purpose:
+      'Drafts replies from outside parties during play. A person approves every draft. Uses the same model as drafting when not set.',
+  },
+  {
     task: 'embed',
     label: 'Embeddings',
     purpose: 'Indexes documents for search and generation context.',
