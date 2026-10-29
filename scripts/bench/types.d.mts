@@ -46,7 +46,12 @@ export interface ScenarioLike {
   warnings: WarningLike[]
   provenance: StageRunLike[]
 }
+/** grounding:scenario's result: GroundingResult per item key ("row:I-07", …). */
+export interface GroundingLike {
+  items?: Record<string, { label: string }>
+}
 export interface IdeaLike {
+  id?: string
   title: string
   hook: string
   threatFamily?: string

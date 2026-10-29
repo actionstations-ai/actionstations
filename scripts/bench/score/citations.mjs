@@ -1,11 +1,14 @@
-// Citation accuracy of a drafted scenario (#434, FR-11), scoring version 1:
+// Citation accuracy of a drafted scenario (#434, FR-11):
 //   resolution  share of cited keys that resolved to a retrieved chunk (the mappers keep those
 //               and record the rest as CITATION_DROPPED)
+//   support     share of claim-bearing rows the source check (#423) labels grounded, with
+//               unsupported rows counted against (grounding:scenario)
 //   coverage    share of content rows (not STARTEX, ENDEX, TIME_JUMP) with a citation
-// Support (FR-11 b, grounding labels from #423) joins in scoring version 2.
+// Without grounding results (`grounding` undefined) support is left out of the parts.
+import { rowResults, supportScore } from './grounding.mjs'
 import { contentRows, droppedKeys, share } from './util.mjs'
 
-export function citationScore(scenario) {
+export function citationScore(scenario, grounding) {
   const rows = contentRows(scenario.msel)
   const kept =
     scenario.msel.reduce((n, r) => n + (r.citations?.length ?? 0), 0) +
@@ -15,5 +18,13 @@ export function citationScore(scenario) {
     .reduce((n, w) => n + droppedKeys(w.message).length, 0)
   const resolution = share(kept, kept + dropped)
   const coverage = share(rows.filter((r) => r.citations?.length).length, rows.length)
-  return { resolution: resolution * 100, coverage: coverage * 100, kept, dropped }
+  const support = grounding ? supportScore(rowResults(grounding)) : undefined
+  return {
+    resolution: resolution * 100,
+    coverage: coverage * 100,
+    ...(support ? { support: support.support } : {}),
+    kept,
+    dropped,
+    ...(support ? { grounding: support } : {}),
+  }
 }

@@ -9,15 +9,15 @@ import { reliability } from './reliability.mjs'
 import { rubricScore } from './rubric.mjs'
 import { mean, median, round1, weighted } from './util.mjs'
 
-/** 1: lint, citation resolution and coverage, structure; no grounding support yet (#423). */
+/** 1: reliability, lint, citations (resolution, grounding support of #423, coverage), structure. */
 export const SCORING_VERSION = 1
 
 /** One drafted scenario: reliability, lint, citations and structure. */
-export function draftingCase({ scenario, lints, gold, suite }) {
+export function draftingCase({ scenario, lints, gold, suite, grounding }) {
   const { weights, thresholds } = suite
   const rel = reliability(scenario)
   const lint = lintScore(lints, scenario.msel.length, thresholds.lintCap)
-  const cit = citationScore(scenario)
+  const cit = citationScore(scenario, grounding)
   const rubric = rubricScore(scenario, lints, gold, weights.structure, thresholds.paceBand)
   const citations = weighted(cit, weights.citations)
   const parts = {
@@ -26,6 +26,7 @@ export function draftingCase({ scenario, lints, gold, suite }) {
     citations,
     'citations.resolution': cit.resolution,
     'citations.coverage': cit.coverage,
+    ...(cit.support !== undefined ? { 'citations.support': cit.support } : {}),
     structure: rubric.score,
   }
   return {
@@ -36,17 +37,19 @@ export function draftingCase({ scenario, lints, gold, suite }) {
   }
 }
 
-export function ideationCase({ ideas, dropped, suite }) {
+export function ideationCase({ ideas, dropped, suite, grounding }) {
   const m = ideationScore(ideas, {
     count: suite.ideationCount,
     dropped,
     threshold: suite.thresholds.distinctCosine,
+    grounding,
   })
   const parts = {
     valid: m.valid,
     distinct: m.distinct,
     resolution: m.resolution,
     spread: m.spread,
+    ...(m.grounding !== undefined ? { grounding: m.grounding } : {}),
   }
   return { score: weighted(parts, suite.weights.ideation), parts, details: m }
 }

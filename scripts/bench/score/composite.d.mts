@@ -1,14 +1,28 @@
 // Types for scripts/bench/score/composite.mjs.
 import type { Planted } from '../defects.d.mts'
-import type { CaseScore, Gold, IdeaLike, ScenarioLike, Suite, WarningLike } from '../types.d.mts'
+import type {
+  CaseScore,
+  Gold,
+  GroundingLike,
+  IdeaLike,
+  ScenarioLike,
+  Suite,
+  WarningLike,
+} from '../types.d.mts'
 export const SCORING_VERSION: number
 export function draftingCase(input: {
   scenario: ScenarioLike
   lints: WarningLike[]
   gold: Gold
   suite: Suite
+  grounding?: GroundingLike
 }): CaseScore & { reliability: { successRate: number } }
-export function ideationCase(input: { ideas: IdeaLike[]; dropped: number; suite: Suite }): CaseScore
+export function ideationCase(input: {
+  ideas: IdeaLike[]
+  dropped: number
+  suite: Suite
+  grounding?: Record<string, { label: string } | undefined>
+}): CaseScore
 export function critiqueCase(input: {
   notes: Partial<WarningLike>[]
   planted: Planted[]

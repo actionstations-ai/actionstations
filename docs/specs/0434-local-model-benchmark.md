@@ -1,6 +1,6 @@
 # Spec 0434: Benchmark local models on Action Stations tasks
 
-Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 1; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
+Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 1 with grounding support; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
 
 ## Summary
 
@@ -98,7 +98,7 @@ no cloud judge, no GitHub Actions.
   title + hook cosine similarity ≥ 0.85, computed on term-frequency vectors so the number is the
   same on every machine; an embedding model's output depends on its runtime), citation
   resolution of `sectionsExercised` (dropped keys read from the ideate job log), threat-family
-  spread (distinct families / ideas), and grounding of `whyItTeaches` (#423, scoring version 2).
+  spread (distinct families / ideas), and grounding of `whyItTeaches` (#423, `grounding:ideas`).
 - **FR-14** **Critique**: recall of planted defects (a note matches when its `rowId` is the
   defect's row, or a row adjacent for order defects, and its text contains one of the defect's
   words), plus noise: notes on rows with no planted defect and no lint finding, per 10 rows,
@@ -403,8 +403,12 @@ Where the code differs from the text above, and why:
 - **Memory fit**: size on disk plus a context-cache estimate of a tenth of the weights at 32k
   (at least 0.25 GB). A tier's budget is its lower bound; the lowest tier assumes 5.5 GB.
 - **Remote refusal**: #433 had not merged, so the runner has its own loopback-only check.
-- **Grounding**: #423 had not merged, so scoring version 1 has no support part (FR-11 b, FR-13);
-  its weight sits on resolution and coverage.
+- **Grounding**: #423 merged before this shipped, so scoring version 1 includes support
+  (FR-11 b, from `grounding:scenario`) and the grounding of `whyItTeaches` (FR-13, from
+  `grounding:ideas`), using the checker's own label. Support is (grounded − unsupported) /
+  claim-bearing rows, at least 0. Weights: citations resolution 0.3, support 0.4, coverage 0.3;
+  ideation valid 0.25, distinct 0.2, resolution 0.2, spread 0.15, grounding 0.2. When the check
+  fails, the run records a `grounding` failure and leaves the part out.
 - **Files**: `scripts/bench/corpus.mjs` (suites, examples, briefs, hashes) and
   `scripts/bench/cases.mjs` (the three case runners) split `run.mjs`;
   `scripts/lib/bench-app.ts` is the bundled entry through which the scripts use the zod

@@ -18,6 +18,7 @@ import {
   ideationScore,
   termVector,
 } from '../../scripts/bench/score/ideation.mjs'
+import { rowResults, supportScore } from '../../scripts/bench/score/grounding.mjs'
 import { lintScore } from '../../scripts/bench/score/lint.mjs'
 import {
   NO_JSON,
@@ -143,6 +144,30 @@ describe('citation score', () => {
     })
     expect(citationScore(s).resolution).toBe(50)
   })
+
+  it('adds grounding support when the source check ran, and leaves it out otherwise', () => {
+    const s = clean()
+    expect(citationScore(s)).not.toHaveProperty('support')
+    const items = Object.fromEntries(
+      s.msel.map((r, i) => [`row:${r.id}`, { label: i % 2 ? 'grounded' : 'none' }]),
+    )
+    expect(citationScore(s, { items }).support).toBe(100)
+  })
+})
+
+describe('grounding support', () => {
+  it('is the share of claim-bearing items labelled grounded, unsupported ones counted against', () => {
+    const labels = ['grounded', 'grounded', 'grounded', 'review', 'unsupported', 'none']
+    const r = supportScore(labels.map((label) => ({ label })))
+    expect(r).toEqual({ support: 40, claimBearing: 5, grounded: 3, review: 1, unsupported: 1 })
+    expect(supportScore([{ label: 'unsupported' }, { label: 'review' }]).support).toBe(0)
+    expect(supportScore([{ label: 'none' }, undefined]).support).toBe(0)
+  })
+
+  it('reads only the MSEL rows of a scenario result', () => {
+    const items = { 'row:I-01': { label: 'grounded' }, 'inject:x': { label: 'unsupported' } }
+    expect(rowResults({ items })).toEqual([{ label: 'grounded' }])
+  })
 })
 
 describe('structure rubric', () => {
@@ -209,6 +234,30 @@ describe('drafting case', () => {
     expect(good.parts.structure! - bad.parts.structure!).toBeCloseTo(20, 5)
     expect(bad.score).toBeLessThan(good.score - 10)
   })
+
+  it('scores rows the source check finds unsupported lower', () => {
+    const s = clean()
+    const label = (l: string) =>
+      Object.fromEntries(s.msel.map((r) => [`row:${r.id}`, { label: l }]))
+    const grounded = draftingCase({
+      scenario: s,
+      lints: [],
+      gold,
+      suite,
+      grounding: { items: label('grounded') },
+    })
+    const unsupported = draftingCase({
+      scenario: s,
+      lints: [],
+      gold,
+      suite,
+      grounding: { items: label('unsupported') },
+    })
+    expect(grounded.parts['citations.support']).toBe(100)
+    expect(unsupported.parts['citations.support']).toBe(0)
+    // support weighs 0.4 of citations, citations 0.2 of drafting: 8 points
+    expect(grounded.score - unsupported.score).toBeCloseTo(8, 5)
+  })
 })
 
 describe('ideation', () => {
@@ -242,6 +291,22 @@ describe('ideation', () => {
     expect(r.distinct).toBeCloseTo(100 / 3)
     expect(r.resolution).toBe(75)
     expect(r.spread).toBeCloseTo(200 / 3)
+    expect(r).not.toHaveProperty('grounding')
+  })
+
+  it('scores whyItTeaches grounding of the valid ideas from grounding:ideas', () => {
+    const ideas = [
+      { id: 'a', ...idea('Caustic overfeed', 'Vendor session') },
+      { id: 'b', ...idea('Main break', 'Telemetry outage') },
+    ]
+    const grounding = {
+      a: { label: 'grounded' },
+      b: { label: 'review' },
+      gone: { label: 'grounded' },
+    }
+    expect(
+      ideationScore(ideas, { count: 6, dropped: 0, threshold: 0.85, grounding }).grounding,
+    ).toBe(50)
   })
 
   it('reads dropped keys from the ideate job log', () => {

@@ -79,7 +79,7 @@ export const BenchRun = z.object({
   formatVersion: z.literal(BENCH_FORMAT_VERSION),
   suite: z.string().min(1).max(40),
   suiteVersion: z.number().int().positive(),
-  /** 1: no grounding support (FR-11 b) until #423 lands. */
+  /** Bumped when a scorer changes; 1 includes grounding support (#423). */
   scoringVersion: z.number().int().positive(),
   appVersion: z.string().max(40),
   appCommit: z.string().max(60),

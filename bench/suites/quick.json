@@ -9,7 +9,7 @@
   "weights": {
     "overall": { "drafting": 0.5, "critique": 0.25, "ideation": 0.25 },
     "drafting": { "reliability": 0.25, "lint": 0.2, "citations": 0.2, "structure": 0.35 },
-    "citations": { "resolution": 0.5, "coverage": 0.5 },
+    "citations": { "resolution": 0.3, "support": 0.4, "coverage": 0.3 },
     "structure": {
       "pace": 1,
       "tagMix": 2,
@@ -19,7 +19,13 @@
       "briefIds": 1,
       "noReferenceLeak": 2
     },
-    "ideation": { "valid": 0.3, "distinct": 0.2, "resolution": 0.25, "spread": 0.25 },
+    "ideation": {
+      "valid": 0.25,
+      "distinct": 0.2,
+      "resolution": 0.2,
+      "spread": 0.15,
+      "grounding": 0.2
+    },
     "critique": { "recall": 0.85, "noise": 0.15 }
   },
   "thresholds": {

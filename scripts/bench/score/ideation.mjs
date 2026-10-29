@@ -1,8 +1,9 @@
 // Ideation scores (#434, FR-13): valid ideas out of the count asked for, distinctness, citation
-// resolution of sectionsExercised and threat-family spread. Distinctness compares title + hook
-// with a term-frequency cosine: deterministic and the same on every machine, unlike an
-// embedding model whose numbers depend on its runtime. Grounding of whyItTeaches (#423) joins
-// in scoring version 2.
+// resolution of sectionsExercised, threat-family spread and grounding of whyItTeaches (the
+// source check of #423, grounding:ideas). Distinctness compares title + hook with a
+// term-frequency cosine: deterministic and the same on every machine, unlike an embedding
+// model whose numbers depend on its runtime.
+import { supportScore } from './grounding.mjs'
 import { share } from './util.mjs'
 
 const STOP = new Set(
@@ -52,16 +53,19 @@ export function droppedIdeaKeys(logEntries) {
 }
 
 /** Parts 0–100: valid, distinct, resolution, spread. */
-export function ideationScore(ideas, { count, dropped, threshold }) {
+/** `grounding`: grounding:ideas results by idea id; without it the part is left out. */
+export function ideationScore(ideas, { count, dropped, threshold, grounding }) {
   const valid = ideas.filter((i) => i.title?.trim() && i.hook?.trim())
   const dup = nearDuplicates(valid, threshold)
   const kept = valid.reduce((n, i) => n + (i.sectionsExercised?.length ?? 0), 0)
   const families = new Set(valid.map((i) => i.threatFamily).filter(Boolean))
+  const support = grounding ? supportScore(valid.map((i) => grounding[i.id])) : undefined
   return {
     valid: Math.min(1, share(valid.length, count)) * 100,
     distinct: valid.length ? (1 - dup.size / valid.length) * 100 : 0,
     resolution: share(kept, kept + dropped) * 100,
     spread: Math.min(1, share(families.size, valid.length)) * 100,
+    ...(support ? { grounding: support.support, groundingCounts: support } : {}),
     ideas: valid.length,
     nearDuplicates: dup.size,
     citationsKept: kept,

@@ -77,15 +77,33 @@ export async function runIdeation(ctx, c) {
   const job = await wait(ctx, jobId, `ideas ${c.id}`, JOB_TIMEOUT.ideas)
   const { entries } = await ctx.invoke('jobs:log', { jobId })
   const ok = job.status === 'done'
-  const ideas = ok ? await ctx.invoke('generate:ideas-result', { projectPath }) : []
-  const scored = ideationCase({ ideas, dropped: droppedIdeaKeys(entries), suite: ctx.suite })
   const seconds = (Date.now() - t0) / 1000
+  const ideas = ok ? await ctx.invoke('generate:ideas-result', { projectPath }) : []
+  const failures = ok ? [] : [{ caseId: c.id, stage: 'ideate', error: clip(job.error) }]
+  const grounding = ok
+    ? await groundingOf(ctx, 'grounding:ideas', { projectPath }, c.id, failures)
+    : {}
+  const dropped = droppedIdeaKeys(entries)
+  const scored = ideationCase({ ideas, dropped, suite: ctx.suite, grounding })
   return {
     caseId: c.id,
     ...scored,
     wallSeconds: seconds,
     tokens: { output: ideateTokens(entries).output, ms: seconds * 1000 },
-    failures: ok ? [] : [{ caseId: c.id, stage: 'ideate', error: clip(job.error) }],
+    failures,
+  }
+}
+
+/**
+ * The source check's labels (#423); a failure is recorded and the support part left out, so
+ * the run shows it rather than scoring a check that did not run.
+ */
+async function groundingOf(ctx, channel, payload, caseId, failures) {
+  try {
+    return await ctx.invoke(channel, payload)
+  } catch (err) {
+    failures.push({ caseId, stage: 'grounding', error: clip(err?.message ?? err) })
+    return undefined
   }
 }
 
@@ -123,17 +141,21 @@ export async function runDrafting(ctx, c) {
   const { jobId, scenarioId } = await ctx.invoke('generate:scenario', { projectPath, brief })
   const job = await wait(ctx, jobId, `draft ${c.id}`, JOB_TIMEOUT.draft)
   const scenario = await ctx.invoke('scenarios:get', { projectPath, scenarioId })
+  const wallSeconds = (Date.now() - t0) / 1000
   const lints = await ctx.invoke('scenarios:lint', { projectPath, scenarioId })
-  const scored = draftingCase({ scenario, lints, gold: ctx.gold, suite: ctx.suite })
+  const failures = stageFailures(c.id, scenario, job)
+  const payload = { projectPath, scenarioId }
+  const grounding = await groundingOf(ctx, 'grounding:scenario', payload, c.id, failures)
+  const scored = draftingCase({ scenario, lints, gold: ctx.gold, suite: ctx.suite, grounding })
   return {
     caseId: c.id,
     ...scored,
     reliability: reliability(scenario).successRate,
-    wallSeconds: (Date.now() - t0) / 1000,
+    wallSeconds,
     tokens: tokenTotals(scenario.provenance),
     largestPrompt: Math.max(0, ...scenario.provenance.map((r) => r.inputTokens ?? 0)),
     promptHashes: promptHashes(scenario.provenance),
-    failures: stageFailures(c.id, scenario, job),
+    failures,
   }
 }
 
