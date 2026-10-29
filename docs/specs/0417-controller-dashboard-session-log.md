@@ -32,7 +32,7 @@ Two things every other live-play feature needs. The **session log** is the appen
     ref?: { rowId?, releaseId?, injectId?, channel?, messageId?, voteId?, itemId?, groupId?, surveyId?,
             observationId?, taskId?, noticeId? },
     data: Record<string, unknown>,   // the feature's payload for this kind (sub-specs define it)
-    env?: { from, seq, index? }      // the protocol envelope's identifiers for a received frame (0406 arrival index)
+    env?: { from, seq, index? }      // the received frame's identifiers: `from` is the sender's clientRef (FR-4; never the raw id), `seq`, 0406 arrival index
   }
   ```
 

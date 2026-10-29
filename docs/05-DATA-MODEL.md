@@ -197,6 +197,10 @@ SimcellScript { rolePlayed, trigger, hardQuestions[], concessions[] }
 StageRun { stage, startedAt, finishedAt, providerRef, promptRef, promptHash, inputTokens?, outputTokens?, costUsd?, status, error? }
 ```
 
+## Live sessions (`scenarios/<id>/live/<sessionId>/`, #407, #417)
+
+The folder name is the protocol's 128-bit `SessionId` (validated before it becomes a path segment). `session.json` is `LiveSession` (`src/shared/schemas/live.ts`): `id, scenarioId, name, startedAt, endedAt?, connection { kind: 'lan', address, tls, port? } | { kind: 'relay' } | { kind: 'self-hosted', url }, joinUrlPublic` (never the key fragment), `attribution: 'role' | 'named', protocolVersion, lastIndex`. `log.jsonl` is one `SessionLogEntry` per line in spec 0417's format (`i, at, ex?, kind, actor { kind, clientRef?, seat?, evaluator?, displayName? }, ref?, data, env? { from, seq, index? }`), append-only, at most 64 KiB per line. The writer refuses entries that carry `clientId`, `joinToken`, `resumeToken`, `key`, roots, private keys, invite URLs or addresses anywhere, strips `displayName` in a `role` session, and writes `env.from` as the salted `clientRef`, never the raw client id. Keys are never in this folder (they are in `userData/live/sessions/`). #417 adds `attachments/`, `staged/`, `blobs.json` and the `summary` in `session.json`.
+
 ## Surveys (`scenarios/<id>/surveys/`, #422)
 
 Schemas in `src/shared/schemas/survey.ts`. Each survey is `<surveyId>.json`; its responses are `<surveyId>.responses.jsonl`, one `SurveyResponse` per line, append-only (a line with an id already stored replaces the earlier one when read; a line cut short by a crash is skipped). Duplicating a scenario copies the definitions, never the responses. `scenario.json` exports carry the definitions only. Older builds ignore the folder.
@@ -359,4 +363,5 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | `packs/registry.json` | `PackRegistry`: installed packs with version, enabled, source (file / url / catalog), archive and content sha256, item list (see docs/packs-format.md "Installed packs") |
 | `packs/.staging/` | Downloads and extractions in progress; emptied at every startup |
 | `templates/injects/<type>/` | User inject templates, the layer between project and pack templates (ADR-0018) |
-| `live/sessions/<sessionId>.json` | A running live session's secrets (ADR-0027; written by #407–#410): staff root per epoch, controller signing key as JWK, controller token, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
+| `live/sessions/<sessionId>.json` | A running live session's secrets (ADR-0027; written by #407–#410): staff root per epoch, controller signing and ECDH keys as JWK, last `seq`; `safeStorage` ciphertext only, deleted at `session.end`. Never in a project folder |
+| `live/lan.log` (+ `.1`–`.3`) | The LAN session server's connection log (#407, ADR-0032): time, event, remote address, client id, close code; fixed fields, never a frame, a query string or a key. Rotated at 5 MB × 3 |

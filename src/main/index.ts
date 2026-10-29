@@ -25,6 +25,7 @@ import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { toolProcesses } from './setup/processes'
 import { scheduleStartupCheck } from './updates/check'
+import { isSessionRunning, stopLiveSession } from './live/session'
 
 // Must run before app ready.
 registerMediaScheme()
@@ -192,9 +193,15 @@ app.on('window-all-closed', () => app.quit())
 // Tool servers the app started itself (Ollama on Linux, #338) are asked to stop too.
 // Before that the quit guard asks the renderer about unsaved work; it cancels this quit and
 // quits again once confirmed (or at once when nothing is unsaved or the renderer is silent).
+// A live session's listener (#407) must not outlive the app: end the session, which closes
+// every device and the port, then let the quit continue.
 app.on('before-quit', (e) => {
   if (!quitGuard.intercept(e)) return
   void jobs.flush()
   shutdownRenderPool()
   toolProcesses.stopAll()
+  if (isSessionRunning()) {
+    e.preventDefault()
+    void stopLiveSession().finally(() => app.quit())
+  }
 })
