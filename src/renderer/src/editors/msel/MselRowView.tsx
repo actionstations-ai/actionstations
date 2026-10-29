@@ -12,6 +12,7 @@ import { GridCell } from './grid-cell'
 import { focusProps, useGridActions, useGridShared, useRowRef } from './grid-context'
 import type { ColumnId } from './grid-nav'
 import type { DraftRow } from './model'
+import { isPartnerRow, ownerLabel, type RegionalView } from './owner'
 import { RowMenu } from './RowMenu'
 
 const CONTROL_TAGS = new Set(['STARTEX', 'ENDEX', 'TIME_JUMP'])
@@ -41,6 +42,19 @@ export interface RowViewProps {
   measure?: ((el: HTMLElement | null) => void) | undefined
 }
 
+/** Who owns a partner's row, in words: text carries the meaning, not colour (#497). */
+function OwnerBadge({ row, regional }: { row: DraftRow['row']; regional: RegionalView }) {
+  const { short, full } = ownerLabel(row, regional)
+  return (
+    <span className="msel-owner" title={`${full} owns this row. Propose a change instead.`}>
+      Owned by {short}
+      <span className="sr-only">
+        {` (${full}). Read-only here: propose a change to its owner instead.`}
+      </span>
+    </span>
+  )
+}
+
 function ContentCell(props: {
   r: DraftRow
   col: ColumnId
@@ -50,7 +64,7 @@ function ContentCell(props: {
 }) {
   const { r, col, editing } = props
   const g = useGridActions()
-  const { roles, phases, grounding, seams, branchMarks, offPath } = useGridShared()
+  const { roles, phases, grounding, seams, branchMarks, offPath, regional } = useGridShared()
   const mark = col === 'id' ? branchMarks?.get(r.row.id) : undefined
   const off = col === 'id' && !!offPath?.has(r.row.id)
   const result = col === 'citations' ? grounding?.[`row:${r.row.id}`] : undefined
@@ -69,6 +83,9 @@ function ContentCell(props: {
           Branch {mark.chip}: {mark.label}
         </span>
       )}
+      {col === 'id' && regional && isPartnerRow(r.row, regional) && (
+        <OwnerBadge row={r.row} regional={regional} />
+      )}
       {off && <span className="sr-only">Not on the selected path</span>}
       {col === 'event' && r.row.decision && (
         <span className="msel-editor__decision">{decisionSummary(r.row.decision)}</span>
@@ -85,12 +102,14 @@ function ContentCell(props: {
 
 function SelectCell({ r, active, selected }: { r: DraftRow; active: boolean; selected: boolean }) {
   const g = useGridActions()
+  const partner = isPartnerRow(r.row, useGridShared().regional)
   return (
     <GridCell line={r.key} col="select" active={active} inner>
       <input
         type="checkbox"
         aria-label={`Select ${r.row.id}`}
         checked={selected}
+        disabled={partner}
         onChange={() => undefined}
         onClick={(e) => g.toggleSelect(r.key, e.shiftKey)}
         onKeyDown={(e) => {
@@ -108,12 +127,14 @@ function SelectCell({ r, active, selected }: { r: DraftRow; active: boolean; sel
 
 function LockCell({ r, active }: { r: DraftRow; active: boolean }) {
   const g = useGridActions()
+  const partner = isPartnerRow(r.row, useGridShared().regional)
   return (
     <GridCell line={r.key} col="locked" active={active} inner>
       <button
         type="button"
         className={clsx('btn btn--ghost btn--sm btn--icon', r.row.locked && 'is-locked')}
         aria-pressed={r.row.locked}
+        aria-disabled={partner || undefined}
         aria-label={`Lock ${r.row.id}`}
         title={r.row.locked ? 'Locked: kept when the MSEL is regenerated' : 'Not locked'}
         onClick={() => g.toggleLock(r.key)}
@@ -129,10 +150,12 @@ function LockCell({ r, active }: { r: DraftRow; active: boolean }) {
 function DragCell(props: { r: DraftRow; active: boolean; handle: Record<string, unknown> }) {
   const { r, active } = props
   const g = useGridActions()
+  const partner = isPartnerRow(r.row, useGridShared().regional)
   return (
     <GridCell line={r.key} col="drag" active={active} inner>
       <button
         type="button"
+        aria-disabled={partner || undefined}
         className="btn btn--ghost btn--sm btn--icon msel-editor__handle"
         aria-label={`Move ${r.row.id}`}
         {...props.handle}
@@ -147,14 +170,15 @@ function DragCell(props: { r: DraftRow; active: boolean; handle: Record<string, 
 
 function MselRowViewImpl(p: RowViewProps) {
   const { r, activeCol } = p
-  const sortable = useSortable({ id: r.key })
+  const shared = useGridShared()
+  const partner = isPartnerRow(r.row, shared.regional)
+  const sortable = useSortable({ id: r.key, disabled: partner })
   const { setNodeRef, setActivatorNodeRef, attributes, listeners, isDragging } = sortable
   const style = {
     transform: CSS.Translate.toString(sortable.transform),
     transition: sortable.transition,
   }
   const ref = useRowRef(setNodeRef, p.measure)
-  const shared = useGridShared()
   return (
     <tr
       ref={ref}
@@ -167,6 +191,7 @@ function MselRowViewImpl(p: RowViewProps) {
         'msel-editor__row',
         CONTROL_TAGS.has(r.row.purposeTag) && 'msel-editor__row--control',
         isDragging && 'is-dragging',
+        partner && 'msel-editor__row--partner',
         r.row.branchId && 'msel-editor__row--branch',
         shared.offPath?.has(r.row.id) && 'msel-editor__row--off-path',
         !!p.warnings?.length && 'has-warning',

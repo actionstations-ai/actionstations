@@ -9,6 +9,7 @@ import type { GroundingResult } from '@shared/schemas/grounding'
 import type { BranchMark } from './branch-ops'
 import type { Move } from './CellEditors'
 import type { Cell, ColumnId } from './grid-nav'
+import type { RegionalView } from './owner'
 
 export type RowAction =
   'add-after' | 'duplicate' | 'delete' | 'sources' | 'clocks' | `move:${string}`
@@ -35,6 +36,8 @@ export interface GridShared {
   branchMarks?: ReadonlyMap<string, BranchMark> | undefined
   /** Row ids dimmed by the path filter. */
   offPath?: ReadonlySet<string> | undefined
+  /** Set in a regional exercise: partner-owned rows get a badge and are read-only (#497). */
+  regional?: RegionalView | undefined
 }
 
 /** Everything the grid needs from the editor (`actions` must keep its identity). */

@@ -37,6 +37,14 @@ title and heading unless you turn on **Share plan quotes**. A **private** row re
 placeholder with a one-line public description. Plan documents, the search index, facility facts,
 prompts and settings never leave.
 
+## Partner rows are read-only
+
+In the MSEL editor a row another organization owns shows **Owned by** and its prefix. You can read
+it, check its sources and add a row after it, but not edit, move, lock, duplicate or delete it:
+propose a change instead. Generating, re-running a step, repairing the MSEL and the critique
+revision leave those rows exactly as their owner wrote them; they are still read as context for the
+rows you own.
+
 ## Warnings and rejections
 
 Rejected: a row that is not yours or outside your prefix, an older revision, a duplicate id. Warnings:

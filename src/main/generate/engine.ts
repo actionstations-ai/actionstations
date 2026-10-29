@@ -3,6 +3,7 @@
 // step, resume from the first step without an ok run, and re-run of a single step that marks
 // everything downstream stale (never auto-rerun). The exported step helpers are shared with
 // repair-msel.ts (generate:repair), which runs the same repairs on a finished scenario.
+import { isPartnerRow, loadOwnerFilter, restorePartnerRows, type OwnerFilter } from './owner-filter'
 import { orderedCapabilities } from '@shared/core-capabilities'
 import {
   exerciseMinutes,
@@ -224,6 +225,8 @@ export interface Env {
   /** The snapshot itself, for the dated-values lint. */
   hazardSnapshot?: HazardSnapshot
   ctx: JobContext
+  /** Set for a regional exercise: rows owned by another organization are never changed (#497). */
+  ownerFilter?: OwnerFilter
   /**
    * Documents a running step wrote, held until its checkpoint (#209): a failed or cancelled
    * step leaves the documents on disk as they were. Absent outside executeStep (the MSEL
@@ -910,7 +913,8 @@ async function revisePhaseRows(
   const byId = new Map(current.map((r) => [r.id.toUpperCase(), r]))
   const replacements = rows.flatMap((r) => {
     const original = byId.get(r.id.trim().toUpperCase())
-    if (!original || original.locked || !flagged.has(original.id.toUpperCase())) return []
+    if (!original || original.locked || isPartnerRow(original, env.ownerFilter)) return []
+    if (!flagged.has(original.id.toUpperCase())) return []
     // A revision keeps the row's id, time and tag: a DECISION_POINT must survive its rewrite,
     // and so does the plan seam it tests (#427).
     const seam = original.seamId ? seamKey(s, original.seamId) : undefined
@@ -1090,7 +1094,9 @@ export function pruneRubricLinks(s: Scenario, ctx: JobContext): void {
  * identifiers the facility facts do not list (the message names the known ones).
  */
 export function structuralIssues(s: Scenario, env: Env): Issue[] {
-  const unlocked = new Set(s.msel.filter((r) => !r.locked).map((r) => r.id))
+  const unlocked = new Set(
+    s.msel.filter((r) => !r.locked && !isPartnerRow(r, env.ownerFilter)).map((r) => r.id),
+  )
   return [
     ...facilityIssues(s, env.facility),
     ...structuralLints(s, env.domain).map((w) => ({
@@ -1296,6 +1302,7 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
   const docs: DocBuffer = new Map()
   try {
     const run = await exec({ ...input, env: { ...env, docs }, scenario: work })
+    keepPartnerRows(work, input.scenario, env)
     recordRun(work, run)
     if (GROUNDED_STAGES.has(step.stage)) await groundStep(env, work)
     noteStaleInjects(input.scenario, work, env.ctx)
@@ -1316,6 +1323,13 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
     }
     throw err
   }
+}
+
+/** A step never changes a partner organization's rows (#497); undone changes are logged. */
+function keepPartnerRows(work: Scenario, before: Scenario, env: Env): void {
+  const undone = restorePartnerRows(work, before.msel, env.ownerFilter)
+  if (undone.length)
+    env.ctx.log(`kept ${undone.join(', ')} as its owner wrote it (partner rows)`, 'info')
 }
 
 /** Stages whose rows or overview sections get grounding labels when they finish (#423). */
@@ -1373,6 +1387,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
   const domain = domainContext(project, scenario)
   const hazardSnapshot = await snapshotFor(root, scenario)
   const hazards = hazardSnapshot ? hazardSummary(hazardSnapshot) : ''
+  const ownerFilter = await loadOwnerFilter(root, scenario.id)
   return {
     root,
     deps,
@@ -1383,6 +1398,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
     ...(idea ? { idea } : {}),
     ...(hazards ? { hazards } : {}),
     ...(hazardSnapshot ? { hazardSnapshot } : {}),
+    ...(ownerFilter ? { ownerFilter } : {}),
     ctx,
   }
 }

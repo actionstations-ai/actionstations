@@ -258,8 +258,9 @@ export function MselGrid(props: GridProps) {
       seams: ctx.seams,
       branchMarks: ctx.branchMarks,
       offPath: ctx.offPath,
+      regional: ctx.regional,
     }),
-    [ctx.roles, ctx.phases, ctx.grounding, ctx.seams, ctx.branchMarks, ctx.offPath],
+    [ctx.roles, ctx.phases, ctx.grounding, ctx.seams, ctx.branchMarks, ctx.offPath, ctx.regional],
   )
   const onKeyDown = gridKeyHandler(ctx, lines, onFocusRequest)
   const onDrag = useCallback(

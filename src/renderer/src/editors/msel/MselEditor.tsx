@@ -10,6 +10,7 @@ import { useEditorDialogs, type DialogState } from './use-editor-dialogs'
 import type { GridContextValue } from './grid-context'
 import { BranchesPanel } from './BranchesPanel'
 import { branchMarks, offPathRowIds, type PathFilter } from './branch-ops'
+import { isPartnerRow, type RegionalView } from './owner'
 import { LintBar } from './LintBar'
 import { SourceCheckBar } from './SourceCheckBar'
 import { GroundingDetails } from '../../components/GroundingDetails'
@@ -29,6 +30,7 @@ import { useMselEditor, type MselEditorApi } from './use-msel-editor'
 import { useRowOps } from './use-row-ops'
 import { useSelection } from './use-selection'
 import './msel-editor.css'
+import './owner.css'
 
 const isTextTarget = (t: EventTarget | null): boolean =>
   t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))
@@ -122,6 +124,21 @@ function useBranchView(draft: Draft, filter: PathFilter) {
   return { marks: stableMarks, off: stableOff }
 }
 
+/** The exercise's organizations when this scenario is part of a regional exercise (#497). */
+function useRegionalView(projectPath: string, scenarioId: string): RegionalView | undefined {
+  const state = useIpcQuery('regional:state', { projectPath, scenarioId }).data
+  return useMemo(
+    () =>
+      state
+        ? {
+            thisOrg: state.thisOrg,
+            orgs: new Map(state.orgs.map((o) => [o.orgId, { prefix: o.prefix, name: o.name }])),
+          }
+        : undefined,
+    [state],
+  )
+}
+
 function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump | undefined) {
   const editor = useMselEditor(projectPath, scenario)
   const draft = editor.state.draft
@@ -135,7 +152,11 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
   const [sourcesRow, setSourcesRow] = useState<string | null>(null)
   const [pathFilter, setPathFilter] = useState<PathFilter>('all')
   const branchView = useBranchView(draft, pathFilter)
+  const regional = useRegionalView(projectPath, scenario.id)
+  const readOnly = (key: string) =>
+    isPartnerRow(draft.rows.find((r) => r.key === key)?.row ?? {}, regional)
   const ops = useRowOps({
+    isReadOnly: readOnly,
     draft,
     edit: editor.edit,
     grid,
@@ -158,6 +179,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     seams: scenario.seams,
     branchMarks: branchView.marks,
     offPath: branchView.off,
+    regional,
   }
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)
