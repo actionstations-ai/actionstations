@@ -132,4 +132,4 @@ docker build -f relay/node/Dockerfile -t ghcr.io/actionstations-ai/actionstation
 docker push ghcr.io/actionstations-ai/actionstations-relay:<version>
 ```
 
-Then set the package's visibility to public in the organization's package settings. Binaries: `pnpm build:player`, then `pnpm --filter @actionstations/relay-node build:public` and `pnpm --filter @actionstations/relay-node build:sea` on Linux x64 and on Windows x64, and attach each executable and its `.sha256` file to the GitHub release.
+Then set the package's visibility to public in the organization's package settings. Binaries: the release workflow builds the Linux x64 and Windows x64 executables (`pnpm build:player`, then `pnpm --filter @actionstations/relay-node build:public` and `build:sea`) on standard runners and uploads each with its `.sha256` file to the draft release. To build one by hand, run the same three commands on that platform.
