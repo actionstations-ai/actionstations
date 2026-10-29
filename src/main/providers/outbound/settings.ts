@@ -15,6 +15,7 @@ import {
 import { facilityFilePath, parseFacilityFile } from '../../generate/facility-file'
 import { loadProject } from '../../project/store'
 import { writeFileAtomic } from '../../lib/fs'
+import { registerQuitFlush } from '../../lib/quit-flush'
 import { userDataPath } from '../../lib/paths'
 import { projectRedactionKey } from '../../secrets'
 import { getSettings } from '../../settings/store'
@@ -276,6 +277,9 @@ export function registryFor(projectPath?: string): Promise<RedactionRegistry> {
 export async function flushRegistries(): Promise<void> {
   await Promise.all([...writes.values()].map((w) => w.catch(() => undefined)))
 }
+
+// Quitting waits (briefly) for these writes, so no redacted value is lost at exit.
+registerQuitFlush(flushRegistries)
 
 /** Tests only: forget the in-memory registries, as a restart does. */
 export function resetRegistries(): void {

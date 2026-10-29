@@ -282,6 +282,16 @@ describe('redacted values across restarts and copies (#454 re-review)', () => {
     expect(sent[1]).toMatch(/\[\[PERSON_[A-Z2-7]{4,}\]\] opens the EOC/)
   })
 
+  it('quitting while a write is pending still keeps the values (#433)', async () => {
+    const { runQuitFlushes } = await import('../../lib/quit-flush')
+    const first = await redactIn(projectPath, 'Call Chief Zubair Oyelaran.')
+    // No flushRegistries(): the write is still pending when the app quits.
+    await runQuitFlushes()
+    resetRegistries()
+    const after = await redactIn(projectPath, 'Zubair Oyelaran opens the EOC.')
+    expect(after.text).toBe(`${first.spans[0]!.placeholder} opens the EOC.`)
+  })
+
   it('keeps the values encrypted in the settings folder, never in the project folder', async () => {
     await redactIn(projectPath, 'Call Chief Zubair Oyelaran.')
     await flushRegistries()
