@@ -486,7 +486,13 @@ async function clippedControls(page: Page, screen: string): Promise<ZoomFinding[
     if (main && main.scrollWidth > main.clientWidth + 1)
       out.push({
         problem: 'main pane scrolls horizontally',
-        element: `${main.scrollWidth}px > ${main.clientWidth}px`,
+        element: `${main.scrollWidth}px > ${main.clientWidth}px; widest: ${[
+          ...main.querySelectorAll('*'),
+        ]
+          .filter((e) => e.getBoundingClientRect().right > main.getBoundingClientRect().right + 1)
+          .map((e) => `${e.tagName.toLowerCase()}.${e.className}`)
+          .slice(-3)
+          .join(', ')}`,
       })
     const controls = document.querySelectorAll(
       'button, a[href], input, select, textarea, [role="tab"], [tabindex="0"]',

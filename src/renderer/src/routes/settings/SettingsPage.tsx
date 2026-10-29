@@ -72,7 +72,7 @@ function ProjectsFolderField({ current }: { current: string }) {
       hint="New projects are created here unless you choose another location. Updated each time you create a project."
     >
       {({ id, describedBy }) => (
-        <div className="row">
+        <div className="row settings-path-row">
           <input
             id={id}
             className="input mono"
