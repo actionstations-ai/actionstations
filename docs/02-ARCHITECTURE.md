@@ -150,6 +150,8 @@ Routing: `project.json → providerRouting: { ideate: 'anthropic:claude-…', dr
 
 Secrets: `safeStorage.encryptString` → app `userData/secrets.json`; never in project folder.
 
+**Outbound gate (#433, ADR-0031).** `resolve.ts` is the only place callers get providers. A provider for which `isRemoteProvider(config)` is true (`src/shared/provider-network.ts`: kind `anthropic`, or a non-loopback host unless `options.network: 'local'`) is wrapped by `providers/outbound/gate.ts`; local providers are returned unwrapped. For `chat`, the gate redacts system, context and messages (`outbound/detect/*`, `outbound/redact.ts`: keyed HMAC placeholders, mapping in memory only), builds an `OutboundManifest`, asks under the review policy (`outbound/approvals.ts`, IPC `privacy:*`, event `outbound:approval-needed`, `Job.awaiting`), checks the approved SHA-256 against the exact body, calls the adapter, restores placeholders in `text` and `json`, and appends to `<project>/cloud-sends.jsonl`. Embedding and media requests are previewed and approved without redaction. The job and project come from `ChatRequest.outbound` (filled by `runStage`) or the job's `AsyncLocalStorage` scope (`jobs/scope.ts`). An ESLint rule keeps registry and adapter construction inside `src/main/providers/`.
+
 ## Export
 
 - PDF via the hidden window `printToPDF` on export-specific HTML templates (`templates/export/*`), so PDFs match in-app previews. Fonts bundled.
@@ -172,5 +174,6 @@ Secrets: `safeStorage.encryptString` → app `userData/secrets.json`; never in p
 
 - `contextIsolation`, no `remote`, CSP on renderer, sandboxed hidden render window with no network (templates are local).
 - The app makes two kinds of network call on its own, both only after the user turns them on: pack catalogs the user added (ADR-0018), and the update check (ADR-0024), one GET to `api.github.com/repos/actionstations-ai/actionstations/releases/latest` at most once a day with the setting on, or on **Check now**. It sends only the fixed URL and a `User-Agent: ActionStations/<version>`, follows no redirects, reads at most 1 MB and never downloads an installer.
+- Cloud requests pass the outbound gate (see Providers): preview, approval bound to the request hash, optional redaction with placeholders whose mapping never leaves main-process memory, and a content-free send log.
 - Validate every IPC payload with zod. Path-join guards so a malicious `scenario.json` can't escape the project folder.
 - Treat parsed document text as data, never as prompt instructions (wrap retrieved chunks in delimiters and say so in system prompts).

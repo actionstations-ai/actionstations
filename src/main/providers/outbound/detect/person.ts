@@ -28,7 +28,8 @@ const AMBIGUOUS_GIVEN = new Set(
     'Taylor Parker Archer Ranger Gunner Sailor Pilot Captain Chief Judge Deputy Christian ' +
     'Constance Patience Prudence Charity Mercy Noble Saint Bishop Abbey Easter Holiday Neon ' +
     'Echo Legend Kingston Ace Bud Buck Chip Duke Earl Prince Lord Queen Princess Angel Angela ' +
-    'Ebony Raven Robin Wren Jay Drew Lee Long Young Brown Green White Black Gold Silver'
+    'Ebony Raven Robin Wren Jay Drew Lee Long Young Brown Green White Black Gold Silver Early ' +
+    'Dell Sol Case Kit Pilot Merlin Harmon Lincoln Emerson Johnson Ridge Corwin'
   ).split(/\s+/),
 )
 
@@ -76,7 +77,15 @@ const NOT_NAME_WORDS = new Set(
     'baggage cargo freight fuel fueling ground handling maintenance engineering facilities ' +
     'parking access badge badging credential credentials screening checkpoint perimeter ' +
     'patrol k-9 canine bomb squad swat tactical intelligence fusion joint task force ' +
-    'unified area field mobile forward rear base post point zone sector region'
+    'unified area field mobile forward rear base post point zone sector region elementary ' +
+    'middle high school schools election elections vote early township overview location ' +
+    'message manual log logs integrity monitoring notifications processing loading room desk ' +
+    'feed server vlan pilot remote partial please trends two rotating retail spanish managed ' +
+    'testbed digital full contains confirms does alarms controls filters evaporation caustic ' +
+    'hypochlorite scrubber chemical storage technologies foods question debate pediatric ' +
+    'pediatrics description provisions cell direct hotline inspection visit takers sites line ' +
+    'call epi case kit unknown drones newsroom reporter desk support approved approves ' +
+    'latitude windows linux cloud vpn wi-fi wifi camera cameras'
   ).split(/\s+/),
 )
 
@@ -93,9 +102,7 @@ const TITLES = [
   'Sgt',
   'Det',
   'Cmdr',
-  'Maj',
   'Col',
-  'Gen',
   'Gov',
   'Sen',
   'Rep',
@@ -112,9 +119,7 @@ const TITLES = [
   'Officer',
   'Detective',
   'Commander',
-  'Major',
   'Colonel',
-  'General',
   'Director',
   'Mayor',
   'Governor',
@@ -148,7 +153,8 @@ const TITLE_RE = new RegExp(
 )
 
 /** A capitalized name word: Ruiz, McDonald, O'Neil, Okafor, Smith-Jones. */
-const NAME_WORD = String.raw`(?:[A-Z]['’][A-Z][a-z]+|[A-Z][a-z][A-Za-z'’]*(?:-[A-Z][a-z]+)?)`
+const NAME_WORD = String.raw`(?:[A-Z]['’][A-Z][a-z]+|[A-Z][a-z]+(?:[A-Z][a-z]+)?(?:-[A-Z][a-z]+)?)`
+const WHOLE_NAME_WORD = new RegExp(`^${NAME_WORD}$`, 'u')
 const NAME_AT = new RegExp(`${NAME_WORD}(?![\\p{L}\\p{N}_])`, 'uy')
 const INITIAL_AT = /[A-Z]\.\s+/y
 const SPACE_AT = /[ \t]+/y
@@ -222,10 +228,18 @@ function givenSurname(text: string, ctx: DetectContext): DetectedSpan[] {
 }
 
 const TABLE_ROW = /^\s*\|(.+)\|\s*$/
-const NAME_HEADER = /^(?:name|full name|contact|contact name|person|poc|point of contact)$/i
+const NAME_HEADER = /^(?:name|full name|contact name|person|staff name|poc|point of contact)$/i
 const SEPARATOR = /^\s*\|?\s*:?-{2,}/
 
 const cells = (line: string): string[] => (TABLE_ROW.exec(line)?.[1] ?? '').split('|')
+
+/** A table cell that reads as a person: "Avery Kestrel", "Jane R. Doe", "Quill". */
+function looksLikeName(words: string[], ctx: DetectContext): boolean {
+  if (words.length === 0 || words.length > 4) return false
+  const named = words.filter((w) => !/^[A-Z]\.$/.test(w))
+  if (!named.every((w) => WHOLE_NAME_WORD.test(w) && isNameWord(w, ctx))) return false
+  return named.length === 1 || GIVEN.has(named[0]!)
+}
 
 /** Cells under a "Name" header in Markdown tables (contact lists from ingest). */
 function tableNames(text: string, ctx: DetectContext): DetectedSpan[] {
@@ -250,8 +264,7 @@ function tableNames(text: string, ctx: DetectContext): DetectedSpan[] {
     if (!cell) continue
     const value = cell.trim()
     const words = value.split(/\s+/)
-    if (words.length > 4 || !/^[\p{L}][\p{L}.'’ -]+$/u.test(value)) continue
-    if (words.every((w) => !isNameWord(w.replace(/\.$/, ''), ctx))) continue
+    if (!looksLikeName(words, ctx)) continue
     let pipe = line.indexOf('|')
     for (let c = 0; c < column; c++) pipe = line.indexOf('|', pipe + 1)
     const at = line.indexOf(value, pipe + 1)

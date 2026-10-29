@@ -38,7 +38,7 @@ function Redacted({ span, text }: { span: RedactionSpan; text: string }) {
 /** The text as it will be sent, with each redacted value shown and labelled. */
 export function SentText({ text, spans }: { text: string; spans: RedactionSpan[] }) {
   return (
-    <pre className="outbound-text">
+    <pre className="outbound-text" tabIndex={0}>
       {segmentsOf(text, spans).map((seg, i) =>
         'span' in seg ? (
           <Redacted key={i} span={seg.span} text={seg.text} />
@@ -186,7 +186,7 @@ export function OutboundApprovalDialog(props: {
       open={props.open}
       onOpenChange={props.onOpenChange}
       className="dialog--wide"
-      title={`Send to ${m.providerLabel} (${host})?`}
+      title={m.host ? `Send to ${m.providerLabel} (${m.host})?` : `Send to ${m.providerLabel}?`}
       description={`If you send it, this request leaves your computer and goes to ${host}, model ${m.model}. Nothing is sent until you choose.`}
       footer={
         <>

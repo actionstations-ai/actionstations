@@ -24,7 +24,8 @@ Project {
   providerRouting: Record<ProviderTask, ProviderRef>,   // 'ideate'|'draft'|'critique'|'embed'|'image'|'video'|'audio'
   promptOverrides: string[],                            // filenames in prompts/
   documents: DocumentMeta[],                            // denormalized index
-  scenarios: ScenarioMeta[]
+  scenarios: ScenarioMeta[],
+  privacy?: { review?, redact?, alwaysRedact?, neverRedact? } // overrides of AppSettings.privacy (#433)
 }
 
 // packs.json (ADR-0018): pack items this project copied into its own layer on first use
@@ -280,6 +281,28 @@ ExerciseRecord { sources: { facilitator, evaluation, live, surveys }, liveSessio
 
 Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (spec 0417; read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
 
+## Cloud privacy (#433, ADR-0031)
+
+```ts
+// AppSettings.privacy (global defaults) and Project.privacy (per-field overrides)
+PrivacySettings {
+  review: 'new-excerpts' | 'every-request' | 'per-job' | 'off',   // default 'new-excerpts'
+  redact: Partial<Record<'person'|'phone'|'email'|'address', boolean>>, // a missing category is on
+  alwaysRedact: string[], neverRedact: string[]                    // terms, 2-200 chars, max 500
+}
+
+// <project>/cloud-sends.jsonl — one line per cloud request; never text, values or placeholders
+CloudSendEntry { at, providerId, providerLabel, host, model, kind: 'chat'|'embed'|'media', task,
+  stage?, itemId?, jobId?, excerpts: { documentId, headingPath }[],
+  chars: Record<partName, number>, redactions: Partial<Record<category, number>>,
+  approval: 'asked'|'job-approval'|'document-approval'|'policy-off', requestHash /* sha256 */ }
+
+// Job.awaiting?: { kind: 'cloud-approval', requestId } while a job waits for the user;
+// the status stays 'running'. Dropped when an interrupted job is restored.
+```
+
+The approval dialog receives an `OutboundManifest` (`src/shared/schemas/privacy.ts`) over local IPC only: the request as it will be sent, plus the original value of each redacted span. The placeholder mapping itself stays in main-process memory.
+
 ## SQLite (index.sqlite, rebuildable)
 
 ```sql
@@ -318,7 +341,8 @@ Front matter with scenario id, version, generated-at, provider summary, and a ch
 | File | Contents |
 |---|---|
 | `settings.json` | `AppSettings`: recent projects, provider configs (no keys), default routing, embedding mode, UI theme, pack catalog URLs (`packs.catalogs`) |
-| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600 |
+| `secrets.json` | `{ [providerId]: base64(safeStorage.encryptString(apiKey)) }` — ciphertext only, mode 0600. Also `redaction:<projectId>` entries: each project's 32-byte redaction key (#433) |
+| `cloud-sends.jsonl` | Send log for cloud requests made outside a project (#433); same lines as the project file |
 | `prompts/<name>.md` | Global prompt overrides (project overrides live in `<project>/prompts/`) |
 | `models/` | Downloaded local embedding models (only via the explicit download action) |
 | `provider-calls.jsonl` | One line per model call: provider, model, tokens, cost, duration — no prompt text, no keys |

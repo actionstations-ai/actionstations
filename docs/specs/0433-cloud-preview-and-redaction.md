@@ -1,6 +1,6 @@
 # Spec 0433: Preview and redact what goes to cloud models
 
-Issue: #433 · Milestone: 0.7.0 · Status: Draft · Depends on: none · Related: #423, #427
+Issue: #433 · Milestone: 0.7.0 · Status: Implemented (ADR-0031) · Depends on: none · Related: #423, #427
 
 ## Summary
 
@@ -368,6 +368,48 @@ chosen policy, with the redactions shown.
    `docs/02-ARCHITECTURE.md` (Providers and Security sections), `docs/05-DATA-MODEL.md`
    (`cloud-sends.jsonl`, privacy settings), ADR for "one outbound gate at provider resolution with
    keyed deterministic placeholders", CHANGELOG.
+
+## Implementation notes
+
+Where the code differs from or adds to the design above, and why:
+
+- **Job context.** Besides `ChatRequest.outbound` (filled by `runStage`, now also carrying `task`),
+  the job manager runs every job inside an `AsyncLocalStorage` scope (`src/main/jobs/scope.ts`).
+  Embedding and media requests carry no metadata, so the gate reads the job and project from that
+  scope.
+- **Approval scopes** are per job and provider (an approval for one host never covers another).
+  Outside a job (a search on the Search page), one scope per project and provider lasts for the app
+  session.
+- **Hash binding is two-sided.** The manifest carries `requestHash`; `privacy:decide` must echo
+  it (`CONFLICT` otherwise), and the gate re-hashes the exact body it hands to the adapter.
+- **Settings changes while waiting.** `privacy:set` rebuilds every waiting request of that project
+  (all, for the global settings) and asks again. A second event, `outbound:approval-settled`,
+  tells the renderer to drop a request that was answered, rebuilt or cancelled.
+- **Schemas.** `Project.privacy` is `ProjectPrivacy` (every field optional, no defaults) instead of
+  `PrivacySettings.partial()`, so a project stores only what it overrides. The manifest also has
+  `kind`, `providerId`, `projectPath`, `review`, `totalChars` and `createdAt`; spans carry
+  `original` (local IPC only). `CloudSendEntry` adds `kind` and `jobId`. Chat parts are named
+  `system`, `cacheableContext` and `message:<i>:<role>`.
+- **Turning review off** needs `confirmOff: true` on `privacy:set`; the screen asks first and names
+  the cloud providers.
+- **Exempt paths** (fixed sample text, no project content): the Providers page **Test**, the voice
+  sample, the Workflows page test renders, and the embedders' one-time dimension probe. They use
+  `connectionTestTextProvider` / `connectionTestMediaProvider` in `resolve.ts`.
+- **Embeddings (open question 5).** One approval per job: the first batch is shown (its texts), the
+  rest go under `job-approval`. The dialog lists texts, not documents, because embedding batches
+  carry no document metadata.
+- **Unknown placeholders** are reported as a `REDACTION_UNKNOWN` warning in the job log with the
+  stage and item, not yet as a scenario warning.
+- **Send log** lines are written just before the adapter call, so a request that fails after
+  leaving the computer is still recorded.
+- **Detection additions.** Later mentions of a detected surname on its own are redacted too. The
+  Name column is recognised under `Name`, `Full name`, `Contact name`, `Person`, `Staff name`, `POC`
+  and `Point of contact` headers only, and a cell must read as a name. `General` and `Major` are
+  not titles (too often ordinary words).
+- **UI placement.** Project overrides, the sample box and the send log are on a project page,
+  **Cloud and privacy** (Advanced section), with a summary card on the project home page, rather
+  than inside `ProjectSettingsForm.tsx`.
+- **Live test** runs only with `LIVE=1` and `LIVE_ANTHROPIC_KEY`, since it is a paid call.
 
 ## Open questions
 

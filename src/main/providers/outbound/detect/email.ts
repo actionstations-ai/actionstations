@@ -3,7 +3,7 @@
 import { span, type DetectedSpan } from './types'
 
 const EMAIL =
-  /(?<![\w.%+-])[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}(?![\w-])/g
+  /(?<![\w.%+'`-])[A-Za-z0-9!#$%&*+/=?^_{|}~-][A-Za-z0-9!#$%&'*+/=?^_`{|}~-]*(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,24}(?![\w-])/g
 
 export function detectEmails(text: string): DetectedSpan[] {
   return [...text.matchAll(EMAIL)].map((m) => span(text, m.index, m.index + m[0].length, 'email'))
