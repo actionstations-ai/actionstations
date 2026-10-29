@@ -11,12 +11,19 @@ export const COLUMNS = [
   { id: 'tag', label: 'Tag' },
   { id: 'format', label: 'Format' },
   { id: 'citations', label: 'Citations' },
+  { id: 'criteria', label: 'Criteria' },
   { id: 'locked', label: 'Locked' },
   { id: 'actions', label: 'Row actions', hidden: true },
 ] as const
 
 export type ColumnId = (typeof COLUMNS)[number]['id']
 export const COLUMN_IDS: ColumnId[] = COLUMNS.map((c) => c.id)
+
+/**
+ * Columns the arrow keys visit. The Criteria column (#421) is read-only text a toggle shows or
+ * hides, so it is not a cell to land on; the same criteria are in the expected-action cell.
+ */
+const NAV_COLUMN_IDS: ColumnId[] = COLUMN_IDS.filter((c) => c !== 'criteria')
 
 /** Columns that open an editor on Enter / F2. */
 export const EDITABLE: ReadonlySet<ColumnId> = new Set<ColumnId>([
@@ -72,11 +79,11 @@ export function navigate(
     0,
     lines.findIndex((l) => l.key === active.line),
   )
-  const ci = COLUMN_IDS.indexOf(active.col)
+  const ci = NAV_COLUMN_IDS.indexOf(active.col)
   const isPhase = lines[li]?.kind === 'phase'
   const at = (l: number, c: number): Cell => ({
     line: lines[Math.min(lines.length - 1, Math.max(0, l))]!.key,
-    col: COLUMN_IDS[Math.min(COLUMN_IDS.length - 1, Math.max(0, c))]!,
+    col: NAV_COLUMN_IDS[Math.min(NAV_COLUMN_IDS.length - 1, Math.max(0, c))]!,
   })
   switch (key) {
     case 'ArrowUp':
@@ -87,12 +94,14 @@ export function navigate(
       return isPhase ? at(li, 0) : at(li, ci - 1)
     case 'ArrowRight':
       return isPhase && active.col === 'select'
-        ? at(li, COLUMN_IDS.indexOf('time'))
+        ? at(li, NAV_COLUMN_IDS.indexOf('time'))
         : at(li, ci + 1)
     case 'Home':
       return ctrl ? at(0, 0) : at(li, 0)
     case 'End':
-      return ctrl ? at(lines.length - 1, COLUMN_IDS.length - 1) : at(li, COLUMN_IDS.length - 1)
+      return ctrl
+        ? at(lines.length - 1, NAV_COLUMN_IDS.length - 1)
+        : at(li, NAV_COLUMN_IDS.length - 1)
     case 'PageUp':
       return at(li - pageSize, ci)
     case 'PageDown':

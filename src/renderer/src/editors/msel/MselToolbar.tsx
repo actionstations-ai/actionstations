@@ -19,6 +19,9 @@ interface ToolbarProps {
   onUndo: () => void
   onRedo: () => void
   onHistory: () => void
+  /** The Criteria column (#421): shown, and the toggle. */
+  showCriteria: boolean
+  onToggleCriteria: () => void
 }
 
 const isMac = () => typeof navigator !== 'undefined' && /Mac/.test(navigator.platform)
@@ -80,6 +83,9 @@ export function MselToolbar(p: ToolbarProps) {
       </Button>
       <Button size="sm" variant="ghost" onClick={p.onHistory}>
         <History size={14} aria-hidden /> History
+      </Button>
+      <Button size="sm" variant="ghost" aria-pressed={p.showCriteria} onClick={p.onToggleCriteria}>
+        Criteria column
       </Button>
       <label className="msel-editor__snap" htmlFor={snapId}>
         Drag snaps to

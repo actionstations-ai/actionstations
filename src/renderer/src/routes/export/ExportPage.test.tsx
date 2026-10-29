@@ -119,6 +119,20 @@ describe('ExportPage (#238)', () => {
     )
   })
 
+  it('sends the number of EEG copies only when more than one is asked for (#421)', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    const copies = await screen.findByRole('spinbutton', {
+      name: 'Copies of the evaluation guides',
+    })
+    await user.clear(copies)
+    await user.type(copies, '4')
+    await user.click(screen.getByRole('button', { name: 'Export' }))
+    await waitFor(() =>
+      expect(ttx.calls('export:run')[0]).toMatchObject({ options: { evaluatorCopies: 4 } }),
+    )
+  })
+
   it('builds the default folder with the platform separator', () => {
     expect(defaultOutDir('/a/b/')).toBe('/a/b/exports')
     expect(defaultOutDir('C:\\Projects\\Dam')).toBe('C:\\Projects\\Dam\\exports')

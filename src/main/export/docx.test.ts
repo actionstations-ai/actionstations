@@ -42,6 +42,14 @@ describe('DOCX export', () => {
     expect(xml).toContain('End of Exercise Evaluation Guides')
   })
 
+  it('EEGs: one copy per evaluator seat, each labelled (#421)', async () => {
+    const model = { ...fixtureModel(), evaluatorCopies: 2 }
+    const xml = await documentXml(await eegDocx(model))
+    expect(xml).toContain('Evaluator 1')
+    expect(xml).toContain('Evaluator 2')
+    expect(xml.split('Exercise Evaluation Guide 1: Public Information and Warning')).toHaveLength(3)
+  })
+
   it('AAR/IP: HSEEP headings, confirmed ratings only and the Improvement Plan table (#419)', async () => {
     const xml = await documentXml(await aarDocx(fixtureModel({ aar: fixtureAar() })))
     for (const heading of [

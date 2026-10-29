@@ -127,6 +127,25 @@ describe('resolveEvidence (#419)', () => {
     expect(resolveEvidence(record, 'survey:SV1:q9')?.meta).toContain('too few to show detail')
   })
 
+  it('reads tracker, clock and transcript refs to lines (#428, #426, #425)', () => {
+    const withLines = {
+      ...record,
+      tracker: [{ ref: 'trk:U-I-09', meta: 'I-09', text: 'No response was recorded to I-09' }],
+      clocks: [{ ref: 'clk:K1', meta: 'CIRCIA', text: '72-hour report: Missed' }],
+      transcripts: [{ ref: 'tr:T1', meta: 'Hot wash · 15:30', text: 'We never confirmed it.' }],
+    }
+    expect(resolveEvidence(withLines, 'trk:U-I-09')).toMatchObject({
+      kind: 'Tracker',
+      meta: 'I-09',
+    })
+    expect(resolveEvidence(withLines, 'clk:K1')).toMatchObject({ kind: 'Regulatory clock' })
+    expect(resolveEvidence(withLines, 'tr:T1')).toMatchObject({
+      kind: 'Hot wash recording',
+      text: 'We never confirmed it.',
+    })
+    expect(resolveEvidence(record, 'clk:K1')).toBeUndefined()
+  })
+
   it('returns nothing for a ref the record no longer holds', () => {
     expect(resolveEvidence(record, 'note:I-99')).toBeUndefined()
     expect(resolveEvidence(record, 'survey:SV9')).toBeUndefined()

@@ -17,6 +17,8 @@ import {
 } from '@shared/schemas'
 import { FacilitatorState } from '@shared/ipc/facilitator'
 import { LiveSession } from '@shared/schemas/live'
+import { assembleRecord } from '../aar/record'
+import { readLiveLog } from '../aar/sources/live-log'
 import { listDrills } from '../drill/store'
 import { microDrillSummaries } from '../microdrill/program'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
@@ -118,6 +120,26 @@ export function drillRunsOf(drills: Drill[], scenarioId: string): SnapshotScenar
   return runs.length ? runs : undefined
 }
 
+/**
+ * The scenario's observations from every source the AAR reads: `evaluation.json` and the live
+ * session log (#424). A live session whose observations never reached `evaluation.json` still
+ * counts; one that did is counted once.
+ */
+export async function observationsOf(
+  root: string,
+  scenario: Scenario,
+  record: EvaluationRecord | null,
+): Promise<Observation[]> {
+  const live = await readLiveLog(root, scenario.id).catch(() => undefined)
+  if (!live) return record?.observations ?? []
+  try {
+    return assembleRecord(scenario, { ...(record ? { evaluation: record } : {}), live })
+      .observations
+  } catch {
+    return record?.observations ?? []
+  }
+}
+
 async function snapshotScenario(
   root: string,
   id: string,
@@ -136,6 +158,7 @@ async function snapshotScenario(
     EvaluationRecord.nullable(),
     () => null,
   )
+  const observations = await observationsOf(root, scenario, record)
   const capabilities = new Set([
     ...scenario.evaluation.objectiveCapabilities.map((c) => c.capability),
     ...scenario.evaluation.eegs.map((e) => e.capability),
@@ -149,7 +172,7 @@ async function snapshotScenario(
     ...(exercisedAt ? { exercisedAt } : {}),
     coreCapabilities: [...capabilities],
     planSections: planSectionsOf(scenario, shaOf),
-    ...(record?.observations.length ? { ratings: countRatings(record.observations) } : {}),
+    ...(observations.length ? { ratings: countRatings(observations) } : {}),
     aarPresent: await exists(join(dir, 'aar.json')),
     ...(drillRunsOf(drills, id) ? { drillRuns: drillRunsOf(drills, id)! } : {}),
   }

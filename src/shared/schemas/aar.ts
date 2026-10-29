@@ -95,12 +95,13 @@ export const AAR_LIMITS = {
  * Where a finding's evidence comes from: `note:I-09` (facilitator note on a row, `note:general`
  * for the general notes), `obs:<observationId>`, `hw:<itemId>` (hot wash item), `dec:<id>`
  * (decision log), `vote:<voteId>`, `msg:<messageId>`, `survey:<surveyId>[:<questionId>]`,
- * `log:<index>` (a raw session log entry). Refs are copied from the record; an unknown one is
+ * `log:<index>` (a raw session log entry), `trk:R1` / `trk:P1` (tracker response or commitment),
+ * `clk:K1` (regulatory clock result), `tr:T1` (hot wash transcript quote). Refs are copied from the record; an unknown one is
  * dropped by the mapper.
  */
 export const EvidenceRef = z
   .string()
-  .regex(/^(note|obs|hw|dec|vote|msg|survey|log):[A-Za-z0-9:_.-]+$/)
+  .regex(/^(note|obs|hw|dec|vote|msg|survey|log|trk|clk|tr):[A-Za-z0-9:_.-]+$/)
   .max(200)
 export type EvidenceRef = z.infer<typeof EvidenceRef>
 
@@ -258,12 +259,27 @@ export type RecordMessage = z.infer<typeof RecordMessage>
 export const RecordObservation = Observation.extend({ ref: EvidenceRef })
 export type RecordObservation = z.infer<typeof RecordObservation>
 
+/**
+ * One line from a derived source (tracker report #428, regulatory clocks #426, hot wash
+ * transcript quotes #425): the text is built in main, role labels only.
+ */
+export const RecordLine = z.object({
+  ref: EvidenceRef,
+  /** Where it came from, such as an inject id or a recording time. */
+  meta: z.string().max(200).optional(),
+  text: recordText,
+})
+export type RecordLine = z.infer<typeof RecordLine>
+
 export const ExerciseRecord = z.object({
   sources: z.object({
     facilitator: z.boolean(),
     evaluation: z.boolean(),
     live: z.boolean(),
     surveys: z.boolean(),
+    tracker: z.boolean().optional(),
+    clocks: z.boolean().optional(),
+    transcripts: z.boolean().optional(),
   }),
   liveSessionId: z.string().max(64).optional(),
   delivered: recordList(
@@ -282,6 +298,12 @@ export const ExerciseRecord = z.object({
   /** Messages per role label, for the prompt's summary line. */
   messageCounts: z.array(z.object({ role: z.string().max(160), count: z.number().int() })),
   surveys: z.array(SurveySummary).max(100),
+  /** Unanswered injects, response times and commitments (#428). */
+  tracker: recordList(RecordLine).optional(),
+  /** Regulatory clock results (#426). */
+  clocks: recordList(RecordLine).optional(),
+  /** Marked hot wash quotes, never redacted segments (#425). */
+  transcripts: recordList(RecordLine).optional(),
   /** Sources that were present but could not be read in full. */
   warnings: z.array(z.string().max(500)).default([]),
 })
@@ -299,6 +321,8 @@ export function recordRefs(record: ExerciseRecord): Set<string> {
   ])
     for (const item of list) refs.add(item.ref)
   for (const o of record.observations) refs.add(o.ref)
+  for (const list of [record.tracker, record.clocks, record.transcripts])
+    for (const item of list ?? []) refs.add(item.ref)
   for (const s of record.surveys) {
     refs.add(`survey:${s.surveyId}`)
     for (const q of s.questions) refs.add(`survey:${s.surveyId}:${q.questionId}`)

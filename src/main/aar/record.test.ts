@@ -126,7 +126,12 @@ const survey: SurveySummary = {
 describe('assembleRecord', () => {
   it('builds from facilitator notes alone and says which sources are missing', () => {
     const r = assembleRecord(scenario, { facilitator })
-    expect(r.sources).toEqual({ facilitator: true, evaluation: false, live: false, surveys: false })
+    expect(r.sources).toMatchObject({
+      facilitator: true,
+      evaluation: false,
+      live: false,
+      surveys: false,
+    })
     expect(r.notes.map((n) => n.ref)).toEqual(['note:I-06', 'note:I-12', 'note:general'])
     expect(r.delivered.map((d) => d.rowId)).toEqual(['I-06', 'I-12'])
     expect(r.hotwash.map((h) => h.ref)).toEqual(['hw:hw-1', 'hw:hw-2'])
@@ -154,14 +159,19 @@ describe('assembleRecord', () => {
 
   it('merges every source: live observations replace stored ones by id, rows are delivered once', () => {
     const liveOnly = assembleRecord(scenario, { live })
-    expect(liveOnly.sources).toEqual({
+    expect(liveOnly.sources).toMatchObject({
       facilitator: false,
       evaluation: false,
       live: true,
       surveys: false,
     })
     const r = assembleRecord(scenario, { facilitator, evaluation, live, surveys: [survey] })
-    expect(r.sources).toEqual({ facilitator: true, evaluation: true, live: true, surveys: true })
+    expect(r.sources).toMatchObject({
+      facilitator: true,
+      evaluation: true,
+      live: true,
+      surveys: true,
+    })
     expect(r.liveSessionId).toBe('run1')
     expect(r.delivered.map((d) => d.rowId)).toEqual(['I-01', 'I-06', 'I-09', 'I-10', 'I-12'])
     expect(r.observations.map((o) => o.id).sort()).toEqual(

@@ -32,7 +32,16 @@ export function observationKeys(s: Scenario, t: CriticalTask): string {
     .join(', ')
 }
 
-export function eegView(model: ExportModel, prefix = '') {
+/** Blank copies of the packet to print: one per evaluator seat. */
+export const evaluatorCopies = (model: Pick<ExportModel, 'evaluatorCopies'>): number =>
+  Math.max(1, model.evaluatorCopies ?? 1)
+
+/** The packet's id prefix for copy `n` of `of`, so ids stay unique when it is printed twice. */
+export const copyPrefix = (prefix: string, n: number, of: number): string =>
+  of > 1 ? `${prefix}c${n}-` : prefix
+
+/** `copy` names the evaluator seat of a numbered copy ("Evaluator 2"); a single copy has a blank line. */
+export function eegView(model: ExportModel, prefix = '', copy?: number) {
   const s = model.scenario
   const objectiveName = (id: string): string => {
     const o = s.objectives.find((x) => x.id === id)
@@ -47,7 +56,7 @@ export function eegView(model: ExportModel, prefix = '') {
       sub: s.subtitle ?? '',
       facts: titleFacts(model, [
         ['Exercise date', '____________'],
-        ['Evaluator', '____________'],
+        ['Evaluator', copy ? `Evaluator ${copy}` : '____________'],
       ]),
     },
     intro: {

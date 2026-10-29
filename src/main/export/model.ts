@@ -79,6 +79,8 @@ export interface ExportModel {
   hazardAppendix?: string
   /** Document language (spec 0435); English when absent. */
   lang?: DocLang
+  /** Blank copies of the EEG packet, one per evaluator seat (#421); one when absent. */
+  evaluatorCopies?: number
   /** Large-print layer on (spec 0435 FR-17). */
   largePrint?: boolean
   /** Every page carries the unreviewed machine translation stamp (spec 0435 FR-11). */

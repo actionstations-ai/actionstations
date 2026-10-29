@@ -294,6 +294,8 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 
 **Offline.** Keep rating with no signal. Observations are kept on the device and sent, once each and in order, when it reconnects. Editing a rating sends a new revision; the controller keeps the latest and logs every one.
 
+**Fixing a note.** Under **Other observations**, **Edit** reopens a general observation you saved; saving sends it as a new revision of the same observation, so the controller keeps one entry. Task ratings are changed the same way as before, by rating again.
+
 **After the exercise.** The page shows your observations, read-only. Copy what you need: a later visit to the link does not keep them. Without a device, use the printed EEG packet and type the results into the Evaluation tab afterwards.
 
 **For the facilitator.** In the Live tab, **Evaluators** lists who has joined, lets you set each one's watch list (empty means everything) and turns **Show expected actions to evaluators** on or off. In the Facilitate Evaluation tab, **Live observations** shows a coverage matrix (task by evaluator), the latest observations with filters, **Ask to watch** (a notice to one evaluator's device) and every recorded observation with its source. Live observations are saved in `scenarios/<id>/evaluation.json` as `source: 'live'`, labelled "Evaluator 1", "Evaluator 2" in join order.

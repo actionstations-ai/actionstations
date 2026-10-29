@@ -3,7 +3,7 @@
 // bundle) from templates/export and the export model.
 import { aarView } from './aar'
 import { seamHandbookSection } from '../generate/seams'
-import { eegView } from './eeg'
+import { copyPrefix, eegView, evaluatorCopies } from './eeg'
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
 import { dropDuplicateHeaderFacts } from './header-facts'
 import { blocksView } from './hseep/blocks'
@@ -62,7 +62,13 @@ function deckSection(model: ExportModel, prefix: string, mode: RenderMode): stri
 
 /** The EEG packet (#421): one guide per capability, blank rating boxes, no observations. */
 function eegSection(model: ExportModel, prefix: string): string {
-  return renderExportTemplate('eeg', eegView(model, prefix))
+  const copies = evaluatorCopies(model)
+  return Array.from({ length: copies }, (_, i) =>
+    renderExportTemplate(
+      'eeg',
+      eegView(model, copyPrefix(prefix, i + 1, copies), copies > 1 ? i + 1 : undefined),
+    ),
+  ).join('\n')
 }
 
 /** The AAR/IP (#419); a "no report yet" body when nothing has been drafted. */

@@ -466,4 +466,4 @@ Where the build differs from the text above, and why:
 - **Not in this change (follow-ups):** `local-detect` probes for whisper.cpp / speaches /
   mlx-audio servers; session log entries (#417); export options for transcripts and audio
   (FR-15; nothing hot wash related is exported today, which matches the default); the AAR
-  cloud-provider warning (FR-14, with #419/#433); x64 speed measurement on the Windows VM.
+  cloud-provider warning (FR-14) is in since #498: the Draft dialog names the provider when marked quotes would go to a cloud model, and the quotes reach the draft as `tr:T<n>` evidence; x64 speed measurement on the Windows VM.

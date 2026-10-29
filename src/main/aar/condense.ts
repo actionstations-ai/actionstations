@@ -52,6 +52,9 @@ function sourcesLine(record: ExerciseRecord): string {
   if (record.sources.evaluation) names.push('evaluator observations')
   if (record.sources.live) names.push('live-play session log')
   if (record.sources.surveys) names.push('participant feedback surveys')
+  if (record.sources.tracker) names.push('unanswered-inject and commitment tracker')
+  if (record.sources.clocks) names.push('regulatory clock results')
+  if (record.sources.transcripts) names.push('marked hot wash quotes')
   return `Sources available: ${names.join('; ') || 'none'}.`
 }
 
@@ -211,6 +214,21 @@ function surveysBlock(record: ExerciseRecord, L: (typeof LIMITS)['full']) {
   return lines
 }
 
+function linesBlock(
+  title: string,
+  list: ExerciseRecord['tracker'],
+  L: (typeof LIMITS)['full'],
+): string[] {
+  if (!list?.length) return []
+  return [
+    '',
+    title,
+    ...take(list, L.items).map(
+      (l) => `- [${l.ref}]${l.meta ? ` (${cut(l.meta, 80)})` : ''} ${cut(l.text, L.text)}`,
+    ),
+  ]
+}
+
 /** The record block for the prompt. Every item shows its ref in brackets. */
 export function recordBlock(
   record: ExerciseRecord,
@@ -238,6 +256,13 @@ export function recordBlock(
     ...messagesBlock(record, scenario, L).flatMap((l, i) => (i === 0 ? ['', l] : [l])),
     '',
     ...surveysBlock(record, L),
+    ...linesBlock('Tracker (answers, unanswered injects, commitments):', record.tracker, L),
+    ...linesBlock('Regulatory clocks:', record.clocks, L),
+    ...linesBlock(
+      'Hot wash quotes (recorded and transcribed on this computer):',
+      record.transcripts,
+      L,
+    ),
   ].join('\n')
 }
 

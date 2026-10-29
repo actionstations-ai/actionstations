@@ -194,5 +194,5 @@ None. A scenario without `evaluation.eegs` gives evaluators only the per-row exp
 - `live:eval-coverage` reports the running session only (no `sessionId`); labels cannot be renamed (open question 4 left as recommended without rename).
 - The `eval.assign`, `eval.observation` types and `welcome.features.eval` were already in the protocol; `features.eval` is now true.
 - The Evaluation tab hosts `LiveObservations.tsx` (the spec's `EvaluatePanel.tsx` is `EvaluationTab.tsx`); the watch-list editor is in the Live tab (`LiveEvaluators.tsx`), as there is no roster list yet.
-- General observations are not editable after saving; task ratings are.
+- General observations are editable after saving (#498): **Edit** reopens the form filled in and saves a new revision of the same `observationId`; task ratings are revised in place as before.
 - Phone-width and axe checks run in `e2e/live/evaluator.spec.ts` (the repo's axe tool is Playwright-based), not in component tests.

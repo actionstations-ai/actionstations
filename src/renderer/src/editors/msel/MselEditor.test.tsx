@@ -406,6 +406,56 @@ describe('MselEditor save integrity', () => {
     expect(await flushAndListUnsaved()).not.toContain('MSEL')
     expect(saves()).toHaveLength(1)
   })
+
+  describe('evaluation criteria (#421)', () => {
+    const criteria = [
+      { id: 'T-01', rowId: 'I-01', text: 'Notify the county within 30 minutes', taskId: 'T-01' },
+      { id: 'T-04', rowId: 'I-01', text: 'Open the EOC', taskId: 'T-04' },
+      { id: 'I-02:expected', rowId: 'I-02', text: 'IC declares an incident' },
+    ]
+    const withCriteria = () =>
+      setup({ handlers: { 'evaluation:criteria': () => criteria } as unknown as Handlers })
+
+    it('hides the Criteria column until the toolbar toggle turns it on', async () => {
+      const { user } = withCriteria()
+      await screen.findByText('Criteria: T-01, T-04')
+      expect(grid().classList.contains('has-criteria')).toBe(false)
+      const toggle = screen.getByRole('button', { name: 'Criteria column' })
+      expect(toggle.getAttribute('aria-pressed')).toBe('false')
+      await user.click(toggle)
+      expect(toggle.getAttribute('aria-pressed')).toBe('true')
+      expect(grid().classList.contains('has-criteria')).toBe(true)
+      expect(cell('I-01', 'criteria').textContent).toBe('T-01, T-04')
+      expect(cell('I-02', 'criteria').textContent).toBe('Expected action')
+      expect(cell('START', 'criteria').textContent).toBe('—')
+    })
+
+    it('shows the criteria line under the expected action only for rows with linked tasks', async () => {
+      withCriteria()
+      const line = await screen.findByText('Criteria: T-01, T-04')
+      expect(cell('I-01', 'expected').contains(line)).toBe(true)
+      expect(line.getAttribute('title')).toContain('Notify the county within 30 minutes')
+      expect(within(rowWith('I-02')).queryByText(/^Criteria:/)).toBeNull()
+    })
+
+    it('keeps the arrow keys on the editable columns, past the read-only Criteria column', async () => {
+      const { user } = withCriteria()
+      await screen.findByText('Criteria: T-01, T-04')
+      await user.click(screen.getByRole('button', { name: 'Criteria column' }))
+      cell('I-01', 'citations').focus()
+      await user.keyboard('{ArrowRight}')
+      expect(document.activeElement).toBe(cell('I-01', 'locked').querySelector('button'))
+    })
+
+    it('has no axe violations with the column on', async () => {
+      const { user } = withCriteria()
+      await screen.findByText('Criteria: T-01, T-04')
+      await user.click(screen.getByRole('button', { name: 'Criteria column' }))
+      const rules = { 'color-contrast': { enabled: false }, region: { enabled: false } }
+      const result = await axe.run(grid(), { rules })
+      expect(result.violations.map((v) => v.id)).toEqual([])
+    })
+  })
 })
 
 describe('MselEditor in a regional exercise (#497)', () => {

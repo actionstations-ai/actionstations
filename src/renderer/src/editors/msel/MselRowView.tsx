@@ -14,6 +14,7 @@ import type { ColumnId } from './grid-nav'
 import type { DraftRow } from './model'
 import { isPartnerRow, ownerLabel, type RegionalView } from './owner'
 import { RowMenu } from './RowMenu'
+import { CriteriaCell, CriteriaLine } from './criteria'
 
 const CONTROL_TAGS = new Set(['STARTEX', 'ENDEX', 'TIME_JUMP'])
 
@@ -87,6 +88,7 @@ function ContentCell(props: {
         <OwnerBadge row={r.row} regional={regional} />
       )}
       {off && <span className="sr-only">Not on the selected path</span>}
+      {col === 'expected' && <CriteriaLine rowId={r.row.id} />}
       {col === 'event' && r.row.decision && (
         <span className="msel-editor__decision">{decisionSummary(r.row.decision)}</span>
       )}
@@ -213,6 +215,7 @@ function MselRowViewImpl(p: RowViewProps) {
           warnings={p.warnings}
         />
       ))}
+      <CriteriaCell rowId={r.row.id} />
       <LockCell r={r} active={activeCol === 'locked'} />
       <GridCell line={r.key} col="actions" active={activeCol === 'actions'} inner>
         <RowMenu r={r} active={activeCol === 'actions'} />
