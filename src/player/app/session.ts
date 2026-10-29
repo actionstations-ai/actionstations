@@ -41,6 +41,8 @@ import {
 } from './items'
 import { chatFromFrame, upsertMessage, type ChatMessage } from './messages'
 import type { PreparedImage } from '../features/messages/attach'
+import { EvaluatorFeature } from '../features/evaluate/evaluator'
+import { createObservationStore, type ObservationStore } from '../features/evaluate/observations'
 import type { Prefs } from './prefs'
 import { createOutboxStore, Outbox, type OutboxStore } from './queue'
 import {
@@ -158,6 +160,7 @@ export interface SessionDeps {
   online?: () => boolean
   ua?: string
   outboxStore?: OutboxStore
+  observationStore?: ObservationStore
   /** Called on a new inbox item when the preferences allow a cue. */
   cue?: (prefs: Prefs) => void
   /** How long a connection may stay silent (no hello) before it counts as failed. */
@@ -191,6 +194,8 @@ export class PlayerSession {
   private stopped = false
   private seatRequest: { seatId: string; kind: ClientKind } | undefined
   outbox: Outbox | undefined
+  /** The evaluator form's state (#416); set once the session id is known. */
+  evaluate: EvaluatorFeature | undefined
   /** Opened inject media for this page (`blob:` URLs, memory only). */
   readonly media = new MediaCache({ fetchBlob: (ref) => this.fetchBlob(ref) })
 
@@ -249,6 +254,8 @@ export class PlayerSession {
         this.sendAction(action.type, action.to, action.payload).then(() => this.afterSend(action)),
       () => this.state.connection === 'connected' && this.state.phase === 'seated',
     )
+    this.evaluate = this.makeEvaluate(inv.sessionId)
+    await this.evaluate.load().catch(() => undefined)
     this.store.set({
       phase: 'connecting',
       clientId: this.identity.clientId,
@@ -450,6 +457,8 @@ export class PlayerSession {
           this.clearTimer('probeTimer')
           this.clearTimer('dropTimer')
           this.store.set({ catchingUp: false, connection: 'connected' })
+          // The outbox waits for 'connected'; the welcome can arrive before this point.
+          void this.outbox?.drain()
         }
         return
       case 'welcome':
@@ -460,6 +469,8 @@ export class PlayerSession {
         break
       case 'message.send':
         return this.addChat(msg as Opened<'message.send'>)
+      case 'eval.assign':
+        return this.addAssignment(msg as Opened<'eval.assign'>)
       case 'session.end':
         return this.applyEnd((msg as Opened<'session.end'>).payload)
       case 'session.rekey':
@@ -519,6 +530,8 @@ export class PlayerSession {
       phase: seated ? 'seated' : 'lobby',
       seat: seated ? { kind: p.kind, role: p.role } : undefined,
     })
+    // Plan material belongs to the evaluator seat only; a reseated device drops it.
+    if (!seated || p.kind !== 'evaluator') this.evaluate?.clearAssignment()
     if (seated) {
       this.seatRequest = undefined
       this.flushDelivered()
@@ -527,6 +540,7 @@ export class PlayerSession {
   }
 
   private applyEnd(payload: SessionEndPayload): void {
+    this.evaluate?.end()
     this.media.dispose()
     this.store.set({ ended: payload, items: [], messages: [], info: undefined, roster: [] })
     this.terminal('ended')
@@ -537,6 +551,8 @@ export class PlayerSession {
       case 'VERSION':
         return this.terminal('update-required')
       case 'SESSION_ENDED':
+        // A visit after the end: the observations from the exercise are not kept on the device.
+        void this.evaluate?.discard()
         return this.terminal('ended')
       case 'BAD_JOIN_TOKEN':
         return this.terminal('link-invalid')
@@ -616,6 +632,38 @@ export class PlayerSession {
       to: 'controller',
       payload: { releaseId, status, at: this.now() },
     })
+  }
+
+  // ---- evaluator observations (spec 0416) ----
+
+  private makeEvaluate(sessionId: string): EvaluatorFeature {
+    return new EvaluatorFeature({
+      sessionId,
+      store: this.deps.observationStore ?? createObservationStore(),
+      newId: () => toBase64Url(this.deps.crypto.random(16)),
+      now: () => this.now(),
+      exerciseTime: () =>
+        formatClock(elapsedMinutes(this.state.clock, this.now() + this.state.clockOffsetMs)),
+      enqueue: ({ id, payload, createdAt }) =>
+        this.outbox
+          ? this.outbox.enqueue(
+              { id, type: 'eval.observation', to: 'controller', payload },
+              createdAt,
+            )
+          : Promise.resolve(),
+    })
+  }
+
+  /** Exercise time now, for a new rating's default time. */
+  exerciseTimeNow(): string {
+    return formatClock(elapsedMinutes(this.state.clock, this.now() + this.state.clockOffsetMs))
+  }
+
+  /** Only the controller's `eval.assign` to this device, for an evaluator seat, is applied. */
+  private addAssignment(msg: Opened<'eval.assign'>): void {
+    if (msg.signedBy !== 'host' || this.state.seat?.kind !== 'evaluator') return
+    if (msg.to !== `client:${this.state.clientId}`) return
+    this.evaluate?.applyAssign(msg.payload)
   }
 
   // ---- messages with the SimCell (spec 0413) ----
@@ -764,6 +812,14 @@ export class PlayerSession {
 
   /** Called after the outbox sent an action: a ballot that went out is no longer waiting. */
   private afterSend(action: { type: string; payload: Record<string, unknown> }): void {
+    if (action.type === 'eval.observation') {
+      const { observationId, revision } = action.payload as {
+        observationId: string
+        revision: number
+      }
+      void this.evaluate?.markSent(observationId, revision)
+      return
+    }
     if (action.type !== 'vote.cast') return
     const id = String(action.payload.voteId)
     const vote = this.state.votes[id]
@@ -902,6 +958,7 @@ export class PlayerSession {
     forgetIdentity(this.deps.storage, sid)
     this.deps.storage.set(epochKey(sid), '')
     this.deps.storage.set(wsBrokenKey(sid), '')
+    void this.evaluate?.discard()
     this.stop()
   }
 

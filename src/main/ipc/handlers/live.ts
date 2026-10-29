@@ -8,6 +8,10 @@ import {
   activeLanPort,
   activeSession,
   closeVote,
+  askEvaluator,
+  evaluationCoverage,
+  setEvaluatorWatch,
+  showExpectedToEvaluators,
   endSession,
   markMessageHandled,
   messageTargets,
@@ -133,6 +137,18 @@ export default defineHandlers({
 
   'live:message-targets': async ({ projectPath, scenarioId }) =>
     messageTargets(await requireProject(projectPath), scenarioId),
+
+  'live:eval-coverage': async ({ projectPath, scenarioId }) =>
+    evaluationCoverage(await requireProject(projectPath), scenarioId),
+
+  'live:eval-watch': async ({ projectPath, scenarioId, clientRef, watch }) =>
+    setEvaluatorWatch(await requireProject(projectPath), scenarioId, clientRef, watch),
+
+  'live:eval-ask': async ({ projectPath, scenarioId, clientRef, text }) =>
+    askEvaluator(await requireProject(projectPath), scenarioId, clientRef, text),
+
+  'live:eval-show-expected': async ({ projectPath, scenarioId, on }) =>
+    showExpectedToEvaluators(await requireProject(projectPath), scenarioId, on),
 
   'live:thread-open': async ({ projectPath, scenarioId, channel }) =>
     openMessageThread(await requireProject(projectPath), scenarioId, channel),

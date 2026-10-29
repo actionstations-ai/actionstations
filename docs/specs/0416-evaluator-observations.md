@@ -1,6 +1,6 @@
 # Spec 0416: Live play: evaluator observation forms
 
-Issue: #416 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #411, #421 (EEGs) · Related: #418, #412, #417, #419
+Issue: #416 · Milestone: 0.6.0 · Status: Implemented (ADR-0054) · Depends on: #406, #407, #411, #421 (EEGs) · Related: #418, #412, #417, #419
 
 ## Summary
 
@@ -185,3 +185,14 @@ None. A scenario without `evaluation.eegs` gives evaluators only the per-row exp
 2. **Should evaluators see players' messages (0413) for their watched roles?** Recommendation: not in 0.6.0; evaluators observe the room, and the log has the messages for the AAR. Reconsider for remote exercises where the evaluator is not in the room.
 3. **Default for "show expected actions to evaluators".** Recommendation: on. The EEG's purpose is to compare what happened with what the plan expects; hiding the expectation makes rating guesswork.
 4. **Evaluator labels across sessions.** Recommendation: labels restart per session (`Evaluator 1` is whoever joins first); the facilitator can rename a label in the roster row when they want "Evaluator — Ops table". Persistent evaluator identities would need accounts, which the product does not have.
+
+## Implementation notes (as built)
+
+- The assignment carries every task and the device filters by the watch list ("assignments differ" means the `watch` field differs); expected actions are included by default (open question 3) and the toggle re-sends.
+- Per-row expected actions have task id `<rowId>_expected` and capability group `expected-actions`; stored with `criterionId: '<rowId>:expected'`.
+- `Observation` gains optional `kind` and `capability`. The AAR record skips log observations once `evaluation.json` holds live ones (open question 1).
+- `live:eval-coverage` reports the running session only (no `sessionId`); labels cannot be renamed (open question 4 left as recommended without rename).
+- The `eval.assign`, `eval.observation` types and `welcome.features.eval` were already in the protocol; `features.eval` is now true.
+- The Evaluation tab hosts `LiveObservations.tsx` (the spec's `EvaluatePanel.tsx` is `EvaluationTab.tsx`); the watch-list editor is in the Live tab (`LiveEvaluators.tsx`), as there is no roster list yet.
+- General observations are not editable after saving; task ratings are.
+- Phone-width and axe checks run in `e2e/live/evaluator.spec.ts` (the repo's axe tool is Playwright-based), not in component tests.

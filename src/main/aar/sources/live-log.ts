@@ -429,9 +429,15 @@ function mapObservations(entries: LogEntry[]) {
 }
 
 /** The record's live part. Nothing from `actor.displayName` or any client identifier is read. */
-export function livePart(entries: LogEntry[], scenario: Scenario): LivePart {
+export function livePart(
+  entries: LogEntry[],
+  scenario: Scenario,
+  opts: { skipObservations?: boolean } = {},
+): LivePart {
   const { messages, messageCounts } = mapMessages(entries, scenario)
-  const { observations, notes } = mapObservations(entries)
+  const { observations, notes } = opts.skipObservations
+    ? { observations: [], notes: [] }
+    : mapObservations(entries)
   return {
     delivered: mapDelivered(entries),
     notes,

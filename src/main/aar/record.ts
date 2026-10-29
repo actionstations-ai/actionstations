@@ -59,7 +59,10 @@ function mergeObservations(...lists: RecordObservation[][]): RecordObservation[]
 /** Assemble the record from whichever parts exist (pure; the file reads are in buildExerciseRecord). */
 export function assembleRecord(scenario: Scenario, parts: RecordParts): ExerciseRecord {
   const fac = parts.facilitator ? facilitatorPart(parts.facilitator, scenario) : undefined
-  const live = parts.live ? livePart(parts.live.entries, scenario) : undefined
+  // Live observations are in evaluation.json (latest revision, one schema); the log keeps the
+  // revision history, so reading both would count each observation twice (#416).
+  const skipObservations = !!parts.evaluation?.observations.some((o) => o.source === 'live')
+  const live = parts.live ? livePart(parts.live.entries, scenario, { skipObservations }) : undefined
   const observations = mergeObservations(
     parts.evaluation ? evaluationPart(parts.evaluation) : [],
     live?.observations ?? [],

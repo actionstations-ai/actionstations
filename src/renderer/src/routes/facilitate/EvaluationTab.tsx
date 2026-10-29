@@ -18,6 +18,7 @@ import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { CitationChips } from '../scenarios/CitationChips'
+import { LiveObservations } from './live/LiveObservations'
 import { observationId } from './evaluation'
 import type { TimelineEntry } from './Timeline'
 import { NOTE_SAVE_DELAY_MS } from './use-facilitator-state'
@@ -229,6 +230,7 @@ export function EvaluationTab(props: EvaluationTabProps) {
           evaluator={evaluator}
         />
       ))}
+      <LiveObservations projectPath={props.projectPath} scenarioId={props.scenario.id} />
     </div>
   )
 }
