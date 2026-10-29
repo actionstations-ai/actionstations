@@ -19,6 +19,8 @@ export function scenarioJson(model: ExportModel): string {
     project: { id: model.project.id, name: model.project.name, orgName: model.project.orgName },
     scenario: { ...model.scenario, injects: model.injects },
     documents: model.docs,
+    // Survey definitions only (#422): responses never leave the project folder this way.
+    ...(model.surveys.length ? { surveys: model.surveys.map((s) => s.survey) } : {}),
   }
   return `${JSON.stringify(doc, null, 2)}\n`
 }

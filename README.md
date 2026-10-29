@@ -55,7 +55,7 @@ For each scenario, the app writes:
 - a controller and evaluator handbook with the rubric, hot wash questions and SimCell scripts;
 - a player briefing packet with blank ICS 201 and ICS 203 forms.
 
-Everything is editable in the app. **Facilitate** runs the exercise: an exercise clock with time jumps, the MSEL timeline with due injects, a presentation window for a second display, and notes for the hot wash. **Export** writes PDFs (MSEL, master inject deck, controller handbook, player briefing, a combined exercise plan), Word copies of the handbook and briefing, the media files, the scenario as JSON and Markdown, and a distribution ZIP that keeps controller material apart from what players see.
+Everything is editable in the app. **Surveys** add the HSEEP Participant Feedback Form, a before-and-after knowledge check and confidence self-assessment, and facilitator and controller/evaluator debriefs: build or edit them, print them as forms, type the returned forms in, and see anonymous results summarized on your computer. **Facilitate** runs the exercise: an exercise clock with time jumps, the MSEL timeline with due injects, a presentation window for a second display, and notes for the hot wash. **Export** writes PDFs (MSEL, master inject deck, controller handbook, player briefing, a combined exercise plan), Word copies of the handbook and briefing, the media files, the scenario as JSON and Markdown, and a distribution ZIP that keeps controller material apart from what players see.
 
 The Projects screen shows a tip of the day from a list shipped with the app, each linking to the guide section that explains it; **Next tip**, **Hide** and **Turn off tips** are on the card, and **Settings → General** turns tips back on.
 

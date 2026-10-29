@@ -204,6 +204,53 @@ export function GenerationSection({ settings }: { settings: AppSettings }) {
   )
 }
 
+const THRESHOLDS = [1, 2, 3, 4, 5, 6, 8, 10]
+
+/** The anonymity threshold for survey results (#422). */
+export function SurveysSection({ settings }: { settings: AppSettings }) {
+  const save = useSaveSettings()
+  const value = settings.surveys?.minResponses ?? 3
+  const options = THRESHOLDS.includes(value)
+    ? THRESHOLDS
+    : [...THRESHOLDS, value].sort((a, b) => a - b)
+  return (
+    <section className="card stack settings-section" aria-labelledby="surveys-heading">
+      <div>
+        <h2 id="surveys-heading">Surveys</h2>
+        <p className="muted">
+          Survey responses are anonymous. In a small room, a single answer could still point to one
+          person, so results show only counts until enough responses are in.
+        </p>
+      </div>
+      <Field
+        label="Show survey results from"
+        hint="Below this many responses, each question shows only how many answered it."
+      >
+        {({ id, describedBy }) => (
+          <select
+            id={id}
+            className="select"
+            aria-describedby={describedBy}
+            value={value}
+            onChange={(e) =>
+              save(
+                { surveys: { minResponses: Number(e.target.value) } },
+                'Survey results threshold',
+              )
+            }
+          >
+            {options.map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? 'response' : 'responses'}
+              </option>
+            ))}
+          </select>
+        )}
+      </Field>
+    </section>
+  )
+}
+
 export default function SettingsPage() {
   const settings = useIpcQuery('settings:get', undefined)
   return (
@@ -228,6 +275,7 @@ export default function SettingsPage() {
           <GeneralSection settings={settings.data} />
           <LocalToolsSection settings={settings.data} />
           <GenerationSection settings={settings.data} />
+          <SurveysSection settings={settings.data} />
           <EmbeddingsSection settings={settings.data} />
           <PackCatalogsSection settings={settings.data} />
           <UpdatesSection />

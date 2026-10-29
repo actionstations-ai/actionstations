@@ -1,0 +1,94 @@
+{
+  "templateId": "facilitator-debrief",
+  "templateVersion": 1,
+  "description": "For the facilitator and SimCell after the exercise: what worked in facilitation, inject timing, time jumps, room setup and what to change.",
+  "survey": {
+    "title": "Facilitator Debrief",
+    "kind": "facilitator_debrief",
+    "timing": "post",
+    "introMd": "For the exercise staff. Fill this in soon after the hot wash, while it is fresh.",
+    "sections": [
+      {
+        "id": "facilitation",
+        "title": "Facilitation",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "worked",
+            "type": "text",
+            "text": "What worked well in the facilitation?",
+            "long": true
+          },
+          {
+            "id": "timing",
+            "type": "rating",
+            "text": "Injects arrived at the right pace for the discussion.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "timing-notes",
+            "type": "text",
+            "text": "Which injects came too early, too late or not at all?",
+            "long": true
+          },
+          {
+            "id": "time-jumps",
+            "type": "rating",
+            "text": "The time jumps were clear to the players.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "simcell",
+            "type": "rating",
+            "text": "The SimCell role-play was at the right level of difficulty.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          }
+        ]
+      },
+      {
+        "id": "logistics",
+        "title": "Room and materials",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "room",
+            "type": "rating",
+            "text": "The room setup, screens and audio worked.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "room-notes",
+            "type": "text",
+            "text": "What would you change about the room, screens or materials?",
+            "long": true
+          }
+        ]
+      },
+      {
+        "id": "next",
+        "title": "Next time",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "change",
+            "type": "text",
+            "text": "What should change before this scenario is run again?",
+            "long": true
+          }
+        ]
+      }
+    ]
+  }
+}

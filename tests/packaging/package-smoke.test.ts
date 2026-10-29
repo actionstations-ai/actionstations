@@ -9,6 +9,7 @@ import {
   packedNativeLibs,
   foreignBinaries,
   bundledPackProblems,
+  surveyTemplateProblems,
   EXPECTED_FUSES,
   FUSE_SENTINEL,
   fuseProblems,
@@ -211,5 +212,18 @@ describe('bundledPackProblems (ADR-0020)', () => {
       'the core pack is not bundled',
       'app-resources/prompts still ships',
     ])
+  })
+})
+
+describe('surveyTemplateProblems (#422)', () => {
+  it('flags missing survey templates and passes when they ship', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-res-'))
+    expect(surveyTemplateProblems(dir)).toEqual([
+      'app-resources/surveys/templates is missing (#422)',
+    ])
+    const templates = join(dir, 'app-resources', 'surveys', 'templates')
+    mkdirSync(templates, { recursive: true })
+    writeFileSync(join(templates, 'hseep-participant-feedback.json'), '{}')
+    expect(surveyTemplateProblems(dir)).toEqual([])
   })
 })

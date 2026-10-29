@@ -123,6 +123,7 @@ export function documentFileNames(
     briefingDocx: `${t}-Player-Briefing-Packet.docx`,
     handouts: `${t}-Player-Handouts.pdf`,
     controllerHandouts: `${t}-Controller-Materials.pdf`,
+    surveyResults: `${t}-Survey-Results.pdf`,
     ics201: 'ICS-201-Incident-Briefing-blank.pdf',
     ics203: 'ICS-203-Organization-Assignment-List-blank.pdf',
     folder: base,
@@ -130,3 +131,11 @@ export function documentFileNames(
   }
 }
 export type DocumentFileNames = ReturnType<typeof documentFileNames>
+
+/**
+ * A printable survey form (#422): `<Title>-Survey-<Survey title>-<id tag>.pdf`, unique per
+ * survey so two forms with the same title never overwrite each other.
+ */
+export function surveyFormName(scenarioTitle: string, survey: { id: string; title: string }) {
+  return `${fileTitle(scenarioTitle)}-Survey-${fileTitle(survey.title).slice(0, 40)}-${scenarioTag(survey.id)}.pdf`
+}

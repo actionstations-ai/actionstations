@@ -5,7 +5,8 @@ describe('export targets', () => {
   it('defaults to everything except the optional Word files', () => {
     expect(DEFAULT_TARGETS).not.toContain('docx')
     expect(DEFAULT_TARGETS).toContain('zip')
-    expect(ALL_TARGETS).toHaveLength(10)
+    expect(ALL_TARGETS).toHaveLength(12)
+    expect(DEFAULT_TARGETS).toContain('surveys_pdf')
   })
 
   it('toggles a target and keeps the canonical order', () => {

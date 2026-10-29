@@ -8,16 +8,16 @@ import { jobs } from '../../jobs/manager'
 import { requireProject } from '../../project/guard'
 
 export default defineHandlers({
-  'export:run': async ({ projectPath, scenarioId, outDir, targets }) => {
+  'export:run': async ({ projectPath, scenarioId, outDir, targets, surveyIds }) => {
     const root = await requireProject(projectPath)
     await ensureDefaultOutDir(outDir, [root, projectPath])
     await assertOutDir(outDir)
     const model = await loadExportModel(root, scenarioId)
-    const job = jobs.start('export', (ctx) => runExport(model, outDir, targets, ctx), {
-      projectPath: root,
-      scenarioId,
-      payload: { outDir, targets },
-    })
+    const job = jobs.start(
+      'export',
+      (ctx) => runExport(model, outDir, targets, ctx, surveyIds ? { surveyIds } : {}),
+      { projectPath: root, scenarioId, payload: { outDir, targets } },
+    )
     return { jobId: job.id }
   },
 

@@ -9,6 +9,7 @@ import { emit } from '../lib/events'
 import { readJson, safeJoin, writeFileAtomic, writeJsonAtomic } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
 import { loadProject, updateProject } from '../project/store'
+import { copySurveyDefinitions } from '../surveys/store'
 import { assertNotGenerating } from './busy'
 import { readHistory, toHistoryEntries } from './history'
 import { scenarioLayout, withScenarioLock, type HistoryArtifact } from './layout'
@@ -58,7 +59,8 @@ async function copyFolder(from: string, to: string): Promise<void> {
   await fs.cp(from, to, { recursive: true, errorOnExist: false, force: true })
 }
 
-/** Copy a scenario (documents, injects, media; not history) under a new id. */
+/** Copy a scenario (documents, injects, media, survey definitions; not history or survey
+ *  responses) under a new id. */
 export async function duplicateScenario(
   projectPath: string,
   scenarioId: string,
@@ -72,6 +74,8 @@ export async function duplicateScenario(
   await copyFolder(srcLayout.documents, dst.documents)
   await copyFolder(srcLayout.media, dst.media)
   await copyInjects(projectPath, scenarioId, id)
+  // Survey definitions travel with the scenario; responses stay with the original (#422).
+  await copySurveyDefinitions(srcLayout.surveys, dst.surveys)
   const now = nowIso()
   const copy = Scenario.parse({
     ...JSON.parse(retarget(JSON.stringify(source), scenarioId, id)),

@@ -1,7 +1,8 @@
 // Distribution ZIP: facilitator/ gets every file this export run wrote (never leftovers from
 // an earlier export into the same folder, #213); players/ gets only the Player Briefing
-// Packet, the blank ICS forms and the Player Handouts (when the scenario has any; Controller
-// Materials stay in facilitator/). The players/ list is checked against an
+// Packet, the blank ICS forms, the Player Handouts (when the scenario has any; Controller
+// Materials stay in facilitator/) and the participant survey forms this run printed (never
+// debrief forms or survey results, #422). The players/ list is checked against an
 // allow-list before anything is written, so the MSEL, deck or handbook can never leak to it.
 import { ZipArchive } from 'archiver'
 import { createWriteStream, promises as fs } from 'node:fs'
@@ -16,18 +17,29 @@ export interface ZipEntry {
   name: string
 }
 
-/** File names allowed in players/: the briefing packet, the blank forms and the player
- *  handouts, nothing else. */
-export function playerFileNames(names: DocumentFileNames): string[] {
-  return [names.briefing, names.ics201, names.ics203, names.handouts]
+/** File names allowed in players/: the briefing packet, the blank forms, the player
+ *  handouts and the participant survey forms named by the caller, nothing else. */
+export function playerFileNames(names: DocumentFileNames, surveyForms: string[] = []): string[] {
+  const refused = new Set<string>([names.surveyResults])
+  return [
+    names.briefing,
+    names.ics201,
+    names.ics203,
+    names.handouts,
+    ...surveyForms.filter((f) => !refused.has(f)),
+  ]
 }
 
 /** Player files a scenario may not have (no handouts written): skipped, not an error. */
 const optionalPlayerFiles = (names: DocumentFileNames): Set<string> => new Set([names.handouts])
 
 /** Throw if anything but the allowed player files would land in players/. */
-export function assertPlayersOnly(entries: ZipEntry[], names: DocumentFileNames): void {
-  const allowed = new Set(playerFileNames(names).map((n) => `players/${n}`))
+export function assertPlayersOnly(
+  entries: ZipEntry[],
+  names: DocumentFileNames,
+  surveyForms: string[] = [],
+): void {
+  const allowed = new Set(playerFileNames(names, surveyForms).map((n) => `players/${n}`))
   const leaked = entries
     .filter((e) => e.name.startsWith('players/'))
     .filter((e) => !allowed.has(e.name))
@@ -48,12 +60,14 @@ function insideFolder(folder: string, abs: string): boolean {
 
 /**
  * Entries for the distribution ZIP from the files this run wrote (absolute paths). Anything
- * outside the export folder (the ZIP itself, for one) is left out.
+ * outside the export folder (the ZIP itself, for one) is left out. `surveyForms`: file names of
+ * the participant survey forms this run wrote (debrief forms are never passed).
  */
 export function distributionEntries(
   folder: string,
   names: DocumentFileNames,
   runFiles: string[],
+  surveyForms: string[] = [],
 ): ZipEntry[] {
   const sources = [...new Set(runFiles.filter((f) => insideFolder(folder, f)))].sort()
   const facilitator = sources.map((source) => ({
@@ -62,14 +76,14 @@ export function distributionEntries(
   }))
   const byName = new Map(facilitator.map((e) => [basename(e.source), e.source]))
   const players: ZipEntry[] = []
-  for (const name of playerFileNames(names)) {
+  for (const name of playerFileNames(names, surveyForms)) {
     const source = byName.get(name)
     if (!source && optionalPlayerFiles(names).has(name)) continue
     if (!source) throw new AppError('INTERNAL', `Player file missing from the export: ${name}`)
     players.push({ source, name: `players/${name}` })
   }
   const entries = [...facilitator, ...players]
-  assertPlayersOnly(entries, names)
+  assertPlayersOnly(entries, names, surveyForms)
   return entries
 }
 

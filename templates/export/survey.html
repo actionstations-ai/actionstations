@@ -1,0 +1,81 @@
+<section class="doc doc--survey" aria-labelledby="{{prefix}}survey-title">
+  {{> title title}} {{#if introHtml}}
+  <div class="prose survey-intro">{{introHtml}}</div>
+  {{/if}}
+  <p class="survey-anon">This form is anonymous. Do not write your name on it.</p>
+
+  {{#if roleGroups.length}}
+  <section class="survey-section">
+    <h2>About you (optional)</h2>
+    <div class="sq">
+      <p class="sq__text">Which team were you on?</p>
+      <ul class="sq-options">
+        {{#each roleGroups}}
+        <li><span class="box" aria-hidden="true"></span> {{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
+  {{/if}} {{#each sections}}
+  <section class="survey-section">
+    {{#if title}}
+    <h2>{{title}}</h2>
+    {{/if}} {{#if introHtml}}
+    <div class="prose survey-section__intro">{{introHtml}}</div>
+    {{/if}} {{#each questions}}
+    <div class="sq sq--{{type}}">
+      <p class="sq__text">
+        <span class="sq__num">{{number}}.</span> {{text}} {{#if required}}<span class="sq__req"
+          >(required)</span
+        >{{/if}}
+      </p>
+      {{#if help}}
+      <p class="sq__help">{{help}}</p>
+      {{/if}} {{#if scale}}
+      <table class="sq-scale">
+        <caption class="sr-only">
+          Mark one box from 1 ({{scale.low}}) to 5 ({{scale.high}})
+        </caption>
+        <thead>
+          <tr>
+            {{#each scale.points}}
+            <th scope="col">
+              <span class="sq-scale__n">{{n}}</span>
+              <span class="sq-scale__label">{{label}}</span>
+            </th>
+            {{/each}}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {{#each scale.points}}
+            <td><span class="box" aria-hidden="true"></span></td>
+            {{/each}}
+          </tr>
+        </tbody>
+      </table>
+      {{/if}} {{#if choice}}
+      <p class="sq__help">{{choice.instruction}}</p>
+      <ul class="sq-options">
+        {{#each choice.options}}
+        <li><span class="box" aria-hidden="true"></span> {{this}}</li>
+        {{/each}} {{#if choice.other}}
+        <li class="sq-options__other">
+          <span class="box" aria-hidden="true"></span> Other:
+          <span class="line line--inline"></span>
+        </li>
+        {{/if}}
+      </ul>
+      {{/if}} {{#if lines.length}}
+      <div class="sq-lines" aria-hidden="true">
+        {{#each lines}}
+        <span class="line"></span>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/each}}
+  <p class="doc-end">Thank you. Return this form to the facilitator.</p>
+</section>

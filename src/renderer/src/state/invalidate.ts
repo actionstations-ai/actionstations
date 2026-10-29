@@ -12,7 +12,7 @@ type What = EventPayload<'project:changed'>['what']
 const BY_WHAT: Record<What, string[]> = {
   project: ['project:', 'examples:', 'embeddings:status', 'routing:get'],
   documents: ['documents:', 'embeddings:status', 'project:get', 'retrieve:search'],
-  scenarios: ['scenarios:', 'project:get', 'facilitator:', 'export:preview-html'],
+  scenarios: ['scenarios:', 'project:get', 'facilitator:', 'export:preview-html', 'surveys:'],
   // A scenario save (every MSEL autosave) leaves the inject files alone: no injects:list.
   scenario: ['scenarios:', 'project:get', 'facilitator:', 'export:preview-html'],
   injects: ['injects:', 'scenarios:', 'render:', 'facilitator:', 'export:preview-html'],
@@ -22,6 +22,8 @@ const BY_WHAT: Record<What, string[]> = {
   settings: ['settings:', 'routing:', 'embeddings:status'],
   providers: ['providers:', 'routing:', 'embeddings:status'],
   library: ['library:'],
+  /** A survey, its responses or its results changed (#422). */
+  surveys: ['surveys:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]

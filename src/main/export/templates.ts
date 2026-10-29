@@ -9,7 +9,8 @@ import { resourcePath } from '../lib/paths'
 
 export const exportTemplatesDir = (): string => resourcePath('templates', 'export')
 
-export type ExportTemplateName = 'layout' | 'msel' | 'deck' | 'handbook' | 'briefing' | 'cover'
+export type ExportTemplateName =
+  'layout' | 'msel' | 'deck' | 'handbook' | 'briefing' | 'cover' | 'survey' | 'survey-results'
 
 const hb = Handlebars.create()
 let partialsLoaded = false
@@ -42,3 +43,6 @@ export function renderExportTemplate(name: ExportTemplateName, context: object):
 export const trusted = (html: string): Handlebars.SafeString => new hb.SafeString(html)
 
 export const printCss = (): string => readTemplateFile('print.css')
+
+/** Styles for survey forms and results (#422), added after print.css. */
+export const surveyCss = (): string => readTemplateFile('survey.css')

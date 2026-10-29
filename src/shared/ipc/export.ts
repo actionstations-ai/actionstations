@@ -8,6 +8,8 @@ export const EXPORT_TARGETS = [
   'handbook_pdf',
   'briefing_pdf',
   'exercise_plan_pdf',
+  'surveys_pdf',
+  'survey_results_pdf',
   'media',
   'json',
   'markdown',
@@ -24,6 +26,8 @@ export const exportChannels = {
       scenarioId: SafeId,
       outDir: z.string(),
       targets: z.array(ExportTarget).min(1),
+      /** surveys_pdf: print only these surveys (any status but archived). */
+      surveyIds: z.array(SafeId).max(50).optional(),
     }),
     z.object({ jobId: SafeId }),
   ),

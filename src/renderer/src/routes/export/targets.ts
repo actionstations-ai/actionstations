@@ -20,6 +20,16 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
     hint: 'With blank ICS 201 and ICS 203 forms',
   },
   { id: 'exercise_plan_pdf', label: 'Exercise Plan', hint: 'Cover page plus all four documents' },
+  {
+    id: 'surveys_pdf',
+    label: 'Survey forms',
+    hint: 'A printable form for every survey marked ready',
+  },
+  {
+    id: 'survey_results_pdf',
+    label: 'Survey results',
+    hint: 'Summary of the responses so far (facilitator only)',
+  },
 ]
 
 export const FILE_TARGETS: TargetOption[] = [
@@ -30,7 +40,7 @@ export const FILE_TARGETS: TargetOption[] = [
   {
     id: 'zip',
     label: 'Distribution ZIP',
-    hint: 'facilitator/ (everything) and players/ (briefing + forms)',
+    hint: 'facilitator/ (everything) and players/ (briefing, forms, participant surveys)',
   },
 ]
 

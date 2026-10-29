@@ -1,0 +1,126 @@
+<section class="doc doc--survey-results" aria-labelledby="{{prefix}}results-title">
+  {{> title title}}
+  <p class="survey-anon">
+    Responses are anonymous. Detail is shown only for questions with at least {{minResponses}}
+    answers; free text is listed in no particular order.
+  </p>
+
+  {{#each surveys}}
+  <section class="section survey-result">
+    <h2>{{title}}</h2>
+    <p class="survey-result__counts">{{counts}}</p>
+    {{#if suppressed}}
+    <p class="survey-result__note">
+      Details hidden until {{../minResponses}} responses have been recorded.
+    </p>
+    {{/if}} {{#if questions.length}}
+    <table class="grid survey-result__table">
+      <caption class="sr-only">
+        Results per question
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col" class="num">Answers</th>
+          <th scope="col">Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each questions}}
+        <tr>
+          <td>{{number}}. {{text}}</td>
+          <td class="num">{{n}}</td>
+          <td>
+            {{#if hidden}}<span class="muted">Hidden (too few answers)</span>{{/if}} {{#if scale}}
+            <p>Mean {{scale.mean}} · median {{scale.median}}</p>
+            <ul class="dist" aria-label="Answers per point, 1 to 5">
+              {{#each scale.bars}}
+              <li>
+                <span class="dist__n">{{point}}</span
+                ><span class="dist__bar"><span style="width: {{pct}}%"></span></span
+                ><span class="dist__c">{{count}}</span>
+              </li>
+              {{/each}}
+            </ul>
+            {{/if}} {{#if choices.length}}
+            <ul class="list">
+              {{#each choices}}
+              <li>{{text}}: {{count}} ({{pct}}%){{#if correct}} · correct answer{{/if}}</li>
+              {{/each}}
+            </ul>
+            {{#if shareCorrect}}
+            <p>Answered correctly: {{shareCorrect}}</p>
+            {{/if}} {{/if}} {{#if texts.length}}
+            <ul class="list texts">
+              {{#each texts}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if pairs.length}}
+    <h3>Confidence before and after</h3>
+    <table class="grid">
+      <caption class="sr-only">
+        Mean confidence before and after the exercise, per statement
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Statement</th>
+          <th scope="col" class="num">Before</th>
+          <th scope="col" class="num">After</th>
+          <th scope="col" class="num">Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each pairs}}
+        <tr>
+          <td>{{statement}}</td>
+          <td class="num">{{before}}</td>
+          <td class="num">{{after}}</td>
+          <td class="num">{{delta}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if knowledge.length}}
+    <h3>Knowledge check: share correct</h3>
+    <table class="grid">
+      <caption class="sr-only">
+        Share of correct answers per item before and after the exercise
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Item</th>
+          <th scope="col" class="num">Before</th>
+          <th scope="col" class="num">After</th>
+          <th scope="col">Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each knowledge}}
+        <tr>
+          <td>{{text}}</td>
+          <td class="num">{{before}}</td>
+          <td class="num">{{after}}</td>
+          <td>{{reference}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if answerKey.length}}
+    <h3>Answer key (facilitator only)</h3>
+    <ol class="list">
+      {{#each answerKey}}
+      <li>{{question}}: <strong>{{answer}}</strong>{{#if reference}} ({{reference}}){{/if}}</li>
+      {{/each}}
+    </ol>
+    {{/if}}
+  </section>
+  {{/each}}
+  <p class="doc-end">End of Survey Results</p>
+</section>

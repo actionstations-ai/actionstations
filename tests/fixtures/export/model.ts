@@ -128,6 +128,7 @@ export function fixtureModel(overrides: Partial<ExportModel> = {}): ExportModel 
     media: planMediaFiles('3', injects),
     available,
     generatedAt: '2026-10-21T12:00:00.000Z',
+    surveys: [],
     ...overrides,
   }
 }
