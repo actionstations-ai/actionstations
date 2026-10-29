@@ -14,6 +14,7 @@ import {
   type DeliveryAction,
 } from './delivery'
 import { LiveInjectSection } from './live/LiveInjectSection'
+import { OpenVoteButton } from './live/OpenVoteButton'
 import type { LiveDelivery } from './live/use-live-delivery'
 import type { TimelineEntry } from './Timeline'
 import { injectAlt } from '../../lib/inject-alt'
@@ -189,6 +190,9 @@ export function InjectPanel(p: InjectPanelProps) {
         </Button>
       </div>
       {p.live?.active && <LiveInjectSection live={p.live} scenario={p.scenario} entry={p.entry} />}
+      {p.live?.active && row.decision && (
+        <OpenVoteButton projectPath={p.projectPath} scenarioId={p.scenario.id} row={row} />
+      )}
       <Preview projectPath={p.projectPath} entry={p.entry} />
       <dl className="fac-panel__facts">
         <dt>Event</dt>

@@ -10,6 +10,9 @@ import { Banner } from '../components/Banner'
 import { Clock } from '../components/Clock'
 import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
+import { VoteBanner } from '../features/votes/VoteBanner'
+import { VoteScreen } from '../features/votes/VoteScreen'
+import { currentVote } from '../features/votes/votes'
 import { FeedScreen } from './FeedScreen'
 import { InboxScreen } from './InboxScreen'
 import { MessagesScreen } from './MessagesScreen'
@@ -26,6 +29,7 @@ export function RoomShell({
   bundleVersion: string
 }) {
   const [tab, setTab] = useState<Tab>('inbox')
+  const [voteId, setVoteId] = useState<string | undefined>(undefined)
   const info = useStore(session.store, (s) => s.info)
   const seat = useStore(session.store, (s) => s.seat)
   const clock = useStore(session.store, (s) => s.clock)
@@ -110,12 +114,21 @@ export function RoomShell({
       ) : back ? (
         <Banner tone="success">{STRINGS.header.back}</Banner>
       ) : null}
+      <VoteBanner session={session} onOpen={setVoteId} viewing={voteId} />
       <main className="room__main" id="content">
-        {tab === 'inbox' ? <InboxScreen session={session} /> : null}
-        {tab === 'feed' ? <FeedScreen session={session} onOpenTab={select} /> : null}
-        {tab === 'messages' ? <MessagesScreen session={session} /> : null}
-        {tab === 'more' ? (
-          <MoreScreen session={session} prefsStore={prefsStore} bundleVersion={bundleVersion} />
+        {voteId ? (
+          <VoteScreen session={session} voteId={voteId} onBack={() => setVoteId(undefined)} />
+        ) : null}
+        {!voteId && tab === 'inbox' ? <InboxScreen session={session} /> : null}
+        {!voteId && tab === 'feed' ? <FeedScreen session={session} onOpenTab={select} /> : null}
+        {!voteId && tab === 'messages' ? <MessagesScreen session={session} /> : null}
+        {!voteId && tab === 'more' ? (
+          <MoreScreen
+            session={session}
+            prefsStore={prefsStore}
+            bundleVersion={bundleVersion}
+            onOpenVotes={() => setVoteId(currentVote(session.state.votes)?.voteId ?? 'none')}
+          />
         ) : null}
       </main>
       <TabBar tabs={tabs} active={tab} onSelect={select} />

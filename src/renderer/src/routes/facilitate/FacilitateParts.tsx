@@ -1,5 +1,6 @@
 // The parts of facilitator mode around the timeline: the presentation controls, the status
 // and shortcut lines, the empty MSEL state and the side panel (inject, hot wash, notes).
+import { useMemo } from 'react'
 import { Link } from 'react-router'
 import { Tabs } from 'radix-ui'
 import { Monitor, MonitorX } from 'lucide-react'
@@ -17,6 +18,10 @@ import { InjectPanel } from './InjectPanel'
 import type { LiveDelivery } from './live/use-live-delivery'
 import { LivePanel } from './live/LivePanel'
 import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
+import { tallySourceFromVotes } from '@shared/branching/vote-input'
+import { useLiveVotes } from './live/use-live-votes'
+import { VotePanel } from './live/VotePanel'
+import { VOTES } from './live/vote-strings'
 import { LIVE } from './live/strings'
 import type { TimelineEntry } from './Timeline'
 import type { UpdateState } from './use-delivery-actions'
@@ -164,6 +169,8 @@ export function SidePanel(props: {
   branching?: { minutes: number; onLog: BranchLog; onAnnounce: (text: string) => void } | undefined
 }) {
   const { selected, state, update } = props
+  const liveVotes = useLiveVotes(props.projectPath, props.scenario.id)
+  const tallySource = useMemo(() => tallySourceFromVotes(liveVotes.votes), [liveVotes.votes])
   return (
     <Tabs.Root defaultValue="inject" className="fac-side">
       <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
@@ -189,6 +196,9 @@ export function SidePanel(props: {
         </Tabs.Trigger>
         <Tabs.Trigger value="messages" className="fac-tabs__trigger">
           <MessagesTabLabel projectPath={props.projectPath} scenarioId={props.scenario.id} />
+        </Tabs.Trigger>
+        <Tabs.Trigger value="votes" className="fac-tabs__trigger">
+          {VOTES.tab}
         </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="inject" className="fac-tabs__panel">
@@ -222,6 +232,7 @@ export function SidePanel(props: {
             state={state}
             update={update}
             minutes={props.branching.minutes}
+            tallySource={tallySource}
             onLog={props.branching.onLog}
             onAnnounce={props.branching.onAnnounce}
           />
@@ -252,6 +263,9 @@ export function SidePanel(props: {
       </Tabs.Content>
       <Tabs.Content value="live" className="fac-tabs__panel">
         <LivePanel projectPath={props.projectPath} scenarioId={props.scenario.id} />
+      </Tabs.Content>
+      <Tabs.Content value="votes" className="fac-tabs__panel">
+        <VotePanel projectPath={props.projectPath} scenario={props.scenario} update={update} />
       </Tabs.Content>
     </Tabs.Root>
   )

@@ -19,6 +19,7 @@ import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/sc
 import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
+  VoteDefinition,
   LanServerStatus,
   LiveConnection,
   LiveSession,
@@ -36,6 +37,7 @@ import { getScenario } from '../scenario/store'
 import { inviteViews } from './invites'
 import { teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
+import { Votes, type VoteResult, type VoteSeat } from './votes'
 import {
   emptyStage,
   formatClock,
@@ -77,6 +79,7 @@ interface Active {
   salt: Uint8Array
   delivery: Delivery
   messages: Messages
+  votes: Votes
   stage: StageState
   mediaCache: Map<string, BlobRef>
   powerSave?: number
@@ -145,7 +148,8 @@ async function clockState(root: string, scenarioId: string): Promise<ClockState>
 }
 
 function emitChanged(
-  reason: 'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging' | 'messages',
+  reason:
+    'started' | 'stopped' | 'presence' | 'error' | 'receipts' | 'staging' | 'messages' | 'votes',
   message?: string,
   threadId?: string,
 ) {
@@ -230,6 +234,10 @@ function wireClient(a: Active): void {
       if (msg.to !== 'controller') return
       void a.messages.onPlayerMessage(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
     }),
+    a.client.on(
+      'vote.cast',
+      (msg) => void a.votes.onBallot(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
+    ),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
       void a.log
@@ -338,6 +346,39 @@ function makeMessages(getActive: () => Active, roles: readonly Role[]): Messages
   })
 }
 
+/** Votes' view of the session: sending as the controller, the seated devices, the log. */
+function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new Votes({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players' }),
+    log: { append: (input) => getActive().log.append(input) },
+    seats: () =>
+      [...getActive().seats.byClient.values()].map((s): VoteSeat => {
+        const role = s.roleId ? byId.get(s.roleId) : undefined
+        const team = role ? teamSlug(role.team) : undefined
+        return {
+          clientId: s.clientId,
+          kind: s.kind,
+          ...(s.roleId ? { roleId: s.roleId } : {}),
+          ...(team ? { teamId: team } : {}),
+          label: role?.name ?? s.kind,
+          online: s.online,
+        }
+      }),
+    roleLabel: (id) => byId.get(id)?.name ?? id,
+    now: () => Date.now(),
+    changed: () => emitChanged('votes'),
+    exerciseTime: async () => {
+      const a = getActive()
+      return formatClock(await clockState(a.root, a.session.scenarioId), Date.now())
+    },
+    onClosed: (result) => {
+      for (const listener of closedListeners) listener(result)
+    },
+  })
+}
+
 async function openLan(a: Active, address: string, tls: 'self-signed' | 'none', port?: number) {
   a.lan = await startLanServer({
     address,
@@ -432,6 +473,7 @@ export async function startSession(req: StartSessionRequest): Promise<LiveSessio
     salt,
     delivery: makeDelivery(() => a, scenario.roles),
     messages: makeMessages(() => a, scenario.roles),
+    votes: makeVotes(() => a, scenario.roles),
     stage: emptyStage(),
     mediaCache: new Map(),
     unsubscribe: [],
@@ -638,6 +680,8 @@ export async function switchAddress(address: string): Promise<LanServerStatus> {
 }
 
 async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveSession> {
+  await a.votes.closeInterrupted().catch((e: unknown) => console.error('[live] vote:', e))
+  a.votes.dispose()
   for (const off of a.unsubscribe.splice(0)) off()
   try {
     if (a.client.state !== 'closed') {
@@ -693,3 +737,51 @@ export async function stopLiveSession(): Promise<void> {
 }
 
 export const isSessionRunning = (): boolean => active !== undefined
+
+const closedListeners = new Set<(result: VoteResult) => void>()
+
+/** Listen for votes closing (scenario branching reads the result here). Returns the unsubscribe. */
+export function onVoteClosed(listener: (result: VoteResult) => void): () => void {
+  closedListeners.add(listener)
+  return () => closedListeners.delete(listener)
+}
+
+export const openVote = (root: string, scenarioId: string, def: VoteDefinition, rowId?: string) =>
+  activeFor(root, scenarioId).votes.open(def, rowId ? { rowId } : {})
+
+export const closeVote = (root: string, scenarioId: string, voteId: string) =>
+  activeFor(root, scenarioId).votes.close(voteId, 'facilitator')
+
+export const reopenVote = (root: string, scenarioId: string, voteId: string) =>
+  activeFor(root, scenarioId).votes.reopen(voteId)
+
+export const listVotes = (root: string, scenarioId: string) =>
+  activeFor(root, scenarioId).votes.list()
+
+export const getVote = (root: string, scenarioId: string, voteId: string) =>
+  activeFor(root, scenarioId).votes.get(voteId)
+
+/** Roles in scope with fewer than `k` devices, for the warning before a by-role vote. */
+export function voteScope(root: string, scenarioId: string, targets: string[], k: number) {
+  const a = activeFor(root, scenarioId)
+  const { eligible, small } = a.votes.scope(targets, k)
+  const names = new Map(a.seats.seats().map((s) => [s.id, s.name]))
+  return {
+    eligible,
+    smallRoles: small.map((r) => ({ ...r, label: names.get(r.roleId) ?? r.roleId })),
+  }
+}
+
+/** Mark a closed vote as recorded and return the decision entry for the facilitator's log. */
+export async function recordVote(root: string, scenarioId: string, voteId: string) {
+  const a = activeFor(root, scenarioId)
+  const at = formatClock(await clockState(root, scenarioId), Date.now())
+  const { text, rowId } = await a.votes.markRecorded(voteId, at)
+  return {
+    id: `dec-${toHex(a.crypto.random(6))}`,
+    at: new Date().toISOString(),
+    exerciseTime: at,
+    ...(rowId ? { rowId } : {}),
+    text,
+  }
+}

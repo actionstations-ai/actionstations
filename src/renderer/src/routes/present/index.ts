@@ -4,6 +4,10 @@ import type { RouteDef } from '../types'
 // Loaded only by the presentation window (main/facilitator/present.ts); never in the nav.
 export const routes: RouteDef[] = [
   {
+    path: '/present/:projectKey/:scenarioId/vote/:voteId',
+    component: lazy(() => import('./PresentVote')),
+  },
+  {
     path: '/present/:projectKey/:scenarioId/:injectId',
     component: lazy(() => import('./PresentPage')),
   },

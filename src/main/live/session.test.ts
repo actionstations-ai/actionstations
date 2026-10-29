@@ -13,7 +13,7 @@ import { createIdentity } from '@shared/live/identity'
 import { parseInvite } from '@shared/live/invite'
 import type { Opened } from '@shared/live/codec'
 import type { WelcomePayload } from '@shared/live/schemas'
-import type { SessionLogEntry } from '@shared/schemas/live'
+import { VoteDefinition, type SessionLogEntry } from '@shared/schemas/live'
 import { httpGet, wsTransport } from './transport/lan/test-clients'
 
 const powerSave = { started: new Set<number>() }
@@ -55,6 +55,12 @@ const {
   messageThreads,
   messageThread,
   pinMessage,
+  openVote,
+  closeVote,
+  listVotes,
+  onVoteClosed,
+  recordVote,
+  voteScope,
 } = await import('./session')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
@@ -499,5 +505,171 @@ describe('join handshake and roster privacy (#411 contract, #457 review L4 and H
     const log = readLog(projectPath, scenarioId, started.session!.id)
     expect(log.filter((e) => e.kind === 'anomaly' && e.data.what === 'join flood')).toHaveLength(1)
     await endSession(projectPath, scenarioId)
+  })
+})
+
+describe('decision-point votes through a running session (#414)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  type Player = Awaited<ReturnType<typeof joinAsPlayer>>
+
+  /** Four devices over the WebSocket (the host allows four per address): two Ops, a PIO and IT. */
+  async function room() {
+    const { projectPath, scenarioId } = await setup()
+    const scenario = await getScenario(projectPath, scenarioId)
+    await saveScenario(
+      projectPath,
+      {
+        ...scenario,
+        roles: [...scenario.roles, { id: 'it', name: 'IT Director', team: 'IT' }] as never,
+      },
+      { by: 'user' },
+    )
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const url = started.invites!.players.url
+    const seats = ['ops', 'ops', 'pio', 'it']
+    const players: Player[] = []
+    for (const [i, seat] of seats.entries()) {
+      const p = await joinAsPlayer(url, `P${i}`, seat)
+      p.client.setDestinations(['all', `role:${seat}`])
+      players.push(p)
+    }
+    return { projectPath, scenarioId, started, players }
+  }
+
+  const heard = (players: Player[]) => {
+    const opens = players.map(() => [] as Opened<'vote.open'>[])
+    const closes = players.map(() => [] as Opened<'vote.close'>[])
+    players.forEach((p, i) => {
+      p.client.on('vote.open', (m) => opens[i]!.push(m))
+      p.client.on('vote.close', (m) => closes[i]!.push(m))
+    })
+    return { opens, closes }
+  }
+
+  it('opens to every device, takes sealed ballots with a change, and closes with a tally', async () => {
+    const { projectPath, scenarioId, started, players } = await room()
+    const { opens, closes } = heard(players)
+    const closed: unknown[] = []
+    const off = onVoteClosed((r) => closed.push(r))
+    const def = VoteDefinition.parse({ question: 'Shut down FIDS?', options: ['Yes', 'No'] })
+    const vote = await openVote(projectPath, scenarioId, def, 'I-14')
+    await vi.waitFor(() => expect(opens.every((o) => o.length === 1)).toBe(true))
+    expect(opens[0]![0]!.payload).toMatchObject({
+      voteId: vote.voteId,
+      question: 'Shut down FIDS?',
+    })
+    expect(opens[0]![0]!.signedBy).toBe('host')
+
+    const choose = (i: number, optionId: string) =>
+      players[i]!.client.send('vote.cast', 'controller', { voteId: vote.voteId, optionId })
+    for (const i of [0, 1, 2]) await choose(i, 'o1')
+    await choose(3, 'o1')
+    await choose(3, 'o2')
+    await choose(2, 'o2')
+    await vi.waitFor(async () =>
+      expect((await listVotes(projectPath, scenarioId))[0]!.options.map((o) => o.count)).toEqual([
+        2, 2,
+      ]),
+    )
+    const done = await closeVote(projectPath, scenarioId, vote.voteId)
+    expect(done).toMatchObject({ status: 'closed', voted: 4, eligible: 4 })
+    await vi.waitFor(() => expect(closes.every((c) => c.length === 1)).toBe(true))
+    expect(closes[0]![0]!.payload).toMatchObject({ status: 'closed', voted: 4, reveal: true })
+    expect(closed).toHaveLength(1)
+    off()
+
+    const decision = await recordVote(projectPath, scenarioId, vote.voteId)
+    expect(decision.text).toMatch(/^Tied: Yes and No \(2 each of 4\), vote at \d+:\d\d$/)
+    expect(decision.rowId).toBe('I-14')
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    const casts = log.filter((e) => e.kind === 'vote.cast')
+    expect(casts).toHaveLength(6)
+    for (const e of casts) {
+      expect(e.actor).toEqual({ kind: 'client' })
+      expect(e.data).not.toHaveProperty('role')
+    }
+    const text = JSON.stringify(log)
+    for (const p of players) expect(text).not.toContain(p.identity.clientId)
+    await endSession(projectPath, scenarioId)
+  })
+
+  it('a by-role vote folds the lone PIO and IT devices into Other under k = 2', async () => {
+    const { projectPath, scenarioId, started, players } = await room()
+    const scope = voteScope(projectPath, scenarioId, ['all'], 2)
+    expect(scope.smallRoles.map((r) => `${r.label}:${r.devices}`).sort()).toEqual([
+      'IT Director:1',
+      'PIO:1',
+    ])
+    const def = VoteDefinition.parse({
+      question: 'Declare an incident?',
+      options: ['Yes', 'No'],
+      anonymous: false,
+      k: 2,
+    })
+    const vote = await openVote(projectPath, scenarioId, def)
+    const optionFor = ['o1', 'o1', 'o2', 'o2']
+    for (const [i, p] of players.entries())
+      await p.client.send('vote.cast', 'controller', {
+        voteId: vote.voteId,
+        optionId: optionFor[i]!,
+      })
+    await vi.waitFor(async () =>
+      expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(4),
+    )
+    const done = await closeVote(projectPath, scenarioId, vote.voteId)
+    expect(done.byRole).toEqual(
+      expect.arrayContaining([
+        { roleId: 'ops', label: 'Operations Director', optionId: 'o1', count: 2 },
+        { roleId: 'other', label: 'Other', optionId: 'o2', count: 2 },
+      ]),
+    )
+    expect(done.byRole!.some((r) => r.roleId === 'pio' || r.roleId === 'it')).toBe(false)
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    const roles = log.filter((e) => e.kind === 'vote.cast').map((e) => e.data.role)
+    expect(roles.filter((r) => r === 'other')).toHaveLength(2)
+    expect(JSON.stringify(log)).not.toMatch(/"role":"(pio|it)"/)
+    await endSession(projectPath, scenarioId)
+  })
+
+  it('counts a ballot after close as late, and closes an open vote as interrupted when the session ends', async () => {
+    const { projectPath, scenarioId, started, players } = await room()
+    const def = VoteDefinition.parse({ question: 'Last call?', options: ['Yes', 'No'] })
+    const first = await openVote(projectPath, scenarioId, def)
+    await closeVote(projectPath, scenarioId, first.voteId)
+    await players[0]!.client.send('vote.cast', 'controller', {
+      voteId: first.voteId,
+      optionId: 'o1',
+    })
+    await vi.waitFor(() =>
+      expect(
+        readLog(projectPath, scenarioId, started.session!.id).some(
+          (e) => e.kind === 'anomaly' && e.data.what === 'vote late',
+        ),
+      ).toBe(true),
+    )
+    expect((await listVotes(projectPath, scenarioId))[0]).toMatchObject({ voted: 0 })
+
+    const second = await openVote(projectPath, scenarioId, def)
+    await players[1]!.client.send('vote.cast', 'controller', {
+      voteId: second.voteId,
+      optionId: 'o2',
+    })
+    await vi.waitFor(async () =>
+      expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(1),
+    )
+    await endSession(projectPath, scenarioId)
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    const close = log.filter((e) => e.kind === 'vote.close').at(-1)!
+    expect(close.data).toMatchObject({ status: 'interrupted', voted: 1 })
   })
 })

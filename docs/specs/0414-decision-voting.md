@@ -1,6 +1,6 @@
 # Spec 0414: Live play: decision-point voting
 
-Issue: #414 · Milestone: 0.6.0 · Status: Draft · Depends on: #406, #407, #411, 0418 task 2 (presentation views) · Related: #418, #417, #419
+Issue: #414 · Milestone: 0.6.0 · Status: Implemented (ADR-0050) · Depends on: #406, #407, #411, 0418 task 2 (presentation views) · Related: #418, #417, #419
 
 ## Summary
 
@@ -193,3 +193,16 @@ None; `decision` is optional on rows.
 2. **Default `k` for the by-role guard.** Recommendation: 3. Two devices per role is common (a principal and a deputy), and 2 would make most rooms identifiable.
 3. **Live results on devices: default on or off?** Recommendation: off. Seeing the tally before voting changes votes; the projector shows it when the facilitator chooses.
 4. **Observers voting?** Recommendation: never. Observers watch.
+
+## Implementation notes (what the code does differently)
+
+- **Record as decision returns the entry.** `live:vote-record` marks the vote recorded (`vote.recorded`) and returns `{ id, at, exerciseTime, rowId?, text }`; the Facilitate page appends it to `FacilitatorState.decisions` itself. The page owns `facilitator.json` and saves the whole file, so a write from main would be lost at its next save. `recordDecision(root, …)` in `votes.ts` is therefore `markRecorded`.
+- **Presenting a vote is `live:vote-present`**, not a `view` on `facilitator:present`: the presentation window loads `#/present/<project>/<scenario>/vote/<voteId>` and follows `live:changed { reason: 'votes' }`. The window shows "Closed at" the exercise time (`closedClock` on `VoteView`).
+- **A changed ballot is a second `vote.cast` line** with `changedFrom` (the option it replaced), not a rewrite: the log is append-only and an anonymous line cannot be linked to the earlier one. The AAR reader subtracts the replaced option. So "five players, one change" gives six `vote.cast` lines and a close tally of five.
+- **The ballot map is kept for the two-minute reopen window**, then dropped, instead of being discarded at close (FR-7), because Reopen needs it.
+- **Folding.** Besides FR-7's fold of roles under `k` into "Other", an "Other" that would stand for one device is left out of the split (its ballots stay in the totals).
+- **Resume (FR-11).** The session has no resume yet (spec 0417). An open vote is closed as `interrupted` when the session ends or the app quits; replaying a log will use the same call.
+- **Decision on a row** is the branching scenario's `MselRow.decision` (spec 0430, which reads the vote-only `{ question, options[] }` shape too); it is edited in the MSEL editor's branches panel, and the vote uses its option ids. A vote opened for it carries `decisionId`, and `tallySourceFromVotes` (`src/shared/branching/vote-input.ts`) gives the Decisions tab the tally, which `decide()` turns into the outcome. The closed vote also reaches `onVoteClosed` with `decisionId`.
+- **Branching (#430)** is connected as above; `onVoteClosed(listener)` in `src/main/live/session.ts` also gives a closed vote's options, counts, leaders, status and `decisionId`.
+- **Targets** accept `all`, `role:<id>` and `team:<slug>`; evaluators and observers of a targeted vote, and players outside it, get a `controller.notice` "Vote in progress". A vote for `all` shows evaluators and observers the notice banner from the vote itself.
+- **Tests.** Unit: `vote-tally.test.ts`, `votes.test.ts`; integration through a real LAN session with four devices (the host allows four per address): `session.test.ts`; player and renderer component tests; `e2e/live/votes.spec.ts` on the player harness with six devices, axe in light and dark. The Electron presentation window is covered by the `PresentVote` component test, not an Electron e2e.

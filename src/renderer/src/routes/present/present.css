@@ -135,3 +135,51 @@
   border-radius: 50%;
   background: #ff5a4f;
 }
+
+/* A vote on the projector (#414): white on black in both themes. The tokens the bars use are
+   set here so contrast is the same whatever the app theme is. */
+.present-vote {
+  --color-text: white;
+  --color-text-muted: rgb(214 214 214);
+  --color-surface-sunken: rgb(38 38 38);
+  --color-border-strong: rgb(214 214 214);
+  --color-accent: rgb(255 210 31);
+  --color-success: rgb(120 220 150);
+  --color-warning: rgb(255 170 60);
+  --color-focus: rgb(120 175 255);
+  --present-row: clamp(1.25rem, 2.6vw, 2.75rem);
+  align-items: flex-start;
+  padding: var(--space-8);
+}
+.present-vote__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 100%;
+}
+.present-vote__head {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--present-row);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.present-vote__question {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.2vw, 4rem);
+  line-height: var(--leading-tight);
+}
+.present-vote__voted {
+  margin: 0;
+  font-size: var(--text-2xl);
+  color: var(--color-text-muted);
+}
+@media (max-height: 600px) {
+  .present-vote {
+    padding: var(--space-4);
+  }
+  .present-vote__question {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+}
