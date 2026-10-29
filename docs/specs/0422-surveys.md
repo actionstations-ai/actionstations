@@ -1,6 +1,6 @@
 # Spec 0422: Surveys: builder, templates, delivery and results
 
-Issue: #422 · Milestone: 0.6.0 · Status: Draft · Depends on: — · Related: #417 (live session log; message types `survey.open`, `survey.response`, `survey.close`), #419 (AAR/IP), #420 (HSEEP document set), #421 (EEGs)
+Issue: #422 · Milestone: 0.6.0 · Status: In progress (tasks 1–4, 6 and the AAR feed of 8 built; see Implementation notes) · Depends on: — · Related: #417 (live session log; message types `survey.open`, `survey.response`, `survey.close`), #419 (AAR/IP), #420 (HSEEP document set), #421 (EEGs)
 
 ## Summary
 
@@ -273,6 +273,21 @@ Responses are anonymous by construction: the schema has no identity fields, time
 6. **Printable forms and results export.** `templates/export/survey.html`, `survey-results.html`, `src/main/export/surveys.ts`, `documents.ts`, `docx.ts` (feedback form), `naming.ts`, `run.ts`, `zip.ts`, `src/shared/ipc/export.ts` (`surveys_pdf`, `survey_results_pdf`), `routes/export/targets.ts`, Excel sheet hook (#420), tests.
 7. **Live and QR delivery.** After 0411 and 0417 tasks 1–2 have landed: `src/main/live/surveys.ts` (wire mapping, mirroring, replay), `src/player/features/surveys/SurveyScreen.tsx` and its outbox use, `surveys:open-live` / `surveys:close-live` handlers, the survey-only start option in `live:session-start` (coordinated with 0411), `routes/facilitate/SurveysTab.tsx`, `FacilitateParts.tsx` checklist, tests, `e2e/surveys.spec.ts` (live part using `e2e/live/helpers.ts`), a short ADR `docs/adr/NNNN-surveys-anonymous-by-construction.md` at the next free number (0024 is taken by live play).
 8. **AAR feed, fixtures and docs.** `src/main/aar/sources/surveys.ts` (#419) consumes `summarizeSurvey`; `tests/content/surveys-scenario-3.test.ts`, `tests/fixtures/surveys/`; example projects get the feedback form and confidence surveys; `README.md` feature list; `docs/guides/getting-started.md` "After the exercise".
+
+## Implementation notes (first PR)
+
+Built: schemas, templates, store, summaries, IPC, the builder / preview / results / paper-entry UI, printable forms and the results PDF through the export path, the Settings threshold, the AAR feed and the live-delivery seam. Where the code differs from the design above, and why:
+
+- **Schema additions.** `Survey.roleGroups` holds the team names offered when `askRoleGroup` is on (filled from the scenario's role teams; editable). `SurveyResponse` is a strict object, so a request carrying any identity field is refused rather than trimmed; `deliveryId` is a base64url string (0406 `Base64Url22`), not a `SafeId`. `SurveyResponseInput` is the paper/manual request shape. `SurveySummary` gains `edition`, `byRoleGroup` (only when asked and above the threshold), `minResponses`, per-question `suppressed`, `otherTexts` and `citation`, and a `knowledge[]` list (share correct per item before and after, with its citation) instead of mixing shares into `pairs`. Until #421 lands `CoreCapabilityId`, `capability` is a free snake_case id (`SurveyCapabilityId`).
+- **Threshold per question too.** A question answered fewer than `minResponses` times shows only its count even when the survey as a whole is above the threshold, and a before or after mean needs that side to reach it.
+- **Paired editions.** The knowledge-check and confidence templates create both editions at once (`surveys:from-template` returns `{ surveys }`); saving one edition copies its sections into the other (`src/main/surveys/pairs.ts`). Without the `survey_items` stage, the confidence template seeds one statement per scenario objective deterministically (`statementsFromObjectives`), and the knowledge check starts empty for the designer to fill.
+- **IPC.** Added `surveys:duplicate` and `surveys:delete-responses` (remove a mistyped paper form, or all responses); `surveys:add-response` returns `{ responseId, count }` so the form can offer "Remove the last entry". The push event is the existing `project:changed` with `what: 'surveys'` instead of a new `surveys:response-added`, so the renderer's targeted invalidation covers it.
+- **Exercise record.** `scenarioSurveySummaries()` and `surveyEvidenceRef()` live in `src/main/surveys/results.ts`; #419's `aar/sources/surveys.ts` calls them. A before/after pair reports its comparison once, on the after edition.
+- **Export.** `surveys_pdf` prints every survey marked **ready**, or the ones named in `export:run { surveyIds }` (the Deliver dialog's **Print form**). Forms go to `surveys/` in the export folder; `zip.ts` allows participant forms in `players/` by name and refuses debriefs and `Survey-Results.pdf`. The ZIP pulls in both survey targets. `scenario.json` carries the survey definitions.
+- **ADR.** The anonymity decision is recorded now, in [ADR-0026](../adr/0026-surveys-anonymous-by-construction.md), since the paper path already depends on it.
+- **Live seam.** `src/main/surveys/wire.ts` holds `toWireSurvey` and `fromWireResponse` with local zod copies of the 0406 payloads (no transport, no sender parameter), until `src/main/live/` exists; the live work moves or imports them.
+
+Not built yet (follow-ups): task 5 (`survey_items` generation), task 7 (live and QR delivery, Facilitate Surveys tab and post-ENDEX checklist), the Participant Feedback Form as DOCX and the Excel "Survey results" sheet (#420), the Scenario 3 golden fixture test, and surveys in the example projects.
 
 ## Open questions
 

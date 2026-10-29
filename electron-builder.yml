@@ -56,6 +56,9 @@ extraResources:
     to: app-resources/templates/_shared
   - from: templates/export
     to: app-resources/templates/export
+  # Survey templates (HSEEP Participant Feedback Form, debriefs, #422).
+  - from: surveys/templates
+    to: app-resources/surveys/templates
 # Native code and data files read with real fs paths must live outside app.asar.
 asarUnpack:
   - node_modules/better-sqlite3/**

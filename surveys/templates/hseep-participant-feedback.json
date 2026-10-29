@@ -1,0 +1,139 @@
+{
+  "templateId": "hseep-participant-feedback",
+  "templateVersion": 1,
+  "description": "The HSEEP Participant Feedback Form: an agreement scale on the exercise, then free-text feedback, issues and corrective actions. Hand out or send after ENDEX.",
+  "survey": {
+    "title": "Participant Feedback Form",
+    "kind": "participant_feedback",
+    "timing": "post",
+    "introMd": "Thank you for taking part. Your answers help improve future exercises and are summarized, without names, in the After-Action Report.",
+    "askRoleGroup": false,
+    "sections": [
+      {
+        "id": "part-1",
+        "title": "Part I: Exercise assessment",
+        "introMd": "Rate your overall assessment of the exercise against each statement, from 1 (strongly disagree) to 5 (strongly agree).",
+        "questions": [
+          {
+            "id": "structure",
+            "type": "rating",
+            "text": "The exercise was well structured and organized.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "scenario",
+            "type": "rating",
+            "text": "The exercise scenario was plausible and realistic.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "facilitator",
+            "type": "rating",
+            "text": "The facilitator was knowledgeable about the material, kept the exercise on target and was sensitive to group dynamics.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "materials",
+            "type": "rating",
+            "text": "The exercise materials were a valuable tool throughout the exercise.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "participation",
+            "type": "rating",
+            "text": "Participation in the exercise was appropriate for someone in my role with my level of experience and training.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "familiarity",
+            "type": "rating",
+            "text": "The exercise increased my understanding of, and familiarity with, the capabilities and resources of other participating organizations.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "decisions",
+            "type": "rating",
+            "text": "The exercise gave me the opportunity to address significant decisions in support of critical mission areas.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "prepared",
+            "type": "rating",
+            "text": "After this exercise, I am better prepared to deal with the capabilities and hazards addressed.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          }
+        ]
+      },
+      {
+        "id": "part-2",
+        "title": "Part II: Participant feedback",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "change",
+            "type": "text",
+            "text": "What changes would you make to improve this exercise?",
+            "long": true,
+            "help": "Recommendations on how this exercise or future exercises could be improved."
+          },
+          {
+            "id": "strengths",
+            "type": "text",
+            "text": "What strengths did you see in the organization's plans, policies and procedures?",
+            "long": true
+          },
+          {
+            "id": "improvements",
+            "type": "text",
+            "text": "What areas for improvement did you see in the organization's plans, policies and procedures?",
+            "long": true
+          }
+        ]
+      },
+      {
+        "id": "part-3",
+        "title": "Part III: Issues and corrective actions",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "issues",
+            "type": "text",
+            "text": "Based on today's discussion, list the top three issues or areas that need improvement.",
+            "long": true
+          },
+          {
+            "id": "actions",
+            "type": "text",
+            "text": "What action steps should be taken to address the issues above?",
+            "long": true,
+            "help": "For each step, say whether it is a high, medium or low priority."
+          }
+        ]
+      }
+    ]
+  }
+}

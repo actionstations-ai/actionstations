@@ -81,6 +81,31 @@ describe('distribution ZIP', () => {
     expect(files).not.toContain('players/Flight-to-Nowhere-Controller-Materials.pdf')
   })
 
+  it('puts participant survey forms in players/, never debriefs or survey results (#422)', () => {
+    const { dir: folder, files: runFiles } = exportFolder()
+    mkdirSync(join(folder, 'surveys'))
+    const feedback = 'Flight-to-Nowhere-Survey-Participant-Feedback-Form-AAAAAA.pdf'
+    const debrief = 'Flight-to-Nowhere-Survey-Facilitator-Debrief-BBBBBB.pdf'
+    for (const name of [feedback, debrief]) {
+      writeFileSync(join(folder, 'surveys', name), name)
+      runFiles.push(join(folder, 'surveys', name))
+    }
+    writeFileSync(join(folder, names.surveyResults), 'results')
+    runFiles.push(join(folder, names.surveyResults))
+    const files = distributionEntries(folder, names, runFiles, [feedback]).map((e) => e.name)
+    expect(files).toContain(`players/${feedback}`)
+    expect(files).toContain(`facilitator/surveys/${feedback}`)
+    expect(files).toContain(`facilitator/surveys/${debrief}`)
+    expect(files).toContain(`facilitator/${names.surveyResults}`)
+    expect(files).not.toContain(`players/${debrief}`)
+    expect(files).not.toContain(`players/${names.surveyResults}`)
+    expect(() =>
+      assertPlayersOnly([{ source: '/x', name: `players/${names.surveyResults}` }], names, [
+        names.surveyResults,
+      ]),
+    ).toThrow(/Refusing/)
+  })
+
   it('refuses facilitator material in players/', () => {
     for (const leak of [
       names.controllerHandouts,

@@ -1,0 +1,79 @@
+{
+  "templateId": "evaluator-debrief",
+  "templateVersion": 1,
+  "description": "The HSEEP controller and evaluator (C/E) debrief: observation coverage, data collection problems, inject delivery issues and key issues for the After-Action Report.",
+  "survey": {
+    "title": "Controller / Evaluator Debrief",
+    "kind": "evaluator_debrief",
+    "timing": "post",
+    "introMd": "For controllers and evaluators, before the After-Action Report is drafted.",
+    "sections": [
+      {
+        "id": "coverage",
+        "title": "Observation coverage",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "coverage",
+            "type": "rating",
+            "text": "I was able to observe every critical task assigned to me.",
+            "required": false,
+            "lowLabel": "Strongly disagree",
+            "highLabel": "Strongly agree",
+            "pointLabels": ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"]
+          },
+          {
+            "id": "gaps",
+            "type": "text",
+            "text": "Which tasks or areas were not observed, and why?",
+            "long": true
+          },
+          {
+            "id": "data",
+            "type": "text",
+            "text": "What problems did you have collecting data (forms, timing, access)?",
+            "long": true
+          }
+        ]
+      },
+      {
+        "id": "delivery",
+        "title": "Inject delivery",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "delivery",
+            "type": "text",
+            "text": "Which injects were not delivered as planned, and what happened instead?",
+            "long": true
+          }
+        ]
+      },
+      {
+        "id": "aar",
+        "title": "For the After-Action Report",
+        "introMd": "",
+        "questions": [
+          {
+            "id": "strengths",
+            "type": "text",
+            "text": "Key strengths observed.",
+            "long": true
+          },
+          {
+            "id": "improvements",
+            "type": "text",
+            "text": "Key areas for improvement observed.",
+            "long": true
+          },
+          {
+            "id": "issues",
+            "type": "text",
+            "text": "Issues the After-Action Report must address.",
+            "long": true
+          }
+        ]
+      }
+    ]
+  }
+}

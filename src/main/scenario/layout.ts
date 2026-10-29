@@ -29,6 +29,12 @@ export function scenarioLayout(root: string, scenarioId: string) {
     /** Project-root-relative path stored in Scenario.documents. */
     docRel: (kind: ScenarioDocKind) => toRel(root, safeJoin(dir, 'documents', `${kind}.md`)),
     media: safeJoin(dir, 'media'),
+    /** Surveys (#422): <surveyId>.json definitions and <surveyId>.responses.jsonl answers. */
+    surveys: safeJoin(dir, 'surveys'),
+    survey: (surveyId: string) =>
+      safeJoin(dir, 'surveys', `${assertSafeId(surveyId, 'survey id')}.json`),
+    surveyResponses: (surveyId: string) =>
+      safeJoin(dir, 'surveys', `${assertSafeId(surveyId, 'survey id')}.responses.jsonl`),
     history: safeJoin(dir, 'history'),
     historyFile: (artifact: HistoryArtifact) => safeJoin(dir, 'history', `${artifact}.jsonl`),
   }

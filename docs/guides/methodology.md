@@ -73,6 +73,17 @@ Text-bearing injects (posts, tickets, emails, logs, FIDS boards) are rendered fr
 - **Rubric.** Four metrics (for example operational coordination, technical competence, public communication, use of doctrine), each with concrete Fail / Pass / Excellence behaviours tied to specific injects.
 - **Hot wash.** Immediately after ENDEX: "3-Up, 3-Down" (three things that went well, three to improve) plus three questions about this scenario's lessons, such as when the team stopped trusting the system.
 
+## Participant feedback and confidence
+
+HSEEP asks for participant feedback after every exercise. The **HSEEP Participant Feedback Form** follows FEMA's template: Part I rates the exercise on a 1 to 5 agreement scale (structure, realism of the scenario, the facilitator, the materials, whether participation fit your role), Part II asks what to change and what the organization's plans, policies and procedures do well or need, and Part III lists issues and the corrective actions that should follow. Hand it out right after the hot wash, while the discussion is fresh.
+
+Two before-and-after measures show what the session taught:
+
+- **Knowledge check.** A few multiple-choice questions about what the plans say, asked before and after. Each question has one correct answer and, ideally, the plan section that answers it, so the results point at the sections most often missed.
+- **Confidence self-assessment.** One first-person statement per objective ("I could lead the switch to manual boarding announcements"), rated from 1 (not at all confident) to 5 (very confident) before and after. The change in the group's mean is the readiness signal leadership tends to ask for.
+
+Both are compared only as a group: the app never matches one person's before and after answers. Responses carry no name or device, times are kept to the minute, free text is listed in no particular order, and with fewer than three responses (the default threshold) only counts are shown, so a two-person room cannot tell who said what. The **facilitator debrief** and the **controller/evaluator debrief** are for the exercise staff and feed the After-Action Report alongside the participants' feedback.
+
 ## How the generator follows the method
 
 | Exercise designer's step                                             | What the app does                                                                                                                                                           |

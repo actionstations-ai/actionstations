@@ -5,6 +5,7 @@ import {
   EmbeddingSettings,
   GenerationSettings,
   TipSettings,
+  SurveySettings,
   UiSettings,
 } from '../schemas/settings'
 import { patchOf } from '../schemas/common'
@@ -73,6 +74,7 @@ export const appChannels = {
       ui: UiPatch.optional(),
       embeddings: patchOf(EmbeddingSettings).optional(),
       generation: patchOf(GenerationSettings).optional(),
+      surveys: patchOf(SurveySettings).optional(),
       defaultRouting: ProviderRouting.optional(),
       onboardingComplete: z.boolean().optional(),
       defaultProjectsDir: z.string().optional(),

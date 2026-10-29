@@ -297,6 +297,14 @@ Open **Facilitate** in the project sidebar and pick a scenario.
 
 The clock, delivered injects and notes are saved in `<project>/scenarios/<id>/facilitator.json`, so a session survives a restart.
 
+### After the exercise: surveys
+
+Click **Surveys** on the scenario page. **New survey** creates the HSEEP Participant Feedback Form, a knowledge check or a confidence self-assessment (each made as a before and an after edition), a facilitator debrief, a controller/evaluator debrief or a blank survey. The **Questions** tab edits the title, introduction, timing and status, and the sections and questions: rating (1 to 5), multiple choice (one or several answers, an optional "Other", and for a knowledge check the correct answer), free text and confidence statements. **Move up** and **Move down** reorder them. Changes save a moment after you make them; the two editions of a before/after survey keep the same questions. **Preview** shows the survey as participants see it.
+
+**Deliver…** → **Print form** writes a fill-in PDF to the export folder (`surveys/` inside the scenario's export folder). Mark a survey **Ready** to include it in every export and in the distribution ZIP's `players/` folder; debriefs and results stay in `facilitator/`. The printed form never shows the correct answers.
+
+On the **Results** tab, **Enter paper responses** types the returned forms in one at a time (**Save response**, then the form clears for the next one; **Remove the last entry** undoes a mistake). The results above it update as you go: counts, means, medians and distributions, choice counts, free-text answers in no particular order, and the before/after comparisons. Until three responses are in (change this in **Settings** → **Surveys**), only counts are shown, so no answer can be traced to a person. **Save results PDF** writes the summary, with the knowledge check's answer key, for the facilitator. Surveys and responses are stored in `<project>/scenarios/<id>/surveys/`.
+
 ## 10. Export the exercise
 
 Click **Export…** on the scenario page (in the header, or in the next-action bar once the scenario is ready).
@@ -305,8 +313,8 @@ Click **Export…** on the scenario page (in the header, or in the next-action b
 
 Choose what to export:
 
-- **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms) and the **Exercise Plan** (a cover page plus all four documents). A scenario with handouts also gets **Player Handouts** (with the briefing) and **Controller Materials** (with the handbook) PDFs.
-- **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing, the forms and the player handouts; controller materials stay in `facilitator/`).
+- **Documents (PDF)**: **MSEL** (landscape events table by phase), **Master Inject Deck** (one inject per page with its media), **Controller / Evaluator Handbook** (with rubric, hot wash and SimCell scripts), **Player Briefing Packet** (with blank ICS 201 and ICS 203 forms), the **Exercise Plan** (a cover page plus all four documents), **Survey forms** (every survey marked ready) and **Survey results** (when any survey has responses). A scenario with handouts also gets **Player Handouts** (with the briefing) and **Controller Materials** (with the handbook) PDFs.
+- **Files**: **Media files** (PNG, PDF, WAV and MP3, MP4, named `S<n>-I<id>-<type>`), **scenario.json** (the full scenario with injects inlined), **scenario.md** (a readable copy with media checksums), **Word documents** (handbook and player briefing as `.docx`) and the **Distribution ZIP** (`facilitator/` with everything, `players/` with the briefing, the forms, the player handouts and the participant survey forms; controller materials, debriefs and survey results stay in `facilitator/`).
 
 The right side previews each PDF before you export. The bar at the bottom of the options stays in view: it says whether every event has an inject and every inject is rendered (with a link to fix it), shows the **Output folder** and holds **Export**. The folder defaults to `exports` inside the project folder (created on the first export) or the folder you last chose for this project; **Choose…** picks another. Files go into a folder named after the scenario, its number and a short id (`Flight-to-Nowhere-S3-79J4AB`), so two scenarios with the same title never share a folder, and the ZIP sits next to it. The ZIP holds only the files from that export, not leftovers from an earlier one.
 

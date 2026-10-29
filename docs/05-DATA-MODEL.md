@@ -140,6 +140,40 @@ SimcellScript { rolePlayed, trigger, hardQuestions[], concessions[] }
 StageRun { stage, startedAt, finishedAt, providerRef, promptRef, promptHash, inputTokens?, outputTokens?, costUsd?, status, error? }
 ```
 
+## Surveys (`scenarios/<id>/surveys/`, #422)
+
+Schemas in `src/shared/schemas/survey.ts`. Each survey is `<surveyId>.json`; its responses are `<surveyId>.responses.jsonl`, one `SurveyResponse` per line, append-only (a line with an id already stored replaces the earlier one when read; a line cut short by a crash is skipped). Duplicating a scenario copies the definitions, never the responses. `scenario.json` exports carry the definitions only. Older builds ignore the folder.
+
+```ts
+Survey {                                   // loose: unknown keys survive a save
+  formatVersion: 1, id, title,
+  kind: 'participant_feedback'|'knowledge_check'|'confidence'|'facilitator_debrief'|'evaluator_debrief'|'custom',
+  timing: 'pre'|'post'|'during'|'any', edition?: 'before'|'after', pairId?,   // before/after editions link to each other
+  introMd, askRoleGroup: false, roleGroups: string[],                         // team names only, never single roles
+  sections: { id, title, introMd, questions: SurveyQuestion[] }[],
+  templateId?, templateVersion?, status: 'draft'|'ready'|'archived', createdAt, updatedAt
+}
+SurveyQuestion =                          // all: { id, text, help, required }
+  | { type: 'rating', min: 1, max: 5, lowLabel, highLabel, pointLabels?: string[5] }
+  | { type: 'choice', multiple, options: { id, text }[2..12], correctOptionId?, allowOther, citation? }
+  | { type: 'text', long, maxLength }
+  | { type: 'confidence', statement, pairKey, edition, objectiveRef?, capability?, citation? }
+SurveyResponse {                           // strict: no name, device, address or user agent can be stored
+  id, surveyId, deliveryId?, channel: 'live'|'qr'|'paper'|'manual',
+  at /* rounded to the minute */, roleGroup?, answers: Record<questionId, 1..5 | optionId[] | string>,
+  otherText: Record<questionId, string>
+}
+SurveySummary {                            // summarizeSurvey(), src/main/surveys/summarize.ts
+  surveyId, title, kind, edition?, responses, byChannel, byRoleGroup, minResponses, suppressed,
+  questions: { questionId, text, type, n, suppressed, mean?, median?, distribution?: number[5],
+               choices?: { optionId, text, count, correct? }[], shareCorrect?, otherTexts?, texts?, citation? }[],
+  pairs: { pairKey, statement, objectiveRef?, capability?, before?, after?, delta?, nBefore, nAfter }[],
+  knowledge: { questionId, text, shareBefore?, shareAfter?, nBefore, nAfter, citation? }[]
+}
+```
+
+Before/after editions keep the same questions: saving one copies its sections into the other. Templates ship in `surveys/templates/<templateId>.json` (app resources). `AppSettings.surveys.minResponses` (default 3) is the anonymity threshold: below it, results show counts only. The AAR draft (#419) reads `scenarioSurveySummaries()` from `src/main/surveys/results.ts` and cites survey evidence as `survey:<surveyId>:<questionId>`.
+
 ## SQLite (index.sqlite, rebuildable)
 
 ```sql

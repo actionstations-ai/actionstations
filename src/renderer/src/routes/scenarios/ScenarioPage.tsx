@@ -1,6 +1,6 @@
 import { Tabs } from 'radix-ui'
 import { useState, type ReactNode } from 'react'
-import { ArrowLeft, Download, Presentation } from 'lucide-react'
+import { ArrowLeft, ClipboardList, Download, Presentation } from 'lucide-react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import type { Scenario } from '@shared/schemas/scenario'
 import { Badge, PageHeader } from '../../components/ui'
@@ -145,6 +145,9 @@ function HeaderActions(props: {
         <Badge tone={STATUS_TONE[status]}>{STATUS_LABEL[status]}</Badge>
       </span>
       <GlossaryButton />
+      <Link className="btn" to={`${base}/surveys`}>
+        <ClipboardList size={16} aria-hidden /> Surveys
+      </Link>
       {r?.next !== 'run' && (
         <>
           <Link className="btn" to={`${base}/facilitate`}>

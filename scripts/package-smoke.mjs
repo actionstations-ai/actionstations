@@ -242,8 +242,23 @@ export function bundledPackProblems(resources) {
   return problems
 }
 
+/** The survey templates (#422) ship beside the export templates, outside the packs. */
+export function surveyTemplateProblems(resources) {
+  const file = join(
+    resources,
+    'app-resources',
+    'surveys',
+    'templates',
+    'hseep-participant-feedback.json',
+  )
+  return existsSync(file) ? [] : ['app-resources/surveys/templates is missing (#422)']
+}
+
 function staticChecks(layout) {
-  const problems = [...bundledPackProblems(layout.resources)]
+  const problems = [
+    ...bundledPackProblems(layout.resources),
+    ...surveyTemplateProblems(layout.resources),
+  ]
   const wires = readFuseWires(readFileSync(layout.fuseBinary))
   if (wires.length === 0) problems.push('no fuse wire found in the Electron binary')
   for (const wire of wires) problems.push(...fuseProblems(wire))

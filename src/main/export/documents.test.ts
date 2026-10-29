@@ -173,6 +173,8 @@ describe('planTargets', () => {
       'handbook_pdf',
       'briefing_pdf',
       'exercise_plan_pdf',
+      'surveys_pdf',
+      'survey_results_pdf',
       'json',
       'markdown',
       'zip',

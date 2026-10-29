@@ -108,6 +108,12 @@ export const UpdateSettings = z.object({
   dismissedVersion: z.string().max(64).optional(),
 })
 export type UpdateSettings = z.infer<typeof UpdateSettings>
+/** Survey results (#422). */
+export const SurveySettings = z.object({
+  /** Fewer responses than this: results show counts only, no per-question detail. */
+  minResponses: z.number().int().min(1).max(50).default(3),
+})
+export type SurveySettings = z.infer<typeof SurveySettings>
 
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
@@ -125,5 +131,6 @@ export const AppSettings = z.object({
   setup: SetupSettings.default({ skipped: [] }),
   /** Opt-in check for a newer release (#442); asks first, never on by default. */
   updates: UpdateSettings.default(() => ({ check: 'ask' as const, askedCount: 0 })),
+  surveys: SurveySettings.default({ minResponses: 3 }),
 })
 export type AppSettings = z.infer<typeof AppSettings>

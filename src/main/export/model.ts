@@ -1,9 +1,11 @@
 // Everything one export needs, read once from the project: scenario, injects (MSEL order),
 // markdown documents, brand, and the media file plan.
-import type { Brand, Inject, Project, Scenario } from '@shared/schemas'
+import type { Brand, Inject, Project, Scenario, Survey, SurveySummary } from '@shared/schemas'
 import { safeJoinReal } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
+import { minResponsesSetting, surveySummary } from '../surveys/results'
+import { listSurveys } from '../surveys/store'
 import { planMediaFiles, scenarioNumber, type PlannedMedia } from './naming'
 
 export interface ExportDocs {
@@ -15,6 +17,12 @@ export interface ExportDocs {
   handouts: string
   /** Facilitator-only handouts (facilitator/ only); '' when the scenario has none. */
   controller_handouts: string
+}
+
+/** A survey and its results (#422): forms print the survey, the results PDF the summary. */
+export interface ExportSurvey {
+  survey: Survey
+  summary: SurveySummary
 }
 
 export interface ExportModel {
@@ -29,6 +37,21 @@ export interface ExportModel {
   available: Set<string>
   /** ISO time the export started; printed in footers and the manifest. */
   generatedAt: string
+  /** The scenario's surveys, archived ones left out, with their results. */
+  surveys: ExportSurvey[]
+}
+
+/** Surveys with their summaries, the anonymity threshold from settings applied. */
+async function loadSurveys(root: string, scenarioId: string): Promise<ExportSurvey[]> {
+  const surveys = (await listSurveys(root, scenarioId)).filter((s) => s.status !== 'archived')
+  if (!surveys.length) return []
+  const min = await minResponsesSetting()
+  return Promise.all(
+    surveys.map(async (survey) => ({
+      survey,
+      summary: await surveySummary(root, scenarioId, survey.id, min),
+    })),
+  )
 }
 
 export async function loadExportModel(
@@ -76,6 +99,7 @@ export async function loadExportModel(
     media,
     available: await availablePaths(root, injects, project.brand.logoPath),
     generatedAt: now.toISOString(),
+    surveys: await loadSurveys(root, scenarioId),
   }
 }
 

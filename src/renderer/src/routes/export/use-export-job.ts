@@ -23,8 +23,14 @@ export function useExportJob(
   const job = useJob(jobId, onDone)
   const running = job?.status === 'queued' || job?.status === 'running'
   const run = useCallback(
-    async (outDir: string, targets: ExportTarget[]) => {
-      const { jobId: id } = await call('export:run', { projectPath, scenarioId, outDir, targets })
+    async (outDir: string, targets: ExportTarget[], surveyIds?: string[]) => {
+      const { jobId: id } = await call('export:run', {
+        projectPath,
+        scenarioId,
+        outDir,
+        targets,
+        ...(surveyIds?.length ? { surveyIds } : {}),
+      })
       trackJob(id, { kind: 'export', projectPath, scenarioId, payload: { outDir, targets } })
       return id
     },

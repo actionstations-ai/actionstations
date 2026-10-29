@@ -85,6 +85,21 @@ describe('SettingsPage', () => {
     )
   })
 
+  it('sets the survey results threshold, 3 by default (#422)', async () => {
+    const ttx = setup({
+      'settings:get': () => AppSettings.parse({}),
+      'settings:update': () => AppSettings.parse({ surveys: { minResponses: 5 } }),
+    })
+    const select = (await screen.findByRole('combobox', {
+      name: 'Show survey results from',
+    })) as HTMLSelectElement
+    expect(select.value).toBe('3')
+    await userEvent.setup().selectOptions(select, '5')
+    await waitFor(() =>
+      expect(ttx.calls('settings:update')[0]).toEqual({ surveys: { minResponses: 5 } }),
+    )
+  })
+
   it('adds the official catalog with one click and lists catalogs with their status (#267)', async () => {
     const official = 'https://actionstations.ai/packs/index.json'
     let catalogs: AppSettings['packs']['catalogs'] = []

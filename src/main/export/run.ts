@@ -14,8 +14,14 @@ import { blankFormDocument } from './forms'
 import { scenarioJson, scenarioMarkdown } from './manifest'
 import { exportMedia, type ExportedFile } from './media'
 import type { ExportModel } from './model'
-import { documentFileNames, type DocumentFileNames } from './naming'
+import { documentFileNames, surveyFormName, type DocumentFileNames } from './naming'
 import { htmlToPdf } from './pdf'
+import {
+  buildSurveyFormHtml,
+  buildSurveyResultsHtml,
+  isPlayerForm,
+  printableSurveys,
+} from './surveys'
 import { distributionEntries, writeZip } from './zip'
 
 /** Everything the ZIP's facilitator/ and players/ folders are built from. */
@@ -25,6 +31,8 @@ const ZIP_NEEDS: ExportTarget[] = [
   'handbook_pdf',
   'briefing_pdf',
   'exercise_plan_pdf',
+  'surveys_pdf',
+  'survey_results_pdf',
   'media',
   'json',
   'markdown',
@@ -37,6 +45,8 @@ const ORDER: ExportTarget[] = [
   'handbook_pdf',
   'briefing_pdf',
   'exercise_plan_pdf',
+  'surveys_pdf',
+  'survey_results_pdf',
   'docx',
   'json',
   'markdown',
@@ -89,6 +99,35 @@ interface RunState {
   folder: string
   result: ExportResult
   media: ExportedFile[]
+  /** surveys_pdf: only these surveys (else every survey marked ready). */
+  surveyIds?: string[]
+  /** Participant survey forms written by this run: the only survey files players/ may get. */
+  playerSurveyForms: string[]
+}
+
+/** One printable form per survey in surveys/; participant forms are also allowed in players/. */
+async function writeSurveyForms(state: RunState): Promise<void> {
+  const surveys = printableSurveys(state.model.surveys, state.surveyIds)
+  if (!surveys.length) {
+    if (state.model.surveys.length)
+      state.result.warnings.push('No survey is marked ready, so no survey forms were printed.')
+    return
+  }
+  await ensureDir(join(state.folder, 'surveys'))
+  for (const { survey } of surveys) {
+    const name = surveyFormName(state.model.scenario.title, survey)
+    const html = buildSurveyFormHtml(state.model, survey)
+    await writeOut(state, join('surveys', name), await htmlToPdf(html, survey.title))
+    if (isPlayerForm(survey)) state.playerSurveyForms.push(name)
+  }
+}
+
+/** The results summary, facilitator/ only, when any survey has responses. */
+async function writeSurveyResults(state: RunState): Promise<void> {
+  const answered = state.model.surveys.filter((s) => s.summary.responses > 0)
+  if (!answered.length) return
+  const html = buildSurveyResultsHtml(state.model, answered)
+  await writeOut(state, state.names.surveyResults, await htmlToPdf(html, 'Survey results'))
 }
 
 async function writeOut(state: RunState, name: string, data: string | Uint8Array): Promise<void> {
@@ -150,6 +189,10 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       state.result.warnings.push(...media.warnings)
       return
     }
+    case 'surveys_pdf':
+      return writeSurveyForms(state)
+    case 'survey_results_pdf':
+      return writeSurveyResults(state)
     case 'json':
       return writeOut(state, 'scenario.json', scenarioJson(state.model))
     case 'markdown':
@@ -159,7 +202,10 @@ async function runTarget(state: RunState, target: ExportTarget, outDir: string):
       return writeOut(state, state.names.briefingDocx, await briefingDocx(state.model))
     case 'zip': {
       const zipPath = join(outDir, state.names.zip)
-      await writeZip(zipPath, distributionEntries(state.folder, state.names, state.result.files))
+      await writeZip(
+        zipPath,
+        distributionEntries(state.folder, state.names, state.result.files, state.playerSurveyForms),
+      )
       state.result.zipPath = zipPath
       state.result.files.push(zipPath)
       return
@@ -173,6 +219,8 @@ const TARGET_LABELS: Record<ExportTarget, string> = {
   handbook_pdf: 'Controller / Evaluator Handbook PDF',
   briefing_pdf: 'Player Briefing Packet PDF',
   exercise_plan_pdf: 'Exercise Plan PDF',
+  surveys_pdf: 'survey forms',
+  survey_results_pdf: 'survey results PDF',
   media: 'media files',
   json: 'scenario.json',
   markdown: 'scenario.md',
@@ -186,6 +234,7 @@ export async function runExport(
   outDir: string,
   targets: ExportTarget[],
   ctx: Pick<JobContext, 'progress' | 'log' | 'throwIfCancelled'>,
+  opts: { surveyIds?: string[] } = {},
 ): Promise<ExportResult> {
   const names = documentFileNames(model.scenario.title, {
     scenarioNo: model.scenarioNo,
@@ -199,6 +248,8 @@ export async function runExport(
     folder,
     media: [],
     result: { folder, files: [], warnings: [] },
+    playerSurveyForms: [],
+    ...(opts.surveyIds?.length ? { surveyIds: opts.surveyIds } : {}),
   }
   const plan = planTargets(targets)
   for (const [i, target] of plan.entries()) {

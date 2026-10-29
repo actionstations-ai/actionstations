@@ -23,6 +23,7 @@ import { packDocumentChannels } from './pack-documents'
 import { packExportChannels } from './pack-export'
 import { setupChannels } from './setup'
 import { updateChannels } from './updates'
+import { surveyChannels } from './surveys'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -40,6 +41,7 @@ export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
 export { SetupInstallResult } from './setup'
 export { UpdateStatus } from './updates'
+export { SurveyListItem } from './surveys'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -108,6 +110,7 @@ export const channels = mergeChannels(
   packExportChannels,
   setupChannels,
   updateChannels,
+  surveyChannels,
 )
 
 export type Channels = typeof channels
@@ -150,6 +153,7 @@ export const events = {
       'settings',
       'providers',
       'library',
+      'surveys',
     ]),
     scenarioId: z.string().optional(),
   }),
