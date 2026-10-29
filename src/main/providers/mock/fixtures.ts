@@ -564,7 +564,8 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
               'Add the Go Dark decision to the TIRP 13.6 checklist as a joint Operations and IT call with one announcement channel.',
             correctiveActions: [
               {
-                action: 'Revise TIRP 13.6 so the Go Dark decision is taken jointly and announced once',
+                action:
+                  'Revise TIRP 13.6 so the Go Dark decision is taken jointly and announced once',
                 element: 'planning',
                 ownerRole: 'ops-director',
               },

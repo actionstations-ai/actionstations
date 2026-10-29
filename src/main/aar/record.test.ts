@@ -25,23 +25,69 @@ const facilitator: FacilitatorState = {
     'I-06': { at: '2026-10-28T14:15:00.000Z', exerciseTime: '1:15' },
     'I-12': { at: '2026-10-28T15:45:00.000Z', exerciseTime: '2:45' },
   },
-  notes: { 'I-06': 'Ops silenced the PA within four minutes.', 'I-09': '  ', 'I-12': 'PIO took the call.' },
+  notes: {
+    'I-06': 'Ops silenced the PA within four minutes.',
+    'I-09': '  ',
+    'I-12': 'PIO took the call.',
+  },
   generalNotes: 'Room started 10 minutes late.',
   hotwash: [
-    { id: 'hw-1', kind: 'strength', text: 'One voice to the airlines.', objectiveRef: 'obj-communication', at: '2026-10-28T16:50:00.000Z' },
-    { id: 'hw-2', kind: 'improvement', text: 'No owner for the whiteboards.', rowId: 'I-10', at: '2026-10-28T16:51:00.000Z' },
+    {
+      id: 'hw-1',
+      kind: 'strength',
+      text: 'One voice to the airlines.',
+      objectiveRef: 'obj-communication',
+      at: '2026-10-28T16:50:00.000Z',
+    },
+    {
+      id: 'hw-2',
+      kind: 'improvement',
+      text: 'No owner for the whiteboards.',
+      rowId: 'I-10',
+      at: '2026-10-28T16:51:00.000Z',
+    },
   ],
   decisions: [
-    { id: 'dec-1', at: '2026-10-28T14:19:00.000Z', exerciseTime: '1:19', rowId: 'I-06', text: 'Take the FIDS dark.', byRole: 'ops-director' },
-    { id: 'dec-2', at: '2026-10-28T15:00:00.000Z', text: 'Hold the press statement until IT confirms.', byRole: 'nobody-known' },
+    {
+      id: 'dec-1',
+      at: '2026-10-28T14:19:00.000Z',
+      exerciseTime: '1:19',
+      rowId: 'I-06',
+      text: 'Take the FIDS dark.',
+      byRole: 'ops-director',
+    },
+    {
+      id: 'dec-2',
+      at: '2026-10-28T15:00:00.000Z',
+      text: 'Hold the press statement until IT confirms.',
+      byRole: 'nobody-known',
+    },
   ],
 }
 
 const evaluation = EvaluationRecord.parse({
   updatedAt: '2026-10-28T17:00:00.000Z',
   observations: [
-    { id: 'O-I-06-T-07', at: '2026-10-28T14:20:00.000Z', exerciseTime: '1:20', rowId: 'I-06', taskId: 'T-07', criterionId: 'T-07', rating: 'partial', note: 'Twelve minutes.', source: 'facilitate' },
-    { id: 'O-I-03-expected', at: '2026-10-28T13:46:00.000Z', rowId: 'I-03', criterionId: 'I-03:expected', rating: 'met', note: '', source: 'facilitate' },
+    {
+      id: 'O-I-06-T-07',
+      at: '2026-10-28T14:20:00.000Z',
+      exerciseTime: '1:20',
+      rowId: 'I-06',
+      taskId: 'T-07',
+      criterionId: 'T-07',
+      rating: 'partial',
+      note: 'Twelve minutes.',
+      source: 'facilitate',
+    },
+    {
+      id: 'O-I-03-expected',
+      at: '2026-10-28T13:46:00.000Z',
+      rowId: 'I-03',
+      criterionId: 'I-03:expected',
+      rating: 'met',
+      note: '',
+      source: 'facilitate',
+    },
   ],
 })
 
@@ -54,8 +100,23 @@ const survey: SurveySummary = {
   byRoleGroup: {},
   minResponses: 3,
   questions: [
-    { questionId: 'q1', text: 'The exercise was well structured', type: 'rating', n: 4, mean: 4.25, median: 4, distribution: [0, 0, 1, 1, 2], suppressed: false },
-    { questionId: 'q9', text: 'What changes would you make?', type: 'text', n: 2, suppressed: true },
+    {
+      questionId: 'q1',
+      text: 'The exercise was well structured',
+      type: 'rating',
+      n: 4,
+      mean: 4.25,
+      median: 4,
+      distribution: [0, 0, 1, 1, 2],
+      suppressed: false,
+    },
+    {
+      questionId: 'q9',
+      text: 'What changes would you make?',
+      type: 'text',
+      n: 2,
+      suppressed: true,
+    },
   ],
   pairs: [],
   knowledge: [],
@@ -78,7 +139,14 @@ describe('assembleRecord', () => {
   })
 
   it('is empty with an untouched facilitator state and nothing else', () => {
-    const blank: FacilitatorState = { elapsedMin: 0, delivered: {}, notes: {}, generalNotes: '', hotwash: [], decisions: [] }
+    const blank: FacilitatorState = {
+      elapsedMin: 0,
+      delivered: {},
+      notes: {},
+      generalNotes: '',
+      hotwash: [],
+      decisions: [],
+    }
     const r = assembleRecord(scenario, { facilitator: blank })
     expect(r.sources.facilitator).toBe(false)
     expect(recordIsEmpty(r)).toBe(true)
@@ -86,7 +154,12 @@ describe('assembleRecord', () => {
 
   it('merges every source: live observations replace stored ones by id, rows are delivered once', () => {
     const liveOnly = assembleRecord(scenario, { live })
-    expect(liveOnly.sources).toEqual({ facilitator: false, evaluation: false, live: true, surveys: false })
+    expect(liveOnly.sources).toEqual({
+      facilitator: false,
+      evaluation: false,
+      live: true,
+      surveys: false,
+    })
     const r = assembleRecord(scenario, { facilitator, evaluation, live, surveys: [survey] })
     expect(r.sources).toEqual({ facilitator: true, evaluation: true, live: true, surveys: true })
     expect(r.liveSessionId).toBe('run1')
@@ -136,11 +209,15 @@ describe('recordBlock', () => {
     expect(block).toMatch(/- T-07 \(Operational Coordination\) ".*": met 1, partial 1/)
     expect(block).toContain('[obs:O-I-06-T-07] I-06 (1:15) partial: Twelve minutes.')
     expect(block).toContain('Expected-action ratings on rows no task covers: met 1')
-    expect(block).toContain('"Take the FIDS dark now, or wait for IT to confirm the feed?": Go dark now 3, Wait for IT confirmation 1 (4 of 5 voted)')
+    expect(block).toContain(
+      '"Take the FIDS dark now, or wait for IT to confirm the feed?": Go dark now 3, Wait for IT confirmation 1 (4 of 5 voted)',
+    )
     expect(block).toContain('Messages between players and the SimCell: 4 in all')
     expect(block).toContain('[msg:msg_ops_pa_')
     expect(block).not.toContain('[msg:msg_pio_hold')
-    expect(block).toContain('[survey:SRV1:q1] "The exercise was well structured": mean 4.25 of 5 (n 4)')
+    expect(block).toContain(
+      '[survey:SRV1:q1] "The exercise was well structured": mean 4.25 of 5 (n 4)',
+    )
     expect(block).toContain('below the anonymity threshold')
   })
 
@@ -167,7 +244,8 @@ describe('recordBlock', () => {
       live,
     })
     const block = recordBlock(hostile, scenario, 'full')
-    for (const name of ['Dana Whitfield', 'Marcus Lee', 'Tom Okafor']) expect(block).not.toContain(name)
+    for (const name of ['Dana Whitfield', 'Marcus Lee', 'Tom Okafor'])
+      expect(block).not.toContain(name)
     expect(block).not.toContain('</record>')
     expect(block).not.toContain('<documents>')
   })

@@ -111,7 +111,10 @@ async function openDraftEnv(
 }
 
 /** The prompt variables for one attempt; `level` decides how much of the record goes in. */
-export async function draftVars(env: DraftEnv, level: CondenseLevel): Promise<Record<string, unknown>> {
+export async function draftVars(
+  env: DraftEnv,
+  level: CondenseLevel,
+): Promise<Record<string, unknown>> {
   const { scenario, record } = env.built
   const project = await env.deps.loadProject(env.root)
   const domain = domainContext(project, scenario)
@@ -192,7 +195,11 @@ function logMapping(applied: ApplyResult, ctx: JobContext): void {
       extra,
     )
   if (applied.unknownRefs.length)
-    ctx.log(`aar: evidence refs not in the record, dropped: ${applied.unknownRefs.join(', ')}`, 'warn', extra)
+    ctx.log(
+      `aar: evidence refs not in the record, dropped: ${applied.unknownRefs.join(', ')}`,
+      'warn',
+      extra,
+    )
   if (applied.droppedCitations.length)
     ctx.log(
       `${CITATION_DROPPED}: aar cited ${applied.droppedCitations.join(', ')}, which was not among the sections shown; dropped`,
@@ -200,13 +207,21 @@ function logMapping(applied: ApplyResult, ctx: JobContext): void {
       extra,
     )
   for (const key of applied.unknownRoles)
-    ctx.log(`aar: proposed owner "${key}" is not a role key; left for a person to set`, 'warn', extra)
+    ctx.log(
+      `aar: proposed owner "${key}" is not a role key; left for a person to set`,
+      'warn',
+      extra,
+    )
   for (const id of applied.unknownCapabilities)
     ctx.log(`aar: "${id}" is not one of the 32 Core Capabilities; dropped`, 'warn', extra)
   if (applied.keptLocked)
     ctx.log(`aar: ${applied.keptLocked} locked item(s) kept from the previous draft`, 'info', extra)
   if (applied.keptRatings)
-    ctx.log(`aar: ${applied.keptRatings} confirmed rating(s) kept from the previous draft`, 'info', extra)
+    ctx.log(
+      `aar: ${applied.keptRatings} confirmed rating(s) kept from the previous draft`,
+      'info',
+      extra,
+    )
 }
 
 /** Build the Aar from the mapped output and what the previous draft held. */
@@ -236,7 +251,8 @@ export function assembleAar(
     ...(record.liveSessionId ? { liveSessionId: record.liveSessionId } : {}),
     capabilities: applied.capabilities,
     participantFeedbackMd: record.sources.surveys ? (out.participantFeedbackMd ?? '').trim() : '',
-    participatingOrganizations: prev?.participatingOrganizations ?? conduct.participatingOrganizations,
+    participatingOrganizations:
+      prev?.participatingOrganizations ?? conduct.participatingOrganizations,
     acronyms: prev?.acronyms ?? conduct.acronyms,
     provenance: [...(prev?.provenance ?? []), run].slice(-20),
   }
@@ -282,7 +298,14 @@ export async function draftAar(
     by: 'ai',
     note: env.previous ? 'Re-drafted from the exercise record' : 'Drafted from the exercise record',
   })
-  await syncAarDocument(root, scenarioId, saved, 'full', { by: 'ai', note: 'AAR/IP draft' }, scenario)
+  await syncAarDocument(
+    root,
+    scenarioId,
+    saved,
+    'full',
+    { by: 'ai', note: 'AAR/IP draft' },
+    scenario,
+  )
   ctx.progress(1, 'AAR/IP draft ready', { stage: STAGE })
   return saved
 }
