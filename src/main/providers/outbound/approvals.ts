@@ -25,14 +25,16 @@ const newState = (): ScopeState => ({
 export function policyDecision(
   review: ReviewPolicy,
   state: ScopeState,
-  manifest: Pick<OutboundManifest, 'excerpts'>,
+  manifest: Pick<OutboundManifest, 'excerpts'> & Partial<Pick<OutboundManifest, 'kind'>>,
   content: readonly string[] = [],
 ): ApprovalKind | 'ask' {
   if (review === 'off') return 'policy-off'
   if (review === 'every-request' || !state.approved) return 'ask'
   if (review === 'per-job') return 'job-approval'
-  // Content never approved in this job (an earlier stage's output, facts, a new prompt) is new.
-  if (content.some((h) => !state.content.has(h))) return 'ask'
+  // Content never approved in this job is new: any content under `new-content`; under the default
+  // only a media prompt (an image or voice request goes out as it is, with no excerpts to judge by).
+  const checksContent = review === 'new-content' || manifest.kind === 'media'
+  if (checksContent && content.some((h) => !state.content.has(h))) return 'ask'
   let viaDocument = false
   for (const e of manifest.excerpts) {
     if (state.chunks.has(e.chunkId)) continue

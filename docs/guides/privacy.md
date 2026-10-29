@@ -41,7 +41,8 @@ Your approval covers the exact request you saw. If anything changes before it is
 
 Set in **Settings → Privacy** for all projects, and per project on **Cloud and privacy** (in the project's Advanced section). A project's choices are kept on this computer. Only the part that is stricter than your defaults (asking more often, more categories, more Always-redact terms) is also written into the project file, so it travels with the folder. Settings that arrive in a project file (a copied project, an example) can make review and redaction stricter, never looser; examples and packs never carry them.
 
-- **Ask when new content would be sent** (default): ask whenever a request would send a plan excerpt or any other content (an earlier stage's result, a prompt, facility facts) not yet approved in that job. Requests that repeat approved content, or carry excerpts from documents you approved for the job, go without asking. In a generation most stages ask once; choose **Ask once per job** for a single question per job.
+- **Ask when new plan excerpts would be sent** (default): ask before the first cloud request of a job, then again whenever a request would send a plan excerpt you have not approved in that job, and for each image, video or voice prompt not yet approved. With **Send and approve these documents for this job**, a text-only generation usually asks once. Other text (prompts, earlier results) goes without asking; names and contact details in it are still redacted.
+- **Ask for any new content** (strictest short of every request): also ask whenever a request would send anything else not yet approved in that job, such as a new prompt, an earlier stage's result or facility facts. Most stages of a generation ask once.
 - **Ask before every request.**
 - **Ask once per job.**
 - **Never ask.** Everything is still recorded in the send log. The app asks you to confirm this choice and names the cloud providers it applies to.

@@ -42,7 +42,8 @@ const REVIEW_RANK: Record<ReviewPolicy, number> = {
   off: 0,
   'per-job': 1,
   'new-excerpts': 2,
-  'every-request': 3,
+  'new-content': 3,
+  'every-request': 4,
 }
 
 export const isStricterReview = (a: ReviewPolicy, than: ReviewPolicy): boolean =>

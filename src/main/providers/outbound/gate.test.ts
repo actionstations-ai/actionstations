@@ -243,7 +243,8 @@ describe('outbound gate: approval', () => {
   it('asks again for a repair round: its restored reply is new content (#454 review, finding 4)', async () => {
     for (const [review, asks] of [
       ['every-request', 2],
-      ['new-excerpts', 2],
+      ['new-content', 2],
+      ['new-excerpts', 1],
       ['per-job', 1],
     ] as const) {
       const { deps, needed, approvals } = setup(review)

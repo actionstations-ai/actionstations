@@ -10,9 +10,17 @@ export type RedactionCategory = z.infer<typeof RedactionCategory>
 /**
  * When the app asks before a request goes to a cloud provider.
  * `new-excerpts` (default): the first request of a job, then any request carrying a plan
- * excerpt not yet approved in that job. `every-request`, `per-job` and `off` are literal.
+ * excerpt not yet approved in that job, and any media request whose prompt was not approved.
+ * `new-content` (strictest short of every request): also any other content (prompts, earlier
+ * results, facts) not yet approved. `every-request`, `per-job` and `off` are literal.
  */
-export const ReviewPolicy = z.enum(['new-excerpts', 'every-request', 'per-job', 'off'])
+export const ReviewPolicy = z.enum([
+  'new-excerpts',
+  'new-content',
+  'every-request',
+  'per-job',
+  'off',
+])
 export type ReviewPolicy = z.infer<typeof ReviewPolicy>
 
 const Term = z.string().trim().min(2).max(200)

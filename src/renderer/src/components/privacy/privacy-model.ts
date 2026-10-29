@@ -36,8 +36,13 @@ export const CATEGORY_MARK: Record<RedactionCategory, string> = {
 export const REVIEW_OPTIONS: { value: ReviewPolicy; label: string; hint: string }[] = [
   {
     value: 'new-excerpts',
-    label: 'Ask when new content would be sent (recommended)',
-    hint: 'Asks whenever a request would send a plan excerpt or other content (an earlier result, a prompt, facility facts) you have not approved in that job. Requests that repeat approved content, or use excerpts from documents you approved for the job, go without asking. Most stages of a generation ask once.',
+    label: 'Ask when new plan excerpts would be sent (recommended)',
+    hint: 'Asks before the first cloud request of a job, again whenever a request would send a plan excerpt you have not approved in that job, and for each new image, video or voice prompt. Names and contact details are redacted in every request.',
+  },
+  {
+    value: 'new-content',
+    label: 'Ask for any new content (strictest)',
+    hint: 'Also asks whenever a request would send anything else you have not approved in that job: a new prompt, an earlier result, facility facts. Most stages of a generation ask once.',
   },
   {
     value: 'every-request',

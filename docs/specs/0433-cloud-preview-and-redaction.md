@@ -422,11 +422,14 @@ Where the code differs from or adds to the design above, and why:
 - **Known values first.** `redactText` replaces every value the project has already redacted
   (case- and spacing-insensitive, phones by digits, longest first) before the detectors run, so a
   value restored into a reply is never re-sent in the clear by a repair round or a later stage.
-- **New content asks under `new-excerpts`.** Besides excerpts, every line of a request outside
-  the excerpts (the prompt, earlier outputs, facility facts) is fingerprinted; a line never
-  approved in the job makes the request new. Lines inside excerpts from approved documents and
-  the `<documents>` framing do not. In practice each stage of a generation asks once. Embedding
-  batches keep one approval per job (open question 5).
+- **New content.** Every line of a request outside the excerpts (the prompt, earlier outputs,
+  facility facts) is fingerprinted. A new policy, `new-content` ("Ask for any new content", the
+  strictest short of every request), asks whenever a line was never approved in the job; in
+  practice each stage of a generation asks once. The default `new-excerpts` keeps the spec's
+  rule for text (ask for excerpts not yet approved) and also asks for any media request whose
+  redacted prompt was not yet approved, so a text-only generation asks about once per job.
+  Restored values cannot ride along unasked in clear text, because they are re-redacted (above).
+  Embedding batches keep one approval per job (open question 5).
 - **Media prompts are redacted** with plain stand-ins ("a staff member", "a phone number"), not
   placeholders, since images and audio cannot be changed back. A video's input image is hashed
   by its bytes and shown in the dialog (`OutboundManifest.images`).

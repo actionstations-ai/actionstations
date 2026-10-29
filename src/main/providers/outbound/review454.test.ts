@@ -133,9 +133,9 @@ describe('finding 2: restored values are never re-sent in the clear', () => {
   })
 })
 
-describe('finding 4: new content is asked about under new-excerpts', () => {
-  it('after one approval, different project content asks again; the same content does not', async () => {
-    const s = setup('new-excerpts')
+describe('finding 4: new content and new media prompts', () => {
+  it('"Ask for any new content": different project content asks again; the same does not', async () => {
+    const s = setup('new-content')
     const inner = new Capture(REMOTE)
     const p = guardText(inner, REMOTE, s.deps)
     const req = (content: string): ChatRequest => ({
@@ -152,6 +152,52 @@ describe('finding 4: new content is asked about under new-excerpts', () => {
     await second
     expect(s.needed).toHaveLength(2)
     expect(s.needed[1]!.parts[0]!.text).toContain('gate codes')
+  })
+
+  it('the default asks for new excerpts, not for other new text (it is re-redacted)', async () => {
+    const s = setup('new-excerpts')
+    const inner = new Capture(REMOTE)
+    const p = guardText(inner, REMOTE, s.deps)
+    const req = (content: string): ChatRequest => ({
+      messages: [{ role: 'user', content }],
+      outbound: { jobId: 'j', excerpts: [] },
+    })
+    const first = p.chat(req('Chief Zubair Oyelaran leads.'))
+    await approveNext(s, 1)
+    await first
+    await p.chat(req('Earlier output: Zubair Oyelaran opens the EOC.'))
+    expect(s.needed).toHaveLength(1)
+    expect(JSON.stringify(inner.sent[1])).not.toMatch(/Zubair|Oyelaran/)
+  })
+
+  it('the default asks for each media prompt not yet approved in the job', async () => {
+    const s = setup('new-excerpts')
+    const inner = {
+      id: 'cloud',
+      kind: 'mock',
+      config: REMOTE,
+      capabilities: () => new Set(['image']),
+      health: async () => ({ ok: true }),
+      generate: vi.fn(async () => []),
+    } as unknown as MediaProvider
+    const media = guardMedia(inner, REMOTE, s.deps)
+    const job = (imagePrompt: string): MediaJob => ({
+      kind: 'image',
+      injectId: 'i',
+      outDir: '/tmp',
+      brief: { paths: ['ai_image'], imagePrompt },
+    })
+    const { runInJobScope } = await import('../../jobs/scope')
+    const run = (prompt: string) => runInJobScope({ jobId: 'j' }, () => media.generate(job(prompt)))
+    const a = run('A flooded pump house')
+    await approveNext(s, 1)
+    await a
+    await run('A flooded pump house')
+    expect(s.needed).toHaveLength(1)
+    const b = run('Smoke over the chlorine building')
+    await approveNext(s, 2)
+    await b
+    expect(s.needed).toHaveLength(2)
   })
 
   it('excerpts from approved documents still go without asking', async () => {

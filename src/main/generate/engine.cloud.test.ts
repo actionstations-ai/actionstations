@@ -155,8 +155,9 @@ describe('scenario generation through a cloud provider', () => {
     const entries = lines.map((l) => JSON.parse(l) as { approval: string; jobId: string })
     expect(entries[0]!.approval).toBe('asked')
     expect(entries.every((e) => e.jobId === jobId)).toBe(true)
-    // Each stage sends content never approved in the job (its prompt, earlier outputs), so the
-    // default policy asks for each one (#454 review, finding 4).
-    expect(asked).toBe(sent.length)
+    // The default asks about new plan excerpts only: approving the documents of the first request
+    // covers a text-only generation (later stages re-redact restored values, #454 review).
+    expect(asked).toBeGreaterThanOrEqual(1)
+    expect(asked).toBeLessThanOrEqual(2)
   })
 })

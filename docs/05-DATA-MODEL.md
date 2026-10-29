@@ -286,7 +286,7 @@ Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (sp
 ```ts
 // AppSettings.privacy (global defaults) and Project.privacy (per-field overrides)
 PrivacySettings {
-  review: 'new-excerpts' | 'every-request' | 'per-job' | 'off',   // default 'new-excerpts'
+  review: 'new-excerpts' | 'new-content' | 'every-request' | 'per-job' | 'off', // default 'new-excerpts'
   redact: Partial<Record<'person'|'phone'|'email'|'address', boolean>>, // a missing category is on
   alwaysRedact: string[], neverRedact: string[]                    // terms, 2-200 chars, max 500
 }
