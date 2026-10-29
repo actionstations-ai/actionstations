@@ -15,7 +15,7 @@ import { isKnownProject } from '../../lib/project-registry'
 import { isProjectFolder } from '../../project/store'
 import type { EmbeddingProvider, MediaProvider, TextProvider } from '../types'
 import { Approvals } from './approvals'
-import { guardEmbedding, guardMedia, guardText, type GateDeps } from './gate'
+import { guardEmbedding, guardMedia, guardText, isGuarded, type GateDeps } from './gate'
 import { appendSend } from './send-log'
 import { detectContextFor, enabledCategories, privacyFor, registryFor } from './settings'
 
@@ -47,9 +47,20 @@ export const approvals: Approvals = new Approvals({
   },
 })
 
-onEmit((name, payload) => {
-  if (name === 'job:done') approvals.endJob((payload as { jobId: string }).jobId)
-})
+let listening = false
+/** Forget a job's approvals when it ends; subscribed when the first cloud provider is wrapped. */
+function listenForJobEnds(): void {
+  if (listening) return
+  listening = true
+  onEmit((name, payload) => {
+    if (name === 'job:done') approvals.endJob((payload as { jobId: string }).jobId)
+  })
+}
+
+function watched<T>(provider: T): T {
+  if (isGuarded(provider)) listenForJobEnds()
+  return provider
+}
 
 export const gateDeps: GateDeps = {
   approvals,
@@ -89,10 +100,10 @@ export async function logConnectionTest(
 }
 
 export const guardTextProvider = (p: TextProvider, config: ProviderConfig): TextProvider =>
-  guardText(p, config, gateDeps)
+  watched(guardText(p, config, gateDeps))
 export const guardEmbeddingProvider = (
   p: EmbeddingProvider,
   config: ProviderConfig,
-): EmbeddingProvider => guardEmbedding(p, config, gateDeps)
+): EmbeddingProvider => watched(guardEmbedding(p, config, gateDeps))
 export const guardMediaProvider = (p: MediaProvider, config: ProviderConfig): MediaProvider =>
-  guardMedia(p, config, gateDeps)
+  watched(guardMedia(p, config, gateDeps))
