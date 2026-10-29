@@ -179,3 +179,58 @@ describe('template composition', () => {
     expect(() => loadTemplate('nope_nope')).toThrow(/No template/)
   })
 })
+
+describe('translated template chrome (spec 0435 FR-4, FR-9)', () => {
+  const memo = () => loadTemplate('memo').preview.fields
+
+  it('an English render keeps the text written in the template and lang="en"', () => {
+    const doc = composeDocument({ type: 'memo', fields: memo() })
+    expect(doc.html).toContain('<html lang="en">')
+    expect(doc.html).toContain('Memorandum')
+    expect(doc.html).toMatch(/<main lang="en"/)
+  })
+
+  it('a Spanish render sets lang="es" and takes the labels from labels/es.json', () => {
+    const doc = composeDocument({ type: 'memo', fields: memo(), lang: 'es' })
+    expect(doc.html).toContain('<html lang="es">')
+    expect(doc.html).toContain('Memorando')
+    expect(doc.html).toContain('ASUNTO:')
+    expect(doc.html).not.toContain('Memorandum')
+  })
+
+  it('a template without labels for the language renders its English chrome', () => {
+    const fields = loadTemplate('time_jump_card').preview.fields
+    const doc = composeDocument({ type: 'time_jump_card', fields, lang: 'es' })
+    expect(doc.html).toContain('<html lang="es">')
+  })
+
+  it('puts the inject title in the document title, escaped', () => {
+    const doc = composeDocument({ type: 'memo', fields: memo(), title: 'A <b>"memo"</b>' })
+    expect(doc.html).toContain('<title>A &lt;b&gt;&quot;memo&quot;&lt;/b&gt;</title>')
+  })
+
+  it('refuses a language code that could break out of the attribute', () => {
+    const doc = composeDocument({ type: 'memo', fields: memo(), lang: 'es"><i>' })
+    expect(doc.html).toContain('<html lang="en">')
+    expect(doc.html).not.toContain('lang="es"><i>')
+  })
+
+  it('loadLabels ignores files that are too large, malformed or not flat', async () => {
+    const { loadLabels } = await import('./compose')
+    const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs')
+    const { tmpdir } = await import('node:os')
+    const { join } = await import('node:path')
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-labels-'))
+    mkdirSync(join(dir, 'labels'))
+    const put = (lang: string, text: string) =>
+      writeFileSync(join(dir, 'labels', `${lang}.json`), text)
+    put('es', '{"a":"b","n":1}')
+    put('fr', '[1,2]')
+    put('de', 'nope')
+    put('it', JSON.stringify({ big: 'x'.repeat(70_000) }))
+    expect(loadLabels(dir, 'es')).toEqual({ a: 'b' })
+    for (const lang of ['fr', 'de', 'it', 'pt']) expect(loadLabels(dir, lang)).toEqual({})
+    expect(loadLabels(dir, 'es/x')).toEqual({})
+    expect(loadLabels(dir, undefined)).toEqual({})
+  })
+})

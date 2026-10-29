@@ -12,7 +12,7 @@
     </div>
     <div class="ref">
       {{#if fields.refNo}}
-      <p>Notice <strong>{{fields.refNo}}</strong></p>
+      <p>{{t 'Notice'}} <strong>{{fields.refNo}}</strong></p>
       {{/if}} {{#if fields.issuedAt}}
       <p>Issued {{fields.issuedAt}}</p>
       {{/if}}
@@ -20,30 +20,31 @@
   </header>
 
   <section class="band">
-    <p class="kind kind-unplanned">Unplanned system downtime</p>
-    <p class="kind kind-planned">Scheduled system downtime</p>
+    <p class="kind kind-unplanned">{{t 'Unplanned system downtime'}}</p>
+    <p class="kind kind-planned">{{t 'Scheduled system downtime'}}</p>
     <h1>{{fields.systemName}} <span class="state">{{fields.status}}</span></h1>
     <p class="effect effect-unplanned">
       {{#if (eq fields.status "RESTORED")}}System restored — follow recovery
       instructions{{else}}Downtime procedures in effect{{/if}}
     </p>
-    <p class="effect effect-planned">Prepare for downtime procedures</p>
+    <p class="effect effect-planned">{{t 'Prepare for downtime procedures'}}</p>
   </section>
 
   <table class="times">
     <tr>
       <th>
-        <span class="kind-unplanned">Down since</span><span class="kind-planned">Starts</span>
+        <span class="kind-unplanned">{{t 'Down since'}}</span
+        ><span class="kind-planned">{{t 'Starts'}}</span>
       </th>
       <td>{{fields.startedAt}}</td>
-      <th>Expected restore</th>
+      <th>{{t 'Expected restore'}}</th>
       <td>{{default fields.expectedRestore "Unknown"}}</td>
     </tr>
   </table>
 
   <section class="avail">
     <div class="col col-no">
-      <h2>Not available</h2>
+      <h2>{{t 'Not available'}}</h2>
       <ul>
         {{#each fields.affected}}
         <li>{{this}}</li>
@@ -52,7 +53,7 @@
     </div>
     {{#if fields.unaffected}}
     <div class="col col-yes">
-      <h2>Still available</h2>
+      <h2>{{t 'Still available'}}</h2>
       <ul>
         {{#each fields.unaffected}}
         <li>{{this}}</li>
@@ -63,7 +64,7 @@
   </section>
 
   <section class="procs">
-    <h2>What to do now</h2>
+    <h2>{{t 'What to do now'}}</h2>
     <ol>
       {{#each fields.procedures}}
       <li>{{this}}</li>
@@ -73,7 +74,7 @@
 
   {{#if fields.forms}}
   <section class="forms">
-    <h2>Downtime forms</h2>
+    <h2>{{t 'Downtime forms'}}</h2>
     <ul>
       {{#each fields.forms}}
       <li>{{this}}</li>
@@ -84,10 +85,10 @@
 
   <footer class="foot">
     {{#if fields.contact}}
-    <p class="contact"><strong>Questions:</strong> {{fields.contact}}</p>
+    <p class="contact"><strong>{{t 'Questions:'}}</strong> {{fields.contact}}</p>
     {{/if}} {{#if fields.issuedBy}}
     <p class="by">Issued by {{fields.issuedBy}}</p>
     {{/if}}
-    <p class="post">POST AT ALL WORKSTATIONS · DO NOT REMOVE UNTIL RECOVERY IS ANNOUNCED</p>
+    <p class="post">{{t 'POST AT ALL WORKSTATIONS · DO NOT REMOVE UNTIL RECOVERY IS ANNOUNCED'}}</p>
   </footer>
 </article>

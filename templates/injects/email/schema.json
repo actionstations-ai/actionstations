@@ -8,28 +8,33 @@
     "fromName": {
       "type": "string",
       "description": "Sender display name",
-      "examples": ["BHS Control Room (Duty Manager)"]
+      "examples": ["BHS Control Room (Duty Manager)"],
+      "x-translate": false
     },
     "fromEmail": {
       "type": "string",
       "description": "Sender address",
-      "examples": ["bhs.control@ncia-airport.org"]
+      "examples": ["bhs.control@ncia-airport.org"],
+      "x-translate": false
     },
     "senderInitials": {
       "type": "string",
       "maxLength": 3,
       "description": "Letters for the sender's avatar disc when the display name is not a plain first and last name",
-      "examples": ["K"]
+      "examples": ["K"],
+      "x-translate": false
     },
     "to": {
       "type": "string",
       "description": "Recipients as displayed (names or addresses, separated by semicolons)",
-      "examples": ["Airport Operations Center (AOC)"]
+      "examples": ["Airport Operations Center (AOC)"],
+      "x-translate": false
     },
     "cc": {
       "type": "string",
       "description": "Cc recipients",
-      "examples": ["Terminal Duty Manager"]
+      "examples": ["Terminal Duty Manager"],
+      "x-translate": false
     },
     "subject": {
       "type": "string",
@@ -39,7 +44,8 @@
     "sentAt": {
       "type": "string",
       "description": "Sent date-time as the client shows it",
-      "examples": ["Tue 10/14/2025 10:31 AM"]
+      "examples": ["Tue 10/14/2025 10:31 AM"],
+      "x-translate": false
     },
     "body": {
       "type": "string",
@@ -49,7 +55,8 @@
     "signature": {
       "type": "string",
       "description": "Signature block under the body (newlines kept)",
-      "examples": ["BHS Duty Manager\nBaggage Handling Systems | x2210"]
+      "examples": ["BHS Duty Manager\nBaggage Handling Systems | x2210"],
+      "x-translate": false
     },
     "attachments": {
       "type": "array",
@@ -63,12 +70,14 @@
           "name": {
             "type": "string",
             "description": "File name with extension (extension picks the icon)",
-            "examples": ["SAC_alarm_log.xlsx"]
+            "examples": ["SAC_alarm_log.xlsx"],
+            "x-translate": false
           },
           "size": {
             "type": "string",
             "description": "File size as shown",
-            "examples": ["48 KB"]
+            "examples": ["48 KB"],
+            "x-translate": false
           },
           "kind": {
             "type": "string",
@@ -93,7 +102,8 @@
     "printedBy": {
       "type": "string",
       "description": "Mailbox owner printed at the top of the print variant",
-      "examples": ["Airport Operations Center"]
+      "examples": ["Airport Operations Center"],
+      "x-translate": false
     }
   },
   "additionalProperties": false

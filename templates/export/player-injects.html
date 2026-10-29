@@ -1,0 +1,26 @@
+<section class="doc doc--player-injects" aria-labelledby="{{title.id}}">
+  {{> title title}} {{#each cards}}
+  <article class="player-card" aria-labelledby="{{../prefix}}player-card-{{@index}}">
+    <h2 id="{{../prefix}}player-card-{{@index}}">{{title}}</h2>
+    <p class="player-card__route">{{t 'From'}}: {{from}} · {{t 'To'}}: {{to}}</p>
+    {{#if image}}
+    <figure class="inject-media">
+      <img src="{{image.src}}" alt="{{image.alt}}" />
+    </figure>
+    <div class="rendition sr-only">
+      {{#each lines}}
+      <p>{{this}}</p>
+      {{/each}}
+    </div>
+    {{else}}
+    <div class="rendition">
+      {{#each lines}}
+      <p>{{this}}</p>
+      {{/each}}
+    </div>
+    {{/if}}
+  </article>
+  {{/each}} {{#if endNote}}
+  <p class="doc-end">{{endNote}}</p>
+  {{/if}}
+</section>

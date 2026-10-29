@@ -1057,3 +1057,155 @@ figure {
   padding-left: 12pt;
   font-size: 8pt;
 }
+
+/* ---- Player injects (spec 0435): a card per inject, its words as real text ---- */
+.doc--player-injects {
+  page: player_injects;
+}
+.player-card {
+  break-before: page;
+  display: flex;
+  flex-direction: column;
+  gap: 9pt;
+}
+.player-card:first-of-type {
+  break-before: auto;
+}
+.player-card h2 {
+  font-size: 14pt;
+}
+.player-card__route {
+  font-size: 9pt;
+  color: var(--ink-2);
+}
+.player-card .inject-media img {
+  max-height: 7.2in;
+}
+.rendition p {
+  margin: 0 0 4pt;
+  font-family: var(--serif);
+  font-size: 12pt;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+/* ---- Large print (spec 0435 FR-17) ----
+   Follows APH and ACB large-print guidance: sans-serif, 18 pt body, headings 24 pt or more,
+   line height 1.5, left aligned, one column, high contrast, no background images, and no
+   text set in images: each inject picture is followed by its words at body size. */
+.large-print {
+  --ink: #000;
+  --ink-2: #000;
+  --muted: #1a1a1a;
+  --rule: #000;
+  --rule-light: #000;
+  --fill: #fff;
+  --fill-2: #fff;
+  --accent: #000;
+  font-family: var(--sans);
+  font-size: 18pt;
+  line-height: 1.5;
+  text-align: left;
+  background: #fff;
+}
+.large-print * {
+  background-image: none !important;
+  text-align: left;
+}
+.large-print h1 {
+  font-size: 30pt;
+  line-height: 1.25;
+  margin: 0 0 14pt;
+}
+.large-print h2 {
+  font-size: 26pt;
+  line-height: 1.25;
+  margin: 22pt 0 10pt;
+}
+.large-print h3,
+.large-print h4 {
+  font-size: 24pt;
+  line-height: 1.25;
+  margin: 18pt 0 8pt;
+}
+.large-print p,
+.large-print li,
+.large-print td,
+.large-print th,
+.large-print dd,
+.large-print dt,
+.large-print .doc-end,
+.large-print .player-card__route,
+.large-print .doc-title__eyebrow,
+.large-print .doc-title__sub,
+.large-print .rendition p {
+  font-family: var(--sans);
+  font-size: 18pt;
+  line-height: 1.5;
+  color: #000;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.large-print p,
+.large-print li {
+  margin-bottom: 8pt;
+}
+.large-print .facts,
+.large-print .facts div {
+  display: block;
+}
+.large-print .facts dt {
+  font-weight: 700;
+}
+.large-print .facts dd {
+  margin: 0 0 6pt;
+}
+.large-print table {
+  display: block;
+}
+.large-print thead {
+  display: none;
+}
+.large-print tbody,
+.large-print tr,
+.large-print td {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+}
+.large-print tr {
+  border-top: 1.5pt solid #000;
+  padding: 8pt 0;
+}
+.large-print td::before {
+  content: attr(data-label);
+  font-weight: 700;
+  display: block;
+}
+.large-print .player-card .inject-media img {
+  width: 100%;
+  max-height: none;
+  height: auto;
+  border: 1.5pt solid #000;
+}
+.large-print .rendition.sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+.large-print .inject-page {
+  height: auto;
+  overflow: visible;
+}
+.large-print .inject-media img {
+  max-height: none;
+  width: 100%;
+}
+.large-print .form-page {
+  display: none;
+}

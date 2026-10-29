@@ -46,6 +46,11 @@ export const DOCUMENT_TARGETS: TargetOption[] = [
     hint: 'With blank ICS 201 and ICS 203 forms',
   },
   {
+    id: 'player_injects_pdf',
+    label: 'Player injects',
+    hint: 'One card per inject players see, each picture followed by its words as text',
+  },
+  {
     id: 'exercise_plan_pdf',
     label: 'Exercise Plan bundle',
     hint: 'Cover page, ExPlan, SitMan, handbook, MSEL, deck and briefing in one PDF',
@@ -84,7 +89,7 @@ export const FILE_TARGETS: TargetOption[] = [
   {
     id: 'zip',
     label: 'Distribution ZIP',
-    hint: 'facilitator/ (everything) and players/ (briefing, forms, ExPlan, participant surveys)',
+    hint: 'facilitator/ (everything) and players/ (briefing, player injects, forms, ExPlan, participant surveys; Spanish in players/es/)',
   },
 ]
 

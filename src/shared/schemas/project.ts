@@ -10,6 +10,7 @@ import { PackId, PackPath, SemVer } from './pack'
 import { ProjectPrivacy } from './privacy'
 import { ProviderRouting } from './provider'
 import { HotwashSettings } from './hotwash'
+import { ProjectGlossary } from './translation'
 
 export const PROJECT_FORMAT_VERSION = 1
 
@@ -158,6 +159,8 @@ export const Project = z.looseObject({
   hotwash: HotwashSettings.optional(),
   /** The exercise program this project is linked to (#424); the program folder holds the rest. */
   program: z.object({ id: Id, path: z.string().max(2000) }).optional(),
+  /** Fixed term pairs per player language, passed to the translation prompt (spec 0435). */
+  glossary: ProjectGlossary.optional(),
 })
 export type Project = z.infer<typeof Project>
 

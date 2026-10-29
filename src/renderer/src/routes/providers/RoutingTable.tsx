@@ -11,7 +11,7 @@ import { TASKS, cleanRouting, type ProviderViewT, type RoutingView, type TaskInf
 
 type Draft = Partial<Record<ProviderTask, ProviderRef>>
 
-const CHAT_TASKS: ProviderTask[] = ['ideate', 'draft', 'critique']
+const CHAT_TASKS: ProviderTask[] = ['ideate', 'draft', 'critique', 'translate']
 
 /** Text tasks never get embedding suggestions; the embed task gets only those (#225). */
 function modelPurpose(task: ProviderTask): ModelPurpose | undefined {

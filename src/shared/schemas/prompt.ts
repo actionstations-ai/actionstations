@@ -8,7 +8,7 @@ export const PromptFrontmatter = z.object({
   description: z.string().optional(),
   outputSchema: z.string().optional(),
   /** Which provider task routes this prompt (ideate/draft/critique). */
-  task: z.enum(['ideate', 'draft', 'critique']).default('draft'),
+  task: z.enum(['ideate', 'draft', 'critique', 'translate']).default('draft'),
   modelHints: z
     .object({ temperature: z.number().optional(), maxTokens: z.number().int().optional() })
     .default({}),

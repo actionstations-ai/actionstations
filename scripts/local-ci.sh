@@ -28,6 +28,8 @@ if [[ "$QUICK" != "--quick" ]]; then
   # Electron, a few seconds, and it is the only check of the page's reconnect and a11y paths.
   step "player page e2e";           pnpm exec playwright test e2e/live/
   if [[ "${E2E:-0}" == "1" ]]; then step "e2e (full)"; pnpm exec playwright test; fi
+  # PDFs the translation e2e exports (e2e/translation.spec.ts), when a full e2e ran: PDF/UA-1.
+  step "PDF accessibility (veraPDF, optional)"; node scripts/check-pdf-accessibility.mjs .tmp/pdf-a11y
   step "secrets scan (gitleaks)"
   if command -v gitleaks >/dev/null 2>&1; then
     gitleaks git --no-banner --redact .

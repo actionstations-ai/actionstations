@@ -11,6 +11,7 @@ export const TASK_LABELS: Record<ProviderTask, string> = {
   ideate: 'Ideation',
   draft: 'Drafting',
   critique: 'Critique',
+  translate: 'Translation',
   embed: 'Embeddings',
   image: 'Image',
   video: 'Video',

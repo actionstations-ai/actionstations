@@ -52,6 +52,34 @@ function checkFileName(path: string, out: PackProblem[]): void {
     out.push({ path, message: 'the only HTML file in a template is template.html' })
 }
 
+const LABELS_FILE = /^labels\/[a-z]{2,3}(-[A-Za-z]{2,4})?\.json$/
+const MAX_LABELS_BYTES = 64 * 1024
+
+/** labels/<lang>.json (spec 0435 FR-4): a flat map of strings, 64 KB at most. */
+function checkLabels(path: string, content: string | Buffer, out: PackProblem[]): void {
+  if (!LABELS_FILE.test(path)) {
+    out.push({ path, message: 'label files are labels/<language>.json' })
+    return
+  }
+  if (Buffer.byteLength(textOf(content)) > MAX_LABELS_BYTES) {
+    out.push({ path, message: 'larger than 64 KB' })
+    return
+  }
+  let data: unknown
+  try {
+    data = JSON.parse(textOf(content))
+  } catch {
+    out.push({ path, message: 'not valid JSON' })
+    return
+  }
+  const flat =
+    !!data &&
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    Object.values(data).every((v) => typeof v === 'string')
+  if (!flat) out.push({ path, message: 'must be a flat map of strings' })
+}
+
 /** Read a template folder: regular files only (a link is a problem, not followed). */
 function readTemplateDir(dir: string, out: PackProblem[]): Map<string, Buffer> {
   const files = new Map<string, Buffer>()
@@ -80,6 +108,7 @@ export function checkTemplateFiles(files: TemplateFiles | string): PackProblem[]
     if (path === 'template.html') checkTemplateHtml(textOf(content), path, out)
     else if (ext === '.css') checkCss(textOf(content), path, out)
     else if (path === 'preview.json') checkPreviewAssets(textOf(content), out)
+    else if (path.startsWith('labels/')) checkLabels(path, content, out)
   }
   return out
 }

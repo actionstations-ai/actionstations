@@ -8,12 +8,14 @@
     "org": {
       "type": "string",
       "description": "Issuing organization on the letterhead (defaults to brand.aliases.org)",
-      "examples": ["Northeast Central Interstate Airport"]
+      "examples": ["Northeast Central Interstate Airport"],
+      "x-translate": false
     },
     "orgAddress": {
       "type": "string",
       "description": "Letterhead address line",
-      "examples": ["5400 Airport Parkway · Akron, Ohio 44312"]
+      "examples": ["5400 Airport Parkway · Akron, Ohio 44312"],
+      "x-translate": false
     },
     "releaseType": {
       "type": "string",
@@ -23,7 +25,8 @@
     "releaseDate": {
       "type": "string",
       "description": "Date (and time) printed under the release line",
-      "examples": ["October 14, 2025 · 12:05 PM"]
+      "examples": ["October 14, 2025 · 12:05 PM"],
+      "x-translate": false
     },
     "headline": {
       "type": "string",
@@ -52,17 +55,29 @@
       "description": "Media contact block",
       "additionalProperties": false,
       "properties": {
-        "name": { "type": "string", "description": "Contact name", "examples": ["Dana Whitfield"] },
+        "name": {
+          "type": "string",
+          "description": "Contact name",
+          "examples": ["Dana Whitfield"],
+          "x-translate": false
+        },
         "title": {
           "type": "string",
           "description": "Contact title",
-          "examples": ["Public Information Officer"]
+          "examples": ["Public Information Officer"],
+          "x-translate": false
         },
-        "phone": { "type": "string", "description": "Phone", "examples": ["(216) 555-0100"] },
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(216) 555-0100"],
+          "x-translate": false
+        },
         "email": {
           "type": "string",
           "description": "Email",
-          "examples": ["media@ncia-airport.org"]
+          "examples": ["media@ncia-airport.org"],
+          "x-translate": false
         }
       }
     },

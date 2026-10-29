@@ -63,6 +63,7 @@ describe('runExport (#420)', () => {
     expect(names.filter((n) => n.startsWith('players/')).sort()).toEqual([
       'players/Flight-to-Nowhere-ExPlan.pdf',
       'players/Flight-to-Nowhere-Player-Briefing-Packet.pdf',
+      'players/Flight-to-Nowhere-Player-Injects.pdf',
       'players/Flight-to-Nowhere-SitMan-Player-Edition.pdf',
       'players/ICS-201-Incident-Briefing-blank.pdf',
       'players/ICS-203-Organization-Assignment-List-blank.pdf',

@@ -3,43 +3,43 @@
   <div class="owner">{{default fields.printedBy fields.to}}</div>
   <table class="hdr">
     <tr>
-      <th>From:</th>
+      <th>{{t 'From:'}}</th>
       <td>{{fields.fromName}}{{#if fields.fromEmail}} &lt;{{fields.fromEmail}}&gt;{{/if}}</td>
     </tr>
     <tr>
-      <th>Sent:</th>
+      <th>{{t 'Sent:'}}</th>
       <td>{{fields.sentAt}}</td>
     </tr>
     <tr>
-      <th>To:</th>
+      <th>{{t 'To:'}}</th>
       <td>{{fields.to}}</td>
     </tr>
     {{#if fields.cc}}
     <tr>
-      <th>Cc:</th>
+      <th>{{t 'Cc:'}}</th>
       <td>{{fields.cc}}</td>
     </tr>
     {{/if}}
     <tr>
-      <th>Subject:</th>
+      <th>{{t 'Subject:'}}</th>
       <td>{{fields.subject}}</td>
     </tr>
     {{#if fields.attachments.length}}
     <tr>
-      <th>Attachments:</th>
+      <th>{{t 'Attachments:'}}</th>
       <td>{{#each fields.attachments}}{{name}}{{#unless @last}}; {{/unless}}{{/each}}</td>
     </tr>
     {{/if}} {{#if (eq fields.importance 'high')}}
     <tr>
-      <th>Importance:</th>
-      <td>High</td>
+      <th>{{t 'Importance:'}}</th>
+      <td>{{t 'High'}}</td>
     </tr>
     {{/if}}
   </table>
   {{#if fields.external}}
   <p class="ext-print">
-    CAUTION: This email originated from outside of the organization. Do not click links or open
-    attachments unless you recognize the sender and know the content is safe.
+    {{t 'CAUTION: This email originated from outside of the organization. Do not click links or open
+    attachments unless you recognize the sender and know the content is safe.'}}
   </p>
   {{/if}}
   <div class="pbody">{{nl2br fields.body}}</div>
@@ -53,35 +53,35 @@
     <span class="tb"
       ><svg viewBox="0 0 20 20">
         <path d="M8 5 3.5 9.5 8 14M3.8 9.5H12a4.5 4.5 0 0 1 4.5 4.5v1.5" /></svg
-      >Reply</span
+      >{{t 'Reply'}}</span
     >
     <span class="tb"
       ><svg viewBox="0 0 20 20">
         <path d="M7 5 2.5 9.5 7 14M11 5 6.5 9.5 11 14M6.8 9.5H13a4 4 0 0 1 4 4V15" /></svg
-      >Reply all</span
+      >{{t 'Reply all'}}</span
     >
     <span class="tb"
       ><svg viewBox="0 0 20 20">
         <path d="M12 5l4.5 4.5L12 14M16.2 9.5H8a4.5 4.5 0 0 0-4.5 4.5v1.5" /></svg
-      >Forward</span
+      >{{t 'Forward'}}</span
     >
     <span class="tb"
       ><svg viewBox="0 0 20 20">
         <rect x="3" y="5" width="14" height="11" rx="1.5" />
         <path d="M3 8h14M8 11.5h4" /></svg
-      >Archive</span
+      >{{t 'Archive'}}</span
     >
     <span class="tb"
-      ><svg viewBox="0 0 20 20"><path d="M4.5 6h11M8 6V4.5h4V6M6 6l.8 10h6.4L14 6" /></svg
-      >Delete</span
+      ><svg viewBox="0 0 20 20"><path d="M4.5 6h11M8 6V4.5h4V6M6 6l.8 10h6.4L14 6" /></svg>{{t
+      'Delete'}}</span
     >
   </div>
   {{#if (eq fields.importance 'high')}}
-  <div class="infobar">This message was sent with High importance.</div>
+  <div class="infobar">{{t 'This message was sent with High importance.'}}</div>
   {{/if}} {{#if fields.external}}
   <div class="ext">
-    <b>CAUTION:</b> This email originated from outside of the organization. Do not click links or
-    open attachments unless you recognize the sender and know the content is safe.
+    <b>{{t 'CAUTION:'}}</b> {{t 'This email originated from outside of the organization. Do not
+    click links or open attachments unless you recognize the sender and know the content is safe.'}}
   </div>
   {{/if}}
   <h1 class="subject">

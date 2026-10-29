@@ -16,9 +16,9 @@
 
   {{#if (eq variant "app")}}
   <div class="app-nav">
-    <span class="back">‹ Back</span>
-    <span class="app-title">Service alert</span>
-    <span class="share">Share</span>
+    <span class="back">{{t '‹ Back'}}</span>
+    <span class="app-title">{{t 'Service alert'}}</span>
+    <span class="share">{{t 'Share'}}</span>
   </div>
   {{else}}
   <div class="web-head">
@@ -28,7 +28,7 @@
     >
     <span class="menu" aria-hidden="true"><i></i><i></i><i></i></span>
   </div>
-  <div class="crumbs">Rider Tools › Service Alerts</div>
+  <div class="crumbs">{{t 'Rider Tools › Service Alerts'}}</div>
   {{/if}}
 
   <article class="alert eff-{{fields.effect}}">
@@ -62,7 +62,7 @@
     {{/if}} {{#if fields.description}}
     <p class="desc">{{fields.description}}</p>
     {{/if}} {{#if fields.alternatives}}
-    <h2>Travel alternatives</h2>
+    <h2>{{t 'Travel alternatives'}}</h2>
     <ul class="alts">
       {{#each fields.alternatives}}
       <li>{{this}}</li>
@@ -87,13 +87,13 @@
 
   {{#if (eq variant "app")}}
   <div class="app-actions">
-    <span class="btn primary">Plan a new trip</span>
-    <span class="btn">Get alerts for these lines</span>
+    <span class="btn primary">{{t 'Plan a new trip'}}</span>
+    <span class="btn">{{t 'Get alerts for these lines'}}</span>
   </div>
   {{else}}
   <div class="web-actions">
-    <span>Sign up for text and email alerts</span>
-    <span>See all alerts ›</span>
+    <span>{{t 'Sign up for text and email alerts'}}</span>
+    <span>{{t 'See all alerts ›'}}</span>
   </div>
   {{/if}}
 </div>

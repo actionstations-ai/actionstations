@@ -25,6 +25,7 @@ import { NextActionBar } from './NextActionBar'
 import { isReadyNext, STATUS_LABEL, STATUS_TONE, type Readiness } from './readiness'
 import { useReadiness } from './use-readiness'
 import { StageTimeline } from './StageTimeline'
+import { LanguagesPanel } from './LanguagesPanel'
 import { useLiveLog } from './use-live-log'
 import './scenarios.css'
 import { errorText } from '../../lib/errors'
@@ -82,6 +83,7 @@ function ScenarioTabs(props: {
     ['exercise', 'Exercise details'],
     ['rubric', 'Rubric'],
     ['evaluation', 'Evaluation'],
+    ['languages', 'Languages'],
     ['warnings', `Warnings (${props.lintCount ?? scenario.warnings.length})`],
   ]
   return (
@@ -129,6 +131,10 @@ function ScenarioTabs(props: {
       <Tabs.Content value="evaluation" className="tabs__panel">
         <PanelHeading>Evaluation</PanelHeading>
         <EvaluationTab {...docProps} />
+      </Tabs.Content>
+      <Tabs.Content value="languages" className="tabs__panel">
+        <PanelHeading>Languages</PanelHeading>
+        <LanguagesPanel projectPath={projectPath} scenario={scenario} />
       </Tabs.Content>
       <Tabs.Content value="warnings" className="tabs__panel">
         <PanelHeading>Warnings</PanelHeading>

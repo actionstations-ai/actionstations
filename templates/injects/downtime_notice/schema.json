@@ -13,17 +13,20 @@
     "org": {
       "type": "string",
       "description": "Organization (the exercising organization)",
-      "examples": ["Riverbend Regional Medical Center"]
+      "examples": ["Riverbend Regional Medical Center"],
+      "x-translate": false
     },
     "department": {
       "type": "string",
       "description": "Issuing department",
-      "examples": ["Information Services — Clinical Applications"]
+      "examples": ["Information Services — Clinical Applications"],
+      "x-translate": false
     },
     "systemName": {
       "type": "string",
       "description": "System that is down, with the plain-language name staff use",
-      "examples": ["Electronic Health Record (EHR)", "Manufacturing Execution System (MES)"]
+      "examples": ["Electronic Health Record (EHR)", "Manufacturing Execution System (MES)"],
+      "x-translate": false
     },
     "status": {
       "type": "string",
@@ -34,32 +37,43 @@
     "startedAt": {
       "type": "string",
       "description": "When the downtime started (or is scheduled to start)",
-      "examples": ["Tue 10/21/2026 06:42"]
+      "examples": ["Tue 10/21/2026 06:42"],
+      "x-translate": false
     },
     "expectedRestore": {
       "type": "string",
       "description": "Expected restoration time, or 'Unknown'",
-      "examples": ["Unknown — next update 09:00"]
+      "examples": ["Unknown — next update 09:00"],
+      "x-translate": false
     },
     "affected": {
       "type": "array",
       "description": "Functions NOT available",
       "maxItems": 8,
-      "items": { "type": "string", "description": "Function" },
+      "items": {
+        "type": "string",
+        "description": "Function"
+      },
       "examples": [["Order entry (CPOE)", "eMAR / barcode medication administration"]]
     },
     "unaffected": {
       "type": "array",
       "description": "Functions still available",
       "maxItems": 8,
-      "items": { "type": "string", "description": "Function" },
+      "items": {
+        "type": "string",
+        "description": "Function"
+      },
       "examples": [["Read-only downtime viewer (BCA PCs)", "Phones, pagers and email"]]
     },
     "procedures": {
       "type": "array",
       "description": "Numbered downtime procedures staff must follow now",
       "maxItems": 8,
-      "items": { "type": "string", "description": "Procedure step" },
+      "items": {
+        "type": "string",
+        "description": "Procedure step"
+      },
       "examples": [
         ["Switch to paper downtime forms immediately.", "Do not re-enter data until told to by IS."]
       ]
@@ -68,28 +82,35 @@
       "type": "array",
       "description": "Where the paper downtime forms and reports are",
       "maxItems": 5,
-      "items": { "type": "string", "description": "Location or form" },
+      "items": {
+        "type": "string",
+        "description": "Location or form"
+      },
       "examples": [["Red downtime binders at every nursing station"]]
     },
     "contact": {
       "type": "string",
       "description": "Who to call",
-      "examples": ["IS Service Desk ext. 4357 (HELP) · Command Center ext. 2200"]
+      "examples": ["IS Service Desk ext. 4357 (HELP) · Command Center ext. 2200"],
+      "x-translate": false
     },
     "issuedBy": {
       "type": "string",
       "description": "Who issued the notice",
-      "examples": ["Clinical Informatics on behalf of the Incident Commander"]
+      "examples": ["Clinical Informatics on behalf of the Incident Commander"],
+      "x-translate": false
     },
     "issuedAt": {
       "type": "string",
       "description": "When the notice was issued",
-      "examples": ["10/21/2026 07:05"]
+      "examples": ["10/21/2026 07:05"],
+      "x-translate": false
     },
     "refNo": {
       "type": "string",
       "description": "Notice or incident reference number",
-      "examples": ["DT-2026-0147"]
+      "examples": ["DT-2026-0147"],
+      "x-translate": false
     }
   },
   "additionalProperties": false

@@ -8,7 +8,8 @@
     "displayName": {
       "type": "string",
       "description": "Account display name as shown in bold above the post",
-      "examples": ["Travel Guy", "Lakeport Courier"]
+      "examples": ["Travel Guy", "Lakeport Courier"],
+      "x-translate": false
     },
     "handle": {
       "type": "string",
@@ -36,17 +37,20 @@
     "avatarBrief": {
       "type": "string",
       "description": "Image-generation brief for the profile photo (used by the media stage, not rendered)",
-      "examples": ["generic angry man in sunglasses, selfie"]
+      "examples": ["generic angry man in sunglasses, selfie"],
+      "x-translate": false
     },
     "timestampRel": {
       "type": "string",
       "description": "Relative post age exactly as the timeline shows it",
-      "examples": ["4m", "2h", "Oct 14"]
+      "examples": ["4m", "2h", "Oct 14"],
+      "x-translate": false
     },
     "replyingTo": {
       "type": "string",
       "description": "Handle this post replies to, without @ (shows 'Replying to @…')",
-      "examples": ["NCIA_Airport"]
+      "examples": ["NCIA_Airport"],
+      "x-translate": false
     },
     "text": {
       "type": "string",
@@ -61,7 +65,8 @@
       "description": "Image-generation brief for the attached photo (filled into the attached_image slot by the media stage, not rendered as text). Describe a phone photo; never rely on legible text in the image.",
       "examples": [
         "phone photo inside the terminal of an empty gate area next to a glowing departures monitor"
-      ]
+      ],
+      "x-translate": false
     },
     "attachedImageAlt": {
       "type": "string",
@@ -91,7 +96,12 @@
           "description": "Repost/retweet count",
           "examples": [12]
         },
-        "likes": { "type": "integer", "minimum": 0, "description": "Like count", "examples": [45] },
+        "likes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Like count",
+          "examples": [45]
+        },
         "views": {
           "type": "integer",
           "minimum": 0,

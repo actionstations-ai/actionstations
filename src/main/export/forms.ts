@@ -67,7 +67,7 @@ export interface EmbeddedForm {
 export function embedBlankForm(type: BlankFormType, label: string): EmbeddedForm {
   const scope = `ttx-form-${type.replace(/_/g, '-')}`
   const doc = composeDocument({ type, fields: {}, variant: 'blank' })
-  const main = /<main class="inject-root[\s\S]*<\/main>/.exec(doc.html)?.[0] ?? ''
+  const main = /<main [^>]*class="inject-root[\s\S]*<\/main>/.exec(doc.html)?.[0] ?? ''
   return {
     label,
     html: `<div class="${scope} variant-blank">${main}</div>`,

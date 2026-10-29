@@ -8,6 +8,7 @@ import { ProviderRef } from './provider'
 import { PurposeTag } from '../taxonomy'
 import { ScenarioGrounding } from './grounding'
 import { PlanPassage } from './plan-conflicts'
+import { ScenarioLanguages, ScenarioTranslations } from './translation'
 
 /** At most this many plan seams per scenario (#427, open question 1). */
 export const MAX_SEAMS = 3
@@ -345,6 +346,8 @@ export const STAGES = [
   'micro_drill_build',
   /** One answer of a micro-drill checked against the step's expected points (#437). */
   'micro_drill_assess',
+  /** Player-language translation (spec 0435); on demand from the Languages panel. */
+  'translate',
 ] as const
 export const Stage = z.enum(STAGES)
 export type Stage = z.infer<typeof Stage>
@@ -476,6 +479,10 @@ export const Scenario = z.looseObject({
   seams: z.array(ScenarioSeam).default([]),
   /** Branches of the MSEL (spec 0430); absent when there are none, so unbranched files are unchanged. */
   branches: z.array(Branch).optional(),
+  /** Extra player languages and whether controller material is translated too (spec 0435). */
+  languages: ScenarioLanguages.optional(),
+  /** Translated documents per language; injects carry their own translations. */
+  translations: ScenarioTranslations.optional(),
 })
 export type Scenario = z.infer<typeof Scenario>
 

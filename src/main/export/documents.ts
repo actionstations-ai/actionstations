@@ -9,12 +9,14 @@ import { dropDuplicateHeaderFacts } from './header-facts'
 import { blocksView } from './hseep/blocks'
 import { HSEEP_EYEBROWS, hseepBlocks, hseepEndNote, markingOf, type HseepDoc } from './hseep'
 import { BLANK_FORMS, embedBlankForm, type EmbeddedForm } from './forms'
+import { formatDocDate, tr } from './lang'
 import type { ExportModel } from './model'
 import { DOC_LABELS, embeddedFontsCss, pageCss, type DocKey } from './page'
 import { printCss, renderExportTemplate, trusted } from './templates'
 import {
   assetSrc,
   deckView,
+  playerInjectsView,
   mselView,
   pathView,
   scenarioHeading,
@@ -25,7 +27,8 @@ import {
   type RenderMode,
 } from './views'
 
-export type ExportDoc = DocKey | 'exercise_plan' | 'handouts' | 'controller_handouts' | 'path'
+export type ExportDoc =
+  DocKey | 'exercise_plan' | 'handouts' | 'controller_handouts' | 'path' | 'player_injects'
 
 export const EXPORT_DOC_LABELS: Record<ExportDoc, string> = {
   ...DOC_LABELS,
@@ -33,19 +36,18 @@ export const EXPORT_DOC_LABELS: Record<ExportDoc, string> = {
   handouts: 'Player Handouts',
   controller_handouts: 'Controller Materials',
   path: 'MSEL (one path)',
+  player_injects: 'Player Injects',
 }
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
+const formatDate = (iso: string, lang?: ExportModel['lang']): string => formatDocDate(iso, lang)
+
+/** The document name in the document language. */
+export const docLabel = (model: ExportModel, doc: ExportDoc): string =>
+  tr(model.lang, EXPORT_DOC_LABELS[doc])
 
 function footerText(model: ExportModel): string {
   const org = model.project.orgName || model.project.name
-  return [org, `v${model.scenario.version}`, formatDate(model.generatedAt)]
+  return [org, `v${model.scenario.version}`, formatDate(model.generatedAt, model.lang)]
     .filter(Boolean)
     .join(' · ')
 }
@@ -83,28 +85,32 @@ function handbookSection(model: ExportModel, prefix: string): string {
   const rubric = hasHeading(md, /rubric|grading|evaluation/i) ? [] : (s.rubric?.metrics ?? [])
   const needsHotwash = !hasHeading(md, /hot\s*wash|debrief/i)
   const structuredHotwash = s.hotwash && (s.hotwash.questions.length || s.hotwash.methodDescription)
-  return renderExportTemplate('handbook', {
-    prefix,
-    title: {
-      id: `${prefix}handbook-title`,
-      eyebrow: 'Controller / Evaluator (C/E) Handbook',
-      heading: scenarioHeading(model),
-      sub: s.subtitle ?? '',
-      facts,
+  return renderExportTemplate(
+    'handbook',
+    {
+      prefix,
+      title: {
+        id: `${prefix}handbook-title`,
+        eyebrow: tr(model.lang, 'Controller / Evaluator (C/E) Handbook'),
+        heading: scenarioHeading(model),
+        sub: s.subtitle ?? '',
+        facts,
+      },
+      bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : fallbackHandbookHtml(model)),
+      rubric,
+      hotwash:
+        needsHotwash && structuredHotwash
+          ? { method: s.hotwash!.methodDescription, questions: s.hotwash!.questions }
+          : undefined,
+      hotwashHtml:
+        needsHotwash && !structuredHotwash && docs.hotwash.trim()
+          ? trusted(documentBodyHtml(docs.hotwash, 3))
+          : undefined,
+      simcell: hasHeading(md, /simcell script/i) ? [] : s.simcellScripts,
+      endNote: tr(model.lang, 'End of Handbook'),
     },
-    bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : fallbackHandbookHtml(model)),
-    rubric,
-    hotwash:
-      needsHotwash && structuredHotwash
-        ? { method: s.hotwash!.methodDescription, questions: s.hotwash!.questions }
-        : undefined,
-    hotwashHtml:
-      needsHotwash && !structuredHotwash && docs.hotwash.trim()
-        ? trusted(documentBodyHtml(docs.hotwash, 3))
-        : undefined,
-    simcell: hasHeading(md, /simcell script/i) ? [] : s.simcellScripts,
-    endNote: 'End of Handbook',
-  })
+    model.lang,
+  )
 }
 
 /**
@@ -138,22 +144,28 @@ function fallbackHandbookHtml(model: ExportModel): string {
 
 function briefingSection(model: ExportModel, prefix: string, forms: EmbeddedForm[]): string {
   const { scenario: s, docs } = model
-  const facts = titleFacts(model, [['Exercise time', s.brief.startWallClock ?? '']])
+  const facts = titleFacts(model, [[tr(model.lang, 'Exercise time'), s.brief.startWallClock ?? '']])
   const md = bodyMarkdown(docs.briefing, facts)
-  return renderExportTemplate('briefing', {
-    prefix,
-    title: {
-      id: `${prefix}briefing-title`,
-      eyebrow: 'Player Briefing Packet',
-      heading: scenarioHeading(model),
-      sub: s.subtitle ?? '',
-      facts,
+  return renderExportTemplate(
+    'briefing',
+    {
+      prefix,
+      title: {
+        id: `${prefix}briefing-title`,
+        eyebrow: tr(model.lang, 'Player Briefing Packet'),
+        heading: scenarioHeading(model),
+        sub: s.subtitle ?? '',
+        facts,
+      },
+      bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : ''),
+      teams: hasHeading(md, /team/i) ? [] : teamRows(s),
+      forms: forms.map((f) => ({ label: f.label, html: trusted(f.html) })),
+      endNote: forms.length
+        ? tr(model.lang, 'End of Briefing Packet. Blank forms follow.')
+        : tr(model.lang, 'End of Briefing Packet.'),
     },
-    bodyHtml: trusted(md.trim() ? documentBodyHtml(md) : ''),
-    teams: hasHeading(md, /team/i) ? [] : teamRows(s),
-    forms: forms.map((f) => ({ label: f.label, html: trusted(f.html) })),
-    endNote: 'End of Briefing Packet. Blank forms follow.',
-  })
+    model.lang,
+  )
 }
 
 /** Player handouts or controller materials: the scenario's hand-written markdown as is. */
@@ -162,20 +174,24 @@ function handoutsSection(
   prefix: string,
   doc: 'handouts' | 'controller_handouts',
 ): string {
-  return renderExportTemplate('briefing', {
-    prefix: `${prefix}${doc}-`,
-    title: {
-      id: `${prefix}${doc}-briefing-title`,
-      eyebrow: EXPORT_DOC_LABELS[doc],
-      heading: scenarioHeading(model),
-      sub: model.scenario.subtitle ?? '',
-      facts: [],
+  return renderExportTemplate(
+    'briefing',
+    {
+      prefix: `${prefix}${doc}-`,
+      title: {
+        id: `${prefix}${doc}-briefing-title`,
+        eyebrow: docLabel(model, doc),
+        heading: scenarioHeading(model),
+        sub: model.scenario.subtitle ?? '',
+        facts: [],
+      },
+      bodyHtml: trusted(documentBodyHtml(model.docs[doc], 2, true)),
+      teams: [],
+      forms: [],
+      endNote: tr(model.lang, `End of ${EXPORT_DOC_LABELS[doc]}`),
     },
-    bodyHtml: trusted(documentBodyHtml(model.docs[doc], 2, true)),
-    teams: [],
-    forms: [],
-    endNote: `End of ${EXPORT_DOC_LABELS[doc]}`,
-  })
+    model.lang,
+  )
 }
 
 /** The project logo for the cover (#217), when one is set and on disk. */
@@ -200,6 +216,11 @@ function hseepSection(model: ExportModel, prefix: string, doc: HseepDoc): string
     blocks: blocksView(hseepBlocks(model, doc)),
     endNote: hseepEndNote(doc),
   })
+}
+
+/** One card per inject that goes to players: its picture, and its words as real text. */
+function playerInjectsSection(model: ExportModel, prefix: string, mode: RenderMode): string {
+  return renderExportTemplate('player-injects', playerInjectsView(model, prefix, mode), model.lang)
 }
 
 function coverSection(model: ExportModel, prefix: string, mode: RenderMode): string {
@@ -233,16 +254,29 @@ const packetForms = (): EmbeddedForm[] =>
     embedBlankForm(f.type, f.label),
   )
 
+const UNREVIEWED_STAMP = 'Traducción automática sin revisar / Unreviewed machine translation'
+
 function wrap(model: ExportModel, doc: ExportDoc, body: string, forms: EmbeddedForm[]): string {
-  const label = EXPORT_DOC_LABELS[doc]
+  const label = docLabel(model, doc)
   return renderExportTemplate('layout', {
+    lang: model.lang ?? 'en',
+    bodyClass: model.largePrint ? 'large-print' : '',
     title: `${label} — ${model.scenario.title}`,
     fontsCss: trusted(embeddedFontsCss()),
     printCss: trusted(printCss()),
     pageCss: trusted(
       pageCss(
-        { title: scenarioHeading(model), footer: footerText(model), marking: markingOf(model) },
+        {
+          title: scenarioHeading(model),
+          footer: footerText(model),
+          marking: markingOf(model),
+          pageWord: tr(model.lang, 'Page'),
+          ofWord: tr(model.lang, 'of'),
+          ...(model.unreviewed ? { stamp: UNREVIEWED_STAMP } : {}),
+          ...(model.largePrint ? { largePrint: true } : {}),
+        },
         label,
+        (english) => tr(model.lang, english),
       ),
     ),
     formCss: trusted(forms.map((f) => f.css).join('\n')),
@@ -266,12 +300,15 @@ export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: Rend
     case 'aar':
       return wrap(model, doc, aarSection(model, ''), [])
     case 'briefing': {
-      const forms = packetForms()
+      // The blank ICS 201 is a form for the table, not for large print: it has its own file.
+      const forms = model.largePrint ? [] : packetForms()
       return wrap(model, doc, briefingSection(model, '', forms), forms)
     }
     case 'handouts':
     case 'controller_handouts':
       return wrap(model, doc, handoutsSection(model, '', doc), [])
+    case 'player_injects':
+      return wrap(model, doc, playerInjectsSection(model, '', mode), [])
     case 'explan':
     case 'sitman':
     case 'sitman_player':

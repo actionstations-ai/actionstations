@@ -35,6 +35,7 @@ import { hotwashChannels, HotwashRecordingEvent } from './hotwash'
 import { programChannels } from './program'
 import { redlineChannels } from './redlines'
 import { microDrillChannels } from './microdrills'
+import { translateChannels } from './translate'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -60,6 +61,13 @@ export { SetupInstallResult } from './setup'
 export { UpdateStatus } from './updates'
 export { SurveyListItem } from './surveys'
 export { GroundingItemKey } from './grounding'
+export {
+  ItemRef,
+  TranslateRoute,
+  TranslationItemText,
+  TranslationItemView,
+  TranslationStatusView,
+} from './translate'
 export { LiveSessionInfo } from './aar'
 export { ApprovalDecision, ApprovalNeededEvent, PrivacyView } from './privacy'
 export {
@@ -159,6 +167,7 @@ export const channels = mergeChannels(
   programChannels,
   redlineChannels,
   microDrillChannels,
+  translateChannels,
 )
 
 export type Channels = typeof channels

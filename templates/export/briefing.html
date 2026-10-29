@@ -4,24 +4,24 @@
 
   {{#if teams.length}}
   <section class="section">
-    <h2>Team Assignments &amp; Standing Orders</h2>
+    <h2>{{t 'Team Assignments & Standing Orders'}}</h2>
     <table class="grid teams">
       <caption class="sr-only">
-        Teams, roles and standing orders
+        {{t 'Teams, roles and standing orders'}}
       </caption>
       <thead>
         <tr>
-          <th scope="col">Team</th>
-          <th scope="col">Role</th>
-          <th scope="col">Standing Orders</th>
+          <th scope="col">{{t 'Team'}}</th>
+          <th scope="col">{{t 'Role'}}</th>
+          <th scope="col">{{t 'Standing Orders'}}</th>
         </tr>
       </thead>
       <tbody>
         {{#each teams}}
         <tr>
-          <td>{{team}}</td>
-          <td>{{role}}</td>
-          <td>
+          <td data-label="{{t 'Team'}}">{{team}}</td>
+          <td data-label="{{t 'Role'}}">{{role}}</td>
+          <td data-label="{{t 'Standing Orders'}}">
             {{#if orders.length}}
             <ul class="list">
               {{#each orders}}

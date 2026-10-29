@@ -329,6 +329,8 @@ The right side previews each PDF before you export. The bar at the bottom of the
 
 Measured on the Scenario 3 deck (24 injects): every target exported in 5.9 seconds, 54 files including a 20.6 MB distribution ZIP.
 
+**Player material.** **Player injects** prints one card per inject players see, each picture followed by its words as text a screen reader reads. **Player material** sets the language of the briefing, handouts and player injects (English, Spanish, or both) and **Also write a large-print copy** adds an 18 point version of each. Spanish needs a reviewed translation; see [Translation and accessible player material](translation-and-accessibility.md).
+
 **For other platforms.** The Export screen also has **Conducttr MEL (CSV)**, **WebEOC / SimulationDeck package** and **CAP 1.2 XML**. They are off by default; see [Exercise platforms and real-world alert formats](eoc-platforms.md).
 
 ## Keyboard, screen readers and zoom

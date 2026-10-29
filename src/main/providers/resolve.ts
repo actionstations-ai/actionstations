@@ -33,7 +33,7 @@ import type {
   TextProvider,
 } from './types'
 
-export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique'>
+export type TextTask = Extract<ProviderTask, 'ideate' | 'draft' | 'critique' | 'translate'>
 export type MediaTask = Extract<ProviderTask, 'image' | 'video' | 'audio'>
 
 export interface ResolvedText {
@@ -121,7 +121,7 @@ export function assertRoutingTargetsExist(routing: ProviderRouting, settings: Ap
 
 // ---- task support (derived from the adapters) --------------------------------------------
 
-const TEXT_TASKS: readonly TextTask[] = ['ideate', 'draft', 'critique']
+const TEXT_TASKS: readonly TextTask[] = ['ideate', 'draft', 'critique', 'translate']
 const MEDIA_TASKS: readonly MediaTask[] = ['image', 'video', 'audio']
 
 /** Media capabilities of an adapter, read from a throwaway instance (constructors do no I/O). */
@@ -167,7 +167,9 @@ export function providerTaskSupport(): Record<ProviderTask, ProviderKind[]> {
 // ---- provider lookup ---------------------------------------------------------------------
 
 async function refFor(task: ProviderTask, projectPath?: string): Promise<ProviderRef> {
-  const ref = (await getRoutingView(projectPath)).effective[task]
+  const effective = (await getRoutingView(projectPath)).effective
+  // Translation uses the drafting route until a person routes it elsewhere (spec 0435 FR-5).
+  const ref = effective[task] ?? (task === 'translate' ? effective.draft : undefined)
   if (!ref)
     throw new AppError(
       'VALIDATION',

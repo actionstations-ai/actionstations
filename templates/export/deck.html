@@ -96,7 +96,13 @@
     <figure class="inject-media">
       <img src="{{image.src}}" alt="{{image.alt}}" />
     </figure>
-    {{else}}
+    {{#if image.lines.length}}
+    <div class="rendition sr-only">
+      {{#each image.lines}}
+      <p>{{this}}</p>
+      {{/each}}
+    </div>
+    {{/if}} {{else}}
     <div class="inject-text">
       <p class="inject-text__label">{{textLabel}}</p>
       <p class="inject-text__route">From: {{from}} · To: {{to}}</p>

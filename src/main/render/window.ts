@@ -248,6 +248,8 @@ export function renderPdf(doc: ComposedDocument): Promise<Buffer> {
   return withDocument(doc, 1, async (win, size) =>
     win.webContents.printToPDF({
       printBackground: true,
+      // Tagged for screen readers (spec 0435 FR-16): headings, lists and text keep their structure.
+      generateTaggedPDF: true,
       margins: { top: 0, bottom: 0, left: 0, right: 0 },
       pageSize: doc.meta.paper ? 'Letter' : { width: size.width / 96, height: size.height / 96 },
     }),

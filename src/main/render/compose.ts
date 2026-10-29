@@ -22,6 +22,10 @@ export interface ComposeInput {
   logo?: string
   /** Project root: its templates layer applies (ADR-0018 layers, #261). */
   projectRoot?: string
+  /** Document language (spec 0435): sets `lang` and picks `labels/<lang>.json`; English when absent. */
+  lang?: string
+  /** The document's title (an accessible PDF needs one); the inject's title. */
+  title?: string
 }
 
 /** "Karen Smith" → "KS"; skips words that start with punctuation ("Kyle (Summer Intern – Ops)" → "KS"). */
@@ -37,6 +41,31 @@ export function initials(s: unknown): string {
 
 const hb = Handlebars.create()
 
+/** Language codes accepted for `lang` and for a labels file name. */
+const LANG_CODE = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/
+const MAX_LABELS_BYTES = 64 * 1024
+
+/**
+ * Template chrome in a language (spec 0435 FR-4): `labels/<lang>.json` beside template.html, a
+ * flat map of strings, 64 KB at most. Missing or malformed files give no labels.
+ */
+export function loadLabels(dir: string, lang: string | undefined): Record<string, string> {
+  if (!lang || lang === 'en' || !LANG_CODE.test(lang)) return {}
+  try {
+    const raw = readFileSync(join(dir, 'labels', `${lang}.json`))
+    if (raw.byteLength > MAX_LABELS_BYTES) return {}
+    const parsed: unknown = JSON.parse(raw.toString('utf8'))
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {}
+    return Object.fromEntries(
+      Object.entries(parsed as Record<string, unknown>).filter(
+        (e): e is [string, string] => typeof e[1] === 'string',
+      ),
+    )
+  } catch {
+    return {}
+  }
+}
+
 const compactNumber = new Intl.NumberFormat('en-US', {
   notation: 'compact',
   maximumFractionDigits: 1,
@@ -44,6 +73,16 @@ const compactNumber = new Intl.NumberFormat('en-US', {
 
 hb.registerHelper({
   eq: (a: unknown, b: unknown) => a === b,
+  /**
+   * Template chrome in the document language: {{t 'what_to_do' 'What should I do?'}} reads the
+   * template's labels/<lang>.json and falls back to the English text written in the call.
+   */
+  t: (...args: unknown[]) => {
+    const options = args.pop() as Handlebars.HelperOptions
+    const key = String(args[0] ?? '')
+    const labels = (options.data?.root?.labels ?? {}) as Record<string, string>
+    return labels[key] ?? (args[1] === undefined ? key : String(args[1]))
+  },
   ne: (a: unknown, b: unknown) => a !== b,
   and: (...args: unknown[]) => args.slice(0, -1).every(Boolean),
   or: (...args: unknown[]) => args.slice(0, -1).some(Boolean),
@@ -177,6 +216,8 @@ export function composeDocument(
       ...(input.logo ? { logo: fileUrl(input.logo) } : {}),
     },
     variant,
+    lang: input.lang ?? 'en',
+    labels: loadLabels(t.dir, input.lang),
     assets: resolveAssets(t, input, opts.previewAssets ?? false),
   })
   const shared = sharedDir()
@@ -186,10 +227,12 @@ export function composeDocument(
   )
   const baseCss = readFileSync(join(shared, 'base.css'), 'utf8')
   const height = t.meta.height ? `height:${t.meta.height}px;` : ''
-  const html = `<!doctype html><html><head><meta charset="utf-8">
+  const lang = input.lang && LANG_CODE.test(input.lang) ? input.lang : 'en'
+  const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8">
+<title>${hb.escapeExpression(input.title ?? t.meta.label)}</title>
 <meta http-equiv="Content-Security-Policy" content="${RENDER_CSP}">
 <style>${fontsCss}\n${baseCss}\nhtml,body{background:${t.meta.background}}\n${t.css}</style></head>
-<body class="variant-${variant}"><main class="inject-root inject-${t.meta.type}" style="width:${t.meta.width}px;${height}">${body}</main></body></html>`
+<body class="variant-${variant}"><main lang="${lang}" class="inject-root inject-${t.meta.type}" style="width:${t.meta.width}px;${height}">${body}</main></body></html>`
   const readRoots = [
     t.dir,
     shared,

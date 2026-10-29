@@ -182,3 +182,27 @@ describe('checkTemplateFiles', () => {
     expect(templateUrlProblem('https://x.test/{{id}}.png')).toMatch(/not allowed/)
   })
 })
+
+describe('labels files (spec 0435 FR-4)', () => {
+  const html = '<p>{{t "hello"}}</p>'
+  const problems = (name: string, content: string) =>
+    check(html, { [name]: content }).map((p) => `${p.path}: ${p.message}`)
+
+  it('accepts labels/<language>.json as a flat map of strings', () => {
+    expect(problems('labels/es.json', '{"hello":"hola"}')).toEqual([])
+    expect(problems('labels/es-US.json', '{}')).toEqual([])
+  })
+
+  it('refuses nested values, non-JSON, odd names and files over 64 KB', () => {
+    expect(problems('labels/es.json', '{"a":{"b":"c"}}')).toEqual([
+      'labels/es.json: must be a flat map of strings',
+    ])
+    expect(problems('labels/es.json', 'nope')).toEqual(['labels/es.json: not valid JSON'])
+    expect(problems('labels/Spanish.json', '{}')).toEqual([
+      'labels/Spanish.json: label files are labels/<language>.json',
+    ])
+    expect(problems('labels/es.json', JSON.stringify({ a: 'x'.repeat(70_000) }))).toEqual([
+      'labels/es.json: larger than 64 KB',
+    ])
+  })
+})

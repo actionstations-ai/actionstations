@@ -5,6 +5,8 @@ export const PROVIDER_TASKS = [
   'ideate',
   'draft',
   'critique',
+  /** Player-language translation; falls back to the draft route when unset (spec 0435). */
+  'translate',
   'embed',
   'image',
   'video',

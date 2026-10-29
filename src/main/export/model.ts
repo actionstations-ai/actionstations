@@ -22,6 +22,7 @@ import { getScenario, listInjects, readScenarioDoc } from '../scenario/store'
 import { minResponsesSetting, surveySummary } from '../surveys/results'
 import { listSurveys } from '../surveys/store'
 import { evaluationOf, type ExportEvaluation } from './evaluation'
+import type { DocLang } from './lang'
 import { planMediaFiles, scenarioNumber, type PlannedMedia } from './naming'
 
 export interface ExportDocs {
@@ -72,6 +73,12 @@ export interface ExportModel {
   coverage?: CoverageReport
   /** Branch decisions taken in the run (spec 0430); empty when none were recorded. */
   decisions?: DecisionRecord[]
+  /** Document language (spec 0435); English when absent. */
+  lang?: DocLang
+  /** Large-print layer on (spec 0435 FR-17). */
+  largePrint?: boolean
+  /** Every page carries the unreviewed machine translation stamp (spec 0435 FR-11). */
+  unreviewed?: boolean
 }
 
 /** Surveys with their summaries, the anonymity threshold from settings applied. */
@@ -172,7 +179,7 @@ export function liveInjects(scenario: Scenario, injects: Inject[]): Inject[] {
   return injects.filter((i) => rows.has(i.mselRowId))
 }
 
-async function availablePaths(
+export async function availablePaths(
   root: string,
   injects: Inject[],
   logoPath?: string,
