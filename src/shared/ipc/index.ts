@@ -22,6 +22,7 @@ import { templateChannels, TemplatesChangedEvent } from './templates'
 import { packDocumentChannels } from './pack-documents'
 import { packExportChannels } from './pack-export'
 import { setupChannels } from './setup'
+import { updateChannels } from './updates'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -38,6 +39,7 @@ export { ExampleInfo, ExampleManifest, ExampleMarker, ExampleMarkerView } from '
 export { ListedDomainProfile } from './domains'
 export { PackDocumentRef, PackDocumentView } from './pack-documents'
 export { SetupInstallResult } from './setup'
+export { UpdateStatus } from './updates'
 export {
   PACK_CONTRIBUTION_URL,
   COMMON_PACK_LICENSES,
@@ -105,6 +107,7 @@ export const channels = mergeChannels(
   packDocumentChannels,
   packExportChannels,
   setupChannels,
+  updateChannels,
 )
 
 export type Channels = typeof channels
@@ -131,6 +134,8 @@ export const events = {
   'packs:changed': PacksChangedEvent,
   /** Inject types added by user or pack templates changed: refetch templates:taxonomy / list (#261). */
   'templates:changed': TemplatesChangedEvent,
+  /** The update check's setting or result changed: refetch updates:status (#442). */
+  'updates:changed': z.object({}),
   'project:changed': z.object({
     path: z.string(),
     what: z.enum([

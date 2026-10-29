@@ -108,6 +108,11 @@ describe('schemas', () => {
       nextIndex: 0,
     })
   })
+
+  it('leaves the update check unasked and off the network for older settings files (#442)', () => {
+    expect(AppSettings.parse({}).updates).toEqual({ check: 'ask', askedCount: 0 })
+    expect(AppSettings.parse({ onboardingComplete: true }).updates.check).toBe('ask')
+  })
 })
 
 describe('taxonomy', () => {

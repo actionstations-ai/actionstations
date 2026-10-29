@@ -1,6 +1,6 @@
 # Spec 0442: Update notifications (opt-in)
 
-Issue: #442 · Milestone: 0.6.0 · Status: Draft · Depends on: none · Related: #380 (code signing), #443 (tip of the day), ADR-0018 (pack fetching)
+Issue: #442 · Milestone: 0.6.0 · Status: Implemented · Depends on: none · Related: #380 (code signing), #443 (tip of the day), ADR-0018 (pack fetching)
 
 ## Summary
 
@@ -24,7 +24,7 @@ The app can tell the user that a newer release of Action Stations exists, show i
 - **FR-5** **Settings → Updates** shows the current setting (a switch), the installed version, the time of the last check and its result, and a **Check now** button. **Check now** runs a check regardless of the setting (pressing it is the user starting the request) and is disabled while a check runs and for 60 seconds after one finishes.
 - **FR-6** The check requests `GET https://api.github.com/repos/actionstations-ai/actionstations/releases/latest`. That endpoint returns the newest published, non-draft, non-prerelease release. The app compares its `tag_name` (without a leading `v`) with its own version using `compareSemver` from `src/shared/schemas/pack.ts`.
 - **FR-7** When the release is newer and its version is not `updates.dismissedVersion`, the Projects screen shows a banner: "Action Stations X.Y.Z is available (you have A.B.C)" with **Release notes**, **Download page** and **Not now**. **Not now** stores the version in `dismissedVersion`; a later release shows the banner again. Settings → Updates always shows the latest result, dismissed or not.
-- **FR-8** **Release notes** opens a dialog with the release name, date and body, rendered with the existing text-only Markdown component (`src/renderer/src/routes/packs/PackDescription.tsx`, no raw HTML, links open in the OS browser).
+- **FR-8** **Release notes** opens a dialog with the release name, date and body, rendered with the existing text-only Markdown component (`src/renderer/src/routes/packs/PackDescription.tsx`, no raw HTML or images; links are shown as their text and address, not clickable, exactly as in pack descriptions).
 - **FR-9** **Download page** opens the release's `html_url` in the OS browser. The dialog also names the installer file for this platform when the release lists it (`-mac-arm64.dmg`, `-win-x64-setup.exe`, `-linux-x86_64.AppImage`, matching the names in `docs/RELEASING.md`) and its `.sha256` companion, and links to the new "Updates" section of the Getting started guide (task 5), which explains the checksum and the operating systems' warnings for unsigned builds (taken from "Until then: installing unsigned builds" in `docs/RELEASING.md`). The guide's "1. Install and launch" still says installers are not published; task 5 corrects it. The app never downloads or runs an installer.
 - **FR-10** Upgrade notes: a small table of known upgrade caveats, keyed by installed version range, target range and platform, adds a highlighted line to the banner and dialog. The first entry: installed `0.5.0`, platform `win32`, target `>=0.5.1`: "The app id changed in 0.5.1. Uninstall Action Stations 0.5.0 before installing this version; your settings and projects stay." (CHANGELOG 0.5.1, #396).
 - **FR-11** When the installed version is newer than or equal to the latest release (a dev build, a prerelease), the result reads "You have the latest release" (or "You are ahead of the latest release (X.Y.Z)").
@@ -34,7 +34,7 @@ The app can tell the user that a newer release of Action Stations exists, show i
 ### Non-functional requirements
 
 - **NFR-1** Cost: the public GitHub REST API needs no token or account; nothing to host (Project rules 1).
-- **NFR-2** Privacy: no request until the user turns the check on or presses Check now (Project rules 3). The request carries no cookies, no token, no query string and a fixed `User-Agent: ActionStations-update-check` without version or platform. GitHub sees the IP address and the time; the setting's description says so. The app version, OS, projects and settings never leave the computer.
+- **NFR-2** Privacy: no request until the user turns the check on or presses Check now (Project rules 3). The request carries no cookies, no token, no query string and a plain `User-Agent: ActionStations/<version>` naming the app and its version (owner decision; no platform). GitHub sees the IP address, the time and the app version; the setting's description says so. The OS, projects and settings never leave the computer.
 - **NFR-3** Accessibility: WCAG 2.2 AA. The banner is a `region` with a heading, not a modal; it does not take focus; result changes in Settings are announced with `aria-live="polite"`; all controls work by keyboard; light and dark themes.
 - **NFR-4** Offline and performance: the check runs in main, times out after 15 s without bytes, reads at most 1 MB, and never delays startup or blocks the UI. With the setting off the app works fully offline, as today.
 - **NFR-5** Platforms: macOS, Windows and Linux; asset matching by file name suffix only.
@@ -87,7 +87,7 @@ export const UpdateSettings = z.object({
 ### Main process: `src/main/updates/`
 
 - `release.ts`: the zod schema for the part of the GitHub response the app reads (`tag_name`, `name`, `html_url`, `published_at`, `body`, `draft`, `prerelease`, `assets[].name`, `assets[].size`), as a `z.looseObject` so extra fields are ignored. `toLatestRelease()` validates `tag_name` as `SemVer` after stripping one leading `v`, refuses `draft` or `prerelease` true, and checks `html_url` with `isReleasePageUrl` (https, host `github.com`, path starting `/actionstations-ai/actionstations/releases/`).
-- `fetch-release.ts`: one GET with `redirect: 'error'`, `credentials: 'omit'`, headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `User-Agent: ActionStations-update-check`. It reuses `idleAbort`, `readCapped` and `redact` from `src/main/packs/fetch.ts` (15 s idle, 1 MB cap counted on received bytes). HTTP 403/429 with `x-ratelimit-remaining: 0` becomes a rate-limit error carrying `x-ratelimit-reset`; other non-2xx become `PROVIDER` errors with the status. `fetchImpl` is injectable for tests. The URL is a constant; in unpackaged runs `TTX_UPDATE_URL` may point it at a loopback test server (refused when packaged, like `TTX_APP_VERSION` in `src/main/packs/app-version.ts`).
+- `fetch-release.ts`: one GET with `redirect: 'error'`, `credentials: 'omit'`, headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `User-Agent: ActionStations/<version>`. It reuses `idleAbort`, `readCapped` and `redact` from `src/main/packs/fetch.ts` (15 s idle, 1 MB cap counted on received bytes). HTTP 403/429 with `x-ratelimit-remaining: 0` becomes a rate-limit error carrying `x-ratelimit-reset`; other non-2xx become `PROVIDER` errors with the status. `fetchImpl` is injectable for tests. The URL is a constant; in unpackaged runs `TTX_UPDATE_URL` may point it at a loopback test server (refused when packaged, like `TTX_APP_VERSION` in `src/main/packs/app-version.ts`).
 - `check.ts`: `checkForUpdate({ reason: 'startup' | 'manual' })` runs one check at a time (a second call joins the first), stores the result through `updateSettings`, and emits `updates:changed`. `scheduleStartupCheck()` reads the settings and does nothing unless `check === 'on'` and 24 hours have passed.
 - `upgrade-notes.ts`: `UPGRADE_NOTES: { from: string; to: string; platform?: NodeJS.Platform; text: string }[]` with semver ranges written as `>=a <b`, and `notesFor(installed, latest, platform)`. A small range matcher built on `compareSemver`; no new dependency.
 - `src/main/index.ts`: after `ready-to-show`, `setTimeout(scheduleStartupCheck, 10_000)`.
@@ -125,7 +125,7 @@ Event `updates:changed` tells the renderer to refetch `updates:status`. The rend
 | Threat                                                                | Mitigation                                                                                                                                                   |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | A network call the user did not ask for                               | `ask` and `off` make no request; startup check only with `on`; e2e asserts no non-loopback request with default settings.                                    |
-| Fingerprinting through the request                                    | Fixed URL, no query, fixed User-Agent without version or OS, no cookies or token.                                                                            |
+| Fingerprinting through the request                                    | Fixed URL, no query, a User-Agent with only the app name and version (no OS), no cookies or token.                                                           |
 | A spoofed or tampered response sends the user to a malicious download | https only, no redirects, host and path check on `html_url`; the app opens only the stored, re-validated release page, never an asset URL from the response. |
 | Malicious release notes (HTML, script, huge body)                     | 1 MB read cap, 50 000-character notes cap, text-only Markdown renderer, links only `https:` and opened in the OS browser.                                    |
 | Users trained to run unsigned binaries                                | No in-app download; the dialog points to the guide on verifying the `.sha256` file and on unsigned-build warnings.                                           |
@@ -149,6 +149,15 @@ What leaves the computer: one HTTPS GET to `api.github.com`, only with the user'
 3. **Settings section.** `src/renderer/src/routes/settings/UpdatesSection.tsx`, `SettingsPage.tsx`, `settings.css`; `ReleaseNotesDialog.tsx`; tests.
 4. **Ask once and the banner.** `DoneStep.tsx`, `use-setup.ts`, `UpdateQuestionCard.tsx`, `UpdateBanner.tsx`, `ProjectsPage.tsx`; tests.
 5. **End to end and docs.** `e2e/updates.spec.ts`; Getting started "Updates" section; README privacy; `docs/02-ARCHITECTURE.md`; ADR; CHANGELOG; guide screenshots of Settings → Updates.
+
+## Implementation notes
+
+- User-Agent: `ActionStations/<version>` instead of a fixed string without the version, as the owner asked when the work was assigned (NFR-2 updated).
+- Release-notes links are not clickable (FR-8 updated): the pack description renderer shows a link as its text plus address, so release notes cannot open URLs. `PackDescription` gained an optional `topHeading` so notes that start at `##` become h3 under the dialog's h2 (heading order, WCAG 1.3.1).
+- The wizard's Done step has no Finish button, so the checkbox saves as it changes, and reaching the step stores `off` when the setting is still `ask` (FR-2: the wizard never leaves `ask`).
+- Check now is also limited in main: a manual check within 60 seconds of the last one returns the stored result without a request.
+- e2e: `TTX_UPDATE_DELAY_MS` (unpackaged only) shortens the 10-second startup delay; the network-recorder helpers are in `e2e/net-log.ts`. `launch()` in `e2e/helpers.ts` writes `updates.check = 'off'` so other specs and the guide screenshots never show the question card; `e2e/updates.spec.ts` writes its own settings.
+- Out of this PR: guide screenshots of Settings → Updates (task 5); `e2e/guide-screenshots.spec.ts` was not re-run.
 
 ## Open questions
 

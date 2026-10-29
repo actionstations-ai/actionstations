@@ -8,7 +8,7 @@ Background reading: [How a good tabletop exercise is built](methodology.md).
 
 ## 1. Install and launch
 
-Installers are not published yet; run the app from source.
+Download the installer for your system from the [latest release](https://github.com/actionstations-ai/actionstations/releases/latest) (see [Updates](#updates) for checking the download and the warnings unsigned installers get), or run the app from source as below.
 
 Prerequisites: [Git LFS](https://git-lfs.com) (run `git lfs install` once before cloning), Node.js 22.12 or later, pnpm 10 (`corepack enable && corepack prepare pnpm@10 --activate`), and on macOS the Xcode Command Line Tools (`xcode-select --install`) in case a native module has to be compiled. See the [README](../../README.md#prerequisites) for Windows and Linux.
 
@@ -41,6 +41,20 @@ On first launch the **setup wizard** opens. It has six steps, each of which can 
 The Projects screen shows a **Tip** card: one short tip about a feature, with a link to the guide section that explains it (opened in your browser). **Next tip** shows another, **Hide** removes the card until the next launch, and **Turn off tips** removes it for good. Each launch starts with the tip after the last one shown. Tips ship with the app, so showing them sends nothing over the network. Turn them back on with **Settings → General → Show a tip on the Projects screen**.
 
 **Settings** also holds the default projects folder, the theme, the tip of the day, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
+
+### Updates
+
+The app can tell you when a newer release is out. The check is off until you turn it on: the setup wizard's last step has an unticked box **Check for new versions of Action Stations when the app starts**, and if you skipped the wizard, the Projects screen asks once (**Turn on** or **No thanks**; unanswered, it asks on three launches and then counts as no). Change it any time in **Settings → Updates**.
+
+With the check on, the app sends one request to `api.github.com` at most once a day, 10 seconds after it starts. The request names the app and its version (`User-Agent: ActionStations/0.6.0`) and nothing else: no account, no cookies, nothing about you or your projects. GitHub sees your IP address. **Settings → Updates → Check now** checks at once, whatever the setting, and shows the installed version, the time of the last check and its result. Failures (offline, timed out, GitHub's limit of 60 checks an hour from one network) are shown only there.
+
+When a newer release exists, the Projects screen shows **Action Stations X.Y.Z is available**, with **Release notes**, **Download page** and **Not now** (which hides that version; a later one shows again). The release notes name the installer for your computer and its `.sha256` file. The app never downloads or installs anything: **Download page** opens the release on GitHub in your browser. To install:
+
+1. Download the installer and its `.sha256` file from the release page.
+2. Check the download: `shasum -a 256 <file>` (macOS, Linux) or `Get-FileHash <file> -Algorithm SHA256` (Windows PowerShell) must print the hash in the `.sha256` file.
+3. The installers are not code-signed yet, so your operating system warns. macOS: on macOS 15 and later open System Settings → **Privacy & Security** and click **Open Anyway** (on macOS 14 and earlier, right-click the app and choose **Open**). Windows: "Windows protected your PC" → **More info** → **Run anyway**. Linux: `chmod +x` the AppImage and run it.
+
+If you installed 0.5.0 on Windows, uninstall it before installing a later version: the app id changed in 0.5.1, so Windows would otherwise keep two copies. Your settings and projects stay. The banner and the release notes say so when it applies.
 
 ### Updating from Tabletop Generator
 

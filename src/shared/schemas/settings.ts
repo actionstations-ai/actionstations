@@ -67,6 +67,48 @@ export const PackSettings = z.object({
 })
 export type PackSettings = z.infer<typeof PackSettings>
 
+/** Opt-in update check (#442). `ask` sends nothing, exactly like `off`. */
+export const UpdateCheckMode = z.enum(['ask', 'on', 'off'])
+export type UpdateCheckMode = z.infer<typeof UpdateCheckMode>
+
+/** The newest published release, as the app stores it after a check. */
+export const LatestRelease = z.object({
+  /** The tag without its leading "v"; a semantic version. */
+  version: z.string().max(64),
+  name: z.string().max(200),
+  publishedAt: IsoDateTime,
+  /** The release page (html_url), re-checked by isReleasePageUrl before it is opened. */
+  url: z.string().max(2048),
+  /** The release notes, Markdown, shown as text only. */
+  notes: z.string().max(50_000),
+  assets: z
+    .array(z.object({ name: z.string().max(200), size: z.number().int().nonnegative() }))
+    .max(50),
+})
+export type LatestRelease = z.infer<typeof LatestRelease>
+
+export const UpdateCheckResult = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('ok'), latest: LatestRelease }),
+  z.object({
+    kind: z.literal('error'),
+    message: z.string().max(500),
+    /** When GitHub's rate limit resets, for "try again after HH:MM". */
+    retryAfter: IsoDateTime.optional(),
+  }),
+])
+export type UpdateCheckResult = z.infer<typeof UpdateCheckResult>
+
+export const UpdateSettings = z.object({
+  check: UpdateCheckMode.default('ask'),
+  /** Launches that showed the question card on Projects; after three the answer is `off`. */
+  askedCount: z.number().int().min(0).max(3).default(0),
+  lastCheckedAt: IsoDateTime.optional(),
+  lastResult: UpdateCheckResult.optional(),
+  /** "Not now" on the banner for this version; a later release shows the banner again. */
+  dismissedVersion: z.string().max(64).optional(),
+})
+export type UpdateSettings = z.infer<typeof UpdateSettings>
+
 export const AppSettings = z.object({
   recentProjects: z.array(RecentProject).default([]),
   providers: z.array(ProviderConfig).default([]),
@@ -81,5 +123,7 @@ export const AppSettings = z.object({
   packs: PackSettings.default({ catalogs: [] }),
   /** Cloud APIs only, local tools or a mix, and skipped tools (ADR-0021, #334). */
   setup: SetupSettings.default({ skipped: [] }),
+  /** Opt-in check for a newer release (#442); asks first, never on by default. */
+  updates: UpdateSettings.default(() => ({ check: 'ask' as const, askedCount: 0 })),
 })
 export type AppSettings = z.infer<typeof AppSettings>

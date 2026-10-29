@@ -94,7 +94,7 @@ You can install a pack from a file, a URL or a catalog. No catalog is set up by 
 
 ## Privacy and local-first
 
-- There is no account, no sign-in and no telemetry. The app makes network calls only to the providers and pack catalogs you add, and to download sites when you click a download or install button (local tools, recommended models, the local embedding model).
+- There is no account, no sign-in and no telemetry. The app makes network calls only to the providers and pack catalogs you add, to download sites when you click a download or install button (local tools, recommended models, the local embedding model), and to GitHub's releases API if you turn on the update check (off by default; it sends the app's name and version, never anything about you or your projects, and never downloads an update).
 - With local models (LM Studio, Ollama, ComfyUI and a local or system voice) it works without an internet connection. A cloud provider such as Anthropic receives your prompts and the document excerpts used to ground them.
 - A project is a folder of JSON, Markdown and media files (`<name>.asproj`) on your disk, by default in `~/Documents/Action Stations`. You can copy it, back it up or put it in version control.
 - API keys are encrypted with your operating system's keychain (Electron `safeStorage`) and stored as ciphertext in `secrets.json` in the settings folder. They never go into project files, `settings.json` or logs. If the operating system cannot encrypt them (for example Linux without a keyring), the app refuses to store keys.
