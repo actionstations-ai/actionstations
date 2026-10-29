@@ -2,6 +2,7 @@
  * Who a released MSEL row goes to (spec 0412 FR-2). Pure, so the Facilitate page shows the same
  * chips the main process sends to.
  */
+import { z } from 'zod'
 import type { Role } from '../schemas/project'
 import type { MselRow } from '../schemas/scenario'
 import { rolesOfTeams } from '../facilitator/recipients'
@@ -54,3 +55,9 @@ export function resolveTargets(
   for (const id of ids) if (!covered.has(id)) out.push(`role:${id}`)
   return out
 }
+
+/** A device picked in the UI: `client:<ref>` with the 8-hex reference the log uses, never a client id. */
+export const DEVICE_TARGET = /^client:[0-9a-f]{8}$/
+
+/** A destination the renderer may send: the wire destinations, or one device by its reference. */
+export const ReleaseTarget = z.union([Destination, z.string().regex(DEVICE_TARGET)])

@@ -41,7 +41,7 @@ import { scenarioLayout } from '../scenario/layout'
 import { getScenario } from '../scenario/store'
 import { appendResponse, readSurvey } from '../surveys/store'
 import { inviteViews } from './invites'
-import { teamSlug } from '@shared/live/targets'
+import { DEVICE_TARGET, teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
 import { LiveSurveys, type SurveySeat } from './surveys'
 import { Votes, type VoteResult, type VoteSeat } from './votes'
@@ -1099,20 +1099,34 @@ function activeFor(root: string, scenarioId: string): Active {
   return a
 }
 
-export function releaseInject(
+/** `client:<ref>` from the UI becomes the wire destination `client:<clientId>`. */
+async function wireTargets(a: Active, targets: Destination[]): Promise<Destination[]> {
+  return Promise.all(
+    targets.map(async (t) =>
+      DEVICE_TARGET.test(t) ? `client:${(await seatByRef(a, t.slice(7))).clientId}` : t,
+    ),
+  )
+}
+
+export async function releaseInject(
   root: string,
   scenarioId: string,
   req: { rowId: string; targets?: Destination[]; showExpected?: boolean },
 ) {
-  return releaseRow(hostOf(activeFor(root, scenarioId)), req)
+  const a = activeFor(root, scenarioId)
+  const targets = req.targets ? await wireTargets(a, req.targets) : undefined
+  return releaseRow(hostOf(a), { ...req, ...(targets ? { targets } : {}) })
 }
 
-export const resendInject = (
+export async function resendInject(
   root: string,
   scenarioId: string,
   releaseId: string,
   t: Destination[],
-) => activeFor(root, scenarioId).delivery.resend(releaseId, t)
+) {
+  const a = activeFor(root, scenarioId)
+  return a.delivery.resend(releaseId, await wireTargets(a, t))
+}
 
 export const retractInject = (root: string, scenarioId: string, releaseId: string) =>
   activeFor(root, scenarioId).delivery.retract(releaseId)
