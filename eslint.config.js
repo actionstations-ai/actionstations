@@ -5,6 +5,32 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import prettier from 'eslint-config-prettier'
 import globals from 'globals'
 
+const PROVIDER_PATTERNS = [
+  {
+    group: ['@anthropic-ai/*', 'openai', 'ollama'],
+    message: 'Provider SDKs only inside src/main/providers/*',
+  },
+  {
+    // #433: providers are built only in providers/resolve.ts, which wraps cloud ones in the
+    // outbound gate. Building one elsewhere would bypass preview and redaction.
+    group: ['**/providers/registry'],
+    importNames: ['createTextProvider', 'createEmbeddingProvider', 'createMediaProvider'],
+    message: 'Get providers from providers/resolve (outbound gate), not the registry',
+  },
+  {
+    group: ['**/providers/text/**/adapter', '**/providers/media/**/adapter'],
+    message: 'Get providers from providers/resolve (outbound gate), not an adapter module',
+  },
+]
+
+/** Ungated providers for fixed-text connection tests: only the Providers and Workflows handlers. */
+const UNGATED_TESTS = {
+  group: ['**/providers/resolve'],
+  importNames: ['connectionTestTextProvider', 'connectionTestMediaProvider'],
+  message:
+    'Connection-test providers skip the outbound gate; use textProviderFor / mediaProviderFor',
+}
+
 export default tseslint.config(
   {
     ignores: [
@@ -38,30 +64,13 @@ export default tseslint.config(
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/main/providers/**'],
     rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['@anthropic-ai/*', 'openai', 'ollama'],
-              message: 'Provider SDKs only inside src/main/providers/*',
-            },
-            {
-              // #433: providers are built only in providers/resolve.ts, which wraps cloud ones in
-              // the outbound gate. Building one elsewhere would bypass preview and redaction.
-              group: ['**/providers/registry'],
-              importNames: ['createTextProvider', 'createEmbeddingProvider', 'createMediaProvider'],
-              message: 'Get providers from providers/resolve (outbound gate), not the registry',
-            },
-            {
-              group: ['**/providers/text/**/adapter', '**/providers/media/**/adapter'],
-              message:
-                'Get providers from providers/resolve (outbound gate), not an adapter module',
-            },
-          ],
-        },
-      ],
+      'no-restricted-imports': ['error', { patterns: [...PROVIDER_PATTERNS, UNGATED_TESTS] }],
     },
+  },
+  {
+    // The two handlers that run connection tests and test renders may use the ungated providers.
+    files: ['src/main/ipc/handlers/providers.ts', 'src/main/ipc/handlers/comfy.ts'],
+    rules: { 'no-restricted-imports': ['error', { patterns: PROVIDER_PATTERNS }] },
   },
   {
     files: ['src/renderer/**/*.{ts,tsx}'],

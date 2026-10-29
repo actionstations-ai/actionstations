@@ -4,7 +4,7 @@
 import { PrivacySettings, type ProjectPrivacy } from '@shared/schemas'
 import { AppError } from '../../lib/errors'
 import { requireProject } from '../../project/guard'
-import { updateProject } from '../../project/store'
+import { loadProject, updateProject } from '../../project/store'
 import { approvals } from '../../providers/outbound'
 import { redactText } from '../../providers/outbound/redact'
 import { readSends } from '../../providers/outbound/send-log'
@@ -13,6 +13,7 @@ import {
   enabledCategories,
   privacyFor,
   registryFor,
+  stricterPart,
 } from '../../providers/outbound/settings'
 import { updateSettings } from '../../settings/store'
 import { defineHandlers } from '../registry'
@@ -33,10 +34,22 @@ async function saveGlobal(settings: ProjectPrivacy): Promise<void> {
   })
 }
 
+/**
+ * A project's choices are stored for this computer (userData, by project id): only they may
+ * relax the defaults. The stricter part is also written to project.json so it travels.
+ */
 async function saveProject(root: string, settings: ProjectPrivacy, clear: boolean): Promise<void> {
+  const { id } = await loadProject(root)
+  const local = defined(settings)
+  const empty = clear || Object.keys(local).length === 0
+  const saved = await updateSettings((s) => {
+    if (empty) delete s.projectPrivacy[id]
+    else s.projectPrivacy[id] = local
+  })
+  const travels = empty ? {} : stricterPart(saved.privacy, local)
   await updateProject(root, (p) => {
-    if (clear || Object.keys(defined(settings)).length === 0) delete p.privacy
-    else p.privacy = defined(settings)
+    if (Object.keys(travels).length) p.privacy = travels
+    else delete p.privacy
   })
 }
 

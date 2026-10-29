@@ -123,6 +123,34 @@ describe('providers:upsert / list', () => {
   })
 })
 
+describe('providers:upsert: "On my network, treat as local" (#454 review, finding 3)', () => {
+  const upsert = (baseUrl: string, options: Record<string, unknown>) =>
+    call('providers:upsert', {
+      config: { kind: 'openai-compatible', label: 'LAN', baseUrl, options },
+    })
+
+  it('accepts a private host with the host it was granted for', async () => {
+    await expect(
+      upsert('http://192.168.1.20:1234/v1', { network: 'local', localHost: '192.168.1.20' }),
+    ).resolves.toBeTruthy()
+  })
+
+  it('refuses a public host', async () => {
+    await expect(
+      upsert('https://api.openai.com/v1', { network: 'local', localHost: 'api.openai.com' }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
+  it('refuses a mark granted for another host (the base URL changed)', async () => {
+    await expect(
+      upsert('http://10.0.0.9:1234/v1', { network: 'local', localHost: '192.168.1.20' }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
+    await expect(upsert('http://10.0.0.9:1234/v1', { network: 'local' })).rejects.toMatchObject({
+      code: 'VALIDATION',
+    })
+  })
+})
+
 describe('providers:remove', () => {
   it('deletes the config, its key and global routing that pointed at it', async () => {
     const a = await addMock({ label: 'A' }, KEY)

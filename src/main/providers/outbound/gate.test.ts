@@ -91,6 +91,7 @@ function setup(
     registry: async () => registry,
     enabled: (s) => new Set(REDACTION_CATEGORIES.filter((c) => s.redact[c] !== false)),
     log: async (e) => void logged.push(e),
+    knownProject: async () => true,
   }
   const change = (s: Partial<PrivacySettings>) =>
     (settings = PrivacySettings.parse({ ...settings, ...s }))
@@ -239,10 +240,11 @@ describe('outbound gate: approval', () => {
     expect(inner.sent).toHaveLength(0)
   })
 
-  it('asks again for a repair round under every-request, not under new-excerpts', async () => {
+  it('asks again for a repair round: its restored reply is new content (#454 review, finding 4)', async () => {
     for (const [review, asks] of [
       ['every-request', 2],
-      ['new-excerpts', 1],
+      ['new-excerpts', 2],
+      ['per-job', 1],
     ] as const) {
       const { deps, needed, approvals } = setup(review)
       const provider = guardText(new CapturingText(REMOTE), REMOTE, deps)
@@ -362,7 +364,7 @@ describe('outbound gate: embeddings and media', () => {
     }
     const pending = guardMedia(inner, REMOTE, deps).generate(job)
     const m = await waitFor(needed)
-    expect(m).toMatchObject({ kind: 'media', task: 'image', redactable: false })
+    expect(m).toMatchObject({ kind: 'media', task: 'image', redactable: true })
     expect(m.parts).toEqual([
       { name: 'Image prompt', chars: 29, text: 'A flooded pump house at night' },
     ])

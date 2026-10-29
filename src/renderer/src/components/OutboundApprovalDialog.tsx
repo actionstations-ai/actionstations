@@ -111,12 +111,8 @@ function RedactionSummary({ manifest }: { manifest: OutboundManifest }) {
   if (!manifest.redactable)
     return (
       <p className="outbound-note" role="note">
-        Redaction does not apply to {manifest.kind === 'embed' ? 'embedding' : 'media'} requests:
-        the text is sent as shown, because{' '}
-        {manifest.kind === 'embed'
-          ? 'search would not work on placeholders'
-          : 'images and audio cannot be mapped back'}
-        .
+        Redaction does not apply to embedding requests: the text is sent as shown, because search
+        would not work on placeholders.
       </p>
     )
   const total = totalRedactions(manifest)
@@ -129,14 +125,17 @@ function RedactionSummary({ manifest }: { manifest: OutboundManifest }) {
         <ul className="outbound-counts">
           {ALL_CATEGORIES.filter((c) => manifest.redactions[c]).map((c) => (
             <li key={c}>
-              {CATEGORY_LABEL[c]}: {manifest.redactions[c]} replaced with placeholders
+              {CATEGORY_LABEL[c]}: {manifest.redactions[c]} replaced with{' '}
+              {manifest.kind === 'media' ? 'plain stand-ins' : 'placeholders'}
             </li>
           ))}
         </ul>
       )}
       <p className="muted">
-        Pattern-based: review the highlighted text. Values the patterns miss are sent as written.
-        Placeholders in the reply are changed back on this computer.
+        Pattern-based: review the highlighted text. Values the patterns miss are sent as written.{' '}
+        {manifest.kind === 'media'
+          ? 'Images and audio cannot be changed back, so names and contact details become plain words such as “a staff member”.'
+          : 'Placeholders in the reply are changed back on this computer.'}
       </p>
     </section>
   )
@@ -219,6 +218,12 @@ export function OutboundApprovalDialog(props: {
         </p>
       )}
       <RedactionSummary manifest={m} />
+      {m.images?.map((img) => (
+        <figure key={img.name} className="outbound-image">
+          <img src={img.dataUrl} alt={`${img.name} sent with this request`} />
+          <figcaption>{img.name}: sent with this request</figcaption>
+        </figure>
+      ))}
       <Excerpts manifest={m} />
       <OtherParts manifest={m} />
     </Dialog>

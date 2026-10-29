@@ -238,7 +238,8 @@ function looksLikeName(words: string[], ctx: DetectContext): boolean {
   if (words.length === 0 || words.length > 4) return false
   const named = words.filter((w) => !/^[A-Z]\.$/.test(w))
   if (!named.every((w) => WHOLE_NAME_WORD.test(w) && isNameWord(w, ctx))) return false
-  return named.length === 1 || GIVEN.has(named[0]!)
+  // The header already says these are names: no given-name list needed ("Zubair Oyelaran").
+  return named.length > 0
 }
 
 /** Cells under a "Name" header in Markdown tables (contact lists from ingest). */

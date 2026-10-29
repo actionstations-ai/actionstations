@@ -1,8 +1,18 @@
 // The app's outbound gate instance (#433): approvals wired to IPC events and the job manager,
 // and the dependencies the wrappers in gate.ts use. providers/resolve.ts wraps with these.
+import { createHash } from 'node:crypto'
 import type { ProviderConfig } from '@shared/schemas'
+import {
+  OLLAMA_CLOUD_HOST,
+  isCloudModel,
+  isRemoteRequest,
+  providerHost,
+} from '@shared/provider-network'
+import { nowIso } from '../../lib/ids'
 import { jobs } from '../../jobs/manager'
 import { emit, onEmit } from '../../lib/events'
+import { isKnownProject } from '../../lib/project-registry'
+import { isProjectFolder } from '../../project/store'
 import type { EmbeddingProvider, MediaProvider, TextProvider } from '../types'
 import { Approvals } from './approvals'
 import { guardEmbedding, guardMedia, guardText, type GateDeps } from './gate'
@@ -48,6 +58,34 @@ export const gateDeps: GateDeps = {
   registry: registryFor,
   enabled: enabledCategories,
   log: appendSend,
+  knownProject: async (path) => (await isKnownProject(path)) && (await isProjectFolder(path)),
+}
+
+/**
+ * Record a Providers page connection test to a cloud host in the app's send log. The test sends
+ * a fixed sentence and no project content, so it is not asked about, but it is still recorded.
+ */
+export async function logConnectionTest(
+  config: ProviderConfig,
+  model: string,
+  text: string,
+): Promise<void> {
+  if (!isRemoteRequest(config, model)) return
+  const registry = await registryFor()
+  await appendSend({
+    at: nowIso(),
+    providerId: config.id,
+    providerLabel: config.label,
+    host: isCloudModel(config.kind, model) ? OLLAMA_CLOUD_HOST : providerHost(config),
+    model,
+    kind: 'chat',
+    task: 'connection-test',
+    excerpts: [],
+    chars: { 'message:0:user': text.length },
+    redactions: {},
+    approval: 'connection-test',
+    requestHash: registry.mac(createHash('sha256').update(text).digest('hex')),
+  })
 }
 
 export const guardTextProvider = (p: TextProvider, config: ProviderConfig): TextProvider =>

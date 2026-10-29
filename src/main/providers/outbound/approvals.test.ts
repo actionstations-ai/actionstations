@@ -48,6 +48,7 @@ describe('policyDecision', () => {
     approved: false,
     chunks: new Set(),
     documents: new Set(),
+    content: new Set(),
     ...p,
   })
 

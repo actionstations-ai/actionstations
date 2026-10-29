@@ -32,6 +32,7 @@ export interface ManifestInput {
   review: ReviewPolicy
   requestHash: string
   redactable: boolean
+  images?: { name: string; dataUrl: string }[]
   parts: ManifestPart[]
   excerpts: ManifestExcerpt[]
   jobId?: string
@@ -75,6 +76,7 @@ export function buildManifest(input: ManifestInput): OutboundManifest {
     totalChars,
     estimatedTokens: Math.ceil(totalChars / 4),
     redactable: input.redactable,
+    ...(input.images?.length ? { images: input.images } : {}),
     createdAt: nowIso(),
   }
 }

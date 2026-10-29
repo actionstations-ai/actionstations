@@ -344,6 +344,23 @@ describe('example export', () => {
     ])
   })
 
+  it('leaves out the cloud send log and the project privacy settings (#454 review)', async () => {
+    write(join(root, 'cloud-sends.jsonl'), '{"at":"2026-10-01T00:00:00.000Z"}\n')
+    await updateProject(root, (p) => {
+      p.privacy = { review: 'every-request' }
+    })
+    const r = await buildPackExport(exampleOnly(), { appVersion: APP })
+    if (!r.ok) throw new Error(JSON.stringify(r.problems))
+    expect(r.built.skipped.map((s) => s.path)).toContain('cloud-sends.jsonl')
+    const read = await readPack({ buffer: r.buffer }, { appVersion: APP })
+    if (!read.ok) throw new Error('reader refused')
+    expect([...read.pack.files.keys()].some((p) => p.endsWith('cloud-sends.jsonl'))).toBe(false)
+    const project = JSON.parse(
+      read.pack.files.get('examples/metro-line/project/project.json')!.toString(),
+    )
+    expect(project.privacy).toBeUndefined()
+  })
+
   it('needs the domain profile when the project is on a non-built-in domain', async () => {
     await updateProject(root, (p) => {
       p.orgType = 'metro_custom'

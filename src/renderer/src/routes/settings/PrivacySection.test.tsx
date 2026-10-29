@@ -55,7 +55,9 @@ afterEach(() => cleanup())
 describe('Settings → Privacy (#433)', () => {
   it('defaults to asking on new excerpts with every category on', async () => {
     setup()
-    const recommended = await screen.findByRole('radio', { name: /Ask when new plan excerpts/ })
+    const recommended = await screen.findByRole('radio', {
+      name: /Ask when new content would be sent/,
+    })
     expect((recommended as HTMLInputElement).checked).toBe(true)
     for (const name of ['Names', 'Phone numbers', 'Email addresses', 'Street addresses'])
       expect((screen.getByRole('checkbox', { name }) as HTMLInputElement).checked).toBe(true)

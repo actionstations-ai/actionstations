@@ -47,11 +47,50 @@ export function networkOption(
   return v === 'local' || v === 'remote' ? v : undefined
 }
 
-/** Whether a provider's host is one the user may mark as local (not loopback, not a vendor cloud). */
+/** RFC 1918, link-local (169.254/16), IPv6 unique-local (fc00::/7) and link-local (fe80::/10). */
+export function isPrivateNetworkHost(host: string): boolean {
+  const h = host
+    .trim()
+    .toLowerCase()
+    .replace(/^\[|\]$/g, '')
+    .replace(/\.$/, '')
+  const v4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(h)
+  if (v4) {
+    if (v4.slice(1).some((n) => Number(n) > 255)) return false
+    const a = Number(v4[1])
+    const b = Number(v4[2])
+    return (
+      a === 10 ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      (a === 169 && b === 254)
+    )
+  }
+  if (h.includes(':')) return /^f[cd][0-9a-f]{0,2}:/.test(h) || /^fe[89ab][0-9a-f]?:/.test(h)
+  // mDNS and home-network names resolve inside the network.
+  return /^[a-z0-9-]+(\.[a-z0-9-]+)*\.(local|lan|home\.arpa|internal)$/.test(h)
+}
+
+/**
+ * Whether the user may mark this provider "On my network, treat as local": only a private
+ * network address or a .local / .lan name, never a public host or a vendor cloud.
+ */
 export function canTreatAsLocal(config: Pick<ProviderConfig, 'kind' | 'baseUrl'>): boolean {
   if (ALWAYS_REMOTE.has(config.kind)) return false
   const host = providerHost(config)
-  return host !== '' && !isLoopbackHost(host)
+  return host !== '' && !isLoopbackHost(host) && isPrivateNetworkHost(host)
+}
+
+/**
+ * The host the user marked as local, when the mark still applies: it must name the provider's
+ * current host (a changed base URL needs the box ticked again) and that host must be private.
+ */
+export function grantedLocalHost(
+  config: Pick<ProviderConfig, 'kind' | 'baseUrl' | 'options'>,
+): string | undefined {
+  if (networkOption(config) !== 'local' || !canTreatAsLocal(config)) return undefined
+  const granted = config.options?.localHost
+  return typeof granted === 'string' && granted === providerHost(config) ? granted : undefined
 }
 
 /** FR-1: true when requests to this provider leave the computer. */
@@ -59,9 +98,29 @@ export function isRemoteProvider(
   config: Pick<ProviderConfig, 'kind' | 'baseUrl' | 'options'>,
 ): boolean {
   if (ALWAYS_REMOTE.has(config.kind)) return true
-  const option = networkOption(config)
-  if (option === 'remote') return true
+  if (networkOption(config) === 'remote') return true
   const host = providerHost(config)
   if (host === '' || isLoopbackHost(host)) return false
-  return option !== 'local'
+  return grantedLocalHost(config) === undefined
+}
+
+/**
+ * Ollama cloud models (names ending in `-cloud` or `:cloud`) run on ollama.com: the local daemon
+ * forwards the request. Such a model is remote even on a loopback Ollama.
+ */
+export const OLLAMA_CLOUD_HOST = 'ollama.com'
+
+export function isCloudModel(kind: ProviderConfig['kind'], model: string | undefined): boolean {
+  return kind === 'ollama' && !!model && /[-:]cloud$/i.test(model.trim())
+}
+
+/** Kinds whose individual models may run in a vendor cloud through a local server. */
+export const hasCloudModels = (kind: ProviderConfig['kind']): boolean => kind === 'ollama'
+
+/** Whether a request to this provider with this model leaves the computer. */
+export function isRemoteRequest(
+  config: Pick<ProviderConfig, 'kind' | 'baseUrl' | 'options'>,
+  model: string | undefined,
+): boolean {
+  return isRemoteProvider(config) || isCloudModel(config.kind, model)
 }

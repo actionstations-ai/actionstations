@@ -155,7 +155,8 @@ describe('scenario generation through a cloud provider', () => {
     const entries = lines.map((l) => JSON.parse(l) as { approval: string; jobId: string })
     expect(entries[0]!.approval).toBe('asked')
     expect(entries.every((e) => e.jobId === jobId)).toBe(true)
-    expect(asked).toBeGreaterThanOrEqual(1)
-    expect(asked).toBeLessThan(sent.length)
+    // Each stage sends content never approved in the job (its prompt, earlier outputs), so the
+    // default policy asks for each one (#454 review, finding 4).
+    expect(asked).toBe(sent.length)
   })
 })

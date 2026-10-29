@@ -83,13 +83,22 @@ export const OutboundManifest = z.object({
   spans: z.array(RedactionSpan),
   totalChars: z.number().int(),
   estimatedTokens: z.number().int(),
-  /** False for embeddings and media: those are previewed but never redacted. */
+  /** False for embeddings: they are previewed but never redacted. Media uses plain stand-ins. */
   redactable: z.boolean(),
+  /** Images sent with the request (a video's input image), as data URLs for the dialog. */
+  images: z.array(z.object({ name: z.string(), dataUrl: z.string() })).optional(),
   createdAt: IsoDateTime,
 })
 export type OutboundManifest = z.infer<typeof OutboundManifest>
 
-export const ApprovalKind = z.enum(['asked', 'job-approval', 'document-approval', 'policy-off'])
+export const ApprovalKind = z.enum([
+  'asked',
+  'job-approval',
+  'document-approval',
+  'policy-off',
+  /** A Providers page connection test: fixed sample text, no project content. */
+  'connection-test',
+])
 export type ApprovalKind = z.infer<typeof ApprovalKind>
 
 /** One line of <project>/cloud-sends.jsonl. Sizes and section headings only, never text. */

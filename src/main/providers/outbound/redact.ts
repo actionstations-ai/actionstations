@@ -5,7 +5,8 @@
 // main-process memory for the app session only: never written, logged or sent.
 import { createHmac } from 'node:crypto'
 import type { RedactionCategory } from '@shared/schemas'
-import { detectAll, normalizePhone, type DetectContext } from './detect'
+import { detectAll, normalizePhone, type DetectContext, type DetectedSpan } from './detect'
+import { escapeRegExp } from './detect/types'
 
 const BASE32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 const MIN_CODE = 4
@@ -45,6 +46,78 @@ export class RedactionRegistry {
 
   get size(): number {
     return this.byPlaceholder.size
+  }
+
+  /** A keyed fingerprint (send log): unlinkable across projects, unguessable without the key. */
+  mac(text: string): string {
+    return createHmac('sha256', this.key).update(`fingerprint\u0000${text}`).digest('hex')
+  }
+
+  private known?: { size: number; literal?: RegExp; phone?: RegExp }
+  private categoryOf = new Map<string, RedactionCategory>()
+
+  private patterns(): { literal?: RegExp; phone?: RegExp } {
+    if (this.known?.size === this.size) return this.known
+    const literals: string[] = []
+    const phones: string[] = []
+    this.categoryOf.clear()
+    for (const { category, value } of this.byPlaceholder.values()) {
+      if (category === 'phone') {
+        const d = normalizePhone(value)
+        if (d.length >= 7) phones.push(d)
+        continue
+      }
+      const norm = normalizeValue(category, value)
+      if (norm.length < 2 || this.categoryOf.has(norm)) continue
+      this.categoryOf.set(norm, category)
+      literals.push(norm)
+    }
+    const alt = (items: string[], body: (s: string) => string) =>
+      [...new Set(items)]
+        .sort((a, b) => b.length - a.length || a.localeCompare(b))
+        .map(body)
+        .join('|')
+    const B = '(?<![\\p{L}\\p{N}_])'
+    const A = '(?![\\p{L}\\p{N}_])'
+    this.known = {
+      size: this.size,
+      ...(literals.length
+        ? {
+            literal: new RegExp(
+              `${B}(?:${alt(literals, (v) => escapeRegExp(v).replace(/ /g, '\\s+'))})${A}`,
+              'giu',
+            ),
+          }
+        : {}),
+      ...(phones.length
+        ? {
+            phone: new RegExp(
+              `(?<![\\w.\\-/+:])(?:\\+?1[\\s.-]?)?(?:${alt(phones, (d) =>
+                [...d].join('[\\s().-]{0,2}'),
+              )})(?![\\w]|[.\\-/:]\\d)`,
+              'g',
+            ),
+          }
+        : {}),
+    }
+    return this.known
+  }
+
+  /**
+   * Every value this project has already redacted, wherever it appears again (a reply restored
+   * on this computer and sent back in a repair round or a later stage). Longest first.
+   */
+  knownSpans(text: string): DetectedSpan[] {
+    if (this.size === 0) return []
+    const { literal, phone } = this.patterns()
+    const out: DetectedSpan[] = []
+    for (const m of literal ? text.matchAll(literal) : []) {
+      const category = this.categoryOf.get(normalizeValue('person', m[0]))
+      if (category) out.push({ start: m.index, end: m.index + m[0].length, category, value: m[0] })
+    }
+    for (const m of phone ? text.matchAll(phone) : [])
+      out.push({ start: m.index, end: m.index + m[0].length, category: 'phone', value: m[0] })
+    return out
   }
 
   private code(category: RedactionCategory, norm: string): string {
@@ -103,7 +176,10 @@ export function redactText(
   ctx: DetectContext,
   registry: RedactionRegistry,
 ): Redacted {
-  const found = detectAll(text, enabled, ctx)
+  // Values already redacted in this project come first: a reply restored on this computer and
+  // sent back (a repair round, a later stage) must not carry them in the clear (#454 review).
+  const known = registry.knownSpans(text).filter((s) => enabled.has(s.category))
+  const found = detectAll(text, enabled, ctx, known)
   if (found.length === 0) return { text, spans: [] }
   const order = [...found].sort((a, b) =>
     `${a.category}\u0000${normalizeValue(a.category, a.value)}`.localeCompare(

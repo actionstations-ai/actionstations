@@ -76,7 +76,8 @@ describe('provider resolution and the outbound gate', () => {
     expect(isGuarded(await resolved(task))).toBe(true)
   })
 
-  it.each(cases.filter(([, kind]) => kind !== 'anthropic'))(
+  // Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
+  it.each(cases.filter(([, kind]) => kind !== 'anthropic' && kind !== 'ollama'))(
     '%s via %s: a local config is never gated',
     async (task, kind) => {
       await route(task, config(kind, false))

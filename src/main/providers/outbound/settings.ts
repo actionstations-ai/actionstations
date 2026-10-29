@@ -9,6 +9,7 @@ import {
   type Project,
   type ProjectPrivacy,
   type RedactionCategory,
+  type ReviewPolicy,
 } from '@shared/schemas'
 import { facilityFilePath, parseFacilityFile } from '../../generate/facility-file'
 import { loadProject } from '../../project/store'
@@ -19,11 +20,14 @@ import { RedactionRegistry } from './redact'
 
 export interface EffectivePrivacy {
   global: PrivacySettings
+  /** This project's choices made on this computer (userData), which may relax the defaults. */
   project?: ProjectPrivacy
+  /** The project file's own settings: they can only make review and redaction stricter. */
+  projectFile?: ProjectPrivacy
   effective: PrivacySettings
 }
 
-/** Merge a project's overrides over the global defaults, field by field. */
+/** Merge local overrides (chosen on this computer) over the global defaults, field by field. */
 export function mergePrivacy(global: PrivacySettings, project?: ProjectPrivacy): PrivacySettings {
   return PrivacySettings.parse({
     review: project?.review ?? global.review,
@@ -31,6 +35,47 @@ export function mergePrivacy(global: PrivacySettings, project?: ProjectPrivacy):
     alwaysRedact: project?.alwaysRedact ?? global.alwaysRedact,
     neverRedact: project?.neverRedact ?? global.neverRedact,
   })
+}
+
+/** Review policies from least to most asking. */
+const REVIEW_RANK: Record<ReviewPolicy, number> = {
+  off: 0,
+  'per-job': 1,
+  'new-excerpts': 2,
+  'every-request': 3,
+}
+
+export const isStricterReview = (a: ReviewPolicy, than: ReviewPolicy): boolean =>
+  REVIEW_RANK[a] > REVIEW_RANK[than]
+
+/**
+ * Apply a project file's settings, which arrive with the folder (a copied project, a pack
+ * example) and were never confirmed on this computer: they may ask more often, turn categories
+ * on and add Always-redact terms, never the opposite (#454 review, finding 1).
+ */
+export function tightenWith(base: PrivacySettings, file?: ProjectPrivacy): PrivacySettings {
+  if (!file) return base
+  const redact = { ...base.redact }
+  for (const c of REDACTION_CATEGORIES) if (file.redact?.[c] === true) redact[c] = true
+  return PrivacySettings.parse({
+    ...base,
+    review: file.review && isStricterReview(file.review, base.review) ? file.review : base.review,
+    redact,
+    alwaysRedact: [...new Set([...base.alwaysRedact, ...(file.alwaysRedact ?? [])])].slice(0, 500),
+  })
+}
+
+/** The part of a project's settings that is stricter than the defaults: safe to keep in the file. */
+export function stricterPart(global: PrivacySettings, local: ProjectPrivacy): ProjectPrivacy {
+  const out: ProjectPrivacy = {}
+  if (local.review && isStricterReview(local.review, global.review)) out.review = local.review
+  const on = REDACTION_CATEGORIES.filter(
+    (c) => local.redact?.[c] === true && global.redact[c] === false,
+  )
+  if (on.length) out.redact = Object.fromEntries(on.map((c) => [c, true]))
+  const extra = (local.alwaysRedact ?? []).filter((t) => !global.alwaysRedact.includes(t))
+  if (extra.length) out.alwaysRedact = extra
+  return out
 }
 
 async function projectOrUndefined(projectPath?: string): Promise<Project | undefined> {
@@ -43,9 +88,17 @@ async function projectOrUndefined(projectPath?: string): Promise<Project | undef
 }
 
 export async function privacyFor(projectPath?: string): Promise<EffectivePrivacy> {
-  const global = (await getSettings()).privacy
-  const project = (await projectOrUndefined(projectPath))?.privacy
-  return { global, ...(project ? { project } : {}), effective: mergePrivacy(global, project) }
+  const settings = await getSettings()
+  const global = settings.privacy
+  const project = await projectOrUndefined(projectPath)
+  const local = project ? settings.projectPrivacy[project.id] : undefined
+  const file = project?.privacy
+  return {
+    global,
+    ...(local ? { project: local } : {}),
+    ...(file ? { projectFile: file } : {}),
+    effective: tightenWith(mergePrivacy(global, local), file),
+  }
 }
 
 /** Categories that are on; a category missing from the settings is on (open question 3). */

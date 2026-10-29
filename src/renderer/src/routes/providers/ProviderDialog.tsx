@@ -1,7 +1,7 @@
 // Add / edit a provider. Presets fill kind + base URL; the key is write-only.
 import { useState, type FormEvent } from 'react'
 import type { ProviderKind } from '@shared/schemas'
-import { canTreatAsLocal, networkOption } from '@shared/provider-network'
+import { canTreatAsLocal, grantedLocalHost, providerHost } from '@shared/provider-network'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { useIpcMutation } from '../../lib/query'
@@ -25,8 +25,11 @@ interface Draft {
   defaultModel: string
   enabled: boolean
   apiKey: KeyChange
-  /** "On my network, treat as local" (#433, FR-1); off means remote. */
-  treatAsLocal: boolean
+  /**
+   * "On my network, treat as local" (#433, FR-1): the host it was ticked for. A different base
+   * URL host shows the box unticked again; off means remote.
+   */
+  localHost: string | undefined
 }
 
 function draftFrom(existing: ProviderViewT | undefined): Draft {
@@ -39,7 +42,7 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
       defaultModel: existing.defaultModel ?? '',
       enabled: existing.enabled,
       apiKey: undefined,
-      treatAsLocal: networkOption(existing) === 'local',
+      localHost: grantedLocalHost(existing),
     }
   const p = PRESETS[0]!
   return {
@@ -47,7 +50,7 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
     defaultModel: '',
     enabled: true,
     apiKey: undefined,
-    treatAsLocal: false,
+    localHost: undefined,
   }
 }
 
@@ -83,10 +86,14 @@ function parsedBaseUrl(raw: string): string | undefined {
 
 /** Options with the network choice: 'local' when ticked on a LAN host, else 'remote'. */
 function optionsFor(draft: Draft, existing: ProviderViewT | undefined): Record<string, unknown> {
-  const { network: _old, ...rest } = existing?.options ?? {}
+  const { network: _old, localHost: _host, ...rest } = existing?.options ?? {}
   const baseUrl = parsedBaseUrl(draft.baseUrl)
-  if (!canTreatAsLocal({ kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) })) return rest
-  return { ...rest, network: draft.treatAsLocal ? 'local' : 'remote' }
+  const config = { kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) }
+  if (!canTreatAsLocal(config)) return rest
+  const host = providerHost(config)
+  return draft.localHost === host
+    ? { ...rest, network: 'local', localHost: host }
+    : { ...rest, network: 'remote' }
 }
 
 /** The config providers:upsert stores for a draft (trimmed, empty optionals left out). */
@@ -224,20 +231,20 @@ function DefaultModelField(props: {
 function NetworkField(props: { draft: Draft; set: SetDraft }) {
   const baseUrl = parsedBaseUrl(props.draft.baseUrl)
   if (!baseUrl || !canTreatAsLocal({ kind: props.draft.kind, baseUrl })) return null
-  const host = new URL(baseUrl).hostname
+  const host = providerHost({ kind: props.draft.kind, baseUrl })
   return (
     <div className="stack" style={{ gap: 'var(--space-1)' }}>
       <label className="row">
         <input
           type="checkbox"
-          checked={props.draft.treatAsLocal}
+          checked={props.draft.localHost === host}
           aria-describedby="provider-network-hint"
-          onChange={(e) => props.set({ treatAsLocal: e.target.checked })}
+          onChange={(e) => props.set({ localHost: e.target.checked ? host : undefined })}
         />
         On my network, treat as local
       </label>
       <span id="provider-network-hint" className="field__hint">
-        {`Requests to ${host} leave this computer, so they are treated as cloud requests: you review what is sent and names, phone numbers, emails and addresses are redacted. Tick this only if ${host} is a machine you control on your own network.`}
+        {`Requests to ${host} leave this computer, so they are treated as cloud requests: you review what is sent and names, phone numbers, emails and addresses are redacted. Tick this only if ${host} is a machine you control on your own network. Only private network addresses and .local or .lan names can be marked.`}
       </span>
     </div>
   )

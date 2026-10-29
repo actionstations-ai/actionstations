@@ -14,6 +14,7 @@ const APPROVAL_LABEL: Record<CloudSendEntry['approval'], string> = {
   'job-approval': 'Approved earlier in the job',
   'document-approval': 'Documents approved for the job',
   'policy-off': 'Sent without asking (review off)',
+  'connection-test': 'Connection test (fixed sample text)',
 }
 
 const when = (iso: string) =>

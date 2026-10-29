@@ -40,7 +40,7 @@ describe('ProviderCard cloud marker (#433)', () => {
     const card = setup(base)
     expect(within(card).getByText('Cloud: sends excerpts to 192.168.1.20')).toBeTruthy()
     cleanup()
-    const local = setup({ ...base, options: { network: 'local' } })
+    const local = setup({ ...base, options: { network: 'local', localHost: '192.168.1.20' } })
     expect(within(local).getByText('On your network, treated as local')).toBeTruthy()
   })
 

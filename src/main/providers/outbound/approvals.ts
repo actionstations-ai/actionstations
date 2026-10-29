@@ -10,19 +10,29 @@ export interface ScopeState {
   approved: boolean
   chunks: Set<number>
   documents: Set<string>
+  /** Fingerprints of approved content outside the excerpts (see gate.ts contentHashes). */
+  content: Set<string>
 }
 
-const newState = (): ScopeState => ({ approved: false, chunks: new Set(), documents: new Set() })
+const newState = (): ScopeState => ({
+  approved: false,
+  chunks: new Set(),
+  documents: new Set(),
+  content: new Set(),
+})
 
 /** The policy's answer for a request: send under an existing approval, or ask. */
 export function policyDecision(
   review: ReviewPolicy,
   state: ScopeState,
   manifest: Pick<OutboundManifest, 'excerpts'>,
+  content: readonly string[] = [],
 ): ApprovalKind | 'ask' {
   if (review === 'off') return 'policy-off'
   if (review === 'every-request' || !state.approved) return 'ask'
   if (review === 'per-job') return 'job-approval'
+  // Content never approved in this job (an earlier stage's output, facts, a new prompt) is new.
+  if (content.some((h) => !state.content.has(h))) return 'ask'
   let viaDocument = false
   for (const e of manifest.excerpts) {
     if (state.chunks.has(e.chunkId)) continue
@@ -46,6 +56,7 @@ export interface ApprovalHooks {
 interface Pending {
   manifest: OutboundManifest
   scopeKey: string
+  content: readonly string[]
   resolve: (r: Authorized) => void
   reject: (e: Error) => void
 }
@@ -72,9 +83,10 @@ export class Approvals {
     scopeKey: string,
     manifest: OutboundManifest,
     signal?: AbortSignal,
+    content: readonly string[] = [],
   ): Promise<Authorized> {
     if (signal?.aborted) return Promise.reject(cancelled())
-    const decision = policyDecision(manifest.review, this.state(scopeKey), manifest)
+    const decision = policyDecision(manifest.review, this.state(scopeKey), manifest, content)
     if (decision !== 'ask')
       return Promise.resolve({ approval: decision, approvedHash: manifest.requestHash })
     return new Promise<Authorized>((resolve, reject) => {
@@ -88,6 +100,7 @@ export class Approvals {
       this.pending.set(manifest.requestId, {
         manifest,
         scopeKey,
+        content,
         resolve: done(resolve),
         reject: done(reject),
       })
@@ -117,6 +130,7 @@ export class Approvals {
     }
     const state = this.state(p.scopeKey)
     state.approved = true
+    for (const h of p.content) state.content.add(h)
     for (const e of p.manifest.excerpts) {
       state.chunks.add(e.chunkId)
       if (decision === 'approve-documents') state.documents.add(e.documentId)

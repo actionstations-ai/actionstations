@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { IsoDateTime } from './common'
 import { RecentProject } from './project'
-import { PrivacySettings } from './privacy'
+import { PrivacySettings, ProjectPrivacy } from './privacy'
 import { ProviderConfig, ProviderRouting } from './provider'
 import { SetupSettings } from './setup'
 
@@ -135,5 +135,10 @@ export const AppSettings = z.object({
   surveys: SurveySettings.default({ minResponses: 3 }),
   /** What goes to cloud providers: review policy and redaction defaults (#433). */
   privacy: PrivacySettings.default(() => PrivacySettings.parse({})),
+  /**
+   * Per-project privacy choices made on this computer, by project id (#433). They may relax the
+   * defaults; a project file's own `privacy` may only make them stricter.
+   */
+  projectPrivacy: z.record(z.string().max(128), ProjectPrivacy).default({}),
 })
 export type AppSettings = z.infer<typeof AppSettings>

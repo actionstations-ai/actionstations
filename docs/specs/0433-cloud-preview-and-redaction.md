@@ -411,6 +411,42 @@ Where the code differs from or adds to the design above, and why:
   than inside `ProjectSettingsForm.tsx`.
 - **Live test** runs only with `LIVE=1` and `LIVE_ANTHROPIC_KEY`, since it is a paid call.
 
+### Changes after the security review of PR #454
+
+- **Project files only tighten.** A project's choices made in the app are stored in
+  `AppSettings.projectPrivacy[projectId]` (userData) and may relax the defaults. `Project.privacy`
+  in project.json is applied only to make things stricter (a stricter review policy, categories
+  turned on, extra Always-redact terms); its Never list and any relaxation are ignored. Saving
+  writes the stricter part back to project.json so it travels. Opening an example drops
+  `privacy`; exporting an example leaves out `privacy` and `cloud-sends.jsonl`.
+- **Known values first.** `redactText` replaces every value the project has already redacted
+  (case- and spacing-insensitive, phones by digits, longest first) before the detectors run, so a
+  value restored into a reply is never re-sent in the clear by a repair round or a later stage.
+- **New content asks under `new-excerpts`.** Besides excerpts, every line of a request outside
+  the excerpts (the prompt, earlier outputs, facility facts) is fingerprinted; a line never
+  approved in the job makes the request new. Lines inside excerpts from approved documents and
+  the `<documents>` framing do not. In practice each stage of a generation asks once. Embedding
+  batches keep one approval per job (open question 5).
+- **Media prompts are redacted** with plain stand-ins ("a staff member", "a phone number"), not
+  placeholders, since images and audio cannot be changed back. A video's input image is hashed
+  by its bytes and shown in the dialog (`OutboundManifest.images`).
+- **Request scope for IPC.** The dispatcher runs every handler whose request has a `projectPath`
+  in that project's request scope (`jobs/scope.ts`), so a search embedding or a test render uses
+  that project's settings, approvals and send log. The gate uses a scope path only for a project
+  the user opened.
+- **Treat as local** is offered only for private addresses (RFC 1918, 169.254/16, fc00::/7,
+  fe80::/10) and `.local`, `.lan`, `.home.arpa`, `.internal` names, and is bound to the host it was
+  granted for (`options.localHost`); `providers:upsert` refuses anything else.
+- **Ollama `-cloud` models** are cloud requests to ollama.com; a local Ollama keeps a pass-through
+  wrapper that gates only those models (`isRemoteRequest`).
+- **Connection tests.** An ESLint rule limits the ungated `connectionTest*` providers to the
+  Providers and Workflows handlers. A cloud voice test and a cloud ComfyUI test render go through
+  the gate (they can carry typed text); the fixed-sentence text test is logged with approval
+  `connection-test`.
+- **Send log** `requestHash` is an HMAC with the project's redaction key. The gate compares the
+  hash of the exact body it sends with the approved hash.
+- **Name column** cells under a Name header are names without the given-name list check.
+
 ## Open questions
 
 1. **Default review policy.** Recommendation: `new-excerpts`. `every-request` is tiring in a

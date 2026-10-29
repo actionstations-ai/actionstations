@@ -12,6 +12,8 @@ import { updateProject } from '../../project/store'
 import { getSecret, hasSecret, setSecret } from '../../secrets'
 import { getSettings, updateSettings } from '../../settings/store'
 import { adapterFor } from '../../providers/registry'
+import { canTreatAsLocal, isRemoteProvider, providerHost } from '@shared/provider-network'
+import { logConnectionTest } from '../../providers/outbound'
 import { detectLocalServices } from '../../providers/local-detect'
 import { detectSystemVoice } from '../../providers/media/system-tts/service'
 import { canPullModels, pullProviderModel, type PullProgress } from '../../providers/model-pull'
@@ -64,6 +66,30 @@ function validateConfig(config: Omit<ProviderConfig, 'id'>): void {
     )
 }
 
+/**
+ * "On my network, treat as local" (#433): only for a private address or a .local / .lan name,
+ * and only for the host it was granted for. Anything else would exempt a cloud host from review.
+ */
+function checkNetworkOption(config: Pick<ProviderConfig, 'kind' | 'baseUrl' | 'options'>): void {
+  const options = config.options ?? {}
+  const { network, localHost } = options as { network?: unknown; localHost?: unknown }
+  if (network === undefined && localHost === undefined) return
+  if (network !== 'local' && network !== 'remote')
+    throw new AppError('VALIDATION', 'options.network must be "local" or "remote"')
+  if (network === 'remote') {
+    if (localHost !== undefined)
+      throw new AppError('VALIDATION', 'options.localHost is only set with network "local"')
+    return
+  }
+  if (!canTreatAsLocal(config))
+    throw new AppError(
+      'VALIDATION',
+      'Only a private network address or a .local / .lan name can be treated as local.',
+    )
+  if (localHost !== providerHost(config))
+    throw new AppError('VALIDATION', 'Tick "On my network, treat as local" again for this address.')
+}
+
 /** Remove the key from any message an adapter surfaces, in case it echoes request details. */
 function redact(message: string, secret: string | undefined): string {
   return secret ? message.split(secret).join('••••') : message
@@ -92,6 +118,7 @@ async function runTest(config: ProviderConfig, model: string | undefined) {
     const provider = await connectionTestTextProvider(config)
     const signal = AbortSignal.timeout(TEST_TIMEOUT_MS)
     const chosen = model ?? config.defaultModel ?? (await provider.listModels(signal))[0]?.id
+    await logConnectionTest(config, chosen ?? '', TEST_PROMPT)
     const res = await provider.chat({
       ...(chosen ? { model: chosen } : {}),
       messages: [{ role: 'user', content: TEST_PROMPT }],
@@ -116,7 +143,10 @@ async function runSpeechTest(config: ProviderConfig, text?: string, voiceStyle?:
   const started = Date.now()
   const outDir = await fs.mkdtemp(join(tmpdir(), 'ttx-speech-'))
   try {
-    const provider = await connectionTestMediaProvider(config)
+    // A cloud voice gets the line through the outbound gate: it may be text the user typed (#454).
+    const provider = isRemoteProvider(config)
+      ? await mediaProviderFor(config)
+      : await connectionTestMediaProvider(config)
     if (!provider.capabilities().has('audio'))
       throw new AppError('VALIDATION', `${config.label} does not generate speech`)
     const line = (text?.trim() || SPEECH_SAMPLE).slice(0, SPEECH_MAX_CHARS)
@@ -218,6 +248,7 @@ export default defineHandlers({
 
   'providers:upsert': async ({ config, apiKey }) => {
     validateConfig(config)
+    checkNetworkOption(config)
     const existing = config.id
       ? (await getSettings()).providers.find((p) => p.id === config.id)
       : undefined

@@ -65,8 +65,8 @@ describe('privacy model (#433)', () => {
     ).toBeNull()
     const lan = { kind: 'openai-compatible' as const, baseUrl: 'http://192.168.1.20:1234/v1' }
     expect(cloudMarkerText({ ...lan, options: {} })).toBe('Cloud: sends excerpts to 192.168.1.20')
-    expect(cloudMarkerText({ ...lan, options: { network: 'local' } })).toBe(
-      'On your network, treated as local',
-    )
+    expect(
+      cloudMarkerText({ ...lan, options: { network: 'local', localHost: '192.168.1.20' } }),
+    ).toBe('On your network, treated as local')
   })
 })

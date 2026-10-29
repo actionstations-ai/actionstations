@@ -6,6 +6,7 @@ import {
   type ChannelResponse,
   type IpcResult,
 } from '@shared/ipc'
+import { runInJobScope } from '../jobs/scope'
 import { AppError, toAppError } from '../lib/errors'
 
 export interface HandlerContext {
@@ -40,6 +41,19 @@ export function mergeHandlers(modules: Record<string, HandlerMap>): HandlerMap {
   return merged
 }
 
+/**
+ * A handler whose request names a project runs in that project's request scope, so a cloud
+ * request it makes (a search embedding, a test render) uses that project's privacy settings,
+ * approvals and send log (#433). The gate accepts the path only for a project the user opened.
+ */
+function inProjectScope<T>(req: unknown, run: () => T): T {
+  const projectPath =
+    req && typeof req === 'object' ? (req as { projectPath?: unknown }).projectPath : undefined
+  return typeof projectPath === 'string' && projectPath
+    ? runInJobScope({ projectPath }, run)
+    : run()
+}
+
 /** Validate, dispatch, and wrap one invoke call. Exported for tests. */
 export async function dispatch(
   handlers: HandlerMap,
@@ -55,7 +69,7 @@ export async function dispatch(
     const parsed = def.req.safeParse(raw)
     if (!parsed.success)
       throw new AppError('VALIDATION', `Invalid request for ${name}`, parsed.error.issues)
-    const data = await handler(parsed.data as never, ctx)
+    const data = await inProjectScope(parsed.data, () => handler(parsed.data as never, ctx))
     if (process.env.NODE_ENV !== 'production') {
       const check = def.res.safeParse(data)
       if (!check.success) {

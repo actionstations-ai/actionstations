@@ -50,8 +50,13 @@ export function detectAll(
   text: string,
   enabled: ReadonlySet<RedactionCategory>,
   ctx: DetectContext,
+  /** Values already redacted earlier in the project: always replaced again, ahead of detectors. */
+  known: DetectedSpan[] = [],
 ): DetectedSpan[] {
-  const candidates: { span: DetectedSpan; rank: number }[] = []
+  const candidates: { span: DetectedSpan; rank: number }[] = known.map((span) => ({
+    span,
+    rank: -1,
+  }))
   ORDER.forEach((category, rank) => {
     if (!enabled.has(category)) return
     for (const span of run(category, text, ctx))

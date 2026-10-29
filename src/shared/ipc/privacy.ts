@@ -12,7 +12,10 @@ import {
 
 export const PrivacyView = z.object({
   global: PrivacySettings,
+  /** This project's choices made on this computer. */
   project: ProjectPrivacy.optional(),
+  /** Settings in the project file; they can only make things stricter. */
+  projectFile: ProjectPrivacy.optional(),
   effective: PrivacySettings,
 })
 export type PrivacyView = z.infer<typeof PrivacyView>

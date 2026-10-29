@@ -1,6 +1,6 @@
 // privacy:* through the IPC dispatcher (#433).
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { CloudSendEntry, OutboundManifest } from '@shared/schemas'
@@ -20,7 +20,7 @@ const { dispatch } = await import('../registry')
 const handlers = (await import('./privacy')).default
 const { createProject, loadProject } = await import('../../project/store')
 const { markProjectOpen } = await import('../../lib/project-registry')
-const { resetSettingsCache } = await import('../../settings/store')
+const { getSettings, resetSettingsCache } = await import('../../settings/store')
 const { approvals } = await import('../../providers/outbound')
 const { appendSend } = await import('../../providers/outbound/send-log')
 
@@ -57,12 +57,62 @@ describe('privacy settings', () => {
       redact: { email: false },
       alwaysRedact: ['Big Mike'],
     })
-    expect((await loadProject(projectPath)).privacy).toEqual({
+    // Only the stricter part travels in project.json; the relaxation stays on this computer.
+    expect((await loadProject(projectPath)).privacy).toEqual({ review: 'every-request' })
+    const settings = await getSettings()
+    const { id } = await loadProject(projectPath)
+    expect(settings.projectPrivacy[id]).toEqual({
       review: 'every-request',
       redact: { email: false },
     })
     await call('privacy:set', { projectPath, settings: {}, clear: true })
     expect((await loadProject(projectPath)).privacy).toBeUndefined()
+    expect((await getSettings()).projectPrivacy[id]).toBeUndefined()
+  })
+
+  it('a project file can only make settings stricter (#454 review, finding 1)', async () => {
+    const file = join(projectPath, 'project.json')
+    const json = JSON.parse(readFileSync(file, 'utf8'))
+    writeFileSync(
+      file,
+      JSON.stringify({
+        ...json,
+        privacy: {
+          review: 'off',
+          redact: { person: false, phone: false, email: false, address: false },
+          neverRedact: ['Dana Ruiz'],
+          alwaysRedact: ['Big Mike'],
+        },
+      }),
+    )
+    const view = await call<{
+      effective: { review: string; redact: object; neverRedact: string[]; alwaysRedact: string[] }
+    }>('privacy:get', { projectPath })
+    expect(view.effective).toEqual({
+      review: 'new-excerpts',
+      redact: {},
+      neverRedact: [],
+      alwaysRedact: ['Big Mike'],
+    })
+    const sample = await call<{ text: string }>('privacy:preview-redaction', {
+      projectPath,
+      text: 'Call Chief Dana Ruiz.',
+    })
+    expect(sample.text).not.toContain('Dana Ruiz')
+  })
+
+  it('a project file can ask more often than the defaults', async () => {
+    const file = join(projectPath, 'project.json')
+    const json = JSON.parse(readFileSync(file, 'utf8'))
+    writeFileSync(file, JSON.stringify({ ...json, privacy: { review: 'every-request' } }))
+    const view = await call<{ effective: { review: string } }>('privacy:get', { projectPath })
+    expect(view.effective.review).toBe('every-request')
+  })
+
+  it('turning review off for a project needs the confirmation too', async () => {
+    await expect(
+      call('privacy:set', { projectPath, settings: { review: 'off' } }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 
   it('refuses to turn review off without the confirmation', async () => {

@@ -45,6 +45,7 @@ describe.skipIf(!RUN)('live: Anthropic with redaction', () => {
       registry: async () => new RedactionRegistry(Buffer.alloc(32, 1)),
       enabled: () => new Set(REDACTION_CATEGORIES),
       log: async () => undefined,
+      knownProject: async () => false,
     })
     const res = await provider.chat({
       maxTokens: 100,
