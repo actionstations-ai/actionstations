@@ -9,6 +9,7 @@ import {
   Project,
   ProjectSnapshot,
   Scenario,
+  type Drill,
   type Observation,
   type PlanSectionRef,
   type ProgramProjectLink,
@@ -16,8 +17,10 @@ import {
 } from '@shared/schemas'
 import { FacilitatorState } from '@shared/ipc/facilitator'
 import { LiveSession } from '@shared/schemas/live'
+import { listDrills } from '../drill/store'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
 import { nowIso } from '../lib/ids'
+import { listRedlines } from '../redline/store'
 import { requireProgram } from './guard'
 import { resolveProjectPath } from './links'
 import { markCompletedFromSnapshots } from './schedule'
@@ -100,10 +103,25 @@ function planSectionsOf(scenario: Scenario, shaOf: Map<string, string>): PlanSec
   return [...seen.values()]
 }
 
+/** Drill runs of the drill whose scenario this is (#431): corrective action verdicts per run. */
+export function drillRunsOf(drills: Drill[], scenarioId: string): SnapshotScenario['drillRuns'] {
+  const runs = drills
+    .filter((d) => d.drillScenarioId === scenarioId)
+    .flatMap((d) => d.runs)
+    .map((r) => ({
+      ranAt: r.ranAt,
+      pass: r.correctiveActions.filter((a) => a.verdict === 'pass').length,
+      fail: r.correctiveActions.filter((a) => a.verdict === 'fail').length,
+      partial: r.correctiveActions.filter((a) => a.verdict === 'partial').length,
+    }))
+  return runs.length ? runs : undefined
+}
+
 async function snapshotScenario(
   root: string,
   id: string,
   shaOf: Map<string, string>,
+  drills: Drill[] = [],
 ): Promise<SnapshotScenario | null> {
   const dir = join(root, 'scenarios', id)
   let scenario: Scenario
@@ -132,6 +150,7 @@ async function snapshotScenario(
     planSections: planSectionsOf(scenario, shaOf),
     ...(record?.observations.length ? { ratings: countRatings(record.observations) } : {}),
     aarPresent: await exists(join(dir, 'aar.json')),
+    ...(drillRunsOf(drills, id) ? { drillRuns: drillRunsOf(drills, id)! } : {}),
   }
 }
 
@@ -140,8 +159,10 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
   const project = await readJson(join(projectRoot, 'project.json'), Project)
   const shaOf = new Map(project.documents.flatMap((d) => (d.sha256 ? [[d.id, d.sha256]] : [])))
   const scenarios: SnapshotScenario[] = []
+  const drills = await listDrills(projectRoot)
+  const redlines = (await listRedlines(projectRoot)).filter((r) => r.status !== 'rejected')
   for (const meta of project.scenarios) {
-    const s = await snapshotScenario(projectRoot, meta.id, shaOf)
+    const s = await snapshotScenario(projectRoot, meta.id, shaOf, drills)
     if (s) scenarios.push(s)
   }
   return ProjectSnapshot.parse({
@@ -157,6 +178,9 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
       ...(d.shortName ? { shortName: d.shortName } : {}),
       kind: d.kind,
       ...(d.sha256 ? { sha256: d.sha256 } : {}),
+      ...(redlines.some((r) => r.target.documentId === d.id)
+        ? { redlineCount: redlines.filter((r) => r.target.documentId === d.id).length }
+        : {}),
       sections: d.headingsPreview.slice(0, MAX_SECTIONS_PER_DOC),
     })),
     scenarios,

@@ -121,7 +121,14 @@ describe('app shell', () => {
         within(advanced)
           .getAllByRole('link')
           .map((l) => l.textContent),
-      ).toEqual(['Search index', 'Prompt overrides', 'Provider routing', 'Cloud and privacy'])
+      ).toEqual([
+        'Search index',
+        'Prompt overrides',
+        'Redlines',
+        'Drills',
+        'Provider routing',
+        'Cloud and privacy',
+      ])
       expect(localStorage.getItem('ttx.nav.advancedOpen')).toBe('1')
       cleanup()
       setup()

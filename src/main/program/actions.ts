@@ -216,6 +216,32 @@ export async function changeStatus(
   return out
 }
 
+/**
+ * Add a verification record to actions without changing their status (a drill that did not
+ * close the gap, #431). The record is kept in the history of attempts.
+ */
+export async function addVerification(
+  root: string,
+  ids: string[],
+  verification: CorrectiveActionVerification,
+): Promise<CorrectiveActionView[]> {
+  const out = await withProgramLock(root, async () => {
+    const now = nowIso()
+    return Promise.all(
+      ids.map(async (id) => {
+        const { action } = await getAction(root, id)
+        return writeAction(root, {
+          ...action,
+          verifications: [...action.verifications, verification],
+          updatedAt: now,
+        })
+      }),
+    )
+  })
+  announce(root, 'actions')
+  return out
+}
+
 export interface BulkPatch {
   ownerName?: string
   ownerOrganization?: string

@@ -5,6 +5,7 @@ import type { DocumentMeta } from '@shared/schemas/project'
 import { Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { HeadingTree } from './HeadingTree'
+import { PlanVersionTools } from './PlanVersionTools'
 import { buildHeadingTree, paginateText } from './doc-utils'
 import { errorText } from '../../lib/errors'
 
@@ -154,6 +155,7 @@ export function DocumentDetail(props: {
           <X size={16} aria-hidden />
         </Button>
       </header>
+      <PlanVersionTools projectPath={projectPath} doc={doc} />
       <Tabs.Root
         defaultValue={props.focusChunkId === undefined ? 'headings' : 'chunks'}
         className="doc-tabs"

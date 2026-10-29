@@ -241,7 +241,7 @@ export function titleBlocks(
   ]
 }
 
-function heading2(text: string): Paragraph {
+export function heading2(text: string): Paragraph {
   return new Paragraph({ heading: HeadingLevel.HEADING_2, children: [run(text)] })
 }
 

@@ -107,6 +107,8 @@ export const DocumentMeta = z.looseObject({
   source: DocumentPackSource.optional(),
   /** SPDX license of a pack document (from the pack's documents[] entry). */
   license: z.string().max(200).optional(),
+  /** The older version of this plan this document replaces (#431): redlines are checked against it. */
+  supersedesDocumentId: Id.optional(),
 })
 export type DocumentMeta = z.infer<typeof DocumentMeta>
 

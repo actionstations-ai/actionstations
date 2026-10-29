@@ -57,6 +57,7 @@ const PLAIN: Record<string, string> = {
   DENSITY_DENSE: 'A phase is busier than the reference pace of about six events an hour.',
   CITATION_UNRESOLVED: 'A source reference does not point at a document section.',
   CITATION_DROPPED: 'A source reference was removed because it could not be found.',
+  CITATION_MOVED: 'A plan section a drill cites is not in the updated plan under that name.',
   OVERVIEW_NO_SECTIONS: 'The overview does not say which plan sections are tested.',
   MSEL_NO_CITATIONS: 'No event points back at your plans.',
   RUBRIC_LINK_UNKNOWN: 'A scoring item points at an inject that does not exist.',

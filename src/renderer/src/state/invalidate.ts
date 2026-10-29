@@ -52,6 +52,10 @@ const BY_WHAT: Record<What, string[]> = {
   aar: ['aar:', 'scenarios:doc-get', 'scenarios:history', 'scenarios:get', 'export:preview-html'],
   /** A hot wash recording or transcript changed (#425). */
   hotwash: ['hotwash:'],
+  /** redlines/ changed (#431). */
+  redlines: ['redlines:', 'drills:'],
+  /** drills/ changed (#431). */
+  drills: ['drills:'],
 }
 
 const SCENARIO_WORK = [...new Set(BY_WHAT.injects.concat(BY_WHAT.scenario))]
@@ -73,6 +77,10 @@ const BY_KIND: Record<JobKind, string[]> = {
   'plan-check': ['plan-check:'],
   'grounding-verify': ['grounding:', 'scenarios:'],
   transcribe: ['hotwash:'],
+  'generate-redlines': ['redlines:'],
+  'redline-export': ['redlines:'],
+  'build-drill': ['drills:', 'scenarios:'],
+  'drill-export': ['drills:'],
 }
 
 export interface Change {

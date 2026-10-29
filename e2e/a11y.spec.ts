@@ -128,6 +128,8 @@ const SCREENS: Screen[] = [
     hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/injects/${s.injectId}`,
   },
   { name: 'export', hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/export` },
+  { name: 'redlines', hash: (s) => `#/p/${s.key}/redlines` },
+  { name: 'drills', hash: (s) => `#/p/${s.key}/drills` },
   { name: 'facilitate', hash: (s) => `#/p/${s.key}/scenarios/${s.scenarioId}/facilitate` },
   { name: 'present', hash: (s) => `#/present/${s.key}/${s.scenarioId}/${s.injectId}` },
   { name: 'prompts', hash: () => '#/prompts' },

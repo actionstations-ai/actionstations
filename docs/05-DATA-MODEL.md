@@ -292,6 +292,24 @@ ExerciseRecord { sources: { facilitator, evaluation, live, surveys }, liveSessio
 
 Sources: `facilitator.json`, `evaluation.json`, `live/<sessionId>/log.jsonl` (spec 0417; read by `src/main/aar/sources/live-log.ts`, the most recent ended session unless one is chosen; `displayName` is never read) and the survey store. A missing source is a gap the report states, not an error.
 
+## Plan redlines and regression drills (`redlines/`, `drills/`, #431, ADR-0048)
+
+Folders created on first use; one loose JSON file per record, validated on read. Schemas in
+`src/shared/schemas/redline.ts` and `drill.ts`.
+
+- `redlines/<id>.json`: a proposed edit of one plan section. `source` (scenario, AAR finding,
+  corrective action ids, criteria), `target` (document, heading path, page, `sourceKind`),
+  `originalExcerpt` (verbatim from the ingested text), `proposedText`, `rationale`, `grounding`
+  (#423), `status` (`proposed`, `accepted`, `rejected`, `exported`, `applied`, `not_applied`,
+  `needs_review`), `history`, `export` (file, mode, sha256 of the original) and `appliedCheck`.
+- `drills/<id>.json`: a drill plan: source scenario and session, `rowIds`, `criterionIds`,
+  `correctiveActionIds` with `actionCriteria` (the `rowId|criterionId` keys each action's verdict
+  rests on), `redlineIds`, `expectedDocumentIds`, `drillScenarioId` once built, and `runs`: per
+  run the rating of each criterion, a verdict per corrective action, the plans' sha256 and
+  whether it was written to the program.
+- `DocumentMeta.supersedesDocumentId`: the earlier plan a document replaces.
+  `ScenarioBrief.drillOf { drillId, sourceScenarioId }`: set on a drill's scenario.
+
 ## Exercise program (`<Name>.asprogram/`, #424, ADR-0043)
 
 A folder the user chooses, outside every project, for corrective actions across exercises and

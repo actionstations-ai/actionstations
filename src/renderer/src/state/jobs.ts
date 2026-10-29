@@ -72,6 +72,10 @@ export const JOB_LABEL: Record<JobKind, string> = {
   'plan-check': 'Checking plans for conflicts',
   'grounding-verify': 'Verifying sources with the model',
   transcribe: 'Transcribing the hot wash',
+  'generate-redlines': 'Drafting plan changes',
+  'redline-export': 'Exporting plan changes',
+  'build-drill': 'Building the drill',
+  'drill-export': 'Exporting drill results',
 }
 const MAX_FINISHED = 50
 const MAX_ITEMS = 500

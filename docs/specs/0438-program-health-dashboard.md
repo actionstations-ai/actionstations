@@ -316,7 +316,7 @@ Portrait, Letter; cover line (program, cycle, date, filters, data freshness); ea
 Changes from the text above, made while implementing:
 
 - **Section depth.** Snapshots keep only each document's top-level headings, so declared sections are depth 1; deeper rows (to depth 3) exist where an exercised scenario cited them. A citation counts toward every ancestor up to depth 3, so a cited 13.6 also marks Section 13 as exercised. Capturing deeper headings in the snapshot is a follow-up.
-- **`drillRuns` and `redlineCount`** are in the snapshot schema (optional) and are shown when present; `snapshotProject` does not fill them until #431 lands.
+- **`drillRuns` and `redlineCount`** are in the snapshot schema (optional) and are shown when present; `snapshotProject` fills them from `drills/` and `redlines/` (#431): one entry per recorded run of the drill built as that scenario, counting corrective action verdicts, and the number of redlines not rejected per document.
 - **No mtime cache** in `src/main/program/health.ts`: the files are read on each request (about 2,000 small files is fast enough; revisit if it is not). Filtering is in `computeHealth`, so screen and exports agree.
 - **Filters** are one value per field in the bar (the schema takes lists). The mission-area list has the five areas; `common` was dropped because no data carries it. The document filter limits the plan-section panels and the never-cited documents only.
 - **Export** builds the PDF HTML in `src/main/program/health-export.ts` (same approach as the other program PDFs) from `healthTables()` in `src/shared/program/health-tables.ts`, which also feeds the CSV files; there is no separate template file or print stylesheet. The export dialog is `HealthExport.tsx`.

@@ -324,6 +324,25 @@ export const AarOutput = z.object({
 })
 export type AarOutput = z.infer<typeof AarOutput>
 
+/** Revised wording for the passages of one plan section (#431). */
+export const RedlineOutput = z.object({
+  proposals: z
+    .array(
+      z.object({
+        originalExcerpt: z.string().min(20),
+        proposedText: z.string().min(1),
+        rationale: z.string(),
+      }),
+    )
+    .min(1)
+    .max(5),
+})
+export type RedlineOutput = z.infer<typeof RedlineOutput>
+
+/** The STARTEX situation summary of a regression drill (#431). */
+export const DrillStartexOutput = z.object({ situationMd: z.string().min(1) })
+export type DrillStartexOutput = z.infer<typeof DrillStartexOutput>
+
 /** Registry so prompt frontmatter `outputSchema: MselPhaseOutput` resolves to a schema. */
 export const STAGE_OUTPUT_SCHEMAS = {
   IdeasOutput,
@@ -343,5 +362,7 @@ export const STAGE_OUTPUT_SCHEMAS = {
   GroundingVerifyOutput,
   PlanConflictOutput,
   AarOutput,
+  RedlineOutput,
+  DrillStartexOutput,
 } as const
 export type StageOutputSchemaName = keyof typeof STAGE_OUTPUT_SCHEMAS
