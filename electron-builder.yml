@@ -26,6 +26,12 @@ fileAssociations:
     description: Action Stations content pack
     role: Viewer
     mimeType: application/vnd.actionstations.pack+zip
+  # Regional exercise bundles (#440). Opening one shows its review; it never applies anything.
+  - ext: asexercise
+    name: Action Stations Exercise Bundle
+    description: Action Stations regional exercise bundle
+    role: Viewer
+    mimeType: application/vnd.actionstations.exercise+zip
 files:
   # Only the app's own build output. The bundled packs ship as extraResources
   # (app-resources/packs), and other tools write to out/ too (library packs, #392).

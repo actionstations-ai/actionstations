@@ -62,6 +62,7 @@ export const appChannels = {
   'app:pending-opens': channel(z.void(), z.array(z.string())),
   /** .aspack files the OS asked to open before the window was listening (#268): review only. */
   'app:pending-pack-opens': channel(z.void(), z.array(z.string())),
+  'app:pending-exercise-opens': channel(z.void(), z.array(z.string())),
   /**
    * Open the guide section a tip links to (#443), in the OS browser. The renderer sends the
    * tip's id; main builds the URL from the bundled tip, so no URL crosses this channel.

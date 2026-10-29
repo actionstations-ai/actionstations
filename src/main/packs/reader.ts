@@ -82,7 +82,7 @@ const sha256 = (b: Buffer | string): string => createHash('sha256').update(b).di
 const fail = (problems: PackProblem[]): ReadPackResult => ({ ok: false, problems })
 const UPDATE = 'Update Action Stations to install it.'
 
-async function loadSource(source: PackSource, max: number): Promise<Buffer | PackProblem> {
+export async function loadSource(source: PackSource, max: number): Promise<Buffer | PackProblem> {
   if ('buffer' in source) {
     if (source.buffer.length > max)
       return { message: `The archive is larger than the ${max} byte limit` }
@@ -95,7 +95,7 @@ async function loadSource(source: PackSource, max: number): Promise<Buffer | Pac
 }
 
 /** Name, flag and count checks on the raw central directory. */
-function checkEntries(entries: RawZipEntry[], maxFiles: number): PackProblem[] {
+export function checkEntries(entries: RawZipEntry[], maxFiles: number): PackProblem[] {
   const problems: PackProblem[] = []
   const seen = new Map<string, string>()
   const files = entries.filter((e) => !e.dir)
@@ -152,7 +152,7 @@ function sameAsScan(obj: JSZip.JSZipObject | undefined, e: RawZipEntry): boolean
  * sizes and CRC). jszip names an entry from its local header and reads every central record
  * up to the first bad signature, so any disagreement means the archive has two readings.
  */
-async function crossCheckJszip(
+export async function crossCheckJszip(
   buf: Buffer,
   entries: RawZipEntry[],
 ): Promise<PackProblem | undefined> {

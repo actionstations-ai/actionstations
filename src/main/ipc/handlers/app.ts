@@ -3,7 +3,11 @@ import { defineHandlers } from '../registry'
 import { getSettings, updateSettings } from '../../settings/store'
 import { userDataDir } from '../../lib/paths'
 import { onUnsavedReport } from '../../lib/quit-guard'
-import { takePendingOpens, takePendingPackOpens } from '../../lib/open-requests'
+import {
+  takePendingExerciseOpens,
+  takePendingOpens,
+  takePendingPackOpens,
+} from '../../lib/open-requests'
 import { AppError } from '../../lib/errors'
 import { TIPS, guideUrl } from '@shared/tips'
 
@@ -56,6 +60,8 @@ export default defineHandlers({
   'app:pending-opens': () => takePendingOpens(),
 
   'app:pending-pack-opens': () => takePendingPackOpens(),
+
+  'app:pending-exercise-opens': () => takePendingExerciseOpens(),
 
   'help:open-guide': async ({ tipId }) => {
     const tip = TIPS.find((t) => t.id === tipId)

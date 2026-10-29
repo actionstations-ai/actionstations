@@ -197,6 +197,19 @@ export const MselRow = z.object({
   branchId: Id.optional(),
   /** The fork this row opens; meaningful on a DECISION_POINT row. */
   decision: Decision.optional(),
+  // Regional exercises (spec 0440). All optional: a single-organization scenario is unchanged.
+  /** The organization that wrote the row (a regional exercise's OrgId). */
+  owner: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]{1,40}$/)
+    .optional(),
+  /** The owner raises it on every change. */
+  revision: z.number().int().min(1).optional(),
+  /** `owner_controllers`: partners see only a placeholder built from `publicSummary`. */
+  visibility: z.enum(['exercise', 'owner_controllers']).optional(),
+  publicSummary: z.string().max(200).optional(),
+  /** Ids of rows (usually of another organization) this row depends on. */
+  dependsOn: z.array(z.string().max(100)).max(20).optional(),
 })
 export type MselRow = z.infer<typeof MselRow>
 
@@ -493,6 +506,8 @@ export const Scenario = z.looseObject({
   languages: ScenarioLanguages.optional(),
   /** Translated documents per language; injects carry their own translations. */
   translations: ScenarioTranslations.optional(),
+  /** Set when the scenario is one organization's copy of a regional exercise (spec 0440). */
+  regional: z.object({ exerciseId: z.string().regex(/^[0-9A-HJKMNP-TV-Z]{26}$/) }).optional(),
 })
 export type Scenario = z.infer<typeof Scenario>
 

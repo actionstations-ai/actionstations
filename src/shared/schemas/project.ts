@@ -61,6 +61,11 @@ export const Role = z.object({
   team: z.string().default(''),
   description: z.string().default(''),
   standingOrders: z.array(z.string()).default([]),
+  /** Regional exercises (spec 0440): the organization that plays this role. */
+  owner: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]{1,40}$/)
+    .optional(),
 })
 export type Role = z.infer<typeof Role>
 

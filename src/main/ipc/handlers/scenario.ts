@@ -1,3 +1,4 @@
+import { assertOwnRowsOnly } from '../../regional/guard'
 import type { LintWarning, Scenario } from '@shared/schemas'
 import { Scenario as ScenarioSchema, ScenarioBrief } from '@shared/schemas'
 import { defineHandlers } from '../registry'
@@ -114,6 +115,7 @@ export default defineHandlers({
 
   'scenarios:save': async ({ projectPath, scenario, note, baseUpdatedAt }) => {
     const root = await requireProject(projectPath)
+    await assertOwnRowsOnly(root, scenario, await getScenario(root, scenario.id))
     await markEditedNotes(root, scenario)
     await groundBeforeSave(root, scenario)
     const saved = await saveScenario(root, scenario, {

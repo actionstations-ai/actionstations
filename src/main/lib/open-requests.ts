@@ -7,6 +7,7 @@ import { emit } from './events'
 
 const PROJECT_FOLDER = /\.(asproj|ttxproj)[\\/]?$/i
 const PACK_FILE = /\.aspack$/i
+const EXERCISE_FILE = /\.asexercise$/i
 
 interface OpenQueue {
   pending: string[]
@@ -14,9 +15,11 @@ interface OpenQueue {
 }
 const projects: OpenQueue = { pending: [], listening: false }
 const packs: OpenQueue = { pending: [], listening: false }
+const exercises: OpenQueue = { pending: [], listening: false }
 
 export const isProjectFolderPath = (arg: string): boolean => PROJECT_FOLDER.test(arg)
 export const isPackFilePath = (arg: string): boolean => PACK_FILE.test(arg)
+export const isExerciseFilePath = (arg: string): boolean => EXERCISE_FILE.test(arg)
 
 /** Project folders named on a command line (skips flags and the executable itself). */
 export function projectPathsFromArgv(argv: readonly string[]): string[] {
@@ -25,7 +28,10 @@ export function projectPathsFromArgv(argv: readonly string[]): string[] {
 
 /** Project folders and pack archives named on a command line, in order. */
 export function openPathsFromArgv(argv: readonly string[]): string[] {
-  return argv.filter((a) => !a.startsWith('-') && (isProjectFolderPath(a) || isPackFilePath(a)))
+  return argv.filter(
+    (a) =>
+      !a.startsWith('-') && (isProjectFolderPath(a) || isPackFilePath(a) || isExerciseFilePath(a)),
+  )
 }
 
 /**
@@ -33,6 +39,11 @@ export function openPathsFromArgv(argv: readonly string[]): string[] {
  * listening. Anything else is ignored.
  */
 export function requestOpen(path: string): void {
+  if (isExerciseFilePath(path)) {
+    if (exercises.listening) emit('app:open-exercise', { path })
+    else exercises.pending.push(path)
+    return
+  }
   if (isPackFilePath(path)) {
     if (packs.listening) emit('app:open-pack', { path })
     else packs.pending.push(path)
@@ -63,9 +74,15 @@ export function takePendingPackOpens(): string[] {
   return packs.pending.splice(0)
 }
 
+/** Same for exercise bundles (.asexercise, #440): each opens the review, never applies. */
+export function takePendingExerciseOpens(): string[] {
+  exercises.listening = true
+  return exercises.pending.splice(0)
+}
+
 /** Tests only. */
 export function resetOpenRequests(): void {
-  for (const q of [projects, packs]) {
+  for (const q of [projects, packs, exercises]) {
     q.pending.length = 0
     q.listening = false
   }
