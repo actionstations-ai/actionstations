@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Nothing loads from anywhere but the origin that served the page. The theme bootstrap's
+         sha256 is added to script-src at build time (vite.player.config.ts). Connections are
+         governed by the server's CSP header, which names the exact ws(s)://host:port; a page
+         cannot know its host and a scheme-only source would be looser. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; font-src 'self'; object-src 'none'; worker-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fff6e0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1226" media="(prefers-color-scheme: dark)" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Action Stations</title>
+    <script data-theme-bootstrap>
+      ;(function () {
+        try {
+          var raw = localStorage.getItem('as-player:prefs')
+          var prefs = raw ? JSON.parse(raw) : {}
+          if (prefs.theme === 'light' || prefs.theme === 'dark')
+            document.documentElement.setAttribute('data-theme', prefs.theme)
+          if (prefs.textSize === 'large')
+            document.documentElement.setAttribute('data-text', 'large')
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <noscript>This page needs JavaScript to join the exercise.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
