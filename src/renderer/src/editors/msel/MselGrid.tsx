@@ -251,8 +251,8 @@ export function MselGrid(props: GridProps) {
   const [dragKey, setDragKey] = useState<string | null>(null)
   const win = useGridWindow(items, ctx, dragKey, scroller, headHeight)
   const shared = useMemo(
-    () => ({ roles: ctx.roles, phases: ctx.phases, grounding: ctx.grounding }),
-    [ctx.roles, ctx.phases, ctx.grounding],
+    () => ({ roles: ctx.roles, phases: ctx.phases, grounding: ctx.grounding, seams: ctx.seams }),
+    [ctx.roles, ctx.phases, ctx.grounding, ctx.seams],
   )
   const onKeyDown = gridKeyHandler(ctx, lines, onFocusRequest)
   const onDrag = useCallback(

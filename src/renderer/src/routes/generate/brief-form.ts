@@ -1,6 +1,7 @@
 // Brief form state <-> ScenarioBrief. Kept as strings while editing; validated on submit.
 import type { ScenarioBrief, ScenarioIdea } from '@shared/schemas/scenario'
 import type { ThreatFamilyId } from '@shared/domains'
+import { MAX_SEAMS } from '@shared/seams'
 
 export interface BriefDraft {
   userPrompt: string
@@ -13,6 +14,8 @@ export interface BriefDraft {
   ideaId?: string
   /** The designer's threat family; absent = use the suggestion (inferred from the text). */
   threatFamily?: ThreatFamilyId
+  /** Plan seams to test (#427): plan-conflicts.json finding ids, at most three. */
+  seamIds: string[]
 }
 
 export type BriefErrors = Partial<Record<keyof BriefDraft, string>>
@@ -25,6 +28,7 @@ export const emptyDraft = (): BriefDraft => ({
   learningObjectives: [],
   constraints: [],
   startWallClock: '09:00',
+  seamIds: [],
 })
 
 /** Prefill the brief from a "Give me ideas" card so the user can refine it. */
@@ -41,6 +45,8 @@ export function draftFromIdea(idea: ScenarioIdea, base: BriefDraft = emptyDraft(
     learningObjectives: idea.whyItTeaches ? [idea.whyItTeaches] : base.learningObjectives,
     constraints: idea.sectionsExercised.map((c) => `Must test ${c.headingPath}`),
     ideaId: idea.id,
+    // An idea built around plan seams preselects them (FR-3).
+    seamIds: (idea.seamIds ?? []).slice(0, MAX_SEAMS),
   }
 }
 
@@ -77,6 +83,7 @@ export function toBrief(d: BriefDraft, suggested?: ThreatFamilyId): ScenarioBrie
     ...(d.ideaId ? { ideaId: d.ideaId } : {}),
     ...(d.startWallClock ? { startWallClock: d.startWallClock } : {}),
     ...(threatFamily ? { threatFamily } : {}),
+    ...(d.seamIds.length ? { seamIds: d.seamIds.slice(0, MAX_SEAMS) } : {}),
   }
 }
 

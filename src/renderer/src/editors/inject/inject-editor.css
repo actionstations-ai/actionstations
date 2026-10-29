@@ -544,3 +544,21 @@
   align-items: baseline;
   cursor: pointer;
 }
+
+/* Plan seam block under the instructor note (#427): generated, read-only. */
+.inject-form__seam {
+  margin-top: var(--space-3);
+}
+.inject-form__seam .field__label {
+  margin: 0;
+}
+.inject-form__seam-block {
+  margin: var(--space-1) 0;
+  padding: var(--space-2) var(--space-3);
+  white-space: pre-wrap;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  background: var(--color-surface-sunken);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}

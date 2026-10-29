@@ -26,6 +26,7 @@ import {
   PIPELINE_WARNINGS,
   ROLE_KEY_UNKNOWN,
   call,
+  ensureSeams,
   mselVars,
   openEnv,
   reportMapping,
@@ -50,6 +51,8 @@ import {
   spareRows,
 } from './lint'
 import { applyMselPhase, resolveToRoles } from './mappers'
+import { seamKeyMap, seamMixGaps } from './lint-seams'
+import { applySeamRows, relinkSeamRows } from './seams'
 import { repairStructure, sortMsel } from './mappers-structure'
 import { renderMselMarkdown } from './docs'
 import { FIELD_WARNINGS, settledFieldInjects } from './injects/store'
@@ -177,7 +180,11 @@ const upper = (id: string): string => id.trim().toUpperCase()
  * coverage (ROLE_NO_INJECT) is left to the designer. Returns the ids written.
  */
 async function fillMixGaps(env: Env, s: Scenario, phase: Phase): Promise<string[]> {
-  const gaps = phaseMixGaps(s, phase, env.domain).filter((g) => isMixCode(g.code))
+  // An untested plan seam (#427) is a need like a missing tag; code assigns a row as a last resort.
+  const gaps = [
+    ...phaseMixGaps(s, phase, env.domain).filter((g) => isMixCode(g.code)),
+    ...seamMixGaps(s, phase),
+  ]
   if (!gaps.length) return []
   const needs = rowNeeds(gaps)
   const current = s.msel.filter((r) => r.phaseId === phase.id)
@@ -212,7 +219,11 @@ async function fillMixGaps(env: Env, s: Scenario, phase: Phase): Promise<string[
   if (!rows.length) return []
   const rewritten = new Set(rewrites.map((r) => r.id))
   const keepIds = new Set(current.map((r) => r.id).filter((id) => !rewritten.has(id)))
-  const mapped = applyMselPhase(s, phase, { rows }, fix.retrieved, { keepIds })
+  const mapped = applyMselPhase(s, phase, { rows }, fix.retrieved, {
+    keepIds,
+    seamKeys: seamKeyMap(s),
+  })
+  applySeamRows(s, phase)
   const owned = new Set(mapped.rows.map((r) => r.id).filter((id) => !keepIds.has(id)))
   reportMapping(s, phase, mapped, env.ctx, owned)
   env.ctx.log(
@@ -236,6 +247,7 @@ async function fillAllMixGaps(env: Env, s: Scenario): Promise<string[]> {
         itemId: phase.id,
       })
     }
+    ensureSeams(s, phase, env)
   }
   return written
 }
@@ -366,6 +378,7 @@ export async function repairMsel(
   const deps = await pipelineDeps()
   const s = await deps.store.getScenario(root, scenarioId)
   const env = await openEnv(root, s, ctx)
+  relinkSeamRows(s)
   const before = new Map(s.msel.map((r) => [r.id, textOf(r)]))
   const beforeRows = structuredClone(s.msel)
   ctx.progress(0.05, 'Repairing the MSEL structure', { stage: 'critique' })

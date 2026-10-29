@@ -7,6 +7,7 @@ import {
   OverviewOutput,
   STAGE_OUTPUT_SCHEMAS,
   type PromptFile,
+  type SearchHit,
   type Stage,
   type StageRun,
   type StageOutputSchemaName,
@@ -43,6 +44,14 @@ export interface StageCall {
    * stage whose output is worthless without the plans (the EEGs, #421).
    */
   requireRetrieval?: string
+  /**
+   * Chunks that always go into the prompt (plan seam passages, #427): first, as C1..Cn, then
+   * the retrieved hits not already among them, up to the prompt's `k`. They count against `k`
+   * and survive `maxRetrieved`: the lowest-ranked retrieved hits are dropped instead.
+   */
+  pinnedChunkIds?: number[]
+  /** Extra prompt variables that depend on the final C keys (the pinned passages' keys). */
+  decorateVars?: (retrieved: RetrievedChunk[]) => Record<string, unknown>
 }
 
 export interface StageResult<T> {
@@ -208,16 +217,61 @@ async function callWithRepair(
   return parsed
 }
 
+/** A stored chunk as a search hit; undefined when the index no longer has it. */
+function pinnedHit(index: SearchIndex, chunkId: number): SearchHit | undefined {
+  const c = index.chunk(chunkId)
+  if (!c) return undefined
+  return {
+    chunkId: c.id,
+    documentId: c.documentId,
+    documentTitle: c.documentTitle,
+    headingPath: c.headingPath,
+    ...(c.page ? { page: c.page } : {}),
+    text: c.text,
+    score: 1,
+  }
+}
+
+/**
+ * Pinned chunks first, then retrieved hits not already pinned, at most `limit` in all (never
+ * fewer than the pinned ones), keyed C1..Cn in that order.
+ */
+export function withPinned(
+  index: SearchIndex,
+  pinnedIds: readonly number[],
+  retrieved: RetrievedChunk[],
+  limit: number,
+): RetrievedChunk[] {
+  const pinned = [...new Set(pinnedIds)]
+    .map((id) => pinnedHit(index, id))
+    .filter((h): h is SearchHit => !!h)
+  const ids = new Set(pinned.map((h) => h.chunkId))
+  const rest = retrieved.map((r) => r.hit).filter((h) => !ids.has(h.chunkId))
+  const hits = [...pinned, ...rest].slice(0, Math.max(limit, pinned.length))
+  return hits.map((hit, i) => ({ key: `C${i + 1}`, hit }))
+}
+
+async function retrieveFor(call: StageCall, prompt: PromptFile): Promise<RetrievedChunk[]> {
+  const fm = prompt.frontmatter
+  const queries = renderQueries(fm.retrieval.queries, call.vars)
+  const found = await asTask('embed', () =>
+    retrieveForStage(call.index, queries, fm.retrieval.k, call.ctx.signal),
+  )
+  const pinned = call.pinnedChunkIds ?? []
+  if (!pinned.length) {
+    if (call.maxRetrieved !== undefined) found.splice(call.maxRetrieved)
+    return found
+  }
+  const limit = Math.min(fm.retrieval.k, call.maxRetrieved ?? fm.retrieval.k)
+  return withPinned(call.index, pinned, found, limit)
+}
+
 /** Run one stage end to end. Throws StageFailure when the repair round also fails. */
 export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
   const { stage, itemId, ctx, deps, projectPath } = call
   const prompt = await deps.loadPrompt(call.promptName ?? stage, projectPath)
   const fm = prompt.frontmatter
-  const queries = renderQueries(fm.retrieval.queries, call.vars)
-  const retrieved = await asTask('embed', () =>
-    retrieveForStage(call.index, queries, fm.retrieval.k, ctx.signal),
-  )
-  if (call.maxRetrieved !== undefined) retrieved.splice(call.maxRetrieved)
+  const retrieved = await retrieveFor(call, prompt)
   if (call.requireRetrieval && !retrieved.length)
     throw new AppError('VALIDATION', `Stage ${stage} failed: ${call.requireRetrieval}`)
   const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
@@ -226,6 +280,7 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
     retrieved: retrievedVars(retrieved),
     doctrine: doctrineBlock(retrieved),
     citationKeys: retrieved.map((r) => r.key),
+    ...call.decorateVars?.(retrieved),
   })
   const { provider, model, providerId } = await asTask(fm.task, () =>
     deps.resolveTextProvider(fm.task, projectPath),

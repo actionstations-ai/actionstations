@@ -6,6 +6,10 @@ import { Role } from './project'
 import { ProviderRef } from './provider'
 import { PurposeTag } from '../taxonomy'
 import { ScenarioGrounding } from './grounding'
+import { PlanPassage } from './plan-conflicts'
+
+/** At most this many plan seams per scenario (#427, open question 1). */
+export const MAX_SEAMS = 3
 
 export const ScenarioBrief = z.object({
   userPrompt: z.string().default(''),
@@ -25,6 +29,11 @@ export const ScenarioBrief = z.object({
    * decision-point vocabulary and the lint rules. Inferred from the idea / request when absent.
    */
   threatFamily: ThreatFamilyId.optional(),
+  /** Plan seams to test (#427): ids of findings in plan-conflicts.json. */
+  seamIds: z
+    .array(z.string().regex(/^[0-9a-f]{16}$/))
+    .max(MAX_SEAMS)
+    .optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 
@@ -77,8 +86,32 @@ export const MselRow = z.object({
   injectId: Id.optional(),
   citations: z.array(Citation).default([]),
   locked: z.boolean().default(false),
+  /** The plan seam this row puts players in (#427): a ScenarioSeam id. */
+  seamId: z.string().optional(),
 })
 export type MselRow = z.infer<typeof MselRow>
+
+/**
+ * A plan seam the scenario tests (#427): a snapshot of the plan-conflicts.json finding, so the
+ * scenario stays readable when the plan check runs again or the file goes away.
+ */
+export const ScenarioSeam = z.object({
+  /** PlanFinding.id */
+  id: z.string(),
+  /** "release_approver", "notify_deadline", … (placement fallback, FR-5). */
+  slot: z.string().default(''),
+  slotLabel: z.string(),
+  kind: z.enum(['contradiction', 'dangling_reference']),
+  /** The finding's verdict when it was picked: `unconfirmed` is shown as such. */
+  confirmed: z.boolean().default(false),
+  a: PlanPassage,
+  b: PlanPassage.optional(),
+  values: z.tuple([z.string(), z.string()]).optional(),
+  missingTarget: z.string().optional(),
+  /** The phase the seam is tested in (FR-5). */
+  phaseId: Id.optional(),
+})
+export type ScenarioSeam = z.infer<typeof ScenarioSeam>
 
 export const RubricMetric = z.object({
   id: Id,
@@ -102,6 +135,9 @@ export const HotWash = z.object({
         topic: z.string().default(''),
         text: z.string(),
         objectiveRef: z.string().optional(),
+        /** A plan seam question (#427): the seam and the rows that test it. */
+        seamId: z.string().optional(),
+        rowIds: z.array(z.string()).optional(),
       }),
     )
     .default([]),
@@ -319,6 +355,8 @@ export const Scenario = z.looseObject({
   provenance: z.array(StageRun).default([]),
   /** Grounding labels per item (#423); computed on demand when absent. */
   grounding: ScenarioGrounding.optional(),
+  /** Plan seams the scenario tests (#427), snapshotted from plan-conflicts.json. */
+  seams: z.array(ScenarioSeam).default([]),
 })
 export type Scenario = z.infer<typeof Scenario>
 
@@ -334,5 +372,7 @@ export const ScenarioIdea = z.object({
   suggestedRoles: z.array(z.string()).default([]),
   /** Threat family the idea exercises (inferred from its text when the model did not say). */
   threatFamily: ThreatFamilyId.optional(),
+  /** Plan seams the idea puts under pressure (#427): PlanFinding ids. */
+  seamIds: z.array(z.string()).optional(),
 })
 export type ScenarioIdea = z.infer<typeof ScenarioIdea>

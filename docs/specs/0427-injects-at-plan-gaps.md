@@ -1,6 +1,6 @@
 # Spec 0427: Injects aimed at the gaps between plans
 
-Issue: #427 · Milestone: 0.7.0 · Status: Draft · Depends on: #423 · Related: #433
+Issue: #427 · Milestone: 0.7.0 · Status: Implemented (ADR-0038) · Depends on: #423 · Related: #433
 
 ## Summary
 
@@ -9,6 +9,20 @@ the exercise. The designer can pick **plan seams** to test; ideation proposes sc
 around them, and the MSEL gets injects that put players exactly where the two plans disagree. The
 controller notes for those injects quote both passages, so the facilitator knows what to watch
 for and the hot wash can turn the finding into a plan fix.
+
+## As built
+
+Where the code differs from the design below, and why:
+
+- `ScenarioSeam` also stores `slot` (the FR-5 fallback needs it) and `confirmed` (the finding's verdict was `contradicts`), so the picker, the controller block and the handbook can say "unconfirmed" (open question 4).
+- `brief.seamIds`, `ScenarioIdea.seamIds`, `IdeasOutput.ideas[].seams` and `PhasePlanOutput.seamPhases` are optional rather than defaulted, so existing callers and fixtures need no change; absent means none.
+- The model's seam keys are plain strings (`max 16`), normalised by the mapper (`s1`, `S-1` → `S1`) and dropped when unknown, so a sloppy key never costs a repair round.
+- FR-4 is guaranteed by code as a last resort: when neither the phase call nor the mix completion pass (or the repair job's mix call) tagged a row, the best-fitting unlocked row of the phase is given the seam (`ensureSeamRows`) and a `SEAM_ROW_ASSIGNED` info note is recorded, like `DECISION_POINT_RETAGGED`. This is what makes the mock provider and prompt overrides without the seam block work.
+- FR-6: a seam row tagged outside the four seam tags is re-tagged to the nearest one (NOISE / RED_HERRING / CONFUSION → OPERATIONAL_FRICTION, MISINFORMATION / DISTRACTION → PRESSURE, CLUE / TECH_HURDLE / END_GAME → CORE_NARRATIVE). Seam rows are never spare rows for the mix pass and never trimmed.
+- `StageCall` also gained `decorateVars(retrieved)`, so the msel_phase prompt can name the pinned passages' C keys.
+- The MSEL grid's Seam tag shows the passages as tooltip and screen-reader text instead of a popover, so the grid's keyboard navigation is unchanged.
+- The Seam marker in the controller MSEL is added in `views.ts` to the Source check cell ("Grounded · Seam"); it shows when the export asks for that column.
+- `SEAM_OUTDATED` needs the plan check's file, so it is computed where the file is read (Scenario checks and the critique step), not in the pure `lintScenario`.
 
 ## Requirements
 

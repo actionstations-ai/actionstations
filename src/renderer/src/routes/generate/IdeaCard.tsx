@@ -5,6 +5,8 @@ import { Badge, Button } from '../../components/ui'
 import { CitationChips } from '../scenarios/CitationChips'
 import { GroundingBadge } from '../../components/GroundingBadge'
 import type { GroundingResult } from '@shared/schemas/grounding'
+import type { PlanFinding } from '@shared/schemas/plan-conflicts'
+import { seamTitle } from '@shared/seams'
 
 const DIFFICULTY_TONE = { introductory: 'ok', intermediate: 'info', advanced: 'warn' } as const
 
@@ -13,14 +15,22 @@ export function IdeaCard({
   onDevelop,
   profile,
   grounding,
+  findings = [],
 }: {
   idea: ScenarioIdea
   onDevelop: () => void
   profile?: DomainProfile
   /** Source check of "Why it teaches" against the sections exercised (#423). */
   grounding?: GroundingResult | undefined
+  /** The plan check's findings, to name the seams the idea tests (#427). */
+  findings?: PlanFinding[]
 }) {
   const headingId = `idea-${idea.id}`
+  const byId = new Map(findings.map((f) => [f.id, f]))
+  const tests = (idea.seamIds ?? []).flatMap((id) => {
+    const f = byId.get(id)
+    return f ? [seamTitle(f)] : []
+  })
   const family = idea.threatFamily ?? (profile ? ideaFamily(idea, profile) : undefined)
   return (
     <li className="card idea-card" aria-labelledby={headingId}>
@@ -53,6 +63,22 @@ export function IdeaCard({
             <dt>Why it teaches</dt>
             <dd>
               {idea.whyItTeaches} <GroundingBadge result={grounding} />
+            </dd>
+          </div>
+        )}
+        {tests.length > 0 && (
+          <div>
+            <dt>Tests</dt>
+            <dd>
+              {tests.length === 1 ? (
+                tests[0]
+              ) : (
+                <ul className="idea-card__seams">
+                  {tests.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              )}
             </dd>
           </div>
         )}

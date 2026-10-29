@@ -28,6 +28,58 @@
   width: 6rem;
 }
 
+/* Plan seams picker and idea "Tests" line (#427) */
+.seam-picker {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.seam-picker__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.seam-picker__label {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+.seam-picker__label input {
+  margin-top: 0.2rem;
+}
+.seam-picker__passages {
+  margin-left: var(--space-6);
+  font-size: var(--text-sm);
+}
+.seam-picker__passage {
+  margin: var(--space-2) 0 0;
+}
+.seam-picker__passage blockquote {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-3);
+  border-left: var(--border-width) solid var(--color-border);
+}
+.seam-picker__empty,
+.seam-picker__count {
+  margin: 0;
+}
+.ideas-form__seams {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.idea-card__seams {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
 /* Errors */
 .generate-error {
   border: var(--border-width) solid var(--color-danger);

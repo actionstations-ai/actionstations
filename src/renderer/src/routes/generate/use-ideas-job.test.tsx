@@ -15,8 +15,13 @@ describe('useIdeasJob', () => {
     await act(() => result.current.request('  insider threat ', '40'))
     await act(() => result.current.request('', 'lots'))
     expect(ttx.calls('generate:ideas')).toEqual([
-      { projectPath: PROJECT, brief: { userPrompt: 'insider threat' }, count: 12 },
-      { projectPath: PROJECT, brief: {}, count: 6 },
+      {
+        projectPath: PROJECT,
+        brief: { userPrompt: 'insider threat' },
+        count: 12,
+        fromSeams: false,
+      },
+      { projectPath: PROJECT, brief: {}, count: 6, fromSeams: false },
     ])
     expect(result.current.jobId).toBe('IDEAS2')
     expect(result.current.running).toBe(true)

@@ -28,8 +28,11 @@ export function useIdeasJob(projectPath: string) {
   })
   const running = job?.status === 'queued' || job?.status === 'running'
 
-  /** Ask for `count` ideas (clamped to 1–12, default 6), optionally around a focus. */
-  const request = async (focus: string, count: string) => {
+  /**
+   * Ask for `count` ideas (clamped to 1–12, default 6), optionally around a focus and, with
+   * `fromSeams`, around the open plan conflicts (#427).
+   */
+  const request = async (focus: string, count: string, fromSeams = false) => {
     setError(null)
     try {
       const n = Math.min(12, Math.max(1, Math.round(Number(count)) || 6))
@@ -37,6 +40,7 @@ export function useIdeasJob(projectPath: string) {
         projectPath,
         brief: focus.trim() ? { userPrompt: focus.trim() } : {},
         count: n,
+        fromSeams,
       })
       trackJob(id, { kind: 'ideate', projectPath, payload: { count: n } })
       setStarted(id)

@@ -2,7 +2,7 @@
 // listboxes, citation remover).
 import type { ReactNode } from 'react'
 import type { Role } from '@shared/schemas/project'
-import type { MselRow, Phase } from '@shared/schemas/scenario'
+import type { MselRow, Phase, ScenarioSeam } from '@shared/schemas/scenario'
 import { PURPOSE_TAGS, PURPOSE_TAG_INFO, injectTypes } from '@shared/taxonomy'
 import { TagChip } from '../../components/ui'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
@@ -25,7 +25,7 @@ import {
   toValues,
   validateTime,
 } from './cell-format'
-import { CompactCitations, RowId, TimeView } from './cell-views'
+import { CompactCitations, RowId, SeamTag, TimeView } from './cell-views'
 import type { GridActions } from './grid-context'
 import type { ColumnId } from './grid-nav'
 import type { DraftRow } from './model'
@@ -179,6 +179,8 @@ export interface ViewContext {
   warnings: string[] | undefined
   /** The row's source-check result (#423). */
   grounding?: GroundingResult | undefined
+  /** The plan seam the row tests (#427). */
+  seam?: ScenarioSeam | undefined
 }
 
 /** The read-mode content of `col` for `row`. */
@@ -197,7 +199,13 @@ export function viewFor(row: MselRow, col: ColumnId, v: ViewContext): ReactNode 
     case 'expected':
       return row.expectedAction || <span className="muted">—</span>
     case 'tag':
-      return <TagChip tag={row.purposeTag} />
+      return v.seam ? (
+        <>
+          <TagChip tag={row.purposeTag} /> <SeamTag seam={v.seam} />
+        </>
+      ) : (
+        <TagChip tag={row.purposeTag} />
+      )
     case 'format':
       return formatLabel(row.format)
     case 'citations':

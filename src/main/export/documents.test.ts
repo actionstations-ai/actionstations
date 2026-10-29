@@ -148,6 +148,69 @@ describe('document HTML', () => {
     expect(count(html, 'class="eeg"')).toBe(0)
   })
 
+  describe('plan seams (#427)', () => {
+    const SPAN = 'All public releases must be approved by the Public Information Officer.'
+    function seamModel() {
+      const model = fixtureModel()
+      const row = model.scenario.msel.find((r) => r.purposeTag === 'CORE_NARRATIVE')!
+      row.seamId = 'a1a1a1a1a1a1a1a1'
+      model.scenario.seams = [
+        {
+          id: 'a1a1a1a1a1a1a1a1',
+          slot: 'release_approver',
+          slotLabel: 'Who approves public releases',
+          kind: 'contradiction',
+          confirmed: true,
+          a: {
+            documentId: 'erp',
+            documentTitle: 'Emergency Response Plan',
+            headingPath: 'ERP › 4.2 Releases',
+            chunkId: 1,
+            span: 'Releases are approved by the General Manager.',
+          },
+          b: {
+            documentId: 'cca',
+            documentTitle: 'Crisis Communications Annex',
+            headingPath: 'CCA › C.1 Approval',
+            chunkId: 2,
+            span: SPAN,
+          },
+          phaseId: row.phaseId,
+        },
+      ]
+      return { model, row }
+    }
+
+    it('the handbook (and its fallback) carries the seams section', () => {
+      const { model, row } = seamModel()
+      const html = buildDocumentHtml(model, 'handbook', 'pdf')
+      expect(html).toContain('Plan seams this exercise tests')
+      expect(html).toContain(SPAN)
+      expect(html).toContain(row.id)
+      model.docs.handbook = ''
+      expect(buildDocumentHtml(model, 'handbook', 'pdf')).toContain(
+        'Plan seams this exercise tests',
+      )
+    })
+
+    it('player material never mentions a seam', () => {
+      const { model } = seamModel()
+      for (const doc of ['briefing', 'sitman_player', 'handouts'] as const) {
+        const html = buildDocumentHtml(model, doc, 'pdf')
+        expect(html, doc).not.toContain(SPAN)
+        expect(html, doc).not.toMatch(/plan seam/i)
+      }
+    })
+
+    it('the controller MSEL marks seam rows in the Source check column', () => {
+      const { model, row } = seamModel()
+      model.sourceCheck = Object.fromEntries(model.scenario.msel.map((r) => [r.id, 'Grounded']))
+      const html = buildDocumentHtml(model, 'msel', 'pdf')
+      expect(count(html, 'Grounded · Seam')).toBe(1)
+      expect(html).toContain(row.id)
+    })
+  })
+
   it('handbook falls back to structured data without handbook.md', () => {
     const model = fixtureModel()
     model.docs.handbook = ''
