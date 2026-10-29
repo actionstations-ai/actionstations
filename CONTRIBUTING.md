@@ -182,30 +182,31 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 
 ### Architecture decision records
 
-| ADR                                               | Decision                                                                        |
-| ------------------------------------------------- | ------------------------------------------------------------------------------- |
-| [0001](docs/adr/0001-stack.md)                    | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
-| [0002](docs/adr/0002-local-ci-no-actions.md)      | Local CI only, no GitHub Actions (superseded by 0023)                           |
-| [0003](docs/adr/0003-project-folder-format.md)    | Project folder format                                                           |
-| [0004](docs/adr/0004-native-modules-and-tests.md) | Native modules and the test runtime                                             |
-| [0005](docs/adr/0005-embeddings.md)               | Embeddings                                                                      |
-| [0006](docs/adr/0006-providers-over-fetch.md)     | Provider adapters over fetch                                                    |
-| [0007](docs/adr/0007-structured-output.md)        | Structured output from LLMs                                                     |
-| [0008](docs/adr/0008-template-rendering.md)       | Template rendering to PNG and PDF                                               |
-| [0009](docs/adr/0009-audio-tts.md)                | Audio and TTS (amended by 0010)                                                 |
-| [0010](docs/adr/0010-local-tts-openai-speech.md)  | Local TTS through the OpenAI-compatible speech API                              |
-| [0011](docs/adr/0011-video-model-ltxv.md)         | LTX-Video as the default local video model                                      |
-| [0012](docs/adr/0012-inject-stages.md)            | Inject stages: schema-guided text, deterministic media plan, keep-with-warning  |
-| [0013](docs/adr/0013-app-protocol.md)             | Serve the renderer from `app://bundle/`                                         |
-| [0014](docs/adr/0014-domain-profiles.md)          | Domain profiles: domain-neutral generation as data                              |
-| [0015](docs/adr/0015-repair-in-place.md)          | Repair a finished scenario in place                                             |
-| [0016](docs/adr/0016-forward-compatible-files.md) | Forward-compatible project files                                                |
-| [0017](docs/adr/0017-windowed-lists.md)           | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
-| [0018](docs/adr/0018-packs.md)                    | Packs: installable content bundles                                              |
-| [0019](docs/adr/0019-rename-action-stations.md)   | Rename to Action Stations; migrate old settings, projects and keys              |
-| [0020](docs/adr/0020-bundled-packs.md)            | Built-in content ships as bundled packs                                         |
-| [0021](docs/adr/0021-local-tools-setup.md)        | Optional setup of local model tools, or cloud APIs only                         |
-| [0023](docs/adr/0023-free-github-actions.md)      | GitHub Actions where it is free (release installers)                            |
+| ADR                                                        | Decision                                                                        |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [0001](docs/adr/0001-stack.md)                             | Application stack: Electron, React, TypeScript, Vite, pnpm, SQLite + sqlite-vec |
+| [0002](docs/adr/0002-local-ci-no-actions.md)               | Local CI only, no GitHub Actions (superseded by 0023)                           |
+| [0003](docs/adr/0003-project-folder-format.md)             | Project folder format                                                           |
+| [0004](docs/adr/0004-native-modules-and-tests.md)          | Native modules and the test runtime                                             |
+| [0005](docs/adr/0005-embeddings.md)                        | Embeddings                                                                      |
+| [0006](docs/adr/0006-providers-over-fetch.md)              | Provider adapters over fetch                                                    |
+| [0007](docs/adr/0007-structured-output.md)                 | Structured output from LLMs                                                     |
+| [0008](docs/adr/0008-template-rendering.md)                | Template rendering to PNG and PDF                                               |
+| [0009](docs/adr/0009-audio-tts.md)                         | Audio and TTS (amended by 0010)                                                 |
+| [0010](docs/adr/0010-local-tts-openai-speech.md)           | Local TTS through the OpenAI-compatible speech API                              |
+| [0011](docs/adr/0011-video-model-ltxv.md)                  | LTX-Video as the default local video model                                      |
+| [0012](docs/adr/0012-inject-stages.md)                     | Inject stages: schema-guided text, deterministic media plan, keep-with-warning  |
+| [0013](docs/adr/0013-app-protocol.md)                      | Serve the renderer from `app://bundle/`                                         |
+| [0014](docs/adr/0014-domain-profiles.md)                   | Domain profiles: domain-neutral generation as data                              |
+| [0015](docs/adr/0015-repair-in-place.md)                   | Repair a finished scenario in place                                             |
+| [0016](docs/adr/0016-forward-compatible-files.md)          | Forward-compatible project files                                                |
+| [0017](docs/adr/0017-windowed-lists.md)                    | Memoized rows and windowed long lists (MSEL grid, inject deck)                  |
+| [0018](docs/adr/0018-packs.md)                             | Packs: installable content bundles                                              |
+| [0019](docs/adr/0019-rename-action-stations.md)            | Rename to Action Stations; migrate old settings, projects and keys              |
+| [0020](docs/adr/0020-bundled-packs.md)                     | Built-in content ships as bundled packs                                         |
+| [0021](docs/adr/0021-local-tools-setup.md)                 | Optional setup of local model tools, or cloud APIs only                         |
+| [0023](docs/adr/0023-free-github-actions.md)               | GitHub Actions where it is free (release installers)                            |
+| [0026](docs/adr/0026-surveys-anonymous-by-construction.md) | Surveys are anonymous by construction                                           |
 
 New ADRs start from [`docs/adr/0000-template.md`](docs/adr/0000-template.md).
 
