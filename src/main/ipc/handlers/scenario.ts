@@ -5,6 +5,8 @@ import { syncInjectRowIds } from '../../scenario/inject-links'
 import { requireProject } from '../../project/guard'
 import { loadProject } from '../../project/store'
 import { domainContext, type DomainContext } from '../../generate/domain'
+import { lintSeamsOutdated } from '../../generate/lint-seams'
+import { loadSeamFindings } from '../../generate/seams'
 import { markStaleCritique } from '../../generate/critique-notes'
 import { lintFacilityIds } from '../../generate/facility'
 import { loadFacilityFacts } from '../../generate/facility-file'
@@ -56,6 +58,8 @@ export async function lintOrStored(scenario: Scenario, root?: string): Promise<L
     ...fresh,
     ...lintFacilityIds(scenario, facts),
     ...(await groundingLints(root, scenario, { project, facility: facts })),
+    // SEAM_OUTDATED (#427): a picked plan seam the plan check no longer lists.
+    ...(scenario.seams?.length ? lintSeamsOutdated(scenario, await loadSeamFindings(root)) : []),
   ]
 }
 

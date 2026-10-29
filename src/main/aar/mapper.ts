@@ -98,11 +98,7 @@ export function observationCounts(
 
 const total = (c: ObservationCounts): number => c.met + c.partial + c.not_met + c.not_observed
 
-function resolveAarCitations(
-  keys: string[],
-  ctx: ApplyContext,
-  result: ApplyResult,
-): Citation[] {
+function resolveAarCitations(keys: string[], ctx: ApplyContext, result: ApplyResult): Citation[] {
   const scenarioKeys = keys.filter((k) => /^S\d+$/i.test(k.trim()))
   const retrievedKeys = keys.filter((k) => !/^S\d+$/i.test(k.trim()))
   const { citations, dropped } = resolveCitations(retrievedKeys, ctx.retrieved)

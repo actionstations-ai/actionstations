@@ -12,6 +12,14 @@ import { CapabilityElement, CapabilityRating } from './aar'
 /** Key of a retrieved chunk as presented in the prompt, e.g. "C3". */
 export const CitationKey = z.string().regex(/^C\d+$/)
 
+/** Key of a plan seam as presented in the prompt, e.g. "S1" (#427); mapped back like C keys. */
+export const SeamKey = z.string().regex(/^S\d+$/)
+/**
+ * A seam key as the model writes it. Lenient on purpose ("s1", " S1 "): the mapper normalises
+ * it and drops keys the prompt never showed, so a sloppy key never costs a repair round.
+ */
+const SeamKeyOut = z.string().max(16)
+
 export const IdeasOutput = z.object({
   ideas: z
     .array(
@@ -24,6 +32,8 @@ export const IdeasOutput = z.object({
         difficulty: z.enum(['introductory', 'intermediate', 'advanced']),
         whyItTeaches: z.string(),
         suggestedRoles: z.array(z.string()),
+        /** The plan seams (S keys) the idea puts under pressure, when seams were given. */
+        seams: z.array(SeamKeyOut).optional(),
       }),
     )
     .min(1),
@@ -72,6 +82,8 @@ export const PhasePlanOutput = z.object({
       }),
     )
     .min(1),
+  /** The phase (1-based) each plan seam is tested in, when seams were given (#427). */
+  seamPhases: z.array(z.object({ seam: SeamKeyOut, phase: z.number().int() })).optional(),
 })
 export type PhasePlanOutput = z.infer<typeof PhasePlanOutput>
 
@@ -86,6 +98,8 @@ export const MselRowOutput = z.object({
   purposeTag: PurposeTag,
   format: z.string().describe('inject type id from the taxonomy'),
   citations: z.array(CitationKey),
+  /** The plan seam (S key) this row puts players in, when the phase has one (#427). */
+  seam: SeamKeyOut.optional(),
 })
 export type MselRowOutput = z.infer<typeof MselRowOutput>
 

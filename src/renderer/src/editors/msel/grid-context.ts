@@ -4,7 +4,7 @@
 // is passed to each row as props.
 import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useRef } from 'react'
 import type { Role } from '@shared/schemas/project'
-import type { Phase } from '@shared/schemas/scenario'
+import type { Phase, ScenarioSeam } from '@shared/schemas/scenario'
 import type { GroundingResult } from '@shared/schemas/grounding'
 import type { Move } from './CellEditors'
 import type { Cell, ColumnId } from './grid-nav'
@@ -27,6 +27,8 @@ export interface GridShared {
   phases: Phase[]
   /** Source-check results by item key ("row:I-07"), when loaded (#423). */
   grounding?: Record<string, GroundingResult> | undefined
+  /** The plan seams the scenario tests (#427), for the Seam tag on seam rows. */
+  seams?: ScenarioSeam[] | undefined
 }
 
 /** Everything the grid needs from the editor (`actions` must keep its identity). */

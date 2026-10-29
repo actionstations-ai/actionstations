@@ -10,6 +10,7 @@ import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import type { InjectDraft } from './draft'
+import { splitControllerBlock } from '@shared/seams'
 import { formFromSchema, type JsonSchema, type UnknownField } from './schema/fields'
 import { remapFields, type RemapResult } from './schema/remap'
 import { FieldControl, SchemaForm } from './schema/SchemaForm'
@@ -330,6 +331,53 @@ function MediaBriefSection({ draft, onChange }: Pick<FormProps, 'draft' | 'onCha
   )
 }
 
+/** A written note and the generated plan-seam block (#427) as one stored note. */
+function joinNote(written: string, block: string): string {
+  if (!block) return written
+  return written.trim() ? `${written}\n\n${block}` : block
+}
+
+/**
+ * The instructor note. Only the written part is editable; a plan-seam block (#427) is shown
+ * read-only below it and kept on save, so editing the note never loses it.
+ */
+function NoteSection(props: FormProps) {
+  const { draft, onChange } = props
+  const { note, block } = splitControllerBlock(draft.instructorNote)
+  return (
+    <fieldset className="editor-section">
+      <legend>Instructor note</legend>
+      <Field
+        label="Note for the controller"
+        hint="Not shown to players. Why this inject exists and what to watch for."
+      >
+        {({ id, describedBy }) => (
+          <textarea
+            id={id}
+            className="textarea"
+            rows={3}
+            value={note}
+            aria-describedby={describedBy}
+            onChange={(e) =>
+              onChange({ ...draft, instructorNote: joinNote(e.target.value, block) })
+            }
+          />
+        )}
+      </Field>
+      {block && (
+        <div className="inject-form__seam" role="group" aria-label="Plan seam note">
+          <p className="field__label">Plan seam</p>
+          <pre className="inject-form__seam-block">{block}</pre>
+          <p className="field__hint">
+            Generated from the plans; rebuilt when the inject is regenerated.
+          </p>
+        </div>
+      )}
+      {props.sourceCheck}
+    </fieldset>
+  )
+}
+
 export function InjectForm(props: FormProps) {
   const [pending, setPending] = useState<{
     type: string
@@ -356,25 +404,7 @@ export function InjectForm(props: FormProps) {
     <div className="inject-form">
       <BasicsSection {...props} onType={onType} />
       <TemplateFields {...props} />
-      <fieldset className="editor-section">
-        <legend>Instructor note</legend>
-        <Field
-          label="Note for the controller"
-          hint="Not shown to players. Why this inject exists and what to watch for."
-        >
-          {({ id, describedBy }) => (
-            <textarea
-              id={id}
-              className="textarea"
-              rows={3}
-              value={props.draft.instructorNote}
-              aria-describedby={describedBy}
-              onChange={(e) => props.onChange({ ...props.draft, instructorNote: e.target.value })}
-            />
-          )}
-        </Field>
-        {props.sourceCheck}
-      </fieldset>
+      <NoteSection {...props} />
       <CitationsSection draft={props.draft} onChange={props.onChange} />
       <MediaBriefSection draft={props.draft} onChange={props.onChange} />
       <TypeSwitchDialog

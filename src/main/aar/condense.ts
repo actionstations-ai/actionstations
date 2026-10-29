@@ -16,7 +16,10 @@ import type { SurveySummary } from '@shared/schemas/survey'
 
 export type CondenseLevel = 'full' | 'tight'
 
-const LIMITS: Record<CondenseLevel, { text: number; items: number; pinned: number; texts: number }> = {
+const LIMITS: Record<
+  CondenseLevel,
+  { text: number; items: number; pinned: number; texts: number }
+> = {
   full: { text: 300, items: 120, pinned: 10, texts: 3 },
   tight: { text: 150, items: 40, pinned: 5, texts: 0 },
 }
@@ -85,7 +88,9 @@ function decisionsBlock(record: ExerciseRecord, scenario: Scenario, L: (typeof L
   return [
     'Decision log:',
     ...take(record.decisions, L.items).map((d) => {
-      const when = [d.exerciseTime, d.rowId ? rowLabel(scenario, d.rowId) : ''].filter(Boolean).join(' ')
+      const when = [d.exerciseTime, d.rowId ? rowLabel(scenario, d.rowId) : '']
+        .filter(Boolean)
+        .join(' ')
       return `- [${d.ref}]${when ? ` ${when}` : ''}${d.byRole ? ` by ${d.byRole}` : ''}: ${cut(d.text, L.text)}`
     }),
   ]
@@ -93,7 +98,9 @@ function decisionsBlock(record: ExerciseRecord, scenario: Scenario, L: (typeof L
 
 function tasksById(scenario: Scenario): Map<string, CriticalTask> {
   return new Map(
-    (scenario.evaluation?.eegs ?? []).flatMap((e) => e.criticalTasks.map((t) => [t.id, t] as const)),
+    (scenario.evaluation?.eegs ?? []).flatMap((e) =>
+      e.criticalTasks.map((t) => [t.id, t] as const),
+    ),
   )
 }
 
@@ -134,7 +141,8 @@ function observationsBlock(
   }
   if (loose.length) {
     lines.push(`- Expected-action ratings on rows no task covers: ${counts(loose)}`)
-    for (const o of take(loose, level === 'tight' ? 10 : L.items)) lines.push(observationLine(o, scenario, L))
+    for (const o of take(loose, level === 'tight' ? 10 : L.items))
+      lines.push(observationLine(o, scenario, L))
   }
   return lines
 }
@@ -168,9 +176,14 @@ function messagesBlock(record: ExerciseRecord, scenario: Scenario, L: (typeof LI
   ]
 }
 
-function questionLine(s: SurveySummary, q: SurveySummary['questions'][number], L: (typeof LIMITS)['full']) {
+function questionLine(
+  s: SurveySummary,
+  q: SurveySummary['questions'][number],
+  L: (typeof LIMITS)['full'],
+) {
   const ref = `survey:${s.surveyId}:${q.questionId}`
-  if (q.suppressed) return `  - [${ref}] "${cut(q.text, 120)}": ${q.n} answer(s), below the anonymity threshold`
+  if (q.suppressed)
+    return `  - [${ref}] "${cut(q.text, 120)}": ${q.n} answer(s), below the anonymity threshold`
   const parts: string[] = []
   if (q.mean !== undefined) parts.push(`mean ${q.mean} of 5 (n ${q.n})`)
   if (q.choices?.length) parts.push(q.choices.map((c) => `${c.text} ${c.count}`).join(', '))
@@ -184,7 +197,9 @@ function surveysBlock(record: ExerciseRecord, L: (typeof LIMITS)['full']) {
   if (!record.surveys.length) return ['Participant feedback: no survey responses recorded.']
   const lines = ['Participant feedback (aggregates only; the threshold hides small groups):']
   for (const s of take(record.surveys, 20)) {
-    lines.push(`- [survey:${s.surveyId}] ${s.title} (${s.kind.replace(/_/g, ' ')}): ${s.responses} response(s)`)
+    lines.push(
+      `- [survey:${s.surveyId}] ${s.title} (${s.kind.replace(/_/g, ' ')}): ${s.responses} response(s)`,
+    )
     if (s.suppressed) continue
     for (const q of take(s.questions, L.items)) lines.push(questionLine(s, q, L))
     for (const p of s.pairs)
@@ -197,7 +212,11 @@ function surveysBlock(record: ExerciseRecord, L: (typeof LIMITS)['full']) {
 }
 
 /** The record block for the prompt. Every item shows its ref in brackets. */
-export function recordBlock(record: ExerciseRecord, scenario: Scenario, level: CondenseLevel): string {
+export function recordBlock(
+  record: ExerciseRecord,
+  scenario: Scenario,
+  level: CondenseLevel,
+): string {
   const L = LIMITS[level]
   const delivered = record.delivered.length
     ? `Injects delivered (${record.delivered.length}): ${take(record.delivered, 60)

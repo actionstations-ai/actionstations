@@ -17,6 +17,9 @@ import { projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { pipelineDeps, type SearchIndex } from './deps'
 import type { FacilityFacts } from './facility'
+import { seamChoices, toSeam } from '@shared/seams'
+import type { ScenarioSeam } from '@shared/schemas'
+import { loadSeamFindings, seamPromptVars } from './seams'
 import type { Project } from '@shared/schemas'
 import { contextFor } from '../grounding/project'
 import { groundItems, ideaItems } from '../grounding/scenario'
@@ -131,6 +134,19 @@ export async function findIdea(
 export interface IdeasRequest {
   brief: Partial<ScenarioBrief>
   count: number
+  /** "From plan seams" (#427, FR-3): build the ideas around the open plan conflicts. */
+  fromSeams?: boolean
+}
+
+/** At most this many seams go into the ideate prompt; the picker offers the same order. */
+const IDEATE_SEAMS = 6
+
+/** The seams the ideas are asked to target, in picker order (empty when the option is off). */
+async function ideateSeams(root: string, on: boolean | undefined): Promise<ScenarioSeam[]> {
+  if (!on) return []
+  return seamChoices((await loadSeamFindings(root)) ?? [])
+    .slice(0, IDEATE_SEAMS)
+    .map(toSeam)
 }
 
 /** Run the ideate stage and persist the ideas. Returns them for the job result. */
@@ -143,6 +159,11 @@ export async function generateIdeas(
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
   const facility = await deps.loadFacilityFacts(root, project)
   const profile = profileFor(project)
+  const seams = await ideateSeams(root, req.fromSeams)
+  if (req.fromSeams && !seams.length)
+    ctx.log('ideate: no open plan conflicts to build ideas on; run the plan check first', 'warn', {
+      stage: 'ideate',
+    })
   ctx.progress(0.05, 'Reading the plans for scenario hooks', { stage: 'ideate' })
   const result = await runStage<IdeasOutput>({
     stage: 'ideate',
@@ -157,12 +178,21 @@ export async function generateIdeas(
       taxonomy: taxonomyVarsFor(profile),
       facility: facilitySheet(facility),
       instructions: '',
+      ...(seams.length ? { seams: seamPromptVars({ seams }, seams) } : {}),
     },
     ctx,
     deps,
     index,
   })
-  const { ideas, dropped } = mapIdeas(result.output, result.retrieved)
+  const { ideas, dropped, unknownSeams } = mapIdeas(
+    result.output,
+    result.retrieved,
+    seams.map((x) => x.id),
+  )
+  if (unknownSeams.length)
+    ctx.log(`ideate: unknown plan seam keys ${unknownSeams.join(', ')}; dropped`, 'warn', {
+      stage: 'ideate',
+    })
   for (const d of dropped)
     ctx.log(`Idea "${d.rowId}" cited unknown keys ${d.keys.join(', ')}; dropped`, 'warn', {
       stage: 'ideate',

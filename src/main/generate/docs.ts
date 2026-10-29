@@ -97,7 +97,7 @@ export function renderMselMarkdown(s: Scenario): string {
 // ---------------------------------------------------------------------------------------------
 // Controller / Evaluator handbook
 
-export type HandbookSection = 'overview' | 'room' | 'rules' | 'rubric' | 'hotwash'
+export type HandbookSection = 'overview' | 'room' | 'rules' | 'rubric' | 'hotwash' | 'seams'
 
 const marker = (name: HandbookSection, close = false): string =>
   `<!-- ${close ? '/' : ''}section:${name} -->`

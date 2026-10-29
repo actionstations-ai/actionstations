@@ -11,7 +11,12 @@ import { loadProject } from '../project/store'
 import { assertNotGenerating } from '../scenario/busy'
 import { appendHistory } from '../scenario/history'
 import { scenarioLayout, withScenarioLock } from '../scenario/layout'
-import { getScenario, readScenarioDoc, requireScenarioDir, writeScenarioDoc } from '../scenario/store'
+import {
+  getScenario,
+  readScenarioDoc,
+  requireScenarioDir,
+  writeScenarioDoc,
+} from '../scenario/store'
 import { refreshAarMarkdown, renderAarMarkdown } from './markdown'
 
 export const AAR_FILE = 'aar.json'

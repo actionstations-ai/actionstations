@@ -93,7 +93,14 @@ Scenario {
   sitman?: SitMan,                          // Situation Manual modules (stage `sitman`, #420)
   provenance: StageRun[],                   // what provider/prompt produced each part
   grounding?: ScenarioGrounding             // source-check labels per item (#423)
+  seams: ScenarioSeam[]                     // plan seams tested (#427); [] when none
 }
+
+// Plan seams (#427): brief.seamIds (max 3, PlanFinding ids) are snapshotted into Scenario.seams
+// when the phase plan runs: { id, slot, slotLabel, kind, confirmed, a, b?, values?, missingTarget?,
+// phaseId? }. MselRow.seamId names the seam a row tests; a row an older build saved without it is
+// re-linked when it cites both passages. ScenarioIdea.seamIds lists the seams an idea targets;
+// HotWash questions built for a seam carry seamId and rowIds.
 
 // Exercise evaluation (#421; src/shared/schemas/evaluation.ts, src/shared/core-capabilities.ts).
 // The 32 FEMA Core Capabilities ship as static data (id, name, mission areas, definition).

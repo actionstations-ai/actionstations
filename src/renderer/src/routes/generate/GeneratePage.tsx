@@ -90,6 +90,7 @@ export default function GeneratePage() {
             onSubmit={(d) => void start(d, idea, suggestion?.id)}
             submitting={submitting}
             roleSuggestions={roleSuggestions}
+            projectPath={projectPath}
             {...(profile && suggestion ? { profile, suggestion } : {})}
             {...(idea
               ? {

@@ -23,6 +23,7 @@ import {
 import { CLOCK_MISMATCH, DATE_DRIFT, lintBrief, START_TIME_MISMATCH } from './lint-brief'
 import { BRIEF_THREAT_ADDED, ENDEX_EARLY, lintDrift } from './lint-drift'
 import { lintEeg } from './lint-eeg'
+import { lintSeams, SEAM_NOT_TESTED, seamMixGaps } from './lint-seams'
 import {
   CONTACT_REAL_LOOKING,
   lintRealism,
@@ -579,6 +580,7 @@ export function lintScenario(scenario: Scenario, domainIn?: DomainContext): Lint
     ...lintCitations(scenario),
     ...lintRubric(scenario),
     ...lintEeg(scenario),
+    ...(scenario.seams?.length ? lintSeams(scenario) : []),
   ]
 }
 
@@ -595,6 +597,7 @@ const SPARE_TAGS = new Set<MselRow['purposeTag']>([
 
 const NEED_ORDER = [
   MIX_NO_DECISION_POINT,
+  SEAM_NOT_TESTED,
   'MIX_NO_CORE',
   'MIX_NO_PIO_PRESSURE',
   'MIX_NO_IT_CLUE',
@@ -637,7 +640,8 @@ export function spareRows(
   const before = new Set(phaseMixGaps(s, phase, domain).map(gapKey))
   const removed = new Set<MselRow>()
   for (const row of rowsOf(s, phase.id)) {
-    if (row.locked || !SPARE_TAGS.has(row.purposeTag) || !eligible(row)) continue
+    // A plan seam's row is never spare (#427): rewriting it would untest the seam.
+    if (row.locked || row.seamId || !SPARE_TAGS.has(row.purposeTag) || !eligible(row)) continue
     const without = { ...s, msel: s.msel.filter((r) => r !== row && !removed.has(r)) }
     const after = phaseMixGaps(without, phase, domain).map(gapKey)
     if (after.every((k) => before.has(k))) removed.add(row)
@@ -673,7 +677,7 @@ export function overfillRows(
   if (rows.length <= maxRows) return []
   const before = new Set(phaseMixGaps(s, phase, domain).map(gapKey))
   const candidates = rows
-    .filter((r) => !r.locked && !UNTRIMMABLE.has(r.purposeTag))
+    .filter((r) => !r.locked && !r.seamId && !UNTRIMMABLE.has(r.purposeTag))
     .reverse()
     .sort((a, b) => Number(!SPARE_TAGS.has(a.purposeTag)) - Number(!SPARE_TAGS.has(b.purposeTag)))
   const dropped = new Set<MselRow>()
@@ -711,7 +715,7 @@ export function planMixCompletion(
   domain?: DomainContext,
   eligible?: (r: MselRow) => boolean,
 ): MixPlan {
-  const needs = rowNeeds(phaseMixGaps(s, phase, domain))
+  const needs = rowNeeds([...phaseMixGaps(s, phase, domain), ...seamMixGaps(s, phase)])
   const room = Math.max(0, maxRows - rowsOf(s, phase.id).length)
   if (!needs.length) return { needs, replace: [], add: 0, skipped: [], room }
   const replace = spareRows(s, phase, domain, eligible).slice(0, needs.length)

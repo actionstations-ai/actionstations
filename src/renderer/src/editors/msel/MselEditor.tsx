@@ -136,6 +136,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     selected: sel.selected,
     warnings,
     grounding: grounding.data?.items,
+    seams: scenario.seams,
   }
   const jumpTo = (rowId: string) => {
     const r = draft.rows.find((x) => x.row.id === rowId)

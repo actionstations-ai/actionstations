@@ -188,6 +188,7 @@ export function SidePanel(props: {
             onDeliver={() => props.onDeliver(selected.row.id)}
             onUndo={() => props.onUndo(selected.row.id)}
             onShow={() => props.onShow(selected)}
+            seam={props.scenario.seams?.find((x) => x.id === selected.row.seamId)}
           />
         )}
       </Tabs.Content>

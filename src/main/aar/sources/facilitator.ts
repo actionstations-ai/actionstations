@@ -40,7 +40,8 @@ export function facilitatorPart(state: FacilitatorState, scenario: Scenario): Fa
     .filter(([, text]) => text.trim())
     .sort(([a], [b]) => pos(a) - pos(b))
     .map(([rowId, text]) => ({ ref: `note:${rowId}`, rowId, text: text.trim() }))
-  if (state.generalNotes.trim()) notes.push({ ref: GENERAL_NOTE_REF, text: state.generalNotes.trim() })
+  if (state.generalNotes.trim())
+    notes.push({ ref: GENERAL_NOTE_REF, text: state.generalNotes.trim() })
   return {
     delivered,
     notes,

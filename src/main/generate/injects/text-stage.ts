@@ -3,13 +3,16 @@
 // the fields, validate them with the template's JSON Schema plus the content checks
 // (consistency.ts), send every issue back once, and keep the inject with a lint warning when
 // the repair also misses (a page the user can fix beats a failed job).
+import { upsertControllerBlock } from '@shared/seams'
 import type {
+  Citation,
   Inject,
   InjectTextOutput,
   LintWarning,
   MselRow,
   Project,
   Scenario,
+  ScenarioSeam,
   StageRun,
 } from '@shared/schemas'
 import { injectTypeInfo } from '@shared/taxonomy'
@@ -20,6 +23,7 @@ import type { DomainContext } from '../domain'
 import { facilitySheet, type FacilityFacts } from '../facility'
 import { stripKeysDeep } from '../mappers'
 import { resolveCitations, type RetrievedChunk } from '../retrieval'
+import { citationOf } from '../seams'
 import { runStage, StageFailure, type StageResult } from '../stage'
 import { baseVars, dataSafe, rowVars } from '../vars'
 import { contentIssues, type ContentIssue, type OrgNames } from './consistency'
@@ -509,8 +513,12 @@ function toInject(
   v: Validated,
 ): { inject: Inject; dropped: string[] } {
   const { row, existing } = input
-  const { citations, dropped } = resolveCitations(v.output.citations, v.retrieved)
-  const note = v.output.instructorNote?.trim()
+  const resolved = resolveCitations(v.output.citations, v.retrieved)
+  const { dropped } = resolved
+  const seam = seamOfRow(input.scenario, row)
+  const citations = seam ? withSeamCitations(resolved.citations, seam) : resolved.citations
+  // FR-7: the seam's controller block is rebuilt after the model's note, never written by it.
+  const note = upsertControllerBlock(v.output.instructorNote?.trim(), seam).trim()
   const variant = variantOf(input, injectId, choice, v.output.variant)
   const inject: Inject = {
     id: injectId,
@@ -528,6 +536,18 @@ function toInject(
     locked: false,
   }
   return { inject, dropped }
+}
+
+/** The plan seam the row tests (#427), from the scenario's snapshot. */
+export function seamOfRow(s: Scenario, row: MselRow): ScenarioSeam | undefined {
+  return row.seamId ? (s.seams ?? []).find((x) => x.id === row.seamId) : undefined
+}
+
+/** The inject's citations plus both seam passages (FR-7), never twice. */
+export function withSeamCitations(citations: Citation[], seam: ScenarioSeam): Citation[] {
+  const have = new Set(citations.map((c) => c.chunkId))
+  const passages = [seam.a, ...(seam.b ? [seam.b] : [])].filter((p) => !have.has(p.chunkId))
+  return [...citations, ...passages.map(citationOf)]
 }
 
 const warningBase = (row: MselRow, injectId: string) => ({

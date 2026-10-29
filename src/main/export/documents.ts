@@ -2,6 +2,7 @@
 // Player Briefing Packet, the HSEEP set (#420), the EEG packet (#421) and the Exercise Plan
 // bundle) from templates/export and the export model.
 import { aarView } from './aar'
+import { seamHandbookSection } from '../generate/seams'
 import { eegView } from './eeg'
 import { documentBodyHtml, hasHeading, markdownToHtml, stripEndNote } from './escape'
 import { dropDuplicateHeaderFacts } from './header-facts'
@@ -76,7 +77,7 @@ function bodyMarkdown(md: string, facts: { label: string }[]): string {
 function handbookSection(model: ExportModel, prefix: string): string {
   const { scenario: s, docs } = model
   const facts = titleFacts(model, [['Exercise date', '____________']])
-  const md = bodyMarkdown(docs.handbook, facts)
+  const md = withSeamSection(s, bodyMarkdown(docs.handbook, facts))
   const rubric = hasHeading(md, /rubric|grading|evaluation/i) ? [] : (s.rubric?.metrics ?? [])
   const needsHotwash = !hasHeading(md, /hot\s*wash|debrief/i)
   const structuredHotwash = s.hotwash && (s.hotwash.questions.length || s.hotwash.methodDescription)
@@ -104,6 +105,21 @@ function handbookSection(model: ExportModel, prefix: string): string {
   })
 }
 
+/**
+ * FR-8 / FR-13: the plan seams section is part of the handbook. A handbook.md written before
+ * the scenario had seams (or none at all) gets it from the scenario here.
+ */
+function withSeamSection(s: ExportModel['scenario'], md: string): string {
+  if (!s.seams?.length || hasHeading(md, /plan seams this exercise tests/i)) return md
+  const section = seamHandbookSection(s)
+  return md.trim()
+    ? `${md.trimEnd()}
+
+${section}
+`
+    : ''
+}
+
 /** A handbook body from structured data when no handbook.md has been generated yet. */
 function fallbackHandbookHtml(model: ExportModel): string {
   const s = model.scenario
@@ -113,6 +129,7 @@ function fallbackHandbookHtml(model: ExportModel): string {
     s.overview ? `**Scope:** ${s.overview.theme} ${s.overview.threat}` : '',
     s.objectives.length ? '**Objectives:**' : '',
     ...s.objectives.map((o) => `- ${o.name ? `**${o.name}:** ` : ''}${o.text}`),
+    s.seams?.length ? seamHandbookSection(s) : '',
   ]
   return markdownToHtml(parts.filter(Boolean).join('\n\n'))
 }
