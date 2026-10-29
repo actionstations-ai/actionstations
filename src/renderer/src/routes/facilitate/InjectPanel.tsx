@@ -15,6 +15,8 @@ import {
 } from './delivery'
 import type { TimelineEntry } from './Timeline'
 import { injectAlt } from '../../lib/inject-alt'
+import type { ScenarioSeam } from '@shared/schemas/scenario'
+import { passageLine, passageQuote, splitControllerBlock } from '@shared/seams'
 
 export interface InjectPanelProps {
   projectPath: string
@@ -29,6 +31,36 @@ export interface InjectPanelProps {
   onDeliver: () => void
   onUndo: () => void
   onShow: () => void
+  /** The plan seam the row tests (#427): controller panel only, never the presented screen. */
+  seam?: ScenarioSeam | undefined
+}
+
+/** FR-10: the two passages the players are about to run into, for the facilitator's eyes. */
+function SeamFacts({ seam }: { seam: ScenarioSeam }) {
+  const passages = [seam.a, ...(seam.b ? [seam.b] : [])]
+  return (
+    <section className="fac-panel__seam" aria-label="Plan seam">
+      <h3 className="fac-panel__seam-title">
+        Plan seam: {seam.slotLabel}
+        {seam.kind === 'contradiction' && !seam.confirmed ? ' (unconfirmed)' : ''}
+      </h3>
+      {passages.map((p, i) => (
+        <figure key={i} className="fac-panel__passage">
+          <figcaption className="muted">{passageLine(p)}</figcaption>
+          <blockquote>{passageQuote(p)}</blockquote>
+        </figure>
+      ))}
+      {seam.kind === 'dangling_reference' && (
+        <p className="muted">
+          {seam.missingTarget ?? 'The document it points to'} is not among the project’s documents.
+        </p>
+      )}
+      <p className="muted">
+        Watch for whether players notice, who they ask and how long the decision takes. Players are
+        not told about the conflict.
+      </p>
+    </section>
+  )
 }
 
 function DeliveryHint({ action, target }: { action: DeliveryAction; target: string }) {
@@ -119,6 +151,8 @@ export function InjectPanel(p: InjectPanelProps) {
   const { row, inject } = p.entry
   const action = deliveryAction(inject)
   const noteId = `fac-note-${row.id}`
+  // With a seam the block is shown as passages below; the written note stays as it was.
+  const note = p.seam ? splitControllerBlock(inject?.instructorNote).note : inject?.instructorNote
   return (
     <article className="fac-panel" aria-label={`Inject ${row.id}`}>
       <header className="fac-panel__head">
@@ -126,6 +160,7 @@ export function InjectPanel(p: InjectPanelProps) {
           {row.time} · {row.id}
         </span>
         {inject && <Badge tone="info">{DELIVERY_LABEL[inject.deliveryMode]}</Badge>}
+        {p.seam && <Badge tone="warn">Plan seam</Badge>}
         {p.entry.deliveredAt && <Badge tone="ok">Delivered {p.entry.deliveredAt}</Badge>}
       </header>
       <h2 className="fac-panel__title">{inject?.title || row.event}</h2>
@@ -153,13 +188,14 @@ export function InjectPanel(p: InjectPanelProps) {
         <dd>{row.event}</dd>
         <dt>Expected action</dt>
         <dd>{row.expectedAction || '—'}</dd>
-        {inject?.instructorNote && (
+        {note && (
           <>
             <dt>Instructor note</dt>
-            <dd>{inject.instructorNote}</dd>
+            <dd>{note}</dd>
           </>
         )}
       </dl>
+      {p.seam && <SeamFacts seam={p.seam} />}
       <div className="field">
         <label className="field__label" htmlFor={noteId}>
           Hot wash notes for {row.id}

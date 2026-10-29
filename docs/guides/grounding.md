@@ -69,3 +69,14 @@ Each finding shows both passages with the value highlighted, the document, secti
 - **Copy for plan owner** copies both citations and quotes as plain text.
 
 Results are saved in `plan-conflicts.json` in the project folder. Running the check again keeps your decisions for passages that did not change; findings whose passage changed or was removed are marked outdated and shown only under **All, including outdated**. When a project has two or more plans and no check has run yet, the section offers to run one.
+
+## Testing the seams between your plans
+
+A conflict between two plans is good exercise material: players who follow one plan will clash with players who follow the other. On **Generate**, the brief form lists your open and confirmed conflicts and missing documents under **Plan seams to test** (confirmed conflicts first, then unconfirmed ones, then missing documents). Pick up to three. With no plan check yet, **Run plan check** runs one without a model.
+
+- **Give me ideas** with **From plan seams** on asks for ideas built around the seams; each idea card says which seams it tests, and **Develop this** picks them in the brief.
+- The phase plan places each seam in a phase (a notification deadline early, an approval where the pressure peaks). Both passages are always in that phase's prompt, and the MSEL gets at least one row that puts players in the seam. The inject does not tell players the plans disagree; finding that out is the point. When the model writes no such row, the best row of the phase is chosen and the check list says **An event was chosen to test a plan seam**; read it and re-run the phase if it does not fit.
+- The seam inject's **instructor note** ends with a block that quotes both passages with document, section and page and says what to watch for. It is generated from the plans: the inject editor shows it read-only under the note you can edit, and it is rebuilt when the inject is regenerated.
+- The **controller handbook** gets a **Plan seams this exercise tests** section: the two passages, the rows that test them and lines for your observations. The **hot wash** gets one question per seam ("Which did you follow, and which should the plans say?"). Take the answers to the plan owners.
+- In the **MSEL** grid seam rows carry a **Seam** tag (hover or a screen reader gives the passages). In **Facilitate**, the controller panel shows a **Plan seam** tag and both passages; the presented screen never does. The player briefing and the player edition of the Situation Manual never mention seams.
+- If the plan owners fix the plans and the next plan check no longer lists the seam, Scenario checks say **The plans no longer disagree where this scenario tests them**. Keep the inject as history or re-run the phase.

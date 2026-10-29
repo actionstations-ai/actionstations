@@ -4,6 +4,7 @@ import { Button, Field } from '../../components/ui'
 import type { DomainProfile } from '@shared/domains'
 import type { ThreatSuggestion } from '../../lib/domains'
 import { ListEditor } from './ListEditor'
+import { SeamPicker } from './SeamPicker'
 import { ThreatChoice } from './ThreatChoice'
 import { validateDraft, type BriefDraft, type BriefErrors } from './brief-form'
 
@@ -18,6 +19,8 @@ interface Props {
   suggestion?: ThreatSuggestion
   ideaTitle?: string
   onClearIdea?: () => void
+  /** The project; shows the plan seams picker (#427). */
+  projectPath?: string
 }
 
 function NumberField(props: {
@@ -180,6 +183,13 @@ export function BriefForm(props: Props) {
         onChange={(v) => set('constraints', v)}
         placeholder="e.g. Must test TIRP §13.6; one red herring per phase"
       />
+      {props.projectPath && (
+        <SeamPicker
+          projectPath={props.projectPath}
+          value={draft.seamIds}
+          onChange={(v) => set('seamIds', v)}
+        />
+      )}
       <div className="row brief-form__actions">
         <Button type="submit" variant="primary" disabled={props.submitting}>
           <Sparkles size={16} aria-hidden /> {props.submitting ? 'Starting…' : 'Generate scenario'}

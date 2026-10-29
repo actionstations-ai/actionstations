@@ -22,9 +22,10 @@ function scenarioTitle(brief: ScenarioBrief, idea?: ScenarioIdea): string {
 }
 
 export default defineHandlers({
-  'generate:ideas': async ({ projectPath, brief, count }) => {
+  'generate:ideas': async ({ projectPath, brief, count, fromSeams }) => {
     const root = await requireProject(projectPath)
-    const job = jobs.start('ideate', (ctx) => generateIdeas(root, { brief, count }, ctx), {
+    const req = { brief, count, fromSeams }
+    const job = jobs.start('ideate', (ctx) => generateIdeas(root, req, ctx), {
       projectPath: root,
       payload: { count },
     })

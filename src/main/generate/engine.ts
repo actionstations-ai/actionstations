@@ -86,9 +86,30 @@ import {
   applySitMan,
   stripKeysDeep,
 } from './mappers'
-import { runStage, StageFailure, type StageResult } from './stage'
+import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
 import { baseVars, dataSafe, rowVars } from './vars'
+import {
+  lintSeamsOutdated,
+  phaseSeams,
+  SEAM_ROW_ASSIGNED,
+  seamKey,
+  seamKeyMap,
+  seamRows,
+} from './lint-seams'
+import {
+  applySeamRows,
+  assignedNote,
+  ensureSeamRows,
+  loadSeamFindings,
+  mergeSeamHotwash,
+  pinnedChunkIds,
+  placeSeams,
+  refreshSeams,
+  relinkSeamRows,
+  seamHandbookSection,
+  seamPromptVars,
+} from './seams'
 
 export interface StepKey {
   stage: Stage
@@ -131,6 +152,7 @@ export const PIPELINE_WARNINGS = new Set([
   LOCATION_UNGROUNDED,
   FACILITY_UNKNOWN_ID,
   DECISION_POINT_RETAGGED,
+  SEAM_ROW_ASSIGNED,
 ])
 /** rowId the overview's dropped citations are recorded under. */
 export const OVERVIEW_ROW = 'overview'
@@ -258,6 +280,21 @@ function noteDropped(
   }
 }
 
+/**
+ * An msel_phase call carries the passages of the plan seams placed in its phase (#427):
+ * pinned as the first citation keys, and listed with those keys as `phaseSeams`.
+ */
+function seamPins(input: StepInput): Pick<StageCall, 'pinnedChunkIds' | 'decorateVars'> {
+  const { scenario: s, step } = input
+  if (step.stage !== 'msel_phase' || !step.itemId) return {}
+  const seams = phaseSeams(s, step.itemId)
+  if (!seams.length) return {}
+  return {
+    pinnedChunkIds: pinnedChunkIds(s, step.itemId),
+    decorateVars: (retrieved) => ({ phaseSeams: seamPromptVars(s, seams, retrieved) }),
+  }
+}
+
 /** Run the step's prompt; citation keys written into prose are stripped from the output. */
 export async function call<T>(
   input: StepInput,
@@ -267,6 +304,7 @@ export async function call<T>(
 ): Promise<StageResult<T>> {
   const { env, step } = input
   const result = await runStage<T>({
+    ...seamPins(input),
     stage: step.stage,
     ...(step.itemId ? { itemId: step.itemId } : {}),
     projectPath: env.root,
@@ -346,8 +384,27 @@ function capToAudience(input: StepInput): void {
 }
 
 async function stepPhasePlan(input: StepInput): Promise<StageRun> {
-  const r = await call<PhasePlanOutput>(input, vars(input))
-  applyPhasePlan(input.scenario, r.output)
+  const { scenario: s, env } = input
+  const extra = { stage: 'phase_plan' as const }
+  for (const id of await refreshSeams(env.root, s))
+    env.ctx.log(`Plan seam ${id} is not in the plan check; skipped`, 'warn', extra)
+  const r = await call<PhasePlanOutput>(
+    input,
+    vars(input, s.seams.length ? { seams: seamPromptVars(s, s.seams) } : {}),
+  )
+  applyPhasePlan(s, r.output)
+  if (s.seams.length) {
+    const placed = placeSeams(s, r.output)
+    for (const id of placed.fallback) {
+      const seam = s.seams.find((x) => x.id === id)
+      const phase = s.phases.find((p) => p.id === seam?.phaseId)
+      env.ctx.log(
+        `phase_plan: plan seam "${seam?.slotLabel}" placed in phase ${(phase?.index ?? 0) + 1} by default (the plan did not place it)`,
+        'info',
+        extra,
+      )
+    }
+  }
   return r.run
 }
 
@@ -551,11 +608,14 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   if (!phase) throw new AppError('NOT_FOUND', `No phase ${step.itemId} in scenario ${s.id}`)
   const owned = new Set(s.msel.filter((x) => x.phaseId === phase.id).map((x) => x.id))
   const r = await call<MselPhaseOutput>(input, mselVars(input, phase))
-  let mapped = applyMselPhase(s, phase, r.output, r.retrieved)
+  const seamKeys = seamKeyMap(s)
+  let mapped = applyMselPhase(s, phase, r.output, r.retrieved, { seamKeys })
+  applySeamRows(s, phase)
   const mix = await completeMix(input, phase, r)
   const extra = { stage: 'msel_phase' as const, itemId: phase.id }
   if (mix) {
-    mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved)
+    mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved, { seamKeys })
+    applySeamRows(s, phase)
     env.ctx.log(
       `msel_phase ${phase.index + 1}: mix pass rewrote ${mix.rewritten} and added ${mix.added} row(s)`,
       'info',
@@ -564,6 +624,7 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   }
   for (const row of mapped.rows) owned.add(row.id)
   reportMapping(s, phase, mapped, env.ctx, owned)
+  ensureSeams(s, phase, env)
   ensureDecisionPoint(s, phase, env)
   reportStructure(repairStructure(s), env.ctx, extra)
   trimOverfill(input, phase)
@@ -575,6 +636,23 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   )
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
+}
+
+/** FR-4: each seam placed in the phase leaves it with a row; an assignment is recorded. */
+export function ensureSeams(s: Scenario, phase: Phase, env: Env): void {
+  for (const a of ensureSeamRows(s, phase)) {
+    const w = assignedNote(s, a)
+    s.warnings = s.warnings.filter((x) => !(x.code === SEAM_ROW_ASSIGNED && x.rowId === a.rowId))
+    s.warnings.push(w)
+    env.ctx.log(w.message, 'warn', { stage: 'msel_phase', itemId: phase.id })
+  }
+  for (const seam of phaseSeams(s, phase.id))
+    if (!seamRows(s, seam.id).length)
+      env.ctx.log(
+        `msel_phase ${phase.index + 1}: no row can carry plan seam "${seam.slotLabel}"`,
+        'warn',
+        { stage: 'msel_phase', itemId: phase.id },
+      )
 }
 
 /** A phase the first call overfilled is trimmed to its max row count, coverage kept (#167). */
@@ -647,19 +725,31 @@ async function stepHandbook(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const r = await call<HandbookOutput>(input, vars(input))
   applyHandbook(s, r.output)
-  await writeDoc(env, s, 'handbook', renderHandbookMarkdown(s, r.output), 'controller_handbook')
+  const md = withSeams(s, renderHandbookMarkdown(s, r.output))
+  await writeDoc(env, s, 'handbook', md, 'controller_handbook')
   return r.run
 }
+
+/** FR-8: the handbook with its plan seams section (none when the scenario tests no seam). */
+function withSeams(s: Scenario, md: string): string {
+  return s.seams.length ? upsertSection(md, 'seams', seamHandbookSection(s)) : md
+}
+
+const SECTION_BODY = {
+  rubric: rubricSection,
+  hotwash: hotwashSection,
+  seams: seamHandbookSection,
+} as const
 
 async function refreshHandbookSection(
   env: Env,
   s: Scenario,
-  section: 'rubric' | 'hotwash',
+  section: keyof typeof SECTION_BODY,
 ): Promise<void> {
   const pending = env.docs?.get('handbook')
   if (!pending && !s.documents.handbook) return
   const md = pending?.md ?? (await env.deps.store.readScenarioDoc(env.root, s.id, 'handbook'))
-  const body = section === 'rubric' ? rubricSection(s) : hotwashSection(s)
+  const body = SECTION_BODY[section](s)
   await writeDoc(env, s, 'handbook', upsertSection(md, section, body), `handbook ${section}`)
 }
 
@@ -735,6 +825,7 @@ async function stepHotwash(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const r = await call<HotwashOutput>(input, vars(input))
   applyHotwash(s, r.output)
+  mergeSeamHotwash(s)
   await writeDoc(env, s, 'hotwash', renderHotwashMarkdown(s), 'hotwash')
   await refreshHandbookSection(env, s, 'hotwash')
   return r.run
@@ -809,13 +900,27 @@ async function revisePhaseRows(
   const replacements = rows.flatMap((r) => {
     const original = byId.get(r.id.trim().toUpperCase())
     if (!original || original.locked || !flagged.has(original.id.toUpperCase())) return []
-    // A revision keeps the row's id, time and tag: a DECISION_POINT must survive its rewrite.
-    return [{ ...r, id: original.id, time: original.time, purposeTag: original.purposeTag }]
+    // A revision keeps the row's id, time and tag: a DECISION_POINT must survive its rewrite,
+    // and so does the plan seam it tests (#427).
+    const seam = original.seamId ? seamKey(s, original.seamId) : undefined
+    return [
+      {
+        ...r,
+        id: original.id,
+        time: original.time,
+        purposeTag: original.purposeTag,
+        ...(seam ? { seam } : {}),
+      },
+    ]
   })
   if (!replacements.length) return new Set()
   const rewritten = new Set(replacements.map((r) => r.id))
   const keepIds = new Set(current.map((r) => r.id).filter((id) => !rewritten.has(id)))
-  const mapped = applyMselPhase(s, phase, { rows: replacements }, fix.retrieved, { keepIds })
+  const mapped = applyMselPhase(s, phase, { rows: replacements }, fix.retrieved, {
+    keepIds,
+    seamKeys: seamKeyMap(s),
+  })
+  applySeamRows(s, phase)
   reportMapping(s, phase, mapped, env.ctx, rewritten)
   return rewritten
 }
@@ -1025,6 +1130,17 @@ export async function reviseStructureAgain(
   if (changed) await writeDoc(env, s, 'overview', renderMselMarkdown(s), 'structural repair')
 }
 
+/** FR-12: the seams and the rows that test them, for the critique's seam check. */
+function critiqueSeamVars(s: Scenario): Record<string, unknown> {
+  if (!s.seams.length) return {}
+  return {
+    seams: seamPromptVars(s, s.seams).map((v, i) => ({
+      ...v,
+      rows: seamRows(s, s.seams[i]!.id).map((r) => r.id),
+    })),
+  }
+}
+
 /**
  * The critique call. A reply without any JSON (a context window the full request overflows,
  * #347) is retried once with a compact request; when that also has none, the step fails with
@@ -1032,7 +1148,7 @@ export async function reviseStructureAgain(
  */
 async function callCritique(input: StepInput): Promise<StageResult<CritiqueOutput>> {
   const { scenario: s, env } = input
-  const full = vars(input, { lints: lintScenario(s, env.domain) })
+  const full = vars(input, { lints: lintScenario(s, env.domain), ...critiqueSeamVars(s) })
   try {
     return await call<CritiqueOutput>(input, full)
   } catch (err) {
@@ -1063,6 +1179,7 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
   const rewritten = await reviseFromCritique(input, [...issues, ...structuralIssues(s, env)], r.run)
   await reviseStructureAgain(input, r.run, rewritten, repaired)
   pruneRubricLinks(s, env.ctx)
+  await refreshSeamDocs(env, s)
   // Each note carries what its row read after the revision, so a later edit marks it stale.
   const at = nowIso()
   const critique: LintWarning[] = issues.map((i) =>
@@ -1089,9 +1206,21 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
     ),
     ...lintFacilityIds(s, env.facility),
     ...lintScenario(s, env.domain),
+    ...lintSeamsOutdated(s, s.seams.length ? await loadSeamFindings(env.root) : undefined),
     ...critique,
   ]
   return r.run
+}
+
+/**
+ * After the critique's revisions the seam rows may have moved: the hot wash questions' row
+ * links and the handbook's seam section are rebuilt (no model call).
+ */
+async function refreshSeamDocs(env: Env, s: Scenario): Promise<void> {
+  if (!s.seams.length) return
+  mergeSeamHotwash(s)
+  await refreshHandbookSection(env, s, 'seams')
+  if (s.hotwash) await refreshHandbookSection(env, s, 'hotwash')
 }
 
 const EXECUTORS: Record<string, (input: StepInput) => Promise<StageRun>> = {
@@ -1151,6 +1280,7 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
     ...(step.itemId ? { itemId: step.itemId } : {}),
   })
   const work = structuredClone(input.scenario)
+  relinkSeamRows(work)
   const docs: DocBuffer = new Map()
   try {
     const run = await exec({ ...input, env: { ...env, docs }, scenario: work })

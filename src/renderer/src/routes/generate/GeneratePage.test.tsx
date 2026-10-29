@@ -196,6 +196,7 @@ describe('GeneratePage', () => {
         projectPath: PROJECT,
         brief: { userPrompt: 'baggage' },
         count: 3,
+        fromSeams: false,
       }),
     )
     act(() =>

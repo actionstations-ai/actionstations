@@ -11,6 +11,8 @@ export const generateChannels = {
     P.extend({
       brief: ScenarioBrief.partial().default({}),
       count: z.number().int().min(1).max(12).default(6),
+      /** "From plan seams" (#427): build ideas around the open plan conflicts. */
+      fromSeams: z.boolean().default(false),
     }),
     JobRef,
   ),

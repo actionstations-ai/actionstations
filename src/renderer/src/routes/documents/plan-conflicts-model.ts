@@ -4,8 +4,8 @@ import {
   LISTED_VERDICTS,
   type PlanConflictsFile,
   type PlanFinding,
-  type PlanPassage,
 } from '@shared/schemas/plan-conflicts'
+import { passageLine } from '@shared/seams'
 
 export type ConflictFilter = 'open' | 'dismissed' | 'confirmed' | 'all'
 
@@ -48,9 +48,7 @@ export const VERDICT_TEXT: Record<PlanFinding['verdict'], string> = {
   unconfirmed: 'Not checked with a model. Found by matching the wording.',
 }
 
-export function passageLine(p: PlanPassage): string {
-  return `${p.documentTitle} › ${p.headingPath.split('›').slice(1).join('›').trim() || p.headingPath}${p.page ? `, p. ${p.page}` : ''}`
-}
+export { passageLine }
 
 /** "Copy for plan owner": both citations and quotes as plain text. */
 export function copyText(f: PlanFinding): string {

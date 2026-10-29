@@ -62,6 +62,10 @@ export function toText(row: MselRow, s: Scenario): string {
   return names.join(', ') || 'All'
 }
 
+/** The Source check cell: the grounding label, and "Seam" on a row that tests a plan seam (#427). */
+const checkCell = (label: string | undefined, row: { seamId?: string | undefined }): string =>
+  [label, row.seamId ? 'Seam' : ''].filter(Boolean).join(' · ')
+
 const citationText = (row: { citations: { headingPath: string }[] }): string =>
   row.citations.map((c) => c.headingPath).join('; ')
 
@@ -153,7 +157,7 @@ export function mselView(model: ExportModel, prefix: string) {
         refs: citationText(r),
         evaluation: evaluationText(s, r.id),
         tag: tagView(r.purposeTag),
-        check: model.sourceCheck?.[r.id] ?? '',
+        check: checkCell(model.sourceCheck?.[r.id], r),
         showCheck: !!model.sourceCheck,
         rowClass: r.purposeTag === 'DECISION_POINT' ? 'is-decision' : '',
       })),

@@ -1,6 +1,7 @@
 // Map validated stage outputs into the Scenario. Ids are ULIDs except roles (id = sanitized
 // key, so prompts and MSEL rows can refer to "ops", "it", "pio") and MSEL rows (the
 // user-visible "I-07"). Citation keys are resolved by the caller and passed in.
+import { normalizeSeamKey } from './lint-seams'
 import {
   exerciseMinutes,
   formatExerciseTime,
@@ -222,14 +223,33 @@ function cite(keys: string[], c: CitationCollector, rowId?: string): Citation[] 
   return citations
 }
 
+/** Idea seam keys → finding ids (#427); keys the prompt never showed are reported. */
+function ideaSeams(
+  keys: string[] | undefined,
+  seamIds: readonly string[],
+  unknown: string[],
+): { seamIds?: string[] } {
+  const ids = (keys ?? []).flatMap((k) => {
+    const n = Number(normalizeSeamKey(k)?.slice(1))
+    const id = seamIds[n - 1]
+    if (!id) unknown.push(k)
+    return id ? [id] : []
+  })
+  return ids.length ? { seamIds: [...new Set(ids)] } : {}
+}
+
 export function mapIdeas(
   out: IdeasOutput,
   chunks: RetrievedChunk[],
+  seamIds: readonly string[] = [],
 ): {
   ideas: ScenarioIdea[]
   dropped: CitationCollector['dropped']
+  /** Seam keys the ideas named that the prompt never showed. */
+  unknownSeams: string[]
 } {
   const c: CitationCollector = { chunks, dropped: [] }
+  const unknownSeams: string[] = []
   const ideas = out.ideas.map((i) => ({
     id: newId(),
     title: i.title,
@@ -240,8 +260,9 @@ export function mapIdeas(
     difficulty: i.difficulty,
     whyItTeaches: i.whyItTeaches,
     suggestedRoles: i.suggestedRoles,
+    ...ideaSeams(i.seams, seamIds, unknownSeams),
   }))
-  return { ideas, dropped: c.dropped }
+  return { ideas, dropped: c.dropped, unknownSeams }
 }
 
 export function applyOverview(
@@ -533,6 +554,8 @@ function dedupeRows(
 export interface ApplyMselOptions {
   /** Existing rows of the phase to keep verbatim (the critique revision's unflagged rows). */
   keepIds?: Set<string>
+  /** Plan seam S key → seam id (#427); a row's `seam` key outside it is dropped. */
+  seamKeys?: Map<string, string>
 }
 
 /** The phase's current rows split into those kept verbatim (locked or requested) and the rest. */
@@ -580,6 +603,7 @@ export function applyMselPhase(
     const to = resolveToRoles(r.to, s.roles)
     if (to.unresolved.length) unresolvedTo.push({ rowId: id, keys: to.unresolved })
     const injectId = injectIds.get(id)
+    const seamId = opts.seamKeys?.get(normalizeSeamKey(r.seam) ?? '')
     return {
       id,
       phaseId: phase.id,
@@ -595,6 +619,7 @@ export function applyMselPhase(
       ...(injectId ? { injectId } : {}),
       citations: cite(r.citations, c, id),
       locked: false,
+      ...(seamId ? { seamId } : {}),
     }
   })
   const sorted = [...kept, ...rows].sort(
