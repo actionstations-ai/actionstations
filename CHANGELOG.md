@@ -8,6 +8,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-10-30
+
 ### Added
 
 - The self-hosted server image on GHCR is published for ARM (arm64) as well as x86-64 (amd64), so it runs natively on AWS Graviton, Raspberry Pi 4 or 5 and other ARM hosts (#547).
