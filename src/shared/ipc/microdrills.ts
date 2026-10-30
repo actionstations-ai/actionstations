@@ -3,6 +3,7 @@
 import { z } from 'zod'
 import { channel } from './define'
 import { SafeId } from '../schemas/common'
+import { LiveDrillView } from '../schemas/live'
 import {
   HintLevel,
   MicroDrill,
@@ -92,4 +93,15 @@ export const microDrillChannels = {
   'microdrills:debrief': channel(P.extend({ runId: SafeId }), MicroDrillDebrief),
   /** Write the debrief as a PDF in <project>/exports (job-free: one page). */
   'microdrills:debrief-pdf': channel(P.extend({ runId: SafeId }), z.object({ path: z.string() })),
+  /** Drills sent to devices in the running live session (FR-17); empty when no session runs. */
+  'microdrills:live-status': channel(
+    P,
+    z.object({ running: z.boolean(), drills: z.array(LiveDrillView) }),
+  ),
+  'microdrills:live-open': channel(
+    P.extend({ drillId: SafeId, targets: z.array(z.string().max(140)).max(64).optional() }),
+    LiveDrillView,
+  ),
+  /** Close a drill on devices: every device's run is finished and reported to the program. */
+  'microdrills:live-close': channel(P.extend({ liveId: z.string().min(1).max(64) }), LiveDrillView),
 }

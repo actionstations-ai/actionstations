@@ -13,7 +13,7 @@ import { createIdentity } from '@shared/live/identity'
 import { parseInvite } from '@shared/live/invite'
 import type { Opened } from '@shared/live/codec'
 import type { WelcomePayload } from '@shared/live/schemas'
-import { Survey } from '@shared/schemas'
+import { MicroDrill, Survey } from '@shared/schemas'
 import { VoteDefinition, type SessionLogEntry } from '@shared/schemas/live'
 import { httpGet, wsTransport } from './transport/lan/test-clients'
 
@@ -70,8 +70,12 @@ const {
   openSurvey,
   closeSurvey,
   liveSurveys,
+  openDrill,
+  closeDrill,
+  liveDrills,
 } = await import('./session')
 const { writeSurvey, readResponses } = await import('../surveys/store')
+const { saveMicroDrill, listMicroRuns } = await import('../microdrill/store')
 const { createProject } = await import('../project/store')
 const { createScenario, getScenario, saveScenario } = await import('../scenario/store')
 const { resetSettingsCache } = await import('../settings/store')
@@ -1018,6 +1022,124 @@ describe('surveys on devices through a running session (#422)', () => {
         channel: 'qr',
       }),
     )
+    await endSession(projectPath, scenarioId)
+  })
+})
+
+describe('micro-drills on devices through a running session (#437)', () => {
+  afterEach(async () => {
+    await stopLiveSession()
+    delete process.env.TTX_LIVE_BIND
+  })
+
+  const cite = { documentId: 'eop', documentTitle: 'EOP', headingPath: 'EOP > 6.4', chunkId: 1 }
+  const step = (n: number) => ({
+    id: `s${n}`,
+    prompt: `Question ${n}: who may release information?`,
+    expectedPoints: [
+      { id: `s${n}p1`, text: 'The PIO may release information', citation: cite },
+      { id: `s${n}p2`, text: 'Consult the Incident Commander first', citation: cite },
+    ],
+    hints: [
+      { level: 1, text: 'Think about who speaks for the organization.' },
+      { level: 2, text: 'See the releases section.', citation: cite },
+      { level: 3, text: 'The plan states the rule.', citation: cite, quote: 'The PIO releases.' },
+    ],
+    modelAnswer: 'The PIO, after consulting the Incident Commander.',
+  })
+  const drill = MicroDrill.parse({
+    id: 'DRILL1',
+    title: 'Public information drill',
+    status: 'ready',
+    annex: { documentId: 'eop', documentTitle: 'EOP', headingPath: 'EOP > 6.4' },
+    situation: 'A reporter calls the main number.',
+    objectives: [{ id: 'o1', text: 'Know who releases information.' }],
+    steps: [1, 2, 3].map(step),
+    createdAt: '2026-10-01T10:00:00.000Z',
+    updatedAt: '2026-10-01T10:00:00.000Z',
+  })
+
+  it('sends questions only, answers one device at a time, and finishes a run per device', async () => {
+    const { projectPath, scenarioId } = await setup()
+    await saveMicroDrill(projectPath, drill)
+    const started = await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    const url = started.invites!.players.url
+    const players = [await joinAsPlayer(url, 'A', 'ops'), await joinAsPlayer(url, 'B', 'pio')]
+    const opens = players.map(() => [] as Opened<'drill.open'>[])
+    const replies = players.map(() => [] as Opened<'drill.feedback'>[])
+    const closes = players.map(() => [] as Opened<'drill.close'>[])
+    players.forEach((p, i) => {
+      p.client.setDestinations(['all', `role:${i ? 'pio' : 'ops'}`])
+      p.client.on('drill.open', (m) => opens[i]!.push(m))
+      p.client.on('drill.feedback', (m) => replies[i]!.push(m))
+      p.client.on('drill.close', (m) => closes[i]!.push(m))
+    })
+
+    const view = await openDrill(projectPath, 'DRILL1')
+    await vi.waitFor(() => expect(opens.every((o) => o.length === 1)).toBe(true))
+    expect(opens[0]![0]!.signedBy).toBe('host')
+    expect(JSON.stringify(opens[0]![0]!.payload)).not.toContain('Incident Commander')
+    expect(opens[0]![0]!.payload.steps).toHaveLength(3)
+
+    const ask = (i: number, extra: Record<string, unknown>) =>
+      players[i]!.client.send('drill.answer', 'controller', {
+        drillId: view.liveId,
+        stepId: 's1',
+        ...extra,
+      } as never)
+    await ask(0, { ask: 'check', text: 'The PIO may release information' })
+    await vi.waitFor(() => expect(replies[0]).toHaveLength(1))
+    // No model is routed in this test, so the run falls back to the checklist (FR-18).
+    expect(replies[0]![0]!.payload).toMatchObject({
+      kind: 'checklist',
+      points: [{ id: 's1p1' }, { id: 's1p2' }],
+    })
+    await ask(0, { ask: 'check', text: 'The PIO may release information', ticked: ['s1p1'] })
+    await vi.waitFor(() => expect(replies[0]).toHaveLength(2))
+    expect(replies[0]![1]!.payload).toMatchObject({
+      kind: 'result',
+      covered: ['The PIO may release information'],
+      left: 1,
+    })
+    expect(replies[1]).toHaveLength(0)
+
+    await ask(1, { ask: 'hint' })
+    await vi.waitFor(() => expect(replies[1]).toHaveLength(1))
+    expect(replies[1]![0]!.payload).toMatchObject({ kind: 'hint', hint: { level: 1 } })
+    expect(replies[0]).toHaveLength(2)
+
+    await vi.waitFor(() => expect(liveDrills(projectPath)[0]!.participants).toHaveLength(2))
+    const done = await closeDrill(projectPath, view.liveId)
+    expect(done.status).toBe('closed')
+    await vi.waitFor(() => expect(closes.every((c) => c.length === 1)).toBe(true))
+    const runs = await listMicroRuns(projectPath)
+    expect(runs).toHaveLength(2)
+    expect(runs.every((r) => r.where === 'player_page' && r.finishedAt)).toBe(true)
+    await endSession(projectPath, scenarioId)
+
+    const log = readLog(projectPath, scenarioId, started.session!.id)
+    expect(log.some((e) => e.kind === 'drill.open')).toBe(true)
+    const text = JSON.stringify(log)
+    expect(text).not.toContain('The PIO may release information')
+    for (const p of players) expect(text).not.toContain(p.identity.clientId)
+  })
+
+  it('refuses a drill that is not Ready and a drill with no live session', async () => {
+    const { projectPath, scenarioId } = await setup()
+    await expect(openDrill(projectPath, 'DRILL1')).rejects.toThrow(/live session/)
+    await saveMicroDrill(projectPath, { ...drill, status: 'draft' })
+    await startSession({
+      projectPath,
+      scenarioId,
+      connection: { kind: 'lan', tls: 'none' },
+      attribution: 'role',
+    })
+    await expect(openDrill(projectPath, 'DRILL1')).rejects.toThrow(/Ready/)
     await endSession(projectPath, scenarioId)
   })
 })

@@ -115,6 +115,9 @@ export const LOG_ENTRY_KINDS = [
   'survey.open',
   'survey.response',
   'survey.close',
+  'drill.open',
+  'drill.answer',
+  'drill.close',
   'eval.assign',
   'eval.observation',
   'eval.watch',
@@ -164,6 +167,7 @@ export const LogRef = z.object({
   itemId: LogId.optional(),
   groupId: LogId.optional(),
   surveyId: LogId.optional(),
+  drillId: LogId.optional(),
   observationId: LogId.optional(),
   taskId: LogId.optional(),
   noticeId: LogId.optional(),
@@ -309,6 +313,29 @@ export const LiveSurveyView = z.object({
 })
 export type LiveSurveyView = z.infer<typeof LiveSurveyView>
 
+/** A micro-drill running on devices (spec 0437 FR-17). Labels and counts; no answer text. */
+export const LiveDrillView = z.object({
+  liveId: z.string(),
+  drillId: SafeId,
+  title: z.string(),
+  status: z.enum(['open', 'closed']),
+  assessment: z.enum(['model', 'checklist']),
+  targets: z.array(z.string()),
+  openedAt: z.number(),
+  stepCount: z.number().int().min(1),
+  participants: z.array(
+    z.object({
+      label: z.string(),
+      online: z.boolean(),
+      /** Questions answered at least once. */
+      answered: z.number().int().min(0),
+      hints: z.number().int().min(0),
+      runId: z.string(),
+    }),
+  ),
+})
+export type LiveDrillView = z.infer<typeof LiveDrillView>
+
 export const LiveChangedEvent = z.object({
   reason: z.enum([
     'started',
@@ -322,6 +349,7 @@ export const LiveChangedEvent = z.object({
     'evaluation',
     'hotwash',
     'surveys',
+    'drills',
   ]),
   sessionId: SessionId.optional(),
   /** With `messages`: the thread that changed, so the panel fetches only that one. */

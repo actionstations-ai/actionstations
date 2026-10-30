@@ -104,6 +104,11 @@ export const MselRowOutput = z.object({
   seam: SeamKeyOut.optional(),
   /** Place ids from the PLACES list, when the row happens at one (#436). */
   placeIds: z.array(z.string()).max(10).optional(),
+  /** Regulation triggers this row fires, copied from the REGULATIONS list when one was given (#426). */
+  triggers: z
+    .array(z.object({ regulationId: z.string().max(80), triggerId: z.string().max(80) }))
+    .max(5)
+    .optional(),
 })
 export type MselRowOutput = z.infer<typeof MselRowOutput>
 

@@ -57,6 +57,8 @@ import { encodePartnerInvite } from '@shared/live/partner-invite'
 import { DEVICE_TARGET, teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
 import { LiveSurveys, type SurveySeat } from './surveys'
+import { LiveDrills, type DrillSeat } from '../microdrill/live'
+import { drillRuns } from '../microdrill/live-runs'
 import { Votes, type VoteResult, type VoteSeat } from './votes'
 import {
   emptyStage,
@@ -136,6 +138,8 @@ export interface Active {
   calls: Calls
   votes: Votes
   surveys: LiveSurveys
+  /** Micro-drills sent to devices (spec 0437 FR-17). */
+  drills: LiveDrills
   evaluation: LiveEvaluation
   /** Staff seats close when a partner invite is minted, until the host grants them (#529). */
   staffSeats: { locked: boolean; granted: boolean }
@@ -242,6 +246,7 @@ function emitChanged(
     | 'votes'
     | 'evaluation'
     | 'hotwash'
+    | 'drills'
     | 'surveys',
   message?: string,
   threadId?: string,
@@ -366,6 +371,11 @@ function wireClient(a: Active): void {
       // Sealed to the controller; the sender is used to find its seat and is not kept.
       if (msg.to !== 'controller') return
       void a.surveys.onResponse(msg.from, msg.payload).catch((e) => fail(a, e))
+    }),
+    a.client.on('drill.answer', (msg) => {
+      // Sealed to the controller; the sender finds the device's run and is not logged.
+      if (msg.to !== 'controller') return
+      void a.drills.onAnswer(msg.from, msg.payload).catch((e) => fail(a, e))
     }),
     a.client.onDropped((reason, detail) => {
       if (reason === 'NOT_FOR_ME' || reason === 'STAFF_ONLY' || reason === 'CONTROLLER_ONLY') return
@@ -694,6 +704,32 @@ function makeSurveys(
     channel,
     now: () => Date.now(),
     changed: () => emitChanged('surveys'),
+  })
+}
+
+/** Drills' view of the session: sending as the controller, the seated devices, the log, the project. */
+function makeDrills(getActive: () => Active, roles: readonly Role[]): LiveDrills {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new LiveDrills({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players' }),
+    log: { append: (input) => getActive().log.append(input) },
+    runs: drillRuns(() => getActive().root),
+    seats: () =>
+      [...getActive().seats.byClient.values()].map((s): DrillSeat => {
+        const role = s.roleId ? byId.get(s.roleId) : undefined
+        const team = role ? teamSlug(role.team) : undefined
+        return {
+          clientId: s.clientId,
+          kind: s.kind,
+          ...(s.roleId ? { roleId: s.roleId } : {}),
+          ...(team ? { teamId: team } : {}),
+          label: role?.name ?? s.kind,
+          online: s.online,
+        }
+      }),
+    now: () => Date.now(),
+    changed: () => emitChanged('drills'),
   })
 }
 
@@ -1039,6 +1075,7 @@ async function startOn(
     ),
     votes: makeVotes(() => a, scenario.roles),
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
+    drills: makeDrills(() => a, scenario.roles),
     evaluation: makeEvaluation(() => a),
     helpers: makeHelpers(() => a),
     forwardedReceipts: new Set(),
@@ -1703,6 +1740,7 @@ export async function switchAddress(address: string): Promise<LanServerStatus> {
 
 async function teardown(a: Active, reason: 'endex' | 'cancelled'): Promise<LiveSession> {
   await a.surveys.closeAll().catch((e: unknown) => console.error('[live] surveys:', e))
+  await a.drills.closeAll().catch((e: unknown) => console.error('[live] drills:', e))
   for (const call of a.calls.list())
     if (call.status !== 'ended') await a.calls.end(call.callId).catch(() => undefined)
   simcellFor(a.root, a.session.scenarioId).detach()
@@ -1831,4 +1869,28 @@ export function liveSurveys(root: string, scenarioId: string) {
   const a = active
   if (!a || a.root !== root || a.session.scenarioId !== scenarioId) return []
   return a.surveys.list()
+}
+
+/** The running session of a project, for drills, which belong to the project and not to a scenario. */
+function activeForRoot(root: string): Active {
+  if (!active || active.root !== root || active.session.surveyOnly) {
+    throw new AppError('NOT_FOUND', 'Start a live session to send a drill to devices.')
+  }
+  return active
+}
+
+/** Send a micro-drill to devices (spec 0437 FR-17). */
+export async function openDrill(root: string, drillId: string, targets?: string[]) {
+  return activeForRoot(root).drills.open(drillId, targets)
+}
+
+export async function closeDrill(root: string, liveId: string) {
+  return activeForRoot(root).drills.close(liveId)
+}
+
+/** Drills sent in the running session; empty when none runs for this project. */
+export function liveDrills(root: string) {
+  const a = active
+  if (!a || a.root !== root || a.session.surveyOnly) return []
+  return a.drills.list()
 }

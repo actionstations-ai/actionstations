@@ -652,7 +652,16 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
     })
 
     describe('co-controllers and staff devices (#517, #518)', () => {
-      const HOST_ONLY = ['clock.state', 'controller.roster', 'partner.receipt', 'simcell.draft']
+      const HOST_ONLY = [
+        'clock.state',
+        'controller.roster',
+        'partner.receipt',
+        'simcell.draft',
+        'drill.open',
+        'drill.feedback',
+        'drill.close',
+      ]
+      const ONE_DEVICE = ['partner.receipt', 'simcell.draft', 'drill.feedback']
 
       it('a co-controller connection may send scoped controller types and reach the players', async () => {
         await start()
@@ -673,8 +682,7 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
         const staff = await participant(1)
         await until(() => [h, co, staff].every((x) => x.got.of('relay.hello').length === 1))
         HOST_ONLY.forEach((type, i) => {
-          const to =
-            type === 'partner.receipt' || type === 'simcell.draft' ? `client:${staff.id}` : 'all'
+          const to = ONE_DEVICE.includes(type) ? `client:${staff.id}` : 'all'
           co.t.send(frame(co.id, i + 1, to, type))
         })
         await until(() => co.got.errors('NOT_CONTROLLER').length === HOST_ONLY.length)

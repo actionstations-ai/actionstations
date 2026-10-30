@@ -39,7 +39,11 @@ export interface HintResult {
   quote?: string
 }
 
-function cleanParticipants(drill: MicroDrill, input: ParticipantInput[]): ParticipantInput[] {
+function cleanParticipants(
+  drill: MicroDrill,
+  input: ParticipantInput[],
+  where: MicroDrillRun['where'],
+): ParticipantInput[] {
   const cleaned = input
     .map((p, i) => ({
       label: p.label.trim().slice(0, 40) || `Participant ${i + 1}`,
@@ -47,7 +51,7 @@ function cleanParticipants(drill: MicroDrill, input: ParticipantInput[]): Partic
     }))
     .slice(0, MICRO_DRILL_LIMITS.participants)
   if (!cleaned.length) cleaned.push({ label: 'Participant 1' })
-  if (drill.mode === 'solo') return cleaned.slice(0, 1)
+  if (drill.mode === 'solo' || where === 'player_page') return cleaned.slice(0, 1)
   if (cleaned.length < 2) throw new AppError('VALIDATION', 'A team drill needs two to six people.')
   if (new Set(cleaned.map((p) => p.label)).size !== cleaned.length)
     throw new AppError('VALIDATION', 'Each participant needs a different label.')
@@ -65,10 +69,11 @@ export async function startRun(
   root: string,
   drillId: string,
   input: ParticipantInput[],
+  where: MicroDrillRun['where'] = 'this_computer',
 ): Promise<MicroDrillRun> {
   const drill = await getMicroDrill(root, drillId)
   if (drill.status !== 'ready') throw new AppError('VALIDATION', 'Mark the drill Ready to run it.')
-  const participants = cleanParticipants(drill, input)
+  const participants = cleanParticipants(drill, input, where)
   const history = await readHistory(root, drill.annex)
   const hints = decideHints(
     participants.map((p) => p.label),
@@ -85,6 +90,7 @@ export async function startRun(
       drillTitle: drill.title,
       annex: drill.annex,
       participants,
+      where,
       ...how,
       hintRule: hints.rule,
       withdrawnLevel3: hints.withdrawnLevel3,
