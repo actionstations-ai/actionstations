@@ -13,6 +13,8 @@ export interface RunArgs {
   yes?: boolean
   resume?: boolean
   clean?: boolean
+  judge?: string
+  determinism?: boolean
 }
 export function parseArgs(argv: string[]): RunArgs
 export interface CaseResult {

@@ -94,6 +94,21 @@ export const BenchRun = z.object({
   median: BenchMedian,
   range: BenchRange,
   unstable: z.boolean(),
+  /** The optional local judge (`--judge`, FR-17); never part of the overall score. */
+  judge: z
+    .object({
+      model: z.string().max(120),
+      /** Agreement with the human-scored calibration rows; null without a calibration set. */
+      kappa: z.number().nullable(),
+      calibrationRows: z.number().int().nonnegative(),
+      published: z.boolean(),
+      scores: z.record(z.string(), z.number()),
+    })
+    .optional(),
+  /** Two repeats at the same seed (`--determinism`): did they score the same (#503)? */
+  determinism: z
+    .object({ seed: z.number().int(), identical: z.boolean(), differing: z.array(z.string()) })
+    .optional(),
 })
 export type BenchRun = z.infer<typeof BenchRun>
 

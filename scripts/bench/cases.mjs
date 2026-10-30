@@ -12,6 +12,7 @@ import { critiqueCase, draftingCase, ideationCase } from './score/composite.mjs'
 import { critiqueNotes } from './score/critique.mjs'
 import { droppedIdeaKeys } from './score/ideation.mjs'
 import { lintFindings } from './score/lint.mjs'
+import { judgeRowsOf } from './judge.mjs'
 import { reliability } from './score/reliability.mjs'
 
 const MINUTE = 60_000
@@ -151,6 +152,7 @@ export async function runDrafting(ctx, c) {
     caseId: c.id,
     ...scored,
     reliability: reliability(scenario).successRate,
+    ...(ctx.judge ? { judgeRows: judgeRowsOf(scenario) } : {}),
     wallSeconds,
     tokens: tokenTotals(scenario.provenance),
     largestPrompt: Math.max(0, ...scenario.provenance.map((r) => r.inputTokens ?? 0)),

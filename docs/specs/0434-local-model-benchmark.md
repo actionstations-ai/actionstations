@@ -414,8 +414,13 @@ Where the code differs from the text above, and why:
   `scripts/lib/bench-app.ts` is the bundled entry through which the scripts use the zod
   schemas, `TEXT_TIERS` and `hardwareView` (`scripts/lib/bundle-main.mjs`). Default `--out` is
   `.tmp/bench`; `--repeats` is 1 to 3 (one per seed).
-- **Not built yet**: the optional local judge (FR-17, task 8) needs the maintainer's
-  calibration set and never enters the composite in this version; the `LIVE=1` determinism
-  check; the first published runs of the `TEXT_TIERS` models (task 9) and the site import
+- **Judge and determinism (#503)**: `--judge` (FR-17) and `--determinism` are built. The judge
+  scores up to 30 cited rows per run through the local OpenAI-compatible endpoint with
+  `bench/prompts/bench_judge.md`, drops scores whose quotes are not in the text, and measures
+  linearly weighted kappa against `bench/calibration/rows.json`. That file is the maintainer's to
+  write (rows of `row`, `passage`, `score` 1 to 5); until it holds 60 rows the judge block is
+  marked unpublished. `--determinism` replaces the `LIVE=1` check: it runs in the smoke test
+  against the mock provider.
+- **Not built yet**: the first published runs of the `TEXT_TIERS` models (task 9) and the site import
   (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
   building this.

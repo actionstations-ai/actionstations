@@ -53,6 +53,41 @@ test('the quick suite runs against the mock provider and writes a valid run file
   }
 })
 
+test('--determinism runs two repeats at one seed and reports they agree', () => {
+  test.setTimeout(8 * 60_000)
+  const out = mkdtempSync(join(tmpdir(), 'ttx-bench-det-'))
+  try {
+    const res = spawnSync(
+      process.execPath,
+      [
+        'scripts/bench/run.mjs',
+        '--models',
+        'mock',
+        '--embedder',
+        'hash',
+        '--determinism',
+        '--out',
+        out,
+        '--clean',
+      ],
+      {
+        cwd: ROOT,
+        env: { ...process.env, TTX_MOCK_PROVIDERS: '1' },
+        encoding: 'utf8',
+        timeout: 7 * 60_000,
+      },
+    )
+    expect(res.status, res.stderr + res.stdout).toBe(0)
+    const file = readdirSync(out).find((f) => f.endsWith('.json') && f !== 'state.json')!
+    const run = BenchRun.parse(JSON.parse(readFileSync(join(out, file), 'utf8')))
+    expect(run.repeats).toHaveLength(2)
+    expect(run.repeats[0]!.seed).toBe(run.repeats[1]!.seed)
+    expect(run.determinism).toMatchObject({ identical: true, differing: [] })
+  } finally {
+    rmSync(out, { recursive: true, force: true })
+  }
+})
+
 test('a remote endpoint is refused before the app starts', () => {
   const res = spawnSync(
     process.execPath,
