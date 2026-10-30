@@ -124,7 +124,7 @@ function fixtureRepo(): string {
 function fixtureMap(over: (m: Record<string, unknown>) => void = () => {}) {
   const m = {
     author: { name: 'Action Stations' },
-    license: 'LicenseRef-Action-Stations',
+    license: 'CC-BY-4.0',
     packs: [
       {
         id: CORE,

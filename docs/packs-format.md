@@ -402,7 +402,7 @@ The app's own content is packs too (ADR-0020, #314), built from the repo at buil
 
 ### packs/bundled.json
 
-Maps the repo's folders to packs (schema `BundledMap`, `src/main/packs/bundled-map.ts`). Top level: `author`, `license` (`LicenseRef-Action-Stations`: the app's terms), `homepage`, `packs[]`. Per pack:
+Maps the repo's folders to packs (schema `BundledMap`, `src/main/packs/bundled-map.ts`). Top level: `author`, `license` (`CC-BY-4.0`: the license of the project-written content; bundled third-party documents carry their own), `homepage`, `packs[]`. Per pack:
 
 | Field         | Rules                                                                                                                               |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |

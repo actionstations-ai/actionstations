@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Changed
+
+- Action Stations is relicensed from the PolyForm Internal Use License 1.0.0 (plus the education permission) to AGPL-3.0-only, with a commercial license available (#554, ADR-0067). Consultants and trainers can now use it for other organizations at no cost. Releases up to 0.6.1 keep their original license. `LICENSING.md` replaces `COMMERCIAL.md`; the contributor agreement now asks for a `Signed-off-by` line; project-written packs use CC BY 4.0.
+
 ## [0.6.1] - 2026-10-30
 
 ### Added

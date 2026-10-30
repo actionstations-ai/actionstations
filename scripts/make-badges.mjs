@@ -106,11 +106,9 @@ export function parsePlaywrightList(out) {
   return m ? { tests: Number(m[1]), files: Number(m[2]) } : null
 }
 
-/** "PolyForm Internal Use 1.0.0" from LICENSE.md's heading, plus "+ education" when present. */
-export function licenseName(licenseMd, hasEducation) {
-  const heading = (licenseMd.match(/^#\s+(.+)$/m)?.[1] ?? 'see LICENSE.md').trim()
-  const name = heading.replace(/\s+License(?=\s|$)/, '')
-  return hasEducation ? `${name} + education` : name
+/** The SPDX license id from package.json (for example "AGPL-3.0-only"). */
+export function licenseName(packageLicense) {
+  return String(packageLicense ?? 'see LICENSE.md').trim()
 }
 
 /** Desktop platforms from electron-builder.yml's top-level mac/win/linux sections. */
@@ -243,10 +241,7 @@ function main() {
     e2eTests: e2e.tests,
     e2eFiles: e2e.files,
     version: badgeVersion(args, pkg),
-    license: licenseName(
-      readFileSync(join(ROOT, 'LICENSE.md'), 'utf8'),
-      existsSync(join(ROOT, 'LICENSE-EDUCATION.md')),
-    ),
+    license: licenseName(pkg.license),
     electron: String(pkg.devDependencies?.electron ?? pkg.dependencies?.electron).replace(
       /^[\^~]/,
       '',

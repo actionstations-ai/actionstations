@@ -171,7 +171,7 @@ Bug reports, feature requests and pull requests are welcome. [CONTRIBUTING.md](C
 
 ## License
 
-Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): any organization may use and change Action Stations for free for its own internal operations, including running exercises for its own people. Schools, colleges and universities, their faculty, staff and students, may also use it for teaching, coursework, research and student exercises under the [Additional Permission for Education](LICENSE-EDUCATION.md). Selling or redistributing it, hosting it for others, and consulting, training or facilitation for other organizations need a commercial license; see [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose.
+Free software under the [GNU Affero General Public License v3.0](LICENSE.md) (`AGPL-3.0-only`). Anyone may use and change Action Stations, including consultants and trainers working for other organizations. If you modify it and offer it to others over a network, you must offer them your source. A separate commercial license is available for other terms: see [LICENSING.md](LICENSING.md) or write to licensing@actionstations.ai. "Action Stations" is a trademark and is not licensed. Contributions are accepted under the [CLA](CLA.md). Third-party dependencies keep their own licenses, and packs carry the license their author chose (project-written packs use CC BY 4.0). Releases up to 0.6.1 stay under their original PolyForm Internal Use terms.
 
 ## Project stats
 
