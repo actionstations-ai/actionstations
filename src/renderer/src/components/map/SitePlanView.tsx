@@ -1,13 +1,13 @@
 // Site plan engine (#436, FR-2/FR-7): the plan image with markers placed by percent. Pan by
 // dragging or with the arrow keys, zoom with the wheel, the buttons or + and -. It uses no
-// WebGL, so it works on any computer. (The tile pyramid in the spec is not built yet: the
-// browser scales the one image on the GPU.)
-import { useCallback, useRef, useState } from 'react'
+// WebGL, so it works on any computer. Large plans are drawn from a tile pyramid
+// (PlaneImage); small ones are one image.
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
-import { mediaUrl } from '@shared/media-url'
 import type { MapLayer } from '@shared/schemas'
 import { isPercentPosition, type PinStatus } from '@shared/maps/pins'
 import { Button } from '../ui'
+import { PlaneImage } from './PlaneImage'
 import { markerName, type MapMarker } from './marker-model'
 import { MarkerButton } from './markers'
 
@@ -55,7 +55,17 @@ export function SitePlanView(props: MapEngineProps & { layer: Plan }) {
   const frame = useRef<HTMLDivElement>(null)
   const drag = useRef<{ px: number; py: number; moved: boolean } | null>(null)
   const [view, setView] = useState<View>(FIT)
-
+  const [frameSize, setFrameSize] = useState({ w: 1000, h: 1000 })
+  useEffect(() => {
+    const el = frame.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const watch = new ResizeObserver(() => {
+      const r = el.getBoundingClientRect()
+      setFrameSize({ w: r.width, h: r.height })
+    })
+    watch.observe(el)
+    return () => watch.disconnect()
+  }, [])
   const size = () => {
     const r = frame.current?.getBoundingClientRect()
     return { w: r?.width ?? 1000, h: r?.height ?? 1000 }
@@ -153,14 +163,7 @@ export function SitePlanView(props: MapEngineProps & { layer: Plan }) {
             ['--map-inv-scale' as string]: String(1 / view.scale),
           }}
         >
-          <img
-            className="map-plane__img"
-            src={mediaUrl(props.projectPath, layer.image)}
-            alt=""
-            draggable={false}
-            width={layer.width}
-            height={layer.height}
-          />
+          <PlaneImage projectPath={props.projectPath} layer={layer} frame={frameSize} view={view} />
           {placed.map((m) => (
             <MarkerButton
               key={m.id}

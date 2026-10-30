@@ -57,7 +57,7 @@ the box to take the map off the phones.
 ## Not yet
 
 Place labels on offline maps (they need bundled fonts), the
-tile pyramid for very large plans, Locations pages for geographic maps, and the WebGL check on
+Locations pages for geographic maps, and the WebGL check on
 packaged Linux and Windows builds.
 
 ## Map updates
