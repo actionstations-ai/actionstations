@@ -3,7 +3,7 @@
  * install|uninstall. Plain text output, no colour (spec 0409 NFR-3). `main` takes its
  * arguments and streams so tests run it in-process.
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { parseArgs } from 'node:util'
 import { adminSocketPath, queryAdmin } from './admin'
@@ -187,6 +187,7 @@ function service(action: string | undefined, values: Record<string, unknown>, io
   const configPath = join(dataDir, 'config.toml')
   const port = Number(values.port ?? 8485)
   if (action === 'install' && !existsSync(configPath) && !values['dry-run']) {
+    mkdirSync(dataDir, { recursive: true })
     writeFileSync(configPath, exampleConfig(dataDir, port))
     io.stdout(`Wrote ${configPath}`)
   }
