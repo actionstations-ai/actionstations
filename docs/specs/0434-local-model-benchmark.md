@@ -421,6 +421,7 @@ Where the code differs from the text above, and why:
   write (rows of `row`, `passage`, `score` 1 to 5); until it holds 60 rows the judge block is
   marked unpublished. `--determinism` replaces the `LIVE=1` check: it runs in the smoke test
   against the mock provider.
-- **Not built yet**: the first published runs of the `TEXT_TIERS` models (task 9) and the site import
+- **Published so far (#503)**: one standard-suite run of `lmstudio:qwen/qwen3-30b-a3b-2507` (4-bit, 128 GB Apple silicon, local embedder, judge on and unpublished): overall 59.9 (57.9 to 62.9), ideation 72.5, drafting 69.7, critique 34, drafting reliability 87% with 10 failed stages, so it does not pass the floor for any tier. The `--determinism` check on the quick suite (not published) found the two repeats at seed 11 differ in ideation, drafting and critique on LM Studio, so a seed does not make a local run repeatable.
+- **Not built yet**: the first published runs of the other `TEXT_TIERS` models (task 9) and the site import
   (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
   building this.

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-25T03:45:30.537Z",
+  "updatedAt": "2026-10-30T11:11:44.167Z",
   "brief": {
     "userPrompt": "Shortly after 08:30 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single duty operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
@@ -1644,6 +1644,216 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
+        "capability": "cybersecurity",
+        "why": "The objective requires detecting and responding to a mismatch between HMI data and field instruments, which directly tests the organization's ability to protect and restore electronic systems from unauthorized use and exploitation, as defined in the HSEEP Cybersecurity capability."
+      },
+      {
+        "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
+        "capability": "infrastructure_systems",
+        "why": "The objective involves stabilizing critical infrastructure functions—specifically the chemical feed system—by prioritizing physical evidence over screen displays, which aligns with the Infrastructure Systems capability to minimize health and safety threats and restore systems to support a viable community."
+      },
+      {
+        "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
+        "capability": "operational_coordination",
+        "why": "The objective demands a unified operational structure to integrate technical, regulatory, and public communication teams in response to a control-system compromise, which is a core function of Operational Coordination."
+      },
+      {
+        "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires issuing a Do Not Drink advisory within 2 hours of confirming lab results, which tests the organization's ability to deliver coordinated, prompt, and actionable information to the public through clear, consistent, and culturally appropriate methods, as defined in the Public Information and Warning capability."
+      },
+      {
+        "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+        "capability": "operational_coordination",
+        "why": "The objective depends on a unified decision-making process involving the Director, Water Quality Manager, and Public Information Officer to approve and release the advisory, which is a core function of Operational Coordination."
+      },
+      {
+        "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+        "capability": "situational_assessment",
+        "why": "The objective requires verifying lab results and confirming the health effects of a hazardous condition before issuing an advisory, which aligns with the Situational Assessment capability to provide decision-relevant information on the nature and extent of the hazard."
+      },
+      {
+        "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
+        "capability": "cybersecurity",
+        "why": "The objective requires isolating the control system, engaging the FBI/CISA liaison, and preserving evidence from a remote-access compromise, which directly tests the organization's ability to protect and restore electronic systems from damage and unauthorized use, as defined in the Cybersecurity capability."
+      },
+      {
+        "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
+        "capability": "forensics_and_attribution",
+        "why": "The objective involves preserving chain-of-custody evidence and submitting forensic data to CISA and FBI for attribution, which aligns with the Forensics and Attribution capability to conduct forensic analysis and attribute attacks to their source."
+      },
+      {
+        "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
+        "capability": "operational_coordination",
+        "why": "The objective demands a coordinated response across IT, security, and regulatory teams to isolate the network, prevent further access, and manage evidence, which is a core function of Operational Coordination."
+      },
+      {
+        "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires releasing a pre-scripted, fact-based advisory through multiple channels within 45 minutes, using approved language and avoiding speculation, which directly tests the organization's ability to deliver timely, accurate, and actionable information to the public, as defined in the Public Information and Warning capability."
+      },
+      {
+        "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
+        "capability": "operational_coordination",
+        "why": "The objective depends on a unified response between the Public Information Officer, Deputy PIO, and Incident Commander to ensure consistent messaging across all channels, which is a core function of Operational Coordination."
+      },
+      {
+        "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The objective involves sharing verified lab results and regulatory updates with external partners and the public, which aligns with the Intelligence and Information Sharing capability to provide timely and actionable information to stakeholders."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The organization will protect and restore electronic communications systems, information, and services from damage and unauthorized use by isolating the compromised HMI, preserving forensic evidence, and preventing further remote access through chain-of-custody protocols and network isolation.",
+        "objectiveRefs": [
+          "01M5H5RHR0WJFFRB5DYR1NNYX1",
+          "01M5H5RHR0QSX7BXF0KPJQ72BB"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Isolate MBW-HMI-02 and MBW-JUMP-01 via firewall rule update and session termination.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 2",
+              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+              "chunkId": 59
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of unauthorized access detection",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Preserve MBW-NVR-01 video, PACS logs, and session recordings by initiating SEC-4 chain-of-custody form.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "security",
+            "timing": "Immediately upon detection of unauthorized access",
+            "rowIds": [
+              "I-05",
+              "I-10b"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Export the SCADA audit log and historian trends from MBW-HMI-02 for forensic review.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "it",
+            "timing": "Within 1 hour of isolation",
+            "rowIds": [
+              "I-13",
+              "I-21e"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "cybersecurity",
+            "task": "Disable the DosaTech ScreenBridge service on MBW-HMI-02 and prevent any further remote access.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 2",
+              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+              "chunkId": 59
+            },
+            "expectedBy": "it",
+            "timing": "Within 15 minutes of isolation",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "cybersecurity",
+            "task": "Submit the forensic image of MBW-HMI-02 to CISA via the WaterISAC cyber-incident reporting portal.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 12",
+              "quote": "| Event | Report to | Clock | |---|---|---| | Any confirmed or strongly suspected cyber intrusion on the control network, or unauthorized operation of equipment | CISA (24/7) | Within 24 hours; immedi",
+              "chunkId": 93
+            },
+            "expectedBy": "it",
+            "timing": "Within 24 hours of evidence preservation",
+            "rowIds": [
+              "I-21e"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "cybersecurity",
+            "task": "Confirm that no vendor session may proceed until full network isolation and a signed access request are submitted.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 2",
+              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+              "chunkId": 59
+            },
+            "expectedBy": "it",
+            "timing": "Immediately upon network compromise",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, write responses on a whiteboard to capture real-time insights. Tip: Encourage concise, actionable feedback to focus the debrief on learning.",
@@ -1747,6 +1957,384 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects; players must base decisions on the information given, not on external knowledge.",
+      "Players respond in accordance with existing plans, policies and procedures, including the ERP, OT Plan, and Public Communications Plan, as referenced in the documents."
+    ],
+    "artificialities": [
+      "Time jumps occur between modules, simulating the passage of hours during a crisis.",
+      "The SimCell plays all roles outside the room: the system vendor (Kessler Controls), the regulator (Ohio EPA DDAGW), and law enforcement/cyber contact (CISA/FBI via WaterISAC).",
+      "Systems such as the HMI, PLC-02, and PACS are named as in the plans but are not physically accessed or modified during the exercise.",
+      "Injects are delivered via screen, paper, or audio to simulate real-time information flow."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5H5S6ZHT6T3S2EEF0MPFFE0",
+        "narrativeMd": "It is 09:00. The plant is operating under normal conditions. The load is 7.2 MGD, and the weather is clear and dry. All system statuses are green on the HMI. The day shift is in progress, and the control room is manned by a certified operator. The screen shows a pH of 8.3, and all chemical feed setpoints are within their normal bands. No alarms are active. The narrative clock begins.\n\nAt 09:15, the Duty Operator Chen reports from the Chemical Building: AIT-302 shows finished-water pH at 9.3 — well above the normal 7.4–7.8 range. The HMI for NAOH-FC-203 still shows 14 mg/L, which is within the normal band. However, PSH-302 has not tripped, and the caustic pump is running at full speed. The tank level is dropping. The operator states, 'I don’t know what to trust — the screen says normal, but the water tastes like lye.'\n\nAt 09:18, a lab report arrives: Sample 24-1187 (effluent) shows a pH of 9.3 and a measured caustic dose of 38 mg/L — both exceeding safe limits. The alert notes: 'This exceeds the PLC hard limit (40 mg/L) and confirms a control-system anomaly.'\n\nAt 09:22, the Control Room Operator Rios reports: Attempting to manually override NAOH-FC-203 on the local PLC-02 panel by switching to Manual Mode and setting the setpoint to 0, but the pump continues to run and the HMI still shows 'AUTO' and 'Running'. No change in command status is observed.",
+        "keyIssues": [
+          "The HMI displays normal values, but field instruments and lab results confirm a hazardous condition.",
+          "The hard-wired PSH-302 safety switch has not tripped, suggesting a control-system failure or compromise.",
+          "Manual override on the PLC-02 panel fails — indicating the system may be locked or compromised.",
+          "The operator reports a chemical taste, but no alarm is active on the HMI — a mismatch between digital and physical evidence."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: How should the team respond to a mismatch between HMI data and field evidence, particularly when a hard-wired safety switch has not tripped and lab results confirm a hazardous condition? Refer to C2 and C6 for PLC and HMI setpoint limits and interlock logic.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Control System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+                "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+                "chunkId": 172
+              },
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+                "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+                "chunkId": 302
+              }
+            ]
+          },
+          {
+            "text": "IT: What immediate technical actions should be taken to preserve evidence and prevent further compromise, given that the HMI shows no change in command status after manual override? Refer to C4 and C1 for roles and recovery procedures.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Incident Response",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 2",
+                "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+                "chunkId": 158
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "WQ: Based on the lab result showing pH 9.3 and caustic 38 mg/L, what is your immediate verification step before advising on public health risk? Refer to C7 for advisory authority and decision-making.",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Public Health Decision-Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "PIO: What initial public statement should be issued in response to the customer report of chemical taste and nausea, given that the lab has not yet confirmed a hazardous condition but field evidence is alarming? Refer to C5 and MDWS-PCP-2026 for public communications protocols.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Information Consistency",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 1 › 1.4 Coordinated Documents",
+                "quote": "| Document | Number | Revision | |---|---|---| | System Map and Asset Sheet | MDWS-MAP-2026 | 4.0 | | OT / Cybersecurity Plan and Incident Response Playbook | MDWS-OTSEC-2026 | 1.3 | | SCADA System De",
+                "chunkId": 58
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H5S6ZHX0KAMZYGE5ZM4X7V",
+        "narrativeMd": "It is 09:35. The Ohio EPA DDAGW Central District confirms receipt of a Level 3 emergency notification from Millbrook DWS and requests the lab result for Sample 24-1187 and the GIS boundary for the affected area within 15 minutes.\n\nAt 09:42, Carver County EMA activates the Joint Information Center and directs the Public Information Officer to begin issuing public advisories per MDWS-PCP-2026, Section 10, requiring confirmation of the affected zone and a public statement within 30 minutes.\n\nAt 09:50, a customer service lead reports 40 calls from Zone 1: customers report a bitter taste, chemical smell, and vomiting. One family has taken a child to the ER. The priority is high, and critical customer status is activated.\n\nAt 09:55, a social media post from @MbkWaterWatch goes viral: 'URGENT: Water from the tap in Zone 1 is causing stomach pain and burns. My kid is in the ER. Is the plant hacked? #MillbrookWaterCrisis #DoNotDrink #Emergency' — 120 reposts in 12 minutes.\n\nAt 09:58, a meter technician reports that a meter on Route 41 has frozen and shows 0.000 GPM — remote access is unavailable.\n\nAt 10:00, a system alert confirms unauthorized remote access via DosaTech ScreenBridge: three setpoint changes to NAOH-FC-203 were made between 08:00 and 08:22, culminating in a setpoint of 38 mg/L. The session was not tied to a valid user, and no Kessler Controls ticket was open for this window. The attacker used a fake vendor name and bypassed MFA.\n\nThe SCADA / IT Security Manager confirms that the DosaTech agent remains active on MBW-HMI-02 and that the network is compromised. The session is preserved on MBW-JUMP-01 and will be forwarded to CISA via the WaterISAC cyber-incident reporting portal.",
+        "keyIssues": [
+          "Trust in the control system is broken — HMI shows normal values, but lab and field evidence confirm a hazardous condition.",
+          "Public panic is spreading via social media and customer calls, demanding immediate action.",
+          "The attacker used a fake vendor name and bypassed MFA, indicating a sophisticated cyber-physical attack.",
+          "The control system cannot be trusted to reflect reality, and manual verification is required.",
+          "The regulatory and public communication teams must align under pressure to avoid conflicting messages."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Given that the HMI shows NAOH-FC-203 at 14 mg/L but lab results show 38 mg/L and the pump is running, what is your immediate operational decision to protect public health? Refer to C2 and C6 for caustic feed limits and interlock logic.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Control System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+                "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+                "chunkId": 172
+              },
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+                "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+                "chunkId": 302
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must be taken to isolate the control system and preserve forensic evidence, given that the DosaTech agent remains active and the network is compromised? Refer to C4 and C1 for isolation and evidence handling procedures.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Incident Response",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 2",
+                "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+                "chunkId": 158
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should the public be informed about the crisis, given that social media is spreading unverified claims and customers are demanding answers? Refer to C5 and MDWS-PCP-2026 for pre-scripted advisory language and distribution channels.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Information Consistency",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 1 › 1.4 Coordinated Documents",
+                "quote": "| Document | Number | Revision | |---|---|---| | System Map and Asset Sheet | MDWS-MAP-2026 | 4.0 | | OT / Cybersecurity Plan and Incident Response Playbook | MDWS-OTSEC-2026 | 1.3 | | SCADA System De",
+                "chunkId": 58
+              }
+            ]
+          },
+          {
+            "text": "WQ: Based on the lab result (pH 9.3, caustic 38 mg/L) and field reports of illness, what is your assessment of the public health risk, and what action should you recommend to the Director? Refer to C7 for advisory authority and decision-making.",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Public Health Decision-Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H5S6ZH4WCBANEHVHT6REGC",
+        "narrativeMd": "It is 10:30. The control system has been isolated. The SCADA / IT Security Manager confirms that the DosaTech ScreenBridge session remains active on MBW-HMI-02, and no new remote sessions have been detected. The HMI on MBW-HMI-02 still shows NAOH-FC-203 at 14 mg/L, but grab samples collected at 10:30, 10:45, and 11:00 confirm finished-water pH at 9.6 and a caustic dose of 38 mg/L — both well above safe limits.\n\nAt 11:00, the Field Supervisor reports: PACS logs show no access events, no door alarms, and no override codes used. The HMI shows the Chemical Building door closed and locked at 09:58:33. The physical safety system (PSH-302) has not tripped. The control system is not reflecting reality — a cyber-physical compromise is confirmed.\n\nAt 11:03, a system alert confirms that the PLC-02 program on MBW-BKP-01 is from a pre-update baseline (03/2025), and the 08/2025 flow-pacing logic was not deployed. A full on-site re-image is required to restore correct logic.\n\nAt 11:05, the Control Room Operator reports: The manual mode transition has been completed per ERP Section 7.5.1. NAOH-FC-203 has been set to 0 mg/L via the local stroke dial on PLC-02. HSP-1/2/3 pumps are now in HAND mode at the MCC. Northgate Booster Station has been switched to local pressure-switch control (PIT-622). The HMI shows 'Manual Mode' and 'Running' for all three. Physical indicators confirm the caustic pump is off, and pressure in Zone 1 is holding at 52 psi. The plant is now operating in full manual control.\n\nAt 11:15, the Ohio EPA DDAGW confirms: pH 9.6, caustic 37 mg/L — exceeds safe limits. You are authorized to maintain the Do Not Drink advisory and to proceed with full manual operation under ERP Section 4.4. Immediate action is required to protect public health.",
+        "keyIssues": [
+          "The control system cannot be trusted to reflect reality — manual operation is the only safe path.",
+          "The PLC program on the backup server is outdated, requiring a full on-site re-image before any automatic control can resume.",
+          "The team must decide whether to keep the system isolated and operate manually until verification is complete, despite pressure to restore service.",
+          "The attack has bypassed MFA and used a fake vendor name, indicating a need for long-term cybersecurity reforms.",
+          "The manual control process must be maintained under 24/7 oversight to prevent human error."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is your decision on whether to return to automatic control, given that the PLC-02 program is outdated and the attacker modified the setpoint without triggering HMI alarms? Refer to C6 and C1 for PLC program integrity and return-to-service procedures.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Control System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+                "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+                "chunkId": 302
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must be taken to ensure that no remote access is permitted until a signed access request is submitted and the forensic review is complete? Refer to C4 and C1 for vendor access and isolation protocols.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Incident Response",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 2",
+                "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+                "chunkId": 158
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "WQ: Based on the confirmed pH of 9.6 and caustic dose of 37 mg/L, and the report of two dialysis patients in the ER, what action should you recommend to the Director regarding medical and dialysis use of tap water? Refer to C7 for advisory authority and public health risk assessment.",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Public Health Decision-Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should the public be informed about the shift to manual operation, especially in light of the local TV station’s request for a live statement and growing public demand for answers? Refer to C5 and MDWS-PCP-2026 for public communications and media response.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Information Consistency",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 1 › 1.4 Coordinated Documents",
+                "quote": "| Document | Number | Revision | |---|---|---| | System Map and Asset Sheet | MDWS-MAP-2026 | 4.0 | | OT / Cybersecurity Plan and Incident Response Playbook | MDWS-OTSEC-2026 | 1.3 | | SCADA System De",
+                "chunkId": 58
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H5S6ZHQASRGCPAJDGS4D54",
+        "narrativeMd": "It is 12:00. The control system remains isolated, and the plant continues to operate in full manual mode under 24/7 oversight. The HMI continues to display outdated values, but field measurements confirm that finished-water pH has normalized to 7.8 and caustic dose is 4.0 mg/L — within safe limits.\n\nAt 12:10, a MillbrookAlert broadcast confirms: 'The plant is now operating in manual mode. Water quality is being monitored every 2 hours. Service will resume when the system is verified safe. The advisory remains in effect. We are working with the Ohio EPA and CISA to restore safe service.'\n\nAt 12:18, a forensic image of MBW-HMI-02 is captured via MBW-JUMP-01. The session log shows three unauthorized setpoint increases to NAOH-FC-203, culminating in 38 mg/L. The attacker used a fake vendor name and bypassed MFA via an unapproved DosaTech agent.\n\nAt 12:25, the Director approves a phased return to automatic control under the OT Plan return-to-service checklist (Section 8.4). The plan includes: verifying the HMI and PLC-02 program on a test server using the latest verified logic; restoring the HMI application on MBW-BKP-01 after a full integrity check; and performing a manual verification of the NAOH-FC-203 setpoint and pump status at the local panel before re-arming.\n\nAt 12:40, a field crew reports a cracked gate valve on the 12-inch line at Northgate Reservoir — it's dripping and creating a 3-inch puddle. The HMI shows normal levels, but the field has visible water. The crew is waiting for direction on whether to shut it down or let it run.\n\nAt 12:50, the Ohio EPA DDAGW confirms: two clean sample rounds (24-1189, 24-1190) show pH 7.8 and caustic 4.0 mg/L. The advisory lift process is authorized under ERP Section 11.3. The Director must confirm the advisory lift with the Water Quality Manager and the PIO before any public release.",
+        "keyIssues": [
+          "The control system remains isolated, and no automatic control has resumed — verification must precede any return to service.",
+          "The forensic review is complete, but no remote access is permitted until the vendor's signed access request is approved.",
+          "A new physical anomaly (cracked valve) has emerged, requiring immediate field assessment.",
+          "The team must verify that two clean sample rounds have been confirmed before lifting the advisory.",
+          "The return to automatic control must follow a phased, verified process to prevent another compromise."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is your verification process for returning to automatic control, given that the PLC-02 program was modified and the attacker bypassed MFA? Refer to C6 and C1 for return-to-service and verification procedures.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Control System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+                "quote": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+                "chunkId": 302
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must be taken to ensure that remote access is not permitted until the vendor's signed access request is approved and the forensic review is complete? Refer to C4 and C1 for vendor access and isolation protocols.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Incident Response",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 2",
+                "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+                "chunkId": 158
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 13",
+                "quote": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+                "chunkId": 100
+              }
+            ]
+          },
+          {
+            "text": "WQ: Based on the final lab report showing pH 7.8 and caustic 4.0 mg/L, and the two clean sample rounds, what is your confirmation step before lifting the advisory? Refer to C7 for advisory lift authority and verification.",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Public Health Decision-Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should the public be informed that the advisory is being lifted, and what language should be used to maintain trust and avoid speculation? Refer to C5 and MDWS-PCP-2026 for advisory lift and public communications.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Information Consistency",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 1 › 1.4 Coordinated Documents",
+                "quote": "| Document | Number | Revision | |---|---|---| | System Map and Asset Sheet | MDWS-MAP-2026 | 4.0 | | OT / Cybersecurity Plan and Incident Response Playbook | MDWS-OTSEC-2026 | 1.3 | | SCADA System De",
+                "chunkId": 58
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Plant SCADA / HMI (MBW-HMI-02)",
     "PLCs at the RWTP (PLC-02)",
@@ -3486,6 +4074,2689 @@
       "status": "skipped",
       "error": "template only",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:01:38.314Z",
+      "finishedAt": "2026-10-30T11:02:00.819Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 15088,
+      "outputTokens": 1236,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:27:42.134Z",
+      "finishedAt": "2026-10-30T10:29:04.202Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 10642,
+      "outputTokens": 6284,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "09f106ec630d2a59",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.307Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘SOP 7.2’ is not in A.4.2 Chemical Feed (PLC-02) or the facility facts.",
+        "fingerprint": "e40bd15fb7db2a11",
+        "claims": [
+          {
+            "text": "Ops orders the operator to trust the bench reading and hold the manual valve position; opens a ticket with IT and starts a paper log (SOP 7.2).",
+            "chunkId": 143,
+            "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "SOP 7.2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.448Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘SCADA / IT Security Manager’, ‘notifies’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "b0ea3a5e50262cad",
+        "claims": [
+          {
+            "text": "WQ confirms the lab results and immediately notifies the Director and the SCADA / IT Security Manager.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.5,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "SCADA / IT Security Manager",
+              "notifies"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "WQ declares a Level 3 condition per EOP 7.5 and triggers the advisory decision clock (Section 5.3).",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [
+              "EOP 7.5",
+              "Section 5.3",
+              "declares"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The Ohio EPA DDAGW Central District liaison logs the exceedance and asks when the department will make its formal notification.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "Ohio EPA",
+              "notification"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.449Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘Section 7.5’, ‘activates’, ‘declares’ are not in 7.1 Setpoint Limits (chemical feed and pumping) or the facility facts.",
+        "fingerprint": "2a3d7cf6a9147682",
+        "claims": [
+          {
+            "text": "Ops confirms that the HMI and local control are both unresponsive to manual override.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Ops declares a cyber-physical loss of control and activates the Section 7.5 Manual Operation protocol.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [
+              "Section 7.5",
+              "activates",
+              "declares"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Ops orders all chemical feed pumps to be stopped via emergency contactor if safe to do so.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.449Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "‘Incident Commander’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "5edf6a19b3e028c6",
+        "claims": [
+          {
+            "text": "The Incident Commander confirms lab results and GIS boundary to DDAGW; the Water Quality Manager provides the lab data and the Distribution Superintendent confirms the affected zone using GIS. The PIO prepares the advisory template under Section 10.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.579,
+            "matched": [
+              "Section 10",
+              "Water Quality Manager",
+              "Distribution Superintendent"
+            ],
+            "missing": [
+              "Incident Commander"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.450Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘Section 11.3’, ‘activates’, ‘isolates’ are not in 11.2 Evidence or the facility facts.",
+        "fingerprint": "9b3c1fcd7c6ccbb9",
+        "claims": [
+          {
+            "text": "IT confirms unauthorized remote access; activates evidence preservation protocol per Section 11.3 (SEC-4 form); isolates MBW-HMI-02 and MBW-JUMP-01 (SOP 11.2).",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.375,
+            "matched": [
+              "SOP 11.2",
+              "SEC-4",
+              "MBW-HMI-02",
+              "MBW-JUMP-01"
+            ],
+            "missing": [
+              "Section 11.3",
+              "activates",
+              "isolates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.450Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "‘30 minutes’ is not in Section 2; the passage says ‘The Deputy PIO opens the media log and the rumor log (Section 8) and reports to the PIO every 2 hours.’.",
+        "fingerprint": "4f977676b022d317",
+        "claims": [
+          {
+            "text": "The Incident Commander authorizes the Public Information Officer to release the advisory using the Section 10 template; the Water Quality Manager confirms the health effects content.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.722,
+            "matched": [
+              "Section 10",
+              "Public Information Officer",
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "Incident Commander",
+              "authorizes"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO issues the advisory to MillbrookAlert, the website, and social media within 30 minutes.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [
+              "30 minutes"
+            ],
+            "conflicting": [
+              {
+                "term": "30 minutes",
+                "passage": "The Deputy PIO opens the media log and the rumor log (Section 8) and reports to the PIO every 2 hours."
+              }
+            ]
+          },
+          {
+            "text": "The Security & Emergency Manager names the department liaison to the County EOC and confirms the call-back number.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.556,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [
+              "Security & Emergency Manager"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 10",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [
+              "Section 10"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.450Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘WQ Manager’, ‘notifies’ are not in Section 2 or the facility facts.",
+        "fingerprint": "60d22d08bb62c5ff",
+        "claims": [
+          {
+            "text": "PIO logs the ticket in the media and rumor log.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "PIO notifies the Director and the WQ Manager.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.667,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "WQ Manager",
+              "notifies"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Customer Service opens the surge line and begins distributing call scripts to handle inbound calls.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.7,
+            "matched": [
+              "Customer Service"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.451Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "Only 17% of ‘Ops acknowledges the call and instructs the meter tech to m…’ is in 10.5 Ransomware on the Business Network Checklist.",
+        "fingerprint": "1f490c4e05c13944",
+        "claims": [
+          {
+            "text": "Ops acknowledges the call and instructs the meter tech to mark the location on the map and report back after checking the local valve.",
+            "chunkId": 86,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+            "overlap": 0.167,
+            "matched": [
+              "report"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT notes that the AMI system (MBW-AMI-01) may be affected and logs the anomaly for later correlation.",
+            "chunkId": 86,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+            "overlap": 0.375,
+            "matched": [
+              "MBW-AMI-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.451Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b005432beebe95eb",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.312Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "0a2374dee3f06e78",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.312Z",
+        "version": 1
+      },
+      "row:I-10b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "210ea35b7042bd23",
+        "claims": [
+          {
+            "text": "Security orders a patrol to the Chemical Building's east door and activates the PACS emergency override to force a manual door unlock for verification; checks MBW-NVR-01 footage for the 09:58 time window and logs the event as a potential physical intrusion under Section 7.6.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.154,
+            "matched": [
+              "Section 7.6",
+              "MBW-NVR-01"
+            ],
+            "missing": [
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.451Z",
+        "version": 1
+      },
+      "row:I-10c": {
+        "label": "review",
+        "reason": "‘IP 10.200.144.122’ is not in 6.2 Kessler Controls Window Procedure or the facility facts.",
+        "fingerprint": "cb3e7389f1275e6d",
+        "claims": [
+          {
+            "text": "Security confirms the attacker used a fake vendor path and does not act on physical intrusion claims until the SCADA / IT Security Manager confirms the cyber-physical nature of the event; follows SEC-4 chain-of-custody protocol and preserves NVR and PACS evidence.",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.318,
+            "matched": [
+              "SCADA / IT Security Manager",
+              "SEC-4"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: IP 10.200.144.122; Section 6.2",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.667,
+            "matched": [
+              "Section 6.2"
+            ],
+            "missing": [
+              "IP 10.200.144.122"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.453Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘Section 5.4’, ‘activates’ are not in 10.5 Ransomware on the Business Network Checklist or the facility facts.",
+        "fingerprint": "e818be295da9aa18",
+        "claims": [
+          {
+            "text": "Ops opens a paper log for customer reports; PIO activates the pre-scripted MillbrookAlert message per Section 5.4 and begins drafting the public statement using the cyber holding statement (MDWS-PCP-2026, Section 10).",
+            "chunkId": 86,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+            "overlap": 0.684,
+            "matched": [
+              "Section 10",
+              "MDWS-PCP-2026",
+              "reports"
+            ],
+            "missing": [
+              "Section 5.4",
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.453Z",
+        "version": 1
+      },
+      "row:I-11b": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "43c41fdc12e053b1",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.314Z",
+        "version": 1
+      },
+      "row:I-11c": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "7557c461446a9278",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.314Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘Section 5.4’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "5c4c66ae8bb89baa",
+        "claims": [
+          {
+            "text": "PIO confirms the message was sent via the Section 5.4 pre-scripted template; logs timestamp and channel in the media log; instructs Deputy PIO to monitor for public response.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.538,
+            "matched": [],
+            "missing": [
+              "Section 5.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.453Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "Only 29% of ‘IT confirms isolation is complete; notes that the DosaTech …’ is in 6.2 Kessler Controls Window Procedure.",
+        "fingerprint": "c768ee55a79ed9b0",
+        "claims": [
+          {
+            "text": "IT confirms isolation is complete; notes that the DosaTech agent remains active and must not be removed until forensic handover; logs the action in the remote-access log and notifies IC and SEC.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.286,
+            "matched": [
+              "notifies",
+              "isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.453Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "‘14 mg/L’ is not in 7.1 Setpoint Limits (chemical feed and pumping) or the facility facts.",
+        "fingerprint": "d9f555be5133c8a1",
+        "claims": [
+          {
+            "text": "IC confirms that the HMI value for NAOH-FC-203 (14 mg/L) is correct but does not reflect actual process conditions; the control system is compromised.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.357,
+            "matched": [
+              "NAOH-FC-203"
+            ],
+            "missing": [
+              "14 mg/L"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "WQ and TL validate that the lab results and physical evidence override HMI status.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Activate Section 7.1 manual operation protocol under ERP Section 7.5.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.375,
+            "matched": [
+              "Section 7.1"
+            ],
+            "missing": [
+              "Section 7.5",
+              "Activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.454Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "‘Ohio EPA’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "8523da45ef3caf85",
+        "claims": [
+          {
+            "text": "Phone Call: 'This is Carol Dugan, Ohio EPA DDAGW Central District.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [
+              "Ohio EPA"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [
+              "Section 4.4"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [
+              "38 mg/L"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "You must issue the official Do Not Drink advisory within 30 minutes.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "30 minutes"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.' DECISION POINT: Ops must authorize the issuance of the Do Not Drink advisory per ERP Section 4.4; WQ confirms lab results; PIO publishes the advisory using the Section 10 template and GIS boundary.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.609,
+            "matched": [
+              "Section 10",
+              "Water Quality Manager",
+              "Director"
+            ],
+            "missing": [
+              "Section 4.4",
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All roles must act within 30 minutes of this call.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "30 minutes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.455Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "‘SCADA / IT Security Manager’, ‘Security Officer’, ‘report’ are not in A.4.2 Chemical Feed (PLC-02) or the facility facts.",
+        "fingerprint": "53376bc0658e794a",
+        "claims": [
+          {
+            "text": "IT contacts the SCADA / IT Security Manager to verify if the RTU-05 cabinet door tamper switch is in the log; if not, they confirm it's a false alarm and instruct the crew to leave the door sealed and report to the Security Officer for chain-of-custody.",
+            "chunkId": 143,
+            "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+            "overlap": 0.167,
+            "matched": [
+              "RTU-05"
+            ],
+            "missing": [
+              "SCADA / IT Security Manager",
+              "Security Officer",
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Do not open the cabinet without a formal site clearance.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.455Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "‘authorizes’, ‘isolated’ are not in Section 2 or the facility facts.",
+        "fingerprint": "b2ec346c69104353",
+        "claims": [
+          {
+            "text": "TL confirms that no vendor session may proceed until the network is fully isolated and a signed access request is submitted; IC authorizes the submission of the signed access request to Kessler Controls under Section 6.2.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.467,
+            "matched": [
+              "Section 6.2"
+            ],
+            "missing": [
+              "authorizes",
+              "isolated"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.456Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "review",
+        "reason": "‘approves’, ‘authorizes’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "1ec78e25cf48cffe",
+        "claims": [
+          {
+            "text": "PIO submits the draft advisory for sign-off by IC and WQ; WQ confirms health effects content; IC approves and authorizes release.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "approves",
+              "authorizes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.456Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4b8356d30cba9fc3",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.317Z",
+        "version": 1
+      },
+      "row:I-19a": {
+        "label": "review",
+        "reason": "‘Water Quality Manager’, ‘authorizes’ are not in 6.2 Kessler Controls Window Procedure or the facility facts.",
+        "fingerprint": "7c3f8b5efbf517a5",
+        "claims": [
+          {
+            "text": "TL confirms that the PLC-02 program backup is outdated and lacks the 08/2025 flow-pacing logic; IC authorizes full on-site re-image of PLC-02 by Kessler Controls under Section 7.4 change management; no return to automatic until verified by the SCADA / IT Security Manager and the Water Quality Manager.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.44,
+            "matched": [
+              "Section 7.4",
+              "SCADA / IT Security Manager",
+              "PLC-02"
+            ],
+            "missing": [
+              "Water Quality Manager",
+              "authorizes"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 7.4",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 1,
+            "matched": [
+              "Section 7.4"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.457Z",
+        "version": 1
+      },
+      "row:I-19b": {
+        "label": "review",
+        "reason": "‘Section 7.5.1’ is not in A.4.2 Chemical Feed (PLC-02) or the facility facts.",
+        "fingerprint": "3bae78c8d062e028",
+        "claims": [
+          {
+            "text": "Ops confirms the manual transition was completed per ERP Section 7.5.1; all critical systems are now under direct operator control.",
+            "chunkId": 143,
+            "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "Section 7.5.1"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The shift begins 24-hour manual operations with two operators per shift.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [
+              "24-hour"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 7.5.1",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 7.5.1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.457Z",
+        "version": 1
+      },
+      "row:I-19c": {
+        "label": "review",
+        "reason": "‘Section 4.4’, ‘72 hours’, ‘authorize’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "cf6b8e8c07d02625",
+        "claims": [
+          {
+            "text": "Ops must authorize full manual operation for 72 hours, with two operators per shift, under ERP Section 4.4 and the Level 3 emergency declaration.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.313,
+            "matched": [],
+            "missing": [
+              "Section 4.4",
+              "72 hours",
+              "authorize",
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The decision to stop automation and fall back to manual control is confirmed.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 4.4",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 4.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.457Z",
+        "version": 1
+      },
+      "row:I-19d": {
+        "label": "review",
+        "reason": "‘Director’ is not in Annex B or the facility facts.",
+        "fingerprint": "6692800eb35e9ed9",
+        "claims": [
+          {
+            "text": "WQ confirms that lab results remain above safe limits and that medical risk has increased.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Director must now decide whether to expand the advisory or keep it in effect.",
+            "chunkId": 133,
+            "headingPath": "City of Millbrook Department of… › Annex B",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "Director"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.458Z",
+        "version": 1
+      },
+      "row:I-19e": {
+        "label": "review",
+        "reason": "‘Section 10’ is not in 7.4 Cyber Incidents or the facility facts.",
+        "fingerprint": "d75d177dfdebe520",
+        "claims": [
+          {
+            "text": "PIO prepares a revised statement based on the Director’s approval.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.6,
+            "matched": [
+              "Director",
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The statement confirms manual operation and ongoing oversight.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO uses the pre-scripted message (MDWS-PCP-2026, Section 10) to answer media inquiries.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.25,
+            "matched": [
+              "MDWS-PCP-2026"
+            ],
+            "missing": [
+              "Section 10"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.458Z",
+        "version": 1
+      },
+      "row:I-19f": {
+        "label": "review",
+        "reason": "Only 25% of ‘PIO submits the revised statement for approval.’ is in 7.4 Cyber Incidents.",
+        "fingerprint": "a549aa78d7af11fc",
+        "claims": [
+          {
+            "text": "PIO submits the revised statement for approval.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.25,
+            "matched": [
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Director must confirm the public message before release.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.75,
+            "matched": [
+              "Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.458Z",
+        "version": 1
+      },
+      "row:I-19g": {
+        "label": "review",
+        "reason": "‘approves’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "fe86ebd96957031e",
+        "claims": [
+          {
+            "text": "The Director approves the public statement.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.5,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "approves"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO releases it via MillbrookAlert, website, and social media.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ICS team confirms that the advisory has been published on all channels.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.458Z",
+        "version": 1
+      },
+      "row:I-19h": {
+        "label": "review",
+        "reason": "‘activated’ is not in Section 3 or the facility facts.",
+        "fingerprint": "8734bbd561e1854b",
+        "claims": [
+          {
+            "text": "The Director confirms that OHWARN mutual-aid has been activated.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.5,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "activated"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The shift will be reinforced in 10 hours.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "10 hours"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The ICS team updates the incident status to reflect the incoming support.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 8.4",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 8.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.459Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "aedbc297b239dbde",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.319Z",
+        "version": 1
+      },
+      "row:I-20b": {
+        "label": "review",
+        "reason": "‘Section 5.3’, ‘24 hours’, ‘WQ Manager’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "40ba9a8c728091f3",
+        "claims": [
+          {
+            "text": "Regulator confirms the advisory remains in effect and issues a formal submission requirement; the WQ Manager must file the lab data within 24 hours per Section 5.3.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.267,
+            "matched": [],
+            "missing": [
+              "Section 5.3",
+              "24 hours",
+              "WQ Manager"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 4.4",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 4.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.459Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d5481aa562274163",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.459Z",
+        "version": 1
+      },
+      "row:I-21c": {
+        "label": "review",
+        "reason": "Only 30% of ‘The message uses the pre-scripted language from MDWS-PCP-20…’ is in 5.2 Sequence.",
+        "fingerprint": "fb20aaed55907de9",
+        "claims": [
+          {
+            "text": "The PIO confirms the public statement is released via MillbrookAlert, the city website, and social media channels.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The message uses the pre-scripted language from MDWS-PCP-2026, Section 10, and includes the verified status update.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.3,
+            "matched": [
+              "Section 10",
+              "MDWS-PCP-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.459Z",
+        "version": 1
+      },
+      "row:I-21e": {
+        "label": "review",
+        "reason": "Only 20% of ‘The team must not attempt to restore the HMI until the fore…’ is in 6.2 Kessler Controls Window Procedure.",
+        "fingerprint": "d6e8e4861383cfac",
+        "claims": [
+          {
+            "text": "The SCADA / IT Security Manager confirms the forensic image is complete and the FBI/CISA liaison has been engaged.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.667,
+            "matched": [
+              "SCADA / IT Security Manager",
+              "FBI",
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must not attempt to restore the HMI until the forensic review is complete.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.459Z",
+        "version": 1
+      },
+      "row:I-21f": {
+        "label": "review",
+        "reason": "‘authorizes’ is not in Section 13 or the facility facts.",
+        "fingerprint": "875f7613ced64ede",
+        "claims": [
+          {
+            "text": "The Incident Commander authorizes a phased return to automatic control.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.429,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [
+              "authorizes"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The SCADA / IT Security Manager must follow the OT Plan return-to-service checklist (Section 8.4) and verify all components before any re-arming.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.455,
+            "matched": [],
+            "missing": [
+              "Section 8.4",
+              "SCADA / IT Security Manager"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 8.4",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 8.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.460Z",
+        "version": 1
+      },
+      "row:I-21g": {
+        "label": "review",
+        "reason": "‘Section 12.3’, ‘DDAGW-ELR-2026’, ‘notifies’ are not in 7.4 Cyber Incidents or the facility facts.",
+        "fingerprint": "f6e33c1644258c00",
+        "claims": [
+          {
+            "text": "Regulator logs the submission and confirms receipt via the DDAGW-ELR-2026 portal; notifies CISA and FBI through WaterISAC as per Section 12.3 (External Reporting Clocks).",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.286,
+            "matched": [
+              "CISA",
+              "FBI"
+            ],
+            "missing": [
+              "Section 12.3",
+              "DDAGW-ELR-2026",
+              "notifies",
+              "Reporting"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.460Z",
+        "version": 1
+      },
+      "row:I-21h": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "e9023c9c7648f1a2",
+        "claims": [],
+        "at": "2026-10-30T10:29:07.321Z",
+        "version": 1
+      },
+      "row:I-21i": {
+        "label": "review",
+        "reason": "‘72-hour’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "fd9667b63c1a3245",
+        "claims": [
+          {
+            "text": "Regulator confirms receipt and verifies that the final lab report (24-1190) has been filed; initiates the 72-hour review window and notifies the city of the timeline.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.286,
+            "matched": [
+              "notifies",
+              "report"
+            ],
+            "missing": [
+              "72-hour"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 11.3",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 11.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.460Z",
+        "version": 1
+      },
+      "row:I-21j": {
+        "label": "review",
+        "reason": "Only 40% of ‘Do not drink tap water until further notice.'’ is in 5.2 Sequence.",
+        "fingerprint": "9a081787574debed",
+        "claims": [
+          {
+            "text": "PIO logs the sentiment and confirms that no advisory has been lifted yet; instructs Customer Service to hold the line and use the approved script: 'The advisory remains in effect until confirmed by the City.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.615,
+            "matched": [
+              "Customer Service",
+              "approved"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Do not drink tap water until further notice.'",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.461Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9fc09e09d59e6d5f",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.461Z",
+        "version": 1
+      },
+      "inject:01M5H64GRE22QRSEQWYEWZ2EQ0": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "f335759410307a1a",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.461Z",
+        "version": 1
+      },
+      "inject:01M5H64Y524ZKSRYDKAEZ7Y122": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject confirms the cyber-physical mismatch between HM…’ is in 4.1 Zones.",
+        "fingerprint": "c2a7e17210998424",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber-physical mismatch between HMI and field instruments.",
+            "chunkId": 61,
+            "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Zones",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must now investigate whether the HMI is showing false data or if the system is being manipulated.",
+            "chunkId": 157,
+            "headingPath": "City of Millbrook Department of… › Section A › A.9.1 Audit Log",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overconfidence in HMI data and delays in trusting field evidence.",
+            "chunkId": 61,
+            "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Zones",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.461Z",
+        "version": 1
+      },
+      "inject:01M5H6583GJFF07T13DFMG6PP7": {
+        "label": "review",
+        "reason": "‘declare’ is not in A.4.2 Chemical Feed (PLC-02) or the facility facts.",
+        "fingerprint": "ff0a6e33a02842e2",
+        "claims": [
+          {
+            "text": "This inject confirms the lab evidence for overfeed and triggers the advisory decision clock.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for WQ to declare a Level 3 condition and for IC to initiate escalation.",
+            "chunkId": 143,
+            "headingPath": "City of Millbrook Department of… › Section A › A.4.2 Chemical Feed (PLC-02)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.461Z",
+        "version": 1
+      },
+      "inject:01M5H65F9ZYA5M8JNKVQ9N2C5Q": {
+        "label": "review",
+        "reason": "‘Section 7.5’, ‘shutdown’ are not in A.1.3 Modes of Control or the facility facts.",
+        "fingerprint": "32fa7e042f719238",
+        "claims": [
+          {
+            "text": "This inject confirms the loss of control over the caustic feed system.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must now recognize that manual override via PLC-02 is ineffective, confirming a cyber-physical compromise.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0.222,
+            "matched": [
+              "PLC-02"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to invoke Section 7.5 and order emergency contactor shutdown.",
+            "chunkId": 138,
+            "headingPath": "City of Millbrook Department of… › Section A › A.1.3 Modes of Control",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "Section 7.5",
+              "shutdown"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.462Z",
+        "version": 1
+      },
+      "inject:01M5H65R6RVT2A86M3DRS7Y7SK": {
+        "label": "review",
+        "reason": "Only 29% of ‘Watch for any delay in confirming the affected area or lab …’ is in Section 3.",
+        "fingerprint": "5b32aed0d8b84916",
+        "claims": [
+          {
+            "text": "Regulatory escalation inject; the IC must confirm lab data and GIS zone to the EPA, and the WQ and Distribution roles must validate the data and boundary.",
+            "chunkId": 93,
+            "headingPath": "City of Millbrook Department of… › Section 12",
+            "overlap": 0.727,
+            "matched": [
+              "EPA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any delay in confirming the affected area or lab results.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.462Z",
+        "version": 1
+      },
+      "inject:01M5H668A6GWFE7FG58YS8GPHZ": {
+        "label": "review",
+        "reason": "‘IT Lead’, ‘C1’, ‘C4’ are not in 11.2 Evidence or the facility facts.",
+        "fingerprint": "42835831efaaa84e",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber-physical compromise.",
+            "chunkId": 157,
+            "headingPath": "City of Millbrook Department of… › Section A › A.9.1 Audit Log",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT Lead must validate the log against C1 and C4, and initiate SEC-4 evidence preservation.",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.3,
+            "matched": [
+              "SEC-4"
+            ],
+            "missing": [
+              "IT Lead",
+              "C1",
+              "C4"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for confusion over the 'UNKNOWN' account and whether they suspect a vendor account was hijacked.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.462Z",
+        "version": 1
+      },
+      "inject:01M5H66JWKCW0NMJY2W1SS3123": {
+        "label": "grounded",
+        "reason": "Every claim matches 5.2 Sequence and Section 10.",
+        "fingerprint": "3d79c8f544af9ee7",
+        "claims": [
+          {
+            "text": "This inject triggers the public advisory release sequence.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must now initiate the full public statement rollout using the Section 10 template and confirm the affected zone with GIS. Watch for delays in the statement issuance.",
+            "chunkId": 43,
+            "headingPath": "ERP › Section 10",
+            "overlap": 0.533,
+            "matched": [
+              "Section 10"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.462Z",
+        "version": 1
+      },
+      "inject:01M5H670MWTNK31BZVQV2Y054E": {
+        "label": "review",
+        "reason": "‘Customer Service Lead’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "987f5392cb18a762",
+        "claims": [
+          {
+            "text": "This inject confirms the public health emergency.",
+            "chunkId": 126,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.2 Do Not Drink Notice",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must log it in the media and rumor log.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Customer Service Lead must open the surge line and distribute call scripts.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [
+              "Customer Service Lead"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The WQ Manager must validate the lab data against this report.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.333,
+            "matched": [
+              "report"
+            ],
+            "missing": [
+              "WQ Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.463Z",
+        "version": 1
+      },
+      "inject:01M5H6785E6TK2Y77WYE790B1E": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should triage it down with…’ is in 6.3 Customer Complaints and AMI.",
+        "fingerprint": "7b0f692522341a49",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 6 › 6.3 Customer Complaints and AMI",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AMI system is under attack, and this is a false alert masked as a hardware failure.",
+            "chunkId": 161,
+            "headingPath": "City of Millbrook Department of… › 1. System at a Glance",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.463Z",
+        "version": 1
+      },
+      "inject:01M5H67J1PZ8KBFYXAYMKAJJAZ": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a sentiment pressure inject.’ is in 4.3 Level 2 — Operational Emergency.",
+        "fingerprint": "36d088e0735099fa",
+        "claims": [
+          {
+            "text": "This is a sentiment pressure inject.",
+            "chunkId": 12,
+            "headingPath": "ERP › Section 4 › 4.3 Level 2 — Operational Emergency",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must assess public concern and prepare a holding statement without confirming the cause.",
+            "chunkId": 104,
+            "headingPath": "City of Millbrook Department of… › Section 1 › 1.3 Principles",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature public speculation.",
+            "chunkId": 104,
+            "headingPath": "City of Millbrook Department of… › Section 1 › 1.3 Principles",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.463Z",
+        "version": 1
+      },
+      "inject:01M5H67Y9575AY4CNS5W783HX4": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5997a275250b3ad4",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.463Z",
+        "version": 1
+      },
+      "inject:01M5H687MZHAZDPC84VXKED27W": {
+        "label": "review",
+        "reason": "‘report’ is not in 7.6 Physical Intrusion or Tampering at a Storage Facility or the facility facts.",
+        "fingerprint": "b9072df5e4612964",
+        "claims": [
+          {
+            "text": "This inject tests Security's ability to act on a conflicting system report.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The player must recognize that the HMI and PACS are compromised and require physical verification.",
+            "chunkId": 88,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation in issuing a patrol or failing to initiate the PACS override.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.464Z",
+        "version": 1
+      },
+      "inject:01M5H68KZVQHBB6PZ3NWPR0NQN": {
+        "label": "review",
+        "reason": "‘SEC-4’ is not in 6.2 Kessler Controls Window Procedure or the facility facts.",
+        "fingerprint": "cff9b0be2a2bd3a8",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber-physical compromise.",
+            "chunkId": 151,
+            "headingPath": "City of Millbrook Department of… › Section A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The security team must now follow SEC-4 and preserve evidence; they must not act on the physical intrusion claim from I-10b until the SCADA / IT Security Manager confirms the system has been compromised.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.308,
+            "matched": [
+              "SCADA / IT Security Manager"
+            ],
+            "missing": [
+              "SEC-4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.464Z",
+        "version": 1
+      },
+      "inject:01M5H69AZSKJM269XDK9FXNN3T": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject triggers the public advisory process.’ is in 5.2 Sequence.",
+        "fingerprint": "aac05730a15df94f",
+        "claims": [
+          {
+            "text": "This inject triggers the public advisory process.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must initiate the pre-scripted MillbrookAlert and draft the public statement using the MDWS-PCP-2026 holding statement.",
+            "chunkId": 43,
+            "headingPath": "ERP › Section 10",
+            "overlap": 0.556,
+            "matched": [
+              "MDWS-PCP-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must confirm that no safe water is available for consumption in Zone 1.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.464Z",
+        "version": 1
+      },
+      "inject:01M5H69N50N3C9CKRSBKZEEE8F": {
+        "label": "review",
+        "reason": "Only 33% of ‘This post adds pressure to the PIO to act quickly; watch fo…’ is in 8.2 Response Matrix.",
+        "fingerprint": "194b4eb3a57280be",
+        "claims": [
+          {
+            "text": "This post adds pressure to the PIO to act quickly; watch for attempts to issue a statement before the official advisory is cleared.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.464Z",
+        "version": 1
+      },
+      "inject:01M5H71D0J5DE42TEAR7NDQ90H": {
+        "label": "review",
+        "reason": "‘isolate’ is not in 7.5 Cyber Incident or the facility facts.",
+        "fingerprint": "a716515fa9af79e3",
+        "claims": [
+          {
+            "text": "This inject confirms the HMI is compromised and displays false normalcy.",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The SCADA / IT team must verify the manual mode transition and initiate CODE CLEARWATER to isolate the system.",
+            "chunkId": 29,
+            "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to restore automatic control without verification.",
+            "chunkId": 29,
+            "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.465Z",
+        "version": 1
+      },
+      "inject:01M5H69WVZV5V57R1QHY8R2GHT": {
+        "label": "review",
+        "reason": "‘Section 5.4’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "d4f3b034d005a2a6",
+        "claims": [
+          {
+            "text": "This is a inject.",
+            "chunkId": 126,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.2 Do Not Drink Notice",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must confirm the release was published via the pre-scripted template in Section 5.4.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "Section 5.4"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the Deputy PIO logs the timestamp and channel in the media log.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.465Z",
+        "version": 1
+      },
+      "inject:01M5H6A5C6S3W2HBY26TPVK9XH": {
+        "label": "review",
+        "reason": "‘isolated’ is not in 6.4 ScreenBridge Exception (DosaTech) or the facility facts.",
+        "fingerprint": "4d59a59574d1f75f",
+        "claims": [
+          {
+            "text": "This confirms the network is isolated but the DosaTech agent remains active.",
+            "chunkId": 72,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [
+              "isolated"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must now verify that no further session can be initiated and that the forensic handover is complete before any action on the HMI.",
+            "chunkId": 72,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.465Z",
+        "version": 1
+      },
+      "inject:01M5H6AHYNVJ3TA4ZY6H9H49PV": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the HMI is lying.’ is in Annex B.",
+        "fingerprint": "d139a923b0c05a63",
+        "claims": [
+          {
+            "text": "This inject confirms the HMI is lying.",
+            "chunkId": 133,
+            "headingPath": "City of Millbrook Department of… › Annex B",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must now order full manual operations and validate the lab results as the sole reliable source.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation in accepting lab data over HMI.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.466Z",
+        "version": 1
+      },
+      "inject:01M5H6AZR9V2A43GE4GHXTGGDX": {
+        "label": "review",
+        "reason": "‘authorize’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "3eaa2e8ec9d4505a",
+        "claims": [
+          {
+            "text": "This inject confirms the formal regulatory mandate to issue the Do Not Drink advisory.",
+            "chunkId": 39,
+            "headingPath": "ERP › Section 9 › 9.3 Advisory Types",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the PIO to initiate the Section 10 template, the WQ to confirm lab results, and the IC to authorize the public release.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.6,
+            "matched": [
+              "Section 10"
+            ],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Delay or confusion here indicates a failure in the emergency approval chain.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.25,
+            "matched": [
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.466Z",
+        "version": 1
+      },
+      "inject:01M5H6BA5SEWJ2Z38MB9SXWFVW": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a1cab502335776fd",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should verify the tamper switch status in the log before responding.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to bypass protocol or open the cabinet.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.466Z",
+        "version": 1
+      },
+      "inject:01M5H6BQ2W0KFTBNHHEP1XHP03": {
+        "label": "review",
+        "reason": "‘isolation’ is not in 6.1 Policy or the facility facts.",
+        "fingerprint": "0c9bb0e5b2333988",
+        "claims": [
+          {
+            "text": "This inject confirms that vendor access is blocked until formal isolation and a signed request are submitted.",
+            "chunkId": 69,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.1 Policy",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The team must initiate the correct process.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.466Z",
+        "version": 1
+      },
+      "inject:01M5H6CCGR5NQ2J65KE4QGCA86": {
+        "label": "review",
+        "reason": "‘authorization’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "c89cfa8beaf5768d",
+        "claims": [
+          {
+            "text": "This inject triggers the final authorization step for the public advisory.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "authorization"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must now confirm the health effects content with WQ and secure the Director’s approval before release.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.571,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delays in verification or disagreement on messaging.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.467Z",
+        "version": 1
+      },
+      "inject:01M5H6CVFCQVNGKQWCQTJD97SQ": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "bbef4c434e3635b8",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.467Z",
+        "version": 1
+      },
+      "inject:01M5H6D33FWCBDTPJB5XCR7Q1B": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject confirms the critical gap in the backup strateg…’ is in Section 9.",
+        "fingerprint": "564d3de9c5493cd1",
+        "claims": [
+          {
+            "text": "This inject confirms the critical gap in the backup strategy.",
+            "chunkId": 81,
+            "headingPath": "City of Millbrook Department of… › Section 9",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must now validate that the 08/2025 logic cannot be restored from any source, forcing a full on-site re-image.",
+            "chunkId": 81,
+            "headingPath": "City of Millbrook Department of… › Section 9",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to proceed with a remote reload.",
+            "chunkId": 29,
+            "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.467Z",
+        "version": 1
+      },
+      "inject:01M5H6DETY62JR7ANJ6VB8Z5R9": {
+        "label": "review",
+        "reason": "Only 33% of ‘The technical team must now verify that all critical system…’ is in 11.1 CODE CLEARWATER.",
+        "fingerprint": "752aee8c98d123f1",
+        "claims": [
+          {
+            "text": "This confirms the manual operation transition has been completed per ERP Section 7.5.1.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 7 › 7.5 Cyber Incident › 7.5.1 Manual Operation",
+            "overlap": 0.714,
+            "matched": [
+              "Section 7.5.1"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must now verify that all critical systems are under direct operator control and that no residual automation is active.",
+            "chunkId": 44,
+            "headingPath": "ERP › Section 11 › 11.1 CODE CLEARWATER",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.467Z",
+        "version": 1
+      },
+      "inject:01M5H6DWT9XG48D9CB5QPF00TN": {
+        "label": "review",
+        "reason": "‘authorize’ is not in 8.1 Capability or the facility facts.",
+        "fingerprint": "a169fe4bbd432d7b",
+        "claims": [
+          {
+            "text": "This inject confirms the final decision to enter full manual operation.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 7 › 7.5 Cyber Incident › 7.5.1 Manual Operation",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to formally authorize the shift, assign roles, and begin logging on Form OPS-9.",
+            "chunkId": 77,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.1 Capability",
+            "overlap": 0.375,
+            "matched": [
+              "OPS-9"
+            ],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Ensure the manual mode transition is documented and that no further automatic control attempts are made.",
+            "chunkId": 77,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.1 Capability",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.467Z",
+        "version": 1
+      },
+      "inject:01M5H6E4G8NF7N8CJAX6AT733T": {
+        "label": "review",
+        "reason": "‘WQ Manager’ is not in 2.1 Approval Chain or the facility facts.",
+        "fingerprint": "63a0cead2dfb20a8",
+        "claims": [
+          {
+            "text": "This inject confirms the advisory must now include medical use restrictions.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The WQ Manager is acting on new clinical evidence, and the Director must decide whether to expand the advisory or risk harm to vulnerable populations.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.273,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "WQ Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.468Z",
+        "version": 1
+      },
+      "inject:01M5H6EF09XW2RYJ2JRXB52K0D": {
+        "label": "review",
+        "reason": "Only 30% of ‘This inject pressures the PIO to confirm the manual operati…’ is in 10.2 Do Not Drink Notice.",
+        "fingerprint": "30e31c806038f78a",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to confirm the manual operation status and address public concerns about zone spread.",
+            "chunkId": 126,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.2 Do Not Drink Notice",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overcommitment to timelines or unapproved claims about safety.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.468Z",
+        "version": 1
+      },
+      "inject:01M5H6ENVF8BZFAE0Y0F8RBAEW": {
+        "label": "review",
+        "reason": "Only 25% of ‘This is a high-pressure public statement draft.’ is in 2.1 Approval Chain.",
+        "fingerprint": "377ab921e122da48",
+        "claims": [
+          {
+            "text": "This is a high-pressure public statement draft.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must secure Director approval before release; watch for delays or resistance to factual messaging.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.222,
+            "matched": [
+              "Director",
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.468Z",
+        "version": 1
+      },
+      "inject:01M5H6EZZXR77NSQPRJPX7CHB6": {
+        "label": "review",
+        "reason": "Only 0% of ‘The team must now execute the full multi-channel disseminat…’ is in 1.2 Authority.",
+        "fingerprint": "e0ac3c65ed66f2a7",
+        "claims": [
+          {
+            "text": "This inject confirms the public statement has been approved and must be released.",
+            "chunkId": 104,
+            "headingPath": "City of Millbrook Department of… › Section 1 › 1.3 Principles",
+            "overlap": 0.6,
+            "matched": [
+              "approved"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now execute the full multi-channel dissemination.",
+            "chunkId": 4,
+            "headingPath": "ERP › Section 1 › 1.2 Authority",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delays in social media or MillbrookAlert deployment.",
+            "chunkId": 111,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.468Z",
+        "version": 1
+      },
+      "inject:01M5H6F8HE4ZVTRS0H0M5RWSYH": {
+        "label": "review",
+        "reason": "‘activation’ is not in Section 2 or the facility facts.",
+        "fingerprint": "f88408f95d13f318",
+        "claims": [
+          {
+            "text": "This inject confirms the activation of external support.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "activation"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The Director must acknowledge receipt and update the incident status accordingly.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.429,
+            "matched": [
+              "Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation in confirming the ETA or questioning the need for onboarding.",
+            "chunkId": 47,
+            "headingPath": "ERP › Section 12",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.468Z",
+        "version": 1
+      },
+      "inject:01M5H6FK77M6ASD0RFSTEKX42K": {
+        "label": "review",
+        "reason": "Only 10% of ‘Noise inject; the technical team should triage it as a non-…’ is in Section 9.",
+        "fingerprint": "54287556823dbf1f",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it as a non-critical recovery event, not linked to the control-system compromise.",
+            "chunkId": 81,
+            "headingPath": "City of Millbrook Department of… › Section 9",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overreaction to meter anomalies.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.469Z",
+        "version": 1
+      },
+      "inject:01M5H6FZPX6XMF9QXT1N79S9NW": {
+        "label": "review",
+        "reason": "Only 20% of ‘This is a inject confirming regulatory validation of the ad…’ is in Annex B.",
+        "fingerprint": "827fb112a080ceee",
+        "claims": [
+          {
+            "text": "This is a inject confirming regulatory validation of the advisory.",
+            "chunkId": 133,
+            "headingPath": "City of Millbrook Department of… › Annex B",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The WQ Manager must immediately file lab data via the portal.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.6,
+            "matched": [
+              "WQ Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for compliance with the 24-hour submission deadline.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 0.5,
+            "matched": [
+              "24-hour"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.469Z",
+        "version": 1
+      },
+      "inject:01M5H6GD6Z572QJ0D03PV23FKF": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9b9c47907b7bbc26",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.469Z",
+        "version": 1
+      },
+      "inject:01M5H6GP542NJ6NYREEN4P2ME6": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the public has received a status updat…’ is in Section 10.",
+        "fingerprint": "b634bda40e07b10d",
+        "claims": [
+          {
+            "text": "This inject confirms the public has received a status update.",
+            "chunkId": 43,
+            "headingPath": "ERP › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must now validate that the message was disseminated on all channels as required by the PCP.",
+            "chunkId": 43,
+            "headingPath": "ERP › Section 10",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.469Z",
+        "version": 1
+      },
+      "inject:01M5H6GYKZ9588N3ZGVP91RTPG": {
+        "label": "review",
+        "reason": "Only 22% of ‘This inject confirms that the forensic chain of custody is …’ is in 10.7 Evidence Preservation.",
+        "fingerprint": "2c529e154d7aab65",
+        "claims": [
+          {
+            "text": "This inject confirms that the forensic chain of custody is complete and that the FBI/CISA liaison has been engaged.",
+            "chunkId": 88,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+            "overlap": 0.222,
+            "matched": [
+              "FBI",
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must not attempt to reboot, reimage, or access the HMI until the forensic review is complete.",
+            "chunkId": 88,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.7 Evidence Preservation",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.469Z",
+        "version": 1
+      },
+      "inject:01M5H6J1NK42EJY0H8D74JHNNW": {
+        "label": "review",
+        "reason": "Only 43% of ‘This inject confirms the Incident Commander's authority to …’ is in Section 13.",
+        "fingerprint": "e3b57da3e86dce65",
+        "claims": [
+          {
+            "text": "This inject confirms the Incident Commander's authority to initiate the return-to-service process.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.429,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the team to begin verifying the test server and initiating the Kessler Controls access request.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.470Z",
+        "version": 1
+      },
+      "inject:01M5H6JB9P6GPHE8F731YCPZHB": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject confirms formal regulatory submission of forens…’ is in Section 12.",
+        "fingerprint": "8413d7e7727d7f2f",
+        "claims": [
+          {
+            "text": "This inject confirms formal regulatory submission of forensic evidence.",
+            "chunkId": 93,
+            "headingPath": "City of Millbrook Department of… › Section 12",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the player to initiate external reporting via WaterISAC and confirm CISA/FBI coordination.",
+            "chunkId": 93,
+            "headingPath": "City of Millbrook Department of… › Section 12",
+            "overlap": 0.5,
+            "matched": [
+              "CISA",
+              "FBI",
+              "reporting"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.470Z",
+        "version": 1
+      },
+      "inject:01M5H6JRGQ23NZATM2BNTNMR3R": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e8418360bf51ebf3",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging, as the HMI data matches the field observation and no system risk is present.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 7 › 7.3 Treatment Process Failure / Chemical Overfeed",
+            "overlap": 0.067,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.470Z",
+        "version": 1
+      },
+      "inject:01M5H6K9NBW2D1SYN7WRYTSA0Z": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject confirms the end of the advisory phase and trig…’ is in 5.1 Targets.",
+        "fingerprint": "6bd0d4e8ab1ae398",
+        "claims": [
+          {
+            "text": "This inject confirms the end of the advisory phase and triggers the final verification and public release step.",
+            "chunkId": 111,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the Director to confirm lift authority and the PIO to initiate the release sequence.",
+            "chunkId": 111,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+            "overlap": 0.429,
+            "matched": [
+              "Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.470Z",
+        "version": 1
+      },
+      "inject:01M5H6KPGMXXXMGPZ9HYVX0T8M": {
+        "label": "review",
+        "reason": "Only 25% of ‘Pressure inject; the public is beginning to self-assess and…’ is in 4.1 Types.",
+        "fingerprint": "56988ab051b00ade",
+        "claims": [
+          {
+            "text": "Pressure inject; the public is beginning to self-assess and act on perceived recovery.",
+            "chunkId": 108,
+            "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must confirm that no advisory has been lifted and reinforce the official stance to prevent premature use.",
+            "chunkId": 108,
+            "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "inject:01M5H6M1JD1ACYEZCC4E2SF993": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b9e0eb0d298b9689",
+        "claims": [],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "7.1 Setpoint Limits (chemical feed and pumping) is in the index as cited.",
+        "fingerprint": "5ab96555e5ef1ef1",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "chunkId": 73,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "4.4 Level 3 — Public Health Emergency is in the index as cited.",
+        "fingerprint": "b9b411ec8b8aa0e9",
+        "claims": [
+          {
+            "text": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "11.3 Known Remote-Access Risk is in the index as cited.",
+        "fingerprint": "4bd0f1dc998f2680",
+        "claims": [
+          {
+            "text": "ERP › Section 11 › 11.3 Known Remote-Access Risk",
+            "chunkId": 46,
+            "headingPath": "ERP › Section 11 › 11.3 Known Remote-Access Risk",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "5.3 External Reporting Clocks is in the index as cited.",
+        "fingerprint": "ec70cbe5c75abbf6",
+        "claims": [
+          {
+            "text": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "5.2 Sequence is in the index as cited.",
+        "fingerprint": "41a0344905bd295a",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "5.4 Pre-Scripted Messages is in the index as cited.",
+        "fingerprint": "96f2b54ef3fa42f8",
+        "claims": [
+          {
+            "text": "ERP › Section 5 › 5.4 Pre-Scripted Messages",
+            "chunkId": 17,
+            "headingPath": "ERP › Section 5 › 5.4 Pre-Scripted Messages",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:02:03.471Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

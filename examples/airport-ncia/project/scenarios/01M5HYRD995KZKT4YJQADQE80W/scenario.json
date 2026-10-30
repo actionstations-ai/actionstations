@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-24T20:53:56.142Z",
+  "updatedAt": "2026-10-30T11:11:22.014Z",
   "brief": {
     "userPrompt": "An anonymous email names noon as the deadline; teams spend a 180-minute time budget on an action menu to find an ex-contractor's logic bomb on the AODB server before 12:00.",
     "audience": [
@@ -672,6 +672,607 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-prioritization",
+        "capability": "operational_coordination",
+        "why": "The objective requires making rapid, high-stakes decisions on what actions to take and what to skip under time pressure, which is the essence of operational coordination—aligning resources and actions to achieve incident objectives efficiently."
+      },
+      {
+        "objectiveId": "obj-prioritization",
+        "capability": "planning",
+        "why": "The objective tests the ability to prioritize actions based on a structured process, which is a core function of planning: evaluating options, allocating time and resources, and making executable decisions under constraints."
+      },
+      {
+        "objectiveId": "obj-prioritization",
+        "capability": "situational_assessment",
+        "why": "The objective demands continuous evaluation of the threat landscape and the value of each action, which is a direct application of situational assessment to inform prioritization."
+      },
+      {
+        "objectiveId": "obj-cyber-investigation",
+        "capability": "cybersecurity",
+        "why": "The objective focuses on identifying the attack vector through technical analysis of logs, system configurations, and digital artifacts, which is a direct exercise of cybersecurity capability to detect and analyze threats."
+      },
+      {
+        "objectiveId": "obj-cyber-investigation",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The objective requires synthesizing disparate digital clues (email metadata, network logs, system access) into a coherent threat picture, which reflects the core function of intelligence and information sharing to connect the dots across data sources."
+      },
+      {
+        "objectiveId": "obj-cyber-investigation",
+        "capability": "forensics_and_attribution",
+        "why": "The objective challenges teams to trace the attack to its source—Dmitri Volkov—by analyzing digital evidence, which is the heart of forensic analysis and attribution in cyber incidents."
+      },
+      {
+        "objectiveId": "obj-triage",
+        "capability": "operational_coordination",
+        "why": "The objective tests the team's ability to coordinate across physical and cyber domains to avoid misallocating resources, which is a central function of operational coordination in multi-domain incidents."
+      },
+      {
+        "objectiveId": "obj-triage",
+        "capability": "situational_assessment",
+        "why": "The objective requires continuously assessing whether the threat is physical or digital based on evidence, which is a core function of situational assessment to determine the nature and scope of the hazard."
+      },
+      {
+        "objectiveId": "obj-triage",
+        "capability": "cybersecurity",
+        "why": "The objective demands recognizing digital indicators (e.g., scheduled task, orphaned account) as the primary threat, which is a direct exercise of cybersecurity capability to identify and focus on cyber-based threats."
+      },
+      {
+        "objectiveId": "obj-offboarding",
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "why": "The objective tests the team's ability to identify systemic failures in off-boarding procedures—specifically, the orphaned service account—as a risk that was not properly assessed or mitigated, which is a core function of risk management in protection programs."
+      },
+      {
+        "objectiveId": "obj-offboarding",
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective centers on the failure to disable a service account after off-boarding, which directly relates to access control and identity verification: ensuring that access rights are revoked when no longer needed."
+      },
+      {
+        "objectiveId": "obj-offboarding",
+        "capability": "planning",
+        "why": "The objective requires recognizing that the attack stemmed from a gap in the off-boarding process, which reflects a failure in planning to ensure that all access rights are systematically removed upon termination."
+      },
+      {
+        "objectiveId": "obj-contingency",
+        "capability": "infrastructure_systems",
+        "why": "The objective tests the ability to prepare for and manage the impact of a critical system failure (AODB, FIDS, BHS), which is a direct exercise of infrastructure systems capability to stabilize and restore essential operations."
+      },
+      {
+        "objectiveId": "obj-contingency",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires developing and preparing communications for passengers, airlines, and TSA in anticipation of a failure, which is a core function of public information and warning to deliver timely and actionable information during a crisis."
+      },
+      {
+        "objectiveId": "obj-contingency",
+        "capability": "operational_communications",
+        "why": "The objective demands ensuring that response teams and stakeholders can communicate effectively during a failure, which reflects the operational communications capability to maintain connectivity and coordination under stress."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Command Post (ICP) establishes and maintains a unified operational structure under the AEP's Phase 2: Response and Stabilization, with clear roles assigned via ICS 201, and all actions are prioritized and synchronized through the AOC's time-based decision-making process to ensure no action is duplicated or delayed.",
+        "objectiveRefs": [
+          "obj-prioritization",
+          "obj-triage"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Activate the Incident Command Post (ICP) within 10 minutes of the first threat notification.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "START"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Assign roles on the ICS 201 form using the roles defined in the TIRP Section 1.4.1 and 9.",
+            "citation": {
+              "documentId": "01M5HX50XXFH7GN5PCJ9BHXWPV",
+              "documentTitle": "ICS 201 — Incident Briefing (FEMA)",
+              "headingPath": "FEMA › Purpose and use › Block instructions (abridged)",
+              "quote": "- 3: month/day/year and 24-hour clock. - 4: use ICS map symbology; north at top; geospatial references go on ICS 209. - 7: objectives and specific problem areas. - 8: actions and when they occur; cont",
+              "chunkId": 138
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "START"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Prioritize actions on the Action Menu Card using the 12:00 PM deadline and allocate time budgets per MSEL row.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "START",
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Decide to halt physical sweeps after A-09 and A-10 are completed and confirm no physical evidence.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+              "chunkId": 126
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Switch focus to cyber investigation after confirming the threat is digital via A-04, A-06, and A-14.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The team completes a structured prioritization process using the TIRP Section 1.4.3 After-Action Reviews (AARs) framework to evaluate action value, time cost, and evidence yield, and documents the rationale for skipping dead-end actions in the exercise log.",
+        "objectiveRefs": [
+          "obj-prioritization",
+          "obj-offboarding"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
+            "capability": "planning",
+            "task": "Review the MSEL Action Menu Card and classify each action as 'Dead End', 'Useful', or 'Critical Path' using the expected outcomes.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "START"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-offboarding"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "planning",
+            "task": "Document the rationale for skipping A-01, A-03, A-08, A-09, A-10, and A-16 in the exercise log.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-offboarding"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "planning",
+            "task": "Conduct a 10-minute AAR on the action selection process using the TIRP Section 1.4.3 framework.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+              "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+              "chunkId": 85
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-offboarding"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "planning",
+            "task": "Confirm that all actions taken are aligned with the TIRP Section 13.8 contingency planning framework.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-offboarding"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The team continuously updates the threat assessment using real-time evidence from the MSEL, including the AODB server inspection (A-05), the scheduled task discovery (A-19), and the confirmation of physical access (A-11, A-12), to determine that the threat is cyber-based and not physical.",
+        "objectiveRefs": [
+          "obj-prioritization",
+          "obj-triage"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "situational_assessment",
+            "task": "Review the email content and metadata (A-02) to assess technical sophistication and origin.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+              "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+              "chunkId": 85
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "A-02"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "situational_assessment",
+            "task": "Compare the AODB server inspection (A-05) with the network logs (A-04) to confirm the logic bomb is active and connected.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+              "quote": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+              "chunkId": 126
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "A-05"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "situational_assessment",
+            "task": "Cross-reference the PACS audit (A-12) and CCTV (A-11) to confirm physical access occurred during the attack window.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.5 Scenario B: Access Control System Failure",
+              "quote": "**Impact:** all airport-controlled doors fail \"locked\" (no movement) or \"unlocked\" (massive security breach). **\"Fail Unlocked\":** LEO/Security immediately dispatch all available staff to physically s",
+              "chunkId": 125
+            },
+            "expectedBy": "security-physical",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "A-11",
+              "A-12"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "situational_assessment",
+            "task": "Update the threat assessment to 'cyber-based' after A-06 and A-04 confirm the attack vector.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1100"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "situational_assessment",
+            "task": "Confirm that no physical threat indicators (e.g., explosives, unattended items) were found in the terminal or ramp.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "security-physical",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "A-09",
+              "A-10"
+            ],
+            "objectiveRefs": [
+              "obj-prioritization",
+              "obj-triage"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The IT team identifies the logic bomb via the scheduled task (A-05) and the orphaned service account (A-06), and confirms the attack vector using the PowerShell script (A-05), the outbound beacon (A-04), and the SIEM review (A-07), all in accordance with the ASP Section 2.1 and C5.",
+        "objectiveRefs": [
+          "obj-cyber-investigation",
+          "obj-triage"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "cybersecurity",
+            "task": "Inspect the AODB server (A-05) and identify the scheduled task 'AODB_IndexMaintenance' created by svc_nexgen_aodb.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+              "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+              "chunkId": 75
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "A-05"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "cybersecurity",
+            "task": "Review the PowerShell script (A-05) and confirm it contains AES-256 encryption routines targeting the AODB database.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+              "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+              "chunkId": 75
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "A-05"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "cybersecurity",
+            "task": "Audit the VPN access logs (A-06) and identify the connection from svc_nexgen_aodb 5 days ago.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "A-06"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation",
+              "obj-triage"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "cybersecurity",
+            "task": "Review the SIEM logs (A-07) and confirm that the attack indicators were logged but not alerted due to misclassification.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 5 › 5.2 Mutual Aid Agencies",
+              "quote": "**A. Akron Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous mat",
+              "chunkId": 20
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 20 minutes",
+            "rowIds": [
+              "A-07"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation",
+              "obj-triage"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The team synthesizes evidence from the email (A-02), the user-agent (A-20), the AODB server (A-05), the VPN logs (A-06), and the IT staff interview (A-14) to form a complete threat profile and attribute the attack to Dmitri Volkov.",
+        "objectiveRefs": [
+          "obj-cyber-investigation"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-19",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Cross-reference the email user-agent (A-20) with contractor records to confirm Volkov used a Windows 11, Chrome 122 system.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+              "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+              "chunkId": 85
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "A-20"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share the threat profile with the PIO (A-13) and ops (F-1000) to inform public and operational decisions.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+              "quote": "- **1.4.1 Training:** all responsible employees trained on this plan; annual refresher. - **1.4.2 Drills:** tabletop and functional drills, including cybersecurity scenarios; tabletop at least annuall",
+              "chunkId": 85
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "F-1000"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The team attributes the attack to Dmitri Volkov by linking the scheduled task (A-05), the orphaned service account (A-06), the physical access (A-11, A-12), and the IT staff interview (A-14), and confirms the motive through the promise of a full-time role.",
+        "objectiveRefs": [
+          "obj-cyber-investigation"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-21",
+            "capability": "forensics_and_attribution",
+            "task": "Identify the scheduled task (A-05) as the attack mechanism and trace it to the service account svc_nexgen_aodb.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+              "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+              "chunkId": 75
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "A-05"
+            ],
+            "objectiveRefs": [
+              "obj-cyber-investigation"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "debrief",
     "methodDescription": "Reserve 20-30 minutes of real time for the debrief after the clock resolves.",
@@ -750,6 +1351,352 @@
       "concessions": []
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to make decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with no external manipulation of outcomes.",
+      "Players respond in accordance with existing plans, policies and procedures, as referenced in the EOP and TIRP.",
+      "All injects and information are presented as factual and verifiable within the exercise context.",
+      "The SimCell operates all external agencies and systems, including law enforcement, legal counsel, and federal partners, as if they were present and responsive.",
+      "Time jumps between modules reflect the passage of scenario time, not real-world elapsed time."
+    ],
+    "artificialities": [
+      "Time advances in discrete jumps between modules, simulating real-time pressure.",
+      "The SimCell manages all external agencies (e.g., TSA, FBI, CISA) and systems (e.g., PACS, FIDS, SIEM) as if they were active and responsive.",
+      "System names (e.g., AODB, PACS, FIDS) are used as in the plans, but no actual system interaction occurs.",
+      "Injects are delivered via paper or screen, not through real-world communication channels.",
+      "The threat's nature (digital logic bomb) is not revealed until after the investigation, and players must infer it from evidence."
+    ],
+    "modules": [
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 09:00. The airport’s IT shared inbox has received a single, anonymous email from ncia_reckoning@proton.me, timestamped 08:57. The message reads: \"Something will happen at NCIA at exactly 12:00 PM today. You won't find it in time. But you're welcome to try.\" No attachments, no malware, no visible payload. The sender used end-to-end encrypted email through ProtonMail, routed through Switzerland. The email contains an invisible Unicode character (U+200B) in the subject line. The IT team has initiated a preliminary investigation. No physical anomalies have been detected. The airport remains operational, and no official alert has been issued. The clock is at 09:00, and the team must begin prioritizing actions under a 305-minute window to address the threat.",
+        "keyIssues": [
+          "Decide whether to prioritize cyber or physical investigation based on early evidence.",
+          "Determine if the threat is digital or physical based on limited clues.",
+          "Allocate limited time and resources across competing investigative tasks.",
+          "Recognize that a service account was not properly decommissioned during off-boarding.",
+          "Balance immediate response actions against long-term contingency planning."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IT: Based on the email metadata, user-agent, and system configuration, what technical indicators suggest the sender has familiarity with airport IT systems? Refer to C2 and C5.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Cyber Investigation Skills",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+                "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+                "chunkId": 154
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              }
+            ]
+          },
+          {
+            "text": "Security: What physical access evidence supports the theory that a former contractor had opportunity to deploy a logic bomb? Refer to C6 and C11.",
+            "roleIds": [
+              "security-physical"
+            ],
+            "objectiveRef": "Physical vs. Cyber Triage",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+                "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+                "chunkId": 153
+              }
+            ]
+          },
+          {
+            "text": "Operations: What actions must be initiated immediately to prepare for a potential impact, even if the threat is not yet confirmed? Refer to C7 and C3.",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Contingency Planning",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: How does the presence of a scheduled task on the AODB server challenge the assumption that routine maintenance tasks are safe? Refer to C5 and C19.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Cyber Investigation Skills",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              }
+            ]
+          },
+          {
+            "text": "Security: Why might a physical sweep of the terminal and ramp be a high-cost, low-yield action given the evidence so far? Refer to C4 and C10.",
+            "roleIds": [
+              "security-physical"
+            ],
+            "objectiveRef": "Physical vs. Cyber Triage",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.2 Mutual Aid Agencies",
+                "quote": "**A. Akron Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous mat",
+                "chunkId": 60
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is 10:00. The investigation has progressed. The IT team has identified a scheduled PowerShell script on the AODB server, set to run at 12:00 PM, created by a service account named svc_nexgen_aodb. This account was never decommissioned during the off-boarding of contractor Dmitri Volkov, who had full administrative access. The script contains encryption routines targeting the AODB database and deletion of FIDS configuration files. The same account made a brief outbound connection to a foreign VPS five days ago, coinciding with a physical access log showing Volkov entering the server room after hours. An airline operations manager has called to confirm 8 departures between 11:00 and noon. A social media post from a passenger referencing a 'security situation' has begun trending. The clock now shows 10:00. The team must now decide whether to continue the digital investigation, initiate emergency containment, or prepare for a potential impact.",
+        "keyIssues": [
+          "Confirm the attack vector based on the scheduled task and service account evidence.",
+          "Decide whether to escalate to TSA for enhanced screening, despite the threat being digital.",
+          "Determine if emergency backup initiation should take priority over active threat neutralization.",
+          "Assess whether the failure to decommission a service account reflects a systemic off-boarding gap.",
+          "Prioritize actions under increasing pressure from media and operational stakeholders."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IT: What does the persistence mechanism (scheduled task) and the use of a service account indicate about the attacker's planning and access level? Refer to C6 and C19.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Cyber Investigation Skills",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+                "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+                "chunkId": 153
+              }
+            ]
+          },
+          {
+            "text": "Security: How should the team respond to the TSA’s inquiry about enhanced screening, given that the threat is digital and not physical? Refer to C5 and C3.",
+            "roleIds": [
+              "security-physical"
+            ],
+            "objectiveRef": "Physical vs. Cyber Triage",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "Operations: What is the impact of a delayed decision on the 8 departures scheduled between 11:00 and noon? How should you balance operational continuity with threat mitigation? Refer to C7 and C4.",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Prioritization Under Pressure",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.2 Mutual Aid Agencies",
+                "quote": "**A. Akron Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous mat",
+                "chunkId": 60
+              }
+            ]
+          },
+          {
+            "text": "IT: Why is the failure to alert on the service account login and scheduled task creation a critical gap in the SIEM system? Refer to C7 and C14.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Contractor Off-Boarding",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should you respond to the social media post that suggests a threat is underway, given that the threat is not yet confirmed? Refer to C3 and C5.",
+            "roleIds": [
+              "pio-legal"
+            ],
+            "objectiveRef": "Contingency Planning",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is 11:30. The team has identified the logic bomb: a scheduled PowerShell script on the AODB server, triggered at 12:00 PM, created by an orphaned service account (svc_nexgen_aodb) linked to a former contractor, Dmitri Volkov. The script is designed to corrupt the AODB database and delete FIDS configurations, potentially disrupting flight operations. The TSA has requested approval to implement enhanced screening, which would cause 45-minute delays. The clock now shows 11:30. The team has 30 minutes to decide whether to attempt neutralization, activate emergency backups, or accept that impact is imminent. No new evidence has emerged. The team must now finalize its course of action.",
+        "keyIssues": [
+          "Decide whether to attempt to stop the script or accept that impact is unavoidable.",
+          "Determine if emergency backups are sufficient to mitigate impact, even if the attack executes.",
+          "Decide whether to notify the public, given the risk of panic versus the need for transparency.",
+          "Confirm whether the off-boarding process failed due to policy gaps or human error.",
+          "Choose between immediate containment and long-term recovery planning."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IT: What is the most effective way to neutralize the scheduled task before 12:00, and what risks are involved in doing so? Refer to C5 and C19.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Cyber Investigation Skills",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              }
+            ]
+          },
+          {
+            "text": "Operations: If the attack cannot be stopped, what is the minimum viable plan to maintain airport operations for the next 4 hours? Refer to C3 and C7.",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Contingency Planning",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          },
+          {
+            "text": "Security: What steps should be taken to prevent unauthorized access to the server room if the attack is not stopped? Refer to C6 and C4.",
+            "roleIds": [
+              "security-physical"
+            ],
+            "objectiveRef": "Physical vs. Cyber Triage",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+                "quote": "| Asset Tag | Hostname | Role | OS / Firmware | Location | |---|---|---|---|---| | SEC-SVR-01 | NCIA-PACS-CORE | Primary Database (SQL) & App Server | Windows Server 2019 | Main Server Room (Rack 4) |",
+                "chunkId": 153
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.2 Mutual Aid Agencies",
+                "quote": "**A. Akron Fire Department (AFD):** fire suppression, rescue, HAZMAT mitigation; Incident Command for fire/crash/medical; staffs ARFF Station 9 per agreement; triage/treatment/transport; hazardous mat",
+                "chunkId": 60
+              }
+            ]
+          },
+          {
+            "text": "IT: How does the fact that the script was created 4 weeks ago and modified 5 days ago reflect on the attacker's patience and planning? Refer to C11 and C14.",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Contractor Off-Boarding",
+            "citations": []
+          },
+          {
+            "text": "PIO: If the attack is not stopped, what message should be released to the public to maintain trust and prevent panic? Refer to C3 and C5.",
+            "roleIds": [
+              "pio-legal"
+            ],
+            "objectiveRef": "Contingency Planning",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 11 › 11.2 Operations",
+                "quote": "Report \"running the checkpoint\" or \"piggybacking\" immediately. LEOs respond to last known location. **\"Concourse Dump\":** LEO IC with ASC and TSA decides to evacuate the sterile area — default respons",
+                "chunkId": 246
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "AODB",
     "FIDS",
@@ -1689,6 +2636,1177 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:00:05.878Z",
+      "finishedAt": "2026-10-30T11:00:51.051Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 8263,
+      "outputTokens": 3481,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:23:34.309Z",
+      "finishedAt": "2026-10-30T10:23:58.504Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5081,
+      "outputTokens": 2229,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8829840574058cb1",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.393Z",
+        "version": 1
+      },
+      "row:A-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "e645064422ae07c4",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-02": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4965ae8865b8ead0",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-03": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "daa9b6a4766a81be",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-04": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "fe83a3e444410c97",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-05": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ace2e8b99ea47f3e",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "f278489eb8b6b3f8",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-07": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "d1f4ea7dbd66ce07",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-08": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "eaa77a2fbe4fc9e0",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "951d60f4d00237d1",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "421d16e91ea0c178",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-11": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "eb1eba7b0ab87410",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "de678f7568642be2",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-13": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a456b27b097de5a0",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-14": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5e31cfe08642993a",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-15": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a592ec5cfbbdbd01",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-16": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "d5b5ed3293aa54c0",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-17": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "006564bb7dda3dc0",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-18": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "8ec79dacdfb2e6fa",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-19": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "bc00392b6248339b",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:A-20": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3a2d51a6b123e4b1",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1000": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "2dcfb50fca044827",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1030": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "075bca720bb085ae",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1100": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e8673f8f1cbc4051",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1130": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "fc74607a42103ecb",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1145": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4c1379a7ef8f5413",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:F-1200": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "feb199584d7294ed",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ba6185805b6103f3",
+        "claims": [],
+        "at": "2026-10-30T10:23:59.394Z",
+        "version": 1
+      },
+      "inject:01M5HYRDA4APJW84PE6VD8DVCN": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "20415599453e600c",
+        "claims": [],
+        "at": "2026-10-30T11:00:55.989Z",
+        "version": 1
+      },
+      "inject:01M5HYRK68K3W27S9FA9F89W6R": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "d4a6d5ff7d5fec3f",
+        "claims": [
+          {
+            "text": "This inject tests if the team spends time chasing dead-end forensic leads.",
+            "chunkId": 73,
+            "headingPath": "ASP › Appendix D › D.1 Network Topology",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Windows 11/Chrome 122/UTC-5 metadata will be useful later if they follow up on A-20.",
+            "chunkId": 73,
+            "headingPath": "ASP › Appendix D › D.1 Network Topology",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "UTC-5",
+              "A-20"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Do not let them waste time on ProtonMail tracing.",
+            "chunkId": 73,
+            "headingPath": "ASP › Appendix D › D.1 Network Topology",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.990Z",
+        "version": 1
+      },
+      "inject:01M5HYS07ZFW163WVVRG9ZF0F0": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "8650fa191272ccb5",
+        "claims": [
+          {
+            "text": "This inject confirms the threat actor has technical expertise.",
+            "chunkId": 41,
+            "headingPath": "ASP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for IT to prioritize investigating the AODB and PACS systems, and for security to consider access control anomalies.",
+            "chunkId": 41,
+            "headingPath": "ASP",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The zero-width space is a red flag for insider threat behavior.",
+            "chunkId": 41,
+            "headingPath": "ASP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.991Z",
+        "version": 1
+      },
+      "inject:01M5HYSC83Y2SM7R44HQFN7DV0": {
+        "label": "review",
+        "reason": "‘10-minute’, ‘30 minutes’, ‘A-06’ are not in D.2 Hardware Inventory (Critical Assets) or the facility facts.",
+        "fingerprint": "73fcb91948770ddc",
+        "claims": [
+          {
+            "text": "This is a dead-end inject.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The stale account is the correct clue, but it’s available via a 10-minute audit (A-06) — scanning for it costs 30 minutes.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "10-minute",
+              "30 minutes",
+              "A-06"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams who over-invest in broad scans instead of targeted audits.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.992Z",
+        "version": 1
+      },
+      "inject:01M5HYSKK6F50EARXTMRP73CYQ": {
+        "label": "review",
+        "reason": "‘5 days’ is not in 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop) or the facility facts.",
+        "fingerprint": "89b500f32113d5b5",
+        "claims": [
+          {
+            "text": "This log confirms the AODB server made an outbound call to a known external VPS five days ago.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0.182,
+            "matched": [],
+            "missing": [
+              "5 days"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "It's a critical lead: it confirms the server was compromised and reached out to a command-and-control host.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT team must now trace the scheduled task that triggered it.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.992Z",
+        "version": 1
+      },
+      "inject:01M5HYSWA6P96ARDPTNT32PVA4": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "442eb5a24a8281cc",
+        "claims": [
+          {
+            "text": "This is the critical inject.",
+            "chunkId": 1,
+            "headingPath": "AEP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now recognize the task, script, and ransom note as the logic bomb.",
+            "chunkId": 1,
+            "headingPath": "AEP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the first team to attempt to delete the task or quarantine the script.",
+            "chunkId": 1,
+            "headingPath": "AEP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.993Z",
+        "version": 1
+      },
+      "inject:01M5HYT58GQ3T9EZS0N0EN6QG5": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject reveals the attacker’s access vector.’ is in F.2 Remote Access (Vendor Support).",
+        "fingerprint": "f86f7743ca78fd4a",
+        "claims": [
+          {
+            "text": "This inject reveals the attacker’s access vector.",
+            "chunkId": 78,
+            "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams that immediately cross-reference the service account with the AODB server task.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The off-boarding gap is critical.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.993Z",
+        "version": 1
+      },
+      "inject:01M5HYTG62Z2NRJVB0504954H4": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the three anomalies from prior injects.’ is in 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop).",
+        "fingerprint": "913eb07a5676f524",
+        "claims": [
+          {
+            "text": "This inject confirms the three anomalies from prior injects.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The SIEM has all the evidence, but the alerts were not prioritized — a key point for post-exercise discussion on alert tuning and operational noise.",
+            "chunkId": 28,
+            "headingPath": "AEP › Part II › Appendix 1 › 1.3 Operational Procedures",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.993Z",
+        "version": 1
+      },
+      "inject:01M5HYTVJQKNDS2G5TMTMXV109": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "800aa114155d72f0",
+        "claims": [
+          {
+            "text": "This is a dead-end inject: the attacker bypassed DNS entirely by using a hardcoded IP. The players must recognize that the absence of DNS activity does not imply safety — the attacker avoided detection by not using DNS at all.",
+            "chunkId": 131,
+            "headingPath": "NCIA Terminal Map",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.993Z",
+        "version": 1
+      },
+      "inject:01M5HYVASKDZ42BZM749T4KVNB": {
+        "label": "review",
+        "reason": "Only 20% of ‘The security team has followed protocol, but the absence of…’ is in 5.1 Airport Authority Departments.",
+        "fingerprint": "7ea984b52e9fffaf",
+        "claims": [
+          {
+            "text": "This inject confirms the threat is digital.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The security team has followed protocol, but the absence of physical evidence reinforces that the attacker’s method is cyber-based.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-reaction to the dead end—some players may misinterpret the lack of findings as a sign of a physical threat that has been hidden.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.091,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.993Z",
+        "version": 1
+      },
+      "inject:01M5HYVMJTR02CBFP1JQ8HQ51Z": {
+        "label": "review",
+        "reason": "‘A-09’ is not in 4.1 Bomb Threat (Aircraft) or the facility facts.",
+        "fingerprint": "41ca72c86c9b8b11",
+        "claims": [
+          {
+            "text": "This inject reinforces the red herring: physical security is clean, but the threat is digital.",
+            "chunkId": 33,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.1 Bomb Threat (Aircraft)",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams that double down on physical triage after A-09.",
+            "chunkId": 33,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.1 Bomb Threat (Aircraft)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "A-09"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The threat is not on the ramp.",
+            "chunkId": 33,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.1 Bomb Threat (Aircraft)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.994Z",
+        "version": 1
+      },
+      "inject:01M5HYVYQQDJQM9C3XGEGPNV9X": {
+        "label": "review",
+        "reason": "‘4-week’ is not in D.2 Hardware Inventory (Critical Assets) or the facility facts.",
+        "fingerprint": "6f3f90435c695335",
+        "claims": [
+          {
+            "text": "This inject confirms the timeline of the insider threat.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The 4-week-old video shows Volkov physically accessing the server room during his contract’s final week.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.417,
+            "matched": [],
+            "missing": [
+              "4-week"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "If players request a deeper review of past footage, this is the evidence they need.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "If not, it confirms the absence of recent anomalies.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.994Z",
+        "version": 1
+      },
+      "inject:01M5HYW6826493C5MR79AC79DR": {
+        "label": "review",
+        "reason": "Only 21% of ‘The alarm shows Dmitri Volkov's badge was used to enter the…’ is in D.2 Hardware Inventory (Critical Assets).",
+        "fingerprint": "5a916ef823af6da1",
+        "claims": [
+          {
+            "text": "This inject confirms the timeline of physical access.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The alarm shows Dmitri Volkov's badge was used to enter the server room after hours — exactly the window when the logic bomb was planted.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.214,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The player team must now connect this to the prior injects about the orphaned service account and the scheduled task.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.994Z",
+        "version": 1
+      },
+      "inject:01M5HYWD2JCJM7EP1QVV5Y736T": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "8a767974d6090f53",
+        "claims": [
+          {
+            "text": "This inject confirms no active threat; it’s a dead end for immediate action but validates the FBI’s readiness to open a case if a suspect is identified.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 0.143,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for players to close the loop later when they find Volkov.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.995Z",
+        "version": 1
+      },
+      "inject:01M5HYWVF8JKCGPA7HQ7C2PYV9": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject confirms motive and access for the logic bomb.’ is in 13.7 Checklist: Cybersecurity Incident.",
+        "fingerprint": "7ac295788e6fcc4d",
+        "claims": [
+          {
+            "text": "This inject confirms motive and access for the logic bomb.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The emotional withdrawal is a key behavioral clue.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The facilitator should watch for teams dismissing this as 'just a guy who got passed over' rather than recognizing it as a red flag.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.995Z",
+        "version": 1
+      },
+      "inject:01M5HYX87RKA4FM6TF2A7TH09T": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "0d594039d5dd8c8a",
+        "claims": [
+          {
+            "text": "This inject rewards proactive containment planning.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the team implements the isolation command as a defensive action, or delays it due to perceived need for IC approval.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "approval",
+              "isolation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.995Z",
+        "version": 1
+      },
+      "inject:01M5HYXG3RZ4NBFWHWRKA3WSBR": {
+        "label": "review",
+        "reason": "‘15-minute’ is not in 5.1 Airport Authority Departments or the facility facts.",
+        "fingerprint": "3c1e624059e98de4",
+        "claims": [
+          {
+            "text": "This is a RED HERRING. The threat is cyber, not physical.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The 15-minute action is not wrong, but it diverts attention from the digital threat.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "15-minute"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams that accept this as a priority over investigating the scheduled task.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.995Z",
+        "version": 1
+      },
+      "inject:01M5HYXZHE8J01HBXBXG50AVBD": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the threat’s nature and pushes players…’ is in 6.3 Response Protocol (Cyber).",
+        "fingerprint": "685329aaccb778ef",
+        "claims": [
+          {
+            "text": "This inject confirms the threat’s nature and pushes players toward the correct forensic actions.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any delay in verifying the scheduled task or auditing the service account — that's the key gap to close.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.182,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.995Z",
+        "version": 1
+      },
+      "inject:01M5HYYXY8QQ7X1J0YCZ7NY67W": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a defensive insurance move.’ is in 6.3 Response Protocol (Cyber).",
+        "fingerprint": "f57be1693ec1b7e0",
+        "claims": [
+          {
+            "text": "This is a defensive insurance move.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team has bought time for recovery if the bomb triggers.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams who skip this and rush to stop the bomb without backup.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HYZD1VYVRGKYZFNBNHQXH1": {
+        "label": "review",
+        "reason": "‘isolate’ is not in D.2 Hardware Inventory (Critical Assets) or the facility facts.",
+        "fingerprint": "f4a1f29a709c5feb",
+        "claims": [
+          {
+            "text": "This confirms the logic bomb is active and scheduled for noon.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now decide whether to stop the task, isolate the server, or attempt to reverse the script before it runs.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HYZPRFTTSZFE9VB05XKG87": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "69d78514c2098568",
+        "claims": [
+          {
+            "text": "This is a confirmatory inject, not a discovery.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "It reinforces Volkov as a suspect only if the team has already identified him.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-reliance on generic matches; the real value is in convergence with A-06 and A-14.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "A-06",
+              "A-14"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HZ00020V62MCDBMY76P6HP": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "bd8d279f34fb774b",
+        "claims": [
+          {
+            "text": "This inject introduces external pressure on Ops to make a decision under uncertainty.",
+            "chunkId": 21,
+            "headingPath": "AEP › Part I › Section 5 › 5.3 Federal Agencies",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether Ops communicates a firm hold on boarding, or delays action and risks cascading delays.",
+            "chunkId": 90,
+            "headingPath": "TIRP › Section 2 › 2.4 Checklist: Shelter in Place",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HZ0BPEWHQG0RPX8YF5HMYH": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "89ae59314f41b4d9",
+        "claims": [
+          {
+            "text": "This is a social media misinformation inject.",
+            "chunkId": 130,
+            "headingPath": "TIRP › Annex C",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must decide how to respond to a rapidly spreading rumor based on a misheard phrase.",
+            "chunkId": 130,
+            "headingPath": "TIRP › Annex C",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to downplay or overreact.",
+            "chunkId": 130,
+            "headingPath": "TIRP › Annex C",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HZ0KP48GZVH5ZKWD2TRKRX": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject forces the team to commit to a response path.’ is in 13.7 Checklist: Cybersecurity Incident.",
+        "fingerprint": "c585e6d40c1da60d",
+        "claims": [
+          {
+            "text": "This inject forces the team to commit to a response path.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "If they have not identified the scheduled task by now, they are not on track.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for denial of the digital threat, over-reliance on manual processes, or attempts to evacuate the terminal based on an assumed physical threat.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0.154,
+            "matched": [
+              "evacuate"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HZ0VV3XMWR4XC1M8KS20DK": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject tests the decision to escalate physical screeni…’ is in 2.5 The Sterile Area.",
+        "fingerprint": "5784a5f5f0a81623",
+        "claims": [
+          {
+            "text": "This inject tests the decision to escalate physical screening in the absence of physical threat evidence.",
+            "chunkId": 51,
+            "headingPath": "ASP › Section 2 › 2.5 The Sterile Area",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether ops chooses operational risk over perceived security, and whether they justify the trade-off.",
+            "chunkId": 51,
+            "headingPath": "ASP › Section 2 › 2.5 The Sterile Area",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.996Z",
+        "version": 1
+      },
+      "inject:01M5HZ18Y0ZA86WPM5J0690RG6": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject closes the final decision window.’ is in D.2 Hardware Inventory (Critical Assets).",
+        "fingerprint": "4de53118461cb391",
+        "claims": [
+          {
+            "text": "This inject closes the final decision window.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The threat is now active.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "If players haven't deleted the scheduled task, they must accept that the logic bomb will detonate at 12:00 PM.",
+            "chunkId": 115,
+            "headingPath": "TIRP › Section 10 › 10.4 Checklist: Bomb Threat",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.997Z",
+        "version": 1
+      },
+      "inject:01M5HZ1GPWRFFWK1A80JKFMV27": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is the final inject.’ is in D.2 Hardware Inventory (Critical Assets).",
+        "fingerprint": "a03578495be14243",
+        "claims": [
+          {
+            "text": "This is the final inject.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The threat has executed.",
+            "chunkId": 13,
+            "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "If the team neutralized it earlier, skip to the success path.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Otherwise, this triggers full crisis management and post-incident response.",
+            "chunkId": 13,
+            "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:55.997Z",
+        "version": 1
+      },
+      "inject:01M5HZ1QDMGBN25N6PPQ07Z7K4": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b98862a254840dca",
+        "claims": [],
+        "at": "2026-10-30T11:00:55.997Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

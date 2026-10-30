@@ -55,6 +55,11 @@ export interface StageCall {
   pinnedChunkIds?: number[]
   /** Extra prompt variables that depend on the final C keys (the pinned passages' keys). */
   decorateVars?: (retrieved: RetrievedChunk[]) => Record<string, unknown>
+  /**
+   * Narrows the output schema for this call (a list that must have as many entries as the
+   * scenario has objectives). The model's structured-output mode then cannot stop early.
+   */
+  refineSchema?: (schema: z.ZodType) => z.ZodType
 }
 
 export interface StageResult<T> {
@@ -324,7 +329,9 @@ async function runStageOnce<T>(call: StageCall, skipped: Set<number>): Promise<S
   const retrieved = await withoutWithheld(call, chosen, await retrieveFor(call, prompt), skipped)
   if (call.requireRetrieval && !retrieved.length)
     throw new AppError('VALIDATION', `Stage ${stage} failed: ${call.requireRetrieval}`)
-  const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
+  const picked = schemaWhen(schemaFor(prompt), retrieved)
+  const name = picked.name
+  const schema = call.refineSchema ? call.refineSchema(picked.schema) : picked.schema
   const rendered = deps.renderPrompt(prompt, {
     ...call.vars,
     retrieved: retrievedVars(retrieved),

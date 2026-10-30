@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:04:28.609Z",
-  "updatedAt": "2026-10-24T22:43:50.114Z",
+  "updatedAt": "2026-10-30T11:13:05.922Z",
   "brief": {
     "userPrompt": "A multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a command-and-control link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft start executing waypoints nobody loaded, RTK-1 and the aircraft lose fix at the same time under a clear sky, the home point moves, and a pickup truck with antennas is seen leaving the lodge parking lot. The crew must land in attitude mode, preserve the GCS and radio state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed security provider, and tell the CP&L client whether Deliverable D-3 data is intact.",
     "audience": [
@@ -1825,6 +1825,232 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+        "capability": "cybersecurity",
+        "why": "The objective requires verifying and restoring command authority over a flight system after a cyber-physical incident involving unauthorized command injection, which directly aligns with the Cybersecurity capability's focus on protecting and restoring electronic systems from unauthorized use and exploitation."
+      },
+      {
+        "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+        "capability": "forensics_and_attribution",
+        "why": "Restoring command integrity depends on conducting forensic analysis of telemetry logs and radio state to identify the source and method of the compromise, which is a core function of the Forensics and Attribution capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+        "capability": "operational_coordination",
+        "why": "The objective requires synchronized actions across roles to preserve evidence, verify system integrity, and restore control, which relies on a unified operational structure and coordination among all stakeholders as defined in the Operational Coordination capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
+        "capability": "situational_assessment",
+        "why": "The objective involves resolving conflicting data between the GCS, DAA-1, and aircraft telemetry, which requires a timely and accurate assessment of the true operational state to inform decisions, a core function of the Situational Assessment capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
+        "capability": "cybersecurity",
+        "why": "The objective centers on verifying the integrity of data streams and systems under a cyber-physical attack, which requires protecting and validating electronic systems and data from manipulation, a central function of the Cybersecurity capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
+        "capability": "intelligence_and_information_sharing",
+        "why": "Resolving conflicting data requires the integration and cross-verification of telemetry, logs, and field observations across multiple sources, which depends on timely and accurate information sharing among technical and operational roles as defined in the Intelligence and Information Sharing capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
+        "capability": "operational_coordination",
+        "why": "The objective demands synchronized reporting and action with law enforcement, base safety, the FSDO, and the client, which requires establishing a unified operational structure and process integrating all critical stakeholders, a core function of the Operational Coordination capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes managing public messaging and media inquiries while maintaining regulatory compliance, which requires delivering coordinated, prompt, and actionable information to the public and stakeholders, a central function of the Public Information and Warning capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
+        "capability": "intelligence_and_information_sharing",
+        "why": "Effective interagency coordination depends on timely exchange of threat and incident information with external partners such as the FSDO, CCSO, and Corporate Communications, which is a core function of the Intelligence and Information Sharing capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
+        "capability": "infrastructure_systems",
+        "why": "The objective requires maintaining operational continuity under cascading failures of C2 links, RTK base, and GNSS, which involves stabilizing critical infrastructure functions and restoring systems to support viable operations, a core function of the Infrastructure Systems capability."
+      },
+      {
+        "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
+        "capability": "cybersecurity",
+        "why": "Continuity depends on preserving and restoring electronic systems and data under attack, including protecting the telemetry pipeline and radio state, which aligns with the Cybersecurity capability's focus on protecting and restoring electronic systems from damage and exploitation."
+      },
+      {
+        "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
+        "capability": "planning",
+        "why": "The objective requires activating pre-defined emergency procedures and maintaining a structured response, which relies on a systematic process of developing executable approaches to meet defined objectives, a core function of the Planning capability."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The Systems & Cybersecurity Lead (TL) must preserve the GCS-01 and 915 MHz radio state, retrieve full telemetry and link logs, and prevent any system reboot or re-pair until the forensic investigation is complete, as required by HUOG-ISP Section 9.1.",
+        "objectiveRefs": [
+          "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+          "01M5H3CJP2FMY4R6NW1PNTNX55",
+          "01M5H3CJP2CAGWJ6CR4V57RHFP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Preserve the GCS-01 and 915 MHz radio state",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the C2 link compromise is confirmed",
+            "rowIds": [
+              "I-13",
+              "I-13b",
+              "I-17",
+              "I-17b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Retrieve the full telemetry and link logs from GCS-01 and RTK-1",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of the compromise",
+            "rowIds": [
+              "I-13",
+              "I-13b",
+              "I-17",
+              "I-17b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Notify the managed SOC via HUOG-NAS01 to request forensic imaging of the 915 MHz link traffic",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of the compromise",
+            "rowIds": [
+              "I-13",
+              "I-13b",
+              "I-17",
+              "I-17b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "cybersecurity",
+            "task": "Confirm that no GCS is re-paired or rebooted until the baseline is verified",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the fleet-wide command integrity hold is declared",
+            "rowIds": [
+              "I-03",
+              "I-13",
+              "I-13b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "cybersecurity",
+            "task": "Verify that the GCS-02 firmware hash matches baseline 03.2026-B after re-imaging",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "after the managed SOC completes imaging",
+            "rowIds": [
+              "I-24b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "cybersecurity",
+            "task": "Submit the MSSP-REQ-915 access request form to HUOG-FW01 within 24 hours",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "within 24 hours of the forensic report",
+            "rowIds": [
+              "I-27"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room team by team, and write each response on a whiteboard to visualize the feedback. This helps surface both strengths and gaps in real time.",
@@ -1894,6 +2120,254 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with no external manipulation of the injects.",
+      "Players respond in accordance with existing plans, policies and procedures, as defined in the referenced documents."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated to compress the timeline and focus on decision points.",
+      "The SimCell plays all roles not in the room: the system vendor, the regulator (FSDO), the law enforcement (CCSO), and the cyber contact (managed SOC).",
+      "Systems named in the plans (e.g., GCS-01, RTK-1, DAA-1) are simulated and not physically accessed.",
+      "Injects are delivered via paper or screen and not through live systems.",
+      "The forensic evidence in I-24b and I-27b is treated as final and not subject to further challenge."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5H3D49GV39Q0Z91R6NTR1WH",
+        "narrativeMd": "It is 09:00. The weather is clear, 72°F, winds 6 mph from the west. The Lakeshore Flight Area is under the Part 107 ceiling of 400 ft AGL, with a grid ceiling of 200 ft over Horton Field. UAS-11 is in the pre-flight phase for a multispectral campaign over the meadow. All systems are nominal. Status is normal.\n\nAt 09:12, the Payload Operator reports a position jump: DAA-1 shows UAS-11 at 43.1724°N, 77.5631°W over the lodge patio, while telemetry shows a 150-meter latitude jump under clear sky. The aircraft is not on the flight line. At 09:15, GCS-02 logs a new device entry: GCS-12 (MAC: 915-0A-1F-3C-7D-4E), not in the fleet. Link quality spiked to 94% then dropped to 12%. The RPIC reports a command to re-pair via the OEM app, but the device ID mismatch suggests unauthorized access.\n\nAt 09:18, the Site Manager reports a white van with a rooftop antenna and 915 MHz transceiver left the lodge parking pad (TP-LFA-LP1) at 09:10. No vehicle was on the site survey form. The lodge Wi-Fi is on 10.17.40.11.\n\nAt 09:25, the RPIC confirms: 'I did not send that command. No GCS-12 exists in the fleet. Is this a spoof?'",
+        "keyIssues": [
+          "Recognize conflicting telemetry and DAA-1 data as a potential cyber-physical incident.",
+          "Decide whether to declare an incident under HUOG-ISP Section 9.1."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: What evidence supports declaring an incident under HUOG-ISP Section 9.1? Cite the relevant indicators from C1.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Command Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+                "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+                "chunkId": 264
+              }
+            ]
+          },
+          {
+            "text": "TL: What immediate actions must be taken to preserve evidence and prevent further compromise? Cite HUOG-ISP Section 9.1.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Trust",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+                "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+                "chunkId": 264
+              }
+            ]
+          },
+          {
+            "text": "ASO: What is the threshold for activating HUOG-ERP? Cite HUOG-ERP Section 3.",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Incident Response Continuity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+                "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+                "chunkId": 263
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H3D49G554QYC2XD2J624AH",
+        "narrativeMd": "It is 09:30. The interference has spread. The 915 MHz link quality remains low. RTK-1 base (SM-L1) lost GPS fix at 09:13:44 under clear sky. The home point was changed to 43.1724°N, 77.5631°W (lodge patio) via an external source from IP 10.17.40.11 (lodge Wi-Fi). The GCS-02 device list now includes GCS-12, not in the fleet.\n\nAt 09:35, an internal memo declares the incident under HUOG-ISP Section 9.1. HUOG-ERP is activated. The scribe begins the incident log at \\HUOG-NAS01\\ops\\incident-log\\2026-09-01\\UAS-11\\ per HUOG-ERP Section 11.3.\n\nAt 09:40, a social media post from a trainee on Instagram shows a drone-like object hovering over the lodge, timestamped 09:37. The video shows UAS-11 making an uncommanded right turn and flying west into the meadow.\n\nAt 09:45, base security reports a similar incident: a drone flew over the lodge and dropped a fake drone. No aircraft were on the air at 09:37.\n\nAt 09:50, the CP&L Program Office (SPO) emails: 'Is Deliverable D-3 at risk?' The Payload Operator reports a 12% outlier in radiance values and 30% confidence in calibration status. The calibration tarps were not on the ground at 09:10.\n\nAt 09:55, a helpdesk ticket is submitted: 'No GCS-12 in fleet. Request: Forensics team on-site.'",
+        "keyIssues": [
+          "Manage cascading system failures: C2 link, RTK base, and GNSS all compromised simultaneously.",
+          "Prioritize field verification over digital data when conflict arises."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: How do you reconcile the conflicting data between DAA-1, GCS, and aircraft telemetry? Cite HUOG-ISP Section 9.1.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Cyber-Physical Trust",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+                "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+                "chunkId": 264
+              }
+            ]
+          },
+          {
+            "text": "TL: What is the first action to prevent data loss or overwrite? Cite HUOG-ISP Section 9.1.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Incident Response Continuity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+                "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+                "chunkId": 264
+              }
+            ]
+          },
+          {
+            "text": "Sec: What is the protocol for handling a vehicle not on the site survey form? Cite HUOG-FOM Section 7.3.",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Interagency Coordination",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+                "quote": "- Launch point TP-LFA-LP1 at the lodge parking pad. RTK-1 on survey marker SM-L1 by the lodge. - Flight lines run east–west over the meadow and the north shore of the lake; no flight over the lodge or",
+                "chunkId": 163
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H3D49GSZH564BJBECAQ1Y3",
+        "narrativeMd": "It is 10:00. The interference has spread to the RTK base and GCS-02 radio. UAS-11 no longer answers the ground station in any flight mode. Its true position is unknown. All flying at Birch Hollow Range has stopped while the incident is worked.\n\nAt 10:05, the RTK-1 base logs show a GPS position update from external source (915 MHz RF burst, 10 sec, 10.17.40.11) at 09:13:44. The home point was set to the lodge patio. GPS fix was lost on RTK-1 and UAS-11 simultaneously.\n\nAt 10:07, a video from the internal social media group (HarwickSkies) shows UAS-11 hovering over the lodge patio (09:14:02), then making a sharp uncommanded right turn and flying west into the meadow. The video timestamp matches the telemetry spike.\n\nAt 10:12, the FAA FSDO calls: 'We have a report of a Harwick UAS Operations Group aircraft flying over the lodge patio during a guest event. I need the remote pilot in command, the aircraft registration, and your preliminary account within the hour.'\n\nAt 10:14, a trainee reports: 'Cal tarps not visible. Payload Operator called \"PANEL CLEAR\" at 09:10, but CT-1 to CT-4 were not on the ground.' The HMI shows 30% confidence in calibration status. Radiance values in first line show 12% outlier.\n\nAt 10:18, the GCS-01 logs reveal: firmware mismatch detected (03.2026-C vs. baseline 03.2026-B). The OEM app attempted to re-pair with GCS-12 due to configuration drift. No record of GCS-12 in fleet or baseline. This is a C2 link compromise per ISP Section 9.1.\n\nAt 10:20, the Data Center Operations Liaison confirms: 'PL-02 data (hyperspectral) may be compromised. Hold all exports to client until forensic verification.'",
+        "keyIssues": [
+          "Decide whether to fall back to manual control under high risk.",
+          "Manage stakeholder pressure from client, regulator, and public."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: What is the authority to switch to manual/attitude mode in an emergency? Cite HUOG-FOM Section 2.2.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Command Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is the protocol for public communication during an incident? Cite HUOG-ERP Section 6.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Interagency Coordination",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+                "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+                "chunkId": 263
+              }
+            ]
+          },
+          {
+            "text": "SPO: What is the process for notifying the client about data integrity concerns? Cite HUOG-ISP Section 7.5.",
+            "roleIds": [
+              "client"
+            ],
+            "objectiveRef": "Interagency Coordination",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+                "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+                "chunkId": 263
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5H3D49GBAZ5ANVC2G2XYP0H",
+        "narrativeMd": "It is 12:00. The forensic evidence is confirmed. The GCS-02 is isolated. The 915 MHz link is disconnected. The baseline image (GCS-03) is being loaded onto a spare GCS for re-verification. The team is now in the restoration phase. The aircraft remains in manual/attitude mode on the meadow. No further flights are authorized.\n\nAt 12:05, the managed SOC confirms: GCS-02 firmware hash matches baseline 03.2026-B after re-imaging. The 915 MHz link was compromised via a rogue RF emitter (IP 192.168.100.22, MAC: 915-0A-1F-3C-7D-4E). The device is not in Group’s approved vendor list. Vendor (HUOG-FW01) must be contacted for a signed access request to re-key the link.\n\nAt 12:20, a reporter emails: 'Breaking: Harwick UAS Operations Group confirms a drone crash near the Birch Hollow Range. Is the aircraft still active? Is the CP&L program at risk? Deadline: 13:00.'\n\nAt 12:25, the Site Manager reports: RTK-1 base has been re-checked. GPS fix restored. RTK sync confirmed. The calibration tarps (CT-1 to CT-4) were not disturbed.\n\nAt 12:30, the managed SOC notifies: The spare GCS (GCS-04) is running baseline 03.2026-B but the 915 MHz radio firmware is still locked to the old key. Vendor (HUOG-FW01) must provide a signed access request to re-key the link. No on-site re-imaging is possible.\n\nAt 12:35, the Incident Commander issues a formal notification: 'Data for Deliverable D-3 may be compromised. We are verifying integrity. Next update at 14:00. All data transfers on hold until verification complete.'",
+        "keyIssues": [
+          "Restore command authority through baseline verification and re-keying.",
+          "Verify data integrity for client deliverables under regulatory scrutiny."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "TL: What is the procedure for re-keying the 915 MHz link after forensic imaging? Cite HUOG-ISP Section 9.1.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Command Integrity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+                "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+                "chunkId": 264
+              }
+            ]
+          },
+          {
+            "text": "ASO: What is the process for notifying the FAA FSDO and client after a full forensic verification? Cite HUOG-ERP Section 6.",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Interagency Coordination",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+                "quote": "1. Whoever notices tells the Systems & Cybersecurity Lead (585-555-0143) and, if a flight is involved, the RPIC lands and the HUOG-ERP applies. 2. Do not power off, reboot or \"clean\" anything; disconn",
+                "chunkId": 263
+              }
+            ]
+          },
+          {
+            "text": "IC: What is the final step to close the incident log and restore operational status? Cite HUOG-ERP Section 11.3.",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Incident Response Continuity",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Annex B",
+                "quote": "Date/time · Site and launch point · Aircraft tail and payload · Crew by role · Level declared and by whom · Narrative (facts, timeline from the incident log) · Injuries · Property damage · Airspace in",
+                "chunkId": 79
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "GCS (Ground Control Station)",
     "C2 Link (915 MHz)",
@@ -3605,6 +4079,2578 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:07:06.354Z",
+      "finishedAt": "2026-10-30T11:07:26.062Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 13534,
+      "outputTokens": 1293,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:47:01.827Z",
+      "finishedAt": "2026-10-30T10:47:35.104Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 8431,
+      "outputTokens": 2927,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "2db890076475d8f9",
+        "claims": [],
+        "at": "2026-10-30T10:47:36.948Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘declare’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "bbf53df60c3123a6",
+        "claims": [
+          {
+            "text": "Ops orders the RPIC and VO to declare 'ABORT' and switch to attitude mode; itcs to verify the GCS telemetry and link logs; security to confirm site access and monitor the launch area.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.588,
+            "matched": [],
+            "missing": [
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.485Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘GCS-12’, ‘SOC’ are not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "84f4cd0b0f85aab9",
+        "claims": [
+          {
+            "text": "It verifies the MAC address against the fleet inventory (Annex A); confirms no GCS-12 exists; orders all GCSs to preserve state and not reboot; alerts the managed SOC via HUOG-NAS01 and begins log capture.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.421,
+            "matched": [
+              "Annex A",
+              "HUOG-NAS01"
+            ],
+            "missing": [
+              "GCS-12",
+              "SOC"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.486Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘GCS-12’, ‘HUOG-ISP’, ‘declare’ are not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "c3cddf3f7ac6ac9a",
+        "claims": [
+          {
+            "text": "Ops confirms with it that no GCS-12 has ever been issued; it verifies the GCS-02 firmware against baseline 03.2026-B; both roles agree to quarantine GCS-02 and declare a fleet-wide command integrity hold per HUOG-ISP Section 9.1.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.316,
+            "matched": [
+              "Section 9.1",
+              "GCS-02"
+            ],
+            "missing": [
+              "GCS-12",
+              "HUOG-ISP",
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.486Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "‘notifies’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "90d0ffa47a9e369c",
+        "claims": [
+          {
+            "text": "Security confirms the van was not in the site’s visitor log; orders the site to be secured; notifies Harwick Police Department and CCSO; instructs the crew to block Hangar 1 access until further notice.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.235,
+            "matched": [
+              "Harwick Police Department"
+            ],
+            "missing": [
+              "notifies"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.487Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘General Manager’, ‘activates’, ‘declaration’ are not in 1.3 Relationship to other plans or the facility facts.",
+        "fingerprint": "61ad520326d00dc8",
+        "claims": [
+          {
+            "text": "Ops activates the HUOG-ERP; assigns the scribe to begin the paper and digital log; confirms all roles are in the incident command chain; notifies the General Manager and ASO of the declaration.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.357,
+            "matched": [
+              "HUOG-ERP",
+              "notifies"
+            ],
+            "missing": [
+              "General Manager",
+              "activates",
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 9.1; Section 11.3",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 1,
+            "matched": [
+              "Section 9.1",
+              "Section 11.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.487Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "grounded",
+        "reason": "Every claim matches 10.3 Social media and trainees.",
+        "fingerprint": "16e90110d4ed715d",
+        "claims": [
+          {
+            "text": "PIO forwards the post to Corporate Communications and the ASO; does not comment; logs the social sentiment and confirms the video is evidence for the investigation.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘approval’, ‘authorized’, ‘report’ are not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "068a1cc16a758707",
+        "claims": [
+          {
+            "text": "Security confirms the report was not from a field crew; notes that no UAS was authorized over the lodge; logs the external report; does not investigate further without ASO or General Manager approval.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.2,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approval",
+              "authorized",
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "grounded",
+        "reason": "Every claim matches 2.2 Decision authority.",
+        "fingerprint": "74bf21b3f00c5ed3",
+        "claims": [
+          {
+            "text": "SPO notifies the General Manager and ASO; confirms that no final data release has occurred; halts any data transfer to the client until the incident is resolved.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.545,
+            "matched": [
+              "General Manager",
+              "notifies"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "Only 36% of ‘Ops acknowledges the ticket; adds it to the incident log; a…’ is in 1.3 Relationship to other plans.",
+        "fingerprint": "c6533847065390aa",
+        "claims": [
+          {
+            "text": "Ops acknowledges the ticket; adds it to the incident log; assigns it to the technical lead for priority 1 response.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.364,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3495d4480c3f90aa",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘RTK-1’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "9452b5daaeb7c802",
+        "claims": [
+          {
+            "text": "TL verifies the RTK-1 log and confirms the home point change was triggered by a spoofed GPS signal from a 915 MHz RF burst; IC orders the RPIC to hold UAS-11 in attitude mode and not attempt any return-to-home (RTL) or manual override until the telemetry is fully analyzed.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.36,
+            "matched": [
+              "UAS-11"
+            ],
+            "missing": [
+              "RTK-1"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All roles must use the RTK-1 and DAA-1 logs as primary sources.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.4,
+            "matched": [
+              "DAA-1"
+            ],
+            "missing": [
+              "RTK-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-11b": {
+        "label": "review",
+        "reason": "‘HUOG-ERP’, ‘authorized’ are not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "a87cef44ce82ce26",
+        "claims": [
+          {
+            "text": "PIO forwards the video to Corporate Communications and the ASO per HUOG-ERP Section 10.3; Sec confirms the video was not taken from a vantage point on the authorized flight line.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.462,
+            "matched": [
+              "Section 10.3"
+            ],
+            "missing": [
+              "HUOG-ERP",
+              "authorized"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No public release until General Manager approval.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.4,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.488Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘Section 6.2’, ‘Client Liaison’, ‘D-3’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "cb668f0bf44db8da",
+        "claims": [
+          {
+            "text": "The ASO takes the call, gives the facts known so far and files the report per HUOG-ERP Section 6.2; the IC orders all flight and GCS data preserved and not released until the FSDO has reviewed it; the Client Liaison warns CP&L that Deliverable D-3 may be affected.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.4,
+            "matched": [
+              "HUOG-ERP"
+            ],
+            "missing": [
+              "Section 6.2",
+              "Client Liaison",
+              "D-3",
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.489Z",
+        "version": 1
+      },
+      "row:I-12b": {
+        "label": "review",
+        "reason": "‘declares’ is not in 7.3 Lakeshore Flight Area (Birch Hollow Range) or the facility facts.",
+        "fingerprint": "7c8bcb39cc7907ed",
+        "claims": [
+          {
+            "text": "IC confirms with the Payload Operator that calibration tarps were not verified; IC declares a hold on all data from UAS-11 until the telemetry and HMI logs are reconciled and the calibration status is verified.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0.286,
+            "matched": [
+              "UAS-11"
+            ],
+            "missing": [
+              "declares"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No data export to client until after forensic review.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.489Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘RTK-1’, ‘SOC’, ‘notifies’ are not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "b0260de4d7e7a747",
+        "claims": [
+          {
+            "text": "TL confirms the firmware mismatch on GCS-01 and declares a C2 link compromise per ISP Section 9.1; orders immediate preservation of GCS-01 and radio state; initiates forensics on GCS-01 and RTK-1 logs; notifies managed SOC via HUOG-NAS01 and requests imaging of the 915 MHz link traffic from 09:13:44 to 09:15:32.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.516,
+            "matched": [
+              "Section 9.1",
+              "GCS-01",
+              "C2",
+              "HUOG-NAS01"
+            ],
+            "missing": [
+              "RTK-1",
+              "SOC",
+              "notifies",
+              "declares"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 9.1",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 1,
+            "matched": [
+              "Section 9.1"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.489Z",
+        "version": 1
+      },
+      "row:I-13b": {
+        "label": "review",
+        "reason": "‘HUOG-ISP’ is not in Section 2 or the facility facts.",
+        "fingerprint": "ed446604f21c3087",
+        "claims": [
+          {
+            "text": "TL notifies the Compliance Officer (Dana Kurtz) per HUOG-ISP Section 7.5 and confirms PL-02 data is at risk.",
+            "chunkId": 100,
+            "headingPath": "ISP › Section 2",
+            "overlap": 0.727,
+            "matched": [
+              "Section 7.5",
+              "Compliance Officer",
+              "PL-02",
+              "notifies"
+            ],
+            "missing": [
+              "HUOG-ISP"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "IC ensures no data is released to client until the General Manager signs off.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.6,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.489Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "‘Section 16’ is not in 11.3 Records or the facility facts.",
+        "fingerprint": "cbbb6b4d732ea3f9",
+        "claims": [
+          {
+            "text": "ASO confirms the standdown and locks all data exports; IC ensures the incident folder is populated with all logs, HMI screenshots, and telemetry.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.545,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All roles must use the paper copy of the notification record per ERP Section 16.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.857,
+            "matched": [
+              "notification"
+            ],
+            "missing": [
+              "Section 16"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 11.3",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 1,
+            "matched": [
+              "Section 11.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.489Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "‘HUOG-ERP’, ‘approval’ are not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "79aecb64d8760ec5",
+        "claims": [
+          {
+            "text": "PIO logs the post and forwards it to Corporate Communications and the ASO per HUOG-ERP Section 10.3; PIO does not issue a public statement and waits for General Manager approval before any response.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.471,
+            "matched": [
+              "Section 10.3",
+              "General Manager"
+            ],
+            "missing": [
+              "HUOG-ERP",
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.490Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "‘approval’ is not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "ef593531a6cae40a",
+        "claims": [
+          {
+            "text": "ASO confirms receipt of the FSDO inquiry; notifies the General Manager and the Systems & Cybersecurity Lead; logs the FSDO contact details and deadline in the incident folder per HUOG-ERP Section 11.3; does not respond to the FSDO directly without the General Manager’s approval.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.565,
+            "matched": [
+              "Section 11.3",
+              "General Manager",
+              "Systems & Cybersecurity Lead",
+              "HUOG-ERP",
+              "notifies"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Part 107",
+            "chunkId": 45,
+            "headingPath": "FOM › Section 1 › 1.3 Authority",
+            "overlap": 1,
+            "matched": [
+              "Part 107"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.490Z",
+        "version": 1
+      },
+      "row:I-16b": {
+        "label": "review",
+        "reason": "‘HUOG-ERP’ is not in 11.3 Records or the facility facts.",
+        "fingerprint": "5cbdf9fb5d9d72de",
+        "claims": [
+          {
+            "text": "Security confirms receipt of the CCSO handover; photographs the launch area and the lodge parking pad as per the site-securing protocol; begins compiling the evidence log for the incident folder per HUOG-ERP Section 11.3; does not attempt to access the vehicle or laptop without formal handover.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.231,
+            "matched": [
+              "Section 11.3"
+            ],
+            "missing": [
+              "HUOG-ERP"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.490Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "69822b6d7c0feb8e",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.490Z",
+        "version": 1
+      },
+      "row:I-17b": {
+        "label": "review",
+        "reason": "‘Systems & Cybersecurity Lead’ is not in 4.1 Baseline or the facility facts.",
+        "fingerprint": "d98b52ea0b8c59b6",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead (TL) confirms that GCS-01 is not in the baseline 03.2026-B and that the firmware mismatch is a critical indicator of compromise.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.636,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must report the unauthorized session to the managed SOC and initiate a full forensic preservation of GCS-01 and the 915 MHz radio state.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.643,
+            "matched": [
+              "GCS-01",
+              "report"
+            ],
+            "missing": [
+              "SOC"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: IP 192.168.100.22",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "IP 192.168.100.22"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.490Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "Only 22% of ‘The team must decide whether to keep automation and risk a …’ is in 4.3 Water recovery.",
+        "fingerprint": "a92e61cfdba72ad1",
+        "claims": [
+          {
+            "text": "IC confirms the Payload Operator’s assessment and initiates the decision point.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must decide whether to keep automation and risk a lake landing, or switch to manual/attitude mode to land now.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 4.3",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+            "overlap": 1,
+            "matched": [
+              "Section 4.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.491Z",
+        "version": 1
+      },
+      "row:I-18b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "3e4d980db3b83f0e",
+        "claims": [
+          {
+            "text": "SPO confirms the client’s deadline and warns of potential program delays if no update is provided by 12:00.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must balance operational risk against client pressure.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.491Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a627acd7b5792081",
+        "claims": [
+          {
+            "text": "Sec confirms CCSO has taken custody of the vehicle and will not attempt to track it further.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team now knows the attacker’s vehicle was in the area at 09:11 and is now in custody.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.491Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "review",
+        "reason": "‘Incident Commander’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "858adab9c9cc758b",
+        "claims": [
+          {
+            "text": "The Incident Commander must authorize a switch to manual/attitude mode to prevent a lake landing and preserve the aircraft.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.417,
+            "matched": [
+              "authorize"
+            ],
+            "missing": [
+              "Incident Commander"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Activate HUOG-ERP Section 11.3 and HUOG-ISP Section 9.1.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.667,
+            "matched": [
+              "Section 9.1",
+              "HUOG-ERP",
+              "HUOG-ISP"
+            ],
+            "missing": [
+              "Section 11.3",
+              "Activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Part 107; Section 4.3",
+            "chunkId": 34,
+            "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+            "overlap": 0.5,
+            "matched": [
+              "Part 107",
+              "Section 4.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.491Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "review",
+        "reason": "‘Incident Commander’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "52606ee5c530ee3f",
+        "claims": [
+          {
+            "text": "The Incident Commander (IC) must confirm that the Payload Operator has assumed manual control.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "Incident Commander"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The Systems & Cybersecurity Lead (TL) must verify that GCS-01 remains in a preserved state and that the telemetry and link logs are being streamed to the NAS. The ASO must confirm that no public statement has been issued and that the FSDO is still in the loop.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.333,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 11.3",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 1,
+            "matched": [
+              "Section 11.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-22": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "85370ae4bb432737",
+        "claims": [
+          {
+            "text": "Safety instructs Base Security to secure the access road and hold the scene until CCSO arrives; no on-site recovery until the forensic chain of custody is established.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-23": {
+        "label": "grounded",
+        "reason": "Every claim matches 11.3 Records.",
+        "fingerprint": "d260e9c4d25a5407",
+        "claims": [
+          {
+            "text": "Safety confirms the jammer is evidence and hands it over to CCSO for forensic imaging; ensures the device is not tampered with and logs it in the incident folder per ERP Section 11.3.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.643,
+            "matched": [
+              "Section 11.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-24": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5fa6dabf80f0f6fd",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-24b": {
+        "label": "review",
+        "reason": "‘Section 11.3’, ‘HUOG-ISP’, ‘HUOG-ERP’ are not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "a1e333b7e06ae218",
+        "claims": [
+          {
+            "text": "TL confirms the baseline verification is complete; the GCS-02 is quarantined and must not be reconnected until vendor access is obtained.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.222,
+            "matched": [
+              "GCS-02"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All roles proceed under HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.333,
+            "matched": [
+              "Section 9.1"
+            ],
+            "missing": [
+              "Section 11.3",
+              "HUOG-ISP",
+              "HUOG-ERP"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: IP 192.168.100.22",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "IP 192.168.100.22"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-26b": {
+        "label": "review",
+        "reason": "‘approval’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "16299a569cb616a9",
+        "claims": [
+          {
+            "text": "PIO forwards the email to Corporate Communications and the ASO immediately; does not respond directly; waits for General Manager approval before any public comment.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.385,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-26": {
+        "label": "review",
+        "reason": "Only 0% of ‘The team proceeds to re-enable the telemetry pipeline under…’ is in 7.3 Lakeshore Flight Area (Birch Hollow Range).",
+        "fingerprint": "0da6ed8e06e36789",
+        "claims": [
+          {
+            "text": "The Site Manager confirms RTK-1 re-sync and tarp integrity.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0.667,
+            "matched": [
+              "Site Manager",
+              "RTK-1"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Payload Operator confirms a new 'PANEL CLEAR' call was made.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team proceeds to re-enable the telemetry pipeline under supervision.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.492Z",
+        "version": 1
+      },
+      "row:I-27b": {
+        "label": "review",
+        "reason": "‘24 hours’, ‘MSSP-REQ-915’, ‘HUOG-ISP’ are not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "e7e3df662afddb2a",
+        "claims": [
+          {
+            "text": "TL submits the MSSP-REQ-915 access request form to HUOG-FW01 within 24 hours, per HUOG-ISP Section 9.1.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.2,
+            "matched": [
+              "Section 9.1",
+              "HUOG-FW01"
+            ],
+            "missing": [
+              "24 hours",
+              "MSSP-REQ-915",
+              "HUOG-ISP"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No on-site re-imaging is authorized without the signed access request.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0,
+            "matched": [
+              "authorized"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All roles maintain the current standdown status.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.493Z",
+        "version": 1
+      },
+      "row:I-27": {
+        "label": "review",
+        "reason": "‘Incident Commander’ is not in 7.5 Client notification or the facility facts.",
+        "fingerprint": "f014c95c17fbaff7",
+        "claims": [
+          {
+            "text": "The Incident Commander issues the formal client notification per HUOG-ISP Section 7.5.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.625,
+            "matched": [
+              "Section 7.5",
+              "HUOG-ISP",
+              "notification"
+            ],
+            "missing": [
+              "Incident Commander"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All data transfers are paused.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The client is informed via the General Manager and ASO, as per C6 and C5.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.4,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "C6",
+              "C5"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 7.5",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 1,
+            "matched": [
+              "Section 7.5"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.493Z",
+        "version": 1
+      },
+      "row:I-27c": {
+        "label": "review",
+        "reason": "‘HUOG-ISP’ is not in 4.4 Parameters and geofences or the facility facts.",
+        "fingerprint": "d3c6f337ae0e9513",
+        "claims": [
+          {
+            "text": "Sec confirms the ticket and forwards it to TL for verification; IC instructs TL to validate the GCS-03 baseline against the stored hash in \\HUOG-NAS01\\it\\baselines\\ per HUOG-ISP Section 9.1 and HUOG-FOM 8.3; no action is taken on GCS-03 until baseline verification is complete.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.474,
+            "matched": [
+              "Section 9.1",
+              "FOM 8.3",
+              "GCS-03",
+              "HUOG-NAS01"
+            ],
+            "missing": [
+              "HUOG-ISP"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.493Z",
+        "version": 1
+      },
+      "row:I-28b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "dda46d61143f4a91",
+        "claims": [
+          {
+            "text": "ASO confirms that the site is secured and that the RF jammer is to remain in the Faraday bag until CCSO provides a handover report; does not authorize any on-site handling.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.154,
+            "matched": [
+              "authorize",
+              "report"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.493Z",
+        "version": 1
+      },
+      "row:I-28": {
+        "label": "grounded",
+        "reason": "Every claim matches 9.1 C2 link compromise, interference or GNSS spoofing.",
+        "fingerprint": "aaf6150e5238086d",
+        "claims": [
+          {
+            "text": "ASO confirms to the FSDO that UAS-11 is in manual/attitude mode on the meadow, the GCS is quarantined, the fleet of that type is grounded, and that all required logs and telemetry have been submitted per HUOG-ERP Section 11.3.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.778,
+            "matched": [
+              "Section 11.3",
+              "UAS-11",
+              "HUOG-ERP"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASO then notifies the IC and Sec to proceed with incident closure.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.6,
+            "matched": [
+              "notifies"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 9.1",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 1,
+            "matched": [
+              "Section 9.1"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "row:I-29": {
+        "label": "review",
+        "reason": "‘Section 11.3’ is not in 1.3 Relationship to other plans or the facility facts.",
+        "fingerprint": "f32105dfef083f1a",
+        "claims": [
+          {
+            "text": "The Incident Commander confirms final status and closes the incident log per HUOG-ERP Section 11.3.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.556,
+            "matched": [
+              "Incident Commander",
+              "HUOG-ERP"
+            ],
+            "missing": [
+              "Section 11.3"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All roles prepare for the hot wash.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "row:I-29b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4c179c249c07fd51",
+        "claims": [
+          {
+            "text": "SPO confirms to the CP&L Program Office that data integrity is under review and that a final determination will be made by 14:00; does not speculate on usability or accept responsibility for data loss.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.071,
+            "matched": [],
+            "missing": [
+              "CP&L Program Office"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b1d3bd82796ba2ad",
+        "claims": [],
+        "at": "2026-10-30T10:47:36.960Z",
+        "version": 1
+      },
+      "inject:01M5H3PH7E7NPQWWA0DSFBRAK5": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e44200a1ea18c4d1",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "inject:01M5H3Q13Y81122AJ029JVH6CJ": {
+        "label": "review",
+        "reason": "Only 25% of ‘This is a core inject signaling the loss of command integri…’ is in 5.2 Link monitoring.",
+        "fingerprint": "b5a94b75567fb9a4",
+        "claims": [
+          {
+            "text": "This is a core inject signaling the loss of command integrity and physical trust.",
+            "chunkId": 110,
+            "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to initiate abort and for the TL to demand log preservation.",
+            "chunkId": 110,
+            "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The jump in position under clear sky is a red flag for spoofing.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.714,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "inject:01M5H3QBHBDPRHA6H6BH4DXRZH": {
+        "label": "review",
+        "reason": "‘isolate’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "af500a432eaf2f5e",
+        "claims": [
+          {
+            "text": "This inject confirms the presence of a rogue GCS. The technical team must immediately isolate GCS-02 and preserve all logs.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.333,
+            "matched": [
+              "GCS-02"
+            ],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to reboot or re-pair the 915 MHz link.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "inject:01M5H3R2QK1TBZT0BDVB0E9THX": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a command integrity trigger.’ is in 8.5 Interference, GNSS anomalies and suspected link compromise.",
+        "fingerprint": "2254cb4b971ffa1f",
+        "claims": [
+          {
+            "text": "This is a command integrity trigger.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The RPIC confirms a rogue GCS device in telemetry.",
+            "chunkId": 148,
+            "headingPath": "SITE › 10. Data-integrity tells (features that do not exist)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must validate the baseline and declare a fleet-wide hold.",
+            "chunkId": 148,
+            "headingPath": "SITE › 10. Data-integrity tells (features that do not exist)",
+            "overlap": 0.5,
+            "matched": [
+              "declare"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-reliance on the RPIC's authority.",
+            "chunkId": 148,
+            "headingPath": "SITE › 10. Data-integrity tells (features that do not exist)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.494Z",
+        "version": 1
+      },
+      "inject:01M5H3RM5JTYZQD65XCN1VKKCJ": {
+        "label": "review",
+        "reason": "Only 14% of ‘Noise inject; the technical team should triage it down with…’ is in 2. Flight sites.",
+        "fingerprint": "2361d20ff7396684",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 140,
+            "headingPath": "SITE › 2. Flight sites",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Security must verify the van's absence from the visitor log and initiate site lockdown.",
+            "chunkId": 140,
+            "headingPath": "SITE › 2. Flight sites",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3S1TY2M2A37TJA19D5WYV": {
+        "label": "review",
+        "reason": "‘activates’ is not in 1.3 Relationship to other plans or the facility facts.",
+        "fingerprint": "7348c67553a672c4",
+        "claims": [
+          {
+            "text": "This inject activates the HUOG-ERP and confirms incident command structure.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.667,
+            "matched": [
+              "HUOG-ERP"
+            ],
+            "missing": [
+              "activates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to assign the scribe and confirm roles are in the chain.",
+            "chunkId": 126,
+            "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3S84W1K93CBCKYG3ZGPMF": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for premature public statements.’ is in 10.3 Social media and trainees.",
+        "fingerprint": "12163ddd7767dce5",
+        "claims": [
+          {
+            "text": "Pressure inject; the PIO must forward this to Corporate Communications and the ASO without comment.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature public statements.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3SE55P6DPXS1S2FSQ865T": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "6a23f6bec93ad9d5",
+        "claims": [
+          {
+            "text": "Red herring inject; the security team must not escalate or investigate the external report without ASO or General Manager approval.",
+            "chunkId": 1,
+            "headingPath": "ERP",
+            "overlap": 0.182,
+            "matched": [
+              "General Manager",
+              "approval"
+            ],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-enthusiastic action on the fake drone claim.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3SNRQ0PEADMFQTN1G2SKS": {
+        "label": "review",
+        "reason": "‘notified’ is not in 10.4 Clients and partners or the facility facts.",
+        "fingerprint": "19547e0d5f8729df",
+        "claims": [
+          {
+            "text": "This inject pressures the SPO to act on the threat of a late deliverable.",
+            "chunkId": 120,
+            "headingPath": "ISP › Section 7 › 7.4 Client deadlines",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for confirmation that the General Manager has been notified and that data transfer has been halted.",
+            "chunkId": 33,
+            "headingPath": "ERP › Section 10 › 10.4 Clients and partners",
+            "overlap": 0.375,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "notified"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3SW4CQQ2W6D6CR5K5FGHH": {
+        "label": "review",
+        "reason": "Only 25% of ‘Noise inject; the technical team should acknowledge and tri…’ is in 9.0 Common first steps.",
+        "fingerprint": "37c0eed94b92de15",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should acknowledge and triage the ticket as a priority 1 incident, but not overreact to the duplicate alert.",
+            "chunkId": 126,
+            "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3T39K0MZN9618CVZG1CVB": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8702752de807f3b3",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.495Z",
+        "version": 1
+      },
+      "inject:01M5H3TFCDKRXFTF0E339CY171": {
+        "label": "review",
+        "reason": "Only 44% of ‘The TL must cross-reference the RTK-1 and DAA-1 logs to val…’ is in 9.1 C2 link compromise, interference or GNSS spoofing.",
+        "fingerprint": "0eff61c129b1c31a",
+        "claims": [
+          {
+            "text": "This inject confirms the GNSS spoofing and command hijack.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must cross-reference the RTK-1 and DAA-1 logs to validate the home point change and spoofed signal.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.444,
+            "matched": [
+              "RTK-1",
+              "DAA-1"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must prevent any RTL or manual override until telemetry is cleared.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.496Z",
+        "version": 1
+      },
+      "inject:01M5H3V6293Y97J2W90J9E5QDW": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "ee06c8e39b0fb784",
+        "claims": [
+          {
+            "text": "This inject escalates pressure on the PIO and ASO to act under policy; watch for compliance with C1 and C4, and whether the team confirms the video's authenticity before any external response.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.077,
+            "matched": [],
+            "missing": [
+              "C1",
+              "C4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.496Z",
+        "version": 1
+      },
+      "inject:01M5H3VDGXZXWMNBB6NTMKE7VN": {
+        "label": "review",
+        "reason": "‘Section 9.1’ is not in 8.5 Interference, GNSS anomalies and suspected link compromise or the facility facts.",
+        "fingerprint": "f467146736e90bfe",
+        "claims": [
+          {
+            "text": "This inject confirms the FSDO has been notified per HUOG-ERP Section 6 and HUOG-ISP Section 9.1.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0.75,
+            "matched": [
+              "Section 6",
+              "HUOG-ERP",
+              "HUOG-ISP",
+              "notified"
+            ],
+            "missing": [
+              "Section 9.1"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must ensure no flight data is released until FSDO review is complete.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.496Z",
+        "version": 1
+      },
+      "inject:01M5H3VQH3QS6JNV68EAPQC5Q0": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should triage it down with…’ is in 7.3 Lakeshore Flight Area (Birch Hollow Range).",
+        "fingerprint": "b03c7532256dd25f",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The calibration status is already compromised by the spoofing event, but this ticket mimics a genuine field concern to test prioritization and verification discipline.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0.214,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.496Z",
+        "version": 1
+      },
+      "inject:01M5H3VZ47AQFES1GRNDK57CR3": {
+        "label": "review",
+        "reason": "‘activates’ is not in 9.1 C2 link compromise, interference or GNSS spoofing or the facility facts.",
+        "fingerprint": "ff597e2b272476ee",
+        "claims": [
+          {
+            "text": "This inject confirms the C2 link compromise and activates the forensics protocol.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.571,
+            "matched": [
+              "C2"
+            ],
+            "missing": [
+              "activates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the TL to isolate GCS-01 and initiate the managed SOC request.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.333,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [
+              "SOC",
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.497Z",
+        "version": 1
+      },
+      "inject:01M5H3WMD9EBJ7M6BQ6QT77P19": {
+        "label": "review",
+        "reason": "Only 42% of ‘Red herring; the PL-02 data is not actually compromised, bu…’ is in Section 2.",
+        "fingerprint": "923bbe380350a0e8",
+        "claims": [
+          {
+            "text": "Red herring; the PL-02 data is not actually compromised, but the email triggers the Compliance Officer notification process.",
+            "chunkId": 100,
+            "headingPath": "ISP › Section 2",
+            "overlap": 0.417,
+            "matched": [
+              "Compliance Officer",
+              "PL-02",
+              "notification"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for TL to correctly escalate to Dana Kurtz and IC to halt client data releases.",
+            "chunkId": 100,
+            "headingPath": "ISP › Section 2",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.497Z",
+        "version": 1
+      },
+      "inject:01M5H3WWK6WWH0GAVMP1JXDCRD": {
+        "label": "review",
+        "reason": "Only 13% of ‘This memo confirms the incident is in full containment and …’ is in 8.5 Interference, GNSS anomalies and suspected link compromise.",
+        "fingerprint": "cb16d2a08fe0b9e4",
+        "claims": [
+          {
+            "text": "This memo confirms the incident is in full containment and formalizes the chain of evidence preservation.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the ASO to lock export controls and for the IC to verify the incident folder structure.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.497Z",
+        "version": 1
+      },
+      "inject:01M5H3XDVWRJFB3M705NFT5X57": {
+        "label": "review",
+        "reason": "‘C2’ is not in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds or the facility facts.",
+        "fingerprint": "d6ed652a6b90f840",
+        "claims": [
+          {
+            "text": "This inject escalates social pressure.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must log and forward it per C2; do not let the team draft a public response.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "C2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.497Z",
+        "version": 1
+      },
+      "inject:01M5H3XNJRA2AADH50C9VBBKWG": {
+        "label": "review",
+        "reason": "‘Section 11.3’ is not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "9250b2ff12e01fa2",
+        "claims": [
+          {
+            "text": "This inject escalates regulatory pressure.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 6 › 6.2 Regulatory notifications (ASO)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASO must confirm receipt, not respond, and escalate to the General Manager and Systems & Cybersecurity Lead per HUOG-ERP Section 11.3.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.636,
+            "matched": [
+              "General Manager",
+              "Systems & Cybersecurity Lead",
+              "HUOG-ERP"
+            ],
+            "missing": [
+              "Section 11.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.497Z",
+        "version": 1
+      },
+      "inject:01M5H3XZD3CKZDTBF38SMSM7DB": {
+        "label": "review",
+        "reason": "‘Section 11.3’ is not in 9.2 Birch Hollow Range or the facility facts.",
+        "fingerprint": "5af942cfc09a6b71",
+        "claims": [
+          {
+            "text": "This inject confirms CCSO's physical recovery of the threat vehicle and initiates formal evidence handover.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the security role to confirm receipt and begin evidence documentation per ERP Section 11.3.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "Section 11.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.498Z",
+        "version": 1
+      },
+      "inject:01M5H3Y8CT7BWQ3STG8WRTR6HR": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "fcec69d3dbb45939",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.498Z",
+        "version": 1
+      },
+      "inject:01M5H3YT12FK0F9Y1RFWX93CFR": {
+        "label": "review",
+        "reason": "Only 17% of ‘This is a critical clue confirming the attacker’s entry poi…’ is in 4.1 Baseline.",
+        "fingerprint": "8977cbf42d6aef42",
+        "claims": [
+          {
+            "text": "This is a critical clue confirming the attacker’s entry point via GCS-01.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.167,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must immediately validate the firmware mismatch and initiate managed SOC reporting.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.429,
+            "matched": [
+              "SOC",
+              "reporting"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.498Z",
+        "version": 1
+      },
+      "inject:01M5H3ZM2TTC5WMGAADRWP8XG0": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject confirms the aircraft is on an uncommanded path…’ is in 4.3 Water recovery.",
+        "fingerprint": "94e25e806946f294",
+        "claims": [
+          {
+            "text": "This inject confirms the aircraft is on an uncommanded path toward the lake.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must decide whether to maintain automation or switch to manual control to attempt a controlled landing before it enters the water.",
+            "chunkId": 82,
+            "headingPath": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.498Z",
+        "version": 1
+      },
+      "inject:01M5H3ZWPP812VQMYZDVB9BEFX": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject creates client deadline pressure.’ is in 7.4 Client deadlines.",
+        "fingerprint": "4b5eae2aa08d5955",
+        "claims": [
+          {
+            "text": "This inject creates client deadline pressure.",
+            "chunkId": 120,
+            "headingPath": "ISP › Section 7 › 7.4 Client deadlines",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must decide whether to issue a public or internal update before 12:00, balancing data integrity risk against contract terms.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.308,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.499Z",
+        "version": 1
+      },
+      "inject:01M5H404XQXAK58464TSA0CQVC": {
+        "label": "review",
+        "reason": "‘SOC’ is not in 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side) or the facility facts.",
+        "fingerprint": "b289dc7b6484492a",
+        "claims": [
+          {
+            "text": "This is a distraction inject.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team now knows the attacker’s vehicle was in the area at 09:11 and is in CCSO custody.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The vehicle's log and drive are being sent to managed SOC for forensic imaging.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "SOC"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The attacker’s location and timing are confirmed, but the team must not divert from the core incident response.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.499Z",
+        "version": 1
+      },
+      "inject:01M5H40F055NG4HFDWB3W6PRT4": {
+        "label": "review",
+        "reason": "‘authorize’ is not in 9.2 Birch Hollow Range or the facility facts.",
+        "fingerprint": "f73c2a0415bb7148",
+        "claims": [
+          {
+            "text": "This is a critical decision point.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must authorize manual control to prevent a lake landing.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Observe whether the team invokes HUOG-ERP Section 11.3 and HUOG-ISP Section 9.1 for evidence preservation.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0.222,
+            "matched": [
+              "HUOG-ISP"
+            ],
+            "missing": [
+              "Section 11.3",
+              "Section 9.1",
+              "HUOG-ERP"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.499Z",
+        "version": 1
+      },
+      "inject:01M5H40RBYBFKN6XN5242FQZVE": {
+        "label": "review",
+        "reason": "Only 33% of ‘This memo confirms the manual control decision and enforces…’ is in 9.1 C2 link compromise, interference or GNSS spoofing.",
+        "fingerprint": "0f26908acb18864c",
+        "claims": [
+          {
+            "text": "This memo confirms the manual control decision and enforces the preservation of evidence.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the TL to verify log streaming and the IC to confirm manual control handover.",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H411923Y6HH27Q7XYZD6A7": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should acknowledge but not…’ is in 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side).",
+        "fingerprint": "8ef44a2c2f38a31a",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should acknowledge but not act on it immediately.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASO must confirm scene preservation protocol with Base Security.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H41CSNXS3V1YF8ZS7ZMZBA": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "5e39413bef360e14",
+        "claims": [
+          {
+            "text": "This inject confirms the attacker's jamming device as physical evidence.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASO must verify chain of custody and ensure no handling beyond forensic protocols.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The device's presence confirms the C2 link compromise was not just digital.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "C2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H4281WPJ2MCQBVS1EAWMS1": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4f92a8174e014472",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H42SGSCM0VZ1AZE8CBAMBA": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject confirms baseline verification and quarantines …’ is in ISP.",
+        "fingerprint": "b4d17ca5db2bb766",
+        "claims": [
+          {
+            "text": "This inject confirms baseline verification and quarantines GCS-03.",
+            "chunkId": 95,
+            "headingPath": "ISP",
+            "overlap": 0.4,
+            "matched": [
+              "GCS-03"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must now initiate the vendor access request process.",
+            "chunkId": 123,
+            "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delays in obtaining the signed access request.",
+            "chunkId": 123,
+            "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H44026Y4N0KK64Y4CSP9PQ": {
+        "label": "review",
+        "reason": "‘approval’ is not in 10.1 Who speaks or the facility facts.",
+        "fingerprint": "97e380c33ad1c777",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to immediately escalate to Corporate Communications and the General Manager.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+            "overlap": 0.571,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to respond directly without approval.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.500Z",
+        "version": 1
+      },
+      "inject:01M5H448Q62DYZ7M26HZEWYD5N": {
+        "label": "review",
+        "reason": "‘activate’ is not in 7.3 Lakeshore Flight Area (Birch Hollow Range) or the facility facts.",
+        "fingerprint": "d5b68855e6d9810b",
+        "claims": [
+          {
+            "text": "This inject confirms restoration of RTK-1 and tarp integrity.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0.4,
+            "matched": [
+              "RTK-1"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now re-enable telemetry under supervision.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature attempts to re-activate automation.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.501Z",
+        "version": 1
+      },
+      "inject:01M5H4578PACAGG2KV6SHPFDVC": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the forensic recovery state and introd…’ is in ISP.",
+        "fingerprint": "6c99889c831cc58a",
+        "claims": [
+          {
+            "text": "This inject confirms the forensic recovery state and introduces a procedural hurdle.",
+            "chunkId": 95,
+            "headingPath": "ISP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must initiate the access request to HUOG-FW01 within 24 hours to progress toward system restoration.",
+            "chunkId": 15,
+            "headingPath": "ERP › Section 6 › 6.1 Notification order",
+            "overlap": 0.333,
+            "matched": [
+              "24 hours",
+              "HUOG-FW01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed submission or unauthorized re-keying attempts.",
+            "chunkId": 95,
+            "headingPath": "ISP",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.501Z",
+        "version": 1
+      },
+      "inject:01M5H45SCWQ82JAT5XCR761F1T": {
+        "label": "review",
+        "reason": "Only 20% of ‘The team must pause all data transfers to the client until …’ is in 7.5 Client notification.",
+        "fingerprint": "0399ededd179066a",
+        "claims": [
+          {
+            "text": "This is the formal client notification per HUOG-ISP Section 7.5.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.8,
+            "matched": [
+              "Section 7.5",
+              "HUOG-ISP",
+              "notification"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must issue it with the General Manager and ASO as cc.",
+            "chunkId": 47,
+            "headingPath": "FOM › Section 2 › 2.1 Positions",
+            "overlap": 0.8,
+            "matched": [
+              "Incident Commander",
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must pause all data transfers to the client until verification completes.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.501Z",
+        "version": 1
+      },
+      "inject:01M5HX2YR6DQKMHB3NG6XQQKM5": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a red herring.’ is in 4.1 Baseline.",
+        "fingerprint": "97f6423cc33d7218",
+        "claims": [
+          {
+            "text": "This is a red herring.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The baseline on GCS-03 is intact; the issue is a spoofed telemetry feed.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.286,
+            "matched": [
+              "GCS-03"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The TL must verify the baseline hash before acting.",
+            "chunkId": 104,
+            "headingPath": "ISP › Section 4 › 4.1 Baseline",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.501Z",
+        "version": 1
+      },
+      "inject:01M5H46EGDP1Z893EQ73R2TBHZ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c812d8423a61dbb0",
+        "claims": [
+          {
+            "text": "This inject confirms the physical presence of the attacker’s jammer.",
+            "chunkId": 69,
+            "headingPath": "FOM › Section 7 › 7.3 Lakeshore Flight Area (Birch Hollow Range)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASO must now validate that no on-site handling is authorized and that evidence remains sealed until CCSO handover.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [
+              "authorized"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "inject:01M5H463XX8S7BAPTKZWK8JZ23": {
+        "label": "review",
+        "reason": "Only 22% of ‘This inject confirms the final operational status to regula…’ is in 11.3 Records.",
+        "fingerprint": "1fef3b2136fbb40b",
+        "claims": [
+          {
+            "text": "This inject confirms the final operational status to regulators and triggers the incident closure process.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the ASO to validate the FSDO’s confirmation and initiate the handover to the IC for formal closure.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "inject:01M5H47CD2SS9SCSDTGN1VNBAM": {
+        "label": "grounded",
+        "reason": "Every claim matches 11.4 Hot wash.",
+        "fingerprint": "4f9211c78e071fb0",
+        "claims": [
+          {
+            "text": "This inject closes the incident and triggers the hot wash.",
+            "chunkId": 37,
+            "headingPath": "ERP › Section 11 › 11.4 Hot wash",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must confirm log closure and readiness for the hot wash.",
+            "chunkId": 37,
+            "headingPath": "ERP › Section 11 › 11.4 Hot wash",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "inject:01M5H47NWX21DWJVQ97JN47506": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject escalates pressure on the SPO to confirm data u…’ is in 10.4 Clients and partners.",
+        "fingerprint": "520eda813122e0e4",
+        "claims": [
+          {
+            "text": "This inject escalates pressure on the SPO to confirm data usability under client deadline.",
+            "chunkId": 33,
+            "headingPath": "ERP › Section 10 › 10.4 Clients and partners",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature commitments or attempts to shift blame to the technical team.",
+            "chunkId": 33,
+            "headingPath": "ERP › Section 10 › 10.4 Clients and partners",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "inject:01M5H47YSK0ZDWVH5MFT91JY95": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ed8b5c53723a2cb0",
+        "claims": [],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "9.1 C2 link compromise, interference or GNSS spoofing is in the index as cited.",
+        "fingerprint": "9f3b834a54748ca5",
+        "claims": [
+          {
+            "text": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "chunkId": 127,
+            "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "5.2 Link monitoring is in the index as cited.",
+        "fingerprint": "781914c00b183d9a",
+        "claims": [
+          {
+            "text": "ISP › Section 5 › 5.2 Link monitoring",
+            "chunkId": 110,
+            "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "Table of Contents is in the index as cited.",
+        "fingerprint": "032ba02274db13e6",
+        "claims": [
+          {
+            "text": "ISP › Table of Contents",
+            "chunkId": 96,
+            "headingPath": "ISP › Table of Contents",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "11.3 Records is in the index as cited.",
+        "fingerprint": "920af25e665e35a6",
+        "claims": [
+          {
+            "text": "ERP › Section 11 › 11.3 Records",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "9. Contacts (exercise numbers) is in the index as cited.",
+        "fingerprint": "4b00b5dfd7b42c55",
+        "claims": [
+          {
+            "text": "SITE › 9. Contacts (exercise numbers)",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "10.3 Social media and trainees is in the index as cited.",
+        "fingerprint": "1c3361c798c01828",
+        "claims": [
+          {
+            "text": "ERP › Section 10 › 10.3 Social media and trainees",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:26.502Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

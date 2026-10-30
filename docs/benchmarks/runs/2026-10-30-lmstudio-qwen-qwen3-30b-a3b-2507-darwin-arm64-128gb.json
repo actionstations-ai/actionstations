@@ -1,0 +1,1319 @@
+{
+  "formatVersion": 1,
+  "suite": "standard",
+  "suiteVersion": 1,
+  "scoringVersion": 1,
+  "appVersion": "0.5.1",
+  "appCommit": "31bd9c4",
+  "promptHashes": {
+    "scenario_overview": "ef37a27ef2d787bd20bed7ad3e6a18e682b37c9bccebe66711767f65e6c8fe08",
+    "objectives_roles": "3e0c93fa1398e56a46f4ee1bb519f6e0bae0b242e70c834fd34596eb582ce4f5",
+    "phase_plan": "8f40df8741dbbbaf2168a9edc712bced5142d9a83d0b98e5e545c75e50b165b1",
+    "msel_phase": "3ce4dcaae28fcb2beae8d38c8db033bf3a4c645dbc0a24e218b2aff42d1261ba",
+    "controller_handbook": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+    "rubric": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+    "eeg": "00446252612aa53398c8103ded5af2ca14bd1cebb36d7137dd0ef5f2b0a917c1",
+    "player_briefing": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+    "hotwash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+    "sitman": "f96c3bb63370d11e5ac4b1ae1f26303a8d6af5cab3c18407d9c9aa844fa690b3",
+    "critique": "00f508013754aff8a9177694d94b7b0beb48e74a0d5a2bd2f189fa99a148e235"
+  },
+  "corpusHashes": {
+    "airport-ncia": "da784fe596152fa0",
+    "city-water": "4dc2fb80a309aa50",
+    "county-911": "0227b0b8acfd3143"
+  },
+  "embedder": "local-onnx:Xenova/bge-small-en-v1.5",
+  "model": {
+    "ref": "lmstudio:qwen/qwen3-30b-a3b-2507",
+    "tool": "lmstudio",
+    "name": "qwen/qwen3-30b-a3b-2507",
+    "quantization": "4bit",
+    "contextLength": 32768
+  },
+  "hardware": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "appleSilicon": true,
+    "ramGb": 128,
+    "budgetGb": 96
+  },
+  "startedAt": "2026-10-30T05:50:45.757Z",
+  "repeats": [
+    {
+      "seed": 11,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 72.8,
+          "parts": {
+            "valid": 100,
+            "distinct": 100,
+            "resolution": 100,
+            "spread": 44.4,
+            "grounding": 5.6
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 72.5,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 50,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 0,
+                "review": 6,
+                "unsupported": 0
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 73.33333333333333,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 33.33333333333333,
+              "grounding": 16.666666666666664,
+              "groundingCounts": {
+                "support": 16.666666666666664,
+                "claimBearing": 6,
+                "grounded": 2,
+                "review": 3,
+                "unsupported": 1
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 72.5,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 50,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 0,
+                "review": 4,
+                "unsupported": 2
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 55,
+          "outputTokensPerSecond": 84.2
+        },
+        {
+          "task": "drafting",
+          "score": 69.9,
+          "parts": {
+            "reliability": 87.3,
+            "lint": 14.7,
+            "citations": 57.5,
+            "citations.resolution": 98,
+            "citations.coverage": 92.6,
+            "citations.support": 0.9,
+            "structure": 96
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 71.71428571428572,
+              "lintByCode": {
+                "DUPLICATE_EVENT": 1,
+                "TIME_JUMP_REPEATED": 1,
+                "CONTACT_REAL_LOOKING": 4,
+                "MIX_NO_NOISE": 3,
+                "MIX_NO_IT_CLUE": 2,
+                "MIX_NO_CORE": 1,
+                "ROLE_NO_INJECT": 1,
+                "MIX_NO_PIO_PRESSURE": 1,
+                "DENSITY_DENSE": 2,
+                "DENSITY_HIGH": 2,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 15,
+                "GROUNDING_UNSUPPORTED": 6,
+                "GROUNDING_REVIEW": 15
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 100,
+                "successRate": 1,
+                "stagesExpected": 15,
+                "stagesOk": 15,
+                "stagesFailed": 0,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 95.23809523809523,
+                "support": 0,
+                "kept": 70,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 21,
+                  "grounded": 0,
+                  "review": 15,
+                  "unsupported": 6
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 67.8840579710145,
+              "lintByCode": {
+                "INJECT_SCRIPTS_PLAYERS": 1,
+                "INJECT_PLAYER_VOICE": 2,
+                "CLOCK_MISMATCH": 4,
+                "ENDEX_EARLY": 2,
+                "CONTACT_REAL_LOOKING": 11,
+                "ROLE_NO_INJECT": 1,
+                "MIX_NO_CORE": 1,
+                "MIX_NO_NOISE": 1,
+                "MIX_NO_PIO_PRESSURE": 1,
+                "DENSITY_DENSE": 3,
+                "DENSITY_HIGH": 1,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 20,
+                "FACILITY_UNKNOWN_ID": 2,
+                "GROUNDING_UNSUPPORTED": 11,
+                "GROUNDING_REVIEW": 12
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 86.66666666666667,
+                "successRate": 0.8666666666666667,
+                "stagesExpected": 15,
+                "stagesOk": 13,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 86.95652173913044,
+                "support": 0,
+                "kept": 68,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 23,
+                  "grounded": 0,
+                  "review": 12,
+                  "unsupported": 11
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 63.120327700972865,
+              "lintByCode": {
+                "INJECT_SCRIPTS_PLAYERS": 1,
+                "INJECT_PLAYER_VOICE": 1,
+                "DUPLICATE_EVENT": 2,
+                "REFERENCE_LEAK": 1,
+                "ENDEX_EARLY": 1,
+                "DENSITY_DENSE": 3,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 25,
+                "GROUNDING_REVIEW": 20,
+                "GROUNDING_UNSUPPORTED": 5
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 85.71428571428571,
+                "successRate": 0.8571428571428571,
+                "stagesExpected": 14,
+                "stagesOk": 12,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 85.18518518518519,
+                "support": 0,
+                "kept": 65,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 27,
+                  "grounded": 2,
+                  "review": 20,
+                  "unsupported": 5
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 74.52304147465438,
+              "lintByCode": {
+                "INJECT_PLAYER_VOICE": 1,
+                "CLOCK_MISMATCH": 1,
+                "DATE_DRIFT": 1,
+                "ROLE_NO_INJECT": 2,
+                "DENSITY_DENSE": 3,
+                "GROUNDING_REVIEW": 22,
+                "GROUNDING_UNSUPPORTED": 2
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 64.28571428571429,
+                "successRate": 0.6428571428571429,
+                "stagesExpected": 14,
+                "stagesOk": 9,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 100,
+                "support": 0,
+                "kept": 68,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 26,
+                  "grounded": 2,
+                  "review": 22,
+                  "unsupported": 2
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 72.18506239837828,
+              "lintByCode": {
+                "DATE_DRIFT": 1,
+                "ROLE_NO_INJECT": 7,
+                "MIX_NO_NOISE": 3,
+                "MIX_NO_PIO_PRESSURE": 1,
+                "MIX_NO_IT_CLUE": 1,
+                "DENSITY_DENSE": 1,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 19,
+                "GROUNDING_REVIEW": 20,
+                "GROUNDING_UNSUPPORTED": 1
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 100,
+                "successRate": 1,
+                "stagesExpected": 14,
+                "stagesOk": 14,
+                "stagesFailed": 0,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 7
+              },
+              "citations": {
+                "resolution": 90.14084507042254,
+                "coverage": 95.65217391304348,
+                "support": 4.3478260869565215,
+                "kept": 64,
+                "dropped": 7,
+                "grounding": {
+                  "support": 4.3478260869565215,
+                  "claimBearing": 23,
+                  "grounded": 2,
+                  "review": 20,
+                  "unsupported": 1
+                }
+              }
+            }
+          },
+          "wallSeconds": 2537,
+          "outputTokensPerSecond": 85.7
+        },
+        {
+          "task": "critique",
+          "score": 39,
+          "parts": { "recall": 40.6, "noise": 30.1 },
+          "details": {
+            "city-water-chem": {
+              "score": 62.51162790697674,
+              "recall": 60,
+              "noise": 76.74418604651163,
+              "noisePer10Rows": 1.16,
+              "notes": 11,
+              "found": ["chem-citation", "chem-facility", "chem-player"],
+              "missed": ["chem-order", "chem-restoration"]
+            },
+            "city-water-tank": {
+              "score": 49.0625,
+              "recall": 50,
+              "noise": 43.75,
+              "noisePer10Rows": 2.81,
+              "notes": 12,
+              "found": ["tank-citation", "tank-outside"],
+              "missed": ["tank-order", "tank-facility"]
+            },
+            "county-911-storm-tdos": {
+              "score": 3.75,
+              "recall": 0,
+              "noise": 25,
+              "noisePer10Rows": 3.75,
+              "notes": 12,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 60.95238095238094,
+              "recall": 66.66666666666666,
+              "noise": 28.57142857142857,
+              "noisePer10Rows": 3.57,
+              "notes": 17,
+              "found": ["copy-player", "copy-restoration"],
+              "missed": ["copy-duplicate"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "recall": 0,
+              "noise": 0,
+              "noisePer10Rows": 9.23,
+              "notes": 12,
+              "found": [],
+              "missed": ["fire-decision", "fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 57.66666666666666,
+              "recall": 66.66666666666666,
+              "noise": 6.666666666666657,
+              "noisePer10Rows": 4.67,
+              "notes": 48,
+              "found": ["olympics-player", "olympics-order"],
+              "missed": ["olympics-duplicate"]
+            }
+          },
+          "wallSeconds": 846,
+          "outputTokensPerSecond": 159.1
+        }
+      ],
+      "overall": 62.9,
+      "failures": [
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 15433 prompt tokens)"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 18783 prompt tokens)"
+        },
+        {
+          "caseId": "city-water-ransomware",
+          "stage": "eeg",
+          "error": "Output did not match EegOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 15233 prompt tokens)"
+        }
+      ]
+    },
+    {
+      "seed": 23,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 70.8,
+          "parts": {
+            "valid": 100,
+            "distinct": 100,
+            "resolution": 100,
+            "spread": 38.9,
+            "grounding": 0
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 72.5,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 50,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 0,
+                "review": 5,
+                "unsupported": 1
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 20,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 70,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 33.33333333333333,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 0,
+                "review": 5,
+                "unsupported": 1
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 12,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 70,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 33.33333333333333,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 1,
+                "review": 3,
+                "unsupported": 2
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 60,
+          "outputTokensPerSecond": 77.3
+        },
+        {
+          "task": "drafting",
+          "score": 69.7,
+          "parts": {
+            "reliability": 91.6,
+            "lint": 12.3,
+            "citations": 57.4,
+            "citations.resolution": 98.9,
+            "citations.coverage": 92.5,
+            "citations.support": 0,
+            "structure": 94
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 68.5,
+              "lintByCode": {
+                "ROW_OUTSIDE_PHASE": 1,
+                "DUPLICATE_EVENT": 1,
+                "CONTACT_REAL_LOOKING": 1,
+                "MIX_NO_NOISE": 4,
+                "MIX_NO_PIO_PRESSURE": 3,
+                "ROLE_NO_INJECT": 3,
+                "DENSITY_DENSE": 4,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 22,
+                "FACILITY_UNKNOWN_ID": 1,
+                "GROUNDING_REVIEW": 22,
+                "GROUNDING_UNSUPPORTED": 3
+              },
+              "rubric": {
+                "pace": false,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 100,
+                "successRate": 1,
+                "stagesExpected": 15,
+                "stagesOk": 15,
+                "stagesFailed": 0,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 100,
+                "support": 0,
+                "kept": 73,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 25,
+                  "grounded": 0,
+                  "review": 22,
+                  "unsupported": 3
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 68.12121212121212,
+              "lintByCode": {
+                "INJECT_PLAYER_VOICE": 1,
+                "CLOCK_MISMATCH": 3,
+                "BRIEF_THREAT_ADDED": 1,
+                "CONTACT_REAL_LOOKING": 4,
+                "MIX_NO_NOISE": 2,
+                "MIX_NO_CORE": 1,
+                "ROLE_NO_INJECT": 2,
+                "MIX_NO_PIO_PRESSURE": 1,
+                "DENSITY_DENSE": 2,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 17,
+                "FACILITY_UNKNOWN_ID": 3,
+                "GROUNDING_REVIEW": 14,
+                "GROUNDING_UNSUPPORTED": 6
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 86.66666666666667,
+                "successRate": 0.8666666666666667,
+                "stagesExpected": 15,
+                "stagesOk": 13,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 90.9090909090909,
+                "support": 0,
+                "kept": 59,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 21,
+                  "grounded": 1,
+                  "review": 14,
+                  "unsupported": 6
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 70.70443349753694,
+              "lintByCode": {
+                "INJECT_SCRIPTS_PLAYERS": 1,
+                "INJECT_PLAYER_VOICE": 3,
+                "DATE_DRIFT": 1,
+                "ENDEX_EARLY": 1,
+                "DENSITY_DENSE": 2,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 20,
+                "FACILITY_UNKNOWN_ID": 1,
+                "GROUNDING_REVIEW": 19,
+                "GROUNDING_UNSUPPORTED": 3
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 85.71428571428571,
+                "successRate": 0.8571428571428571,
+                "stagesExpected": 14,
+                "stagesOk": 12,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 83.33333333333334,
+                "support": 0,
+                "kept": 57,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 23,
+                  "grounded": 1,
+                  "review": 19,
+                  "unsupported": 3
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 77.81032258064516,
+              "lintByCode": {
+                "TIME_JUMP_REPEATED": 1,
+                "DATE_DRIFT": 1,
+                "CONTACT_REAL_LOOKING": 1,
+                "MIX_NO_NOISE": 2,
+                "DENSITY_DENSE": 3,
+                "EEG_CAPABILITY_MISSING": 3,
+                "EEG_ROW_UNCOVERED": 19,
+                "GROUNDING_REVIEW": 19,
+                "GROUNDING_UNSUPPORTED": 3
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 100,
+                "successRate": 1,
+                "stagesExpected": 14,
+                "stagesOk": 14,
+                "stagesFailed": 0,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 92,
+                "support": 0,
+                "kept": 64,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 24,
+                  "grounded": 2,
+                  "review": 19,
+                  "unsupported": 3
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 63.61246495440044,
+              "lintByCode": {
+                "INJECT_PLAYER_VOICE": 1,
+                "REFERENCE_LEAK": 2,
+                "TIME_JUMP_REPEATED": 1,
+                "DATE_DRIFT": 1,
+                "RESTORE_TOO_FAST": 1,
+                "MIX_NO_NOISE": 2,
+                "DENSITY_DENSE": 3,
+                "EEG_CAPABILITY_MISSING": 3,
+                "EEG_ROW_UNCOVERED": 21,
+                "GROUNDING_REVIEW": 19,
+                "GROUNDING_UNSUPPORTED": 5
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 85.71428571428571,
+                "successRate": 0.8571428571428571,
+                "stagesExpected": 14,
+                "stagesOk": 12,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 3
+              },
+              "citations": {
+                "resolution": 94.54545454545455,
+                "coverage": 96.15384615384616,
+                "support": 0,
+                "kept": 52,
+                "dropped": 3,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 26,
+                  "grounded": 2,
+                  "review": 19,
+                  "unsupported": 5
+                }
+              }
+            }
+          },
+          "wallSeconds": 2752,
+          "outputTokensPerSecond": 84.4
+        },
+        {
+          "task": "critique",
+          "score": 29.5,
+          "parts": { "recall": 29.4, "noise": 29.8 },
+          "details": {
+            "city-water-chem": {
+              "score": 61.116279069767444,
+              "recall": 60,
+              "noise": 67.44186046511628,
+              "noisePer10Rows": 1.63,
+              "notes": 12,
+              "found": ["chem-citation", "chem-facility", "chem-player"],
+              "missed": ["chem-order", "chem-restoration"]
+            },
+            "city-water-tank": {
+              "score": 49.0625,
+              "recall": 50,
+              "noise": 43.75,
+              "noisePer10Rows": 2.81,
+              "notes": 12,
+              "found": ["tank-citation", "tank-outside"],
+              "missed": ["tank-order", "tank-facility"]
+            },
+            "county-911-storm-tdos": {
+              "score": 3.75,
+              "recall": 0,
+              "noise": 25,
+              "noisePer10Rows": 3.75,
+              "notes": 12,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 34.76190476190476,
+              "recall": 33.33333333333333,
+              "noise": 42.85714285714286,
+              "noisePer10Rows": 2.86,
+              "notes": 19,
+              "found": ["copy-player"],
+              "missed": ["copy-duplicate", "copy-restoration"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "recall": 0,
+              "noise": 0,
+              "noisePer10Rows": 10.77,
+              "notes": 14,
+              "found": [],
+              "missed": ["fire-decision", "fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 28.33333333333333,
+              "recall": 33.33333333333333,
+              "noise": 0,
+              "noisePer10Rows": 6.67,
+              "notes": 40,
+              "found": ["olympics-player"],
+              "missed": ["olympics-duplicate", "olympics-order"]
+            }
+          },
+          "wallSeconds": 706,
+          "outputTokensPerSecond": 71.4
+        }
+      ],
+      "overall": 59.9,
+      "failures": [
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 16529 prompt tokens)"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 17627 prompt tokens)"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 17598 prompt tokens)"
+        }
+      ]
+    },
+    {
+      "seed": 37,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 72.5,
+          "parts": {
+            "valid": 100,
+            "distinct": 100,
+            "resolution": 100,
+            "spread": 50,
+            "grounding": 0
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 70,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 33.33333333333333,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 0,
+                "review": 4,
+                "unsupported": 2
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 72.5,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 50,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 1,
+                "review": 4,
+                "unsupported": 1
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 75,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 66.66666666666666,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 6,
+                "grounded": 1,
+                "review": 3,
+                "unsupported": 2
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 24,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 55,
+          "outputTokensPerSecond": 82.3
+        },
+        {
+          "task": "drafting",
+          "score": 62.6,
+          "parts": {
+            "reliability": 78.8,
+            "lint": 13.1,
+            "citations": 57.9,
+            "citations.resolution": 99.6,
+            "citations.coverage": 93.5,
+            "citations.support": 0,
+            "structure": 82
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 69.8983082706767,
+              "lintByCode": {
+                "CONTACT_REAL_LOOKING": 1,
+                "MIX_NO_NOISE": 2,
+                "MIX_NO_PIO_PRESSURE": 1,
+                "DENSITY_HIGH": 1,
+                "DENSITY_DENSE": 2,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 9,
+                "FACILITY_UNKNOWN_ID": 1,
+                "GROUNDING_UNSUPPORTED": 7,
+                "GROUNDING_REVIEW": 11
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 85.71428571428571,
+                "successRate": 0.8571428571428571,
+                "stagesExpected": 14,
+                "stagesOk": 12,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 1
+              },
+              "citations": {
+                "resolution": 98.24561403508771,
+                "coverage": 95,
+                "support": 0,
+                "kept": 56,
+                "dropped": 1,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 19,
+                  "grounded": 1,
+                  "review": 11,
+                  "unsupported": 7
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 64.44666666666667,
+              "lintByCode": {
+                "INJECT_SCRIPTS_PLAYERS": 1,
+                "INJECT_PLAYER_VOICE": 2,
+                "TIME_JUMP_REPEATED": 1,
+                "ENDEX_EARLY": 2,
+                "CONTACT_REAL_LOOKING": 5,
+                "ROLE_NO_INJECT": 2,
+                "MIX_NO_NOISE": 3,
+                "DENSITY_DENSE": 3,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 19,
+                "FACILITY_UNKNOWN_ID": 1,
+                "GROUNDING_REVIEW": 10,
+                "GROUNDING_UNSUPPORTED": 12
+              },
+              "rubric": {
+                "pace": false,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 86.66666666666667,
+                "successRate": 0.8666666666666667,
+                "stagesExpected": 15,
+                "stagesOk": 13,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 88,
+                "support": 0,
+                "kept": 52,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 23,
+                  "grounded": 1,
+                  "review": 10,
+                  "unsupported": 12
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 71.35412974122652,
+              "lintByCode": {
+                "INJECT_PLAYER_VOICE": 2,
+                "TIME_JUMP_REPEATED": 1,
+                "DATE_DRIFT": 1,
+                "CONTACT_REAL_LOOKING": 1,
+                "DENSITY_DENSE": 3,
+                "EEG_CAPABILITY_MISSING": 4,
+                "EEG_ROW_UNCOVERED": 23,
+                "GROUNDING_UNSUPPORTED": 5,
+                "GROUNDING_REVIEW": 21
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 85.71428571428571,
+                "successRate": 0.8571428571428571,
+                "stagesExpected": 14,
+                "stagesOk": 12,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 92.3076923076923,
+                "support": 0,
+                "kept": 62,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 26,
+                  "grounded": 0,
+                  "review": 21,
+                  "unsupported": 5
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 69.52,
+              "lintByCode": {
+                "REFERENCE_LEAK": 1,
+                "DATE_DRIFT": 1,
+                "CONTACT_REAL_LOOKING": 1,
+                "MIX_NO_IT_CLUE": 1,
+                "DENSITY_DENSE": 1,
+                "EEG_CAPABILITY_MISSING": 3,
+                "EEG_ROW_UNCOVERED": 22,
+                "GROUNDING_REVIEW": 21,
+                "GROUNDING_UNSUPPORTED": 3
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": true,
+                "decisionPhase": true,
+                "startEnd": true,
+                "rolesEveryPhase": true,
+                "briefIds": true,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 100,
+                "successRate": 1,
+                "stagesExpected": 14,
+                "stagesOk": 14,
+                "stagesFailed": 0,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 92,
+                "support": 0,
+                "kept": 53,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 24,
+                  "grounded": 0,
+                  "review": 21,
+                  "unsupported": 3
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 37.785714285714285,
+              "lintByCode": {
+                "ENDEX_LAST": 1,
+                "DATE_DRIFT": 1,
+                "PHASE_EMPTY": 2,
+                "NO_DECISION_POINT": 1,
+                "DENSITY_DENSE": 1,
+                "GROUNDING_REVIEW": 11,
+                "GROUNDING_UNSUPPORTED": 1
+              },
+              "rubric": {
+                "pace": true,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": true,
+                "noReferenceLeak": true
+              },
+              "rel": {
+                "score": 35.714285714285715,
+                "successRate": 0.35714285714285715,
+                "stagesExpected": 14,
+                "stagesOk": 5,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 1,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 100,
+                "coverage": 100,
+                "support": 0,
+                "kept": 33,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 12,
+                  "grounded": 0,
+                  "review": 11,
+                  "unsupported": 1
+                }
+              }
+            }
+          },
+          "wallSeconds": 2522,
+          "outputTokensPerSecond": 78.2
+        },
+        {
+          "task": "critique",
+          "score": 34,
+          "parts": { "recall": 31.7, "noise": 47 },
+          "details": {
+            "city-water-chem": {
+              "score": 44.116279069767444,
+              "recall": 40,
+              "noise": 67.44186046511628,
+              "noisePer10Rows": 1.63,
+              "notes": 12,
+              "found": ["chem-citation", "chem-facility"],
+              "missed": ["chem-order", "chem-restoration", "chem-player"]
+            },
+            "city-water-tank": {
+              "score": 49.0625,
+              "recall": 50,
+              "noise": 43.75,
+              "noisePer10Rows": 2.81,
+              "notes": 12,
+              "found": ["tank-citation", "tank-outside"],
+              "missed": ["tank-order", "tank-facility"]
+            },
+            "county-911-storm-tdos": {
+              "score": 3.75,
+              "recall": 0,
+              "noise": 25,
+              "noisePer10Rows": 3.75,
+              "notes": 12,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 69.52380952380952,
+              "recall": 66.66666666666666,
+              "noise": 85.71428571428572,
+              "noisePer10Rows": 0.71,
+              "notes": 17,
+              "found": ["copy-player", "copy-restoration"],
+              "missed": ["copy-duplicate"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "recall": 0,
+              "noise": 0,
+              "noisePer10Rows": 10.77,
+              "notes": 14,
+              "found": [],
+              "missed": ["fire-decision", "fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 37.33333333333333,
+              "recall": 33.33333333333333,
+              "noise": 60,
+              "noisePer10Rows": 2,
+              "notes": 12,
+              "found": ["olympics-player"],
+              "missed": ["olympics-duplicate", "olympics-order"]
+            }
+          },
+          "wallSeconds": 580,
+          "outputTokensPerSecond": 67
+        }
+      ],
+      "overall": 57.9,
+      "failures": [
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 16783 prompt tokens)"
+        },
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 15887 prompt tokens)"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "sitman",
+          "error": "Output did not match SitManOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 17823 prompt tokens)"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "msel_phase:01M65YMWV42FW1NVPDZ68GY68X",
+          "error": "Output did not match MselPhaseOutput after 1 repair attempt(s):\n- (root): no JSON object found in the reply (the reply was cut off at the length limit after 19683 prompt tokens)"
+        }
+      ]
+    }
+  ],
+  "median": {
+    "overall": 59.9,
+    "tasks": { "ideation": 72.5, "drafting": 69.7, "critique": 34 },
+    "draftingReliability": 0.867
+  },
+  "range": { "overall": [57.9, 62.9] },
+  "unstable": false,
+  "judge": {
+    "model": "lmstudio:qwen/qwen3-30b-a3b-2507",
+    "kappa": null,
+    "calibrationRows": 0,
+    "published": false,
+    "scores": { "plausibility": 56.5, "rowsJudged": 115, "rowsDiscarded": 16 }
+  }
+}

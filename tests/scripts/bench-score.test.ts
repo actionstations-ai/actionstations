@@ -35,12 +35,13 @@ vi.mock('electron', () => ({ app: { getPath: () => tmpdir() } }))
 const suite = loadSuite('standard')
 const gold: Gold = JSON.parse(readFileSync(join(ROOT, 'bench/gold/scenario-3.json'), 'utf8'))
 /**
- * "pH on the Edge": a generated, hand-corrected example scenario with stage provenance. It
- * predates the eeg and sitman stages, so their runs are added as the pipeline records them now.
+ * "pH on the Edge": a generated, hand-corrected example scenario with stage provenance. Its eeg
+ * and sitman runs are replaced by one fixed run each, whatever the example holds.
  */
 function clean(): ScenarioLike {
   const s = structuredClone(shippedScenario(loadExample('city-water'), 'chem'))
   const at = '2026-01-01T00:00:00.000Z'
+  s.provenance = s.provenance.filter((r) => r.stage !== 'eeg' && r.stage !== 'sitman')
   for (const stage of ['eeg', 'sitman'])
     s.provenance.push({ stage, status: 'ok', startedAt: at, finishedAt: at, repairAttempts: 0 })
   return s

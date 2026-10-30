@@ -104,7 +104,7 @@ describe.skipIf(!LIVE)('aar and sitman stages with LM Studio (live)', () => {
   }, 600_000)
 
   it('eeg: capabilities with three or more critical tasks each', async () => {
-    const { root, scenarioId } = await setup()
+    const { root, scenarioId, scenario } = await setup()
     const { jobs } = await import('../jobs/manager')
     const { rerunStep } = await import('./engine')
     const { getScenario } = await import('../scenario/store')
@@ -116,7 +116,10 @@ describe.skipIf(!LIVE)('aar and sitman stages with LM Studio (live)', () => {
       ).id,
     )
     expect(job.status, job.error).toBe('done')
-    const eegs = (await getScenario(root, scenarioId)).evaluation!.eegs
+    const evaluation = (await getScenario(root, scenarioId)).evaluation!
+    const covered = new Set(evaluation.objectiveCapabilities.map((o) => o.objectiveId))
+    expect(covered.size).toBe(scenario.objectives.length)
+    const eegs = evaluation.eegs
     expect(eegs.length).toBeGreaterThan(0)
     for (const e of eegs) expect(e.criticalTasks.length).toBeGreaterThanOrEqual(3)
   }, 600_000)

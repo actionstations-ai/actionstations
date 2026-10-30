@@ -7,6 +7,7 @@
 //   node scripts/make-example.mjs repair   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs export   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--voices]
+//   node scripts/make-example.mjs stages   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--stages eeg,sitman]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
@@ -38,6 +39,11 @@
 // Names: documents, seed scenarios and seed documents pass through examples/simulated-names.json
 //   (scripts/simulate-names.mjs) on the way in, so released examples carry simulated names
 //   while reference/ keeps the source material (#283).
+// stages: adds stages the packaged example predates (default: eeg and sitman, #499) without
+//   regenerating anything else. When <out> has no project yet it adopts the packaged
+//   examples/<id>/project (state.json is rebuilt from example.json), rebuilds the index, re-runs
+//   the listed stages on every scenario with generate:rerun-stage and re-exports. Package
+//   afterwards to copy the result back.
 // package: copies <out>/project to examples/<id>/project without index.sqlite*, .cache, job
 //   or log files, provider ids and absolute paths, keeps one short voice clip per example (as
 //   MP3), the most useful rendered PNGs and at most two AI stills per scenario within the git
@@ -129,7 +135,7 @@ const TAG_PRIORITY = [
 
 function parseArgs(argv) {
   const [command, ...rest] = argv
-  const args = { command, only: [], replace: false, voices: false }
+  const args = { command, only: [], replace: false, voices: false, stages: ['eeg', 'sitman'] }
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i]
     if (a === '--spec') args.spec = rest[++i]
@@ -137,11 +143,20 @@ function parseArgs(argv) {
     else if (a === '--only') args.only = rest[++i].split(',').map((s) => s.trim())
     else if (a === '--replace') args.replace = true
     else if (a === '--voices') args.voices = true
+    else if (a === '--stages')
+      args.stages = rest[++i]
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s !== 'none')
     else throw new Error(`Unknown argument ${a}`)
   }
-  if (!['generate', 'repair', 'refresh', 'export', 'package', 'verify'].includes(command ?? ''))
+  if (
+    !['generate', 'repair', 'refresh', 'export', 'stages', 'package', 'verify'].includes(
+      command ?? '',
+    )
+  )
     throw new Error(
-      'Usage: make-example.mjs generate|repair|refresh|export|package|verify --spec <build.json> [--out <dir>]',
+      'Usage: make-example.mjs generate|repair|refresh|export|stages|package|verify --spec <build.json> [--out <dir>]',
     )
   if (!args.spec) throw new Error('--spec is required')
   return args
@@ -771,6 +786,101 @@ const refresh = (args) =>
     (invoke) => routeOffline(invoke, { voices: args.voices }),
   )
 
+// ---- stages ------------------------------------------------------------------------------------
+
+/** Copy the packaged project into `out` and map the spec's scenario keys to the manifest's ids. */
+function adoptPackagedProject(spec, out) {
+  const manifest = JSON.parse(readFileSync(join(exampleDir(spec), 'example.json'), 'utf8'))
+  if (manifest.scenarios.length !== spec.scenarios.length)
+    throw new Error('stages: example.json and build.json list different numbers of scenarios')
+  cpSync(join(exampleDir(spec), 'project'), join(out, 'project'), { recursive: true })
+  const scenarios = Object.fromEntries(
+    spec.scenarios.map((s, i) => [s.key, { scenarioId: manifest.scenarios[i].id }]),
+  )
+  writeJson(join(out, 'state.json'), { projectPath: 'project', scenarios })
+}
+
+/** True when the stage's output is complete enough to ship (every phase, every objective). */
+function stageComplete(stage, s) {
+  if (stage === 'sitman') return (s.sitman?.modules.length ?? 0) === s.phases.length
+  const covered = new Set((s.evaluation?.objectiveCapabilities ?? []).map((p) => p.objectiveId))
+  return stage !== 'eeg' || s.objectives.every((o) => covered.has(o.id))
+}
+
+const STAGE_TRIES = 3
+
+async function runStage(c, scenarioId, stage) {
+  for (let attempt = 1; attempt <= STAGE_TRIES; attempt++) {
+    const t0 = Date.now()
+    const { jobId } = await c.invoke('generate:rerun-stage', {
+      projectPath: c.projectPath,
+      scenarioId,
+      stage,
+    })
+    await waitForJob(c.invoke, jobId, `${stage} ${c.entry.key}`, 30 * 60_000)
+    const after = await c.invoke('scenarios:get', { projectPath: c.projectPath, scenarioId })
+    const ok = stageComplete(stage, after)
+    log(
+      `${c.entry.key}: ${stage} in ${Math.round((Date.now() - t0) / 1000)}s${ok ? '' : ' (incomplete)'}`,
+    )
+    if (ok) return
+  }
+  log(`${c.entry.key}: ${stage} stayed incomplete after ${STAGE_TRIES} tries; kept the last one`)
+}
+
+/**
+ * A re-run of eeg or sitman marks the critique stale and the scenario a draft, but neither stage
+ * feeds the critique: put both back as they were, so the gallery shows the same status.
+ */
+async function restoreStatus(c, scenarioId, before) {
+  const after = await c.invoke('scenarios:get', { projectPath: c.projectPath, scenarioId })
+  // Citations the model invented were dropped from the output; the notes about them stay out.
+  const warnings = after.warnings.filter(
+    (w) => !(w.code === 'CITATION_DROPPED' && /^(sitman|eeg) /.test(w.message)),
+  )
+  const kept = before.provenance.find((r) => r.stage === 'critique')
+  const provenance = after.provenance.map((r) =>
+    r.stage === 'critique' && r.status === 'stale' && kept ? kept : r,
+  )
+  await c.invoke('scenarios:save', {
+    projectPath: c.projectPath,
+    scenario: { ...after, status: before.status, provenance, warnings },
+    note: 'Kept the status after adding the evaluation guides and the Situation Manual',
+  })
+}
+
+async function stagesOne(c, stages) {
+  const { scenarioId } = c.state.scenarios[c.entry.key]
+  const before = await c.invoke('scenarios:get', { projectPath: c.projectPath, scenarioId })
+  for (const stage of stages) await runStage(c, scenarioId, stage)
+  await restoreStatus(c, scenarioId, before)
+  await exportScenario(c.invoke, c.projectPath, scenarioId, join(c.out, 'exports', c.entry.key))
+}
+
+async function stages(args) {
+  const spec = loadSpec(args.spec)
+  const out = resolve(args.out ?? join(ROOT, '.tmp/examples-release', spec.id))
+  if (!existsSync(join(out, 'state.json'))) {
+    mkdirSync(out, { recursive: true })
+    adoptPackagedProject(spec, out)
+  }
+  const state = readState(out)
+  const { app, invoke } = await launchApp()
+  try {
+    const projectPath = join(out, state.projectPath)
+    await invoke('project:open', { path: projectPath })
+    const { jobId } = await invoke('index:rebuild', { projectPath })
+    await waitForJob(invoke, jobId, 'index rebuild', 10 * 60_000)
+    await routeToLocalStack(invoke)
+    for (const entry of spec.scenarios.filter(
+      (s) => !args.only.length || args.only.includes(s.key),
+    ))
+      await stagesOne({ invoke, out, projectPath, entry, state }, args.stages)
+  } finally {
+    await app.close()
+  }
+}
+
 // ---- package -----------------------------------------------------------------------------------
 
 /** Files and folders of a generated project that never ship: derived, transient, or local. */
@@ -1172,6 +1282,7 @@ if (isMain) {
         repair,
         refresh,
         export: exportAll,
+        stages,
         package: packageExample,
         verify,
       }[args.command](args)

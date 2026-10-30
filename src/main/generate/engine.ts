@@ -16,7 +16,7 @@ import {
   exerciseMinutes,
   type BriefingOutput,
   type CritiqueOutput,
-  type EegOutput,
+  EegOutput,
   type HandbookOutput,
   type HazardSnapshot,
   type HotwashOutput,
@@ -324,6 +324,7 @@ export async function call<T>(
   vars: Record<string, unknown>,
   maxRetrieved?: number,
   requireRetrieval?: string,
+  refineSchema?: StageCall['refineSchema'],
 ): Promise<StageResult<T>> {
   const { env, step } = input
   const result = await runStage<T>({
@@ -337,6 +338,7 @@ export async function call<T>(
     index: env.index,
     ...(maxRetrieved !== undefined ? { maxRetrieved } : {}),
     ...(requireRetrieval ? { requireRetrieval } : {}),
+    ...(refineSchema ? { refineSchema } : {}),
   })
   return { ...result, output: stripKeysDeep(result.output) }
 }
@@ -799,6 +801,16 @@ async function stepRubric(input: StepInput): Promise<StageRun> {
  * cite a retrieved plan section, so the stage refuses to run against an empty retrieval
  * instead of relaxing the requirement: an EEG without plan citations is a generic one.
  */
+/** EegOutput with exactly one objectiveCapabilities entry per objective (qwen3 stopped after one). */
+function onePerObjective(count: number): NonNullable<StageCall['refineSchema']> {
+  return (schema) =>
+    count > 0 && schema === EegOutput
+      ? EegOutput.extend({
+          objectiveCapabilities: EegOutput.shape.objectiveCapabilities.min(count).max(count),
+        })
+      : schema
+}
+
 async function stepEeg(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const capabilities = orderedCapabilities(env.domain.profile.coreCapabilities)
@@ -810,6 +822,7 @@ async function stepEeg(input: StepInput): Promise<StageRun> {
     }),
     undefined,
     EEG_NO_SECTIONS,
+    onePerObjective(s.objectives.length),
   )
   const applied = applyEeg(s, r.output, r.retrieved)
   clearPipelineWarnings(s, (w) => w.rowId === EEG_ROW)

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T03:32:34.710Z",
-  "updatedAt": "2026-10-25T05:02:38.523Z",
+  "updatedAt": "2026-10-30T11:13:11.050Z",
   "brief": {
     "userPrompt": "Ten days before CP&L Deliverable D-3 is due, the processing team arrives on a weekday morning to find HUOG-NAS01 and the processing workstation HUOG-PROC01 encrypted with a ransom note on the share; the NAS snapshot schedule was disabled two nights earlier, GCS-02 was infected after it mounted the NAS to upload last week's flight logs, and the offline backup drive OB-1 in the General Manager's safe is three weeks old. The Group must isolate the Data VLAN at HUOG-FW01, keep the GCS fleet off the network and decide whether flights can continue, scope whether CP&L and CVAC client data was read and not only encrypted, recover from OB-1 and the off-site service in the HUOG-ISP Section 9.3 order once the managed SOC confirms the environment is clean, decide within four hours whether to notify the clients that D-3 is at risk, and record the decision not to pay.",
     "audience": [
@@ -1302,6 +1302,230 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
+        "capability": "operational_coordination",
+        "why": "The objective requires keeping leadership, technical, and communications teams aligned on a single set of facts, which is achieved through a unified operational structure under the Incident Commander and defined communication protocols in the ERP and ISP."
+      },
+      {
+        "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
+        "capability": "public_information_and_warning",
+        "why": "The objective mandates that all external statements be routed through Corporate Communications, ensuring coordinated, reliable, and actionable information is delivered to the public and media, consistent with the crisis protocol UC-CP-2025."
+      },
+      {
+        "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
+        "capability": "cybersecurity",
+        "why": "The objective requires verifying data integrity and ensuring that only authorized, verified data is processed, which is a core function of cybersecurity in protecting and restoring electronic systems and data."
+      },
+      {
+        "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
+        "capability": "public_information_and_warning",
+        "why": "The objective involves making timely, fact-based decisions on client notifications and delivering them through approved channels, which is a direct application of public information and warning to manage external communication and prevent misinformation."
+      },
+      {
+        "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
+        "capability": "operational_coordination",
+        "why": "The objective requires coordination between the General Manager, Systems & Cybersecurity Lead, and Campaign Lead to assess risk and decide on notification timing and content, which is enabled by a unified operational structure and defined roles in the ERP."
+      },
+      {
+        "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
+        "capability": "cybersecurity",
+        "why": "The objective depends on accurate technical assessment of data exposure (e.g., CP&L data read, not only encrypted), which is a cybersecurity function to determine the scope and impact of a cyber incident."
+      },
+      {
+        "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
+        "capability": "cybersecurity",
+        "why": "The objective centers on containing a ransomware attack by isolating infected systems, preserving evidence, and following a structured recovery order — all core elements of cybersecurity response and restoration."
+      },
+      {
+        "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
+        "capability": "infrastructure_systems",
+        "why": "The objective requires stabilizing critical infrastructure (the NAS, processing workstations, and GCS fleet) to prevent cascading failures and ensure that essential systems are restored in a prioritized, resilient manner."
+      },
+      {
+        "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
+        "capability": "operational_coordination",
+        "why": "The objective demands that containment and recovery actions be synchronized across flight operations, cybersecurity, and logistics teams, which is only possible through a unified operational structure and defined roles in the ERP."
+      },
+      {
+        "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
+        "capability": "operational_coordination",
+        "why": "The objective requires the Incident Commander to direct all response actions, maintain control over the incident structure, and ensure that recovery follows the prescribed order, which is the essence of operational coordination."
+      },
+      {
+        "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
+        "capability": "cybersecurity",
+        "why": "The objective involves restoring systems from verified backups and validating data integrity before resuming operations, which is a core function of cybersecurity in recovery and restoration."
+      },
+      {
+        "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
+        "capability": "infrastructure_systems",
+        "why": "The objective requires restoring critical systems (NAS, processing workstations, GCS) in a prioritized, resilient order to ensure operational continuity, which aligns with infrastructure systems’ role in stabilizing and revitalizing systems."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander maintains a unified operational structure under the ERP, ensures all teams follow the HUOG-ISP 9.3 recovery order, and confirms that every action — from grounding GCS-02 to rescheduling the CVAC collection — is coordinated through the Flight Operations Desk and the Incident Command role.",
+        "objectiveRefs": [
+          "01M5RHWNE9A89169M0WND69ZNH",
+          "01M5RHWNE967ARK5AJARDS66GB",
+          "01M5RHWNE9705Q78Y4N37Y0S18",
+          "01M5RHWNE95HY4QX9S54Y15PDX"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Declare a Level 3 incident and activate the Incident Command structure immediately after the encryption is confirmed.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 6 › 6.1 Notification order",
+              "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+              "chunkId": 15
+            },
+            "timing": "Immediately",
+            "rowIds": [
+              "I-01",
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Ensure that every team reports its status and actions to the Incident Commander through the Flight Operations Desk at the 10:00 and 11:00 time jumps.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 6 › 6.1 Notification order",
+              "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+              "chunkId": 15
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of each time jump",
+            "rowIds": [
+              "I-05",
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Confirm that the Systems & Cybersecurity Lead, Payload & Calibration Lead, and Corporate Communications all report to the Incident Commander before making any public or operational decisions.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 2 › 2.2 Group incident team",
+              "quote": "| Position | Holder | Alternate | |---|---|---| | Incident Commander | Director of Flight Operations | Aviation Safety Officer | | Safety and notifications | Aviation Safety Officer | General Manager ",
+              "chunkId": 7
+            },
+            "timing": "Before any external statement or flight rescheduling",
+            "rowIds": [
+              "I-11",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Verify that the recovery order from HUOG-ISP 9.3 is followed and that no processing begins until the calibration share and ops records are restored and verified.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "it",
+            "timing": "Before any processing",
+            "rowIds": [
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Ensure that the Director of Flight Operations grounds every GCS that mounted the NAS during the infection window and confirms the fleet status with the Flight Operations Desk.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of the infection window being confirmed",
+            "rowIds": [
+              "I-04",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Confirm that the Compliance Officer is notified immediately when export-controlled data is exposed, and that the Systems & Cybersecurity Lead logs the exposure in the incident record.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 7 › 7.2 Data classes",
+              "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+              "chunkId": 118
+            },
+            "expectedBy": "it",
+            "timing": "Within 15 minutes of exposure confirmation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH",
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
@@ -1372,6 +1596,341 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decision-making without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with no hidden causes or alternate outcomes.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in HUOG-ISP, HUOG-ERP, and HUOG-FOM.",
+      "All injects are delivered as factual updates, and no player has privileged knowledge beyond what is in the scenario state.",
+      "The SimCell manages external actors (e.g., MSSP, law enforcement, vendors) and system states (e.g., backup drives, logs) as described in the documents.",
+      "Time jumps between modules reflect the passage of real-world time and are not subject to negotiation or adjustment."
+    ],
+    "artificialities": [
+      "Time jumps between modules represent the passage of real-world time and are not subject to negotiation.",
+      "The SimCell simulates external actors (e.g., MSSP, FBI, vendors) and system states (e.g., NAS logs, backup drive status) as described in the documents.",
+      "System names (e.g., HUOG-PROC01, OB-1, GCS-02) are used as in the plans but are not physically interacted with.",
+      "Injects are delivered via paper or screen and are not subject to real-time verification.",
+      "The Group's cyber incident response is simulated as a coordinated, time-bound process per HUOG-ISP and HUOG-ERP."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5RHXANW6F95FJQHEQCG0V4Q",
+        "narrativeMd": "It is 10:00. The Data VLAN has been isolated at HUOG-FW01, and the NAS is disconnected from the network. GCS-02 is grounded in Hangar 2. The processing team reports that all files under \\HUOG-NAS01\\campaigns\\cpl-d3\\ have been renamed with a .lck0 extension, and a ransom note is visible on HUOG-PROC01 and GCS-02. The HUOG-NAS01 log confirms that the snapshot schedule was disabled on Saturday at 22:15, and mass file renames began at 08:41 today from HUOG-PROC01 and GCS-02, which mounted the NAS at 08:44. The MSSP analyst is reviewing HUOG-FW01 logs remotely. The CVAC crew at Horton Field reports that RTK-2 has not achieved a fixed solution, and the Fleet & Logistics Manager has delivered the battery shipment for the CVAC season, which requires a signature and a slot in the fire-rated cabinet.",
+        "keyIssues": [
+          "Contain the ransomware by isolating the Data VLAN and grounding all GCS devices that mounted the NAS during the infection window.",
+          "Preserve evidence on HUOG-PROC01 and GCS-02 for the MSSP, including memory and logs."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What immediate actions must you take to prevent further spread of the ransomware across the fleet, and which GCS units must be grounded based on the NAS mount records?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Operational Continuity vs. System Containment",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              }
+            ]
+          },
+          {
+            "text": "Systems & Cybersecurity Lead: What steps must you take to preserve the forensic state of HUOG-PROC01 and GCS-02, and how do you ensure the MSSP can access the necessary logs and memory?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Operational Continuity vs. System Containment",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "General Manager: What is your immediate direction to the team regarding external communications, and which roles must be consulted before any public statement is made?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.5 Client notification",
+                "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RHXANW94H82K0534KBMXZE",
+        "narrativeMd": "It is 11:00. The MSSP has confirmed that the svc-backup credential was used from HUOG-PROC01 after a phishing login on Friday, and that encryption has been limited to the NAS, HUOG-PROC01, and GCS-02. The off-site backup service has failed since September 26 due to an expired credential, and OB-1 — the drive in the General Manager’s safe — was last written on September 14. The NAS SMB audit shows that svc-backup read 2,140 files from \\HUOG-NAS01\\controlled\\ — including CP&L task-order data and PL-02 calibration files — between 03:10 and 03:55 on Sunday. HUOG-FW01 shows 4.1 GB leaving the Data VLAN in that same window. The MSSP is imaging HUOG-PROC01 and expects to confirm a clean environment by early afternoon. The Compliance Officer has issued a deadline: CP&L’s 24-hour exposure notice window began at 10:25, and the Group must decide by 13:00 whether to notify CP&L and CVAC that deadlines are at risk.",
+        "keyIssues": [
+          "Determine whether CP&L data was read and whether the 24-hour exposure notice must be issued.",
+          "Identify which campaign folders and shares were accessed or modified, and whether any were read but not encrypted."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Systems & Cybersecurity Lead: What evidence confirms that CP&L data was read, and how does this affect the Group’s obligation to notify under HUOG-ISP 9.3 and 7.5?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Client Notification Authority",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.2 Data classes",
+                "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+                "chunkId": 255
+              }
+            ]
+          },
+          {
+            "text": "Payload & Calibration Lead: What does the audit of the calibration share reveal about the integrity of the PL-02 files, and how does this impact the Group’s ability to process the D-3 campaign?",
+            "roleIds": [
+              "pay"
+            ],
+            "objectiveRef": "Operational Continuity vs. System Containment",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 6 › 6.2 Backups",
+                "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.2 Data classes",
+                "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+                "chunkId": 255
+              }
+            ]
+          },
+          {
+            "text": "General Manager: Based on the evidence, what is your determination on whether CP&L’s data was read, and what is your decision on whether to issue the 24-hour exposure notice, including the rationale?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Client Notification Authority",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.2 Data classes",
+                "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+                "chunkId": 255
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RHXANWF08YA21DKH1FMJV9",
+        "narrativeMd": "It is 12:00. The MSSP has confirmed that the environment is clean enough to restore from OB-1. The clean laptop has verified that the calibration share matches the repository hashes, and six of the nine Lakeshore collection days for D-3 are present on OB-1 and match their manifests. The last three days (September 17, 22, and 24) were collected after September 14 and are not on OB-1. The payload SSDs from those days are still in the Hangar 3 removable-media cabinet and have not been wiped. The MSSP expects to restore from OB-1 to a rebuilt workstation by 12:00. The Compliance Officer has confirmed that CP&L’s 24-hour exposure window began at 10:25 and must be closed by 13:00. The Group’s counsel has requested the decision not to pay be put in writing with its reasons. The FBI field office has been notified through the MSSP.",
+        "keyIssues": [
+          "Decide whether to notify CP&L and CVAC that the deadline is at risk, and whether CP&L’s 24-hour exposure notice applies.",
+          "Confirm the Group’s decision not to pay and document it per policy."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "General Manager: Based on the evidence, what is your decision on whether to notify CP&L and CVAC that the deadline is at risk, and what is the factual basis for that decision?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Client Notification Authority",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.5 Client notification",
+                "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+                "chunkId": 258
+              }
+            ]
+          },
+          {
+            "text": "Corporate Communications: What is your draft statement to CP&L and CVAC, and how do you ensure that all external communications are routed through you and based on verified facts?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.5 Client notification",
+                "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "Systems & Cybersecurity Lead: How do you confirm that the environment is clean and that the offline backup OB-1 is trustworthy before restoring?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Operational Continuity vs. System Containment",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 6 › 6.2 Backups",
+                "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RHXANW4FQAQF4HMA3NV06D",
+        "narrativeMd": "It is 13:00. The MSSP has confirmed the environment is clean. The calibration share has been restored from OB-1 and verified against the repository hashes. The six D-3 collection days have been restored and match their manifests. The last three days are being rebuilt from the payload SSDs. The Group’s counsel has confirmed that the decision not to pay has been recorded with its reasons. The FBI field office has the report. The CVAC crew is waiting for a go-ahead on the next collection. The fleet is being cleared: GCS-01 and GCS-04 are clean and cleared for flight; GCS-03 is infected and grounded; GCS-05 and GCS-06 are out of scope. The recovery order per HUOG-ISP 9.3 is being followed: calibration share → ops records → D-3 campaign → the rest.",
+        "keyIssues": [
+          "Restore in the correct order and verify all restored data against manifests before processing.",
+          "Ensure that no processing occurs on data that has not been verified."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Payload & Calibration Lead: What is your verification process for the D-3 raw data, and when will you confirm that it is ready for processing?",
+            "roleIds": [
+              "pay"
+            ],
+            "objectiveRef": "Operational Continuity vs. System Containment",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 6 › 6.2 Backups",
+                "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+                "chunkId": 252
+              }
+            ]
+          },
+          {
+            "text": "Corporate Communications: What is your final statement to CP&L and CVAC, and how do you ensure that all external messages are consistent and authorized?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.5 Client notification",
+                "quote": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "General Manager: What is your final record of the decision not to pay, and how do you ensure that it is preserved for audit and legal purposes?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Client Notification Authority",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+                "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+                "chunkId": 266
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 7 › 7.2 Data classes",
+                "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
+                "chunkId": 255
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "HUOG-NAS01 (campaigns, flightlogs, ops, calibration, controlled shares)",
     "Processing workstations HUOG-PROC01 / HUOG-PROC02",
@@ -2709,6 +3268,1458 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:07:31.591Z",
+      "finishedAt": "2026-10-30T11:07:46.908Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 9858,
+      "outputTokens": 1224,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:48:42.228Z",
+      "finishedAt": "2026-10-30T10:49:28.650Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5672,
+      "outputTokens": 4092,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "c59aacb00313e174",
+        "claims": [],
+        "at": "2026-10-30T10:49:32.349Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘Payload & Calibration Lead’, ‘Systems & Cybersecurity Lead’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "d20eaf4a9f08de0a",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead stops all processing and tells the Systems & Cybersecurity Lead by phone; the Systems & Cybersecurity Lead starts HUOG-ISP 9.3: isolate the Data VLAN at HUOG-FW01, disconnect the NAS, leave HUOG-PROC01 powered on for the MSSP and call SecureWatch.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.5,
+            "matched": [
+              "ISP 9.3",
+              "HUOG-FW01",
+              "HUOG-PROC01",
+              "isolate"
+            ],
+            "missing": [
+              "Payload & Calibration Lead",
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.698Z",
+        "version": 1
+      },
+      "row:I-01b": {
+        "label": "review",
+        "reason": "‘approved’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "ceb88388db3abfb9",
+        "claims": [
+          {
+            "text": "Corporate Communications logs the post, does not reply with details, tells the General Manager the public is already asking, and prepares a holding line for when a statement is approved.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.4,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.698Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘Systems & Cybersecurity Lead’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "3bdd5b8d1baebc9f",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead treats svc-backup as compromised, has it disabled, treats GCS-02 as infected under HUOG-ISP 9.3 step 2, and asks who else mounted the NAS since Saturday 22:15.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.4,
+            "matched": [
+              "ISP 9.3",
+              "GCS-02"
+            ],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.698Z",
+        "version": 1
+      },
+      "row:I-03b": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’, ‘RTK-2’ are not in 3.1 Networks or the facility facts.",
+        "fingerprint": "abfdf686231f3702",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations recognizes a normal cold start after the weekend (RTK-2 is not on the NAS and was not connected since Friday), tells the crew to keep the GCS off the network and to wait for word on today’s flight.",
+            "chunkId": 101,
+            "headingPath": "ISP › Section 3 › 3.1 Networks",
+            "overlap": 0.278,
+            "matched": [],
+            "missing": [
+              "Director of Flight Operations",
+              "RTK-2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.700Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "‘Systems & Cybersecurity Lead’, ‘Director of Flight Operations’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "935959b54b53216e",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead has GCS-02 unplugged from the network but left on, labeled and grounded; the Director of Flight Operations grounds UAS-03 and UAS-11 with it; the General Manager is told the Group has a cyber incident and the four-hour client clock in HUOG-ISP 9.3 has started.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.407,
+            "matched": [
+              "ISP 9.3",
+              "4-hour",
+              "General Manager",
+              "GCS-02",
+              "UAS-03",
+              "UAS-11"
+            ],
+            "missing": [
+              "Systems & Cybersecurity Lead",
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.700Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘3 weeks’, ‘Systems & Cybersecurity Lead’, ‘OB-2’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "ad982fc01c05ffaf",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead treats OB-2 as infected, leaves OB-1 in the safe until the MSSP confirms the environment is clean, and tells the General Manager that the newest clean copy is three weeks old.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.474,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "3 weeks",
+              "Systems & Cybersecurity Lead",
+              "OB-2",
+              "OB-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.700Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "dfa7dd2fd0c496e4",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.700Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "review",
+        "reason": "Only 46% of ‘The General Manager does not guess: says the Group is inves…’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "0d8fb41a4af20b5d",
+        "claims": [
+          {
+            "text": "The General Manager does not guess: says the Group is investigating an incident affecting its data systems, commits to a call back with facts by a set time inside the four-hour window, and logs the call; Corporate Communications is told.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.458,
+            "matched": [
+              "4-hour",
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.700Z",
+        "version": 1
+      },
+      "row:I-06b": {
+        "label": "review",
+        "reason": "‘Payload & Calibration Lead’, ‘Systems & Cybersecurity Lead’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "d51f827d31b32fbb",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead confirms it is the processing team’s own restart script, edited by the analyst at 09:10 before the encryption was noticed; the Systems & Cybersecurity Lead tells the MSSP, and nobody runs it.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.294,
+            "matched": [],
+            "missing": [
+              "Payload & Calibration Lead",
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.701Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’, ‘Campaign Lead’ are not in 3.1 Networks or the facility facts.",
+        "fingerprint": "2dbbf702c5a8d56b",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations postpones the CVAC collection until GCS-03 is cleared or swaps to a GCS that cannot have touched the NAS (GCS-05 or GCS-06 with a UAS-07 to UAS-10 aircraft), and tells CVAC through the Campaign Lead.",
+            "chunkId": 101,
+            "headingPath": "ISP › Section 3 › 3.1 Networks",
+            "overlap": 0.25,
+            "matched": [
+              "GCS-03",
+              "GCS-05",
+              "GCS-06",
+              "UAS-07",
+              "UAS-10"
+            ],
+            "missing": [
+              "Director of Flight Operations",
+              "Campaign Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.701Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "‘approves’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "7ba2929a2ce9b659",
+        "claims": [
+          {
+            "text": "Corporate Communications confirms only what the General Manager approves — the Group is responding to a cyber incident affecting some data systems, with outside specialists — does not confirm theft or a ransom, and gives a time for a statement.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.316,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approves"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.701Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "‘Systems & Cybersecurity Lead’, ‘Compliance Officer’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "24f95427e18d9065",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead reports that CP&L data may have been read and copied, not only encrypted, so CP&L’s 24-hour exposure notice applies; the General Manager is told, and the Compliance Officer is asked about the PL-02 export-control files.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.65,
+            "matched": [
+              "24-hour",
+              "General Manager",
+              "PL-02",
+              "reports"
+            ],
+            "missing": [
+              "Systems & Cybersecurity Lead",
+              "Compliance Officer"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.701Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "1a2786c4714fecae",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations has it received and stored; it is not related to the incident.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.702Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "‘authorizes’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "576d69264c855a04",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead follows the instructions and asks for a time for the clean confirmation; the General Manager authorizes the FBI report through the MSSP and confirms the Group will not pay.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.8,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "General Manager",
+              "FBI",
+              "report"
+            ],
+            "missing": [
+              "authorizes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.703Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "94de967285f90efc",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.703Z",
+        "version": 1
+      },
+      "row:I-10a": {
+        "label": "review",
+        "reason": "‘Payload & Calibration Lead’, ‘D-3’, ‘OB-1’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "099b40cf063f077a",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead reports that D-3 cannot be completed from OB-1 alone and asks where the three missing days might still exist; the Systems & Cybersecurity Lead records the check and keeps OB-1 off the network.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.471,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "reports"
+            ],
+            "missing": [
+              "Payload & Calibration Lead",
+              "D-3",
+              "OB-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.703Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘Compliance Officer’, ‘D-3’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "4e5357c62c2c95cd",
+        "claims": [
+          {
+            "text": "The General Manager, with the Systems & Cybersecurity Lead, decides whether to notify CP&L now with what is known (data may have been read and copied; D-3 at risk; facts and next update) or wait for the MSSP’s forensic confirmation, decides what CVAC is told, has the Compliance Officer assess the PL-02 files, and records the decision and its basis.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.296,
+            "matched": [
+              "General Manager",
+              "Systems & Cybersecurity Lead",
+              "PL-02",
+              "notify"
+            ],
+            "missing": [
+              "Compliance Officer",
+              "D-3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.703Z",
+        "version": 1
+      },
+      "row:I-11b": {
+        "label": "review",
+        "reason": "‘Payload & Calibration Lead’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "8819050496436db5",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead stops the copy: the SSDs are custody items and are read only on the clean laptop after the MSSP clears it; the Director of Flight Operations confirms which aircraft flew those days.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.421,
+            "matched": [
+              "Director of Flight Operations"
+            ],
+            "missing": [
+              "Payload & Calibration Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘Systems & Cybersecurity Lead’, ‘approved’ are not in 7.5 Client notification or the facility facts.",
+        "fingerprint": "594132c51abfd0c6",
+        "claims": [
+          {
+            "text": "Corporate Communications confirms nothing it cannot verify, uses the approved incident line, and asks the Systems & Cybersecurity Lead whether public-safety data was on the affected shares.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "Systems & Cybersecurity Lead",
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "Only 35% of ‘The Director of Flight Operations grounds GCS-03 and the ai…’ is in 1.3 Relationship to other plans.",
+        "fingerprint": "9b6220f9137c854b",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations grounds GCS-03 and the aircraft paired to it, releases GCS-01 and GCS-04, and reschedules the CVAC collection; the Systems & Cybersecurity Lead plans the restore for when the confirmation arrives.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.35,
+            "matched": [
+              "Director of Flight Operations",
+              "Systems & Cybersecurity Lead",
+              "GCS-03",
+              "GCS-01",
+              "GCS-04"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-12b": {
+        "label": "grounded",
+        "reason": "Every claim matches 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "b2699d6f1ce1df27",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead notes it for the recovery schedule; it is routine.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.833,
+            "matched": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "154cafc259987a9e",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-14a": {
+        "label": "review",
+        "reason": "‘ISP 9.3’, ‘6 days’, ‘Payload & Calibration Lead’ are not in 6.3 Integrity or the facility facts.",
+        "fingerprint": "2eac4aae06c5b230",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead releases the calibration share and the six days for processing only after the manifest checks; the Systems & Cybersecurity Lead records each step in the HUOG-ISP 9.3 order.",
+            "chunkId": 116,
+            "headingPath": "ISP › Section 6 › 6.3 Integrity",
+            "overlap": 0.267,
+            "matched": [],
+            "missing": [
+              "ISP 9.3",
+              "6 days",
+              "Payload & Calibration Lead",
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "review",
+        "reason": "‘approved’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "0e7d5b92952cc7a6",
+        "claims": [
+          {
+            "text": "Corporate Communications answers with the approved line — the Group does not pay ransoms and is working with law-enforcement through its security provider — after the General Manager confirms it.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.357,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.704Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "unsupported",
+        "reason": "‘5-day’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage; the passage says ‘Deadlines: the General Manager decides within 4 hours whether client deadlines (Section 7.4) are at risk and notifies the clients with facts; CP&L's 24-hour ex…’.",
+        "fingerprint": "94b9c9916423867d",
+        "claims": [
+          {
+            "text": "The General Manager answers with facts (what is known about the shares that were read, what is still being checked, the five-day notice in the agreement) and the new collection date; Corporate Communications keeps the message consistent with what CP&L and the press have heard.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.368,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "5-day"
+            ],
+            "conflicting": [
+              {
+                "term": "5-day",
+                "passage": "Deadlines: the General Manager decides within 4 hours whether client deadlines (Section 7.4) are at risk and notifies the clients with facts; CP&L's 24-hour exposure notice applies if its data may have been read, not …"
+              }
+            ]
+          }
+        ],
+        "at": "2026-10-30T11:07:51.705Z",
+        "version": 1
+      },
+      "row:I-15b": {
+        "label": "review",
+        "reason": "‘3 days’, ‘Payload & Calibration Lead’, ‘D-3’ are not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "85a7406beb212836",
+        "claims": [
+          {
+            "text": "The Payload & Calibration Lead rebuilds the three days’ calibration from the paper field sheets, estimates the processing time, and tells the General Manager the realistic D-3 delivery date for the client notice.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.5,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "3 days",
+              "Payload & Calibration Lead",
+              "D-3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.705Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "296ef94ea74e16bd",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations plans tomorrow’s collection on GCS-01 or a tablet GCS with its own aircraft, keeps crews off the NAS, and tells the General Manager what can and cannot be flown this week.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.294,
+            "matched": [
+              "General Manager",
+              "GCS-01"
+            ],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.705Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "review",
+        "reason": "Only 29% of ‘Corporate Communications defers it to next week; it is not …’ is in 7.5 Client notification.",
+        "fingerprint": "e99d15303bd26e46",
+        "claims": [
+          {
+            "text": "Corporate Communications defers it to next week; it is not related to the incident.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "Only 33% of ‘The General Manager records the decision not to pay and its…’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "c738b4bb3f9d558b",
+        "claims": [
+          {
+            "text": "The General Manager records the decision not to pay and its reasons in the incident record, tells CP&L and CVAC that publication is threatened if that is not already in the notice, and has Corporate Communications prepare for Friday.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.333,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "054039c9ed4346d5",
+        "claims": [],
+        "at": "2026-10-30T10:49:32.358Z",
+        "version": 1
+      },
+      "inject:01M5RJTVW7RN012CCF6FZWKKXX": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "486f3580e32f5a60",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "inject:01M5RJV516DRYDR14RJFJBB8ZK": {
+        "label": "review",
+        "reason": "Only 29% of ‘Watch for processing stopped, the phone used, and HUOG-ISP …’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "3d56fb576ca0f1ca",
+        "claims": [
+          {
+            "text": "Watch for processing stopped, the phone used, and HUOG-ISP 9.3 started.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.286,
+            "matched": [
+              "ISP 9.3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "inject:01M5RJVEV67FGX6H53N3N96G0E": {
+        "label": "review",
+        "reason": "‘approves’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "4bf837e6b489baad",
+        "claims": [
+          {
+            "text": "The public is ahead of the Group.",
+            "chunkId": 138,
+            "headingPath": "SITE",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for no detail given before the General Manager approves.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.333,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approves"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "inject:01M5RJVQ0RPT833GPGH0C85ZS5": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for svc-backup disabled, GCS-02 treated as infected, …’ is in 6.1 Storage.",
+        "fingerprint": "1eeeffaa00fbdd89",
+        "claims": [
+          {
+            "text": "Watch for svc-backup disabled, GCS-02 treated as infected, and the question “who else mounted the NAS?”",
+            "chunkId": 114,
+            "headingPath": "ISP › Section 6 › 6.1 Storage",
+            "overlap": 0.2,
+            "matched": [
+              "GCS-02"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.706Z",
+        "version": 1
+      },
+      "inject:01M5RJW3ARJJAMCYMTJDZABWND": {
+        "label": "review",
+        "reason": "Only 0% of ‘Red herring: a normal cold start.’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "b41929d5c483de8c",
+        "claims": [
+          {
+            "text": "Red herring: a normal cold start.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "RTK-2 is not on the NAS.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 1,
+            "matched": [
+              "RTK-2"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJWQ1GZREDBTK4N20SQGYS": {
+        "label": "review",
+        "reason": "Only 25% of ‘The cyber incident now touches the aircraft.’ is in 9.0 Common first steps.",
+        "fingerprint": "344006c0523dc3dd",
+        "claims": [
+          {
+            "text": "The cyber incident now touches the aircraft.",
+            "chunkId": 126,
+            "headingPath": "ISP › Section 9 › 9.0 Common first steps",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for grounding by GCS, not by guesswork.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJWZJB7VT3B5TESNNBSVWV": {
+        "label": "review",
+        "reason": "‘3 weeks’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "218b3f79516ad5e8",
+        "claims": [
+          {
+            "text": "The newest clean copy is three weeks old.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "3 weeks"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for OB-1 left in the safe until the MSSP clears the environment.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.571,
+            "matched": [
+              "OB-1"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJXDR7MEA54ZG3THR7E2SA": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "0193049d00893bd3",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJXQFRBBN7HVWCEWKJDYQB": {
+        "label": "grounded",
+        "reason": "Every claim matches 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "409c2076701b0e87",
+        "claims": [
+          {
+            "text": "Watch for no guessing, a committed call-back time inside the four-hour window, and Corporate Communications told.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.545,
+            "matched": [
+              "4-hour"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJY28XSSAC3DE8WFXZS0EQ": {
+        "label": "review",
+        "reason": "Only 0% of ‘Red herring: the analyst edited it at 09:10.’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "da12f1fec86cab6c",
+        "claims": [
+          {
+            "text": "Red herring: the analyst edited it at 09:10.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for it answered quickly and the MSSP told.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.707Z",
+        "version": 1
+      },
+      "inject:01M5RJYDZY14GGP3ZPWGQFKHR6": {
+        "label": "grounded",
+        "reason": "Every claim matches 6.1 Notification order.",
+        "fingerprint": "5cd1c4093a7ecb47",
+        "claims": [
+          {
+            "text": "Watch for no flight on a GCS of unknown status.",
+            "chunkId": 15,
+            "headingPath": "ERP › Section 6 › 6.1 Notification order",
+            "overlap": 0.8,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RJYY8DQTB21SMZZKZH5P1R": {
+        "label": "review",
+        "reason": "‘approves’ is not in 10.1 Who speaks or the facility facts.",
+        "fingerprint": "c7303d76be8f004c",
+        "claims": [
+          {
+            "text": "Watch for nothing confirmed beyond what the General Manager approves.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+            "overlap": 0.5,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approves"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RJZCMBEPA8XZB23K4CFMYC": {
+        "label": "grounded",
+        "reason": "Every claim matches 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "453a8fd6ed49b652",
+        "claims": [
+          {
+            "text": "Read and probably copied, not only encrypted: CP&L’s 24-hour notice applies.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.75,
+            "matched": [
+              "24-hour"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the General Manager told at once.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.667,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RJZNVJ6J1P4DYDZKJSNGX6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "dea4c5e21397572f",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RK03Q534TR1S3Z4ANF6TFS": {
+        "label": "review",
+        "reason": "‘authorized’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage or the facility facts.",
+        "fingerprint": "a5aba1047fd38a0f",
+        "claims": [
+          {
+            "text": "The MSSP advises; the Group decides.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the FBI report authorized and the no-pay position stated.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.286,
+            "matched": [
+              "FBI",
+              "report"
+            ],
+            "missing": [
+              "authorized"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RK0HS7DGQVHQQMEYTQJ0H4": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a7eabf1773ce38e1",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RK0WZQE69CQD9SD0E535XP": {
+        "label": "review",
+        "reason": "‘D-3’, ‘OB-1’ are not in Section 10 or the facility facts.",
+        "fingerprint": "17f6c6a2bd118b97",
+        "claims": [
+          {
+            "text": "D-3 cannot be finished from OB-1 alone.",
+            "chunkId": 133,
+            "headingPath": "ISP › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "D-3",
+              "OB-1"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for someone asking where else those three days might be.",
+            "chunkId": 133,
+            "headingPath": "ISP › Section 10",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "3 days"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.708Z",
+        "version": 1
+      },
+      "inject:01M5RK1YZW4DMPK355Y9ES4198": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "92ee11f0b1551de0",
+        "claims": [
+          {
+            "text": "The decision point.",
+            "chunkId": 49,
+            "headingPath": "FOM › Section 3 › 3.1 Roles",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Notifying now means telling a key client about a possible exposure before the forensics are done; waiting risks the contract clock and the client’s trust.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.071,
+            "matched": [
+              "Notifying"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a decision, its basis recorded, and the PL-02 question handed to the Compliance Officer.",
+            "chunkId": 49,
+            "headingPath": "FOM › Section 3 › 3.1 Roles",
+            "overlap": 0.125,
+            "matched": [
+              "PL-02"
+            ],
+            "missing": [
+              "Compliance Officer"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK2F4VWAGW4NXND3FNJFNF": {
+        "label": "review",
+        "reason": "Only 0% of ‘The missing days may exist.’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "61cd52040ba2af9a",
+        "claims": [
+          {
+            "text": "The missing days may exist.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for custody kept and no connection to an infected host.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK2WMEE6AFN07KGGTW32JJ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "89ea01dc714938e6",
+        "claims": [
+          {
+            "text": "Watch for the claim checked with the Systems & Cybersecurity Lead before any answer.",
+            "chunkId": 27,
+            "headingPath": "ERP › Section 9 › 9.2 Birch Hollow Range",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK34FHXQKV2BKPB677A8EZ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "7bd4e0252e186680",
+        "claims": [
+          {
+            "text": "Watch for GCS-03 grounded with its aircraft and the CVAC collection rescheduled.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.143,
+            "matched": [
+              "GCS-03"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK3GH4TBX78JW44TE8H5ZN": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "d818dc66d6b75797",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK3YBKCRPJ4GZVTGV9B36Z": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "154655df1120968f",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK4A9HTD7Y45JATRW3F2KA": {
+        "label": "grounded",
+        "reason": "Every claim matches 6.3 Integrity.",
+        "fingerprint": "86441c191f5a5441",
+        "claims": [
+          {
+            "text": "Watch for processing released only after the manifest checks.",
+            "chunkId": 116,
+            "headingPath": "ISP › Section 6 › 6.3 Integrity",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK4XJT8C0FKNZ9RKN55RPZ": {
+        "label": "review",
+        "reason": "‘approved’ is not in 10.1 Who speaks or the facility facts.",
+        "fingerprint": "383e46dc65f16cad",
+        "claims": [
+          {
+            "text": "Watch for the approved line after the General Manager confirms it.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+            "overlap": 0.4,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.709Z",
+        "version": 1
+      },
+      "inject:01M5RK55ZC5EFNY7FXX65SXX1Q": {
+        "label": "unsupported",
+        "reason": "‘5-day’ is not in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage; the passage says ‘Deadlines: the General Manager decides within 4 hours whether client deadlines (Section 7.4) are at risk and notifies the clients with facts; CP&L's 24-hour ex…’.",
+        "fingerprint": "015d0c7e6a33465a",
+        "claims": [
+          {
+            "text": "Watch for facts, the agreement’s five-day notice and consistency with CP&L.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [
+              "5-day"
+            ],
+            "conflicting": [
+              {
+                "term": "5-day",
+                "passage": "Deadlines: the General Manager decides within 4 hours whether client deadlines (Section 7.4) are at risk and notifies the clients with facts; CP&L's 24-hour exposure notice applies if its data may have been read, not …"
+              }
+            ]
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "inject:01M5RK5JWTDXNXVMHNC04NW60T": {
+        "label": "review",
+        "reason": "Only 29% of ‘Watch for the realistic delivery date going into the client…’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "52ccbf09f3ae4e2d",
+        "claims": [
+          {
+            "text": "Watch for the realistic delivery date going into the client notice.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "inject:01M5RK5Y7KZX0EBPYGABCTSFPG": {
+        "label": "review",
+        "reason": "Only 0% of ‘The business still has to fly.’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "a11113a071e604ce",
+        "claims": [
+          {
+            "text": "The business still has to fly.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a concrete plan.",
+            "chunkId": 95,
+            "headingPath": "ISP",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "inject:01M5RK68GJNKSC5V12Y4B4AVE6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "5e6b6e748585b38d",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "inject:01M5RK6P09KCVGZJAVNTHXA871": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for the written decision and the clients told about t…’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "137721bf3a726a7c",
+        "claims": [
+          {
+            "text": "Watch for the written decision and the clients told about the publication threat.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "inject:01M5RK7ZM74WCRYCA064J10YS5": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "29dbd215736484d3",
+        "claims": [],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage is in the index as cited.",
+        "fingerprint": "3022b50a0356e23f",
+        "claims": [
+          {
+            "text": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "6.2 Backups is in the index as cited.",
+        "fingerprint": "7edc4bcfd9e40c51",
+        "claims": [
+          {
+            "text": "ISP › Section 6 › 6.2 Backups",
+            "chunkId": 115,
+            "headingPath": "ISP › Section 6 › 6.2 Backups",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "2.4 Incident log is in the index as cited.",
+        "fingerprint": "5b8dba9568e34883",
+        "claims": [
+          {
+            "text": "ERP › Section 2 › 2.4 Incident log",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 2 › 2.4 Incident log",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "Annex A is in the index as cited.",
+        "fingerprint": "baed0927d20f1132",
+        "claims": [
+          {
+            "text": "ERP › Annex A",
+            "chunkId": 38,
+            "headingPath": "ERP › Annex A",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "10.3 Social media and trainees is in the index as cited.",
+        "fingerprint": "28adbfe04ff7e52f",
+        "claims": [
+          {
+            "text": "ERP › Section 10 › 10.3 Social media and trainees",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "1.3 Relationship to other plans is in the index as cited.",
+        "fingerprint": "db9dfea218eb4865",
+        "claims": [
+          {
+            "text": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:07:51.710Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

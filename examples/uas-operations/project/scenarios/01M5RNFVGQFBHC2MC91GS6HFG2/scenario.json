@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T04:35:50.423Z",
-  "updatedAt": "2026-10-25T05:03:08.735Z",
+  "updatedAt": "2026-10-30T11:13:21.296Z",
   "brief": {
     "userPrompt": "On a routine inspection flight from Horton Field, UAS-02 loses its link a few minutes after a field firmware update that GCS-01 accepted that morning; return-to-launch does not trigger and the aircraft climbs through 400 ft AGL toward the HWK Class C boundary with 14 minutes of battery left. The RPIC must call HWK Tower, DAA-1 keeps watch for manned traffic, the aircraft comes down on private property and is recovered only with a CCSO deputy present, the ASO reports to the FSDO and decides with the Systems & Cybersecurity Lead whether an NTSB notification applies, the fleet is grounded by firmware version until the cause is known, and a neighbor's post with a video of the aircraft is spreading.",
     "audience": [
@@ -1299,6 +1299,197 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
+        "capability": "operational_coordination",
+        "why": "The objective requires making calls in a defined order across multiple teams, which exercises the operational coordination of incident response roles and ensures information flows through the proper chain of command as defined in HUOG-FOM 9.2 and HUOG-ERP 8.1."
+      },
+      {
+        "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes keeping the public informed through media and social channels, which exercises the capability to deliver coordinated, timely, and actionable information to the community as required by UC-CP-2025 and HUOG-ERP Section 6."
+      },
+      {
+        "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
+        "capability": "operational_communications",
+        "why": "The objective demands maintaining a single timeline across six teams, which exercises the operational communications capability to ensure timely and consistent information exchange among all response forces."
+      },
+      {
+        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
+        "capability": "planning",
+        "why": "The objective requires making a grounded decision on which aircraft to ground and under what conditions, which exercises the planning capability to develop executable tactical-level approaches based on risk and evidence from the incident."
+      },
+      {
+        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
+        "capability": "situational_assessment",
+        "why": "The objective depends on using available evidence to determine the cause and scope of the failure, which exercises the situational assessment capability to provide decision-relevant information on hazard extent and response status."
+      },
+      {
+        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "why": "The objective involves assessing the risk of continuing operations with potentially compromised aircraft, which exercises the risk management capability to prioritize threats and inform protective actions."
+      },
+      {
+        "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
+        "capability": "cybersecurity",
+        "why": "The objective requires preserving telemetry and link logs and quarantining systems to prevent data loss or tampering, which exercises the cybersecurity capability to protect electronic systems and data from unauthorized access or destruction."
+      },
+      {
+        "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
+        "capability": "forensics_and_attribution",
+        "why": "The objective includes identifying the root cause of the failure by comparing parameters to the baseline, which exercises the forensics and attribution capability to determine the source and nature of the incident."
+      },
+      {
+        "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective requires ensuring that only authorized personnel access quarantined systems, which exercises the access control capability to prevent unauthorized use of critical infrastructure."
+      },
+      {
+        "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
+        "capability": "operational_coordination",
+        "why": "The objective mandates following HUOG-FOM 9.2, HUOG-ERP 8.1, and HUOG-ISP 9.4, which requires coordinating actions across roles and systems, thus exercising operational coordination to maintain a unified response structure."
+      },
+      {
+        "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes reporting to regulators and the public using approved language, which exercises the public information and warning capability to ensure consistent, accurate, and timely messaging to external stakeholders."
+      },
+      {
+        "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The objective requires sharing facts with the FSDO, NTSB, and media based on verified data, which exercises the intelligence and information sharing capability to disseminate actionable information to appropriate entities."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander, Aviation Safety Officer, and Systems & Cybersecurity Lead maintain a single, synchronized timeline across all response teams using the written timeline and system logs, ensuring that all calls to HWK Tower, the flight operations desk, the ASO, CCSO, and Corporate Communications are made in the correct order and documented within the required timeframes as per HUOG-FOM 9.2 and HUOG-ERP 8.1.",
+        "objectiveRefs": [
+          "01M5RNGH8VDVY57FVZNP3QXZ9R",
+          "01M5RNGH8VV7YFKWA095KCWYYP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Declare Level 3 incident immediately upon UAS-02 crossing 400 ft AGL or entering the HWK Class C surface area.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of telemetry confirmation",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Log the time of the first call to HWK Tower in the written timeline.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
+              "quote": "1. RPIC: \"FLYAWAY, UAS-xx\" on Crew Ch 1; attempt RTL, then land, then motor cut-off if below 30 ft over clear ground. 2. GSO: note last position, altitude, heading, speed and battery time remaining fr",
+              "chunkId": 81
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of call",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Notify the flight operations desk and the ASO within 15 minutes of the first telemetry loss.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "ops",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Ensure the written timeline is updated every 10 minutes during the incident using telemetry and radio logs.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
+              "quote": "1. RPIC: \"FLYAWAY, UAS-xx\" on Crew Ch 1; attempt RTL, then land, then motor cut-off if below 30 ft over clear ground. 2. GSO: note last position, altitude, heading, speed and battery time remaining fr",
+              "chunkId": 81
+            },
+            "expectedBy": "ops",
+            "timing": "every 10 minutes",
+            "rowIds": [
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-08",
+              "I-09",
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Confirm that the ASO has logged the FAA notification and the FSDO call as made the same day.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "safety",
+            "timing": "within 24 hours",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
@@ -1367,6 +1558,410 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are not penalized for decisions made during the scenario.",
+      "The scenario is plausible, and events occur as they are presented in the injects, with no external influence beyond the simulated injects.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in HUOG-FOM, HUOG-ERP, HUOG-ISP, and HUOG-SITE."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of hours; actual time is not experienced by players.",
+      "The SimCell controls all external entities: the utility (CP&L), the partner agency (CVAC), the vendor, and the law enforcement agencies (CCSO, Harwick Police).",
+      "Systems named in the plans (e.g., GCS-01, UAS-02, HUOG-FW01) are simulated and not physically accessed.",
+      "Injects are delivered via paper or digital screen; no real-world actions are taken.",
+      "The OEM update prompt and firmware 03.2026-C are simulated as having been accepted and installed in the field, despite policy prohibitions."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5RNH71J9PVDSBH23BXGYWEA",
+        "narrativeMd": "It is 09:00. Crew 1 launched UAS-02 from Horton Field at 08:57 on GCS-01 for a site survey under a LAANC authorization to 200 ft AGL. At 09:02:41, GCS-01 telemetry shows a C2 link loss to UAS-02 at 180 ft AGL, 300 m south of the launch point. The lost-link timer expired at 09:03:11, and no return-to-launch was logged. Remote ID confirms UAS-02 is still flying and climbing. At 09:03:11, a field update prompt was accepted on GCS-01, installing firmware 03.2026-C on UAS-02. At 09:08, telemetry confirms the aircraft is climbing at 3 m/s, heading 095° toward the HWK Class C surface area, 3.6 km away. Battery is estimated at 14 minutes from last telemetry. A visual observer reports losing sight of UAS-02 to the east-southeast and notes a regional jet on approach to HWK, four miles east at 2,300 feet.",
+        "keyIssues": [
+          "The first critical call must be made to HWK Air Traffic Control Tower to report a potential airspace incursion.",
+          "The RPIC must immediately declare a flyaway and initiate the HUOG-FOM 9.2 emergency protocol.",
+          "The Systems & Cybersecurity Lead must confirm whether the firmware update altered critical flight parameters before any further action.",
+          "The ASO must decide whether to notify the FAA FSDO within the 24-hour timeline, as required by HUOG-ERP Section 6.",
+          "The Corporate Communications team must prepare a public statement to address early social media concerns."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is the first call you must make under HUOG-FOM 9.2, and to whom? What must you say?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              }
+            ]
+          },
+          {
+            "text": "Safety: What is the immediate action required under HUOG-ERP Section 6 to report to the FAA, and who has authority to make that call?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              }
+            ]
+          },
+          {
+            "text": "Systems & Cybersecurity: What is the first technical action you must take to preserve evidence, and what baseline must you compare against?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+                "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+                "chunkId": 148
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+                "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+                "chunkId": 61
+              }
+            ]
+          },
+          {
+            "text": "Corporate Communications: What is the first public message you must issue, and to which platform, to address the social media post from 09:15?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": []
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RNH71JB9QY9KVT73QJF5F8",
+        "narrativeMd": "It is 10:00. The Remote ID track ended at 09:17, 1.8 km east of Horton Field, off Stony Creek Road. A resident has reported a drone in her backyard. A CCSO deputy is en route. GCS-01 is in Hangar 2, still powered on. Telemetry from GCS-01 shows UAS-02 reached a maximum altitude of 618 ft AGL, came within 0.6 nm of the HWK Class C surface area, and descended to the ground at 09:17. The aircraft impacted a backyard greenhouse, breaking roof panels and a raised bed. The recovery team has arrived and confirms the homeowner has not granted access. The homeowner is upset and has not agreed to let anyone in. The CCSO deputy is expected in 20 minutes. The Systems & Cybersecurity Lead has exported telemetry and link logs from GCS-01 and confirmed the parameter readback shows the lost-link action changed from RTL to CONTINUE MISSION, the altitude geofence disabled, and the backup-link failover reset to factory default.",
+        "keyIssues": [
+          "Recovery on private property must occur only with a deputy present and homeowner consent.",
+          "The Systems & Cybersecurity Lead must confirm that no external party altered the firmware or parameters.",
+          "The Fleet & Logistics Manager must coordinate with the CCSO to obtain the property owner’s consent and secure the scene.",
+          "The ASO must determine whether the damage to private property exceeds $500 and triggers an FAA-reportable accident.",
+          "The FOM must decide whether to continue client flights pending the investigation."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Fleet & Logistics: What is the legal and procedural requirement for recovering UAS-02 on private property, and what steps must you take to comply?",
+            "roleIds": [
+              "fleet"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 4 › 4.2 Damage to property",
+                "quote": "- On base: Harwick Police (585-555-0111) takes the report and notifies Facilities; the Fleet & Logistics Manager documents the damage. - At the Birch Hollow Range: the site manager (585-555-0170); dam",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+                "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+                "chunkId": 61
+              }
+            ]
+          },
+          {
+            "text": "Systems & Cybersecurity: What must you do to preserve the telemetry and link logs, and how do you confirm the update did not introduce a malicious change?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+                "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+                "chunkId": 61
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+                "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+                "chunkId": 148
+              }
+            ]
+          },
+          {
+            "text": "Aviation Safety Officer: Is this an FAA-reportable accident under HUOG-ERP Section 6.2, and what evidence supports that determination?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 4 › 4.2 Damage to property",
+                "quote": "- On base: Harwick Police (585-555-0111) takes the report and notifies Facilities; the Fleet & Logistics Manager documents the damage. - At the Birch Hollow Range: the site manager (585-555-0170); dam",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "Operations: What is the status of the client flights for CP&L and CVAC, and what must you decide about continuing them?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 9. Contacts (exercise numbers)",
+                "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+                "chunkId": 295
+              }
+            ]
+          },
+          {
+            "text": "Corporate Communications: What is the first message you must send to the homeowner, and what information must it contain?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": []
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RNH71JH0WVACBGH49KG02S",
+        "narrativeMd": "It is 11:00. The CCSO deputy has arrived at the Stony Creek Road property with the homeowner. The recovery team has obtained consent and recovered UAS-02: two arms broken, PL-05 lidar intact, one battery pack swollen and warm. The greenhouse roof panels and a raised bed are broken. No one was injured. The parameter comparison confirms that firmware 03.2026-C reset critical parameters to factory defaults, including lost-link action, RTL altitude, and geofence. The OEM fleet portal shows 03.2026-C was offered to all OEM aircraft since 07:30, with automatic download enabled on GCS-03, which has it staged but not installed. The FSDO has contacted the ASO and requested a written statement, the RPIC’s certificate, LAANC authorization, and telemetry. CP&L’s program manager has called, demanding confirmation on whether UAS-01 and UAS-03 will fly tomorrow for substation inspections. The homeowner has sent an email with a $1,240 estimate for repairs and asks who pays.",
+        "keyIssues": [
+          "The fleet must be grounded pending a full audit, but which aircraft are affected?",
+          "The Systems & Cybersecurity Lead must determine whether to block the OEM update endpoint and disable update prompts across the fleet.",
+          "The FOM must decide whether to allow client flights to proceed on UAS-01 and UAS-03, given they are not on 03.2026-C.",
+          "The ASO must determine whether to file a Part 107.9 report based on the evidence.",
+          "The GM must decide whether to accept liability for the homeowner’s claim, per HUOG-ERP Section 4.2."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is your decision on whether to allow UAS-01 and UAS-03 to fly for CP&L tomorrow, and what must you base it on?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+                "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+                "chunkId": 148
+              }
+            ]
+          },
+          {
+            "text": "Systems & Cybersecurity: What changes must you implement to prevent future unapproved firmware updates, and what must you verify before restoring any aircraft to service?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+                "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+                "chunkId": 148
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+                "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool w",
+                "chunkId": 260
+              }
+            ]
+          },
+          {
+            "text": "Aviation Safety Officer: What must you report to the FAA and NTSB, and what information must be included in the Part 107.9 determination?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "Fleet & Logistics: What is the process for filing a claim with the insurer, and who must you contact to initiate it?",
+            "roleIds": [
+              "fleet"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 4 › 4.2 Damage to property",
+                "quote": "- On base: Harwick Police (585-555-0111) takes the report and notifies Facilities; the Fleet & Logistics Manager documents the damage. - At the Birch Hollow Range: the site manager (585-555-0170); dam",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "General Manager: What is your decision on accepting liability for the homeowner’s claim, and what must you communicate to her?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 4 › 4.2 Damage to property",
+                "quote": "- On base: Harwick Police (585-555-0111) takes the report and notifies Facilities; the Fleet & Logistics Manager documents the damage. - At the Birch Hollow Range: the site manager (585-555-0170); dam",
+                "chunkId": 52
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RNH71JAR6DFETF2601Z2Z9",
+        "narrativeMd": "It is 12:00. UAS-02 and GCS-01 are in the quarantine cabinet in Hangar 2. The parameter audit confirms that only UAS-02 was on firmware 03.2026-C; all other OEM aircraft are on 03.2026-B with baseline parameters. GCS-03 had 03.2026-C staged but not installed; it has been deleted and re-checked against 03.2026-B. The Systems & Cybersecurity Lead proposes to block the OEM update endpoint at HUOG-FW01 outside the Tuesday window, disable update prompts on every GCS, reinstall 03.2026-B on UAS-02 after repair with a parameter readback, and file the HUOG-ISP 9.4 report recording the cause as an unapproved field update. The FSDO has received the statement and telemetry. The homeowner’s claim for $1,240 is pending. CP&L is waiting for confirmation on whether the substation inspections will proceed. The media has asked whether the Group will keep flying near homes and the airport.",
+        "keyIssues": [
+          "The fleet must be fully verified before any aircraft is returned to service.",
+          "The Systems & Cybersecurity Lead must ensure that all GCS devices are updated to prevent future unauthorized updates.",
+          "The GM must decide whether to resume client flights, and what to say to CP&L about the next available window.",
+          "The Corporate Communications team must draft a public statement addressing media concerns about safety and future operations.",
+          "The ASO must close the incident report and confirm that the NTSB has been notified if required."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Systems & Cybersecurity: What steps must you take to ensure that no future field updates can be installed without approval, and what must you verify on UAS-02 before it returns to service?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+                "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+                "chunkId": 148
+              },
+              {
+                "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+                "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+                "headingPath": "ISP › Section 8 › 8.2 Vendors and remote access",
+                "quote": "The OEM has no remote access to the Group's systems; support is by exported logs. The mission-planning software vendor's license server is reached outbound only. The GCS vendor's remote-support tool w",
+                "chunkId": 260
+              }
+            ]
+          },
+          {
+            "text": "General Manager: What is your decision on whether to resume client flights, and what must you communicate to CP&L about the next available window?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              }
+            ]
+          },
+          {
+            "text": "Corporate Communications: What must you say in response to the media inquiry about flying near homes and the airport, and what must you include about changes made since this morning?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": []
+          },
+          {
+            "text": "Aviation Safety Officer: What is the final step in closing the incident report, and what must you confirm with the FSDO and NTSB?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "Operations: What must you do to restore UAS-02 to service, and what must you ensure before any aircraft flies again?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+                "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+                "chunkId": 61
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "UAS-02 and GCS-01 (quarantine)",
     "Remote ID / telemetry track and the written timeline",
@@ -2690,6 +3285,1290 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:08:16.954Z",
+      "finishedAt": "2026-10-30T11:08:31.745Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 9152,
+      "outputTokens": 1210,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:52:27.896Z",
+      "finishedAt": "2026-10-30T10:53:23.458Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5709,
+      "outputTokens": 4910,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "efbc8f933f6e0311",
+        "claims": [],
+        "at": "2026-10-30T10:53:28.019Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘FOM 9.2’, ‘Section 6’, ‘Director of Flight Operations’ are not in 4.4 Parameters and geofences or the facility facts.",
+        "fingerprint": "54a686099b9a958e",
+        "claims": [
+          {
+            "text": "The RPIC calls “FLYAWAY, UAS-02” on Crew Ch 1 and tries RTL, land and the backup link (HUOG-FOM 9.2); the GSO starts the written timeline; the Director of Flight Operations is called; the Systems & Cybersecurity Lead is told immediately (HUOG-ERP Section 6).",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.308,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "UAS-02"
+            ],
+            "missing": [
+              "FOM 9.2",
+              "Section 6",
+              "Director of Flight Operations",
+              "HUOG-ERP"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.048Z",
+        "version": 1
+      },
+      "row:I-01b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "641725309bbb954b",
+        "claims": [],
+        "at": "2026-10-30T10:53:28.021Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "Only 39% of ‘The Systems & Cybersecurity Lead recognizes an unapproved f…’ is in 2.2 Decision authority.",
+        "fingerprint": "ca0e5f0942ca655f",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead recognizes an unapproved field update (HUOG-FOM: crews do not accept update prompts in the field) and has GCS-01 kept powered and untouched for the log copy; the ASO records the update in the timeline.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.389,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "HUOG-FOM",
+              "GCS-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.049Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘FOM 9.2’, ‘15 minutes’, ‘General Manager’ are not in 3. Airspace and authorizations or the facility facts.",
+        "fingerprint": "344133808267c761",
+        "claims": [
+          {
+            "text": "The RPIC calls HWK Tower at once with position, altitude, heading and battery time (HUOG-FOM 9.2 step 4); the Director of Flight Operations declares Level 3 (HUOG-ERP Section 3); the ASO and the General Manager are told within 15 minutes.",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 0.44,
+            "matched": [
+              "Section 3",
+              "Director of Flight Operations",
+              "HUOG-ERP"
+            ],
+            "missing": [
+              "FOM 9.2",
+              "15 minutes",
+              "General Manager",
+              "declares"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.050Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "Only 47% of ‘The RPIC passes the traffic and the last track to HWK Tower…’ is in 3. Airspace and authorizations.",
+        "fingerprint": "7bf9b9690bb326be",
+        "claims": [
+          {
+            "text": "The RPIC passes the traffic and the last track to HWK Tower and keeps the Tower updated; the crew follows by vehicle on the last track if safe; the Director of Flight Operations logs the times.",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 0.471,
+            "matched": [
+              "Director of Flight Operations"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.050Z",
+        "version": 1
+      },
+      "row:I-04b": {
+        "label": "grounded",
+        "reason": "Every claim matches 10.3 Social media and trainees.",
+        "fingerprint": "3b6318126e3425f0",
+        "claims": [
+          {
+            "text": "Corporate Communications logs the post, tells the General Manager the public is already watching, and prepares a holding statement; no one from the crew posts or comments.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.538,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.050Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "cb6fed1983730969",
+        "claims": [],
+        "at": "2026-10-30T10:53:28.023Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "grounded",
+        "reason": "Every claim matches 4.4 Parameters and geofences.",
+        "fingerprint": "ecb90e3a55e36b90",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead reports that the update reset safety parameters to factory defaults; the ASO records the maximum altitude and the closest approach for the FSDO; GCS-01 stays quarantined.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.5,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "GCS-01",
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.050Z",
+        "version": 1
+      },
+      "row:I-05b": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’ is not in 4.4 Parameters and geofences or the facility facts.",
+        "fingerprint": "a48287595322f187",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead disables the automatic download and quarantines GCS-03 until checked; the Director of Flight Operations keeps every OEM aircraft on the ground until its parameters are read back.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.556,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "GCS-03"
+            ],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.050Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "review",
+        "reason": "Only 47% of ‘The ASO gives the facts known, commits to the written state…’ is in 3. Airspace and authorizations.",
+        "fingerprint": "7e83f30277129a8b",
+        "claims": [
+          {
+            "text": "The ASO gives the facts known, commits to the written statement and the records, and does not guess at the cause; the call is logged as the same-day FAA notification (HUOG-ERP Section 6).",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 0.471,
+            "matched": [
+              "Section 6",
+              "HUOG-ERP",
+              "FAA",
+              "notification"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-06b": {
+        "label": "review",
+        "reason": "‘approved’ is not in 9. Contacts (exercise numbers) or the facility facts.",
+        "fingerprint": "f7be163466c610b3",
+        "claims": [
+          {
+            "text": "Corporate Communications answers with the approved statement and a contact number, and does not argue.",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "ecf83a047dbe6f57",
+        "claims": [
+          {
+            "text": "Corporate Communications schedules it for later; it is not related.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’ is not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "abc843e3207cab29",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations and the General Manager note which flights depend on aircraft that may carry the same update and prepare to tell the clients once the grounding is decided.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.455,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9643f7178fa07a8b",
+        "claims": [
+          {
+            "text": "The Fleet & Logistics Manager keeps the team on the road side of the fence until the deputy arrives and the owner agrees, photographs from there, and has the sand bag and gloves ready for the pack (HUOG-ERP 7).",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Fleet & Logistics Manager",
+              "HUOG-ERP"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "84cc95d97bcb91c6",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9b3fdf84eb78ec9d",
+        "claims": [
+          {
+            "text": "The Fleet & Logistics Manager records the recovery and the damage with photographs, gives the homeowner the Group’s contact and the claim process, and hands the aircraft and media to the ASO for the investigation.",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.133,
+            "matched": [],
+            "missing": [
+              "Fleet & Logistics Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.051Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "Only 42% of ‘The Systems & Cybersecurity Lead reports the cause as an un…’ is in 4.4 Parameters and geofences.",
+        "fingerprint": "9c94274d9a242e33",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead reports the cause as an unapproved update that reset safety parameters, not a link compromise, and recommends that no OEM aircraft flies until its parameters are read back against the baseline.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.421,
+            "matched": [
+              "Systems & Cybersecurity Lead",
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.052Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘ERP 8.1’ is not in 1.3 Relationship to other plans or the facility facts.",
+        "fingerprint": "746e5034b27fd24b",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations and the General Manager, with the ASO, decide the grounding — UAS-02 only, every OEM aircraft until its parameters are read back and confirmed on 03.2026-B, or the whole fleet — and the condition for return to service; they tell CP&L the facts and the decision, and record the basis (HUOG-ERP 8.1).",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 0.304,
+            "matched": [
+              "Director of Flight Operations",
+              "General Manager",
+              "UAS-02"
+            ],
+            "missing": [
+              "ERP 8.1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.052Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4f429d3136cfc73c",
+        "claims": [
+          {
+            "text": "Corporate Communications says what is confirmed (an aircraft lost its link, the Group notified HWK Tower and the FAA, the aircraft came down on private property, no one was hurt), does not speak for the Tower, and says the cause is being investigated.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.19,
+            "matched": [
+              "FAA",
+              "notified"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.052Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e06fcfb89d7025d8",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead ignores it for now; it is not related.",
+            "chunkId": 101,
+            "headingPath": "ISP › Section 3 › 3.1 Networks",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.052Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘Part 107.9’, ‘CFR 830.5’, ‘10 days’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "312a0da9a742f725",
+        "claims": [
+          {
+            "text": "The ASO records that property damage over $500 makes this a Part 107.9 accident report to the FAA within 10 days, and that NTSB notification does not apply (no injury; the aircraft is far below the 49 CFR 830.5 weight threshold); the General Manager handles the claim through the Group’s insurer.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.379,
+            "matched": [
+              "General Manager",
+              "FAA",
+              "NTSB",
+              "notification",
+              "report"
+            ],
+            "missing": [
+              "Part 107.9",
+              "CFR 830.5",
+              "10 days"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "97049780c8667ddf",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-15b": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’ is not in 4.4 Parameters and geofences or the facility facts.",
+        "fingerprint": "7ddcc0dc70b1dcf5",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations returns the verified aircraft to service under the decided conditions (or keeps them down if that was the decision), and the Systems & Cybersecurity Lead records each readback.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.286,
+            "matched": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’, ‘approves’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "155ec3b2bb9790b0",
+        "claims": [
+          {
+            "text": "The General Manager approves or amends the measures; the Director of Flight Operations adds a pre-flight check that the firmware on the GCS status page matches the register.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.313,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "Director of Flight Operations",
+              "approves"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: ISP 9.4",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "ISP 9.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-16b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "2889cb047b1d3f4e",
+        "claims": [
+          {
+            "text": "The Systems & Cybersecurity Lead handles it later; it is routine.",
+            "chunkId": 101,
+            "headingPath": "ISP › Section 3 › 3.1 Networks",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Systems & Cybersecurity Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "‘Part 107.9’, ‘Fleet & Logistics Manager’, ‘General Manager’ are not in 11.3 Records or the facility facts.",
+        "fingerprint": "e4c0badb03f06426",
+        "claims": [
+          {
+            "text": "The Fleet & Logistics Manager gives the contact and insurance details; the ASO confirms the FAA notification and the Part 107.9 report to come; the General Manager is told about the homeowner’s complaint.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.214,
+            "matched": [
+              "FAA",
+              "notification",
+              "report"
+            ],
+            "missing": [
+              "Part 107.9",
+              "Fleet & Logistics Manager",
+              "General Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.053Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "36ac67f52c261540",
+        "claims": [
+          {
+            "text": "Corporate Communications gives the measures the General Manager has approved and the return-to-service condition, without technical guesses, and offers a follow-up.",
+            "chunkId": 34,
+            "headingPath": "ERP › Section 11 › 11.1 Return to flight",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "General Manager",
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "2fcc773e0e0bbbc7",
+        "claims": [],
+        "at": "2026-10-30T10:53:28.026Z",
+        "version": 1
+      },
+      "inject:01M5RNZ9465E8TJTN3B8EPZ0JV": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "cb2bf3fb664ed832",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RNZJ3G20VCEH4ZFJDPYEXN": {
+        "label": "grounded",
+        "reason": "Every claim matches 9.1 Lost link.",
+        "fingerprint": "7d8c92513e4a7b38",
+        "claims": [
+          {
+            "text": "The flyaway starts.",
+            "chunkId": 80,
+            "headingPath": "FOM › Section 9 › 9.1 Lost link",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the FOM 9.2 sequence and the Systems & Cybersecurity Lead told at once.",
+            "chunkId": 80,
+            "headingPath": "FOM › Section 9 › 9.1 Lost link",
+            "overlap": 0.833,
+            "matched": [
+              "FOM 9.2",
+              "Systems & Cybersecurity Lead"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RNZX9AR5C380Y7WH77647B": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "d554060422630790",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 143,
+            "headingPath": "SITE › 5. Ground control stations and field kit",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RP04WV3A7TEW5CJ63PWSAN": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for GCS-01 kept powered and untouched.’ is in Annex B.",
+        "fingerprint": "d1af44dcb6a787d7",
+        "claims": [
+          {
+            "text": "The cause is in the log.",
+            "chunkId": 93,
+            "headingPath": "FOM › Annex B",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for GCS-01 kept powered and untouched.",
+            "chunkId": 93,
+            "headingPath": "FOM › Annex B",
+            "overlap": 0,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RP0EZPS1DV04JTE8NYQ8Z1": {
+        "label": "review",
+        "reason": "Only 40% of ‘Watch for the call and the Level 3 declaration.’ is in 3. Airspace and authorizations.",
+        "fingerprint": "b0c48354e08ee584",
+        "claims": [
+          {
+            "text": "HWK Tower now.",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the call and the Level 3 declaration.",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 0.4,
+            "matched": [
+              "declaration"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RP0X71DP11WPVVTRJ1AME8": {
+        "label": "grounded",
+        "reason": "Every claim matches 6.4 ATC coordination.",
+        "fingerprint": "d8b9e782e5ef1f6f",
+        "claims": [
+          {
+            "text": "Watch for the traffic and the last track passed to the Tower.",
+            "chunkId": 65,
+            "headingPath": "FOM › Section 6 › 6.4 ATC coordination",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.054Z",
+        "version": 1
+      },
+      "inject:01M5RP15NAKYFVYYRWM10QZ7CN": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for a holding statement and no crew comments.’ is in 10.3 Social media and trainees.",
+        "fingerprint": "75047f4fcfe27e31",
+        "claims": [
+          {
+            "text": "Watch for a holding statement and no crew comments.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP1EKZN3W8MGPH54AD7619": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "0ca40295d98002a1",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP1S90YBV4DKSCVZNSVPTP": {
+        "label": "review",
+        "reason": "Only 33% of ‘The update reset the safety parameters.’ is in 10.3 Reporting.",
+        "fingerprint": "08aa8d5f20a36fdb",
+        "claims": [
+          {
+            "text": "The update reset the safety parameters.",
+            "chunkId": 87,
+            "headingPath": "FOM › Section 10 › 10.3 Reporting",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for GCS-01 staying quarantined.",
+            "chunkId": 62,
+            "headingPath": "FOM › Section 6 › 6.1 Classes and ceilings",
+            "overlap": 0,
+            "matched": [
+              "GCS-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP24TCAE6AFW5C9JCJ4Q43": {
+        "label": "review",
+        "reason": "Only 0% of ‘The problem is fleet-wide in waiting.’ is in 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage.",
+        "fingerprint": "4de71479ff5c8dd0",
+        "claims": [
+          {
+            "text": "The problem is fleet-wide in waiting.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the auto-download disabled and GCS-03 quarantined.",
+            "chunkId": 129,
+            "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+            "overlap": 0.2,
+            "matched": [
+              "GCS-03"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP2FE9MP4CRCGBCRQJP5YY": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for facts only and a written statement promised.’ is in 9.2 Flyaway (aircraft not responding and leaving the flight area).",
+        "fingerprint": "4b37520d3b9e027e",
+        "claims": [
+          {
+            "text": "Watch for facts only and a written statement promised.",
+            "chunkId": 81,
+            "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP34JXRJ58SCGBBEX1QFB7": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for a factual answer with a contact number.’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "86fc9a1d053c0964",
+        "claims": [
+          {
+            "text": "Watch for a factual answer with a contact number.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP3DMM01XEQ25VHK5K94Z8": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "2d9db2a78d9ec4ce",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 10 › 10.2 Holding statement (pre-approved)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.055Z",
+        "version": 1
+      },
+      "inject:01M5RP3SEC9D0EG0GWZNK1A0ZD": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "560c40c61e7c4226",
+        "claims": [
+          {
+            "text": "Let the cost sink in; do not ask for a decision yet.",
+            "chunkId": 128,
+            "headingPath": "ISP › Section 9 › 9.2 Malware on a GCS",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP42EBPF6JAZNKEQ05TE8R": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a881e2434ce3818f",
+        "claims": [
+          {
+            "text": "Watch for no entry without the deputy and consent, and the battery treated as a fire risk.",
+            "chunkId": 93,
+            "headingPath": "FOM › Annex B",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP4H4RJAAEVT04BSHSRGP5": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ed1a875270fe8545",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP4VEFDA758WBPGHHK8JT6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "f336c726a743b62e",
+        "claims": [
+          {
+            "text": "Watch for the homeowner treated well and the evidence chain kept.",
+            "chunkId": 12,
+            "headingPath": "ERP › Section 4 › 4.2 Damage to property",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP53VVTF1RTMP64RKMSD3W": {
+        "label": "review",
+        "reason": "Only 25% of ‘The cause is an unapproved update, not an attack.’ is in 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side).",
+        "fingerprint": "28ba4625717c39a7",
+        "claims": [
+          {
+            "text": "The cause is an unapproved update, not an attack.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the recommendation to read back every OEM aircraft.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP5MG5WCM9GEE18YC6WBYR": {
+        "label": "review",
+        "reason": "Only 0% of ‘The decision point.’ is in 2.2 Decision authority.",
+        "fingerprint": "bb4cb40e0805167f",
+        "claims": [
+          {
+            "text": "The decision point.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Grounding only UAS-02 keeps the client but bets on aircraft not yet checked; grounding the OEM fleet or everything costs the outage window.",
+            "chunkId": 49,
+            "headingPath": "FOM › Section 3 › 3.1 Roles",
+            "overlap": 0.3,
+            "matched": [
+              "UAS-02"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a condition for return to service and the basis recorded.",
+            "chunkId": 49,
+            "headingPath": "FOM › Section 3 › 3.1 Roles",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP61R2YRHK9EHQFJQFJ94N": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "f46f95eb5079ba3e",
+        "claims": [
+          {
+            "text": "Watch for confirmed facts only and no speaking for the Tower.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 10 › 10.2 Holding statement (pre-approved)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP684WW63G6ETEXKEWAVNP": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e413e492eb38c6f2",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.056Z",
+        "version": 1
+      },
+      "inject:01M5RP6KM00H6GGKCW6KW7HBH8": {
+        "label": "review",
+        "reason": "‘Part 107.9’, ‘10 days’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "1be4cece40d67107",
+        "claims": [
+          {
+            "text": "Damage over $500 makes this a Part 107.9 report within 10 days; NTSB does not apply.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.4,
+            "matched": [
+              "NTSB",
+              "report"
+            ],
+            "missing": [
+              "Part 107.9",
+              "10 days"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the determination recorded with reasons.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 10 › 10.2 Holding statement (pre-approved)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP6X4D22A99X7R2VWVSSW8": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "f35a95803a20a37a",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP772XB6HTHY00NCMWK6H2": {
+        "label": "review",
+        "reason": "Only 33% of ‘The verified aircraft can return under whatever condition t…’ is in 4.4 Parameters and geofences.",
+        "fingerprint": "5439bcd99d04cfbc",
+        "claims": [
+          {
+            "text": "The verified aircraft can return under whatever condition the team set.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP7KDCR35X5EVN3E1XDMK7": {
+        "label": "review",
+        "reason": "Only 25% of ‘Ask the room whether the crew member who accepted the promp…’ is in 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side).",
+        "fingerprint": "c9200fe4f0282328",
+        "claims": [
+          {
+            "text": "Ask the room whether the crew member who accepted the prompt needs retraining or the procedure needs changing — or both.",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP81DH9JKXQW6RYGWGN6W6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a7e7fa0e51faf50d",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 101,
+            "headingPath": "ISP › Section 3 › 3.1 Networks",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP8DXSNP48YHEQFAVHDBQW": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "929c018e1aaab120",
+        "claims": [
+          {
+            "text": "Watch for the details given and the homeowner’s complaint taken to the General Manager.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.3 Water recovery",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [
+              "General Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.057Z",
+        "version": 1
+      },
+      "inject:01M5RP8VAVP8D1DP9S1CYZ56NP": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "d97f1f7d52fd8f9d",
+        "claims": [
+          {
+            "text": "Watch for the approved measures stated plainly and no technical guesses.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "inject:01M5RP97V8VKCNTGGKVH5VRVDF": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b3dec27f570410fb",
+        "claims": [],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "6.4 ATC coordination is in the index as cited.",
+        "fingerprint": "214c9a67e83510fd",
+        "claims": [
+          {
+            "text": "FOM › Section 6 › 6.4 ATC coordination",
+            "chunkId": 65,
+            "headingPath": "FOM › Section 6 › 6.4 ATC coordination",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "5.2 Link monitoring is in the index as cited.",
+        "fingerprint": "781914c00b183d9a",
+        "claims": [
+          {
+            "text": "ISP › Section 5 › 5.2 Link monitoring",
+            "chunkId": 110,
+            "headingPath": "ISP › Section 5 › 5.2 Link monitoring",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side) is in the index as cited.",
+        "fingerprint": "1c858006ec042f45",
+        "claims": [
+          {
+            "text": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "chunkId": 21,
+            "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "11.3 Records is in the index as cited.",
+        "fingerprint": "3c4f7553c5d86df4",
+        "claims": [
+          {
+            "text": "ERP › Section 11 › 11.3 Records",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "9.3 GNSS degradation or spoofing suspicion is in the index as cited.",
+        "fingerprint": "e64548ba44708f47",
+        "claims": [
+          {
+            "text": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
+            "chunkId": 82,
+            "headingPath": "FOM › Section 9 › 9.3 GNSS degradation or spoofing suspicion",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "2.4 Incident log is in the index as cited.",
+        "fingerprint": "5b8dba9568e34883",
+        "claims": [
+          {
+            "text": "ERP › Section 2 › 2.4 Incident log",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 2 › 2.4 Incident log",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:32.058Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T02:37:23.318Z",
-  "updatedAt": "2026-10-25T03:45:16.099Z",
+  "updatedAt": "2026-10-30T11:11:54.416Z",
   "brief": {
     "userPrompt": "Overnight on Saturday the fence-gate contact ZS-612 at Orchard Standpipe tripped and cleared twice and CAM-13 caught a figure near the ladder cage; the roof hatch switch ZS-611 has been out of service since 2024, so RTU-02 still reports the hatch closed, and the site is not due for a visit until Tuesday. The exercise opens on Sunday morning, when the day operator reviews the overnight alarm log and sees the outlet chlorine residual AIT-611 drifting down; the crew sent to the site finds the hatch padlock cut. Sampling under ERP-3, isolating the standpipe from Zone 2, Millbrook police and the FBI, Ohio EPA DDAGW consultation and the precautionary boil-water advisory for the Hilltop area.",
     "audience": [
@@ -1314,6 +1314,221 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
+        "capability": "operational_coordination",
+        "why": "The objective requires keeping Operations, Distribution, the lab, Security, and the PIO on one set of facts from the first alarm to the advisory release, which aligns with operational coordination to integrate all stakeholders and ensure a unified information flow across roles and systems."
+      },
+      {
+        "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
+        "capability": "public_information_and_warning",
+        "why": "The objective demands timely, reliable, and actionable public communication to customers, critical facilities, and media, which directly maps to public information and warning to deliver consistent and fact-based messages through approved channels."
+      },
+      {
+        "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
+        "capability": "situational_assessment",
+        "why": "The objective requires maintaining a shared understanding of the incident status, including evidence, lab results, and system conditions, which is essential for situational assessment to inform decisions and prevent miscommunication."
+      },
+      {
+        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
+        "capability": "operational_coordination",
+        "why": "The objective requires a coordinated decision-making process involving the Director, Water Quality Manager, DDAGW, and Public Health, which depends on operational coordination to integrate inputs and reach a unified decision."
+      },
+      {
+        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
+        "capability": "public_information_and_warning",
+        "why": "The decision to issue a precautionary advisory must be communicated clearly and consistently to the public, which relies on public information and warning to ensure the advisory is released with correct content and timing."
+      },
+      {
+        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
+        "capability": "planning",
+        "why": "The objective involves following a structured, pre-defined process (ERP 8.2 and 9.3) to decide on advisory type, area, and basis, which is a core function of planning to execute a documented response strategy."
+      },
+      {
+        "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
+        "capability": "infrastructure_systems",
+        "why": "The objective requires isolating the standpipe without dropping Zone 2 below 20 psi, preserving video and logs, and sampling before draining — all actions to stabilize and protect critical infrastructure, directly aligning with infrastructure systems capability."
+      },
+      {
+        "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
+        "capability": "screening_search_and_detection",
+        "why": "The objective involves detecting signs of tampering (cut fence, open hatch, residue) and monitoring system anomalies (AIT-611 drift), which relies on screening, search, and detection to identify threats and hazards."
+      },
+      {
+        "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
+        "capability": "forensics_and_attribution",
+        "why": "The objective includes preserving video, RTU logs, and physical evidence (jug, residue) for law enforcement and FBI, which supports forensic analysis and attribution to identify the source of the threat."
+      },
+      {
+        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
+        "capability": "operational_coordination",
+        "why": "The objective requires adherence to ERP sections, PCP templates, and notification sequences, which depends on operational coordination to ensure all roles follow the same doctrine and integrate actions across the plan."
+      },
+      {
+        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
+        "capability": "public_information_and_warning",
+        "why": "The objective mandates using the PCP 10.3 template and Section 9.5 sequence for public release, which requires public information and warning to ensure messages are delivered in the correct order and format."
+      },
+      {
+        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
+        "capability": "planning",
+        "why": "The objective demands following a pre-scripted, doctrine-based process (ERP 8.2, 9.3, 9.5, PCP 10.3), which is a core function of planning to execute a standardized, executable response."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Director of Water Operations, with the Water Quality Manager, the Security & Emergency Manager, the Distribution Superintendent, and the Public Information Officer, maintain a unified operational structure by sharing facts from the overnight alarm log through the field report, lab results, and site evidence, and by synchronizing actions across roles via the Control Room, JIC, and incident command to ensure all teams act on the same information.",
+        "objectiveRefs": [
+          "01M5RER7JD1WB8C7QKVX0GJN24",
+          "01M5RER7JD3J7H4FXPMHJT4VY7",
+          "01M5RER7JD25AWPQYH3EQ0EZ2X"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Declare a Level 2 condition in ERP-1 upon confirmation of a sign of entry (I-05)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of the field report",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Log the time of the sign of entry (08:05) on ERP-1 and begin the two-hour advisory clock (ERP 8.2)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of the field report",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Preserve the CAM-13 footage from 01:30 to 04:00 on write-once media and log the export (I-03)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "within 15 minutes of the alert",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Export the RTU-02 event log for Saturday night and copy it before Tuesday (I-15b)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "within 30 minutes of the alert",
+            "rowIds": [
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Confirm that the Control Room has stopped wells W-1 to W-3 before the Distribution crew begins valve closure (I-09b)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of the radio call",
+            "rowIds": [
+              "I-09b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Report the FBI WMD coordinator’s field-screen result to the Water Quality Manager and record it as \"not detected by field screen\" (I-14b)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "within 10 minutes of the email",
+            "rowIds": [
+              "I-14b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
@@ -1384,6 +1599,399 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment, where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, based on the documented operations and procedures of the City of Millbrook Water Department.",
+      "Players respond in accordance with existing plans, policies and procedures, including the ERP, MDWS-OTSEC-2026, and local protocols, and are expected to reference these documents during discussion."
+    ],
+    "artificialities": [
+      "Time jumps between modules reflect the passage of real-world hours but compress operational timelines for exercise pacing.",
+      "The SimCell simulates the actions of local law enforcement and the facility security authority, as named in the ERP, including their roles in scene control and evidence preservation.",
+      "Systems such as PACS, RTU-02, and MBW-NVR-01 are referenced by name and function as in the ERP, but players do not interact with actual systems.",
+      "Injects are delivered via written messages, emails, and radio reports, simulating the flow of information during a real incident.",
+      "The FBI and Ohio EPA are represented through simulated communications, not live participants, and their inputs are treated as authoritative but not binding on operational decisions."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5RERSJCGAPRKM59YF85ZBST",
+        "narrativeMd": "It is 07:00 on Sunday, October 25. The day operator has just relieved the night shift in the RWTP Control Room. Demand is low at about 6 MGD; Hilltop Tank reads 27 ft and Orchard Standpipe 84 ft. The weather is clear and cool, 52°F. Distribution has one crew on call and the SecureLine patrol is on its weekend route. No alarms are active.\n\nAt 07:15, the day operator reviews the overnight alarm summary and notes that the Orchard Standpipe gate contact ZS-612 tripped and cleared at 01:52 and 02:31—both previously acknowledged by the night shift as wind. RTU-02 shows the roof hatch closed, but ZS-611 has been out of service since 07/2024. A CAM-13 clip from 02:29 shows a figure with a flashlight at the edge of the frame, walking from the gate toward the ladder cage.\n\nAt 07:25, the historian (MBW-HMI-01) shows that AIT-611, the outlet chlorine residual at Orchard Standpipe, has declined steadily: 1.12 mg/L at midnight, 0.78 at 07:00, and 0.74 at 07:20. The wellfield chlorine trim CL2-FC-611 has been at 100% since 03:40. LIT-611 is steady at 84 ft, and the wells are cycling normally.",
+        "keyIssues": [
+          "Confirm the significance of the ZS-612 tripped events and the CAM-13 clip, and determine whether they indicate a potential intrusion.",
+          "Verify whether the AIT-611 trend suggests a deliberate or accidental change in chlorine residual, and whether it warrants immediate investigation.",
+          "Initiate the correct internal alerting and response chain based on the ERP’s Section 8.2 for a Level 2 condition.",
+          "Ensure that the lab and security teams are notified and begin preparing for site assessment and sampling."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What immediate actions must you take upon identifying a potential sign of entry, based on ERP Section 8.2?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              }
+            ]
+          },
+          {
+            "text": "Security: How do you confirm the nature of the ZS-612 events and the CAM-13 video, and what is your next step in verifying a possible intrusion?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+                "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+                "chunkId": 74
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.1 Facilities",
+                "quote": "| Site | Access control | Intrusion detection | Water-quality instrument | Routine visit | |---|---|---|---|---| | Hilltop Tank | Fence, locked gate, ladder cage lock | ZS-601 hatch switch; CAM-11, CA",
+                "chunkId": 86
+              }
+            ]
+          },
+          {
+            "text": "Water Quality: How should you interpret the AIT-611 trend, and what does it imply about the integrity of the water in the standpipe?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.1 Facilities",
+                "quote": "| Site | Access control | Intrusion detection | Water-quality instrument | Routine visit | |---|---|---|---|---| | Hilltop Tank | Fence, locked gate, ladder cage lock | ZS-601 hatch switch; CAM-11, CA",
+                "chunkId": 86
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: What is your role in the initial information flow, and how do you begin preparing for public communication before any advisory is issued?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RERSJCEWQJC72WXFHK0XC7",
+        "narrativeMd": "It is now 08:00. The Distribution crew has arrived at Orchard Standpipe and a Millbrook Police unit is en route. AIT-611 reads 0.71 mg/L. The post about the flashlight has passed 400 shares and Customer Service has six messages from the Orchard Road area.\n\nAt 08:05, the crew confirms the site: the gate is chained but the fence fabric is cut at the northeast corner, the ladder-cage lock and the roof-hatch padlock are cut, the hatch is closed but unlatched, and an empty one-gallon plastic jug with its cap off is found at the foot of the ladder. The crew did not climb, touch the jug, or open any valve; they photographed everything and withdrew to the gate.\n\nAt 08:10, the lab sampling team reports that field samples from the standpipe outlet show free chlorine at 0.62 mg/L, pH 7.5, conductivity 412 µS/cm (baseline ~380), and no odor. Bacteriological samples are in the incubator (18–24 hours); the chemical screen goes to the Ohio EPA contract lab (48–72 hours).\n\nAt 08:15, the Millbrook Police patrol sergeant confirms that the site is now a crime scene: no one may enter the fence until detectives arrive, about an hour, and the jug must remain undisturbed. The standpipe’s inlet and outlet valve vault is inside the fence.",
+        "keyIssues": [
+          "Verify that the cut locks and presence of the jug constitute a Level 2 condition under ERP Section 8.2, triggering a formal response.",
+          "Confirm that sampling has been completed per ERP-3 before any isolation or drainage.",
+          "Ensure that isolation of the standpipe will not drop Zone 2 below 20 psi, using Hilltop Tank as a buffer.",
+          "Preserve all video and RTU logs for law enforcement and forensic use.",
+          "Maintain internal alignment across roles on the facts and the timeline of events."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: How do you confirm that isolating the Orchard Standpipe will not drop Zone 2 below 20 psi, and what steps are needed to ensure pressure stability?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A",
+                "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+                "chunkId": 310
+              }
+            ]
+          },
+          {
+            "text": "Security: What is your responsibility in preserving evidence and ensuring that no one enters the site, and how do you coordinate with law enforcement for evidence handover?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              }
+            ]
+          },
+          {
+            "text": "Water Quality: What does the lab result (0.62 mg/L residual) imply about the water quality, and how do you ensure that no further sampling is done without compromising the crime scene?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.1 Facilities",
+                "quote": "| Site | Access control | Intrusion detection | Water-quality instrument | Routine visit | |---|---|---|---|---| | Hilltop Tank | Fence, locked gate, ladder cage lock | ZS-601 hatch switch; CAM-11, CA",
+                "chunkId": 86
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: How do you begin to manage social media and public inquiries, given the rapid spread of unverified information and the risk of panic?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RERSJCSTJPAS5CFC9PEA9E",
+        "narrativeMd": "It is now 09:00. Two Millbrook Police detectives are at Orchard Standpipe. AIT-611 reads 0.58 mg/L. Hilltop Tank reads 26 ft. The two-hour mark since the cut lock was found is 10:05.\n\nAt 09:05, the Carver County Public Health Commissioner calls: she supports a precautionary advisory but asks for the type—Do Not Drink or Boil Water—and for the streets to be specified. She notes that if a chemical is involved, boiling may worsen the risk.\n\nAt 09:10, the Distribution crew reports that the outlet valve vault will be entered by a police officer, and that the 12-inch gate valve will take 20 minutes to close. They confirm that wells must be stopped first to avoid overflow.\n\nAt 09:15, the FBI detective on the roof reports: a white crystalline residue is found on the hatch frame, and a second cap from the same jug is inside the hatch rim. The FBI has been notified and will lead the investigation. No one is to drain the tank.\n\nAt 09:20, the lab confirms that the chemical screen samples cannot leave Millbrook until Monday 08:00, so results are not due before Wednesday.",
+        "keyIssues": [
+          "Decide within the two-hour window whether to issue a Boil Water or Do Not Drink advisory, based on the evidence and health risk.",
+          "Define the geographic scope of the advisory using Annex B critical customers and the zone map.",
+          "Confirm that the advisory type is appropriate for a possible chemical contamination, and that it aligns with DDAGW and Public Health guidance.",
+          "Ensure that the advisory is issued through the correct channel and recorded on ERP-2 before public release.",
+          "Verify that all roles have the same understanding of the facts and the decision rationale."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the evidence of a possible chemical intrusion, what advisory type (Boil Water or Do Not Drink) must you choose, and what is your basis for that decision?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Water Quality: How do you determine the appropriate advisory type when bacteriological results are pending and chemical screening is delayed?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: How do you ensure that the advisory is consistent across all media and that critical customers are notified before the public, per the PCP 10.3 and Section 9.5?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Security: How do you confirm that the crime scene is preserved and that law enforcement has access to all required logs and video, including RTU-02 and MBW-NVR-01?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+                "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+                "chunkId": 74
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RERSJDH5S4PT2TZ93DVZT0",
+        "narrativeMd": "It is now 10:00. An FBI agent has joined the detectives at Orchard Standpipe. Hilltop Tank reads 25.6 ft. The first coliform results are due Monday morning and the chemical screen not before Wednesday. Customer Service has logged 63 calls since 08:30.\n\nAt 10:05, the FBI WMD coordinator confirms that field screening found no radiological or common pesticide signals. The jug and residue are sent to an FBI-approved lab; results in 48 hours. They reiterate: preserve CAM-13 and RTU-02 logs.\n\nAt 10:15, the Ohio EPA DDAGW confirms the Tier 1 consultation is recorded and requests the advisory text, street boundaries, and sampling plan. They reiterate the lifting criteria: cause corrected, residual ≥0.5 mg/L, two consecutive satisfactory bacteriological samples 24 hours apart, and chemical results below health-based levels.\n\nAt 10:34, the Distribution crew reports that Orchard Standpipe has been isolated and wells are off. Hilltop Tank is falling at 0.4 ft/hour and reads 25.4 ft; Zone 2 pressure at Summit Drive is 58 psi. The two downstream hydrants have been flushed and sampled.\n\nAt 10:40, Channel 4 asks whether residents can shower and how long the advisory will last.",
+        "keyIssues": [
+          "Maintain pressure in Zone 2 despite the falling Hilltop Tank, using the Mill Road Booster Station as needed.",
+          "Ensure that all public inquiries are answered consistently and factually, avoiding speculation.",
+          "Preserve all evidence and logs for law enforcement and future review.",
+          "Continue to monitor and report on the status of the advisory, lab results, and site investigation.",
+          "Coordinate with the FBI and Ohio EPA on ongoing data and lifting criteria."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: How do you manage pressure in Zone 2 as Hilltop Tank declines, and when would you activate the Mill Road Booster Station?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
+                "headingPath": "City of Millbrook Department of… › Section A",
+                "quote": "| Path | Endpoint reached | Authentication | Logging / recording | Approver | Status | |---|---|---|---|---|---| | MBW-JUMP-01 (RDP gateway in the SCADA DMZ) | MBW-EWS-01, MBW-SCADA-SRV01/02 | Named K",
+                "chunkId": 310
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: How do you respond to media questions about showering and the duration of the advisory, using only confirmed facts?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+                "quote": "> **PRECAUTIONARY BOIL WATER ADVISORY — [Zone / neighborhood] — City of Millbrook Department of Water & Sewer** > Issued [date] at [time]. > > Early today the City found evidence that someone may have",
+                "chunkId": 260
+              }
+            ]
+          },
+          {
+            "text": "Security: What steps are required to ensure that the RTU-02 event log is preserved and copied before Tuesday, per the 72-hour retention window?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+                "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+                "chunkId": 74
+              }
+            ]
+          },
+          {
+            "text": "Water Quality: How do you ensure that the sampling plan remains valid and that lab results are tracked, even though they are delayed?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+                "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+                "chunkId": 87
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 8 › 8.1 Facilities",
+                "quote": "| Site | Access control | Intrusion detection | Water-quality instrument | Routine visit | |---|---|---|---|---| | Hilltop Tank | Fence, locked gate, ladder cage lock | ZS-601 hatch switch; CAM-11, CA",
+                "chunkId": 86
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Orchard Standpipe (LIT-611, AIT-611) and its valve vault",
     "Orchard Wellfield W-1 to W-3 (RTU-06)",
@@ -2792,6 +3400,1530 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:02:48.812Z",
+      "finishedAt": "2026-10-30T11:03:04.974Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 9734,
+      "outputTokens": 1267,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:31:57.918Z",
+      "finishedAt": "2026-10-30T10:32:37.824Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 6255,
+      "outputTokens": 3451,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e338016e9487c586",
+        "claims": [],
+        "at": "2026-10-30T10:32:38.020Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "6049131db5852568",
+        "claims": [
+          {
+            "text": "The IC treats the trips and the clip as a possible sign of entry, has the Distribution on-call crew and Millbrook Police sent to the site (ERP 8.2), and asks the Water Quality Manager to look at AIT-611; Security has the CAM-13 footage preserved before the 30-day overwrite.",
+            "chunkId": 34,
+            "headingPath": "ERP › Section 8 › 8.1 Facilities",
+            "overlap": 0.16,
+            "matched": [
+              "AIT-611",
+              "CAM-13"
+            ],
+            "missing": [
+              "ERP 8.2",
+              "30-day",
+              "Water Quality Manager",
+              "Millbrook Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.921Z",
+        "version": 1
+      },
+      "row:I-01b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "b4f9ff925f4c453a",
+        "claims": [],
+        "at": "2026-10-30T10:32:38.022Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘ERP 8.2’, ‘ERP-3’ are not in 7.7 Contamination Threat or the facility facts.",
+        "fingerprint": "23b3abf75b7f30e3",
+        "claims": [
+          {
+            "text": "The Water Quality Manager recognizes a residual falling against a trim pump at full output as a possible chlorine demand from something added, orders ERP-3 field sampling at the standpipe outlet and the first two hydrants downstream, and tells the IC that the two-hour advisory clock in ERP 8.2 will start when a sign of entry is confirmed.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 7 › 7.7 Contamination Threat",
+            "overlap": 0.313,
+            "matched": [
+              "2-hour",
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "ERP 8.2",
+              "ERP-3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.921Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c754751a26d20953",
+        "claims": [
+          {
+            "text": "Security exports the CAM-13 footage from 01:30 to 04:00 to write-once media, logs the export, and notes the 38-minute gap for the police; the switch power cycle is logged as a possible sign of tampering, not a fault to fix.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.043,
+            "matched": [
+              "CAM-13"
+            ],
+            "missing": [
+              "38-minute"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.921Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "Only 25% of ‘Security and the IC do not treat the drive-by as an all-cle…’ is in 6.4 Security Systems.",
+        "fingerprint": "7e42290c0c3387f5",
+        "claims": [
+          {
+            "text": "Security and the IC do not treat the drive-by as an all-clear: it does not cover the fence line or the ladder cage, and the crew still goes to the site.",
+            "chunkId": 22,
+            "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.922Z",
+        "version": 1
+      },
+      "row:I-04b": {
+        "label": "review",
+        "reason": "‘PCP 10.3’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "55bde77c4564cae7",
+        "claims": [
+          {
+            "text": "The PIO logs the post, does not confirm or deny an intrusion before the crew has seen the site, tells the IC the public already links the two, and prepares a holding line and the PCP 10.3 template.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.313,
+            "matched": [],
+            "missing": [
+              "PCP 10.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.922Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3b192c4271495b10",
+        "claims": [],
+        "at": "2026-10-30T10:32:38.023Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘ERP 8.2’, ‘Water Quality Manager’, ‘ERP-1’ are not in 7.6 Physical Intrusion or Tampering at a Storage Facility or the facility facts.",
+        "fingerprint": "362c1a7aa8ee2113",
+        "claims": [
+          {
+            "text": "The IC declares a Level 2 condition (ERP 8.2) and records 08:05 as the sign of entry on ERP-1; Security has Millbrook Police treat it as a crime scene and keeps a scene log; Distribution prepares to isolate the standpipe; the Water Quality Manager’s sampling goes ahead at the outlet tap outside the fence and the hydrants.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.406,
+            "matched": [
+              "Millbrook Police",
+              "isolate"
+            ],
+            "missing": [
+              "ERP 8.2",
+              "Water Quality Manager",
+              "ERP-1",
+              "declares"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.924Z",
+        "version": 1
+      },
+      "row:I-05b": {
+        "label": "review",
+        "reason": "Only 27% of ‘The Water Quality Manager notes it and moves the routine ro…’ is in 5.2 Sequence.",
+        "fingerprint": "8ced357b69fea4d5",
+        "claims": [
+          {
+            "text": "The Water Quality Manager notes it and moves the routine route to Tuesday; it does not affect the standpipe sampling.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.273,
+            "matched": [
+              "Water Quality Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.924Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "review",
+        "reason": "‘isolating’ is not in Section 13 or the facility facts.",
+        "fingerprint": "d20ce600003dce0e",
+        "claims": [
+          {
+            "text": "The Water Quality Manager reads the low residual and the conductivity rise at the outlet, with normal readings downstream, as consistent with something added at the standpipe that has not yet spread far; recommends isolating the standpipe now and a precautionary advisory decision before 10:05; begins the DDAGW consultation.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.269,
+            "matched": [
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "isolating"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.924Z",
+        "version": 1
+      },
+      "row:I-06b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "34c0a134910ba786",
+        "claims": [
+          {
+            "text": "Security negotiates an escorted entry for the Distribution crew to close the valves, with photographs and the scene log, explaining that isolation protects the public and does not disturb the evidence on the roof; the IC records the delay on ERP-1.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.19,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [
+              "ERP-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.924Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "Only 30% of ‘The PIO does not release it: no contamination has been conf…’ is in 8.2 Response Matrix.",
+        "fingerprint": "ca203b53a8d737f4",
+        "claims": [
+          {
+            "text": "The PIO does not release it: no contamination has been confirmed, the advisory type and area have not been decided, and the area must be described by streets; she holds it and tells the IC the decision is needed soon.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.925Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "Only 44% of ‘The PIO confirms police are at a City water facility, says …’ is in 8.2 Response Matrix.",
+        "fingerprint": "0146f8a658475930",
+        "claims": [
+          {
+            "text": "The PIO confirms police are at a City water facility, says the City is testing the water and will issue any advice to customers directly and quickly, gives a time for the next update and does not speculate.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.438,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.925Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "‘isolate’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "0f114ded0cec2ab9",
+        "claims": [
+          {
+            "text": "The Distribution Superintendent and the IC stop the wells, isolate the standpipe as soon as the escorted entry is agreed and set a Hilltop Tank level at which Mill Road Booster Station is started; the streets served directly by the standpipe are drawn on the map of record for the advisory decision.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.231,
+            "matched": [
+              "Distribution Superintendent"
+            ],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: ERP 8.2",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "ERP 8.2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.925Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "fe74bfa6daecfb45",
+        "claims": [
+          {
+            "text": "The IC and the Water Quality Manager explain the ERP 8.2 rule (the decision does not wait for lab results), propose an area drawn by the streets the standpipe feeds rather than the whole zone, and say when they will bring her a recommendation for approval.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.125,
+            "matched": [
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "ERP 8.2",
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.925Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "1b992f09a750f73c",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.925Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "review",
+        "reason": "‘PCP 10.3’, ‘ERP 9.3’ are not in Section 3 or the facility facts.",
+        "fingerprint": "ad40f151c2b50599",
+        "claims": [
+          {
+            "text": "The Director, with the Water Quality Manager, after consulting DDAGW and Public Health, decides the precautionary advisory type (PCP 10.3 Boil Water or ERP 9.3 Do Not Drink for an uncharacterized contamination threat), draws the area by streets from the map of record, obtains the City Manager’s approval, records the basis on ERP-2 and starts the critical-customer calls before 10:05.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.412,
+            "matched": [
+              "Director",
+              "Water Quality Manager",
+              "City Manager",
+              "ERP-2",
+              "approval"
+            ],
+            "missing": [
+              "PCP 10.3",
+              "ERP 9.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.926Z",
+        "version": 1
+      },
+      "row:I-09b": {
+        "label": "review",
+        "reason": "‘Distribution Superintendent’, ‘W-1’, ‘W-3’ are not in 7.1 Loss of Pressure / Main Break or the facility facts.",
+        "fingerprint": "0e350e31fef08a8e",
+        "claims": [
+          {
+            "text": "The Control Room confirms W-1 to W-3 are stopped on RTU-06; the Distribution Superintendent authorizes the closure and has the crew report the time each valve is closed for ERP-1.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.25,
+            "matched": [
+              "RTU-06"
+            ],
+            "missing": [
+              "Distribution Superintendent",
+              "W-1",
+              "W-3",
+              "ERP-1",
+              "authorizes",
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.926Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘Water Quality Manager’, ‘reports’ are not in 11.2 Evidence or the facility facts.",
+        "fingerprint": "c146386de3610596",
+        "claims": [
+          {
+            "text": "Security confirms the scene log and evidence preservation and reports a credible contamination threat to the FBI field office (ERP Section 5); the Water Quality Manager confirms nothing will be drained, adds the residue to the sampling request and shares the field results with the detectives.",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.24,
+            "matched": [
+              "Section 5",
+              "FBI"
+            ],
+            "missing": [
+              "Water Quality Manager",
+              "reports"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.926Z",
+        "version": 1
+      },
+      "row:I-10b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "46b101454981fdc9",
+        "claims": [
+          {
+            "text": "The Water Quality Manager asks DDAGW for weekend courier or drop-off help, keeps the samples under chain of custody on ice, samples the downstream hydrants every two hours and tells the IC that any advisory will last at least until Wednesday.",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.19,
+            "matched": [],
+            "missing": [
+              "2 hours",
+              "Water Quality Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.926Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "2e1f111fcec97f37",
+        "claims": [
+          {
+            "text": "The PIO and Customer Service call the critical customers before any public release (ERP 9.5) and record the times; the IC arranges bottled water for Summit Care and the home-dialysis patients if the advisory is Do Not Drink.",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0.105,
+            "matched": [],
+            "missing": [
+              "ERP 9.5",
+              "Customer Service"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Annex B",
+            "chunkId": 45,
+            "headingPath": "ERP › Section 11 › 11.2 Evidence",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Annex B"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘Millbrook Police’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "958906cfc8abd46e",
+        "claims": [
+          {
+            "text": "The PIO answers with facts and the advisory as decided — what is known, what is being tested and when results are due — without repeating the rumor’s details, and asks Millbrook Police to say nothing that confirms a substance; the Deputy PIO replies on the post with the Customer Service number.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.409,
+            "matched": [
+              "Customer Service"
+            ],
+            "missing": [
+              "Millbrook Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-12b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "b0113c8ac1887d3a",
+        "claims": [
+          {
+            "text": "The PIO answers briefly or defers it to Monday; it is not part of the incident.",
+            "chunkId": 117,
+            "headingPath": "City of Millbrook Department of… › Section 7 › 7.4 Cyber Incidents",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9d49d8df1714751e",
+        "claims": [],
+        "at": "2026-10-30T10:32:38.028Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "2f61529a5d8287c3",
+        "claims": [
+          {
+            "text": "Security and the Water Quality Manager log the result as “not detected by field screen,” not “safe”; the WQ Manager tells the IC it does not change the advisory, and the evidence package goes to the FBI with a chain-of-custody record.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.111,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [
+              "Water Quality Manager",
+              "WQ Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "‘ERP-3’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "e3255cea3dba56cc",
+        "claims": [
+          {
+            "text": "The Water Quality Manager sends the advisory, the map and the ERP-3 plan to DDAGW, and tells the PIO the earliest realistic lifting time so the public is not promised one that cannot be met.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.412,
+            "matched": [
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "ERP-3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-15b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c0f3d3a171d35a55",
+        "claims": [
+          {
+            "text": "Security copies the export for the police and the FBI with a chain-of-custody record and notes the ZS-611 fault (WO-24-1187) as a known gap that left the hatch unwatched; the IC asks for the fault to be raised in the after-action report.",
+            "chunkId": 70,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.2 Kessler Controls Window Procedure",
+            "overlap": 0.059,
+            "matched": [
+              "WO-24-1187",
+              "FBI"
+            ],
+            "missing": [
+              "ZS-611",
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.927Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "b49da4b99c759349",
+        "claims": [
+          {
+            "text": "The Distribution Superintendent sets the Hilltop Tank level for starting Mill Road Booster Station, confirms flushing only after sampling, and keeps a crew on two-hour hydrant sampling with the lab.",
+            "chunkId": 80,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.4 Return to Automatic",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "2-hour",
+              "Distribution Superintendent"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "row:I-16b": {
+        "label": "review",
+        "reason": "‘2 days’, ‘Millbrook Police’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "0f239afe126ada74",
+        "claims": [
+          {
+            "text": "The PIO answers from the advisory instructions and the DDAGW lifting criteria (at least two days), says the investigation is with Millbrook Police and the FBI, and gives the next update time and the Customer Service number.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.3,
+            "matched": [
+              "Customer Service",
+              "FBI"
+            ],
+            "missing": [
+              "2 days",
+              "Millbrook Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "f0e78b88cdf9ddf7",
+        "claims": [
+          {
+            "text": "Security answers when convenient; it is routine, though Security may add Orchard Standpipe and Hilltop Tank to the route for the week.",
+            "chunkId": 80,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.4 Return to Automatic",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4a1059ecb40d219f",
+        "claims": [],
+        "at": "2026-10-30T10:32:38.029Z",
+        "version": 1
+      },
+      "inject:01M5RF5M49D3YRD3SP331576FW": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5c9eaf1e7b417602",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "inject:01M5RF5Z7SC4KWQG4FH6F37M51": {
+        "label": "review",
+        "reason": "Only 14% of ‘Watch whether anyone dismisses the trips because the night …’ is in Section 3.",
+        "fingerprint": "36a5cff953963bf0",
+        "claims": [
+          {
+            "text": "The first look.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch whether anyone dismisses the trips because the night shift did.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "inject:01M5RF6CZYGRSQT3M1XG7AXWKX": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "caf27507013aa906",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.928Z",
+        "version": 1
+      },
+      "inject:01M5RF6YBX81FH3JVNK0JNJ9P2": {
+        "label": "review",
+        "reason": "Only 22% of ‘The residual is falling while the trim pump runs flat out: …’ is in 6.2 Online Water-Quality Instruments.",
+        "fingerprint": "c7e1924dfb619860",
+        "claims": [
+          {
+            "text": "The residual is falling while the trim pump runs flat out: something is consuming chlorine.",
+            "chunkId": 20,
+            "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for ERP-3 sampling being ordered.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 8 › 8.3 Sampling Plan (ERP-3)",
+            "overlap": 0.667,
+            "matched": [
+              "ERP-3"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.929Z",
+        "version": 1
+      },
+      "inject:01M5RF79WX24C9QETXDM3A0S1C": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for an export before anything else.’ is in Section 2.",
+        "fingerprint": "8fc76e4fddb1b508",
+        "claims": [
+          {
+            "text": "A gap in the evidence that may itself be evidence.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for an export before anything else.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.929Z",
+        "version": 1
+      },
+      "inject:01M5RF7RW3GTT4PC5KAE1HZV02": {
+        "label": "review",
+        "reason": "Only 0% of ‘False comfort.’ is in 7.6 Physical Intrusion or Tampering at a Storage Facility.",
+        "fingerprint": "b246551e66057320",
+        "claims": [
+          {
+            "text": "False comfort.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The patrol never sees the fence line or the ladder.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.929Z",
+        "version": 1
+      },
+      "inject:01M5RF80Z6C3QVPHQQCDT4DGDT": {
+        "label": "review",
+        "reason": "Only 25% of ‘Watch for a holding line, not a denial.’ is in 8.2 Response Matrix.",
+        "fingerprint": "14e850145e96d818",
+        "claims": [
+          {
+            "text": "The public is ahead of the department.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a holding line, not a denial.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.929Z",
+        "version": 1
+      },
+      "inject:01M5RF8A30G0B1WGJV3PF1DZXC": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "72a045e8de4106ff",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.929Z",
+        "version": 1
+      },
+      "inject:01M5RF8HEFTT5J3P6SJHATKS39": {
+        "label": "review",
+        "reason": "‘2-hour’ is not in 5.3 External Reporting Clocks or the facility facts.",
+        "fingerprint": "61c53ed14b98fbc5",
+        "claims": [
+          {
+            "text": "Confirmed sign of entry at 08:05: the two-hour advisory clock in ERP 8.2 starts now.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 0.6,
+            "matched": [
+              "ERP 8.2"
+            ],
+            "missing": [
+              "2-hour"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Level 2 and for no one touching the jug.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.930Z",
+        "version": 1
+      },
+      "inject:01M5RF90AN0ENH76H19GXWMJFD": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "ecfa69df8c24a32e",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 47,
+            "headingPath": "ERP › Section 12",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.930Z",
+        "version": 1
+      },
+      "inject:01M5RF98EXFMN9ZD15N4ND0R4V": {
+        "label": "review",
+        "reason": "‘isolation’ is not in 5.1 Targets or the facility facts.",
+        "fingerprint": "6838fdc5a41db86e",
+        "claims": [
+          {
+            "text": "Something at the standpipe is consuming chlorine and raising conductivity; it has not spread far yet.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for an isolation recommendation and the DDAGW call.",
+            "chunkId": 111,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.1 Targets",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.930Z",
+        "version": 1
+      },
+      "inject:01M5RF9HKG768JPT7K9J9F8V1Q": {
+        "label": "review",
+        "reason": "Only 25% of ‘Friction between evidence and public health.’ is in 5. Key Staff and Numbers.",
+        "fingerprint": "2ecb7a95dc38dcd2",
+        "claims": [
+          {
+            "text": "Friction between evidence and public health.",
+            "chunkId": 167,
+            "headingPath": "City of Millbrook Department of… › 5. Key Staff and Numbers",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Good play: an escorted entry to the valve vault only, with photographs and the scene log.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RF9Y1KY6HFAJQKBEAG0302": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "376265856d5978fd",
+        "claims": [
+          {
+            "text": "Everything in this draft is wrong: unconfirmed, the wrong area, no decision behind it, the FBI not on scene.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0.125,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the PIO holding it and asking for the decision.",
+            "chunkId": 106,
+            "headingPath": "City of Millbrook Department of… › Section 2 › 2.1 Approval Chain",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RFA91CJRV2Q5KQNHGRQ3PQ": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.2 Response Matrix.",
+        "fingerprint": "154e352ee3f5b775",
+        "claims": [
+          {
+            "text": "Watch for a factual holding line and a next-update time.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RFAF1JJP317QF2E4K7P2NQ": {
+        "label": "review",
+        "reason": "‘isolation’ is not in 5.3 External Reporting Clocks or the facility facts.",
+        "fingerprint": "86b0146aed7836e9",
+        "claims": [
+          {
+            "text": "The isolation is possible today; watch for the wells being stopped first and a booster trigger level.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RFAR7KGDXRHJ17BPWCRQ84": {
+        "label": "review",
+        "reason": "‘ERP 8.2’ is not in 1.1 Purpose or the facility facts.",
+        "fingerprint": "6c42dffe08d11769",
+        "claims": [
+          {
+            "text": "Pressure to wait for results.",
+            "chunkId": 102,
+            "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "ERP 8.2 says the decision does not wait.",
+            "chunkId": 102,
+            "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "ERP 8.2"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a street-bounded area and a time for the recommendation.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RFAY3ZH9ZKXMEFDREBNY54": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3d4fb21cca0e0c41",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.931Z",
+        "version": 1
+      },
+      "inject:01M5RFB7SJX7JN7QR212M0ZNYG": {
+        "label": "review",
+        "reason": "‘ERP-2’ is not in Section 3 or the facility facts.",
+        "fingerprint": "aa1307ba287c292d",
+        "claims": [
+          {
+            "text": "The decision point.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Both answers cost something: a Boil Water notice may be the wrong protection; a Do Not Drink means bottled water for every household in the area.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for DDAGW consulted, the area drawn by streets, ERP-2 and the City Manager’s approval before 10:05.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.417,
+            "matched": [
+              "City Manager",
+              "approval"
+            ],
+            "missing": [
+              "ERP-2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.932Z",
+        "version": 1
+      },
+      "inject:01M5RFBNDH6E93JRMKQB3KK2H3": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for the wells confirmed off on RTU-06 before the valv…’ is in Section 3.",
+        "fingerprint": "6bd1c0115cc2db84",
+        "claims": [
+          {
+            "text": "Watch for the wells confirmed off on RTU-06 before the valve is closed.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.2,
+            "matched": [
+              "RTU-06"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.932Z",
+        "version": 1
+      },
+      "inject:01M5RFC1SK19J378S5PVN9REY0": {
+        "label": "review",
+        "reason": "‘Section 5’, ‘notification’ are not in 8.3 Failure-Mode Matrix or the facility facts.",
+        "fingerprint": "afa4c8272bba97ca",
+        "claims": [
+          {
+            "text": "The threat is now credible.",
+            "chunkId": 53,
+            "headingPath": "City of Millbrook Department of…",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the FBI notification by Security (ERP Section 5) and nothing drained.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0.25,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [
+              "Section 5",
+              "notification"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.932Z",
+        "version": 1
+      },
+      "inject:01M5RFCG9S6A4WAJGRV9E052J4": {
+        "label": "review",
+        "reason": "Only 33% of ‘Watch for it shaping what the PIO promises.’ is in 8.2 Response to a Security Alarm or Sign of Entry.",
+        "fingerprint": "8b384fe943f5a6e6",
+        "claims": [
+          {
+            "text": "The lab timeline is longer than anyone wants.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for it shaping what the PIO promises.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.932Z",
+        "version": 1
+      },
+      "inject:01M5RFD10YTRWA1PEPBTWN1F2Y": {
+        "label": "review",
+        "reason": "‘ERP 9.5’ is not in Section 3 or the facility facts.",
+        "fingerprint": "8d57c04c79878c7d",
+        "claims": [
+          {
+            "text": "Critical customers before the public (ERP 9.5).",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "ERP 9.5"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the calls and for bottled water if the advisory is Do Not Drink.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFDF7GM9W8JGQHMCR5YSMF": {
+        "label": "review",
+        "reason": "‘Millbrook Police’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "f09c17d252c002dd",
+        "claims": [
+          {
+            "text": "A rumor that names a substance.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for facts without repeating the rumor, and for Millbrook Police asked not to confirm anything.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "Millbrook Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFDVV5K781A167FK1PHGEA": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "5b004713903cd450",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 50,
+            "headingPath": "ERP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFE3K8F2YSD32K7FC7K1HT": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "6aab588f503e90ce",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFEDDHWJTMZGRVEJW1SZP9": {
+        "label": "review",
+        "reason": "Only 25% of ‘“Not detected by field screen” is not “safe”.’ is in 8.2 Response to a Security Alarm or Sign of Entry.",
+        "fingerprint": "4ffe1724f4b37967",
+        "claims": [
+          {
+            "text": "“Not detected by field screen” is not “safe”.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch that it does not change the advisory.",
+            "chunkId": 35,
+            "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFESND3BG9XEBS6E5NEPA1": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for the PIO getting a realistic lifting time from thi…’ is in 5.3 External Reporting Clocks.",
+        "fingerprint": "cbcb35690fe9ea87",
+        "claims": [
+          {
+            "text": "Watch for the PIO getting a realistic lifting time from this.",
+            "chunkId": 16,
+            "headingPath": "ERP › Section 5 › 5.3 External Reporting Clocks",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFFAEG7GYM2Z532YKHB3EQ": {
+        "label": "review",
+        "reason": "‘ZS-611’ is not in 6.4 ScreenBridge Exception (DosaTech) or the facility facts.",
+        "fingerprint": "66522842eda6cb45",
+        "claims": [
+          {
+            "text": "The link loss matches the camera gap.",
+            "chunkId": 81,
+            "headingPath": "City of Millbrook Department of… › Section 9",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for chain of custody and for the ZS-611 fault going into the after-action report.",
+            "chunkId": 72,
+            "headingPath": "City of Millbrook Department of… › Section 6 › 6.4 ScreenBridge Exception (DosaTech)",
+            "overlap": 0.125,
+            "matched": [
+              "report"
+            ],
+            "missing": [
+              "ZS-611"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.933Z",
+        "version": 1
+      },
+      "inject:01M5RFFR1WGDPC8AM9HWMGKRHE": {
+        "label": "review",
+        "reason": "Only 33% of ‘Isolation has a cost by the evening.’ is in Section 3.",
+        "fingerprint": "4715e44c5a3bf929",
+        "claims": [
+          {
+            "text": "Isolation has a cost by the evening.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.333,
+            "matched": [
+              "Isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a booster trigger level.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "inject:01M5RFH0AFYGFPX0579J7D76S5": {
+        "label": "review",
+        "reason": "Only 33% of ‘Watch for answers from the advisory instructions and the DD…’ is in 4.1 Types.",
+        "fingerprint": "7999368806926919",
+        "claims": [
+          {
+            "text": "Watch for answers from the advisory instructions and the DDAGW lifting criteria, and nothing about the investigation beyond what police say.",
+            "chunkId": 108,
+            "headingPath": "City of Millbrook Department of… › Section 4 › 4.1 Types",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "inject:01M5RFH8VEDQ9N7DTZST45FHEG": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "1cb683e8b5b6d3da",
+        "claims": [
+          {
+            "text": "Noise, with an opening: add the storage sites to the route for the week.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "inject:01M5RFHPTDWHHBG4P7ZPPAFS8J": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "118f65bfc503ba89",
+        "claims": [],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "6.4 Security Systems is in the index as cited.",
+        "fingerprint": "2ac045bfd36ae6c9",
+        "claims": [
+          {
+            "text": "ERP › Section 6 › 6.4 Security Systems",
+            "chunkId": 22,
+            "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "10.3 Precautionary Advisory (tampering suspected at a storage facility) is in the index as cited.",
+        "fingerprint": "4fe887f904258c4a",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+            "chunkId": 127,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "5.4 Pre-Scripted Messages is in the index as cited.",
+        "fingerprint": "96f2b54ef3fa42f8",
+        "claims": [
+          {
+            "text": "ERP › Section 5 › 5.4 Pre-Scripted Messages",
+            "chunkId": 17,
+            "headingPath": "ERP › Section 5 › 5.4 Pre-Scripted Messages",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "5.2 Sequence is in the index as cited.",
+        "fingerprint": "41a0344905bd295a",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "8.1 Facilities is in the index as cited.",
+        "fingerprint": "b52c6336b1e7a0d9",
+        "claims": [
+          {
+            "text": "ERP › Section 8 › 8.1 Facilities",
+            "chunkId": 34,
+            "headingPath": "ERP › Section 8 › 8.1 Facilities",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "4.4 Level 3 — Public Health Emergency is in the index as cited.",
+        "fingerprint": "b9b411ec8b8aa0e9",
+        "claims": [
+          {
+            "text": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:08.934Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

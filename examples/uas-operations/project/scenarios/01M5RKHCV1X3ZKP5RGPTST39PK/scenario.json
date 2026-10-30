@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T04:01:43.777Z",
-  "updatedAt": "2026-10-25T05:04:03.825Z",
+  "updatedAt": "2026-10-30T11:13:16.177Z",
   "brief": {
     "userPrompt": "A 6,000-person public event is under way at the Harwick Fairgrounds beside Horton Field on a NO FLY day: the flight operations desk logged all twelve aircraft in Hangar 1 at 0800. Harwick Police's contracted detection vendor shows a drone with a Remote ID track circling over the crowd, and a bystander post with a photo blames the Group because its hangar is next door. The Group must prove from the schedule and the fleet register that every aircraft is grounded, lend an RPIC to the Harwick Police command post to interpret Remote ID data if asked, never launch, interfere with or chase the aircraft, coordinate with Harwick Police, CCSO and the FAA, and answer the post through Corporate Communications only.",
     "audience": [
@@ -1148,6 +1148,216 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
+        "capability": "operational_coordination",
+        "why": "The objective requires maintaining a unified set of facts across multiple teams and roles, including Harwick Police, Flight Operations, Safety, Leadership, and Corporate Communications, which aligns with the need to establish and maintain a coordinated operational structure as per HSEEP."
+      },
+      {
+        "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes keeping all parties informed with consistent, accurate, and timely information, particularly in response to media and public inquiries, which reflects the need to deliver actionable and reliable information to the community and stakeholders."
+      },
+      {
+        "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
+        "capability": "operational_communications",
+        "why": "The objective demands that all teams remain on the same set of facts through consistent and timely communication, which directly supports the capability to ensure operational communications are maintained across response forces and decision makers."
+      },
+      {
+        "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
+        "capability": "planning",
+        "why": "The objective requires making a deliberate decision on public messaging and personnel handling based on established doctrine and incident data, which reflects the need to systematically evaluate options and implement a coordinated response through formal planning processes."
+      },
+      {
+        "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
+        "capability": "public_information_and_warning",
+        "why": "The decision to publicly acknowledge or withhold information about the operator's identity must be made in coordination with external messaging protocols, ensuring that public statements are consistent, reliable, and actionable, as required by the public information and warning capability."
+      },
+      {
+        "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The decision is based on intelligence from the Remote ID data, fleet register, and law enforcement updates, requiring the evaluation and sharing of actionable information to inform a sound, evidence-based decision."
+      },
+      {
+        "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
+        "capability": "operational_coordination",
+        "why": "The objective requires adherence to established procedures (HUOG-ERP 8.4) for handling an unknown drone during a public event, including delegation of roles and coordination with Harwick Police, which is a core function of operational coordination."
+      },
+      {
+        "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
+        "capability": "cybersecurity",
+        "why": "The objective includes the use of Remote ID data to identify and verify the drone’s origin, which relies on secure and accurate data transmission and handling, a key aspect of protecting electronic systems and information."
+      },
+      {
+        "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
+        "capability": "screening_search_and_detection",
+        "why": "The objective involves using Remote ID data and system logs to detect and identify a drone, which falls under the screening, search, and detection capability as it involves identifying a threat through technical surveillance and data analysis."
+      },
+      {
+        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
+        "capability": "forensics_and_attribution",
+        "why": "The objective requires analyzing Remote ID data and comparing it with fleet records to determine whether the drone is a Group asset, which involves forensic analysis of broadcast data and attribution to a source, a core function of this capability."
+      },
+      {
+        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The objective includes sharing Remote ID data, photographs, and logs with law enforcement and regulators, which requires timely and accurate exchange of intelligence to support response and regulatory actions."
+      },
+      {
+        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "why": "The objective involves assessing the risk of staff operating personal drones near Group sites during public events, which requires identifying and prioritizing risks to inform protective actions and policy updates."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Group maintains a unified operational structure by ensuring that the Incident Commander, Liaison, Flight Operations, Safety, and Corporate Communications share a single set of facts and roles, as defined in HUOG-ERP Section 2.2 and 8.4, to support coordinated response actions during a public event.",
+        "objectiveRefs": [
+          "01M5RKMS2BTT7WEXA7MFAQYQXN",
+          "01M5RKMS2BC81CKX66K17JHD2N"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Notify the Incident Commander and the Liaison immediately upon receiving the Harwick Police request for confirmation on aircraft status.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "security",
+            "timing": "Within 1 minute",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Confirm from the fleet register and 0800 log that no Group aircraft is airborne and report the result to Harwick Police within five minutes.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "Within 5 minutes",
+            "rowIds": [
+              "I-01",
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Log the call from Harwick Police, including the time of the 0800 count and the serial number of the unknown drone.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "Within 2 minutes",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Send the RPIC to the Harwick Police command post to interpret Remote ID data, as authorized in HUOG-ERP 8.4.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "Within 5 minutes",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Ensure that no Group aircraft is launched to look for or track the unknown drone, per HUOG-ERP 8.4.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-01",
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Keep the RPIC at the command post and the hangar closed when the drone reappears over the perimeter road.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
@@ -1216,6 +1426,435 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects, with no hidden facts or prior knowledge.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in HUOG-ERP, HUOG-FOM, and HUOG-SITE, and not based on assumptions beyond those documents."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of real-time during the exercise; injects are delivered in sequence to reflect evolving situational awareness.",
+      "The SimCell simulates all external actors not in the room, including Harwick Police, the FAA FSDO, media outlets, and the public event organizers.",
+      "All systems referenced (e.g., Remote ID broadcast modules, LAANC, fleet register) are assumed to be functional and accurate as per the plans, but not physically manipulated by players.",
+      "The Group’s gate codes, fleet status, and personnel records are consistent with the documents and injects provided.",
+      "No counter-UAS equipment, additional aircraft, or unlisted roles exist; the Group does not interfere with any aircraft."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5RKR63KDHYA96H73972YCVC",
+        "narrativeMd": "It is 11:00. The Harwick Fall Festival is underway next door with approximately 6,000 attendees. Today is a NO FLY day for the Group: at 0800 the flight operations desk logged all twelve aircraft in Hangar 1. The weather is clear, 68°F, light wind. The desk is staffed; the Director of Flight Operations, the ASO, and the General Manager are on call.\n\nAt 11:05, Harwick Police’s detection vendor console reports a small quadcopter broadcasting standard Remote ID, serial 1F7Q-ZX43-0915, circling the fairgrounds crowd at about 240 ft AGL since 11:01. The operator position is in the fairgrounds north lot, adjacent to the Group’s perimeter fence. The sergeant at the command post asks whether any Group aircraft is airborne.\n\nAt 11:10, the flight operations desk confirms: \"0800 count was twelve of twelve in Hangar 1, UAS-01 to UAS-12. Nothing on the schedule today, no keys signed out, the hangar alarm hasn’t been unset since last night. None of our Remote ID serials on the register is anything like that one.\"",
+        "keyIssues": [
+          "Prove within five minutes that no Group aircraft are airborne, using only the fleet register and schedule.",
+          "Ensure all roles receive the same factual update from the flight operations desk to maintain consistency.",
+          "Avoid any public statement that could imply Group involvement until confirmed.",
+          "Coordinate with Harwick Police to provide Remote ID interpretation support without launching any aircraft.",
+          "Prevent misinformation from spreading by locking down internal messaging to verified facts."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "FOM: Based on the 0800 fleet log and the schedule, what is the Group’s official position on whether any aircraft were airborne at 11:05? How do you confirm this with the flight operations desk?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          },
+          {
+            "text": "LIAISON: How do you ensure that the Harwick Police liaison receives the same facts from the flight operations desk as the FOM and ASO, and that no one else adds a version of the truth?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "ASO: What documentation must you immediately record to support the 0800 fleet count, and what is the basis for your record in HUOG-ERP Section 6?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              }
+            ]
+          },
+          {
+            "text": "COMMS: What is the Group’s public statement policy when a drone incident is reported by media, and who must approve any external message?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 9. Contacts (exercise numbers)",
+                "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+                "chunkId": 295
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RKR63K8T0K52P3KJFX3ZGS",
+        "narrativeMd": "It is 12:00. The drone landed out of sight at 11:41 and has been quiet for twenty minutes. The festival’s noon parade is forming on the midway. The bystander post has passed 900 shares.\n\nAt 12:02, the drone reappears on the Harwick Police detection console, airborne again and circling the parade route at 220 ft. This time, the broadcast operator position is on the Group’s perimeter road, inside the outer gate, 40 meters from Hangar 1. Police ask who can get onto that road.\n\nAt 12:05, the flight operations desk confirms that all twelve Group aircraft remain in Hangar 1, props off, batteries in the fire cabinet, and the hangar alarm has not been triggered since last night. The liaison has photographed each rack with the time showing.\n\nAt 12:10, Channel 10 has a bystander video it claims shows the drone taking off from behind the Harwick UAS hangar. \"Is it yours? We go live at 12:30.\"",
+        "keyIssues": [
+          "Support Harwick Police in interpreting Remote ID data without launching any Group aircraft.",
+          "Confirm that the drone’s serial and operator position match no Group aircraft in the fleet register.",
+          "Maintain factual consistency across roles when describing the drone’s behavior and location.",
+          "Prevent internal confusion as media and social media amplify the narrative.",
+          "Ensure that no role suggests Group aircraft were used to track or identify the drone."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "FOM: How do you confirm to Harwick Police that the drone’s broadcasted Remote ID (serial 1F7Q-ZX43-0915) does not match any Group aircraft in the fleet register, and what documentation supports that?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              },
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              }
+            ]
+          },
+          {
+            "text": "LIAISON: How do you assist Harwick Police in identifying the operator’s location on the perimeter road, and what is your role in preventing unauthorized access to the hangar complex?",
+            "roleIds": [
+              "security"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 9 › 9.1 Horton Field (base)",
+                "quote": "- First responders: Harwick Police (585-555-0111) and Harwick Fire/EMS; ambulance access from the perimeter road by the equipment shed. - Emergency landing zones: the field's south-west corner; the tu",
+                "chunkId": 66
+              }
+            ]
+          },
+          {
+            "text": "ASO: What must you record in the incident log to support the chain of evidence, and how does this align with HUOG-ERP Section 6?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              }
+            ]
+          },
+          {
+            "text": "COMMS: What is the Group’s policy on media inquiries when a drone is reported to be from the company, and who must approve any public response?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 9. Contacts (exercise numbers)",
+                "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+                "chunkId": 295
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RKR63K4WG0KWD1JQA14HE6",
+        "narrativeMd": "It is 13:00. The drone landed at 12:31 and has not flown since. Two officers are in the north lot and on the perimeter road. Channel 10 ran its video at 12:30 with the line \"launched from behind a local drone company’s hangar.\"\n\nAt 13:05, Harwick Police contacts the Group: \"We’ve got him. White quad, controller in his hand, sitting on the tailgate of a pickup on your perimeter road. Says his name is Kyle Brandt and that he’s one of your part-time visual observers, off today, flying his own drone to film the fair for his channel. He has a Group gate code. Is he yours?\"\n\nAt 13:10, the FAA Harwick FSDO calls the ASO: \"I understand the operator works for you. Was this a Group operation under your Part 107 program, or his own recreational or Part 107 flight? Does he hold a remote pilot certificate? Did anyone at the Group know he was flying?\"\n\nAt 13:15, Harwick Police PIO contacts the Group: \"We’re putting out a statement at 13:30. It will say the operator was identified, cited for flying over people at a public event, and is ‘associated with a local drone company.’ It won’t name the company. You’ve been saying ‘no Group aircraft were flying’ all morning. Do you want to say something before we do?\"",
+        "keyIssues": [
+          "Confirm that Kyle Brandt is a Group employee and part of the roster, but not on a flight that day.",
+          "Decide whether to disclose the operator’s identity and employment status to the public, and what to say about his gate code.",
+          "Determine whether to report the incident to the FSDO as a potential violation of Part 107, even if the operator was not on duty.",
+          "Ensure that no role suggests the Group authorized or approved the flight.",
+          "Decide whether to allow the operator to keep his job, given the incident and no existing policy on staff personal drone use near the fairgrounds."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "GM: What is the Group’s policy on staff flying personal drones near Horton Field during a public event, and what authority does the GM have to override or enforce it?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              }
+            ]
+          },
+          {
+            "text": "FOM: Based on the flight operations desk’s record, is Kyle Brandt listed as a VO on any active flight for the day, and what does that imply about his status and authorization?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              },
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              }
+            ]
+          },
+          {
+            "text": "ASO: What must you report to the FSDO under HUOG-ERP Section 6, and what documentation supports that report?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "COMMS: What is the Group’s public statement policy when a staff member is identified as the operator, and what must you avoid saying to prevent misleading the public?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 9. Contacts (exercise numbers)",
+                "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+                "chunkId": 295
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RKR63K6ANJ18Y4P4BBRV9P",
+        "narrativeMd": "It is 15:00. The exercise ends. The drone is with Harwick Police, the FSDO has the Group’s account, Monday’s crew is set, and the review of the crew member and the gate codes continues.\n\nAt 14:05, Harwick Police requests copies of the 0800 fleet log, the register extract with Remote ID serials, and the RPIC’s notes from the command post, by Monday.\n\nAt 14:15, CP&L’s program manager asks whether Monday’s line inspection is still on, and whether the Group is in trouble with the FAA.\n\nAt 14:20, the Harwick Daily News asks for the Group’s policy on staff flying personal drones near Horton Field and the fairgrounds, and whether the operator will keep his job. Deadline 16:00.\n\nAt 14:25, the ASO’s draft event record includes the times, the 0800 count, the Remote ID data, the photographs, and the calls. One question remains: the Group has no rule on staff flying personal drones near Horton Field during public events, and the gate code used was the fair-week temporary code.",
+        "keyIssues": [
+          "Finalize the Group’s public statement to avoid misleading the public, while acknowledging the operator’s identity.",
+          "Ensure that all roles agree on the same facts to be reported to the FSDO and clients.",
+          "Decide whether to implement a new policy on staff personal drone use near the fairgrounds, and how to communicate that.",
+          "Close the incident log with a complete, accurate record for the FSDO, NTSB, and client review.",
+          "Confirm that no role has made a public statement that contradicts the Group’s official position."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "GM: What is the Group’s decision on whether Kyle Brandt will keep his job, and what authority supports that decision?",
+            "roleIds": [
+              "gm"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          },
+          {
+            "text": "ASO: What must you include in the final FSDO report, and how does it align with HUOG-ERP Section 6 and HUOG-FOM Section 2.4?",
+            "roleIds": [
+              "safety"
+            ],
+            "objectiveRef": "Use of Doctrine",
+            "citations": [
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+                "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+                "chunkId": 64
+              },
+              {
+                "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+                "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+                "headingPath": "ERP › Section 2 › 2.4 Incident log",
+                "quote": "The scribe keeps a timed log from the first call: who reported, what was seen, each decision, each notification (who, when, by whom, what was said). The log is the basis for the Incident Report (Annex",
+                "chunkId": 49
+              }
+            ]
+          },
+          {
+            "text": "COMMS: What is the final public statement, and how does it reflect the Group’s policy on staff personal drone use, without creating a precedent?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 9. Contacts (exercise numbers)",
+                "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+                "chunkId": 295
+              },
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+                "quote": "The Group does not fly within 500 ft of the footprint of a public event at the adjacent Harwick Fairgrounds with an expected attendance over 1,000 (the county fair, concerts, races). Harwick Police pu",
+                "chunkId": 166
+              }
+            ]
+          },
+          {
+            "text": "FOM: How do you confirm that the client (CP&L) has received accurate information about the status of Monday’s inspection, and what must you document?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+                "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+                "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+                "quote": "| Decision | Authority | |---|---| | Go / no-go for a flight day | FOM (RPIC may always say no) | | Stop a flight in progress | RPIC, VO (by calling \"ABORT\"), ASO | | Fly above the Horton Field LAANC ",
+                "chunkId": 142
+              },
+              {
+                "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+                "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+                "headingPath": "SITE › 3. Airspace and authorizations",
+                "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+                "chunkId": 289
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Fleet register (Remote ID serials) and the 0800 fleet log",
     "Hangar 1: aircraft, batteries and alarm",
@@ -2444,6 +3083,1160 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T11:07:56.799Z",
+      "finishedAt": "2026-10-30T11:08:11.635Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
+      "inputTokens": 8429,
+      "outputTokens": 1202,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:50:12.558Z",
+      "finishedAt": "2026-10-30T10:50:57.811Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5587,
+      "outputTokens": 4062,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a8873c736c3e62ca",
+        "claims": [],
+        "at": "2026-10-30T10:51:02.650Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "01de0b228895388c",
+        "claims": [
+          {
+            "text": "The liaison passes the request to the flight operations desk at once; the Director of Flight Operations answers within five minutes from the schedule and the fleet register (HUOG-ERP 8.4); no Group aircraft is launched to look.",
+            "chunkId": 88,
+            "headingPath": "FOM › Section 11 › 11.1 Hazard log",
+            "overlap": 0.176,
+            "matched": [],
+            "missing": [
+              "ERP 8.4",
+              "5 minutes",
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.871Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’, ‘ZX43-0915’ are not in 2.2 Decision authority or the facility facts.",
+        "fingerprint": "e35057c2dbd4b549",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations tells Harwick Police, with the time of the 0800 count, that no Group aircraft is airborne and that 1F7Q-ZX43-0915 is not on the Group’s register; logs the call; tells the General Manager and Corporate Communications.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.368,
+            "matched": [
+              "General Manager",
+              "Harwick Police"
+            ],
+            "missing": [
+              "Director of Flight Operations",
+              "ZX43-0915"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.873Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "4a052c6e1f235591",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations sends an RPIC to the command post to interpret the Remote ID data only (HUOG-ERP 8.4); the liaison briefs the RPIC that the Group does not approach the operator or the aircraft.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.765,
+            "matched": [
+              "ERP 8.4",
+              "Director of Flight Operations"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.873Z",
+        "version": 1
+      },
+      "row:I-03b": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "310ed6987d2e03cc",
+        "claims": [],
+        "at": "2026-10-30T10:51:02.654Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "‘Director of Flight Operations’ is not in 10.1 Remote ID or the facility facts.",
+        "fingerprint": "cf170244e573d4e7",
+        "claims": [
+          {
+            "text": "The ASO compares the serial with the register and records that it is not a Group aircraft, saves the screenshot with the time; the Director of Flight Operations explains to the police RPIC why the look-alike is not proof either way.",
+            "chunkId": 85,
+            "headingPath": "FOM › Section 10 › 10.1 Remote ID",
+            "overlap": 0.211,
+            "matched": [],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.873Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘Harwick Police’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "379116b678ce7921",
+        "claims": [
+          {
+            "text": "The General Manager replies, after checking with Flight Operations, that every Group aircraft is grounded and logged, that the Group is helping Harwick Police, and that Harwick Police leads; Corporate Communications keeps the same words for the press.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.421,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "Harwick Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.873Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "review",
+        "reason": "‘Harwick Police’, ‘approved’ are not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "5dcd14a31c97ad95",
+        "claims": [
+          {
+            "text": "Corporate Communications posts or prepares the approved statement — Group aircraft are grounded today and the Group is helping Harwick Police — without guessing who the operator is, and logs the post.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.313,
+            "matched": [],
+            "missing": [
+              "Harwick Police",
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.873Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "584d2775870143d1",
+        "claims": [],
+        "at": "2026-10-30T10:51:02.654Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "Only 44% of ‘The liaison answers who has gate access (Group staff, the f…’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "70b40b751a8d606c",
+        "claims": [
+          {
+            "text": "The liaison answers who has gate access (Group staff, the fuel vendor, fair parking crews with a temporary code) and sends nobody to approach the operator; the Director of Flight Operations keeps the RPIC at the command post and the hangar closed.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.435,
+            "matched": [
+              "Director of Flight Operations"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.874Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "7d79df5e7817f784",
+        "claims": [
+          {
+            "text": "Corporate Communications says Group aircraft are grounded and logged, that the Group is helping Harwick Police, and that police will say more about the operator; it does not deny that the launch was near the hangar.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.563,
+            "matched": [
+              "Harwick Police"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.874Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "c195efc4249d452f",
+        "claims": [
+          {
+            "text": "The ASO adds the photographs and the count to the event record; the Director of Flight Operations sends them to the police command post; the General Manager is told the Group can prove its fleet was grounded.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.765,
+            "matched": [
+              "Director of Flight Operations",
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.874Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "review",
+        "reason": "Only 33% of ‘The General Manager files it for next week; it is not relat…’ is in 10.3 Social media and trainees.",
+        "fingerprint": "4e767c03bb214131",
+        "claims": [
+          {
+            "text": "The General Manager files it for next week; it is not related.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.333,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.874Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "dc0e13aa53c3c827",
+        "claims": [
+          {
+            "text": "The liaison keeps Group staff away from the officers’ approach and logs it; the ASO prepares what the Group will tell the FSDO (the 0800 count, the register, the photographs, the Remote ID data seen at the command post).",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.563,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.875Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "03502019a90d43f0",
+        "claims": [],
+        "at": "2026-10-30T10:51:02.655Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "6b094885ea24afc2",
+        "claims": [
+          {
+            "text": "The General Manager joins the call (HUOG-ERP 8.4); the Director of Flight Operations confirms from the roster that Kyle Brandt is a part-time visual observer and that the drone is not a Group aircraft; the liaison asks how he got the gate code and has it changed; nobody from the Group touches the drone or the controller.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.5,
+            "matched": [
+              "ERP 8.4",
+              "General Manager",
+              "Director of Flight Operations"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.875Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "Only 47% of ‘The ASO answers with what the Group knows — not a Group air…’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "87902542fa5c8de5",
+        "claims": [
+          {
+            "text": "The ASO answers with what the Group knows — not a Group aircraft, not scheduled, a NO FLY day, he is a visual observer — and does not speculate about his certificate or intent; commits to a written follow-up with the records.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.471,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Part 107",
+            "chunkId": 141,
+            "headingPath": "SITE › 3. Airspace and authorizations",
+            "overlap": 1,
+            "matched": [
+              "Part 107"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.875Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "Only 38% of ‘The General Manager, with Corporate Communications and the …’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "92b9b9dfc669522a",
+        "claims": [
+          {
+            "text": "The General Manager, with Corporate Communications and the ASO, decides what the Group says publicly — acknowledging that the operator is a part-time crew member flying his own drone off duty, or holding to “no Group aircraft were flying” — and how it will handle him (removing him from flight duties pending review), and records the decision and its basis.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.375,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-14c": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9b600ac47c9d5e20",
+        "claims": [
+          {
+            "text": "The liaison points her to the fair’s roadside-assistance tent; it is not related.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "Only 31% of ‘The Director of Flight Operations removes him from Monday’s…’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "1904491843aa9190",
+        "claims": [
+          {
+            "text": "The Director of Flight Operations removes him from Monday’s roster pending review and finds a replacement or moves the flight; the ASO records the change.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.308,
+            "matched": [
+              "Director of Flight Operations"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "review",
+        "reason": "‘Harwick Police’ is not in 10.3 Social media and trainees or the facility facts.",
+        "fingerprint": "c5d75471324094f3",
+        "claims": [
+          {
+            "text": "Corporate Communications answers with the Group’s decided statement, consistent with the Harwick Police statement, and does not argue in the comments.",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [
+              "Harwick Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "3a0abdc7a36750b1",
+        "claims": [
+          {
+            "text": "The liaison acknowledges; it is routine.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "review",
+        "reason": "Only 30% of ‘The liaison agrees and logs the request; the ASO assembles …’ is in 11.3 Records.",
+        "fingerprint": "feb1d2a3ece78bac",
+        "claims": [
+          {
+            "text": "The liaison agrees and logs the request; the ASO assembles the copies from the event record; the Group keeps its originals and takes nothing of the operator’s.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4a29464faf5dc884",
+        "claims": [
+          {
+            "text": "The General Manager answers with facts (a part-time crew member flew his own drone off duty; not a Group operation; he is off the roster pending review) and the Director of Flight Operations confirms Monday’s crew.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.176,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "1832e7b16e4e69dd",
+        "claims": [
+          {
+            "text": "Corporate Communications gives the Group’s statement, says the Group does not discuss individual personnel matters, and describes the existing NO FLY rule for Group operations; the policy question goes to the General Manager.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.158,
+            "matched": [
+              "General Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.876Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a230daca4057e366",
+        "claims": [
+          {
+            "text": "The ASO completes the record and the FSDO follow-up; the General Manager and the Director of Flight Operations decide on an interim rule for personal flights near Group sites during public events and on how gate codes are handled for fair week.",
+            "chunkId": 107,
+            "headingPath": "ISP › Section 4 › 4.4 Parameters and geofences",
+            "overlap": 0.045,
+            "matched": [],
+            "missing": [
+              "General Manager",
+              "Director of Flight Operations"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "6df0fb5603202656",
+        "claims": [],
+        "at": "2026-10-30T10:51:02.657Z",
+        "version": 1
+      },
+      "inject:01M5RN2J8DEMFQCV2J3N46Y3M2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "003e4959b7143443",
+        "claims": [],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN2S5KZKBMZRYG83WW2AJV": {
+        "label": "review",
+        "reason": "Only 40% of ‘Watch for the desk answering from the register, not from me…’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "97e88f563e1ed743",
+        "claims": [
+          {
+            "text": "The clock is five minutes (HUOG-ERP 8.4).",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.8,
+            "matched": [
+              "ERP 8.4",
+              "5 minutes"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the desk answering from the register, not from memory.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN35H8EJKJXYDRZ5KK3N6S": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "7553385b53d7ba61",
+        "claims": [
+          {
+            "text": "The negative is provable.",
+            "chunkId": 78,
+            "headingPath": "FOM › Section 8 › 8.5 No-uplink procedure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the time of the count and the serial comparison going to police.",
+            "chunkId": 78,
+            "headingPath": "FOM › Section 8 › 8.5 No-uplink procedure",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN3DZDA9P4RVDE8SF5E457": {
+        "label": "review",
+        "reason": "Only 38% of ‘Watch for an RPIC sent with a clear brief: interpret data, …’ is in 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "0ff3f26d8dd2444d",
+        "claims": [
+          {
+            "text": "Watch for an RPIC sent with a clear brief: interpret data, do not approach anyone.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN3TBC1NYS29BJ1Q193CGR": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e74ade733a1ab240",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 72,
+            "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN47A8MMF6E3TKCMANTXVV": {
+        "label": "review",
+        "reason": "Only 25% of ‘Watch for the serial compared and recorded.’ is in 4.1 Fleet.",
+        "fingerprint": "39d0a6c977d0fe70",
+        "claims": [
+          {
+            "text": "It looks like a Group aircraft and it is not.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the serial compared and recorded.",
+            "chunkId": 53,
+            "headingPath": "FOM › Section 4 › 4.1 Fleet",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.877Z",
+        "version": 1
+      },
+      "inject:01M5RN4MQ3SJ7XMJW7W5AV0MGB": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "374fa56cc74ee290",
+        "claims": [
+          {
+            "text": "Watch for a factual answer and Harwick Police named as the lead.",
+            "chunkId": 95,
+            "headingPath": "ISP",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "Harwick Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.878Z",
+        "version": 1
+      },
+      "inject:01M5RN4XR6CBX51H7ZCRS63KTV": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e3b599891a68bd5b",
+        "claims": [
+          {
+            "text": "Watch for a statement that is true without guessing about the operator.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.878Z",
+        "version": 1
+      },
+      "inject:01M5RN5D6XD8ZRYKRC7ADS2R95": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8f797d0c3265506f",
+        "claims": [],
+        "at": "2026-10-30T11:08:11.878Z",
+        "version": 1
+      },
+      "inject:01M5RN5MR7BRNKQQFMP37WJPRN": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for who has gate access, and nobody sent to confront …’ is in 10.1 Remote ID.",
+        "fingerprint": "4bea93922805220b",
+        "claims": [
+          {
+            "text": "The operator is on Group property.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for who has gate access, and nobody sent to confront him.",
+            "chunkId": 85,
+            "headingPath": "FOM › Section 10 › 10.1 Remote ID",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.878Z",
+        "version": 1
+      },
+      "inject:01M5RN626C80F77RY0Y18Q039V": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c30dcfd079ea731e",
+        "claims": [
+          {
+            "text": "Watch for no denial of what the video may show.",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.878Z",
+        "version": 1
+      },
+      "inject:01M5RN6ETGBCJSC6C4DDQ4QZG8": {
+        "label": "grounded",
+        "reason": "Every claim matches 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "152e4748fe361b20",
+        "claims": [
+          {
+            "text": "If anyone suggests launching a Group aircraft to find the drone, remind them of HUOG-ERP 8.4.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0.5,
+            "matched": [
+              "ERP 8.4"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN6TT42K1009627JAPFAYV": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "17ea909857fbfed4",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN7C878DWRVNTGA39QKE26": {
+        "label": "review",
+        "reason": "Only 25% of ‘Play the RPIC as useful and careful.’ is in Annex B.",
+        "fingerprint": "873d2f819053e0e2",
+        "claims": [
+          {
+            "text": "Play the RPIC as useful and careful.",
+            "chunkId": 39,
+            "headingPath": "ERP › Annex B",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN7MZXH5C0Q4PZRN9HZNSJ": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "003fd6ba05280add",
+        "claims": [],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN7YNN19E7J5NEWRNFYADX": {
+        "label": "review",
+        "reason": "Only 0% of ‘The turn.’ is in 7.6 Public events at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "29e2d21ccd182b98",
+        "claims": [
+          {
+            "text": "The turn.",
+            "chunkId": 72,
+            "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the roster checked, the gate code changed, and nobody from the Group touching the drone.",
+            "chunkId": 72,
+            "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN8DFS9C6NTDCZH1FS2RS2": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "03ef03271074ac09",
+        "claims": [
+          {
+            "text": "Watch for facts only and a written follow-up promised.",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.879Z",
+        "version": 1
+      },
+      "inject:01M5RN8WWZPD98Q71A5T7FNX7B": {
+        "label": "review",
+        "reason": "Only 0% of ‘The decision point.’ is in 7.6 Public events at the adjacent Harwick Fairgrounds.",
+        "fingerprint": "7f81ab64bad938b5",
+        "claims": [
+          {
+            "text": "The decision point.",
+            "chunkId": 72,
+            "headingPath": "FOM › Section 7 › 7.6 Public events at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Saying it first costs the Group a bad headline it controls; saying nothing leaves “no Group aircraft” looking like a dodge.",
+            "chunkId": 138,
+            "headingPath": "SITE",
+            "overlap": 0.308,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a decision, its basis recorded, and the crew member taken off flight duties pending review.",
+            "chunkId": 48,
+            "headingPath": "FOM › Section 2 › 2.2 Decision authority",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RN9DM6S6KGX4063XZKT80R": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "88857bfe30925e84",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 61,
+            "headingPath": "FOM › Section 5 › 5.4 Risk assessment",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RN9X28CT86HCHFBDNV5F1X": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "82dd4c328ee52d9c",
+        "claims": [
+          {
+            "text": "If players keep him on the roster, have CP&L ask about it at 14:15.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNA7D4RWEH6NQAA5BG38RE": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "d2d5af8c7fabb0e0",
+        "claims": [
+          {
+            "text": "Watch for the decided statement, consistent with the police, and no arguing in the comments.",
+            "chunkId": 30,
+            "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNAG2QVPK0152WG1DMN5J3": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a8ca0aaf689e3797",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 37,
+            "headingPath": "ERP › Section 11 › 11.4 Hot wash",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNAT58DAAXZHJKC8C5Z0J7": {
+        "label": "review",
+        "reason": "‘Police’ is not in 11.3 Records or the facility facts.",
+        "fingerprint": "a9abad7e1d12af10",
+        "claims": [
+          {
+            "text": "Police keep the evidence; the Group gives copies of its own records.",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "Police"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNB5E7W78E8Y4EJPD616C7": {
+        "label": "grounded",
+        "reason": "Every claim matches 7.5 Client notification.",
+        "fingerprint": "c1b239c771739109",
+        "claims": [
+          {
+            "text": "Watch for facts and a confirmed Monday crew.",
+            "chunkId": 121,
+            "headingPath": "ISP › Section 7 › 7.5 Client notification",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNBQCRHVMG3A5PGANJ8DYW": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c2dc9107340b6167",
+        "claims": [
+          {
+            "text": "Watch for no personnel details and the policy gap stated plainly.",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.880Z",
+        "version": 1
+      },
+      "inject:01M5RNC0V5SPBJVHTKKS87SH99": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "6916837927ab95c7",
+        "claims": [
+          {
+            "text": "Let the room argue the rule; record what it decides.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 8 › 8.5 Interference, GNSS anomalies and suspected link compromise",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "inject:01M5RNCAQ7CQ7MP1WYTVCTK16B": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "7327dd6ab16b2a08",
+        "claims": [],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds is in the index as cited.",
+        "fingerprint": "3aaa542bc771729c",
+        "claims": [
+          {
+            "text": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "chunkId": 24,
+            "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "9. Contacts (exercise numbers) is in the index as cited.",
+        "fingerprint": "10bd00c808bbead8",
+        "claims": [
+          {
+            "text": "SITE › 9. Contacts (exercise numbers)",
+            "chunkId": 147,
+            "headingPath": "SITE › 9. Contacts (exercise numbers)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "10.3 Social media and trainees is in the index as cited.",
+        "fingerprint": "28adbfe04ff7e52f",
+        "claims": [
+          {
+            "text": "ERP › Section 10 › 10.3 Social media and trainees",
+            "chunkId": 32,
+            "headingPath": "ERP › Section 10 › 10.3 Social media and trainees",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "11.3 Records is in the index as cited.",
+        "fingerprint": "3c4f7553c5d86df4",
+        "claims": [
+          {
+            "text": "ERP › Section 11 › 11.3 Records",
+            "chunkId": 36,
+            "headingPath": "ERP › Section 11 › 11.3 Records",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "2.4 Incident log is in the index as cited.",
+        "fingerprint": "5b8dba9568e34883",
+        "claims": [
+          {
+            "text": "ERP › Section 2 › 2.4 Incident log",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 2 › 2.4 Incident log",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "1.3 Relationship to other plans is in the index as cited.",
+        "fingerprint": "db9dfea218eb4865",
+        "claims": [
+          {
+            "text": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "chunkId": 99,
+            "headingPath": "ISP › Section 1 › 1.3 Relationship to other plans",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:08:11.881Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }
