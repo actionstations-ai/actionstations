@@ -11,11 +11,15 @@ import {
   type BrowserContext,
   type Page,
 } from '@playwright/test'
-import { mkdirSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createWebCryptoProvider } from '../../src/shared/live/crypto/webcrypto'
 import { HarnessController } from '../../src/player/harness/controller'
 import { startHarness, type Harness } from '../../src/player/harness/server'
+
+/** The player page shows the app version; read it so a release bump does not break this test. */
+const APP_VERSION = (JSON.parse(readFileSync('package.json', 'utf8')) as { version: string })
+  .version
 
 const OUT = resolve('.tmp/live')
 mkdirSync(OUT, { recursive: true })
@@ -112,7 +116,7 @@ test.describe('player page over the harness', () => {
     const ops = await openPlayer(browser, 'ops', PIXEL, link)
     await expect(ops.page.getByRole('heading', { level: 1 })).toHaveText('Flight to Nowhere')
     await expect(ops.page.getByText(/non-attributional/)).toBeVisible()
-    await expect(ops.page.getByText('Page 0.5.1 · protocol 1')).toBeVisible()
+    await expect(ops.page.getByText(`Page ${APP_VERSION} · protocol 1`)).toBeVisible()
     await expect(ops.page.getByRole('radio', { name: /Evaluator/ })).toBeDisabled()
     await shot(ops.page, 'join')
     await shot(ops.page, 'join', 'dark')
