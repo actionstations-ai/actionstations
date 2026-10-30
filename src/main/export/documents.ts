@@ -57,7 +57,7 @@ function footerText(model: ExportModel): string {
 function locationPagesFor(model: ExportModel, prefix: string, mode: RenderMode) {
   return locationPages(model.maps, model.scenario, prefix).map((p) => ({
     ...p,
-    src: assetSrc(model, p.image, mode),
+    src: p.image ? assetSrc(model, p.image, mode) : '',
   }))
 }
 

@@ -61,11 +61,16 @@ ranges only), bundled in the app under the SIL Open Font License; the licence te
 `src/renderer/src/components/map/geo/glyphs/OFL.txt`. Names in other scripts are left out until
 more font ranges are bundled.
 
+## Locations pages for geographic maps
+
+The MSEL and handbook exports add a Locations page for each geographic map the MSEL uses. Places
+are numbered and plotted by latitude and longitude on a plain frame, with the coordinates in the
+legend. The page has no street map; print the map from the Maps page if you need one.
+
 ## Not yet
 
-The
-Locations pages for geographic maps, and the WebGL check on
-packaged Linux and Windows builds.
+The WebGL check on packaged Linux and Windows builds, and a street map picture on exported
+Locations pages for geographic maps.
 
 ## Map updates
 

@@ -61,6 +61,51 @@ describe('Locations pages (#500)', () => {
     expect(html).toContain('Locations: Terminal (2 of 2)')
   })
 
+  it('plots a geographic map by latitude and longitude, with coordinates and no image', () => {
+    const model = fixtureModel()
+    model.scenario.msel[0] = { ...model.scenario.msel[0]!, placeIds: ['pier', 'lot'] }
+    const at = (lat: number, lon: number) => [{ mapId: 'harbor', lat, lon }]
+    model.maps = {
+      formatVersion: 1,
+      maps: [
+        {
+          kind: 'geo',
+          id: 'harbor',
+          title: 'Harbor',
+          basemap: { kind: 'online', provider: 'openfreemap' },
+          style: 'light',
+        },
+      ],
+      places: [
+        { id: 'pier', label: 'Pier 4', kind: 'incident', note: '', positions: at(47.6, -122.34) },
+        {
+          id: 'lot',
+          label: 'Staging lot',
+          kind: 'staging',
+          note: '',
+          positions: at(47.58, -122.3),
+        },
+        {
+          id: 'far',
+          label: 'Not in the MSEL',
+          kind: 'other',
+          note: '',
+          positions: at(47.5, -122.2),
+        },
+      ],
+    }
+    for (const doc of ['msel', 'handbook'] as const) {
+      const html = buildDocumentHtml(model, doc, 'pdf')
+      expect(html, doc).toContain('Locations: Harbor')
+      expect(count(html, 'class="locations__pin'), doc).toBe(2)
+      expect(html, doc).toContain('locations__blank')
+      expect(html, doc).toContain('47.6000° N, 122.3400° W')
+      expect(html, doc).toContain('Positions only')
+      expect(html, doc).not.toContain('Not in the MSEL')
+      expect(html, doc).not.toContain('<img class="locations__base"')
+    }
+  })
+
   it('adds nothing when the MSEL names no place', () => {
     const model = fixtureModel()
     model.maps = { formatVersion: 1, maps: [plan()], places: [pin('gate', 'Gate A1')] }

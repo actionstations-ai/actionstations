@@ -1,6 +1,6 @@
 # Spec 0436: Map view of injects
 
-Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Tile pyramid is built (#500). Offline place labels are built (#500). Still open: offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
+Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`), tile pyramid, offline place labels and Locations pages for geo maps are built (#500). Still open: packaged WebGL check, a rendered basemap picture for exports. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
 
 ## Summary
 
@@ -639,3 +639,11 @@ Noto Sans Regular glyph ranges 0-255 and 256-511 (about 200 KB, SIL Open Font Li
 protocol; a range that is not bundled loads as an empty stack, so unlisted scripts are skipped
 rather than failing the map. The Protomaps and OpenMapTiles styles gained place, road and water
 name layers using `name:latin` then `name`. The attribution stays plain text.
+
+### Locations pages for geographic maps (#500)
+
+`src/main/export/locations.ts` builds a page per geographic map whose places the MSEL uses, up to 12
+markers each. A rendered basemap picture needs a WebGL render window that is not built, so the page
+is a schematic: `schematicPoints` (shared with the device map) fits the page's places into a 4:3
+frame, the legend lists each place's rows and "47.6000° N, 122.3400° W", and the page says
+"Positions only". Site plan pages are unchanged.
