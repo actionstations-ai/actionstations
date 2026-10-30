@@ -83,7 +83,9 @@ test('live: choose each connection, test it, start and stop', async () => {
     await page.getByRole('textbox', { name: 'Server address' }).fill(own.base)
     await page.getByRole('textbox', { name: 'Server key' }).fill('sk-e2e-key')
     await page.getByRole('button', { name: 'Test connection' }).click()
-    await expect(page.getByText(own.fingerprintSha256!.split(':')[0]!).first()).toBeVisible()
+    await expect(page.locator('.live-fingerprint-view__pair').first()).toHaveText(
+      own.fingerprintSha256!.split(':')[0]!,
+    )
     await expect(page.getByRole('button', { name: 'Start session' })).toBeDisabled()
     await page.getByRole('button', { name: 'Confirm this fingerprint' }).click()
     await expect(page.getByText('Pinned: the app accepts only this certificate.')).toBeVisible()
