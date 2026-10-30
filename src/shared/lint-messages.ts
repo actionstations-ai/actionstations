@@ -68,6 +68,8 @@ const PLAIN: Record<string, string> = {
     'An event names a runway, gate, system or other place not in your facility facts.',
   LOCATION_UNGROUNDED: 'An event names a place your documents do not mention.',
   ROLE_KEY_UNKNOWN: 'An event is addressed to a role that is not in this scenario.',
+  REDACTION_UNKNOWN:
+    'The model wrote a redaction placeholder that this project never issued; check the text.',
   INJECT_FIELDS_INVALID: 'An inject is missing fields its template needs.',
   INJECT_FIELDS_REPAIRED: 'Some inject fields were filled in automatically.',
   INJECT_CONTENT_ISSUE: 'An inject has a content problem to review.',
