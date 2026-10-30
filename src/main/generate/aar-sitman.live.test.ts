@@ -1,4 +1,4 @@
-// Live checks (LIVE=1) for the `aar` (#419) and `sitman` (#420) stages with LM Studio as the
+// Live checks (LIVE=1) for the `aar` (#419), `sitman` (#420) and `eeg` (#421) stages with LM Studio as the
 // text provider: the shipped prompts, the scenario-3 fixture and the sample live-play log.
 //   LIVE=1 pnpm test src/main/generate/aar-sitman.live.test.ts
 // LM Studio: LIVE_LMSTUDIO_URL (default http://127.0.0.1:1234/v1), model LIVE_LMSTUDIO_MODEL.
@@ -101,6 +101,24 @@ describe.skipIf(!LIVE)('aar and sitman stages with LM Studio (live)', () => {
       expect(m.narrativeMd.length).toBeGreaterThan(40)
       expect(m.discussionQuestions.length).toBeGreaterThan(0)
     }
+  }, 600_000)
+
+  it('eeg: capabilities with three or more critical tasks each', async () => {
+    const { root, scenarioId } = await setup()
+    const { jobs } = await import('../jobs/manager')
+    const { rerunStep } = await import('./engine')
+    const { getScenario } = await import('../scenario/store')
+    const job = await jobs.wait(
+      jobs.start(
+        'rerun-stage',
+        (ctx) => rerunStep(root, scenarioId, { stage: 'eeg' }, undefined, ctx),
+        { projectPath: root, scenarioId },
+      ).id,
+    )
+    expect(job.status, job.error).toBe('done')
+    const eegs = (await getScenario(root, scenarioId)).evaluation!.eegs
+    expect(eegs.length).toBeGreaterThan(0)
+    for (const e of eegs) expect(e.criticalTasks.length).toBeGreaterThanOrEqual(3)
   }, 600_000)
 
   it('aar: drafts an executive summary and capability analyses from the record', async () => {

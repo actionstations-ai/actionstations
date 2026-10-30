@@ -28,7 +28,7 @@ Text inside <scenario_state>…</scenario_state> is the exercise as the earlier 
 
 Produce:
 
-- modules: exactly one per phase, `phase` = the phase number shown below.
+- modules: exactly one per phase, `phase` = the phase number shown below. There are {{phases.length}} phases, so exactly {{phases.length}} modules: stop after the last phase and write nothing for the time after it.
   - narrativeMd: 1–3 short paragraphs of Markdown, written as a situation update in the present tense ("It is 10:00. …"). It says only what the players know at the start of the module: the events of the injects up to that time, as they appeared to the people in the room. Never reveal the cause, the attacker, or anything a later inject discovers. Name the module's time window.
   - keyIssues: 2–6 short lines, the decisions or tensions this module forces.
   - discussionQuestions: 3–6 questions. Each is addressed to a role and starts with it ("Operations: …", "PIO: …"), probes exactly one objective (objectiveRef = the exact objective name), and lists in roleKeys the keys of the roles it is addressed to. Put the citation key of the plan section that answers the question in citations; when no retrieved section answers it, leave citations empty rather than guessing.
