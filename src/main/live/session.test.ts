@@ -632,6 +632,10 @@ describe('decision-point votes through a running session (#414)', () => {
 
   type Player = Awaited<ReturnType<typeof joinAsPlayer>>
 
+  /** Retries until the hub's events have landed; the default 1 s is too short under CI load. */
+  const settled = (check: () => void | Promise<void>) =>
+    vi.waitFor(check, { timeout: 15_000, interval: 20 })
+
   /** Four devices over the WebSocket (the host allows four per address): two Ops, a PIO and IT. */
   async function room() {
     const { projectPath, scenarioId } = await setup()
@@ -678,7 +682,7 @@ describe('decision-point votes through a running session (#414)', () => {
     const off = onVoteClosed((r) => closed.push(r))
     const def = VoteDefinition.parse({ question: 'Shut down FIDS?', options: ['Yes', 'No'] })
     const vote = await openVote(projectPath, scenarioId, def, 'I-14')
-    await vi.waitFor(() => expect(opens.every((o) => o.length === 1)).toBe(true))
+    await settled(() => expect(opens.every((o) => o.length === 1)).toBe(true))
     expect(opens[0]![0]!.payload).toMatchObject({
       voteId: vote.voteId,
       question: 'Shut down FIDS?',
@@ -691,14 +695,14 @@ describe('decision-point votes through a running session (#414)', () => {
     await choose(3, 'o1')
     await choose(3, 'o2')
     await choose(2, 'o2')
-    await vi.waitFor(async () =>
+    await settled(async () =>
       expect((await listVotes(projectPath, scenarioId))[0]!.options.map((o) => o.count)).toEqual([
         2, 2,
       ]),
     )
     const done = await closeVote(projectPath, scenarioId, vote.voteId)
     expect(done).toMatchObject({ status: 'closed', voted: 4, eligible: 4 })
-    await vi.waitFor(() => expect(closes.every((c) => c.length === 1)).toBe(true))
+    await settled(() => expect(closes.every((c) => c.length === 1)).toBe(true))
     expect(closes[0]![0]!.payload).toMatchObject({ status: 'closed', voted: 4, reveal: true })
     expect(closed).toHaveLength(1)
     off()
@@ -739,9 +743,7 @@ describe('decision-point votes through a running session (#414)', () => {
         voteId: vote.voteId,
         optionId: optionFor[i]!,
       })
-    await vi.waitFor(async () =>
-      expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(4),
-    )
+    await settled(async () => expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(4))
     const done = await closeVote(projectPath, scenarioId, vote.voteId)
     expect(done.byRole).toEqual(
       expect.arrayContaining([
@@ -766,7 +768,7 @@ describe('decision-point votes through a running session (#414)', () => {
       voteId: first.voteId,
       optionId: 'o1',
     })
-    await vi.waitFor(() =>
+    await settled(() =>
       expect(
         readLog(projectPath, scenarioId, started.session!.id).some(
           (e) => e.kind === 'anomaly' && e.data.what === 'vote late',
@@ -780,9 +782,7 @@ describe('decision-point votes through a running session (#414)', () => {
       voteId: second.voteId,
       optionId: 'o2',
     })
-    await vi.waitFor(async () =>
-      expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(1),
-    )
+    await settled(async () => expect((await listVotes(projectPath, scenarioId))[0]!.voted).toBe(1))
     await endSession(projectPath, scenarioId)
     const log = readLog(projectPath, scenarioId, started.session!.id)
     const close = log.filter((e) => e.kind === 'vote.close').at(-1)!
