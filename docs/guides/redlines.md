@@ -85,3 +85,18 @@ again.
 
 The runs table shows every run over time, with a line for the share of criteria met and the same
 numbers in words. **Export results** writes `drill-results.csv` and a one-page PDF.
+
+### Fidelity check log
+
+Sample: the `samplePlan` fixture with one accepted proposal (the PIO sentence), exported through
+`applyTrackedChanges`, author "Action Stations".
+
+| Date       | Program and version                                       | Insertions and deletions                                                             | Author and date                                      | Result                 |
+| ---------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------- | ---------------------- |
+| 2026-10-30 | Word for Mac (16.x)                                       | Shown as tracked changes: "may", "release", "consulting" deleted, new words inserted | Margin balloons read "Action Stations, Deleted: ..." | Pass, no repair prompt |
+| 2026-10-30 | LibreOffice 26.8.2                                        | Shown as tracked changes (strike-through and underline, coloured by author)          | Author is Action Stations                            | Pass                   |
+| 2026-10-30 | Pages (macOS)                                             | Tracked changes recognised: the review bar reads "6 Changes" with Accept and Reject  | Author kept                                          | Pass                   |
+| 2026-10-30 | LibreOffice 26.8.2, `soffice --headless --convert-to pdf` | The PDF shows deleted and inserted words side by side with the unchanged text intact | Not shown in PDF                                     | Pass                   |
+
+The exporter writes insertions and deletions only; it does not write Word comments, so none are
+expected in the file.
