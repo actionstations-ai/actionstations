@@ -8,7 +8,7 @@ import { appendBranchingEntries, checkBranchingReplay } from '../../facilitator/
 import { closePresent, isPresenting, listDisplays, present } from '../../facilitator/present'
 import { engagementCacheFile } from '../../render/engagement'
 import { scenarioLayout } from '../../scenario/layout'
-import { requireScenarioDir } from '../../scenario/store'
+import { getScenario, requireScenarioDir } from '../../scenario/store'
 import { defineHandlers, type HandlerContext } from '../registry'
 
 function ownerWindow(ctx: HandlerContext): BrowserWindow | undefined {
@@ -71,6 +71,21 @@ export default defineHandlers({
         ...(assetId ? { assetId } : {}),
         ...(cachePath ? { cachePath: engagementCacheFile(root, cachePath) } : {}),
       },
+      { ...(displayId !== undefined ? { displayId } : {}), ...(owner ? { owner } : {}) },
+    )
+  },
+
+  'facilitator:present-decision': async (
+    { projectPath, scenarioId, decisionId, displayId },
+    ctx,
+  ) => {
+    const root = await requireProject(projectPath)
+    const scenario = await getScenario(root, scenarioId)
+    if (!scenario.msel.some((r) => r.decision?.id === decisionId))
+      throw new AppError('NOT_FOUND', `No decision ${decisionId} in this scenario`)
+    const owner = ownerWindow(ctx)
+    present(
+      { projectPath: root, scenarioId, decisionId },
       { ...(displayId !== undefined ? { displayId } : {}), ...(owner ? { owner } : {}) },
     )
   },

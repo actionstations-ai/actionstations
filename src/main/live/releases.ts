@@ -94,7 +94,7 @@ export class Delivery {
         ...(payload.injectId ? { injectId: payload.injectId } : {}),
       },
       data: {
-        targets: payload.targets,
+        targets: await this.shown(payload.targets),
         deliveryMode: payload.deliveryMode,
         blobIds: payload.media.map((m) => m.blobId),
         textSha256: sha256(payload.text.body),
@@ -199,6 +199,15 @@ export class Delivery {
     return Promise.all([...this.records.keys()].map((id) => this.summary(id)))
   }
 
+  /** The log and the UI name a device by its reference, never its client id. */
+  private shown(targets: readonly string[]): Promise<string[]> {
+    return Promise.all(
+      targets.map(async (t) =>
+        t.startsWith('client:') ? `client:${await this.deps.clientRef(t.slice(7))}` : t,
+      ),
+    )
+  }
+
   async summary(releaseId: string): Promise<ReleaseSummary> {
     const rec = this.need(releaseId)
     const seats = this.deps.seats()
@@ -211,7 +220,7 @@ export class Delivery {
     return {
       releaseId,
       rowId: rec.rowId,
-      targets: [...rec.targets],
+      targets: await this.shown([...rec.targets]),
       withdrawn: rec.withdrawn,
       perClient: rows,
       counts: {

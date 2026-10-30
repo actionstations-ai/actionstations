@@ -65,7 +65,7 @@ The page makes requests only to the computer or server that served it: no fonts,
 
 With a session running, **Deliver** on a row also sends the inject to the devices of the people it is for, in the Inject panel's **Devices** section:
 
-- **Targets.** Computed from the MSEL row: the row's roles (a whole team becomes the team), everyone for "All" or an inject shown on the main screen. **Edit targets** changes them before delivering. **Send to devices** off keeps the inject off the devices (the rest of Deliver is unchanged).
+- **Targets.** Computed from the MSEL row: the row's roles (a whole team becomes the team), everyone for "All" or an inject shown on the main screen. **Edit targets** changes them before delivering, and lists each connected player device (**Device: PIO**) so you can send an inject to one phone only. **Send to devices** off keeps the inject off the devices (the rest of Deliver is unchanged).
 - **Expected actions.** **Show expected actions to evaluators** adds the row's expected action to the evaluators' copy only, sealed with the staff key. Players never receive it, nor the instructor note.
 - **Receipts.** The timeline shows "to 3 · 3 delivered · 2 read · 1 actioned" and the panel lists each seat with times. **Resend** sends the same inject to another role or team. **Undo deliver** also withdraws it from devices.
 - **Media.** Files are sealed on this computer and staged when the session starts ("Staging media 14/26" in the Live tab). Template pages go as a phone-sized picture plus the full-size original. A file over the connection's limit is left out and the device is told it is shown on the main screen.
@@ -257,16 +257,16 @@ For the facilitator, in the **Messages** tab beside **Live**:
 
 The **Room** tab in Facilitate is the one place to see how a live session is going. It follows the session as it happens and also opens for a past one (**View** in the Live tab).
 
-- **Seats** shows how many devices are connected in each seat. A player seat nobody has joined is marked **Empty**.
+- **Seats** shows how many devices are connected in each seat, how many are **Away** (gone for more than a minute and not back) and how many were removed. A player seat nobody has joined is marked **Empty**.
 - **Released injects** lists each inject you released with how many devices have it delivered, read and acted on, how long the median device took to read it, and what answered it.
-- **Unanswered injects** lists a release that expects a response and has had none after 10 minutes. It counts as answered when a targeted seat marks it acted on, when a player in a targeted seat sends a message after the release, or when you press **Mark answered**. Each newly unanswered inject is announced once by the screen reader's status region.
+- **Unanswered injects** lists a release that expects a response and has had none after 10 minutes. **Flag after (minutes)** changes that for this session; a row's own window in the MSEL wins. The row also shows **No response** in the Facilitate timeline. It counts as answered when a targeted seat marks it acted on, when a player in a targeted seat sends a message after the release, or when you press **Mark answered**. Each newly unanswered inject is announced once by the screen reader's status region.
 - **Messages**, **Votes**, **Hot wash** and **Evaluation** give one line each. The line at the top shows connected devices, dropped frames by reason and the size of the log.
 
 **Log** opens the newest 200 entries of the session log with a kind filter and a search box. **Load earlier** adds older entries. **Star** marks a message for the after-action report.
 
 ### Past sessions
 
-The Live tab lists the scenario's earlier sessions with their length and counts. A session that was never ended (the app closed or the computer lost power) is marked **Interrupted**; **Close as ended** ends it at the time of its last entry. **Resume** reopens a session on this computer's network on the same address and port, so the links already shared still work and devices rejoin by themselves. It needs the session keys the app stored in the operating system's keychain; without them (or for a session on the relay or your own server) only **Close as ended** is offered. What was in memory is not rebuilt: messages, open votes, hot wash items and delivery receipts start again from empty, devices that were connected show as gone until they rejoin, and a vote that was open is recorded as interrupted. The log keeps everything that was written before the restart.
+The Live tab lists the scenario's earlier sessions with their length and counts. A session that was never ended (the app closed or the computer lost power) is marked **Interrupted**; **Close as ended** ends it at the time of its last entry. **Resume** reopens a session on this computer's network on the same address and port, so the links already shared still work and devices rejoin by themselves. It needs the session keys the app stored in the operating system's keychain; without them only **Close as ended** is offered. A session on the relay or your own server resumes the same way, as long as the server still holds it (a relay session expires after a few hours without the controller); if it does not, resume fails with the server's answer and **Close as ended** remains. What was in memory is not rebuilt: messages, open votes, hot wash items and delivery receipts start again from empty, devices that were connected show as gone until they rejoin, and a vote that was open is recorded as interrupted. The log keeps everything that was written before the restart.
 
 - **Export JSON** and **Export CSV** write the log to a file you choose. The CSV opens in a spreadsheet. Names are left out unless the session was run with display names and you tick **Include display names**.
 - **Delete session data** removes the session's log, attachments and staged media from the project folder. It cannot be undone. The facilitator notes and the evaluation for the scenario are not touched.
@@ -276,6 +276,10 @@ The log is a plain file in the project folder (`scenarios/<id>/live/<sessionId>/
 ### Removing a device and replacing the keys
 
 While a session runs, the Live tab lists the devices by seat. **Remove** disconnects one device and moves everyone else to a new key, so the removed device cannot read anything sent afterwards or join again with its link. **Replace keys** does the same with no one removed: use it when a join link was shared too widely. Links you shared before stop working for new devices, devices already connected carry on, and the QR codes on the Live tab show the new links. Both are recorded in the log.
+
+### Showing a decision on the screen
+
+**Show on screen** beside a branch decision opens it in the presentation window: the question and the options while the room decides, then the chosen option and how it was chosen ("Chosen by majority: 7 of 11"). The screen follows the decision when you close it.
 
 ### What the Facilitate page sends to devices
 

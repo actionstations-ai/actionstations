@@ -82,6 +82,17 @@ describe('facilitator handlers', () => {
     ).toMatchObject({ ok: false, error: { code: 'VALIDATION' } })
   })
 
+  it('refuses to present a decision the scenario does not have', async () => {
+    const { projectPath, scenarioId } = await setup()
+    const res = await dispatch(handlers, 'facilitator:present-decision', {
+      projectPath,
+      scenarioId,
+      decisionId: 'd9',
+    })
+    expect(res).toMatchObject({ ok: false, error: { code: 'NOT_FOUND' } })
+    expect(present).not.toHaveBeenCalled()
+  })
+
   it('presents an existing inject and refuses unknown ones', async () => {
     const { projectPath, scenarioId } = await setup()
     const ok = await dispatch(handlers, 'facilitator:present', {

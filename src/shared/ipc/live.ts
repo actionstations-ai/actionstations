@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { channel } from './define'
-import { Destination } from '../live/schemas/envelope'
+import { ReleaseTarget } from '../live/targets'
 import { HttpUrl, SafeId } from '../schemas/common'
 import { LiveServerEntry } from '../schemas/settings'
 import {
@@ -90,14 +90,14 @@ export const liveChannels = {
   'live:release-inject': channel(
     S.extend({
       rowId: SafeId,
-      targets: z.array(Destination).min(1).max(64).optional(),
+      targets: z.array(ReleaseTarget).min(1).max(64).optional(),
       showExpected: z.boolean().default(false),
     }),
     ReleaseSummary,
   ),
   /** Send the same release to more targets (devices keep one copy). */
   'live:resend-inject': channel(
-    S.extend({ releaseId: z.string(), targets: z.array(Destination).min(1).max(64) }),
+    S.extend({ releaseId: z.string(), targets: z.array(ReleaseTarget).min(1).max(64) }),
     ReleaseSummary,
   ),
   /** Withdraw a release from devices (`inject.recall`). */

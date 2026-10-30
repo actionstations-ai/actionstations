@@ -7,7 +7,7 @@ import type { Scenario } from '@shared/schemas/scenario'
 import { Button } from '../../../components/ui'
 import { toast } from '../../../components/toast-store'
 import type { TimelineEntry } from '../Timeline'
-import { destinationChoices, type Choice } from './destinations'
+import { destinationChoices, deviceChoices, type Choice } from './destinations'
 import { receiptLine, type LiveDelivery } from './use-live-delivery'
 
 const labelFor = (choices: Choice[], d: string): string =>
@@ -132,7 +132,10 @@ export function LiveInjectSection({
   const rowId = entry.row.id
   const o = live.options(rowId)
   const [editing, setEditing] = useState(false)
-  const choices = useMemo(() => destinationChoices(scenario.roles), [scenario.roles])
+  const choices = useMemo(
+    () => [...destinationChoices(scenario.roles), ...deviceChoices(live.devices)],
+    [scenario.roles, live.devices],
+  )
   const computed = useMemo(
     () => resolveTargets(entry.row, entry.inject?.deliveryMode, scenario.roles),
     [entry.row, entry.inject?.deliveryMode, scenario.roles],

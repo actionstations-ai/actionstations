@@ -290,7 +290,14 @@ function useFacilitate(p: ViewProps) {
     [projectPath, scenario, injects, state, minutes],
   )
   const entries = useMemo(
-    () => (live.active ? base.map((e) => ({ ...e, live: live.summary(e.row.id) })) : base),
+    () =>
+      live.active
+        ? base.map((e) => ({
+            ...e,
+            live: live.summary(e.row.id),
+            unansweredMin: live.unansweredMin(e.row.id),
+          }))
+        : base,
     [base, live],
   )
   const [selectedId, setSelectedId] = useState(() => nextRow(scenario.msel, state.delivered)?.id)

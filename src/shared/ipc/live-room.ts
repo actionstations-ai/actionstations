@@ -89,6 +89,11 @@ export const liveRoomChannels = {
     }),
     z.void(),
   ),
+  /** How long an inject that expects a response may go unanswered before it is flagged. */
+  'live:unanswered-window': channel(
+    S.extend({ minutes: z.number().int().min(1).max(240) }),
+    z.void(),
+  ),
   /** Mark a release answered; clears its "No response" flag. */
   'live:mark-answered': channel(
     S.extend({ releaseId: z.string().max(40), note: z.string().trim().max(500).optional() }),

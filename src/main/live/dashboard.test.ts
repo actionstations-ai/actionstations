@@ -92,6 +92,26 @@ describe('roster', () => {
     expect(connected).toBe(1)
   })
 
+  it('counts a device as away once it has been gone for a minute, and not before', () => {
+    const entries = [
+      join(1, 'aaaa0001', 'ops'),
+      entry(
+        3,
+        {
+          kind: 'client.leave',
+          actor: { kind: 'client', clientRef: 'aaaa0001', seat: { kind: 'player', roleId: 'ops' } },
+        },
+        0,
+      ),
+    ]
+    expect(view(entries, 3).away).toBe(0)
+    const later = view(entries, 4)
+    expect(later.away).toBe(1)
+    expect(later.roster.find((r) => r.seat === 'ops')).toMatchObject({ connected: 0, away: 1 })
+    const back = view([...entries, join(5, 'aaaa0001', 'ops')], 8)
+    expect(back.away).toBe(0)
+  })
+
   it('lists display names only when the log carries them', () => {
     const { roster } = view([join(1, 'aaaa0001', 'ops', 'Dana')], 2)
     expect(roster.find((r) => r.seat === 'ops')!.names).toEqual(['Dana'])
@@ -129,6 +149,15 @@ describe('injects and unanswered', () => {
     expect(view(entries, 3, { unansweredAfterMin: 1 }).unanswered.map((u) => u.rowId)).toEqual([
       'I-07',
     ])
+  })
+
+  it('lets a row own window win over the session window', () => {
+    const entries = [...base(), release(1, 'I-07', ['role:ops']), release(1, 'I-08', ['role:ops'])]
+    const flagged = view(entries, 5, {
+      unansweredAfterMin: 20,
+      rowWindows: { 'I-08': 3 },
+    }).unanswered
+    expect(flagged).toEqual([{ releaseId: 'rel-I-08', rowId: 'I-08', ageMin: 4, windowMin: 3 }])
   })
 
   it('treats an actioned receipt from a targeted seat as an answer', () => {

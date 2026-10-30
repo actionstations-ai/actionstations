@@ -70,6 +70,28 @@ export async function createRemoteSession(c: RemoteConnection): Promise<RemoteHa
   }
 }
 
+/**
+ * Reattach to a session the server still holds (resume after a restart). The server proves it
+ * still has the session when the join token is registered again; nothing is created.
+ */
+export async function reopenRemoteSession(
+  c: RemoteConnection,
+  auth: SessionAuth,
+): Promise<RemoteHandle> {
+  const refusal = startRefusal(await connectionTest(c))
+  if (refusal) throw refusal
+  const client = await clientFor(c)
+  const { health } = await client.health()
+  return {
+    client,
+    auth,
+    connection: c,
+    limits: health.caps,
+    origin: client.target.base,
+    status: remoteStatusOf(c, client.target.base, client.target.fingerprintSha256 !== undefined),
+  }
+}
+
 /** Register the join token hash, then open the controller's socket. */
 export async function attachController(
   handle: RemoteHandle,

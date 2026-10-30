@@ -2,7 +2,7 @@
 // test runs again, the session is created on the (local stand-in) server, the controller's socket
 // opens, the invite points at the server, the scenario remembers the connection, Stop ends the
 // server session; a refused key creates nothing.
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { copyFileSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -24,7 +24,8 @@ vi.mock('electron', () => ({
   },
 }))
 
-const { startSession, endSession, status, stopLiveSession } = await import('./session')
+const { startSession, endSession, resumeSession, status, stopLiveSession } =
+  await import('./session')
 const { startTestServer } = await import('./transport/test-remote-server')
 const { createProject } = await import('../project/store')
 const { createScenario } = await import('../scenario/store')
@@ -155,5 +156,49 @@ describe('self-hosted session', () => {
       }),
     ).rejects.toThrow(/key does not match this server/)
     expect(server.hubs.size).toBe(0)
+  })
+})
+
+describe('resuming a session on a server (#494)', () => {
+  /** What a crash leaves: the folder without `endedAt`, and the stored keys. */
+  async function crashAfterStart(connection: Parameters<typeof startSession>[0]['connection']) {
+    const { projectPath, scenarioId } = await setup([connection.kind as 'relay'])
+    const started = await startSession({ projectPath, scenarioId, connection, attribution: 'role' })
+    const sessionId = started.session!.id
+    const keyFile = join(process.env.TTX_USER_DATA!, 'live', 'sessions', `${sessionId}.json`)
+    const saved = join(tmpdir(), `ttx-rs-keys-${sessionId}.json`)
+    copyFileSync(keyFile, saved)
+    await endSession(projectPath, scenarioId)
+    copyFileSync(saved, keyFile)
+    const file = join(projectPath, 'scenarios', scenarioId, 'live', sessionId, 'session.json')
+    const record = JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>
+    delete record.endedAt
+    writeFileSync(file, JSON.stringify(record))
+    return { projectPath, scenarioId, sessionId, started }
+  }
+
+  it('reattaches to the relay session and keeps the same invite link', async () => {
+    server = await startTestServer({ kind: 'relay', keepOnEnd: true })
+    process.env.TTX_LIVE_RELAY_URL = server.base
+    const ctx = await crashAfterStart({ kind: 'relay' })
+    const resumed = await resumeSession(ctx.projectPath, ctx.scenarioId, ctx.sessionId)
+    expect(resumed.session?.id).toBe(ctx.sessionId)
+    expect(resumed.invites!.players.url).toBe(ctx.started.invites!.players.url)
+    expect(server.requests.filter((r) => r === 'POST /v1/sessions')).toHaveLength(1)
+    const log = readFileSync(
+      join(ctx.projectPath, 'scenarios', ctx.scenarioId, 'live', ctx.sessionId, 'log.jsonl'),
+      'utf8',
+    )
+    expect(log).toContain('"session.resume"')
+    expect(readdirSync(process.env.TTX_USER_DATA!)).toContain('live')
+  })
+
+  it('says so when the server no longer holds the session', async () => {
+    server = await startTestServer({ kind: 'relay' })
+    process.env.TTX_LIVE_RELAY_URL = server.base
+    const ctx = await crashAfterStart({ kind: 'relay' })
+    server.hubs.delete(ctx.sessionId)
+    await expect(resumeSession(ctx.projectPath, ctx.scenarioId, ctx.sessionId)).rejects.toThrow()
+    expect(status(ctx.projectPath, ctx.scenarioId).session).toBeUndefined()
   })
 })

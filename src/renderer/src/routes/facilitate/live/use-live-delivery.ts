@@ -3,9 +3,10 @@
 // the release / resend / withdraw calls.
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Destination } from '@shared/live/schemas/envelope'
-import type { ReleaseSummary, StageStatus } from '@shared/schemas/live'
+import type { LiveDevice, ReleaseSummary, StageStatus } from '@shared/schemas/live'
 import { call, subscribe } from '../../../lib/api'
 import { queryClient, useIpcQuery } from '../../../lib/query'
+import { useDashboard } from './use-dashboard'
 
 export interface RowOptions {
   /** Keep this inject off the devices (the checkbox is on by default). */
@@ -22,7 +23,11 @@ export interface LiveDelivery {
   options: (rowId: string) => RowOptions
   setOptions: (rowId: string, patch: Partial<RowOptions>) => void
   summary: (rowId: string) => ReleaseSummary | undefined
+  /** Minutes a released row has gone without a response, once it is past its window. */
+  unansweredMin: (rowId: string) => number | undefined
   stage: StageStatus | undefined
+  /** Devices in the session, to pick a single one as a target (spec 0412 FR-3). */
+  devices: LiveDevice[]
   /** `targets` replaces the plan for this release (spec 0428 FR-6). */
   release: (rowId: string, targets?: Destination[]) => Promise<void>
   resend: (releaseId: string, targets: Destination[]) => Promise<void>
@@ -35,6 +40,8 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
   const active = !!status.data?.session && !status.data.session.endedAt
   const receipts = useIpcQuery('live:receipts', req, { enabled: active })
   const stage = useIpcQuery('live:stage-status', req, { enabled: active })
+  const devices = useIpcQuery('live:devices', req, { enabled: active, refetchInterval: 15_000 })
+  const dash = useDashboard(projectPath, scenarioId, undefined, active)
   const [opts, setOpts] = useState<Record<string, Partial<RowOptions>>>({})
 
   useEffect(
@@ -105,7 +112,10 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
     options,
     setOptions,
     summary: (rowId) => byRow.get(rowId),
+    unansweredMin: (rowId) =>
+      dash.view?.live ? dash.view.unanswered.find((u) => u.rowId === rowId)?.ageMin : undefined,
     stage: stage.data,
+    devices: devices.data ?? [],
     release,
     resend,
     withdraw,
