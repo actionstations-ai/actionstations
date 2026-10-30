@@ -16,7 +16,13 @@ import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
 import type { Transport } from '@shared/live/transport'
 import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
-import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/schemas'
+import type {
+  BlobRef,
+  ClientId,
+  ClockState,
+  ControllerRosterPayload,
+  Destination,
+} from '@shared/live/schemas'
 import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
@@ -27,6 +33,7 @@ import type {
   LiveConnection,
   LiveSession,
   LiveSessionStatus,
+  RegionalRosterView,
 } from '@shared/schemas/live'
 import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
@@ -75,6 +82,7 @@ import {
   type StaffNotice,
 } from './live-control'
 import { trackClients } from './dashboard'
+import { hostRoster, rosterView } from './regional-roster'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
 import { requireConsent, isRemote } from './connection'
@@ -124,6 +132,8 @@ export interface Active {
   mediaCache: Map<string, BlobRef>
   /** The clock last published to devices, to skip a save that did not move it. */
   clockKey?: string
+  /** The co-controller roster last sent to devices (regional exercises, spec 0440). */
+  roster?: ControllerRosterPayload
   powerSave?: number
   unsubscribe: (() => void)[]
   dir: string
@@ -270,6 +280,8 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
     })
   }
   await a.client.send('welcome', `client:${msg.from}`, seating.welcome)
+  if (a.roster)
+    await a.client.send('controller.roster', `client:${msg.from}`, a.roster, { key: 'players' })
   if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
 }
 
@@ -986,6 +998,7 @@ async function startOn(
   )
   simcell.startClock()
   await writeSessionFile(a)
+  await publishRoster(a)
   if (resume) {
     await logResume(a, resume)
     await restoreSurveyResponses(a)
@@ -1320,6 +1333,48 @@ export async function publishClock(
     actor: { kind: 'controller' },
     data: { ...payload },
   })
+}
+
+/** Send the regional co-controller roster to every device and remember it for late joiners. */
+async function publishRoster(a: Active): Promise<void> {
+  try {
+    const found = await hostRoster(a.root, a.session.scenarioId, (a.roster?.revision ?? 0) + 1)
+    if (!found || found.roster.controllers.length === 0) return
+    a.roster = found.roster
+    await a.client.send('controller.roster', 'all', found.roster, { key: 'players' })
+    await a.log.append({
+      kind: 'controller.notice',
+      actor: { kind: 'controller' },
+      data: {
+        to: 'all',
+        text: `Co-controller roster ${found.roster.revision}: ${found.roster.controllers.map((c) => c.name).join(', ')}`,
+        level: 'info',
+      },
+    })
+  } catch (err) {
+    console.error('[live] controller.roster:', (err as Error).message)
+  }
+}
+
+/** The roster as it stands now and whether devices have it. */
+export async function regionalRoster(
+  root: string,
+  scenarioId: string,
+): Promise<RegionalRosterView> {
+  const a =
+    active && active.root === root && active.session.scenarioId === scenarioId ? active : undefined
+  const found = await hostRoster(root, scenarioId, a?.roster?.revision ?? 1)
+  return rosterView(a?.roster, found?.missingLiveKey ?? [])
+}
+
+/** Send the roster again with a new revision, after a partner's live key was pinned. */
+export async function sendRegionalRoster(
+  root: string,
+  scenarioId: string,
+): Promise<RegionalRosterView> {
+  const a = activeFor(root, scenarioId)
+  await publishRoster(a)
+  return regionalRoster(root, scenarioId)
 }
 
 /** A notice for evaluator devices only; the facilitator speaks to players. */

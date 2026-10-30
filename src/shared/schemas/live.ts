@@ -628,6 +628,24 @@ export const LiveDevice = z.object({
 })
 export type LiveDevice = z.infer<typeof LiveDevice>
 
+/** The co-controller roster of a regional exercise, as the Live tab shows it (spec 0440 FR-19). */
+export const RegionalRosterView = z.object({
+  /** The roster has been sent to devices in this session. */
+  sent: z.boolean(),
+  revision: z.number().int().min(1).optional(),
+  controllers: z.array(
+    z.object({
+      id: z.string().max(64),
+      name: z.string().max(120),
+      rowPrefixes: z.array(z.string().max(64)),
+      roleCount: z.number().int().min(0),
+    }),
+  ),
+  /** Organizations that cannot be listed yet: no pinned live key. */
+  missingLiveKey: z.array(z.string().max(64)),
+})
+export type RegionalRosterView = z.infer<typeof RegionalRosterView>
+
 export const UnansweredRow = z.object({
   releaseId: z.string(),
   rowId: z.string(),

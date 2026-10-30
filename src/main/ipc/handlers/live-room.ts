@@ -11,6 +11,8 @@ import {
 import {
   liveDevices,
   markAnswered,
+  regionalRoster,
+  sendRegionalRoster,
   setUnansweredWindow,
   removeDevice,
   replaceKeys,
@@ -77,6 +79,12 @@ export default defineHandlers({
 
   'live:staff-notice': async ({ projectPath, scenarioId, text, level, rowId }) =>
     sendEvaluatorNotice(await requireProject(projectPath), scenarioId, { text, level, rowId }),
+
+  'live:regional-roster': async ({ projectPath, scenarioId }) =>
+    regionalRoster(await requireProject(projectPath), scenarioId),
+
+  'live:regional-roster-send': async ({ projectPath, scenarioId }) =>
+    sendRegionalRoster(await requireProject(projectPath), scenarioId),
 
   'live:hotwash-past': async ({ projectPath, scenarioId, sessionId }) =>
     pastHotwashBoard(await requireProject(projectPath), scenarioId, sessionId),
