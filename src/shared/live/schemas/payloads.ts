@@ -374,10 +374,25 @@ export const ControllerNoticePayload = z.strictObject({
   dismissible: z.boolean(),
 })
 
+/** What a co-controller may do, by family of frame. Nothing else is allowed (#517). */
+export const CO_CONTROLLER_PERMISSIONS = [
+  'inject',
+  'message',
+  'vote',
+  'survey',
+  'call',
+  'notice',
+] as const
+export type CoControllerPermission = (typeof CO_CONTROLLER_PERMISSIONS)[number]
+/** Permissions a roster entry without `permissions` has: release and recall its own rows. */
+export const DEFAULT_CO_PERMISSIONS: readonly CoControllerPermission[] = ['inject']
+
 export const ControllerScope = z.strictObject({
   all: z.boolean().optional(),
   rowPrefixes: z.array(SafeId).max(32),
   roleIds: z.array(RoleId).max(64),
+  /** Explicit grants, least privilege: absent means `DEFAULT_CO_PERMISSIONS`. */
+  permissions: z.array(z.enum(CO_CONTROLLER_PERMISSIONS)).max(6).optional(),
 })
 export type ControllerScope = z.infer<typeof ControllerScope>
 
@@ -394,6 +409,52 @@ export const ControllerRosterPayload = z.strictObject({
     )
     .max(32),
 })
+
+/**
+ * The host tells a co-controller how a device took one of the releases that co-controller signed
+ * (#517). Receipts are sealed to the host alone, so the host forwards the status, by role and
+ * never by device, sealed with the staff key to that co-controller's connection.
+ */
+export const PartnerReceiptPayload = z.strictObject({
+  releaseId: Base64Url22,
+  mselRowId: SafeId,
+  roleId: RoleId.optional(),
+  status: z.enum(['delivered', 'read', 'actioned']),
+  at: EpochMs,
+})
+
+/**
+ * A reply drafted for the SimCell helper device to approve, edit or discard (#518). Staff key,
+ * to one `client:<id>` seat. A higher `revision` replaces the draft; `withdrawn` removes it
+ * (the controller handled it first).
+ */
+export const SimcellDraftPayload = z.strictObject({
+  draftId: Base64Url22,
+  revision: Revision,
+  status: z.enum(['queued', 'withdrawn']).default('queued'),
+  persona: Text(120),
+  threadLabel: Text(120),
+  playerMessage: Text(4_000).optional(),
+  text: Text(4_000),
+  flags: z.array(z.strictObject({ code: SafeId, message: Text(200) })).max(10),
+})
+
+/** The helper's decision on a draft, sealed to the controller (#518). */
+export const SimcellActionPayload = z
+  .strictObject({
+    draftId: Base64Url22,
+    revision: Revision,
+    action: z.enum(['approve', 'edit', 'discard']),
+    text: Text(4_000).optional(),
+  })
+  .refine((a) => a.action !== 'edit' || (a.text !== undefined && a.text.trim() !== ''), {
+    message: 'an edit needs the new text',
+    path: ['text'],
+  })
+  .refine((a) => a.action === 'edit' || a.text === undefined, {
+    message: 'only an edit carries text',
+    path: ['text'],
+  })
 
 export const SessionEndPayload = z.strictObject({
   reason: z.enum(['endex', 'cancelled']),
@@ -439,6 +500,9 @@ export const SEALED_PAYLOADS = {
   'call.end': CallEndPayload,
   'controller.notice': ControllerNoticePayload,
   'controller.roster': ControllerRosterPayload,
+  'partner.receipt': PartnerReceiptPayload,
+  'simcell.draft': SimcellDraftPayload,
+  'simcell.action': SimcellActionPayload,
   'session.end': SessionEndPayload,
   'session.rekey': SessionRekeyPayload,
 } as const
@@ -464,5 +528,8 @@ export type CallAnswerPayload = z.infer<typeof CallAnswerPayload>
 export type CallEndPayload = z.infer<typeof CallEndPayload>
 export type ControllerNoticePayload = z.infer<typeof ControllerNoticePayload>
 export type ControllerRosterPayload = z.infer<typeof ControllerRosterPayload>
+export type PartnerReceiptPayload = z.infer<typeof PartnerReceiptPayload>
+export type SimcellDraftPayload = z.infer<typeof SimcellDraftPayload>
+export type SimcellActionPayload = z.infer<typeof SimcellActionPayload>
 export type SessionEndPayload = z.infer<typeof SessionEndPayload>
 export type SessionRekeyPayload = z.infer<typeof SessionRekeyPayload>

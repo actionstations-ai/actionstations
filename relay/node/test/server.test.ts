@@ -156,8 +156,19 @@ describe('controller actions', () => {
     const co = await action(s, created.sessionId, 'controllers', created.controllerToken)
     expect(co.status).toBe(201)
     const second = co.json<{ controllerToken: string }>().controllerToken
-    expect((await action(s, created.sessionId, 'end', second)).status).toBe(204)
-    expect((await action(s, created.sessionId, 'kick', second, { client: A })).status).toBe(410)
+    // A co-controller's token connects but cannot end, kick, rotate the join token or mint more.
+    for (const [name, body] of [
+      ['end', undefined],
+      ['kick', { client: A }],
+      ['join-token', { joinTokenHash: hash }],
+      ['controllers', undefined],
+    ] as const) {
+      expect((await action(s, created.sessionId, name, second, body)).status).toBe(403)
+    }
+    expect((await action(s, created.sessionId, 'end', created.controllerToken)).status).toBe(204)
+    expect(
+      (await action(s, created.sessionId, 'kick', created.controllerToken, { client: A })).status,
+    ).toBe(410)
   })
 
   it('answers an unknown session with 404 and a bad body with 400', async () => {

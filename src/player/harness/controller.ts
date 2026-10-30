@@ -22,6 +22,8 @@ import {
   type Destination,
   type EvalAssignPayload,
   type EvalObservationPayload,
+  type SimcellActionPayload,
+  type SimcellDraftPayload,
   type InjectReleasePayload,
   type Seat,
   type WelcomePayload,
@@ -173,6 +175,7 @@ export class HarnessController {
     client.on('join', (m) => void this.onJoin(m))
     client.on('message.send', (m) => void this.onMessage(m))
     client.on('eval.observation', (m) => this.onObservation(m))
+    client.on('simcell.action', (m) => this.onSimcellAction(m))
     client.on('hotwash.item', (m) => void this.hotwash.onItem(m))
     client.on('survey.response', (m) => this.surveys.onResponse(m))
     client.on('call.answer', (m) => void this.onCallAnswer(m))
@@ -321,6 +324,28 @@ export class HarnessController {
     }
     await this.client.send('welcome', `client:${entry.clientId}`, payload)
     if (seat && entry.kind === 'evaluator' && entry.staff) await this.sendAssignment(entry.clientId)
+  }
+
+  // ---- SimCell helper (#518) ----
+
+  /** Decisions a helper device sent, in arrival order. */
+  readonly simcellActions: { from: ClientId; payload: SimcellActionPayload }[] = []
+
+  private onSimcellAction(m: Opened<'simcell.action'>): void {
+    const entry = this.roster.get(m.from)
+    if (m.to !== 'controller' || entry?.kind !== 'simcell' || !entry.staff) return
+    this.simcellActions.push({ from: m.from, payload: m.payload })
+  }
+
+  /** Send a drafted reply to every connected, proven SimCell helper (staff key, one frame each). */
+  async offerDraft(draft: SimcellDraftPayload): Promise<number> {
+    let sent = 0
+    for (const e of this.roster.values()) {
+      if (e.kind !== 'simcell' || !e.staff || !e.roleId || !e.connected) continue
+      await this.client.send('simcell.draft', `client:${e.clientId}`, draft, { key: 'staff' })
+      sent += 1
+    }
+    return sent
   }
 
   // ---- evaluator observations (spec 0416) ----

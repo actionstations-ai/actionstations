@@ -330,3 +330,11 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 - **After ENDEX.** Once you deliver the ENDEX row, a short "After the exercise" list shows whether the hot wash and participant feedback are done.
 - **Close.** **Close survey** stops answers and tells devices; a closed survey stays readable. **Send again** opens a new round whose answers are added to the same results.
 - **After the exercise, on phones.** With no session running, **Start a survey session and send** opens a session on this computer for surveys only. Show the join code (**Join with a phone**); participants scan it and see surveys and nothing else. **End survey session** stops the listener. Your computer and the phones must be on the same network, as for live play.
+
+## Partners and SimCell helpers
+
+**Partner organizations.** In a regional exercise on the relay or your own server, the Live tab lists each partner with what it may send. Press Invite next to a partner and send them the invite text over a channel you trust; it is shown once and not saved. The partner pastes it under "Join another organization's exercise" on their own Live tab, sees the rows they own, and releases them to their own roles. They see how many of their roles have read each inject; you see their releases in your log. A partner cannot end the session, move the clock or release another organization's rows.
+
+**SimCell helper devices.** Turn on "Let SimCell helper devices approve replies" on the Live tab. A colleague opens the staff link on a phone, takes the SimCell helper seat, and gets each drafted reply to send as written, change, or discard. You can still send or discard from this computer. Turn it off and no draft leaves your computer.
+
+**Staff seats and partner invites.** A partner invite holds the staff key. When you make one, new evaluator and SimCell helper seats close, and helper decisions are ignored, until you tick "Open evaluator and SimCell helper seats again". Devices that were already seated keep their seats. Share an invite only with the partner it is for.

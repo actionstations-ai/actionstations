@@ -20,6 +20,7 @@ export const IDS = {
   call: 'call-00000000000000000',
   notice: 'notice-000000000000000',
   blob: 'blob-00000000000000000',
+  draft: 'draft-0000000000000000',
 } as const
 
 /** 65 bytes base64url: an uncompressed P-256 point shape (not a real point; schema tests only). */
@@ -204,10 +205,32 @@ export const PAYLOAD_FIXTURES: PayloadInputByType = {
         id: 'metro-transit',
         name: 'Metro Transit controller',
         publicKey: FAKE_POINT,
-        scope: { rowPrefixes: ['T-'], roleIds: ['transit-ops'] },
+        scope: {
+          rowPrefixes: ['T-'],
+          roleIds: ['transit-ops'],
+          permissions: ['inject', 'message'],
+        },
       },
     ],
   },
+  'partner.receipt': {
+    releaseId: IDS.release,
+    mselRowId: 'T-12',
+    roleId: 'transit-ops',
+    status: 'read',
+    at: 1_700_000_000_000,
+  },
+  'simcell.draft': {
+    draftId: IDS.draft,
+    revision: 1,
+    status: 'queued',
+    persona: 'Reporter, Channel 5',
+    threadLabel: 'Reporter and Airport Operations',
+    playerMessage: 'Can you confirm the terminal is closed?',
+    text: 'We are checking with the airport. Is the terminal closed or not?',
+    flags: [{ code: 'reveals_early', message: 'Mentions the terminal closure' }],
+  },
+  'simcell.action': { draftId: IDS.draft, revision: 1, action: 'edit', text: 'Edited reply text.' },
   'session.end': {
     reason: 'endex',
     at: 1_700_000_000_000,

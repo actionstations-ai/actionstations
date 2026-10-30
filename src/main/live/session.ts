@@ -33,7 +33,11 @@ import type {
   LiveConnection,
   LiveSession,
   LiveSessionStatus,
+  PartnerInviteView,
   RegionalRosterView,
+  SessionLogInput,
+  SimcellHelpersView,
+  StaffSeatsView,
 } from '@shared/schemas/live'
 import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
@@ -48,7 +52,8 @@ import { scenarioLayout } from '../scenario/layout'
 import { getScenario, listInjects } from '../scenario/store'
 import { appendResponse, readSurvey } from '../surveys/store'
 import { rebuildSurveyResponses } from './survey-replay'
-import { inviteViews } from './invites'
+import { inviteView, inviteViews } from './invites'
+import { encodePartnerInvite } from '@shared/live/partner-invite'
 import { DEVICE_TARGET, teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
 import { LiveSurveys, type SurveySeat } from './surveys'
@@ -65,6 +70,9 @@ import { storeAttachment } from './attachments'
 import { HotWash, hotwashPrompts, type HotWashQuestion } from './hotwash'
 import { Messages, type MessageRole, type MessageSeat } from './messages'
 import { LiveEvaluation } from './evaluation'
+import { leavePartner } from './partner'
+import { forwardReceipt, logPartnerRelease } from './partner-host'
+import { LiveSimcellHelpers } from './simcell-helper'
 import { upsertObservation } from '../evaluation/store'
 import type { Calls, CallSeat } from './calls'
 import { makeBridge, makeCalls, type LinkHost } from './simcell-link'
@@ -129,6 +137,12 @@ export interface Active {
   votes: Votes
   surveys: LiveSurveys
   evaluation: LiveEvaluation
+  /** Staff seats close when a partner invite is minted, until the host grants them (#529). */
+  staffSeats: { locked: boolean; granted: boolean }
+  /** Receipts already forwarded to partners (#529). */
+  forwardedReceipts: Set<string>
+  /** SimCell helper devices (#518): off until the facilitator turns them on. */
+  helpers: LiveSimcellHelpers
   stage: StageState
   mediaCache: Map<string, BlobRef>
   /** The clock last published to devices, to skip a save that did not move it. */
@@ -284,6 +298,7 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
   if (a.roster)
     await a.client.send('controller.roster', `client:${msg.from}`, a.roster, { key: 'players' })
   if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
+  if (seating.ok && seating.seat.kind === 'simcell') await a.helpers.onJoin()
 }
 
 async function onPresence(a: Active, msg: Opened<'presence'>): Promise<void> {
@@ -306,10 +321,20 @@ function wireClient(a: Active): void {
   a.unsubscribe.push(
     a.client.on('join', (msg) => void onJoin(a, msg).catch((e) => fail(a, e))),
     a.client.on('presence', (msg) => void onPresence(a, msg).catch((e) => fail(a, e))),
-    a.client.on(
-      'inject.receipt',
-      (msg) => void a.delivery.onReceipt(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
-    ),
+    a.client.on('inject.receipt', (msg) => {
+      void a.delivery.onReceipt(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+      void forwardReceipt(partnerHost(a), msg.from, msg.payload).catch((e) => fail(a, e))
+    }),
+    a.client.on('inject.release', (msg) => {
+      // The host's own releases are logged by delivery; a partner's arrive here, signed by its key.
+      if (!msg.signedBy || msg.signedBy === 'host') return
+      void logPartnerRelease(partnerHost(a), msg.signedBy, msg.payload).catch((e) => fail(a, e))
+    }),
+    a.client.on('simcell.action', (msg) => {
+      // Sealed to the controller: only a device's own frame to the controller is a decision.
+      if (msg.to !== 'controller') return
+      void a.helpers.onAction(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.on('eval.observation', (msg) => {
       // Sealed to the controller: only a device's own frame to the controller is an observation.
       if (msg.to !== 'controller') return
@@ -392,6 +417,60 @@ function makeDelivery(getActive: () => Active, roles: readonly Role[]): Delivery
         }
       })
     },
+  })
+}
+
+/** What forwarding a partner's receipts needs from the session. */
+function partnerHost(a: Active) {
+  return {
+    releases: a.client.scope.releases,
+    roleOf: (clientId: string) => a.seats.byClient.get(clientId)?.roleId,
+    isHostRelease: (releaseId: string) => a.delivery.has(releaseId),
+    forwarded: a.forwardedReceipts,
+    destinationsOf: (clientId: string) => {
+      const seat = a.seats.byClient.get(clientId)
+      if (!seat?.online) return undefined
+      return new Set(['all', `client:${clientId}`, ...(seat.roleId ? [`role:${seat.roleId}`] : [])])
+    },
+    send: (to: `client:${string}`, payload: Record<string, unknown>) =>
+      a.client.send('partner.receipt', to, payload as never, { key: 'staff' }),
+    log: { append: (input: SessionLogInput) => a.log.append(input) },
+  }
+}
+
+/** SimCell helper devices' view of the session: the queue, the seats, the facilitator's resolve. */
+function makeHelpers(getActive: () => Active): LiveSimcellHelpers {
+  const sim = () => simcellFor(getActive().root, getActive().session.scenarioId)
+  const view = (s: Seat) => ({
+    clientId: s.clientId,
+    kind: s.kind,
+    staff: s.staff,
+    online: s.online,
+  })
+  return new LiveSimcellHelpers({
+    send: (to, payload) =>
+      getActive().client.send('simcell.draft', to as `client:${string}`, payload as never, {
+        key: 'staff',
+      }),
+    log: { append: (input) => getActive().log.append(input) },
+    seats: () => [...getActive().seats.byClient.values()].map(view),
+    seatOf: (id) => {
+      const s = getActive().seats.byClient.get(id)
+      return s ? view(s) : undefined
+    },
+    clientRef: (id) => clientRef(getActive(), id),
+    queued: async () => {
+      const bridge = sim()
+      const { drafts } = await bridge.list()
+      return drafts.map((draft) => ({
+        draft,
+        persona: bridge.personaName(draft.personaId) ?? 'Outside party',
+        threadLabel: bridge.threadLabel(draft.threadId),
+      }))
+    },
+    resolve: (req) => sim().resolve(req),
+    changed: () => emitChanged('messages'),
+    locked: () => getActive().staffSeats.locked && !getActive().staffSeats.granted,
   })
 }
 
@@ -944,6 +1023,7 @@ async function startOn(
       sessionName: req.name?.trim() || scenario.title,
       scenarioTitle: scenario.title,
       hotwash: prompts,
+      staffSeatsLocked: () => a.staffSeats.locked && !a.staffSeats.granted,
       ...(req.surveyOnly ? { surveyOnly: true } : {}),
       clock: () => cachedClock,
       pseudonym: (id) => pseudonym({ crypto, salt }, id),
@@ -960,6 +1040,9 @@ async function startOn(
     votes: makeVotes(() => a, scenario.roles),
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     evaluation: makeEvaluation(() => a),
+    helpers: makeHelpers(() => a),
+    forwardedReceipts: new Set(),
+    staffSeats: { locked: false, granted: false },
     stage: emptyStage(),
     mediaCache: new Map(),
     unsubscribe: [],
@@ -998,6 +1081,7 @@ async function startOn(
     ),
   )
   simcell.startClock()
+  a.unsubscribe.push(simcell.onQueueChange(() => void a.helpers.sync()))
   await writeSessionFile(a)
   await publishRoster(a)
   if (resume) {
@@ -1368,6 +1452,8 @@ async function publishRoster(a: Active): Promise<void> {
     const found = await hostRoster(a.root, a.session.scenarioId, (a.roster?.revision ?? 0) + 1)
     if (!found || found.roster.controllers.length === 0) return
     a.roster = found.roster
+    // The host verifies a partner's frames against the same roster it sends to the devices.
+    a.client.roster = found.roster
     await a.client.send('controller.roster', 'all', found.roster, { key: 'players' })
     await a.log.append({
       kind: 'controller.notice',
@@ -1402,6 +1488,112 @@ export async function sendRegionalRoster(
   const a = activeFor(root, scenarioId)
   await publishRoster(a)
   return regionalRoster(root, scenarioId)
+}
+
+/**
+ * A partner's invite for this session: mints one controller token on the server and wraps it with
+ * the staff link. Only for an organization in the roster the devices already hold, only on a
+ * server (a LAN session has no second controller connection), and shown once: neither the token
+ * nor the invite is stored or logged.
+ */
+export async function createPartnerInvite(
+  root: string,
+  scenarioId: string,
+  orgId: string,
+): Promise<PartnerInviteView> {
+  const a = activeFor(root, scenarioId)
+  const entry = a.roster?.controllers.find((c) => c.id === orgId)
+  if (!entry) {
+    throw new AppError(
+      'VALIDATION',
+      'That organization is not in the roster yet. Send the roster first.',
+    )
+  }
+  if (
+    !a.remote ||
+    (a.session.connection.kind !== 'relay' && a.session.connection.kind !== 'self-hosted')
+  ) {
+    throw new AppError(
+      'VALIDATION',
+      'A partner joins through the relay or your own server. This session runs on this computer’s network only.',
+    )
+  }
+  const controllerToken = await a.remote.client.addController(a.remote.auth)
+  // The invite carries the staff key, so evaluator and SimCell seats close until the host grants them.
+  closeStaffSeats(root, scenarioId)
+  const link = inviteView(
+    {
+      origin: a.remote.origin,
+      sessionId: a.session.id,
+      keys: a.keys,
+      controllerPub: a.signing.publicKey,
+    },
+    'staff',
+  ).url
+  const c = a.session.connection
+  const invite = encodePartnerInvite({
+    v: 1,
+    org: orgId,
+    name: entry.name,
+    connection:
+      c.kind === 'self-hosted'
+        ? {
+            kind: 'self-hosted',
+            url: c.url,
+            ...(c.fingerprintSha256 ? { fingerprintSha256: c.fingerprintSha256 } : {}),
+            insecureHttp: c.insecureHttp,
+          }
+        : { kind: 'relay' },
+    link,
+    controllerToken,
+  })
+  await a.log.append({
+    kind: 'controller.notice',
+    actor: { kind: 'controller' },
+    data: { to: 'host', text: `Partner invite created for ${entry.name}`, level: 'info' },
+  })
+  return { orgId, name: entry.name, invite }
+}
+
+/** Close new evaluator and SimCell seats until the host grants them (a partner invite is out). */
+export function closeStaffSeats(root: string, scenarioId: string): void {
+  activeFor(root, scenarioId).staffSeats.locked = true
+}
+
+/** Whether staff seats are closed by a partner invite, and whether the host opened them again. */
+export function staffSeats(root: string, scenarioId: string): StaffSeatsView {
+  return { ...activeFor(root, scenarioId).staffSeats }
+}
+
+export function setStaffSeatsGranted(root: string, scenarioId: string, granted: boolean) {
+  const a = activeFor(root, scenarioId)
+  a.staffSeats.granted = granted
+  return staffSeats(root, scenarioId)
+}
+
+/** Helper devices on or off, and how many SimCell seats could receive drafts now. */
+export function simcellHelpers(root: string, scenarioId: string): SimcellHelpersView {
+  const a = activeFor(root, scenarioId)
+  return { enabled: a.helpers.enabled, devices: a.helpers.helperCount() }
+}
+
+export async function setSimcellHelpers(
+  root: string,
+  scenarioId: string,
+  enabled: boolean,
+): Promise<SimcellHelpersView> {
+  const a = activeFor(root, scenarioId)
+  await a.helpers.setEnabled(enabled)
+  await a.log.append({
+    kind: 'controller.notice',
+    actor: { kind: 'controller' },
+    data: {
+      to: 'host',
+      text: `SimCell helper devices ${enabled ? 'on' : 'off'}`,
+      level: 'info',
+    },
+  })
+  return simcellHelpers(root, scenarioId)
 }
 
 /** A notice for evaluator devices only; the facilitator speaks to players. */
@@ -1568,6 +1760,7 @@ async function stopActive(reason: 'endex' | 'cancelled'): Promise<LiveSession> {
 
 /** App quit and tests: end whatever runs; no listener survives the process. */
 export async function stopLiveSession(): Promise<void> {
+  await leavePartner().catch(() => undefined)
   if (!active && !ending) return
   await stopActive('cancelled').catch((e: unknown) => console.error('[live] stop:', e))
 }

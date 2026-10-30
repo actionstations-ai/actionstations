@@ -20,7 +20,7 @@ import {
   apiError,
   bearerToken,
   hashBearerToken,
-  matchesAny,
+  controllerRoleOf,
   parseConnect,
   randomToken,
   sessionRoute,
@@ -83,8 +83,14 @@ export class SessionObject {
       return json(apiError('NOT_FOUND', 'No such route'), 404)
     }
     if (request.method !== 'POST') return json(apiError('METHOD_NOT_ALLOWED', 'POST only'), 405)
-    if (!(await this.isController(record, bearerToken(request.headers.get('Authorization'))))) {
-      return json(apiError('UNAUTHORIZED', 'A controller token is required'), 401)
+    const role = await this.controllerRole(
+      record,
+      bearerToken(request.headers.get('Authorization')),
+    )
+    if (!role) return json(apiError('UNAUTHORIZED', 'A controller token is required'), 401)
+    // A co-controller's token connects; ending, kicking and minting tokens stay with the host.
+    if (role !== 'host') {
+      return json(apiError('FORBIDDEN', 'Only the host controller may do this'), 403)
     }
     const allowed = this.actions.hit(route.action, this.now())
     if (!allowed.ok) {
@@ -128,9 +134,12 @@ export class SessionObject {
     }
   }
 
-  private async isController(record: SessionRecord, token: string | undefined): Promise<boolean> {
-    if (!token) return false
-    return matchesAny(await hashBearerToken(token), record.controllerTokenHashes)
+  private async controllerRole(
+    record: SessionRecord,
+    token: string | undefined,
+  ): Promise<'host' | 'co' | undefined> {
+    if (!token) return undefined
+    return controllerRoleOf(await hashBearerToken(token), record.controllerTokenHashes)
   }
 
   /** The Worker's `POST /v1/sessions` after the quota said yes: the id is in the path. */
@@ -166,11 +175,13 @@ export class SessionObject {
       return json(apiError(parsed.code, parsed.message), parsed.code === 'FORBIDDEN' ? 403 : 400)
     const { auth } = parsed
     const controller = auth.controllerToken !== undefined
-    if (controller && !(await this.isController(record, auth.controllerToken))) {
+    const role = controller ? await this.controllerRole(record, auth.controllerToken) : undefined
+    if (controller && !role) {
       return json(apiError('UNAUTHORIZED', 'Bad controller token'), 401)
     }
+    const host = role !== 'co'
     const { client, server } = websocketPair()
-    const attachment: Attachment = { clientId: auth.clientId, controller, since: this.now() }
+    const attachment: Attachment = { clientId: auth.clientId, controller, host, since: this.now() }
     this.state.acceptWebSocket(server, [auth.clientId])
     server.serializeAttachment(attachment)
     const hub = this.hubFor()
@@ -179,6 +190,10 @@ export class SessionObject {
       joinToken: auth.joinToken,
       resumeToken: auth.resumeToken,
       controller,
+      host,
+      ...(controller && auth.controllerToken
+        ? { controllerTokenHash: await hashBearerToken(auth.controllerToken) }
+        : {}),
     })
     this.clients.set(server, handle)
     return upgradeResponse(client, WS_SUBPROTOCOL)
@@ -215,7 +230,7 @@ export class SessionObject {
     if (known) return known
     const attachment = ws.deserializeAttachment() as Attachment | null
     if (!attachment) return undefined
-    const handle = hub.restore(socketFor(ws), attachment)
+    const handle = hub.restore(socketFor(ws), { ...attachment, host: attachment.host === true })
     this.clients.set(ws, handle)
     return handle
   }
@@ -243,7 +258,11 @@ export class SessionObject {
     for (const ws of this.state.getWebSockets()) {
       if (this.clients.has(ws)) continue
       const attachment = ws.deserializeAttachment() as Attachment | null
-      if (attachment) this.clients.set(ws, hub.restore(socketFor(ws), attachment))
+      if (attachment)
+        this.clients.set(
+          ws,
+          hub.restore(socketFor(ws), { ...attachment, host: attachment.host === true }),
+        )
     }
     return hub
   }

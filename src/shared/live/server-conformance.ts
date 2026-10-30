@@ -17,6 +17,10 @@ export interface ConnectOptions {
   joinToken?: Uint8Array
   resumeToken?: Uint8Array
   controller?: boolean
+  /** With `controller`: false connects as a co-controller (#517); a server gives it its own token. */
+  host?: boolean
+  /** In-process servers only: the controller token's hash. Socket servers use the real token. */
+  controllerTokenHash?: string
 }
 
 export interface ServerUnderTest {
@@ -72,6 +76,9 @@ export function collect(transport: Transport): Collected {
   }
 }
 
+/** A short pause, for asserting that a frame did not arrive. */
+export const settleMs = (ms = 60): Promise<void> => new Promise((r) => setTimeout(r, ms))
+
 /** Poll until `cond` is true (both servers deliver asynchronously). */
 export async function until(cond: () => boolean, ms = 4000): Promise<void> {
   const start = Date.now()
@@ -114,7 +121,22 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
       return { id: ids(n), t, got: collect(t) }
     }
     async function controller(n = 99) {
-      const t = await server!.connect({ clientId: ids(n), controller: true })
+      const t = await server!.connect({
+        clientId: ids(n),
+        controller: true,
+        controllerTokenHash: 'a'.repeat(64),
+      })
+      open.push(t)
+      return { id: ids(n), t, got: collect(t) }
+    }
+
+    async function coController(n = 98) {
+      const t = await server!.connect({
+        clientId: ids(n),
+        controller: true,
+        host: false,
+        controllerTokenHash: 'b'.repeat(64),
+      })
       open.push(t)
       return { id: ids(n), t, got: collect(t) }
     }
@@ -627,6 +649,132 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
       a.t.send(text)
       await until(() => c.got.of('vote.cast').length === 1)
       expect(raw).toContain(text)
+    })
+
+    describe('co-controllers and staff devices (#517, #518)', () => {
+      const HOST_ONLY = ['clock.state', 'controller.roster', 'partner.receipt', 'simcell.draft']
+
+      it('a co-controller connection may send scoped controller types and reach the players', async () => {
+        await start()
+        const h = await controller()
+        const co = await coController()
+        const p = await participant(1)
+        await until(() => [h, co, p].every((x) => x.got.of('relay.hello').length === 1))
+        co.t.send(frame(co.id, 1, 'role:ops', 'inject.release'))
+        await until(() => p.got.of('inject.release').length === 1)
+        expect(h.got.of('inject.release')).toHaveLength(1)
+        expect(co.got.errors()).toHaveLength(0)
+      })
+
+      it('refuses host-only types from a co-controller and routes them from the host', async () => {
+        await start()
+        const h = await controller()
+        const co = await coController()
+        const staff = await participant(1)
+        await until(() => [h, co, staff].every((x) => x.got.of('relay.hello').length === 1))
+        HOST_ONLY.forEach((type, i) => {
+          const to =
+            type === 'partner.receipt' || type === 'simcell.draft' ? `client:${staff.id}` : 'all'
+          co.t.send(frame(co.id, i + 1, to, type))
+        })
+        await until(() => co.got.errors('NOT_CONTROLLER').length === HOST_ONLY.length)
+        expect(staff.got.frames.filter((e) => HOST_ONLY.includes(e.type))).toHaveLength(0)
+        expect(server!.lastIndex).toBe(0)
+        h.t.send(frame(h.id, 1, `client:${staff.id}`, 'simcell.draft'))
+        await until(() => staff.got.of('simcell.draft').length === 1)
+        expect(co.got.of('simcell.draft')).toHaveLength(0)
+      })
+
+      it('refuses host-only and controller types from a participant', async () => {
+        await start()
+        const p = await participant(1)
+        await until(() => p.got.of('relay.hello').length === 1)
+        p.t.send(frame(p.id, 1, `client:${ids(9)}`, 'simcell.draft'))
+        p.t.send(frame(p.id, 2, 'all', 'partner.receipt'))
+        await until(() => p.got.errors('NOT_CONTROLLER').length === 2)
+        expect(server!.lastIndex).toBe(0)
+      })
+
+      it('delivers simcell.action to the host only, and refuses it from any controller', async () => {
+        await start()
+        const h = await controller()
+        const co = await coController()
+        const helper = await participant(1)
+        const other = await participant(2)
+        await until(() => [h, co, helper, other].every((x) => x.got.of('relay.hello').length === 1))
+        helper.t.send(frame(helper.id, 1, 'controller', 'simcell.action'))
+        await until(() => h.got.of('simcell.action').length === 1)
+        await settleMs()
+        expect(co.got.of('simcell.action')).toHaveLength(0)
+        expect(other.got.of('simcell.action')).toHaveLength(0)
+        h.t.send(frame(h.id, 1, 'controller', 'simcell.action'))
+        co.t.send(frame(co.id, 1, 'controller', 'simcell.action'))
+        await until(
+          () => h.got.errors('INVALID').length === 1 && co.got.errors('INVALID').length === 1,
+        )
+        expect(server!.lastIndex).toBe(1)
+      })
+
+      it('gives a co-controller neither the device roster nor frames sealed to the host', async () => {
+        await start()
+        const h = await controller()
+        const co = await coController()
+        const p = await participant(1)
+        await until(() => [h, co, p].every((x) => x.got.of('relay.hello').length === 1))
+        const hello = co.got.of('relay.hello')[0]!.payload as { clients?: unknown }
+        expect(hello.clients).toBeUndefined()
+        expect((h.got.of('relay.hello')[0]!.payload as { clients?: unknown }).clients).toBeDefined()
+        p.t.send(frame(p.id, 1, 'controller', 'inject.receipt'))
+        await until(() => h.got.of('inject.receipt').length === 1)
+        await settleMs()
+        expect(co.got.of('inject.receipt')).toHaveLength(0)
+        expect(co.got.of('presence')).toHaveLength(0)
+        expect(h.got.of('presence').length).toBeGreaterThan(0)
+      })
+
+      it('a co-controller cannot take over the host’s client id, and the host stays connected (#529)', async () => {
+        await start()
+        const h = await controller(99)
+        await until(() => h.got.of('relay.hello').length === 1)
+        const imposter = await coController(99)
+        await until(() => imposter.got.closes.length === 1 || imposter.got.errors().length > 0)
+        expect(imposter.got.of('relay.hello')).toHaveLength(0)
+        h.t.send(frame(h.id, 1, 'all', 'session.end'))
+        await until(() => server!.lastIndex === 1)
+        expect(h.got.closes).toEqual([])
+        // Nor can it burn the host's sequence numbers.
+        expect(server!.connected).toEqual([h.id])
+      })
+
+      it('refuses a seq that jumps far ahead and keeps accepting the client’s next frame (#529)', async () => {
+        await start()
+        const c = await controller()
+        const p = await participant(1)
+        await until(() => [c, p].every((x) => x.got.of('relay.hello').length === 1))
+        p.t.send(frame(p.id, 2 ** 50, 'all', 'message.send'))
+        await until(() => p.got.errors('INVALID').length === 1)
+        p.t.send(frame(p.id, 1, 'all', 'message.send'))
+        await until(() => c.got.of('message.send').length === 1)
+      })
+
+      it('catch-up for a co-controller leaves out frames sealed to the host', async () => {
+        await start()
+        const h = await controller()
+        const p = await participant(1)
+        await until(() => [h, p].every((x) => x.got.of('relay.hello').length === 1))
+        p.t.send(frame(p.id, 1, 'controller', 'inject.receipt'))
+        p.t.send(frame(p.id, 2, 'all', 'message.send'))
+        await until(() => server!.lastIndex === 2)
+        const co = await coController()
+        await until(() => co.got.of('relay.hello').length === 1)
+        co.t.send(frame(co.id, 1, 'controller', 'catchup.request', { after: 0 }))
+        await until(() => co.got.of('catchup.batch').length >= 1)
+        const types = co.got
+          .of('catchup.batch')
+          .flatMap((b) => (b.payload as { entries: { e: Envelope }[] }).entries)
+          .map((entry) => entry.e.type)
+        expect(types).toEqual(['message.send'])
+      })
     })
   })
 }

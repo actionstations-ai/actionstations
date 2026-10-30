@@ -69,7 +69,16 @@ describe('co-controller roster on the live connection', () => {
     expect(await regionalRoster(projectPath, scenarioId)).toEqual({
       sent: true,
       revision: 1,
-      controllers: [{ id: 'AIR', name: 'Airport', rowPrefixes: ['AIR'], roleCount: 1 }],
+      controllers: [
+        {
+          id: 'AIR',
+          name: 'Airport',
+          rowPrefixes: ['AIR'],
+          roleCount: 1,
+          // No explicit grant in the roster: the least a co-controller can do.
+          permissions: ['inject'],
+        },
+      ],
       missingLiveKey: ['CITY'],
     })
     await endSession(projectPath, scenarioId)

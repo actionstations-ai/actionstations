@@ -46,6 +46,8 @@ export interface SeatingContext {
   /** Surveys only: one participant seat, every feature but surveys off (spec 0422 FR-7). */
   surveyOnly?: boolean
   clock: () => ClockState
+  /** True while evaluator and SimCell seats are closed (a partner invite is out and the host has not granted them, #529). */
+  staffSeatsLocked?: () => boolean
   /**
    * A per-session pseudonym for a client id (22 base64url characters): what other devices see
    * in `welcome.roster`, so a player page never learns real client ids.
@@ -91,6 +93,7 @@ export class Seats {
           ...ctx.roles.map(seatOfRole),
           { id: RESERVED_ROLE_IDS[0], name: 'Evaluator', kind: 'evaluator' },
           { id: RESERVED_ROLE_IDS[1], name: 'Observer', kind: 'observer' },
+          { id: RESERVED_ROLE_IDS[2], name: 'SimCell helper', kind: 'simcell' },
         ]
   }
 
@@ -111,7 +114,16 @@ export class Seats {
     return n
   }
 
-  private base(clientId: ClientId, kind: ClientKind): Omit<WelcomePayload, 'roster'> {
+  /** The seats a device is shown: the SimCell helper seat only to a device that proved the staff key. */
+  private seatsFor(staff: boolean): SeatDef[] {
+    return this.seats().filter((s) => staff || s.kind !== 'simcell')
+  }
+
+  private base(
+    clientId: ClientId,
+    kind: ClientKind,
+    staff = false,
+  ): Omit<WelcomePayload, 'roster'> {
     return {
       client: clientId,
       kind,
@@ -119,7 +131,7 @@ export class Seats {
       sessionName: this.ctx.sessionName,
       scenarioTitle: this.ctx.scenarioTitle,
       clock: this.ctx.clock(),
-      seats: this.seats(),
+      seats: this.seatsFor(staff),
       features: this.ctx.surveyOnly ? SURVEY_ONLY_FEATURES : FEATURES,
       ...(this.ctx.hotwash ? { hotwash: this.ctx.hotwash } : {}),
     }
@@ -155,7 +167,11 @@ export class Seats {
     const refuse = (reason: 'not_allowed' | 'role_taken' | 'full', message: string): Seating => ({
       ok: false,
       reason,
-      welcome: { ...this.base(msg.from, join.kind), roster: [], rejected: { reason, message } },
+      welcome: {
+        ...this.base(msg.from, join.kind, verdict.staff),
+        roster: [],
+        rejected: { reason, message },
+      },
     })
     if (verdict.claimedStaff && !verdict.staff) {
       return refuse('not_allowed', 'This link does not open a staff seat. Ask for the staff link.')
@@ -169,6 +185,12 @@ export class Seats {
       }
       if (STAFF_SEAT_KINDS.has(def.kind) && !verdict.staff) {
         return refuse('not_allowed', 'That seat needs the staff link.')
+      }
+      if (STAFF_SEAT_KINDS.has(def.kind) && !existing && this.ctx.staffSeatsLocked?.()) {
+        return refuse(
+          'not_allowed',
+          'Staff seats are closed while a partner invite is out. Ask the facilitator to open them.',
+        )
       }
     }
     const roleId = def?.id ?? existing?.roleId
@@ -185,7 +207,7 @@ export class Seats {
     this.byClient.set(msg.from, seat)
     const role = roleId ? this.roleEntry(roleId) : undefined
     const welcome: WelcomePayload = {
-      ...this.base(msg.from, join.kind),
+      ...this.base(msg.from, join.kind, verdict.staff),
       ...(role ? { role } : {}),
       roster: await this.roster(),
     }

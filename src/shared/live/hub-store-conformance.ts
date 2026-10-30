@@ -111,6 +111,12 @@ export function describeHubStoreContract(name: string, factory: StoreFactory): v
       expect(s.counts().writes).toBe(2)
     })
 
+    it('keeps the token a controller id is bound to (#529)', async () => {
+      const s = await fresh()
+      s.setIdentity(A, { kind: 'controller', tokenHash: 'c'.repeat(64) })
+      expect(s.identity(A)).toEqual({ kind: 'controller', tokenHash: 'c'.repeat(64) })
+    })
+
     it('collects blob chunks in any order, ignores duplicates, and tracks completion and bytes', async () => {
       const s = await fresh()
       expect(s.blob(BLOB)).toBeUndefined()

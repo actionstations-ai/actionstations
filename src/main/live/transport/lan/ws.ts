@@ -19,7 +19,7 @@ const MAX_BUFFERED_BYTES = 8 * 1024 * 1024
 /** Who is connecting: a device with join and resume tokens, or a controller its server authenticated. */
 export type WsParams = Pick<
   HubAttachOptions,
-  'clientId' | 'joinToken' | 'resumeToken' | 'controller'
+  'clientId' | 'joinToken' | 'resumeToken' | 'controller' | 'host' | 'controllerTokenHash'
 >
 
 export interface WsAttachContext {

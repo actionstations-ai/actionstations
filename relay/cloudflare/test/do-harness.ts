@@ -24,7 +24,7 @@ export interface Room {
   action(action: string, body?: unknown, token?: string): Promise<Response>
   connect(
     opts: ConnectOptions,
-    over?: { protocols?: string; query?: Record<string, string> },
+    over?: { protocols?: string; query?: Record<string, string>; controllerToken?: string },
   ): Promise<Response>
   lastIndex(): number
   connected(): string[]
@@ -90,7 +90,9 @@ export async function createRoom(options: RoomOptions = {}): Promise<Room> {
         'Sec-WebSocket-Protocol': over.protocols ?? protocols.join(', '),
         'CF-Connecting-IP': '203.0.113.7',
       }
-      if (opts.controller) headers.Authorization = `Bearer ${room.controllerToken}`
+      if (opts.controller) {
+        headers.Authorization = `Bearer ${over.controllerToken ?? room.controllerToken}`
+      }
       return room.object.fetch(
         new Request(`https://relay/v1/sessions/${sessionId}/ws?${query}`, { headers }),
       )
@@ -132,8 +134,12 @@ function refusedTransport(code: number): Transport {
   }
 }
 
-export async function connectTransport(room: Room, opts: ConnectOptions): Promise<Transport> {
-  const res = await room.connect(opts)
+export async function connectTransport(
+  room: Room,
+  opts: ConnectOptions,
+  over: { controllerToken?: string } = {},
+): Promise<Transport> {
+  const res = await room.connect(opts, over)
   if (res.status !== 101) return refusedTransport(res.status === 403 ? 4005 : 1008)
   return transportOf(socketOf(res))
 }
@@ -163,8 +169,19 @@ export const sessionObjectFactory: ServerFactory = async (opts) => {
       kind: opts.kind,
     },
   })
+  let coToken: string | undefined
+  const coControllerToken = async (): Promise<string> => {
+    if (!coToken) {
+      const minted = await room.action('controllers')
+      coToken = ((await minted.json()) as { controllerToken: string }).controllerToken
+    }
+    return coToken
+  }
   return {
-    connect: (o) => connectTransport(room, o),
+    connect: async (o) =>
+      o.controller && o.host === false
+        ? connectTransport(room, o, { controllerToken: await coControllerToken() })
+        : connectTransport(room, o),
     kick: (id) => void room.action('kick', { client: id }),
     end: () => void room.action('end'),
     // The suite expects the rotation to be in effect at once: write the hub's state row directly.

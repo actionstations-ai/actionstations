@@ -1,0 +1,46 @@
+/* Partner co-controllers and SimCell helper devices on the Live tab (#517, #518). */
+.partner-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.partner-box__secret {
+  width: 100%;
+  min-height: 6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  word-break: break-all;
+}
+.partner-box__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.partner-warning {
+  padding: var(--space-2) var(--space-3);
+  border-left: 4px solid var(--color-warning);
+  background: var(--color-warning-soft);
+}
+.partner-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.partner-rows {
+  width: 100%;
+  border-collapse: collapse;
+}
+.partner-rows th,
+.partner-rows td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+.partner-rows__event {
+  overflow-wrap: anywhere;
+}

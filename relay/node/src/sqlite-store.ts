@@ -315,7 +315,10 @@ export class SqliteHubStore implements HubStore {
     )
     if (!row) return undefined
     return row.kind === 'controller'
-      ? { kind: 'controller' }
+      ? {
+          kind: 'controller',
+          ...(row.resume_hash ? { tokenHash: String(row.resume_hash) } : {}),
+        }
       : { kind: 'participant', resumeHash: String(row.resume_hash ?? '') }
   }
 
@@ -328,7 +331,7 @@ export class SqliteHubStore implements HubStore {
         this.sessionId,
         client,
         identity.kind,
-        identity.kind === 'participant' ? identity.resumeHash : null,
+        identity.kind === 'participant' ? identity.resumeHash : (identity.tokenHash ?? null),
       )
       this.bump(0, 0, 1)
     })

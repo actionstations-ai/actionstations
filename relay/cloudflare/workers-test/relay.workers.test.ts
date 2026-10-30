@@ -5,6 +5,7 @@
 import { env, evictDurableObject, runDurableObjectAlarm, SELF } from 'cloudflare:test'
 import { describe, expect, it } from 'vitest'
 
+const CO_ID = 'coController0000000000'
 const CONTROLLER_ID = 'Y29udHJvbGxlcjAwMDAwMA'
 let nextAddress = 1
 
@@ -22,9 +23,9 @@ async function createSession(): Promise<{ sessionId: string; controllerToken: st
   return (await res.json()) as { sessionId: string; controllerToken: string }
 }
 
-async function connectController(sessionId: string, token: string) {
+async function connectController(sessionId: string, token: string, clientId = CONTROLLER_ID) {
   const res = await SELF.fetch(
-    `https://relay.test/v1/sessions/${sessionId}/ws?client=${CONTROLLER_ID}`,
+    `https://relay.test/v1/sessions/${sessionId}/ws?client=${clientId}`,
     {
       headers: {
         Upgrade: 'websocket',
@@ -36,7 +37,7 @@ async function connectController(sessionId: string, token: string) {
   )
   expect(res.status).toBe(101)
   const ws = res.webSocket!
-  const frames: Array<{ type: string }> = []
+  const frames: Array<{ type: string; payload?: Record<string, unknown> }> = []
   const closes: number[] = []
   ws.addEventListener('message', (e) => {
     frames.push(JSON.parse(e.data as string))
@@ -109,6 +110,58 @@ describe('relay under workerd', () => {
       body: JSON.stringify({ joinTokenHash: 'a'.repeat(64) }),
     })
     expect(again.status).toBe(204)
+  })
+
+  it('keeps a co-controller out of the host-only actions and frames, also after an eviction (#517)', async () => {
+    const { sessionId, controllerToken } = await createSession()
+    const minted = await SELF.fetch(`https://relay.test/v1/sessions/${sessionId}/controllers`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${controllerToken}`, 'CF-Connecting-IP': address() },
+    })
+    expect(minted.status).toBe(201)
+    const coToken = ((await minted.json()) as { controllerToken: string }).controllerToken
+    const end = await SELF.fetch(`https://relay.test/v1/sessions/${sessionId}/end`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${coToken}`, 'CF-Connecting-IP': address() },
+    })
+    expect(end.status).toBe(403)
+    await end.text()
+
+    // The host's connection, and a co-controller trying to take over its client id (#529).
+    const host = await connectController(sessionId, controllerToken)
+    await until(() => host.frames.some((f) => f.type === 'relay.hello'))
+    const thief = await connectController(sessionId, coToken, CONTROLLER_ID)
+    await until(() => thief.closes.includes(4005))
+    expect(host.closes).toEqual([])
+    host.ws.close(1000, 'done')
+
+    const co = await connectController(sessionId, coToken, CO_ID)
+    await until(() => co.frames.some((f) => f.type === 'relay.hello'))
+    const hello = co.frames.find((f) => f.type === 'relay.hello')!
+    expect(hello.payload?.clients).toBeUndefined()
+
+    await evictDurableObject(sessionStub(sessionId))
+    const send = (seq: number, type: string, to: string) =>
+      co.ws.send(
+        JSON.stringify({
+          v: 1,
+          session: sessionId,
+          seq,
+          from: CO_ID,
+          to,
+          type,
+          ts: Date.now(),
+          payload: { k: 't1', n: 'AAAAAAAAAAAAAAAA', c: 'AAAA' },
+        }),
+      )
+    send(1, 'simcell.draft', `client:${CONTROLLER_ID}`)
+    send(2, 'partner.receipt', `client:${CONTROLLER_ID}`)
+    await until(() => co.frames.filter((f) => f.type === 'relay.error').length === 2)
+    expect(co.frames.filter((f) => f.type === 'relay.error').map((f) => f.payload?.code)).toEqual([
+      'NOT_CONTROLLER',
+      'NOT_CONTROLLER',
+    ])
+    co.ws.close(1000, 'done')
   })
 
   it('closes a socket that sends a message over the 64 KiB cap', async () => {

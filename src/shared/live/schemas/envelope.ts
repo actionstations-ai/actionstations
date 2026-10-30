@@ -21,8 +21,11 @@ export const Destination = z
   )
 export type Destination = z.infer<typeof Destination>
 
-/** Reserved role ids (#412): every evaluator seat filters on `role:evaluators`, every observer on `role:observers`. */
-export const RESERVED_ROLE_IDS = ['evaluators', 'observers'] as const
+/**
+ * Reserved role ids (#412): every evaluator seat filters on `role:evaluators`, every observer on
+ * `role:observers`; `simcell` is the SimCell helper's seat (#518), reached by `client:<id>` only.
+ */
+export const RESERVED_ROLE_IDS = ['evaluators', 'observers', 'simcell'] as const
 
 export const MessageTypeSchema = z.enum(MESSAGE_TYPES)
 

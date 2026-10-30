@@ -129,7 +129,30 @@ export class Simcell {
   private readonly fired = new Set<string>()
   private timer: ReturnType<typeof setInterval> | undefined
 
+  private readonly queueListeners = new Set<() => void>()
+
   constructor(private readonly deps: SimcellDeps) {}
+
+  /** Called after every change to the approval queue (the live session's helper devices follow it). */
+  onQueueChange(listener: () => void): () => void {
+    this.queueListeners.add(listener)
+    return () => this.queueListeners.delete(listener)
+  }
+
+  /** A persona's display name, for the draft cards on helper devices. */
+  personaName(personaId: string): string | undefined {
+    return this.personaNameCache.get(personaId)
+  }
+
+  /** The live thread's display name, or an empty string without a session. */
+  threadLabel(threadId: string): string {
+    return this.bridge?.threadLabel(threadId) ?? ''
+  }
+
+  private emitEvent(event: 'draft-ready' | 'queue-changed', draftId?: string): void {
+    this.deps.emit(event, draftId)
+    if (event === 'queue-changed') for (const l of [...this.queueListeners]) l()
+  }
 
   // ---- session ------------------------------------------------------------------------
 
@@ -148,7 +171,7 @@ export class Simcell {
     this.callLines.clear()
     this.callTargets.clear()
     this.fired.clear()
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
   }
 
   startClock(everyMs = 15_000): void {
@@ -189,14 +212,14 @@ export class Simcell {
     } else if (opts.enabled === false) {
       this.enabled = false
     }
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
     return this.status()
   }
 
   async runCapability(force = true): Promise<CapabilityResult> {
     this.capability = await this.deps.capability(force)
     if (this.capability.level === 'not_suited') this.enabled = false
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
     return this.capability
   }
 
@@ -223,7 +246,7 @@ export class Simcell {
     if (!card) return
     this.owners.set(m.messageId, card.id)
     if (this.auto) this.enqueue(card, m.channel, 'player_message', { inReplyTo: m.messageId })
-    else this.deps.emit('queue-changed')
+    else this.emitEvent('queue-changed')
   }
 
   private async route(
@@ -248,7 +271,7 @@ export class Simcell {
 
   assign(threadId: string, personaId: string): void {
     this.assignments.set(threadId, personaId)
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
   }
 
   // ---- drafting ---------------------------------------------------------------------
@@ -270,7 +293,7 @@ export class Simcell {
 
   private failed(err: unknown): void {
     console.error('[simcell] draft failed:', err instanceof Error ? err.message : err)
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
   }
 
   /** Resolves when no background draft is running or waiting (tests, and quitting). */
@@ -368,8 +391,8 @@ export class Simcell {
     })
     this.drafts.set(draft.id, draft)
     await this.persist(draft)
-    this.deps.emit('draft-ready', draft.id)
-    this.deps.emit('queue-changed', draft.id)
+    this.emitEvent('draft-ready', draft.id)
+    this.emitEvent('queue-changed', draft.id)
     return draft
   }
 
@@ -593,7 +616,7 @@ export class Simcell {
         applied: done.applied,
       },
     })
-    this.deps.emit('queue-changed', done.id)
+    this.emitEvent('queue-changed', done.id)
     return done
   }
 
@@ -666,13 +689,13 @@ export class Simcell {
     this.callLines.set(threadId, lines)
     const card = a.personaId ? await this.cardFor(a.personaId).catch(() => undefined) : undefined
     if (card && text && this.auto) this.enqueue(card, threadId, 'call_turn', { callId: a.callId })
-    else this.deps.emit('queue-changed')
+    else this.emitEvent('queue-changed')
   }
 
   /** The call ended: its thread is no longer waiting for a reply. */
   onCallEnded(callId: string): void {
     this.callLines.delete(`${CALL_PREFIX}${callId}`)
-    this.deps.emit('queue-changed')
+    this.emitEvent('queue-changed')
   }
 
   // ---- persistence --------------------------------------------------------------------

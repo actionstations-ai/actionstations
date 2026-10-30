@@ -10,6 +10,7 @@ import type { CryptoProvider, PrivateKey } from './crypto/provider'
 import type { SessionKeys } from './crypto/keys'
 import {
   HKDF_INFO,
+  CLIENT_ADDRESSED_TYPES,
   HOST_ONLY_TYPES,
   KEY_BY_TYPE,
   NONCE_BYTES,
@@ -27,9 +28,11 @@ import type { ReplayGuard } from './replay'
 import {
   CONTROLLER_KEY_NAME,
   Ciphertext,
+  DEFAULT_CO_PERMISSIONS,
   Envelope,
   PAYLOAD_SCHEMAS,
   type ClientId,
+  type CoControllerPermission,
   type ControllerRosterPayload,
   type ControllerScope,
   type Destination,
@@ -73,10 +76,34 @@ export interface SealOptions {
  * Who opened a vote, survey or call (`id → signer`), so a co-controller may close only what it
  * opened (#440). Kept by the receiver across frames; `LiveClient` holds one.
  */
+/** Releases kept per session; a co-controller cannot grow the map without bound. */
+const MAX_TRACKED_RELEASES = 20_000
+
 export class ScopeState {
   readonly openers = new Map<string, string>()
+  /** Who signed each release first (`releaseId → signer and connection`): receipts (#517) and recall checks (#529). */
+  readonly releases = new Map<
+    string,
+    { signer: string; from: string; mselRowId: string; targets: string[] }
+  >()
 
-  record(type: MessageType, payload: unknown, signer: string): void {
+  record(type: MessageType, payload: unknown, signer: string, from?: string): void {
+    if (type === 'inject.release' && from !== undefined) {
+      const { releaseId, mselRowId, targets } = payload as {
+        releaseId?: string
+        mselRowId?: string
+        targets?: string[]
+      }
+      // The first signer of a release id keeps it: a later frame cannot claim or recall it (#529).
+      if (
+        releaseId &&
+        mselRowId &&
+        !this.releases.has(releaseId) &&
+        this.releases.size < MAX_TRACKED_RELEASES
+      ) {
+        this.releases.set(releaseId, { signer, from, mselRowId, targets: targets ?? [] })
+      }
+    }
     const id = scopedId(type, payload)
     if (id && (type === 'vote.open' || type === 'survey.open' || type === 'call.ring')) {
       this.openers.set(id, signer)
@@ -246,6 +273,9 @@ export async function seal<T extends SealedType>(
 ): Promise<Envelope> {
   const parsed = PAYLOAD_SCHEMAS[header.type].safeParse(payload)
   if (!parsed.success) throw new SealError('SCHEMA', parsed.error.message)
+  if (CLIENT_ADDRESSED_TYPES.has(header.type) && !header.to.startsWith('client:')) {
+    throw new SealError('KEY_RULE', `${header.type} goes to one device (client:<id>)`)
+  }
   const kind = resolveKey(header.type, parsed.data, header.to, opts.key)
   const material = await sealingMaterial(crypto, keys, kind, opts.epoch)
   const nonce = crypto.random(NONCE_BYTES)
@@ -399,6 +429,9 @@ async function openSealed(
     return drop('UNSIGNED_CONTROLLER_MESSAGE')
   }
 
+  if (CLIENT_ADDRESSED_TYPES.has(type) && !e.to.startsWith('client:')) {
+    return drop('PARSE', `${type} must be addressed to one device`)
+  }
   const lookup = await lookupKey(ctx, c)
   if (!lookup.ok) return drop(lookup.reason)
   if (!allowedKeys(type, undefined, e.to).has(lookup.kind)) {
@@ -417,7 +450,7 @@ async function openSealed(
   if (signedBy !== undefined) {
     const scoped = checkScope(ctx, type, payload, signedBy)
     if (scoped !== undefined) return drop('OUT_OF_SCOPE', scoped)
-    ctx.scope?.record(type, payload, signedBy)
+    ctx.scope?.record(type, payload, signedBy, e.from)
   }
   const msg: Opened = { ...base, payload, key: lookup.kind } as Opened
   if (signedBy !== undefined) msg.signedBy = signedBy
@@ -435,9 +468,10 @@ function checkScope(
   if (HOST_ONLY_TYPES.has(type)) return `${type} is host-only`
   const scope = ctx.roster?.controllers.find((x) => x.id === signedBy)?.scope
   if (!scope) return 'signer is not in the roster'
-  return inScope(type, payload, scope, ctx.scope?.openerOf(type, payload)) === true
-    ? undefined
-    : 'outside the co-controller scope'
+  if (!inScope(type, payload, scope, ctx.scope?.openerOf(type, payload))) {
+    return 'outside the co-controller scope'
+  }
+  return releaseOwnership(ctx.scope, type, payload, signedBy)
 }
 
 type Decrypted =
@@ -517,6 +551,47 @@ export function rowMatchesPrefix(rowId: string, prefix: string): boolean {
   return /[^A-Za-z0-9]$/.test(prefix) || /^[^A-Za-z0-9]/.test(rowId.slice(prefix.length))
 }
 
+const PERMISSION_OF: Partial<Record<MessageType, CoControllerPermission>> = {
+  'inject.release': 'inject',
+  'inject.recall': 'inject',
+  'message.send': 'message',
+  'vote.open': 'vote',
+  'vote.close': 'vote',
+  'survey.open': 'survey',
+  'survey.close': 'survey',
+  'call.ring': 'call',
+  'call.end': 'call',
+  'controller.notice': 'notice',
+}
+
+/** Whether the roster entry grants the family of frame this type belongs to (#517). */
+function permitted(type: MessageType, scope: ControllerScope): boolean {
+  const needed = PERMISSION_OF[type]
+  return needed === undefined || (scope.permissions ?? DEFAULT_CO_PERMISSIONS).includes(needed)
+}
+
+/**
+ * A co-controller may use a release id only if no one else signed it first, and may recall only
+ * its own release of that row: a recall names a release id, the scope check names a row (#529).
+ */
+function releaseOwnership(
+  scope: ScopeState | undefined,
+  type: SealedType,
+  payload: unknown,
+  signer: string,
+): string | undefined {
+  const p = payload as { releaseId?: string; mselRowId?: string }
+  if (type === 'inject.release') {
+    const prior = p.releaseId ? scope?.releases.get(p.releaseId) : undefined
+    return prior && prior.signer !== signer ? 'release id belongs to another signer' : undefined
+  }
+  if (type !== 'inject.recall' || p.releaseId === undefined) return undefined
+  const prior = scope?.releases.get(p.releaseId)
+  return prior && prior.signer === signer && prior.mselRowId === p.mselRowId
+    ? undefined
+    : 'recall of a release this signer did not make'
+}
+
 /**
  * Whether a co-controller with `scope` may have sent this frame (#440). `openedBy` is who
  * opened the vote, survey or call a close refers to; a co-controller closes only its own.
@@ -527,6 +602,7 @@ export function inScope(
   scope: ControllerScope,
   openedBy?: string,
 ): boolean {
+  if (!permitted(type, scope)) return false
   if (scope.all) return true
   const p = payload as { mselRowId?: string; targets?: string[]; channel?: string }
   switch (type) {

@@ -7,8 +7,10 @@ import { useStore, type Store } from '../app/store'
 import { STRINGS } from '../app/strings'
 import { EvaluateScreen } from '../features/evaluate/EvaluateScreen'
 import { HotWashScreen } from '../features/hotwash/HotWashScreen'
+import { SimcellScreen } from '../features/simcell/SimcellScreen'
+import { SIMCELL } from '../features/simcell/strings'
 
-type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash'
+type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash' | 'simcell'
 
 interface Entry {
   id: string
@@ -67,12 +69,16 @@ export function MoreScreen({
           ? { onOpen: () => setView('evaluate') }
           : { why: reason(features?.eval) }),
     },
+    ...(seat?.kind === 'simcell'
+      ? [{ id: 'simcell', label: SIMCELL.more, onOpen: () => setView('simcell') }]
+      : []),
     { id: 'settings', label: STRINGS.more.settings, onOpen: () => setView('settings') },
     { id: 'about', label: STRINGS.more.about, onOpen: () => setView('about') },
   ]
 
   if (view === 'evaluate')
     return <EvaluateScreen session={session} onBack={() => setView('menu')} />
+  if (view === 'simcell') return <SimcellScreen session={session} onBack={() => setView('menu')} />
   if (view === 'settings')
     return <SettingsScreen prefsStore={prefsStore} onBack={() => setView('menu')} />
   if (view === 'hotwash') return <HotWashScreen session={session} onBack={() => setView('menu')} />

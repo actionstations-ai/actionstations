@@ -151,6 +151,11 @@ export class Delivery {
     this.deps.changed()
   }
 
+  /** Whether this session's delivery released `releaseId` itself. */
+  has(releaseId: string): boolean {
+    return this.records.has(releaseId)
+  }
+
   /** The release for a row that is out and not withdrawn, if any. */
   activeFor(rowId: string): string | undefined {
     for (const [id, rec] of this.records) if (rec.rowId === rowId && !rec.withdrawn) return id

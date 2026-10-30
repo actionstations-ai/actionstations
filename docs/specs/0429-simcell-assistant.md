@@ -303,3 +303,9 @@ Open questions 1 to 5 were settled as recommended (a `roleplay` task that falls 
 7. **Calls from injects.** A controller starts a call with **Start a call** or ticks **Ring the players with this reply as a call** on a draft. A phone, radio or voicemail row also rings as a call from the Inject panel (**Ring players as a call**, `live:inject-call`): its voice lines are the first line, spoken by the row's sender, to the roles the row names (#494). A released inject does not turn into a call by itself.
 8. **Export.** `personas.md` is written by the `markdown` export target next to `scenario.md` (facilitator folder), not by `documents.ts`.
 9. **Capability display.** The model check shows on the Settings > Providers row and on the SimCell tab. `live.test.ts` is opt-in (`LIVE=1`).
+
+## Helper devices (#518)
+
+A facilitator can let a staff device in the **SimCell helper** seat approve, edit or discard queued drafts (`simcell.draft` to the seat, `simcell.action` back; see spec 0406). Off by default, per session. Drafts with no thread yet and voice-call turns are never offered. The helper's decision is the same `resolve` call as the facilitator's buttons, so the log, persona clocks and what players see are identical; the log entry says it came from a helper device.
+
+Helper decisions are also refused while staff seats are closed by a partner invite (#529; see spec 0440).

@@ -5,7 +5,8 @@
  *
  * - `GET  /v1/health`                          what the server is, its limits, its protocol
  * - `POST /v1/sessions`                        create (self-hosted: `Bearer <serverKey>`)
- * - `POST /v1/sessions/:id/join-token|kick|end` `Bearer <controllerToken>`
+ * - `POST /v1/sessions/:id/join-token|kick|end|controllers` `Bearer <controllerToken>` (the host's;
+ *   `controllers` mints a co-controller's token, which cannot call these itself)
  * - `GET  /v1/sessions/:id/ws`                 the controller's WebSocket
  */
 import { z } from 'zod'
@@ -33,6 +34,8 @@ export const HealthBody = z.object({
   fingerprintSha256: Fingerprint.optional(),
 })
 export type HealthBody = z.infer<typeof HealthBody>
+
+const ControllerBody = z.object({ controllerToken: z.string().regex(/^[A-Za-z0-9_-]{16,128}$/) })
 
 const CreatedBody = z.object({
   sessionId: z.string().regex(/^[A-Za-z0-9_-]{22}$/),
@@ -67,6 +70,8 @@ export interface RemoteClient {
   setJoinToken(auth: SessionAuth, joinTokenHash: string): Promise<void>
   kick(auth: SessionAuth, client: string): Promise<void>
   end(auth: SessionAuth): Promise<void>
+  /** Mint a token for a co-controller (#517). Host token only. */
+  addController(auth: SessionAuth): Promise<string>
   connect(auth: SessionAuth, clientId: string): Promise<Transport>
   /** Does the server accept this key? `unsupported` when it has no dry-run route. */
   probeKey(): Promise<'accepted' | 'refused' | 'unsupported'>
@@ -121,6 +126,10 @@ export function createRemoteClient(opts: RemoteClientOptions): RemoteClient {
     setJoinToken: (auth, joinTokenHash) => action(auth, 'join-token', { joinTokenHash }),
     kick: (auth, client) => action(auth, 'kick', { client }),
     end: (auth) => action(auth, 'end'),
+    async addController(auth) {
+      const res = await post(`/v1/sessions/${auth.sessionId}/controllers`, auth.controllerToken, {})
+      return parseOrThrow(ControllerBody, res, 'controller token answer').controllerToken
+    },
     connect: (auth, clientId) => connectController(target, { ...auth, clientId }),
     async probeKey() {
       const res = await requestJson(target, {

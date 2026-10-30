@@ -190,4 +190,64 @@ describe('M1: a participant cannot make the hub replay the store at will', () =>
       cc.receive(frame(id(9), i, 'catchup.request', { after: 0 }, 'controller'))
     expect(ctl.frames.filter((f) => f.includes('"catchup.batch"'))).toHaveLength(5)
   })
+
+  it('rate-limits a co-controller connection like a device, and never the host (#529)', async () => {
+    const h = await hub({ coControllerFramesPerMinute: 3 })
+    const co = sock()
+    const cc = await h.attach(co, { clientId: id(8), controller: true, host: false })
+    for (let i = 1; i <= 5; i++)
+      cc.receive(frame(id(8), i, 'catchup.request', { after: 0 }, 'controller'))
+    expect(co.frames.filter((f) => f.includes('"catchup.batch"')).length).toBeLessThanOrEqual(3)
+    expect(co.errors('RATE_LIMITED')).toBeGreaterThan(0)
+    const host = sock()
+    const hc = await h.attach(host, { clientId: id(9), controller: true })
+    for (let i = 1; i <= 10; i++)
+      hc.receive(frame(id(9), i, 'catchup.request', { after: 0 }, 'controller'))
+    expect(host.frames.filter((f) => f.includes('"catchup.batch"'))).toHaveLength(10)
+  })
+
+  it('binds a controller id to the token that first used it, also across a restart (#529)', async () => {
+    const h = await hub()
+    const first = sock()
+    await h.attach(first, {
+      clientId: id(9),
+      controller: true,
+      controllerTokenHash: 'a'.repeat(64),
+    })
+    const thief = sock()
+    await h.attach(thief, {
+      clientId: id(9),
+      controller: true,
+      host: false,
+      controllerTokenHash: 'b'.repeat(64),
+    })
+    expect(thief.closed).toBe(CLOSE_CODES.CLIENT_ID_IN_USE)
+    expect(first.closed).toBeUndefined()
+    // No token at all is not the first token either.
+    const bare = sock()
+    await h.attach(bare, { clientId: id(9), controller: true })
+    expect(bare.closed).toBe(CLOSE_CODES.CLIENT_ID_IN_USE)
+    // The same token comes back.
+    const again = sock()
+    await h.attach(again, {
+      clientId: id(9),
+      controller: true,
+      controllerTokenHash: 'a'.repeat(64),
+    })
+    expect(again.closed).toBeUndefined()
+  })
+
+  it('refuses a controller seq far beyond the window and still delivers its later frames (#529)', async () => {
+    const h = await hub()
+    const ctl = sock()
+    const c = await h.attach(ctl, { clientId: id(9), controller: true })
+    const dev = sock()
+    const d = await h.attach(dev, { clientId: id(1), joinToken: JOIN, resumeToken: resume(1) })
+    void d
+    c.receive(frame(id(9), Number.MAX_SAFE_INTEGER, 'session.end'))
+    expect(ctl.errors('INVALID')).toBe(1)
+    c.receive(frame(id(9), 1, 'clock.state'))
+    c.receive(frame(id(9), 2, 'clock.state'))
+    expect(dev.frames.filter((f) => f.includes('"clock.state"'))).toHaveLength(2)
+  })
 })
