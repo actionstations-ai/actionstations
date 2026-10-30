@@ -225,9 +225,26 @@ export class LiveDrills {
       if (!p) return void (await reply({ kind: 'error', message: 'This drill is full.' }))
       await reply(await this.respond(d, p, step, payload))
     } catch (e) {
-      await reply({ kind: 'error', message: toAppError(e).message.slice(0, 300) })
+      await reply({ kind: 'error', message: await this.deviceMessage(e) })
     }
     this.deps.changed()
+  }
+
+  /**
+   * What a device may read about a failure. An AppError is written for people (a drill that is
+   * not Ready, all hints used) and goes through; anything else may carry a local path or a
+   * provider message, so the device gets a fixed sentence and the detail goes to the local log.
+   */
+  private async deviceMessage(e: unknown): Promise<string> {
+    if (e instanceof AppError) return e.message.slice(0, 300)
+    await this.deps.log
+      .append({
+        kind: 'anomaly',
+        actor: { kind: 'system' },
+        data: { what: 'drill answer failed', detail: toAppError(e).message.slice(0, 300) },
+      })
+      .catch(() => undefined)
+    return 'The drill could not check that. Try again, or ask your facilitator.'
   }
 
   private async participant(d: Delivery, from: string): Promise<Participant | undefined> {
@@ -247,15 +264,17 @@ export class LiveDrills {
     step: MicroDrill['steps'][number],
     payload: DrillAnswerPayload,
   ): Promise<Record<string, unknown>> {
-    if (payload.ask === 'hint') return this.hintFeedback(d, p, step.id)
     const text = payload.text?.trim() ?? ''
-    if (!text) return { kind: 'error', message: 'Write an answer first.' }
+    if (payload.ask === 'check' && !text)
+      return { kind: 'error', message: 'Write an answer first.' }
+    // Hints count toward the cap too: each one is a stored write and a reply.
     if (++p.checks > MAX_CHECKS_PER_DEVICE) {
       return {
         kind: 'error',
         message: 'That is enough answers for this drill. Ask your facilitator.',
       }
     }
+    if (payload.ask === 'hint') return this.hintFeedback(d, p, step.id)
     if (p.run.assessment === 'checklist' && payload.ticked === undefined) {
       return {
         kind: 'checklist',

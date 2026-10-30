@@ -2,6 +2,7 @@
 // only), what comes back to one device, and what the log keeps.
 import { describe, expect, it } from 'vitest'
 import type { MicroDrill, MicroDrillRun } from '@shared/schemas'
+import { AppError } from '../lib/errors'
 import { LiveDrills, MAX_CHECKS_PER_DEVICE, type DrillRuns } from './live'
 
 const CITATION = { documentId: 'd', documentTitle: 'Plan', headingPath: 'Plan › 4', chunkId: 1 }
@@ -38,6 +39,7 @@ function setup(assessment: 'model' | 'checklist' = 'model') {
   const logged: { kind: string; data?: unknown }[] = []
   const runs = new Map<string, MicroDrillRun>()
   const started: string[] = []
+  const fail: { error?: Error } = {}
   const finished: string[] = []
   let reported = 0
   const fake: DrillRuns = {
@@ -55,6 +57,7 @@ function setup(assessment: 'model' | 'checklist' = 'model') {
       return run
     },
     answer: async (input) => {
+      if (fail.error) throw fail.error
       const run = runs.get(input.runId)!
       const covered = (input.ticked ?? ['p1']).filter((id) => id === 'p1')
       const attempt = {
@@ -95,7 +98,7 @@ function setup(assessment: 'model' | 'checklist' = 'model') {
     now: () => 1000,
     changed: () => undefined,
   })
-  return { drills, sent, logged, started, finished, reported: () => reported }
+  return { drills, sent, logged, started, finished, fail, reported: () => reported }
 }
 
 const answer = (drillId: string, extra: Record<string, unknown> = {}) =>
@@ -192,6 +195,38 @@ describe('LiveDrills', () => {
     for (let i = 0; i < MAX_CHECKS_PER_DEVICE; i++) await drills.onAnswer(clientA, answer(liveId))
     await drills.onAnswer(clientA, answer(liveId))
     expect(sent.at(-1)!.payload).toMatchObject({ kind: 'error' })
+  })
+
+  it('counts hint requests toward the per-device cap', async () => {
+    const { drills, sent } = setup()
+    const { liveId } = await drills.open('drill-1')
+    const hint = { drillId: liveId, stepId: 's1', ask: 'hint' } as never
+    for (let i = 0; i < MAX_CHECKS_PER_DEVICE; i++) await drills.onAnswer(clientA, hint)
+    expect(sent.at(-1)!.payload).toMatchObject({ kind: 'hint' })
+    await drills.onAnswer(clientA, hint)
+    expect(sent.at(-1)!.payload).toMatchObject({ kind: 'error' })
+  })
+
+  it('sends a fixed message for an unexpected failure and keeps the detail in the local log', async () => {
+    const s = setup()
+    const { liveId } = await s.drills.open('drill-1')
+    s.fail.error = new Error('ENOENT: /Users/matt/secret/project/run.json')
+    await s.drills.onAnswer(clientA, answer(liveId))
+    const reply = s.sent.at(-1)!.payload
+    expect(reply).toMatchObject({ kind: 'error' })
+    expect(JSON.stringify(reply)).not.toContain('/Users/matt')
+    expect(JSON.stringify(s.logged)).toContain('/Users/matt/secret')
+  })
+
+  it('still shows a plain AppError to the device', async () => {
+    const s = setup()
+    const { liveId } = await s.drills.open('drill-1')
+    s.fail.error = new AppError('CONFLICT', 'All three hints for this question were used.')
+    await s.drills.onAnswer(clientA, answer(liveId))
+    expect(s.sent.at(-1)!.payload).toMatchObject({
+      kind: 'error',
+      message: 'All three hints for this question were used.',
+    })
   })
 
   it('in checklist mode returns the points to tick, then records the ticked ones', async () => {
