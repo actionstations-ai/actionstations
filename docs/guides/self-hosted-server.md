@@ -21,7 +21,7 @@ This page is for the IT administrator who installs it. The facilitator side (cho
 
 ### Docker
 
-From a checkout of the repository (building takes a couple of minutes):
+The published image runs on x86-64 (amd64) and ARM (arm64) hosts, such as AWS Graviton or a Raspberry Pi 4 or 5: `docker pull ghcr.io/actionstations-ai/actionstations-relay:<version>`. To build it yourself instead, from a checkout of the repository (building takes a couple of minutes):
 
 ```
 docker compose -f relay/node/compose.yaml up -d
@@ -127,11 +127,11 @@ Replace the program and restart; the database carries a schema version and a new
 
 ## Publishing the container image (maintainers)
 
-A tag push (`vX.Y.Z`) publishes the image from the release workflow's `relay-image` job, using the workflow token on a standard runner (public packages cost nothing). To publish by hand instead, from the repository root and logged in with `docker login ghcr.io`:
+A tag push (`vX.Y.Z`) publishes the image for amd64 and arm64 from the release workflow's `relay-image` job, using the workflow token on a standard runner (public packages cost nothing). To publish by hand instead, from the repository root and logged in with `docker login ghcr.io`:
 
 ```
-docker build -f relay/node/Dockerfile -t ghcr.io/actionstations-ai/actionstations-relay:<version> .
-docker push ghcr.io/actionstations-ai/actionstations-relay:<version>
+docker buildx build --platform linux/amd64,linux/arm64 -f relay/node/Dockerfile \
+  -t ghcr.io/actionstations-ai/actionstations-relay:<version> --push .
 ```
 
 After the first publish, set the package's visibility to public once in the organization's package settings. Binaries: the release workflow builds the Linux x64 and Windows x64 executables (`pnpm build:player`, then `pnpm --filter @actionstations/relay-node build:public` and `build:sea`) on standard runners and uploads each with its `.sha256` file to the draft release. To build one by hand, run the same three commands on that platform.

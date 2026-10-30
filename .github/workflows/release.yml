@@ -216,6 +216,9 @@ jobs:
           image=ghcr.io/actionstations-ai/actionstations-relay
           version="${TAG#v}"
           echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-          docker build -f relay/node/Dockerfile -t "$image:$version" -t "$image:latest" .
-          docker push "$image:$version"
-          docker push "$image:latest"
+          # amd64 and arm64 in one manifest (#547). QEMU runs only the small final stage for
+          # arm64; the build stage runs natively. Nothing is cached or uploaded besides the image.
+          docker run --privileged --rm tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0 --install arm64
+          docker buildx create --use --name relay-multiarch
+          docker buildx build --platform linux/amd64,linux/arm64 -f relay/node/Dockerfile \
+            -t "$image:$version" -t "$image:latest" --push .

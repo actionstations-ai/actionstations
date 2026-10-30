@@ -5,7 +5,9 @@
 # Stage 1 installs only this package and its workspace dependency (the relay core), then bundles
 # the server into one file. Stage 2 is a plain Node image with that file, a non-root user, a
 # read-only root filesystem (compose.yaml) and /data for the database, certificate and logs.
-FROM node:22-alpine AS build
+# The build stage runs on the build machine's platform: the server bundle is plain JavaScript,
+# so one build serves every target platform (#547).
+FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /repo
 RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
