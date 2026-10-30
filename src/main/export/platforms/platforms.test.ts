@@ -177,6 +177,51 @@ describe('text rendition', () => {
 })
 
 describe('Conducttr MEL CSV', () => {
+  // Conducttr's help page "Import Master Events List (MEL) from Excel file", read 2026-10-29.
+  const PUBLISHED_METHODS = [
+    'Email',
+    'Msngr',
+    'MicroBlog',
+    'Websites / News',
+    'GoSocial',
+    'Notification',
+    'Media pop-up',
+    'Phone Call',
+    'Walkie-talkie',
+    'Captions',
+    'Graph',
+    'Portal',
+    'TV',
+    'Log',
+    'Checklist',
+    'Help Desk',
+    'InfoMap',
+    'Social Watch',
+    'Msngr Plus',
+    'TeamChat Plus',
+    'TeamChat',
+    'InstaMedia',
+    'Telegraph',
+    'Videoblog',
+    'Forum',
+    'Diagrams',
+    'Blog',
+    'Timer',
+  ]
+
+  it('uses only Method names the published import list knows (others fall back to Email)', () => {
+    const used = new Set(CHANNELS.map((c) => conducttrMethod(c === 'document' ? 'memo' : c)))
+    for (const type of ['tweet', 'radio_call', 'eas_broadcast', 'email', 'memo', 'some_pack_type'])
+      used.add(conducttrMethod(type))
+    for (const m of used) expect(PUBLISHED_METHODS, m).toContain(m)
+  })
+
+  it('writes only To type values the published import accepts', () => {
+    const accepted = ['', 'Position', 'Team', 'Superteam', 'Role', 'Group', 'Conditional Group']
+    const rows = parseCsv(conducttrCsv(fixtureModel())).slice(1)
+    for (const r of rows) expect(accepted).toContain(r[7])
+  })
+
   it('has the exact header row of the Import MEL template', () => {
     const rows = parseCsv(conducttrCsv(fixtureModel()))
     expect(rows[0]).toEqual([...CONDUCTTR_COLUMNS])
