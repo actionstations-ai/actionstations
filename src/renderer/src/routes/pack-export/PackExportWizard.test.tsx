@@ -95,7 +95,7 @@ describe('Export as pack wizard', () => {
     // 3. Licenses: no default; the document needs its own; the statement is required.
     expect(screen.getByText('Choose the pack license.')).toBeTruthy()
     expect(screen.getByText('Document "Metro Plan" has no license.')).toBeTruthy()
-    expect(screen.getByText(/PolyForm Internal Use/)).toBeTruthy()
+    expect(screen.getByText(/AGPL-3.0-only/)).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Next' })).toHaveProperty('disabled', true)
     await userEvent.click(screen.getByRole('radio', { name: /^MIT/ }))
     await userEvent.type(screen.getByLabelText('Metro Plan'), 'CC0-1.0')

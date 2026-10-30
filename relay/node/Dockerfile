@@ -22,7 +22,7 @@ FROM node:22-alpine
 LABEL org.opencontainers.image.title="Action Stations relay (self-hosted)" \
       org.opencontainers.image.description="Live play session server for your own network. Stores only ciphertext, for at most 72 hours. Makes no outbound connection." \
       org.opencontainers.image.source="https://github.com/actionstations-ai/actionstations" \
-      org.opencontainers.image.licenses="SEE LICENSE IN LICENSE.md"
+      org.opencontainers.image.licenses="AGPL-3.0-only"
 RUN addgroup -g 10001 relay && adduser -D -u 10001 -G relay relay && mkdir -p /data && chown relay:relay /data
 WORKDIR /app
 COPY --from=build /repo/relay/node/dist/server.cjs ./dist/server.cjs

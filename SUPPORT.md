@@ -24,7 +24,7 @@ Never in a public issue. Follow [SECURITY.md](SECURITY.md) and email the report.
 
 ## Licensing and commercial use
 
-Questions about what the license allows, commercial licenses, consulting or facilitation for other organizations: see [COMMERCIAL.md](COMMERCIAL.md).
+Questions about what the license allows, commercial licenses, consulting or facilitation for other organizations: see [LICENSING.md](LICENSING.md).
 
 ## Response times
 

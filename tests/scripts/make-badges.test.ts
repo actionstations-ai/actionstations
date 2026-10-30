@@ -22,7 +22,7 @@ const FACTS = {
   e2eTests: 71,
   e2eFiles: 37,
   version: '0.1.0',
-  license: 'PolyForm Internal Use 1.0.0 + education',
+  license: 'AGPL-3.0-only',
   electron: '45.0.0',
   platforms: 'macOS | Windows | Linux',
 }
@@ -71,10 +71,9 @@ describe('parsers', () => {
     expect(parsePlaywrightList('')).toBeNull()
   })
 
-  it('names the license from LICENSE.md and the education permission', () => {
-    const md = '# PolyForm Internal Use License 1.0.0\n\n<https://...>\n'
-    expect(licenseName(md, true)).toBe('PolyForm Internal Use 1.0.0 + education')
-    expect(licenseName(md, false)).toBe('PolyForm Internal Use 1.0.0')
+  it('names the license from the package.json SPDX id', () => {
+    expect(licenseName('AGPL-3.0-only')).toBe('AGPL-3.0-only')
+    expect(licenseName(undefined)).toBe('see LICENSE.md')
   })
 
   it('lists the platforms electron-builder.yml configures', () => {
@@ -86,8 +85,8 @@ describe('parsers', () => {
 
   it('matches what the repository has today', () => {
     const root = join(__dirname, '..', '..')
-    const license = licenseName(readFileSync(join(root, 'LICENSE.md'), 'utf8'), true)
-    expect(license).toBe('PolyForm Internal Use 1.0.0 + education')
+    const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+    expect(licenseName(pkg.license)).toBe('AGPL-3.0-only')
     const yml = readFileSync(join(root, 'electron-builder.yml'), 'utf8')
     expect(platformsFrom(yml)).toBe('macOS | Windows | Linux')
   })

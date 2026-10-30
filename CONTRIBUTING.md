@@ -66,7 +66,7 @@ e2e/                 Playwright tests
 
 ## License and contributor agreement
 
-Action Stations is source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md), with commercial use reserved as described in [COMMERCIAL.md](COMMERCIAL.md). Contributions are accepted under the [Contributor License Agreement](CLA.md): tick the agreement box in the pull request template. You keep the copyright in your work; the agreement lets the licensor offer it under both the source-available and the commercial licenses.
+Action Stations is released under the [GNU AGPL v3.0](LICENSE.md) (`AGPL-3.0-only`), with a commercial license available as described in [LICENSING.md](LICENSING.md). Contributions are accepted under the [Contributor License Agreement](CLA.md): tick the agreement box in the pull request template and sign off every commit (the `-s` option of the commit command adds the `Signed-off-by` line). You keep the copyright in your work; the agreement lets the project offer it under both the AGPL and the commercial license, so pull requests without it cannot be merged.
 
 ## The loop
 
@@ -122,7 +122,7 @@ Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`. The scope is the area
 
 ### Badges
 
-The README badges for the build itself are SVG files in `docs/badges/`, written offline by `scripts/make-badges.mjs` as the last step of a full local CI run with `BADGES=1` (`pnpm badges`), so they only ever say "passing" after a green run. The step is off by default: `pnpm ci:local` and the pre-push hook never touch `docs/badges/`, so feature branches do not conflict over them. The values come from the run itself and the repository: the unit-test count from the Vitest summary, the e2e count from `playwright test --list`, the version from `package.json` (during `pnpm release`, the version being released, #388), the Electron version from `package.json`, the license from `LICENSE.md` and `LICENSE-EDUCATION.md`, the platforms from `electron-builder.yml`.
+The README badges for the build itself are SVG files in `docs/badges/`, written offline by `scripts/make-badges.mjs` as the last step of a full local CI run with `BADGES=1` (`pnpm badges`), so they only ever say "passing" after a green run. The step is off by default: `pnpm ci:local` and the pre-push hook never touch `docs/badges/`, so feature branches do not conflict over them. The values come from the run itself and the repository: the unit-test count from the Vitest summary, the e2e count from `playwright test --list`, the version from `package.json` (during `pnpm release`, the version being released, #388), the Electron version from `package.json`, the license from the `license` field of `package.json`, the platforms from `electron-builder.yml`.
 
 The files are deterministic. `docs/badges/badges.json` holds the current values and the date on the "local CI" badge. A run that measures the same values keeps the old date and leaves the files untouched, so the tree stays clean. When a value changes (a test was added, the version moved) every changed badge is rewritten and the date becomes today's. Badges are refreshed in two places only: `pnpm badges` on an up-to-date `main`, committed in a small `chore(badges)` pull request, and `pnpm release`, which runs local CI with `BADGES=1` and on `--publish` commits the refreshed badges before `pnpm version`, so the tree is clean for the version bump.
 

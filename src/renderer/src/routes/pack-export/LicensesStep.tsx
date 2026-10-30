@@ -16,8 +16,8 @@ function PackLicense({ state, update }: { state: WizardState; update: Update }) 
       <legend>Pack license</legend>
       <p className="muted">
         The license under which others may use the content you put in this pack. It is independent
-        of the Action Stations app&apos;s own license (PolyForm Internal Use 1.0.0), which covers
-        the app, not your content.
+        of the Action Stations app&apos;s own license (AGPL-3.0-only), which covers the app, not
+        your content.
       </p>
       <ul className="pe-checks">
         {COMMON_PACK_LICENSES.map((l) => (
