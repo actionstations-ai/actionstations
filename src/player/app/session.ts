@@ -22,6 +22,7 @@ import type {
   BlobRef,
   ClientKind,
   ClockState,
+  MapStatePayload,
   Seat,
   SessionEndPayload,
   WelcomePayload,
@@ -158,6 +159,8 @@ export interface PlayerState {
   surveys: SurveyMap
   /** Micro-drills sent to this device, by drill id (spec 0437). */
   drills: DrillMap
+  /** The map the controller is sharing, with the places this device may see (spec 0436). */
+  map?: MapStatePayload | undefined
   /** Voice calls this device has heard of, by call id (spec 0429). */
   calls: CallMap
   read: ReadonlySet<string>
@@ -545,6 +548,13 @@ export class PlayerSession {
       case 'vote.close':
         this.applyVoteClose(msg as Opened<'vote.close'>)
         break
+      case 'map.state':
+        this.store.set({
+          map: (msg as Opened<'map.state'>).payload.closed
+            ? undefined
+            : (msg as Opened<'map.state'>).payload,
+        })
+        break
       case 'survey.open':
         this.applySurveyOpen(msg as Opened<'survey.open'>)
         break
@@ -634,6 +644,7 @@ export class PlayerSession {
       messages: [],
       surveys: {},
       drills: {},
+      map: undefined,
       hotwash: EMPTY_HOTWASH,
       calls: {},
       info: undefined,

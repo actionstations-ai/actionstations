@@ -1,6 +1,6 @@
 # Spec 0436: Map view of injects
 
-Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Still open: map on devices (`map.state`), tile pyramid, offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
+Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Still open: tile pyramid, offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
 
 ## Summary
 
@@ -606,3 +606,18 @@ Built: tasks 1, 2 (images), 4 (Facilitate Map tab), 5 to 8, 10. Differences from
 - **Deferred:** task 3 (MSEL place picker, `msel_phase` places and the rule pass; `matchPlaces` is
   written and tested), FR-8 (presentation window, exports "Locations" pages, `map.state` for
   devices), `maps:snapshot`, the #442 update hook, free disk space in the state dialog.
+
+### Map on devices (#500)
+
+`map.state` (host-signed, sealed under the players key) is addressed to one device (`client:<id>`),
+not to a role. Servers hand `role:` and `team:` frames to every device and the page filters, so a
+frame per device is what keeps a role's places off another role's phone. `src/main/live/device-map.ts`
+computes each device's pins from the releases that reached its seat (`all`, its role, its team, or
+the device itself) and were not withdrawn, resends only when a device's payload changed (after a
+release, a resend or a withdraw, and when a device joins), and sends `closed: true` when sharing
+stops. A site plan's picture goes once as a sealed blob, shrunk to 1200 px wide when larger and
+left out when still over the blob cap. A geographic map sends positions only; the device draws a
+schematic of the places (`src/shared/maps/schematic.ts`) with a coordinate list, because the
+device bundle is same-origin and has no tile source. The device shows it under More, with a
+numbered list as the accessible form. The Facilitate Map tab has a "Map on devices" checkbox
+while a session runs (`live:map-share`, `live:map-shared`).

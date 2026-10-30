@@ -85,6 +85,13 @@ export const PAYLOAD_FIXTURES: PayloadInputByType = {
     media: [BLOB_REF],
     expectsResponse: true,
   },
+  'map.state': {
+    mapId: 'hangar-1',
+    title: 'Hangar 1',
+    mapKind: 'site_plan',
+    pins: [{ label: 'Gate A1', detail: 'T-1', kind: 'incident', x: 40, y: 55 }],
+    targets: ['all'],
+  },
   'inject.receipt': { releaseId: IDS.release, status: 'read', at: 1_700_000_000_000 },
   'inject.recall': {
     releaseId: IDS.release,

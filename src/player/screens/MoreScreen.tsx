@@ -6,11 +6,12 @@ import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
 import { STRINGS } from '../app/strings'
 import { EvaluateScreen } from '../features/evaluate/EvaluateScreen'
+import { MapScreen } from '../features/map/MapScreen'
 import { HotWashScreen } from '../features/hotwash/HotWashScreen'
 import { SimcellScreen } from '../features/simcell/SimcellScreen'
 import { SIMCELL } from '../features/simcell/strings'
 
-type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash' | 'simcell'
+type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash' | 'simcell' | 'map'
 
 interface Entry {
   id: string
@@ -60,6 +61,7 @@ export function MoreScreen({
         ? { onOpen: () => onOpenSurveys?.() }
         : { why: reason(features?.surveys) }),
     },
+    { id: 'map', label: STRINGS.more.map, onOpen: () => setView('map') },
     {
       id: 'evaluate',
       label: STRINGS.more.evaluate,
@@ -78,6 +80,7 @@ export function MoreScreen({
 
   if (view === 'evaluate')
     return <EvaluateScreen session={session} onBack={() => setView('menu')} />
+  if (view === 'map') return <MapScreen session={session} onBack={() => setView('menu')} />
   if (view === 'simcell') return <SimcellScreen session={session} onBack={() => setView('menu')} />
   if (view === 'settings')
     return <SettingsScreen prefsStore={prefsStore} onBack={() => setView('menu')} />

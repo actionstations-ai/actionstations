@@ -602,6 +602,57 @@ describe('PlayerSession inject delivery (#412)', () => {
   })
 })
 
+describe('PlayerSession map on devices (#500)', () => {
+  const state = (title: string, to: string, over: Record<string, unknown> = {}) => ({
+    mapId: 'hangar',
+    title,
+    mapKind: 'site_plan',
+    pins: [{ label: 'Gate A1', kind: 'incident', x: 40, y: 55 }],
+    targets: [to],
+    ...over,
+  })
+
+  async function seated() {
+    const r = await room()
+    const ops = r.player()
+    await ops.session.start()
+    await flush()
+    await ops.session.chooseSeat('ops-director', '')
+    await flush()
+    return { ...r, ops }
+  }
+
+  it('keeps the latest map sent to this device and never sees one sent to another', async () => {
+    const { controller, ops } = await seated()
+    const other = await room().then(() => 'client:ZZZZZZZZZZZZZZZZZZZZZZ')
+    const send = (to: string, payload: object) =>
+      controller.client.send('map.state', to as never, payload as never, {
+        key: 'players',
+        sign: true,
+      })
+    await send(other, state('For someone else', other))
+    await flush()
+    expect(ops.state().map).toBeUndefined()
+    const mine = `client:${ops.state().clientId}`
+    await send(mine, state('Hangar 1', mine))
+    await flush()
+    await send(mine, state('Hangar 1 (updated)', mine))
+    await flush()
+    expect(ops.state().map?.title).toBe('Hangar 1 (updated)')
+  })
+
+  it('removes the map when the controller stops sharing it', async () => {
+    const { controller, ops } = await seated()
+    const send = (payload: object) =>
+      controller.client.send('map.state', 'all', payload as never, { key: 'players', sign: true })
+    await send(state('Hangar 1', 'all'))
+    await flush()
+    await send(state('Hangar 1', 'all', { pins: [], closed: true }))
+    await flush()
+    expect(ops.state().map).toBeUndefined()
+  })
+})
+
 describe('PlayerSession messages (#413)', () => {
   async function seated() {
     const r = await room()

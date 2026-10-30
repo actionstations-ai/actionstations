@@ -13,6 +13,7 @@ import { MapView } from '../../components/map/MapView'
 import { markerFromPin } from '../../components/map/marker-model'
 import { useProjectMaps } from '../../state/maps'
 import { projectKey } from '../../state/project'
+import { MapOnDevices } from './MapOnDevices'
 import type { UpdateState } from './use-delivery-actions'
 import './map-tab.css'
 
@@ -102,6 +103,7 @@ export function MapTab(props: {
           Show upcoming
         </label>
         <Button onClick={() => void showOnScreen()}>Show map on screen</Button>
+        <MapOnDevices projectPath={projectPath} scenarioId={scenario.id} mapId={layer.id} />
       </div>
       <MapView
         projectPath={projectPath}

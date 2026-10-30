@@ -138,6 +138,35 @@ export const InjectReleasePayload = z.strictObject({
   expectsResponse: z.boolean().optional(),
 })
 
+/** One place on a shared map: a site plan gives `x`/`y` in percent, a geographic map `lat`/`lon`. */
+export const MapPin = z.strictObject({
+  label: Text(120),
+  /** The MSEL row ids at this place. */
+  detail: Text(200).optional(),
+  kind: z.enum(['incident', 'staging', 'command', 'info']),
+  x: z.number().min(0).max(100).optional(),
+  y: z.number().min(0).max(100).optional(),
+  lat: z.number().min(-90).max(90).optional(),
+  lon: z.number().min(-180).max(180).optional(),
+})
+
+/**
+ * The map shared with devices (spec 0436 FR-8): one message per audience, holding only the places
+ * of rows already delivered to that audience. A site plan carries its picture as a blob; a
+ * geographic map carries positions only (the device draws no basemap).
+ */
+export const MapStatePayload = z.strictObject({
+  mapId: SafeId,
+  title: Text(120),
+  mapKind: z.enum(['site_plan', 'geo']),
+  image: BlobRef.optional(),
+  alt: Text(300).optional(),
+  pins: z.array(MapPin).max(40),
+  /** True when the facilitator stopped sharing: the device removes the map. */
+  closed: z.boolean().optional(),
+  targets: TargetList,
+})
+
 export const InjectReceiptPayload = z.strictObject({
   releaseId: Base64Url22,
   status: z.enum(['delivered', 'read', 'actioned']),
@@ -542,6 +571,7 @@ export const SEALED_PAYLOADS = {
   welcome: WelcomePayload,
   'clock.state': ClockStatePayload,
   'inject.release': InjectReleasePayload,
+  'map.state': MapStatePayload,
   'inject.receipt': InjectReceiptPayload,
   'inject.recall': InjectRecallPayload,
   'message.send': MessageSendPayload,
@@ -574,6 +604,7 @@ export const SEALED_PAYLOADS = {
 export type JoinPayload = z.infer<typeof JoinPayload>
 export type WelcomePayload = z.infer<typeof WelcomePayload>
 export type InjectReleasePayload = z.infer<typeof InjectReleasePayload>
+export type MapStatePayload = z.infer<typeof MapStatePayload>
 export type InjectReceiptPayload = z.infer<typeof InjectReceiptPayload>
 export type InjectRecallPayload = z.infer<typeof InjectRecallPayload>
 export type MessageSendPayload = z.infer<typeof MessageSendPayload>

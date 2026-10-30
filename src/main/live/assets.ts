@@ -152,3 +152,35 @@ export async function stageInject(
   }
   return out
 }
+
+/**
+ * Upload one image file from the project as it is, or shrunk to the device width when it is
+ * wider (a site plan for the map on devices). Undefined when it still exceeds the blob cap.
+ */
+export async function stageImageFile(
+  ctx: StageContext,
+  req: { key: string; rel: string; name: string; width?: number; height?: number },
+): Promise<BlobRef | undefined> {
+  const hit = ctx.cache.get(req.key)
+  if (hit) return hit
+  let bytes: Uint8Array = await fs.readFile(safeJoinReal(ctx.root, req.rel))
+  let mime = mimeOf(req.rel, 'image')
+  let { width, height } = req
+  if (width && width > DEVICE_MAX_WIDTH) {
+    bytes = await (ctx.resize ?? electronResize)(bytes, DEVICE_MAX_WIDTH)
+    height = height ? Math.round((height * DEVICE_MAX_WIDTH) / width) : undefined
+    width = DEVICE_MAX_WIDTH
+    mime = 'image/png'
+  }
+  if (bytes.length > ctx.limits.blobBytes) return undefined
+  const meta: BlobMeta = {
+    kind: 'image',
+    mime,
+    name: req.name.slice(0, 120),
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
+  }
+  const ref = await ctx.putBlob(meta, bytes)
+  ctx.cache.set(req.key, ref)
+  return ref
+}
