@@ -402,11 +402,32 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
       sha256: sha256(buf),
       url: server.url(`/files/${PACK_ID}-${version}.aspack`),
     })
+  // A community pack: its id is not ai.actionstations.*, so the app labels it Community whatever
+  // the catalog says, credits its contributors and shows the endorsement line as text (#441).
+  const community = catalogEntry({
+    id: 'io.github.jdoe.county-flood-kit',
+    name: 'County Flood Kit',
+    summary: 'Flood response injects for a fictional county.',
+    author: { name: 'J. Doe' },
+    source: 'official',
+    contributors: [
+      { name: 'J. Doe', roles: ['author'] },
+      { name: 'Riverton Translators', github: 'riverton-translators', roles: ['translation'] },
+      { name: 'M. Reviewer', roles: ['review'] },
+    ],
+    endorsements: {
+      thumbsUp: 7,
+      usedBy: 2,
+      url: 'https://github.com/actionstations-ai/packs/issues/12',
+      asOf: '2026-10-20T00:00:00Z',
+    },
+    url: server.url('/files/county-flood-kit.aspack'),
+  })
   server.route(`/files/${PACK_ID}-1.0.0.aspack`, bytes(v1))
   server.route(`/files/${PACK_ID}-1.1.0.aspack`, bytes(v2))
   server.route(
     '/index.json',
-    json(catalogBody([entry('1.0.0', v1)], { name: 'Rail Yard Catalog' })),
+    json(catalogBody([entry('1.0.0', v1), community], { name: 'Rail Yard Catalog' })),
   )
   const p = await launchPacks('catalog')
   let records: NetRecord[]
@@ -418,6 +439,12 @@ test('a local catalog: add, refresh, install, update; no request leaves 127.0.0.
 
     const card = p.page.getByRole('listitem').filter({ hasText: PACK_NAME })
     await expect(card).toContainText('From Rail Yard Catalog', { timeout: 15_000 })
+    await expect(card).toContainText('Official')
+    const communityCard = p.page.getByRole('listitem').filter({ hasText: 'County Flood Kit' })
+    await expect(communityCard).toContainText('By J. Doe and 2 contributors')
+    await expect(communityCard).toContainText('Community')
+    await expect(communityCard).not.toContainText('Official')
+    await expect(communityCard).toContainText('7 endorsements on GitHub · used by 2 organizations')
     await card.getByRole('button', { name: /^Review and install/ }).click()
     const review = p.page.getByRole('region', { name: new RegExp(PACK_NAME) })
     await expect(review.getByText('Matches the sha256 the catalog lists.')).toBeVisible({

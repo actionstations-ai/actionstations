@@ -50,7 +50,7 @@ An installed pack can replace an included template, prompt or workflow (the revi
 
 ## Credit and community packs
 
-Each pack names its author and anyone else credited (templates, prompts, documents, translation, review). Browse shows "By Ann and 2 contributors"; the review screen and an installed pack's details list everyone with their roles, and the search box matches contributor names. A pack whose id starts with `ai.actionstations.` shows **Official**; every other pack shows **Community**. A community pack is reviewed by a maintainer before it is listed, but check the review screen as you would for any pack.
+Each pack names its author and anyone else credited (templates, prompts, documents, translation, review). Browse shows "By Ann and 2 contributors"; the review screen and an installed pack's details list everyone with their roles, and the search box matches contributor names. A pack whose id starts with `ai.actionstations.` shows **Official**; every other pack shows **Community**. A community pack is reviewed by a maintainer before it is listed, but check the review screen as you would for any pack. When you export a pack, the Metadata step has a **Contributors** list where you credit translators, reviewers and others with a name, an optional link and GitHub user, and their roles.
 
 When the catalog lists them, Browse also shows how many people endorsed a pack with a thumbs-up on GitHub and how many organizations confirmed using it, with the date the counts were read. The app does not fetch these itself and does not sort by them. To share a pack, open the issue form linked from actionstations.ai/packs/share.
 

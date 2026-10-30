@@ -128,6 +128,7 @@ function manifestJson(
       ...(m.author.url ? { url: m.author.url } : {}),
       ...(m.author.email ? { email: m.author.email } : {}),
     },
+    ...(m.contributors.length ? { contributors: m.contributors } : {}),
     license: m.license,
     ...(m.homepage ? { homepage: m.homepage } : {}),
     minAppVersion: packMinAppVersion(appVersion),

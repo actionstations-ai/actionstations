@@ -7,7 +7,9 @@ import { z } from 'zod'
 import { channel } from './define'
 import { HttpUrl } from '../schemas/common'
 import {
+  MAX_CONTRIBUTORS,
   PACK_ITEM_ID,
+  PackContributor,
   PackDomainId,
   PackId,
   PackItemSummary,
@@ -83,6 +85,8 @@ export const PackExportMetadata = z.object({
     url: HttpUrl.optional(),
     email: z.email().optional(),
   }),
+  /** Everyone else credited in the pack (docs/packs-format.md "Credit"). */
+  contributors: z.array(PackContributor).max(MAX_CONTRIBUTORS).default([]),
   /** Required, no default: the author chooses it (independent of the app's own license). */
   license: SpdxExpression,
   homepage: HttpUrl.optional(),

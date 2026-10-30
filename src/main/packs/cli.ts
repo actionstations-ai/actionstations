@@ -137,6 +137,20 @@ async function validateCatalog(file: string, io: CliIo): Promise<number> {
   return 0
 }
 
+/** The author and contributors with their roles, one line each (empty when none are listed). */
+export function creditLines(m: {
+  author: { name: string }
+  contributors: readonly { name: string; github?: string | undefined; roles: readonly string[] }[]
+}): string[] {
+  if (!m.contributors.length) return []
+  return [
+    `  author: ${m.author.name}`,
+    ...m.contributors.map(
+      (c) => `  contributor: ${c.name}${c.github ? ` (@${c.github})` : ''} - ${c.roles.join(', ')}`,
+    ),
+  ]
+}
+
 async function validatePacks(args: Args, opts: CliOptions, io: CliIo): Promise<number> {
   const appVersion = args.appVersion ?? opts.appVersion
   const updated = args.updated ?? (opts.now?.() ?? new Date()).toISOString().replace(/\.\d+Z$/, 'Z')
@@ -158,6 +172,7 @@ async function validatePacks(args: Args, opts: CliOptions, io: CliIo): Promise<n
       io.out(
         `${name}: ok (${m.id} ${m.version}, ${m.files.length} files, sha256 ${r.pack.archiveSha256})`,
       )
+      for (const line of creditLines(m)) io.out(line)
       continue
     }
     try {

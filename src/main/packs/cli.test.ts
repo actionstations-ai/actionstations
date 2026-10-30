@@ -52,6 +52,33 @@ describe('runCli (in process)', () => {
     expect(c.err).toEqual([])
   })
 
+  it('lists the author and each contributor with their roles', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'pack-cli-credit-'))
+    const file = join(dir, 'credited.aspack')
+    writeFileSync(
+      file,
+      await buildPack(undefined, {
+        manifest: (m) => {
+          m.contributors = [
+            {
+              name: 'Riverton Translators',
+              github: 'riverton-tr',
+              roles: ['translation', 'review'],
+            },
+            { name: 'M. Reviewer', roles: ['review'] },
+          ]
+        },
+      }),
+    )
+    const c = capture()
+    expect(await runCli([file], await opts(), c.io)).toBe(0)
+    expect(c.out.slice(1)).toEqual([
+      '  author: Action Stations',
+      '  contributor: Riverton Translators (@riverton-tr) - translation, review',
+      '  contributor: M. Reviewer - review',
+    ])
+  })
+
   it('prints each problem with the file and the path inside the pack, exit 1', async () => {
     const c = capture()
     expect(await runCli([fixtures['wrong-sha']!], await opts(), c.io)).toBe(1)

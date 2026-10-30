@@ -1,6 +1,7 @@
 // Step 2: metadata. The id follows the name (io.github.<user>.<name>) until the author edits
 // it; minAppVersion is the running app's version.
 import { Field } from '../../components/ui'
+import { ContributorsEditor } from './ContributorsEditor'
 import { suggestPackId, type Update, type WizardState } from './wizard-model'
 
 type MetaKey = Exclude<keyof WizardState['meta'], 'idEdited'>
@@ -67,6 +68,10 @@ export function MetadataStep(props: {
           }
         </Field>
       ))}
+      <ContributorsEditor
+        contributors={state.contributors}
+        onChange={(contributors) => update((s) => ({ ...s, contributors }))}
+      />
       <p className="muted">
         Needs Action Stations <span className="mono">{props.appVersion}</span> or later (the version
         you are running).
