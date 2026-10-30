@@ -5,6 +5,8 @@ import { PackFetchUrl } from '@shared/schemas/pack'
 import { MapsSettings, type MapCatalog } from '@shared/schemas'
 import type { CatalogView } from '@shared/ipc'
 import { compositeTile } from '../../maps/archives'
+import { ensurePyramid } from '../../maps/pyramid'
+import { electronImaging } from '../../maps/pyramid-electron'
 import { snapshotMap } from '../../maps/snapshot'
 import {
   archivePartsFor,
@@ -117,6 +119,10 @@ export default defineHandlers({
       ...(documentId ? { documentId } : {}),
       ...(page ? { page } : {}),
     })
+    if (layer.kind === 'site_plan')
+      void ensurePyramid(root, layer, electronImaging).catch((e: unknown) =>
+        console.error('[maps] tile pyramid:', (e as Error).message),
+      )
     return { maps, revision, mapId: layer.id }
   },
 
@@ -214,6 +220,14 @@ export default defineHandlers({
   'maps:copy-into-project': async ({ projectPath, mapId }) => {
     const root = await requireProject(projectPath)
     return { copied: await copyArchivesIntoProject(root, await geoLayer(root, mapId)) }
+  },
+
+  'maps:plan-pyramid': async ({ projectPath, mapId }) => {
+    const root = await requireProject(projectPath)
+    const { maps } = await readProjectMaps(root)
+    const layer = maps.maps.find((m) => m.id === mapId)
+    if (!layer || layer.kind !== 'site_plan') throw new AppError('NOT_FOUND', 'That plan is gone')
+    return (await ensurePyramid(root, layer, electronImaging)) ?? null
   },
 
   'maps:snapshot': async ({ projectPath, scenarioId, mapId, audience }) =>

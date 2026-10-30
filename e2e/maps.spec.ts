@@ -345,3 +345,36 @@ test('maps on devices: the player page shows the shared plan and its places, the
     await harness.close()
   }
 })
+
+test('maps: a large site plan gets a tile pyramid, a small one does not', async () => {
+  test.setTimeout(120_000)
+  const { app, page } = await launch()
+  const invoke = invoker(page)
+  try {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-e2e-pyramid-'))
+    const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+      parentDir: dir,
+      name: 'Pyramid',
+    })
+    const importPlan = async (size: number, title: string) => {
+      const file = join(dir, `${title}.png`)
+      writeFileSync(file, solidPng(size, [200, 210, 220, 255]))
+      return invoke<{ mapId: string }>('maps:import-plan', { projectPath, filePath: file, title })
+    }
+    const small = await importPlan(512, 'small')
+    expect(await invoke('maps:plan-pyramid', { projectPath, mapId: small.mapId })).toBeNull()
+
+    const large = await importPlan(2600, 'large')
+    const info = await invoke<{ base: string; maxLevel: number; tileSize: number }>(
+      'maps:plan-pyramid',
+      { projectPath, mapId: large.mapId },
+    )
+    expect(info).toMatchObject({ tileSize: 512, maxLevel: 3 })
+    const tile = (path: string) => readFileSync(join(projectPath, info.base, path))
+    expect(tile('0/0_0.png').subarray(1, 4).toString()).toBe('PNG')
+    expect(tile('0/5_5.png').subarray(1, 4).toString()).toBe('PNG')
+    expect(tile('3/0_0.png').subarray(1, 4).toString()).toBe('PNG')
+  } finally {
+    await app.close()
+  }
+})

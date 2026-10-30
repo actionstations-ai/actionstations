@@ -1,6 +1,6 @@
 # Spec 0436: Map view of injects
 
-Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Still open: tile pyramid, offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
+Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Tile pyramid is built (#500). Still open: offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
 
 ## Summary
 
@@ -621,3 +621,13 @@ schematic of the places (`src/shared/maps/schematic.ts`) with a coordinate list,
 device bundle is same-origin and has no tile source. The device shows it under More, with a
 numbered list as the accessible form. The Facilitate Map tab has a "Map on devices" checkbox
 while a session runs (`live:map-share`, `live:map-shared`).
+
+### Tile pyramid (#500)
+
+`src/main/maps/pyramid.ts` cuts a plan longer than 2048 px into 512 px PNG tiles at halving sizes
+(level 0 full size, top level one tile) under `.cache/maps/pyramid/<mapId>/<size-mtime>/`, with
+`done.json` written last. It uses Electron's `nativeImage` (no new dependency; the spec named
+sharp). `maps:plan-pyramid` builds on first use and returns null for small plans; import starts
+the build in the background. The plan view (`PlaneImage`, `plan-tiles.ts`) always draws the
+top-level tile and the tiles of the chosen level that overlap the frame (at most 48), served
+through the `ttx-media` scheme.

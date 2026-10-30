@@ -176,6 +176,22 @@ export const mapsChannels = {
   /** Copy a map's archives into the project so it can move to another computer. */
   'maps:copy-into-project': channel(P.extend({ mapId: SafeId }), z.object({ copied: z.number() })),
   /**
+   * The tile pyramid of a large site plan, built on first use (#500); null when the plan is small
+   * enough to show as one image. Tiles are project files at `<base>/<level>/<x>_<y>.png`.
+   */
+  'maps:plan-pyramid': channel(
+    P.extend({ mapId: SafeId }),
+    z
+      .object({
+        tileSize: z.number().int().positive(),
+        maxLevel: z.number().int().min(0),
+        width: z.number().int().positive(),
+        height: z.number().int().positive(),
+        base: z.string(),
+      })
+      .nullable(),
+  ),
+  /**
    * A PNG of a site plan with numbered markers for the places the audience may see (spec 0436 §5),
    * written under `.cache/maps/`. Geographic maps are refused until they can be drawn.
    */
