@@ -5,8 +5,10 @@
 //   asmap://t/<base64url template>/{z}/{x}/{y}    an online tile
 //   asmap://g/<base64url template>/{fontstack}/{range}   online glyphs
 //   asmap://s/<base64url base>[@2x].json|png       online sprite
+//   asmap://l/<fontstack>/<range>.pbf              bundled place-name glyphs (offline labels)
 import type { RequestParameters, GetResourceResponse } from 'maplibre-gl'
 import { call } from '../../../lib/api'
+import { loadGlyphs } from './glyphs'
 
 const b64 = (s: string): string => new TextDecoder().decode(base64urlToBytes(s))
 
@@ -62,6 +64,10 @@ export async function loadAsmap(url: string): Promise<GetResourceResponse<ArrayB
   if (kind === 's') {
     const m = /^([A-Za-z0-9_-]+)(.*)$/.exec(parts[0] ?? '')
     return onlineResource(b64(m?.[1] ?? '') + (m?.[2] ?? ''))
+  }
+  if (kind === 'l') {
+    const [stack, range] = parts
+    return { data: await loadGlyphs(decodeURIComponent(stack ?? ''), range ?? '') }
   }
   throw new Error('Unknown map address')
 }

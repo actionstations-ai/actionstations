@@ -5,7 +5,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { createWebCryptoProvider } from '../src/shared/live/crypto/webcrypto'
@@ -374,6 +374,31 @@ test('maps: a large site plan gets a tile pyramid, a small one does not', async 
     expect(tile('0/0_0.png').subarray(1, 4).toString()).toBe('PNG')
     expect(tile('0/5_5.png').subarray(1, 4).toString()).toBe('PNG')
     expect(tile('3/0_0.png').subarray(1, 4).toString()).toBe('PNG')
+  } finally {
+    await app.close()
+  }
+})
+
+test('maps: place-name glyphs ship in the app and load under its security policy', async () => {
+  const { app, page } = await launch()
+  try {
+    const files = readdirSync(resolve('out/renderer/assets')).filter((f) => f.endsWith('.pbf'))
+    expect(files.length).toBe(2)
+    const sizes = await page.evaluate(async (names) => {
+      const g = globalThis as unknown as {
+        location: { href: string }
+        fetch: (
+          u: string,
+        ) => Promise<{ ok: boolean; arrayBuffer: () => Promise<{ byteLength: number }> }>
+      }
+      return Promise.all(
+        names.map(async (n) => {
+          const res = await g.fetch(new URL(`./assets/${n}`, g.location.href).toString())
+          return res.ok ? (await res.arrayBuffer()).byteLength : 0
+        }),
+      )
+    }, files)
+    expect(sizes.every((n) => n > 50_000)).toBe(true)
   } finally {
     await app.close()
   }

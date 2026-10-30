@@ -1,8 +1,9 @@
-// Map styles the app draws offline (#436, FR-17). They are small and have no text labels, so no
-// glyph or sprite files are needed (labels come with the bundled fonts, a follow-up). One style
-// per vector schema: Protomaps (state files) and OpenMapTiles (OpenFreeMap areas and imports).
+// Map styles the app draws offline (#436, FR-17). One style per vector schema: Protomaps (state
+// files) and OpenMapTiles (OpenFreeMap areas and imports). Place, road and water names use the
+// bundled Noto Sans glyphs (`asmap://l/`); no sprites are needed because the styles draw no icons.
 import type { StyleSpecification, LayerSpecification } from 'maplibre-gl'
 import type { BasemapView } from '@shared/ipc'
+import { GLYPH_FONT } from './glyphs'
 
 type Archive = Extract<BasemapView, { mode: 'archive' }>
 type Variant = 'light' | 'dark' | 'grayscale'
@@ -15,6 +16,8 @@ interface Palette {
   building: string
   road: string
   boundary: string
+  text: string
+  halo: string
 }
 
 const PALETTES: Record<Variant, Palette> = {
@@ -26,6 +29,8 @@ const PALETTES: Record<Variant, Palette> = {
     building: '#d6cfc2',
     road: '#ffffff',
     boundary: '#8a7f9a',
+    text: '#2b2b33',
+    halo: '#ffffff',
   },
   dark: {
     bg: '#1b1f27',
@@ -35,6 +40,8 @@ const PALETTES: Record<Variant, Palette> = {
     building: '#2e3440',
     road: '#4a5365',
     boundary: '#7a7f99',
+    text: '#e6e8ee',
+    halo: '#1b1f27',
   },
   grayscale: {
     bg: '#eeeeee',
@@ -44,6 +51,8 @@ const PALETTES: Record<Variant, Palette> = {
     building: '#cfcfcf',
     road: '#ffffff',
     boundary: '#808080',
+    text: '#222222',
+    halo: '#ffffff',
   },
 }
 
@@ -66,6 +75,33 @@ const line = (id: string, layer: string, color: string, width: unknown): LayerSp
   layout: { 'line-cap': 'round', 'line-join': 'round' },
 })
 
+const NAME = ['coalesce', ['get', 'name:latin'], ['get', 'name']] as never
+const placeSize = ['interpolate', ['linear'], ['zoom'], 4, 11, 10, 14, 16, 18] as never
+
+/** A text layer for names; `along` puts the text along a line (roads, waterways). */
+function label(
+  id: string,
+  layer: string,
+  p: Palette,
+  opts: { along?: boolean; minzoom: number; size?: unknown },
+): LayerSpecification {
+  return {
+    id,
+    type: 'symbol',
+    source: 'archive',
+    'source-layer': layer,
+    minzoom: opts.minzoom,
+    layout: {
+      'text-field': NAME,
+      'text-font': [GLYPH_FONT],
+      'text-size': (opts.size ?? 11) as never,
+      'text-max-width': 8,
+      ...(opts.along ? { 'symbol-placement': 'line' } : {}),
+    },
+    paint: { 'text-color': p.text, 'text-halo-color': p.halo, 'text-halo-width': 1.2 },
+  }
+}
+
 function protomapsLayers(p: Palette): LayerSpecification[] {
   return [
     fill('earth', 'earth', p.land),
@@ -75,6 +111,9 @@ function protomapsLayers(p: Palette): LayerSpecification[] {
     fill('buildings', 'buildings', p.building),
     line('roads', 'roads', p.road, roadWidth),
     line('boundaries', 'boundaries', p.boundary, 0.8),
+    label('road-names', 'roads', p, { along: true, minzoom: 13 }),
+    label('water-names', 'water', p, { minzoom: 8 }),
+    label('place-names', 'places', p, { minzoom: 3, size: placeSize }),
   ]
 }
 
@@ -88,6 +127,9 @@ function openMapTilesLayers(p: Palette): LayerSpecification[] {
     fill('building', 'building', p.building),
     line('transportation', 'transportation', p.road, roadWidth),
     line('boundary', 'boundary', p.boundary, 0.8),
+    label('road-names', 'transportation_name', p, { along: true, minzoom: 13 }),
+    label('water-names', 'water_name', p, { minzoom: 8 }),
+    label('place-names', 'place', p, { minzoom: 3, size: placeSize }),
   ]
 }
 
@@ -109,6 +151,7 @@ export function archiveStyle(b: Archive, tiles: string, variant: Variant): Style
   const layers = b.schema === 'protomaps' ? protomapsLayers(p) : openMapTilesLayers(p)
   return {
     version: 8,
+    glyphs: 'asmap://l/{fontstack}/{range}',
     sources: { archive: { type: 'vector', tiles: [tiles], ...common } },
     layers: [background, ...layers],
   }

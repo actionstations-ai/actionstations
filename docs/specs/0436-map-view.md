@@ -1,6 +1,6 @@
 # Spec 0436: Map view of injects
 
-Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Tile pyramid is built (#500). Still open: offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
+Issue: #436 · Milestone: 0.9.0 · Status: Mostly implemented (0.9.0 PR 1; follow-ups #500). Map on devices (`map.state`) is built (#500). Tile pyramid is built (#500). Offline place labels are built (#500). Still open: offline place labels, Locations pages for geo maps, packaged WebGL check. Changes: `maps:snapshot` takes `{ projectPath, scenarioId, mapId, audience }` (site plans only) and draws with `map_annotation`; Locations pages are HTML pages drawn from project data · Depends on: #444 for FR-14 · Related: #417 (controller dashboard), #411/#412 (player page, inject delivery), #439 (live hazard data), #440 (regional exercises), #442 (update notifications), facility facts (#143)
 
 ## Summary
 
@@ -601,7 +601,7 @@ Built: tasks 1, 2 (images), 4 (Facilitate Map tab), 5 to 8, 10. Differences from
   `maps:settings-set`, `maps:basemap` and `maps:fetch` were added; `maps:snapshot` was not.
 - **MapLibre 5 has no `prefetchZoomDelta`.** The engine uses `refreshExpiredTiles: false` and a
   small tile cache; main never prefetches (ADR-0060).
-- **Offline styles** have no text labels (no glyphs or sprites bundled yet).
+- **Offline styles** now have text labels (#500, below); no sprites are needed.
 - `MselRow.placeIds` is optional. The Facilitate state keeps `map: { mapId?, showUpcoming }`.
 - **Deferred:** task 3 (MSEL place picker, `msel_phase` places and the rule pass; `matchPlaces` is
   written and tested), FR-8 (presentation window, exports "Locations" pages, `map.state` for
@@ -631,3 +631,11 @@ sharp). `maps:plan-pyramid` builds on first use and returns null for small plans
 the build in the background. The plan view (`PlaneImage`, `plan-tiles.ts`) always draws the
 top-level tile and the tiles of the chosen level that overlap the frame (at most 48), served
 through the `ttx-media` scheme.
+
+### Offline labels (#500)
+
+Noto Sans Regular glyph ranges 0-255 and 256-511 (about 200 KB, SIL Open Font License) sit in
+`components/map/geo/glyphs/` and are served as `asmap://l/<fontstack>/<range>.pbf` by the renderer
+protocol; a range that is not bundled loads as an empty stack, so unlisted scripts are skipped
+rather than failing the map. The Protomaps and OpenMapTiles styles gained place, road and water
+name layers using `name:latin` then `name`. The attribution stays plain text.
