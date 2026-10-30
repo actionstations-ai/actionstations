@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { PackExportSources } from './types'
 import {
+  contributorIssues,
   idLabel,
   initialState,
   itemsIssues,
@@ -119,6 +120,46 @@ describe('wizard model', () => {
       projectPath: '/p/Metro.asproj',
       documents: [{ documentId: 'd2', license: 'CC0-1.0' }],
       redistributeConfirmed: true,
+    })
+  })
+
+  describe('contributors', () => {
+    const base = () => ({
+      name: 'Riverton Translators',
+      url: '',
+      github: '',
+      roles: ['translation' as const],
+    })
+
+    it('leaves them out of the request when none are listed', () => {
+      expect(toRequest(initialState(null)).metadata).not.toHaveProperty('contributors')
+    })
+
+    it('sends trimmed values and drops empty optional fields', () => {
+      const s = {
+        ...initialState(null),
+        contributors: [{ ...base(), name: ' Riverton Translators ', github: ' riverton-tr ' }],
+      }
+      expect(toRequest(s).metadata.contributors).toEqual([
+        { name: 'Riverton Translators', github: 'riverton-tr', roles: ['translation'] },
+      ])
+    })
+
+    it('asks for a name, a valid link and user, and a role', () => {
+      expect(contributorIssues([base()])).toEqual([])
+      expect(contributorIssues([{ name: ' ', url: 'ftp://x', github: '-bad', roles: [] }])).toEqual(
+        [
+          'Contributor 1: add a name.',
+          'Contributor 1: the URL must start with http:// or https://.',
+          'Contributor 1: the GitHub user is not valid.',
+          'Contributor 1: choose at least one role.',
+        ],
+      )
+    })
+
+    it('blocks the metadata step on a contributor problem', () => {
+      const s = { ...initialState(null), contributors: [{ ...base(), name: '' }] }
+      expect(metadataIssues(s)).toContain('Contributor 1: add a name.')
     })
   })
 })

@@ -198,6 +198,19 @@ describe('buildPackExport', () => {
     })
   })
 
+  it('writes the contributors into pack.json and the reader returns them', async () => {
+    const contributors = [
+      { name: 'Riverton Translators', github: 'riverton-tr', roles: ['translation' as const] },
+      { name: 'M. Reviewer', url: 'https://example.org/m', roles: ['review' as const] },
+    ]
+    const req = { ...fullRequest(), metadata: { ...metadata, contributors } }
+    const r = await buildPackExport(req, { appVersion: APP })
+    if (!r.ok) throw new Error(JSON.stringify(r.problems))
+    const read = await readPack({ buffer: r.buffer }, { appVersion: APP })
+    if (!read.ok) throw new Error(JSON.stringify(read.problems))
+    expect(read.pack.manifest.contributors).toEqual(contributors)
+  })
+
   it('gives the same sha256 for the same content exported twice', async () => {
     const a = await buildPackExport(fullRequest(), { appVersion: APP })
     // Newer file times must not change the archive.

@@ -3,6 +3,10 @@
 // reader has the last word); these checks only tell the author what a step is missing before "Next".
 import type { PackExportRequest, PackExportSources } from '@shared/ipc'
 import {
+  CONTRIBUTOR_ROLES,
+  type ContributorRole,
+  GitHubUser,
+  MAX_CONTRIBUTORS,
   PACK_ITEM_ID,
   PackDomainId,
   PackId,
@@ -21,6 +25,23 @@ export const STEPS = [
   { id: 'share', label: 'Share' },
 ] as const
 export type StepId = (typeof STEPS)[number]['id']
+
+/** One credited person or organization as the contributors editor holds it. */
+export interface ContributorDraft {
+  name: string
+  url: string
+  github: string
+  roles: ContributorRole[]
+}
+
+export const emptyContributor = (): ContributorDraft => ({
+  name: '',
+  url: '',
+  github: '',
+  roles: [],
+})
+
+export { CONTRIBUTOR_ROLES }
 
 export interface DocumentChoice {
   include: boolean
@@ -53,6 +74,8 @@ export interface WizardState {
     domains: string
     tags: string
   }
+  /** People credited besides the author (up to MAX_CONTRIBUTORS). */
+  contributors: ContributorDraft[]
   /** The pack license; empty until the author chooses (there is no default). */
   license: string
   confirmed: boolean
@@ -84,6 +107,7 @@ export function initialState(projectPath: string | null): WizardState {
       domains: '',
       tags: '',
     },
+    contributors: [],
     license: '',
     confirmed: false,
   }
@@ -189,6 +213,21 @@ export function metadataIssues(s: WizardState): string[] {
     out.push('Domains are domain ids such as transit or water_utility.')
   if (!splitList(m.tags).every((t) => ok(PackTag, t)))
     out.push('Tags use lowercase letters, digits and -.')
+  return [...out, ...contributorIssues(s.contributors)]
+}
+
+export function contributorIssues(list: ContributorDraft[]): string[] {
+  const out: string[] = []
+  if (list.length > MAX_CONTRIBUTORS) out.push(`List at most ${MAX_CONTRIBUTORS} contributors.`)
+  list.forEach((c, i) => {
+    const who = `Contributor ${i + 1}`
+    if (!c.name.trim()) out.push(`${who}: add a name.`)
+    if (c.url.trim() && !ok(z.url({ protocol: /^https?$/ }), c.url.trim()))
+      out.push(`${who}: the URL must start with http:// or https://.`)
+    if (c.github.trim() && !ok(GitHubUser, c.github.trim()))
+      out.push(`${who}: the GitHub user is not valid.`)
+    if (!c.roles.length) out.push(`${who}: choose at least one role.`)
+  })
   return out
 }
 
@@ -234,6 +273,16 @@ export function toRequest(s: WizardState): PackExportRequest {
         ...(opt(m.authorUrl) ? { url: opt(m.authorUrl) } : {}),
         ...(opt(m.authorEmail) ? { email: opt(m.authorEmail) } : {}),
       },
+      ...(s.contributors.length
+        ? {
+            contributors: s.contributors.map((c) => ({
+              name: c.name.trim(),
+              ...(opt(c.url) ? { url: opt(c.url) } : {}),
+              ...(opt(c.github) ? { github: opt(c.github) } : {}),
+              roles: c.roles,
+            })),
+          }
+        : {}),
       license: s.license.trim(),
       ...(opt(m.homepage) ? { homepage: opt(m.homepage) } : {}),
       domains: splitList(m.domains),
