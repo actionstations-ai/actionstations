@@ -108,12 +108,13 @@ export default defineHandlers({
   'maps:save': async ({ projectPath, maps, revision }) =>
     saveProjectMaps(await requireProject(projectPath), maps, revision),
 
-  'maps:import-plan': async ({ projectPath, filePath, title, documentId }) => {
+  'maps:import-plan': async ({ projectPath, filePath, title, documentId, page }) => {
     const root = await requireProject(projectPath)
     const { layer, maps, revision } = await importSitePlan(root, {
       filePath,
       title,
       ...(documentId ? { documentId } : {}),
+      ...(page ? { page } : {}),
     })
     return { maps, revision, mapId: layer.id }
   },

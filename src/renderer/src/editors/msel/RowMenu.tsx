@@ -67,6 +67,7 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
           {!partner && item('duplicate', 'Duplicate row')}
           {!partner && <MoveToPhase r={r} />}
           {item('sources', 'Source check…')}
+          {!partner && item('places', r.row.placeIds?.length ? 'Places (set)…' : 'Places…')}
           {!partner &&
             item(
               'clocks',

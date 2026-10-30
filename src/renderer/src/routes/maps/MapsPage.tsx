@@ -17,6 +17,7 @@ import { fromProjectKey } from '../../state/project'
 import { AddGeoMapDialog } from './AddGeoMapDialog'
 import { FactsPanel } from './FactsPanel'
 import { PositionFields } from './PositionFields'
+import './maps-page.css'
 
 type Save = ReturnType<typeof useProjectMaps>['save']
 
@@ -25,10 +26,14 @@ function baseName(path: string): string {
   return file.replace(/\.[^.]+$/, '')
 }
 
-async function addSitePlan(projectPath: string, onAdded: (mapId: string) => void): Promise<void> {
+async function addSitePlan(
+  projectPath: string,
+  pdfPage: number,
+  onAdded: (mapId: string) => void,
+): Promise<void> {
   const [file] = await call('dialog:open-files', {
-    title: 'Choose a site plan image',
-    filters: [{ name: 'Images', extensions: ['png', 'jpg', 'jpeg', 'webp'] }],
+    title: 'Choose a site plan image or PDF',
+    filters: [{ name: 'Images and PDF', extensions: ['png', 'jpg', 'jpeg', 'webp', 'pdf'] }],
     multi: false,
   })
   if (!file) return
@@ -37,6 +42,7 @@ async function addSitePlan(projectPath: string, onAdded: (mapId: string) => void
       projectPath,
       filePath: file,
       title: baseName(file),
+      ...(/\.pdf$/i.test(file) ? { page: pdfPage } : {}),
     })
     toast.success('Site plan added', 'Pick a place, then click the plan to pin it.')
     onAdded(added.mapId)
@@ -264,6 +270,7 @@ export default function MapsPage() {
   const projectPath = fromProjectKey(params.projectKey ?? '')
   const { data, error, isPending, save } = useProjectMaps(projectPath)
   const [mapId, setMapId] = useState<string>()
+  const [pdfPage, setPdfPage] = useState(1)
   const [geoOpen, setGeoOpen] = useState(false)
   const store = useIpcQuery('maps:store', undefined)
   if (isPending) return <div className="page muted">Loading…</div>
@@ -285,7 +292,19 @@ export default function MapsPage() {
         description="Pin places on a site plan or a map, then give each MSEL row a place. Facilitate shows delivered and due rows where they happen."
         actions={
           <>
-            <Button onClick={() => void addSitePlan(projectPath, setMapId)}>Add site plan</Button>
+            <label className="maps-pdf-page">
+              PDF page
+              <input
+                type="number"
+                className="input"
+                min={1}
+                value={pdfPage}
+                onChange={(e) => setPdfPage(Math.max(1, Math.floor(Number(e.target.value)) || 1))}
+              />
+            </label>
+            <Button onClick={() => void addSitePlan(projectPath, pdfPage, setMapId)}>
+              Add site plan
+            </Button>
             <Button onClick={() => setGeoOpen(true)}>Add map</Button>
           </>
         }

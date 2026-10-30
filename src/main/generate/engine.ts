@@ -3,6 +3,8 @@
 // step, resume from the first step without an ok run, and re-run of a single step that marks
 // everything downstream stale (never auto-rerun). The exported step helpers are shared with
 // repair-msel.ts (generate:repair), which runs the same repairs on a finished scenario.
+import { placeLabels } from './places'
+import { readProjectMaps } from '../maps/project'
 import { isPartnerRow, loadOwnerFilter, restorePartnerRows, type OwnerFilter } from './owner-filter'
 import { orderedCapabilities } from '@shared/core-capabilities'
 import {
@@ -22,6 +24,7 @@ import {
   type PhasePlanOutput,
   type Project,
   type RubricOutput,
+  type Place,
   type Scenario,
   type ScenarioIdea,
   type SitManOutput,
@@ -218,6 +221,8 @@ export interface Env {
   index: SearchIndex
   project: Project
   facility: FacilityFacts
+  /** The project's places (#436), for the PLACES prompt list and the place repair. */
+  places: Place[]
   /** The project's domain profile and the scenario's threat family (ADR-0014). */
   domain: DomainContext
   idea?: ScenarioIdea
@@ -339,6 +344,7 @@ const vars = (input: StepInput, extra: Record<string, unknown> = {}): Record<str
     ...(input.instructions ? { instructions: input.instructions } : {}),
   }),
   facility: facilitySheet(input.env.facility),
+  places: placeLabels(input.env.places),
   ...extra,
 })
 
@@ -624,12 +630,15 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   const owned = new Set(s.msel.filter((x) => x.phaseId === phase.id).map((x) => x.id))
   const r = await call<MselPhaseOutput>(input, mselVars(input, phase))
   const seamKeys = seamKeyMap(s)
-  let mapped = applyMselPhase(s, phase, r.output, r.retrieved, { seamKeys })
+  let mapped = applyMselPhase(s, phase, r.output, r.retrieved, { seamKeys, places: env.places })
   applySeamRows(s, phase)
   const mix = await completeMix(input, phase, r)
   const extra = { stage: 'msel_phase' as const, itemId: phase.id }
   if (mix) {
-    mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved, { seamKeys })
+    mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved, {
+      seamKeys,
+      places: env.places,
+    })
     applySeamRows(s, phase)
     env.ctx.log(
       `msel_phase ${phase.index + 1}: mix pass rewrote ${mix.rewritten} and added ${mix.added} row(s)`,
@@ -933,6 +942,7 @@ async function revisePhaseRows(
   const mapped = applyMselPhase(s, phase, { rows: replacements }, fix.retrieved, {
     keepIds,
     seamKeys: seamKeyMap(s),
+    places: env.places,
   })
   applySeamRows(s, phase)
   reportMapping(s, phase, mapped, env.ctx, rewritten)
@@ -1383,6 +1393,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
     findIdea(root, scenario.id, scenario.brief.ideaId),
   ])
   const facility = await deps.loadFacilityFacts(root, project)
+  const places = (await readProjectMaps(root).catch(() => undefined))?.maps.places ?? []
   const domain = domainContext(project, scenario)
   const hazardSnapshot = await snapshotFor(root, scenario)
   const hazards = hazardSnapshot ? hazardSummary(hazardSnapshot) : ''
@@ -1393,6 +1404,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
     index,
     project,
     facility,
+    places,
     domain,
     ...(idea ? { idea } : {}),
     ...(hazards ? { hazards } : {}),

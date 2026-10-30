@@ -113,12 +113,14 @@ export const mapsChannels = {
   'maps:get': channel(P, MapsWithRevision),
   /** Save maps.json; a stale revision is refused with CONFLICT. */
   'maps:save': channel(P.extend({ maps: ProjectMaps, revision: z.string() }), MapsWithRevision),
-  /** Add a site plan from an image the user picked (png, jpg, webp up to 50 megapixels). */
+  /** Add a site plan from an image the user picked (png, jpg, webp up to 50 megapixels) or one page of a PDF. */
   'maps:import-plan': channel(
     P.extend({
       filePath: z.string().min(1),
       title: z.string().max(120),
       documentId: SafeId.optional(),
+      /** The PDF page to use (1-based); ignored for images. */
+      page: z.number().int().min(1).max(10000).optional(),
     }),
     MapsWithRevision.extend({ mapId: SafeId }),
   ),

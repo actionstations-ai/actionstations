@@ -9,9 +9,12 @@ export function useEditorDialogs() {
   const [historyOpen, setHistoryOpen] = useState(false)
   const [triggersFor, setTriggersFor] = useState<string | null>(null)
   const [controlsFor, setControlsFor] = useState<string | null>(null)
+  const [placesFor, setPlacesFor] = useState<string | null>(null)
   return {
     controlsFor,
     setControlsFor,
+    placesFor,
+    setPlacesFor,
     triggersFor,
     setTriggersFor,
     confirmDelete,

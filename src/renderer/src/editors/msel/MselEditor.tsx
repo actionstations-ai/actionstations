@@ -167,6 +167,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     confirmDelete: dialogs.setConfirmDelete,
     editTriggers: dialogs.setTriggersFor,
     editControls: dialogs.setControlsFor,
+    editPlaces: dialogs.setPlacesFor,
     toggleSelect: sel.toggle,
     togglePhaseSelect: sel.togglePhase,
     openSources: (key) => setSourcesRow(draft.rows.find((r) => r.key === key)?.row.id ?? null),

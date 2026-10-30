@@ -4,6 +4,7 @@ import type { Scenario } from '@shared/schemas/scenario'
 import { DeleteRowDialog, RenumberDialog, TimeJumpDialog } from './dialogs'
 import { HistoryPanel } from './HistoryPanel'
 import { ControlsDialog } from './ControlsDialog'
+import { PlacesDialog } from './PlacesDialog'
 import { TriggersDialog } from './TriggersDialog'
 import { draftMsel, type Draft, type Inserted } from './model'
 import { applyRenames, insertTimeJump } from './operations'
@@ -61,6 +62,24 @@ export function EditorDialogs(p: Props) {
         onApply={() => {
           if (s.renames) p.edit(applyRenames(draft, s.renames))
           s.setRenames(null)
+        }}
+      />
+      <PlacesDialog
+        projectPath={p.projectPath}
+        row={draft.rows.find((r) => r.key === s.placesFor)?.row ?? null}
+        onCancel={() => s.setPlacesFor(null)}
+        onSave={(placeIds) => {
+          const key = s.placesFor
+          s.setPlacesFor(null)
+          if (key)
+            p.edit({
+              ...draft,
+              rows: draft.rows.map((r) => {
+                if (r.key !== key) return r
+                const { placeIds: _old, ...rest } = r.row
+                return { ...r, row: placeIds.length ? { ...rest, placeIds } : rest }
+              }),
+            })
         }}
       />
       <TriggersDialog

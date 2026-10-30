@@ -104,6 +104,9 @@ export function locationRows(pins: Pin[]): { rowId: string; place: string; statu
   )
 }
 
+/** A row names at most this many places. */
+export const MAX_ROW_PLACES = 5
+
 const escapeRe = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /** The place ids whose label or fact entry the event text names exactly (FR-6 rule pass). */
@@ -117,7 +120,7 @@ export function matchPlaces(event: string, places: Place[]): string[] {
       new RegExp(`(^|[^\\p{L}\\p{N}])${escapeRe(n)}($|[^\\p{L}\\p{N}])`, 'iu').test(event),
     )
     if (found) hits.push(p.id)
-    if (hits.length === 5) break
+    if (hits.length === MAX_ROW_PLACES) break
   }
   return hits
 }

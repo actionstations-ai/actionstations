@@ -13,7 +13,14 @@ import type { Cell, ColumnId } from './grid-nav'
 import type { RegionalView } from './owner'
 
 export type RowAction =
-  'add-after' | 'duplicate' | 'delete' | 'sources' | 'clocks' | 'controls' | `move:${string}`
+  | 'add-after'
+  | 'duplicate'
+  | 'delete'
+  | 'sources'
+  | 'clocks'
+  | 'controls'
+  | 'places'
+  | `move:${string}`
 
 export interface GridActions {
   activate: (cell: Cell) => void
