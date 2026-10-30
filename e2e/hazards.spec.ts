@@ -149,7 +149,7 @@ test('hazard data: off by default, consent dialog, fetch, snapshot, ideas with c
       brief: { hazardSnapshotId: list.active },
     })
     await goTo(page, `#/p/${key}/scenarios/${scenario.id}`)
-    await page.getByText('Advanced information').click()
+    await page.getByText('Advanced information', { exact: true }).click()
     const provenance = page.getByRole('region', { name: 'Hazard context' })
     await expect(provenance).toBeVisible()
     await expect(
