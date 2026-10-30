@@ -132,6 +132,8 @@ export interface DeviceMapDeps {
 export class DeviceMap {
   private shared: { mapId: string; title: string } | undefined
   private readonly last = new Map<To, string>()
+  /** Share, close and refresh run one at a time, in the order they were asked for. */
+  private queue: Promise<unknown> = Promise.resolve()
 
   constructor(private readonly deps: DeviceMapDeps) {}
 
@@ -139,15 +141,30 @@ export class DeviceMap {
     return this.shared?.mapId
   }
 
+  private serial<T>(task: () => Promise<T>): Promise<T> {
+    const run = this.queue.then(task, task)
+    this.queue = run.catch(() => undefined)
+    return run
+  }
+
   /** Start sharing `mapId`, or stop with undefined. */
-  async share(mapId: string | undefined): Promise<void> {
+  share(mapId: string | undefined): Promise<void> {
+    return this.serial(() => this.doShare(mapId))
+  }
+
+  /** Send every device whose places changed since its last message. */
+  refresh(): Promise<void> {
+    return this.serial(() => this.doRefresh())
+  }
+
+  private async doShare(mapId: string | undefined): Promise<void> {
     if (this.shared && this.shared.mapId !== mapId) await this.close()
     if (!mapId) return
     const source = await this.deps.source()
     const layer = source.layers.find((l) => l.id === mapId)
     if (!layer) throw new Error('That map is gone')
     this.shared = { mapId, title: layer.title }
-    await this.refresh()
+    await this.doRefresh()
   }
 
   private async close(): Promise<void> {
@@ -160,8 +177,7 @@ export class DeviceMap {
     this.last.clear()
   }
 
-  /** Send every device whose places changed since its last message. */
-  async refresh(): Promise<void> {
+  private async doRefresh(): Promise<void> {
     const shared = this.shared
     if (!shared) return
     const source = await this.deps.source()
@@ -185,6 +201,8 @@ export class DeviceMap {
         releases,
         image,
       })
+      // Sharing may have stopped or moved to another map while this refresh was reading.
+      if (this.shared !== shared) return
       const key = JSON.stringify(payload)
       if (this.last.get(audience.to) === key) continue
       this.last.set(audience.to, key)

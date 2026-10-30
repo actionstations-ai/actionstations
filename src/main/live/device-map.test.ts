@@ -196,6 +196,54 @@ describe('DeviceMap', () => {
     expect(map.mapId).toBeUndefined()
   })
 
+  it('runs overlapping refreshes in order, so a withdrawn place is not sent again', async () => {
+    const { map, send, state, sent } = setup([release('T-1', ['role:ops'])])
+    await map.share('hangar')
+    send.mockClear()
+    let unblock = () => {}
+    const gate = new Promise<void>((r) => (unblock = r))
+    send.mockImplementationOnce(async () => gate)
+    // A second release makes the first refresh send, and hold on that send.
+    state.releases = [release('T-1', ['role:ops']), release('T-2', ['role:ops'])]
+    const first = map.refresh()
+    await vi.waitFor(() => expect(send).toHaveBeenCalledTimes(1))
+    // T-2 is withdrawn while that refresh is still sending.
+    state.releases = [release('T-1', ['role:ops']), release('T-2', ['role:ops'], true)]
+    const second = map.refresh()
+    unblock()
+    await Promise.all([first, second])
+    const forOps = send.mock.calls
+      .filter((c) => c[0] === 'client:0000000000000000000001')
+      .map((c) => (c[1] as { pins: unknown[] }).pins.length)
+    expect(forOps).toEqual([2, 1])
+    expect(sent()['client:0000000000000000000001']!.pins).toHaveLength(1)
+  })
+
+  it('sends nothing after sharing stops, even if a refresh was still reading', async () => {
+    const { map, send, state } = setup([release('T-1', ['all'])])
+    await map.share('hangar')
+    send.mockClear()
+    let unblock = () => {}
+    const gate = new Promise<void>((r) => (unblock = r))
+    const original = state.releases
+    // The refresh is waiting on its releases when the facilitator stops sharing.
+    ;(map as unknown as { deps: { releases: () => Promise<unknown> } }).deps.releases =
+      async () => {
+        await gate
+        return original
+      }
+    state.releases = [release('T-1', ['all']), release('T-2', ['all'])]
+    const refresh = map.refresh()
+    const stop = map.share(undefined)
+    unblock()
+    await Promise.all([refresh, stop])
+    const last = new Map<string, boolean>()
+    for (const c of send.mock.calls)
+      last.set(c[0] as string, (c[1] as { closed?: boolean }).closed === true)
+    expect([...last.values()].every(Boolean)).toBe(true)
+    expect(last.size).toBe(2)
+  })
+
   it('refuses a map that no longer exists', async () => {
     const { map } = setup([])
     await expect(map.share('gone')).rejects.toThrow('That map is gone')
