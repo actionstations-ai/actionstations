@@ -91,6 +91,7 @@ const BY_KIND: Record<JobKind, string[]> = {
   'simcell-capability': ['simcell:'],
   'map-download': ['maps:'],
   'map-area': ['maps:'],
+  'compliance-map': [],
 }
 
 export interface Change {

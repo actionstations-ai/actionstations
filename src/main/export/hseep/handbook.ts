@@ -17,6 +17,8 @@ import {
   realWorldBlocks,
   scheduleTable,
 } from './common'
+import { coverageMarkdown, hasCoverage } from '../coverage'
+import { seamHandbookSection } from '../../generate/seams'
 import { handbookParts, type HandbookParts } from './handbook-sections'
 
 export const NO_EEGS_YET =
@@ -81,6 +83,13 @@ function simcellBlocks(s: Scenario, rules: string | undefined): Block[] {
   ]
 }
 
+/** The plan seams section (#427), unless the handbook markdown already carries it. */
+function seamBlocks(s: Scenario, parts: HandbookParts): Block[] {
+  if (!s.seams?.length || parts.other.some((o) => /plan seams/i.test(o.heading))) return []
+  const body = seamHandbookSection(s).replace(/^###[^\n]*\n+/, '')
+  return [h3('Plan Seams This Exercise Tests'), md(body)]
+}
+
 function controllerInstructions(model: ExportModel, parts: HandbookParts): Block[] {
   return [
     h2('Controller Instructions'),
@@ -116,6 +125,7 @@ function controllerInstructions(model: ExportModel, parts: HandbookParts): Block
       'Each module has a time window (Appendix A). When discussion runs long, announce a time jump: "Pause exercise. We are moving forward to [time]. Resume." Keep at least 30 minutes for the hot wash.',
     ),
     ...parts.other.flatMap((o) => [h3(o.heading), md(o.body)]),
+    ...seamBlocks(model.scenario, parts),
   ]
 }
 
@@ -238,7 +248,15 @@ function appendices(model: ExportModel): Block[] {
     communicationsTable(model, 'Communications directory'),
     h2('Appendix E: Acronyms'),
     acronymsTable(model),
+    ...coverageAppendix(model),
   ]
+}
+
+/** Appendix F: the compliance coverage (#426), when a framework or a regulation is switched on. */
+function coverageAppendix(model: ExportModel): Block[] {
+  if (!hasCoverage(model.coverage)) return []
+  const body = coverageMarkdown(model.coverage).replace(/^##[^\n]*\n+/, '')
+  return [h2('Appendix F: Compliance Coverage'), md(body)]
 }
 
 /** The HSEEP C/E Handbook's blocks, in HSEEP 2020 order. */

@@ -4,7 +4,7 @@ import JSZip from 'jszip'
 import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
-const { fixtureModel, hseepFixtureModel, withoutEvaluation } =
+const { fixtureModel, hseepFixtureModel, withoutEvaluation, withSeam } =
   await import('../../../tests/fixtures/export/model')
 const { MSEL_COLUMNS, mselWorkbook, neutralizeFormula } = await import('./xlsx')
 
@@ -17,6 +17,21 @@ async function open(buf: Buffer): Promise<ExcelJS.Workbook> {
 const text = (v: ExcelJS.CellValue): string => (v === null || v === undefined ? '' : String(v))
 
 describe('Excel MSEL', () => {
+  it('marks rows that test a plan seam in a Plan Seam column, and has none without seams (#427)', async () => {
+    const plain = (await open(await mselWorkbook(fixtureModel()))).getWorksheet('MSEL')!
+    expect((plain.getRow(1).values as ExcelJS.CellValue[]).map(text)).not.toContain('Plan Seam')
+    const { model, rowId } = withSeam(fixtureModel())
+    const ws = (await open(await mselWorkbook(model))).getWorksheet('MSEL')!
+    const header = (ws.getRow(1).values as ExcelJS.CellValue[]).map(text)
+    const col = header.indexOf('Plan Seam')
+    expect(col).toBeGreaterThan(0)
+    const index = model.scenario.msel.findIndex((r) => r.id === rowId)
+    expect(text(ws.getRow(index + 2).getCell(col).value)).toBe('Seam: Who approves public releases')
+    const other = model.scenario.msel.findIndex((r) => r.id !== rowId)
+    expect(text(ws.getRow(other + 2).getCell(col).value)).toBe('')
+    expect(text(ws.getRow(index + 2).getCell(1).value)).toBe(rowId)
+  })
+
   it('has the HSEEP column layout with one row per MSEL row', async () => {
     const model = fixtureModel()
     const ws = (await open(await mselWorkbook(model))).getWorksheet('MSEL')!

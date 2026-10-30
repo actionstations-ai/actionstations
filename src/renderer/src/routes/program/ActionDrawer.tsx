@@ -323,6 +323,7 @@ export function ActionDrawer(props: {
           programPath={props.programPath}
           ids={[action.id]}
           current={action.status}
+          planSections={action.planSections}
           onClose={(changed) => {
             setStatusOpen(false)
             if (changed) {

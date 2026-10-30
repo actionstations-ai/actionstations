@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 
 vi.mock('electron', () => ({ app: { isPackaged: false, getAppPath: () => resolve('.') } }))
 process.env.TTX_RESOURCES = resolve('.')
-const { fixtureModel, hseepFixtureModel, withoutEvaluation } =
+const { fixtureModel, hseepFixtureModel, withoutEvaluation, withSeam } =
   await import('../../../../tests/fixtures/export/model')
 const { hseepBlocks, headingsOf, textOf, scheduleRows, acronymRows, FILL_IN } = await import('.')
 const { NO_QUESTIONS_YET, WITHHELD_NARRATIVE } = await import('./sitman')
@@ -121,6 +121,17 @@ describe('Situation Manual (SitMan)', () => {
 })
 
 describe('Controller and Evaluator Handbook (HSEEP)', () => {
+  it('carries the plan seams section under Controller Instructions, once (#427)', () => {
+    const blocks = hseepBlocks(withSeam(fixtureModel()).model, 'handbook_hseep')
+    const heads = headingsOf(blocks).map((h) => h.text)
+    expect(heads.filter((h) => /plan seams/i.test(h))).toHaveLength(1)
+    expect(heads.indexOf('Plan Seams This Exercise Tests')).toBeGreaterThan(
+      heads.indexOf('Controller Instructions'),
+    )
+    expect(textOf(blocks)).toContain('Who approves public releases')
+    expect(textOf(hseepBlocks(fixtureModel(), 'handbook_hseep'))).not.toContain('Plan seams')
+  })
+
   it('follows the HSEEP order and places the handbook.md sections under it', () => {
     const blocks = hseepBlocks(fixtureModel(), 'handbook_hseep')
     expect(h2s(blocks)).toEqual([

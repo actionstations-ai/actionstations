@@ -117,6 +117,69 @@ export const MOCK_FIXTURES: Record<StageOutputSchemaName, unknown> = {
       },
     ],
   },
+  BranchPlanOutput: {
+    branches: [
+      {
+        optionLabel: 'Option 1',
+        label: 'Take the first path',
+        rationale: 'Shows what the first choice costs.',
+        rows: [
+          {
+            id: 'I-90',
+            time: '1:10',
+            from: 'IT Helpdesk',
+            to: ['it'],
+            event: 'Ticket update: the first path takes the board offline for twenty minutes.',
+            expectedAction: 'IT tells ops and agrees a manual workaround.',
+            purposeTag: 'PRESSURE',
+            format: 'helpdesk_ticket',
+            citations: [],
+          },
+          {
+            id: 'I-91',
+            time: '1:30',
+            from: 'Airline Rep',
+            to: ['ops'],
+            event: 'Phone Call: the airline asks why departures are not posted.',
+            expectedAction: 'Ops gives a status and a time for the next update.',
+            purposeTag: 'CORE_NARRATIVE',
+            format: 'phone_call',
+            citations: [],
+          },
+        ],
+      },
+      {
+        optionLabel: 'Option 2',
+        label: 'Take the second path',
+        rationale: 'Shows what the second choice costs.',
+        rows: [
+          {
+            id: 'I-90',
+            time: '1:15',
+            from: 'Social Media',
+            to: ['pio'],
+            event: 'Tweet: "Still no word from the airport on what is happening."',
+            expectedAction: 'PIO drafts a holding statement.',
+            purposeTag: 'PRESSURE',
+            format: 'tweet',
+            citations: [],
+          },
+          {
+            id: 'I-91',
+            time: '1:40',
+            from: 'IT Helpdesk',
+            to: ['it'],
+            event: 'Ticket update: the second path needs a vendor engineer on site.',
+            expectedAction: 'IT escalates to the vendor and reports the estimate.',
+            purposeTag: 'OPERATIONAL_FRICTION',
+            format: 'helpdesk_ticket',
+            citations: [],
+          },
+        ],
+      },
+    ],
+  },
+  ComplianceMapOutput: { rows: [] },
   MselPhaseOutput: {
     rows: [
       {

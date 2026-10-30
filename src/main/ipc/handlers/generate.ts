@@ -7,6 +7,7 @@ import { PIPELINE_STAGES } from '../../generate/engine'
 import { generateIdeas, readIdeas, rememberIdea, saveScenarioIdea } from '../../generate/ideas'
 import { startInjectJob, runInjectsJob, runMediaJob } from '../../generate/injects'
 import { runProposeInject } from '../../generate/propose-inject'
+import { runBranchPlan } from '../../generate/branch-plan'
 import { runRepairJob } from '../../generate/repair'
 import { continueJob, registerScenarioResumers, rerunJob } from '../../generate/scenario-jobs'
 import { jobs } from '../../jobs/manager'
@@ -91,6 +92,17 @@ export default defineHandlers({
       root,
       scenarioId,
       (ctx) => runProposeInject(root, scenarioId, req, ctx),
+      req,
+    )
+    return { jobId: job.id }
+  },
+  'generate:branch-plan': async ({ projectPath, scenarioId, ...req }) => {
+    const root = await requireProject(projectPath)
+    const job = startInjectJob(
+      'generate-injects',
+      root,
+      scenarioId,
+      (ctx) => runBranchPlan(root, scenarioId, req, ctx),
       req,
     )
     return { jobId: job.id }

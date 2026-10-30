@@ -85,10 +85,28 @@ describe('compliance handlers', () => {
         regulations: { sec_8k_105: true, circia: false },
       }),
     )
-    expect(saved).toEqual({ regulations: { sec_8k_105: true, circia: false }, frameworks: {} })
+    expect(saved).toEqual({
+      regulations: { sec_8k_105: true, circia: false },
+      frameworks: {},
+      modelMapping: false,
+    })
     expect((await loadProject(projectPath)).compliance?.regulations.sec_8k_105).toBe(true)
     const list = ok<List>(await dispatch(handlers, 'compliance:list', { projectPath }))
     expect(list.regulations.find((r) => r.regulation.id === 'circia')!.enabled).toBe(false)
+  })
+
+  it('keeps model-assisted mapping off until the project switches it on, and keeps it on', async () => {
+    const { projectPath } = await setup()
+    const first = ok<{ modelMapping: boolean }>(
+      await dispatch(handlers, 'compliance:list', { projectPath }),
+    )
+    expect(first.modelMapping).toBe(false)
+    await dispatch(handlers, 'compliance:set', { projectPath, modelMapping: true })
+    await dispatch(handlers, 'compliance:set', { projectPath, regulations: { circia: true } })
+    const list = ok<{ modelMapping: boolean }>(
+      await dispatch(handlers, 'compliance:list', { projectPath }),
+    )
+    expect(list.modelMapping).toBe(true)
   })
 
   it('refuses an id that is not a regulation id', async () => {

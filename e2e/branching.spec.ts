@@ -89,6 +89,16 @@ test('branching: editor, lint, Facilitate decision, replay and exports', async (
       )
       .toBe(2)
 
+    // Generate branch rows: the mock model drafts rows for both options; they are only a
+    // proposal, so discarding leaves the branches as they were.
+    await panel.getByRole('button', { name: 'Generate branch rows' }).first().click()
+    const draftRows = panel.getByRole('group', { name: 'Drafted branch rows' })
+    await expect(draftRows).toBeVisible({ timeout: 30_000 })
+    await expect(draftRows).toContainText('Take the first path')
+    expect(await violations(page, '.branches')).toEqual([])
+    await draftRows.getByRole('button', { name: 'Discard' }).click()
+    await expect(draftRows).toHaveCount(0)
+
     // Facilitate: reach the decision, tally, decide, deliver a branch row.
     await goTo(page, `#/p/${key}/facilitate`)
     await page.getByRole('link', { name: 'Flight to Nowhere' }).click()

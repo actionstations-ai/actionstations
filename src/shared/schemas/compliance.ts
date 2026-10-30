@@ -248,6 +248,8 @@ export const regulationLabel = (r: Pick<Regulation, 'label' | 'status'>): string
 export const ProjectCompliance = z.object({
   regulations: z.record(z.string(), z.boolean()).default({}),
   frameworks: z.record(z.string(), z.boolean()).default({}),
+  /** Let the model suggest controls for MSEL rows (spec 0426 FR-12); off unless switched on. */
+  modelMapping: z.boolean().default(false),
 })
 export type ProjectCompliance = z.infer<typeof ProjectCompliance>
 

@@ -2,9 +2,11 @@
 // panel stays thin and every rule is unit-tested. The MSEL stays one ordered array; a branch
 // is a `branchId` on rows plus an entry in `draft.branches`.
 import { exerciseMinutes, formatExerciseTime } from '@shared/schemas/common'
+import type { BranchPlanResult } from '@shared/branching/proposal'
 import type { Branch, Decision, MselRow } from '@shared/schemas/scenario'
 import { defaultDecisions } from '@shared/branching/default-path'
 import { ancestors, buildGraph, pathOrder, subtree } from '@shared/branching/graph'
+import { isPartnerRow, type RegionalView } from './owner'
 import { newRowKey, sortRows, type Draft, type DraftRow } from './model'
 
 export const MAX_OPTIONS = 6
@@ -315,4 +317,35 @@ export function decisionSummary(decision: Decision): string {
     .join(' · ')
   const dflt = decision.options.find((o) => o.id === decision.defaultOptionId)?.label ?? '?'
   return `${options} · rule: ${ruleText(decision.rule)} · default ${dflt}`
+}
+
+/**
+ * Applies a drafted branch plan (#430): the unlocked rows of each planned branch are replaced by
+ * the drafted rows, and the branch takes the drafted label, rationale and rejoin row.
+ */
+export function applyBranchPlan(d: Draft, plan: BranchPlanResult, regional?: RegionalView): Draft {
+  const planned = new Map(plan.branches.map((b) => [b.branchId, b]))
+  const kept = d.rows.filter(
+    (r) => !(planned.has(r.row.branchId ?? '') && !r.row.locked && !isPartnerRow(r.row, regional)),
+  )
+  const added: DraftRow[] = []
+  for (const b of plan.branches) {
+    for (const row of b.rows) {
+      const id = takeId({ ...d, rows: [...kept, ...added] }, row.id)
+      added.push({ key: newRowKey(), row: { ...row, id } })
+    }
+  }
+  const branches = branchesOf(d).map((x) => {
+    const b = planned.get(x.id)
+    if (!b) return x
+    const { rejoinRowId: _old, ...rest } = x
+    const rejoin = b.rejoinRowId ?? x.rejoinRowId
+    return {
+      ...rest,
+      label: b.label,
+      rationale: b.rationale,
+      ...(rejoin ? { rejoinRowId: rejoin } : {}),
+    }
+  })
+  return withRows(d, [...kept, ...added], branches)
 }

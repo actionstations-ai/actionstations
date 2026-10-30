@@ -38,6 +38,8 @@ export type ListedFramework = z.infer<typeof ListedFramework>
 export const ComplianceList = z.object({
   regulations: z.array(ListedRegulation),
   frameworks: z.array(ListedFramework),
+  /** The project allows model-assisted control mapping (spec 0426 FR-12). */
+  modelMapping: z.boolean(),
 })
 export type ComplianceList = z.infer<typeof ComplianceList>
 
@@ -93,8 +95,25 @@ export const complianceChannels = {
   'compliance:list': channel(P, ComplianceList),
   /** Switch regulations / frameworks on or off (merged into project.json `compliance`). */
   'compliance:set': channel(
-    P.extend({ regulations: Switches.optional(), frameworks: Switches.optional() }),
+    P.extend({
+      regulations: Switches.optional(),
+      frameworks: Switches.optional(),
+      modelMapping: z.boolean().optional(),
+    }),
     ProjectCompliance,
+  ),
+  /** Which provider a model-assisted control mapping would use, and whether the text stays here. */
+  'compliance:model-info': channel(
+    P,
+    z.object({ providerLabel: z.string().optional(), local: z.boolean(), reason: z.string() }),
+  ),
+  /**
+   * Suggest controls for MSEL rows with the routed critique model (FR-12). Needs the project
+   * switch. The job result is `{ suggestions: { rowId, ref }[] }`; nothing is stored.
+   */
+  'compliance:suggest-model': channel(
+    S.extend({ rowIds: z.array(z.string().max(64)).max(200).optional() }),
+    z.object({ jobId: SafeId }),
   ),
   /** The coverage matrix and clock results of one scenario (FR-13). */
   'compliance:coverage': channel(S, CoverageReportView),

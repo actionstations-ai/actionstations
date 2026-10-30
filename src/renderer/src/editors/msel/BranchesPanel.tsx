@@ -19,6 +19,7 @@ import {
   updateDecision,
   type PathFilter,
 } from './branch-ops'
+import { GenerateBranches, type GenerateBranchesProps } from './GenerateBranches'
 import type { Draft } from './model'
 
 const RULES: { kind: Decision['rule']['kind']; label: string }[] = [
@@ -42,6 +43,8 @@ interface PanelProps {
   filter: PathFilter
   onFilter: (f: PathFilter) => void
   onJump: (rowId: string) => void
+  /** Where the model drafts branch rows; without it the panel has no generate button. */
+  generate?: Pick<GenerateBranchesProps, 'projectPath' | 'scenarioId' | 'dirty' | 'regional'>
 }
 
 function PathFilterSelect(props: Pick<PanelProps, 'draft' | 'filter' | 'onFilter'>) {
@@ -138,6 +141,7 @@ function DecisionCard(props: {
   rowId: string
   decision: Decision
   onJump: (rowId: string) => void
+  generate: PanelProps['generate']
 }) {
   const { draft, edit, decision: d } = props
   const id = useId()
@@ -231,6 +235,14 @@ function DecisionCard(props: {
       >
         Add option
       </Button>
+      {props.generate && branches.length > 0 && (
+        <GenerateBranches
+          {...props.generate}
+          draft={draft}
+          edit={edit}
+          decisionRowId={props.rowId}
+        />
+      )}
       <ul className="branches__lanes" aria-label={`Branches of ${props.rowId}`}>
         {branches.map((b) => (
           <BranchLine
@@ -373,6 +385,7 @@ export function BranchesPanel(props: PanelProps) {
                 rowId={x.row.id}
                 decision={x.decision}
                 onJump={props.onJump}
+                generate={props.generate}
               />
             ))}
           </ul>

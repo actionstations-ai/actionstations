@@ -145,6 +145,27 @@ export function ComplianceSettings({ path }: { path: string }) {
             </ul>
           </fieldset>
           <fieldset className="compliance-group">
+            <legend>Model-assisted mapping</legend>
+            <div className="compliance-item__head">
+              <input
+                id="comp-model-mapping"
+                type="checkbox"
+                checked={list.data.modelMapping}
+                disabled={busy}
+                aria-describedby="comp-model-mapping-meta"
+                onChange={(e) => save.mutate({ projectPath: path, modelMapping: e.target.checked })}
+              />
+              <label htmlFor="comp-model-mapping">
+                Let the model suggest controls for MSEL rows
+              </label>
+            </div>
+            <p id="comp-model-mapping-meta" className="compliance-item__meta muted">
+              Off by default. When on, the Controls dialog of an MSEL row can send that row&apos;s
+              text and the control list to the model set for reviews. Suggestions are never accepted
+              for you.
+            </p>
+          </fieldset>
+          <fieldset className="compliance-group">
             <legend>Control frameworks</legend>
             <ul className="compliance-list">
               {list.data.frameworks.map((item) => (

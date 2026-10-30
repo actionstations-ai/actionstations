@@ -3,6 +3,7 @@
 import type { Scenario } from '@shared/schemas/scenario'
 import { DeleteRowDialog, RenumberDialog, TimeJumpDialog } from './dialogs'
 import { HistoryPanel } from './HistoryPanel'
+import { ControlsDialog } from './ControlsDialog'
 import { TriggersDialog } from './TriggersDialog'
 import { draftMsel, type Draft, type Inserted } from './model'
 import { applyRenames, insertTimeJump } from './operations'
@@ -74,6 +75,24 @@ export function EditorDialogs(p: Props) {
               ...draft,
               rows: draft.rows.map((r) =>
                 r.key === key ? { ...r, row: { ...r.row, triggers } } : r,
+              ),
+            })
+        }}
+      />
+      <ControlsDialog
+        projectPath={p.projectPath}
+        scenarioId={p.scenario.id}
+        row={draft.rows.find((r) => r.key === s.controlsFor)?.row ?? null}
+        threatFamily={p.scenario.brief.threatFamily}
+        onCancel={() => s.setControlsFor(null)}
+        onSave={({ controls, controlSuggestions }) => {
+          const key = s.controlsFor
+          s.setControlsFor(null)
+          if (key)
+            p.edit({
+              ...draft,
+              rows: draft.rows.map((r) =>
+                r.key === key ? { ...r, row: { ...r.row, controls, controlSuggestions } } : r,
               ),
             })
         }}

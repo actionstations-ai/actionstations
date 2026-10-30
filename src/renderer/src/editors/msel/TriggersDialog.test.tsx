@@ -34,6 +34,7 @@ describe('TriggersDialog', () => {
           { regulation: Regulation.parse(circia), enabled: true, suggested: true, source },
         ],
         frameworks: [],
+        modelMapping: false,
       }),
     })
     const onSave = vi.fn()

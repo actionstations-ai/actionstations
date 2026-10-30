@@ -72,6 +72,11 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
               'clocks',
               r.row.triggers?.length ? 'Reporting clocks (on)…' : 'Starts reporting clocks…',
             )}
+          {!partner &&
+            item(
+              'controls',
+              r.row.controls?.length ? `Controls (${r.row.controls.length})…` : 'Controls…',
+            )}
           {!partner && <DropdownMenu.Separator className="msel-menu__separator" />}
           {!partner && (
             <DropdownMenu.Item

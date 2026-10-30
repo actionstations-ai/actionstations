@@ -14,6 +14,7 @@ import type { DomainProfile } from '@shared/domains'
 import type { RoleHeuristics } from './domain'
 import { roleSeats } from './lint-audience'
 import { normalizedEvent, sameInject } from './lint-structure'
+import { buildGraph } from '@shared/branching/graph'
 import { DEFAULT_START_WALL_CLOCK, wallClockAt } from './mappers'
 
 export interface StructureRepair {
@@ -55,7 +56,7 @@ function dropDuplicates(s: Scenario): StructureRepair['duplicates'] {
 
 /** One ENDEX closes the exercise: the last-phase (else latest) one is kept, unlocked extras go. */
 function dropExtraEndex(s: Scenario): string[] {
-  const ends = s.msel.filter((r) => r.purposeTag === 'ENDEX')
+  const ends = s.msel.filter((r) => r.purposeTag === 'ENDEX' && !r.branchId)
   if (ends.length < 2) return []
   const lastPhase = s.phases.at(-1)?.id
   const keep =
@@ -74,11 +75,21 @@ function spread(lo: number, hi: number, count: number): number[] {
   )
 }
 
-/** Re-time the unlocked rows of one phase that fall outside its window into it. */
+/** Re-time the unlocked trunk rows of one phase that fall outside its window into it. */
 function retimePhase(s: Scenario, phase: Phase, start: string): StructureRepair['retimed'] {
-  const lo = exerciseMinutes(phase.startTime)
-  const hi = exerciseMinutes(phase.endTime)
-  const rows = s.msel.filter((r) => r.phaseId === phase.id && r.purposeTag !== 'ENDEX')
+  const rows = s.msel.filter(
+    (r) => r.phaseId === phase.id && r.purposeTag !== 'ENDEX' && !r.branchId,
+  )
+  return retimeWindow(rows, exerciseMinutes(phase.startTime), exerciseMinutes(phase.endTime), start)
+}
+
+/** Re-time the unlocked `rows` that fall outside [lo, hi] into it (hi may be Infinity). */
+function retimeWindow(
+  rows: MselRow[],
+  lo: number,
+  hi: number,
+  start: string,
+): StructureRepair['retimed'] {
   const at = (r: MselRow): number => exerciseMinutes(r.time)
   const inside = rows.filter((r) => at(r) >= lo && at(r) <= hi).map(at)
   const late = rows.filter((r) => !r.locked && at(r) > hi)
@@ -93,7 +104,11 @@ function retimePhase(s: Scenario, phase: Phase, start: string): StructureRepair[
   }
   const lastInside = inside.length ? Math.max(...inside) : lo
   spread(lastInside, hi, late.length).forEach((m, i) => move(late[i]!, m))
-  const firstInside = inside.length ? Math.min(...inside) : hi
+  const firstInside = inside.length
+    ? Math.min(...inside)
+    : Number.isFinite(hi)
+      ? hi
+      : lo + 10 * early.length
   spread(lo, firstInside, early.length).forEach((m, i) => move(early[i]!, m))
   return out
 }
@@ -102,11 +117,11 @@ function retimePhase(s: Scenario, phase: Phase, start: string): StructureRepair[
  * ENDEX is the last row: an unlocked ENDEX moves to the latest row of its phase; behind a
  * locked ENDEX, the later unlocked rows move to its time.
  */
-function endexLast(s: Scenario, start: string): StructureRepair['retimed'] {
-  const end = s.msel.find((r) => r.purposeTag === 'ENDEX')
+function endexLast(rows: MselRow[], start: string): StructureRepair['retimed'] {
+  const end = rows.find((r) => r.purposeTag === 'ENDEX')
   if (!end) return []
   const endAt = exerciseMinutes(end.time)
-  const later = s.msel.filter((r) => r !== end && exerciseMinutes(r.time) > endAt)
+  const later = rows.filter((r) => r !== end && exerciseMinutes(r.time) > endAt)
   if (!later.length) return []
   const out: StructureRepair['retimed'] = []
   const move = (r: MselRow, minutes: number): void => {
@@ -117,6 +132,28 @@ function endexLast(s: Scenario, start: string): StructureRepair['retimed'] {
   }
   if (!end.locked) move(end, Math.max(...later.map((r) => exerciseMinutes(r.time))))
   else for (const r of later) if (!r.locked) move(r, endAt)
+  return out
+}
+
+/**
+ * A branch's rows play between its decision row and the row where it rejoins (#430): rows
+ * outside that window are re-timed into it, and a branch that ends the exercise keeps its ENDEX
+ * row last. A branch with no window to repair (decision or rejoin row missing) is left alone.
+ */
+function repairBranchWindows(s: Scenario, start: string): StructureRepair['retimed'] {
+  if (!s.branches?.length) return []
+  const graph = buildGraph(s)
+  const out: StructureRepair['retimed'] = []
+  for (const node of graph.branches.values()) {
+    const decisionRow = graph.decisions.get(node.branch.decisionId)?.row
+    if (!decisionRow) continue
+    const rejoin = s.msel.find((r) => r.id === node.branch.rejoinRowId)
+    const lo = exerciseMinutes(decisionRow.time)
+    const hi = rejoin ? exerciseMinutes(rejoin.time) : Infinity
+    const rows = node.rows.filter((r) => r.purposeTag !== 'ENDEX')
+    out.push(...retimeWindow(rows, lo, hi, start))
+    out.push(...endexLast(node.rows, start))
+  }
   return out
 }
 
@@ -149,8 +186,14 @@ export function repairStructure(s: Scenario): StructureRepair {
   const duplicates = dropDuplicates(s)
   const extraEndex = dropExtraEndex(s)
   const retimed = s.phases.flatMap((p) => retimePhase(s, p, start))
+  retimed.push(...repairBranchWindows(s, start))
   sortMsel(s)
-  retimed.push(...endexLast(s, start))
+  retimed.push(
+    ...endexLast(
+      s.msel.filter((r) => !r.branchId),
+      start,
+    ),
+  )
   sortMsel(s)
   return { duplicates, extraEndex, retimed }
 }

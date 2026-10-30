@@ -23,6 +23,8 @@ export interface BuildRequest {
   documentId: string
   headingPath: string
   settings: MicroDrillSettings
+  /** A short exercise situation to reuse as the drill's situation (FR-7). */
+  scenarioSituation?: string
 }
 
 interface Context {
@@ -142,6 +144,7 @@ export async function buildMicroDrill(
       annex: { documentTitle: doc.title, headingPath: annex.headingPath },
       settings: req.settings,
       passages: passagesOf(annex),
+      ...(req.scenarioSituation ? { scenarioSituation: escapeText(req.scenarioSituation) } : {}),
     },
     ctx,
     deps,

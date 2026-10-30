@@ -160,6 +160,32 @@ export function withoutEvaluation(model: ExportModel): ExportModel {
   return model
 }
 
+/** The model with one plan seam tested by its first narrative row (#427). */
+export function withSeam(model: ExportModel): { model: ExportModel; rowId: string } {
+  const row = model.scenario.msel.find((r) => r.purposeTag === 'CORE_NARRATIVE')!
+  row.seamId = 'a1a1a1a1a1a1a1a1'
+  const passage = (id: string, title: string, span: string, chunkId: number) => ({
+    documentId: id,
+    documentTitle: title,
+    headingPath: `${title} > 4.2`,
+    chunkId,
+    span,
+  })
+  model.scenario.seams = [
+    {
+      id: 'a1a1a1a1a1a1a1a1',
+      slot: 'release_approver',
+      slotLabel: 'Who approves public releases',
+      kind: 'contradiction',
+      confirmed: true,
+      a: passage('erp', 'Emergency Response Plan', 'Releases are approved by the GM.', 1),
+      b: passage('cca', 'Crisis Communications Annex', 'Releases need the PIO.', 2),
+      phaseId: row.phaseId,
+    },
+  ]
+  return { model, rowId: row.id }
+}
+
 const AAR_AT = '2026-10-29T15:00:00.000Z'
 
 /** The fixture's EEG citation for a task id (so AAR findings cite real plan sections). */

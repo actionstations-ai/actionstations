@@ -107,6 +107,15 @@ describe('runProposeInject', () => {
     expect(readFileSync(file, 'utf8')).toBe(before)
   })
 
+  it('carries the source check of the proposed row (#423)', async () => {
+    const provider = new ScriptedProvider(() => JSON.stringify(REPLY))
+    const { root, scenarioId } = await setup(provider)
+    const job = await propose(root, scenarioId, 'b1')
+    const result = job.result as { grounding?: { label: string; reason: string } }
+    expect(result.grounding?.reason).toBeTruthy()
+    expect(['grounded', 'review', 'unsupported', 'none']).toContain(result.grounding?.label)
+  })
+
   it('shows the model the decision, the option taken and the branch rows, as data', async () => {
     const provider = new ScriptedProvider(() => JSON.stringify(REPLY))
     const { root, scenarioId } = await setup(provider)

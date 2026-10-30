@@ -4,11 +4,14 @@
 import { exerciseMinutes } from '@shared/schemas/common'
 import { buildGraph } from '@shared/branching/graph'
 import { proposalHash, type ProposalResult } from '@shared/branching/proposal'
-import type { MselPhaseOutput, MselRow } from '@shared/schemas'
+import type { MselPhaseOutput, MselRow, Scenario } from '@shared/schemas'
 import type { JobContext } from '../jobs/manager'
 import { AppError } from '../lib/errors'
 import { openInjectEnv } from './injects/text-job'
 import { normalizeExerciseTime, resolveToRoles, stripKeysDeep } from './mappers'
+import { groundingKey, type GroundingResult } from '@shared/schemas/grounding'
+import { contextFor } from '../grounding/project'
+import { groundItems, scenarioItems } from '../grounding/scenario'
 import { resolveCitations } from './retrieval'
 import { runStage } from './stage'
 import { baseVars, rowVars } from './vars'
@@ -25,6 +28,27 @@ const CONTROL = new Set(['STARTEX', 'ENDEX', 'TIME_JUMP'])
 function freeId(base: string, taken: Set<string>): string {
   if (!taken.has(base)) return base
   for (let n = 2; ; n++) if (!taken.has(`${base}-${n}`)) return `${base}-${n}`
+}
+
+/** The source check (#423) of a proposed row; undefined when it cannot be computed. */
+async function groundProposal(
+  env: Awaited<ReturnType<typeof openInjectEnv>>,
+  scenario: Scenario,
+  row: MselRow,
+): Promise<GroundingResult | undefined> {
+  try {
+    const scratch: Scenario = { ...scenario, msel: [...scenario.msel, row] }
+    const ctx = await contextFor(env.root, scratch, {
+      index: env.index,
+      facility: env.facility,
+      project: env.project,
+    })
+    const key = groundingKey.row(row.id)
+    const items = scenarioItems(scratch, []).filter((i) => i.key === key)
+    return (await groundItems(items, {}, ctx))[key]
+  } catch {
+    return undefined
+  }
 }
 
 export async function runProposeInject(
@@ -94,5 +118,6 @@ export async function runProposeInject(
     locked: false,
     branchId: node.branch.id,
   }
-  return { row, hash: proposalHash(row) }
+  const grounding = await groundProposal(env, scenario, row)
+  return { row, hash: proposalHash(row), ...(grounding ? { grounding } : {}) }
 }

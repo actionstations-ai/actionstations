@@ -28,6 +28,7 @@ function setup() {
     frameworks: [
       { framework: Framework.parse(dora), enabled: false, suggested: false, source: bundled },
     ],
+    modelMapping: false,
   }
   const ttx = mockTtx({
     'compliance:list': () => list,
@@ -39,7 +40,7 @@ function setup() {
           enabled: req.regulations?.[r.regulation.id] ?? r.enabled,
         })),
       }
-      return { regulations: req.regulations ?? {}, frameworks: {} }
+      return { regulations: req.regulations ?? {}, frameworks: {}, modelMapping: false }
     },
   })
   queryClient.clear()

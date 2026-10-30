@@ -90,6 +90,7 @@ import {
 } from './mappers'
 import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
+import { applyRuleSuggestions, enabledFrameworks } from './control-suggestions'
 import { baseVars, dataSafe, rowVars } from './vars'
 import { lintHazardCurrency } from './lint-realism'
 import { getSnapshot } from '../hazards/store'
@@ -642,12 +643,10 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   ensureDecisionPoint(s, phase, env)
   reportStructure(repairStructure(s), env.ctx, extra)
   trimOverfill(input, phase)
-  const live = new Set(s.msel.map((x) => x.id))
-  noteFacility(
-    s,
-    mapped.rows.filter((x) => live.has(x.id)),
-    env,
-  )
+  const ids = new Set(mapped.rows.map((x) => x.id))
+  const fresh = s.msel.filter((x) => ids.has(x.id))
+  noteFacility(s, fresh, env)
+  applyRuleSuggestions(await enabledFrameworks(env.root, env.project), s, fresh)
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
 }

@@ -8,7 +8,10 @@ export function useEditorDialogs() {
   const [renames, setRenames] = useState<Rename[] | null>(null)
   const [historyOpen, setHistoryOpen] = useState(false)
   const [triggersFor, setTriggersFor] = useState<string | null>(null)
+  const [controlsFor, setControlsFor] = useState<string | null>(null)
   return {
+    controlsFor,
+    setControlsFor,
     triggersFor,
     setTriggersFor,
     confirmDelete,

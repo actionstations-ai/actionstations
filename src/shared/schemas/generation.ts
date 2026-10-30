@@ -345,6 +345,28 @@ export type RedlineOutput = z.infer<typeof RedlineOutput>
 export const DrillStartexOutput = z.object({ situationMd: z.string().min(1) })
 export type DrillStartexOutput = z.infer<typeof DrillStartexOutput>
 
+/** The rows that play after each option of a decision (#430); a person reviews them first. */
+export const BranchPlanOutput = z.object({
+  branches: z
+    .array(
+      z.object({
+        optionLabel: z.string(),
+        label: z.string(),
+        rationale: z.string(),
+        rows: z.array(MselRowOutput).max(8),
+        rejoinRowId: z.string().optional(),
+      }),
+    )
+    .min(1),
+})
+export type BranchPlanOutput = z.infer<typeof BranchPlanOutput>
+
+/** Controls a model suggests for MSEL rows (spec 0426 FR-12); refs are "<frameworkId>:<controlId>". */
+export const ComplianceMapOutput = z.object({
+  rows: z.array(z.object({ rowId: z.string(), controls: z.array(z.string()).max(8) })),
+})
+export type ComplianceMapOutput = z.infer<typeof ComplianceMapOutput>
+
 /** Registry so prompt frontmatter `outputSchema: MselPhaseOutput` resolves to a schema. */
 export const STAGE_OUTPUT_SCHEMAS = {
   IdeasOutput,
@@ -352,6 +374,8 @@ export const STAGE_OUTPUT_SCHEMAS = {
   ObjectivesRolesOutput,
   PhasePlanOutput,
   MselPhaseOutput,
+  BranchPlanOutput,
+  ComplianceMapOutput,
   InjectTextOutput,
   MediaBriefOutput,
   HandbookOutput,

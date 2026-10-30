@@ -54,3 +54,9 @@ export function suggestControls(framework: Framework, row: MselRow, ctx: RuleCon
     if (ruleMatches(rule, row, ctx)) for (const c of rule.controls) out.add(`${framework.id}:${c}`)
   return [...out]
 }
+
+/** Controls with no children: the ones a row can exercise. */
+export function leafControls(framework: Framework): Framework['controls'] {
+  const parents = new Set(framework.controls.map((c) => c.parent).filter(Boolean))
+  return framework.controls.filter((c) => !parents.has(c.id))
+}

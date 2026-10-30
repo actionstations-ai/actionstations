@@ -7,6 +7,8 @@ import {
   layeredItems,
   profileDefaults,
 } from '../../compliance/registry'
+import { jobs } from '../../jobs/manager'
+import { modelMappingInfo, runSuggestModel } from '../../compliance/suggest-model'
 import { requireProject } from '../../project/guard'
 import { loadProject, updateProject } from '../../project/store'
 import { defineHandlers } from '../registry'
@@ -28,10 +30,10 @@ export default defineHandlers({
       suggested: defaults.frameworks.includes(l.item.id),
       source: l.source,
     }))
-    return { regulations, frameworks }
+    return { regulations, frameworks, modelMapping: project.compliance?.modelMapping ?? false }
   },
 
-  'compliance:set': async ({ projectPath, regulations = {}, frameworks = {} }) => {
+  'compliance:set': async ({ projectPath, regulations = {}, frameworks = {}, modelMapping }) => {
     const root = await requireProject(projectPath)
     await copyEnabledFromPacks(root, 'regulations', regulations)
     await copyEnabledFromPacks(root, 'frameworks', frameworks)
@@ -39,9 +41,23 @@ export default defineHandlers({
       p.compliance = {
         regulations: { ...p.compliance?.regulations, ...regulations },
         frameworks: { ...p.compliance?.frameworks, ...frameworks },
+        modelMapping: modelMapping ?? p.compliance?.modelMapping ?? false,
       }
     })
-    return next.compliance ?? { regulations: {}, frameworks: {} }
+    return next.compliance ?? { regulations: {}, frameworks: {}, modelMapping: false }
+  },
+
+  'compliance:model-info': async ({ projectPath }) =>
+    modelMappingInfo(await requireProject(projectPath)),
+
+  'compliance:suggest-model': async ({ projectPath, scenarioId, rowIds }) => {
+    const root = await requireProject(projectPath)
+    const job = jobs.start(
+      'compliance-map',
+      (ctx) => runSuggestModel(root, scenarioId, rowIds, ctx),
+      { projectPath: root, scenarioId },
+    )
+    return { jobId: job.id }
   },
 
   'compliance:coverage': async ({ projectPath, scenarioId }) => {
