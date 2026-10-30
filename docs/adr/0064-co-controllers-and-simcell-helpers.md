@@ -15,3 +15,7 @@ The roster (#440) already let a partner's signature be accepted inside a row pre
 ## Consequences
 
 Existing hubs treat unflagged controller connections as the host, so nothing else changes. A leaked partner invite gives that partner's scope and the staff key, no more; it is shown once and never stored. Co-controller connections over LAN are a possible later step.
+
+## Amendment (security review, #529)
+
+Controller ids are bound to their token; a seq jump window and a co-controller rate limit were added; release ids belong to their first signer and recalls need the same signer and row; receipts are forwarded only for targeted, seated devices, once per status; Cloudflare fails closed on a missing host flag. Because a partner invite holds the staff key, staff seats close when one is made, until the host opens them.

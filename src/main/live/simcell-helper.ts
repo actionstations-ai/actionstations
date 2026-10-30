@@ -42,6 +42,8 @@ export interface HelperDeps {
     text?: string
   }) => Promise<unknown>
   changed: () => void
+  /** Staff seats are closed (a partner invite is out and not granted): no helper decision applies. */
+  locked?: () => boolean
 }
 
 interface Offer {
@@ -156,6 +158,7 @@ export class LiveSimcellHelpers {
     const seat = this.deps.seatOf(from)
     if (!seat || seat.kind !== 'simcell' || !seat.staff) return reject('not a SimCell seat')
     if (!this.on) return reject('helper devices are off')
+    if (this.deps.locked?.()) return reject('staff seats are closed')
     const offer = this.offers.get(p.draftId)
     if (!offer || !offer.devices.has(from)) return reject('draft not offered')
     if (p.revision !== offer.revision) return reject('stale revision')

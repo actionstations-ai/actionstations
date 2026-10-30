@@ -1100,7 +1100,84 @@ describe('co-controller permissions and the partner and SimCell helper types (#5
     }
   })
 
-  it('ScopeState remembers who signed a release, and not the host', async () => {
+  it('a co-controller cannot recall the host’s release, claim its id, or recall another row (#529)', async () => {
+    const ctl = await makeController()
+    const { co, player } = await coWith(ctl)
+    const hostRelease = { ...release({ mselRowId: 'X-1' }), targets: ['role:transit-ops'] as never }
+    await open(
+      encodeFrame(
+        await seal(ctl.crypto, ctl.keys, header('inject.release', { seq: 1 }), hostRelease, {
+          signer: ctl.signing.privateKey,
+          key: 'players',
+        }),
+      ),
+      player,
+    )
+    const coRecall = (releaseId: string, mselRowId: string, seq: number) =>
+      seal(
+        ctl.crypto,
+        ctl.keys,
+        header('inject.recall', { seq }),
+        { releaseId, mselRowId, reason: 'withdrawn', targets: ['role:transit-ops'] } as never,
+        { signer: co.privateKey, key: 'players' },
+      )
+    // The row id says T-1 (the partner's), the release id is the host's.
+    expect(
+      (await open(encodeFrame(await coRecall(hostRelease.releaseId, 'T-1', 1)), player)) as object,
+    ).toMatchObject({
+      ok: false,
+      reason: 'OUT_OF_SCOPE',
+    })
+    // The partner cannot register the host's release id as its own.
+    const claim = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('inject.release', { seq: 2 }),
+      release({ mselRowId: 'T-1', targets: ['role:transit-ops'] }),
+      { signer: co.privateKey, key: 'players' },
+    )
+    expect((await open(encodeFrame(claim), player)) as object).toMatchObject({
+      reason: 'OUT_OF_SCOPE',
+    })
+    expect(player.scope.releases.get(hostRelease.releaseId)!.signer).toBe('host')
+    // Its own release: recall is accepted for that row, refused for another row.
+    const own = release({
+      releaseId: 'ownrelease000000000000',
+      mselRowId: 'T-1',
+      targets: ['role:transit-ops'],
+    })
+    await open(
+      encodeFrame(
+        await seal(ctl.crypto, ctl.keys, header('inject.release', { seq: 3 }), own, {
+          signer: co.privateKey,
+          key: 'players',
+        }),
+      ),
+      player,
+    )
+    expect((await open(encodeFrame(await coRecall(own.releaseId, 'T-1', 4)), player)).ok).toBe(true)
+    expect(
+      (await open(encodeFrame(await coRecall(own.releaseId, 'T-1-b', 5)), player)) as object,
+    ).toMatchObject({
+      reason: 'OUT_OF_SCOPE',
+    })
+    // The host may recall anything.
+    const hostRecall = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('inject.recall', { seq: 6 }),
+      {
+        releaseId: own.releaseId,
+        mselRowId: 'T-1',
+        reason: 'withdrawn',
+        targets: ['role:transit-ops'],
+      } as never,
+      { signer: ctl.signing.privateKey, key: 'players' },
+    )
+    expect((await open(encodeFrame(hostRecall), player)).ok).toBe(true)
+  })
+
+  it('ScopeState remembers who signed each release first, the host included', async () => {
     const ctl = await makeController()
     const { co, player } = await coWith(ctl)
     const env = await seal(
@@ -1115,6 +1192,7 @@ describe('co-controller permissions and the partner and SimCell helper types (#5
       signer: 'metro-transit',
       from: IDS.playerB,
       mselRowId: 'T-1',
+      targets: ['role:transit-ops'],
     })
     const hostEnv = await seal(
       ctl.crypto,
@@ -1124,7 +1202,7 @@ describe('co-controller permissions and the partner and SimCell helper types (#5
       { signer: ctl.signing.privateKey, key: 'players' },
     )
     await open(encodeFrame(hostEnv), player)
-    expect(player.scope.releases.has('hostrelease00000000000')).toBe(false)
+    expect(player.scope.releases.get('hostrelease00000000000')?.signer).toBe('host')
   })
 })
 

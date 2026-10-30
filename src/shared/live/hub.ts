@@ -51,6 +51,9 @@ export interface HubSocket {
   close(code: number, reason: string): void
 }
 
+/** Largest forward step of a client's `seq` the hub accepts at once. */
+export const MAX_SEQ_JUMP = 1_000_000
+
 export interface HubAttachOptions {
   clientId: ClientId
   /** Participants: derived from the players root; the hub compares its hash. */
@@ -68,6 +71,11 @@ export interface HubAttachOptions {
    * nor the frames sealed to the host. Default true.
    */
   host?: boolean
+  /**
+   * With `controller`: hex SHA-256 of the controller token the transport authenticated. A
+   * controller client id belongs to the token that first used it; another token is refused (#529).
+   */
+  controllerTokenHash?: string
   /** Remote address, for the per-address caps; absent in process. */
   remote?: string
 }
@@ -118,7 +126,9 @@ export interface StoredEnvelope {
   bytes: number
 }
 
-export type StoredIdentity = { kind: 'controller' } | { kind: 'participant'; resumeHash: string }
+/** A controller id is bound to the token that first used it (hex SHA-256); none for the in-process host. */
+export type StoredIdentity =
+  { kind: 'controller'; tokenHash?: string } | { kind: 'participant'; resumeHash: string }
 
 export interface StoredBlobMeta {
   uploader: ClientId
@@ -345,6 +355,8 @@ export interface SessionHubOptions {
    * token bucket that survives reconnects; controllers are exempt. Default: no limit.
    */
   framesPerMinute?: number
+  /** Frames per minute from a co-controller connection (the host is exempt). Default 1200. */
+  coControllerFramesPerMinute?: number
   /** Frames per minute from one remote address across all its identities. Default: 3 × framesPerMinute. */
   framesPerMinutePerRemote?: number
   /** Distinct participant identities one remote address may register. Default 4. */
@@ -425,6 +437,7 @@ export class SessionHub {
   private readonly uploaded = new Map<ClientId, number>()
   private readonly now: () => number
   private readonly framesPerMinute: number
+  private readonly coControllerFramesPerMinute: number
   private readonly framesPerMinutePerRemote: number
   private readonly catchupsPerMinute: number
   private readonly maxIdentitiesPerRemote: number
@@ -439,6 +452,7 @@ export class SessionHub {
     this.store = opts.store ?? new MemoryHubStore()
     this.now = opts.now ?? (() => Date.now())
     this.framesPerMinute = opts.framesPerMinute ?? Infinity
+    this.coControllerFramesPerMinute = opts.coControllerFramesPerMinute ?? 1200
     this.framesPerMinutePerRemote = opts.framesPerMinutePerRemote ?? this.framesPerMinute * 3
     this.catchupsPerMinute = opts.catchupsPerMinute ?? HUB_DEFAULTS.catchupsPerMinute
     this.maxIdentitiesPerRemote = opts.maxIdentitiesPerRemote ?? HUB_DEFAULTS.maxIdentitiesPerRemote
@@ -552,7 +566,7 @@ export class SessionHub {
     if (!conn.controller && !knownIdentity && conn.remote && this.remoteIsFull(conn.remote)) {
       return refuse(CLOSE_CODES.RATE_LIMITED, 'Too many devices from this address', 'RATE_LIMITED')
     }
-    if (!(await this.bindIdentity(conn, options.resumeToken))) {
+    if (!(await this.bindIdentity(conn, options.resumeToken, options.controllerTokenHash))) {
       return refuse(
         CLOSE_CODES.CLIENT_ID_IN_USE,
         'Client id belongs to another device',
@@ -631,12 +645,34 @@ export class SessionHub {
    * A client id is owned by whoever used it first: a controller connection, or the participant
    * whose resume token hashes to what was registered. Anyone else is refused.
    */
-  private async bindIdentity(conn: Conn, resumeToken: Uint8Array | undefined): Promise<boolean> {
+  private async bindIdentity(
+    conn: Conn,
+    resumeToken: Uint8Array | undefined,
+    tokenHash?: string,
+  ): Promise<boolean> {
     const known = this.store.identity(conn.clientId)
     if (conn.controller) {
-      if (known && known.kind !== 'controller') return false
-      if (!known) this.store.setIdentity(conn.clientId, { kind: 'controller' })
-      return true
+      if (!known) {
+        this.store.setIdentity(conn.clientId, {
+          kind: 'controller',
+          ...(tokenHash ? { tokenHash } : {}),
+        })
+        return true
+      }
+      // An id stored before tokens were bound (a session started by an older build) is bound by
+      // the host connection that returns; a co-controller never claims it.
+      if (known.kind === 'controller' && known.tokenHash === undefined && tokenHash && conn.host) {
+        this.store.setIdentity(conn.clientId, { kind: 'controller', tokenHash })
+        return true
+      }
+      // Whoever holds another token (a co-controller) cannot take over this controller's id.
+      return (
+        known.kind === 'controller' &&
+        (known.tokenHash === tokenHash ||
+          (known.tokenHash !== undefined &&
+            tokenHash !== undefined &&
+            constantTimeEqual(known.tokenHash, tokenHash)))
+      )
     }
     if (!resumeToken || resumeToken.length < 16) return false
     const resumeHash = toHex(await this.opts.crypto.sha256(resumeToken))
@@ -777,7 +813,8 @@ export class SessionHub {
    * Controllers are exempt.
    */
   private rateLimited(conn: Conn): boolean {
-    if (conn.controller) return false
+    if (conn.host) return false
+    if (conn.controller) return !this.take(`id:${conn.clientId}`, this.coControllerFramesPerMinute)
     const byId = this.take(`id:${conn.clientId}`, this.framesPerMinute)
     const byRemote = conn.remote
       ? this.take(`remote:${conn.remote}`, this.framesPerMinutePerRemote)
@@ -801,6 +838,8 @@ export class SessionHub {
     if (e.from !== conn.clientId)
       return this.error(conn, 'INVALID', 'from does not match the connection')
     if (e.seq <= conn.lastSeq) return // a confused or replaying client: drop silently
+    // A jump far past the last seq would make the hub drop every later frame of that client.
+    if (e.seq > conn.lastSeq + MAX_SEQ_JUMP) return this.error(conn, 'INVALID', 'seq jumps too far')
     if (CONTROLLER_ONLY_TYPES.has(e.type) && !conn.controller) {
       return this.error(conn, 'NOT_CONTROLLER', `${e.type} is a controller type`)
     }

@@ -46,6 +46,8 @@ export interface SeatingContext {
   /** Surveys only: one participant seat, every feature but surveys off (spec 0422 FR-7). */
   surveyOnly?: boolean
   clock: () => ClockState
+  /** True while evaluator and SimCell seats are closed (a partner invite is out and the host has not granted them, #529). */
+  staffSeatsLocked?: () => boolean
   /**
    * A per-session pseudonym for a client id (22 base64url characters): what other devices see
    * in `welcome.roster`, so a player page never learns real client ids.
@@ -183,6 +185,12 @@ export class Seats {
       }
       if (STAFF_SEAT_KINDS.has(def.kind) && !verdict.staff) {
         return refuse('not_allowed', 'That seat needs the staff link.')
+      }
+      if (STAFF_SEAT_KINDS.has(def.kind) && !existing && this.ctx.staffSeatsLocked?.()) {
+        return refuse(
+          'not_allowed',
+          'Staff seats are closed while a partner invite is out. Ask the facilitator to open them.',
+        )
       }
     }
     const roleId = def?.id ?? existing?.roleId

@@ -37,6 +37,7 @@ import type {
   RegionalRosterView,
   SessionLogInput,
   SimcellHelpersView,
+  StaffSeatsView,
 } from '@shared/schemas/live'
 import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
@@ -136,6 +137,10 @@ export interface Active {
   votes: Votes
   surveys: LiveSurveys
   evaluation: LiveEvaluation
+  /** Staff seats close when a partner invite is minted, until the host grants them (#529). */
+  staffSeats: { locked: boolean; granted: boolean }
+  /** Receipts already forwarded to partners (#529). */
+  forwardedReceipts: Set<string>
   /** SimCell helper devices (#518): off until the facilitator turns them on. */
   helpers: LiveSimcellHelpers
   stage: StageState
@@ -420,6 +425,13 @@ function partnerHost(a: Active) {
   return {
     releases: a.client.scope.releases,
     roleOf: (clientId: string) => a.seats.byClient.get(clientId)?.roleId,
+    isHostRelease: (releaseId: string) => a.delivery.has(releaseId),
+    forwarded: a.forwardedReceipts,
+    destinationsOf: (clientId: string) => {
+      const seat = a.seats.byClient.get(clientId)
+      if (!seat?.online) return undefined
+      return new Set(['all', `client:${clientId}`, ...(seat.roleId ? [`role:${seat.roleId}`] : [])])
+    },
     send: (to: `client:${string}`, payload: Record<string, unknown>) =>
       a.client.send('partner.receipt', to, payload as never, { key: 'staff' }),
     log: { append: (input: SessionLogInput) => a.log.append(input) },
@@ -458,6 +470,7 @@ function makeHelpers(getActive: () => Active): LiveSimcellHelpers {
     },
     resolve: (req) => sim().resolve(req),
     changed: () => emitChanged('messages'),
+    locked: () => getActive().staffSeats.locked && !getActive().staffSeats.granted,
   })
 }
 
@@ -1010,6 +1023,7 @@ async function startOn(
       sessionName: req.name?.trim() || scenario.title,
       scenarioTitle: scenario.title,
       hotwash: prompts,
+      staffSeatsLocked: () => a.staffSeats.locked && !a.staffSeats.granted,
       ...(req.surveyOnly ? { surveyOnly: true } : {}),
       clock: () => cachedClock,
       pseudonym: (id) => pseudonym({ crypto, salt }, id),
@@ -1027,6 +1041,8 @@ async function startOn(
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     evaluation: makeEvaluation(() => a),
     helpers: makeHelpers(() => a),
+    forwardedReceipts: new Set(),
+    staffSeats: { locked: false, granted: false },
     stage: emptyStage(),
     mediaCache: new Map(),
     unsubscribe: [],
@@ -1503,6 +1519,8 @@ export async function createPartnerInvite(
     )
   }
   const controllerToken = await a.remote.client.addController(a.remote.auth)
+  // The invite carries the staff key, so evaluator and SimCell seats close until the host grants them.
+  closeStaffSeats(root, scenarioId)
   const link = inviteView(
     {
       origin: a.remote.origin,
@@ -1535,6 +1553,22 @@ export async function createPartnerInvite(
     data: { to: 'host', text: `Partner invite created for ${entry.name}`, level: 'info' },
   })
   return { orgId, name: entry.name, invite }
+}
+
+/** Close new evaluator and SimCell seats until the host grants them (a partner invite is out). */
+export function closeStaffSeats(root: string, scenarioId: string): void {
+  activeFor(root, scenarioId).staffSeats.locked = true
+}
+
+/** Whether staff seats are closed by a partner invite, and whether the host opened them again. */
+export function staffSeats(root: string, scenarioId: string): StaffSeatsView {
+  return { ...activeFor(root, scenarioId).staffSeats }
+}
+
+export function setStaffSeatsGranted(root: string, scenarioId: string, granted: boolean) {
+  const a = activeFor(root, scenarioId)
+  a.staffSeats.granted = granted
+  return staffSeats(root, scenarioId)
 }
 
 /** Helper devices on or off, and how many SimCell seats could receive drafts now. */

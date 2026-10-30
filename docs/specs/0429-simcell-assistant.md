@@ -307,3 +307,5 @@ Open questions 1 to 5 were settled as recommended (a `roleplay` task that falls 
 ## Helper devices (#518)
 
 A facilitator can let a staff device in the **SimCell helper** seat approve, edit or discard queued drafts (`simcell.draft` to the seat, `simcell.action` back; see spec 0406). Off by default, per session. Drafts with no thread yet and voice-call turns are never offered. The helper's decision is the same `resolve` call as the facilitator's buttons, so the log, persona clocks and what players see are identical; the log entry says it came from a helper device.
+
+Helper decisions are also refused while staff seats are closed by a partner invite (#529; see spec 0440).

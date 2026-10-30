@@ -14,7 +14,12 @@ import {
 import { createServer as createHttpsServer } from 'node:https'
 import type { Socket } from 'node:net'
 import type { Duplex } from 'node:stream'
-import { SlidingWindow, bearerToken, sessionRoute } from '@actionstations/relay-core'
+import {
+  SlidingWindow,
+  bearerToken,
+  hashBearerToken,
+  sessionRoute,
+} from '@actionstations/relay-core'
 import { Base64Url22 } from '@shared/live/schemas/envelope'
 import { parseConnectParams } from '@main/live/transport/lan/connect-params'
 import type { Peers } from '@main/live/transport/lan/peers'
@@ -154,7 +159,12 @@ export function createRelayServer(opts: RelayServerOptions): RelayServer {
     if (!clientId || !Base64Url22.safeParse(clientId).success) return undefined
     const role = await registry.controllerRole(session, bearer)
     if (!role) return 'unauthorized'
-    return { clientId, controller: true, host: role === 'host' }
+    return {
+      clientId,
+      controller: true,
+      host: role === 'host',
+      controllerTokenHash: await hashBearerToken(bearer),
+    }
   }
 
   const scheme = opts.tls ? 'https' : 'http'

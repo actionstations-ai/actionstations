@@ -18,7 +18,7 @@ const draft = (id: string, over: Partial<SimcellDraft> = {}): SimcellDraft =>
 const HELPER = 'helper-0000000000000a'
 const OTHER_HELPER = 'helper-0000000000000b'
 
-function setup(initial: SimcellDraft[] = []) {
+function setup(initial: SimcellDraft[] = [], locked?: () => boolean) {
   const queue = { drafts: initial }
   const seats = new Map<string, HelperSeat>([
     [HELPER, { clientId: HELPER, kind: 'simcell', staff: true, online: true }],
@@ -48,6 +48,7 @@ function setup(initial: SimcellDraft[] = []) {
       queue.drafts.map((d) => ({ draft: d, persona: 'Reporter', threadLabel: 'Reporter and Ops' })),
     resolve: async (req) => void resolved.push(req),
     changed: () => undefined,
+    ...(locked ? { locked } : {}),
   })
   return { helpers, queue, seats, sent, resolved, logs }
 }
@@ -178,6 +179,18 @@ describe('SimCell helper devices', () => {
     ).toBe(false)
     expect(
       await t.helpers.onAction(HELPER, 3, { draftId: 'd1', revision: 1, action: 'approve' }),
+    ).toBe(false)
+    expect(t.resolved).toEqual([])
+  })
+
+  it('refuses actions while staff seats are closed by a partner invite (#529)', async () => {
+    const locked = { on: false }
+    const t = setup([draft('d1')], () => locked.on)
+    await t.helpers.setEnabled(true)
+    const wire = wireIdOf(t.sent)
+    locked.on = true
+    expect(
+      await t.helpers.onAction(HELPER, 1, { draftId: wire, revision: 1, action: 'approve' }),
     ).toBe(false)
     expect(t.resolved).toEqual([])
   })

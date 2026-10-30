@@ -21,6 +21,9 @@ export const PARTNER = {
   inviteCopied: 'Invite copied',
   inviteClose: 'Done, clear it',
   inviteError: 'Could not make the invite',
+  staffClosed:
+    'A partner invite is out and it carries the staff key, so new evaluator and SimCell helper seats are closed. Devices already seated keep their seats.',
+  staffGrant: 'Open evaluator and SimCell helper seats again',
   mayHeader: 'May send',
   permissions: {
     inject: 'Its own injects',

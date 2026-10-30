@@ -21,6 +21,8 @@ import {
   resumeSession,
   sendEvaluatorNotice,
   setSimcellHelpers,
+  setStaffSeatsGranted,
+  staffSeats,
   simcellHelpers,
 } from '../../live/session'
 import { requireProject } from '../../project/guard'
@@ -106,6 +108,12 @@ export default defineHandlers({
     await requireProject(projectPath)
     await leavePartner()
   },
+
+  'live:staff-seats': async ({ projectPath, scenarioId }) =>
+    staffSeats(await requireProject(projectPath), scenarioId),
+
+  'live:staff-seats-set': async ({ projectPath, scenarioId, granted }) =>
+    setStaffSeatsGranted(await requireProject(projectPath), scenarioId, granted),
 
   'live:simcell-helpers': async ({ projectPath, scenarioId }) =>
     simcellHelpers(await requireProject(projectPath), scenarioId),

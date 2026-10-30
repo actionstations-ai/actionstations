@@ -657,6 +657,10 @@ export const PartnerInviteView = z.object({
 })
 export type PartnerInviteView = z.infer<typeof PartnerInviteView>
 
+/** Evaluator and SimCell seats close when a partner invite (which carries the staff key) is made. */
+export const StaffSeatsView = z.object({ locked: z.boolean(), granted: z.boolean() })
+export type StaffSeatsView = z.infer<typeof StaffSeatsView>
+
 /** SimCell helper devices in this session, as the Live tab shows them (#518). */
 export const SimcellHelpersView = z.object({
   enabled: z.boolean(),

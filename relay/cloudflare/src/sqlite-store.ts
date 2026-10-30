@@ -178,7 +178,10 @@ export class SqliteHubStore implements HubStore {
     const row = this.one(`SELECT kind, resume_hash FROM identities WHERE client = ?`, client)
     if (!row) return undefined
     return row.kind === 'controller'
-      ? { kind: 'controller' }
+      ? {
+          kind: 'controller',
+          ...(row.resume_hash ? { tokenHash: String(row.resume_hash) } : {}),
+        }
       : { kind: 'participant', resumeHash: String(row.resume_hash) }
   }
 
@@ -187,7 +190,7 @@ export class SqliteHubStore implements HubStore {
       `INSERT INTO identities (client, kind, resume_hash) VALUES (?, ?, ?) ON CONFLICT(client) DO UPDATE SET kind = excluded.kind, resume_hash = excluded.resume_hash`,
       client,
       identity.kind,
-      identity.kind === 'participant' ? identity.resumeHash : null,
+      identity.kind === 'participant' ? identity.resumeHash : (identity.tokenHash ?? null),
     )
     this.bumpOther(0, 0, 1)
   }

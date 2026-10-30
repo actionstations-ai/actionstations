@@ -81,14 +81,27 @@ const MAX_TRACKED_RELEASES = 20_000
 
 export class ScopeState {
   readonly openers = new Map<string, string>()
-  /** Releases a co-controller signed (`releaseId → signer and connection`), for forwarding receipts (#517). */
-  readonly releases = new Map<string, { signer: string; from: string; mselRowId: string }>()
+  /** Who signed each release first (`releaseId → signer and connection`): receipts (#517) and recall checks (#529). */
+  readonly releases = new Map<
+    string,
+    { signer: string; from: string; mselRowId: string; targets: string[] }
+  >()
 
   record(type: MessageType, payload: unknown, signer: string, from?: string): void {
-    if (type === 'inject.release' && from !== undefined && signer !== 'host') {
-      const { releaseId, mselRowId } = payload as { releaseId?: string; mselRowId?: string }
-      if (releaseId && mselRowId && this.releases.size < MAX_TRACKED_RELEASES) {
-        this.releases.set(releaseId, { signer, from, mselRowId })
+    if (type === 'inject.release' && from !== undefined) {
+      const { releaseId, mselRowId, targets } = payload as {
+        releaseId?: string
+        mselRowId?: string
+        targets?: string[]
+      }
+      // The first signer of a release id keeps it: a later frame cannot claim or recall it (#529).
+      if (
+        releaseId &&
+        mselRowId &&
+        !this.releases.has(releaseId) &&
+        this.releases.size < MAX_TRACKED_RELEASES
+      ) {
+        this.releases.set(releaseId, { signer, from, mselRowId, targets: targets ?? [] })
       }
     }
     const id = scopedId(type, payload)
@@ -455,9 +468,10 @@ function checkScope(
   if (HOST_ONLY_TYPES.has(type)) return `${type} is host-only`
   const scope = ctx.roster?.controllers.find((x) => x.id === signedBy)?.scope
   if (!scope) return 'signer is not in the roster'
-  return inScope(type, payload, scope, ctx.scope?.openerOf(type, payload)) === true
-    ? undefined
-    : 'outside the co-controller scope'
+  if (!inScope(type, payload, scope, ctx.scope?.openerOf(type, payload))) {
+    return 'outside the co-controller scope'
+  }
+  return releaseOwnership(ctx.scope, type, payload, signedBy)
 }
 
 type Decrypted =
@@ -554,6 +568,28 @@ const PERMISSION_OF: Partial<Record<MessageType, CoControllerPermission>> = {
 function permitted(type: MessageType, scope: ControllerScope): boolean {
   const needed = PERMISSION_OF[type]
   return needed === undefined || (scope.permissions ?? DEFAULT_CO_PERMISSIONS).includes(needed)
+}
+
+/**
+ * A co-controller may use a release id only if no one else signed it first, and may recall only
+ * its own release of that row: a recall names a release id, the scope check names a row (#529).
+ */
+function releaseOwnership(
+  scope: ScopeState | undefined,
+  type: SealedType,
+  payload: unknown,
+  signer: string,
+): string | undefined {
+  const p = payload as { releaseId?: string; mselRowId?: string }
+  if (type === 'inject.release') {
+    const prior = p.releaseId ? scope?.releases.get(p.releaseId) : undefined
+    return prior && prior.signer !== signer ? 'release id belongs to another signer' : undefined
+  }
+  if (type !== 'inject.recall' || p.releaseId === undefined) return undefined
+  const prior = scope?.releases.get(p.releaseId)
+  return prior && prior.signer === signer && prior.mselRowId === p.mselRowId
+    ? undefined
+    : 'recall of a release this signer did not make'
 }
 
 /**

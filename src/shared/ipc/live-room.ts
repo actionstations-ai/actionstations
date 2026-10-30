@@ -15,6 +15,7 @@ import {
   RegionalRosterView,
   ReleaseSummary,
   SimcellHelpersView,
+  StaffSeatsView,
 } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
@@ -114,6 +115,9 @@ export const liveRoomChannels = {
   'live:partner-release': channel(S.extend({ rowId: SafeId }), ReleaseSummary),
   /** Partner side: leave the host's session. */
   'live:partner-leave': channel(S, z.void()),
+  /** Staff seats closed by a partner invite, and the host's grant to open them again. */
+  'live:staff-seats': channel(S, StaffSeatsView),
+  'live:staff-seats-set': channel(S.extend({ granted: z.boolean() }), StaffSeatsView),
   /** SimCell helper devices in the running session (#518). */
   'live:simcell-helpers': channel(S, SimcellHelpersView),
   'live:simcell-helpers-set': channel(S.extend({ enabled: z.boolean() }), SimcellHelpersView),

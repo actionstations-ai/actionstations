@@ -42,6 +42,8 @@ export interface ConnectOptions {
   controller?: boolean
   /** With `controller`: false is a co-controller's connection (#517). */
   host?: boolean
+  /** With `controller`: hex SHA-256 of the controller token; the id belongs to the first one. */
+  controllerTokenHash?: string
 }
 
 interface Conn {

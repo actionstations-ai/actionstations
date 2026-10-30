@@ -19,6 +19,8 @@ export interface ConnectOptions {
   controller?: boolean
   /** With `controller`: false connects as a co-controller (#517); a server gives it its own token. */
   host?: boolean
+  /** In-process servers only: the controller token's hash. Socket servers use the real token. */
+  controllerTokenHash?: string
 }
 
 export interface ServerUnderTest {
@@ -119,13 +121,22 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
       return { id: ids(n), t, got: collect(t) }
     }
     async function controller(n = 99) {
-      const t = await server!.connect({ clientId: ids(n), controller: true })
+      const t = await server!.connect({
+        clientId: ids(n),
+        controller: true,
+        controllerTokenHash: 'a'.repeat(64),
+      })
       open.push(t)
       return { id: ids(n), t, got: collect(t) }
     }
 
     async function coController(n = 98) {
-      const t = await server!.connect({ clientId: ids(n), controller: true, host: false })
+      const t = await server!.connect({
+        clientId: ids(n),
+        controller: true,
+        host: false,
+        controllerTokenHash: 'b'.repeat(64),
+      })
       open.push(t)
       return { id: ids(n), t, got: collect(t) }
     }
@@ -719,6 +730,31 @@ export function describeServerContract(name: string, factory: ServerFactory): vo
         expect(co.got.of('inject.receipt')).toHaveLength(0)
         expect(co.got.of('presence')).toHaveLength(0)
         expect(h.got.of('presence').length).toBeGreaterThan(0)
+      })
+
+      it('a co-controller cannot take over the host’s client id, and the host stays connected (#529)', async () => {
+        await start()
+        const h = await controller(99)
+        await until(() => h.got.of('relay.hello').length === 1)
+        const imposter = await coController(99)
+        await until(() => imposter.got.closes.length === 1 || imposter.got.errors().length > 0)
+        expect(imposter.got.of('relay.hello')).toHaveLength(0)
+        h.t.send(frame(h.id, 1, 'all', 'session.end'))
+        await until(() => server!.lastIndex === 1)
+        expect(h.got.closes).toEqual([])
+        // Nor can it burn the host's sequence numbers.
+        expect(server!.connected).toEqual([h.id])
+      })
+
+      it('refuses a seq that jumps far ahead and keeps accepting the client’s next frame (#529)', async () => {
+        await start()
+        const c = await controller()
+        const p = await participant(1)
+        await until(() => [c, p].every((x) => x.got.of('relay.hello').length === 1))
+        p.t.send(frame(p.id, 2 ** 50, 'all', 'message.send'))
+        await until(() => p.got.errors('INVALID').length === 1)
+        p.t.send(frame(p.id, 1, 'all', 'message.send'))
+        await until(() => c.got.of('message.send').length === 1)
       })
 
       it('catch-up for a co-controller leaves out frames sealed to the host', async () => {

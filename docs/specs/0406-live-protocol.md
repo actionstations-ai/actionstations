@@ -1071,3 +1071,12 @@ Tasks 1–5 and 7 shipped in the first pull request (`src/shared/live/`, 164 uni
    but adding a signed type later would be a `v: 2` change for every client. Recommendation:
    ship the schema and the client-side scope check in v1 (cheap, tested with fixtures); the
    host-side UI waits for #440.
+
+### Hardening after the #529 security review
+
+- A controller client id is bound to the token that first used it (`StoredIdentity.tokenHash`, kept in the hub store, so it survives a restart): another token, or none, is refused with `CLIENT_ID_IN_USE`. A co-controller cannot replace the host's connection.
+- A `seq` more than 1,000,000 ahead of the client's last is refused (`INVALID`) and does not move the replay window.
+- Co-controller connections are rate limited like devices (default 1,200 frames a minute); the host is exempt.
+- The first signer of a `releaseId` keeps it (receivers record host releases too). A co-controller frame that reuses another signer's id is `OUT_OF_SCOPE`, and a co-controller `inject.recall` is accepted only for a release that signer made, with the same `mselRowId`. The host may recall any release.
+- The host forwards `partner.receipt` only for releases a partner signed, from a seated device the release was addressed to, once per status.
+- A missing `host` flag on a restored Cloudflare socket means not the host.

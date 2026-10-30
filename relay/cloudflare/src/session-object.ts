@@ -191,6 +191,9 @@ export class SessionObject {
       resumeToken: auth.resumeToken,
       controller,
       host,
+      ...(controller && auth.controllerToken
+        ? { controllerTokenHash: await hashBearerToken(auth.controllerToken) }
+        : {}),
     })
     this.clients.set(server, handle)
     return upgradeResponse(client, WS_SUBPROTOCOL)
@@ -227,7 +230,7 @@ export class SessionObject {
     if (known) return known
     const attachment = ws.deserializeAttachment() as Attachment | null
     if (!attachment) return undefined
-    const handle = hub.restore(socketFor(ws), attachment)
+    const handle = hub.restore(socketFor(ws), { ...attachment, host: attachment.host === true })
     this.clients.set(ws, handle)
     return handle
   }
@@ -255,7 +258,11 @@ export class SessionObject {
     for (const ws of this.state.getWebSockets()) {
       if (this.clients.has(ws)) continue
       const attachment = ws.deserializeAttachment() as Attachment | null
-      if (attachment) this.clients.set(ws, hub.restore(socketFor(ws), attachment))
+      if (attachment)
+        this.clients.set(
+          ws,
+          hub.restore(socketFor(ws), { ...attachment, host: attachment.host === true }),
+        )
     }
     return hub
   }

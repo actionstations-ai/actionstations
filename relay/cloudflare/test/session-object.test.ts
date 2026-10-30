@@ -108,6 +108,22 @@ describe('SessionObject: hibernation', () => {
   })
 })
 
+describe('SessionObject: fail closed (#529)', () => {
+  it('treats a restored socket whose attachment has no host flag as not the host', async () => {
+    const room = await roomWithKeys()
+    const ctl = await open(room, IDS.controller, { controller: true })
+    await until(() => ctl.got.of('relay.hello').length === 1)
+    for (const ws of room.state.sockets) {
+      const a = ws.deserializeAttachment() as Record<string, unknown>
+      const { host: _host, ...rest } = a
+      ws.serializeAttachment(rest)
+    }
+    room.wake()
+    ctl.t.send(frame(room.sessionId, IDS.controller, 1, 'all', 'clock.state'))
+    await until(() => ctl.got.errors('NOT_CONTROLLER').length === 1)
+  })
+})
+
 describe('SessionObject: retention', () => {
   it('sets the 72 h alarm at creation, ends the session when it fires, then forgets it an hour later', async () => {
     const room = await roomWithKeys()

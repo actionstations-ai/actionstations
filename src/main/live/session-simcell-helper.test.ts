@@ -21,7 +21,14 @@ vi.mock('electron', () => ({
   },
 }))
 
-const { flushActiveLog, setSimcellHelpers, simcellHelpers } = await import('./session')
+const {
+  closeStaffSeats,
+  flushActiveLog,
+  setSimcellHelpers,
+  setStaffSeatsGranted,
+  simcellHelpers,
+  staffSeats,
+} = await import('./session')
 const { joinAsPlayer, quiet, readLog, startLan } = await import('./session-harness')
 
 afterEach(quiet)
@@ -42,6 +49,27 @@ describe('SimCell helper seat in a live session', () => {
     const seated = await joinAsPlayer(started.invites!.staff.url, 'Sam', 'simcell', 'simcell')
     expect(seated.welcome.rejected).toBeUndefined()
     expect(seated.welcome.role?.id).toBe('simcell')
+  })
+
+  it('closes new evaluator and SimCell seats while a partner invite is out, until the host grants them (#529)', async () => {
+    const { projectPath, scenarioId, started } = await startLan()
+    const early = await joinAsPlayer(started.invites!.staff.url, 'Sam', 'simcell', 'simcell')
+    expect(early.welcome.rejected).toBeUndefined()
+    // What minting a partner invite does.
+    closeStaffSeats(projectPath, scenarioId)
+    expect(staffSeats(projectPath, scenarioId)).toEqual({ locked: true, granted: false })
+    const late = await joinAsPlayer(started.invites!.staff.url, 'Lee', 'simcell', 'simcell')
+    expect(late.welcome.rejected?.reason).toBe('not_allowed')
+    const evaluator = await joinAsPlayer(
+      started.invites!.staff.url,
+      'Eva',
+      'evaluators',
+      'evaluator',
+    )
+    expect(evaluator.welcome.rejected?.reason).toBe('not_allowed')
+    setStaffSeatsGranted(projectPath, scenarioId, true)
+    const granted = await joinAsPlayer(started.invites!.staff.url, 'Lee', 'simcell', 'simcell')
+    expect(granted.welcome.rejected).toBeUndefined()
   })
 
   it('counts helper devices once they are on, and refuses a decision from a player', async () => {

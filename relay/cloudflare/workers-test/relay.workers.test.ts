@@ -127,6 +127,14 @@ describe('relay under workerd', () => {
     expect(end.status).toBe(403)
     await end.text()
 
+    // The host's connection, and a co-controller trying to take over its client id (#529).
+    const host = await connectController(sessionId, controllerToken)
+    await until(() => host.frames.some((f) => f.type === 'relay.hello'))
+    const thief = await connectController(sessionId, coToken, CONTROLLER_ID)
+    await until(() => thief.closes.includes(4005))
+    expect(host.closes).toEqual([])
+    host.ws.close(1000, 'done')
+
     const co = await connectController(sessionId, coToken, CO_ID)
     await until(() => co.frames.some((f) => f.type === 'relay.hello'))
     const hello = co.frames.find((f) => f.type === 'relay.hello')!

@@ -175,6 +175,61 @@ afterEach(async () => {
   }
 })
 
+describe('forwarding receipts to a partner (#529)', () => {
+  const RELEASE = 'r'.repeat(22)
+  const releases = new Map([
+    [RELEASE, { signer: 'air', from: 'p'.repeat(22), mselRowId: 'AIR-1', targets: ['role:ops'] }],
+    [
+      'h'.repeat(22),
+      { signer: 'host', from: 'x'.repeat(22), mselRowId: 'H-1', targets: ['role:ops'] },
+    ],
+  ])
+  const sent: Record<string, unknown>[] = []
+  const deps = () => ({
+    releases,
+    roleOf: () => 'ops',
+    send: async (_to: string, p: Record<string, unknown>) => void sent.push(p),
+    log: { append: async () => undefined },
+    forwarded: new Set<string>(),
+    destinationsOf: (id: string) =>
+      id === 'ops-device'
+        ? new Set(['all', 'role:ops'])
+        : id === 'pio-device'
+          ? new Set(['all', 'role:pio'])
+          : undefined,
+  })
+  const receipt = (releaseId = RELEASE, status: 'read' | 'delivered' = 'read') => ({
+    releaseId,
+    status,
+    at: 1,
+  })
+
+  it('forwards once per status, only from a seated device the release was addressed to', async () => {
+    sent.length = 0
+    const d = deps()
+    expect(await forwardReceipt(d, 'ops-device', receipt())).toBe(true)
+    expect(await forwardReceipt(d, 'ops-device', receipt())).toBe(false) // repeat
+    expect(await forwardReceipt(d, 'ops-device', receipt(RELEASE, 'delivered'))).toBe(true)
+    expect(await forwardReceipt(d, 'pio-device', receipt())).toBe(false) // not addressed
+    expect(await forwardReceipt(d, 'stranger', receipt())).toBe(false) // not seated
+    expect(sent).toHaveLength(2)
+  })
+
+  it('never forwards receipts for the host’s own releases', async () => {
+    sent.length = 0
+    const d = { ...deps(), isHostRelease: (id: string) => id === 'z'.repeat(22) }
+    expect(await forwardReceipt(d, 'ops-device', receipt('h'.repeat(22)))).toBe(false)
+    releases.set('z'.repeat(22), {
+      signer: 'air',
+      from: 'p'.repeat(22),
+      mselRowId: 'AIR-9',
+      targets: ['role:ops'],
+    })
+    expect(await forwardReceipt(d, 'ops-device', receipt('z'.repeat(22)))).toBe(false)
+    expect(sent).toEqual([])
+  })
+})
+
 describe('partner as co-controller', () => {
   it('releases its own row to its own role; the player sees the partner’s signature', async () => {
     const w = (open = await world())

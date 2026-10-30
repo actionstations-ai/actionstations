@@ -16,9 +16,17 @@ export interface PartnerHostDeps {
   /** Where the client remembers who signed each release (`LiveClient.scope`). */
   releases: LiveClient['scope']['releases']
   roleOf: (clientId: string) => string | undefined
+  /** Whether the host itself released this id: its receipts are never forwarded. */
+  isHostRelease?: (releaseId: string) => boolean
+  /** What a seated device reads as its own (`all`, `client:<id>`, `role:<id>`); undefined if not seated. */
+  destinationsOf?: (clientId: string) => ReadonlySet<string> | undefined
+  /** Receipts already forwarded (`release:device:status`), so a repeat is not forwarded twice. */
+  forwarded?: Set<string>
   send: (to: `client:${string}`, payload: Record<string, unknown>) => Promise<unknown>
   log: { append: (input: SessionLogInput) => Promise<unknown> }
 }
+
+const MAX_FORWARDED = 50_000
 
 /** Forward one device receipt to the partner whose release it is for. Returns whether it went. */
 export async function forwardReceipt(
@@ -27,7 +35,15 @@ export async function forwardReceipt(
   receipt: InjectReceiptPayload,
 ): Promise<boolean> {
   const owner = deps.releases.get(receipt.releaseId)
-  if (!owner) return false
+  if (!owner || owner.signer === 'host' || deps.isHostRelease?.(receipt.releaseId)) return false
+  // Only a seated device the release was addressed to, and only the first time per status.
+  const dests = deps.destinationsOf?.(from)
+  if (deps.destinationsOf && (!dests || !owner.targets.some((t) => dests.has(t)))) return false
+  const key = `${receipt.releaseId}:${from}:${receipt.status}`
+  if (deps.forwarded) {
+    if (deps.forwarded.has(key) || deps.forwarded.size >= MAX_FORWARDED) return false
+    deps.forwarded.add(key)
+  }
   const roleId = deps.roleOf(from)
   await deps.send(`client:${owner.from}`, {
     releaseId: receipt.releaseId,

@@ -65,6 +65,8 @@ export function CoControllersView(props: {
   onInvite?: (orgId: string) => void
   invite?: PartnerInviteView
   onCloseInvite?: () => void
+  staffSeats?: { locked: boolean; granted: boolean }
+  onGrantStaffSeats?: (granted: boolean) => void
 }) {
   const { view } = props
   return (
@@ -124,6 +126,19 @@ export function CoControllersView(props: {
           Send roster to devices
         </Button>
       </div>
+      {props.staffSeats?.locked && (
+        <div className="partner-warning">
+          <p>{PARTNER.staffClosed}</p>
+          <label className="partner-switch">
+            <input
+              type="checkbox"
+              checked={props.staffSeats.granted}
+              onChange={(e) => props.onGrantStaffSeats?.(e.target.checked)}
+            />
+            {PARTNER.staffGrant}
+          </label>
+        </div>
+      )}
       {props.invite && props.onCloseInvite && (
         <PartnerInviteBox invite={props.invite} onClose={props.onCloseInvite} />
       )}
@@ -137,6 +152,7 @@ export function CoControllers(props: { projectPath: string; scenarioId: string }
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [invite, setInvite] = useState<PartnerInviteView>()
+  const seats = useIpcQuery('live:staff-seats', req, { refetchInterval: 5_000 })
   const view = roster.data
   if (!view || (view.controllers.length === 0 && view.missingLiveKey.length === 0)) return null
   const send = () => {
@@ -164,6 +180,12 @@ export function CoControllers(props: { projectPath: string; scenarioId: string }
         onInvite={makeInvite}
         {...(invite ? { invite } : {})}
         onCloseInvite={() => setInvite(undefined)}
+        {...(seats.data ? { staffSeats: seats.data } : {})}
+        onGrantStaffSeats={(granted) =>
+          void call('live:staff-seats-set', { ...req, granted }).then(() =>
+            queryClient.invalidateQueries({ queryKey: ['live:staff-seats'] }),
+          )
+        }
       />
       {error && (
         <p className="field__error" role="alert">

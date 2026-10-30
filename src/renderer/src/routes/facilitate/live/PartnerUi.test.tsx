@@ -139,6 +139,24 @@ describe('partner invite', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
+  it('says staff seats are closed and lets the host open them again', () => {
+    const onGrant = vi.fn()
+    render(
+      <CoControllersView
+        view={view}
+        busy={false}
+        onSend={vi.fn()}
+        staffSeats={{ locked: true, granted: false }}
+        onGrantStaffSeats={onGrant}
+      />,
+    )
+    expect(screen.getByText(/carries the staff key/)).toBeTruthy()
+    fireEvent.click(
+      screen.getByRole('checkbox', { name: 'Open evaluator and SimCell helper seats again' }),
+    )
+    expect(onGrant).toHaveBeenCalledWith(true)
+  })
+
   it('has no axe violations', async () => {
     render(
       <CoControllersView
