@@ -3,6 +3,7 @@
 // user-visible "I-07"). Citation keys are resolved by the caller and passed in.
 import { normalizeSeamKey } from './lint-seams'
 import { placeIdsFor } from './places'
+import { validTriggers, type TriggerChoice } from './regulation-triggers'
 import {
   exerciseMinutes,
   formatExerciseTime,
@@ -560,6 +561,8 @@ export interface ApplyMselOptions {
   seamKeys?: Map<string, string>
   /** The project's places (#436): a row's place ids are checked, or filled from its event text. */
   places?: Place[]
+  /** The enabled regulation triggers (#426): a row's `triggers` are checked against them. */
+  triggers?: TriggerChoice[]
 }
 
 /** The phase's current rows split into those kept verbatim (locked or requested) and the rest. */
@@ -609,6 +612,7 @@ export function applyMselPhase(
     const injectId = injectIds.get(id)
     const seamId = opts.seamKeys?.get(normalizeSeamKey(r.seam) ?? '')
     const placeIds = opts.places ? placeIdsFor(r.placeIds, r.event, opts.places) : []
+    const triggers = validTriggers(r.triggers, opts.triggers ?? [], r)
     return {
       id,
       phaseId: phase.id,
@@ -626,6 +630,7 @@ export function applyMselPhase(
       locked: false,
       ...(seamId ? { seamId } : {}),
       ...(placeIds.length ? { placeIds } : {}),
+      ...(triggers.length ? { triggers } : {}),
     }
   })
   const sorted = [...kept, ...rows].sort(

@@ -104,7 +104,17 @@ section the action cites. Choosing one sets the check to Review, suggests a resu
 of expected points covered, and writes a note that names the run. Only the totals the program
 keeps are used, never answers or names. You can change the result and the note.
 
-## Not in this version
+## On players' own devices
 
-Running a drill on players' own devices through the live player page is specified in
-`docs/specs/0437-micro-tabletops.md` and not built yet.
+While a live session runs (Facilitate, Live), a Ready drill has a **Send to devices** button.
+Each player sees a **Join the drill** button, reads the situation, and answers one question at a
+time on their own phone. Your computer checks every answer against the plan and replies to that
+phone only; hints are the drill's prewritten ones, and a player sees the expected points of a
+question only after they have answered it. Other players never see an answer.
+
+The **On players' devices** panel shows each participant by label ("Participant 1"), whether the
+device is connected, how many questions they have answered and how many hints they used. **Close
+the drill and finish every run** ends it: each device's run is finished, added to the program's
+practised count, and opens in the debrief list like any other run. If no model can check answers
+reliably (the same three test answers as on this computer), players tick the points they covered
+instead. A session for surveys only cannot carry drills.

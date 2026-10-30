@@ -19,6 +19,7 @@ import {
   removeNames,
 } from '../../microdrill/store'
 import { loadMeta } from '../../ingest/storage'
+import { closeDrill, isSessionRunning, liveDrills, openDrill } from '../../live/session'
 import { jobs } from '../../jobs/manager'
 import { ensureDir, writeFileAtomic } from '../../lib/fs'
 import { requireProject } from '../../project/guard'
@@ -136,4 +137,15 @@ export default defineHandlers({
 
   'microdrills:debrief-pdf': async ({ projectPath, runId }) =>
     debriefPdf(await requireProject(projectPath), runId),
+
+  'microdrills:live-status': async ({ projectPath }) => ({
+    running: isSessionRunning(),
+    drills: liveDrills(await requireProject(projectPath)),
+  }),
+
+  'microdrills:live-open': async ({ projectPath, drillId, targets }) =>
+    openDrill(await requireProject(projectPath), drillId, targets),
+
+  'microdrills:live-close': async ({ projectPath, liveId }) =>
+    closeDrill(await requireProject(projectPath), liveId),
 })

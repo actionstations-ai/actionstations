@@ -27,6 +27,14 @@ import type {
   WelcomePayload,
 } from '../../shared/live/schemas'
 import type { KeyValue, Transport } from '../../shared/live/transport'
+import {
+  applyClose as applyDrillClose,
+  applyFeedback as applyDrillFeedback,
+  applyOpen as applyDrillOpen,
+  markPending as markDrillPending,
+  mayJoin as mayJoinDrill,
+  type DrillMap,
+} from '../features/drills/drills'
 import { MediaCache } from '../features/injects/media'
 import {
   applyClose as applySurveyClose,
@@ -148,6 +156,8 @@ export interface PlayerState {
   votes: VoteMap
   /** Surveys this device has heard of, by delivery id (spec 0422). */
   surveys: SurveyMap
+  /** Micro-drills sent to this device, by drill id (spec 0437). */
+  drills: DrillMap
   /** Voice calls this device has heard of, by call id (spec 0429). */
   calls: CallMap
   read: ReadonlySet<string>
@@ -254,6 +264,7 @@ export class PlayerSession {
       messages: [],
       votes: {},
       surveys: {},
+      drills: {},
       hotwash: EMPTY_HOTWASH,
       calls: {},
       read: new Set(),
@@ -542,6 +553,15 @@ export class PlayerSession {
           surveys: applySurveyClose(s.surveys, msg as Opened<'survey.close'>),
         }))
         break
+      case 'drill.open':
+        this.applyDrillOpen(msg as Opened<'drill.open'>)
+        return
+      case 'drill.close':
+        this.store.set((s) => ({ drills: applyDrillClose(s.drills, msg as Opened<'drill.close'>) }))
+        return
+      case 'drill.feedback':
+        this.applyDrillFeedback(msg as Opened<'drill.feedback'>)
+        return
       case 'call.ring':
         return this.applyCallRing(msg as Opened<'call.ring'>)
       case 'call.end':
@@ -613,6 +633,7 @@ export class PlayerSession {
       items: [],
       messages: [],
       surveys: {},
+      drills: {},
       hotwash: EMPTY_HOTWASH,
       calls: {},
       info: undefined,
@@ -1057,6 +1078,59 @@ export class PlayerSession {
       !this.state.catchingUp
     )
       this.deps.announcer.announce(STRINGS.surveys.announceOpen(msg.payload.title))
+  }
+
+  private applyDrillOpen(msg: Opened<'drill.open'>): void {
+    const { drills, isNew } = applyDrillOpen(this.state.drills, msg, this.now())
+    this.store.set({ drills })
+    if (
+      isNew &&
+      mayJoinDrill(drills[msg.payload.drillId]!, this.seatView()) &&
+      !this.state.catchingUp
+    )
+      this.deps.announcer.announce(STRINGS.drills.announceOpen(msg.payload.title))
+  }
+
+  private applyDrillFeedback(msg: Opened<'drill.feedback'>): void {
+    this.store.set((s) => ({ drills: applyDrillFeedback(s.drills, msg) }))
+    if (this.state.catchingUp) return
+    const p = msg.payload
+    this.deps.announcer.announce(
+      p.kind === 'hint'
+        ? STRINGS.drills.announceHint
+        : p.kind === 'error'
+          ? STRINGS.drills.announceError
+          : STRINGS.drills.announceReply,
+    )
+  }
+
+  /**
+   * Send an answer for checking, or (with `ask: 'hint'`) ask for the next hint. It goes out now
+   * or on reconnect; the reply arrives as a `drill.feedback` for this device only.
+   */
+  async sendDrillAnswer(
+    drillId: string,
+    stepId: string,
+    ask: 'check' | 'hint',
+    text = '',
+    ticked?: string[],
+  ): Promise<void> {
+    const drill = this.state.drills[drillId]
+    if (!drill || drill.status !== 'open' || !this.outbox) return
+    if (ask === 'check' && !text.trim()) return
+    this.store.set((s) => ({ drills: markDrillPending(s.drills, drillId, stepId) }))
+    await this.outbox.enqueue({
+      id: `drill:${drillId}:${stepId}:${ask}:${this.now()}`,
+      type: 'drill.answer',
+      to: 'controller',
+      payload: {
+        drillId,
+        stepId,
+        ask,
+        ...(ask === 'check' ? { text: text.trim().slice(0, 4000) } : {}),
+        ...(ticked ? { ticked } : {}),
+      },
+    })
   }
 
   /** Send this device's answers (or changed answers) to the controller, now or on reconnect. */

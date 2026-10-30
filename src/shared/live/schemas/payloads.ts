@@ -283,6 +283,66 @@ export const SurveyResponsePayload = z.strictObject({
 
 export const SurveyClosePayload = z.strictObject({ surveyId: Base64Url22 })
 
+/**
+ * A micro-drill on devices (spec 0437 FR-17). The open frame carries the situation and the
+ * questions only: expected points, hints and model answers stay on the controller and reach a
+ * device one at a time in `drill.feedback`. The frame is host-only.
+ */
+export const DrillOpenPayload = z.strictObject({
+  drillId: Base64Url22,
+  title: Text(120),
+  situation: Text(1_500),
+  durationMin: Int.min(1).max(60),
+  /** `checklist`: no model checks answers; the device ticks the points it covered. */
+  assessment: z.enum(['model', 'checklist']),
+  steps: z
+    .array(z.strictObject({ id: SafeId, prompt: Text(1_200) }))
+    .min(1)
+    .max(5),
+  targets: TargetList,
+})
+
+/** `check` sends an answer (and, in a checklist drill, the ticked points); `hint` asks for the next hint. */
+export const DrillAnswerPayload = z.strictObject({
+  drillId: Base64Url22,
+  stepId: SafeId,
+  ask: z.enum(['check', 'hint']),
+  text: Text(4_000).optional(),
+  ticked: z.array(SafeId).max(6).optional(),
+})
+
+const HintLevel = z.union([z.literal(1), z.literal(2), z.literal(3)])
+
+/** The controller's reply to one device (`client:<id>`): what the answer covered, a hint, or the points to tick. */
+export const DrillFeedbackPayload = z.strictObject({
+  drillId: Base64Url22,
+  stepId: SafeId,
+  kind: z.enum(['result', 'hint', 'checklist', 'error']),
+  covered: z.array(Text(300)).max(6).optional(),
+  /** Points not fully covered yet. */
+  left: Count.max(6).optional(),
+  followUp: Text(400).optional(),
+  /** The hint level on offer after a result, when the hint rule allows one. */
+  hintOffer: HintLevel.optional(),
+  hint: z
+    .strictObject({
+      level: HintLevel,
+      text: Text(600),
+      /** Where in the plan: heading path and page. */
+      where: Text(600).optional(),
+      quote: Text(600).optional(),
+    })
+    .optional(),
+  points: z
+    .array(z.strictObject({ id: SafeId, text: Text(300) }))
+    .max(6)
+    .optional(),
+  modelAnswer: Text(1_200).optional(),
+  message: Text(300).optional(),
+})
+
+export const DrillClosePayload = z.strictObject({ drillId: Base64Url22 })
+
 export const EvalAssignPayload = z.strictObject({
   assignmentId: Base64Url22,
   revision: Revision,
@@ -493,6 +553,10 @@ export const SEALED_PAYLOADS = {
   'survey.open': SurveyOpenPayload,
   'survey.response': SurveyResponsePayload,
   'survey.close': SurveyClosePayload,
+  'drill.open': DrillOpenPayload,
+  'drill.answer': DrillAnswerPayload,
+  'drill.feedback': DrillFeedbackPayload,
+  'drill.close': DrillClosePayload,
   'eval.assign': EvalAssignPayload,
   'eval.observation': EvalObservationPayload,
   'call.ring': CallRingPayload,
@@ -521,6 +585,10 @@ export type HotwashUpdatePayload = z.infer<typeof HotwashUpdatePayload>
 export type SurveyOpenPayload = z.infer<typeof SurveyOpenPayload>
 export type SurveyResponsePayload = z.infer<typeof SurveyResponsePayload>
 export type SurveyClosePayload = z.infer<typeof SurveyClosePayload>
+export type DrillOpenPayload = z.infer<typeof DrillOpenPayload>
+export type DrillAnswerPayload = z.infer<typeof DrillAnswerPayload>
+export type DrillFeedbackPayload = z.infer<typeof DrillFeedbackPayload>
+export type DrillClosePayload = z.infer<typeof DrillClosePayload>
 export type EvalAssignPayload = z.infer<typeof EvalAssignPayload>
 export type EvalObservationPayload = z.infer<typeof EvalObservationPayload>
 export type CallRingPayload = z.infer<typeof CallRingPayload>

@@ -100,6 +100,13 @@ import { focusCapabilities, missingGuides } from './eeg-focus'
 import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
 import { applyRuleSuggestions, enabledFrameworks } from './control-suggestions'
+import {
+  triggerNotes,
+  triggerPromptVars,
+  TRIGGER_PROPOSED,
+  type TriggerChoice,
+} from './regulation-triggers'
+import { enabledTriggers } from './regulation-triggers-load'
 import { baseVars, dataSafe, rowVars } from './vars'
 import { lintHazardCurrency } from './lint-realism'
 import { getSnapshot } from '../hazards/store'
@@ -637,9 +644,17 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   const phase = s.phases.find((p) => p.id === step.itemId)
   if (!phase) throw new AppError('NOT_FOUND', `No phase ${step.itemId} in scenario ${s.id}`)
   const owned = new Set(s.msel.filter((x) => x.phaseId === phase.id).map((x) => x.id))
-  const r = await call<MselPhaseOutput>(input, mselVars(input, phase))
+  const triggers = await enabledTriggers(env.root, env.project)
+  const r = await call<MselPhaseOutput>(input, {
+    ...mselVars(input, phase),
+    regulations: triggerPromptVars(triggers),
+  })
   const seamKeys = seamKeyMap(s)
-  let mapped = applyMselPhase(s, phase, r.output, r.retrieved, { seamKeys, places: env.places })
+  let mapped = applyMselPhase(s, phase, r.output, r.retrieved, {
+    seamKeys,
+    places: env.places,
+    triggers,
+  })
   applySeamRows(s, phase)
   const mix = await completeMix(input, phase, r)
   const extra = { stage: 'msel_phase' as const, itemId: phase.id }
@@ -647,6 +662,7 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
     mapped = applyMselPhase(s, phase, { rows: mix.rows }, r.retrieved, {
       seamKeys,
       places: env.places,
+      triggers,
     })
     applySeamRows(s, phase)
     env.ctx.log(
@@ -664,9 +680,17 @@ async function stepMselPhase(input: StepInput): Promise<StageRun> {
   const ids = new Set(mapped.rows.map((x) => x.id))
   const fresh = s.msel.filter((x) => ids.has(x.id))
   noteFacility(s, fresh, env)
+  noteTriggers(s, fresh, triggers)
   applyRuleSuggestions(await enabledFrameworks(env.root, env.project), s, fresh)
   await writeDoc(env, s, 'overview', renderMselMarkdown(s), `msel_phase ${phase.index + 1}`)
   return r.run
+}
+
+/** Flag the triggers the model placed on `rows` for the designer to confirm (#426). */
+function noteTriggers(s: Scenario, rows: readonly MselRow[], choices: readonly TriggerChoice[]) {
+  const ids = new Set(rows.map((r) => r.id))
+  s.warnings = s.warnings.filter((w) => !(w.code === TRIGGER_PROPOSED && ids.has(w.rowId ?? '')))
+  s.warnings.push(...triggerNotes(rows, choices))
 }
 
 /** FR-4: each seam placed in the phase leaves it with a row; an assignment is recorded. */

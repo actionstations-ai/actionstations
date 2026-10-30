@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 9
+version: 10
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -54,6 +54,7 @@ variables:
     facility,
     places,
     phaseSeams,
+    regulations,
   ]
 ---
 
@@ -118,7 +119,7 @@ EXAMPLE ROWS (three different organizations, shown only for style and density; i
 {"id":"I-03b","time":"0:50","from":"Street Supervisor","to":["ops","fleet"],"event":"Radio Call: \"Dispatch, Supervisor 12. Bus 2231 on Route 41 is sitting at Elm and 9th with its hazards on. Operator says the farebox rebooted twice and now shows a blank screen. Riders are boarding for free.\"","expectedAction":"Ops tells the operator to continue in service with fare bypass per SOP 3.4; Fleet logs a defect ticket; nobody connects it to the dispatch problem yet.","purposeTag":"NOISE","format":"radio_call","citations":[]}
 {"id":"I-04","time":"1:05","from":"Social Media","to":["pio"],"event":"Post (@SectionOneTwoFan): \"Gate C at the arena just STOPPED scanning tickets, line is 200 deep and nobody is saying anything. Is this a hack?? #StadiumFail\" — 180 reposts in 15 minutes with a photo of the queue.","expectedAction":"PIO logs sentiment and prepares a holding statement about gate delays; does NOT confirm a cause before Ops and IT verify.","purposeTag":"PRESSURE","format":"tweet","citations":[]}
 
-Return JSON only, matching the schema: { rows: [ { id, time, from, to[], event, expectedAction, purposeTag, format, citations[], seam?, placeIds? } ] }.
+Return JSON only, matching the schema: { rows: [ { id, time, from, to[], event, expectedAction, purposeTag, format, citations[], seam?, placeIds?, triggers? } ] }.
 <!-- @context -->
 {{doctrine}}
 <!-- @user -->
@@ -141,6 +142,9 @@ Roles (use these keys in "to"):
 {{/if}}{{#if places.length}}PLACES (the exercise's named places; an inject that happens at one sets "placeIds" to its id, at most three per inject, and uses the place's name in the event; ids not on this list are ignored):
 {{#each places}}- {{id}}: {{label}}
 {{/each}}
+{{/if}}{{#if regulations.length}}REPORTING TRIGGERS (the regulations this exercise practises start a reporting clock at these moments; a row that is that moment sets "triggers" to the matching [{ "regulationId", "triggerId" }], copied exactly from this list, at most two per row; ids not on this list are ignored):
+{{#each regulations}}- {{regulationId}} / {{triggerId}} ({{regulation}}): {{label}}{{#if hint}}. {{hint}}{{/if}}
+{{/each}}Place the moment where it would really happen in the story, for example the row in which the organization's counsel or incident lead confirms that the incident is material, or in which a ransom payment is made. Write the moment into the event and the expected action in plain words (who decides, what they now know), never the regulation's name or a deadline in the event text. Set "triggers" only on a row whose own event is that moment, never on a row that merely mentions the incident (an agency's email, a news story, a status update). A phase usually has one such row or none; most rows have no trigger.
 {{/if}}Phase arc:
 {{#each phases}}- Phase {{number}}: {{title}} ({{startTime}}–{{endTime}}). {{goal}}
 {{/each}}

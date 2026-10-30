@@ -92,6 +92,10 @@ export const MESSAGE_TYPES = [
   'survey.open',
   'survey.response',
   'survey.close',
+  'drill.open',
+  'drill.answer',
+  'drill.feedback',
+  'drill.close',
   'eval.assign',
   'eval.observation',
   'call.ring',
@@ -137,6 +141,9 @@ export const SIGNED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'hotwash.update',
   'survey.open',
   'survey.close',
+  'drill.open',
+  'drill.feedback',
+  'drill.close',
   'eval.assign',
   'call.ring',
   'controller.notice',
@@ -151,6 +158,9 @@ export const SIGNED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
 export const HOST_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'welcome',
   'clock.state',
+  'drill.open',
+  'drill.feedback',
+  'drill.close',
   'eval.assign',
   'controller.roster',
   'partner.receipt',
@@ -177,6 +187,7 @@ export const PARTICIPANT_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageT
 export const CLIENT_ADDRESSED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'partner.receipt',
   'simcell.draft',
+  'drill.feedback',
 ])
 
 /** Never stored for catch-up. */
@@ -220,6 +231,10 @@ export const KEY_BY_TYPE: Record<Exclude<MessageType, PlaintextType>, KeyRule> =
   'survey.open': 'players',
   'survey.response': 'controller',
   'survey.close': 'players',
+  'drill.open': 'players',
+  'drill.answer': 'controller',
+  'drill.feedback': 'players',
+  'drill.close': 'players',
   'eval.assign': 'staff',
   'eval.observation': 'controller',
   'call.ring': 'players',

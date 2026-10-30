@@ -73,6 +73,9 @@ function plan(type: SealedType): { to: Destination; key: SealKind; from: string 
   const rule = KEY_BY_TYPE[type]
   if (rule === 'controller') return { to: 'controller', key: 'controller', from: IDS.playerA }
   if (rule === 'staff') return { to: `client:${IDS.evaluator}`, key: 'staff', from: IDS.controller }
+  if (type === 'drill.feedback') {
+    return { to: `client:${IDS.playerA}`, key: 'players', from: IDS.controller }
+  }
   return { to: 'all', key: 'players', from: IDS.controller }
 }
 
@@ -1052,6 +1055,52 @@ describe('co-controller permissions and the partner and SimCell helper types (#5
         reason: 'UNSIGNED_CONTROLLER_MESSAGE',
       })
     }
+  })
+
+  it('drill frames: host-only, feedback to one device, answers sealed to the controller (#437)', async () => {
+    const ctl = await makeController()
+    const { player, controller } = await contexts(ctl)
+    const { co, staff } = await coWith(ctl, ['inject'])
+    staff.roster.controllers[0]!.scope.all = true
+    for (const type of ['drill.open', 'drill.close'] as const) {
+      const env = await seal(ctl.crypto, ctl.keys, header(type), PAYLOAD_FIXTURES[type], {
+        signer: ctl.signing.privateKey,
+      })
+      expect((await open(encodeFrame(env), player)).ok).toBe(true)
+      const forged = await seal(ctl.crypto, ctl.keys, header(type), PAYLOAD_FIXTURES[type], {
+        signer: co.privateKey,
+      })
+      expect((await open(encodeFrame(forged), staff)) as object).toMatchObject({
+        reason: 'OUT_OF_SCOPE',
+      })
+    }
+    await expect(
+      seal(
+        ctl.crypto,
+        ctl.keys,
+        header('drill.feedback', { to: 'all' }),
+        PAYLOAD_FIXTURES['drill.feedback'],
+        {
+          signer: ctl.signing.privateKey,
+        },
+      ),
+    ).rejects.toMatchObject({ code: 'KEY_RULE' })
+    const feedback = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('drill.feedback', { to: `client:${IDS.playerA}` }),
+      PAYLOAD_FIXTURES['drill.feedback'],
+      { signer: ctl.signing.privateKey },
+    )
+    expect((await open(encodeFrame(feedback), player)).ok).toBe(true)
+    const answer = await seal(
+      ctl.crypto,
+      (await contexts(ctl)).playerKeys,
+      header('drill.answer', { from: IDS.playerA, to: 'controller' }),
+      PAYLOAD_FIXTURES['drill.answer'],
+    )
+    expect(answer.payload).toMatchObject({ k: 'c' })
+    expect((await open(encodeFrame(answer), controller)).ok).toBe(true)
   })
 
   it('refuses to seal a staff-only frame to a role or to everyone', async () => {

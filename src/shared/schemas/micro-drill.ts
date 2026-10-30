@@ -130,7 +130,8 @@ export const MicroDrillRun = z.looseObject({
   drillVersion: z.number().int(),
   drillTitle: z.string().max(120),
   annex: Annex,
-  where: z.enum(['this_computer']).default('this_computer'),
+  /** `player_page`: one device, one run, started from the facilitator's computer (FR-17). */
+  where: z.enum(['this_computer', 'player_page']).default('this_computer'),
   participants: z
     .array(z.object({ label: z.string().max(40), name: z.string().max(80).optional() }))
     .min(1)

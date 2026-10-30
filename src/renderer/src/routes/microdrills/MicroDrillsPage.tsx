@@ -13,14 +13,18 @@ import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { BuildPanel } from './BuildPanel'
 import { DebriefView } from './DebriefView'
+import { DrillLivePanel } from './DrillLivePanel'
 import { MicroDrillEditor } from './MicroDrillEditor'
 import { RunView } from './RunView'
+import { sendDrillToDevices, useLiveDrills } from './use-live-drills'
 import './microdrills.css'
 
 function DrillCard(props: {
   drill: MicroDrillListItem
   projectPath: string
   onOpen: (view: 'edit' | 'run') => void
+  /** A live session runs, so the drill can go to players' devices. */
+  canSend: boolean
 }) {
   const { drill, projectPath } = props
   const [confirming, setConfirming] = useState(false)
@@ -70,6 +74,14 @@ function DrillCard(props: {
         >
           Run
         </Button>
+        {props.canSend && (
+          <Button
+            disabled={drill.status !== 'ready'}
+            onClick={() => void sendDrillToDevices(projectPath, drill.id)}
+          >
+            Send to devices
+          </Button>
+        )}
         <Button onClick={() => props.onOpen('edit')}>Review and edit</Button>
         <Button onClick={() => void removeNames()}>Remove names from runs</Button>
         {confirming ? (
@@ -139,6 +151,7 @@ export default function MicroDrillsPage() {
   const drillId = search.get('drill') ?? ''
   const runId = search.get('run') ?? ''
   const list = useIpcQuery('microdrills:list', { projectPath })
+  const live = useLiveDrills(projectPath)
   const go = (next: Record<string, string>) => setSearch(next)
   const back = () => setSearch({})
 
@@ -167,6 +180,7 @@ export default function MicroDrillsPage() {
         {MICRO_DRILL_EVIDENCE_NOTE}
       </p>
       <BuildPanel projectPath={projectPath} onBuilt={(id) => go({ view: 'edit', drill: id })} />
+      <DrillLivePanel projectPath={projectPath} />
       <section aria-labelledby="micro-library-title" className="stack">
         <h2 id="micro-library-title" className="section-title">
           Your drills
@@ -185,6 +199,7 @@ export default function MicroDrillsPage() {
                 key={d.id}
                 drill={d}
                 projectPath={projectPath}
+                canSend={live.running}
                 onOpen={(v) => go({ view: v, drill: d.id })}
               />
             ))}

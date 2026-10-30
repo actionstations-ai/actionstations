@@ -11,6 +11,8 @@ import { Clock } from '../components/Clock'
 import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
 import { NO_HELPER_STATE } from '../features/simcell/helper'
+import { DrillBanner } from '../features/drills/DrillBanner'
+import { DrillScreen } from '../features/drills/DrillScreen'
 import { SurveyBanner } from '../features/surveys/SurveyBanner'
 import { SurveysScreen } from '../features/surveys/SurveysScreen'
 import { CallBanner, CallScreen } from '../features/calls/CallScreen'
@@ -33,6 +35,7 @@ export function RoomShell({
   bundleVersion: string
 }) {
   const [surveys, setSurveys] = useState<{ initial?: string } | undefined>(undefined)
+  const [drillId, setDrillId] = useState<string | undefined>(undefined)
   const [voteId, setVoteId] = useState<string | undefined>(undefined)
   const [callId, setCallId] = useState<string | undefined>(undefined)
   const info = useStore(session.store, (s) => s.info)
@@ -86,6 +89,7 @@ export function RoomShell({
   const select = (next: Tab) => {
     if (next === 'messages' && !canMessage) return
     setSurveys(undefined)
+    setDrillId(undefined)
     setTab(next)
   }
   const seatName = seat?.role
@@ -131,12 +135,16 @@ export function RoomShell({
         onOpen={(initial) => setSurveys({ initial })}
         viewing={!!surveys}
       />
+      <DrillBanner session={session} onOpen={setDrillId} viewing={!!drillId} />
       <main className="room__main" id="content">
         {callId ? (
           <CallScreen session={session} callId={callId} onClose={() => setCallId(undefined)} />
         ) : null}
         {!callId && voteId ? (
           <VoteScreen session={session} voteId={voteId} onBack={() => setVoteId(undefined)} />
+        ) : null}
+        {!voteId && !callId && !surveys && drillId ? (
+          <DrillScreen session={session} drillId={drillId} onBack={() => setDrillId(undefined)} />
         ) : null}
         {!voteId && !callId && surveys ? (
           <SurveysScreen
@@ -145,16 +153,16 @@ export function RoomShell({
             onBack={() => setSurveys(undefined)}
           />
         ) : null}
-        {!voteId && !surveys && !callId && tab === 'inbox' ? (
+        {!voteId && !surveys && !callId && !drillId && tab === 'inbox' ? (
           <InboxScreen session={session} />
         ) : null}
-        {!voteId && !surveys && !callId && tab === 'feed' ? (
+        {!voteId && !surveys && !callId && !drillId && tab === 'feed' ? (
           <FeedScreen session={session} onOpenTab={select} />
         ) : null}
-        {!voteId && !surveys && !callId && tab === 'messages' ? (
+        {!voteId && !surveys && !callId && !drillId && tab === 'messages' ? (
           <MessagesScreen session={session} />
         ) : null}
-        {!voteId && !surveys && !callId && tab === 'more' ? (
+        {!voteId && !surveys && !callId && !drillId && tab === 'more' ? (
           <MoreScreen
             session={session}
             prefsStore={prefsStore}
