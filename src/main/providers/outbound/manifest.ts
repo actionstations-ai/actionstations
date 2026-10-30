@@ -33,6 +33,7 @@ export interface ManifestInput {
   requestHash: string
   redactable: boolean
   images?: { name: string; dataUrl: string }[]
+  sources?: { title: string; passages: number }[]
   parts: ManifestPart[]
   excerpts: ManifestExcerpt[]
   jobId?: string
@@ -77,6 +78,7 @@ export function buildManifest(input: ManifestInput): OutboundManifest {
     estimatedTokens: Math.ceil(totalChars / 4),
     redactable: input.redactable,
     ...(input.images?.length ? { images: input.images } : {}),
+    ...(input.sources?.length ? { sources: input.sources } : {}),
     createdAt: nowIso(),
   }
 }

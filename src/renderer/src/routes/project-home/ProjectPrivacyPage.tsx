@@ -14,6 +14,7 @@ import { useIpcMutation, useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
 import { CloudPrivacySummary } from './CloudPrivacySummary'
 import { CloudSends } from './CloudSends'
+import { NeverSendCard } from './NeverSendCard'
 import '../../components/privacy/privacy.css'
 
 const SAMPLE_DELAY_MS = 300
@@ -156,6 +157,7 @@ export default function ProjectPrivacyPage() {
       />
       <CloudPrivacySummary projectPath={projectPath} />
       <ProjectPrivacySettings projectPath={projectPath} />
+      <NeverSendCard projectPath={projectPath} />
       <RedactionSample projectPath={projectPath} />
       <CloudSends projectPath={projectPath} />
     </div>

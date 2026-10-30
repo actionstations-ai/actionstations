@@ -98,6 +98,7 @@ describe('privacy settings', () => {
       redact: {},
       neverRedact: [],
       alwaysRedact: ['Big Mike'],
+      neverSend: [],
     })
     const sample = await call<{ text: string }>('privacy:preview-redaction', {
       projectPath,

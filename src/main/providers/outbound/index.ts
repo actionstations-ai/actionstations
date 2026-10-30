@@ -16,6 +16,7 @@ import { isProjectFolder } from '../../project/store'
 import type { EmbeddingProvider, MediaProvider, TextProvider } from '../types'
 import { Approvals } from './approvals'
 import { guardEmbedding, guardMedia, guardText, isGuarded, type GateDeps } from './gate'
+import './withheld'
 import { appendSend } from './send-log'
 import { detectContextFor, enabledCategories, privacyFor, registryFor } from './settings'
 

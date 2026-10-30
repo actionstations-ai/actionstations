@@ -39,6 +39,11 @@ async function embedderFor(root: string): Promise<EmbeddingProvider | undefined>
   }
 }
 
+async function withheldFor(root: string, embedder: EmbeddingProvider) {
+  const { neverSendDocuments } = await import('../providers/outbound/never-send')
+  return neverSendDocuments(root, embedder)
+}
+
 /** The checker's context for a scenario of the project at `root`. */
 export async function contextFor(
   root: string,
@@ -59,6 +64,7 @@ export async function contextFor(
     facts: factKeys(facilityEntries(facility), scenario.roles),
     ignore: roleIgnores(scenario.roles),
     ...(embedder ? { embedder } : {}),
+    ...(embedder?.remote ? { withheldDocuments: await withheldFor(root, embedder) } : {}),
     now: nowIso,
   }
 }

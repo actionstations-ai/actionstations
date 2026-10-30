@@ -38,6 +38,8 @@ export function mergePrivacy(global: PrivacySettings, project?: ProjectPrivacy):
     redact: { ...global.redact, ...(project?.redact ?? {}) },
     alwaysRedact: project?.alwaysRedact ?? global.alwaysRedact,
     neverRedact: project?.neverRedact ?? global.neverRedact,
+    // Never-send only grows: a project adds to the app-wide list and cannot shrink it.
+    neverSend: [...new Set([...global.neverSend, ...(project?.neverSend ?? [])])],
   })
 }
 
@@ -67,6 +69,7 @@ export function tightenWith(base: PrivacySettings, file?: ProjectPrivacy): Priva
     review: file.review && isStricterReview(file.review, base.review) ? file.review : base.review,
     redact,
     alwaysRedact: [...new Set([...base.alwaysRedact, ...(file.alwaysRedact ?? [])])].slice(0, 500),
+    neverSend: [...new Set([...base.neverSend, ...(file.neverSend ?? [])])].slice(0, 500),
   })
 }
 
@@ -80,6 +83,8 @@ export function stricterPart(global: PrivacySettings, local: ProjectPrivacy): Pr
   if (on.length) out.redact = Object.fromEntries(on.map((c) => [c, true]))
   const extra = (local.alwaysRedact ?? []).filter((t) => !global.alwaysRedact.includes(t))
   if (extra.length) out.alwaysRedact = extra
+  const withheld = (local.neverSend ?? []).filter((id) => !global.neverSend.includes(id))
+  if (withheld.length) out.neverSend = withheld
   return out
 }
 

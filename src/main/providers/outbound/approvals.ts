@@ -63,11 +63,23 @@ interface Pending {
   reject: (e: Error) => void
 }
 
+/**
+ * Thrown to the caller of a request the user answered by leaving excerpts out. The stage that
+ * made the request catches it and builds the request again without those sections (#502).
+ */
+export class ExcerptsLeftOut extends AppError {
+  constructor(readonly chunkIds: number[]) {
+    super('CONFLICT', 'Some plan sections were left out of this request')
+    this.name = 'ExcerptsLeftOut'
+  }
+}
+
 const cancelled = (): AppError => new AppError('CANCELLED', 'Cancelled before sending')
 
 export class Approvals {
   private scopes = new Map<string, ScopeState>()
   private pending = new Map<string, Pending>()
+  private omitted = new Map<string, Set<number>>()
 
   constructor(private readonly hooks: ApprovalHooks) {}
 
@@ -120,7 +132,12 @@ export class Approvals {
   }
 
   /** The user's answer. The hash must be the one the user saw (FR-8). */
-  decide(requestId: string, requestHash: string, decision: ApprovalDecision): void {
+  decide(
+    requestId: string,
+    requestHash: string,
+    decision: ApprovalDecision,
+    leaveOut: number[] = [],
+  ): void {
     const p = this.pending.get(requestId)
     if (!p) throw new AppError('NOT_FOUND', 'That request is no longer waiting for approval.')
     if (p.manifest.requestHash !== requestHash)
@@ -130,6 +147,7 @@ export class Approvals {
       if (p.manifest.jobId) this.hooks.cancelJob(p.manifest.jobId)
       return
     }
+    if (decision === 'leave-out') return this.leaveOut(p, leaveOut)
     const state = this.state(p.scopeKey)
     state.approved = true
     for (const h of p.content) state.content.add(h)
@@ -140,6 +158,20 @@ export class Approvals {
     this.pending.delete(requestId)
     this.hooks.settled(p.manifest)
     p.resolve({ approval: 'asked', approvedHash: requestHash })
+  }
+
+  /** Chunks the user left out of requests in this job; later stages skip them too. */
+  leftOut(jobId: string): Set<number> {
+    return this.omitted.get(jobId) ?? new Set()
+  }
+
+  private leaveOut(p: Pending, chunkIds: number[]): void {
+    const known = new Set(p.manifest.excerpts.map((e) => e.chunkId))
+    const ids = [...new Set(chunkIds)].filter((id) => known.has(id))
+    if (!ids.length) throw new AppError('VALIDATION', 'Choose at least one section to leave out.')
+    const jobId = p.manifest.jobId
+    if (jobId) this.omitted.set(jobId, new Set([...this.leftOut(jobId), ...ids]))
+    this.drop(p.manifest.requestId, new ExcerptsLeftOut(ids))
   }
 
   /** Settings changed: every pending request (of one project, when given) is rebuilt. */
@@ -154,6 +186,7 @@ export class Approvals {
 
   /** A job ended: forget what it approved and drop anything it still waits for. */
   endJob(jobId: string): void {
+    this.omitted.delete(jobId)
     for (const key of [...this.scopes.keys()])
       if (key.startsWith(`${jobId}\u0000`)) this.scopes.delete(key)
     for (const p of [...this.pending.values()])

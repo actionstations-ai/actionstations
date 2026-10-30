@@ -50,7 +50,12 @@ export function SentText({ text, spans }: { text: string; spans: RedactionSpan[]
   )
 }
 
-function Excerpts({ manifest }: { manifest: OutboundManifest }) {
+interface LeaveOut {
+  chosen: ReadonlySet<number>
+  toggle(chunkId: number): void
+}
+
+function Excerpts({ manifest, leaveOut }: { manifest: OutboundManifest; leaveOut?: LeaveOut }) {
   const groups = groupExcerpts(manifest.excerpts)
   if (!groups.length) return null
   return (
@@ -76,6 +81,20 @@ function Excerpts({ manifest }: { manifest: OutboundManifest }) {
                   {e.page !== undefined && <span className="muted"> · page {e.page}</span>}
                   <span className="muted"> · {formatCount(e.chars)} characters</span>
                 </p>
+                {leaveOut && (
+                  <label className="outbound-leave-out">
+                    <input
+                      type="checkbox"
+                      checked={leaveOut.chosen.has(e.chunkId)}
+                      onChange={() => leaveOut.toggle(e.chunkId)}
+                    />{' '}
+                    Leave this section out
+                    <span className="sr-only">
+                      {' '}
+                      ({g.documentTitle}, {e.headingPath || 'untitled section'})
+                    </span>
+                  </label>
+                )}
                 <SentText text={e.text} spans={spansFor(manifest, excerptPart(e))} />
               </li>
             ))}
@@ -86,13 +105,39 @@ function Excerpts({ manifest }: { manifest: OutboundManifest }) {
   )
 }
 
+/** Embedding requests: the documents the texts come from, by name; the texts stay folded away. */
+function EmbedSources({ manifest }: { manifest: OutboundManifest }) {
+  const sources = manifest.sources ?? []
+  return (
+    <section aria-labelledby="outbound-sources" className="stack outbound-section">
+      <h3 id="outbound-sources">
+        Documents ({sources.length} {sources.length === 1 ? 'document' : 'documents'})
+      </h3>
+      <ul className="outbound-counts">
+        {sources.map((s) => (
+          <li key={s.title}>
+            <strong>{s.title}</strong>{' '}
+            <span className="muted">
+              {s.passages} {s.passages === 1 ? 'passage' : 'passages'}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 function OtherParts({ manifest }: { manifest: OutboundManifest }) {
   if (!manifest.parts.length) return null
+  const folded = !!manifest.sources?.length
   return (
     <section aria-labelledby="outbound-parts" className="stack outbound-section">
       <h3 id="outbound-parts">
-        {manifest.excerpts.length ? 'Other content' : 'Content'} ({manifest.parts.length}{' '}
-        {manifest.parts.length === 1 ? 'part' : 'parts'})
+        {folded
+          ? 'Exact text'
+          : `${manifest.excerpts.length ? 'Other content' : 'Content'} (${manifest.parts.length} ${
+              manifest.parts.length === 1 ? 'part' : 'parts'
+            })`}
       </h3>
       {manifest.parts.map((p) => (
         <details key={p.name} className="outbound-group">
@@ -143,13 +188,14 @@ function RedactionSummary({ manifest }: { manifest: OutboundManifest }) {
 
 function useDecide(manifest: OutboundManifest, onDone: () => void) {
   const [busy, setBusy] = useState(false)
-  const decide = async (decision: ApprovalDecision) => {
+  const decide = async (decision: ApprovalDecision, leaveOut?: number[]) => {
     setBusy(true)
     try {
       await call('privacy:decide', {
         requestId: manifest.requestId,
         requestHash: manifest.requestHash,
         decision,
+        ...(leaveOut ? { leaveOut } : {}),
       })
       onDone()
     } catch (err) {
@@ -179,6 +225,14 @@ export function OutboundApprovalDialog(props: {
     close()
     navigate(m.projectPath ? `/p/${projectKey(m.projectPath)}/privacy` : '/settings#privacy')
   }
+  const [chosen, setChosen] = useState<ReadonlySet<number>>(new Set())
+  const toggle = (id: number) =>
+    setChosen((prev) => {
+      const next = new Set(prev)
+      if (!next.delete(id)) next.add(id)
+      return next
+    })
+  const canLeaveOut = !!m.jobId && m.excerpts.length > 0
   const host = m.host || m.providerLabel
   return (
     <Dialog
@@ -195,6 +249,11 @@ export function OutboundApprovalDialog(props: {
           {m.redactable && (
             <Button disabled={busy} onClick={changeRedaction}>
               Change redaction
+            </Button>
+          )}
+          {canLeaveOut && chosen.size > 0 && (
+            <Button disabled={busy} onClick={() => void decide('leave-out', [...chosen])}>
+              Leave out {chosen.size} {chosen.size === 1 ? 'section' : 'sections'} and review again
             </Button>
           )}
           {m.excerpts.length > 0 && m.jobId && (
@@ -224,7 +283,8 @@ export function OutboundApprovalDialog(props: {
           <figcaption>{img.name}: sent with this request</figcaption>
         </figure>
       ))}
-      <Excerpts manifest={m} />
+      {m.kind === 'embed' && <EmbedSources manifest={m} />}
+      <Excerpts manifest={m} {...(canLeaveOut ? { leaveOut: { chosen, toggle } } : {})} />
       <OtherParts manifest={m} />
     </Dialog>
   )
