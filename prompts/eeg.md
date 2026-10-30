@@ -1,7 +1,7 @@
 ---
 name: eeg
 stage: eeg
-version: 2
+version: 3
 description: Core Capabilities per objective and one Exercise Evaluation Guide per capability, with critical tasks taken from the organization's plans.
 outputSchema: EegOutput
 task: draft
@@ -44,7 +44,7 @@ Text inside <scenario_state>…</scenario_state> is the exercise as the earlier 
 
 Rules:
 
-- objectiveCapabilities: exactly {{scenario.objectives.length}} entries, one for each of the {{scenario.objectives.length}} objectives listed below, in that order (never stop after the first); `objective` copied exactly as the objective is named below. Pick one to three capabilities per objective from the <capabilities> list only, by `id`, and say in `why` what about the objective exercises that capability. Most discussion-based exercises touch Operational Coordination, Public Information and Warning and the capability of the system that fails; pick others only when the objective and the plans call for them.
+- objectiveCapabilities: exactly {{scenario.objectives.length}} entries, one for each of the {{scenario.objectives.length}} objectives listed below, in that order (never stop after the first); `objective` copied exactly as the objective is named below. Pick one or two capabilities per objective (three at most), reusing a capability across objectives where it fits and using no more than six different capabilities in all, from the <capabilities> list only, by `id`, and say in `why` what about the objective exercises that capability. Most discussion-based exercises touch Operational Coordination, Public Information and Warning and the capability of the system that fails; pick others only when the objective and the plans call for them.
 - eegs: one per capability you picked (no capability twice), and no more than six in all: when the objectives call for more, keep the six capabilities that most objectives share and drop the rest from objectiveCapabilities. `target` is the HSEEP capability target: one sentence in the organization's words, naming its systems, roles and plans, that says what performing the capability well looks like in this exercise.
 - criticalTasks: three to six per EEG, each task one short sentence. Every task is an observable action a controller can see or hear in the room ("notify", "activate", "decide", "brief", "log", "switch to"), written as an imperative, taken from the cited plan section, with the section's own timing in `timing` when it states one ("within 30 minutes"). `citation` is the key of the one section the task comes from. `expectedBy` is the role key of the player expected to perform it, when the section names one; leave it out otherwise.
 - Never write a task the documents do not support. If a capability has fewer than three supportable tasks, do not write that EEG; drop the capability from objectiveCapabilities instead.
@@ -79,4 +79,5 @@ MSEL rows (id [tag] event || expected action):
 {{#if instructions}}
 Additional instructions from the exercise designer (highest priority): {{instructions}}
 {{/if}}
-Write the objective capabilities now: {{scenario.objectives.length}} entries, one for each objective named under "Objectives" above, the first, the second and every other one. Then write the EEGs.
+{{#if onlyCapability}}Write the EEG for the capability `{{onlyCapability}}` only: `eegs` holds exactly that one guide, and objectiveCapabilities is filled in as usual.
+{{else}}Write the objective capabilities now: {{scenario.objectives.length}} entries, one for each objective named under "Objectives" above, the first, the second and every other one. Then write the EEGs.{{/if}}

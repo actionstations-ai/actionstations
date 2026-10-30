@@ -96,6 +96,7 @@ import {
   applySitMan,
   stripKeysDeep,
 } from './mappers'
+import { focusCapabilities, missingGuides } from './eeg-focus'
 import { runStage, StageFailure, type StageCall, type StageResult } from './stage'
 import { contextFor, regroundScenario } from '../grounding/project'
 import { applyRuleSuggestions, enabledFrameworks } from './control-suggestions'
@@ -802,29 +803,66 @@ async function stepRubric(input: StepInput): Promise<StageRun> {
  * instead of relaxing the requirement: an EEG without plan citations is a generic one.
  */
 /** EegOutput with exactly one objectiveCapabilities entry per objective (qwen3 stopped after one). */
-function onePerObjective(count: number): NonNullable<StageCall['refineSchema']> {
+function onePerObjective(count: number, guides?: number): NonNullable<StageCall['refineSchema']> {
   return (schema) =>
     count > 0 && schema === EegOutput
       ? EegOutput.extend({
           objectiveCapabilities: EegOutput.shape.objectiveCapabilities.min(count).max(count),
+          ...(guides ? { eegs: EegOutput.shape.eegs.min(guides).max(guides) } : {}),
         })
       : schema
+}
+
+/**
+ * The guides the first reply left out, one call each (a reply that maps every objective to
+ * several capabilities tends to write a single guide and stop). A failed call is logged and
+ * the guide stays missing, which the EEG_GUIDE_MISSING lint then shows.
+ */
+async function writeMissingGuides(
+  input: StepInput,
+  baseVars: Record<string, unknown>,
+  out: EegOutput,
+  run: StageRun,
+): Promise<EegOutput> {
+  const eegs = [...out.eegs]
+  for (const capability of missingGuides(out)) {
+    try {
+      const more = await call<EegOutput>(
+        input,
+        { ...baseVars, onlyCapability: capability },
+        undefined,
+        EEG_NO_SECTIONS,
+        onePerObjective(input.scenario.objectives.length, 1),
+      )
+      sumTokens(run, more.run)
+      const guide = more.output.eegs.find((e) => e.capability === capability)
+      if (guide) eegs.push(guide)
+    } catch (err) {
+      input.env.ctx.log(`eeg: no guide for ${capability}: ${toAppError(err).message}`, 'warn', {
+        stage: 'eeg',
+      })
+    }
+  }
+  return { ...out, eegs }
 }
 
 async function stepEeg(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const capabilities = orderedCapabilities(env.domain.profile.coreCapabilities)
+  const eegVars = vars(input, {
+    capabilities,
+    objectives: s.objectives.map((o) => ({ name: o.name, text: o.text })),
+  })
   const r = await call<EegOutput>(
     input,
-    vars(input, {
-      capabilities,
-      objectives: s.objectives.map((o) => ({ name: o.name, text: o.text })),
-    }),
+    eegVars,
     undefined,
     EEG_NO_SECTIONS,
     onePerObjective(s.objectives.length),
   )
-  const applied = applyEeg(s, r.output, r.retrieved)
+  const focused = { ...r.output, objectiveCapabilities: focusCapabilities(r.output) }
+  const output = await writeMissingGuides(input, eegVars, focused, r.run)
+  const applied = applyEeg(s, output, r.retrieved)
   clearPipelineWarnings(s, (w) => w.rowId === EEG_ROW)
   noteDropped(s, 'eeg', applied.dropped, env.ctx)
   const extra = { stage: 'eeg' as const }

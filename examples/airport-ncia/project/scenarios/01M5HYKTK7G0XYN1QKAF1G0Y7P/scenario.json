@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-30T11:11:16.910Z",
+  "updatedAt": "2026-10-30T12:27:52.154Z",
   "brief": {
     "userPrompt": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything.",
     "audience": [
@@ -445,68 +445,48 @@
       {
         "objectiveId": "obj-recognition",
         "capability": "intelligence_and_information_sharing",
-        "why": "The ability to recognize social engineering techniques relies on sharing and analyzing patterns of deceptive behavior across threat sources, as outlined in the AEP's intelligence and information sharing protocols for threat identification and response."
+        "why": "The exercise tests the ability to recognize deceptive information patterns (e.g., false authority, urgency) and share that awareness across teams, as required in the TIRP and AEP for threat identification and response coordination."
       },
       {
         "objectiveId": "obj-recognition",
         "capability": "access_control_and_identity_verification",
-        "why": "Recognition of social engineering attacks is directly tied to verifying identity and authority before granting access, a core function of access control procedures in the ASP and AEP."
-      },
-      {
-        "objectiveId": "obj-recognition",
-        "capability": "situational_assessment",
-        "why": "Effective recognition requires real-time assessment of the context and credibility of incoming requests, ensuring that decisions are based on a full understanding of the threat environment and operational status."
+        "why": "Each contact involves a test of identity verification procedures, directly tied to the airport's policy on badge issuance and access control under 49 CFR § 1542.211 and the ASP's role in verifying legitimate access requests."
       },
       {
         "objectiveId": "obj-verification",
         "capability": "access_control_and_identity_verification",
-        "why": "Verification procedures are the foundation of access control, requiring formal checks of identity and authority before granting entry or sharing sensitive information, as mandated in the ASP and AEP."
+        "why": "The core of verification is the application of formal procedures to confirm identities and legitimacy of requests, as mandated in the ASP and TIRP for badge access, vendor visits, and federal agent claims."
       },
       {
         "objectiveId": "obj-verification",
         "capability": "operational_communications",
-        "why": "Verification depends on secure, direct communication channels to confirm identities and requests, ensuring that no unauthorized or unverified information is acted upon."
+        "why": "Verification requires reliable, direct communication with authorized sources (e.g., calling the FSD, TSA office, or the Airport Director's office), which is a key function of operational communications as defined in the AEP and TIRP."
       },
       {
-        "objectiveId": "obj-verification",
-        "capability": "planning",
-        "why": "Verification is guided by established procedures and checklists developed through formal planning, ensuring consistency and compliance with policy across all teams."
+        "objectiveId": "obj-judgment",
+        "capability": "situational_assessment",
+        "why": "Judgment is exercised by evaluating the context, timing, and consistency of each contact against known plans and procedures (e.g., pre-arranged inspections, vendor work orders), which is a direct function of situational assessment in the AEP and TIRP."
       },
       {
         "objectiveId": "obj-judgment",
         "capability": "intelligence_and_information_sharing",
-        "why": "Judgment about the legitimacy of a request depends on comparing incoming information against known threat patterns and verified sources, a function of intelligence and information sharing."
-      },
-      {
-        "objectiveId": "obj-judgment",
-        "capability": "situational_assessment",
-        "why": "Judgment requires evaluating the context, timing, and consistency of a request with known operations, as supported by situational assessment procedures in the AEP."
-      },
-      {
-        "objectiveId": "obj-judgment",
-        "capability": "public_information_and_warning",
-        "why": "Judgment in public-facing roles (e.g., PIO) must align with public information standards to prevent misinformation and ensure consistent messaging, particularly when under pressure to respond."
+        "why": "The ability to distinguish real from fake relies on cross-checking information across sources (e.g., verifying a TSA inspector's call via the FSD office), a core function of intelligence and information sharing as defined in the AEP and TIRP."
       },
       {
         "objectiveId": "obj-composure",
         "capability": "on_scene_security_protection_and_law_enforcement",
-        "why": "Composure under pressure is essential for security and law enforcement roles, especially when faced with intimidation or authority-based deception, as required by the ASP and AEP."
-      },
-      {
-        "objectiveId": "obj-composure",
-        "capability": "operational_communications",
-        "why": "Maintaining composure ensures that communication remains clear, professional, and effective, preventing escalation and supporting accurate information exchange during high-pressure interactions."
+        "why": "Maintaining composure under pressure — such as intimidation by a fake FBI agent or flattery from a reporter — is essential for security personnel to uphold authority and prevent escalation, as required in the ASP and TIRP."
       },
       {
         "objectiveId": "obj-composure",
         "capability": "public_information_and_warning",
-        "why": "Composure is critical for public information roles to maintain credibility and consistency when under emotional or psychological pressure from flattery, sympathy, or urgency."
+        "why": "The PIO team must remain calm and consistent when handling media inquiries, even under emotional appeal (e.g., a worried traveler), to ensure accurate and professional public messaging, as required in the AEP and TIRP."
       }
     ],
     "eegs": [
       {
         "capability": "access_control_and_identity_verification",
-        "target": "The Airport Security Coordinator (ASC) and designated access control personnel must verify all individuals requesting access to restricted areas using the ASC's official contact list and the TSA-approved verification process, including direct call to the TSA Federal Security Director's office for any claim of federal authority.",
+        "target": "The Security and Operations teams will verify all access requests using documented procedures, including badge issuance, vendor work order validation, and direct verification with the TSA Federal Security Director, the FBI field office, and the Airport Director's office, as required by the ASP and TIRP.",
         "objectiveRefs": [
           "obj-recognition",
           "obj-verification"
@@ -515,7 +495,7 @@
           {
             "id": "T-01",
             "capability": "access_control_and_identity_verification",
-            "task": "Verify the caller's identity by calling the TSA Federal Security Director's office directly using the contact listed in the ASP.",
+            "task": "Verify the identity of any individual requesting access to secured areas by contacting the TSA Federal Security Director's office directly via known number.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -524,9 +504,10 @@
               "chunkId": 44
             },
             "expectedBy": "security-team",
-            "timing": "within 5 minutes of receiving the call",
+            "timing": "within 5 minutes of receiving a claim of federal authority",
             "rowIds": [
-              "C-01"
+              "C-01",
+              "C-10"
             ],
             "objectiveRefs": [
               "obj-recognition",
@@ -537,7 +518,7 @@
           {
             "id": "T-02",
             "capability": "access_control_and_identity_verification",
-            "task": "Confirm the work order number with the vendor's official contact and verify the requestor's name against the approved vendor list.",
+            "task": "Confirm the validity of a vendor visit by checking the work order number against the official vendor list and contacting the contracting manager.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -545,10 +526,10 @@
               "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
               "chunkId": 95
             },
-            "expectedBy": "security-team",
-            "timing": "before escorting any visitor",
+            "expectedBy": "ops-team",
+            "timing": "before escorting any vendor to a secured area",
             "rowIds": [
-              "C-02"
+              "C-07"
             ],
             "objectiveRefs": [
               "obj-recognition",
@@ -559,7 +540,7 @@
           {
             "id": "T-03",
             "capability": "access_control_and_identity_verification",
-            "task": "Request a government-issued photo ID and cross-check the name and badge number with the official airport access control database.",
+            "task": "Refuse entry to any individual without verified credentials, including when pressured by claims of urgency or authority.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -568,30 +549,9 @@
               "chunkId": 58
             },
             "expectedBy": "security-team",
-            "timing": "before issuing any temporary badge",
+            "timing": "immediately upon refusal of verification",
             "rowIds": [
-              "C-05"
-            ],
-            "objectiveRefs": [
-              "obj-recognition",
-              "obj-verification"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-04",
-            "capability": "access_control_and_identity_verification",
-            "task": "Call the local FBI field office to verify the credentials and authority of any individual claiming to be a federal agent.",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
-              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
-              "chunkId": 44
-            },
-            "expectedBy": "security-team",
-            "timing": "within 10 minutes of receiving the request",
-            "rowIds": [
+              "C-01",
               "C-10"
             ],
             "objectiveRefs": [
@@ -603,17 +563,58 @@
         ]
       },
       {
-        "capability": "intelligence_and_information_sharing",
-        "target": "The Airport Emergency Plan (AEP) and the Threat and Incident Response Plan (TIRP) require that all teams share and cross-reference incoming threat indicators, including social engineering patterns, through the established intelligence and information sharing protocol to identify and respond to deceptive requests.",
+        "capability": "operational_communications",
+        "target": "The IT and Operations teams will use only verified, direct contact methods (e.g., known phone numbers, official email addresses) to confirm requests for remote access, system changes, or data sharing, as required by the AEP and TIRP.",
         "objectiveRefs": [
-          "obj-recognition",
-          "obj-judgment"
+          "obj-verification"
         ],
         "criticalTasks": [
           {
+            "id": "T-04",
+            "capability": "operational_communications",
+            "task": "Call the IT helpdesk directly using the official number to confirm a remote access request.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+              "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+              "chunkId": 124
+            },
+            "expectedBy": "it-team",
+            "timing": "within 10 minutes of receiving a remote access request",
+            "rowIds": [
+              "C-08"
+            ],
+            "objectiveRefs": [
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
             "id": "T-05",
-            "capability": "intelligence_and_information_sharing",
-            "task": "Report any suspicious contact to the Airport Security Coordinator (ASC) via the designated alert channel within 10 minutes of detection.",
+            "capability": "operational_communications",
+            "task": "Contact the Airport Director's office directly to verify a voicemail request for password reset or data access.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "it-team",
+            "timing": "immediately upon receiving a request to bypass standard procedures",
+            "rowIds": [
+              "C-12"
+            ],
+            "objectiveRefs": [
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_communications",
+            "task": "Use the known emergency contact list to verify any claim of authority from a federal agent, vendor, or airline executive.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -621,80 +622,14 @@
               "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
               "chunkId": 44
             },
-            "timing": "within 10 minutes",
-            "rowIds": [
-              "C-01",
-              "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
-            ],
-            "objectiveRefs": [
-              "obj-recognition",
-              "obj-judgment"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-06",
-            "capability": "intelligence_and_information_sharing",
-            "task": "Compare the details of incoming requests against the known list of legitimate vendors, federal agencies, and internal contacts in the AEP and TIRP.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "timing": "before acting on any request",
-            "rowIds": [
-              "C-01",
-              "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
-            ],
-            "objectiveRefs": [
-              "obj-recognition",
-              "obj-judgment"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-07",
-            "capability": "intelligence_and_information_sharing",
-            "task": "Update the threat log in the AEP with details of any social engineering attempt, including technique used and response taken.",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 7 › 7.1 Training and Exercises",
-              "quote": "- **Annual Tabletop Exercise (TTX):** discussion-based exercise testing command and control (e.g., Cyber Incident, Severe Weather). - **Triennial Full-Scale Exercise (FSE):** live exercise with resour",
-              "chunkId": 24
-            },
             "expectedBy": "security-team",
-            "timing": "within 15 minutes of conclusion",
+            "timing": "before acting on any request involving access or data",
             "rowIds": [
               "C-01",
-              "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
+              "C-10"
             ],
             "objectiveRefs": [
-              "obj-recognition",
-              "obj-judgment"
+              "obj-verification"
             ],
             "locked": false
           }
@@ -702,16 +637,15 @@
       },
       {
         "capability": "situational_assessment",
-        "target": "All teams must assess the context, timing, and consistency of incoming requests against known operational plans and schedules, including inspection calendars, vendor work orders, and event approvals, to determine legitimacy and avoid deception.",
+        "target": "The Operations and Security teams will assess the context, timing, and consistency of each contact against known plans and schedules (e.g., pre-arranged inspections, vendor maintenance), as required by the AEP and TIRP.",
         "objectiveRefs": [
-          "obj-recognition",
           "obj-judgment"
         ],
         "criticalTasks": [
           {
-            "id": "T-08",
+            "id": "T-07",
             "capability": "situational_assessment",
-            "task": "Check the official inspection calendar to confirm the scheduled fire suppression inspection.",
+            "task": "Compare the timing and content of a contact to the official inspection calendar to determine legitimacy.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -725,15 +659,14 @@
               "C-03"
             ],
             "objectiveRefs": [
-              "obj-recognition",
               "obj-judgment"
             ],
             "locked": false
           },
           {
-            "id": "T-09",
+            "id": "T-08",
             "capability": "situational_assessment",
-            "task": "Verify the work order number against the official vendor contract database and confirm escort protocol.",
+            "task": "Verify that a vendor visit matches the scheduled maintenance window and documented work order.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -741,10 +674,42 @@
               "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
               "chunkId": 95
             },
-            "expectedBy": "it-team",
-            "timing": "before authorizing access",
+            "expectedBy": "ops-team",
+            "timing": "before authorizing escort",
             "rowIds": [
               "C-07"
+            ],
+            "objectiveRefs": [
+              "obj-judgment"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The Security, IT, and Public Information teams will share verified information across roles to confirm the legitimacy of requests, using established contact points and verification protocols as defined in the ASP and TIRP.",
+        "objectiveRefs": [
+          "obj-recognition",
+          "obj-judgment"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-09",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share verification results with the appropriate team (e.g., IT to Security) when a request involves cross-functional authority.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+              "chunkId": 44
+            },
+            "expectedBy": "security-team",
+            "timing": "within 5 minutes of completing verification",
+            "rowIds": [
+              "C-01",
+              "C-10"
             ],
             "objectiveRefs": [
               "obj-recognition",
@@ -754,19 +719,20 @@
           },
           {
             "id": "T-10",
-            "capability": "situational_assessment",
-            "task": "Confirm the community event approval status against the official events calendar and contact the community relations office if uncertain.",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Confirm a media request by referring to the PIO team's approved messaging guide and sharing details only through the designated spokesperson.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
             },
-            "expectedBy": "ops-team",
-            "timing": "before finalizing logistics",
+            "expectedBy": "pio-team",
+            "timing": "before responding to any media inquiry",
             "rowIds": [
-              "C-11"
+              "C-04",
+              "C-09"
             ],
             "objectiveRefs": [
               "obj-recognition",
@@ -776,8 +742,8 @@
           },
           {
             "id": "T-11",
-            "capability": "situational_assessment",
-            "task": "Compare the details of the request (e.g., domain, name, timing) with known legitimate sources and known patterns of deception.",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Verify a vendor's legitimacy by checking the official vendor list and cross-referencing with the contracted maintenance schedule.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -785,17 +751,11 @@
               "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
               "chunkId": 95
             },
-            "timing": "before acting",
+            "expectedBy": "ops-team",
+            "timing": "before approving any vendor visit",
             "rowIds": [
-              "C-01",
               "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
+              "C-07"
             ],
             "objectiveRefs": [
               "obj-recognition",
@@ -806,61 +766,16 @@
         ]
       },
       {
-        "capability": "operational_communications",
-        "target": "All teams must use secure, direct, and verified communication channels to confirm identities, requests, and actions, avoiding unverified or unsolicited messages, and ensuring that all interactions are documented and traceable.",
+        "capability": "on_scene_security_protection_and_law_enforcement",
+        "target": "The Security team will maintain composure and enforce access control procedures under pressure, including when faced with intimidation, flattery, or false authority, as required by the ASP and TIRP.",
         "objectiveRefs": [
-          "obj-verification",
           "obj-composure"
         ],
         "criticalTasks": [
           {
             "id": "T-12",
-            "capability": "operational_communications",
-            "task": "Call the helpdesk directly using the official number listed in the AEP to verify the identity of the caller.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "expectedBy": "ops-team",
-            "timing": "within 5 minutes",
-            "rowIds": [
-              "C-08"
-            ],
-            "objectiveRefs": [
-              "obj-verification",
-              "obj-composure"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-13",
-            "capability": "operational_communications",
-            "task": "Contact the Airport Director's office directly using the official number to verify the legitimacy of the voicemail request.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "expectedBy": "it-team",
-            "timing": "within 5 minutes",
-            "rowIds": [
-              "C-12"
-            ],
-            "objectiveRefs": [
-              "obj-verification",
-              "obj-composure"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-14",
-            "capability": "operational_communications",
-            "task": "Use the official emergency contact list to verify any claim of federal authority or emergency status.",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Refuse access to any individual claiming federal authority if they refuse to be verified by the local FBI field office.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -869,45 +784,55 @@
               "chunkId": 44
             },
             "expectedBy": "security-team",
-            "timing": "before acting on any emergency request",
+            "timing": "immediately upon refusal of verification",
             "rowIds": [
-              "C-01",
               "C-10"
             ],
             "objectiveRefs": [
-              "obj-verification",
               "obj-composure"
             ],
             "locked": false
           },
           {
-            "id": "T-15",
-            "capability": "operational_communications",
-            "task": "Log all verification attempts and outcomes in the AEP incident log within 10 minutes of the interaction.",
+            "id": "T-13",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Maintain a professional tone and follow protocol when a request involves emotional appeal, such as a new employee claiming to be late for a meeting.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
+              "headingPath": "AEP › Part I › Section 7 › 7.1 Training and Exercises",
+              "quote": "- **Annual Tabletop Exercise (TTX):** discussion-based exercise testing command and control (e.g., Cyber Incident, Severe Weather). - **Triennial Full-Scale Exercise (FSE):** live exercise with resour",
+              "chunkId": 24
             },
-            "timing": "within 10 minutes",
+            "expectedBy": "security-team",
+            "timing": "during all interactions involving access requests",
             "rowIds": [
-              "C-01",
-              "C-02",
-              "C-03",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-07",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-11",
-              "C-12"
+              "C-05"
             ],
             "objectiveRefs": [
-              "obj-verification",
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Deny entry to any individual who cannot produce verified credentials, even if they claim to be in a hurry or under stress.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 4 › 4.1 Authority (49 CFR § 1542.211)",
+              "quote": "Badges issued to individuals with a legitimate operational need. Possession is a privilege, not a right.",
+              "chunkId": 58
+            },
+            "expectedBy": "security-team",
+            "timing": "at all times",
+            "rowIds": [
+              "C-01",
+              "C-05",
+              "C-10"
+            ],
+            "objectiveRefs": [
               "obj-composure"
             ],
             "locked": false
@@ -916,30 +841,50 @@
       },
       {
         "capability": "public_information_and_warning",
-        "target": "The Public Information Officer (PIO) must deliver consistent, accurate, and non-identifying information to the public and media, using approved messaging templates and avoiding any disclosure of sensitive security details, even under emotional or flattery-based pressure.",
+        "target": "The Public Information team will maintain composure and deliver consistent, accurate, and professional responses to media and public inquiries, even under emotional or flattery-based pressure, as required by the AEP and TIRP.",
         "objectiveRefs": [
-          "obj-judgment",
           "obj-composure"
         ],
         "criticalTasks": [
           {
-            "id": "T-16",
+            "id": "T-15",
             "capability": "public_information_and_warning",
-            "task": "Refer media inquiries about security systems to the official TSA website and decline to provide details on access control systems.",
+            "task": "Refer a media inquiry about security systems to the official spokesperson and decline to provide details on access control or emergency equipment.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
             },
             "expectedBy": "pio-team",
-            "timing": "immediately",
+            "timing": "before responding to any media request",
             "rowIds": [
-              "C-04"
+              "C-04",
+              "C-09"
             ],
             "objectiveRefs": [
-              "obj-judgment",
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Decline to provide information about checkpoint lanes or emergency equipment locations to a public inquiry, citing policy.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
+            },
+            "expectedBy": "pio-team",
+            "timing": "during all public-facing interactions",
+            "rowIds": [
+              "C-09"
+            ],
+            "objectiveRefs": [
               "obj-composure"
             ],
             "locked": false
@@ -947,130 +892,21 @@
           {
             "id": "T-17",
             "capability": "public_information_and_warning",
-            "task": "Decline to provide specific details about checkpoint lanes, AED locations, or emergency equipment placement.",
+            "task": "Maintain a calm and consistent tone when handling emotionally charged messages, such as a worried traveler's DM.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
             },
             "expectedBy": "pio-team",
-            "timing": "immediately",
+            "timing": "throughout the exercise",
             "rowIds": [
               "C-09"
             ],
             "objectiveRefs": [
-              "obj-judgment",
               "obj-composure"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-18",
-            "capability": "public_information_and_warning",
-            "task": "Use the approved media response template to acknowledge interest and redirect to a general interview.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "expectedBy": "pio-team",
-            "timing": "within 5 minutes",
-            "rowIds": [
-              "C-04",
-              "C-09"
-            ],
-            "objectiveRefs": [
-              "obj-judgment",
-              "obj-composure"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "planning",
-        "target": "All teams must follow the verification procedures and decision-making protocols established in the Airport Emergency Plan (AEP) and Threat and Incident Response Plan (TIRP), including the use of the Social Engineering Reference Card and the verification checklist, to ensure consistency and compliance.",
-        "objectiveRefs": [
-          "obj-verification"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-19",
-            "capability": "planning",
-            "task": "Review the Social Engineering Reference Card and verification checklist before responding to any contact.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "timing": "before any response",
-            "rowIds": [
-              "START"
-            ],
-            "objectiveRefs": [
-              "obj-verification"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-20",
-            "capability": "planning",
-            "task": "Use the verification checklist to assess each contact for signs of authority, urgency, familiarity, helpfulness, flattery, intimidation, or sympathy.",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
-              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
-              "chunkId": 95
-            },
-            "timing": "before making any decision",
-            "rowIds": [
-              "C-01",
-              "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
-            ],
-            "objectiveRefs": [
-              "obj-verification"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-21",
-            "capability": "planning",
-            "task": "Document the verification process and outcome in the AEP incident log for each contact.",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
-            },
-            "timing": "within 10 minutes",
-            "rowIds": [
-              "C-01",
-              "C-02",
-              "C-04",
-              "C-05",
-              "C-06",
-              "C-08",
-              "C-09",
-              "C-10",
-              "C-12"
-            ],
-            "objectiveRefs": [
-              "obj-verification"
             ],
             "locked": false
           }
@@ -2051,13 +1887,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T10:59:25.731Z",
-      "finishedAt": "2026-10-30T10:59:57.100Z",
+      "startedAt": "2026-10-30T12:10:15.934Z",
+      "finishedAt": "2026-10-30T12:10:41.360Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 6222,
-      "outputTokens": 2627,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 6247,
+      "outputTokens": 2188,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

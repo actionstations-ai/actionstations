@@ -804,7 +804,14 @@ function adoptPackagedProject(spec, out) {
 function stageComplete(stage, s) {
   if (stage === 'sitman') return (s.sitman?.modules.length ?? 0) === s.phases.length
   const covered = new Set((s.evaluation?.objectiveCapabilities ?? []).map((p) => p.objectiveId))
-  return stage !== 'eeg' || s.objectives.every((o) => covered.has(o.id))
+  if (stage !== 'eeg') return true
+  const guides = s.evaluation?.eegs ?? []
+  const guided = new Set(guides.map((e) => e.capability))
+  return (
+    s.objectives.every((o) => covered.has(o.id)) &&
+    (s.evaluation?.objectiveCapabilities ?? []).every((p) => guided.has(p.capability)) &&
+    (s.objectives.length <= 2 || guides.length > 1)
+  )
 }
 
 const STAGE_TRIES = 3

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T02:10:33.381Z",
-  "updatedAt": "2026-10-30T11:11:49.313Z",
+  "updatedAt": "2026-10-30T12:28:24.617Z",
   "brief": {
     "userPrompt": "Ransomware detonates on the business network at City Hall on a Monday morning: the billing system MBW-CIS-01, the AMI head-end MBW-AMI-01 and the file server MBW-FS-01 are encrypted and a ransom note names the city. The SCADA domain MBWSCADA trusts the business domain and firewall rule FW-R-17 carries SMB from the engineering workstation to the backup server MBW-BKP-01, so City IT wants to island the control network while the plant decides whether to go to manual operations, customer service loses billing and the outage map, and the mayor asks whether the water is safe.",
     "audience": [
@@ -1270,76 +1270,81 @@
       {
         "objectiveId": "01M5RD6K3AZAZ6J72GKM1ZA8XM",
         "capability": "operational_coordination",
-        "why": "The objective requires unified coordination across DWS teams using secure, non-electronic channels (phone and radio DWS-1) to maintain a single set of facts, which is the core of operational coordination in a crisis."
+        "why": "The objective requires unified coordination across the Control Room, Customer Service, and PIO to maintain consistent messaging and operational status, which aligns with the HSEEP capability of Operational Coordination as defined in the ERP and OT Plan."
       },
       {
         "objectiveId": "01M5RD6K3AZAZ6J72GKM1ZA8XM",
         "capability": "public_information_and_warning",
-        "why": "The objective includes keeping the PIO and customer service aligned on messaging to prevent misinformation, which is a key function of public information and warning."
-      },
-      {
-        "objectiveId": "01M5RD6K3AZAZ6J72GKM1ZA8XM",
-        "capability": "operational_communications",
-        "why": "The objective demands a shift to secure, reliable communication methods (phone and radio) to maintain situational awareness and operational continuity, which is the essence of operational communications."
+        "why": "The objective demands timely, accurate, and actionable public messaging through approved channels, including media inquiries and hold statements, which directly maps to Public Information and Warning as per the PCP and ERP Section 10."
       },
       {
         "objectiveId": "01M5RD6K3A53WHGDGSE446XZF1",
-        "capability": "planning",
-        "why": "The objective involves making a time-bound, evidence-based decision on network isolation and operational mode, which requires applying a structured, plan-driven process to assess risk and select actions."
+        "capability": "operational_coordination",
+        "why": "The decision to island the control network and shift to manual operations requires integration of technical, operational, and compliance roles, which is a core function of Operational Coordination under the ERP and OT Plan."
       },
       {
         "objectiveId": "01M5RD6K3A53WHGDGSE446XZF1",
         "capability": "infrastructure_systems",
-        "why": "The decision directly impacts the stability and functionality of the water treatment plant, a critical infrastructure system, and must be made to minimize health and safety threats and maintain service continuity."
-      },
-      {
-        "objectiveId": "01M5RD6K3A53WHGDGSE446XZF1",
-        "capability": "cybersecurity",
-        "why": "The decision to island the network is a core cybersecurity action to contain a threat to the control system, prevent further compromise, and protect the integrity of the SCADA environment."
+        "why": "The decision directly impacts the stability and continuity of the water treatment and distribution system, which is the focus of Infrastructure Systems as defined in the OT Plan and ERP Section 7."
       },
       {
         "objectiveId": "01M5RD6K3A3DG2JGTPQRTZ2D1K",
         "capability": "cybersecurity",
-        "why": "The objective centers on identifying and mitigating cyber attack vectors (firewall rules and domain trust) to contain and neutralize the threat, which is the primary function of cybersecurity."
+        "why": "The objective involves identifying and closing cyber pathways (FW-R-17, FW-R-14, domain trust) and preserving evidence without system reboot, which is a direct application of Cybersecurity as per OT Plan 10.7 and 10.3."
       },
       {
         "objectiveId": "01M5RD6K3A3DG2JGTPQRTZ2D1K",
         "capability": "forensics_and_attribution",
-        "why": "The objective requires examining logs and system states to determine how the attacker penetrated the network and to establish the evidence for the attack’s path and impact, which aligns with forensic analysis and attribution."
-      },
-      {
-        "objectiveId": "01M5RD6K3A3DG2JGTPQRTZ2D1K",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective includes verifying and revoking access points (e.g., service accounts, domain trust) to prevent further unauthorized access, which is a core function of access control and identity verification."
+        "why": "The need to analyze logs, detect payload staging, and preserve forensic evidence from MBW-SCADA-SRV02 and MBW-EWS-01 for CISA and FBI reporting aligns with Forensics and Attribution, as the plan requires evidence collection for attribution and response."
       },
       {
         "objectiveId": "01M5RD6K3BX84MJ6HZ08YNEA0N",
-        "capability": "planning",
-        "why": "The objective requires executing a formal, pre-defined checklist (OT Plan 10.5) and adhering to established reporting timelines and procedures, which reflects the systematic, executable approach of planning."
+        "capability": "operational_coordination",
+        "why": "The objective requires execution of standardized checklists, reporting clocks, and workarounds across multiple agencies, which depends on coordinated, structured execution—core to Operational Coordination."
       },
       {
         "objectiveId": "01M5RD6K3BX84MJ6HZ08YNEA0N",
         "capability": "public_information_and_warning",
-        "why": "The objective includes issuing a public statement on water safety based on lab results, which requires coordinated, accurate, and timely information to the public, a core function of public information and warning."
-      },
-      {
-        "objectiveId": "01M5RD6K3BX84MJ6HZ08YNEA0N",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective involves reporting to multiple external agencies (CISA, FBI, WaterISAC, Ohio EPA) and sharing information about the incident, which is a direct application of intelligence and information sharing."
+        "why": "The objective includes issuing public advisories, managing media inquiries, and using approved holding statements, which are defined actions under Public Information and Warning in the PCP and ERP Section 10."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander ensures that all DWS teams—Control Room, Customer Service, and Public Information—use the same facts and secure communication channels (phone and radio DWS-1) to maintain a unified operational structure during a cyber incident.",
+        "target": "The Incident Commander, SCADA / IT Security Manager, Water Quality Manager, Public Information Officer, and Customer Service Lead maintain a unified operational structure by sharing real-time status updates via radio DWS-1 and phone, confirming roles and responsibilities per ERP Section 8, and ensuring all teams operate from the same set of facts during a cyber incident.",
         "objectiveRefs": [
-          "01M5RD6K3AZAZ6J72GKM1ZA8XM"
+          "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+          "01M5RD6K3A53WHGDGSE446XZF1",
+          "01M5RD6K3BX84MJ6HZ08YNEA0N"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Switch all DWS coordination from email and MBW-FS-01 to phone and radio DWS-1 immediately after the first report.",
+            "task": "Notify the Incident Commander, SCADA / IT Security Manager, Water Quality Manager, Public Information Officer, and Customer Service Lead by phone within 5 minutes of the first report (I-01)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
+              "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
+              "chunkId": 15
+            },
+            "expectedBy": "ops",
+            "timing": "Within 5 minutes",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Confirm that all teams are using radio DWS-1 and phone for coordination and not email or MBW-FS-01 after 09:00",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1350,40 +1355,20 @@
             "expectedBy": "ops",
             "timing": "Immediately",
             "rowIds": [
-              "I-01"
+              "I-01",
+              "I-02"
             ],
             "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-02",
-            "capability": "operational_coordination",
-            "task": "Confirm that the Control Room, Customer Service, and PIO are using the same version of the cyber holding statement and sample data.",
-            "citation": {
-              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
-              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
-              "chunkId": 84
-            },
-            "expectedBy": "ops",
-            "timing": "Within 15 minutes of Level 2",
-            "rowIds": [
-              "I-04",
-              "I-07b",
-              "I-14"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
             ],
             "locked": false
           },
           {
             "id": "T-03",
             "capability": "operational_coordination",
-            "task": "Log the initial coordination shift and the shared facts on ERP-1 within 5 minutes of the switch.",
+            "task": "Log the decision to island the control network and the shift to manual operations on ERP-1 within 30 minutes of the SIEM alert (I-02)",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1392,12 +1377,91 @@
               "chunkId": 14
             },
             "expectedBy": "ops",
-            "timing": "Within 5 minutes",
+            "timing": "Within 30 minutes",
             "rowIds": [
-              "I-01"
+              "I-02",
+              "I-06b",
+              "I-11"
             ],
             "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Report the status of the control network, plant mode, and staffing to the Director and City Manager via radio DWS-1 and phone within 1 hour of Level 2 (I-05)",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
+              "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
+              "chunkId": 15
+            },
+            "expectedBy": "ops",
+            "timing": "Within 1 hour",
+            "rowIds": [
+              "I-05",
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Confirm that the Water Quality Manager, Customer Service Lead, and Public Information Officer are using the same facts about plant status and water quality for public messaging",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 5 › 5.1 General",
+              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
+              "chunkId": 14
+            },
+            "expectedBy": "wq",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-04",
+              "I-08",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Acknowledge and log all media inquiries and customer calls through the paper intake form and media log",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 5 › 5.1 General",
+              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
+              "chunkId": 14
+            },
+            "expectedBy": "cs",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-04",
+              "I-07",
+              "I-13",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
+              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3BX84MJ6HZ08YNEA0N"
             ],
             "locked": false
           }
@@ -1405,16 +1469,16 @@
       },
       {
         "capability": "public_information_and_warning",
-        "target": "The Public Information Officer delivers a consistent, factual, and actionable statement to the public, media, and external agencies, confirming that the plant is operating and water quality is being monitored, without speculating on the attack.",
+        "target": "The Public Information Officer (PIO) delivers coordinated, prompt, reliable, and actionable information to the community using the approved holding statement, media script, and public advisory triggers from the ERP and PCP, ensuring all public-facing messages are consistent and based on verified facts from the Water Quality Manager and Incident Commander.",
         "objectiveRefs": [
           "01M5RD6K3AZAZ6J72GKM1ZA8XM",
           "01M5RD6K3BX84MJ6HZ08YNEA0N"
         ],
         "criticalTasks": [
           {
-            "id": "T-04",
+            "id": "T-07",
             "capability": "public_information_and_warning",
-            "task": "Use the cyber holding statement (PCP Section 10.5) to respond to media inquiries about the attack.",
+            "task": "Use the cyber holding statement (PCP Section 10.5) to respond to media inquiries without confirming or speculating on the attack.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
@@ -1423,7 +1487,7 @@
               "chunkId": 84
             },
             "expectedBy": "pio",
-            "timing": "Immediately",
+            "timing": "Within 5 minutes of a media inquiry",
             "rowIds": [
               "I-04",
               "I-07b",
@@ -1436,18 +1500,18 @@
             "locked": false
           },
           {
-            "id": "T-05",
+            "id": "T-08",
             "capability": "public_information_and_warning",
-            "task": "Confirm the water quality status from the latest grab samples before issuing any public statement on safety.",
+            "task": "Confirm with the Incident Commander and Water Quality Manager that the latest grab sample results are within normal bands before issuing any statement on water safety.",
             "citation": {
-              "documentId": "01M5H5QTJS7VJES1A8WZHASZR5",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — SCADA System Description (Appendix A to the OT / Cybersecurity Plan)",
-              "headingPath": "City of Millbrook Department of… › Section A › A.9.2 Historian",
-              "quote": "MBW-HIST-01 stores all analog tags at 10-second resolution for 2 years and all digital tags on change. The Water Quality Manager pulls monthly operating reports from it for the Ohio EPA DDAGW; the Lab",
-              "chunkId": 158
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+              "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+              "chunkId": 79
             },
-            "expectedBy": "wq",
-            "timing": "Within 10 minutes of sample receipt",
+            "expectedBy": "pio",
+            "timing": "Before any on-camera statement",
             "rowIds": [
               "I-08",
               "I-19"
@@ -1459,9 +1523,9 @@
             "locked": false
           },
           {
-            "id": "T-06",
+            "id": "T-09",
             "capability": "public_information_and_warning",
-            "task": "Log all media inquiries and public statements in the media log and share them with the Incident Commander.",
+            "task": "Log all media inquiries and public statements in the media log and the paper intake form, including the source and time of the request.",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1470,7 +1534,7 @@
               "chunkId": 14
             },
             "expectedBy": "pio",
-            "timing": "Immediately",
+            "timing": "Immediately after the call",
             "rowIds": [
               "I-04",
               "I-07b",
@@ -1481,118 +1545,11 @@
               "01M5RD6K3BX84MJ6HZ08YNEA0N"
             ],
             "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "operational_communications",
-        "target": "The Incident Commander ensures that all DWS teams maintain operational continuity by using only secure, non-electronic communication channels (phone and radio DWS-1) and that all messages are verified and recorded.",
-        "objectiveRefs": [
-          "01M5RD6K3AZAZ6J72GKM1ZA8XM"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-07",
-            "capability": "operational_communications",
-            "task": "Activate radio DWS-1 and switch all team communications to phone and radio DWS-1 after the first report.",
-            "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 5 › 5.1 General",
-              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
-              "chunkId": 14
-            },
-            "expectedBy": "ops",
-            "timing": "Immediately",
-            "rowIds": [
-              "I-01"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
-            ],
-            "locked": false
           },
-          {
-            "id": "T-08",
-            "capability": "operational_communications",
-            "task": "Verify that all team members have received and acknowledged the initial coordination shift and the shared facts.",
-            "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 5 › 5.2 Internal Call-Down",
-              "quote": "| Step | From | To | Time limit | |---|---|---|---| | 1 | Person observing | RWTP Control Room (555) 031-2244 | Immediately (radio DWS-1 or phone) | | 2 | Duty operator | Plant Superintendent (Ray Cas",
-              "chunkId": 15
-            },
-            "expectedBy": "ops",
-            "timing": "Within 10 minutes",
-            "rowIds": [
-              "I-01"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-09",
-            "capability": "operational_communications",
-            "task": "Record all critical communications on ERP-1 with time, sender, and message.",
-            "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 5 › 5.1 General",
-              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
-              "chunkId": 14
-            },
-            "expectedBy": "ops",
-            "timing": "Within 5 minutes",
-            "rowIds": [
-              "I-01",
-              "I-04",
-              "I-07b"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3AZAZ6J72GKM1ZA8XM"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "planning",
-        "target": "The Incident Commander and SCADA / IT Security Manager follow the OT Plan 10.5 ransomware checklist and the Section 12 reporting clocks to make time-bound decisions on network isolation, staffing, and external reporting.",
-        "objectiveRefs": [
-          "01M5RD6K3A53WHGDGSE446XZF1",
-          "01M5RD6K3BX84MJ6HZ08YNEA0N"
-        ],
-        "criticalTasks": [
           {
             "id": "T-10",
-            "capability": "planning",
-            "task": "Initiate the OT Plan 10.5 ransomware checklist within 30 minutes of the SIEM alert.",
-            "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
-              "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
-              "chunkId": 29
-            },
-            "expectedBy": "ops",
-            "timing": "Within 30 minutes",
-            "rowIds": [
-              "I-02",
-              "I-06"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
-              "01M5RD6K3BX84MJ6HZ08YNEA0N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-11",
-            "capability": "planning",
-            "task": "Decide whether to island the control network and move the plant to manual operations based on evidence from the system logs and field readings.",
+            "capability": "public_information_and_warning",
+            "task": "Post the Customer Service number and hours on the City’s social media accounts and the official website, as directed by the Incident Commander.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
@@ -1600,36 +1557,37 @@
               "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
               "chunkId": 84
             },
-            "expectedBy": "ops",
-            "timing": "Within 30 minutes",
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes of the 12:00 time jump",
             "rowIds": [
-              "I-06",
-              "I-11"
+              "I-19"
             ],
             "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
               "01M5RD6K3BX84MJ6HZ08YNEA0N"
             ],
             "locked": false
           },
           {
-            "id": "T-12",
-            "capability": "planning",
-            "task": "Record the decision and its basis on ERP-1, including the time and rationale.",
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Coordinate with the Deputy PIO to ensure all public statements are approved and consistent, and to manage the flow of information to external agencies.",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 5 › 5.1 General",
-              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
-              "chunkId": 14
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 2",
+              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
+              "chunkId": 59
             },
-            "expectedBy": "ops",
-            "timing": "Within 15 minutes of decision",
+            "expectedBy": "pio",
+            "timing": "Throughout the exercise",
             "rowIds": [
-              "I-11"
+              "I-04",
+              "I-07b",
+              "I-14"
             ],
             "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3AZAZ6J72GKM1ZA8XM",
               "01M5RD6K3BX84MJ6HZ08YNEA0N"
             ],
             "locked": false
@@ -1638,15 +1596,15 @@
       },
       {
         "capability": "infrastructure_systems",
-        "target": "The Incident Commander and Plant Superintendent ensure that the plant remains stable and operational under manual control, with appropriate staffing and monitoring, to prevent health and safety threats and maintain service continuity.",
+        "target": "The plant remains stable in manual or local auto mode with two operators per shift, all critical control functions are maintained through field verification and manual procedures, and the recovery process is initiated without loss of process control or safety.",
         "objectiveRefs": [
           "01M5RD6K3A53WHGDGSE446XZF1"
         ],
         "criticalTasks": [
           {
-            "id": "T-13",
+            "id": "T-12",
             "capability": "infrastructure_systems",
-            "task": "Decide to move the plant to manual operations and confirm staffing for two operators per shift.",
+            "task": "Confirm the plant is stable in manual or local auto mode per Section 8.1 and station an operator at the Chemical Building and one at the High Service Pump Station.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
@@ -1655,7 +1613,51 @@
               "chunkId": 79
             },
             "expectedBy": "ops",
-            "timing": "Within 30 minutes",
+            "timing": "within 10 minutes of Level 2",
+            "rowIds": [
+              "I-06",
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A53WHGDGSE446XZF1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "infrastructure_systems",
+            "task": "Establish manual operations for PLC-02 and PLC-05, including manual dosing from dose tables and manual HSP control from the MCC.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+              "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+              "chunkId": 79
+            },
+            "expectedBy": "ops",
+            "timing": "immediately after decision to island",
+            "rowIds": [
+              "I-06",
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A53WHGDGSE446XZF1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "infrastructure_systems",
+            "task": "Verify that local instruments, grab samples, and sight gauges are used to monitor and control the process when HMI values are not trusted.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+              "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
+              "chunkId": 79
+            },
+            "expectedBy": "ops",
+            "timing": "immediately",
             "rowIds": [
               "I-06",
               "I-08b"
@@ -1666,19 +1668,43 @@
             "locked": false
           },
           {
-            "id": "T-14",
+            "id": "T-15",
             "capability": "infrastructure_systems",
-            "task": "Assign one operator to the Chemical Building and one to the High Service Pump Station to monitor critical functions.",
+            "task": "Preserve the most recent PLC-02 program backup from the cabinet and record it on ERP-1 before any rebuild.",
             "citation": {
-              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
-              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
-              "chunkId": 84
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
+              "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+              "chunkId": 29
+            },
+            "expectedBy": "it",
+            "timing": "before any server rebuild",
+            "rowIds": [
+              "I-22"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A53WHGDGSE446XZF1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "infrastructure_systems",
+            "task": "Log the plant’s mode, staffing, and recovery status on ERP-1 after every major decision point.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 5 › 5.1 General",
+              "quote": "Notifications are made by telephone with a voice read-back and logged on ERP-1 (time, person reached, message, call-back number). Email, MillbrookAlert and text are supplementary. If a primary contact",
+              "chunkId": 14
             },
             "expectedBy": "ops",
-            "timing": "Within 10 minutes of decision",
+            "timing": "immediately after decision",
             "rowIds": [
+              "I-06",
+              "I-08b",
+              "I-11",
               "I-12"
             ],
             "objectiveRefs": [
@@ -1687,20 +1713,22 @@
             "locked": false
           },
           {
-            "id": "T-15",
+            "id": "T-17",
             "capability": "infrastructure_systems",
-            "task": "Confirm that all critical functions are being monitored and that no process is left unattended.",
+            "task": "Maintain the control network in a stable, isolated state with no unauthorized access or changes to the SCADA servers, HMIs, or engineering workstations.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
-              "quote": "| Failure | What Still Works | What Is Lost | Required Action | |---|---|---|---| | MBW-SCADA-SRV01 and SRV02 down | PLCs hold last setpoints; local HOA; PSH-302 | All remote control; HMI displays; Al",
-              "chunkId": 79
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
             },
-            "expectedBy": "ops",
-            "timing": "Within 15 minutes",
+            "expectedBy": "it",
+            "timing": "throughout the exercise",
             "rowIds": [
-              "I-12"
+              "I-06b",
+              "I-10",
+              "I-18"
             ],
             "objectiveRefs": [
               "01M5RD6K3A53WHGDGSE446XZF1"
@@ -1711,78 +1739,273 @@
       },
       {
         "capability": "cybersecurity",
-        "target": "The SCADA / IT Security Manager identifies and closes all attack paths into the control network (FW-R-17, FW-R-14, and the MBWSCADA trust) without powering off or reimaging any host, and confirms that recovery copies are compromised.",
+        "target": "The SCADA / IT Security Manager ensures the control network is isolated from the business network by disabling FW-R-17, FW-R-14, and the MBWSCADA → MILLBROOK trust, and confirms no active malware or unauthorized services are running on MBW-SCADA-SRV01/02, MBW-EWS-01, or MBW-HMI-02, in accordance with OT Plan 10.3 and 10.7.",
         "objectiveRefs": [
-          "01M5RD6K3A53WHGDGSE446XZF1",
           "01M5RD6K3A3DG2JGTPQRTZ2D1K"
         ],
         "criticalTasks": [
           {
-            "id": "T-16",
-            "capability": "cybersecurity",
-            "task": "Disable FW-R-17 and FW-R-14 immediately after the SIEM alert and confirm they are blocked.",
-            "citation": {
-              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
-              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
-              "chunkId": 84
-            },
-            "expectedBy": "it",
-            "timing": "Immediately",
-            "rowIds": [
-              "I-02",
-              "I-03",
-              "I-06b"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
-              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-17",
-            "capability": "cybersecurity",
-            "task": "Break the MBWSCADA → MILLBROOK domain trust from MBW-DC-01 or block FW-R-14 to prevent further lateral movement.",
-            "citation": {
-              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
-              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
-              "chunkId": 84
-            },
-            "expectedBy": "it",
-            "timing": "Within 10 minutes",
-            "rowIds": [
-              "I-03",
-              "I-06b"
-            ],
-            "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
-              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
-            ],
-            "locked": false
-          },
-          {
             "id": "T-18",
             "capability": "cybersecurity",
-            "task": "Confirm that the recovery copies on MBW-BKP-01 are encrypted and that the only offline copies are the October 1 tapes, which do not include the August PLC-02 logic change.",
+            "task": "Disable FW-R-17 and FW-R-14 on MBW-FW-01 immediately after the SIEM alert is received.",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 7 › 7.5 Cyber Incident",
-              "quote": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
-              "chunkId": 29
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
             },
             "expectedBy": "it",
-            "timing": "Within 15 minutes",
+            "timing": "Within 10 minutes of SIEM alert",
             "rowIds": [
-              "I-06b",
-              "I-11"
+              "I-02",
+              "I-03"
             ],
             "objectiveRefs": [
-              "01M5RD6K3A53WHGDGSE446XZF1",
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "cybersecurity",
+            "task": "Break the MBWSCADA → MILLBROOK domain trust from MBW-DC-01 or block FW-R-14 to prevent lateral movement.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "Within 15 minutes of SIEM alert",
+            "rowIds": [
+              "I-03",
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "cybersecurity",
+            "task": "Check MBW-SCADA-SRV01/02, MBW-EWS-01, and MBW-HMI-02 for new services, scheduled tasks, or unauthorized logons without powering them off.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of SIEM alert",
+            "rowIds": [
+              "I-06",
+              "I-06b",
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "cybersecurity",
+            "task": "Confirm that the payload on MBW-SCADA-SRV02 ran only on the isolated host and did not affect MBW-SCADA-SRV01, MBW-HMI-01, or MBW-EWS-01.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "Within 15 minutes of 12:00",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "cybersecurity",
+            "task": "Preserve the state of MBW-SCADA-SRV02 by imaging it without rebooting or reformatting.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of 12:00",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "cybersecurity",
+            "task": "Report the control-network intrusion to CISA and FBI as required by OT Plan 12.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of 12:00",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The SCADA / IT Security Manager conducts forensic analysis of the control network hosts (MBW-SCADA-SRV01/02, MBW-EWS-01, MBW-HMI-02) to determine whether the attacker reached the control network, confirms the presence of the staged payload (WinSyncSvc) on MBW-SCADA-SRV02, and verifies that no changes occurred on MBW-SCADA-SRV01, MBW-HMI-01, or MBW-HMI-03, using only non-invasive methods as per OT Plan 10.7.",
+        "objectiveRefs": [
+          "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-24",
+            "capability": "forensics_and_attribution",
+            "task": "Export the event log from MBW-SCADA-SRV02 and compare the timestamp of the new service installation (WinSyncSvc) and scheduled task creation to the SIEM alert time (09:48 and 09:50).",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of receiving the log",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "forensics_and_attribution",
+            "task": "Confirm that no new services or scheduled tasks were created on MBW-SCADA-SRV01, MBW-HMI-01, or MBW-HMI-03 by reviewing their event logs and system configurations without powering them off.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of receiving the log",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "forensics_and_attribution",
+            "task": "Photograph the black command window on MBW-EWS-01 and preserve the image as evidence without rebooting the host.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of observing the behavior",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "forensics_and_attribution",
+            "task": "Verify that the SMB session from MBW-BKP-01 to MBW-EWS-01 (FW-R-17) was terminated by 09:50 and that no further connections were made to the control network.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of receiving the log",
+            "rowIds": [
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "forensics_and_attribution",
+            "task": "Confirm that the MBWSCADA → MILLBROOK domain trust was broken or blocked on FW-R-14 by 09:50 and that no further logons from the MILLBROOK domain occurred on MBW-SCADA-SRV01 or MBW-SCADA-SRV02.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of receiving the log",
+            "rowIds": [
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5RD6K3A3DG2JGTPQRTZ2D1K"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "forensics_and_attribution",
+            "task": "Document the absence of changes on MBW-SCADA-SRV01 and the presence of the payload only on MBW-SCADA-SRV02 in the CISA report and the forensic evidence log.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Island the Control Network",
+              "quote": "Approved by the Director (or the Plant Superintendent if the Director cannot be reached within 15 minutes). Steps, performed by the SCADA / IT Security Manager or City IT on her instruction: 1. Confir",
+              "chunkId": 84
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of receiving the log",
+            "rowIds": [
+              "I-10",
+              "I-18"
+            ],
+            "objectiveRefs": [
               "01M5RD6K3A3DG2JGTPQRTZ2D1K"
             ],
             "locked": false
@@ -3471,13 +3694,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:02:08.587Z",
-      "finishedAt": "2026-10-30T11:02:42.296Z",
+      "startedAt": "2026-10-30T12:13:53.986Z",
+      "finishedAt": "2026-10-30T12:14:09.892Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 11043,
-      "outputTokens": 2496,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 55325,
+      "outputTokens": 4979,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

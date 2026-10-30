@@ -83,6 +83,8 @@ const PLAIN: Record<string, string> = {
   EEG_TASK_UNLINKED: 'A critical task is linked to no event where evaluators could observe it.',
   EEG_ROW_UNCOVERED: 'An event has no critical task from the evaluation guides.',
   EEG_TASK_UNCITED: 'A critical task does not cite a plan section.',
+  EEG_COLLAPSED: 'One evaluation guide covers three or more objectives.',
+  EEG_GUIDE_MISSING: 'A capability an objective is mapped to has no evaluation guide.',
   EEG_CAPABILITY_UNKNOWN: 'An evaluation guide names a capability that is not one of the 32.',
   CRITIQUE: 'The review pass suggests an improvement.',
   BRANCH_UNREACHABLE: 'A branch can never play: no choice at its decision leads to it.',

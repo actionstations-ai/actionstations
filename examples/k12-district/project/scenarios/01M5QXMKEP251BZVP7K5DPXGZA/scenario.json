@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T21:39:00.181Z",
-  "updatedAt": "2026-10-30T11:12:54.832Z",
+  "updatedAt": "2026-10-30T12:29:30.336Z",
   "brief": {
     "userPrompt": "Tuesday of the spring state assessment window at Halverson Unified School District. At 06:40 Tallgrass MDR calls Information Security Manager Priya Castellanos about Defender alerts on HUSD-FS02 and HUSD-VH02; by 07:30 file shares, Tyler Munis on HUSD-ERP01 and the hosted VoIP on HUSD-PBX01 are encrypted and a ransom note appears on staff laptops, while PowerSchool, Google Workspace and Chromebooks still work through the school internet breakouts. The intruder came in through the unpatched VPN appliance HUSD-VPN01 (CIRP-4) and the shared local-admin password (CIRP-3), and copied the HUSD-FS02 student-services shares (IEPs, health logs, threat-assessment and custody files) before encrypting. CTO Victor Han must choose between containment steps C-3, C-4 and C-5 while grade 11 testing runs in the Halverson High School library and Commons; the Assessment Coordinator needs a pause decision for the Oregon Department of Education. At midday the actor emails parents and staff from a lookalike domain with sample IEP pages and a leak-site deadline, and parents post screenshots in the Halverson Parents Facebook group; Channel 6 calls the PIO. At 13:15 an emailed threat names Halverson High School and, minutes later, a 911 caller reports a shooter in C Wing: Brandt County 911 dispatches Halverson Police, the school goes to LOCKDOWN via CENTEGIX, phones to the District Service Center are down, and students must be bused from the Stadium to the Reunification Site (primary): Brandt County Fairgrounds Exhibit Hall on Bus Route 1 to Bus Route 4 using the 05:00 offline rosters. The Policy Group must decide on closures for Wednesday, the ransom demand with counsel, the risk pool and the FBI Portland Field Office, CISA and MS-ISAC/K12 SIX reporting, the Oregon Department of Education report, and data-exposure notices to families.",
     "audience": [
@@ -1445,68 +1445,43 @@
       {
         "objectiveId": "01M5QXNKFG6H2FBQGR8WJD11M4",
         "capability": "cybersecurity",
-        "why": "The objective requires protecting student and staff data from unauthorized access, encryption, and exfiltration, which aligns with the core purpose of the cybersecurity capability to safeguard electronic systems and data."
+        "why": "The objective focuses on assessing and containing a multi-system cyber incident involving data exfiltration, encryption, and spoofed communications, which directly aligns with the cybersecurity capability's focus on protecting and restoring electronic systems and data from unauthorized use and exploitation."
       },
       {
         "objectiveId": "01M5QXNKFG6H2FBQGR8WJD11M4",
         "capability": "forensics_and_attribution",
-        "why": "The objective includes identifying and attributing the attack vector (e.g., DNS tunneling, unpatched VPN) and preserving evidence for law enforcement, which is central to the forensics and attribution capability."
-      },
-      {
-        "objectiveId": "01M5QXNKFG6H2FBQGR8WJD11M4",
-        "capability": "operational_coordination",
-        "why": "The objective demands coordinated containment across IT, legal, and EOC teams, which relies on a unified operational structure to synchronize actions and prevent duplication or delay."
+        "why": "The need to identify the attack vector, confirm data exfiltration via DNS tunneling, and preserve HUSD-VPN01 as evidence for law enforcement requires forensic analysis and attribution to determine the source and method of the attack, consistent with the forensics and attribution capability."
       },
       {
         "objectiveId": "01M5QXNKFG4NKT694NZVG3N34N",
         "capability": "operational_coordination",
-        "why": "The objective depends on synchronized use of the 05:00 offline roster across transportation, student services, and EOC teams, requiring a unified operational structure to ensure consistency and prevent errors."
+        "why": "The objective requires synchronized use of the 05:00 offline roster across multiple teams (Student Services, Transportation, EOC) to ensure accurate student accountability and reunification, which depends on a unified operational structure and coordination across roles and systems."
       },
       {
         "objectiveId": "01M5QXNKFG4NKT694NZVG3N34N",
         "capability": "access_control_and_identity_verification",
-        "why": "The objective requires verifying that only authorized personnel access the offline roster and that student identities are confirmed via physical and manual checks, which falls under identity and access control."
-      },
-      {
-        "objectiveId": "01M5QXNKFG4NKT694NZVG3N34N",
-        "capability": "infrastructure_systems",
-        "why": "The objective involves stabilizing critical functions like student accountability and reunification during system failure, which is a core function of infrastructure systems to maintain essential operations."
+        "why": "The objective hinges on verifying that only the pre-incident, encrypted USB-key-stored roster (Section 6.3) is trusted, and that no unauthorized access to the SIS or cloud systems is permitted—this relies on identity verification and access control to prevent data corruption and ensure roster integrity."
       },
       {
         "objectiveId": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
         "capability": "planning",
-        "why": "The objective requires making rapid, informed decisions on closures, ransom negotiation, and legal reporting, which depends on a structured planning process to guide action under pressure."
+        "why": "The objective requires making rapid, coordinated decisions on school closure, ransom negotiation, legal reporting, and family notification under pressure, which depends on a structured, executable planning process to guide decision-making across legal, ethical, and operational imperatives."
       },
       {
         "objectiveId": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
         "capability": "public_information_and_warning",
-        "why": "The objective includes issuing timely, accurate, and actionable statements to families and media, which is the primary function of public information and warning to maintain trust and prevent misinformation."
-      },
-      {
-        "objectiveId": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
-        "capability": "operational_coordination",
-        "why": "The objective demands coordination across the Policy Group, EOC, and external partners to align decisions on closures, testing, and family notification, which requires a unified operational structure."
+        "why": "The objective includes issuing timely, accurate, and actionable messages to families, media, and staff to maintain public trust, which is a core function of public information and warning, particularly in managing rumors and ensuring consistent messaging during a crisis."
       },
       {
         "objectiveId": "01M5QXNKFGPX3FDF33GXWYZT1P",
         "capability": "operational_coordination",
-        "why": "The objective centers on synchronizing actions across EOC, Technology, Communications, and Student Services teams during a cascading incident, which is the fundamental purpose of operational coordination."
-      },
-      {
-        "objectiveId": "01M5QXNKFGPX3FDF33GXWYZT1P",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective requires timely exchange of threat indicators (e.g., DNS tunneling, spoofed calls) and forensic data across teams, which is enabled by structured intelligence and information sharing."
-      },
-      {
-        "objectiveId": "01M5QXNKFGPX3FDF33GXWYZT1P",
-        "capability": "public_information_and_warning",
-        "why": "The objective includes ensuring consistent messaging across teams to families, media, and public, which relies on coordinated public information and warning to prevent conflicting or misleading statements."
+        "why": "The objective demands synchronization across the Policy Group, EOC, Technology, Communications, and Student Services teams during a cascading incident, which requires a unified operational structure and process to integrate all stakeholders and support coordinated response actions."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "The CTO and Technical Lead must contain the ransomware attack by isolating HUSD-FW01 via C-3 (EOP Section 7), block compromised accounts (j.lee@halversonusd.example), and prevent further data exfiltration using network segmentation and session revocation within 10 minutes of I-07.",
+        "target": "The CTO and Technical Lead must contain the ransomware attack by isolating HUSD-FW01 via C-3 (EOP Section 7), block compromised accounts (j.lee@halversonusd.example) via Entra and Google Workspace (CIRP 4.3), and preserve HUSD-VPN01 as evidence without rebooting or wiping, per CISA and CIRP requirements.",
         "objectiveRefs": [
           "01M5QXNKFG6H2FBQGR8WJD11M4"
         ],
@@ -1514,18 +1489,18 @@
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Block the user account j.lee@halversonusd.example and revoke all active sessions via Entra and Google Workspace.",
+            "task": "Declare S3 High severity under C2 and notify Incident Commander and Policy Group via ICS 213 (SOP 6.4).",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
             },
             "expectedBy": "cto",
-            "timing": "Within 5 minutes of I-07",
+            "timing": "within 5 minutes of I-07",
             "rowIds": [
-              "I-03"
+              "I-07"
             ],
             "objectiveRefs": [
               "01M5QXNKFG6H2FBQGR8WJD11M4"
@@ -1535,7 +1510,7 @@
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Isolate HUSD-FW01 via C-3 (EOP Section 7) to prevent lateral movement.",
+            "task": "Block the compromised user account j.lee@halversonusd.example and revoke all active sessions via Entra and Google Workspace (CIRP 4.3).",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
@@ -1544,9 +1519,10 @@
               "chunkId": 27
             },
             "expectedBy": "cto",
-            "timing": "Within 10 minutes of I-07",
+            "timing": "within 10 minutes of I-07",
             "rowIds": [
-              "I-07"
+              "I-07",
+              "I-07b"
             ],
             "objectiveRefs": [
               "01M5QXNKFG6H2FBQGR8WJD11M4"
@@ -1556,18 +1532,18 @@
           {
             "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Notify the DFIR firm and Legal Counsel to initiate vendor engagement procedures under CIRP Form 2.",
+            "task": "Verify the 1.2 GB of changes in HUSD-FS02 between 05:45 and 06:40 against file integrity hashes from 05:45 and confirm data exfiltration occurred during the maintenance window.",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
             },
             "expectedBy": "cto",
-            "timing": "Within 10 minutes of I-07",
+            "timing": "within 30 minutes of I-07",
             "rowIds": [
-              "I-07"
+              "I-04"
             ],
             "objectiveRefs": [
               "01M5QXNKFG6H2FBQGR8WJD11M4"
@@ -1578,7 +1554,7 @@
       },
       {
         "capability": "forensics_and_attribution",
-        "target": "The CTO must preserve HUSD-VPN01 as evidence and confirm the attack vector using forensic logs, including DNS tunneling (I-18) and unpatched vulnerability, to support law enforcement and legal reporting.",
+        "target": "The Technical Lead must identify the attack vector (DNS tunneling via HUSD-VPN01) and confirm the exfiltrated data matches the sample on hudsonleak.333 by cross-referencing the file path, timestamp, and hash from HUSD-FS02, and preserve HUSD-VPN01 as evidence for law enforcement.",
         "objectiveRefs": [
           "01M5QXNKFG6H2FBQGR8WJD11M4"
         ],
@@ -1586,60 +1562,18 @@
           {
             "id": "T-04",
             "capability": "forensics_and_attribution",
-            "task": "Preserve HUSD-VPN01 in its current state and notify the DFIR firm and Legal Counsel to initiate evidence hold.",
+            "task": "Confirm that the file path and timestamp of the leaked Chloe Mendez IEP (hudsonleak.333) match the forensic logs from HUSD-FS02 and the 05:00 roster.",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+              "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+              "chunkId": 10
             },
             "expectedBy": "cto",
-            "timing": "Within 10 minutes of I-19",
+            "timing": "within 15 minutes of I-08b",
             "rowIds": [
-              "I-19"
-            ],
-            "objectiveRefs": [
-              "01M5QXNKFG6H2FBQGR8WJD11M4"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-05",
-            "capability": "forensics_and_attribution",
-            "task": "Confirm the DNS tunneling pattern (I-18) matches HUSD-CIRP-2026 Section 6.2 and log it as a data exfiltration vector.",
-            "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
-            },
-            "expectedBy": "cto",
-            "timing": "Within 10 minutes of I-18",
-            "rowIds": [
-              "I-18"
-            ],
-            "objectiveRefs": [
-              "01M5QXNKFG6H2FBQGR8WJD11M4"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-06",
-            "capability": "forensics_and_attribution",
-            "task": "Report to CISA and confirm the C2 IP (104.214.192.47) is linked to a known Rhysida group node.",
-            "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
-            },
-            "expectedBy": "cto",
-            "timing": "Within 10 minutes of I-19",
-            "rowIds": [
-              "I-19"
+              "I-08b"
             ],
             "objectiveRefs": [
               "01M5QXNKFG6H2FBQGR8WJD11M4"
@@ -1650,34 +1584,75 @@
       },
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander must activate the EOC and establish a unified command structure under ICS, ensuring all teams (Technology, Communications, Student Services, Transportation) follow EOP 6.2 and CIRP 4.3 standard response actions during the incident.",
+        "target": "The Incident Commander must activate the EOC, initiate reunification at the Brandt County Fairgrounds Exhibit Hall using the 05:00 offline roster, and direct all teams to operate under the EOP and CIRP, with the Site Incident Commander verifying student accountability via manual headcount and the Transportation Branch confirming student counts on buses.",
         "objectiveRefs": [
-          "01M5QXNKFG6H2FBQGR8WJD11M4",
           "01M5QXNKFG4NKT694NZVG3N34N",
-          "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
           "01M5QXNKFGPX3FDF33GXWYZT1P"
         ],
         "criticalTasks": [
           {
-            "id": "T-07",
+            "id": "T-05",
             "capability": "operational_coordination",
-            "task": "Activate the full EOC per EOP 6.4 and declare S3 High severity under C2.",
+            "task": "Activate the full EOC per EOP 6.4 and declare a S4 Critical incident when the 911 call is received and confirmed as spoofed.",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
             },
             "expectedBy": "dss",
-            "timing": "Within 5 minutes of I-09",
+            "timing": "within 5 minutes of I-09",
             "rowIds": [
               "I-09"
             ],
             "objectiveRefs": [
-              "01M5QXNKFG6H2FBQGR8WJD11M4",
               "01M5QXNKFG4NKT694NZVG3N34N",
-              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Direct the Site Incident Commander to activate manual headcount using the 05:00 offline roster and confirm student accountability via physical verification.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+              "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+              "chunkId": 34
+            },
+            "expectedBy": "dss",
+            "timing": "within 10 minutes of I-09",
+            "rowIds": [
+              "I-09",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "Instruct the Transportation Branch to verify student counts on buses against the 05:00 roster and confirm that no unauthorized access to the SIS occurred via on-board devices.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
+            },
+            "expectedBy": "dss",
+            "timing": "within 15 minutes of I-12",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
               "01M5QXNKFGPX3FDF33GXWYZT1P"
             ],
             "locked": false
@@ -1685,7 +1660,7 @@
           {
             "id": "T-08",
             "capability": "operational_coordination",
-            "task": "Convene the Policy Group and brief the Board of Education via the Superintendent.",
+            "task": "Convene the Policy Group and brief the Board of Education per Oregon public-meetings notice rules.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
@@ -1693,15 +1668,14 @@
               "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
               "chunkId": 27
             },
-            "expectedBy": "dss",
-            "timing": "Within 10 minutes of I-09",
+            "expectedBy": "supt",
+            "timing": "within 1 hour of I-09",
             "rowIds": [
-              "I-09"
+              "I-09",
+              "I-16"
             ],
             "objectiveRefs": [
-              "01M5QXNKFG6H2FBQGR8WJD11M4",
               "01M5QXNKFG4NKT694NZVG3N34N",
-              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
               "01M5QXNKFGPX3FDF33GXWYZT1P"
             ],
             "locked": false
@@ -1709,7 +1683,7 @@
           {
             "id": "T-09",
             "capability": "operational_coordination",
-            "task": "Direct all teams to follow EOP 6.2 and CIRP 4.3 standard response actions, including use of the 05:00 offline roster for accountability.",
+            "task": "Direct the SRO to secure the perimeter and confirm no unauthorized entries during the lockdown and reunification phase.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
@@ -1717,15 +1691,14 @@
               "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
               "chunkId": 27
             },
-            "expectedBy": "dss",
-            "timing": "Within 10 minutes of I-09",
+            "expectedBy": "sro",
+            "timing": "within 5 minutes of I-09",
             "rowIds": [
-              "I-09"
+              "I-09",
+              "I-10"
             ],
             "objectiveRefs": [
-              "01M5QXNKFG6H2FBQGR8WJD11M4",
               "01M5QXNKFG4NKT694NZVG3N34N",
-              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
               "01M5QXNKFGPX3FDF33GXWYZT1P"
             ],
             "locked": false
@@ -1734,7 +1707,7 @@
       },
       {
         "capability": "access_control_and_identity_verification",
-        "target": "The Site Incident Commander must verify student identities and ensure only authorized personnel access the 05:00 offline roster, using manual headcounts and physical checks to confirm student presence and prevent unauthorized movement.",
+        "target": "The CTO must verify that only the 05:00 offline roster stored on encrypted USB keys in the principal's office safe and in the EOC go-box is trusted for student accountability, and deny all requests to access the SIS or cloud systems via unauthorized methods.",
         "objectiveRefs": [
           "01M5QXNKFG4NKT694NZVG3N34N"
         ],
@@ -1742,18 +1715,19 @@
           {
             "id": "T-10",
             "capability": "access_control_and_identity_verification",
-            "task": "Activate manual headcount using the 05:00 offline roster and assign staff to report to the main office for accountability.",
+            "task": "Confirm that the 05:00 offline roster is the only trusted source for student accountability and deny all SIS access requests via cloud or on-prem systems.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+              "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+              "chunkId": 34
             },
-            "expectedBy": "prin",
-            "timing": "Within 5 minutes of I-13",
+            "expectedBy": "cto",
+            "timing": "within 10 minutes of I-07",
             "rowIds": [
-              "I-13"
+              "I-07",
+              "I-15"
             ],
             "objectiveRefs": [
               "01M5QXNKFG4NKT694NZVG3N34N"
@@ -1763,18 +1737,17 @@
           {
             "id": "T-11",
             "capability": "access_control_and_identity_verification",
-            "task": "Verify student identities at the reunification site using the 05:00 offline roster and request and release cards (Form J-4).",
+            "task": "Verify that the SIS on Bus 113 shows 34 students but the 05:00 roster lists 32, and confirm that the student not on the roster must be accounted for via manual verification.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
             },
-            "expectedBy": "prin",
-            "timing": "Within 10 minutes of I-17",
+            "timing": "within 10 minutes of I-12",
             "rowIds": [
-              "I-17"
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QXNKFG4NKT694NZVG3N34N"
@@ -1784,87 +1757,17 @@
           {
             "id": "T-12",
             "capability": "access_control_and_identity_verification",
-            "task": "Confirm no unauthorized access to the SIS via the Chromebook on Bus 113 (I-12) and report to CTO.",
+            "task": "Confirm that the student roster on Bus 102 shows 110 names but only 108 on the manifest, and direct maintenance to verify the door and student count manually.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
             },
-            "expectedBy": "prin",
-            "timing": "Within 10 minutes of I-12",
+            "timing": "within 15 minutes of I-20c",
             "rowIds": [
-              "I-12"
-            ],
-            "objectiveRefs": [
-              "01M5QXNKFG4NKT694NZVG3N34N"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "infrastructure_systems",
-        "target": "The Facilities Branch Director must manually verify and secure external doors at Halverson High School using the 05:00 roster and physical inspection, ensuring no unauthorized entries and stabilizing critical infrastructure functions during system failure.",
-        "objectiveRefs": [
-          "01M5QXNKFG4NKT694NZVG3N34N"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-13",
-            "capability": "infrastructure_systems",
-            "task": "Manually check and secure external doors (Door 1, 11, 14, 16) using the 05:00 roster and physical verification.",
-            "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
-            },
-            "timing": "Within 10 minutes of I-13",
-            "rowIds": [
-              "I-13"
-            ],
-            "objectiveRefs": [
-              "01M5QXNKFG4NKT694NZVG3N34N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-14",
-            "capability": "infrastructure_systems",
-            "task": "Activate emergency lighting and use a bullhorn to call for help if a student is unaccounted for behind a locked door.",
-            "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
-            },
-            "timing": "Within 10 minutes of I-17",
-            "rowIds": [
-              "I-17"
-            ],
-            "objectiveRefs": [
-              "01M5QXNKFG4NKT694NZVG3N34N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-15",
-            "capability": "infrastructure_systems",
-            "task": "Report door status to the Site Incident Commander and confirm no unauthorized entries via manual checks.",
-            "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
-            },
-            "timing": "Within 10 minutes of I-13",
-            "rowIds": [
-              "I-13"
+              "I-20c"
             ],
             "objectiveRefs": [
               "01M5QXNKFG4NKT694NZVG3N34N"
@@ -1875,15 +1778,15 @@
       },
       {
         "capability": "planning",
-        "target": "The Policy Group must make a rapid, coordinated decision on school closure, ransom negotiation, and legal reporting using the EOP and CIRP, with all decisions documented and aligned with FERPA, Oregon breach-notice law, and federal guidance.",
+        "target": "The Policy Group must make a rapid, coordinated decision on school closure, ransom negotiation, and family notification under pressure, using the EOP and CIRP to guide actions, and record the rationale for the decision to engage or not engage with the actor.",
         "objectiveRefs": [
           "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
         ],
         "criticalTasks": [
           {
-            "id": "T-16",
+            "id": "T-13",
             "capability": "planning",
-            "task": "Convene an emergency session of the Policy Group and review the 05:00 roster and EOC recovery status.",
+            "task": "Convene an emergency session of the Policy Group and brief the Board of Education per Oregon public-meetings notice rules.",
             "citation": {
               "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
               "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
@@ -1892,9 +1795,82 @@
               "chunkId": 27
             },
             "expectedBy": "supt",
-            "timing": "Within 10 minutes of I-16",
+            "timing": "within 1 hour of I-09",
+            "rowIds": [
+              "I-09",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "planning",
+            "task": "Record the decision and its rationale in the EOP Decision Log and notify the Incident Commander and Legal Counsel.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 30 minutes of I-16",
             "rowIds": [
               "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "planning",
+            "task": "Confirm that the decision on school closure and reopening is made by the Policy Group and not delegated to the Incident Commander.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 1 hour of I-16",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO must issue a coordinated, prompt, and reliable message to families and media stating that the SIS remains read-only, the 05:00 roster is the only trusted source, and that all inquiries are to be directed to the district’s website, using Pre-Approved Template 4C and verified video evidence.",
+        "objectiveRefs": [
+          "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Post a correction on ParentSquare and Facebook within 10 minutes of the HudsonLeak333 post (I-08b) and confirm with CTO that the file path and timestamp match forensic logs.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of I-08b",
+            "rowIds": [
+              "I-08b"
             ],
             "objectiveRefs": [
               "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
@@ -1903,19 +1879,19 @@
           },
           {
             "id": "T-17",
-            "capability": "planning",
-            "task": "Decide whether to engage with the actor through the risk pool negotiator and whether schools open on Wednesday, recording the rationale.",
+            "capability": "public_information_and_warning",
+            "task": "Activate the rumor control protocol and issue a ParentSquare alert with the 05:00 roster as the only verified source.",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
             },
-            "expectedBy": "supt",
-            "timing": "Within 10 minutes of I-16",
+            "expectedBy": "pio",
+            "timing": "within 15 minutes of I-20b",
             "rowIds": [
-              "I-16"
+              "I-20b"
             ],
             "objectiveRefs": [
               "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
@@ -1924,19 +1900,61 @@
           },
           {
             "id": "T-18",
-            "capability": "planning",
-            "task": "Notify the Assessment Coordinator to suspend testing until full verification and CIRP Form 4 sign-off.",
+            "capability": "public_information_and_warning",
+            "task": "Post a video from the EOC control room showing manual verification of the 05:00 roster to demonstrate accuracy and trustworthiness.",
             "citation": {
-              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
-              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
-              "headingPath": "EOP › Section 3",
-              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
-              "chunkId": 27
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
             },
-            "expectedBy": "supt",
-            "timing": "Within 10 minutes of I-20",
+            "expectedBy": "pio",
+            "timing": "within 20 minutes of I-20b",
             "rowIds": [
-              "I-20"
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "public_information_and_warning",
+            "task": "Use Pre-Approved Template 4C for media inquiries and direct all inquiries to the district’s website.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of I-14",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "public_information_and_warning",
+            "task": "Update the website banner to read: 'SIS data remains read-only. Verified roster in use. Trust the 05:00 roster.'",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 15 minutes of I-20b",
+            "rowIds": [
+              "I-20b"
             ],
             "objectiveRefs": [
               "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
@@ -3912,13 +3930,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:06:25.137Z",
-      "finishedAt": "2026-10-30T11:06:55.073Z",
+      "startedAt": "2026-10-30T12:20:55.518Z",
+      "finishedAt": "2026-10-30T12:21:39.490Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 11078,
-      "outputTokens": 2349,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11103,
+      "outputTokens": 3470,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

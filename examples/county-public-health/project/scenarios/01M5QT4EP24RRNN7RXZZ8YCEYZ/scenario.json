@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:37:45.282Z",
-  "updatedAt": "2026-10-30T11:12:32.717Z",
+  "updatedAt": "2026-10-30T12:29:08.137Z",
   "brief": {
     "userPrompt": "Measles outbreak OB-2026-0147 is in its second week in Health District 2 (Brandt): 9 confirmed cases, most linked to Grace Fellowship Academy, exposure sites at the North District Clinic waiting room and the St. Brigid Hospital emergency department, and an extra MMR clinic planned at POD 2 (Brandt Middle School gymnasium) for Saturday with 640 SlotWise bookings. At 06:50 Thursday County IT reports ransomware on the county network: the MCHD-FS01 shares are encrypted, ClinicTrack EHR (MCHD-EHR-APP01, MCHD-SQL02) and the Epi fax server MCHD-FAX01 are down, and the SharePoint line list shows edits from an unfamiliar account. The KDHE Immunization Program calls: last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in MCHD inventory. SlotWise shows the POD 2 appointments bulk-cancelled at 03:10 from Data Analyst Jenna Fowler's account after a phishing email, and a viral Facebook post says MCHD leaked children's vaccine records and cancelled the clinic. Paper mode (forms MCHD-F-10, MCHD-F-12, MCHD-F-40), pausing the state IIS export, whether to keep POD 2 open, exclusion and quarantine orders for Grace Fellowship Academy, the HIPAA hybrid-entity breach question for the clinic records, reports to KDHE, the FBI and CISA, and CERC messaging in English and Spanish.",
     "audience": [
@@ -1374,68 +1374,48 @@
       {
         "objectiveId": "01M5QT5RDXGM78NV1XRGTS80VK",
         "capability": "cybersecurity",
-        "why": "The objective focuses on detecting and verifying falsified data in the IIS export, which directly involves cybersecurity controls to identify unauthorized changes, validate data authenticity, and prevent release of compromised information."
+        "why": "The objective centers on detecting and verifying falsified data in the IIS export, which requires forensic analysis and verification of system integrity, core to cybersecurity."
       },
       {
         "objectiveId": "01M5QT5RDXGM78NV1XRGTS80VK",
         "capability": "operational_coordination",
-        "why": "The objective requires coordination between IT, Epi, and Legal to validate data integrity, confirm system status, and make joint decisions on data release, which aligns with operational coordination to ensure unified and timely decision-making across roles."
-      },
-      {
-        "objectiveId": "01M5QT5RDXGM78NV1XRGTS80VK",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective depends on timely sharing of forensic findings from IT and County IT Forensics, as well as verification of data against paper records, to inform decisions on data trustworthiness, which is a core function of intelligence and information sharing."
+        "why": "The verification process involves coordination across IT, Epi, Legal, and the IC to validate data, reconcile discrepancies, and approve releases, requiring a unified operational structure."
       },
       {
         "objectiveId": "01M5QT5RDXBK3GEKY5AHFFENKZ",
         "capability": "public_information_and_warning",
-        "why": "The objective centers on delivering consistent, accurate, and actionable public information through multiple channels, using approved language and a unified narrative, which is the primary function of public information and warning."
+        "why": "The objective directly involves delivering consistent, timely, and actionable public information through multiple channels to prevent misinformation, which is the core function of public information and warning."
       },
       {
         "objectiveId": "01M5QT5RDXBK3GEKY5AHFFENKZ",
         "capability": "operational_coordination",
-        "why": "Synchronizing messaging across PIO, legal, and media requires coordinated decision-making and information flow, ensuring all parties act in unison, which is a core aspect of operational coordination."
-      },
-      {
-        "objectiveId": "01M5QT5RDXBK3GEKY5AHFFENKZ",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective relies on timely sharing of verified facts from IT and Epi to the PIO to draft accurate statements, and on feedback from media and public to adjust messaging, which reflects intelligence and information sharing."
+        "why": "Synchronizing messaging across PIO, Legal, and media requires a coordinated operational process to ensure all public statements are approved and consistent, especially under pressure."
       },
       {
         "objectiveId": "01M5QT5RDXEM4QP5MBJ0715PVB",
         "capability": "infrastructure_systems",
-        "why": "The objective involves maintaining essential public health functions during system failure by using paper-based fallbacks, which directly relates to stabilizing and restoring critical infrastructure systems to ensure continuity of operations."
+        "why": "The objective focuses on maintaining essential public health functions during a system failure, which aligns with infrastructure systems’ role in stabilizing critical functions and restoring services."
       },
       {
         "objectiveId": "01M5QT5RDXEM4QP5MBJ0715PVB",
         "capability": "operational_coordination",
-        "why": "Sustaining paper mode across clinics, Epi, and IT requires coordinated roles, shared documentation, and verification checks, which is a core function of operational coordination to maintain unity and accountability."
-      },
-      {
-        "objectiveId": "01M5QT5RDXEM4QP5MBJ0715PVB",
-        "capability": "planning",
-        "why": "The objective depends on pre-established procedures and fallback plans (e.g., MCHD-F-10, MCHD-F-40, MCHD-F-12) that were developed through systematic planning, and on the team’s ability to execute them under stress, which reflects the planning capability."
+        "why": "Sustaining operations in paper mode requires coordination across Epi, IT, clinics, and the IC to ensure all roles follow procedures, use correct forms, and maintain accountability."
       },
       {
         "objectiveId": "01M5QT5RDXW6FMEA79QBHZYKZZ",
         "capability": "cybersecurity",
-        "why": "The objective involves verifying system integrity, detecting residual threats (e.g., the script in the backup), and ensuring safe restoration, which are core cybersecurity functions to protect against reinfection and ensure data trustworthiness."
+        "why": "Restoring systems after a cyber incident requires verifying that the network and systems are clean and free of malicious software, a core cybersecurity function."
       },
       {
         "objectiveId": "01M5QT5RDXW6FMEA79QBHZYKZZ",
         "capability": "operational_coordination",
-        "why": "The objective requires close coordination between IT, Epi, Legal, and the IC to sequence system restoration, validate data, and approve the catch-up file, which is a direct application of operational coordination to manage interdependent actions."
-      },
-      {
-        "objectiveId": "01M5QT5RDXW6FMEA79QBHZYKZZ",
-        "capability": "infrastructure_systems",
-        "why": "The objective centers on restoring and stabilizing critical systems (EHR, IIS export, fax server) in a controlled, stepwise manner to prevent further disruption, which is a primary goal of infrastructure systems capability."
+        "why": "The restoration process involves multiple stakeholders (IT, IC, Legal, Epi) and must follow a defined order, requiring a unified operational structure to ensure no premature resumption of data flows."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "The Informatics Lead and County IT must detect, confirm, and contain the unauthorized script 'auto_cleaner.py' on MCHD-INT01, isolate the server, and prevent further data alteration, ensuring that no compromised data is released to the state or public.",
+        "target": "The Informatics Lead and County IT must verify that MCHD-INT01 is clean and free of malicious software before any system restoration, using forensic evidence and approved software lists, and must confirm that the IIS export catch-up file is not released until the data-integrity check against paper records is complete and signed off.",
         "objectiveRefs": [
           "01M5QT5RDXGM78NV1XRGTS80VK",
           "01M5QT5RDXW6FMEA79QBHZYKZZ"
@@ -1444,7 +1424,7 @@
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Notify the Incident Commander and County Information Security Officer of the SIEM alert for 'auto_cleaner.py' on MCHD-INT01 within 5 minutes of detection.",
+            "task": "Declare a Cyber 1 incident to authorize network isolation and forensic review.",
             "citation": {
               "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
               "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
@@ -1452,10 +1432,11 @@
               "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
               "chunkId": 12
             },
-            "expectedBy": "it",
-            "timing": "within 5 minutes",
+            "expectedBy": "ho",
+            "timing": "Immediately",
             "rowIds": [
-              "I-05"
+              "I-11",
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QT5RDXGM78NV1XRGTS80VK",
@@ -1466,18 +1447,18 @@
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Suspend the IIS-EXPORT-NIGHTLY job on MCHD-INT01 immediately after confirming the script’s presence.",
+            "task": "Confirm that the restore of MCHD-INT01 was from an immutable backup taken before the incident and that the server is rebuilt from clean media.",
             "citation": {
-              "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
-              "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
               "headingPath": "Marston County Health Department… › Section 6",
-              "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
-              "chunkId": 24
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
             },
             "expectedBy": "it",
-            "timing": "immediately",
+            "timing": "Within 30 minutes of the restore",
             "rowIds": [
-              "I-05"
+              "I-18b"
             ],
             "objectiveRefs": [
               "01M5QT5RDXGM78NV1XRGTS80VK",
@@ -1488,30 +1469,191 @@
           {
             "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Initiate forensic imaging of MCHD-INT01 and begin analysis of the script’s origin and impact on the IIS export file.",
+            "task": "Verify that the IIS export catch-up file is not generated until the Informatics Lead and the Epi team have completed the data-integrity check against paper records and signed MCHD-F-62.",
             "citation": {
               "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
               "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
-              "headingPath": "Marston County Health Department… › Section 8",
-              "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
-              "chunkId": 12
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
             },
             "expectedBy": "it",
-            "timing": "immediately",
+            "timing": "Before any file generation",
             "rowIds": [
-              "I-05",
-              "I-11"
+              "I-18",
+              "I-18b"
             ],
             "objectiveRefs": [
               "01M5QT5RDXGM78NV1XRGTS80VK",
               "01M5QT5RDXW6FMEA79QBHZYKZZ"
             ],
             "locked": false
-          },
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer must deliver a unified, approved, and timely public statement through all channels using the CERC holding statement, confirming that the IIS data may be incomplete due to a technical issue, not a breach, and must not be released until Legal and IC approval are obtained.",
+        "objectiveRefs": [
+          "01M5QT5RDXBK3GEKY5AHFFENKZ"
+        ],
+        "criticalTasks": [
           {
             "id": "T-04",
-            "capability": "cybersecurity",
-            "task": "Declare a Cyber 1 incident to authorize network isolation and formal forensic response, per EOP Section 3.",
+            "capability": "public_information_and_warning",
+            "task": "Draft a bilingual (English/Spanish) statement confirming that IIS data may be delayed or incomplete due to a technical issue, not a data leak, and send to Legal for approval.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of the social media post",
+            "rowIds": [
+              "I-05b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "public_information_and_warning",
+            "task": "Publish the approved statement on the MCHD website, social media, and hotline script within 30 minutes of Legal approval.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of approval",
+            "rowIds": [
+              "I-05b",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "public_information_and_warning",
+            "task": "Log all public inquiries and social media posts in the rumor log (MCHD-F-55) and update the 'What's True' panel on the MCHD website.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 1 hour of first post",
+            "rowIds": [
+              "I-05b",
+              "I-07b",
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Epi team must sustain case investigation, contact tracing, and vaccine administration using paper forms (MCHD-F-10, MCHD-F-12, MCHD-F-40) and double-check all entries against paper records and clinic logs to ensure no loss of accountability during paper mode.",
+        "objectiveRefs": [
+          "01M5QT5RDXEM4QP5MBJ0715PVB"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "infrastructure_systems",
+            "task": "Activate paper mode for case investigation and contact tracing per EOP 4.3 and Section 10, using the paper line list (MCHD-F-12) and MCHD-F-10 for intake.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 10",
+              "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+              "chunkId": 14
+            },
+            "expectedBy": "epi",
+            "timing": "Within 10 minutes of the IC's declaration",
+            "rowIds": [
+              "I-06",
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "infrastructure_systems",
+            "task": "Verify all vaccine doses administered in paper mode against the paper sign-in sheets and ColdSentry manual readings to ensure no loss of accountability.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "it",
+            "timing": "Daily",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "infrastructure_systems",
+            "task": "Update the paper line list (MCHD-F-12) at each operational period and photograph it to KDHE by secure email if county email is down.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.2 Outbreak numbers and line lists",
+              "quote": "The Lead Epidemiologist assigns an outbreak number (format OB-2026-0147) and opens the line list from template MCHD-F-12. The working line list lives on the county SharePoint site \"MCHD Epi Response\";",
+              "chunkId": 39
+            },
+            "expectedBy": "epi",
+            "timing": "At each operational period",
+            "rowIds": [
+              "I-06b",
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander must coordinate the stepwise restoration of systems under County IT's guidance, including approving the order of restoration, verifying data integrity, and ensuring all teams follow the correct sequence before any system is brought back online.",
+        "objectiveRefs": [
+          "01M5QT5RDXGM78NV1XRGTS80VK",
+          "01M5QT5RDXBK3GEKY5AHFFENKZ",
+          "01M5QT5RDXEM4QP5MBJ0715PVB",
+          "01M5QT5RDXW6FMEA79QBHZYKZZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Declare a Cyber 1 incident to authorize network isolation and forensic review, and confirm that all teams are operating under paper mode.",
             "citation": {
               "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
               "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
@@ -1520,56 +1662,65 @@
               "chunkId": 12
             },
             "expectedBy": "ho",
-            "timing": "immediately",
+            "timing": "Immediately",
             "rowIds": [
-              "I-11"
+              "I-11",
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
               "01M5QT5RDXW6FMEA79QBHZYKZZ"
             ],
             "locked": false
           },
           {
-            "id": "T-05",
-            "capability": "cybersecurity",
-            "task": "Confirm that the IIS export file was altered to include 412 fake MMR doses with non-existent lot numbers, and quarantine it from further transmission.",
+            "id": "T-11",
+            "capability": "operational_coordination",
+            "task": "Approve the order of system restoration and confirm that County IT must verify the system is clean before any interface is resumed.",
             "citation": {
-              "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
-              "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
-              "headingPath": "Marston County Health Department… › Section 6",
-              "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
-              "chunkId": 24
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 9",
+              "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+              "chunkId": 13
             },
-            "expectedBy": "it",
-            "timing": "within 10 minutes",
+            "expectedBy": "ho",
+            "timing": "Before any system is restored",
             "rowIds": [
-              "I-08"
-            ],
-            "objectiveRefs": [
-              "01M5QT5RDXGM78NV1XRGTS80VK",
-              "01M5QT5RDXW6FMEA79QBHZYKZZ"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-06",
-            "capability": "cybersecurity",
-            "task": "Verify that the restore of MCHD-INT01 from the 10-20 backup brought back the malicious script, and immediately isolate the server again to prevent reinfection.",
-            "citation": {
-              "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
-              "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
-              "headingPath": "Marston County Health Department… › Section 6",
-              "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
-              "chunkId": 24
-            },
-            "expectedBy": "it",
-            "timing": "within 10 minutes",
-            "rowIds": [
+              "I-18",
               "I-18b"
             ],
             "objectiveRefs": [
               "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Confirm that the IIS export catch-up file will not be built until the Informatics Lead and the Epi team have completed the data-integrity check and signed MCHD-F-62.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "ho",
+            "timing": "Before any file generation",
+            "rowIds": [
+              "I-18",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
               "01M5QT5RDXW6FMEA79QBHZYKZZ"
             ],
             "locked": false
@@ -3427,13 +3578,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:05:22.678Z",
-      "finishedAt": "2026-10-30T11:05:42.027Z",
+      "startedAt": "2026-10-30T12:19:23.114Z",
+      "finishedAt": "2026-10-30T12:19:55.325Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 11642,
-      "outputTokens": 1360,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11667,
+      "outputTokens": 2390,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

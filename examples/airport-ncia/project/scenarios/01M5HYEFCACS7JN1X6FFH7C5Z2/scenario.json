@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-30T11:11:11.837Z",
+  "updatedAt": "2026-10-30T12:27:47.073Z",
   "brief": {
     "userPrompt": "Every POS terminal in the airport goes dark two minutes after the IT Manager's emergency firewall rule, while a real SSH scan and a vendor firmware push make a cyberattack and a supply-chain compromise look equally plausible.",
     "audience": [
@@ -486,98 +486,62 @@
       {
         "objectiveId": "obj-diagnostic",
         "capability": "cybersecurity",
-        "why": "The objective tests whether the IT team relies on actual technical evidence—specifically, the firewall rule configuration—rather than speculative assumptions about a cyberattack. The capability is engaged because the root cause lies in a misconfigured network security policy, which falls under cybersecurity's role in protecting and restoring electronic systems."
+        "why": "The objective tests whether the IT team relies on actual network evidence—specifically the firewall rule configuration—rather than assumptions about external threats, which is central to cybersecurity's role in protecting and restoring electronic systems and verifying configurations."
       },
       {
         "objectiveId": "obj-diagnostic",
         "capability": "situational_assessment",
-        "why": "The team must assess the true nature of the threat by analyzing logs, traffic data, and rule configurations. This objective directly exercises situational assessment by requiring decision-makers to base their understanding on verified data, not on perceived threats or media pressure."
-      },
-      {
-        "objectiveId": "obj-diagnostic",
-        "capability": "access_control_and_identity_verification",
-        "why": "The incident involves unauthorized access attempts (SSH scanning) and a failure in access control policy enforcement due to a misconfigured rule. The team must verify that access controls are properly implemented and that identity and access policies are not compromised by internal configuration errors."
-      },
-      {
-        "objectiveId": "obj-bias",
-        "capability": "cybersecurity",
-        "why": "The objective challenges the team's tendency to interpret ambiguous signals as evidence of a cyberattack. The team must resist confirmation bias by validating the actual threat vector through technical evidence, not by assuming an attack based on external scanning and vendor issues."
+        "why": "The objective requires the team to assess the true nature of the threat by analyzing logs, traffic data, and rule configurations, which is a core function of situational assessment in response operations."
       },
       {
         "objectiveId": "obj-bias",
         "capability": "intelligence_and_information_sharing",
-        "why": "The team must process and cross-reference intelligence from multiple sources—vendor reports, SIEM logs, and network traffic—to determine whether the threat is real or coincidental. This capability ensures that information is not accepted at face value but is evaluated in context."
+        "why": "The objective tests whether the team uses verified data from multiple sources—SIEM logs, vendor reports, and network traffic—to counteract preconceived notions, which aligns with intelligence and information sharing's role in ensuring accurate threat assessment."
       },
       {
         "objectiveId": "obj-bias",
+        "capability": "situational_assessment",
+        "why": "The team must continuously reassess the threat landscape using objective evidence to avoid being misled by red herrings, a key aspect of situational assessment."
+      },
+      {
+        "objectiveId": "obj-change",
         "capability": "planning",
-        "why": "The team must apply structured planning processes to test hypotheses and validate assumptions. The objective requires that they follow a deliberate, evidence-based planning approach rather than defaulting to a preconceived narrative of a cyberattack."
+        "why": "The objective focuses on identifying systemic flaws in change procedures, which falls under planning's role in developing and maintaining processes that prevent recurrence of failures."
       },
       {
         "objectiveId": "obj-change",
         "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "The objective focuses on identifying systemic risks in the change management process. The team must assess whether the policy allowed a single individual to make a high-impact change without review or verification, and determine whether risk controls were insufficient."
-      },
-      {
-        "objectiveId": "obj-change",
-        "capability": "planning",
-        "why": "The team must evaluate the change management process as part of a broader planning framework. The root cause is not just a human error but a failure in process design, which must be addressed through improved planning and policy development."
-      },
-      {
-        "objectiveId": "obj-change",
-        "capability": "operational_coordination",
-        "why": "The team must coordinate across IT, operations, legal, and communications to identify and address systemic failures. This objective tests whether the organization can align stakeholders to fix process gaps rather than focusing on individual blame."
+        "why": "The team must assess the risk of unreviewed changes and identify gaps in risk controls, which is central to managing protection programs and activities."
       },
       {
         "objectiveId": "obj-comms",
         "capability": "public_information_and_warning",
-        "why": "The objective directly tests the PIO's ability to deliver timely, accurate, and actionable information under uncertainty. The team must craft a message that avoids premature claims of a cyberattack while managing public concern and preventing misinformation."
-      },
-      {
-        "objectiveId": "obj-comms",
-        "capability": "operational_communications",
-        "why": "The PIO must maintain clear and consistent communication with internal stakeholders and external media. The objective evaluates whether the team uses operational communications to ensure that all parties receive accurate, coordinated information during a crisis."
-      },
-      {
-        "objectiveId": "obj-comms",
-        "capability": "situational_assessment",
-        "why": "The PIO must base their messaging on a correct understanding of the situation. The team must assess the actual cause of the outage before issuing any public statement, ensuring that communication is not driven by emotion or pressure but by verified facts."
+        "why": "The objective tests whether the PIO delivers timely, accurate, and actionable information to the public under uncertainty, which is the core function of public information and warning."
       },
       {
         "objectiveId": "obj-accountability",
         "capability": "planning",
-        "why": "The objective requires the team to shift from reactive blame to proactive system improvement. The team must plan for long-term resilience by addressing the root cause—systemic flaws in change management—rather than focusing on individual accountability."
-      },
-      {
-        "objectiveId": "obj-accountability",
-        "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "The team must assess whether the organization's risk management practices allowed a single point of failure. This capability ensures that risk is managed not just through policy but through continuous evaluation of process controls."
-      },
-      {
-        "objectiveId": "obj-accountability",
-        "capability": "operational_coordination",
-        "why": "The team must coordinate across leadership roles to determine a unified response to the incident. The objective tests whether the organization can align on a strategy that prioritizes systemic improvement over individual punishment, ensuring that accountability is structured and not punitive."
+        "why": "The decision to fix the system rather than fire the individual reflects a planning mindset focused on long-term resilience, process improvement, and preventing future failures through structured, repeatable procedures."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "The IT team must identify and correct the misconfigured firewall rule (CM-2026-0087) by verifying the actual rule in the running configuration, confirming it blocks all traffic from any source to the Retail VLAN (10.1.40.0/24), and restoring service by deleting or correcting it within 10 minutes of discovery.",
+        "target": "The IT team will identify and validate the actual firewall rule configuration in the running system, confirming that the rule CM-2026-0087 was incorrectly configured with 'any' for Source Zone and Source Address, and that it was positioned above inter-VLAN allow rules, thereby causing the outage.",
         "objectiveRefs": [
-          "obj-diagnostic",
-          "obj-bias"
+          "obj-diagnostic"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Review the actual firewall rule CM-2026-0087 from the running configuration",
+            "task": "Retrieve the actual firewall rule from the running configuration",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
             },
             "expectedBy": "it",
             "timing": "within 5 minutes of I-05",
@@ -585,75 +549,49 @@
               "I-05"
             ],
             "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-bias"
+              "obj-diagnostic"
             ],
             "locked": false
           },
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Confirm that the rule's Source Zone is set to 'any' and Source Address is set to 'any'",
+            "task": "Compare the rule's Source Zone and Source Address settings to the intended values in the change request",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
             },
             "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
+            "timing": "within 10 minutes of I-05",
             "rowIds": [
               "I-05"
             ],
             "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-bias"
+              "obj-diagnostic"
             ],
             "locked": false
           },
           {
             "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Delete the rule CM-2026-0087 and restore traffic to the Retail VLAN (10.1.40.0/24)",
+            "task": "Confirm that the rule's position in the policy list is above the inter-VLAN allow rules",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
             },
             "expectedBy": "it",
             "timing": "within 10 minutes of I-05",
             "rowIds": [
-              "I-05",
-              "I-06"
+              "I-05"
             ],
             "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-bias"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-04",
-            "capability": "cybersecurity",
-            "task": "Verify that all POS terminals resume processing card transactions",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
-            },
-            "expectedBy": "it",
-            "timing": "within 10 minutes of I-06",
-            "rowIds": [
-              "I-06"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-bias"
+              "obj-diagnostic"
             ],
             "locked": false
           }
@@ -661,16 +599,38 @@
       },
       {
         "capability": "situational_assessment",
-        "target": "The team must assess the true nature of the threat by analyzing firewall logs, SIEM data, and network traffic to determine that the SSH scanning from 185.220.101.34 occurred before the rule was applied and that the actual cause of the outage was a misconfigured rule, not a successful attack.",
+        "target": "The IT team will analyze the SIEM logs, network traffic data, and vendor communications to determine that the SSH scanning from 185.220.101.34 occurred before the rule was written and that the rule's actual configuration, not its intent, caused the outage.",
         "objectiveRefs": [
           "obj-diagnostic",
-          "obj-comms"
+          "obj-bias"
         ],
         "criticalTasks": [
           {
+            "id": "T-04",
+            "capability": "situational_assessment",
+            "task": "Review SIEM logs for evidence of SSH scanning from 185.220.101.34 between 2:00 and 2:15 AM",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-03",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "obj-diagnostic",
+              "obj-bias"
+            ],
+            "locked": false
+          },
+          {
             "id": "T-05",
             "capability": "situational_assessment",
-            "task": "Identify the SSH scanning from 185.220.101.34 in the SIEM logs",
+            "task": "Cross-reference the vendor's firmware push time (9:30 AM) with the rule creation time (9:45 AM) and outage time (9:47 AM)",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -685,89 +645,90 @@
             ],
             "objectiveRefs": [
               "obj-diagnostic",
-              "obj-comms"
+              "obj-bias"
             ],
             "locked": false
           },
           {
             "id": "T-06",
             "capability": "situational_assessment",
-            "task": "Compare the timestamp of the SSH scan (2:00–2:15 AM) to the firewall rule creation (09:45 AM)",
+            "task": "Determine that the rule was not applied to block only 185.220.0.0/16 but instead blocked all traffic to the Retail VLAN",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
             },
             "expectedBy": "it",
-            "timing": "within 5 minutes of I-03",
-            "rowIds": [
-              "I-03"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-comms"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-07",
-            "capability": "situational_assessment",
-            "task": "Confirm that the firewall rule CM-2026-0087 was applied at 09:45 AM and caused the outage at 09:47 AM",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
-            },
-            "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
+            "timing": "within 10 minutes of I-05",
             "rowIds": [
               "I-05"
             ],
             "objectiveRefs": [
               "obj-diagnostic",
-              "obj-comms"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-08",
-            "capability": "situational_assessment",
-            "task": "Conclude that the SSH scan was not successful and did not cause the outage",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
-            },
-            "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic",
-              "obj-comms"
+              "obj-bias"
             ],
             "locked": false
           }
         ]
       },
       {
-        "capability": "access_control_and_identity_verification",
-        "target": "The team must verify that access control policies are properly enforced by confirming that the firewall rule CM-2026-0087 incorrectly applied to internal VLANs, and that the rule's failure to restrict access to external sources compromised the integrity of the SIDA and Retail VLAN.",
+        "capability": "planning",
+        "target": "The IT team will identify that the change management process allowed self-approval without peer review, no post-change verification, and no automated validation, and will recommend implementing mandatory peer review, automated rule validation, and a staging environment for firewall changes.",
         "objectiveRefs": [
-          "obj-diagnostic"
+          "obj-change",
+          "obj-accountability"
         ],
         "criticalTasks": [
           {
+            "id": "T-07",
+            "capability": "planning",
+            "task": "Review the change management system for rule CM-2026-0087 and confirm no peer review was conducted",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-change",
+              "obj-accountability"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "planning",
+            "task": "Identify that no post-change verification was performed before the rule was applied",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-change",
+              "obj-accountability"
+            ],
+            "locked": false
+          },
+          {
             "id": "T-09",
-            "capability": "access_control_and_identity_verification",
-            "task": "Verify that the Retail VLAN (10.1.40.0/24) is protected by a dedicated VLAN (666) and that access to it is restricted to authorized zones",
+            "capability": "planning",
+            "task": "Recommend the implementation of a firewall rule change staging environment and automated syntax validation",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
@@ -776,75 +737,14 @@
               "chunkId": 54
             },
             "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
+            "timing": "within 10 minutes of I-09",
             "rowIds": [
-              "I-05"
+              "I-09",
+              "I-11"
             ],
             "objectiveRefs": [
-              "obj-diagnostic"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-10",
-            "capability": "access_control_and_identity_verification",
-            "task": "Confirm that the rule CM-2026-0087 was applied to the Retail VLAN and blocked all internal traffic",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
-              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
-              "chunkId": 54
-            },
-            "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-11",
-            "capability": "access_control_and_identity_verification",
-            "task": "Verify that no biometric or badge data is stored on the Retail VLAN and that the SIDA remains secure despite the rule change",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Section 2 › 2.4 Security Identification Display Area (SIDA) (49 CFR § 1542.205)",
-              "quote": "Overlays the Secured Area and portions of the AOA where badges must be visible at all times: the entire Secured Area, the North Cargo Ramp, the Fuel Farm containment area. Badges worn on the outermost",
-              "chunkId": 50
-            },
-            "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-12",
-            "capability": "access_control_and_identity_verification",
-            "task": "Confirm that the rule CM-2026-0087 did not prevent access to the SIDA or the Badging Office",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Section 2 › 2.4 Security Identification Display Area (SIDA) (49 CFR § 1542.205)",
-              "quote": "Overlays the Secured Area and portions of the AOA where badges must be visible at all times: the entire Secured Area, the North Cargo Ramp, the Fuel Farm containment area. Badges worn on the outermost",
-              "chunkId": 50
-            },
-            "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-diagnostic"
+              "obj-change",
+              "obj-accountability"
             ],
             "locked": false
           }
@@ -852,15 +752,15 @@
       },
       {
         "capability": "public_information_and_warning",
-        "target": "The PIO must issue a neutral, factual statement to the public and media that acknowledges a system issue affecting retail terminals without confirming or denying a cyberattack, and must update the statement as new information becomes available.",
+        "target": "The PIO will issue a neutral, factual statement to the public and media that acknowledges a temporary system issue affecting retail terminals, confirms no cyberattack occurred, and commits to providing updates, without speculating on the cause.",
         "objectiveRefs": [
           "obj-comms"
         ],
         "criticalTasks": [
           {
-            "id": "T-13",
+            "id": "T-10",
             "capability": "public_information_and_warning",
-            "task": "Issue a public statement: 'We're experiencing a temporary system issue affecting some retail terminals. We're working to restore service and will provide updates as available.'",
+            "task": "Draft and issue a holding statement to social media and media outlets stating that a temporary system issue is affecting retail terminals",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -879,9 +779,9 @@
             "locked": false
           },
           {
-            "id": "T-14",
+            "id": "T-11",
             "capability": "public_information_and_warning",
-            "task": "Monitor social media for public reaction and adjust messaging if misinformation spreads",
+            "task": "Confirm that the statement does not reference a cyberattack or assign blame",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -890,7 +790,7 @@
               "chunkId": 22
             },
             "expectedBy": "pio",
-            "timing": "within 10 minutes of I-04",
+            "timing": "within 5 minutes of I-04",
             "rowIds": [
               "I-04"
             ],
@@ -900,9 +800,9 @@
             "locked": false
           },
           {
-            "id": "T-15",
+            "id": "T-12",
             "capability": "public_information_and_warning",
-            "task": "Issue a follow-up statement confirming the outage was not a cyberattack and that the issue has been resolved",
+            "task": "Update the statement to reflect the confirmed cause (configuration error) after the root cause is identified",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -911,30 +811,9 @@
               "chunkId": 22
             },
             "expectedBy": "pio",
-            "timing": "within 10 minutes of I-08",
+            "timing": "within 5 minutes of I-09",
             "rowIds": [
-              "I-08"
-            ],
-            "objectiveRefs": [
-              "obj-comms"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-16",
-            "capability": "public_information_and_warning",
-            "task": "Pre-approve a holding statement for system outages to be used in future incidents",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
-            },
-            "expectedBy": "pio",
-            "timing": "within 10 minutes of I-11",
-            "rowIds": [
-              "I-11"
+              "I-09"
             ],
             "objectiveRefs": [
               "obj-comms"
@@ -944,87 +823,164 @@
         ]
       },
       {
-        "capability": "planning",
-        "target": "The team must develop and implement a revised change management process that includes mandatory peer review, automated rule validation, and a post-change verification checklist for all firewall rule modifications, to prevent recurrence of the incident.",
-        "objectiveRefs": [
-          "obj-bias",
-          "obj-change",
-          "obj-accountability"
-        ],
+        "capability": "operational_coordination",
+        "target": "The leadership team will decide to address the systemic failure in change management rather than fire Jordan Kelley, and will commit to implementing process improvements that prevent future single-point failures, including mandatory peer review and automated validation.",
+        "objectiveRefs": [],
         "criticalTasks": [
           {
-            "id": "T-17",
-            "capability": "planning",
-            "task": "Establish a mandatory peer review process for all firewall changes, including emergency changes",
+            "id": "T-13",
+            "capability": "operational_coordination",
+            "task": "Convene a leadership discussion to decide whether to fire Jordan Kelley or fix the system",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.1 Purpose",
+              "quote": "Orderly and safe movement of occupants out of the terminal to an Assembly Point during an internal threat.",
+              "chunkId": 91
             },
-            "expectedBy": "it",
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "operational_coordination",
+            "task": "Declare that the organization will not fire Kelley but will instead implement systemic controls to prevent recurrence",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.1 Purpose",
+              "quote": "Orderly and safe movement of occupants out of the terminal to an Assembly Point during an internal threat.",
+              "chunkId": 91
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "operational_coordination",
+            "task": "Assign responsibility for implementing peer review, automated validation, and post-change verification to the IT team",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.1 Purpose",
+              "quote": "Orderly and safe movement of occupants out of the terminal to an Assembly Point during an internal threat.",
+              "chunkId": 91
+            },
+            "expectedBy": "ops",
             "timing": "within 10 minutes of I-11",
             "rowIds": [
               "I-11"
             ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The IT team must collect and cross-reference firewall logs, SIEM alerts, change management records, and vendor communications to validate or reject threat theories, ensuring that no single data point overrides the full evidence set.",
+        "objectiveRefs": [
+          "obj-bias"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share the firewall rule CM-2026-0087 with the full team after retrieving it from the running config.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 2 › 2.4 Security Identification Display Area (SIDA) (49 CFR § 1542.205)",
+              "quote": "Overlays the Secured Area and portions of the AOA where badges must be visible at all times: the entire Secured Area, the North Cargo Ramp, the Fuel Farm containment area. Badges worn on the outermost",
+              "chunkId": 50
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of identifying the rule as a potential cause",
+            "rowIds": [
+              "I-05"
+            ],
             "objectiveRefs": [
-              "obj-bias",
-              "obj-change",
-              "obj-accountability"
+              "obj-bias"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Compare the actual rule configuration (Source Zone: any, Source Address: any) with the intended policy (Source Zone: Untrust, Source Address: 185.220.0.0/16) and report the discrepancy to the group.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of rule retrieval",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-bias"
             ],
             "locked": false
           },
           {
             "id": "T-18",
-            "capability": "planning",
-            "task": "Implement automated rule validation to check syntax and policy compliance before deployment",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Verify the vendor's claim about the firmware push by checking the RetailLink cloud portal logs and confirming no network configuration changes were made.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes of I-11",
+            "timing": "within 15 minutes of receiving the vendor call",
             "rowIds": [
-              "I-11"
+              "I-02"
             ],
             "objectiveRefs": [
-              "obj-bias",
-              "obj-change",
-              "obj-accountability"
+              "obj-bias"
             ],
             "locked": false
           },
           {
             "id": "T-19",
-            "capability": "planning",
-            "task": "Create a post-change verification checklist that includes testing in a staging environment and confirmation of no unintended impacts",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Cross-reference the SSH scanning IP (185.220.101.34) with CISA advisory TI-2026-0312 to confirm it is from a known botnet, but note that the scanning occurred 7 hours before the rule was applied.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes of I-11",
+            "timing": "within 10 minutes of SIEM report",
             "rowIds": [
-              "I-11"
+              "I-03"
             ],
             "objectiveRefs": [
-              "obj-bias",
-              "obj-change",
-              "obj-accountability"
+              "obj-bias"
             ],
             "locked": false
           },
           {
             "id": "T-20",
-            "capability": "planning",
-            "task": "Document and distribute the revised change management policy to all IT staff and stakeholders",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share the change management policy (self-approval allowed, no peer review) with Legal and Ops to assess risk and inform decision-making on accountability and process reform.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -1033,107 +989,168 @@
               "chunkId": 22
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes of I-11",
+            "timing": "within 20 minutes of root cause confirmation",
             "rowIds": [
-              "I-11"
+              "I-09"
             ],
             "objectiveRefs": [
-              "obj-bias",
-              "obj-change",
-              "obj-accountability"
+              "obj-bias"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Distribute the full network traffic analysis (including rule position and policy order) to the EOC to support unified situational awareness.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of IT's final report",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-bias"
             ],
             "locked": false
           }
         ]
       },
       {
-        "capability": "operational_communications",
-        "target": "The team must maintain clear and consistent communication between IT, operations, legal, and PIO to ensure that all parties receive accurate, coordinated information during the incident, particularly regarding the cause, timeline, and public messaging.",
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "target": "The organization identifies and addresses systemic risk in change management by implementing mandatory peer review, automated validation, and post-change verification for all firewall rule modifications, preventing a recurrence of a misconfigured rule that caused a critical infrastructure outage.",
         "objectiveRefs": [
-          "obj-comms"
+          "obj-change"
         ],
         "criticalTasks": [
           {
-            "id": "T-21",
-            "capability": "operational_communications",
-            "task": "Brief the PIO on the actual cause of the outage before issuing any public statement",
+            "id": "T-22",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Identify the absence of peer review, verification, and automated validation in the firewall change process as a systemic risk.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
             },
             "expectedBy": "it",
-            "timing": "within 5 minutes of I-05",
+            "timing": "within 10 minutes of I-05",
             "rowIds": [
               "I-05"
             ],
             "objectiveRefs": [
-              "obj-comms"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-22",
-            "capability": "operational_communications",
-            "task": "Coordinate with legal to confirm whether PCI-DSS reporting is required based on the absence of data exposure",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
-            },
-            "expectedBy": "legal",
-            "timing": "within 5 minutes of I-05",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-comms"
+              "obj-change"
             ],
             "locked": false
           },
           {
             "id": "T-23",
-            "capability": "operational_communications",
-            "task": "Update the operations team on the status of service restoration and provide a timeline for full recovery",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Declare that the root cause is not the individual but the lack of risk controls in the change management process.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
             },
-            "expectedBy": "ops",
-            "timing": "within 5 minutes of I-06",
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-05",
             "rowIds": [
-              "I-06"
+              "I-09"
             ],
             "objectiveRefs": [
-              "obj-comms"
+              "obj-change"
             ],
             "locked": false
           },
           {
             "id": "T-24",
-            "capability": "operational_communications",
-            "task": "Confirm that all external communications are aligned with the verified facts and not based on assumptions",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Recommend and document mandatory peer review for all emergency firewall changes, including a review checklist.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 6 › 6.1 Resource Management",
-              "quote": "**Emergency Procurement:** During a Level 1 or 2 EOC activation, the Airport Director may procure goods and services without competitive bidding up to **$250,000**, per NCRAA Emergency Bylaws. **Resou",
-              "chunkId": 22
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
             },
-            "expectedBy": "pio",
-            "timing": "within 5 minutes of I-08",
+            "expectedBy": "it",
+            "timing": "within 20 minutes of I-09",
             "rowIds": [
-              "I-08"
+              "I-11"
             ],
             "objectiveRefs": [
-              "obj-comms"
+              "obj-change"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Implement automated rule validation (syntax and policy compliance) in the firewall change workflow.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
+            },
+            "expectedBy": "it",
+            "timing": "within 25 minutes of I-09",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-change"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Establish a mandatory post-change verification checklist for all network changes, including a 2-minute traffic impact test.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
+            },
+            "expectedBy": "it",
+            "timing": "within 25 minutes of I-09",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-change"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Require a staging environment for all firewall changes before deployment to production.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+              "chunkId": 78
+            },
+            "expectedBy": "it",
+            "timing": "within 25 minutes of I-09",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-change"
             ],
             "locked": false
           }
@@ -2125,13 +2142,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T10:58:40.573Z",
-      "finishedAt": "2026-10-30T10:59:18.826Z",
+      "startedAt": "2026-10-30T12:09:20.763Z",
+      "finishedAt": "2026-10-30T12:09:45.275Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 6948,
-      "outputTokens": 3129,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 20917,
+      "outputTokens": 4071,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

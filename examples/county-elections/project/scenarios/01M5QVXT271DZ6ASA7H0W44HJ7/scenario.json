@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T21:09:04.711Z",
-  "updatedAt": "2026-10-30T11:12:21.655Z",
+  "updatedAt": "2026-10-30T12:28:57.046Z",
   "brief": {
     "userPrompt": "Thursday 10/29/2026, the fourth-to-last day of early voting for the 2026 general election in Lisle County. At 08:10 three voters at the Early Vote Center (18 South Market Street, Carrow) are shown on their Poll Pads as 'mail ballot issued' though they never asked for one; by 10:00 there are 23 such voters and a line out the door. Voter Registration Manager Beth Saylor finds that 1,186 records in Precinct 104, Precinct 105 and Precinct 207 were changed in VoterTrack (LCBOE-VR01) between 02:05 and 02:40 Wednesday by the account of Voter Registration Clerk Nina Ruiz, who on Tuesday clicked a 'Secretary of State directive update' email and approved a multi-factor prompt; her mailbox has a forwarding rule. At 11:30 poll workers for Polling Location 6 (Carrow Community Church, Precinct 111 and Precinct 112) receive an email from her account saying their location moved back to Carrow Middle School. At 13:00 a video viewed 200,000 times says Lisle County 'deleted 10,000 voters' and that the DS200 scanners are connected to the internet. Decisions: disabling the account and preserving the evidence, freezing record changes (COOP-DR-5), whether to hold the 10/31 final pollbook load and rebuild it from the statewide voter registration database, provisional ballots for affected voters, correcting the spoofed notice, reports to the Ohio Secretary of State, CISA and the FBI, the 22-month records hold, Board notification, and a public statement (COOP-DR-6) that tells voters how to check their registration without naming any party or candidate.",
     "audience": [
@@ -1354,69 +1354,49 @@
     "objectiveCapabilities": [
       {
         "objectiveId": "01M5QW0A89JFVDHZAM315HG03M",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective requires detecting and isolating a compromised user account, which directly aligns with access control and identity verification to prevent unauthorized access and ensure account integrity."
-      },
-      {
-        "objectiveId": "01M5QW0A89JFVDHZAM315HG03M",
         "capability": "cybersecurity",
-        "why": "The objective focuses on identifying and containing a cyber incident involving account takeover, which is a core function of cybersecurity to protect systems and data from unauthorized use."
+        "why": "The objective focuses on detecting and isolating a compromised user account, which directly aligns with the cybersecurity capability's core function of protecting and restoring electronic systems and identities from unauthorized use."
       },
       {
         "objectiveId": "01M5QW0A89JFVDHZAM315HG03M",
-        "capability": "forensics_and_attribution",
-        "why": "The objective includes preserving logs and forensic evidence to trace the attack, which supports forensic analysis and attribution to identify the source and nature of the compromise."
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective requires verifying account integrity and disabling access based on identity, which is a core function of access control and identity verification in protecting systems from unauthorized access."
       },
       {
         "objectiveId": "01M5QW0A89HKYJYK9M7TQDPAG1",
         "capability": "infrastructure_systems",
-        "why": "The objective requires validating and correcting pollbook data using a trusted, air-gapped export, which involves stabilizing critical infrastructure systems to ensure accurate and reliable election operations."
+        "why": "The objective requires validating and correcting pollbook data using a trusted, air-gapped copy of the VoterTrack export, which involves stabilizing critical infrastructure functions to ensure accurate and reliable election operations."
       },
       {
         "objectiveId": "01M5QW0A89HKYJYK9M7TQDPAG1",
         "capability": "operational_coordination",
-        "why": "The objective demands coordination across IT, VSM, and the Voter Registration Manager to rebuild pollbook data correctly, which relies on a unified operational structure to ensure consistency and accuracy."
-      },
-      {
-        "objectiveId": "01M5QW0A89HKYJYK9M7TQDPAG1",
-        "capability": "public_information_and_warning",
-        "why": "The objective includes ensuring that poll workers and staff are informed of the correct polling location and procedures, which requires timely and accurate public information to prevent confusion and maintain trust."
+        "why": "The objective demands coordination across roles (VSM, IT, Voter Registration) to ensure the correct data is used and applied, which reflects the need for a unified operational structure to execute core functions during a crisis."
       },
       {
         "objectiveId": "01M5QW0A89NRKWH1SJTWZMPENZ",
         "capability": "public_information_and_warning",
-        "why": "The objective requires issuing a unified public statement to correct misinformation, which directly involves delivering reliable, actionable information to the public through consistent and timely messaging."
+        "why": "The objective requires issuing a unified public statement to correct misinformation, which is a direct application of public information and warning to deliver timely, accurate, and actionable information to the public."
       },
       {
         "objectiveId": "01M5QW0A89NRKWH1SJTWZMPENZ",
         "capability": "operational_coordination",
-        "why": "The objective demands coordination between the PIO, Director, and Legal to ensure all public messages are consistent, approved, and aligned with verified data, which requires a unified operational structure."
-      },
-      {
-        "objectiveId": "01M5QW0A89NRKWH1SJTWZMPENZ",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective includes verifying information from the Secretary of State and the statewide database to inform public messaging, which relies on timely and accurate information sharing to prevent the spread of false narratives."
+        "why": "The objective depends on coordinated messaging between the PIO, Director, and Legal to ensure consistency and accuracy, which is a core function of operational coordination in managing interagency and internal communication."
       },
       {
         "objectiveId": "01M5QW0A89NX8KXANY41CDZY8V",
         "capability": "cybersecurity",
-        "why": "The objective requires isolating the VoterTrack database and blocking external data exfiltration, which is a core function of cybersecurity to protect systems and prevent further damage."
-      },
-      {
-        "objectiveId": "01M5QW0A89NX8KXANY41CDZY8V",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective includes disabling the compromised account and revoking API access, which directly relates to controlling access to systems and ensuring identity verification remains intact."
+        "why": "The objective involves isolating the VoterTrack database and blocking external data exfiltration, which is a direct application of cybersecurity to prevent further damage and secure electronic systems."
       },
       {
         "objectiveId": "01M5QW0A89NX8KXANY41CDZY8V",
         "capability": "forensics_and_attribution",
-        "why": "The objective involves preserving logs and forensic evidence to document the attack and support future analysis, which supports forensic investigation and attribution."
+        "why": "The objective includes preserving logs and forensic evidence to identify the attack vector and confirm the compromise, which supports the forensic analysis and attribution function to understand and document the incident."
       }
     ],
     "eegs": [
       {
-        "capability": "access_control_and_identity_verification",
-        "target": "The IT Manager and County CISO must immediately disable the compromised account 'nruiz@lislevotes.example' and revoke all active sessions within 15 minutes of the first anomaly report, as required by C1, Section 6.1.",
+        "capability": "cybersecurity",
+        "target": "The IT Manager and County CISO must immediately disable the compromised account 'nruiz@lislevotes.example' and block all network access to VoterTrack (LCBOE-VR01 and LCBOE-SQL01) to prevent further unauthorized changes, using procedures from C1 and C7.",
         "objectiveRefs": [
           "01M5QW0A89JFVDHZAM315HG03M",
           "01M5QW0A89NX8KXANY41CDZY8V"
@@ -1424,8 +1404,8 @@
         "criticalTasks": [
           {
             "id": "T-01",
-            "capability": "access_control_and_identity_verification",
-            "task": "Disable the user account 'nruiz@lislevotes.example' in Entra ID immediately upon confirmation of compromise.",
+            "capability": "cybersecurity",
+            "task": "Disable the user account 'nruiz@lislevotes.example' in Entra ID and revoke all active sessions.",
             "citation": {
               "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
               "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
@@ -1434,11 +1414,9 @@
               "chunkId": 8
             },
             "expectedBy": "it",
-            "timing": "within 15 minutes",
+            "timing": "within 15 minutes of first anomaly report",
             "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b"
+              "I-03"
             ],
             "objectiveRefs": [
               "01M5QW0A89JFVDHZAM315HG03M",
@@ -1448,20 +1426,19 @@
           },
           {
             "id": "T-02",
-            "capability": "access_control_and_identity_verification",
-            "task": "Revoke all active sessions for the account 'nruiz@lislevotes.example' and reset the second factor.",
+            "capability": "cybersecurity",
+            "task": "Block all outbound network traffic from LCBOE-FS01 and isolate LCBOE-VR01 and LCBOE-SQL01 from the network.",
             "citation": {
               "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
               "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
-              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
-              "chunkId": 8
+              "headingPath": "Lisle County Board of Elections… › Section 5",
+              "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+              "chunkId": 7
             },
             "expectedBy": "it",
-            "timing": "within 15 minutes",
+            "timing": "within 10 minutes of confirmation",
             "rowIds": [
               "I-03",
-              "I-03b",
               "I-08b"
             ],
             "objectiveRefs": [
@@ -1472,8 +1449,8 @@
           },
           {
             "id": "T-03",
-            "capability": "access_control_and_identity_verification",
-            "task": "Preserve the original phishing email with full headers for the FBI and CISA, as required by C1, Section 6.1.",
+            "capability": "cybersecurity",
+            "task": "Preserve the original phishing email with full headers and all system logs from LCBOE-SQL01 and LCBOE-FS01 on a write-protected forensic drive.",
             "citation": {
               "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
               "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
@@ -1482,11 +1459,11 @@
               "chunkId": 8
             },
             "expectedBy": "it",
-            "timing": "within 15 minutes",
+            "timing": "within 15 minutes of first anomaly report",
             "rowIds": [
               "I-03",
-              "I-03b",
-              "I-08b"
+              "I-08b",
+              "I-20"
             ],
             "objectiveRefs": [
               "01M5QW0A89JFVDHZAM315HG03M",
@@ -1497,41 +1474,37 @@
         ]
       },
       {
-        "capability": "cybersecurity",
-        "target": "The IT Manager and County CISO must isolate the VoterTrack database from the network and block external data exfiltration by disabling the forwarding rule and revoking API access from the compromised account within 10 minutes of confirmation, as required by C1, Section 6.1 and C8, Section 8.2.",
+        "capability": "access_control_and_identity_verification",
+        "target": "The IT Manager must verify the identity of the user 'nruiz@lislevotes.example' by confirming no physical presence during the compromise window and ensure that only authorized personnel can access VoterTrack, per C1 and C4.",
         "objectiveRefs": [
-          "01M5QW0A89JFVDHZAM315HG03M",
-          "01M5QW0A89NX8KXANY41CDZY8V"
+          "01M5QW0A89JFVDHZAM315HG03M"
         ],
         "criticalTasks": [
           {
             "id": "T-04",
-            "capability": "cybersecurity",
-            "task": "Isolate LCBOE-VR01 and LCBOE-SQL01 from the network immediately upon confirmation of compromise.",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that Nina Ruiz was not physically present in the office between 02:00 and 02:50 on 10/29/2026 using the physical log and access control records.",
             "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
-              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
-              "chunkId": 32
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes",
+            "timing": "within 15 minutes of first anomaly report",
             "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b"
+              "I-03"
             ],
             "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
+              "01M5QW0A89JFVDHZAM315HG03M"
             ],
             "locked": false
           },
           {
             "id": "T-05",
-            "capability": "cybersecurity",
-            "task": "Disable the forwarding rule on the compromised account 'nruiz@lislevotes.example' and remove it from the mailbox.",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that the MFA prompt was approved from a device not in the office, using device ID and location data from the MFA log.",
             "citation": {
               "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
               "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
@@ -1540,80 +1513,20 @@
               "chunkId": 8
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes",
+            "timing": "within 15 minutes of first anomaly report",
             "rowIds": [
               "I-03",
-              "I-03b",
-              "I-08b"
+              "I-14"
             ],
             "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
+              "01M5QW0A89JFVDHZAM315HG03M"
             ],
             "locked": false
           },
           {
             "id": "T-06",
-            "capability": "cybersecurity",
-            "task": "Block all API access to VoterTrack from the compromised account and revoke any associated tokens.",
-            "citation": {
-              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
-              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
-              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
-              "chunkId": 8
-            },
-            "expectedBy": "it",
-            "timing": "within 10 minutes",
-            "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "forensics_and_attribution",
-        "target": "The IT Manager and County CISO must preserve forensic logs and evidence from the compromised account and systems, including the original phishing email, session logs, and network traffic, to support investigation and attribution, as required by C1, Section 6.1 and C8, Section 8.2.",
-        "objectiveRefs": [
-          "01M5QW0A89JFVDHZAM315HG03M",
-          "01M5QW0A89NX8KXANY41CDZY8V"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-07",
-            "capability": "forensics_and_attribution",
-            "task": "Preserve the original phishing email with full headers for the FBI and CISA, as required by C1, Section 6.1.",
-            "citation": {
-              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
-              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
-              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
-              "chunkId": 8
-            },
-            "expectedBy": "it",
-            "timing": "within 15 minutes",
-            "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-08",
-            "capability": "forensics_and_attribution",
-            "task": "Create a write-protected forensic image of the VoterTrack audit trail and system logs from LCBOE-SQL01, as required by C8, Section 8.2.",
+            "capability": "access_control_and_identity_verification",
+            "task": "Ensure that only the VR Manager and Director may lift the freeze on edits in VoterTrack for the affected precincts.",
             "citation": {
               "documentId": "01M5QVXR2W2337F8B46V7YEP73",
               "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
@@ -1621,44 +1534,13 @@
               "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
               "chunkId": 32
             },
-            "expectedBy": "it",
-            "timing": "within 30 minutes",
+            "timing": "after freeze is initiated",
             "rowIds": [
-              "I-03",
-              "I-03b",
               "I-08b",
-              "I-14",
-              "I-20"
+              "I-13"
             ],
             "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-09",
-            "capability": "forensics_and_attribution",
-            "task": "Seal the forensic drive under chain of custody (COOP-DR-5) and log it in the chain of custody log.",
-            "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
-              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
-              "chunkId": 32
-            },
-            "expectedBy": "it",
-            "timing": "within 30 minutes",
-            "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b",
-              "I-14",
-              "I-20"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89JFVDHZAM315HG03M",
-              "01M5QW0A89NX8KXANY41CDZY8V"
+              "01M5QW0A89JFVDHZAM315HG03M"
             ],
             "locked": false
           }
@@ -1666,15 +1548,15 @@
       },
       {
         "capability": "infrastructure_systems",
-        "target": "The Voting Systems Manager and IT Manager must rebuild the pollbook for Polling Location 6 using a trusted, air-gapped copy of the VoterTrack export from 10/28/2026, ensuring no unauthorized changes are applied during the emergency load, as required by C8, Section 8.2 and C4, Section 10.",
+        "target": "The Voting Systems Manager must rebuild the pollbook for Polling Location 6 using the trusted, air-gapped copy of the VoterTrack export from 10/28/2026 on LCBOE-PB01, ensuring no unauthorized changes are applied during the emergency load, as per C8 and C16.",
         "objectiveRefs": [
           "01M5QW0A89HKYJYK9M7TQDPAG1"
         ],
         "criticalTasks": [
           {
-            "id": "T-10",
+            "id": "T-07",
             "capability": "infrastructure_systems",
-            "task": "Verify the hash of the trusted VoterTrack export from 10/28/2026 on the air-gapped workstation LCBOE-PB01.",
+            "task": "Verify the digital signature and hash of the 10/28 export against the chain of custody log on LCBOE-PB01.",
             "citation": {
               "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
               "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
@@ -1683,10 +1565,9 @@
               "chunkId": 49
             },
             "expectedBy": "vsm",
-            "timing": "within 15 minutes",
+            "timing": "before any data is used",
             "rowIds": [
-              "I-16",
-              "I-19"
+              "I-16"
             ],
             "objectiveRefs": [
               "01M5QW0A89HKYJYK9M7TQDPAG1"
@@ -1694,31 +1575,9 @@
             "locked": false
           },
           {
-            "id": "T-11",
+            "id": "T-08",
             "capability": "infrastructure_systems",
-            "task": "Rebuild the pollbook data for Precincts 111 and 112 using the trusted, air-gapped export from 10/28/2026 on LCBOE-PB01.",
-            "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
-              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
-              "chunkId": 32
-            },
-            "expectedBy": "vsm",
-            "timing": "within 30 minutes",
-            "rowIds": [
-              "I-16",
-              "I-19"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89HKYJYK9M7TQDPAG1"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-12",
-            "capability": "infrastructure_systems",
-            "task": "Confirm that the air-gapped workstation LCBOE-PB01 is not connected to any network, including the county LAN, internet, or internal systems.",
+            "task": "Confirm that the workstation LCBOE-PB01 remains isolated from all networks, including the internet and internal systems, during the rebuild.",
             "citation": {
               "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
               "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
@@ -1727,10 +1586,9 @@
               "chunkId": 49
             },
             "expectedBy": "vsm",
-            "timing": "within 15 minutes",
+            "timing": "during manual mode",
             "rowIds": [
-              "I-16",
-              "I-19"
+              "I-16"
             ],
             "objectiveRefs": [
               "01M5QW0A89HKYJYK9M7TQDPAG1"
@@ -1740,17 +1598,112 @@
         ]
       },
       {
+        "capability": "public_information_and_warning",
+        "target": "The PIO must issue a unified public statement via the Board website, social media, and hotline using the EAC/CISA Election Infrastructure Incident Response Communications Guide, correcting the viral misinformation about voter deletion and confirming that all voters are eligible to vote in person.",
+        "objectiveRefs": [
+          "01M5QW0A89NRKWH1SJTWZMPENZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Draft and issue a holding statement: 'We are aware of reports and are investigating. All voters are welcome to vote in person. No one has been removed from the rolls.'",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "within 30 minutes of call",
+            "rowIds": [
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Post a 'Rumor vs. Fact' update on lislevotes.example and the Board's social media accounts confirming the location of Polling Location 6 is Carrow Community Church.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 hour of confirmation",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Publish the final press release draft on the Board website, social media, and hotline after approval from the Director and Legal.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "after COOP-DR-6 clearance",
+            "rowIds": [
+              "I-22"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
         "capability": "operational_coordination",
-        "target": "The Incident Commander, IT Manager, and Voter Registration Manager must coordinate to freeze record changes in VoterTrack for the affected precincts, compare records with the statewide database, and agree on a correction method, as required by C8, Section 8.2 and C5, Section 3.",
+        "target": "The Incident Commander must activate COOP Level 2 per CIRP 2, coordinate the response across roles, and ensure that all actions are synchronized through the Operations Center, as directed in C5 and C7.",
         "objectiveRefs": [
           "01M5QW0A89HKYJYK9M7TQDPAG1",
           "01M5QW0A89NRKWH1SJTWZMPENZ"
         ],
         "criticalTasks": [
           {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Declare CIRP Level 2 and activate COOP Level 2 per C7 and C8.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 5",
+              "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+              "chunkId": 7
+            },
+            "expectedBy": "eo",
+            "timing": "after I-06",
+            "rowIds": [
+              "I-06",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1",
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
             "id": "T-13",
             "capability": "operational_coordination",
-            "task": "Freeze edits in the affected precincts (111 and 112) in VoterTrack by the Voter Registration Manager, as required by C8, Section 8.2.",
+            "task": "Convene the Incident Command Team and initiate 15-minute reporting cycles as directed in C8.",
             "citation": {
               "documentId": "01M5QVXR2W2337F8B46V7YEP73",
               "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
@@ -1758,11 +1711,10 @@
               "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
               "chunkId": 32
             },
-            "timing": "within 15 minutes",
+            "expectedBy": "eo",
+            "timing": "after CIRP level declaration",
             "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b"
+              "I-13"
             ],
             "objectiveRefs": [
               "01M5QW0A89HKYJYK9M7TQDPAG1",
@@ -1773,41 +1725,18 @@
           {
             "id": "T-14",
             "capability": "operational_coordination",
-            "task": "Compare the affected records in VoterTrack with the official statewide voter registration database via the Ohio Secretary of State’s secure portal (SOS-001), as required by C8, Section 8.2.",
+            "task": "Ensure that all public statements are coordinated through the PIO and approved by the Director and Legal before release.",
             "citation": {
               "documentId": "01M5QVXR2W2337F8B46V7YEP73",
               "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
-              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
-              "chunkId": 32
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
             },
-            "timing": "within 30 minutes",
+            "expectedBy": "eo",
+            "timing": "before any public communication",
             "rowIds": [
-              "I-21"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89HKYJYK9M7TQDPAG1",
-              "01M5QW0A89NRKWH1SJTWZMPENZ"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-15",
-            "capability": "operational_coordination",
-            "task": "Agree on a correction method with the Secretary of State’s office and confirm that corrections will be made only from documentary evidence and a bipartisan pair, as required by C2, Section 6.2.",
-            "citation": {
-              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
-              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.2 Unauthorized voter-record changes",
-              "quote": "1. Freeze edits in the affected precincts (COOP-DR-5). 2. Run the integrity checks in Section 7. 3. Hold the next pollbook load until the affected records are reconciled; tell the Early Vote Center an",
-              "chunkId": 9
-            },
-            "timing": "within 30 minutes",
-            "rowIds": [
-              "I-03",
-              "I-03b",
-              "I-08b",
-              "I-21"
+              "I-22"
             ],
             "objectiveRefs": [
               "01M5QW0A89HKYJYK9M7TQDPAG1",
@@ -1818,82 +1747,31 @@
         ]
       },
       {
-        "capability": "public_information_and_warning",
-        "target": "The PIO must issue a unified public statement via the Board website, social media, and hotline that corrects a viral misinformation claim about voter deletion, using the EAC/CISA Election Infrastructure Incident Response Communications Guide and citing verified data from the Voter Registration Manager, as required by C3, Section 10 and C8, Section 8.2.",
+        "capability": "forensics_and_attribution",
+        "target": "The IT Manager must preserve and document all forensic evidence from the VoterTrack system, including logs from LCBOE-SQL01 and the original phishing email, to support attribution and future investigation, per C1 and C20.",
         "objectiveRefs": [
-          "01M5QW0A89HKYJYK9M7TQDPAG1",
-          "01M5QW0A89NRKWH1SJTWZMPENZ"
+          "01M5QW0A89NX8KXANY41CDZY8V"
         ],
         "criticalTasks": [
           {
-            "id": "T-16",
-            "capability": "public_information_and_warning",
-            "task": "Draft a holding statement using the EAC/CISA Election Infrastructure Incident Response Communications Guide (Section 7.2) to correct the viral misinformation claim.",
+            "id": "T-15",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve the original phishing email with full headers for the FBI and CISA, as required in C1.",
             "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 10",
-              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
-              "chunkId": 35
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
             },
-            "expectedBy": "pio",
-            "timing": "within 15 minutes",
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
             "rowIds": [
-              "I-07b",
-              "I-20b",
-              "I-22"
+              "I-03",
+              "I-08b"
             ],
             "objectiveRefs": [
-              "01M5QW0A89HKYJYK9M7TQDPAG1",
-              "01M5QW0A89NRKWH1SJTWZMPENZ"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-17",
-            "capability": "public_information_and_warning",
-            "task": "Post the unified public statement on the Board website (lislevotes.example), social media accounts, and hotline message, as required by C3, Section 10.",
-            "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 10",
-              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
-              "chunkId": 35
-            },
-            "expectedBy": "pio",
-            "timing": "within 30 minutes",
-            "rowIds": [
-              "I-07b",
-              "I-20b",
-              "I-22"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89HKYJYK9M7TQDPAG1",
-              "01M5QW0A89NRKWH1SJTWZMPENZ"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-18",
-            "capability": "public_information_and_warning",
-            "task": "Log the viral misinformation claim in the rumor log (LCBOE-F-25) and update the 'Rumor vs. Fact' page with verified information.",
-            "citation": {
-              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
-              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
-              "headingPath": "Lisle County Board of Elections… › Section 10",
-              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
-              "chunkId": 35
-            },
-            "expectedBy": "pio",
-            "timing": "within 15 minutes",
-            "rowIds": [
-              "I-07b",
-              "I-20b",
-              "I-22"
-            ],
-            "objectiveRefs": [
-              "01M5QW0A89HKYJYK9M7TQDPAG1",
-              "01M5QW0A89NRKWH1SJTWZMPENZ"
+              "01M5QW0A89NX8KXANY41CDZY8V"
             ],
             "locked": false
           }
@@ -3729,13 +3607,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:04:36.426Z",
-      "finishedAt": "2026-10-30T11:05:10.222Z",
+      "startedAt": "2026-10-30T12:18:41.909Z",
+      "finishedAt": "2026-10-30T12:19:11.665Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 11005,
-      "outputTokens": 2624,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11030,
+      "outputTokens": 2210,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

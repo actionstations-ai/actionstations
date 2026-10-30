@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T04:01:43.777Z",
-  "updatedAt": "2026-10-30T11:13:16.177Z",
+  "updatedAt": "2026-10-30T12:29:51.718Z",
   "brief": {
     "userPrompt": "A 6,000-person public event is under way at the Harwick Fairgrounds beside Horton Field on a NO FLY day: the flight operations desk logged all twelve aircraft in Hangar 1 at 0800. Harwick Police's contracted detection vendor shows a drone with a Remote ID track circling over the crowd, and a bystander post with a photo blames the Group because its hangar is next door. The Group must prove from the schedule and the fleet register that every aircraft is grounded, lend an RPIC to the Harwick Police command post to interpret Remote ID data if asked, never launch, interfere with or chase the aircraft, coordinate with Harwick Police, CCSO and the FAA, and answer the post through Corporate Communications only.",
     "audience": [
@@ -1153,77 +1153,127 @@
       {
         "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
         "capability": "operational_coordination",
-        "why": "The objective requires maintaining a unified set of facts across multiple teams and roles, including Harwick Police, Flight Operations, Safety, Leadership, and Corporate Communications, which aligns with the need to establish and maintain a coordinated operational structure as per HSEEP."
+        "why": "The objective requires synchronizing actions across multiple roles and agencies, ensuring all parties have the same information and are aligned in their response, which is the core of operational coordination."
       },
       {
         "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
         "capability": "public_information_and_warning",
-        "why": "The objective includes keeping all parties informed with consistent, accurate, and timely information, particularly in response to media and public inquiries, which reflects the need to deliver actionable and reliable information to the community and stakeholders."
-      },
-      {
-        "objectiveId": "01M5RKMS2BTT7WEXA7MFAQYQXN",
-        "capability": "operational_communications",
-        "why": "The objective demands that all teams remain on the same set of facts through consistent and timely communication, which directly supports the capability to ensure operational communications are maintained across response forces and decision makers."
+        "why": "The objective includes keeping internal stakeholders informed and consistent in messaging, which aligns with delivering reliable and actionable information to internal teams to support a unified response."
       },
       {
         "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
         "capability": "planning",
-        "why": "The objective requires making a deliberate decision on public messaging and personnel handling based on established doctrine and incident data, which reflects the need to systematically evaluate options and implement a coordinated response through formal planning processes."
+        "why": "The objective involves making a deliberate, informed decision under pressure based on available information and established procedures, which reflects the planning capability's role in developing and executing strategic and tactical-level approaches."
       },
       {
         "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
         "capability": "public_information_and_warning",
-        "why": "The decision to publicly acknowledge or withhold information about the operator's identity must be made in coordination with external messaging protocols, ensuring that public statements are consistent, reliable, and actionable, as required by the public information and warning capability."
-      },
-      {
-        "objectiveId": "01M5RKMS2BVV56YKKA96HHSAME",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The decision is based on intelligence from the Remote ID data, fleet register, and law enforcement updates, requiring the evaluation and sharing of actionable information to inform a sound, evidence-based decision."
+        "why": "The decision directly impacts public messaging, requiring a coordinated, consistent, and accurate statement to the public, which is a key function of public information and warning."
       },
       {
         "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
         "capability": "operational_coordination",
-        "why": "The objective requires adherence to established procedures (HUOG-ERP 8.4) for handling an unknown drone during a public event, including delegation of roles and coordination with Harwick Police, which is a core function of operational coordination."
+        "why": "The objective requires integrating with law enforcement and following established doctrine to support a joint response without overstepping authority, which is central to operational coordination."
       },
       {
         "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
-        "capability": "cybersecurity",
-        "why": "The objective includes the use of Remote ID data to identify and verify the drone’s origin, which relies on secure and accurate data transmission and handling, a key aspect of protecting electronic systems and information."
-      },
-      {
-        "objectiveId": "01M5RKMS2BC81CKX66K17JHD2N",
-        "capability": "screening_search_and_detection",
-        "why": "The objective involves using Remote ID data and system logs to detect and identify a drone, which falls under the screening, search, and detection capability as it involves identifying a threat through technical surveillance and data analysis."
-      },
-      {
-        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
-        "capability": "forensics_and_attribution",
-        "why": "The objective requires analyzing Remote ID data and comparing it with fleet records to determine whether the drone is a Group asset, which involves forensic analysis of broadcast data and attribution to a source, a core function of this capability."
-      },
-      {
-        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
         "capability": "intelligence_and_information_sharing",
-        "why": "The objective includes sharing Remote ID data, photographs, and logs with law enforcement and regulators, which requires timely and accurate exchange of intelligence to support response and regulatory actions."
+        "why": "The objective involves sharing and interpreting technical data (Remote ID) to support situational awareness and decision-making, which is a core function of intelligence and information sharing."
       },
       {
         "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
-        "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "The objective involves assessing the risk of staff operating personal drones near Group sites during public events, which requires identifying and prioritizing risks to inform protective actions and policy updates."
+        "capability": "operational_coordination",
+        "why": "The objective requires adherence to a structured, multi-agency response process, including timely notifications and role-specific actions, which is the essence of operational coordination."
+      },
+      {
+        "objectiveId": "01M5RKMS2B7B7A83DDVBPJ61ZS",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes ensuring media messaging is controlled and consistent, which is a direct function of public information and warning."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Group maintains a unified operational structure by ensuring that the Incident Commander, Liaison, Flight Operations, Safety, and Corporate Communications share a single set of facts and roles, as defined in HUOG-ERP Section 2.2 and 8.4, to support coordinated response actions during a public event.",
+        "target": "The Group maintains a unified operational structure by ensuring the Incident Commander, liaison, and all internal roles are synchronized in real time, with the Director of Flight Operations confirming fleet status within five minutes, the liaison providing gate access details, and the ASO logging all events and notifications to Harwick Police and the FSDO, as required by HUOG-ERP 8.4.",
         "objectiveRefs": [
           "01M5RKMS2BTT7WEXA7MFAQYQXN",
-          "01M5RKMS2BC81CKX66K17JHD2N"
+          "01M5RKMS2BC81CKX66K17JHD2N",
+          "01M5RKMS2B7B7A83DDVBPJ61ZS"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Notify the Incident Commander and the Liaison immediately upon receiving the Harwick Police request for confirmation on aircraft status.",
+            "task": "Notify Harwick Police within five minutes from the schedule and the fleet register that no Group aircraft is airborne.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "within five minutes",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Send an RPIC to the Harwick Police command post to interpret Remote ID data only.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "immediately",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Log the call from Harwick Police and the 0800 fleet count in the event record.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "immediately",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Keep Group staff away from the operator’s location and do not approach the drone or controller.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1232,87 +1282,21 @@
               "chunkId": 24
             },
             "expectedBy": "security",
-            "timing": "Within 1 minute",
+            "timing": "immediately",
             "rowIds": [
-              "I-01"
+              "I-08"
             ],
             "objectiveRefs": [
               "01M5RKMS2BTT7WEXA7MFAQYQXN",
-              "01M5RKMS2BC81CKX66K17JHD2N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-02",
-            "capability": "operational_coordination",
-            "task": "Confirm from the fleet register and 0800 log that no Group aircraft is airborne and report the result to Harwick Police within five minutes.",
-            "citation": {
-              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
-              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
-              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
-              "chunkId": 24
-            },
-            "expectedBy": "ops",
-            "timing": "Within 5 minutes",
-            "rowIds": [
-              "I-01",
-              "I-02"
-            ],
-            "objectiveRefs": [
-              "01M5RKMS2BTT7WEXA7MFAQYQXN",
-              "01M5RKMS2BC81CKX66K17JHD2N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-03",
-            "capability": "operational_coordination",
-            "task": "Log the call from Harwick Police, including the time of the 0800 count and the serial number of the unknown drone.",
-            "citation": {
-              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
-              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
-              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
-              "chunkId": 24
-            },
-            "expectedBy": "ops",
-            "timing": "Within 2 minutes",
-            "rowIds": [
-              "I-02"
-            ],
-            "objectiveRefs": [
-              "01M5RKMS2BTT7WEXA7MFAQYQXN",
-              "01M5RKMS2BC81CKX66K17JHD2N"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-04",
-            "capability": "operational_coordination",
-            "task": "Send the RPIC to the Harwick Police command post to interpret Remote ID data, as authorized in HUOG-ERP 8.4.",
-            "citation": {
-              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
-              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
-              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
-              "chunkId": 24
-            },
-            "expectedBy": "ops",
-            "timing": "Within 5 minutes",
-            "rowIds": [
-              "I-03"
-            ],
-            "objectiveRefs": [
-              "01M5RKMS2BTT7WEXA7MFAQYQXN",
-              "01M5RKMS2BC81CKX66K17JHD2N"
+              "01M5RKMS2BC81CKX66K17JHD2N",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
             ],
             "locked": false
           },
           {
             "id": "T-05",
             "capability": "operational_coordination",
-            "task": "Ensure that no Group aircraft is launched to look for or track the unknown drone, per HUOG-ERP 8.4.",
+            "task": "Assemble and send copies of the 0800 fleet log, the register extract, and the RPIC’s notes from the command post to Harwick Police by Monday.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1320,22 +1304,200 @@
               "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
               "chunkId": 24
             },
-            "expectedBy": "ops",
-            "timing": "Immediately",
+            "expectedBy": "safety",
+            "timing": "by Monday",
             "rowIds": [
-              "I-01",
-              "I-03"
+              "I-17"
             ],
             "objectiveRefs": [
               "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BC81CKX66K17JHD2N",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "Corporate Communications delivers a consistent, approved public statement through all channels, confirming that Group aircraft were grounded and that the Group is assisting Harwick Police, without speculating on the operator’s identity, in accordance with UC-CP-2025 and HUOG-ERP 8.4.",
+        "objectiveRefs": [
+          "01M5RKMS2BTT7WEXA7MFAQYQXN",
+          "01M5RKMS2BVV56YKKA96HHSAME",
+          "01M5RKMS2B7B7A83DDVBPJ61ZS"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
+            "capability": "public_information_and_warning",
+            "task": "Post or prepare the approved statement on social media in response to a post showing the drone over the crowd.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+              "quote": "Only Corporate Communications (Celeste Marrow, 585-555-0160) speaks to the media. The General Manager is the Group's spokesperson when Corporate Communications asks for one. Crews, crews and staff ref",
+              "chunkId": 30
+            },
+            "expectedBy": "pio",
+            "timing": "immediately",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BVV56YKKA96HHSAME",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Respond to the Channel 10 media inquiry with the Group’s approved statement, confirming aircraft were grounded and the Group is assisting Harwick Police.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+              "quote": "Only Corporate Communications (Celeste Marrow, 585-555-0160) speaks to the media. The General Manager is the Group's spokesperson when Corporate Communications asks for one. Crews, crews and staff ref",
+              "chunkId": 30
+            },
+            "expectedBy": "pio",
+            "timing": "immediately",
+            "rowIds": [
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BVV56YKKA96HHSAME",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_information_and_warning",
+            "task": "Respond to the Harwick Daily News email with the Group’s policy on staff flying personal drones, stating that the Group does not discuss individual personnel matters.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+              "quote": "Only Corporate Communications (Celeste Marrow, 585-555-0160) speaks to the media. The General Manager is the Group's spokesperson when Corporate Communications asks for one. Crews, crews and staff ref",
+              "chunkId": 30
+            },
+            "expectedBy": "pio",
+            "timing": "by 16:00",
+            "rowIds": [
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BVV56YKKA96HHSAME",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Acknowledge and record the decision made in I-14 to publicly state that the operator was a part-time crew member flying his own drone off duty.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "gm",
+            "timing": "immediately",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BVV56YKKA96HHSAME",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Ensure that all internal teams use the same public messaging and do not deviate from the approved statement.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+              "quote": "Only Corporate Communications (Celeste Marrow, 585-555-0160) speaks to the media. The General Manager is the Group's spokesperson when Corporate Communications asks for one. Crews, crews and staff ref",
+              "chunkId": 30
+            },
+            "expectedBy": "gm",
+            "timing": "throughout",
+            "rowIds": [
+              "I-14",
+              "I-14b"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BTT7WEXA7MFAQYQXN",
+              "01M5RKMS2BVV56YKKA96HHSAME",
+              "01M5RKMS2B7B7A83DDVBPJ61ZS"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The Group shares Remote ID data, fleet register information, and event logs with Harwick Police and the FSDO in a timely and accurate manner, using verified technical data to support joint decision-making without unauthorized action.",
+        "objectiveRefs": [
+          "01M5RKMS2BC81CKX66K17JHD2N"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-11",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Compare the Remote ID serial 1F7Q-ZX43-0915 with the fleet register and confirm it is not a Group aircraft.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "safety",
+            "timing": "immediately",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
               "01M5RKMS2BC81CKX66K17JHD2N"
             ],
             "locked": false
           },
           {
-            "id": "T-06",
-            "capability": "operational_coordination",
-            "task": "Keep the RPIC at the command post and the hangar closed when the drone reappears over the perimeter road.",
+            "id": "T-12",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Save the screenshot from the Harwick Police detection console with the time and include it in the event record.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "safety",
+            "timing": "immediately",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Provide the RPIC at the command post with access to the fleet register and Remote ID data to help interpret the broadcast.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1344,13 +1506,197 @@
               "chunkId": 24
             },
             "expectedBy": "ops",
-            "timing": "Immediately",
+            "timing": "immediately",
             "rowIds": [
-              "I-08"
+              "I-03"
             ],
             "objectiveRefs": [
-              "01M5RKMS2BTT7WEXA7MFAQYQXN",
               "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share the 0800 fleet count, the register extract, and the RPIC’s notes from the command post with Harwick Police as requested.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "safety",
+            "timing": "by Monday",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Report to the FSDO the 0800 count, the fleet register, and the Remote ID data seen at the command post, as required by HUOG-ERP Section 6.",
+            "citation": {
+              "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+              "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+              "headingPath": "SITE › 3. Airspace and authorizations",
+              "quote": "- **Harwick Regional Airport (HWK)** lies several miles northwest of the hangar complex. The complex and Horton Field sit under the HWK Class C airspace; the UAS Facility Map grid over Horton Field ca",
+              "chunkId": 141
+            },
+            "expectedBy": "safety",
+            "timing": "within the timeline in HUOG-ERP Section 6",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BC81CKX66K17JHD2N"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The Group conducts a systematic process to develop executable approaches to incident response by referencing the HUOG-ERP, FOM, and UC-CP-2025, ensuring decisions are based on established procedures, roles, and timelines.",
+        "objectiveRefs": [
+          "01M5RKMS2BVV56YKKA96HHSAME"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "planning",
+            "task": "Review HUOG-ERP Section 8.4 and FOM Section 7.6 to confirm the Group’s roles during a public event and the NO FLY rule.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "gm",
+            "timing": "within 5 minutes",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-04",
+              "I-08",
+              "I-12",
+              "I-14",
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "planning",
+            "task": "Confirm the Group’s fleet status using the 0800 hangar log and the fleet register, and document the result.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes",
+            "rowIds": [
+              "I-01",
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "planning",
+            "task": "Compare the Remote ID serial 1F7Q-ZX43-0915 with the fleet register to confirm it is not a Group aircraft.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "safety",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "planning",
+            "task": "Decide on the Group’s public statement based on the facts established in the event record and UC-CP-2025.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 10 › 10.1 Who speaks",
+              "quote": "Only Corporate Communications (Celeste Marrow, 585-555-0160) speaks to the media. The General Manager is the Group's spokesperson when Corporate Communications asks for one. Crews, crews and staff ref",
+              "chunkId": 30
+            },
+            "expectedBy": "gm",
+            "timing": "at I-14",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "planning",
+            "task": "Document the decision and its basis in the event record, including the rationale for not changing the public statement.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "gm",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "planning",
+            "task": "Develop an interim rule on staff flying personal drones near Group sites during public events, based on the gap identified in the event record.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.4 Unknown drone over a Group site or during a public event at the adjacent Harwick Fairgrounds",
+              "quote": "- The Group has no counter-UAS capability and **does not interfere with, capture, jam, or fly at another aircraft**. Interfering with an aircraft is a federal offense regardless of who flies it. - Ove",
+              "chunkId": 24
+            },
+            "expectedBy": "gm",
+            "timing": "within 1 hour",
+            "rowIds": [
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5RKMS2BVV56YKKA96HHSAME"
             ],
             "locked": false
           }
@@ -3086,13 +3432,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:07:56.799Z",
-      "finishedAt": "2026-10-30T11:08:11.635Z",
+      "startedAt": "2026-10-30T12:23:22.250Z",
+      "finishedAt": "2026-10-30T12:23:42.922Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 8429,
-      "outputTokens": 1202,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 16902,
+      "outputTokens": 2659,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

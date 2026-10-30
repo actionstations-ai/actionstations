@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:04:28.609Z",
-  "updatedAt": "2026-10-30T11:13:05.922Z",
+  "updatedAt": "2026-10-30T12:29:41.441Z",
   "brief": {
     "userPrompt": "A multispectral and hyperspectral sensor campaign at the Lakeshore Flight Area of the Birch Hollow Range (UAS-01 with PL-01, UAS-11 with PL-03, GCS-01 and GCS-02, RTK-1) is disrupted by a command-and-control link hijack and GNSS spoofing: UAS-11's 915 MHz telemetry shows a second ground station, the aircraft start executing waypoints nobody loaded, RTK-1 and the aircraft lose fix at the same time under a clear sky, the home point moves, and a pickup truck with antennas is seen leaving the lodge parking lot. The crew must land in attitude mode, preserve the GCS and radio state, decide whether to call HWK Tower, re-key the links, work with CCSO and the managed security provider, and tell the CP&L client whether Deliverable D-3 data is intact.",
     "audience": [
@@ -1830,78 +1830,51 @@
       {
         "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
         "capability": "cybersecurity",
-        "why": "The objective requires verifying and restoring command authority over a flight system after a cyber-physical incident involving unauthorized command injection, which directly aligns with the Cybersecurity capability's focus on protecting and restoring electronic systems from unauthorized use and exploitation."
+        "why": "The objective requires verifying and restoring command authority over a flight system after a cyber-physical incident involving unauthorized command injection, which directly tests the organization's ability to protect and restore electronic command and control systems from compromise."
       },
       {
         "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
         "capability": "forensics_and_attribution",
-        "why": "Restoring command integrity depends on conducting forensic analysis of telemetry logs and radio state to identify the source and method of the compromise, which is a core function of the Forensics and Attribution capability."
+        "why": "Restoring command integrity depends on forensic analysis of telemetry logs, radio state, and firmware to identify the source and method of the attack, including the rogue RF emitter and unauthorized session, which aligns with the capability's focus on forensic analysis and attribution of cyber incidents."
       },
       {
-        "objectiveId": "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
+        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
         "capability": "operational_coordination",
-        "why": "The objective requires synchronized actions across roles to preserve evidence, verify system integrity, and restore control, which relies on a unified operational structure and coordination among all stakeholders as defined in the Operational Coordination capability."
+        "why": "Resolving conflicting data between the GCS, DAA-1, and aircraft telemetry requires coordinated verification across roles, including the RPIC, Payload Operator, and Systems & Cybersecurity Lead, to establish a unified operational understanding and trust in data sources during a crisis."
       },
       {
         "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
         "capability": "situational_assessment",
-        "why": "The objective involves resolving conflicting data between the GCS, DAA-1, and aircraft telemetry, which requires a timely and accurate assessment of the true operational state to inform decisions, a core function of the Situational Assessment capability."
-      },
-      {
-        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
-        "capability": "cybersecurity",
-        "why": "The objective centers on verifying the integrity of data streams and systems under a cyber-physical attack, which requires protecting and validating electronic systems and data from manipulation, a central function of the Cybersecurity capability."
-      },
-      {
-        "objectiveId": "01M5H3CJP2FMY4R6NW1PNTNX55",
-        "capability": "intelligence_and_information_sharing",
-        "why": "Resolving conflicting data requires the integration and cross-verification of telemetry, logs, and field observations across multiple sources, which depends on timely and accurate information sharing among technical and operational roles as defined in the Intelligence and Information Sharing capability."
+        "why": "The objective demands a real-time assessment of conflicting telemetry data to determine the true state of the aircraft, which relies on integrating field observations, log evidence, and system status to form an accurate picture of the incident."
       },
       {
         "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
         "capability": "operational_coordination",
-        "why": "The objective demands synchronized reporting and action with law enforcement, base safety, the FSDO, and the client, which requires establishing a unified operational structure and process integrating all critical stakeholders, a core function of the Operational Coordination capability."
+        "why": "Synchronizing reporting and action with law enforcement (CCSO), base safety, the FSDO, and the client (CP&L) requires a unified command structure and coordinated information flow across external stakeholders, which is the core function of operational coordination."
       },
       {
         "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
         "capability": "public_information_and_warning",
-        "why": "The objective includes managing public messaging and media inquiries while maintaining regulatory compliance, which requires delivering coordinated, prompt, and actionable information to the public and stakeholders, a central function of the Public Information and Warning capability."
-      },
-      {
-        "objectiveId": "01M5H3CJP2KVV2FEX57ZR9V03M",
-        "capability": "intelligence_and_information_sharing",
-        "why": "Effective interagency coordination depends on timely exchange of threat and incident information with external partners such as the FSDO, CCSO, and Corporate Communications, which is a core function of the Intelligence and Information Sharing capability."
+        "why": "The objective includes managing public messaging and media inquiries, such as social media posts and news reports, which must be handled through a coordinated, timely, and approved process to ensure consistent and accurate public communication."
       },
       {
         "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
         "capability": "infrastructure_systems",
-        "why": "The objective requires maintaining operational continuity under cascading failures of C2 links, RTK base, and GNSS, which involves stabilizing critical infrastructure functions and restoring systems to support viable operations, a core function of the Infrastructure Systems capability."
-      },
-      {
-        "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
-        "capability": "cybersecurity",
-        "why": "Continuity depends on preserving and restoring electronic systems and data under attack, including protecting the telemetry pipeline and radio state, which aligns with the Cybersecurity capability's focus on protecting and restoring electronic systems from damage and exploitation."
-      },
-      {
-        "objectiveId": "01M5H3CJP2CAGWJ6CR4V57RHFP",
-        "capability": "planning",
-        "why": "The objective requires activating pre-defined emergency procedures and maintaining a structured response, which relies on a systematic process of developing executable approaches to meet defined objectives, a core function of the Planning capability."
+        "why": "Maintaining operational continuity under cascading failures of C2 links, RTK base, and GNSS requires stabilizing critical infrastructure functions, including telemetry pipelines and ground control systems, to prevent further degradation and support recovery."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "The Systems & Cybersecurity Lead (TL) must preserve the GCS-01 and 915 MHz radio state, retrieve full telemetry and link logs, and prevent any system reboot or re-pair until the forensic investigation is complete, as required by HUOG-ISP Section 9.1.",
+        "target": "The Systems & Cybersecurity Lead must preserve the GCS and radio state, retrieve full telemetry and link logs, and initiate forensic imaging of the 915 MHz link and GCS-01 to prevent data loss and support recovery of command authority after a C2 link compromise.",
         "objectiveRefs": [
-          "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-          "01M5H3CJP2FMY4R6NW1PNTNX55",
-          "01M5H3CJP2CAGWJ6CR4V57RHFP"
+          "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Preserve the GCS-01 and 915 MHz radio state",
+            "task": "Preserve the GCS and radio state before any power-off.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
@@ -1910,24 +1883,28 @@
               "chunkId": 127
             },
             "expectedBy": "it",
-            "timing": "immediately after the C2 link compromise is confirmed",
+            "timing": "within 30 seconds of the first indicator",
             "rowIds": [
+              "I-02",
+              "I-03",
+              "I-05",
+              "I-08",
+              "I-10",
+              "I-11",
               "I-13",
-              "I-13b",
               "I-17",
-              "I-17b"
+              "I-21",
+              "I-24"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-              "01M5H3CJP2FMY4R6NW1PNTNX55",
-              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
             ],
             "locked": false
           },
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Retrieve the full telemetry and link logs from GCS-01 and RTK-1",
+            "task": "Retrieve the full telemetry and link logs and the RTK base logs before power-off.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
@@ -1936,24 +1913,28 @@
               "chunkId": 127
             },
             "expectedBy": "it",
-            "timing": "within 30 minutes of the compromise",
+            "timing": "immediately after command integrity is compromised",
             "rowIds": [
+              "I-02",
+              "I-03",
+              "I-05",
+              "I-08",
+              "I-10",
+              "I-11",
               "I-13",
-              "I-13b",
               "I-17",
-              "I-17b"
+              "I-21",
+              "I-24"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-              "01M5H3CJP2FMY4R6NW1PNTNX55",
-              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
             ],
             "locked": false
           },
           {
             "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Notify the managed SOC via HUOG-NAS01 to request forensic imaging of the 915 MHz link traffic",
+            "task": "Notify the managed SOC via HUOG-NAS01 and request imaging of the 915 MHz link traffic from 09:13:44 to 09:15:32.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
@@ -1962,24 +1943,23 @@
               "chunkId": 127
             },
             "expectedBy": "it",
-            "timing": "within 15 minutes of the compromise",
+            "timing": "within 5 minutes of the first firmware mismatch alert",
             "rowIds": [
+              "I-02",
+              "I-03",
               "I-13",
-              "I-13b",
               "I-17",
-              "I-17b"
+              "I-24"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-              "01M5H3CJP2FMY4R6NW1PNTNX55",
-              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
             ],
             "locked": false
           },
           {
             "id": "T-04",
             "capability": "cybersecurity",
-            "task": "Confirm that no GCS is re-paired or rebooted until the baseline is verified",
+            "task": "Initiate a full forensic preservation of GCS-01 and the 915 MHz radio state.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
@@ -1988,46 +1968,57 @@
               "chunkId": 127
             },
             "expectedBy": "it",
-            "timing": "immediately after the fleet-wide command integrity hold is declared",
+            "timing": "immediately after firmware mismatch is confirmed",
             "rowIds": [
-              "I-03",
               "I-13",
-              "I-13b"
+              "I-17",
+              "I-24"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-              "01M5H3CJP2FMY4R6NW1PNTNX55",
-              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
             ],
             "locked": false
-          },
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The Systems & Cybersecurity Lead must compare aircraft GNSS logs with RTK-1/2, DAA-1, and survey receivers SV-1/SV-2 to identify the source of the spoofed GPS signal and attribute the attack to a rogue RF emitter from IP 192.168.100.22.",
+        "objectiveRefs": [
+          "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
+        ],
+        "criticalTasks": [
           {
             "id": "T-05",
-            "capability": "cybersecurity",
-            "task": "Verify that the GCS-02 firmware hash matches baseline 03.2026-B after re-imaging",
+            "capability": "forensics_and_attribution",
+            "task": "Compare aircraft GNSS logs with RTK-1/2, DAA-1, and SV-1/SV-2 logs to identify the spoofed GPS signal.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
-              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
-              "chunkId": 127
+              "headingPath": "ISP › Section 5 › 5.3 GNSS",
+              "quote": "Aircraft use GNSS with RTK corrections from RTK-1/2 on the 433 MHz link. GNSS is not authenticated; spoofing and jamming are known risks. Indicators and the crew response are in HUOG-FOM 9.3; the tech",
+              "chunkId": 111
             },
             "expectedBy": "it",
-            "timing": "after the managed SOC completes imaging",
+            "timing": "within 10 minutes of the first position jump",
             "rowIds": [
-              "I-24b"
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-11",
+              "I-13",
+              "I-17",
+              "I-24"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
-              "01M5H3CJP2FMY4R6NW1PNTNX55",
-              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
             ],
             "locked": false
           },
           {
             "id": "T-06",
-            "capability": "cybersecurity",
-            "task": "Submit the MSSP-REQ-915 access request form to HUOG-FW01 within 24 hours",
+            "capability": "forensics_and_attribution",
+            "task": "Report the unauthorized remote session to the managed SOC and initiate forensic imaging of the 915 MHz link.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
@@ -2036,13 +2027,534 @@
               "chunkId": 127
             },
             "expectedBy": "it",
-            "timing": "within 24 hours of the forensic report",
+            "timing": "within 5 minutes of session ID confirmation",
             "rowIds": [
+              "I-17",
+              "I-24"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2JQ9T0Z4C9BCPTW5B"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander must activate the HUOG-ERP incident command structure, assign roles, and synchronize actions with law enforcement (CCSO), base safety, the FSDO, and the client (CP&L) to ensure unified response and regulatory compliance.",
+        "objectiveRefs": [
+          "01M5H3CJP2FMY4R6NW1PNTNX55",
+          "01M5H3CJP2KVV2FEX57ZR9V03M"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "Activate the HUOG-ERP incident command structure and assign roles per HUOG-ERP Section 11.3.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of the incident declaration",
+            "rowIds": [
+              "I-05",
+              "I-10",
+              "I-14",
+              "I-21",
               "I-27"
             ],
             "objectiveRefs": [
-              "01M5H3CJP2JQ9T0Z4C9BCPTW5B",
               "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "Notify the General Manager and ASO of the incident declaration.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "ops",
+            "timing": "within 2 minutes of the incident declaration",
+            "rowIds": [
+              "I-05",
+              "I-10",
+              "I-14",
+              "I-27"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "operational_coordination",
+            "task": "Synchronize reporting and action with law enforcement (CCSO), base safety, the FSDO, and the client (CP&L) via formal channels.",
+            "citation": {
+              "documentId": "01M5H3BY2JAYHPBTCT4YK6MNP0",
+              "documentTitle": "Harwick UAS Operations Group — Site & Airspace Sheet",
+              "headingPath": "SITE › 9. Contacts (exercise numbers)",
+              "quote": "| Party | Role | Number | |---|---|---| | Harwick Police Department | City police, first response, public event at the adjacent Harwick Fairgrounds control | 585-555-0111 | | Calder County Sheriff's O",
+              "chunkId": 147
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of the first external contact",
+            "rowIds": [
+              "I-04",
+              "I-12",
+              "I-16",
+              "I-20",
+              "I-28"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Confirm the site remains under authorized operation per HUOG-FOM Section 11.1 and Section 7.6.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "safety",
+            "timing": "within 10 minutes of the standdown",
+            "rowIds": [
+              "I-10",
+              "I-14",
+              "I-28"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55",
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The Incident Commander must establish a unified operational understanding by integrating field observations, telemetry logs, and system status to determine the true state of the aircraft and validate conflicting data between the GCS, DAA-1, and aircraft telemetry.",
+        "objectiveRefs": [
+          "01M5H3CJP2FMY4R6NW1PNTNX55"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-11",
+            "capability": "situational_assessment",
+            "task": "Declare 'ABORT' and switch to attitude mode based on field report from the Payload Operator.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of the field report",
+            "rowIds": [
+              "I-01",
+              "I-03",
+              "I-10",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "situational_assessment",
+            "task": "Use the RTK-1 and DAA-1 logs as primary sources to validate the aircraft’s position.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of the first conflicting telemetry",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-11",
+              "I-13",
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "situational_assessment",
+            "task": "Confirm the Payload Operator’s assessment that the aircraft will cross the north shore of the lake in 42 seconds.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of the Payload Operator’s call",
+            "rowIds": [
+              "I-18",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "situational_assessment",
+            "task": "Verify the aircraft’s position and flight path against the RTK-1 base log and the survey receiver logs.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 5 › 5.3 GNSS",
+              "quote": "Aircraft use GNSS with RTK corrections from RTK-1/2 on the 433 MHz link. GNSS is not authenticated; spoofing and jamming are known risks. Indicators and the crew response are in HUOG-FOM 9.3; the tech",
+              "chunkId": 111
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of the first position jump",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-11",
+              "I-13",
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2FMY4R6NW1PNTNX55"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The Incident Commander must activate pre-defined emergency procedures per HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3 to maintain operational continuity under cascading failures of C2 links, RTK base, and GNSS.",
+        "objectiveRefs": [],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "planning",
+            "task": "Activate HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3 procedures to manage the cascading failure.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 1 minute of the first failure indicator",
+            "rowIds": [
+              "I-05",
+              "I-10",
+              "I-14",
+              "I-24"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "planning",
+            "task": "Declare a standdown per HUOG-FOM Section 6.1 and HUOG-ISP Section 9.1.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 2 minutes of the first failure",
+            "rowIds": [
+              "I-10",
+              "I-14"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "planning",
+            "task": "Initiate the baseline verification process per HUOG-ISP Section 9.1.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "ops",
+            "timing": "within 5 minutes of the forensic report",
+            "rowIds": [
+              "I-24",
+              "I-24b"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "planning",
+            "task": "Proceed under HUOG-ERP Section 11.3 to restore operations after forensic verification.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of the forensic report",
+            "rowIds": [
+              "I-24",
+              "I-24b",
+              "I-27"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Communications Lead must activate the client notification protocol and forward social media posts to Corporate Communications and the ASO to ensure coordinated, approved public messaging and prevent unauthorized statements during the incident.",
+        "objectiveRefs": [
+          "01M5H3CJP2KVV2FEX57ZR9V03M"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-19",
+            "capability": "public_information_and_warning",
+            "task": "Forward the social media post to Corporate Communications and the ASO.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 minute of receipt",
+            "rowIds": [
+              "I-06",
+              "I-15",
+              "I-26"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "public_information_and_warning",
+            "task": "Activate the client notification protocol per HUOG-ISP Section 7.5.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "pio",
+            "timing": "within 5 minutes of the client inquiry",
+            "rowIds": [
+              "I-08",
+              "I-18b",
+              "I-27"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "public_information_and_warning",
+            "task": "Do not issue a public statement and wait for General Manager approval before any response.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "throughout the exercise",
+            "rowIds": [
+              "I-06",
+              "I-15",
+              "I-26",
+              "I-26b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "public_information_and_warning",
+            "task": "Log the social sentiment and confirm the video is evidence for the investigation.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 5 minutes of receipt",
+            "rowIds": [
+              "I-06",
+              "I-15",
+              "I-26"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2KVV2FEX57ZR9V03M"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The C2 link, RTK base, and GNSS systems are stabilized and restored to a known-good state, with all telemetry and link logs preserved and the aircraft safely landed on the meadow, as required by HUOG-ISP Section 9.1 and HUOG-ERP Section 11.3.",
+        "objectiveRefs": [
+          "01M5H3CJP2CAGWJ6CR4V57RHFP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-23",
+            "capability": "infrastructure_systems",
+            "task": "Preserve the GCS-01 and 915 MHz radio state without power-off.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 seconds of the decision to switch to manual/attitude mode",
+            "rowIds": [
+              "I-17",
+              "I-17b",
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "infrastructure_systems",
+            "task": "Re-check RTK-1 base and confirm GPS fix restored and RTK sync confirmed.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Table of Contents",
+              "quote": "Section 1 Purpose, Scope and Authority · Section 2 Organization and Responsibilities · Section 3 Crew Roles and Qualifications · Section 4 Aircraft, Payloads and Airworthiness · Section 5 Flight Plann",
+              "chunkId": 42
+            },
+            "timing": "Within 15 minutes of the decision to restore",
+            "rowIds": [
+              "I-26b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "infrastructure_systems",
+            "task": "Verify that the calibration tarps (CT-1 to CT-4) were not disturbed and confirm their integrity.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 9 › 9.3 Client sites",
+              "quote": "The Site Survey Form (FOM-3) names the responders, the hospital and the landowner contact; the crew carries it. The IC calls the client's contact for any Level 2 or 3.",
+              "chunkId": 28
+            },
+            "timing": "Within 10 minutes of the decision to restore",
+            "rowIds": [
+              "I-26b"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that the baseline image (GCS-03) is being loaded onto a spare GCS for re-verification.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "Within 1 hour of the forensic report",
+            "rowIds": [
+              "I-24"
+            ],
+            "objectiveRefs": [
+              "01M5H3CJP2CAGWJ6CR4V57RHFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "infrastructure_systems",
+            "task": "Submit the MSSP-REQ-915 access request form to HUOG-FW01 within 24 hours to re-key the 915 MHz link.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.1 C2 link compromise, interference or GNSS spoofing",
+              "quote": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+              "chunkId": 127
+            },
+            "expectedBy": "it",
+            "timing": "Within 24 hours of the forensic report",
+            "rowIds": [
+              "I-27b"
+            ],
+            "objectiveRefs": [
               "01M5H3CJP2CAGWJ6CR4V57RHFP"
             ],
             "locked": false
@@ -4082,13 +4594,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:07:06.354Z",
-      "finishedAt": "2026-10-30T11:07:26.062Z",
+      "startedAt": "2026-10-30T12:21:51.777Z",
+      "finishedAt": "2026-10-30T12:22:33.063Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 13534,
-      "outputTokens": 1293,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 27114,
+      "outputTokens": 3984,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

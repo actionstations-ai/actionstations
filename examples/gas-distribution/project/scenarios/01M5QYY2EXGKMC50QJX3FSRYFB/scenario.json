@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T22:01:39.036Z",
-  "updatedAt": "2026-10-30T11:12:43.773Z",
+  "updatedAt": "2026-10-30T12:29:19.229Z",
   "brief": {
     "userPrompt": "A January weekday at Corwin Valley Gas Company, 16:50, outdoor temperature 14 °F. The call center logs three high-flame and pilot-outage calls from downtown Corwin in Pressure District 7 within 25 minutes, while the PipeView Low Pressure screen shows RS-21 and RS-22 outlets steady at 10 in. w.c. District recorder PR-7B reads 15 in. w.c. and climbing, but PR-7A shows communication loss. The shift controller calls Gas Control Manager Theresa Novak; M&R Supervisor Raymond Oyelowo sends a technician to RS-22, whose field gauge reads 1.1 psig at the outlet. The PipeView audit trail shows PC-21 and PC-22 setpoints written to 1.8 psig at 16:22 from CVG-ENG01 by the integrator account halden-support, through the OT jump host CVG-OT-JMP01, during a session no one at Halden Automation will claim; the CIRP-5 setpoint-change page never reached the Gas Control Manager, and the outlet transmitter values on the RTUs appear frozen. A red herring: a construction crew near Front Street worked on a main that afternoon (CP-17 sensing-line question). Corwin Fire reports a basement fire on Canal Street and Riverside Manor nursing home reports a stove flare-up. Players must decide whether to order isolation levels I-1 to I-4 under CVG-CIRP-2026, switch RS-21 and RS-22 to mechanical pilots, close Valve 21 and Valve 22 and shut in Pressure District 7 (5,120 customers, two nursing homes, 14 °F night) per CVG-EP-2026 Section 6, notify the Lake Haven County 911 Center, the National Response Center within an hour of confirmed discovery, the Pennsylvania PUC, CISA within 72 hours and TSA, preserve CVG-ENG01 and the jump host with memory images, staff manual operation at every station with eleven M&R technicians, and tell the public through the PIO while Channel 16 and the Corwin Courier report explosions that have not happened.",
     "audience": [
@@ -1378,68 +1378,48 @@
       {
         "objectiveId": "01M5QYYQ99K75WC1VRX36MD292",
         "capability": "operational_coordination",
-        "why": "The objective requires coordination between Gas Control, Field Operations, and the Cybersecurity Coordinator to validate field data and override SCADA, which aligns with the ICS structure and roles defined in C4 and C3."
+        "why": "The objective requires coordination between field and control room roles to validate data and act on field evidence, as directed by CVG-EP-2026 Decision Record EP-2 and EP-3, which define the ICS roles and escalation path for pressure anomalies."
       },
       {
         "objectiveId": "01M5QYYQ99K75WC1VRX36MD292",
         "capability": "infrastructure_systems",
-        "why": "The objective involves stabilizing the gas system by overriding a false SCADA display and initiating emergency isolation, which directly supports restoring and stabilizing critical infrastructure functions as per C9 and C5."
-      },
-      {
-        "objectiveId": "01M5QYYQ99K75WC1VRX36MD292",
-        "capability": "cybersecurity",
-        "why": "The false SCADA data stems from a cyber-physical breach, and the resolution requires identifying and containing the cyber threat, which is the core function of the Cybersecurity Coordinator under C3 and C9."
+        "why": "The objective centers on stabilizing the gas system by overriding a false SCADA baseline and initiating emergency isolation, which aligns with infrastructure systems' goal to stabilize critical infrastructure functions and minimize life-safety threats under CVG-CRM-2025 and EOP 6.3."
       },
       {
         "objectiveId": "01M5QYYQ994AZXDR9GBZH9THHJ",
         "capability": "operational_coordination",
-        "why": "The objective requires the Incident Commander to make a high-stakes decision under pressure, coordinating with Gas Control, Field Operations, and Cybersecurity to act on field evidence, which is the essence of operational coordination in C4."
+        "why": "The objective demands a unified command structure to override conflicting data and make a high-risk decision under pressure, as defined by CVG-CRM-2025 and the ICS roles in Section 4, where the Incident Commander holds final authority over shutdowns."
       },
       {
         "objectiveId": "01M5QYYQ994AZXDR9GBZH9THHJ",
         "capability": "infrastructure_systems",
-        "why": "The shutdown is a life-safety measure to prevent catastrophic failure, and the objective centers on stabilizing the infrastructure by halting operations when data integrity is compromised, per C2 and C5."
-      },
-      {
-        "objectiveId": "01M5QYYQ994AZXDR9GBZH9THHJ",
-        "capability": "public_information_and_warning",
-        "why": "The decision to shut in must be communicated to the public to prevent panic and ensure compliance, which is a core function of public information and warning as defined in C7 and C4."
+        "why": "The decision to shut in a district with 5,120 customers and two nursing homes must be made to prevent life-safety incidents, directly engaging infrastructure systems' mission to minimize health and safety threats during a crisis."
       },
       {
         "objectiveId": "01M5QYYQ99VN26P8494Q37SDJ0",
         "capability": "cybersecurity",
-        "why": "The objective directly involves identifying a cyber intrusion, isolating the OT network, and disabling remote access, which are core actions in the Cybersecurity Coordinator’s responsibilities under C3 and C9."
+        "why": "The objective directly tests the ability to contain a cyber-physical breach by isolating the OT network, disabling remote access, and preserving evidence, as required by CVG-CIRP-2026 and CISA reporting timelines in Section 9."
       },
       {
         "objectiveId": "01M5QYYQ99VN26P8494Q37SDJ0",
         "capability": "access_control_and_identity_verification",
-        "why": "The objective includes disabling the compromised integrator account and preventing unauthorized remote access, which falls under access control and identity verification as per C10 and C3."
-      },
-      {
-        "objectiveId": "01M5QYYQ99VN26P8494Q37SDJ0",
-        "capability": "infrastructure_systems",
-        "why": "The containment actions are aimed at preserving the integrity of the physical gas system by preventing further cyber manipulation, which supports infrastructure systems as the foundation of safe operations."
+        "why": "The objective involves verifying and revoking access via a compromised integrator account, which falls under access control and identity verification to prevent further unauthorized access to OT systems."
       },
       {
         "objectiveId": "01M5QYYQ99GAJEP2PQ5T5P30HB",
         "capability": "public_information_and_warning",
-        "why": "The objective centers on delivering timely, accurate, and actionable information to the public, including evacuation orders and corrections to misinformation, which is the primary function of public information and warning in C7 and C4."
+        "why": "The objective requires delivering coordinated, actionable information to the public through media and emergency alerts, as mandated by CVG-CRM-2025 and the Public Information Officer’s responsibilities in Section 4."
       },
       {
         "objectiveId": "01M5QYYQ99GAJEP2PQ5T5P30HB",
         "capability": "operational_coordination",
-        "why": "The objective requires coordination between the PIO, IC, and EMA to synchronize messaging and ensure consistency across all public channels, which is a core aspect of operational coordination in C4."
-      },
-      {
-        "objectiveId": "01M5QYYQ99GAJEP2PQ5T5P30HB",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective includes verifying and correcting false reports from social media and media outlets, which requires timely information sharing with law enforcement and emergency management to maintain situational awareness and prevent misinformation spread."
+        "why": "The objective depends on synchronized messaging across the EOC, including correction of false reports, which relies on operational coordination to align the PIO, IC, and EMA under a unified information strategy."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander, Gas Control Manager, and Field Operations Supervisor must establish a unified operational structure under the ICS framework, confirming roles and responsibilities in real time to validate field data and initiate emergency isolation, as directed in C4 and C3.",
+        "target": "The Incident Commander activates the EOC, confirms roles are filled, and ensures all ICS roles are executing under CVG-EP-2026 Decision Record EP-3 and EOP 6.4, with the Gas Control Manager and Field Operations Supervisor reporting pressure data and field actions to the IC for decision-making.",
         "objectiveRefs": [
           "01M5QYYQ99K75WC1VRX36MD292",
           "01M5QYYQ994AZXDR9GBZH9THHJ",
@@ -1449,7 +1429,7 @@
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Confirm the ICS structure is activated and all roles are assigned per C4.",
+            "task": "Declare Level 3 incident and activate EOC in Room 140, Level 3",
             "citation": {
               "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
               "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
@@ -1472,19 +1452,19 @@
           {
             "id": "T-02",
             "capability": "operational_coordination",
-            "task": "Notify the Gas Control Manager and Field Operations Supervisor of the field gauge discrepancy and initiate verification per C3.",
+            "task": "Confirm that no valve has been closed without IC authorization",
             "citation": {
-              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
-              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
-              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
-              "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
-              "chunkId": 7
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
             },
-            "expectedBy": "gcm",
-            "timing": "within 5 minutes",
+            "expectedBy": "vp",
+            "timing": "immediately",
             "rowIds": [
-              "I-01",
-              "I-01b"
+              "I-04b",
+              "I-12b"
             ],
             "objectiveRefs": [
               "01M5QYYQ99K75WC1VRX36MD292",
@@ -1496,18 +1476,18 @@
           {
             "id": "T-03",
             "capability": "operational_coordination",
-            "task": "Declare a potential overpressure condition and order a second field gauge check to confirm the pressure reading at RS-22.",
+            "task": "Notify Corwin Fire and Lake Haven County 911 of the overpressure condition and request fire sweeps",
             "citation": {
-              "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
-              "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
-              "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
-              "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
-              "chunkId": 27
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 5 › 5.4 Potential rupture",
+              "quote": "When Gas Control or the field sees an unexplained pressure loss or flow increase consistent with a rupture on Line 100, Line 200 or Lateral 7, the controller declares a notification of potential ruptu",
+              "chunkId": 43
             },
-            "expectedBy": "gcm",
-            "timing": "within 10 minutes",
+            "expectedBy": "vp",
+            "timing": "immediately",
             "rowIds": [
-              "I-01b"
+              "I-02"
             ],
             "objectiveRefs": [
               "01M5QYYQ99K75WC1VRX36MD292",
@@ -1519,7 +1499,130 @@
           {
             "id": "T-04",
             "capability": "operational_coordination",
-            "task": "Log the pressure readings from PR-7B and the field gauges on the paper trip sheet and report to the IC.",
+            "task": "Confirm that field crews are verifying pressures with calibrated gauges and district recorders",
+            "citation": {
+              "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+              "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+              "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+              "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+              "chunkId": 27
+            },
+            "expectedBy": "gcm",
+            "timing": "immediately",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99K75WC1VRX36MD292",
+              "01M5QYYQ994AZXDR9GBZH9THHJ",
+              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Gas Control Manager and Field Operations Supervisor validate overpressure using field gauges and district recorders, override the false SCADA baseline, and initiate full emergency isolation of Pressure District 7 at Valve 21 and Valve 22, as required by CVG-EP-2026 Section 6 and EOP 6.3.",
+        "objectiveRefs": [
+          "01M5QYYQ99K75WC1VRX36MD292",
+          "01M5QYYQ994AZXDR9GBZH9THHJ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-05",
+            "capability": "infrastructure_systems",
+            "task": "Confirm pressure readings at RS-21 and RS-22 using calibrated field gauges",
+            "citation": {
+              "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+              "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+              "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+              "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+              "chunkId": 27
+            },
+            "expectedBy": "field",
+            "timing": "within 5 minutes",
+            "rowIds": [
+              "I-01",
+              "I-01b",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99K75WC1VRX36MD292",
+              "01M5QYYQ994AZXDR9GBZH9THHJ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "infrastructure_systems",
+            "task": "Initiate manual isolation check for Pressure District 7 and confirm no valves have been closed",
+            "citation": {
+              "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
+              "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
+              "headingPath": "Corwin Valley Gas Company — Dist… › Section 7",
+              "quote": "| Point | Tag | Low | High | High-high | |---|---|---|---|---| | RS-21 outlet | RS21-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. w.c. | | RS-22 outlet | RS22-PT-OUT | 6 in. w.c. | 12 in. w.c. | 14 in. ",
+              "chunkId": 27
+            },
+            "expectedBy": "field",
+            "timing": "immediately",
+            "rowIds": [
+              "I-01b"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99K75WC1VRX36MD292",
+              "01M5QYYQ994AZXDR9GBZH9THHJ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "infrastructure_systems",
+            "task": "Order the Engineering workstation to freeze all RTU configuration files and preserve session logs",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 9",
+              "quote": "| Report | To | When | By | |---|---|---|---| | Cybersecurity incident | CISA (report@cisa.gov or 888-282-0870) | As soon as practicable, no later than 72 hours after identification (SD Pipeline-2021-",
+              "chunkId": 12
+            },
+            "expectedBy": "gcm",
+            "timing": "immediately",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99K75WC1VRX36MD292",
+              "01M5QYYQ994AZXDR9GBZH9THHJ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "infrastructure_systems",
+            "task": "Close Valve 21 and Valve 22 at RS-21 and RS-22, confirmed by two M&R techs and logged on paper trip sheets",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 10",
+              "quote": "After a district shutdown: confirm every meter in the district is off (door-to-door log), repair and replace regulators as required, purge and pressure-test, restore gas at the station, then relight c",
+              "chunkId": 51
+            },
+            "expectedBy": "field",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99K75WC1VRX36MD292",
+              "01M5QYYQ994AZXDR9GBZH9THHJ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that PR-7B is falling and pressure is below 14 in. w.c. after isolation",
             "citation": {
               "documentId": "01M5QX08KJQAYMV9KSFAX2RZNA",
               "documentTitle": "Corwin Valley Gas Company — Distribution System and SCADA Description",
@@ -1530,44 +1633,48 @@
             "expectedBy": "field",
             "timing": "within 15 minutes",
             "rowIds": [
-              "I-01b",
-              "I-05"
+              "I-14"
             ],
             "objectiveRefs": [
               "01M5QYYQ99K75WC1VRX36MD292",
-              "01M5QYYQ994AZXDR9GBZH9THHJ",
-              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+              "01M5QYYQ994AZXDR9GBZH9THHJ"
             ],
             "locked": false
-          },
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The Cybersecurity Coordinator declares a cyber incident, isolates the OT network from the IT network, disables remote access via CVG-OT-JMP01, and preserves forensic evidence on CVG-OT-JMP01 and CVG-ENG01, per CVG-CIRP-2026 and CISA reporting requirements.",
+        "objectiveRefs": [
+          "01M5QYYQ99VN26P8494Q37SDJ0"
+        ],
+        "criticalTasks": [
           {
-            "id": "T-05",
-            "capability": "operational_coordination",
-            "task": "Confirm that no manual valve closures have occurred without IC authorization.",
+            "id": "T-10",
+            "capability": "cybersecurity",
+            "task": "Declare a cyber incident under CVG-CIRP-2026 Section 4",
             "citation": {
               "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
               "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
-              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
-              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
-              "chunkId": 37
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 2",
+              "quote": "Full details are in the Distribution System and SCADA Description (CVG-SYS-2026). | Element | Summary | |---|---| | Supply | Harlan Road City Gate (primary, 18 MMcf/d design) and Millstream Gate Stati",
+              "chunkId": 36
             },
-            "expectedBy": "field",
-            "timing": "within 20 minutes",
+            "expectedBy": "cyb",
+            "timing": "within 2 minutes",
             "rowIds": [
-              "I-01b",
-              "I-05"
+              "I-03"
             ],
             "objectiveRefs": [
-              "01M5QYYQ99K75WC1VRX36MD292",
-              "01M5QYYQ994AZXDR9GBZH9THHJ",
-              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+              "01M5QYYQ99VN26P8494Q37SDJ0"
             ],
             "locked": false
           },
           {
-            "id": "T-06",
-            "capability": "operational_coordination",
-            "task": "Initiate the EOP 6.3 Unauthorized Configuration Change Procedure upon confirmation of setpoint alteration.",
+            "id": "T-11",
+            "capability": "cybersecurity",
+            "task": "Disable all remote access to OT at CVG-OTFW01 per Annex A, step I-1",
             "citation": {
               "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
               "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
@@ -1575,15 +1682,307 @@
               "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
               "chunkId": 7
             },
-            "expectedBy": "gcm",
-            "timing": "within 2 minutes",
+            "expectedBy": "cyb",
+            "timing": "immediately",
             "rowIds": [
-              "I-07"
+              "I-03"
             ],
             "objectiveRefs": [
-              "01M5QYYQ99K75WC1VRX36MD292",
-              "01M5QYYQ994AZXDR9GBZH9THHJ",
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "cybersecurity",
+            "task": "Collect a memory image of CVG-OT-JMP01 using 'volatility3' and save to encrypted USB drive",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 2",
+              "quote": "Full details are in the Distribution System and SCADA Description (CVG-SYS-2026). | Element | Summary | |---|---| | Supply | Harlan Road City Gate (primary, 18 MMcf/d design) and Millstream Gate Stati",
+              "chunkId": 36
+            },
+            "expectedBy": "cyb",
+            "timing": "within 5 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "cybersecurity",
+            "task": "Apply red evidence tag (CIRP Form 3) to CVG-OT-JMP01 and place in locked cabinet in Gas Control, Level 1",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 2",
+              "quote": "Full details are in the Distribution System and SCADA Description (CVG-SYS-2026). | Element | Summary | |---|---| | Supply | Harlan Road City Gate (primary, 18 MMcf/d design) and Millstream Gate Stati",
+              "chunkId": 36
+            },
+            "expectedBy": "cyb",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "cybersecurity",
+            "task": "Notify CISA via emergency hotline (888-282-0870) that a forensic preservation chain has been established",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 9",
+              "quote": "| Report | To | When | By | |---|---|---|---| | Cybersecurity incident | CISA (report@cisa.gov or 888-282-0870) | As soon as practicable, no later than 72 hours after identification (SD Pipeline-2021-",
+              "chunkId": 12
+            },
+            "expectedBy": "cyb",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer issues a timely, accurate evacuation notice and media statement that acknowledges the overpressure risk, corrects false reports of explosions, and maintains public confidence, using the 'smell gas, act fast' messaging and official emergency alert channels.",
+        "objectiveRefs": [
+          "01M5QYYQ99GAJEP2PQ5T5P30HB"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "public_information_and_warning",
+            "task": "Draft and issue emergency alert via emergency alert system, television, and Corwin Courier website",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
               "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Confirm the alert was received by EMA and 911",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
+            },
+            "expectedBy": "pio",
+            "timing": "within 5 minutes",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "public_information_and_warning",
+            "task": "Issue a correction to media and social platforms stating 'No explosion occurred. The flash was likely from a pilot light or electrical source.'",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "public_information_and_warning",
+            "task": "Activate the 'smell gas, act fast' campaign to counter misinformation",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-13",
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "public_information_and_warning",
+            "task": "Hold all further messaging until IC approval",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 3",
+              "quote": "CVG uses ICS. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander | Gordon Haskell, VP Gas ",
+              "chunkId": 37
+            },
+            "expectedBy": "pio",
+            "timing": "immediately",
+            "rowIds": [
+              "I-08",
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99GAJEP2PQ5T5P30HB"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The Cybersecurity Coordinator verifies and revokes access via the compromised integrator account 'halden-support' on CVG-OT-JMP01, ensures no remote access is granted to OT systems, and confirms that vendor access will not be restored until after CISA and TSA clearance.",
+        "objectiveRefs": [
+          "01M5QYYQ99VN26P8494Q37SDJ0"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-20",
+            "capability": "access_control_and_identity_verification",
+            "task": "Disable the 'halden-support' account on the OT domain CVGOT and in PipeView",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
+              "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
+              "chunkId": 7
+            },
+            "expectedBy": "cyb",
+            "timing": "immediately",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that no remote access to OT is permitted via CVG-OT-JMP01",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 5",
+              "quote": "1. Terminate the suspect session: disable the account in PipeView and in Active Directory (OT domain CVGOT), kill the session on CVG-OT-JMP01. 2. Disable all remote access to OT at CVG-OTFW01 (Annex A",
+              "chunkId": 7
+            },
+            "expectedBy": "cyb",
+            "timing": "immediately",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "access_control_and_identity_verification",
+            "task": "Notify Halden Automation to disable the account on their side and confirm no further access is granted",
+            "citation": {
+              "documentId": "01M5QX08KKZH7XKE4F2FJ8CTN4",
+              "documentTitle": "Corwin Valley Gas Company — Gas Emergency Plan (49 CFR 192.615)",
+              "headingPath": "Corwin Valley Gas Company — Gas… › Section 2",
+              "quote": "Full details are in the Distribution System and SCADA Description (CVG-SYS-2026). | Element | Summary | |---|---| | Supply | Harlan Road City Gate (primary, 18 MMcf/d design) and Millstream Gate Stati",
+              "chunkId": 36
+            },
+            "expectedBy": "cyb",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that vendor remote access will not be restored until after CISA and TSA clearance",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 3",
+              "quote": "| System | Hosts | Function | Network zone | |---|---|---|---| | PipeView SCADA servers | CVG-SCADA01 (active), CVG-SCADA02 (standby) | Polling, alarms, setpoints, remote valve commands | OT control z",
+              "chunkId": 5
+            },
+            "expectedBy": "cyb",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-16",
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "access_control_and_identity_verification",
+            "task": "Require a signed access request approved by the IC and Cybersecurity Coordinator before any vendor remote access is granted",
+            "citation": {
+              "documentId": "01M5QX08KFWSF8T8ECR46YFZWQ",
+              "documentTitle": "Corwin Valley Gas Company — Cybersecurity Incident Response Plan (TSA Security Directive Pipeline-2021-02 Series)",
+              "headingPath": "Corwin Valley Gas Company — Cybe… › Section 3",
+              "quote": "| System | Hosts | Function | Network zone | |---|---|---|---| | PipeView SCADA servers | CVG-SCADA01 (active), CVG-SCADA02 (standby) | Polling, alarms, setpoints, remote valve commands | OT control z",
+              "chunkId": 5
+            },
+            "expectedBy": "cyb",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "01M5QYYQ99VN26P8494Q37SDJ0"
             ],
             "locked": false
           }
@@ -3620,13 +4019,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:05:53.932Z",
-      "finishedAt": "2026-10-30T11:06:12.218Z",
+      "startedAt": "2026-10-30T12:20:09.307Z",
+      "finishedAt": "2026-10-30T12:20:44.004Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 11783,
-      "outputTokens": 1264,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11808,
+      "outputTokens": 2596,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

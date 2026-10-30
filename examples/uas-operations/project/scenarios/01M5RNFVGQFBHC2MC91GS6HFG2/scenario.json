@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T04:35:50.423Z",
-  "updatedAt": "2026-10-30T11:13:21.296Z",
+  "updatedAt": "2026-10-30T12:29:56.838Z",
   "brief": {
     "userPrompt": "On a routine inspection flight from Horton Field, UAS-02 loses its link a few minutes after a field firmware update that GCS-01 accepted that morning; return-to-launch does not trigger and the aircraft climbs through 400 ft AGL toward the HWK Class C boundary with 14 minutes of battery left. The RPIC must call HWK Tower, DAA-1 keeps watch for manned traffic, the aircraft comes down on private property and is recovered only with a CCSO deputy present, the ASO reports to the FSDO and decides with the Systems & Cybersecurity Lead whether an NTSB notification applies, the fleet is grounded by firmware version until the cause is known, and a neighbor's post with a video of the aircraft is spreading.",
     "audience": [
@@ -1304,121 +1304,58 @@
       {
         "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
         "capability": "operational_coordination",
-        "why": "The objective requires making calls in a defined order across multiple teams, which exercises the operational coordination of incident response roles and ensures information flows through the proper chain of command as defined in HUOG-FOM 9.2 and HUOG-ERP 8.1."
+        "why": "The objective requires coordinating calls to multiple agencies and maintaining a unified timeline across teams, which aligns with operational coordination to integrate stakeholders and synchronize actions."
       },
       {
         "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
         "capability": "public_information_and_warning",
-        "why": "The objective includes keeping the public informed through media and social channels, which exercises the capability to deliver coordinated, timely, and actionable information to the community as required by UC-CP-2025 and HUOG-ERP Section 6."
+        "why": "The objective includes managing external messaging and preparing holding statements, which falls under public information and warning to ensure consistent, timely, and actionable communication to the public and media."
       },
       {
-        "objectiveId": "01M5RNGH8VDVY57FVZNP3QXZ9R",
-        "capability": "operational_communications",
-        "why": "The objective demands maintaining a single timeline across six teams, which exercises the operational communications capability to ensure timely and consistent information exchange among all response forces."
+        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
+        "capability": "operational_coordination",
+        "why": "The decision to ground aircraft and determine return conditions requires coordination between leadership, flight operations, and safety, which is a core function of operational coordination."
       },
       {
         "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
         "capability": "planning",
-        "why": "The objective requires making a grounded decision on which aircraft to ground and under what conditions, which exercises the planning capability to develop executable tactical-level approaches based on risk and evidence from the incident."
-      },
-      {
-        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
-        "capability": "situational_assessment",
-        "why": "The objective depends on using available evidence to determine the cause and scope of the failure, which exercises the situational assessment capability to provide decision-relevant information on hazard extent and response status."
-      },
-      {
-        "objectiveId": "01M5RNGH8VXCHR09NK0BQGTKBG",
-        "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "The objective involves assessing the risk of continuing operations with potentially compromised aircraft, which exercises the risk management capability to prioritize threats and inform protective actions."
+        "why": "The decision point involves evaluating evidence and applying doctrine to determine grounding scope and return conditions, which reflects a planning process to make executable, evidence-based decisions."
       },
       {
         "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
         "capability": "cybersecurity",
-        "why": "The objective requires preserving telemetry and link logs and quarantining systems to prevent data loss or tampering, which exercises the cybersecurity capability to protect electronic systems and data from unauthorized access or destruction."
+        "why": "The objective requires preserving telemetry and link logs, quarantining GCS-01, and identifying the root cause of a firmware update, which directly supports cybersecurity to protect and investigate system integrity."
       },
       {
         "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
         "capability": "forensics_and_attribution",
-        "why": "The objective includes identifying the root cause of the failure by comparing parameters to the baseline, which exercises the forensics and attribution capability to determine the source and nature of the incident."
-      },
-      {
-        "objectiveId": "01M5RNGH8VB1PFW5TN6QPH2DC1",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective requires ensuring that only authorized personnel access quarantined systems, which exercises the access control capability to prevent unauthorized use of critical infrastructure."
+        "why": "The need to compare parameters against the baseline and determine that an unapproved update caused the failure aligns with forensics and attribution to identify the source and nature of the incident."
       },
       {
         "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
         "capability": "operational_coordination",
-        "why": "The objective mandates following HUOG-FOM 9.2, HUOG-ERP 8.1, and HUOG-ISP 9.4, which requires coordinating actions across roles and systems, thus exercising operational coordination to maintain a unified response structure."
+        "why": "Following HUOG-FOM 9.2, HUOG-ERP 8.1, and HUOG-ISP 9.4 requires strict adherence to established procedures across teams, which is a function of operational coordination to maintain consistency and compliance."
       },
       {
         "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
-        "capability": "public_information_and_warning",
-        "why": "The objective includes reporting to regulators and the public using approved language, which exercises the public information and warning capability to ensure consistent, accurate, and timely messaging to external stakeholders."
-      },
-      {
-        "objectiveId": "01M5RNGH8VV7YFKWA095KCWYYP",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective requires sharing facts with the FSDO, NTSB, and media based on verified data, which exercises the intelligence and information sharing capability to disseminate actionable information to appropriate entities."
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "why": "The objective involves applying doctrine to manage risk, including grounding decisions and regulatory reporting, which reflects risk management to inform protection activities and prevent recurrence."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander, Aviation Safety Officer, and Systems & Cybersecurity Lead maintain a single, synchronized timeline across all response teams using the written timeline and system logs, ensuring that all calls to HWK Tower, the flight operations desk, the ASO, CCSO, and Corporate Communications are made in the correct order and documented within the required timeframes as per HUOG-FOM 9.2 and HUOG-ERP 8.1.",
+        "target": "The Director of Flight Operations, the Aviation Safety Officer, and the Systems & Cybersecurity Lead maintain a single, shared timeline of events and actions across all teams, ensuring that calls to HWK Tower, the FSDO, and the ASO are made in sequence and logged within 15 minutes of the event, and that recovery actions follow the documented chain of command and roles.",
         "objectiveRefs": [
           "01M5RNGH8VDVY57FVZNP3QXZ9R",
+          "01M5RNGH8VXCHR09NK0BQGTKBG",
           "01M5RNGH8VV7YFKWA095KCWYYP"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Declare Level 3 incident immediately upon UAS-02 crossing 400 ft AGL or entering the HWK Class C surface area.",
-            "citation": {
-              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
-              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
-              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
-              "chunkId": 21
-            },
-            "expectedBy": "ops",
-            "timing": "within 1 minute of telemetry confirmation",
-            "rowIds": [
-              "I-03"
-            ],
-            "objectiveRefs": [
-              "01M5RNGH8VDVY57FVZNP3QXZ9R",
-              "01M5RNGH8VV7YFKWA095KCWYYP"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-02",
-            "capability": "operational_coordination",
-            "task": "Log the time of the first call to HWK Tower in the written timeline.",
-            "citation": {
-              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
-              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
-              "headingPath": "FOM › Section 9 › 9.2 Flyaway (aircraft not responding and leaving the flight area)",
-              "quote": "1. RPIC: \"FLYAWAY, UAS-xx\" on Crew Ch 1; attempt RTL, then land, then motor cut-off if below 30 ft over clear ground. 2. GSO: note last position, altitude, heading, speed and battery time remaining fr",
-              "chunkId": 81
-            },
-            "expectedBy": "ops",
-            "timing": "within 1 minute of call",
-            "rowIds": [
-              "I-03"
-            ],
-            "objectiveRefs": [
-              "01M5RNGH8VDVY57FVZNP3QXZ9R",
-              "01M5RNGH8VV7YFKWA095KCWYYP"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-03",
-            "capability": "operational_coordination",
-            "task": "Notify the flight operations desk and the ASO within 15 minutes of the first telemetry loss.",
+            "task": "Declare Level 3 incident within 15 minutes of the first telemetry loss.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1433,14 +1370,15 @@
             ],
             "objectiveRefs": [
               "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VXCHR09NK0BQGTKBG",
               "01M5RNGH8VV7YFKWA095KCWYYP"
             ],
             "locked": false
           },
           {
-            "id": "T-04",
+            "id": "T-02",
             "capability": "operational_coordination",
-            "task": "Ensure the written timeline is updated every 10 minutes during the incident using telemetry and radio logs.",
+            "task": "Log the time of the first call to HWK Tower in the incident timeline.",
             "citation": {
               "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
               "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
@@ -1449,17 +1387,59 @@
               "chunkId": 81
             },
             "expectedBy": "ops",
-            "timing": "every 10 minutes",
+            "timing": "immediately",
             "rowIds": [
-              "I-03",
-              "I-04",
-              "I-05",
-              "I-08",
-              "I-09",
-              "I-15"
+              "I-03"
             ],
             "objectiveRefs": [
               "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VXCHR09NK0BQGTKBG",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Notify the ASO and the General Manager within 15 minutes of the telemetry loss.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "ops",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VXCHR09NK0BQGTKBG",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Confirm that the recovery team does not enter private property until a deputy is present.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "fleet",
+            "timing": "immediately",
+            "rowIds": [
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VXCHR09NK0BQGTKBG",
               "01M5RNGH8VV7YFKWA095KCWYYP"
             ],
             "locked": false
@@ -1467,7 +1447,7 @@
           {
             "id": "T-05",
             "capability": "operational_coordination",
-            "task": "Confirm that the ASO has logged the FAA notification and the FSDO call as made the same day.",
+            "task": "Record the FSDO call as the same-day notification.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1476,12 +1456,670 @@
               "chunkId": 21
             },
             "expectedBy": "safety",
-            "timing": "within 24 hours",
+            "timing": "immediately",
             "rowIds": [
               "I-06"
             ],
             "objectiveRefs": [
               "01M5RNGH8VDVY57FVZNP3QXZ9R",
+              "01M5RNGH8VXCHR09NK0BQGTKBG",
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "Corporate Communications delivers a consistent, approved holding statement to the public within 15 minutes of the first social media post, using the UC-CP-2025 protocol and confirming with the General Manager and ASO before release.",
+        "objectiveRefs": [
+          "01M5RNGH8VDVY57FVZNP3QXZ9R"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
+            "capability": "public_information_and_warning",
+            "task": "Log the first social media post about UAS-02 on private property within 1 minute of receipt.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 minute",
+            "rowIds": [
+              "I-04b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Prepare and submit a holding statement to the General Manager and ASO for approval within 10 minutes of the first public post.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-04b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_information_and_warning",
+            "task": "Release the approved holding statement to all media inquiries within 15 minutes of approval, using the UC-CP-2025 template.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-04b",
+              "I-06b",
+              "I-14",
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Confirm that no team member posts or comments on social media about the incident.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "timing": "immediately",
+            "rowIds": [
+              "I-04b",
+              "I-06b",
+              "I-14",
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Provide the approved statement to the FSDO and CCSO for consistency, if requested.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-06",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VDVY57FVZNP3QXZ9R"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The organization performs planning by ensuring that all actions in the incident follow the documented procedures in HUOG-FOM 9.2, HUOG-ERP 8.1, and HUOG-ISP 9.4, including the verification of firmware baselines, the execution of parameter readbacks, and the formal documentation of decisions and evidence for regulatory and internal review.",
+        "objectiveRefs": [
+          "01M5RNGH8VXCHR09NK0BQGTKBG"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-11",
+            "capability": "planning",
+            "task": "Confirm that the firmware version on GCS-01 matches the fleet register and the 03.2026-B baseline before any action is taken.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 4 › 4.1 Baseline",
+              "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselines",
+              "chunkId": 104
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of the update being discovered",
+            "rowIds": [
+              "I-02",
+              "I-05b",
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VXCHR09NK0BQGTKBG"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "planning",
+            "task": "Initiate a parameter readback for every OEM aircraft (UAS-01 to UAS-10) to verify they are on the 03.2026-B baseline and have not been updated.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of the decision to ground the OEM fleet",
+            "rowIds": [
+              "I-05b",
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VXCHR09NK0BQGTKBG"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "planning",
+            "task": "Record the decision to ground the OEM fleet until all parameters are verified against the baseline, including the return-to-service condition, in the incident log and the decision record.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of the decision point",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VXCHR09NK0BQGTKBG"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "planning",
+            "task": "File the HUOG-ISP 9.4 report with the Systems & Cybersecurity Lead, including the telemetry export, parameter comparison, and the determination that no external compromise occurred.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of the recovery",
+            "rowIds": [
+              "I-10",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VXCHR09NK0BQGTKBG"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "planning",
+            "task": "Update the configuration baseline documentation to reflect that 03.2026-C is not approved for field use and must be removed from the fleet.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 4 › 4.1 Baseline",
+              "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselines",
+              "chunkId": 104
+            },
+            "expectedBy": "it",
+            "timing": "within 1 hour of the incident conclusion",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VXCHR09NK0BQGTKBG"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The Systems & Cybersecurity Lead quarantines GCS-01 and retrieves the full telemetry and link logs before power-off, as required by HUOG-ISP Section 9.4, to preserve evidence of the unapproved firmware update and prevent data loss.",
+        "objectiveRefs": [
+          "01M5RNGH8VB1PFW5TN6QPH2DC1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "cybersecurity",
+            "task": "Keep GCS-01 powered and untouched after the link loss to preserve the telemetry and link logs.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "immediately after I-01b",
+            "rowIds": [
+              "I-01b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "cybersecurity",
+            "task": "Retrieve the full telemetry and link logs from GCS-01 before power-off.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-01b",
+            "rowIds": [
+              "I-01b",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "cybersecurity",
+            "task": "Quarantine GCS-01 and any associated radio involved in the flight.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-01b",
+            "rowIds": [
+              "I-01b",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "cybersecurity",
+            "task": "Compare the UAS-02 parameter readback with the 03.2026-B baseline to identify changes made by the 03.2026-C firmware.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 4 › 4.1 Baseline",
+              "quote": "GCS-01 to GCS-03 run the configuration baseline **03.2026-B** (operating system build, OEM flight software, mission-planning software, drivers, radio firmware) documented in `\\\\HUOG-NAS01\\it\\baselines",
+              "chunkId": 104
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of I-05",
+            "rowIds": [
+              "I-05",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "cybersecurity",
+            "task": "Report that the update reset safety parameters to factory defaults and recommend no OEM aircraft fly until parameters are read back against the baseline.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-11",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "cybersecurity",
+            "task": "Disable the automatic download of firmware 03.2026-C on GCS-03 and quarantine it until checked.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-05b",
+            "rowIds": [
+              "I-05b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The Systems & Cybersecurity Lead preserves the telemetry and link logs from GCS-01, quarantines the GCS, and compares the UAS-02 parameter readback against the 03.2026-B baseline to determine that the 03.2026-C firmware update reset safety parameters to factory defaults, not due to a link compromise.",
+        "objectiveRefs": [
+          "01M5RNGH8VB1PFW5TN6QPH2DC1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-22",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve the telemetry and link logs from GCS-01 before power-off.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the link loss",
+            "rowIds": [
+              "I-01",
+              "I-01b",
+              "I-02",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "forensics_and_attribution",
+            "task": "Compare the UAS-02 parameter readback with the 03.2026-B baseline to identify changes.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of the update discovery",
+            "rowIds": [
+              "I-05",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "forensics_and_attribution",
+            "task": "Report the cause as an unapproved field update that reset safety parameters, not a link compromise.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of completing the comparison",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "forensics_and_attribution",
+            "task": "Quarantine GCS-01 and prevent any further access or power-down until logs are copied.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the link loss",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "forensics_and_attribution",
+            "task": "Document the forensic findings in the incident log and the HUOG-ISP 9.4 report.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "within 60 minutes of the recovery",
+            "rowIds": [
+              "I-05",
+              "I-10",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "forensics_and_attribution",
+            "task": "Confirm that no external party is indicated in the telemetry or logs.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of the comparison",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VB1PFW5TN6QPH2DC1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "target": "The organization identifies, assesses, and prioritizes risks to inform protection activities by evaluating the impact of an unapproved firmware update on aircraft safety, fleet integrity, and regulatory compliance, and determines the grounding level and return-to-service conditions based on documented thresholds and baseline parameters.",
+        "objectiveRefs": [
+          "01M5RNGH8VV7YFKWA095KCWYYP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-28",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Assess the risk of unapproved firmware 03.2026-C on aircraft safety by comparing the parameter readback to the 03.2026-B baseline.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-05b",
+            "rowIds": [
+              "I-05",
+              "I-05b",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Determine the fleet-wide risk by auditing the parameter readback for all OEM aircraft and identifying any that carry the same update.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-05b",
+            "rowIds": [
+              "I-05b",
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-30",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Decide on the grounding level and return-to-service conditions based on the risk assessment and the baseline parameters, and record the rationale in the incident log.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "ops",
+            "timing": "within 10 minutes of I-12",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-31",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Prioritize the risk to the public and infrastructure by evaluating the closest approach to the HWK Class C surface area and the property damage from the crash.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 8 › 8.1 Flyaway (HUOG-FOM 9.2 is the crew procedure; this section is the incident side)",
+              "quote": "- The incident is Level 3 as soon as the aircraft leaves the flight area or heads toward the HWK Class C surface area. - The IC confirms the HWK Tower call was made and logs the time; the ASO calls th",
+              "chunkId": 21
+            },
+            "expectedBy": "safety",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-32",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Confirm that the risk to the mission and operations is mitigated by verifying that no other aircraft have been affected by the same update.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-15b",
+            "rowIds": [
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RNGH8VV7YFKWA095KCWYYP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-33",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Update the hazard log to reflect the new risk from unapproved field updates and recommend changes to the configuration control policy.",
+            "citation": {
+              "documentId": "01M5H3BY2CMF7QZXGMBB8SQM1F",
+              "documentTitle": "Harwick UAS Operations Group — UAS Flight Operations & Safety Manual (FOM)",
+              "headingPath": "FOM › Section 4 › 4.2 Configuration control",
+              "quote": "- Flight-controller firmware and GCS software versions are set by the Systems & Cybersecurity Lead and recorded in the configuration baseline (HUOG-ISP Section 4). Crews do not accept OEM update promp",
+              "chunkId": 54
+            },
+            "expectedBy": "safety",
+            "timing": "within 10 minutes of I-16",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
               "01M5RNGH8VV7YFKWA095KCWYYP"
             ],
             "locked": false
@@ -3288,13 +3926,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:08:16.954Z",
-      "finishedAt": "2026-10-30T11:08:31.745Z",
+      "startedAt": "2026-10-30T12:25:12.542Z",
+      "finishedAt": "2026-10-30T12:25:22.134Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 9152,
-      "outputTokens": 1210,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 55046,
+      "outputTokens": 5451,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

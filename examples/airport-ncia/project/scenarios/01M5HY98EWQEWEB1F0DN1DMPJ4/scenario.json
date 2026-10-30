@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-30T11:11:06.767Z",
+  "updatedAt": "2026-10-30T12:27:41.990Z",
   "brief": {
     "userPrompt": "A cloned vendor badge is used to plant a rogue wireless access point in a network infrastructure room; IT must assemble the PACS, CCTV and switch evidence to find it and decide how to contain it.",
     "audience": [
@@ -455,83 +455,58 @@
       {
         "objectiveId": "obj-pacs",
         "capability": "cybersecurity",
-        "why": "The objective requires IT to analyze digital logs and detect anomalies in access control data, which directly tests the organization's ability to protect and restore electronic systems from unauthorized use and exploitation."
+        "why": "The objective requires forensic analysis of access control system logs to detect and attribute a cyber-physical attack, which falls under cybersecurity's role in protecting and restoring electronic systems and information."
       },
       {
         "objectiveId": "obj-pacs",
         "capability": "situational_assessment",
-        "why": "IT must assess the nature and extent of the cyber-physical intrusion by correlating PACS events with timestamps, reader types, and network access patterns to inform response decisions."
-      },
-      {
-        "objectiveId": "obj-pacs",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective centers on verifying the authenticity of identity credentials through technical analysis, which is a core function of access control and identity verification in protecting critical areas."
+        "why": "IT must analyze PACS logs and correlate timestamps with CCTV to determine the nature and extent of the intrusion, a core function of situational assessment."
       },
       {
         "objectiveId": "obj-rfid",
         "capability": "access_control_and_identity_verification",
-        "why": "The objective directly tests the understanding and application of access control systems, particularly the distinction between legacy and modern credential technologies, to prevent unauthorized access."
+        "why": "The objective centers on identity verification through RFID credentials, specifically the technical and procedural differences between legacy and modern systems, which directly maps to access control and identity verification."
       },
       {
         "objectiveId": "obj-rfid",
         "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "Understanding the risk posed by legacy RFID systems requires assessing and prioritizing threats to protection programs, which is a core function of risk management in security operations."
-      },
-      {
-        "objectiveId": "obj-rfid",
-        "capability": "physical_protective_measures",
-        "why": "The objective involves evaluating the adequacy of physical safeguards against a known technical vulnerability, which falls under the broader responsibility of implementing risk-informed protective countermeasures."
+        "why": "Understanding the risk posed by legacy RFID systems requires evaluating and prioritizing threats to access control, a key function of risk management for protection programs."
       },
       {
         "objectiveId": "obj-convergence",
         "capability": "cybersecurity",
-        "why": "The objective tests the ability to recognize and respond to a convergence of physical and cyber threats, which is a fundamental aspect of protecting electronic systems from exploitation via physical access."
+        "why": "The objective tests recognition that a physical breach (badge cloning) enables a cyber attack (rogue AP), a core aspect of cybersecurity in protecting electronic systems from exploitation via physical access."
       },
       {
         "objectiveId": "obj-convergence",
         "capability": "infrastructure_systems",
-        "why": "The objective assesses whether the team understands that network infrastructure rooms are critical systems that must be protected, and that a physical breach can lead to systemic cyber compromise."
-      },
-      {
-        "objectiveId": "obj-convergence",
-        "capability": "operational_coordination",
-        "why": "The objective requires coordination between IT, security, and operations to recognize and respond to a multi-layered threat, which is a core function of operational coordination across stakeholders."
-      },
-      {
-        "objectiveId": "obj-infra",
-        "capability": "infrastructure_systems",
-        "why": "The objective directly assesses the ability to stabilize and protect critical infrastructure functions, including network switch closets, which are essential to maintaining operational continuity."
+        "why": "The attack targets network infrastructure, and the objective assesses whether teams understand the interdependence between physical access and cyber system integrity, a central element of infrastructure systems."
       },
       {
         "objectiveId": "obj-infra",
         "capability": "physical_protective_measures",
-        "why": "The objective tests whether the organization applies appropriate physical safeguards to protect infrastructure rooms, which is a core function of implementing protective countermeasures."
+        "why": "The objective evaluates whether teams recognize the need for enhanced physical security in infrastructure rooms, a direct application of physical protective measures."
       },
       {
         "objectiveId": "obj-infra",
         "capability": "access_control_and_identity_verification",
-        "why": "The objective involves verifying that access to infrastructure rooms is controlled and monitored, which is a key function of identity verification and access control."
+        "why": "Protecting infrastructure rooms requires strict access control and identity verification, ensuring only authorized personnel enter, which is a core function of this capability."
       },
       {
         "objectiveId": "obj-network",
         "capability": "cybersecurity",
-        "why": "The objective focuses on identifying and responding to a critical network misconfiguration, which is a core function of protecting electronic systems from exploitation."
+        "why": "The objective focuses on identifying and responding to a network misconfiguration (trunk port) that compromises system integrity, a fundamental aspect of cybersecurity."
       },
       {
         "objectiveId": "obj-network",
-        "capability": "situational_assessment",
-        "why": "The objective requires IT to assess the full scope of a network compromise, including the reach of a rogue device and the implications of trunk port exposure, to inform containment decisions."
-      },
-      {
-        "objectiveId": "obj-network",
-        "capability": "planning",
-        "why": "The objective tests the team's ability to develop a structured, executable response plan to contain and remediate a network security incident, which is a core function of planning."
+        "capability": "infrastructure_systems",
+        "why": "Restoring and stabilizing network infrastructure after a compromise is a key function of infrastructure systems, particularly in response to a cyber-physical attack."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "IT and Cybersecurity personnel will identify the rogue wireless access point, confirm its connection to a trunk port on a network switch, and document its configuration and reach, including VLAN access, to prevent unauthorized network access.",
+        "target": "IT and Cybersecurity personnel must identify and analyze a rogue wireless access point connected to a switch port, determine its network reach, and assess the impact of a trunk port misconfiguration on internal network security, using PACS logs, CCTV, and switch configuration data to support forensic analysis and containment planning.",
         "objectiveRefs": [
           "obj-pacs",
           "obj-convergence",
@@ -541,18 +516,18 @@
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Pull PACS logs from the central server and correlate timestamps with CCTV footage to identify the clone holder's movement timeline.",
+            "task": "Pull PACS logs for Mendez’s access events and compare frequency readings across readers.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
             },
             "expectedBy": "it",
-            "timing": "within 10 minutes of I-04",
+            "timing": "within 5 minutes of I-02",
             "rowIds": [
-              "I-04"
+              "I-02"
             ],
             "objectiveRefs": [
               "obj-pacs",
@@ -564,39 +539,16 @@
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Identify the rogue AP's MAC address and confirm it is a TP-Link device using the OUI.",
+            "task": "Analyze the switch port configuration for Port 23 and identify it as a trunk port with access to all VLANs.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
             },
             "expectedBy": "it",
-            "timing": "within 15 minutes of I-06",
-            "rowIds": [
-              "I-06"
-            ],
-            "objectiveRefs": [
-              "obj-pacs",
-              "obj-convergence",
-              "obj-network"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-03",
-            "capability": "cybersecurity",
-            "task": "Check the switch port configuration for Port 23 and confirm it was reconfigured from access to trunk.",
-            "citation": {
-              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
-            },
-            "expectedBy": "it",
-            "timing": "within 20 minutes of I-06",
+            "timing": "within 10 minutes of I-06",
             "rowIds": [
               "I-07"
             ],
@@ -608,15 +560,15 @@
             "locked": false
           },
           {
-            "id": "T-04",
+            "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Document the rogue AP's physical location, power source, and antenna configuration for forensic preservation.",
+            "task": "Document the rogue AP’s MAC address, antenna configuration, and signal strength for forensic and attribution purposes.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
             },
             "expectedBy": "it",
             "timing": "within 5 minutes of I-06",
@@ -631,15 +583,15 @@
             "locked": false
           },
           {
-            "id": "T-05",
+            "id": "T-04",
             "capability": "cybersecurity",
-            "task": "Report the VLAN reach of the rogue AP to the AOC and recommend immediate isolation.",
+            "task": "Report to the AOC and command that the rogue AP provides access to Server VLAN 10, Admin VLAN 20, and Security Camera VLAN 30.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
             },
             "expectedBy": "it",
             "timing": "within 10 minutes of I-07",
@@ -654,18 +606,18 @@
             "locked": false
           },
           {
-            "id": "T-06",
+            "id": "T-05",
             "capability": "cybersecurity",
-            "task": "Initiate a network traffic analysis to determine if any data has already been exfiltrated through the rogue AP.",
+            "task": "Recommend a containment strategy based on the trunk port's impact on network segmentation and access control.",
             "citation": {
               "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
-              "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
-              "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
-              "chunkId": 78
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
             },
             "expectedBy": "it",
-            "timing": "within 30 minutes of I-07",
+            "timing": "within 15 minutes of I-07",
             "rowIds": [
               "I-07"
             ],
@@ -673,6 +625,588 @@
               "obj-pacs",
               "obj-convergence",
               "obj-network"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "IT and Cybersecurity personnel must provide a real-time, decision-relevant assessment of the physical and cyber events, including the clone holder’s movement timeline, the duration of access to Electrical Room B, and the network reach of the rogue AP, to inform operational decisions.",
+        "objectiveRefs": [
+          "obj-pacs"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
+            "capability": "situational_assessment",
+            "task": "Present the clone’s movement timeline from S-4 to E-2 and back to S-6 using PACS Forensic Packet, Exhibit C.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-04",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-pacs"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "situational_assessment",
+            "task": "Report that the clone was inside Electrical Room B for 12 minutes and had direct access to the network switch closet.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-04",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-pacs"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "situational_assessment",
+            "task": "Correlate the 07:38 S-4 entry with CCTV footage to confirm the individual was not a known employee or vendor.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-pacs"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "situational_assessment",
+            "task": "Identify that the rogue AP was connected for approximately 30 minutes and was broadcasting a hidden SSID.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-pacs"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "situational_assessment",
+            "task": "Assess the risk of incoming connections to the rogue AP and report on the potential for remote network access from the parking structure.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-pacs"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "Security and IT personnel must verify that the badge used to access Door S-4 was a cloned 125 kHz credential, not a valid 13.56 MHz smart card, and that the individual was not a known employee or vendor, to confirm a failure in identity verification and physical access control.",
+        "objectiveRefs": [
+          "obj-rfid",
+          "obj-infra"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-11",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that Mendez’s badge was read at 13.56 MHz during his morning entry and kitchen access.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-rfid",
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that the duplicate event at S-4 was read at 125 kHz and not 13.56 MHz.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-rfid",
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "access_control_and_identity_verification",
+            "task": "Compare the badge on the clone holder’s lanyard to the standard NCIA badge with photo and hologram.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 4 › 4.3 Badge Types",
+              "quote": "- **SIDA Badge (Red):** unescorted access to Secured Area, SIDA, Sterile Area. CHRC + STA + SIDA class. Ramp agents, LEOs, Operations. - **Sterile Area Badge (Blue):** Sterile Area via checkpoint; no ",
+              "chunkId": 60
+            },
+            "expectedBy": "security",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-rfid",
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "access_control_and_identity_verification",
+            "task": "Declare that the badge used at S-4 was not a valid NCIA badge and was likely a blank T5577 card programmed with Mendez’s 125 kHz credential.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-rfid",
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "access_control_and_identity_verification",
+            "task": "Report that the individual was not in the airport’s employee or vendor database and was not recognized by security.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-rfid",
+              "obj-infra"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "physical_protective_measures",
+        "target": "Security and Operations personnel must identify and report the absence of CCTV coverage in the maintenance corridor and Electrical Room B, and recommend immediate installation of video surveillance to protect network infrastructure rooms, as required by physical protective measures.",
+        "objectiveRefs": [
+          "obj-infra"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "physical_protective_measures",
+            "task": "Report that there is no camera in the maintenance corridor or inside Electrical Room B.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "physical_protective_measures",
+            "task": "Identify that the network infrastructure room was accessible via a maintenance corridor with no video surveillance.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "physical_protective_measures",
+            "task": "Recommend that all network infrastructure rooms be equipped with video surveillance and access control to prevent unauthorized entry.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 10 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "physical_protective_measures",
+            "task": "Report that the rogue AP was installed behind a UPS battery backup, indicating poor physical access control to the switch closet.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-infra"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "physical_protective_measures",
+            "task": "Advise that access to network infrastructure rooms must be restricted to authorized personnel only, with biometric and badge verification.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 10 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-infra"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "IT and Cybersecurity personnel must identify and report that the rogue AP was connected to Port 23 on a Cisco 2960 switch, which was reconfigured from access to trunk mode, and that this allowed unauthorized access to multiple VLANs, including Server, Admin, and Security Camera VLANs, to assess and stabilize the network infrastructure.",
+        "objectiveRefs": [
+          "obj-convergence",
+          "obj-network"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-21",
+            "capability": "infrastructure_systems",
+            "task": "Report that Port 23 on the Cisco 2960 switch was reconfigured as a trunk port and is now passing traffic from all VLANs.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-convergence",
+              "obj-network"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that the rogue AP is on the Concourse B operational network and can reach Gate Management Terminals, FIDS displays, and the core switch.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-convergence",
+              "obj-network"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "infrastructure_systems",
+            "task": "Report that the switch was accessible on the Management VLAN from any device plugged into an open port.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-convergence",
+              "obj-network"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "infrastructure_systems",
+            "task": "Identify that the rogue AP was powered by a USB cable tapped into the UPS, indicating a lack of physical and electrical security in the closet.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 5 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-convergence",
+              "obj-network"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "infrastructure_systems",
+            "task": "Recommend that all unused switch ports be disabled and that VLAN access be restricted to authorized devices only.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-convergence",
+              "obj-network"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "target": "Security and IT personnel must identify and report on systemic vulnerabilities, including the use of legacy 125 kHz readers, shared switch management credentials, and lack of port change monitoring, to prioritize and implement risk-reduction measures for protection programs.",
+        "objectiveRefs": [
+          "obj-rfid"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-26",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Report that 12 legacy 125 kHz readers remain in use and are vulnerable to Proxmark3 cloning.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-rfid"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Report that switch management passwords are not unique per closet and are likely known to the attacker.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-rfid"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Report that there is no port change monitoring or alerting for switch configuration changes.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-rfid"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Report that 802.1X port authentication is not implemented, allowing any device to connect to an open port.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-rfid"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-30",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Recommend that legacy 125 kHz readers be disabled and replaced within 12 months.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+              "quote": "**A. Intelligent System Controllers (ISCs)** in secured closets store local copies of the access database. If the central server goes offline (e.g., ransomware), ISCs continue in **\"Local Mode\"**, gra",
+              "chunkId": 55
+            },
+            "expectedBy": "security",
+            "timing": "within 15 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-rfid"
             ],
             "locked": false
           }
@@ -1696,13 +2230,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T10:58:15.437Z",
-      "finishedAt": "2026-10-30T10:58:32.584Z",
+      "startedAt": "2026-10-30T12:08:35.603Z",
+      "finishedAt": "2026-10-30T12:09:15.084Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 7414,
-      "outputTokens": 1312,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 7439,
+      "outputTokens": 3098,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

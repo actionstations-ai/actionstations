@@ -11,6 +11,8 @@ export const EEG_TASK_UNLINKED = 'EEG_TASK_UNLINKED'
 export const EEG_ROW_UNCOVERED = 'EEG_ROW_UNCOVERED'
 export const EEG_TASK_UNCITED = 'EEG_TASK_UNCITED'
 export const EEG_CAPABILITY_UNKNOWN = 'EEG_CAPABILITY_UNKNOWN'
+export const EEG_COLLAPSED = 'EEG_COLLAPSED'
+export const EEG_GUIDE_MISSING = 'EEG_GUIDE_MISSING'
 
 type W = LintWarning
 const lint = (
@@ -44,6 +46,33 @@ function lintObjectiveCapabilities(s: Scenario): W[] {
         { suggestion: 'Pick one to three capabilities for it in the Evaluation tab' },
       ),
     )
+}
+
+/** One guide for the whole exercise, or a mapped capability with no guide: the eeg stage collapsed. */
+function lintGuides(s: Scenario): W[] {
+  const { eegs, objectiveCapabilities } = s.evaluation
+  if (!eegs.length) return []
+  const out: W[] = []
+  if (eegs.length === 1 && s.objectives.length > 2)
+    out.push(
+      lint(
+        EEG_COLLAPSED,
+        'warning',
+        `One evaluation guide covers ${s.objectives.length} objectives`,
+        { suggestion: 'Re-run the evaluation guides, or add a guide for each capability' },
+      ),
+    )
+  const guided = new Set(eegs.map((e) => e.capability as string))
+  const unguided = new Set(
+    objectiveCapabilities.map((p) => p.capability as string).filter((c) => !guided.has(c)),
+  )
+  for (const c of unguided)
+    out.push(
+      lint(EEG_GUIDE_MISSING, 'warning', `"${capabilityName(c)}" has no evaluation guide`, {
+        suggestion: 'Re-run the evaluation guides, or remove the capability from the objective',
+      }),
+    )
+  return out
 }
 
 function lintTasks(s: Scenario): W[] {
@@ -105,5 +134,11 @@ function lintCapabilities(s: Scenario): W[] {
 /** All evaluation-guide lints; empty for a scenario without an evaluation. */
 export function lintEeg(s: Scenario): LintWarning[] {
   if (!hasEvaluation(s)) return []
-  return [...lintObjectiveCapabilities(s), ...lintTasks(s), ...lintRows(s), ...lintCapabilities(s)]
+  return [
+    ...lintObjectiveCapabilities(s),
+    ...lintGuides(s),
+    ...lintTasks(s),
+    ...lintRows(s),
+    ...lintCapabilities(s),
+  ]
 }

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-22T06:45:53.817Z",
-  "updatedAt": "2026-10-30T11:11:44.167Z",
+  "updatedAt": "2026-10-30T12:28:19.454Z",
   "brief": {
     "userPrompt": "Shortly after 08:30 a remote-support session through the DosaTech ScreenBridge agent on MBW-HMI-02 in the Chemical Building raises the Caustic Feed System dose setpoint (NAOH-FC-203) step by step toward 40 mg/L while the single duty operator is on rounds; finished-water pH climbs on AIT-302, the hard-wired high-high switch PSH-302 and a grab sample disagree with what the HMI trend shows. Vendor remote access, manual chemical feed, isolating the control network, Ohio EPA notification and the Do Not Drink decision for Zone 1.",
     "audience": [
@@ -1649,68 +1649,48 @@
       {
         "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
         "capability": "cybersecurity",
-        "why": "The objective requires detecting and responding to a mismatch between HMI data and field instruments, which directly tests the organization's ability to protect and restore electronic systems from unauthorized use and exploitation, as defined in the HSEEP Cybersecurity capability."
+        "why": "The objective requires detecting and responding to a cyber-physical compromise where HMI data contradicts field instruments, which falls under cybersecurity's role in protecting control systems from unauthorized changes and ensuring integrity of operational data."
       },
       {
         "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
         "capability": "infrastructure_systems",
-        "why": "The objective involves stabilizing critical infrastructure functions—specifically the chemical feed system—by prioritizing physical evidence over screen displays, which aligns with the Infrastructure Systems capability to minimize health and safety threats and restore systems to support a viable community."
-      },
-      {
-        "objectiveId": "01M5H5RHR0WJFFRB5DYR1NNYX1",
-        "capability": "operational_coordination",
-        "why": "The objective demands a unified operational structure to integrate technical, regulatory, and public communication teams in response to a control-system compromise, which is a core function of Operational Coordination."
+        "why": "The objective involves stabilizing the treatment process by manually operating the plant and isolating the compromised control system, which aligns with infrastructure systems' function to stabilize critical infrastructure functions under emergency conditions."
       },
       {
         "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
         "capability": "public_information_and_warning",
-        "why": "The objective requires issuing a Do Not Drink advisory within 2 hours of confirming lab results, which tests the organization's ability to deliver coordinated, prompt, and actionable information to the public through clear, consistent, and culturally appropriate methods, as defined in the Public Information and Warning capability."
+        "why": "The objective centers on issuing a Do Not Drink advisory based on lab results, which requires timely, accurate, and actionable public communication to protect health and safety, directly matching the public information and warning capability."
       },
       {
         "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
         "capability": "operational_coordination",
-        "why": "The objective depends on a unified decision-making process involving the Director, Water Quality Manager, and Public Information Officer to approve and release the advisory, which is a core function of Operational Coordination."
-      },
-      {
-        "objectiveId": "01M5H5RHR0ZWWKK7N0YB2BAMSW",
-        "capability": "situational_assessment",
-        "why": "The objective requires verifying lab results and confirming the health effects of a hazardous condition before issuing an advisory, which aligns with the Situational Assessment capability to provide decision-relevant information on the nature and extent of the hazard."
+        "why": "The objective demands coordination between the Incident Commander, Water Quality Manager, and Public Information Officer to make a unified decision on advisory issuance, relying on the ICS structure to synchronize roles and ensure a cohesive response."
       },
       {
         "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
         "capability": "cybersecurity",
-        "why": "The objective requires isolating the control system, engaging the FBI/CISA liaison, and preserving evidence from a remote-access compromise, which directly tests the organization's ability to protect and restore electronic systems from damage and unauthorized use, as defined in the Cybersecurity capability."
+        "why": "The objective requires isolating the control system, preserving evidence, and preventing further remote access, all of which are core elements of cybersecurity's responsibility to protect and restore electronic systems during a cyber incident."
       },
       {
         "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
         "capability": "forensics_and_attribution",
-        "why": "The objective involves preserving chain-of-custody evidence and submitting forensic data to CISA and FBI for attribution, which aligns with the Forensics and Attribution capability to conduct forensic analysis and attribute attacks to their source."
-      },
-      {
-        "objectiveId": "01M5H5RHR0QSX7BXF0KPJQ72BB",
-        "capability": "operational_coordination",
-        "why": "The objective demands a coordinated response across IT, security, and regulatory teams to isolate the network, prevent further access, and manage evidence, which is a core function of Operational Coordination."
+        "why": "The objective includes engaging CISA and FBI to analyze the attack, preserve forensic evidence, and attribute the breach, which directly supports the forensics and attribution capability's role in identifying and responding to cyber threats."
       },
       {
         "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
         "capability": "public_information_and_warning",
-        "why": "The objective requires releasing a pre-scripted, fact-based advisory through multiple channels within 45 minutes, using approved language and avoiding speculation, which directly tests the organization's ability to deliver timely, accurate, and actionable information to the public, as defined in the Public Information and Warning capability."
+        "why": "The objective requires releasing a pre-scripted, fact-based advisory through multiple channels within a strict timeframe, ensuring consistent messaging to prevent misinformation, which is the central purpose of public information and warning."
       },
       {
         "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
         "capability": "operational_coordination",
-        "why": "The objective depends on a unified response between the Public Information Officer, Deputy PIO, and Incident Commander to ensure consistent messaging across all channels, which is a core function of Operational Coordination."
-      },
-      {
-        "objectiveId": "01M5H5RHR0K13DWCRJCNX9BBG1",
-        "capability": "intelligence_and_information_sharing",
-        "why": "The objective involves sharing verified lab results and regulatory updates with external partners and the public, which aligns with the Intelligence and Information Sharing capability to provide timely and actionable information to stakeholders."
+        "why": "The objective depends on the Public Information Officer, Deputy PIO, and Incident Commander coordinating to ensure the advisory is released simultaneously across all channels, which relies on operational coordination to maintain unity of effort."
       }
     ],
     "eegs": [
       {
         "capability": "cybersecurity",
-        "target": "The organization will protect and restore electronic communications systems, information, and services from damage and unauthorized use by isolating the compromised HMI, preserving forensic evidence, and preventing further remote access through chain-of-custody protocols and network isolation.",
+        "target": "The SCADA / IT Security Manager will isolate the compromised HMI (MBW-HMI-02) and network segment (MBW-JUMP-01) per Section 11.2, preserve evidence on MBW-JUMP-01, and prevent any further remote access by disabling the DosaTech ScreenBridge agent and blocking unauthorized sessions, ensuring control-system integrity and forensic readiness.",
         "objectiveRefs": [
           "01M5H5RHR0WJFFRB5DYR1NNYX1",
           "01M5H5RHR0QSX7BXF0KPJQ72BB"
@@ -1719,18 +1699,19 @@
           {
             "id": "T-01",
             "capability": "cybersecurity",
-            "task": "Isolate MBW-HMI-02 and MBW-JUMP-01 via firewall rule update and session termination.",
+            "task": "Isolate MBW-HMI-02 and MBW-JUMP-01 from the network via firewall rule update and session termination.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 2",
-              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
-              "chunkId": 59
+              "headingPath": "City of Millbrook Department of… › Section 12",
+              "quote": "| Event | Report to | Clock | |---|---|---| | Any confirmed or strongly suspected cyber intrusion on the control network, or unauthorized operation of equipment | CISA (24/7) | Within 24 hours; immedi",
+              "chunkId": 93
             },
             "expectedBy": "it",
-            "timing": "Within 30 minutes of unauthorized access detection",
+            "timing": "Immediately",
             "rowIds": [
-              "I-05"
+              "I-05",
+              "I-13"
             ],
             "objectiveRefs": [
               "01M5H5RHR0WJFFRB5DYR1NNYX1",
@@ -1741,30 +1722,7 @@
           {
             "id": "T-02",
             "capability": "cybersecurity",
-            "task": "Preserve MBW-NVR-01 video, PACS logs, and session recordings by initiating SEC-4 chain-of-custody form.",
-            "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 11 › 11.2 Evidence",
-              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
-              "chunkId": 45
-            },
-            "expectedBy": "security",
-            "timing": "Immediately upon detection of unauthorized access",
-            "rowIds": [
-              "I-05",
-              "I-10b"
-            ],
-            "objectiveRefs": [
-              "01M5H5RHR0WJFFRB5DYR1NNYX1",
-              "01M5H5RHR0QSX7BXF0KPJQ72BB"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-03",
-            "capability": "cybersecurity",
-            "task": "Export the SCADA audit log and historian trends from MBW-HMI-02 for forensic review.",
+            "task": "Preserve the audit log, session recordings, and MBW-NVR-01 video from the HMI and network devices using SEC-4 form and chain-of-custody.",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1773,8 +1731,9 @@
               "chunkId": 45
             },
             "expectedBy": "it",
-            "timing": "Within 1 hour of isolation",
+            "timing": "Immediately",
             "rowIds": [
+              "I-05",
               "I-13",
               "I-21e"
             ],
@@ -1785,9 +1744,9 @@
             "locked": false
           },
           {
-            "id": "T-04",
+            "id": "T-03",
             "capability": "cybersecurity",
-            "task": "Disable the DosaTech ScreenBridge service on MBW-HMI-02 and prevent any further remote access.",
+            "task": "Disable the DosaTech ScreenBridge service on MBW-HMI-02 and block all remote access until forensic handover.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
@@ -1796,8 +1755,9 @@
               "chunkId": 59
             },
             "expectedBy": "it",
-            "timing": "Within 15 minutes of isolation",
+            "timing": "Within 10 minutes of detection",
             "rowIds": [
+              "I-05",
               "I-13"
             ],
             "objectiveRefs": [
@@ -1805,11 +1765,320 @@
               "01M5H5RHR0QSX7BXF0KPJQ72BB"
             ],
             "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Incident Commander will declare manual operation under ERP Section 7.5, order the local manual override of NAOH-FC-203 to 0 mg/L via PLC-02, and confirm that all critical systems (HSP-1/2/3, BP-301/302/303) are under direct operator control to stabilize water quality and prevent further health risks.",
+        "objectiveRefs": [
+          "01M5H5RHR0WJFFRB5DYR1NNYX1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "infrastructure_systems",
+            "task": "Declare manual operation per ERP Section 7.5 and order the local manual override of NAOH-FC-203 to 0 mg/L via PLC-02.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+              "quote": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+              "chunkId": 13
+            },
+            "expectedBy": "ops",
+            "timing": "Within 5 minutes of lab confirmation",
+            "rowIds": [
+              "I-02",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1"
+            ],
+            "locked": false
           },
           {
             "id": "T-05",
-            "capability": "cybersecurity",
-            "task": "Submit the forensic image of MBW-HMI-02 to CISA via the WaterISAC cyber-incident reporting portal.",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that HSP-1/2/3 pumps are in HAND mode and BP-301/302/303 are operating under local pressure-switch control (PIT-622).",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+              "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+              "chunkId": 73
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of override",
+            "rowIds": [
+              "I-14",
+              "I-19b"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "infrastructure_systems",
+            "task": "Verify that the caustic pump is off and pressure in Zone 1 is holding at 52 psi via field indicators.",
+            "citation": {
+              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+              "headingPath": "City of Millbrook Department of… › Section 7 › 7.1 Setpoint Limits (chemical feed and pumping)",
+              "quote": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+              "chunkId": 73
+            },
+            "expectedBy": "ops",
+            "timing": "Within 15 minutes of transition",
+            "rowIds": [
+              "I-19b"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0WJFFRB5DYR1NNYX1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer will release a pre-scripted Do Not Drink advisory via MillbrookAlert, website, and social media within 30 minutes of the advisory decision, using approved language from MDWS-PCP-2026, Section 10, to ensure consistent, fact-based communication to the public.",
+        "objectiveRefs": [
+          "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+          "01M5H5RHR0K13DWCRJCNX9BBG1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Release the Do Not Drink advisory via MillbrookAlert, website, and social media using the Section 10 template.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+              "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+              "chunkId": 112
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of decision",
+            "rowIds": [
+              "I-12",
+              "I-19g"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_information_and_warning",
+            "task": "Log the timestamp and channel of the advisory release in the media log and rumor log.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+              "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+              "chunkId": 112
+            },
+            "expectedBy": "pio",
+            "timing": "Immediately after release",
+            "rowIds": [
+              "I-12",
+              "I-19g"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Confirm that the advisory includes the affected zone, reason (pH 9.3, caustic 38 mg/L), and action (do not drink tap water).",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Annex B",
+              "quote": "| Incident type | Key message 1 | Key message 2 | Key message 3 | |---|---|---|---| | Main break / pressure loss | Here is the area and what to do | Crews are repairing; here is the expected timeline ",
+              "chunkId": 133
+            },
+            "expectedBy": "pio",
+            "timing": "Before release",
+            "rowIds": [
+              "I-17",
+              "I-19f"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander will coordinate the advisory decision with the Water Quality Manager and Public Information Officer, confirm the affected zone via GIS, and authorize the release of the advisory through the ICS structure to ensure unified action across technical, regulatory, and public communication teams.",
+        "objectiveRefs": [
+          "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+          "01M5H5RHR0K13DWCRJCNX9BBG1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Coordinate the advisory decision with the Water Quality Manager and Public Information Officer via a conference call using the Section 10 template.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+              "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+              "chunkId": 112
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of lab confirmation",
+            "rowIds": [
+              "I-02",
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "operational_coordination",
+            "task": "Confirm the affected zone using GIS and share the boundary with the Public Information Officer and Distribution Superintendent.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+              "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+              "chunkId": 112
+            },
+            "expectedBy": "ops",
+            "timing": "Before public release",
+            "rowIds": [
+              "I-02",
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Authorize the Public Information Officer to release the advisory using the Section 10 template and confirm the message with the Water Quality Manager.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+              "quote": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+              "chunkId": 112
+            },
+            "expectedBy": "ops",
+            "timing": "Within 30 minutes of decision",
+            "rowIds": [
+              "I-17",
+              "I-19g"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0ZWWKK7N0YB2BAMSW",
+              "01M5H5RHR0K13DWCRJCNX9BBG1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The SCADA / IT Security Manager and Security & Emergency Manager preserve and document the chain of custody for all digital and physical evidence, including SCADA audit logs, HMI session recordings, PACS logs, and NVR footage, in accordance with SEC-4 form and Section 11.3, to support forensic analysis and attribution by CISA and FBI.",
+        "objectiveRefs": [
+          "01M5H5RHR0QSX7BXF0KPJQ72BB"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "forensics_and_attribution",
+            "task": "Export the SCADA audit log and historian trends from MBW-HMI-02 and MBW-SCADA-SRV01.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "it",
+            "timing": "Within 10 minutes of confirming unauthorized access",
+            "rowIds": [
+              "I-05",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve MBW-NVR-01 video, PACS logs, and session recordings from the DosaTech ScreenBridge session on MBW-HMI-02.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "security",
+            "timing": "Immediately upon discovery of unauthorized access",
+            "rowIds": [
+              "I-05",
+              "I-10b",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "forensics_and_attribution",
+            "task": "Complete the SEC-4 form for chain of custody on all preserved evidence and submit it to CISA and FBI via the WaterISAC cyber-incident reporting portal.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "it",
+            "timing": "Within 1 hour of evidence preservation",
+            "rowIds": [
+              "I-05",
+              "I-13",
+              "I-21g"
+            ],
+            "objectiveRefs": [
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "forensics_and_attribution",
+            "task": "Notify the FBI and CISA through WaterISAC of the cyber-physical compromise, including the attacker’s IP, fake vendor name, and session duration.",
             "citation": {
               "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
@@ -1818,34 +2087,56 @@
               "chunkId": 93
             },
             "expectedBy": "it",
-            "timing": "Within 24 hours of evidence preservation",
+            "timing": "Within 1 hour of evidence preservation",
             "rowIds": [
-              "I-21e"
+              "I-05",
+              "I-21g"
             ],
             "objectiveRefs": [
-              "01M5H5RHR0WJFFRB5DYR1NNYX1",
               "01M5H5RHR0QSX7BXF0KPJQ72BB"
             ],
             "locked": false
           },
           {
-            "id": "T-06",
-            "capability": "cybersecurity",
-            "task": "Confirm that no vendor session may proceed until full network isolation and a signed access request are submitted.",
+            "id": "T-17",
+            "capability": "forensics_and_attribution",
+            "task": "Confirm that no HMI, server, or PLC is powered off or modified until forensic handover is complete.",
             "citation": {
-              "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
-              "headingPath": "City of Millbrook Department of… › Section 2",
-              "quote": "| Role | Name | Cyber Duties | |---|---|---| | SCADA / IT Security Manager | Priya Nandakumar | Owns this plan; firewall rule owner for MBW-FW-01; approves vendor remote-access windows; cyber incident",
-              "chunkId": 59
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
             },
             "expectedBy": "it",
-            "timing": "Immediately upon network compromise",
+            "timing": "Throughout the incident",
             "rowIds": [
-              "I-16"
+              "I-05",
+              "I-13",
+              "I-21g"
             ],
             "objectiveRefs": [
-              "01M5H5RHR0WJFFRB5DYR1NNYX1",
+              "01M5H5RHR0QSX7BXF0KPJQ72BB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "forensics_and_attribution",
+            "task": "Submit the forensic image of MBW-HMI-02 to CISA and FBI via the WaterISAC portal after completing the SEC-4 form.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.2 Evidence",
+              "quote": "Do not power off HMIs, servers or PLCs unless life safety requires it. Export the SCADA audit log and historian trends; preserve MBW-NVR-01 video, PACS logs, MBW-FW-01 and MBW-JUMP-01 logs and session",
+              "chunkId": 45
+            },
+            "expectedBy": "it",
+            "timing": "Within 2 hours of image capture",
+            "rowIds": [
+              "I-21e"
+            ],
+            "objectiveRefs": [
               "01M5H5RHR0QSX7BXF0KPJQ72BB"
             ],
             "locked": false
@@ -4077,13 +4368,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:01:38.314Z",
-      "finishedAt": "2026-10-30T11:02:00.819Z",
+      "startedAt": "2026-10-30T12:13:03.719Z",
+      "finishedAt": "2026-10-30T12:13:32.069Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 15088,
-      "outputTokens": 1236,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 30224,
+      "outputTokens": 2727,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

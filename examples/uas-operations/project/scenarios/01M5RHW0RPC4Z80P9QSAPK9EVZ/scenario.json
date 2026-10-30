@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T03:32:34.710Z",
-  "updatedAt": "2026-10-30T11:13:11.050Z",
+  "updatedAt": "2026-10-30T12:29:46.592Z",
   "brief": {
     "userPrompt": "Ten days before CP&L Deliverable D-3 is due, the processing team arrives on a weekday morning to find HUOG-NAS01 and the processing workstation HUOG-PROC01 encrypted with a ransom note on the share; the NAS snapshot schedule was disabled two nights earlier, GCS-02 was infected after it mounted the NAS to upload last week's flight logs, and the offline backup drive OB-1 in the General Manager's safe is three weeks old. The Group must isolate the Data VLAN at HUOG-FW01, keep the GCS fleet off the network and decide whether flights can continue, scope whether CP&L and CVAC client data was read and not only encrypted, recover from OB-1 and the off-site service in the HUOG-ISP Section 9.3 order once the managed SOC confirms the environment is clean, decide within four hours whether to notify the clients that D-3 is at risk, and record the decision not to pay.",
     "audience": [
@@ -1307,79 +1307,58 @@
       {
         "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
         "capability": "operational_coordination",
-        "why": "The objective requires keeping leadership, technical, and communications teams aligned on a single set of facts, which is achieved through a unified operational structure under the Incident Commander and defined communication protocols in the ERP and ISP."
+        "why": "The objective requires keeping leadership, technical, and communications teams aligned on facts and routing all external statements through Corporate Communications, which is a core function of operational coordination under HSEEP."
       },
       {
         "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
         "capability": "public_information_and_warning",
-        "why": "The objective mandates that all external statements be routed through Corporate Communications, ensuring coordinated, reliable, and actionable information is delivered to the public and media, consistent with the crisis protocol UC-CP-2025."
-      },
-      {
-        "objectiveId": "01M5RHWNE9A89169M0WND69ZNH",
-        "capability": "cybersecurity",
-        "why": "The objective requires verifying data integrity and ensuring that only authorized, verified data is processed, which is a core function of cybersecurity in protecting and restoring electronic systems and data."
-      },
-      {
-        "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
-        "capability": "public_information_and_warning",
-        "why": "The objective involves making timely, fact-based decisions on client notifications and delivering them through approved channels, which is a direct application of public information and warning to manage external communication and prevent misinformation."
+        "why": "The objective mandates that all external messaging be coordinated and controlled through Corporate Communications, ensuring consistent, reliable, and actionable information is delivered to the public and stakeholders, which aligns with public information and warning."
       },
       {
         "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
         "capability": "operational_coordination",
-        "why": "The objective requires coordination between the General Manager, Systems & Cybersecurity Lead, and Campaign Lead to assess risk and decide on notification timing and content, which is enabled by a unified operational structure and defined roles in the ERP."
+        "why": "The objective requires the General Manager to make a timely, fact-based decision on client notification within four hours, involving the Systems & Cybersecurity Lead and Compliance Officer, which depends on coordinated information flow across roles."
       },
       {
         "objectiveId": "01M5RHWNE967ARK5AJARDS66GB",
         "capability": "cybersecurity",
-        "why": "The objective depends on accurate technical assessment of data exposure (e.g., CP&L data read, not only encrypted), which is a cybersecurity function to determine the scope and impact of a cyber incident."
+        "why": "The decision to notify CP&L and CVAC depends on forensic evidence from the ransomware incident, including whether data was read or copied, which is a core function of cybersecurity in incident response and recovery."
       },
       {
         "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
         "capability": "cybersecurity",
-        "why": "The objective centers on containing a ransomware attack by isolating infected systems, preserving evidence, and following a structured recovery order — all core elements of cybersecurity response and restoration."
+        "why": "The objective requires isolating the Data VLAN, grounding infected GCS units, and preserving evidence for forensic analysis — all actions defined in the HUOG-ISP 9.3 ransomware response procedure, which is a cybersecurity capability."
       },
       {
         "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
         "capability": "infrastructure_systems",
-        "why": "The objective requires stabilizing critical infrastructure (the NAS, processing workstations, and GCS fleet) to prevent cascading failures and ensure that essential systems are restored in a prioritized, resilient manner."
-      },
-      {
-        "objectiveId": "01M5RHWNE9705Q78Y4N37Y0S18",
-        "capability": "operational_coordination",
-        "why": "The objective demands that containment and recovery actions be synchronized across flight operations, cybersecurity, and logistics teams, which is only possible through a unified operational structure and defined roles in the ERP."
+        "why": "The objective involves stabilizing critical data systems (NAS, processing workstations) and restoring them in a defined order, which is a core function of infrastructure systems in response and recovery."
       },
       {
         "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
         "capability": "operational_coordination",
-        "why": "The objective requires the Incident Commander to direct all response actions, maintain control over the incident structure, and ensure that recovery follows the prescribed order, which is the essence of operational coordination."
+        "why": "The objective requires the Incident Commander to lead recovery in a prescribed order, verify restored data against manifests, and ensure all actions follow the HUOG-ISP 9.3 recovery sequence, which is a function of operational coordination."
       },
       {
         "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
         "capability": "cybersecurity",
-        "why": "The objective involves restoring systems from verified backups and validating data integrity before resuming operations, which is a core function of cybersecurity in recovery and restoration."
-      },
-      {
-        "objectiveId": "01M5RHWNE95HY4QX9S54Y15PDX",
-        "capability": "infrastructure_systems",
-        "why": "The objective requires restoring critical systems (NAS, processing workstations, GCS) in a prioritized, resilient order to ensure operational continuity, which aligns with infrastructure systems’ role in stabilizing and revitalizing systems."
+        "why": "The objective involves restoring from verified backups, verifying data integrity, and ensuring no further compromise — all elements of cybersecurity in recovery and restoration."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander maintains a unified operational structure under the ERP, ensures all teams follow the HUOG-ISP 9.3 recovery order, and confirms that every action — from grounding GCS-02 to rescheduling the CVAC collection — is coordinated through the Flight Operations Desk and the Incident Command role.",
+        "target": "The Incident Commander, with the Systems & Cybersecurity Lead and Corporate Communications, maintains a unified operational structure by ensuring all teams share the same facts, external statements are routed through Corporate Communications, and decisions are made based on a common operating picture as defined in the ERP and ISP.",
         "objectiveRefs": [
           "01M5RHWNE9A89169M0WND69ZNH",
           "01M5RHWNE967ARK5AJARDS66GB",
-          "01M5RHWNE9705Q78Y4N37Y0S18",
           "01M5RHWNE95HY4QX9S54Y15PDX"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Declare a Level 3 incident and activate the Incident Command structure immediately after the encryption is confirmed.",
+            "task": "Notify the General Manager and Corporate Communications of the cyber incident immediately upon discovery of the ransom note and encrypted files.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
@@ -1387,6 +1366,7 @@
               "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
               "chunkId": 15
             },
+            "expectedBy": "ops",
             "timing": "Immediately",
             "rowIds": [
               "I-01",
@@ -1395,7 +1375,6 @@
             "objectiveRefs": [
               "01M5RHWNE9A89169M0WND69ZNH",
               "01M5RHWNE967ARK5AJARDS66GB",
-              "01M5RHWNE9705Q78Y4N37Y0S18",
               "01M5RHWNE95HY4QX9S54Y15PDX"
             ],
             "locked": false
@@ -1403,24 +1382,25 @@
           {
             "id": "T-02",
             "capability": "operational_coordination",
-            "task": "Ensure that every team reports its status and actions to the Incident Commander through the Flight Operations Desk at the 10:00 and 11:00 time jumps.",
+            "task": "Route all external communications through Corporate Communications (UC-CP-2025) and prevent any team from issuing a public statement.",
             "citation": {
               "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
               "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 6 › 6.1 Notification order",
-              "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
-              "chunkId": 15
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
             },
-            "expectedBy": "ops",
-            "timing": "Within 10 minutes of each time jump",
+            "expectedBy": "pio",
+            "timing": "Immediately",
             "rowIds": [
-              "I-05",
-              "I-10"
+              "I-01b",
+              "I-06b",
+              "I-12b",
+              "I-14b"
             ],
             "objectiveRefs": [
               "01M5RHWNE9A89169M0WND69ZNH",
               "01M5RHWNE967ARK5AJARDS66GB",
-              "01M5RHWNE9705Q78Y4N37Y0S18",
               "01M5RHWNE95HY4QX9S54Y15PDX"
             ],
             "locked": false
@@ -1428,23 +1408,24 @@
           {
             "id": "T-03",
             "capability": "operational_coordination",
-            "task": "Confirm that the Systems & Cybersecurity Lead, Payload & Calibration Lead, and Corporate Communications all report to the Incident Commander before making any public or operational decisions.",
+            "task": "Confirm that the Systems & Cybersecurity Lead has isolated the Data VLAN at HUOG-FW01 and disconnected the NAS, and that no GCS that mounted the NAS since Saturday 22:15 is allowed to reconnect.",
             "citation": {
-              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
-              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
-              "headingPath": "ERP › Section 2 › 2.2 Group incident team",
-              "quote": "| Position | Holder | Alternate | |---|---|---| | Incident Commander | Director of Flight Operations | Aviation Safety Officer | | Safety and notifications | Aviation Safety Officer | General Manager ",
-              "chunkId": 7
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
             },
-            "timing": "Before any external statement or flight rescheduling",
+            "expectedBy": "it",
+            "timing": "Within 15 minutes",
             "rowIds": [
-              "I-11",
-              "I-16"
+              "I-01",
+              "I-04",
+              "I-08"
             ],
             "objectiveRefs": [
               "01M5RHWNE9A89169M0WND69ZNH",
               "01M5RHWNE967ARK5AJARDS66GB",
-              "01M5RHWNE9705Q78Y4N37Y0S18",
               "01M5RHWNE95HY4QX9S54Y15PDX"
             ],
             "locked": false
@@ -1452,73 +1433,304 @@
           {
             "id": "T-04",
             "capability": "operational_coordination",
-            "task": "Verify that the recovery order from HUOG-ISP 9.3 is followed and that no processing begins until the calibration share and ops records are restored and verified.",
+            "task": "Report to the Incident Commander and Corporate Communications any new information from the MSSP, such as the clean-environment confirmation or forensic findings, within 15 minutes of receipt.",
             "citation": {
-              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
-              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
-              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
-              "chunkId": 129
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP › Section 6 › 6.1 Notification order",
+              "quote": "| Order | Who | When | By whom | |---|---|---|---| | 1 | 911 (fire, EMS, law enforcement) | Immediately for Level 3 with injury, fire or a public hazard | Anyone | | 2 | HWK Air Traffic Control Tower ",
+              "chunkId": 15
             },
             "expectedBy": "it",
-            "timing": "Before any processing",
+            "timing": "Within 15 minutes",
             "rowIds": [
-              "I-14a"
+              "I-09",
+              "I-13",
+              "I-14"
             ],
             "objectiveRefs": [
               "01M5RHWNE9A89169M0WND69ZNH",
               "01M5RHWNE967ARK5AJARDS66GB",
-              "01M5RHWNE9705Q78Y4N37Y0S18",
               "01M5RHWNE95HY4QX9S54Y15PDX"
             ],
             "locked": false
-          },
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "Corporate Communications delivers a consistent, approved, and factual message to the public, media, and clients through the crisis protocol UC-CP-2025, ensuring no unverified information is released and all external statements are coordinated and timely.",
+        "objectiveRefs": [
+          "01M5RHWNE9A89169M0WND69ZNH"
+        ],
+        "criticalTasks": [
           {
             "id": "T-05",
-            "capability": "operational_coordination",
-            "task": "Ensure that the Director of Flight Operations grounds every GCS that mounted the NAS during the infection window and confirms the fleet status with the Flight Operations Desk.",
+            "capability": "public_information_and_warning",
+            "task": "Log all public social media posts and media inquiries related to the incident and report them to the General Manager within 15 minutes.",
             "citation": {
-              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
-              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
-              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
-              "chunkId": 129
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
             },
-            "expectedBy": "ops",
-            "timing": "Within 10 minutes of the infection window being confirmed",
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes",
             "rowIds": [
-              "I-04",
-              "I-13"
+              "I-01b",
+              "I-06b",
+              "I-12",
+              "I-14b"
             ],
             "objectiveRefs": [
-              "01M5RHWNE9A89169M0WND69ZNH",
-              "01M5RHWNE967ARK5AJARDS66GB",
-              "01M5RHWNE9705Q78Y4N37Y0S18",
-              "01M5RHWNE95HY4QX9S54Y15PDX"
+              "01M5RHWNE9A89169M0WND69ZNH"
             ],
             "locked": false
           },
           {
             "id": "T-06",
-            "capability": "operational_coordination",
-            "task": "Confirm that the Compliance Officer is notified immediately when export-controlled data is exposed, and that the Systems & Cybersecurity Lead logs the exposure in the incident record.",
+            "capability": "public_information_and_warning",
+            "task": "Prepare and deliver a holding statement to the media that confirms the Group is responding to a cyber incident affecting data systems, without confirming theft, ransom, or exposure.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes",
+            "rowIds": [
+              "I-06b",
+              "I-12b",
+              "I-14b"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Ensure that all client communications, including those to CP&L and CVAC, are approved by the General Manager and contain only verified facts about data exposure and deadlines.",
+            "citation": {
+              "documentId": "01M5H3BY29YZ14V12J4ZSJKCXV",
+              "documentTitle": "Harwick UAS Operations Group — Emergency Response Plan for Flight Operations (ERP)",
+              "headingPath": "ERP",
+              "quote": "> **EXERCISE MATERIAL — for training use.** The organization, people, procedures, numbers, frequencies, addresses and identifiers in this plan are simulated. The telephone numbers are exercise numbers",
+              "chunkId": 1
+            },
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes",
+            "rowIds": [
+              "I-11",
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9A89169M0WND69ZNH"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The Systems & Cybersecurity Lead executes the HUOG-ISP 9.3 ransomware response by isolating the infected network, preserving evidence, verifying data integrity, and restoring from the cleanest available backup (OB-1) in accordance with the recovery order and forensic requirements.",
+        "objectiveRefs": [
+          "01M5RHWNE967ARK5AJARDS66GB",
+          "01M5RHWNE9705Q78Y4N37Y0S18",
+          "01M5RHWNE95HY4QX9S54Y15PDX"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-08",
+            "capability": "cybersecurity",
+            "task": "Isolate the Data VLAN at HUOG-FW01 and disconnect the NAS immediately upon confirmation of encryption and ransom note.",
             "citation": {
               "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
               "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
-              "headingPath": "ISP › Section 7 › 7.2 Data classes",
-              "quote": "| Class | Examples | Handling | |---|---|---| | **Public** | Published papers, demo imagery of Horton Field | No restriction | | **Internal** | Flight logs, maintenance records, most trainee projects ",
-              "chunkId": 118
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
             },
             "expectedBy": "it",
-            "timing": "Within 15 minutes of exposure confirmation",
+            "timing": "Immediately",
             "rowIds": [
-              "I-08"
+              "I-01",
+              "I-04"
             ],
             "objectiveRefs": [
-              "01M5RHWNE9A89169M0WND69ZNH",
               "01M5RHWNE967ARK5AJARDS66GB",
               "01M5RHWNE9705Q78Y4N37Y0S18",
               "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "cybersecurity",
+            "task": "Treat any GCS that mounted the NAS during the infection window as infected and ground it, including UAS-03 and UAS-11 paired to GCS-02.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "it",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-04",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "cybersecurity",
+            "task": "Verify that the calibration share and D-3 raw data match the repository hashes and manifest checks after restoration from OB-1.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 6 › 6.2 Backups",
+              "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+              "chunkId": 115
+            },
+            "expectedBy": "pay",
+            "timing": "After restore",
+            "rowIds": [
+              "I-10a",
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "cybersecurity",
+            "task": "Confirm with the MSSP that the environment is clean before connecting OB-1 to any system and record the confirmation.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "it",
+            "timing": "Before restore",
+            "rowIds": [
+              "I-09",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE967ARK5AJARDS66GB",
+              "01M5RHWNE9705Q78Y4N37Y0S18",
+              "01M5RHWNE95HY4QX9S54Y15PDX"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Systems & Cybersecurity Lead restores critical data systems in the HUOG-ISP 9.3 recovery order — calibration share, ops records, campaign with nearest deadline, and the rest — ensuring that restored data is verified against manifests before any processing resumes.",
+        "objectiveRefs": [
+          "01M5RHWNE9705Q78Y4N37Y0S18"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-12",
+            "capability": "infrastructure_systems",
+            "task": "Restore the calibration share from OB-1 and verify all 1,312 files match the repository hashes.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 6 › 6.2 Backups",
+              "quote": "- NAS → the offline backup drives OB-1 and OB-2 (rotated weekly; the one not in use is in the General Manager's office safe); and → the off-site backup service nightly. - DC-HPC project storage is bac",
+              "chunkId": 115
+            },
+            "expectedBy": "pay",
+            "timing": "After clean environment confirmation",
+            "rowIds": [
+              "I-10a",
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9705Q78Y4N37Y0S18"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "infrastructure_systems",
+            "task": "Restore ops records and verify them against the manifest before resuming processing.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "pay",
+            "timing": "After calibration share",
+            "rowIds": [
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9705Q78Y4N37Y0S18"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "infrastructure_systems",
+            "task": "Restore the campaign with the nearest deadline (D-3) after the calibration share and ops records, and verify the raw data against the manifest.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "pay",
+            "timing": "After ops records",
+            "rowIds": [
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9705Q78Y4N37Y0S18"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "infrastructure_systems",
+            "task": "Restore the remaining campaign folders only after the critical data for D-3 is verified and processing can begin.",
+            "citation": {
+              "documentId": "01M5H3BY2FFX8WNBZW49KGNFJT",
+              "documentTitle": "Harwick UAS Operations Group — Information Security Plan: Ground Control Stations and Data Pipeline (ISP)",
+              "headingPath": "ISP › Section 9 › 9.3 Ransomware on the NAS, the processing workstations or DC-HPC project storage",
+              "quote": "Indicators: encrypted or renamed files, a ransom note, the NAS snapshot schedule disabled, processing scripts failing manifest checks, the client deliverable folder unreadable, DC-HPC project storage ",
+              "chunkId": 129
+            },
+            "expectedBy": "pay",
+            "timing": "After D-3 verification",
+            "rowIds": [
+              "I-14a"
+            ],
+            "objectiveRefs": [
+              "01M5RHWNE9705Q78Y4N37Y0S18"
             ],
             "locked": false
           }
@@ -3271,13 +3483,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:07:31.591Z",
-      "finishedAt": "2026-10-30T11:07:46.908Z",
+      "startedAt": "2026-10-30T12:22:52.055Z",
+      "finishedAt": "2026-10-30T12:23:15.916Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 9858,
-      "outputTokens": 1224,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 9883,
+      "outputTokens": 1886,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-30T11:10:56.610Z",
+  "updatedAt": "2026-10-30T12:27:31.825Z",
   "brief": {
     "userPrompt": "A cybercrime group has quietly lived inside the airport network for 90 days; the team discovers it now and must scope the damage, decide what to shut down, manage notifications, and plan recovery while keeping the airport operating.",
     "audience": [
@@ -487,83 +487,53 @@
       {
         "objectiveId": "obj-strategic",
         "capability": "operational_coordination",
-        "why": "The team must make high-consequence decisions under incomplete information, requiring a unified command structure to balance security, operational continuity, and external stakeholder demands across agencies and systems."
+        "why": "The objective requires making high-consequence decisions under incomplete information, which depends on establishing a unified command structure to integrate IT, operations, legal, and external agencies, ensuring decisions are made with coordinated input across roles."
       },
       {
         "objectiveId": "obj-strategic",
-        "capability": "public_information_and_warning",
-        "why": "The team must decide when and how to communicate with employees, airlines, and the public, ensuring messages are timely, accurate, and consistent to prevent panic and maintain trust."
-      },
-      {
-        "objectiveId": "obj-strategic",
-        "capability": "planning",
-        "why": "The team must develop a strategic response plan under uncertainty, including recovery options, notification timelines, and interagency coordination, based on incomplete data and evolving threat understanding."
-      },
-      {
-        "objectiveId": "obj-scoping",
         "capability": "situational_assessment",
-        "why": "The team must identify the full scope of the breach by analyzing logs, system access, and data exfiltration patterns to determine which systems were compromised and what data was exposed."
+        "why": "The team must assess the extent of the breach, including attacker presence, data exposure, and system trustworthiness, to inform strategic choices — a core function of situational assessment in response."
       },
       {
         "objectiveId": "obj-scoping",
         "capability": "cybersecurity",
-        "why": "The team must trace the attacker’s lateral movement across VLANs, identify compromised systems, and assess the integrity of backups and access controls to determine the extent of the breach."
+        "why": "The objective centers on identifying which systems were accessed and what data was exfiltrated, directly aligning with the technical and investigative functions of cybersecurity."
       },
       {
         "objectiveId": "obj-scoping",
         "capability": "access_control_and_identity_verification",
-        "why": "The team must evaluate whether the attacker has full access to identity and access systems (e.g., Domain Controller, PACS), which directly impacts the ability to control access to facilities and systems."
+        "why": "Since the attacker gained access via compromised credentials and the Domain Controller, scoping the breach includes evaluating the integrity of identity systems and access control mechanisms, which are critical to understanding the full impact."
       },
       {
         "objectiveId": "obj-notification",
         "capability": "public_information_and_warning",
-        "why": "The team must determine what information to release to employees, passengers, and the media, ensuring compliance with legal obligations and preventing misinformation."
+        "why": "The objective involves issuing timely, accurate, and actionable public statements to employees, passengers, and media, which is the essence of public information and warning."
       },
       {
         "objectiveId": "obj-notification",
         "capability": "intelligence_and_information_sharing",
-        "why": "The team must coordinate with external agencies (TSA, FBI, CISA) to share threat intelligence and compliance requirements, ensuring timely and accurate reporting."
-      },
-      {
-        "objectiveId": "obj-notification",
-        "capability": "risk_management_for_protection_programs_and_activities",
-        "why": "The team must assess the risk of continued exposure and determine whether to implement emergency protection measures, such as immediate changes to physical security, based on compromised data."
+        "why": "Compliance requires coordination with external entities (TSA, CISA, FBI), which depends on timely and accurate information sharing to meet legal and regulatory obligations."
       },
       {
         "objectiveId": "obj-recovery",
         "capability": "infrastructure_systems",
-        "why": "The team must restore critical systems (AODB, Domain Controller, PACS) while ensuring they are not re-infected, requiring a structured approach to system rebuild and validation."
-      },
-      {
-        "objectiveId": "obj-recovery",
-        "capability": "cybersecurity",
-        "why": "The team must develop a secure recovery plan, including verification of backup integrity and isolation of compromised systems, to prevent reinfection during restoration."
-      },
-      {
-        "objectiveId": "obj-recovery",
-        "capability": "planning",
-        "why": "The team must create a prioritized, executable recovery strategy that accounts for operational continuity, resource availability, and risk of residual compromise."
+        "why": "The objective to rebuild and restore systems while maintaining operations requires stabilizing critical infrastructure functions, including network, access control, and flight operations — a direct application of infrastructure systems."
       },
       {
         "objectiveId": "obj-interagency",
         "capability": "operational_coordination",
-        "why": "The team must manage coordination with external agencies (FBI, CISA, TSA, airlines) while maintaining control of the response, ensuring unified command and information sharing."
+        "why": "The objective to work with CISA, FBI, TSA, and airlines without losing control of the response depends on maintaining a unified operational structure across multiple agencies and stakeholders."
       },
       {
         "objectiveId": "obj-interagency",
         "capability": "intelligence_and_information_sharing",
-        "why": "The team must exchange threat intelligence and compliance requirements with federal partners, ensuring timely and accurate information flow to support joint decision-making."
-      },
-      {
-        "objectiveId": "obj-interagency",
-        "capability": "public_information_and_warning",
-        "why": "The team must align messaging with external agencies to prevent conflicting statements, especially when notifying the public and media about a major breach."
+        "why": "Effective coordination with external entities requires timely exchange of threat intelligence, incident details, and response plans, which is a fundamental aspect of intelligence and information sharing."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander establishes and maintains a unified command structure across airport operations, IT, law enforcement, and external agencies, ensuring all decisions are made through a single, coordinated process to maintain control and prevent conflicting actions during a multi-system cyber incident.",
+        "target": "The Incident Commander establishes and maintains a unified operational structure across Airport Operations, IT, Security, Legal, and external agencies (FBI, CISA, TSA), ensuring that all roles are integrated into the Incident Command Post (ICP) and that decisions are made through a coordinated, documented process as per the AEP, Section 6.2.",
         "objectiveRefs": [
           "obj-strategic",
           "obj-interagency"
@@ -572,7 +542,7 @@
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Activate Unified Command at the AOC within 15 minutes of the first breach report",
+            "task": "Activate the Incident Command Post (ICP) within 15 minutes of the first major breach announcement.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -605,7 +575,7 @@
           {
             "id": "T-02",
             "capability": "operational_coordination",
-            "task": "Assign roles and responsibilities to all agencies present in the EOC using the ICS structure",
+            "task": "Assign and confirm roles for IT, Legal, PIO, and Security within 30 minutes of ICP activation.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -638,7 +608,7 @@
           {
             "id": "T-03",
             "capability": "operational_coordination",
-            "task": "Conduct a 15-minute coordination briefing with CISA, FBI, and TSA representatives to confirm roles and information-sharing protocols",
+            "task": "Initiate daily operational briefings at 0900 and 1700 hours to synchronize all agencies and roles.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -647,9 +617,19 @@
               "chunkId": 13
             },
             "expectedBy": "ops-director",
-            "timing": "within 60 minutes",
+            "timing": "daily",
             "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-06",
+              "I-07",
+              "I-08",
+              "I-09",
               "I-10",
+              "I-11",
               "I-12"
             ],
             "objectiveRefs": [
@@ -661,18 +641,241 @@
         ]
       },
       {
-        "capability": "public_information_and_warning",
-        "target": "The Public Information Officer issues a coordinated, accurate, and timely statement to employees, passengers, and the media, ensuring all messaging is consistent with legal obligations and external agency guidance, and that the public is informed before external sources report the breach.",
+        "capability": "situational_assessment",
+        "target": "The IT team provides a real-time, evidence-based assessment of the attacker’s presence, movement across VLANs, and data exfiltration to the ICP within 60 minutes of the first forensic evidence review, using the AEP and TIRP to validate findings and inform decision-making.",
         "objectiveRefs": [
-          "obj-strategic",
-          "obj-notification",
-          "obj-interagency"
+          "obj-strategic"
         ],
         "criticalTasks": [
           {
             "id": "T-04",
+            "capability": "situational_assessment",
+            "task": "Report the first confirmed attacker beacon to the ICP within 30 minutes of Marcus Chen's discovery.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-strategic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "situational_assessment",
+            "task": "Map the attacker’s lateral movement from the Domain Controller to the AODB and backup server within 60 minutes of initial findings.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 60 minutes",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-strategic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "situational_assessment",
+            "task": "Confirm whether the attacker is still active on the network by analyzing live traffic and logs, and report to ICP within 45 minutes.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 45 minutes",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-strategic"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The IT team identifies and isolates all compromised systems, including the Domain Controller, AODB, and backup server, and confirms the integrity of the network architecture as defined in the ASP, Section 5.2, to prevent further exploitation.",
+        "objectiveRefs": [
+          "obj-scoping"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "cybersecurity",
+            "task": "Isolate the Domain Controller from the network and initiate forensic imaging within 15 minutes of confirmation of compromise.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "cybersecurity",
+            "task": "Identify and block all C2 domain traffic on the network using firewall rules and DNS filtering.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it-cyber",
+            "timing": "immediate",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "cybersecurity",
+            "task": "Verify that no active processes on the AODB server are using unauthorized database export utilities.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-cyber",
+            "timing": "immediate",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Airport Operations team implements manual/analog workarounds for flight operations, access control, and passenger information, and restores critical infrastructure functions using clean systems and trusted backups, as outlined in the TIRP, Section 4.3, to maintain operational continuity during recovery.",
+        "objectiveRefs": [
+          "obj-recovery"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "infrastructure_systems",
+            "task": "Activate manual flight information displays using whiteboards and printed schedules within 30 minutes of the decision to shut down digital systems.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-recovery"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "infrastructure_systems",
+            "task": "Deploy analog access control procedures using pre-authorized door codes and physical keys for all secure areas.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "security-legal",
+            "timing": "immediate",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-recovery"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "infrastructure_systems",
+            "task": "Re-establish passenger flow and boarding coordination using manual check-in and paper manifests within 60 minutes of system failure.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "within 60 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-recovery"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO issues a coordinated, pre-approved holding statement to employees and media within 60 minutes of the first public breach indication, and releases a full public statement within 24 hours, ensuring all messaging is consistent with legal obligations and TSA guidance.",
+        "objectiveRefs": [
+          "obj-notification"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
             "capability": "public_information_and_warning",
-            "task": "Draft a holding statement for internal review within 30 minutes of the first PII breach report",
+            "task": "Draft and distribute a holding statement to employees within 30 minutes of the HR director’s call about PII exposure.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -686,292 +889,49 @@
               "I-07"
             ],
             "objectiveRefs": [
-              "obj-strategic",
-              "obj-notification",
-              "obj-interagency"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-05",
-            "capability": "public_information_and_warning",
-            "task": "Coordinate with TSA and CISA to confirm messaging before issuing any public statement",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
-            },
-            "expectedBy": "pio",
-            "timing": "within 60 minutes",
-            "rowIds": [
-              "I-09",
-              "I-12"
-            ],
-            "objectiveRefs": [
-              "obj-strategic",
-              "obj-notification",
-              "obj-interagency"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-06",
-            "capability": "public_information_and_warning",
-            "task": "Issue a public statement to employees and media within 4 hours of confirming the ASP was compromised",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "pio",
-            "timing": "within 4 hours",
-            "rowIds": [
-              "I-06",
-              "I-07",
-              "I-09",
-              "I-12"
-            ],
-            "objectiveRefs": [
-              "obj-strategic",
-              "obj-notification",
-              "obj-interagency"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "situational_assessment",
-        "target": "The IT team conducts a forensic analysis of network logs, system access, and data exfiltration patterns to determine the full scope of the breach, including the extent of access to the Domain Controller, AODB, and PACS, and reports findings to the Incident Commander within 90 minutes.",
-        "objectiveRefs": [
-          "obj-scoping"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-07",
-            "capability": "situational_assessment",
-            "task": "Map attacker’s lateral movement from the Domain Controller to the AODB and PACS using log evidence",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 90 minutes",
-            "rowIds": [
-              "I-01",
-              "I-02",
-              "I-03",
-              "I-04",
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-scoping"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-08",
-            "capability": "situational_assessment",
-            "task": "Identify all systems that accessed the AODB server for data export using bcp.exe traces",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 60 minutes",
-            "rowIds": [
-              "I-03"
-            ],
-            "objectiveRefs": [
-              "obj-scoping"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-09",
-            "capability": "situational_assessment",
-            "task": "Report to the Incident Commander whether the attacker still has active access to any system, based on beaconing behavior",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 30 minutes",
-            "rowIds": [
-              "I-01",
-              "I-02",
-              "I-03",
-              "I-04",
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-scoping"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "cybersecurity",
-        "target": "The IT team identifies and isolates all compromised systems, verifies the integrity of backups, and confirms whether the attacker still has access to the network, ensuring that no restoration attempt uses a contaminated system.",
-        "objectiveRefs": [
-          "obj-scoping",
-          "obj-recovery"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-10",
-            "capability": "cybersecurity",
-            "task": "Isolate the Domain Controller from the network and initiate forensic imaging",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 15 minutes",
-            "rowIds": [
-              "I-02",
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-scoping",
-              "obj-recovery"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-11",
-            "capability": "cybersecurity",
-            "task": "Verify the integrity of the last clean backup (91 days old) using forensic tools",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 60 minutes",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-scoping",
-              "obj-recovery"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-12",
-            "capability": "cybersecurity",
-            "task": "Confirm whether the attacker has access to the backup server by analyzing access logs and file integrity",
-            "citation": {
-              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
-              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
-              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
-              "chunkId": 127
-            },
-            "expectedBy": "it-cyber",
-            "timing": "within 45 minutes",
-            "rowIds": [
-              "I-05"
-            ],
-            "objectiveRefs": [
-              "obj-scoping",
-              "obj-recovery"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
-        "capability": "planning",
-        "target": "The Incident Commander and IT team develop a prioritized recovery plan, including a decision between 'Scorched Earth,' 'Surgical Strike,' or 'Monitor & Contain,' and document the rationale and timeline for implementation.",
-        "objectiveRefs": [
-          "obj-strategic",
-          "obj-recovery"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-13",
-            "capability": "planning",
-            "task": "Present three recovery options (Scorched Earth, Surgical Strike, Monitor & Contain) to the EOC for review",
-            "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
-            },
-            "expectedBy": "ops-director",
-            "timing": "within 60 minutes",
-            "rowIds": [
-              "I-11"
-            ],
-            "objectiveRefs": [
-              "obj-strategic",
-              "obj-recovery"
+              "obj-notification"
             ],
             "locked": false
           },
           {
             "id": "T-14",
-            "capability": "planning",
-            "task": "Select and document the chosen recovery option with a 72-hour implementation timeline",
+            "capability": "public_information_and_warning",
+            "task": "Coordinate and approve a public statement with Legal and TSA before release to media.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
             },
-            "expectedBy": "ops-director",
-            "timing": "within 90 minutes",
+            "expectedBy": "pio",
+            "timing": "immediate",
             "rowIds": [
-              "I-11"
+              "I-09"
             ],
             "objectiveRefs": [
-              "obj-strategic",
-              "obj-recovery"
+              "obj-notification"
             ],
             "locked": false
           },
           {
             "id": "T-15",
-            "capability": "planning",
-            "task": "Develop a recovery milestone schedule including system rebuild, verification, and return to service",
+            "capability": "public_information_and_warning",
+            "task": "Release a full public statement to media and passengers within 24 hours of the first external leak.",
             "citation": {
-              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
-              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
-              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
-              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
-              "chunkId": 13
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
             },
-            "expectedBy": "ops-director",
-            "timing": "within 120 minutes",
+            "expectedBy": "pio",
+            "timing": "within 24 hours",
             "rowIds": [
-              "I-11"
+              "I-09"
             ],
             "objectiveRefs": [
-              "obj-strategic",
-              "obj-recovery"
+              "obj-notification"
             ],
             "locked": false
           }
@@ -979,7 +939,7 @@
       },
       {
         "capability": "intelligence_and_information_sharing",
-        "target": "The Security, Legal & Compliance team coordinates with CISA, FBI, and TSA to share threat intelligence, compliance requirements, and incident details, ensuring all external reporting obligations are met and information is exchanged through secure, authorized channels.",
+        "target": "The team shares verified threat intelligence, including attacker C2 domains, exfiltrated data types, and system compromise status, with CISA, FBI, and TSA within 1 hour of confirmation, as required by the ASP and TIRP.",
         "objectiveRefs": [
           "obj-notification",
           "obj-interagency"
@@ -988,7 +948,7 @@
           {
             "id": "T-16",
             "capability": "intelligence_and_information_sharing",
-            "task": "Notify TSA of ASP compromise via secure channel within 30 minutes of confirmation",
+            "task": "Report the ASP compromise to TSA within 15 minutes of confirmation.",
             "citation": {
               "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
@@ -997,7 +957,7 @@
               "chunkId": 3
             },
             "expectedBy": "security-legal",
-            "timing": "within 30 minutes",
+            "timing": "within 15 minutes",
             "rowIds": [
               "I-04",
               "I-06"
@@ -1011,7 +971,7 @@
           {
             "id": "T-17",
             "capability": "intelligence_and_information_sharing",
-            "task": "Request CISA Incident Response Team on-site within 24 hours and confirm access protocols",
+            "task": "Share forensic evidence and network logs with CISA upon request, within 30 minutes of the CISA call.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -1019,8 +979,8 @@
               "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
               "chunkId": 127
             },
-            "expectedBy": "security-legal",
-            "timing": "within 24 hours",
+            "expectedBy": "it-cyber",
+            "timing": "within 30 minutes",
             "rowIds": [
               "I-10"
             ],
@@ -1033,7 +993,124 @@
           {
             "id": "T-18",
             "capability": "intelligence_and_information_sharing",
-            "task": "Share forensic evidence and timeline with FBI and CISA through the designated secure portal",
+            "task": "Provide a daily intelligence update to the FBI and CISA on attacker activity and recovery progress.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "daily",
+            "rowIds": [
+              "I-10",
+              "I-11",
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-notification",
+              "obj-interagency"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The airport must restore access control and identity systems to a trusted state by verifying the integrity of all credentials, disabling compromised accounts, and implementing new identity verification protocols, including multi-factor authentication and re-issuance of access badges, in accordance with the Airport Security Program (ASP) and TSA requirements.",
+        "objectiveRefs": [
+          "obj-scoping"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-19",
+            "capability": "access_control_and_identity_verification",
+            "task": "Immediately disable all service accounts and privileged accounts that were active during the 90-day compromise window.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 15 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "access_control_and_identity_verification",
+            "task": "Revoke all active access badges and physical keys for employees and contractors, and issue new badges with new biometric and credentialing data.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "security-legal",
+            "timing": "within 30 minutes of I-04",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "access_control_and_identity_verification",
+            "task": "Implement a new multi-factor authentication (MFA) policy for all user accounts, including biometric and token-based verification, effective immediately.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 60 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "access_control_and_identity_verification",
+            "task": "Notify TSA and CISA that the Airport Security Program (ASP) has been compromised and that all access control systems are potentially compromised, requesting emergency review and approval for new access control protocols.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 1 › 1.1 Legal Authority",
+              "quote": "This Airport Emergency Plan (AEP) is developed, promulgated, and maintained under the authority of the North Coast Regional Airport Authority (NCRAA). It has been developed in direct compliance with: ",
+              "chunkId": 3
+            },
+            "expectedBy": "security-legal",
+            "timing": "within 15 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "access_control_and_identity_verification",
+            "task": "Conduct a full audit of all access control logs to identify any unauthorized access events during the 90-day compromise period and report findings to the FBI and CISA.",
             "citation": {
               "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
               "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
@@ -1042,13 +1119,33 @@
               "chunkId": 127
             },
             "expectedBy": "security-legal",
-            "timing": "within 60 minutes",
+            "timing": "within 2 hours of I-07",
             "rowIds": [
-              "I-10"
+              "I-07"
             ],
             "objectiveRefs": [
-              "obj-notification",
-              "obj-interagency"
+              "obj-scoping"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "access_control_and_identity_verification",
+            "task": "Activate the manual access control protocol using pre-authorized paper-based access lists and physical keys for all critical infrastructure zones, as specified in the TIRP Section 3.2.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "security-legal",
+            "timing": "within 1 hour of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-scoping"
             ],
             "locked": false
           }
@@ -1976,13 +2073,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T10:57:15.146Z",
-      "finishedAt": "2026-10-30T10:57:44.928Z",
+      "startedAt": "2026-10-30T12:06:20.260Z",
+      "finishedAt": "2026-10-30T12:06:49.639Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 6478,
-      "outputTokens": 2438,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 13003,
+      "outputTokens": 3606,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

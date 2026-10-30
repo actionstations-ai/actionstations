@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T02:37:23.318Z",
-  "updatedAt": "2026-10-30T11:11:54.416Z",
+  "updatedAt": "2026-10-30T12:28:29.747Z",
   "brief": {
     "userPrompt": "Overnight on Saturday the fence-gate contact ZS-612 at Orchard Standpipe tripped and cleared twice and CAM-13 caught a figure near the ladder cage; the roof hatch switch ZS-611 has been out of service since 2024, so RTU-02 still reports the hatch closed, and the site is not due for a visit until Tuesday. The exercise opens on Sunday morning, when the day operator reviews the overnight alarm log and sees the outlet chlorine residual AIT-611 drifting down; the crew sent to the site finds the hatch padlock cut. Sampling under ERP-3, isolating the standpipe from Zone 2, Millbrook police and the FBI, Ohio EPA DDAGW consultation and the precautionary boil-water advisory for the Hilltop area.",
     "audience": [
@@ -1318,171 +1318,181 @@
     "objectiveCapabilities": [
       {
         "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
-        "capability": "operational_coordination",
-        "why": "The objective requires keeping Operations, Distribution, the lab, Security, and the PIO on one set of facts from the first alarm to the advisory release, which aligns with operational coordination to integrate all stakeholders and ensure a unified information flow across roles and systems."
-      },
-      {
-        "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
         "capability": "public_information_and_warning",
-        "why": "The objective demands timely, reliable, and actionable public communication to customers, critical facilities, and media, which directly maps to public information and warning to deliver consistent and fact-based messages through approved channels."
+        "why": "The objective requires keeping Operations, Distribution, the lab, Security, and the PIO on one set of facts from the first look at the overnight alarm log to the advisory release, and reaching Annex B critical customers before the public—this is the core function of Public Information and Warning, which ensures coordinated, prompt, and actionable communication to all stakeholders and the public using clear, consistent, and timely methods as defined in the plan."
       },
       {
         "objectiveId": "01M5RER7JD1WB8C7QKVX0GJN24",
+        "capability": "operational_coordination",
+        "why": "The objective demands a unified operational structure across multiple roles (IC, DIST, WQ, SEC, PIO) to maintain a single set of facts and ensure that actions like sampling, isolation, and customer notification are synchronized—this reflects the purpose of Operational Coordination, which integrates all critical stakeholders to support the execution of core capabilities."
+      },
+      {
+        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires a timely and accurate advisory decision based on a sign of entry, with the type (Boil Water or Do Not Drink) and area determined after consulting DDAGW and Public Health—this is a direct application of Public Information and Warning, which governs the content, timing, and accuracy of public notifications to ensure they are actionable and consistent with regulatory and health standards."
+      },
+      {
+        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
         "capability": "situational_assessment",
-        "why": "The objective requires maintaining a shared understanding of the incident status, including evidence, lab results, and system conditions, which is essential for situational assessment to inform decisions and prevent miscommunication."
-      },
-      {
-        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
-        "capability": "operational_coordination",
-        "why": "The objective requires a coordinated decision-making process involving the Director, Water Quality Manager, DDAGW, and Public Health, which depends on operational coordination to integrate inputs and reach a unified decision."
-      },
-      {
-        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
-        "capability": "public_information_and_warning",
-        "why": "The decision to issue a precautionary advisory must be communicated clearly and consistently to the public, which relies on public information and warning to ensure the advisory is released with correct content and timing."
-      },
-      {
-        "objectiveId": "01M5RER7JD3J7H4FXPMHJT4VY7",
-        "capability": "planning",
-        "why": "The objective involves following a structured, pre-defined process (ERP 8.2 and 9.3) to decide on advisory type, area, and basis, which is a core function of planning to execute a documented response strategy."
+        "why": "The objective demands a decision within two hours of a sign of entry, based on real-time data from AIT-611, site evidence, and lab results—this reflects the need for timely, accurate, and actionable information to inform the advisory decision, which is the essence of Situational Assessment."
       },
       {
         "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
         "capability": "infrastructure_systems",
-        "why": "The objective requires isolating the standpipe without dropping Zone 2 below 20 psi, preserving video and logs, and sampling before draining — all actions to stabilize and protect critical infrastructure, directly aligning with infrastructure systems capability."
+        "why": "The objective requires treating the AIT-611 drift and site evidence as a possible contamination event, sampling per ERP-3 before draining, isolating the standpipe without dropping Zone 2 below 20 psi, and preserving video and RTU logs—these are actions to stabilize and protect critical infrastructure functions, which is the core purpose of Infrastructure Systems."
       },
       {
         "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
         "capability": "screening_search_and_detection",
-        "why": "The objective involves detecting signs of tampering (cut fence, open hatch, residue) and monitoring system anomalies (AIT-611 drift), which relies on screening, search, and detection to identify threats and hazards."
-      },
-      {
-        "objectiveId": "01M5RER7JDAHP7H85X1Z9BA1WT",
-        "capability": "forensics_and_attribution",
-        "why": "The objective includes preserving video, RTU logs, and physical evidence (jug, residue) for law enforcement and FBI, which supports forensic analysis and attribution to identify the source of the threat."
-      },
-      {
-        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
-        "capability": "operational_coordination",
-        "why": "The objective requires adherence to ERP sections, PCP templates, and notification sequences, which depends on operational coordination to ensure all roles follow the same doctrine and integrate actions across the plan."
-      },
-      {
-        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
-        "capability": "public_information_and_warning",
-        "why": "The objective mandates using the PCP 10.3 template and Section 9.5 sequence for public release, which requires public information and warning to ensure messages are delivered in the correct order and format."
+        "why": "The objective involves identifying a sign of entry through the gate contact ZS-612, video evidence, and physical site findings (cut fence, open hatch, residue)—this is a direct application of Screening, Search, and Detection, which includes using surveillance, physical investigation, and sensor data to locate threats and hazards."
       },
       {
         "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
         "capability": "planning",
-        "why": "The objective demands following a pre-scripted, doctrine-based process (ERP 8.2, 9.3, 9.5, PCP 10.3), which is a core function of planning to execute a standardized, executable response."
+        "why": "The objective requires following ERP Section 8.2, the ERP-3 sampling plan, the PCP 10.3 precautionary template, and the Section 9.5 notification sequence—this reflects the need to execute a systematic process, as defined in Planning, to ensure all actions are aligned with established procedures, roles, and authority."
+      },
+      {
+        "objectiveId": "01M5RER7JD25AWPQYH3EQ0EZ2X",
+        "capability": "operational_coordination",
+        "why": "The objective mandates that the department, not an outside agency, remains the decision-maker for operations and advisories—this requires a coordinated structure across roles to maintain authority and consistency, which is the purpose of Operational Coordination."
       }
     ],
     "eegs": [
       {
-        "capability": "operational_coordination",
-        "target": "The Director of Water Operations, with the Water Quality Manager, the Security & Emergency Manager, the Distribution Superintendent, and the Public Information Officer, maintain a unified operational structure by sharing facts from the overnight alarm log through the field report, lab results, and site evidence, and by synchronizing actions across roles via the Control Room, JIC, and incident command to ensure all teams act on the same information.",
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer (PIO) and the Deputy PIO, in coordination with the Director of Water Operations and the Water Quality Manager, will issue a single, consistent, and accurate public advisory via MillbrookAlert, the website, and social media within 10 minutes of the advisory decision being made, using the PCP 10.3 template and the Section 9.5 sequence to ensure all critical customers are notified before the public, and will update the media and social platforms every two hours until the advisory is lifted.",
         "objectiveRefs": [
           "01M5RER7JD1WB8C7QKVX0GJN24",
-          "01M5RER7JD3J7H4FXPMHJT4VY7",
-          "01M5RER7JD25AWPQYH3EQ0EZ2X"
+          "01M5RER7JD3J7H4FXPMHJT4VY7"
         ],
         "criticalTasks": [
           {
             "id": "T-01",
-            "capability": "operational_coordination",
-            "task": "Declare a Level 2 condition in ERP-1 upon confirmation of a sign of entry (I-05)",
+            "capability": "public_information_and_warning",
+            "task": "Notify the Deputy PIO to draft the advisory using the PCP 10.3 template and the Section 9.5 sequence",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
-              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
-              "chunkId": 35
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Table of Contents",
+              "quote": "Section 1 Purpose and Scope · Section 2 Roles and Approval Chain · Section 3 Audiences and Channels · Section 4 Advisory Types and Mandatory Content · Section 5 Timelines and Sequence · Section 6 Crit",
+              "chunkId": 101
             },
-            "expectedBy": "ops",
-            "timing": "within 10 minutes of the field report",
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of the advisory decision",
             "rowIds": [
-              "I-05"
+              "I-07",
+              "I-07b"
             ],
             "objectiveRefs": [
               "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
-              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
             ],
             "locked": false
           },
           {
             "id": "T-02",
-            "capability": "operational_coordination",
-            "task": "Log the time of the sign of entry (08:05) on ERP-1 and begin the two-hour advisory clock (ERP 8.2)",
+            "capability": "public_information_and_warning",
+            "task": "Release the advisory via MillbrookAlert, the website, and social media within 10 minutes of the decision",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
-              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
-              "chunkId": 35
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Table of Contents",
+              "quote": "Section 1 Purpose and Scope · Section 2 Roles and Approval Chain · Section 3 Audiences and Channels · Section 4 Advisory Types and Mandatory Content · Section 5 Timelines and Sequence · Section 6 Crit",
+              "chunkId": 101
             },
-            "expectedBy": "ops",
-            "timing": "within 5 minutes of the field report",
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of the advisory decision",
             "rowIds": [
-              "I-05"
+              "I-07",
+              "I-07b"
             ],
             "objectiveRefs": [
               "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
-              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
             ],
             "locked": false
           },
           {
             "id": "T-03",
-            "capability": "operational_coordination",
-            "task": "Preserve the CAM-13 footage from 01:30 to 04:00 on write-once media and log the export (I-03)",
+            "capability": "public_information_and_warning",
+            "task": "Log the advisory release time and the version used in the media log",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
-              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
-              "chunkId": 35
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 2",
+              "quote": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+              "chunkId": 105
             },
-            "expectedBy": "security",
-            "timing": "within 15 minutes of the alert",
+            "timing": "immediately after release",
             "rowIds": [
-              "I-03"
+              "I-07",
+              "I-07b"
             ],
             "objectiveRefs": [
               "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
-              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
             ],
             "locked": false
           },
           {
             "id": "T-04",
-            "capability": "operational_coordination",
-            "task": "Export the RTU-02 event log for Saturday night and copy it before Tuesday (I-15b)",
+            "capability": "public_information_and_warning",
+            "task": "Answer media inquiries from Channel 4 using the approved holding line and the advisory text",
             "citation": {
-              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
-              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
-              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
-              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
-              "chunkId": 35
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Table of Contents",
+              "quote": "Section 1 Purpose and Scope · Section 2 Roles and Approval Chain · Section 3 Audiences and Channels · Section 4 Advisory Types and Mandatory Content · Section 5 Timelines and Sequence · Section 6 Crit",
+              "chunkId": 101
             },
-            "expectedBy": "security",
-            "timing": "within 30 minutes of the alert",
+            "expectedBy": "pio",
+            "timing": "within 5 minutes of inquiry",
             "rowIds": [
-              "I-15b"
+              "I-07b",
+              "I-16b"
             ],
             "objectiveRefs": [
               "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
-              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
             ],
             "locked": false
           },
           {
             "id": "T-05",
+            "capability": "public_information_and_warning",
+            "task": "Respond to social media misinformation with factual updates and the advisory as decided, without repeating the rumor’s details",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Table of Contents",
+              "quote": "Section 1 Purpose and Scope · Section 2 Roles and Approval Chain · Section 3 Audiences and Channels · Section 4 Advisory Types and Mandatory Content · Section 5 Timelines and Sequence · Section 6 Crit",
+              "chunkId": 101
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of post",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Director of Water Operations (IC), in coordination with the Distribution Superintendent, the Water Quality Manager, and the Security & Emergency Manager, will maintain a unified operational structure by confirming all actions—such as isolation, sampling, and customer notification—are synchronized across roles, using the ERP-1 log and the scene log to track decisions and actions, and ensuring that no action is taken without cross-role confirmation.",
+        "objectiveRefs": [
+          "01M5RER7JD1WB8C7QKVX0GJN24",
+          "01M5RER7JD25AWPQYH3EQ0EZ2X"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
             "capability": "operational_coordination",
-            "task": "Confirm that the Control Room has stopped wells W-1 to W-3 before the Distribution crew begins valve closure (I-09b)",
+            "task": "Confirm the sign of entry on ERP-1 at 08:05 when the field crew reports the cut lock and open hatch",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1491,21 +1501,65 @@
               "chunkId": 35
             },
             "expectedBy": "ops",
-            "timing": "within 10 minutes of the radio call",
+            "timing": "within 5 minutes of field report",
             "rowIds": [
-              "I-09b"
+              "I-05"
             ],
             "objectiveRefs": [
               "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
               "01M5RER7JD25AWPQYH3EQ0EZ2X"
             ],
             "locked": false
           },
           {
-            "id": "T-06",
+            "id": "T-07",
             "capability": "operational_coordination",
-            "task": "Report the FBI WMD coordinator’s field-screen result to the Water Quality Manager and record it as \"not detected by field screen\" (I-14b)",
+            "task": "Record the isolation of the standpipe and the stoppage of wells W-1 to W-3 on ERP-1",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "dist",
+            "timing": "within 10 minutes of confirmation",
+            "rowIds": [
+              "I-08",
+              "I-09b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "Verify that the Mill Road Booster Station will be started at 25 ft Hilltop Tank level and log the trigger point on ERP-1",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "dist",
+            "timing": "within 10 minutes of confirmation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "operational_coordination",
+            "task": "Confirm that the FBI and the police have been notified of the scene and that evidence preservation is ongoing",
             "citation": {
               "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
               "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
@@ -1514,13 +1568,579 @@
               "chunkId": 35
             },
             "expectedBy": "security",
-            "timing": "within 10 minutes of the email",
+            "timing": "within 10 minutes of detective report",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Ensure that the lab sampling team reports results to the IC and WQ every two hours and logs the time",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "every 2 hours",
+            "rowIds": [
+              "I-06",
+              "I-16b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD1WB8C7QKVX0GJN24",
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The Director of Water Operations, with the Water Quality Manager, maintains a continuous and accurate situational picture by integrating real-time system data (e.g., AIT-611, RTU-02, Hilltop Tank level), field reports (e.g., gate contact, residue, video), lab results (e.g., chemical screen, coliform), and external inputs (e.g., FBI field screen, DDAGW lifting criteria) to inform decisions on advisory type, area, and duration, and to ensure all roles are operating from the same facts.",
+        "objectiveRefs": [
+          "01M5RER7JD3J7H4FXPMHJT4VY7"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-11",
+            "capability": "situational_assessment",
+            "task": "Review the overnight alarm log and system trends at 07:00 to identify the gate contact trips and AIT-611 drift as potential signs of entry.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.1 Authority",
+              "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+              "chunkId": 37
+            },
+            "expectedBy": "ops",
+            "timing": "07:00",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "situational_assessment",
+            "task": "Confirm the AIT-611 residual drift and conductivity rise at 07:20 and recognize it as a possible contamination indicator.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.1 Authority",
+              "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+              "chunkId": 37
+            },
+            "expectedBy": "wq",
+            "timing": "07:20",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "situational_assessment",
+            "task": "Log the 38-minute video gap and RTU-02 Ethernet port loss at 02:33 as a potential sign of tampering, not a fault.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "08:00",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "situational_assessment",
+            "task": "Record the sign of entry at 08:05 when the Distribution crew confirms the cut fence, ladder-cage lock, and roof-hatch padlock, and start the two-hour advisory clock.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "08:05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "situational_assessment",
+            "task": "Integrate the FBI field screen result (no radiological or common pesticide detection) into the situational picture and note it as not detected, not safe.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "10:00",
             "rowIds": [
               "I-14b"
             ],
             "objectiveRefs": [
-              "01M5RER7JD1WB8C7QKVX0GJN24",
-              "01M5RER7JD3J7H4FXPMHJT4VY7",
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "situational_assessment",
+            "task": "Update the situational picture with the lab’s chemical screen result (not due before Wednesday) and the coliform results (due Monday), and confirm that the advisory will last at least until Wednesday.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "10:00",
+            "rowIds": [
+              "I-10b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD3J7H4FXPMHJT4VY7"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Director of Water Operations and the Distribution Superintendent must isolate the Orchard Standpipe by closing its inlet and outlet valves within 30 minutes of confirming the sign of entry, ensuring Zone 2 pressure remains above 20 psi, and preserve the RTU-02 event log and CAM-13 video for law enforcement, as directed in ERP Section 8.2 and C5.",
+        "objectiveRefs": [
+          "01M5RER7JDAHP7H85X1Z9BA1WT"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-17",
+            "capability": "infrastructure_systems",
+            "task": "Isolate the Orchard Standpipe by closing its inlet and outlet valves within 30 minutes of confirming the sign of entry.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "dist",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "infrastructure_systems",
+            "task": "Preserve the RTU-02 event log and CAM-13 video for law enforcement by exporting them to write-once media before the 30-day overwrite.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "before 30-day overwrite",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that Hilltop Tank is above 15 ft before isolating the standpipe to prevent Zone 2 from dropping below 20 psi.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "dist",
+            "timing": "before isolation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "infrastructure_systems",
+            "task": "Stop wells W-1 to W-3 before isolating the standpipe to prevent overflow and maintain system stability.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "before isolation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "infrastructure_systems",
+            "task": "Begin flushing and disinfecting the standpipe outlet after isolation, as per ERP Section 9.1.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "dist",
+            "timing": "after isolation",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "infrastructure_systems",
+            "task": "Maintain the Hilltop Tank level at 25 ft or higher to prevent Zone 2 pressure from falling below 20 psi, and activate Mill Road Booster Station if needed.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "dist",
+            "timing": "after isolation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "screening_search_and_detection",
+        "target": "The organization detects a sign of entry at Orchard Standpipe through a combination of sensor data (ZS-611, ZS-612), video (CAM-13), and physical inspection, and confirms it as a Level 2 condition within 30 minutes of the first alarm, using the ERP 8.2 process to identify the threat and initiate response.",
+        "objectiveRefs": [
+          "01M5RER7JDAHP7H85X1Z9BA1WT"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-23",
+            "capability": "screening_search_and_detection",
+            "task": "Review the overnight alarm log and identify the gate contact ZS-612 trips and the CAM-13 clip showing a figure at the gate as a possible sign of entry.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "Within 30 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "screening_search_and_detection",
+            "task": "Confirm the AIT-611 residual drift and the absence of a known fault in the hatch switch ZS-611 as part of the initial threat assessment.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "Within 30 minutes of I-01",
+            "rowIds": [
+              "I-01",
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "screening_search_and_detection",
+            "task": "Preserve the CAM-13 footage from 01:30 to 04:00 on write-once media before the 30-day overwrite.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "Within 30 minutes of I-03",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "screening_search_and_detection",
+            "task": "Recognize the empty jug, cut locks, and residue on the hatch frame as physical evidence of tampering and confirm it as a credible contamination threat.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "Within 30 minutes of I-05",
+            "rowIds": [
+              "I-05",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "screening_search_and_detection",
+            "task": "Report the ZS-611 fault (WO-24-1187) and the RTU-02 Ethernet port loss as a known gap in the system's detection capability.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+              "quote": "PACS and camera coverage are described in MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5. Note the known limitation at Orchard Standpipe: the roof hatch switch ZS-611 has been out of service since",
+              "chunkId": 22
+            },
+            "expectedBy": "security",
+            "timing": "Within 30 minutes of I-03",
+            "rowIds": [
+              "I-03",
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "screening_search_and_detection",
+            "task": "Initiate the ERP-3 field sampling plan at the standpipe outlet and the first two hydrants downstream based on the residual drift and physical evidence.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "Within 30 minutes of I-02",
+            "rowIds": [
+              "I-02",
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JDAHP7H85X1Z9BA1WT"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The Director of Water Operations, with the Water Quality Manager, follows the ERP-3 sampling plan, the Section 8.2 isolation protocol, and the evidence preservation procedures from MDWS-OTSEC-2026 Section 3 and MDWS-SCADA-APP-A A.5 to ensure all technical actions are taken in the correct order and documented on ERP-1 and ERP-2, and the decision to issue a precautionary advisory is made within two hours of the sign of entry, as required by ERP Section 8.2 and C4.",
+        "objectiveRefs": [
+          "01M5RER7JD25AWPQYH3EQ0EZ2X"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-29",
+            "capability": "planning",
+            "task": "Declare a Level 2 condition and record the sign of entry on ERP-1 at 08:05",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "ops",
+            "timing": "within 30 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-30",
+            "capability": "planning",
+            "task": "Order ERP-3 field sampling at the standpipe outlet and the first two hydrants downstream",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "wq",
+            "timing": "within 30 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-31",
+            "capability": "planning",
+            "task": "Preserve the CAM-13 footage from 01:30 to 04:00 on write-once media and log the export",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "within 30 minutes of I-03",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-32",
+            "capability": "planning",
+            "task": "Copy the RTU-02 event log export for Saturday night to a chain-of-custody record before Tuesday",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 8 › 8.2 Response to a Security Alarm or Sign of Entry",
+              "quote": "1. Patrol (SecureLine) or the Distribution on-call responds within 30 minutes; the Control Room watches the site level and, at Orchard Standpipe, AIT-611. 2. Any sign of entry (cut lock, open hatch, f",
+              "chunkId": 35
+            },
+            "expectedBy": "security",
+            "timing": "within 30 minutes of I-15b",
+            "rowIds": [
+              "I-15b"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-33",
+            "capability": "planning",
+            "task": "Begin the DDAGW consultation and send the advisory text, street boundaries, and sampling plan to DDAGW via email",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 1 › 1.2 Authority",
+              "quote": "Prepared under Section 1433 of the Safe Drinking Water Act as amended by the America's Water Infrastructure Act of 2018, which requires a community water system serving more than 3,300 people to keep ",
+              "chunkId": 4
+            },
+            "expectedBy": "wq",
+            "timing": "within 30 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5RER7JD25AWPQYH3EQ0EZ2X"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-34",
+            "capability": "planning",
+            "task": "Record the basis for the advisory decision on ERP-2 before 10:05",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.1 Authority",
+              "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+              "chunkId": 37
+            },
+            "expectedBy": "ops",
+            "timing": "within 30 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
               "01M5RER7JD25AWPQYH3EQ0EZ2X"
             ],
             "locked": false
@@ -3403,13 +4023,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:02:48.812Z",
-      "finishedAt": "2026-10-30T11:03:04.974Z",
+      "startedAt": "2026-10-30T12:15:04.203Z",
+      "finishedAt": "2026-10-30T12:15:25.239Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 9734,
-      "outputTokens": 1267,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 48779,
+      "outputTokens": 6339,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0

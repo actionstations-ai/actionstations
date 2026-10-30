@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:54:40.249Z",
-  "updatedAt": "2026-10-30T11:12:10.565Z",
+  "updatedAt": "2026-10-30T12:28:45.946Z",
   "brief": {
     "userPrompt": "A Thursday evening in May: at 18:40 the National Weather Service issues a tornado warning for northern Rook County and B-shift supervisor Mike Delgado activates the North sirens from Position 11. At 18:52 the 10-digit lines fill with silent and recorded-message calls that conference several call takers at once; at 19:05 the same pattern appears on 911 over SIP trunk group A, the ACD wallboard shows 9 calls in queue and a real structure-fire call from Marlow waits 70 seconds. At 19:15 RespondCAD (CAD-APP01) freezes at Position 4 and Position 9, Hoosier Shield Managed Security reports malware beaconing from RCECD-POS09 and CAD-MDS01, and Medic 3 shows as available on CAD while on a call. At 19:30 a calm caller on a VoIP number reports a hostage situation at County Commissioner Ellen Strand's home, and a Facebook post says '911 is down, call 555-0177' (not an RCECD number). Turning on the GateKeeper TDoS-strict rules for the 10-digit lines, asking the state ESInet NOC for call-source analysis and whether to reroute all 911 to Tamarack County Communications (OPS-DR-2), going to cards (RCECD-F-11) and firewalling the CAD segment at CAD-FW01 (CYB-DR-1), storm reports on SO TAC 1, the swatting response posture, preserving REC-01 recordings, CJIS reporting to the Indiana State Police, and the PIO's alternate-number message and WEA with Rook County Emergency Management.",
     "audience": [
@@ -1345,68 +1345,48 @@
       {
         "objectiveId": "01M5QV4Y4CFARFNXXJPQJN2JRV",
         "capability": "operational_coordination",
-        "why": "The objective requires coordinated activation of the GateKeeper rule set and 911 call rerouting to Tamarack County, which depends on roles across ICS and external partners, as defined in EOP 4.3 and C8."
-      },
-      {
-        "objectiveId": "01M5QV4Y4CFARFNXXJPQJN2JRV",
-        "capability": "public_information_and_warning",
-        "why": "The objective includes ensuring continuity of call handling, which requires timely public messaging to correct misinformation and direct callers to alternate numbers, as per EOP 4.3 and C9."
+        "why": "The objective requires unified command and coordination across roles to activate the GateKeeper rule set and initiate rerouting under OPS-DR-2, which is a core function of operational coordination in a multi-agency, multi-system emergency response."
       },
       {
         "objectiveId": "01M5QV4Y4CFARFNXXJPQJN2JRV",
         "capability": "cybersecurity",
-        "why": "The objective involves managing a cyber incident that compromises CAD and ALI systems, requiring technical actions to isolate the network and prevent lateral movement, as defined in C6 and C7."
+        "why": "The objective involves a cyber incident that compromises call integrity and triggers defensive actions like TDoS filtering and network isolation, which fall under the cybersecurity capability to protect and restore electronic systems."
       },
       {
         "objectiveId": "01M5QV4Y4C4P0HNSDFHD42BFR7",
         "capability": "operational_coordination",
-        "why": "The objective requires the Incident Commander to declare Level 1 and authorize evacuation, which depends on unified command and decision-making across ICS roles, as defined in C6 and C9."
+        "why": "Declaring a Level 1 incident and authorizing evacuation require a unified command structure to make time-sensitive decisions, which is the essence of operational coordination."
       },
       {
         "objectiveId": "01M5QV4Y4C4P0HNSDFHD42BFR7",
         "capability": "planning",
-        "why": "The objective involves making a high-level operational decision based on incident level thresholds and recovery plans, which reflects the use of formalized decision records and EOPs to guide action, as per C9 and C3."
-      },
-      {
-        "objectiveId": "01M5QV4Y4C4P0HNSDFHD42BFR7",
-        "capability": "infrastructure_systems",
-        "why": "The objective includes authorizing evacuation to a backup PSAP, which ensures continuity of critical 911 infrastructure under failure, as defined in C4 and C8."
+        "why": "The decision to evacuate to the backup PSAP under OPS-DR-5 is based on a pre-defined, executable plan that activates when system failures exceed thresholds, reflecting the planning capability to execute response strategies under defined conditions."
       },
       {
         "objectiveId": "01M5QV4Y4CRZ3VCHARCQC4GMFP",
         "capability": "cybersecurity",
-        "why": "The objective centers on technical actions to isolate a compromised system, including firewalling and forensic validation, which are core to protecting electronic systems from exploitation, as per C6 and C7."
+        "why": "The objective centers on detecting a cyber intrusion, isolating the compromised system via firewalling, and validating isolation to prevent further compromise, which is a core function of cybersecurity."
       },
       {
         "objectiveId": "01M5QV4Y4CRZ3VCHARCQC4GMFP",
         "capability": "forensics_and_attribution",
-        "why": "The objective includes validating system isolation and preserving evidence, which supports forensic analysis and attribution of the cyber attack, as defined in C6 and C7."
-      },
-      {
-        "objectiveId": "01M5QV4Y4CRZ3VCHARCQC4GMFP",
-        "capability": "access_control_and_identity_verification",
-        "why": "The objective involves preventing unauthorized access through network isolation, which relies on identity and access controls to block malicious sessions, as per C3 and C7."
+        "why": "The objective includes validating isolation and preserving evidence for forensic analysis, which aligns with the forensics and attribution capability to identify and document the attack's footprint and prevent future exploitation."
       },
       {
         "objectiveId": "01M5QV4Y4CF2B2TXZT1PT91Z8B",
         "capability": "operational_coordination",
-        "why": "The objective requires coordinated manual dispatch using run cards, which depends on roles across ICS and floor operations to maintain call-handling continuity, as defined in C4 and C6."
+        "why": "Manual dispatch under degraded systems requires coordination across call takers, dispatchers, and supervisors to switch to paper-based operations, track unit status via whiteboard and map, and maintain situational awareness — all core to operational coordination."
       },
       {
         "objectiveId": "01M5QV4Y4CF2B2TXZT1PT91Z8B",
         "capability": "infrastructure_systems",
-        "why": "The objective involves maintaining critical 911 call handling under system failure, which ensures continuity of infrastructure functions, as per C4 and C8."
-      },
-      {
-        "objectiveId": "01M5QV4Y4CF2B2TXZT1PT91Z8B",
-        "capability": "public_information_and_warning",
-        "why": "The objective includes maintaining public trust through manual operations, which requires coordinated messaging to correct misinformation and direct callers, as per C9 and C4."
+        "why": "The objective involves maintaining critical emergency services (911 call handling) under system failure by switching to a manual, paper-based fallback, which is a direct function of infrastructure systems to stabilize and sustain essential operations."
       }
     ],
     "eegs": [
       {
         "capability": "operational_coordination",
-        "target": "The Incident Commander, Floor Supervisor, Technical Lead, and EMA Director coordinate under ICS to activate the GateKeeper TDoS-strict rule set, reroute 911 calls to Tamarack County Communications via MCTA-2025, and maintain unified command through the incident, as defined in C8 and C9.",
+        "target": "The Incident Commander, Floor Supervisor, Technical Lead, and EMA Director coordinate under ICS to activate the GateKeeper TDoS-strict rule set, initiate 911 call rerouting to Tamarack County Communications via OPS-DR-2, and maintain unified command throughout the incident.",
         "objectiveRefs": [
           "01M5QV4Y4CFARFNXXJPQJN2JRV",
           "01M5QV4Y4C4P0HNSDFHD42BFR7",
@@ -1416,7 +1396,7 @@
           {
             "id": "T-01",
             "capability": "operational_coordination",
-            "task": "Sup announces 'CAD down, go to cards' on all talkgroups",
+            "task": "Supervisor announces 'CAD down, go to cards' on all talkgroups.",
             "citation": {
               "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
               "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
@@ -1425,9 +1405,9 @@
               "chunkId": 31
             },
             "expectedBy": "sup",
-            "timing": "within 10 minutes of ALI integrity failure",
+            "timing": "within 1 minute of confirming CAD untrustworthiness",
             "rowIds": [
-              "I-13"
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CFARFNXXJPQJN2JRV",
@@ -1439,16 +1419,16 @@
           {
             "id": "T-02",
             "capability": "operational_coordination",
-            "task": "Technical Lead calls the state ESInet NOC (555-0119) to report the 911 trunk pattern and request overflow routing to Tamarack County under MCTA-2025",
+            "task": "Technical Lead calls the state ESInet NOC (555-0119) to report the TDoS pattern and request overflow routing to Tamarack County under MCTA-2025.",
             "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 6 › 6.2 Rerouting 911 calls",
-              "quote": "When RCECD cannot answer, the Technical Lead asks the state ESInet network operations center to route overflow or all 911 calls to Tamarack County Communications under MCTA-2025. Tamarack answers, tak",
-              "chunkId": 29
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+              "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+              "chunkId": 8
             },
             "expectedBy": "tech",
-            "timing": "within 15 minutes of silent call flood exceeding threshold",
+            "timing": "within 5 minutes of confirming silent call flood on 911 trunks",
             "rowIds": [
               "I-06"
             ],
@@ -1462,7 +1442,7 @@
           {
             "id": "T-03",
             "capability": "operational_coordination",
-            "task": "Incident Commander (Director) authorizes rerouting of all 911 calls to Tamarack County Communications via decision record OPS-DR-2",
+            "task": "Incident Commander authorizes rerouting of all 911 calls to Tamarack County Communications via decision record OPS-DR-2.",
             "citation": {
               "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
               "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
@@ -1471,7 +1451,7 @@
               "chunkId": 39
             },
             "expectedBy": "dir",
-            "timing": "within 10 minutes of EMA Director request",
+            "timing": "within 10 minutes of EMA Director's request for alternate numbers",
             "rowIds": [
               "I-09"
             ],
@@ -1485,7 +1465,7 @@
           {
             "id": "T-04",
             "capability": "operational_coordination",
-            "task": "Supervisor opens Position 12 and moves the Position 7 police dispatcher to call taking only",
+            "task": "Supervisor opens Position 12 and moves the Position 7 police dispatcher to call taking only.",
             "citation": {
               "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
               "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
@@ -1494,10 +1474,55 @@
               "chunkId": 8
             },
             "expectedBy": "sup",
-            "timing": "within 5 minutes of Level 2 or Level 1 declaration",
+            "timing": "within 3 minutes of declaring Level 1",
             "rowIds": [
-              "I-06",
-              "I-10"
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CFARFNXXJPQJN2JRV",
+              "01M5QV4Y4C4P0HNSDFHD42BFR7",
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Technical Lead confirms isolation of CAD-MDS01 and reports to the Incident Commander that lateral movement is stopped.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 3",
+              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
+              "chunkId": 5
+            },
+            "expectedBy": "tech",
+            "timing": "within 10 minutes of initiating firewalling",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CFARFNXXJPQJN2JRV",
+              "01M5QV4Y4C4P0HNSDFHD42BFR7",
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Incident Commander confirms with County Security that AD access is not required for manual dispatch operations.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 3",
+              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
+              "chunkId": 5
+            },
+            "expectedBy": "dir",
+            "timing": "within 15 minutes of initiating manual dispatch",
+            "rowIds": [
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CFARFNXXJPQJN2JRV",
@@ -1509,115 +1534,17 @@
         ]
       },
       {
-        "capability": "public_information_and_warning",
-        "target": "The Public Information Officer issues a press release and WEA via EMA to correct social media misinformation, direct callers to alternate numbers 555-0110 and 555-0112, and confirm 911 is operational under manual dispatch, as defined in C9 and C4.",
-        "objectiveRefs": [
-          "01M5QV4Y4CFARFNXXJPQJN2JRV",
-          "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-05",
-            "capability": "public_information_and_warning",
-            "task": "PIO logs the social media post with fake number 555-0177 and notes it as a misinformation artifact",
-            "citation": {
-              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
-              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
-              "headingPath": "Rook County Emergency Communicat… › Section 2",
-              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
-              "chunkId": 4
-            },
-            "expectedBy": "pio",
-            "timing": "within 5 minutes of post",
-            "rowIds": [
-              "I-03b"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4CFARFNXXJPQJN2JRV",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-06",
-            "capability": "public_information_and_warning",
-            "task": "PIO calls the Channel 12 assignment desk (555-0161) to correct the fake number and requests approval for alternate numbers and WEA",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Annex C",
-              "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
-              "chunkId": 39
-            },
-            "expectedBy": "pio",
-            "timing": "within 10 minutes of media chyron",
-            "rowIds": [
-              "I-06b"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4CFARFNXXJPQJN2JRV",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-07",
-            "capability": "public_information_and_warning",
-            "task": "PIO issues a press release stating 911 is answering via paper run cards and provides alternate numbers 555-0110 and 555-0112",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 7",
-              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
-              "chunkId": 31
-            },
-            "expectedBy": "pio",
-            "timing": "within 15 minutes of Director approval",
-            "rowIds": [
-              "I-14"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4CFARFNXXJPQJN2JRV",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-08",
-            "capability": "public_information_and_warning",
-            "task": "PIO posts the correction on county social media and monitors for false number use",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Annex C",
-              "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
-              "chunkId": 39
-            },
-            "expectedBy": "pio",
-            "timing": "within 5 minutes of release approval",
-            "rowIds": [
-              "I-14"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4CFARFNXXJPQJN2JRV",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
         "capability": "cybersecurity",
-        "target": "The Technical Lead manually initiates firewall rule CYB-DR-1 on CAD-FW01 to block traffic from RCECD-POS09, confirms isolation of CAD-MDS01, and logs the action in RCECD-OPS-2026, as defined in C6 and C7.",
+        "target": "The Technical Lead must manually initiate firewall rule CYB-DR-1 on CAD-FW01 to block traffic from RCECD-POS09 to CAD-DB01, validate isolation of the compromised network segment, and preserve forensic evidence on REC-01, as required by RCECD-OPS-2026 Section 5, T-2 Contain.",
         "objectiveRefs": [
           "01M5QV4Y4CFARFNXXJPQJN2JRV",
           "01M5QV4Y4CRZ3VCHARCQC4GMFP"
         ],
         "criticalTasks": [
           {
-            "id": "T-09",
+            "id": "T-07",
             "capability": "cybersecurity",
-            "task": "Tech immediately verifies the SIEM alert and opens a high-priority ticket (T-2026-001) in the helpdesk system",
+            "task": "Manually initiate firewall rule CYB-DR-1 on CAD-FW01 to block traffic from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15).",
             "citation": {
               "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
               "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
@@ -1626,7 +1553,7 @@
               "chunkId": 4
             },
             "expectedBy": "tech",
-            "timing": "within 2 minutes of alert",
+            "timing": "within 5 minutes of alert",
             "rowIds": [
               "I-02"
             ],
@@ -1637,21 +1564,64 @@
             "locked": false
           },
           {
+            "id": "T-08",
+            "capability": "cybersecurity",
+            "task": "Log the firewalling action in RCECD-OPS-2026, Section 5, T-2 Contain, with timestamp and evidence reference.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "immediately after block",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CFARFNXXJPQJN2JRV",
+              "01M5QV4Y4CRZ3VCHARCQC4GMFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "cybersecurity",
+            "task": "Confirm isolation of CAD-MDS01 from RCECD-POS09 by verifying no outbound connection to external IP 203.0.113.17 on port 443.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "within 10 minutes of alert",
+            "rowIds": [
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CFARFNXXJPQJN2JRV",
+              "01M5QV4Y4CRZ3VCHARCQC4GMFP"
+            ],
+            "locked": false
+          },
+          {
             "id": "T-10",
             "capability": "cybersecurity",
-            "task": "Tech manually initiates firewall rule CYB-DR-1 on CAD-FW01 to block traffic from RCECD-POS09 to CAD-DB01",
+            "task": "Preserve forensic evidence by exporting the ALI integrity report and recording the session on REC-01.",
             "citation": {
               "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
               "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 3",
-              "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander (ECC) | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Center-level command, rerouting and ev",
-              "chunkId": 25
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
             },
             "expectedBy": "tech",
-            "timing": "within 5 minutes of alert",
+            "timing": "within 15 minutes of alert",
             "rowIds": [
-              "I-02",
-              "I-07"
+              "I-08"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CFARFNXXJPQJN2JRV",
@@ -1662,18 +1632,18 @@
           {
             "id": "T-11",
             "capability": "cybersecurity",
-            "task": "Tech confirms isolation is complete and logs the action in RCECD-OPS-2026, Section 5, T-2 Contain",
+            "task": "Report unauthorized admin session from RCECD-POS09 (10.12.200.102) to CAD-DB01 (10.72.30.15) to County Security and CISA per C6.",
             "citation": {
-              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
-              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
               "headingPath": "Rook County Emergency Communicat… › Section 3",
-              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
-              "chunkId": 5
+              "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander (ECC) | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Center-level command, rerouting and ev",
+              "chunkId": 25
             },
             "expectedBy": "tech",
-            "timing": "within 10 minutes of firewalling",
+            "timing": "within 30 minutes of alert",
             "rowIds": [
-              "I-07"
+              "I-08b"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CFARFNXXJPQJN2JRV",
@@ -1684,18 +1654,18 @@
           {
             "id": "T-12",
             "capability": "cybersecurity",
-            "task": "Tech reports to the Incident Commander and Floor Supervisor that lateral movement is stopped and evidence is preserved on REC-01",
+            "task": "Confirm that no further system changes are made until County Security and CISA are notified and have approved the chain-of-custody procedures.",
             "citation": {
-              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
-              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
               "headingPath": "Rook County Emergency Communicat… › Section 3",
-              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
-              "chunkId": 5
+              "quote": "| ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Incident Commander (ECC) | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Center-level command, rerouting and ev",
+              "chunkId": 25
             },
             "expectedBy": "tech",
-            "timing": "within 5 minutes of log entry",
+            "timing": "immediately after alert",
             "rowIds": [
-              "I-07"
+              "I-08b"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CFARFNXXJPQJN2JRV",
@@ -1706,157 +1676,16 @@
         ]
       },
       {
-        "capability": "infrastructure_systems",
-        "target": "The Floor Supervisor and Technical Lead maintain 911 call handling continuity by activating manual dispatch using RCECD-F-11 run cards, tracking unit status on the whiteboard and printed map book, and using field radio for updates, as defined in C4 and C8.",
-        "objectiveRefs": [
-          "01M5QV4Y4C4P0HNSDFHD42BFR7",
-          "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-        ],
-        "criticalTasks": [
-          {
-            "id": "T-13",
-            "capability": "infrastructure_systems",
-            "task": "Supervisor opens Position 12 and moves the Position 7 police dispatcher to call taking only",
-            "citation": {
-              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
-              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
-              "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
-              "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
-              "chunkId": 8
-            },
-            "expectedBy": "sup",
-            "timing": "within 5 minutes of Level 2 or Level 1 declaration",
-            "rowIds": [
-              "I-06",
-              "I-10"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-14",
-            "capability": "infrastructure_systems",
-            "task": "Sup announces 'CAD down, go to cards' on all talkgroups and begins manual dispatch using RCECD-F-11 and printed map book",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 7",
-              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
-              "chunkId": 31
-            },
-            "expectedBy": "sup",
-            "timing": "within 10 minutes of ALI integrity failure",
-            "rowIds": [
-              "I-13"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-15",
-            "capability": "infrastructure_systems",
-            "task": "Call takers write each call on a manual dispatch card (RCECD-F-11), stamp the time, and pass it to the dispatcher by hand",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 7",
-              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
-              "chunkId": 31
-            },
-            "expectedBy": "sup",
-            "timing": "within 5 minutes of announcement",
-            "rowIds": [
-              "I-13"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-16",
-            "capability": "infrastructure_systems",
-            "task": "Dispatchers track unit status on the whiteboard and the printed unit roster; units give status by radio only",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Section 7",
-              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
-              "chunkId": 31
-            },
-            "expectedBy": "sup",
-            "timing": "within 5 minutes of card activation",
-            "rowIds": [
-              "I-13"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7",
-              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
-            ],
-            "locked": false
-          }
-        ]
-      },
-      {
         "capability": "planning",
-        "target": "The Incident Commander and Operations Manager use formal decision records (OPS-DR-1, OPS-DR-5) to declare Level 1 — Critical and authorize evacuation to the backup PSAP, based on CAD freeze, ALI corruption, and sustained silent call flood, as defined in C9 and C3.",
+        "target": "The organization demonstrates effective planning by executing pre-defined, executable operational procedures under RCECD-OPS-2026, Section 7, to transition to manual dispatch using RCECD-F-11 run cards, ensuring continuity of emergency call handling despite CAD and ALI system failures, and by following the documented decision framework in Annex C (OPS-DR-1, OPS-DR-3, OPS-DR-5) to escalate to Level 1 and authorize evacuation to the backup PSAP.",
         "objectiveRefs": [
           "01M5QV4Y4C4P0HNSDFHD42BFR7"
         ],
         "criticalTasks": [
           {
-            "id": "T-17",
+            "id": "T-13",
             "capability": "planning",
-            "task": "Director declares Level 1 — Critical under OPS-DR-1 based on CAD freeze, ALI corruption, and silent call flood",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Annex C",
-              "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
-              "chunkId": 39
-            },
-            "expectedBy": "dir",
-            "timing": "within 10 minutes of EMA Director request",
-            "rowIds": [
-              "I-09"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-18",
-            "capability": "planning",
-            "task": "Director authorizes evacuation to the backup PSAP using decision record OPS-DR-5",
-            "citation": {
-              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
-              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
-              "headingPath": "Rook County Emergency Communicat… › Annex C",
-              "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
-              "chunkId": 39
-            },
-            "expectedBy": "dir",
-            "timing": "within 15 minutes of Level 1 declaration",
-            "rowIds": [
-              "I-09"
-            ],
-            "objectiveRefs": [
-              "01M5QV4Y4C4P0HNSDFHD42BFR7"
-            ],
-            "locked": false
-          },
-          {
-            "id": "T-19",
-            "capability": "planning",
-            "task": "Director confirms that AD access is not required for manual dispatch operations and authorizes shift to go to cards under RCECD-OPS-2026 Section 7",
+            "task": "Supervisor announces 'CAD down, go to cards' on all talkgroups.",
             "citation": {
               "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
               "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
@@ -1864,10 +1693,96 @@
               "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
               "chunkId": 31
             },
-            "expectedBy": "dir",
-            "timing": "within 10 minutes of forensic report",
+            "expectedBy": "sup",
+            "timing": "Within 1 minute of confirming CAD data cannot be trusted",
             "rowIds": [
               "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4C4P0HNSDFHD42BFR7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "planning",
+            "task": "Call takers begin manual dispatch using RCECD-F-11 run cards and stamp the time on each call.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "Within 2 minutes of announcement",
+            "rowIds": [
+              "I-12",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4C4P0HNSDFHD42BFR7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "planning",
+            "task": "Dispatchers track unit status on the whiteboard and use the printed map book for address verification.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "Within 3 minutes of announcement",
+            "rowIds": [
+              "I-12",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4C4P0HNSDFHD42BFR7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "planning",
+            "task": "Technical Lead confirms that AD access is not required for manual dispatch operations and reports to the Incident Commander.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "Within 5 minutes of manual dispatch initiation",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4C4P0HNSDFHD42BFR7"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "planning",
+            "task": "Supervisor confirms that all call takers are using run cards and that unit status is verified via radio only.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "Within 15 minutes of manual dispatch initiation",
+            "rowIds": [
+              "I-13"
             ],
             "objectiveRefs": [
               "01M5QV4Y4C4P0HNSDFHD42BFR7"
@@ -1878,15 +1793,15 @@
       },
       {
         "capability": "forensics_and_attribution",
-        "target": "The Technical Lead confirms system isolation, captures forensic evidence from REC-01, and logs the attack pattern, including unauthorized admin session and C2 beaconing, to support attribution and incident reporting, as defined in C6 and C7.",
+        "target": "The Technical Lead must confirm and document the forensic evidence of malware beaconing from CAD-MDS01, unauthorized admin sessions from RCECD-POS09, and ALI data corruption to attribute the cyber incident and justify the activation of manual dispatch and system isolation under RCECD-OPS-2026 Section 5, T-2 Contain.",
         "objectiveRefs": [
           "01M5QV4Y4CRZ3VCHARCQC4GMFP"
         ],
         "criticalTasks": [
           {
-            "id": "T-20",
+            "id": "T-18",
             "capability": "forensics_and_attribution",
-            "task": "Tech confirms the malware beaconing is active and initiates isolation of CAD-MDS01",
+            "task": "Confirm the C2 beacon pattern on CAD-MDS01 using the SIEM alert and forensic audit trail from REC-01.",
             "citation": {
               "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
               "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
@@ -1905,9 +1820,9 @@
             "locked": false
           },
           {
-            "id": "T-21",
+            "id": "T-19",
             "capability": "forensics_and_attribution",
-            "task": "Tech logs the incident on RCECD-F-21 and begins chain-of-custody procedures per C6",
+            "task": "Log the unauthorized admin session from RCECD-POS09 on RCECD-F-21 and initiate chain-of-custody procedures.",
             "citation": {
               "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
               "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
@@ -1916,7 +1831,7 @@
               "chunkId": 25
             },
             "expectedBy": "tech",
-            "timing": "within 10 minutes of alert",
+            "timing": "immediately upon discovery",
             "rowIds": [
               "I-08b"
             ],
@@ -1926,21 +1841,62 @@
             "locked": false
           },
           {
-            "id": "T-22",
+            "id": "T-20",
             "capability": "forensics_and_attribution",
-            "task": "Tech reports forensic findings to the Incident Commander and Floor Supervisor, including unauthorized admin session from RCECD-POS09 and C2 beaconing on port 443",
+            "task": "Verify ALI data integrity by comparing the 15-minute window report from CAD-MDS01 with field radio logs and run cards.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "within 10 minutes of alert",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CRZ3VCHARCQC4GMFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "forensics_and_attribution",
+            "task": "Report forensic findings to the Incident Commander and confirm that CAD data cannot be trusted for dispatch.",
             "citation": {
               "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
               "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
-              "headingPath": "Rook County Emergency Communicat… › Section 3",
-              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander | Karen Voss, 911 Director | Luis Aldana, Operations Manager | Rerouting, manual operations for longer than one shift, e",
-              "chunkId": 5
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
             },
             "expectedBy": "tech",
-            "timing": "within 5 minutes of log entry",
+            "timing": "before manual dispatch initiation",
             "rowIds": [
-              "I-08b",
-              "I-10"
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CRZ3VCHARCQC4GMFP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve evidence on REC-01 by exporting the forensic session log and recording the audit trail.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "before manual dispatch begins",
+            "rowIds": [
+              "I-12"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CRZ3VCHARCQC4GMFP"
@@ -1950,7 +1906,7 @@
           {
             "id": "T-23",
             "capability": "forensics_and_attribution",
-            "task": "Tech confirms that CAD data cannot be trusted and that the attacker has modified unit status and ALI data",
+            "task": "Initiate the CJIS security incident report to the Indiana State Police via the TAC and confirm the report is filed.",
             "citation": {
               "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
               "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
@@ -1959,12 +1915,149 @@
               "chunkId": 5
             },
             "expectedBy": "tech",
-            "timing": "within 10 minutes of forensic audit",
+            "timing": "within 30 minutes of confirmation",
             "rowIds": [
-              "I-10"
+              "I-15b"
             ],
             "objectiveRefs": [
               "01M5QV4Y4CRZ3VCHARCQC4GMFP"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The organization stabilizes critical infrastructure functions by isolating the compromised CAD network segment via firewalling at CAD-FW01, manually initiating the TDoS-strict rule set on the GateKeeper appliance, and maintaining call-handling continuity using run cards (RCECD-F-11) and the printed map book, ensuring 911 service remains operational under degraded conditions.",
+        "objectiveRefs": [
+          "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-24",
+            "capability": "infrastructure_systems",
+            "task": "Initiate firewall rule CYB-DR-1 on CAD-FW01 to block traffic from RCECD-POS09 to CAD-DB01.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "within 5 minutes of alert",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "infrastructure_systems",
+            "task": "Activate the GateKeeper TDoS-strict rule set on the 10-digit lines to block silent and spoofed calls.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+              "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+              "chunkId": 8
+            },
+            "expectedBy": "sup",
+            "timing": "within 10 minutes of alert",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "infrastructure_systems",
+            "task": "Begin manual dispatch using RCECD-F-11 run cards and the printed map book, with unit status tracked via radio and whiteboard.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "within 15 minutes of CAD freeze",
+            "rowIds": [
+              "I-12",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "infrastructure_systems",
+            "task": "Confirm isolation of CAD-MDS01 and preserve forensic evidence on REC-01.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "within 10 minutes of alert",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "infrastructure_systems",
+            "task": "Maintain call-handling continuity using paper-based systems and radio for unit status updates, without relying on CAD or ALI.",
+            "citation": {
+              "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+              "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+              "headingPath": "Rook County Emergency Communicat… › Section 7",
+              "quote": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+              "chunkId": 31
+            },
+            "expectedBy": "sup",
+            "timing": "throughout exercise",
+            "rowIds": [
+              "I-13",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "infrastructure_systems",
+            "task": "Report forensic findings to the Incident Commander and confirm that CAD data cannot be trusted.",
+            "citation": {
+              "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+              "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+              "headingPath": "Rook County Emergency Communicat… › Section 2",
+              "quote": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+              "chunkId": 4
+            },
+            "expectedBy": "tech",
+            "timing": "within 5 minutes of forensic audit",
+            "rowIds": [
+              "I-10b"
+            ],
+            "objectiveRefs": [
+              "01M5QV4Y4CF2B2TXZT1PT91Z8B"
             ],
             "locked": false
           }
@@ -3794,13 +3887,13 @@
     },
     {
       "stage": "eeg",
-      "startedAt": "2026-10-30T11:03:45.193Z",
-      "finishedAt": "2026-10-30T11:04:23.731Z",
+      "startedAt": "2026-10-30T12:17:20.642Z",
+      "finishedAt": "2026-10-30T12:17:37.804Z",
       "model": "qwen/qwen3-30b-a3b-2507",
       "promptRef": "eeg@default",
-      "promptHash": "7b2889a049e8858979f8995169b3853411004f5b8aeadc815c42b3e1eb1ef867",
-      "inputTokens": 10639,
-      "outputTokens": 3024,
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 53303,
+      "outputTokens": 5520,
       "costUsd": 0,
       "status": "ok",
       "repairAttempts": 0
