@@ -5,7 +5,13 @@
  * retention or an hour past their end. The hub is the shared one (`src/shared/live/hub.ts`);
  * this file adds what a server owns: controller tokens, retention, the registry.
  */
-import { hashBearerToken, matchesAny, randomId, randomToken } from '@actionstations/relay-core'
+import {
+  controllerRoleOf,
+  hashBearerToken,
+  matchesAny,
+  randomId,
+  randomToken,
+} from '@actionstations/relay-core'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub, STORE_DEFAULTS, type HubEvent, type SessionHubOptions } from '@shared/live/hub'
 import { LIMITS, type Limits } from '@shared/live/protocol'
@@ -163,6 +169,16 @@ export class SessionRegistry {
     const record = session.store.record()
     if (!record || !token) return false
     return matchesAny(await hashBearerToken(token), record.controllerTokenHashes)
+  }
+
+  /** `host` for the token the session was created with, `co` for a co-controller's (#517). */
+  async controllerRole(
+    session: LiveSession,
+    token: string | undefined,
+  ): Promise<'host' | 'co' | undefined> {
+    const record = session.store.record()
+    if (!record || !token) return undefined
+    return controllerRoleOf(await hashBearerToken(token), record.controllerTokenHashes)
   }
 
   /** A further controller token (co-controller); `undefined` at the cap. */

@@ -10,6 +10,7 @@ import { Banner } from '../components/Banner'
 import { Clock } from '../components/Clock'
 import { ConnectionDot } from '../components/ConnectionDot'
 import { TabBar, type Tab, type TabSpec } from '../components/TabBar'
+import { NO_HELPER_STATE } from '../features/simcell/helper'
 import { SurveyBanner } from '../features/surveys/SurveyBanner'
 import { SurveysScreen } from '../features/surveys/SurveysScreen'
 import { CallBanner, CallScreen } from '../features/calls/CallScreen'
@@ -49,6 +50,7 @@ export function RoomShell({
   const chats = useStore(session.store, (s) => s.messages)
   const compose = useStore(session.store, (s) => s.compose)
   const back = useBack(backUntil)
+  const helperDrafts = useStore(session.simcell?.state ?? NO_HELPER_STATE, (s) => s.drafts.length)
 
   const unread = useMemo(() => {
     const view = seat
@@ -79,7 +81,7 @@ export function RoomShell({
       badge: unreadChats,
       ...(canMessage ? {} : { disabledReason: STRINGS.messages.emptyDisabled }),
     },
-    { id: 'more', label: STRINGS.tabs.more },
+    { id: 'more', label: STRINGS.tabs.more, badge: seat?.kind === 'simcell' ? helperDrafts : 0 },
   ]
   const select = (next: Tab) => {
     if (next === 'messages' && !canMessage) return
@@ -92,7 +94,9 @@ export function RoomShell({
       ? 'Evaluator'
       : seat?.kind === 'observer'
         ? 'Observer'
-        : ''
+        : seat?.kind === 'simcell'
+          ? 'SimCell'
+          : ''
 
   return (
     <div className="room" data-screen="room">

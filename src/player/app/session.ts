@@ -69,6 +69,7 @@ import {
 } from '../features/calls/calls'
 import type { PreparedImage } from '../features/messages/attach'
 import { EvaluatorFeature } from '../features/evaluate/evaluator'
+import { SimcellHelperFeature } from '../features/simcell/helper'
 import { createObservationStore, type ObservationStore } from '../features/evaluate/observations'
 import type { Prefs } from './prefs'
 import { createOutboxStore, Outbox, type OutboxStore } from './queue'
@@ -229,6 +230,8 @@ export class PlayerSession {
   outbox: Outbox | undefined
   /** The evaluator form's state (#416); set once the session id is known. */
   evaluate: EvaluatorFeature | undefined
+  /** The SimCell helper's drafts (#518); set once the session id is known. */
+  simcell: SimcellHelperFeature | undefined
   /** Opened inject media for this page (`blob:` URLs, memory only). */
   readonly media = new MediaCache({ fetchBlob: (ref) => this.fetchBlob(ref) })
 
@@ -291,6 +294,7 @@ export class PlayerSession {
       () => this.state.connection === 'connected' && this.state.phase === 'seated',
     )
     this.evaluate = this.makeEvaluate(inv.sessionId)
+    this.simcell = this.makeSimcell()
     const own = loadOwnItems(this.deps.storage, inv.sessionId)
     await this.evaluate.load().catch(() => undefined)
     this.store.set({
@@ -509,6 +513,8 @@ export class PlayerSession {
         return this.addChat(msg as Opened<'message.send'>)
       case 'eval.assign':
         return this.addAssignment(msg as Opened<'eval.assign'>)
+      case 'simcell.draft':
+        return this.addSimcellDraft(msg as Opened<'simcell.draft'>)
       case 'hotwash.update':
         if (msg.signedBy === 'host') this.applyHotwash(msg as Opened<'hotwash.update'>)
         return
@@ -589,6 +595,7 @@ export class PlayerSession {
     })
     // Plan material belongs to the evaluator seat only; a reseated device drops it.
     if (!seated || p.kind !== 'evaluator') this.evaluate?.clearAssignment()
+    if (!seated || p.kind !== 'simcell') this.simcell?.clear()
     if (seated) {
       this.seatRequest = undefined
       this.flushDelivered()
@@ -599,6 +606,7 @@ export class PlayerSession {
   private applyEnd(payload: SessionEndPayload): void {
     this.deps.storage.set(ownItemsKey(this.state.sessionId), '')
     this.evaluate?.end()
+    this.simcell?.end()
     this.media.dispose()
     this.store.set({
       ended: payload,
@@ -731,6 +739,35 @@ export class PlayerSession {
     if (msg.signedBy !== 'host' || this.state.seat?.kind !== 'evaluator') return
     if (msg.to !== `client:${this.state.clientId}`) return
     this.evaluate?.applyAssign(msg.payload)
+  }
+
+  // ---- SimCell helper (#518) ----
+
+  private makeSimcell(): SimcellHelperFeature {
+    return new SimcellHelperFeature({
+      now: () => this.now(),
+      newId: () => toBase64Url(this.deps.crypto.random(16)),
+      enqueue: ({ id, payload, createdAt }) =>
+        this.outbox
+          ? this.outbox.enqueue(
+              { id, type: 'simcell.action', to: 'controller', payload },
+              createdAt,
+            )
+          : Promise.resolve(),
+    })
+  }
+
+  /**
+   * Only the controller's `simcell.draft` to this device, for a SimCell seat, is applied: a draft
+   * signed by anyone else, or addressed to another device, is dropped.
+   */
+  private addSimcellDraft(msg: Opened<'simcell.draft'>): void {
+    if (msg.signedBy !== 'host' || this.state.seat?.kind !== 'simcell') return
+    if (msg.to !== `client:${this.state.clientId}`) return
+    this.simcell?.applyDraft(msg.payload)
+    if (!this.state.catchingUp && msg.payload.status === 'queued') {
+      this.deps.announcer.announce(`New SimCell draft from ${msg.payload.persona}`)
+    }
   }
 
   // ---- messages with the SimCell (spec 0413) ----

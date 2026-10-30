@@ -211,9 +211,10 @@ async function sessionAction(
   sessionId: string,
 ): Promise<void> {
   if (req.method !== 'POST') return fail(res, 'METHOD_NOT_ALLOWED', 'POST only')
-  if (!(await ctx.registry.isController(session, bearerToken(req.headers.authorization)))) {
-    return fail(res, 'UNAUTHORIZED', 'A controller token is required')
-  }
+  const role = await ctx.registry.controllerRole(session, bearerToken(req.headers.authorization))
+  if (!role) return fail(res, 'UNAUTHORIZED', 'A controller token is required')
+  // A co-controller's token connects; ending, kicking and minting tokens stay with the host.
+  if (role !== 'host') return fail(res, 'FORBIDDEN', 'Only the host controller may do this')
   if (session.store.record()?.endedAt !== undefined) {
     return fail(res, 'SESSION_ENDED', 'Session ended')
   }

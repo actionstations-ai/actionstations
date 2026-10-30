@@ -14,8 +14,8 @@ import {
 import { createServer as createHttpsServer } from 'node:https'
 import type { AddressInfo } from 'node:net'
 import { WebSocketServer } from 'ws'
-import { toBase64Url } from '@shared/live/bytes'
-import { WS_SUBPROTOCOL } from '@shared/live/connect-url'
+import { fromBase64Url, toBase64Url } from '@shared/live/bytes'
+import { parseConnectRequest, WS_SUBPROTOCOL } from '@shared/live/connect-url'
 import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
 import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
@@ -60,10 +60,26 @@ async function readBody(req: IncomingMessage): Promise<unknown> {
   return text ? JSON.parse(text) : {}
 }
 
+/** A device's tokens from the subprotocol list, as the real servers read them. */
+function participantAttach(req: IncomingMessage, url: URL) {
+  const parsed = parseConnectRequest({
+    search: url.searchParams,
+    protocols: req.headers['sec-websocket-protocol'] ?? '',
+  })
+  if (!parsed.ok) return undefined
+  const { joinToken, resumeToken } = parsed.request
+  return {
+    controller: false,
+    joinToken: fromBase64Url(joinToken),
+    ...(resumeToken ? { resumeToken: fromBase64Url(resumeToken) } : {}),
+  }
+}
+
 export async function startTestServer(opts: TestServerOptions): Promise<TestServer> {
   const requests: string[] = []
   const hubs = new Map<string, SessionHub>()
-  const tokens = new Map<string, string>()
+  /** Controller tokens per session: the first is the host's, the rest are co-controllers'. */
+  const tokens = new Map<string, string[]>()
   const cert = opts.tls ? await createSessionCertificate('127.0.0.1', 'testserver') : undefined
   let fingerprint = cert?.fingerprintSha256
 
@@ -97,7 +113,7 @@ export async function startTestServer(opts: TestServerOptions): Promise<TestServ
         version: '0.0.0-test',
       }),
     )
-    tokens.set(sessionId, controllerToken)
+    tokens.set(sessionId, [controllerToken])
     json(res, 200, {
       sessionId,
       controllerToken,
@@ -107,11 +123,21 @@ export async function startTestServer(opts: TestServerOptions): Promise<TestServ
   }
 
   async function sessionAction(req: IncomingMessage, res: ServerResponse, path: string) {
-    const m = /^\/v1\/sessions\/([A-Za-z0-9_-]{22})\/(join-token|kick|end)$/.exec(path)
+    const m = /^\/v1\/sessions\/([A-Za-z0-9_-]{22})\/(join-token|kick|end|controllers)$/.exec(path)
     const hub = m ? hubs.get(m[1]!) : undefined
     if (!m || !hub) return json(res, 404, { error: { code: 'NOT_FOUND', message: 'no' } })
-    if (bearer(req) !== tokens.get(m[1]!)) {
+    const list = tokens.get(m[1]!) ?? []
+    const presented = bearer(req)
+    if (!presented || !list.includes(presented)) {
       return json(res, 401, { error: { code: 'UNAUTHORIZED', message: 'token' } })
+    }
+    if (presented !== list[0]) {
+      return json(res, 403, { error: { code: 'FORBIDDEN', message: 'host only' } })
+    }
+    if (m[2] === 'controllers') {
+      const token = toBase64Url(crypto.random(24))
+      list.push(token)
+      return json(res, 201, { controllerToken: token })
     }
     const body = (await readBody(req)) as { joinTokenHash?: string; client?: string }
     if (m[2] === 'join-token') hub.setJoinTokenHash(body.joinTokenHash!)
@@ -152,7 +178,18 @@ export async function startTestServer(opts: TestServerOptions): Promise<TestServ
     requests.push(`UPGRADE ${url.pathname}`)
     const id = /^\/v1\/sessions\/([A-Za-z0-9_-]{22})\/ws$/.exec(url.pathname)?.[1]
     const hub = id ? hubs.get(id) : undefined
-    if (!id || !hub || bearer(req) !== tokens.get(id)) {
+    if (!id || !hub) {
+      socket.write('HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n')
+      return socket.destroy()
+    }
+    const presented = bearer(req)
+    const list = tokens.get(id) ?? []
+    const attach = presented
+      ? list.includes(presented)
+        ? { controller: true, host: presented === list[0] }
+        : undefined
+      : participantAttach(req, url)
+    if (!attach) {
       socket.write('HTTP/1.1 401 Unauthorized\r\nContent-Length: 0\r\n\r\n')
       return socket.destroy()
     }
@@ -160,7 +197,7 @@ export async function startTestServer(opts: TestServerOptions): Promise<TestServ
       void hub
         .attach(
           { send: (f) => ws.send(f), close: (c, r) => ws.close(c, r) },
-          { clientId: url.searchParams.get('client')!, controller: true },
+          { clientId: url.searchParams.get('client')!, ...attach },
         )
         .then((client) => {
           ws.on('message', (d) => client.receive(d.toString()))

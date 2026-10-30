@@ -91,6 +91,7 @@ export class Seats {
           ...ctx.roles.map(seatOfRole),
           { id: RESERVED_ROLE_IDS[0], name: 'Evaluator', kind: 'evaluator' },
           { id: RESERVED_ROLE_IDS[1], name: 'Observer', kind: 'observer' },
+          { id: RESERVED_ROLE_IDS[2], name: 'SimCell helper', kind: 'simcell' },
         ]
   }
 
@@ -111,7 +112,16 @@ export class Seats {
     return n
   }
 
-  private base(clientId: ClientId, kind: ClientKind): Omit<WelcomePayload, 'roster'> {
+  /** The seats a device is shown: the SimCell helper seat only to a device that proved the staff key. */
+  private seatsFor(staff: boolean): SeatDef[] {
+    return this.seats().filter((s) => staff || s.kind !== 'simcell')
+  }
+
+  private base(
+    clientId: ClientId,
+    kind: ClientKind,
+    staff = false,
+  ): Omit<WelcomePayload, 'roster'> {
     return {
       client: clientId,
       kind,
@@ -119,7 +129,7 @@ export class Seats {
       sessionName: this.ctx.sessionName,
       scenarioTitle: this.ctx.scenarioTitle,
       clock: this.ctx.clock(),
-      seats: this.seats(),
+      seats: this.seatsFor(staff),
       features: this.ctx.surveyOnly ? SURVEY_ONLY_FEATURES : FEATURES,
       ...(this.ctx.hotwash ? { hotwash: this.ctx.hotwash } : {}),
     }
@@ -155,7 +165,11 @@ export class Seats {
     const refuse = (reason: 'not_allowed' | 'role_taken' | 'full', message: string): Seating => ({
       ok: false,
       reason,
-      welcome: { ...this.base(msg.from, join.kind), roster: [], rejected: { reason, message } },
+      welcome: {
+        ...this.base(msg.from, join.kind, verdict.staff),
+        roster: [],
+        rejected: { reason, message },
+      },
     })
     if (verdict.claimedStaff && !verdict.staff) {
       return refuse('not_allowed', 'This link does not open a staff seat. Ask for the staff link.')
@@ -185,7 +199,7 @@ export class Seats {
     this.byClient.set(msg.from, seat)
     const role = roleId ? this.roleEntry(roleId) : undefined
     const welcome: WelcomePayload = {
-      ...this.base(msg.from, join.kind),
+      ...this.base(msg.from, join.kind, verdict.staff),
       ...(role ? { role } : {}),
       roster: await this.roster(),
     }

@@ -341,6 +341,7 @@ export function SidePanel(props: {
           projectPath={props.projectPath}
           scenarioId={props.scenario.id}
           roles={props.scenario.roles}
+          msel={props.scenario.msel}
         />
         <LiveSurveysSection projectPath={props.projectPath} scenarioId={props.scenario.id} />
         <SessionsList projectPath={props.projectPath} scenario={props.scenario} />

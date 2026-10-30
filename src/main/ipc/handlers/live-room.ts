@@ -8,7 +8,9 @@ import {
   sessionsList,
   trackerFeedFor,
 } from '../../live/room'
+import { joinPartner, leavePartner, partnerStatus, releasePartnerRow } from '../../live/partner'
 import {
+  createPartnerInvite,
   liveDevices,
   markAnswered,
   regionalRoster,
@@ -18,6 +20,8 @@ import {
   replaceKeys,
   resumeSession,
   sendEvaluatorNotice,
+  setSimcellHelpers,
+  simcellHelpers,
 } from '../../live/session'
 import { requireProject } from '../../project/guard'
 import { defineHandlers } from '../registry'
@@ -85,6 +89,29 @@ export default defineHandlers({
 
   'live:regional-roster-send': async ({ projectPath, scenarioId }) =>
     sendRegionalRoster(await requireProject(projectPath), scenarioId),
+
+  'live:partner-invite': async ({ projectPath, scenarioId, orgId }) =>
+    createPartnerInvite(await requireProject(projectPath), scenarioId, orgId),
+
+  'live:partner-status': async ({ projectPath, scenarioId }) =>
+    partnerStatus(await requireProject(projectPath), scenarioId),
+
+  'live:partner-join': async ({ projectPath, scenarioId, invite }) =>
+    joinPartner(await requireProject(projectPath), scenarioId, invite),
+
+  'live:partner-release': async ({ projectPath, scenarioId, rowId }) =>
+    releasePartnerRow(await requireProject(projectPath), scenarioId, rowId),
+
+  'live:partner-leave': async ({ projectPath }) => {
+    await requireProject(projectPath)
+    await leavePartner()
+  },
+
+  'live:simcell-helpers': async ({ projectPath, scenarioId }) =>
+    simcellHelpers(await requireProject(projectPath), scenarioId),
+
+  'live:simcell-helpers-set': async ({ projectPath, scenarioId, enabled }) =>
+    setSimcellHelpers(await requireProject(projectPath), scenarioId, enabled),
 
   'live:hotwash-past': async ({ projectPath, scenarioId, sessionId }) =>
     pastHotwashBoard(await requireProject(projectPath), scenarioId, sessionId),

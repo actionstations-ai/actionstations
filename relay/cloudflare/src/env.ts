@@ -52,6 +52,8 @@ export const PING_RESPONSE = '{"pong":1}'
 export interface Attachment {
   clientId: string
   controller: boolean
+  /** Absent (a socket from before co-controller tokens) means the host's. */
+  host?: boolean
   since: number
 }
 

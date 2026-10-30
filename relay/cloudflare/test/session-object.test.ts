@@ -260,7 +260,16 @@ describe('SessionObject: HTTP', () => {
       tokens.push(((await co.json()) as { controllerToken: string }).controllerToken)
     }
     expect((await room.action('controllers')).status).toBe(409)
-    expect((await room.action('kick', { client: IDS.playerA }, tokens[0])).status).toBe(204)
+    // A co-controller's token connects but cannot kick, end, rotate the join token or mint more.
+    for (const [action, body] of [
+      ['kick', { client: IDS.playerA }],
+      ['end', undefined],
+      ['join-token', { joinTokenHash: 'a'.repeat(64) }],
+      ['controllers', undefined],
+    ] as const) {
+      expect((await room.action(action, body, tokens[0])).status).toBe(403)
+    }
+    expect((await room.action('kick', { client: IDS.playerA })).status).toBe(204)
     const asCo = await room.object.fetch(
       new Request(`https://relay/v1/sessions/${room.sessionId}/ws?client=${IDS.evaluator}`, {
         headers: {

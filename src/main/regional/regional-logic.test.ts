@@ -168,7 +168,12 @@ describe('live roster and log slices', () => {
         id: 'air',
         name: 'Airport',
         publicKey: point,
-        scope: { rowPrefixes: ['AIR'], roleIds: ['air-ops'] },
+        scope: {
+          rowPrefixes: ['AIR'],
+          roleIds: ['air-ops'],
+          // Explicit and narrow: no surveys, calls or notices.
+          permissions: ['inject', 'message', 'vote'],
+        },
       },
     ])
     expect(orgsWithoutLiveKey(s)).toEqual(['hosp'])

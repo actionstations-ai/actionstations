@@ -38,6 +38,7 @@ export function rosterView(
       name: c.name,
       rowPrefixes: c.scope.rowPrefixes,
       roleCount: c.scope.roleIds.length,
+      permissions: c.scope.permissions ?? ['inject'],
     })),
     missingLiveKey: [...missingLiveKey],
   }

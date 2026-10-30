@@ -152,8 +152,9 @@ export function createRelayServer(opts: RelayServerOptions): RelayServer {
     }
     const clientId = url.searchParams.get('client')
     if (!clientId || !Base64Url22.safeParse(clientId).success) return undefined
-    if (!(await registry.isController(session, bearer))) return 'unauthorized'
-    return { clientId, controller: true }
+    const role = await registry.controllerRole(session, bearer)
+    if (!role) return 'unauthorized'
+    return { clientId, controller: true, host: role === 'host' }
   }
 
   const scheme = opts.tls ? 'https' : 'http'

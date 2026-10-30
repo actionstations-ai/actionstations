@@ -8,6 +8,9 @@ import { ControllerRosterPayload } from '@shared/live/schemas'
 import type { SessionLogEntry } from '@shared/schemas/live'
 import type { RegionalState } from '@shared/schemas/regional'
 
+/** What a partner organization may send besides nothing: no surveys, calls or notices. */
+export const PARTNER_PERMISSIONS = ['inject', 'message', 'vote'] as const
+
 export interface RosterRole {
   id: string
   owner?: string
@@ -28,6 +31,8 @@ export function buildRoster(
       scope: {
         rowPrefixes: [o.prefix],
         roleIds: roles.filter((r) => r.owner === o.orgId).map((r) => r.id),
+        // Explicit and narrow: its own injects, messages with its own roles, and votes it opens.
+        permissions: PARTNER_PERMISSIONS,
       },
     }))
   return ControllerRosterPayload.parse({ revision, controllers })

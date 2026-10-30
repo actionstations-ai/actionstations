@@ -19,6 +19,8 @@ import { parseFrame } from './codec'
 import {
   CLOSE_CODES,
   CONTROLLER_ONLY_TYPES,
+  HOST_ONLY_TYPES,
+  PARTICIPANT_ONLY_TYPES,
   EPHEMERAL_TYPES,
   LIMITS,
   PROTOCOL_VERSION,
@@ -60,6 +62,12 @@ export interface HubAttachOptions {
   resumeToken?: Uint8Array
   /** A connection the transport authenticated as the controller (in-process, or a controller token). */
   controller?: boolean
+  /**
+   * With `controller`: false marks a co-controller's token (#517). Such a connection may send the
+   * scoped controller types, never the host-only ones, and learns neither the roster of devices
+   * nor the frames sealed to the host. Default true.
+   */
+  host?: boolean
   /** Remote address, for the per-address caps; absent in process. */
   remote?: string
 }
@@ -68,6 +76,7 @@ export interface HubAttachOptions {
 export interface HubRestoreOptions {
   clientId: ClientId
   controller: boolean
+  host?: boolean
   since: number
   remote?: string
 }
@@ -76,6 +85,8 @@ export interface HubRestoreOptions {
 export interface HubClient {
   readonly clientId: ClientId
   readonly controller: boolean
+  /** A controller connection that is the host's, not a co-controller's. */
+  readonly host: boolean
   readonly open: boolean
   /** A frame arrived from the client. */
   receive(frame: string): void
@@ -360,6 +371,7 @@ export interface SessionHubOptions {
 interface Conn {
   clientId: ClientId
   controller: boolean
+  host: boolean
   remote?: string
   socket: HubSocket
   lastSeq: number
@@ -520,6 +532,7 @@ export class SessionHub {
       socket,
       options.clientId,
       options.controller ?? false,
+      options.host ?? true,
       this.now(),
       options.remote,
     )
@@ -569,6 +582,7 @@ export class SessionHub {
       socket,
       options.clientId,
       options.controller,
+      options.host ?? true,
       options.since,
       options.remote,
     )
@@ -584,12 +598,14 @@ export class SessionHub {
     socket: HubSocket,
     clientId: ClientId,
     controller: boolean,
+    host: boolean,
     since: number,
     remote: string | undefined,
   ): Conn {
     return {
       clientId,
       controller,
+      host: controller && host,
       ...(remote ? { remote } : {}),
       socket,
       lastSeq: 0,
@@ -602,6 +618,7 @@ export class SessionHub {
     return {
       clientId: conn.clientId,
       controller: conn.controller,
+      host: conn.host,
       get open() {
         return conn.open
       },
@@ -653,7 +670,7 @@ export class SessionHub {
     this.uploaded.clear()
   }
 
-  /** Participants learn nothing about other clients from hello; controllers get the roster. */
+  /** Participants learn nothing about other clients from hello; the host gets the roster. */
   private hello(conn: Conn): PayloadByType['relay.hello'] {
     const base = {
       index: this.lastIndex,
@@ -665,7 +682,7 @@ export class SessionHub {
       },
       caps: this.limits,
     }
-    if (!conn.controller) return base
+    if (!conn.host) return base
     const clients = [...this.conns.values()].map((c) => ({ client: c.clientId, since: c.since }))
     return { ...base, clients }
   }
@@ -716,10 +733,10 @@ export class SessionHub {
     if (announce) this.presence(conn, 'offline')
   }
 
-  /** Presence goes to controller connections only: the roster is the controller's business. */
+  /** Presence goes to the host connection only: the roster is the controller's business. */
   private presence(about: Conn, state: 'online' | 'offline'): void {
     for (const other of [...this.conns.values()]) {
-      if (other === about || !other.controller) continue
+      if (other === about || !other.host) continue
       this.deliver(
         other,
         this.serverFrame(other, 'presence', { client: about.clientId, state, at: this.now() }),
@@ -787,6 +804,12 @@ export class SessionHub {
     if (CONTROLLER_ONLY_TYPES.has(e.type) && !conn.controller) {
       return this.error(conn, 'NOT_CONTROLLER', `${e.type} is a controller type`)
     }
+    if (HOST_ONLY_TYPES.has(e.type) && !conn.host) {
+      return this.error(conn, 'NOT_CONTROLLER', `${e.type} is a host type, not a co-controller's`)
+    }
+    if (PARTICIPANT_ONLY_TYPES.has(e.type) && conn.controller) {
+      return this.error(conn, 'INVALID', `${e.type} comes from a device, not a controller`)
+    }
     switch (e.type) {
       case 'presence':
       case 'catchup.batch':
@@ -844,7 +867,7 @@ export class SessionHub {
 
   /** Whether a stored or live frame is for this connection, by its `to` alone. */
   private visibleTo(conn: Conn, e: Envelope): boolean {
-    if (e.to === 'controller') return conn.controller
+    if (e.to === 'controller') return conn.host
     if (e.to.startsWith('client:')) return e.to === `client:${conn.clientId}`
     return true // all, role:, team: (clients filter by their own role from welcome)
   }

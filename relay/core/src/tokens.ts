@@ -85,6 +85,20 @@ export function constantTimeEqual(a: string, b: string): boolean {
   return bytesEqual(left, right)
 }
 
+/**
+ * Which controller a presented token belongs to: the first registered hash is the host's, the
+ * rest are co-controllers' (#517). A co-controller token opens a connection but not the
+ * session's HTTP actions (end, kick, join token, more tokens).
+ */
+export function controllerRoleOf(
+  presented: string | undefined,
+  hashes: readonly string[],
+): 'host' | 'co' | undefined {
+  if (!presented || hashes.length === 0) return undefined
+  if (matchesAny(presented, hashes.slice(0, 1))) return 'host'
+  return matchesAny(presented, hashes.slice(1)) ? 'co' : undefined
+}
+
 /** Whether `presented` hashes to one of the registered hashes, in constant time per candidate. */
 export function matchesAny(presented: string | undefined, hashes: readonly string[]): boolean {
   if (!presented) return false

@@ -10,7 +10,7 @@ import { CLOSE_CODES } from '../../shared/live/protocol'
 import type { KeyKind } from '../../shared/live/protocol'
 import { MemoryKeyValue, type Transport } from '../../shared/live/transport'
 import { settle } from '../../shared/live/transport-memory'
-import { HarnessController } from '../harness/controller'
+import { DEFAULT_SEATS, HarnessController } from '../harness/controller'
 import { FakeTimers } from './fake-timers'
 import { RECONNECTING_AFTER_MS } from './reconnect'
 import { PlayerSession, sanitizeName, type ConnectedTransport, type SessionDeps } from './session'
@@ -755,6 +755,72 @@ describe('PlayerSession messages (#413)', () => {
     })
     await flush()
     expect(pio.state().messages[0]!.replyTo).toBe(releaseId)
+  })
+})
+
+describe('PlayerSession as a SimCell helper (#518)', () => {
+  const seats = [
+    ...DEFAULT_SEATS,
+    { id: 'simcell', name: 'SimCell helper', kind: 'simcell' as const },
+  ]
+  const draft = (n: number, over: Record<string, unknown> = {}) => ({
+    draftId: `draft${String(n).padStart(17, '0')}`,
+    revision: 1,
+    status: 'queued' as const,
+    persona: 'Reporter',
+    threadLabel: 'Reporter and Ops',
+    text: `Reply ${n}`,
+    flags: [],
+    ...over,
+  })
+
+  async function helperRoom() {
+    const r = await room({ seats })
+    const h = r.player('staff')
+    await h.session.start()
+    await flush()
+    await h.session.chooseSeat('simcell', '')
+    await flush(6)
+    return { ...r, h }
+  }
+
+  it('receives a draft after taking the SimCell seat, and a player never does', async () => {
+    const { player, h, controller } = await helperRoom()
+    const p = player('players')
+    await p.session.start()
+    await flush()
+    await p.session.chooseSeat('ops-director', '')
+    await flush(6)
+    expect(await controller.offerDraft(draft(1))).toBe(1)
+    await flush(6)
+    expect(h.session.simcell?.state.get().drafts.map((d) => d.text)).toEqual(['Reply 1'])
+    expect(p.session.simcell?.state.get().drafts).toEqual([])
+    expect(h.announced.some((a) => a.includes('SimCell draft'))).toBe(true)
+  })
+
+  it('sends the decision to the controller once, with the draft revision', async () => {
+    const { h, controller } = await helperRoom()
+    await controller.offerDraft(draft(1))
+    await flush(6)
+    await h.session.simcell!.decide(draft(1).draftId, 'edit', 'Changed words')
+    await flush(6)
+    expect(controller.simcellActions.map((a) => a.payload)).toEqual([
+      { draftId: draft(1).draftId, revision: 1, action: 'edit', text: 'Changed words' },
+    ])
+  })
+
+  it('a device that is not seated as a helper ignores a draft sent to it', async () => {
+    const { player, controller } = await helperRoom()
+    const p = player('staff')
+    await p.session.start()
+    await flush()
+    await p.session.chooseSeat('evaluators', '')
+    await flush(6)
+    await controller.client.send('simcell.draft', `client:${p.session.state.clientId}`, draft(2), {
+      key: 'staff',
+    })
+    await flush(6)
+    expect(p.session.simcell?.state.get().drafts).toEqual([])
   })
 })
 

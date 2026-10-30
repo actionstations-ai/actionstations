@@ -5,9 +5,12 @@
 // recovery text appears inline.
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { LanAddress, LiveConnectionInput, LiveSessionStatus } from '@shared/schemas/live'
+import type { MselRow } from '@shared/schemas/scenario'
 import { useIpcQuery } from '../../../lib/query'
 import { Button } from '../../../components/ui'
 import { CoControllers } from './CoControllers'
+import { PartnerSession } from './PartnerSession'
+import { SimcellHelpers } from './SimcellHelpers'
 import { DeviceControls } from './DeviceControls'
 import { InviteCard } from './InviteCard'
 import { LiveEvaluators, type WatchRole } from './LiveEvaluators'
@@ -372,6 +375,8 @@ export function LivePanel(props: {
   scenarioId: string
   /** The scenario's roles, for the evaluators' watch lists. */
   roles?: readonly WatchRole[]
+  /** This copy's MSEL rows, for a partner organization releasing its own (#517). */
+  msel?: readonly Pick<MselRow, 'id' | 'event' | 'toRoleIds' | 'toLabel'>[]
 }) {
   const live = useLiveSession(props.projectPath, props.scenarioId)
   if (live.loading) return <p className="muted">Loading…</p>
@@ -394,6 +399,14 @@ export function LivePanel(props: {
       )}
       {running && <DeviceControls projectPath={props.projectPath} scenarioId={props.scenarioId} />}
       {running && <CoControllers projectPath={props.projectPath} scenarioId={props.scenarioId} />}
+      {running && <SimcellHelpers projectPath={props.projectPath} scenarioId={props.scenarioId} />}
+      {!running && (
+        <PartnerSession
+          projectPath={props.projectPath}
+          scenarioId={props.scenarioId}
+          rows={props.msel ?? []}
+        />
+      )}
       {running && live.status?.remote ? (
         <RemotePanel status={live.status} busy={live.busy} onStop={() => void live.stop()} />
       ) : running && live.status ? (

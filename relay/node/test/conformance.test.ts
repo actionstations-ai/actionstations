@@ -35,10 +35,23 @@ function nodeFactory(tls: 'self-signed' | 'none', via: typeof wsTransport): Serv
       protocols: ['as-live.v1'],
       headers: { Authorization: `Bearer ${created.controllerToken}` },
     }
+    let coOptions: typeof controllerOptions | undefined
+    const coControllerOptions = async () => {
+      if (!coOptions) {
+        const token = await s.registry.addController(live)
+        coOptions = { protocols: ['as-live.v1'], headers: { Authorization: `Bearer ${token}` } }
+      }
+      return coOptions
+    }
     return {
-      connect: (o) =>
+      connect: async (o) =>
         o.controller
-          ? wsTransport(s.url, opts.sessionId, { clientId: o.clientId }, controllerOptions)
+          ? wsTransport(
+              s.url,
+              opts.sessionId,
+              { clientId: o.clientId },
+              o.host === false ? await coControllerOptions() : controllerOptions,
+            )
           : via(s.url, opts.sessionId, {
               clientId: o.clientId,
               ...(o.joinToken ? { joinToken: o.joinToken } : {}),

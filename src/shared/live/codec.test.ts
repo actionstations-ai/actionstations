@@ -733,7 +733,11 @@ describe('co-controller roster scopes (#440)', () => {
           id: 'metro-transit',
           name: 'Metro Transit',
           publicKey: toBase64Url(co.publicKey),
-          scope: { rowPrefixes: ['T-1'], roleIds: ['transit-ops'] },
+          scope: {
+            rowPrefixes: ['T-1'],
+            roleIds: ['transit-ops'],
+            permissions: ['inject', 'message', 'vote', 'survey', 'call', 'notice'],
+          },
         },
       ],
     }
@@ -916,6 +920,211 @@ describe('co-controller roster scopes (#440)', () => {
       ok: false,
       reason: 'OUT_OF_SCOPE',
     })
+  })
+})
+
+describe('co-controller permissions and the partner and SimCell helper types (#517, #518)', () => {
+  const release = (over: Partial<(typeof PAYLOAD_FIXTURES)['inject.release']>) => ({
+    ...PAYLOAD_FIXTURES['inject.release'],
+    ...over,
+  })
+
+  async function coWith(ctl: Controller, permissions?: string[]) {
+    const co = await ctl.crypto.ecdsaGenerate()
+    const roster = {
+      revision: 1,
+      controllers: [
+        {
+          id: 'metro-transit',
+          name: 'Metro Transit',
+          publicKey: toBase64Url(co.publicKey),
+          scope: {
+            rowPrefixes: ['T-'],
+            roleIds: ['transit-ops'],
+            ...(permissions ? { permissions } : {}),
+          },
+        },
+      ],
+    } as ControllerRosterPayload
+    const { player, staff } = await contexts(ctl)
+    const scope = new ScopeState()
+    return { co, player: { ...player, roster, scope }, staff: { ...staff, roster, scope } }
+  }
+
+  it('a roster entry without permissions may only release and recall its own rows', async () => {
+    const ctl = await makeController()
+    const { co, player } = await coWith(ctl)
+    const vote = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('vote.open'),
+      { ...PAYLOAD_FIXTURES['vote.open'], targets: ['role:transit-ops'] },
+      { signer: co.privateKey },
+    )
+    expect((await open(encodeFrame(vote), player)) as object).toMatchObject({
+      ok: false,
+      reason: 'OUT_OF_SCOPE',
+    })
+    const notice = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('controller.notice'),
+      { ...PAYLOAD_FIXTURES['controller.notice'], targets: ['role:transit-ops'] },
+      { signer: co.privateKey, key: 'players' },
+    )
+    expect((await open(encodeFrame(notice), player)) as object).toMatchObject({
+      ok: false,
+      reason: 'OUT_OF_SCOPE',
+    })
+    const rel = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('inject.release'),
+      release({ mselRowId: 'T-1', targets: ['role:transit-ops'] }),
+      { signer: co.privateKey, key: 'players' },
+    )
+    expect((await open(encodeFrame(rel), player)).ok).toBe(true)
+  })
+
+  it('an explicit permission admits its family and nothing else', async () => {
+    const ctl = await makeController()
+    const { co, player } = await coWith(ctl, ['inject', 'vote'])
+    const vote = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('vote.open'),
+      { ...PAYLOAD_FIXTURES['vote.open'], targets: ['role:transit-ops'] },
+      { signer: co.privateKey },
+    )
+    expect((await open(encodeFrame(vote), player)).ok).toBe(true)
+    const survey = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('survey.open'),
+      { ...PAYLOAD_FIXTURES['survey.open'], targets: ['role:transit-ops'] },
+      { signer: co.privateKey },
+    )
+    expect((await open(encodeFrame(survey), player)) as object).toMatchObject({
+      reason: 'OUT_OF_SCOPE',
+    })
+  })
+
+  it('a co-controller cannot sign partner.receipt or simcell.draft, even with scope.all', async () => {
+    const ctl = await makeController()
+    const { co, staff } = await coWith(ctl, ['inject'])
+    staff.roster.controllers[0]!.scope.all = true
+    for (const type of ['partner.receipt', 'simcell.draft'] as const) {
+      const env = await seal(
+        ctl.crypto,
+        ctl.keys,
+        header(type, { to: `client:${IDS.evaluator}` }),
+        PAYLOAD_FIXTURES[type],
+        { signer: co.privateKey },
+      )
+      expect((await open(encodeFrame(env), staff)) as object).toMatchObject({
+        ok: false,
+        reason: 'OUT_OF_SCOPE',
+      })
+    }
+  })
+
+  it('partner.receipt and simcell.draft are sealed with the staff key and signed by the host', async () => {
+    const ctl = await makeController()
+    const { player, staff } = await contexts(ctl)
+    for (const type of ['partner.receipt', 'simcell.draft'] as const) {
+      const env = await seal(
+        ctl.crypto,
+        ctl.keys,
+        header(type, { to: `client:${IDS.evaluator}` }),
+        PAYLOAD_FIXTURES[type],
+        { signer: ctl.signing.privateKey },
+      )
+      expect(env.payload).toMatchObject({ k: 't1' })
+      expect((await open(encodeFrame(env), staff)).ok).toBe(true)
+      // A players-key device cannot read it, and an unsigned copy is refused.
+      expect((await open(encodeFrame(env), player)) as object).toMatchObject({
+        ok: false,
+        reason: 'STAFF_ONLY',
+      })
+      const unsigned = { ...env }
+      delete unsigned.sig
+      expect((await open(encodeFrame(unsigned), staff)) as object).toMatchObject({
+        reason: 'UNSIGNED_CONTROLLER_MESSAGE',
+      })
+    }
+  })
+
+  it('refuses to seal a staff-only frame to a role or to everyone', async () => {
+    const ctl = await makeController()
+    for (const to of ['all', 'role:evaluators', 'controller'] as const) {
+      await expect(
+        seal(
+          ctl.crypto,
+          ctl.keys,
+          header('simcell.draft', { to }),
+          PAYLOAD_FIXTURES['simcell.draft'],
+          {
+            signer: ctl.signing.privateKey,
+          },
+        ),
+      ).rejects.toMatchObject({ code: 'KEY_RULE' })
+    }
+  })
+
+  it('simcell.action is sealed to the controller and an edit needs its text', async () => {
+    const ctl = await makeController()
+    const { controller } = await contexts(ctl)
+    const staffKeys = (await contexts(ctl)).staffKeys
+    const env = await seal(
+      ctl.crypto,
+      staffKeys,
+      header('simcell.action', { from: IDS.evaluator, to: 'controller' }),
+      PAYLOAD_FIXTURES['simcell.action'],
+    )
+    expect(env.payload).toMatchObject({ k: 'c' })
+    expect((await open(encodeFrame(env), controller)).ok).toBe(true)
+    for (const bad of [
+      { draftId: IDS.draft, revision: 1, action: 'edit' },
+      { draftId: IDS.draft, revision: 1, action: 'edit', text: '  ' },
+      { draftId: IDS.draft, revision: 1, action: 'approve', text: 'sneaky' },
+      { draftId: IDS.draft, revision: 1, action: 'send' },
+    ]) {
+      await expect(
+        seal(
+          ctl.crypto,
+          staffKeys,
+          header('simcell.action', { from: IDS.evaluator, to: 'controller' }),
+          bad as never,
+        ),
+      ).rejects.toMatchObject({ code: 'SCHEMA' })
+    }
+  })
+
+  it('ScopeState remembers who signed a release, and not the host', async () => {
+    const ctl = await makeController()
+    const { co, player } = await coWith(ctl)
+    const env = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('inject.release', { from: IDS.playerB }),
+      release({ mselRowId: 'T-1', targets: ['role:transit-ops'] }),
+      { signer: co.privateKey, key: 'players' },
+    )
+    await open(encodeFrame(env), player)
+    expect(player.scope.releases.get(PAYLOAD_FIXTURES['inject.release'].releaseId)).toEqual({
+      signer: 'metro-transit',
+      from: IDS.playerB,
+      mselRowId: 'T-1',
+    })
+    const hostEnv = await seal(
+      ctl.crypto,
+      ctl.keys,
+      header('inject.release', { seq: 2 }),
+      release({ releaseId: 'hostrelease00000000000', mselRowId: 'X-1' }),
+      { signer: ctl.signing.privateKey, key: 'players' },
+    )
+    await open(encodeFrame(hostEnv), player)
+    expect(player.scope.releases.has('hostrelease00000000000')).toBe(false)
   })
 })
 

@@ -639,12 +639,52 @@ export const RegionalRosterView = z.object({
       name: z.string().max(120),
       rowPrefixes: z.array(z.string().max(64)),
       roleCount: z.number().int().min(0),
+      /** What the partner may send besides its own injects (spec 0406 `permissions`). */
+      permissions: z.array(z.string().max(20)).optional(),
     }),
   ),
   /** Organizations that cannot be listed yet: no pinned live key. */
   missingLiveKey: z.array(z.string().max(64)),
 })
 export type RegionalRosterView = z.infer<typeof RegionalRosterView>
+
+/** What the host shows after minting a partner's invite: shown once, never stored. */
+export const PartnerInviteView = z.object({
+  orgId: z.string().max(64),
+  name: z.string().max(120),
+  /** The secret invite text (`asp1.…`); the partner pastes it into their app. */
+  invite: z.string().max(8192),
+})
+export type PartnerInviteView = z.infer<typeof PartnerInviteView>
+
+/** SimCell helper devices in this session, as the Live tab shows them (#518). */
+export const SimcellHelpersView = z.object({
+  enabled: z.boolean(),
+  /** SimCell seats online that hold the staff key. */
+  devices: z.number().int().min(0),
+})
+export type SimcellHelpersView = z.infer<typeof SimcellHelpersView>
+
+/** This computer's seat in a host's session as a co-controller (spec 0440 FR-19, FR-20). */
+export const PartnerStatus = z.object({
+  state: z.enum(['off', 'connecting', 'joined', 'ended', 'error']),
+  orgId: z.string().max(64).optional(),
+  orgName: z.string().max(120).optional(),
+  /** Why it is not joined, in plain words. */
+  message: z.string().max(300).optional(),
+  /** What the host allows this organization; absent until the host's roster arrives. */
+  scope: z
+    .object({
+      rowPrefixes: z.array(z.string().max(64)),
+      roleIds: z.array(z.string().max(128)),
+      permissions: z.array(z.string().max(20)),
+    })
+    .optional(),
+  /** Exercise time on the host's clock, `H:MM`. */
+  clock: z.string().max(12).optional(),
+  releases: z.array(ReleaseSummary),
+})
+export type PartnerStatus = z.infer<typeof PartnerStatus>
 
 export const UnansweredRow = z.object({
   releaseId: z.string(),

@@ -99,6 +99,9 @@ export const MESSAGE_TYPES = [
   'call.end',
   'controller.notice',
   'controller.roster',
+  'partner.receipt',
+  'simcell.draft',
+  'simcell.action',
   'session.end',
   'session.rekey',
   'relay.hello',
@@ -138,6 +141,8 @@ export const SIGNED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'call.ring',
   'controller.notice',
   'controller.roster',
+  'partner.receipt',
+  'simcell.draft',
   'session.end',
   'session.rekey',
 ])
@@ -148,6 +153,8 @@ export const HOST_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'clock.state',
   'eval.assign',
   'controller.roster',
+  'partner.receipt',
+  'simcell.draft',
   'session.end',
   'session.rekey',
 ])
@@ -155,6 +162,21 @@ export const HOST_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
 /** Types a server accepts only from a controller connection (it cannot verify signatures). */
 export const CONTROLLER_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   ...SIGNED_TYPES,
+])
+
+/**
+ * Types a server accepts only from a device connection (a participant), never from a controller
+ * connection: they travel from a staff device to the controller, so a controller connection
+ * sending one is a confused or hostile client.
+ */
+export const PARTICIPANT_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
+  'simcell.action',
+])
+
+/** Types that are only ever addressed to one device (`client:<id>`), never to a role or everyone. */
+export const CLIENT_ADDRESSED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
+  'partner.receipt',
+  'simcell.draft',
 ])
 
 /** Never stored for catch-up. */
@@ -205,6 +227,9 @@ export const KEY_BY_TYPE: Record<Exclude<MessageType, PlaintextType>, KeyRule> =
   'call.end': 'either',
   'controller.notice': 'either',
   'controller.roster': 'players',
+  'partner.receipt': 'staff',
+  'simcell.draft': 'staff',
+  'simcell.action': 'controller',
   'session.end': 'players',
   'session.rekey': 'players',
 }

@@ -40,6 +40,8 @@ export interface ConnectOptions {
   resumeToken?: Uint8Array
   /** A connection that presented the controller token (`Bearer`), not a join token. */
   controller?: boolean
+  /** With `controller`: false is a co-controller's connection (#517). */
+  host?: boolean
 }
 
 interface Conn {
