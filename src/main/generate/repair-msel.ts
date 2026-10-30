@@ -223,6 +223,7 @@ async function fillMixGaps(env: Env, s: Scenario, phase: Phase): Promise<string[
   const mapped = applyMselPhase(s, phase, { rows }, fix.retrieved, {
     keepIds,
     seamKeys: seamKeyMap(s),
+    places: env.places,
   })
   applySeamRows(s, phase)
   const owned = new Set(mapped.rows.map((r) => r.id).filter((id) => !keepIds.has(id)))

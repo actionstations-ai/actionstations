@@ -5,7 +5,10 @@ import { Link } from 'react-router'
 import type { Scenario } from '@shared/schemas'
 import type { FacilitatorState } from '@shared/ipc'
 import { pinsFor, rowStatus, type PinStatus } from '@shared/maps/pins'
-import { EmptyState, Field } from '../../components/ui'
+import { Button, EmptyState, Field } from '../../components/ui'
+import { toast } from '../../components/toast-store'
+import { call } from '../../lib/api'
+import { errorText } from '../../lib/errors'
 import { MapView } from '../../components/map/MapView'
 import { markerFromPin } from '../../components/map/marker-model'
 import { useProjectMaps } from '../../state/maps'
@@ -65,6 +68,12 @@ export function MapTab(props: {
       ...s,
       map: { showUpcoming, ...(s.map?.mapId ? { mapId: s.map.mapId } : {}), ...s.map, ...patch },
     }))
+  const showOnScreen = () =>
+    call('facilitator:present-map', {
+      projectPath,
+      scenarioId: scenario.id,
+      mapId: layer.id,
+    }).catch((e) => toast.error('Could not show the map', errorText(e)))
   return (
     <div className="stack" data-testid="map-tab">
       <div className="row">
@@ -92,6 +101,7 @@ export function MapTab(props: {
           />
           Show upcoming
         </label>
+        <Button onClick={() => void showOnScreen()}>Show map on screen</Button>
       </div>
       <MapView
         projectPath={projectPath}

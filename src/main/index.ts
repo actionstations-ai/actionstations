@@ -27,6 +27,7 @@ import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { toolProcesses } from './setup/processes'
+import { checkMapCatalogAtStartup } from './maps/auto-check'
 import { scheduleStartupCheck } from './updates/check'
 import { isSessionRunning, stopLiveSession } from './live/session'
 
@@ -227,7 +228,9 @@ void app.whenReady().then(async () => {
   // is up so it never delays startup.
   mainWindow?.once('ready-to-show', () => {
     setTimeout(() => {
-      scheduleStartupCheck().catch((e: unknown) => console.error('[updates]', e))
+      scheduleStartupCheck()
+        .then(() => checkMapCatalogAtStartup())
+        .catch((e: unknown) => console.error('[updates]', e))
     }, UPDATE_CHECK_DELAY_MS)
   })
   app.on('activate', () => {

@@ -28,6 +28,7 @@ const maps = ProjectMaps.parse({
   ],
 })
 const scenario = {
+  id: 'scenario-3',
   msel: [
     { id: 'I-01', time: '0:00', placeIds: ['gate'], toRoleIds: [] },
     { id: 'I-02', time: '0:10', placeIds: ['eoc'], toRoleIds: [] },
@@ -96,5 +97,29 @@ describe('Facilitate Map tab', () => {
       />
     ))
     expect(await screen.findByRole('link', { name: 'Maps' })).toBeTruthy()
+  })
+
+  it('sends the map to the presentation window', async () => {
+    const ttx = mockTtx({
+      'maps:get': () => ({ maps, revision: 'r1' }),
+      'facilitator:present-map': () => undefined,
+    })
+    renderAt(`/p/${projectKey(PROJECT)}/x`, '/p/:projectKey/x', () => (
+      <MapTab
+        projectPath={PROJECT}
+        scenario={scenario}
+        state={FacilitatorState.parse({})}
+        minutes={0}
+        selectedRowId={undefined}
+        onSelectRow={vi.fn()}
+        update={vi.fn()}
+      />
+    ))
+    fireEvent.click(await screen.findByRole('button', { name: 'Show map on screen' }))
+    await waitFor(() => expect(ttx.calls('facilitator:present-map')).toHaveLength(1))
+    expect(ttx.calls('facilitator:present-map')[0]).toMatchObject({
+      scenarioId: 'scenario-3',
+      mapId: 'plan1',
+    })
   })
 })

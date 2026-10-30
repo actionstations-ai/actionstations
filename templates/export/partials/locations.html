@@ -1,0 +1,16 @@
+{{#each pages}}
+<section class="locations" aria-labelledby="{{id}}">
+  <h2 id="{{id}}">{{heading}}</h2>
+  <div class="locations__map">
+    <img class="locations__base" src="{{src}}" alt="{{alt}}" />
+    {{#each markers}}
+    <span class="locations__pin loc-{{kind}}" style="left: {{x}}%; top: {{y}}%">{{n}}</span>
+    {{/each}}
+  </div>
+  <ol class="locations__legend">
+    {{#each markers}}
+    <li value="{{n}}"><b>{{label}}</b> <span class="muted">{{rows}}</span></li>
+    {{/each}}
+  </ol>
+</section>
+{{/each}}

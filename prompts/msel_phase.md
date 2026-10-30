@@ -1,7 +1,7 @@
 ---
 name: msel_phase
 stage: msel_phase
-version: 8
+version: 9
 description: The MSEL rows for one phase (time, inject id, from, to, event, expected action, purpose tag, format, citations).
 outputSchema: MselPhaseOutput
 task: draft
@@ -52,6 +52,7 @@ variables:
     revisePass,
     reviseNotes,
     facility,
+    places,
     phaseSeams,
   ]
 ---
@@ -117,7 +118,7 @@ EXAMPLE ROWS (three different organizations, shown only for style and density; i
 {"id":"I-03b","time":"0:50","from":"Street Supervisor","to":["ops","fleet"],"event":"Radio Call: \"Dispatch, Supervisor 12. Bus 2231 on Route 41 is sitting at Elm and 9th with its hazards on. Operator says the farebox rebooted twice and now shows a blank screen. Riders are boarding for free.\"","expectedAction":"Ops tells the operator to continue in service with fare bypass per SOP 3.4; Fleet logs a defect ticket; nobody connects it to the dispatch problem yet.","purposeTag":"NOISE","format":"radio_call","citations":[]}
 {"id":"I-04","time":"1:05","from":"Social Media","to":["pio"],"event":"Post (@SectionOneTwoFan): \"Gate C at the arena just STOPPED scanning tickets, line is 200 deep and nobody is saying anything. Is this a hack?? #StadiumFail\" — 180 reposts in 15 minutes with a photo of the queue.","expectedAction":"PIO logs sentiment and prepares a holding statement about gate delays; does NOT confirm a cause before Ops and IT verify.","purposeTag":"PRESSURE","format":"tweet","citations":[]}
 
-Return JSON only, matching the schema: { rows: [ { id, time, from, to[], event, expectedAction, purposeTag, format, citations[], seam? } ] }.
+Return JSON only, matching the schema: { rows: [ { id, time, from, to[], event, expectedAction, purposeTag, format, citations[], seam?, placeIds? } ] }.
 <!-- @context -->
 {{doctrine}}
 <!-- @user -->
@@ -136,6 +137,9 @@ Roles (use these keys in "to"):
 {{/each}}
 {{#if facility.length}}FACILITY FACTS (from the documents — the only identifiers of these kinds that exist; anything else must be framed as fake data):
 {{#each facility}}- {{this}}
+{{/each}}
+{{/if}}{{#if places.length}}PLACES (the exercise's named places; an inject that happens at one sets "placeIds" to its id, at most three per inject, and uses the place's name in the event; ids not on this list are ignored):
+{{#each places}}- {{id}}: {{label}}
 {{/each}}
 {{/if}}Phase arc:
 {{#each phases}}- Phase {{number}}: {{title}} ({{startTime}}–{{endTime}}). {{goal}}

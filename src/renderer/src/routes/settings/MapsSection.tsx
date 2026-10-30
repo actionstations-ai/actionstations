@@ -195,7 +195,17 @@ function StoredList() {
   )
 }
 
-function DataPart() {
+/** What the last automatic catalog check found (#500), shown until a manual check replaces it. */
+function lastCheckText(maps: MapsSettings): string {
+  const last = maps.lastCatalogCheck
+  if (!last) return ''
+  const when = new Date(last.at).toLocaleDateString()
+  return last.updates.length
+    ? `Checked ${when}: newer files for ${last.updates.join(', ')}.`
+    : `Checked ${when}: your state maps are up to date.`
+}
+
+function DataPart({ maps }: { maps: MapsSettings }) {
   const [dialog, setDialog] = useState<'state' | 'area' | 'import'>()
   const [status, setStatus] = useState('')
   const checkUpdates = async () => {
@@ -219,8 +229,20 @@ function DataPart() {
         <Button onClick={() => setDialog('import')}>Import file…</Button>
         <Button onClick={() => void checkUpdates()}>Check for updates</Button>
       </div>
+      <label className="row">
+        <input
+          type="checkbox"
+          checked={maps.checkUpdates}
+          onChange={(e) => void setMaps({ checkUpdates: e.target.checked })}
+        />
+        Check for new state map files when the app checks for new versions
+      </label>
+      <p className="muted">
+        Needs the version check in Settings, Updates. The check asks github.com for the catalog and
+        compares checksums; nothing is downloaded.
+      </p>
       <p role="status" className="muted">
-        {status}
+        {status || lastCheckText(maps)}
       </p>
       <StateDialog open={dialog === 'state'} onOpenChange={(o) => !o && setDialog(undefined)} />
       <AreaDialog open={dialog === 'area'} onOpenChange={(o) => !o && setDialog(undefined)} />
@@ -242,7 +264,7 @@ export function MapsSection({ settings }: { settings: AppSettings }) {
       </div>
       <OnlinePart maps={settings.maps ?? defaultMaps} />
       <h3>Offline map data</h3>
-      <DataPart />
+      <DataPart maps={settings.maps ?? defaultMaps} />
     </section>
   )
 }

@@ -65,8 +65,8 @@ function GeoCanvas(props: MapEngineProps & { layer: Geo; basemap: BasemapView })
     let map: MapLibreMap | null = null
     void (async () => {
       const [mod, worker] = await Promise.all([
-        import('maplibre-gl/dist/maplibre-gl-csp.js'),
-        import('maplibre-gl/dist/maplibre-gl-csp-worker.js?url'),
+        import('maplibre-gl'),
+        import('maplibre-gl/dist/maplibre-gl-worker.mjs?url'),
       ])
       const maplibregl = ((mod as { default?: unknown }).default ?? mod) as typeof mod
       if (cancelled || !box.current || !plan) return

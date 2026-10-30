@@ -102,6 +102,8 @@ export const MselRowOutput = z.object({
   citations: z.array(CitationKey),
   /** The plan seam (S key) this row puts players in, when the phase has one (#427). */
   seam: SeamKeyOut.optional(),
+  /** Place ids from the PLACES list, when the row happens at one (#436). */
+  placeIds: z.array(z.string()).max(10).optional(),
 })
 export type MselRowOutput = z.infer<typeof MselRowOutput>
 

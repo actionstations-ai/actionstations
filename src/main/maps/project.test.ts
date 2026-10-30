@@ -40,14 +40,14 @@ describe('site plan import', () => {
     expect((await readProjectMaps(root)).maps.maps).toHaveLength(1)
   })
 
-  it('refuses a PDF with a clear message, other file types, and images over 50 megapixels', async () => {
+  it('refuses other file types, unreadable PDFs and images over 50 megapixels', async () => {
     const root = project()
     await expect(
       importSitePlan(root, { filePath: picture(root, 'a.pdf'), title: 'x' }),
-    ).rejects.toThrow(/PDF pages are not supported yet/)
+    ).rejects.toThrow(/not a readable PDF/)
     await expect(
       importSitePlan(root, { filePath: picture(root, 'a.gif'), title: 'x' }),
-    ).rejects.toThrow(/\.png, \.jpg or \.webp/)
+    ).rejects.toThrow(/\.png, \.jpg, \.webp or \.pdf/)
     const big = solidPng(8, [0, 0, 0, 255])
     big.writeUInt32BE(10_000, 16)
     big.writeUInt32BE(6_000, 20)

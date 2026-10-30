@@ -121,7 +121,12 @@ export const MapsSettings = z.object({
       style: 'liberty' as const,
     })),
   catalogUrl: HttpUrl.default(OFFICIAL_MAP_CATALOG_URL),
+  /** Also check the map catalog when the app checks for updates (#442 must be on). */
   checkUpdates: z.boolean().default(false),
+  /** The last automatic catalog check: when, and the catalog ids that have a newer file. */
+  lastCatalogCheck: z
+    .object({ at: IsoDateTime, updates: z.array(z.string().max(40)).max(80) })
+    .optional(),
 })
 export type MapsSettings = z.infer<typeof MapsSettings>
 

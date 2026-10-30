@@ -2,6 +2,7 @@
 // key, so prompts and MSEL rows can refer to "ops", "it", "pio") and MSEL rows (the
 // user-visible "I-07"). Citation keys are resolved by the caller and passed in.
 import { normalizeSeamKey } from './lint-seams'
+import { placeIdsFor } from './places'
 import {
   exerciseMinutes,
   formatExerciseTime,
@@ -17,6 +18,7 @@ import {
   type Phase,
   type PhasePlanOutput,
   type Role,
+  type Place,
   type RubricOutput,
   type Scenario,
   type ScenarioIdea,
@@ -556,6 +558,8 @@ export interface ApplyMselOptions {
   keepIds?: Set<string>
   /** Plan seam S key → seam id (#427); a row's `seam` key outside it is dropped. */
   seamKeys?: Map<string, string>
+  /** The project's places (#436): a row's place ids are checked, or filled from its event text. */
+  places?: Place[]
 }
 
 /** The phase's current rows split into those kept verbatim (locked or requested) and the rest. */
@@ -604,6 +608,7 @@ export function applyMselPhase(
     if (to.unresolved.length) unresolvedTo.push({ rowId: id, keys: to.unresolved })
     const injectId = injectIds.get(id)
     const seamId = opts.seamKeys?.get(normalizeSeamKey(r.seam) ?? '')
+    const placeIds = opts.places ? placeIdsFor(r.placeIds, r.event, opts.places) : []
     return {
       id,
       phaseId: phase.id,
@@ -620,6 +625,7 @@ export function applyMselPhase(
       citations: cite(r.citations, c, id),
       locked: false,
       ...(seamId ? { seamId } : {}),
+      ...(placeIds.length ? { placeIds } : {}),
     }
   })
   const sorted = [...kept, ...rows].sort(
