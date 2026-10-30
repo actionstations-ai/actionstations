@@ -131,3 +131,24 @@ export function normalizeTag(raw: string, existing: string[]): string | null {
 
 export const isBusy = (s: DocumentStatusValue) =>
   s === 'pending' || s === 'parsing' || s === 'embedding'
+
+/**
+ * Open proposed plan edits (#431) per heading, keyed like `HeadingNode.key`. A proposal counts
+ * for its own heading and every heading above it, so a collapsed outline still shows where
+ * the changes are. Rejected proposals are not counted.
+ */
+export function redlineCountsByHeading(
+  redlines: readonly { status: string; target: { headingPath: string } }[],
+): Map<string, number> {
+  const counts = new Map<string, number>()
+  for (const r of redlines) {
+    if (r.status === 'rejected') continue
+    const parts: string[] = []
+    for (const label of splitHeadingPath(r.target.headingPath)) {
+      parts.push(label)
+      const key = parts.join(' › ')
+      counts.set(key, (counts.get(key) ?? 0) + 1)
+    }
+  }
+  return counts
+}

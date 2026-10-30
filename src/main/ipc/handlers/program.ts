@@ -6,6 +6,7 @@ import { requireProject } from '../../project/guard'
 import { listAllActions } from '../../program/actions'
 import * as actions from '../../program/actions'
 import { requireProgram } from '../../program/guard'
+import { applyCsvImport, previewCsvImport } from '../../program/csv-import'
 import { applyAarImport, previewAarImport } from '../../program/import-aar'
 import { linkProject, unlinkProject } from '../../program/links'
 import { openSummary } from '../../program/open'
@@ -110,6 +111,12 @@ export default defineHandlers({
       scenarioId,
       items,
     ),
+
+  'program:import-csv-preview': async ({ programPath, csv }) =>
+    previewCsvImport(await requireProgram(programPath), csv),
+
+  'program:import-csv': async ({ programPath, csv }) =>
+    applyCsvImport(await requireProgram(programPath), csv),
 
   'program:propose': async ({ programPath }) => {
     const root = await requireProgram(programPath)

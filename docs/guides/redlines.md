@@ -42,6 +42,8 @@ section the way the plan has them.
 The result lists which proposals went where. Exported proposals show the file and cannot be
 edited; make a new one instead.
 
+Each heading in a plan's **Headings** tab on the Documents page shows how many proposed changes (not counting rejected ones) sit at or under it. When a regression drill has tested a proposal, its card shows the verdict of the latest run (Passed, Partly passed or Failed), judged from the criteria the proposal was meant to fix.
+
 ### Checking the file in your word processor
 
 The exported Word file opens in Word 2016 and later, LibreOffice 7 and later, and Pages without a
