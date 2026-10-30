@@ -12,6 +12,62 @@ const { planTargets } = await import('./run')
 
 const count = (html: string, needle: string) => html.split(needle).length - 1
 
+const plan = (id = 'plan1') => ({
+  kind: 'site_plan' as const,
+  id,
+  title: 'Terminal',
+  source: `maps/${id}/plan.png`,
+  image: `maps/${id}/plan.png`,
+  width: 800,
+  height: 600,
+})
+const pin = (id: string, label: string, mapId = 'plan1') => ({
+  id,
+  label,
+  kind: 'incident' as const,
+  note: '',
+  positions: [{ mapId, x: 10, y: 20 }],
+})
+
+describe('Locations pages (#500)', () => {
+  it('adds a numbered marker page for each site plan the MSEL uses, in the MSEL and handbook', () => {
+    const model = fixtureModel()
+    model.scenario.msel[0] = { ...model.scenario.msel[0]!, placeIds: ['gate'] }
+    model.scenario.msel[1] = { ...model.scenario.msel[1]!, placeIds: ['gate', 'bhs'] }
+    model.maps = {
+      formatVersion: 1,
+      maps: [plan()],
+      places: [pin('gate', 'Gate A1'), pin('bhs', 'BHS <room>'), pin('unused', 'Unused')],
+    }
+    for (const doc of ['msel', 'handbook'] as const) {
+      const html = buildDocumentHtml(model, doc, 'pdf')
+      expect(html, doc).toContain('Locations: Terminal')
+      expect(count(html, 'class="locations__pin'), doc).toBe(2)
+      expect(html, doc).toContain('Gate A1')
+      expect(html, doc).toContain('BHS &lt;room&gt;')
+      expect(html, doc).not.toContain('Unused')
+      expect(html, doc).toContain('maps/plan1/plan.png')
+    }
+  })
+
+  it('splits more than 12 places across pages', () => {
+    const model = fixtureModel()
+    const places = Array.from({ length: 14 }, (_, i) => pin(`p${i}`, `Place ${i}`))
+    model.scenario.msel[0] = { ...model.scenario.msel[0]!, placeIds: places.map((p) => p.id) }
+    model.maps = { formatVersion: 1, maps: [plan()], places }
+    const html = buildDocumentHtml(model, 'msel', 'pdf')
+    expect(count(html, 'class="locations"')).toBe(2)
+    expect(html).toContain('Locations: Terminal (1 of 2)')
+    expect(html).toContain('Locations: Terminal (2 of 2)')
+  })
+
+  it('adds nothing when the MSEL names no place', () => {
+    const model = fixtureModel()
+    model.maps = { formatVersion: 1, maps: [plan()], places: [pin('gate', 'Gate A1')] }
+    expect(buildDocumentHtml(model, 'msel', 'pdf')).not.toContain('class="locations"')
+  })
+})
+
 describe('document HTML', () => {
   it('MSEL: landscape named page, phases with goal rows, running header', () => {
     const model = fixtureModel()

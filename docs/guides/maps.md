@@ -4,11 +4,17 @@ Maps show where injects happen. Open **Maps** under Advanced in the sidebar.
 
 ## Site plans
 
-**Add site plan** takes a PNG, JPEG or WebP image up to 50 megapixels (a PDF page: save it as a
-PNG first). Add places (a name and a kind), pick one, then click the plan to pin it, or type the
+**Add site plan** takes a PNG, JPEG or WebP image up to 50 megapixels, or one page of a PDF (set
+**PDF page** first; the page is drawn at 200 dpi and the PDF is kept beside it). Add places (a name and a kind), pick one, then click the plan to pin it, or type the
 position as percent across and down. A place can name a facility fact such as `gates:A1`, and
 **Pin facility facts** lists facts not placed yet. Places belong to the project, so every scenario
-shares them. Give an MSEL row up to five places with its `placeIds`.
+shares them. Give an MSEL row up to five places from its row menu, **Places…**. When you generate an MSEL the
+model is given your place names; a row whose text names a place or its fact entry exactly gets that
+place without any model call.
+
+**Show map on screen** (Facilitate, Map tab) opens the map in the presentation window with only the
+delivered pins. The MSEL and controller handbook PDFs add **Locations** pages: each site plan with
+numbered markers (12 per page) and a legend of the rows.
 
 ## Facilitate
 
@@ -42,5 +48,12 @@ carries copied map data is distributing a Produced Work and must keep its attrib
 
 ## Not yet
 
-PDF pages, the presentation window, devices and export "Locations" pages, place labels on offline
-maps, and the generator filling `placeIds`.
+Sending the map to players' devices, place labels on offline maps (they need bundled fonts), the
+tile pyramid for very large plans, Locations pages for geographic maps, and the WebGL check on
+packaged Linux and Windows builds.
+
+## Map updates
+
+**Settings, Maps** has a switch to check for new state map files when the app checks for new
+versions. It needs the version check on, runs at most once a day, compares checksums only and
+downloads nothing.

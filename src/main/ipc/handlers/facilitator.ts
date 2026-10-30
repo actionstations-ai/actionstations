@@ -1,6 +1,7 @@
 import { BrowserWindow } from 'electron'
 import { AppError } from '../../lib/errors'
 import { exists } from '../../lib/fs'
+import { readProjectMaps } from '../../maps/project'
 import { requireProject } from '../../project/guard'
 import { readFacilitatorState, writeFacilitatorState } from '../../facilitator/state'
 import { logBranchEntries, publishClock } from '../../live/session'
@@ -86,6 +87,17 @@ export default defineHandlers({
     const owner = ownerWindow(ctx)
     present(
       { projectPath: root, scenarioId, decisionId },
+      { ...(displayId !== undefined ? { displayId } : {}), ...(owner ? { owner } : {}) },
+    )
+  },
+
+  'facilitator:present-map': async ({ projectPath, scenarioId, mapId, displayId }, ctx) => {
+    const root = await requireProject(projectPath)
+    const { maps } = await readProjectMaps(root)
+    if (!maps.maps.some((m) => m.id === mapId)) throw new AppError('NOT_FOUND', 'That map is gone')
+    const owner = ownerWindow(ctx)
+    present(
+      { projectPath: root, scenarioId, mapId },
       { ...(displayId !== undefined ? { displayId } : {}), ...(owner ? { owner } : {}) },
     )
   },

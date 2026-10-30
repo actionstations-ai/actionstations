@@ -5,6 +5,7 @@ import { PackFetchUrl } from '@shared/schemas/pack'
 import { MapsSettings, type MapCatalog } from '@shared/schemas'
 import type { CatalogView } from '@shared/ipc'
 import { compositeTile } from '../../maps/archives'
+import { snapshotMap } from '../../maps/snapshot'
 import {
   archivePartsFor,
   copyArchivesIntoProject,
@@ -214,6 +215,9 @@ export default defineHandlers({
     const root = await requireProject(projectPath)
     return { copied: await copyArchivesIntoProject(root, await geoLayer(root, mapId)) }
   },
+
+  'maps:snapshot': async ({ projectPath, scenarioId, mapId, audience }) =>
+    snapshotMap(await requireProject(projectPath), { scenarioId, mapId, audience }),
 
   'maps:locate': async ({ projectPath, mapId, filePath }) => {
     const root = await requireProject(projectPath)

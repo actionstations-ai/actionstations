@@ -26,13 +26,25 @@ export interface Plan {
   bounds?: [number, number, number, number]
 }
 
+/**
+ * Attribution is shown as text only. Archive metadata and catalog entries are data from outside
+ * the app (MapLibre 5 had an XSS through attribution strings, GHSA-jrc7-96c5-q579), so markup
+ * is removed and React renders the rest as plain text.
+ */
+export function plainAttribution(text: string): string {
+  return text
+    .replace(/<[^>]*>?/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 /** The style, attribution and starting bounds for a basemap that can be drawn. */
 export function planFor(b: BasemapView, projectPath: string, layer: Geo): Plan | undefined {
   if (b.mode === 'archive') {
     const tiles = `asmap://a/${encodeURIComponent(projectPath)}/${layer.id}/{z}/{x}/{y}`
     return {
       style: archiveStyle(b, tiles, layer.style),
-      attribution: b.attribution,
+      attribution: plainAttribution(b.attribution),
       bounds: b.bounds,
     }
   }
@@ -40,5 +52,5 @@ export function planFor(b: BasemapView, projectPath: string, layer: Geo): Plan |
   const style = b.style
     ? (b.style as unknown as StyleSpecification)
     : rasterStyle(b.rasterTiles ?? '', b.tileSize ?? 256)
-  return { style, attribution: b.attribution, attributionUrl: b.attributionUrl }
+  return { style, attribution: plainAttribution(b.attribution), attributionUrl: b.attributionUrl }
 }

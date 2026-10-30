@@ -256,6 +256,11 @@ export const facilitatorChannels = {
     S.extend({ decisionId: SafeId, displayId: z.number().optional() }),
     z.void(),
   ),
+  /** Show a map with only the delivered pins in the presentation window (#500, spec 0436 FR-8). */
+  'facilitator:present-map': channel(
+    S.extend({ mapId: SafeId, displayId: z.number().optional() }),
+    z.void(),
+  ),
   'facilitator:close-present': channel(z.void(), z.void()),
   /** Whether the presentation window is open (changes arrive as facilitator:present-changed). */
   'facilitator:present-status': channel(z.void(), z.object({ open: z.boolean() })),

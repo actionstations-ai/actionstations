@@ -13,6 +13,7 @@ import { formatDocDate, tr } from './lang'
 import type { ExportModel } from './model'
 import { DOC_LABELS, embeddedFontsCss, pageCss, type DocKey } from './page'
 import { printCss, renderExportTemplate, trusted } from './templates'
+import { locationPages } from './locations'
 import {
   assetSrc,
   deckView,
@@ -52,8 +53,19 @@ function footerText(model: ExportModel): string {
     .join(' · ')
 }
 
-function mselSection(model: ExportModel, prefix: string): string {
-  return renderExportTemplate('msel', mselView(model, prefix))
+/** The Locations pages of the site plans the MSEL uses (#500), with image URLs for `mode`. */
+function locationPagesFor(model: ExportModel, prefix: string, mode: RenderMode) {
+  return locationPages(model.maps, model.scenario, prefix).map((p) => ({
+    ...p,
+    src: assetSrc(model, p.image, mode),
+  }))
+}
+
+function mselSection(model: ExportModel, prefix: string, mode: RenderMode = 'pdf'): string {
+  return renderExportTemplate('msel', {
+    ...mselView(model, prefix),
+    pages: locationPagesFor(model, prefix, mode),
+  })
 }
 
 function deckSection(model: ExportModel, prefix: string, mode: RenderMode): string {
@@ -84,7 +96,7 @@ function bodyMarkdown(md: string, facts: { label: string }[]): string {
   )
 }
 
-function handbookSection(model: ExportModel, prefix: string): string {
+function handbookSection(model: ExportModel, prefix: string, mode: RenderMode = 'pdf'): string {
   const { scenario: s, docs } = model
   const facts = titleFacts(model, [['Exercise date', '____________']])
   const md = withHazardSection(model, withSeamSection(s, bodyMarkdown(docs.handbook, facts)))
@@ -113,6 +125,7 @@ function handbookSection(model: ExportModel, prefix: string): string {
           ? trusted(documentBodyHtml(docs.hotwash, 3))
           : undefined,
       simcell: hasHeading(md, /simcell script/i) ? [] : s.simcellScripts,
+      pages: locationPagesFor(model, prefix, mode),
       endNote: tr(model.lang, 'End of Handbook'),
     },
     model.lang,
@@ -300,13 +313,13 @@ function wrap(model: ExportModel, doc: ExportDoc, body: string, forms: EmbeddedF
 export function buildDocumentHtml(model: ExportModel, doc: ExportDoc, mode: RenderMode): string {
   switch (doc) {
     case 'msel':
-      return wrap(model, doc, mselSection(model, ''), [])
+      return wrap(model, doc, mselSection(model, '', mode), [])
     case 'path':
       return wrap(model, doc, renderExportTemplate('path', pathView(model, '')), [])
     case 'deck':
       return wrap(model, doc, deckSection(model, '', mode), [])
     case 'handbook':
-      return wrap(model, doc, handbookSection(model, ''), [])
+      return wrap(model, doc, handbookSection(model, '', mode), [])
     case 'eeg':
       return wrap(model, doc, eegSection(model, ''), [])
     case 'aar':

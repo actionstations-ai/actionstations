@@ -67,7 +67,8 @@ export function renderExportTemplate(
 /** Mark HTML produced by trusted code (sanitized markdown, template forms) as safe. */
 export const trusted = (html: string): Handlebars.SafeString => new hb.SafeString(html)
 
-export const printCss = (): string => readTemplateFile('print.css')
+export const printCss = (): string =>
+  `${readTemplateFile('print.css')}\n${readTemplateFile('locations.css')}`
 
 /** Styles for survey forms and results (#422), added after print.css. */
 export const surveyCss = (): string => readTemplateFile('survey.css')

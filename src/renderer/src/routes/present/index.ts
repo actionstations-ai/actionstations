@@ -12,6 +12,10 @@ export const routes: RouteDef[] = [
     component: lazy(() => import('./PresentDecision')),
   },
   {
+    path: '/present/:projectKey/:scenarioId/map/:mapId',
+    component: lazy(() => import('./PresentMap')),
+  },
+  {
     path: '/present/:projectKey/:scenarioId/hotwash/board',
     component: lazy(() => import('./PresentHotwash')),
   },

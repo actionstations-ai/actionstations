@@ -1,13 +1,15 @@
 // Maps (#436): a site plan with pinned places in Facilitate, a PMTiles map file read through
 // maps:tile, and online maps against a local tile server. Nothing here reaches a real tile
 // server: the tile provider is a loopback HTTP server, and online maps start switched off.
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { invoker, launch } from './helpers'
+import { goTo, invoker, launch } from './helpers'
+import { buildPdf } from '../tests/fixtures/ingest/builders'
 import { makePmtiles, solidPng } from '../tests/fixtures/maps/files'
 
 const FIXTURE = JSON.parse(
@@ -192,5 +194,97 @@ test('maps: site plan pins in Facilitate, a map file through maps:tile, online m
   } finally {
     await app.close()
     await tiles.close()
+  }
+})
+
+test('maps follow-ups: PDF site plan, row places picker, snapshot, map on the presentation window', async () => {
+  test.setTimeout(120_000)
+  const { app, page } = await launch()
+  const invoke = invoker(page)
+  try {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-e2e-maps2-'))
+    const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+      parentDir: dir,
+      name: 'Maps follow-ups',
+    })
+    const empty = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
+      projectPath,
+      title: 'Smoke at the gate',
+    })
+    const msel = FIXTURE.msel.map((r) => ({ ...r, placeIds: r.id === 'I-01' ? ['gate'] : [] }))
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...FIXTURE, msel, id: empty.id, projectId: empty.projectId },
+    })
+
+    // A page of a PDF becomes the site plan: plan.png for display, source.pdf kept.
+    const pdf = join(dir, 'terminal.pdf')
+    writeFileSync(pdf, buildPdf([{ lines: [{ text: 'Level 1', size: 24 }] }]))
+    const added = await invoke<Maps & { mapId: string }>('maps:import-plan', {
+      projectPath,
+      filePath: pdf,
+      title: 'Terminal PDF',
+      page: 1,
+    })
+    const layer = added.maps.maps[0] as { image: string; source: string; width: number }
+    expect(layer.image).toMatch(/plan\.png$/)
+    expect(layer.source).toMatch(/source\.pdf$/)
+    expect(readFileSync(join(projectPath, layer.image)).subarray(1, 4).toString()).toBe('PNG')
+    const place = (id: string, label: string, kind: string, x: number, y: number) => ({
+      id,
+      label,
+      kind,
+      note: '',
+      positions: [{ mapId: added.mapId, x, y }],
+    })
+    await invoke('maps:save', {
+      projectPath,
+      revision: added.revision,
+      maps: {
+        ...added.maps,
+        places: [
+          place('gate', 'Gate A1', 'incident', 20, 30),
+          place('eoc', 'EOC', 'command', 70, 60),
+        ],
+      },
+    })
+
+    // The MSEL row menu opens the places picker, which saves the ticked place.
+    const key = encodeURIComponent(projectPath)
+    await goTo(page, `#/p/${key}/scenarios/${empty.id}`)
+    await page.getByRole('tab', { name: /^MSEL/ }).click()
+    await page.getByRole('button', { name: 'Actions for I-06', exact: true }).click()
+    await page.getByRole('menuitem', { name: 'Places…' }).click()
+    const dialog = page.getByRole('dialog', { name: 'Places for I-06' })
+    await dialog.getByRole('checkbox', { name: 'EOC' }).check()
+    const found = await new AxeBuilder({ page })
+      .setLegacyMode(true)
+      .include('[role="dialog"]')
+      .analyze()
+    expect(found.violations.map((v) => v.id)).toEqual([])
+    await dialog.getByRole('button', { name: 'Save' }).click()
+    await expect(dialog).toHaveCount(0)
+
+    // A snapshot of the plan is a PNG made with the map_annotation template. Nothing is
+    // delivered, so the room view has no markers; the facilitator view has them.
+    const request = { projectPath, scenarioId: empty.id, mapId: added.mapId }
+    await expect(invoke('maps:snapshot', { ...request, audience: 'room' })).rejects.toThrow(
+      /No places to show/,
+    )
+    const snap = await invoke<{ path: string }>('maps:snapshot', {
+      ...request,
+      audience: 'facilitator',
+    })
+    expect(snap.path).toMatch(/^\.cache\/maps\/[0-9a-f]{24}\.png$/)
+    expect(readFileSync(join(projectPath, snap.path)).subarray(1, 4).toString()).toBe('PNG')
+
+    // The presentation window opens on the map and closes cleanly.
+    await invoke('facilitator:present-map', request)
+    expect(await invoke<{ open: boolean }>('facilitator:present-status', undefined)).toEqual({
+      open: true,
+    })
+    await invoke('facilitator:close-present', undefined)
+  } finally {
+    await app.close()
   }
 })

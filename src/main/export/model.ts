@@ -9,12 +9,14 @@ import {
   type ConductDetails,
   type Inject,
   type Project,
+  type ProjectMaps,
   type Scenario,
   type Survey,
   type SurveySummary,
 } from '@shared/schemas'
 import type { DecisionRecord } from '@shared/ipc/facilitator'
 import { readAar } from '../aar/store'
+import { readProjectMaps } from '../maps/project'
 import { readFacilitatorState } from '../facilitator/state'
 import { safeJoinReal } from '../lib/fs'
 import { loadProject } from '../project/store'
@@ -77,6 +79,8 @@ export interface ExportModel {
   decisions?: DecisionRecord[]
   /** Handbook appendix text for the scenario's hazard snapshot (#439); absent without one. */
   hazardAppendix?: string
+  /** The project's maps and places (#500), for the Locations pages; absent when none. */
+  maps?: ProjectMaps
   /** Document language (spec 0435); English when absent. */
   lang?: DocLang
   /** Blank copies of the EEG packet, one per evaluator seat (#421); one when absent. */
@@ -155,6 +159,20 @@ export async function loadExportModel(
     decisions: (await readFacilitatorState(root, scenarioId)).branching?.decisions ?? [],
     ...(await optionalCoverage(root, scenarioId, now)),
     ...(await optionalHazards(root, scenario)),
+    ...(await optionalMaps(root, scenario)),
+  }
+}
+
+/** The project's maps when the MSEL uses a place; a plan image missing on disk is left out. */
+async function optionalMaps(root: string, scenario: Scenario): Promise<{ maps?: ProjectMaps }> {
+  if (!scenario.msel.some((r) => r.placeIds?.length)) return {}
+  try {
+    const { maps } = await readProjectMaps(root)
+    const shown = maps.maps.filter((m) => m.kind !== 'site_plan' || insideProject(root, m.image))
+    return maps.places.length ? { maps: { ...maps, maps: shown } } : {}
+  } catch (e) {
+    console.error('[export] maps not read:', (e as Error).message)
+    return {}
   }
 }
 

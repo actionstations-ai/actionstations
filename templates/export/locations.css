@@ -1,0 +1,51 @@
+.locations {
+  break-before: page;
+}
+.locations__map {
+  position: relative;
+  display: block;
+  max-width: 100%;
+}
+.locations__base {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #000;
+}
+.locations__pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 1.4em;
+  height: 1.4em;
+  padding: 0 0.2em;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #1f3a5f;
+  color: #fff;
+  font-weight: 700;
+  font-size: 9pt;
+  line-height: 1.4em;
+  text-align: center;
+  box-sizing: border-box;
+}
+.locations__pin.loc-incident {
+  background: #b3261e;
+}
+.locations__pin.loc-staging {
+  background: #8a5a00;
+}
+.locations__pin.loc-command {
+  background: #1f3a5f;
+}
+.locations__pin.loc-info {
+  background: #444;
+}
+.locations__legend {
+  margin: 0.6em 0 0;
+  padding-left: 1.4em;
+  columns: 2;
+}
+.locations__legend li {
+  break-inside: avoid;
+  margin-bottom: 0.2em;
+}

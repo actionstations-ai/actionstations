@@ -28,6 +28,8 @@ export interface PresentTarget {
   hotwash?: boolean
   /** Show a branch decision: the question, its options and, once taken, the choice (#430). */
   decisionId?: string
+  /** Show the delivered pins of this map instead of an inject (#500). */
+  mapId?: string
 }
 
 /** Preview size when there is no second display. */
@@ -67,6 +69,9 @@ export function presentHash(t: PresentTarget): string {
   }
   if (t.decisionId) {
     return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/decision/${t.decisionId}`
+  }
+  if (t.mapId) {
+    return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/map/${encodeURIComponent(t.mapId)}`
   }
   if (t.hotwash) {
     return `/present/${encodeURIComponent(t.projectPath)}/${t.scenarioId}/hotwash/board`
