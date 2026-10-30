@@ -159,6 +159,11 @@ export const liveChannels = {
       text: z.string(),
     }),
   ),
+  /** Play a phone, radio or voicemail row as a call on the devices it is for (spec 0429). */
+  'live:inject-call': channel(
+    S.extend({ rowId: SafeId }),
+    z.object({ callId: z.string(), turn: z.number() }),
+  ),
   /** Show a vote's tally in the presentation window. */
   'live:vote-present': channel(
     S.extend({ voteId: z.string(), displayId: z.number().optional() }),

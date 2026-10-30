@@ -32,6 +32,8 @@ export interface LiveDelivery {
   release: (rowId: string, targets?: Destination[]) => Promise<void>
   resend: (releaseId: string, targets: Destination[]) => Promise<void>
   withdraw: (rowId: string) => Promise<void>
+  /** Play a phone, radio or voicemail row as a call on the devices it is for (spec 0429). */
+  ringAsCall: (rowId: string) => Promise<void>
 }
 
 export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDelivery {
@@ -107,6 +109,15 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
     [byRow, req, refresh],
   )
 
+  const ringAsCall = useCallback(
+    async (rowId: string) => {
+      await call('live:inject-call', { ...req, rowId })
+      // The call replaces the inbox copy: Deliver then only stamps the row and shows the media.
+      setOpts((o) => ({ ...o, [rowId]: { ...o[rowId], sendToDevices: false } }))
+    },
+    [req],
+  )
+
   return {
     active,
     options,
@@ -119,6 +130,7 @@ export function useLiveDelivery(projectPath: string, scenarioId: string): LiveDe
     release,
     resend,
     withdraw,
+    ringAsCall,
   }
 }
 

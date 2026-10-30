@@ -45,7 +45,7 @@ import type { FacilitatorState } from '@shared/ipc/facilitator'
 import { readFacilitatorState } from '../facilitator/state'
 import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
-import { getScenario } from '../scenario/store'
+import { getScenario, listInjects } from '../scenario/store'
 import { appendResponse, readSurvey } from '../surveys/store'
 import { rebuildSurveyResponses } from './survey-replay'
 import { inviteViews } from './invites'
@@ -82,6 +82,7 @@ import {
   type StaffNotice,
 } from './live-control'
 import { trackClients } from './dashboard'
+import { callFromRow, isCallInject } from './inject-call'
 import { hostRoster, rosterView } from './regional-roster'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
@@ -1333,6 +1334,32 @@ export async function publishClock(
     actor: { kind: 'controller' },
     data: { ...payload },
   })
+}
+
+/**
+ * Play a phone, radio or voicemail inject as a call on the devices it is for. The first line is
+ * the inject's own words; the SimCell takes over from the players' answers. Logged as a call.
+ */
+export async function ringInjectAsCall(
+  root: string,
+  scenarioId: string,
+  rowId: string,
+): Promise<{ callId: string; turn: number }> {
+  const a = activeFor(root, scenarioId)
+  const scenario = await getScenario(root, scenarioId)
+  const row = scenario.msel.find((r) => r.id === rowId)
+  if (!row) throw new AppError('NOT_FOUND', `No MSEL row ${rowId}`)
+  const injects = await listInjects(root, scenarioId)
+  const inject = injects.find((i) => i.mselRowId === row.id || i.id === row.injectId)
+  if (inject && !isCallInject(inject)) {
+    throw new AppError(
+      'VALIDATION',
+      'Only a phone call, radio call or voicemail can ring as a call',
+    )
+  }
+  const call = callFromRow(row, inject, scenario.roles)
+  if (!call.transcript) throw new AppError('VALIDATION', 'This row has no words to say')
+  return a.calls.ring({ ...call, canSpeak: false })
 }
 
 /** Send the regional co-controller roster to every device and remember it for late joiners. */
