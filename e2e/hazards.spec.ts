@@ -131,6 +131,32 @@ test('hazard data: off by default, consent dialog, fetch, snapshot, ideas with c
     expect(ideas.length).toBeGreaterThan(0)
     expect(ideas[0]!.hazardSnapshotId).toBe(list.active)
     expect(server.hits.length).toBe(hitsAfterFetch)
+
+    // An imported layer is parsed in a worker thread and joins the snapshot (#506).
+    const csv = join(work, 'hospitals.csv')
+    writeFileSync(csv, 'name,type,latitude,longitude\nLakeside General,Hospital,41.9,-87.6\n')
+    const withLayer = await invoke<{ infrastructure: { layer: string; features: unknown[] }[] }>(
+      'hazards:import-layer',
+      { projectPath, file: csv, layer: 'Hospitals', source: 'HIFLD archive', radiusKm: 50 },
+    )
+    expect(withLayer.infrastructure[0]).toMatchObject({ layer: 'Hospitals' })
+    expect(withLayer.infrastructure[0]!.features).toHaveLength(1)
+
+    // The scenario's provenance names the snapshot it was written with.
+    const scenario = await invoke<{ id: string }>('scenarios:create-empty', {
+      projectPath,
+      title: 'Flood drill',
+      brief: { hazardSnapshotId: list.active },
+    })
+    await goTo(page, `#/p/${key}/scenarios/${scenario.id}`)
+    await page.getByText('Advanced information', { exact: true }).click()
+    const provenance = page.getByRole('region', { name: 'Hazard context' })
+    await expect(provenance).toBeVisible()
+    await expect(
+      provenance.getByRole('table', { name: 'Sources of the hazard snapshot' }),
+    ).toBeVisible()
+    expect(await axeViolations(page)).toEqual([])
+    expect(server.hits.length).toBe(hitsAfterFetch)
   } finally {
     await app.close()
     rmSync(work, { recursive: true, force: true })

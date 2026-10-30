@@ -6,7 +6,8 @@ import { join } from 'node:path'
 import { parseCsv } from './csv'
 import * as fx from './fixtures'
 import { clampDays, firmsUrl, isValidMapKey, maskedFirmsUrl, parseFires } from './firms'
-import { importLayerFile, pointsFromCsv, pointsFromGeoJson, toLayer } from './infrastructure'
+import { pointsFromCsv, pointsFromGeoJson, toLayer } from './infrastructure'
+import { importLayerFile, runLayerWorker } from './layer-host'
 import { alertsUrl, forecastUrlOf, parseAlerts, parseForecast } from './nws'
 import { declarationsUrl, parseDeclarations } from './openfema'
 import { clampQuery, historicalUrl, parseQuakes, recentUrl } from './usgs'
@@ -180,5 +181,43 @@ describe('layer import', () => {
       { layer: 'Pumps', source: 'x', radiusKm: 50 },
     )
     expect(layer.features.map((f) => f.name)).toEqual(['Harbor, North'])
+  })
+})
+
+describe('layer worker host', () => {
+  const request = {
+    file: 'x.csv',
+    where: { lat: 41.88, lon: -87.63 },
+    input: { layer: 'Pumps', source: 'x', radiusKm: 50 },
+  }
+  const script = (body: string): string => {
+    const file = join(mkdtempSync(join(tmpdir(), 'ttx-layer-worker-')), 'w.mjs')
+    writeFileSync(file, body)
+    return file
+  }
+
+  it('returns the layer a worker posts', async () => {
+    const layer = { layer: 'Pumps', source: 'x', features: [] }
+    const file = script(
+      `import { parentPort } from 'node:worker_threads'\nparentPort.postMessage({ ok: true, layer: ${JSON.stringify(layer)} })`,
+    )
+    await expect(runLayerWorker(file, request)).resolves.toEqual(layer)
+  })
+  it('turns a worker error reply into an AppError with its code', async () => {
+    const file = script(
+      `import { parentPort } from 'node:worker_threads'\nparentPort.postMessage({ ok: false, code: 'VALIDATION', message: 'bad file' })`,
+    )
+    await expect(runLayerWorker(file, request)).rejects.toMatchObject({
+      code: 'VALIDATION',
+      message: 'bad file',
+    })
+  })
+  it('stops a worker that never answers', async () => {
+    const file = script('setInterval(() => {}, 1000)')
+    await expect(runLayerWorker(file, request, 200)).rejects.toThrow(/took too long/)
+  })
+  it('reports a worker that crashes', async () => {
+    const file = script('throw new Error("boom")')
+    await expect(runLayerWorker(file, request)).rejects.toThrow(/crashed/)
   })
 })
