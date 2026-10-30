@@ -236,4 +236,18 @@ describe('M1: a participant cannot make the hub replay the store at will', () =>
     })
     expect(again.closed).toBeUndefined()
   })
+
+  it('refuses a controller seq far beyond the window and still delivers its later frames (#529)', async () => {
+    const h = await hub()
+    const ctl = sock()
+    const c = await h.attach(ctl, { clientId: id(9), controller: true })
+    const dev = sock()
+    const d = await h.attach(dev, { clientId: id(1), joinToken: JOIN, resumeToken: resume(1) })
+    void d
+    c.receive(frame(id(9), Number.MAX_SAFE_INTEGER, 'session.end'))
+    expect(ctl.errors('INVALID')).toBe(1)
+    c.receive(frame(id(9), 1, 'clock.state'))
+    c.receive(frame(id(9), 2, 'clock.state'))
+    expect(dev.frames.filter((f) => f.includes('"clock.state"'))).toHaveLength(2)
+  })
 })
