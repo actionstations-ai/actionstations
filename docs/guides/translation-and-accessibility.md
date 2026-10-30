@@ -19,7 +19,7 @@ On the Export screen, **Player material** sets the language of the Player Briefi
 - The Spanish files are written to an `es/` folder of the export, with `-es` in their names. In the distribution ZIP they are in `players/es/`, and everything is also in `facilitator/`. With **Spanish** alone, the English briefing and handouts are left out of `players/`.
 - **The export is refused while any translated item is not reviewed.** The message lists the items. Review them, or tick **Export unreviewed translation**: every page then carries "Traducción automática sin revisar / Unreviewed machine translation" in its footer.
 - **Also write the controller material in Spanish** puts the handbook and the controller materials in `facilitator/es/`. They never go to `players/`.
-- The blank ICS 201 and 203 forms, the ExPlan, the player Situation Manual and the survey forms stay English.
+- The blank ICS 201 and 203 forms, the ExPlan, the player Situation Manual and the debrief survey forms stay English. Participant surveys are translated (see below).
 - Dates and the page chrome follow the language (`es-US`). The exercise marking in a Spanish document is "EJERCICIO — PARA USO EN ENTRENAMIENTO" unless the exercise details set another marking. FEMA's Spanish HSEEP doctrine calls an exercise "ejercicio" and sets no banner text, so "EJERCICIO" is the term; the wording after the dash is ours, and you can change it in the exercise details.
 - Pictures of text-bearing injects (tweets, memos, notices) are drawn again from their template with the Spanish text and the template's Spanish labels when the export runs; photographs are reused.
 
