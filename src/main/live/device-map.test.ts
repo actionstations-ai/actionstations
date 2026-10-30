@@ -202,7 +202,7 @@ describe('DeviceMap', () => {
     send.mockClear()
     let unblock = () => {}
     const gate = new Promise<void>((r) => (unblock = r))
-    send.mockImplementationOnce(async () => gate)
+    send.mockImplementationOnce(async () => gate.then(() => undefined))
     // A second release makes the first refresh send, and hold on that send.
     state.releases = [release('T-1', ['role:ops']), release('T-2', ['role:ops'])]
     const first = map.refresh()
