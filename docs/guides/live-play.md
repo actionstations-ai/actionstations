@@ -277,6 +277,12 @@ The log is a plain file in the project folder (`scenarios/<id>/live/<sessionId>/
 
 While a session runs, the Live tab lists the devices by seat. **Remove** disconnects one device and moves everyone else to a new key, so the removed device cannot read anything sent afterwards or join again with its link. **Replace keys** does the same with no one removed: use it when a join link was shared too widely. Links you shared before stop working for new devices, devices already connected carry on, and the QR codes on the Live tab show the new links. Both are recorded in the log.
 
+### Calls, rosters and exports
+
+- **Ring as a call.** For a phone, radio or voicemail inject, **Ring players as a call** in the Devices section rings the devices it is for with the inject's words, from the row's sender. The players' answers go to the SimCell as for any call.
+- **Co-controllers.** In a regional exercise you host, the Live tab lists the partner organizations that may release their own rows and roles, and sends that list to every device (again on **Send roster to devices**, after you pin a partner's key).
+- **Export.** Tick **Live session logs (JSON)** on the Export page to write one file per live session into `live-sessions/`, and into `facilitator/live-sessions/` of the ZIP. Display names are left out and nothing goes to `players/`.
+
 ### Showing a decision on the screen
 
 **Show on screen** beside a branch decision opens it in the presentation window: the question and the options while the room decides, then the chosen option and how it was chosen ("Chosen by majority: 7 of 11"). The screen follows the decision when you close it.
@@ -311,11 +317,14 @@ Evaluators join with the **staff link** (Live tab, **Show staff link**) and choo
 - **Group and promote.** Tick items (keyboard or touch), then **Group selected**, **Name group**, **Promote**. A promoted group is one finding ("name (3 contributions)") in the Hot wash tab under **From devices** and in the AAR/IP draft. **Edit text** fixes a typo; the original stays in the log. **Tag** links items to an objective, capability or inject. A promoted item is locked until you **Unpromote** it.
 - **Projector.** **Show on screen** shows the promoted items only, large, with no roles, names or counts.
 - **Close.** **Close on devices** makes the board read-only.
+- **Past sessions.** **Hot wash** on a row of the Past sessions list shows that session's board, rebuilt from its log, read only. Your own items keep their "yours" mark if you reload the page.
 
 ## Surveys on devices
 
 - **Send.** On a survey's **Deliver** dialog (Surveys page) or in the **Live** tab under **Surveys on devices**, press **Send to devices**. Everyone in the session gets a banner, **Answer the survey**, and the survey is under **More, Surveys**. Each row shows how many devices have answered, not who.
 - **Answer.** Scales are rows of numbers 1 to 5 (the ends are named in the question), choices are radio buttons or check boxes, free text is a box. Required questions are checked before sending. Answers go out at once or when the connection returns, and can be changed until the survey closes.
 - **Anonymous.** Nothing an answer carries, and nothing the app stores with it, says which person, seat or device sent it. Results appear on the survey's Results tab with the same minimum of responses as paper forms.
+- **After a crash.** Resuming a session, or closing it as ended, puts back any survey answer that reached the log but not the results file.
+- **After ENDEX.** Once you deliver the ENDEX row, a short "After the exercise" list shows whether the hot wash and participant feedback are done.
 - **Close.** **Close survey** stops answers and tells devices; a closed survey stays readable. **Send again** opens a new round whose answers are added to the same results.
 - **After the exercise, on phones.** With no session running, **Start a survey session and send** opens a session on this computer for surveys only. Show the join code (**Join with a phone**); participants scan it and see surveys and nothing else. **End survey session** stops the listener. Your computer and the phones must be on the same network, as for live play.

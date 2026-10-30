@@ -294,10 +294,11 @@ Built: schemas, templates, store, summaries, IPC, the builder / preview / result
 - **Survey-only session.** `Seats` gets `surveyOnly`: the only seat is "Participant" (the observer seat), `welcome.features` has only `surveys` on, `session.json` records `surveyOnly`, and responses are tagged `channel: 'qr'`. The player preselects the single seat and opens on More.
 - **Scale labels.** `survey.open` has no label fields, so `toWireSurvey` appends "(1 = low label, 5 = high label)" to rating and confidence questions.
 - **Player.** `src/player/features/surveys/` (`SurveysScreen`, `SurveyForm`, `SurveyBanner`, pure helpers); answers go through the outbox as `survey.response`. A draft that has not been sent is not kept across a reload (the spec's draft-in-outbox is dropped; sent answers are queued).
-- **Facilitate.** `SurveySend` (Live tab section and the Deliver dialog) with `use-live-surveys`. The post-ENDEX checklist entry is not built.
-- **Not built.** Rebuilding the response file from the log after a crash (replay), the checklist entry, Electron e2e for the Deliver dialog (the harness e2e `e2e/live/surveys.spec.ts` covers the player side with four devices).
+- **Facilitate.** `SurveySend` (Live tab section and the Deliver dialog) with `use-live-surveys`. The post-ENDEX checklist (`PostExerciseChecklist`) appears above the side panel once an ENDEX row is delivered: hot wash, participant feedback and the after-action report, each marked Done or To do in words (#494).
+- **Replay.** `survey-replay.ts` puts back every logged `survey.response` the response file lacks, by response id, when a session is resumed or closed as ended (#494).
+- **Not built.** Electron e2e for the Deliver dialog (the harness e2e `e2e/live/surveys.spec.ts` covers the player side with four devices).
 
-Not built yet (follow-ups): task 5 (`survey_items` generation), the post-ENDEX checklist entry of task 7, the Participant Feedback Form as DOCX and the Excel "Survey results" sheet (#420), the Scenario 3 golden fixture test, and surveys in the example projects.
+Not built yet (follow-ups): task 5 (`survey_items` generation), the Participant Feedback Form as DOCX and the Excel "Survey results" sheet (#420), the Scenario 3 golden fixture test, and surveys in the example projects.
 
 ## Open questions
 
