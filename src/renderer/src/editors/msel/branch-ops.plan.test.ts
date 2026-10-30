@@ -27,6 +27,22 @@ const plan = (rows: ReturnType<typeof mselRow>[]) => ({
 })
 
 describe('applyBranchPlan (#430)', () => {
+  it('leaves an unlocked row owned by another organization unchanged (#497)', () => {
+    const base = branchedDraft()
+    const owned = {
+      ...base,
+      rows: base.rows.map((r) =>
+        r.row.id === 'I-12a' ? { ...r, row: { ...r.row, owner: 'partner' } } : r,
+      ),
+    }
+    const regional = { thisOrg: 'me', orgs: new Map() }
+    const d = applyBranchPlan(owned, plan([mselRow('I-20a', '1:45', { branchId: 'b1' })]), regional)
+    const kept = draftMsel(d).find((r) => r.id === 'I-12a')
+    expect(kept).toEqual(draftMsel(owned).find((r) => r.id === 'I-12a'))
+    expect(ids(d)).toContain('I-20a')
+    expect(ids(d)).not.toContain('I-11a')
+  })
+
   it('replaces the unlocked rows of the planned branch and keeps every other row', () => {
     const d = applyBranchPlan(branchedDraft(), plan([mselRow('I-20a', '1:45', { branchId: 'b1' })]))
     expect(ids(d)).toContain('I-20a')

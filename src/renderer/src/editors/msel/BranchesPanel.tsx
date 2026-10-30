@@ -44,7 +44,7 @@ interface PanelProps {
   onFilter: (f: PathFilter) => void
   onJump: (rowId: string) => void
   /** Where the model drafts branch rows; without it the panel has no generate button. */
-  generate?: Pick<GenerateBranchesProps, 'projectPath' | 'scenarioId' | 'dirty'>
+  generate?: Pick<GenerateBranchesProps, 'projectPath' | 'scenarioId' | 'dirty' | 'regional'>
 }
 
 function PathFilterSelect(props: Pick<PanelProps, 'draft' | 'filter' | 'onFilter'>) {

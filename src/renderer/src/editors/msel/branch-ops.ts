@@ -6,6 +6,7 @@ import type { BranchPlanResult } from '@shared/branching/proposal'
 import type { Branch, Decision, MselRow } from '@shared/schemas/scenario'
 import { defaultDecisions } from '@shared/branching/default-path'
 import { ancestors, buildGraph, pathOrder, subtree } from '@shared/branching/graph'
+import { isPartnerRow, type RegionalView } from './owner'
 import { newRowKey, sortRows, type Draft, type DraftRow } from './model'
 
 export const MAX_OPTIONS = 6
@@ -322,9 +323,11 @@ export function decisionSummary(decision: Decision): string {
  * Applies a drafted branch plan (#430): the unlocked rows of each planned branch are replaced by
  * the drafted rows, and the branch takes the drafted label, rationale and rejoin row.
  */
-export function applyBranchPlan(d: Draft, plan: BranchPlanResult): Draft {
+export function applyBranchPlan(d: Draft, plan: BranchPlanResult, regional?: RegionalView): Draft {
   const planned = new Map(plan.branches.map((b) => [b.branchId, b]))
-  const kept = d.rows.filter((r) => !(planned.has(r.row.branchId ?? '') && !r.row.locked))
+  const kept = d.rows.filter(
+    (r) => !(planned.has(r.row.branchId ?? '') && !r.row.locked && !isPartnerRow(r.row, regional)),
+  )
   const added: DraftRow[] = []
   for (const b of plan.branches) {
     for (const row of b.rows) {

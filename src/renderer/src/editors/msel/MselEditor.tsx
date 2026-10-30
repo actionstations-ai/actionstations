@@ -239,7 +239,12 @@ export function MselEditor(props: { projectPath: string; scenario: Scenario; jum
         filter={path.filter}
         onFilter={path.set}
         onJump={jumpTo}
-        generate={{ projectPath, scenarioId: scenario.id, dirty: isDirty(state) }}
+        generate={{
+          projectPath,
+          scenarioId: scenario.id,
+          dirty: isDirty(state),
+          regional: ctx.regional,
+        }}
       />
       <SourceCheckBar
         projectPath={projectPath}

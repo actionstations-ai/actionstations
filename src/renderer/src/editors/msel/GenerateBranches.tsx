@@ -10,6 +10,7 @@ import { errorText } from '../../lib/errors'
 import { useJob } from '../../routes/generate/use-job'
 import { applyBranchPlan } from './branch-ops'
 import type { Draft } from './model'
+import type { RegionalView } from './owner'
 
 export interface GenerateBranchesProps {
   projectPath: string
@@ -19,6 +20,8 @@ export interface GenerateBranchesProps {
   draft: Draft
   edit: (next: Draft) => void
   decisionRowId: string
+  /** Rows another organization owns are never replaced (#497). */
+  regional?: RegionalView | undefined
 }
 
 function PlanReview(props: { plan: BranchPlanResult; onApply: () => void; onDiscard: () => void }) {
@@ -117,7 +120,7 @@ export function GenerateBranches(props: GenerateBranchesProps) {
           plan={plan}
           onDiscard={() => setPlan(undefined)}
           onApply={() => {
-            props.edit(applyBranchPlan(props.draft, plan))
+            props.edit(applyBranchPlan(props.draft, plan, props.regional))
             setPlan(undefined)
           }}
         />
