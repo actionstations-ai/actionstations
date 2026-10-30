@@ -39,6 +39,9 @@ export function docsInScope(scenario: Pick<Scenario, 'languages'>): Translatable
   return docs
 }
 
-export type ItemRef = { kind: 'doc'; id: TranslatableDoc } | { kind: 'inject'; id: string }
+export type ItemRef =
+  | { kind: 'doc'; id: TranslatableDoc }
+  | { kind: 'inject'; id: string }
+  | { kind: 'survey'; id: string }
 
 export const itemKey = (ref: ItemRef): string => `${ref.kind}:${ref.id}`

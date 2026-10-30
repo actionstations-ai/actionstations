@@ -10,7 +10,7 @@ modelHints:
 retrieval:
   queries: []
   k: 1
-variables: [languageName, audience, glossary, isDocument, source]
+variables: [languageName, audience, glossary, isDocument, isSurvey, source]
 ---
 
 <!-- @system -->
@@ -30,7 +30,7 @@ Rules:
 {{#if glossary.length}}Fixed terms (English to {{languageName}}):
 {{#each glossary}}- "{{term}}" = "{{translation}}"
 {{/each}}{{/if}}
-{{#if isDocument}}The source is a Markdown document. Return JSON with one key, "markdown": the translated document. Keep every heading, list, table and link in the same order and structure.{{else}}The source is a JSON object with a "title" and the translatable "fields" of one message. Return JSON with the same keys and the same shape: "title" and "fields", with every string translated and nothing else changed. Do not add or drop keys.{{/if}}
+{{#if isSurvey}}The source is a JSON object of a survey's words. Each key is a position in the survey and each value is the English text there (a title, an intro in Markdown, a question, a help line, an answer choice or a scale label). Return JSON with one key, "texts": an object with exactly the same keys, every value translated. Keep Markdown formatting. Questions stay questions and scale labels stay short. Do not add or drop keys.{{else if isDocument}}The source is a Markdown document. Return JSON with one key, "markdown": the translated document. Keep every heading, list, table and link in the same order and structure.{{else}}The source is a JSON object with a "title" and the translatable "fields" of one message. Return JSON with the same keys and the same shape: "title" and "fields", with every string translated and nothing else changed. Do not add or drop keys.{{/if}}
 
 Return JSON only. Start your reply with the opening brace of the JSON object.
 <!-- @user -->

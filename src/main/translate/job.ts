@@ -18,6 +18,8 @@ import type { ResolvedText } from '../providers/resolve'
 import type { RenderedPrompt } from '../prompts'
 import { getScenario, readScenarioDoc } from '../scenario/store'
 import { loadProject } from '../project/store'
+import { readSurvey } from '../surveys/store'
+import { saveSurveyTranslation, surveyTexts } from './survey'
 import { translatableFields } from './fields'
 import { effectiveGlossary } from './glossary'
 import { itemKey, type ItemRef } from './scope'
@@ -36,6 +38,7 @@ const AUDIENCE: Record<SupportedLanguage, string> = {
 }
 
 const DocOutput = z.object({ markdown: z.string().min(1) })
+const SurveyOutput = z.object({ texts: z.record(z.string(), z.unknown()) })
 const InjectOutput = z.object({
   title: z.string(),
   fields: z.record(z.string(), z.unknown()),
@@ -89,18 +92,26 @@ interface Call {
   scenarioId: string
 }
 
+const SPEC_NAMES = {
+  doc: 'TranslateDocument',
+  inject: 'TranslateInject',
+  survey: 'TranslateSurvey',
+} as const
+
 async function ask<T>(
   call: Call,
   source: string,
-  isDocument: boolean,
+  kind: 'doc' | 'inject' | 'survey',
   schema: z.ZodType<T>,
   itemId: string,
 ): Promise<T> {
+  const isDocument = kind === 'doc'
   const vars = {
     languageName: LANGUAGE_NAMES[call.lang],
     audience: AUDIENCE[call.lang],
     glossary: effectiveGlossary(call.lang, call.project.glossary),
     isDocument,
+    isSurvey: kind === 'survey',
     source,
   }
   const rendered = call.deps.renderPrompt(call.prompt, vars)
@@ -111,7 +122,7 @@ async function ask<T>(
     messages: [{ role: 'user', content: rendered.user }],
     ...(fm.modelHints.temperature !== undefined ? { temperature: fm.modelHints.temperature } : {}),
     ...(fm.modelHints.maxTokens !== undefined ? { maxTokens: fm.modelHints.maxTokens } : {}),
-    json: jsonSpec(isDocument ? 'TranslateDocument' : 'TranslateInject', schema),
+    json: jsonSpec(SPEC_NAMES[kind], schema),
     signal: call.ctx.signal,
     outbound: {
       jobId: call.ctx.jobId,
@@ -130,16 +141,23 @@ async function ask<T>(
 
 async function translateDoc(call: Call, doc: TranslatableDoc) {
   const source = await readScenarioDoc(call.root, call.scenarioId, doc)
-  const out = await ask(call, source, true, DocOutput, doc)
+  const out = await ask(call, source, 'doc', DocOutput, doc)
   await writeTranslatedDoc(call.root, call.scenarioId, doc, call.lang, out.markdown, 'machine')
 }
 
 async function translateInject(call: Call, inject: Inject) {
   const fields = translatableFields(schemaOf(inject, call.root), inject.fields)
   const source = JSON.stringify({ title: inject.title, fields }, null, 2)
-  const out = await ask(call, source, false, InjectOutput, inject.id)
+  const out = await ask(call, source, 'inject', InjectOutput, inject.id)
   await saveInjectTranslation(call.root, call.scenarioId, inject.id, call.lang, out, 'machine')
   await call.deps.afterInject?.(call.root, call.scenarioId, inject.id, call.lang)
+}
+
+async function translateSurvey(call: Call, surveyId: string) {
+  const survey = await readSurvey(call.root, call.scenarioId, surveyId)
+  const source = JSON.stringify(surveyTexts(survey), null, 2)
+  const out = await ask(call, source, 'survey', SurveyOutput, surveyId)
+  await saveSurveyTranslation(call.root, call.scenarioId, surveyId, call.lang, out.texts, 'machine')
 }
 
 const wantsItem = (req: TranslateRequest, item: TranslationItem): boolean => {
@@ -182,6 +200,7 @@ export async function runTranslation(
     })
     try {
       if (item.kind === 'doc') await translateDoc(call, item.id as TranslatableDoc)
+      else if (item.kind === 'survey') await translateSurvey(call, item.id)
       else await translateInject(call, injects.get(item.id)!)
       result.translated++
     } catch (e) {

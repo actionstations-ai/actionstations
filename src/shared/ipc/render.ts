@@ -73,6 +73,8 @@ export const renderChannels = {
       fields: z.record(z.string(), z.unknown()),
       brand: Brand.optional(),
       variant: z.string().optional(),
+      /** Chrome language: the template's labels/<lang>.json (Spanish goldens). */
+      lang: z.enum(['en', 'es']).optional(),
       projectPath: z.string().optional(),
       scenarioId: SafeId.optional(),
       /** With projectPath + scenarioId: fill image slots from this inject's AI images. */

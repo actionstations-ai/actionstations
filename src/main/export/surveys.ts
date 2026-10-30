@@ -10,6 +10,9 @@ import {
 } from '@shared/schemas'
 import { pointLabels, questionPrompt, scaleLabels, surveyQuestions } from '@shared/survey-layout'
 import { markdownToHtml } from './escape'
+import { UNREVIEWED_STAMP } from './documents'
+import { markingOf } from './hseep'
+import { tr } from './lang'
 import type { ExportModel, ExportSurvey } from './model'
 import { embeddedFontsCss, pageCss } from './page'
 import { printCss, renderExportTemplate, surveyCss, trusted } from './templates'
@@ -49,24 +52,31 @@ export const isPlayerForm = (survey: Survey): boolean => !isStaffSurvey(survey.k
 const textLines = (q: Extract<SurveyQuestion, { type: 'text' }>): number[] =>
   Array.from({ length: q.long ? 5 : 2 }, (_, i) => i)
 
-function questionView(q: SurveyQuestion, number: number) {
+function questionView(q: SurveyQuestion, number: number, lang?: ExportModel['lang']) {
   const base = { number, text: questionPrompt(q), help: q.help, required: q.required, type: q.type }
   switch (q.type) {
     case 'rating':
     case 'confidence': {
       const labels = pointLabels(q)
       const ends = scaleLabels(q)
-      const points = [1, 2, 3, 4, 5].map((n) => ({
-        n,
-        label: labels?.[n - 1] ?? (n === 1 ? ends.low : n === 5 ? ends.high : ''),
-      }))
+      // Confidence scales have fixed English labels; a rating's labels are in the survey itself.
+      if (q.type === 'confidence') {
+        ends.low = tr(lang, ends.low)
+        ends.high = tr(lang, ends.high)
+      }
+      const fixed = q.type === 'confidence' ? lang : undefined
+      const points = [1, 2, 3, 4, 5].map((n) => {
+        const own = labels?.[n - 1]
+        const end = n === 1 ? ends.low : n === 5 ? ends.high : ''
+        return { n, label: own ? tr(fixed, own) : end }
+      })
       return { ...base, scale: { low: ends.low, high: ends.high, points } }
     }
     case 'choice':
       return {
         ...base,
         choice: {
-          instruction: q.multiple ? 'Mark all that apply.' : 'Mark one.',
+          instruction: tr(lang, q.multiple ? 'Mark all that apply.' : 'Mark one.'),
           options: q.options.map((o) => o.text),
           other: q.allowOther,
         },
@@ -82,17 +92,17 @@ export function surveyFormView(model: ExportModel, survey: Survey, prefix = '') 
     prefix,
     title: {
       id: `${prefix}survey-title`,
-      eyebrow: KIND_LABELS[survey.kind],
+      eyebrow: tr(model.lang, KIND_LABELS[survey.kind]),
       heading: survey.title,
       sub: scenarioHeading(model),
-      facts: [{ label: 'Date', value: '____________' }],
+      facts: [{ label: tr(model.lang, 'Date'), value: '____________' }],
     },
     introHtml: mdHtml(survey.introMd),
     roleGroups: survey.askRoleGroup ? survey.roleGroups : [],
     sections: survey.sections.map((s) => ({
       title: s.title,
       introHtml: mdHtml(s.introMd),
-      questions: s.questions.map((q) => questionView(q, ++number)),
+      questions: s.questions.map((q) => questionView(q, ++number, model.lang)),
     })),
   }
 }
@@ -187,10 +197,24 @@ function footerText(model: ExportModel): string {
 
 function wrap(model: ExportModel, label: string, body: string): string {
   return renderExportTemplate('layout', {
+    lang: model.lang ?? 'en',
     title: `${label} — ${model.scenario.title}`,
     fontsCss: trusted(embeddedFontsCss()),
     printCss: trusted(`${printCss()}\n${surveyCss()}`),
-    pageCss: trusted(pageCss({ title: scenarioHeading(model), footer: footerText(model) }, label)),
+    pageCss: trusted(
+      pageCss(
+        {
+          title: scenarioHeading(model),
+          footer: footerText(model),
+          marking: markingOf(model),
+          pageWord: tr(model.lang, 'Page'),
+          ofWord: tr(model.lang, 'of'),
+          ...(model.unreviewed ? { stamp: UNREVIEWED_STAMP } : {}),
+        },
+        label,
+        (english) => tr(model.lang, english),
+      ),
+    ),
     formCss: trusted(''),
     body: trusted(body),
   })
@@ -198,7 +222,11 @@ function wrap(model: ExportModel, label: string, body: string): string {
 
 /** The complete HTML of one printable survey form. */
 export function buildSurveyFormHtml(model: ExportModel, survey: Survey): string {
-  return wrap(model, survey.title, renderExportTemplate('survey', surveyFormView(model, survey)))
+  return wrap(
+    model,
+    survey.title,
+    renderExportTemplate('survey', surveyFormView(model, survey), model.lang),
+  )
 }
 
 /** The complete HTML of the results summary for the surveys that have responses. */

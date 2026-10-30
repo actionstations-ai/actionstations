@@ -17,6 +17,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readdirSync,
+  readFileSync,
   rmSync,
   writeFileSync,
 } from 'node:fs'
@@ -65,6 +66,15 @@ const packTypes = (): string[] =>
     .map((d) => d.name)
     .sort()
 
+const hasSpanishLabels = (type: string): boolean =>
+  existsSync(join(TEMPLATES, type, 'labels', 'es.json'))
+
+/** preview.es.json `fields`: the sample data translated, when the template ships it. */
+function spanishPreview(type: string): Record<string, unknown> | undefined {
+  const file = join(TEMPLATES, type, 'preview.es.json')
+  return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')).fields : undefined
+}
+
 /** A userData folder whose user template layer holds the pack's templates. */
 function packUserData(types: string[]): string {
   const userData = mkdtempSync(join(tmpdir(), 'ttx-golden-pack-'))
@@ -87,17 +97,31 @@ test('every template × variant matches its golden PNG and renders deterministic
   const userData = PACK ? packUserData(types) : undefined
   const { app, page } = await launch({}, userData ? { userData } : {})
   const invoke = invoker(page)
-  const render = async (t: TemplateInfo, variant: string): Promise<Buffer> => {
+  const render = async (t: TemplateInfo, variant: string, lang?: 'es'): Promise<Buffer> => {
     const r = await invoke<{ dataUrl: string }>('render:preview', {
       type: t.type,
-      fields: t.previewVariants?.[variant] ?? t.preview,
+      fields: (lang && spanishPreview(t.type)) || (t.previewVariants?.[variant] ?? t.preview),
       variant,
+      ...(lang ? { lang } : {}),
       scale: 2,
     })
     return Buffer.from(r.dataUrl.split(',')[1]!, 'base64')
   }
   const failures: string[] = []
   const report: string[] = []
+  // Templates with labels/es.json also get a Spanish golden (<variant>-es.png): the chrome in
+  // Spanish and, when the template has a preview.es.json, the sample text too (#501).
+  const checkSpanish = async (t: TemplateInfo, variant: string): Promise<void> => {
+    const name = goldenName(t.type, `${variant}-es`)
+    const png = await render(t, variant, 'es')
+    const result = compareWithGolden(png, goldenPath(TEMPLATES, t.type, `${variant}-es`), name, {
+      ...GOLDEN_DEFAULTS,
+      diffDir: DIFF_DIR,
+      update: UPDATE,
+    })
+    report.push(`${name}: ${result.status}`)
+    if (result.status === 'missing' || result.status === 'mismatch') failures.push(result.message)
+  }
   try {
     let templates = await invoke<TemplateInfo[]>('templates:list')
     if (PACK) {
@@ -134,6 +158,7 @@ test('every template × variant matches its golden PNG and renders deterministic
         report.push(`${name}: ${result.status}`)
         if (result.status === 'missing' || result.status === 'mismatch')
           failures.push(result.message)
+        if (hasSpanishLabels(t.type)) await checkSpanish(t, variant)
       }
     }
   } finally {

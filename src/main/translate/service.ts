@@ -11,6 +11,8 @@ import { getScenario, readScenarioDoc, updateScenario } from '../scenario/store'
 import { translatableFields } from './fields'
 import { effectiveGlossary } from './glossary'
 import { runTranslation } from './job'
+import { readSurvey } from '../surveys/store'
+import { saveSurveyTranslation, surveyLabels, surveyTexts } from './survey'
 import {
   acceptItems,
   injectsInScope,
@@ -66,6 +68,7 @@ export async function itemText(
       translated: await readTranslatedDoc(root, scenarioId, ref.id, lang),
     }
   }
+  if (ref.kind === 'survey') return surveyItemText(root, scenarioId, lang, item, ref.id)
   const inject = (await injectsInScope(root, scenarioId)).find((i) => i.id === ref.id)!
   const stored = inject.translations?.[lang]
   return {
@@ -74,6 +77,27 @@ export async function itemText(
     sourceFields: translatableFields(schemaOf(inject, root), inject.fields),
     translatedTitle: stored?.title ?? '',
     translatedFields: stored?.fields ?? {},
+  }
+}
+
+async function surveyItemText(
+  root: string,
+  scenarioId: string,
+  lang: SupportedLanguage,
+  item: Awaited<ReturnType<typeof translationItems>>[number],
+  surveyId: string,
+): Promise<TranslationItemText> {
+  const survey = await readSurvey(root, scenarioId, surveyId)
+  const { title: sourceTitle = '', ...sourceFields } = surveyTexts(survey)
+  const { title: translatedTitle = '', ...translatedFields } =
+    survey.translations?.[lang]?.text ?? {}
+  return {
+    ...item,
+    fieldLabels: surveyLabels(survey),
+    sourceTitle,
+    sourceFields,
+    translatedTitle,
+    translatedFields,
   }
 }
 
@@ -94,6 +118,11 @@ export async function saveItem(
   if (save.item.kind === 'doc') {
     if (save.markdown === undefined) throw new AppError('VALIDATION', 'No text to save')
     await writeTranslatedDoc(root, scenarioId, save.item.id, lang, save.markdown, 'reviewed')
+    return
+  }
+  if (save.item.kind === 'survey') {
+    const text = { ...(save.fields ?? {}), ...(save.title ? { title: save.title } : {}) }
+    await saveSurveyTranslation(root, scenarioId, save.item.id, lang, text, 'reviewed')
     return
   }
   const inject = (await injectsInScope(root, scenarioId)).find((i) => i.id === save.item.id)

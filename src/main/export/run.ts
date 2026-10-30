@@ -19,7 +19,14 @@ import { improvementPlanWorkbook } from './improvement-plan'
 import { scenarioJson, scenarioMarkdown } from './manifest'
 import { exportMedia, type ExportedFile } from './media'
 import type { ExportModel } from './model'
-import { documentFileNames, surveyFormName, type DocumentFileNames } from './naming'
+import {
+  documentFileNames,
+  surveyFormName,
+  variantFileName,
+  type DocumentFileNames,
+} from './naming'
+import { translatedSurvey } from '../translate/survey'
+import type { Survey } from '@shared/schemas'
 import { htmlToPdf } from './pdf'
 import {
   buildSurveyFormHtml,
@@ -32,6 +39,7 @@ import { clocksCsv, coverageCsv, coverageWorkbook, hasCoverage } from './coverag
 import { hasBranches } from '@shared/branching/graph'
 import { distributionEntries, writeZip } from './zip'
 import {
+  ES_DIR,
   hasContent,
   prepareSpanish,
   wantsEnglishPlayers,
@@ -191,6 +199,25 @@ async function writeSurveyForms(state: RunState): Promise<void> {
     const html = buildSurveyFormHtml(state.model, survey)
     await writeOut(state, join('surveys', name), await htmlToPdf(html, survey.title))
     if (isPlayerForm(survey)) state.playerSurveyForms.push(name)
+  }
+  await writeSpanishSurveyForms(
+    state,
+    surveys.map((s) => s.survey),
+  )
+}
+
+/** Spanish forms of the participant surveys that have a translation: surveys/es/ and players/es/. */
+async function writeSpanishSurveyForms(state: RunState, surveys: Survey[]): Promise<void> {
+  const { es, options } = state
+  if (!es || !options.playerLanguages?.includes('es')) return
+  const dir = join('surveys', ES_DIR)
+  for (const survey of surveys.filter((s) => isPlayerForm(s) && s.translations?.es)) {
+    const name = variantFileName(surveyFormName(es.scenario.title, survey), { lang: 'es' })
+    await ensureDir(join(state.folder, dir))
+    const translated = translatedSurvey(survey, 'es')
+    const pdf = await htmlToPdf(buildSurveyFormHtml(es, translated), translated.title)
+    await writeOut(state, join(dir, name), pdf)
+    state.playerEs.push(name)
   }
 }
 

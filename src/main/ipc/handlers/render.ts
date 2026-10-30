@@ -39,7 +39,7 @@ export default defineHandlers({
   },
 
   'render:preview': async (req) => {
-    const { type, fields, brand, variant, scale } = req
+    const { type, fields, brand, variant, scale, lang } = req
     const ctx = await previewContext(req)
     const effectiveBrand = brand ?? ctx.brand
     const doc = composeDocument(
@@ -49,6 +49,7 @@ export default defineHandlers({
         ...(effectiveBrand ? { brand: effectiveBrand } : {}),
         ...(ctx.logo ? { logo: ctx.logo } : {}),
         ...(variant ? { variant } : {}),
+        ...(lang ? { lang } : {}),
         assets: ctx.assets,
         // The project's layer applies (its copies of pack templates, its own folders).
         ...(ctx.root ? { projectRoot: ctx.root } : {}),

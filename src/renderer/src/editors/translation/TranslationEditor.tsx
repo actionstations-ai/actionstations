@@ -91,6 +91,10 @@ function DocumentColumns(props: {
   )
 }
 
+/** A survey names its keys ("Question 3: answer 2"); an inject's labels come from its field names. */
+const rowLabel = (item: TranslationItemText, r: FieldRow): string =>
+  item.fieldLabels?.[String(r.path[0])] ?? r.label
+
 function InjectColumns(props: {
   base: string
   item: TranslationItemText
@@ -115,7 +119,7 @@ function InjectColumns(props: {
           <Box
             key={i}
             id={`${base}-en-${i}`}
-            label={`${r.label} (English)`}
+            label={`${rowLabel(item, r)} (English)`}
             lang="en"
             readOnly
             value={r.value}
@@ -135,7 +139,7 @@ function InjectColumns(props: {
           <Box
             key={i}
             id={`${base}-tr-${i}`}
-            label={`${r.label} (Spanish)`}
+            label={`${rowLabel(item, r)} (Spanish)`}
             lang={props.lang}
             value={String(getAtPath(draft.fields, r.path) ?? '')}
             onChange={(v) =>

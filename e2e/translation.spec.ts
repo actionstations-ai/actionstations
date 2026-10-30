@@ -76,6 +76,17 @@ test('Spanish player material: translate, review, export with large print', asyn
       })
     const base = { projectPath, scenarioId, lang: 'es' }
 
+    // A participant survey marked ready joins the translation (#501).
+    const { surveys } = await invoke<{ surveys: Record<string, unknown>[] }>(
+      'surveys:from-template',
+      { projectPath, scenarioId, templateId: 'hseep-participant-feedback' },
+    )
+    await invoke('surveys:save', {
+      projectPath,
+      scenarioId,
+      survey: { ...surveys[0], status: 'ready' },
+    })
+
     // Switch Spanish on and translate with the mock provider.
     await invoke('translate:set-languages', {
       projectPath,
@@ -84,6 +95,7 @@ test('Spanish player material: translate, review, export with large print', asyn
     })
     const before = await invoke<Status>('translate:status', base)
     expect(before.items.length).toBeGreaterThan(1)
+    expect(before.items.some((i) => i.kind === 'survey')).toBe(true)
     expect(new Set(before.items.map((i) => i.status))).toEqual(new Set(['missing']))
     const run = await invoke<{ jobId: string }>('translate:run', base)
     const translated = await waitJob(run.jobId)
@@ -150,6 +162,7 @@ test('Spanish player material: translate, review, export with large print', asyn
       'Flight-to-Nowhere-Player-Briefing-Packet-es.pdf',
       'Flight-to-Nowhere-Player-Injects-es-large-print.pdf',
       'Flight-to-Nowhere-Player-Injects-es.pdf',
+      expect.stringMatching(/^Flight-to-Nowhere-Survey-.*-es\.pdf$/),
     ])
     expect(names).toContain('players/Flight-to-Nowhere-Player-Briefing-Packet-large-print.pdf')
     expect(names.filter((n) => n.startsWith('players/')).join('\n')).not.toMatch(
@@ -176,6 +189,15 @@ test('Spanish player material: translate, review, export with large print', asyn
     expect(Buffer.from(injects).toString('latin1')).toMatch(/\/Lang\s*\(es/)
     expect(injectText).toContain('[es] ')
     expect(injectText).not.toContain('Traducción automática sin revisar')
+    // The Spanish survey form: Spanish language tag, tagged structure, translated words.
+    const formName = spanish.find((n) => n.includes('-Survey-'))!
+    const form = await zip.file(formName)!.async('uint8array')
+    const formRaw = Buffer.from(form).toString('latin1')
+    expect(formRaw).toContain('/StructTreeRoot')
+    expect(formRaw).toMatch(/\/Lang\s*\(es/)
+    expect(await pdfText(form)).toContain('[es] ')
+    mkdirSync(resolve('.tmp/pdf-a11y'), { recursive: true })
+    writeFileSync(join(resolve('.tmp/pdf-a11y'), 'survey-es.pdf'), form)
     // Keep the exported PDFs for scripts/check-pdf-accessibility.mjs (veraPDF, when installed).
     const keep = resolve('.tmp/pdf-a11y')
     mkdirSync(keep, { recursive: true })
