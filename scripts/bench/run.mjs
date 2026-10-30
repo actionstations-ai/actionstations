@@ -7,7 +7,7 @@
 //   pnpm build:app
 //   pnpm bench -- --models ollama:qwen3.5:9b[,lmstudio:<id>…] [--suite quick|standard]
 //                 [--repeats N] [--out <dir>] [--base-url <url>] [--embedder local|hash]
-//                 [--yes] [--resume] [--clean]
+//                 [--yes] [--resume] [--clean] [--judge lmstudio:<model>] [--determinism]
 //
 // Local endpoints only (127.0.0.1); there is no flag to allow a remote one.
 import { execFileSync } from 'node:child_process'
@@ -18,6 +18,14 @@ import { pathToFileURL } from 'node:url'
 import { freshUserData, launchApp, waitForJob } from '../lib/app-driver.mjs'
 import { importMain } from '../lib/bundle-main.mjs'
 import { assertNoPromptOverrides, RUNNERS } from './cases.mjs'
+import { determinismOf } from './determinism.mjs'
+import {
+  loadCalibration,
+  loadJudgePrompt,
+  localJudgeCall,
+  parseJudgeRef,
+  runJudge,
+} from './judge.mjs'
 import { corpusHash, loadExample, loadSuite, ROOT, runFileName, slug } from './corpus.mjs'
 import { modelInfo, parseModelRef, providerConfig } from './model-info.mjs'
 import {
@@ -57,12 +65,17 @@ export function parseArgs(argv) {
     else if (a === '--out') args.out = value(i++)
     else if (a === '--base-url') args.baseUrl = value(i++)
     else if (a === '--embedder') args.embedder = value(i++)
+    else if (a === '--judge') args.judge = value(i++)
+    else if (a === '--determinism') args.determinism = true
     else if (a === '--yes') args.yes = true
     else if (a === '--resume') args.resume = true
     else if (a === '--clean') args.clean = true
     else throw new Error(`Unknown argument ${a}`)
   }
   if (!args.models.length) throw new Error('--models is required (e.g. --models ollama:qwen3.5:9b)')
+  if (args.judge) parseJudgeRef(args.judge, args.baseUrl)
+  if (args.determinism && args.repeats !== undefined)
+    throw new Error('--determinism runs two repeats at one seed; leave out --repeats')
   if (!['local', 'hash'].includes(args.embedder)) throw new Error('--embedder is local or hash')
   if (
     args.repeats !== undefined &&
@@ -229,7 +242,11 @@ export function repeatFromCases(suite, r, cases) {
   }
 }
 
-async function runModel({ args, suite, ref, state, app, gold, appVersion }) {
+/** Both repeats of a determinism check use the first seed. */
+const sameSeed = (suite) => ({ ...suite, seeds: [suite.seeds[0], suite.seeds[0]] })
+
+async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVersion }) {
+  const suite = args.determinism ? sameSeed(baseSuite) : baseSuite
   const model = parseModelRef(ref, args.baseUrl)
   const info = await modelInfo(model, suite.contextLength)
   if (info.contextLength && info.contextLength < suite.contextLength)
@@ -238,7 +255,7 @@ async function runModel({ args, suite, ref, state, app, gold, appVersion }) {
         `${suite.contextLength}. Reload it with --context-length ${suite.contextLength} (lms load) ` +
         'or long stages will fail and count against it.',
     )
-  const repeats = args.repeats ?? suite.repeats
+  const repeats = args.determinism ? 2 : (args.repeats ?? suite.repeats)
   const mstate = (state.models[model.ref] ??= {
     startedAt: new Date().toISOString(),
     cases: {},
@@ -264,6 +281,7 @@ async function runModel({ args, suite, ref, state, app, gold, appVersion }) {
         gold,
         log,
         workDir,
+        judge: !!args.judge,
         projects: { ...(mstate.projects[r] ?? {}) },
         save: () => saveState(args.out, state),
       }
@@ -273,7 +291,7 @@ async function runModel({ args, suite, ref, state, app, gold, appVersion }) {
     await electronApp.close()
     rmSync(userData, { recursive: true, force: true })
   }
-  return buildRun({
+  const run = buildRun({
     suite,
     model: info,
     embedder,
@@ -281,6 +299,25 @@ async function runModel({ args, suite, ref, state, app, gold, appVersion }) {
     repeats,
     hardware: await benchHardware(app),
     appVersion,
+  })
+  if (args.determinism) run.determinism = determinismOf(run.repeats, suite.seeds[0])
+  if (args.judge) run.judge = await judgeRun(args, mstate)
+  return run
+}
+
+/** FR-17: the optional local judge scores the first repeat's cited MSEL rows. */
+async function judgeRun(args, mstate) {
+  const model = parseJudgeRef(args.judge, args.baseUrl)
+  const items = Object.entries(mstate.cases)
+    .filter(([key]) => key.startsWith('0:drafting:'))
+    .flatMap(([, c]) => c.judgeRows ?? [])
+  log(`judging ${items.length} row(s) with ${model.ref}`)
+  return runJudge({
+    model: model.ref,
+    items,
+    calibration: loadCalibration(),
+    call: localJudgeCall(model),
+    prompt: loadJudgePrompt(),
   })
 }
 
@@ -329,6 +366,23 @@ export function summaryMarkdown(run) {
     `Range ${run.range.overall[0]}–${run.range.overall[1]}${run.unstable ? ' (unstable)' : ''}; ` +
       `drafting reliability ${Math.round(run.median.draftingReliability * 100)}%; ` +
       `${run.repeats.reduce((n, r) => n + r.failures.length, 0)} failed stage(s).`,
+    ...(run.determinism
+      ? [
+          '',
+          run.determinism.identical
+            ? `Determinism: both repeats at seed ${run.determinism.seed} scored the same.`
+            : `Determinism: repeats at seed ${run.determinism.seed} differ in ${run.determinism.differing.join(', ')}.`,
+        ]
+      : []),
+    ...(run.judge
+      ? [
+          '',
+          `Judge ${run.judge.model}: plausibility ${run.judge.scores.plausibility} over ${run.judge.scores.rowsJudged} row(s); ` +
+            (run.judge.published
+              ? `agreement ${run.judge.kappa} with ${run.judge.calibrationRows} human-scored rows (publishable).`
+              : `not publishable (agreement ${run.judge.kappa ?? 'unknown'}, ${run.judge.calibrationRows} calibration rows). Not part of the overall score.`),
+        ]
+      : []),
   ]
   return lines.join('\n')
 }

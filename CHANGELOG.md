@@ -10,6 +10,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+- Model benchmark follow-ups (part of #503): `pnpm bench -- --judge lmstudio:<model>` adds the optional local plausibility judge (local only, quoted evidence required, publishable only with enough human-scored calibration rows, never in the overall score) and `--determinism` runs two repeats at one seed and reports whether they match. Not done: the first published runs of the setup-tier models, which need strong models and long runs on the maintainer's hardware.
 - Translation follow-ups (#501, #485): participant surveys are translated and reviewed in Languages like injects, and print as Spanish forms in `surveys/es/` and `players/es/`; Spanish template goldens for templates with Spanish labels; the memo banner is translated; "EJERCICIO" confirmed against FEMA's Spanish HSEEP doctrine. veraPDF was not available, so the manual check is documented.
 - Templates and exports follow-ups (#505): the `nws_weather_warning` golden is regenerated; tests check the Conducttr MEL export against Conducttr's published column, Method and To type lists.
 - Hazard data follow-ups (#506): imported HIFLD layer files are parsed in a worker thread, and a scenario written with a hazard snapshot shows a Hazard context provenance panel (snapshot date, place, each source with credit).

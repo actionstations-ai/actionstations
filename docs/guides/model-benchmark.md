@@ -59,6 +59,12 @@ pnpm bench -- --models lmstudio:qwen/qwen3.5-9b,ollama:qwen3:30b --suite standar
 | `--resume`                | Continue after an interruption from `<out>/state.json`                                                                                                                                                                                    |
 | `--clean`                 | Delete the generated projects in `<out>/work/` after the run                                                                                                                                                                              |
 
+| `--judge lmstudio:<model>` | Optional local judge: scores how plausible up to 30 cited MSEL rows are, quoting the row and passage (a score with a quote that is not in the text is dropped). Local models only, off by default, never part of the overall score. The scores are marked publishable only when the judge agrees with the maintainer's human-scored rows in `bench/calibration/rows.json` (weighted kappa 0.6 or more, 60 rows); without that file they are kept but marked unpublished |
+| `--determinism` | Runs two repeats at the same seed and reports whether their scores and lint counts match (replaces `--repeats`) |
+
+Judge scores and the determinism result appear in the run file (`judge`, `determinism`) and
+the terminal summary.
+
 The benchmark refuses any endpoint that is not on this machine; there is no option to allow
 one. It also refuses to run when prompt overrides are present, so every run uses the shipped
 prompts. After the first case it prints an estimate of the time left.
