@@ -42,6 +42,7 @@ function fakeLive(
     release: vi.fn(async () => undefined),
     resend: vi.fn(async () => undefined),
     withdraw: vi.fn(async () => undefined),
+    ringAsCall: vi.fn(async () => undefined),
   }
 }
 
@@ -88,6 +89,22 @@ describe('LiveInjectSection', () => {
     expect(live.setOptions).toHaveBeenCalledWith('I-06', {
       targets: ['role:pio', 'client:aaaaaaaa'],
     })
+  })
+
+  it('offers to ring a phone inject as a call, and not any other type', () => {
+    const live = fakeLive()
+    const phone = entry({ inject: { type: 'phone_call' } as never })
+    const { rerender } = render(<LiveInjectSection live={live} scenario={scenario} entry={phone} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Ring players as a call' }))
+    expect(live.ringAsCall).toHaveBeenCalledWith('I-06')
+    rerender(
+      <LiveInjectSection
+        live={live}
+        scenario={scenario}
+        entry={entry({ inject: { type: 'memo' } as never })}
+      />,
+    )
+    expect(screen.queryByRole('button', { name: 'Ring players as a call' })).toBeNull()
   })
 
   it('collapses a whole team to one chip', () => {

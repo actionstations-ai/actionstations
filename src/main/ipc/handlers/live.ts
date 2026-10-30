@@ -6,6 +6,7 @@ import { listLanAddresses } from '../../live/transport/lan/addresses'
 import { firewallGuidance } from '../../live/transport/lan/firewall'
 import {
   activeLanPort,
+  ringInjectAsCall,
   activeSession,
   closeVote,
   askEvaluator,
@@ -205,6 +206,9 @@ export default defineHandlers({
       { ...(displayId !== undefined ? { displayId } : {}), ...ownerOf(ctx) },
     )
   },
+
+  'live:inject-call': async ({ projectPath, scenarioId, rowId }) =>
+    ringInjectAsCall(await requireProject(projectPath), scenarioId, rowId),
 
   'live:hotwash-open': async ({ projectPath, scenarioId, review, text }) =>
     openHotwash(await requireProject(projectPath), scenarioId, review, text),
