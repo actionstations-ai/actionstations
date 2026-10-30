@@ -403,3 +403,61 @@ test('maps: place-name glyphs ship in the app and load under its security policy
     await app.close()
   }
 })
+
+test('maps: the MSEL export has a Locations page for a geographic map', async () => {
+  test.setTimeout(120_000)
+  const { app, page } = await launch()
+  const invoke = invoker(page)
+  try {
+    const dir = mkdtempSync(join(tmpdir(), 'ttx-e2e-geoloc-'))
+    const { path: projectPath } = await invoke<{ path: string }>('project:create', {
+      parentDir: dir,
+      name: 'Geo locations',
+    })
+    const empty = await invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
+      projectPath,
+      title: 'Smoke at the pier',
+    })
+    const msel = FIXTURE.msel.map((r) => ({ ...r, placeIds: r.id === 'I-01' ? ['pier'] : [] }))
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...FIXTURE, msel, id: empty.id, projectId: empty.projectId },
+    })
+    const current = await invoke<Maps>('maps:get', { projectPath })
+    await invoke('maps:save', {
+      projectPath,
+      revision: current.revision,
+      maps: {
+        ...current.maps,
+        maps: [
+          {
+            kind: 'geo',
+            id: 'harbor',
+            title: 'Harbor',
+            style: 'light',
+            basemap: { kind: 'online', provider: 'openfreemap' },
+          },
+        ],
+        places: [
+          {
+            id: 'pier',
+            label: 'Pier 4',
+            kind: 'incident',
+            note: '',
+            positions: [{ mapId: 'harbor', lat: 47.6, lon: -122.34 }],
+          },
+        ],
+      },
+    })
+    const preview = await invoke<{ html: string }>('export:preview-html', {
+      projectPath,
+      scenarioId: empty.id,
+      doc: 'msel',
+    })
+    expect(preview.html).toContain('Locations: Harbor')
+    expect(preview.html).toContain('47.6000° N, 122.3400° W')
+    expect(preview.html).toContain('Positions only')
+  } finally {
+    await app.close()
+  }
+})
