@@ -38,7 +38,8 @@ server (#409) and the in-app LAN server (#407) reuse.
 - **FR-3** Retention. Stored frames and blobs are deleted when the controller sends
   `session.end`, or by an alarm 72 hours after creation; a content-free tombstone stays for one
   hour after end. There is no other storage anywhere (no KV, R2, D1, logs with payloads).
-- **FR-4** Free plan only. The account has no payment method and stays on the Workers Free
+- **FR-4** (Superseded by [ADR-0066](../adr/0066-relay-on-workers-paid.md): the relay moved to
+  Workers Paid with caps sized to its included allowance.) Free plan only. The account has no payment method and stays on the Workers Free
   plan; the Durable Objects use the SQLite backend (the only one available on the free plan);
   no paid features (Logpush, Workers Paid, Observability retention, Rate Limiting rules,
   custom domains that need a paid zone feature). Over a daily limit, Cloudflare fails the

@@ -83,10 +83,10 @@ export const CONNECTION = {
     summary: 'For remote and hybrid players, over the internet.',
     needs: 'Needs internet.',
     statement:
-      'Your computer connects to relay.actionstations.ai, run by the Action Stations project on Cloudflare. It sends the session id, encrypted messages and media, their sizes and timing, and your IP address. The relay cannot read session content and keeps encrypted messages only for late joiners, deleting them when you end the session or after 72 hours. Limits: 60 devices, 8 MB per media file, 25 sessions per day for everyone; when the free limit is reached it stops with an error and nothing is ever billed.',
+      'Your computer connects to relay.actionstations.ai, run by the Action Stations project on Cloudflare. It sends the session id, encrypted messages and media, their sizes and timing, and your IP address. The relay cannot read session content and keeps encrypted messages only for late joiners, deleting them when you end the session or after 72 hours. Limits: 60 devices, 8 MB per media file, 100 sessions per day for everyone; when the daily limit is reached it stops with an error. Using it costs you nothing.',
     host: 'The relay address',
     limits:
-      'Limits: 60 devices, 8 MB per media file, 72 hours of retention, 25 sessions per day for everyone.',
+      'Limits: 60 devices, 8 MB per media file, 72 hours of retention, 100 sessions per day for everyone.',
   },
   selfHosted: {
     title: 'Your server',

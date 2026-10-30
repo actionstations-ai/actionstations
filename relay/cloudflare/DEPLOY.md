@@ -4,40 +4,39 @@ By hand, from a developer's machine, never from a workflow (a workflow would nee
 API token in GitHub and would push to production on its own; ADR-0023 and spec 0408 keep both
 out). Read the whole page once before the first deploy.
 
-## 0. Before anything: the account must be unable to spend money
+## 0. Before anything: the account's spending is bounded
 
-The relay runs on the **Workers Free** plan of a Cloudflare account that has **no payment
-method**. Past a daily allowance Cloudflare fails the operation with an error and bills nothing;
-with a card on file, some products would bill instead. Check both every time, in the dashboard
-(dash.cloudflare.com), before `wrangler deploy`:
+The relay runs on the **Workers Paid** plan ($5 a month, [ADR-0066](../../docs/adr/0066-relay-on-workers-paid.md)).
+Workers Paid has no spending cap: past the included allowance Cloudflare bills. The relay's own
+caps (section 1) keep the worst month inside the included 50M row writes, so check before every
+`wrangler deploy`, in the dashboard (dash.cloudflare.com):
 
-1. **Plan.** Open the account, then **Workers & Pages**, then **Plans** (also shown under
-   **Manage Account → Billing → Subscriptions**). It must say the Workers plan is **Free**. If it
-   shows "Workers Paid" or an upgrade is pending, stop and ask the owner.
-2. **Payment method.** **Manage Account → Billing → Payment info** must show no card and no
-   PayPal account ("No payment method on file" or equivalent). If one is listed, stop: remove
-   it or ask the owner before deploying.
-3. **Paid add-ons off.** Under the Worker's **Settings** (after a first deploy) and the
-   account's **Workers & Pages → Observability**: Logpush off, no paid observability retention,
-   no Rate Limiting rules, no Argo or paid zone features on `actionstations.ai`. The repository's
-   `wrangler.toml` turns nothing paid on; the dashboard must agree.
-4. **Durable Objects on the SQLite backend.** The free plan offers only SQLite-backed Durable
-   Objects; `wrangler.toml` declares `new_sqlite_classes`. A deploy that asks for the
-   key-value backend fails on the free plan, which is the right outcome.
+1. **Plan.** **Workers & Pages → Plans** says **Workers Paid**, and nothing else is subscribed
+   under **Manage Account → Billing → Subscriptions**.
+2. **Paid add-ons off.** Under the Worker's **Settings** and **Workers & Pages → Observability**:
+   Logpush off, no paid observability retention, no Rate Limiting rules, no Argo or paid zone
+   features on `actionstations.ai`. The repository's `wrangler.toml` turns nothing paid on; the
+   dashboard must agree.
+3. **Usage.** **Workers & Pages → Overview** for the month: Durable Object row writes and
+   requests well inside the included amounts. If the month is heading past them, find out why
+   before deploying.
+4. **Durable Objects on the SQLite backend.** `wrangler.toml` declares `new_sqlite_classes`.
+5. **The caps in `src/env.ts` match ADR-0066.** If a change raised them, the worst-month sum in
+   the ADR must have been redone.
 
 Record the date and who checked in the release notes (see step 5).
 
 ## 1. What protects the shared daily allowance
 
-Every session is capped so one busy or hostile session cannot spend the day's free allowance,
+Every session is capped so one busy or hostile session cannot spend the day's allowance,
 and every address is capped so one person cannot take the day (spec 0408, "Allowance budget"):
 
 - Per session (`RELAY_HUB_OPTIONS` in `src/env.ts`): 60 devices; 64 KiB per message; 30 messages
-  a minute per participant; 1,500 stored messages and 12 MiB of them; a lifetime budget of 3,600
+  a minute per participant; 7,500 stored messages and 24 MiB of them; a lifetime budget of 15,000
   row writes (a stored message is two, a media chunk two, a device one); blobs up to 8 MiB each
   and 64 MiB per session. Controllers are bound by the same store caps: past them their frames
   still reach connected devices but are not kept for late joiners, and the app is told.
-- Per address: **3 sessions a day** (IPv6 counted by /64); per account: **25 sessions a day**
+- Per address: **10 sessions a day** (IPv6 counted by /64); per account: **100 sessions a day**
   (UTC), both counted durably by the `QuotaObject`. Session creation is accepted only as
   `application/json` without an `Origin` header, so a web page cannot spend the quota; the
   desktop app sends neither a browser `Origin` nor another content type.

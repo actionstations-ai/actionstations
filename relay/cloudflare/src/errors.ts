@@ -8,7 +8,7 @@ import { API_HEADERS, apiError } from '@actionstations/relay-core'
 import { nextUtcMidnight } from './env'
 
 export const DAILY_LIMIT_MESSAGE =
-  'The Action Stations relay has reached today’s free limit. Switch this session to This computer or Your server, or try after 00:00 UTC.'
+  'The Action Stations relay has reached today’s limit. Switch this session to This computer or Your server, or try after 00:00 UTC.'
 
 /**
  * The runtime's own wording for a plan limit: an "exceeded"/"reached" with a "limit" or "quota"
