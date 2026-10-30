@@ -183,10 +183,10 @@ or media, messages, votes, notes, names, or the keys. Its source is in this repo
 Using it costs you nothing. Every session is capped so the shared relay stays available:
 
 - 60 devices in a session.
-- Messages up to 64 KiB; media files up to 8 MiB each and 64 MiB per session. The app tells you
+- Messages up to 64 KiB; media files up to 8 MiB each (1 MiB for a player's photo) and 64 MiB per session. The app tells you
   which injects are too large for the relay and offers to show them on the main screen instead.
 - 30 messages a minute per participant (short bursts are fine); 7,500 stored messages kept for
-  players who join late or reconnect.
+  players who join late or reconnect, up to 24 MiB stored, and 15,000 row writes in all.
 - 10 sessions a day from one address, and 100 a day across everyone who uses the relay (the day
   resets at 00:00 UTC).
 
@@ -286,6 +286,12 @@ While a session runs, the Live tab lists the devices by seat. **Remove** disconn
 ### Showing a decision on the screen
 
 **Show on screen** beside a branch decision opens it in the presentation window: the question and the options while the room decides, then the chosen option and how it was chosen ("Chosen by majority: 7 of 11"). The screen follows the decision when you close it.
+
+### Map on devices
+
+With a session running, tick **Map on devices** on the Facilitate Map tab (see [Maps](maps.md)). Each
+phone shows the places of the messages that reached its seat and nothing else; the frame is addressed
+to that device alone.
 
 ### What the Facilitate page sends to devices
 

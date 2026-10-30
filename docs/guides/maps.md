@@ -23,6 +23,13 @@ The **Map** tab beside the timeline draws delivered rows (filled), due rows (fil
 a number. Selecting a pin selects the row, and the **Locations** list under the map gives the same
 information as text for keyboard and screen reader use.
 
+### Map on devices
+
+While a live session runs, the Map tab has a **Map on devices** checkbox. Each phone then gets the map
+with only the places of messages that reached that seat, sent to that device alone. A site plan arrives
+as a sealed picture; a geographic map arrives as a schematic with coordinates, with no tiles fetched by
+the phone. See [Live play](live-play.md).
+
 ## Geographic maps and map data
 
 **Add map** makes a map pinned by latitude and longitude. Its map data is one of:

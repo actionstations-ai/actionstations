@@ -28,12 +28,12 @@ confidentiality depends on that: a server that ignored every rule could still re
 
 ## Limits on the Action Stations relay
 
-Per session: 60 devices, 64 KiB per message, blobs up to 8 MiB each and 64 MiB in total, 1,500
-stored messages (12 MiB) and a lifetime budget of 3,600 row writes, 30 messages a minute per
-participant. Per address: 3 sessions a day; account-wide: 25 sessions a day (UTC). Past a limit the app
+Per session: 60 devices, 64 KiB per message, blobs up to 8 MiB each and 64 MiB in total, 7,500
+stored messages (24 MiB) and a lifetime budget of 15,000 row writes, 30 messages a minute per
+participant. Per address: 10 sessions a day; account-wide: 100 sessions a day (UTC). Past a limit the app
 shows a plain message and the way out: switch the session to **This computer** or **Your
-server**, or try after 00:00 UTC. Nothing is ever billed; the account has no payment method, and
-Cloudflare fails an operation past the free allowance with an error.
+server**, or try after 00:00 UTC. Using it costs you nothing; the session and write caps above
+keep the project's own Cloudflare bill inside the plan (ADR-0066).
 
 ## Retention
 
