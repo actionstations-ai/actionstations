@@ -1,13 +1,13 @@
 ---
 name: sitman
 stage: sitman
-version: 1
+version: 2
 description: Situation Manual modules (one per phase) with narrative, key issues and discussion questions, plus the exercise assumptions and artificialities.
 outputSchema: SitManOutput
 task: draft
 modelHints:
   temperature: 0.5
-  maxTokens: 5000
+  maxTokens: 10000
 retrieval:
   queries:
     - '{{#each phases}}{{goal}} {{/each}}'
