@@ -29,6 +29,7 @@ const PLAIN: Record<string, string> = {
   SEAM_WEAK_TAG: 'An inject that tests a plan seam is marked as noise or a false lead.',
   SEAM_OUTDATED: 'The plans no longer disagree where this scenario tests them.',
   SEAM_ROW_ASSIGNED: 'An event was chosen to test a plan seam because none was written for it.',
+  TRIGGER_PROPOSED: 'An event was given a reporting clock to start; check that it is that moment.',
   STARTEX_FIRST: 'The exercise does not open with a start card.',
   ENDEX_LAST: 'The exercise does not close with an end card, or events come after it.',
   STARTEX_MULTIPLE: 'There is more than one start card.',
