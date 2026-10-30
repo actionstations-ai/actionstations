@@ -26,6 +26,7 @@ import { isReadyNext, STATUS_LABEL, STATUS_TONE, type Readiness } from './readin
 import { useReadiness } from './use-readiness'
 import { PersonasEditor } from './PersonasEditor'
 import { StageTimeline } from './StageTimeline'
+import { HazardProvenance } from './HazardProvenance'
 import { LanguagesPanel } from './LanguagesPanel'
 import { useLiveLog } from './use-live-log'
 import './scenarios.css'
@@ -262,6 +263,10 @@ export default function ScenarioPage() {
               busy={isActive(log)}
               onJob={(id) => void follow(id)}
               itemLabels={itemLabels(scenario)}
+            />
+            <HazardProvenance
+              projectPath={projectPath}
+              snapshotId={scenario.brief.hazardSnapshotId}
             />
             <LiveLogPanel log={log} itemLabels={itemLabels(scenario)} />
           </AdvancedInformation>

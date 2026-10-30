@@ -75,7 +75,9 @@ GeoJSON (a FeatureCollection) or CSV file (with latitude and longitude columns) 
 from an archive (for example the DataLumos or Source Cooperative copies) or from the layer's
 original publisher. The file is read on your computer, filtered to the distance you choose, and
 at most 200 features per layer are kept with coordinates rounded to 0.01 degrees. You enter where
-the file came from, and that is kept with the layer. Files up to 100 MB are accepted.
+the file came from, and that is kept with the layer. Files up to 100 MB are accepted. A large file is read in a background thread, so the app stays responsive while it loads.
+
+A scenario written with a snapshot shows a **Hazard context** panel under Advanced information on its page: the snapshot date and place, and each source with its result, access time and credit.
 
 ## Attribution
 

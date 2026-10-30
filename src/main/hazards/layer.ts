@@ -3,7 +3,7 @@
 import type { HazardSnapshot, ProjectLocation } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { newId, nowIso } from '../lib/ids'
-import { importLayerFile } from './sources/infrastructure'
+import { importLayerFile } from './sources/layer-host'
 import { activeSnapshot, readIndex, rewriteSnapshot, saveNewSnapshot } from './store'
 import { assertRoom } from './store'
 

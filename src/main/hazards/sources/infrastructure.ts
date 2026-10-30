@@ -120,16 +120,18 @@ export function toLayer(
   }
 }
 
-/** Read a GeoJSON or CSV file the user chose and return the layer around `where`. */
-export async function importLayerFile(
+export interface LayerRequest {
+  file: string
+  where: { lat: number; lon: number }
+  input: LayerImport
+}
+
+/** Read and parse a GeoJSON or CSV file the user chose; the work the layer worker does. */
+export async function readLayerFile(
   file: string,
   where: { lat: number; lon: number },
   input: LayerImport,
 ): Promise<InfrastructureLayer> {
-  const stat = await fs.stat(file)
-  if (!stat.isFile()) throw new AppError('VALIDATION', 'Choose a file')
-  if (stat.size > MAX_LAYER_BYTES)
-    throw new AppError('VALIDATION', 'The file is larger than the 100 MB limit')
   const text = await fs.readFile(file, 'utf8')
   const isCsv = /\.csv$/i.test(file)
   return toLayer(isCsv ? pointsFromCsv(text) : pointsFromGeoJson(text), where, input)
