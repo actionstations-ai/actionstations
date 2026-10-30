@@ -1,7 +1,7 @@
 // One proposed edit of a plan section (#431, FR-3): the word diff, why, where it goes, and the
 // choices - accept, reject, edit the proposed words, see the section around them.
 import { useState } from 'react'
-import { REDLINE_STATUS_LABELS, type Redline } from '@shared/schemas'
+import { REDLINE_STATUS_LABELS, type Drill, type Redline } from '@shared/schemas'
 import { normalizedForm } from '@shared/redline/excerpt'
 import { LABEL_TEXT, LABEL_TONE } from '../../lib/grounding'
 import { Badge, Button, Field } from '../../components/ui'
@@ -10,6 +10,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { useIpcQuery } from '../../lib/query'
 import { DiffView } from './DiffView'
+import { latestRedlineVerdict, VERDICT_LABEL } from './drill-verdict'
 
 const STATUS_TONE: Record<Redline['status'], 'neutral' | 'ok' | 'warn' | 'error' | 'info'> = {
   proposed: 'info',
@@ -20,6 +21,8 @@ const STATUS_TONE: Record<Redline['status'], 'neutral' | 'ok' | 'warn' | 'error'
   not_applied: 'warn',
   needs_review: 'warn',
 }
+
+const DRILL_TONE = { pass: 'ok', partial: 'warn', fail: 'error' } as const
 
 function Context(props: { projectPath: string; redline: Redline }) {
   const { redline: r } = props
@@ -97,8 +100,11 @@ export function RedlineCard(props: {
   projectPath: string
   selected: boolean
   onSelect: (on: boolean) => void
+  /** The project's drills, to show the latest verdict of a drill that tested this proposal. */
+  drills?: readonly Drill[]
 }) {
   const { redline: r, projectPath } = props
+  const drill = latestRedlineVerdict(r, props.drills ?? [])
   const [editing, setEditing] = useState(false)
   const [context, setContext] = useState(false)
   const open = r.status === 'proposed' || r.status === 'accepted'
@@ -142,7 +148,15 @@ export function RedlineCard(props: {
         {r.grounding && r.grounding !== 'none' && (
           <Badge tone={LABEL_TONE[r.grounding]}>{LABEL_TEXT[r.grounding]}</Badge>
         )}
+        {drill && (
+          <Badge tone={DRILL_TONE[drill.verdict]}>Drill: {VERDICT_LABEL[drill.verdict]}</Badge>
+        )}
         <span className="muted">from {r.source.scenarioTitle}</span>
+        {drill && (
+          <span className="muted">
+            drill “{drill.drillTitle}”, {drill.ranAt.slice(0, 10)}
+          </span>
+        )}
       </div>
       {mode.data?.mode === 'memo' && mode.data.reason && (
         <p className="muted redline__reason">{mode.data.reason}</p>

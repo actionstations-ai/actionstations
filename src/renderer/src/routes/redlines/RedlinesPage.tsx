@@ -36,6 +36,7 @@ export default function RedlinesPage() {
   const [manual, setManual] = useState(!!search.get('excerpt'))
   const scenarios = useIpcQuery('scenarios:list', { projectPath })
   const redlines = useIpcQuery('redlines:list', { projectPath })
+  const drills = useIpcQuery('drills:list', { projectPath })
   const docs = useIpcQuery('documents:list', { projectPath })
   const all = useMemo(() => redlines.data ?? [], [redlines.data])
   const shown = all
@@ -153,6 +154,7 @@ export default function RedlinesPage() {
           <RedlineCard
             key={r.id}
             redline={r}
+            drills={drills.data ?? []}
             projectPath={projectPath}
             selected={selected.includes(r.id)}
             onSelect={(on) => setSelected((s) => (on ? [...s, r.id] : s.filter((x) => x !== r.id)))}

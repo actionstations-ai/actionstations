@@ -44,6 +44,10 @@ never added twice; one whose report text changed since is offered as an update t
 status, owner and due date you set in the program. The report then shows which program action
 each item became.
 
+### Import an existing list from a CSV file
+
+**Import CSV…** on the Actions page reads a spreadsheet of corrective actions you already keep. The first row names the columns: `Title` or `Corrective Action`, `Issue/Area for Improvement`, `Core Capability`, `Capability Element`, `Primary Responsible Organization`, `Organization POC`, `Email`, `Start Date`, `Completion Date`, `Status`, `Priority` and `Notes` (the column names of the Improvement Plan export also work, so an exported list imports back). A preview shows each row as it will be created, with a warning for anything left out (an unknown capability, a date that is not `YYYY-MM-DD` or `M/D/YYYY`, an unrecognised status) and the reason a row cannot be imported. Rows whose title is already in the program are skipped, so importing the same file twice adds nothing. A leading `=`, `+` or `@` in a cell is removed so nothing can run as a spreadsheet formula later. Files are limited to 1 MB and 1000 rows. Status Verified needs a verification record, so it imports as Completed.
+
 ### If two people edit the same action
 
 Saving checks that nobody else saved first. If someone did, you see their version and choose
@@ -75,7 +79,7 @@ names and emails never do. Review the brief before generating.
 **Program > Health** answers the questions leadership and grant reviewers ask: which Core Capabilities and plan sections have been exercised, when, and what has never been tested. It is built from the program folder only (the snapshots of each linked project, the schedule and the corrective actions), so it works when some project folders are on other computers. A line at the top shows when each snapshot was taken; a snapshot older than 30 days, or for a project that is not on this computer, is marked "Out of date" and **Refresh from projects** is highlighted.
 
 - **Core Capabilities by quarter.** One row per capability with a status in words: _Current_ (exercised in this cycle and within the stale window), _Stale_ (last exercised before the cycle began, or more than the chosen number of months ago; 24 by default), _Planned only_ (not exercised, but a planned exercise names it) and _Never exercised_. Each quarter cell is the number of exercises; click it to see them and open the scenario (when the project is on this computer) or the corrective actions for the capability. Met, partly met and not met are counts from observation, not a score. Exercises that predate Core Capability mapping are counted in a notice above the table.
-- **Plan sections.** Sections to three levels of each plan, with how many exercises cited them and the last date. The same plan ingested into two projects is one row.
+- **Plan sections.** Sections to three levels of each plan (read from the project's index when the snapshot is taken, so headings late in a long plan are listed, up to 400 per plan), with how many exercises cited them and the last date. The same plan ingested into two projects is one row.
 - **Corrective actions.** Counts by status, how long open actions have been open, the overdue list and open actions by organization.
 - **Never tested.** Capabilities a program priority names that no exercise addressed, plan documents with no cited section, uncited plan sections at the top two levels, and planned exercises whose quarter has passed.
 - **Filters.** Project, year, mission area and plan document apply to every panel and are kept in the address, so you can bookmark a filtered view.

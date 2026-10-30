@@ -22,6 +22,7 @@ import {
 import { actionsHealth } from './health-actions'
 import {
   indexDocuments,
+  pathSegments,
   resolveRef,
   sectionBuilder,
   type DocIndex,
@@ -206,7 +207,10 @@ function buildSections(
 ): SectionBuilder {
   const builder = sectionBuilder(index)
   for (const { key, doc } of index.docs.values())
-    for (const label of doc.sections) builder.declare(key, [label])
+    for (const label of doc.sections) {
+      const segments = pathSegments(label, doc)
+      if (segments.length) builder.declare(key, segments)
+    }
   for (const e of exercises)
     for (const ref of e.scenario.planSections) {
       const { key, segments } = resolveRef(index, e.ref.projectId, ref)

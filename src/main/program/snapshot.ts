@@ -24,12 +24,16 @@ import { microDrillSummaries } from '../microdrill/program'
 import { exists, readJson, readJsonOr, writeJsonAtomic } from '../lib/fs'
 import { nowIso } from '../lib/ids'
 import { listRedlines } from '../redline/store'
+import { openIndex } from '../retrieve'
+import { projectPaths } from '../project/store'
 import { requireProgram } from './guard'
 import { resolveProjectPath } from './links'
 import { markCompletedFromSnapshots } from './schedule'
+import { snapshotSections } from './section-paths'
 import { announce, loadProgram, programPaths, readRevisioned } from './store'
 
 const MAX_SECTIONS_PER_DOC = 60
+const MAX_CHUNKS_READ = 20_000
 
 async function readSessions(scenarioDir: string): Promise<string[]> {
   const live = join(scenarioDir, 'live')
@@ -178,6 +182,33 @@ async function snapshotScenario(
   }
 }
 
+/** The heading path of every chunk, by document id; empty when the project has no index. */
+async function indexedHeadingPaths(root: string, ids: string[]): Promise<Map<string, string[]>> {
+  const out = new Map<string, string[]>()
+  try {
+    if (!(await exists(projectPaths(root).index))) return out
+    const index = await openIndex(root)
+    for (const id of ids)
+      out.set(
+        id,
+        index.chunks(id, MAX_CHUNKS_READ).map((c) => c.headingPath),
+      )
+  } catch {
+    // A project whose index cannot be opened falls back to the ingest preview.
+  }
+  return out
+}
+
+/** Sections to depth 3 from the index; the ingest preview when the index has none. */
+function sectionsOf(
+  d: { title: string; shortName?: string | undefined; headingsPreview: string[] },
+  paths: string[] | undefined,
+): string[] {
+  const names = { title: d.title, ...(d.shortName ? { shortName: d.shortName } : {}) }
+  const deep = paths?.length ? snapshotSections(paths, names) : []
+  return deep.length ? deep : d.headingsPreview.slice(0, MAX_SECTIONS_PER_DOC)
+}
+
 /** The snapshot of one project folder. */
 export async function snapshotProject(projectRoot: string): Promise<ProjectSnapshot> {
   const project = await readJson(join(projectRoot, 'project.json'), Project)
@@ -190,6 +221,10 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
     if (s) scenarios.push(s)
   }
   const practice = await microDrillSummaries(projectRoot, shaOf)
+  const chunkPaths = await indexedHeadingPaths(
+    projectRoot,
+    project.documents.map((d) => d.id),
+  )
   return ProjectSnapshot.parse({
     projectId: project.id,
     name: project.name,
@@ -206,7 +241,7 @@ export async function snapshotProject(projectRoot: string): Promise<ProjectSnaps
       ...(redlines.some((r) => r.target.documentId === d.id)
         ? { redlineCount: redlines.filter((r) => r.target.documentId === d.id).length }
         : {}),
-      sections: d.headingsPreview.slice(0, MAX_SECTIONS_PER_DOC),
+      sections: sectionsOf(d, chunkPaths.get(d.id)),
     })),
     scenarios,
     ...(practice.length ? { drills: practice } : {}),

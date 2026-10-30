@@ -28,6 +28,7 @@ import {
   type SortDir,
   type SortKey,
 } from './action-table'
+import { CsvImportDialog } from './CsvImportDialog'
 import { ExportDialog } from './ExportDialog'
 import { ProgramFrame, type ProgramContext } from './ProgramFrame'
 import { StatusDialog } from './StatusDialog'
@@ -434,6 +435,7 @@ function ActionsBody({ ctx }: { ctx: ProgramContext }) {
   const openId = useParams().id
   const [creating, setCreating] = useState(false)
   const [importing, setImporting] = useState(false)
+  const [importingCsv, setImportingCsv] = useState(false)
   const [exporting, setExporting] = useState(false)
   const filter = {
     ...(filters.statuses.length ? { statuses: filters.statuses } : {}),
@@ -453,6 +455,7 @@ function ActionsBody({ ctx }: { ctx: ProgramContext }) {
           New
         </Button>
         <Button onClick={() => setImporting(true)}>Import from AAR/IP…</Button>
+        <Button onClick={() => setImportingCsv(true)}>Import CSV…</Button>
         <Button onClick={() => void exportCsvNow(ctx.programPath)}>CSV</Button>
         <Button onClick={() => setExporting(true)}>Export…</Button>
       </div>
@@ -506,6 +509,9 @@ function ActionsBody({ ctx }: { ctx: ProgramContext }) {
           initial={opened}
           onClose={() => navigate('/program/actions')}
         />
+      )}
+      {importingCsv && (
+        <CsvImportDialog programPath={ctx.programPath} onClose={() => setImportingCsv(false)} />
       )}
       {importing && <ImportPicker ctx={ctx} onClose={() => setImporting(false)} />}
       {exporting && (

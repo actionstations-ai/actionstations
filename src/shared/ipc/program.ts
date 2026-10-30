@@ -80,6 +80,26 @@ export const AarImportPreview = z.array(
 )
 export type AarImportPreview = z.infer<typeof AarImportPreview>
 
+/** One row of a corrective-action CSV as the import would read it (#504). */
+export const CsvImportRow = z.object({
+  /** Line in the file (the header is line 1). */
+  line: z.number().int(),
+  title: z.string(),
+  status: CorrectiveActionStatus,
+  warnings: z.array(z.string()),
+  /** Why the row cannot be imported; absent for a valid row. */
+  error: z.string().optional(),
+  /** An action with this title is already in the program; the row is skipped. */
+  duplicate: z.boolean().optional(),
+})
+export type CsvImportRow = z.infer<typeof CsvImportRow>
+export const CsvImportPreview = z.object({
+  rows: z.array(CsvImportRow),
+  ignoredColumns: z.array(z.string()),
+})
+export type CsvImportPreview = z.infer<typeof CsvImportPreview>
+const CsvText = z.string().min(1).max(1_100_000)
+
 export const AarImportSelection = z.object({
   aarItemId: z.string().max(300),
   include: z.boolean(),
@@ -182,6 +202,13 @@ export const programChannels = {
       items: z.array(AarImportSelection).max(500),
     }),
     AarImport,
+  ),
+  /** Read a corrective-action CSV and show what would be imported; nothing is written. */
+  'program:import-csv-preview': channel(R.extend({ csv: CsvText }), CsvImportPreview),
+  /** Create an action for each valid, new row of the CSV. */
+  'program:import-csv': channel(
+    R.extend({ csv: CsvText }),
+    z.object({ created: z.number().int(), skipped: z.number().int() }),
   ),
   'program:propose': channel(R, ExerciseProposal),
   /** The program health dashboard (#438), computed from the program's own files. */

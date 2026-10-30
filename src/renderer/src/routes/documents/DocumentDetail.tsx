@@ -6,7 +6,7 @@ import { Button } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
 import { HeadingTree } from './HeadingTree'
 import { PlanVersionTools } from './PlanVersionTools'
-import { buildHeadingTree, paginateText } from './doc-utils'
+import { buildHeadingTree, paginateText, redlineCountsByHeading } from './doc-utils'
 import { errorText } from '../../lib/errors'
 
 const CHUNK_PAGE = 200
@@ -127,7 +127,9 @@ function HeadingsTab({ projectPath, doc }: { projectPath: string; doc: DocumentM
     : doc.headingsPreview
   const pathKey = paths.join('\n')
   const tree = useMemo(() => buildHeadingTree(pathKey ? pathKey.split('\n') : []), [pathKey])
-  return <HeadingTree nodes={tree} label={`Headings of ${doc.title}`} />
+  const redlines = useIpcQuery('redlines:list', { projectPath, documentId: doc.id })
+  const counts = useMemo(() => redlineCountsByHeading(redlines.data ?? []), [redlines.data])
+  return <HeadingTree nodes={tree} label={`Headings of ${doc.title}`} counts={counts} />
 }
 
 export function DocumentDetail(props: {
