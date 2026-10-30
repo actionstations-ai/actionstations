@@ -35,6 +35,8 @@ import {
   resendInject,
   setHotwashReview,
   retractInject,
+  shareMapOnDevices,
+  sharedMapOnDevices,
   sendMessage,
   starMessage,
   stageProgress,
@@ -141,6 +143,12 @@ export default defineHandlers({
 
   'live:receipts': async ({ projectPath, scenarioId }) =>
     releaseSummaries(await requireProject(projectPath), scenarioId),
+
+  'live:map-share': async ({ projectPath, scenarioId, mapId }) =>
+    shareMapOnDevices(await requireProject(projectPath), scenarioId, mapId),
+
+  'live:map-shared': async ({ projectPath, scenarioId }) =>
+    sharedMapOnDevices(await requireProject(projectPath), scenarioId),
 
   'live:stage-status': async ({ projectPath, scenarioId }) =>
     stageProgress(await requireProject(projectPath), scenarioId),

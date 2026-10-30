@@ -46,9 +46,17 @@ tray. Files are stored once per computer under the app's data folder and shared 
 Attribution is always shown on the map. Map data from OpenStreetMap is licensed ODbL: a project that
 carries copied map data is distributing a Produced Work and must keep its attribution.
 
+## Map on devices
+
+During a live session, tick **Map on devices** on the Facilitate Map tab. Each phone gets the map
+with only the places of messages that reached its seat; places appear as you send messages and
+disappear if you withdraw one. A site plan shows its picture with numbered places. A geographic
+map shows the places as a schematic with coordinates (the phone page has no street map). Untick
+the box to take the map off the phones.
+
 ## Not yet
 
-Sending the map to players' devices, place labels on offline maps (they need bundled fonts), the
+Place labels on offline maps (they need bundled fonts), the
 tile pyramid for very large plans, Locations pages for geographic maps, and the WebGL check on
 packaged Linux and Windows builds.
 

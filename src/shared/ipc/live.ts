@@ -102,6 +102,13 @@ export const liveChannels = {
   ),
   /** Withdraw a release from devices (`inject.recall`). */
   'live:retract-inject': channel(S.extend({ releaseId: z.string() }), z.void()),
+  /** Share a map with devices (each role sees only its delivered places), or stop with no map id (#500). */
+  'live:map-share': channel(
+    S.extend({ mapId: SafeId.optional() }),
+    z.object({ mapId: SafeId.optional() }),
+  ),
+  /** The map shared with devices now, if any. */
+  'live:map-shared': channel(S, z.object({ mapId: SafeId.optional() })),
   /** Every release of the running session with its receipts. */
   'live:receipts': channel(S, z.array(ReleaseSummary)),
   /** Progress of the media staging that starts with the session. */

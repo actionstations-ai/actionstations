@@ -384,7 +384,7 @@ One schema per type. Sizes are hard caps; the UI specs may choose smaller ones.
 
 `welcome`, `clock.state`, `inject.release`, `inject.recall`, `vote.open`, `vote.close`,
 `hotwash.update`, `survey.open`, `survey.close`, `eval.assign`, `call.ring`,
-`controller.notice`, `controller.roster`, `session.end`, `session.rekey`; and `call.end` when
+`controller.notice`, `controller.roster`, `map.state`, `session.end`, `session.rekey`; and `call.end` when
 `by` is `controller`.
 
 `SIGNED_TYPES` is exported from `protocol.ts`. `open()` refuses one of these without a valid
@@ -813,6 +813,7 @@ payload is sealed or plain, the schema name in `src/shared/live/schemas/payloads
 | `call.answer`       | player → controller                    | no                | sealed  | controller                                                                | `CallAnswerPayload`       | yes    | 0429                   |
 | `call.end`          | either direction                       | when controller   | sealed  | controller from a device; players (explicit) from the controller          | `CallEndPayload`          | yes    | 0429                   |
 | `controller.notice` | controller → targets                   | yes (scoped)      | sealed  | players or staff (explicit)                                               | `ControllerNoticePayload` | yes    | 0411, 0412, 0415, 0416 |
+| `map.state`         | host → `client:<id>`                   | yes (host)        | sealed  | players                                                                   | `MapStatePayload`         | y      |
 | `controller.roster` | host → all                             | yes (host)        | sealed  | players                                                                   | `ControllerRosterPayload` | yes    | 0440                   |
 | `session.end`       | controller → all                       | yes (host)        | sealed  | players                                                                   | `SessionEndPayload`       | yes    | 0411, 0417, 0418       |
 | `session.rekey`     | controller → `client:<id>`             | yes (host)        | sealed  | players                                                                   | `SessionRekeyPayload`     | yes    | 0410, 0411             |

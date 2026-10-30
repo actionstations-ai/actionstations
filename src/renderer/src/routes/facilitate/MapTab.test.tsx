@@ -4,6 +4,7 @@
 import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { FacilitatorState } from '@shared/ipc'
+import type { LiveSessionStatus } from '@shared/schemas/live'
 import { ProjectMaps, type Scenario } from '@shared/schemas'
 import { mockTtx, PROJECT, renderAt } from '../documents/test-utils'
 import { projectKey } from '../../state/project'
@@ -121,5 +122,35 @@ describe('Facilitate Map tab', () => {
       scenarioId: 'scenario-3',
       mapId: 'plan1',
     })
+  })
+
+  it('offers Map on devices only while a live session runs, and shares the shown map', async () => {
+    const running = { session: { id: 's1' }, connected: 2 } as unknown as LiveSessionStatus
+    const ttx = mockTtx({
+      'maps:get': () => ({ maps, revision: 'r1' }),
+      'live:session-status': () => running,
+      'live:map-shared': () => ({}),
+      'live:map-share': () => ({ mapId: 'plan1' }),
+    })
+    renderAt(`/p/${projectKey(PROJECT)}/x`, '/p/:projectKey/x', () => (
+      <MapTab
+        projectPath={PROJECT}
+        scenario={scenario}
+        state={FacilitatorState.parse({})}
+        minutes={0}
+        selectedRowId={undefined}
+        onSelectRow={vi.fn()}
+        update={vi.fn()}
+      />
+    ))
+    fireEvent.click(await screen.findByRole('checkbox', { name: 'Map on devices' }))
+    await waitFor(() => expect(ttx.calls('live:map-share')).toHaveLength(1))
+    expect(ttx.calls('live:map-share')[0]).toMatchObject({ mapId: 'plan1' })
+  })
+
+  it('has no Map on devices control without a live session', async () => {
+    show()
+    await screen.findByRole('button', { name: 'Gate A1: I-01 delivered' })
+    expect(screen.queryByRole('checkbox', { name: 'Map on devices' })).toBeNull()
   })
 })

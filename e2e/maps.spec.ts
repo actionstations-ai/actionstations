@@ -8,6 +8,9 @@ import type { AddressInfo } from 'node:net'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { createWebCryptoProvider } from '../src/shared/live/crypto/webcrypto'
+import { HarnessController } from '../src/player/harness/controller'
+import { startHarness } from '../src/player/harness/server'
 import { goTo, invoker, launch } from './helpers'
 import { buildPdf } from '../tests/fixtures/ingest/builders'
 import { makePmtiles, solidPng } from '../tests/fixtures/maps/files'
@@ -286,5 +289,59 @@ test('maps follow-ups: PDF site plan, row places picker, snapshot, map on the pr
     await invoke('facilitator:close-present', undefined)
   } finally {
     await app.close()
+  }
+})
+
+test('maps on devices: the player page shows the shared plan and its places, then drops it', async ({
+  browser,
+}) => {
+  test.setTimeout(120_000)
+  const controller = await HarnessController.create({
+    crypto: createWebCryptoProvider(),
+    scenarioTitle: 'Smoke at the gate',
+    sessionName: 'Map rehearsal',
+  })
+  const harness = await startHarness({ controller })
+  const context = await browser.newContext({ viewport: { width: 390, height: 800 } })
+  try {
+    const page = await context.newPage()
+    await page.goto(harness.invite('players'))
+    await page.getByRole('radio', { name: /Operations Director/ }).check()
+    await page.getByRole('button', { name: 'Join exercise' }).click()
+    await expect(page.getByRole('heading', { level: 1, name: 'Inbox' })).toBeVisible()
+
+    await page.getByRole('button', { name: 'More' }).click()
+    await page.getByRole('button', { name: 'Map', exact: true }).click()
+    await expect(page.getByText('No map is being shared right now.')).toBeVisible()
+
+    const image = await controller.client.putBlob(
+      { kind: 'image', mime: 'image/png', name: 'Terminal', width: 8, height: 8 },
+      new Uint8Array(solidPng(8, [30, 90, 160, 255])),
+    )
+    const state = {
+      mapId: 'terminal',
+      title: 'Terminal',
+      mapKind: 'site_plan',
+      image,
+      alt: 'Site plan Terminal with 1 place',
+      pins: [{ label: 'Gate A1', detail: 'I-01', kind: 'incident', x: 20, y: 30 }],
+      targets: ['all'],
+    }
+    const send = (payload: object) =>
+      controller.client.send('map.state', 'all', payload as never, { key: 'players', sign: true })
+    await send(state)
+    await expect(page.getByRole('heading', { level: 1, name: 'Terminal' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: 'Gate A1' })).toContainText('I-01')
+    const picture = page.locator('.pmap__img')
+    await expect(picture).toBeVisible()
+    expect(await picture.getAttribute('src')).toMatch(/^blob:/)
+    const found = await new AxeBuilder({ page }).setLegacyMode(true).analyze()
+    expect(found.violations.map((v) => v.id)).toEqual([])
+
+    await send({ ...state, pins: [], closed: true })
+    await expect(page.getByText('No map is being shared right now.')).toBeVisible()
+  } finally {
+    await context.close()
+    await harness.close()
   }
 })

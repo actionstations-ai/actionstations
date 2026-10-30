@@ -59,6 +59,9 @@ import { Delivery, type DeliverySeat } from './releases'
 import { LiveSurveys, type SurveySeat } from './surveys'
 import { LiveDrills, type DrillSeat } from '../microdrill/live'
 import { drillRuns } from '../microdrill/live-runs'
+import { DeviceMap } from './device-map'
+import { stageImageFile } from './assets'
+import { readProjectMaps } from '../maps/project'
 import { Votes, type VoteResult, type VoteSeat } from './votes'
 import {
   emptyStage,
@@ -140,6 +143,8 @@ export interface Active {
   surveys: LiveSurveys
   /** Micro-drills sent to devices (spec 0437 FR-17). */
   drills: LiveDrills
+  /** The map shared with devices (spec 0436 FR-8). */
+  deviceMap: DeviceMap
   evaluation: LiveEvaluation
   /** Staff seats close when a partner invite is minted, until the host grants them (#529). */
   staffSeats: { locked: boolean; granted: boolean }
@@ -304,6 +309,7 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
     await a.client.send('controller.roster', `client:${msg.from}`, a.roster, { key: 'players' })
   if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
   if (seating.ok && seating.seat.kind === 'simcell') await a.helpers.onJoin()
+  if (seating.ok) refreshDeviceMap(a)
 }
 
 async function onPresence(a: Active, msg: Opened<'presence'>): Promise<void> {
@@ -667,6 +673,53 @@ function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
       for (const listener of closedListeners) listener(result)
     },
   })
+}
+
+/** The map on devices: what is read, uploaded and sent for it (spec 0436 FR-8). */
+function makeDeviceMap(getActive: () => Active, roles: readonly Role[]): DeviceMap {
+  return new DeviceMap({
+    source: async () => {
+      const a = getActive()
+      const [{ maps }, scenario] = await Promise.all([
+        readProjectMaps(a.root),
+        getScenario(a.root, a.session.scenarioId),
+      ])
+      return { layers: maps.maps, places: maps.places, msel: scenario.msel }
+    },
+    releases: () => getActive().delivery.summaries(),
+    seats: () =>
+      [...getActive().seats.byClient.values()].map((s): DeliverySeat => {
+        const role = s.roleId ? roles.find((r) => r.id === s.roleId) : undefined
+        const team = role ? teamSlug(role.team) : undefined
+        return {
+          clientId: s.clientId,
+          kind: s.kind,
+          ...(s.roleId ? { roleId: s.roleId } : {}),
+          ...(team ? { teamId: team } : {}),
+          label: role?.name ?? s.kind,
+        }
+      }),
+    image: (layer) =>
+      stageImageFile(deviceMapStage(getActive()), {
+        key: `map:${layer.id}:${layer.image}`,
+        rel: layer.image,
+        name: layer.title,
+        width: layer.width,
+        height: layer.height,
+      }),
+    send: (to, payload) =>
+      getActive().client.send('map.state', to, payload as never, { key: 'players', sign: true }),
+  })
+}
+
+function deviceMapStage(a: Active) {
+  return {
+    root: a.root,
+    limits: a.client.limits,
+    putBlob: (meta: Parameters<LiveClient['putBlob']>[0], bytes: Uint8Array) =>
+      a.client.putBlob(meta, bytes),
+    cache: a.mediaCache,
+  }
 }
 
 /** Surveys' view of the session: sending as the controller, the seated devices, the log. */
@@ -1076,6 +1129,7 @@ async function startOn(
     votes: makeVotes(() => a, scenario.roles),
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     drills: makeDrills(() => a, scenario.roles),
+    deviceMap: makeDeviceMap(() => a, scenario.roles),
     evaluation: makeEvaluation(() => a),
     helpers: makeHelpers(() => a),
     forwardedReceipts: new Set(),
@@ -1264,7 +1318,36 @@ export async function releaseInject(
 ) {
   const a = activeFor(root, scenarioId)
   const targets = req.targets ? await wireTargets(a, req.targets) : undefined
-  return releaseRow(hostOf(a), { ...req, ...(targets ? { targets } : {}) })
+  const summary = await releaseRow(hostOf(a), { ...req, ...(targets ? { targets } : {}) })
+  refreshDeviceMap(a)
+  return summary
+}
+
+/** Resend the shared map to the audiences whose places changed; never fails a release. */
+function refreshDeviceMap(a: Active): void {
+  if (!a.deviceMap.mapId) return
+  void a.deviceMap
+    .refresh()
+    .catch((e: unknown) => console.error('[live] map on devices:', (e as Error).message))
+}
+
+/** The map shared with devices now; none when no session runs for this scenario. */
+export function sharedMapOnDevices(root: string, scenarioId: string): { mapId?: string } {
+  const a = active
+  const id =
+    a && a.root === root && a.session.scenarioId === scenarioId ? a.deviceMap.mapId : undefined
+  return id ? { mapId: id } : {}
+}
+
+/** Share a map with devices, or stop sharing with undefined (spec 0436 FR-8). */
+export async function shareMapOnDevices(
+  root: string,
+  scenarioId: string,
+  mapId: string | undefined,
+): Promise<{ mapId?: string }> {
+  const a = activeFor(root, scenarioId)
+  await a.deviceMap.share(mapId)
+  return a.deviceMap.mapId ? { mapId: a.deviceMap.mapId } : {}
 }
 
 export async function resendInject(
@@ -1274,11 +1357,17 @@ export async function resendInject(
   t: Destination[],
 ) {
   const a = activeFor(root, scenarioId)
-  return a.delivery.resend(releaseId, await wireTargets(a, t))
+  const summary = await a.delivery.resend(releaseId, await wireTargets(a, t))
+  refreshDeviceMap(a)
+  return summary
 }
 
-export const retractInject = (root: string, scenarioId: string, releaseId: string) =>
-  activeFor(root, scenarioId).delivery.retract(releaseId)
+export async function retractInject(root: string, scenarioId: string, releaseId: string) {
+  const a = activeFor(root, scenarioId)
+  const result = await a.delivery.retract(releaseId)
+  refreshDeviceMap(a)
+  return result
+}
 
 export const releaseSummaries = (root: string, scenarioId: string) =>
   activeFor(root, scenarioId).delivery.summaries()
