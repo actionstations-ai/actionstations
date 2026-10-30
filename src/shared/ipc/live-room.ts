@@ -10,6 +10,7 @@ import {
   LiveSessionStatus,
   LiveSessionSummary,
   LogTailEntry,
+  RegionalRosterView,
 } from '../schemas/live'
 
 const S = z.object({ projectPath: z.string(), scenarioId: SafeId })
@@ -95,6 +96,10 @@ export const liveRoomChannels = {
     S.extend({ minutes: z.number().int().min(1).max(240) }),
     z.void(),
   ),
+  /** The co-controller roster of a regional exercise and whether devices have it. */
+  'live:regional-roster': channel(S, RegionalRosterView),
+  /** Send the roster to devices again (after a partner's key was pinned). */
+  'live:regional-roster-send': channel(S, RegionalRosterView),
   /** A past session's hot wash board, rebuilt from its log (read only). */
   'live:hotwash-past': channel(Session, BoardView),
   /** Mark a release answered; clears its "No response" flag. */
