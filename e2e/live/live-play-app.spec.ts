@@ -237,6 +237,8 @@ test('live play in the app: devices, targets, away, decision, hot wash, surveys,
       page.setDefaultTimeout(15_000)
       await page.setViewportSize({ width: 1440, height: 900 })
       invoke = invoker(page)
+      // Let the first route settle, or it replaces the one set below.
+      await expect(page.getByRole('heading', { name: 'Projects', level: 1 })).toBeVisible()
       await openFacilitate(page, key, scenarioId)
       await page.getByRole('tab', { name: 'Live' }).click()
       await page
