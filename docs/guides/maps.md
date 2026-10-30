@@ -54,9 +54,16 @@ disappear if you withdraw one. A site plan shows its picture with numbered place
 map shows the places as a schematic with coordinates (the phone page has no street map). Untick
 the box to take the map off the phones.
 
+## Place names on offline maps
+
+Offline vector maps name places, roads and water in Latin script. The font is Noto Sans (Latin
+ranges only), bundled in the app under the SIL Open Font License; the licence text is in
+`src/renderer/src/components/map/geo/glyphs/OFL.txt`. Names in other scripts are left out until
+more font ranges are bundled.
+
 ## Not yet
 
-Place labels on offline maps (they need bundled fonts), the
+The
 Locations pages for geographic maps, and the WebGL check on
 packaged Linux and Windows builds.
 

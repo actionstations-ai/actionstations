@@ -27,9 +27,9 @@ policy forbids bulk downloads and prefetching, and OpenFreeMap allows small offl
   (git-ignored) to travel. State files come from a catalog published by `actionstations-ai/maps`
   and are verified by sha256 (Node `crypto`, no new dependency). Downloads resume with Range and
   If-Range and follow redirects only to allowed HTTPS hosts.
-- **Offline styles are small and have no labels** in this release, so no fonts or sprites are
-  bundled. Labels need the Protomaps and OpenMapTiles glyph files and a license check of the
-  OpenFreeMap style; that is a follow-up.
+- **Offline styles carry place, road and water names** (#500) in Latin script, drawn with Noto Sans
+  glyph ranges 0-511 bundled in the app (SIL Open Font License, about 200 KB). No sprites are
+  needed. Other scripts are skipped until more ranges are bundled.
 
 ## Consequences
 
