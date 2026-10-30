@@ -48,6 +48,8 @@ actionstations-relay-win-x64.exe service install
 
 This writes `%ProgramData%\ActionStationsRelay\config.toml` if none exists, creates a task named `ActionStationsRelay` that starts the server at boot as LocalService, gives LocalService write access to the data directory, adds a Windows Defender Firewall rule for the port (domain and private networks only) and starts it. Each command is printed as it runs. `service uninstall` reverses it.
 
+The task has no console, so the server key it creates on first start is not shown anywhere. From the same prompt run `actionstations-relay-win-x64.exe rotate-key --data-dir "%ProgramData%\ActionStationsRelay"` to get a key. The generated `config.toml` lists no `host`; set one for the names players use, then restart the task. To check a finished install from another machine: `AS_RELAY_KEY=<key> node relay/node/scripts/smoke.mjs https://<host>:8485` (health, player page, create a session, WebSocket join).
+
 The program is a console program, not a Windows service binary, so it runs as a startup task. If your policy requires a real service, wrap it with a service host your organization already approves.
 
 ### Running it directly
@@ -125,11 +127,11 @@ Replace the program and restart; the database carries a schema version and a new
 
 ## Publishing the container image (maintainers)
 
-The image is not published by default. When the owner has confirmed that public images cost nothing on the organization's GitHub plan, from the repository root and logged in with `docker login ghcr.io`:
+A tag push (`vX.Y.Z`) publishes the image from the release workflow's `relay-image` job, using the workflow token on a standard runner (public packages cost nothing). To publish by hand instead, from the repository root and logged in with `docker login ghcr.io`:
 
 ```
 docker build -f relay/node/Dockerfile -t ghcr.io/actionstations-ai/actionstations-relay:<version> .
 docker push ghcr.io/actionstations-ai/actionstations-relay:<version>
 ```
 
-Then set the package's visibility to public in the organization's package settings. Binaries: the release workflow builds the Linux x64 and Windows x64 executables (`pnpm build:player`, then `pnpm --filter @actionstations/relay-node build:public` and `build:sea`) on standard runners and uploads each with its `.sha256` file to the draft release. To build one by hand, run the same three commands on that platform.
+After the first publish, set the package's visibility to public once in the organization's package settings. Binaries: the release workflow builds the Linux x64 and Windows x64 executables (`pnpm build:player`, then `pnpm --filter @actionstations/relay-node build:public` and `build:sea`) on standard runners and uploads each with its `.sha256` file to the draft release. To build one by hand, run the same three commands on that platform.

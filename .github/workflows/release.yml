@@ -8,7 +8,7 @@
 #
 # The self-hosted live play server (spec 0409, #496) ships as a single executable per platform
 # (Linux x64, Windows x64), built the same way and uploaded to the same draft. The public GHCR
-# image is published by hand (docs/guides/self-hosted-server.md), never from here.
+# image is published to GHCR by the relay-image job on a tag push (a public package is free).
 #
 # Runs on: a vX.Y.Z tag push (scripts/release.sh --publish pushes it and creates the draft),
 # by hand from the Actions tab (with a tag to upload to that draft, without one to only build
@@ -188,3 +188,34 @@ jobs:
           (( ${#files[@]} > 0 )) || { echo "::error::no executable in relay-out"; exit 1; }
           ls -l "${files[@]}"
           gh release upload "$TAG" "${files[@]}" --clobber --repo "$GITHUB_REPOSITORY"
+
+  relay-image:
+    # Publishes the self-hosted server image to GHCR on a tag push. A public package on a public
+    # repository costs nothing; the job uses only the workflow token and the Docker already on
+    # the runner. After the first publish, set the package to public once in the organization's
+    # package settings (docs/guides/self-hosted-server.md).
+    name: Self-hosted server image (GHCR)
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    env:
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Build and push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          image=ghcr.io/actionstations-ai/actionstations-relay
+          version="${TAG#v}"
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker build -f relay/node/Dockerfile -t "$image:$version" -t "$image:latest" .
+          docker push "$image:$version"
+          docker push "$image:latest"

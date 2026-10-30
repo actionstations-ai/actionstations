@@ -135,4 +135,13 @@ describe('cli', () => {
     const bad = io()
     expect(await main(['service', 'restart'], bad)).toBe(2)
   })
+
+  it('service install creates a missing data directory before writing config.toml', async () => {
+    const dir = join(tmp(), 'not', 'yet', 'there')
+    const ran: string[] = []
+    const win = io({ platform: 'win32', exec: (command) => ran.push(command) })
+    expect(await main(['service', 'install', '--data-dir', dir], win)).toBe(0)
+    expect(existsSync(join(dir, 'config.toml'))).toBe(true)
+    expect(ran).toEqual(['schtasks', 'icacls', 'netsh', 'schtasks'])
+  })
 })
