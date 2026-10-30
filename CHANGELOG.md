@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Changed
+
+- The Action Stations relay runs on Cloudflare Workers Paid, with larger caps (#539, ADR-0066): 100 sessions a day across everyone and 10 per address (were 25 and 3), and per session 15,000 row writes, 7,500 stored messages and 24 MiB stored (were 3,600, 1,500 and 12 MiB), so larger exercises and more organizations fit on one day. The caps keep the worst month inside the plan's included allowance. Using the relay still costs users nothing.
+
 ### Added
 
 - Self-hosted server on Windows (#509). Tested the win-x64 executable on Windows 11: the startup task, firewall rule, health, session creation and WebSocket join all work from another machine, and `service uninstall` removes them. Fixed: `service install` failed with ENOENT when the data directory did not exist yet. New `relay/node/scripts/smoke.mjs` checks a running server; the release workflow's `relay-image` job publishes the GHCR image on a tag push.

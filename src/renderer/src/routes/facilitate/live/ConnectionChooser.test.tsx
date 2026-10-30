@@ -156,7 +156,8 @@ describe('your server option', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: CONNECTION.test }))
     await screen.findByText(CONNECTION.selfHosted.fingerprintHelp)
-    expect(screen.getByText('00', { exact: false })).toBeTruthy()
+    const pairs = document.querySelectorAll('.live-fingerprint-view__pair')
+    expect(Array.from(pairs, (pair) => pair.textContent?.trim()).slice(0, 2)).toEqual(['00', '01'])
     expect(
       (screen.getByRole('button', { name: CONNECTION.start }) as HTMLButtonElement).disabled,
     ).toBe(true)

@@ -10,11 +10,13 @@ export interface Env {
 
 /**
  * Sessions created per UTC day, account-wide (spec 0408 FR-5), and per address (the /64 for
- * IPv6) so one person cannot take the day. With the per-session write budget below the worst
- * day stays under the free plan's 100,000 row writes: 25 × 3,600 = 90,000.
+ * IPv6) so one person cannot take the day. The relay runs on Workers Paid, which has no spending
+ * cap, so these caps are the cost cap (ADR-0066): with the per-session write budget below the
+ * worst day is 100 × 15,000 = 1.5M row writes, and the worst month (45M) stays inside the plan's
+ * included 50M.
  */
-export const SESSIONS_PER_DAY = 25
-export const SESSIONS_PER_ADDRESS_PER_DAY = 3
+export const SESSIONS_PER_DAY = 100
+export const SESSIONS_PER_ADDRESS_PER_DAY = 10
 
 /** The one quota object's name. */
 export const QUOTA_OBJECT_NAME = 'quota'
@@ -29,9 +31,9 @@ export const RELAY_HUB_OPTIONS: Pick<
   'framesPerMinute' | 'storedEnvelopes' | 'storedBytes' | 'rowWriteBudget' | 'catchupBytes'
 > = {
   framesPerMinute: 30,
-  storedEnvelopes: 1_500,
-  storedBytes: 12 * 1024 * 1024,
-  rowWriteBudget: 3_600,
+  storedEnvelopes: 7_500,
+  storedBytes: 24 * 1024 * 1024,
+  rowWriteBudget: 15_000,
   catchupBytes: 512 * 1024,
 }
 

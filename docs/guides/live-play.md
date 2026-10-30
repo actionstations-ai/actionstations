@@ -84,7 +84,7 @@ Your computer listens on the Wi-Fi at the address shown. Players' devices load t
 **Action Stations relay.**
 
 ```text
-Your computer connects to relay.actionstations.ai, run by the Action Stations project on Cloudflare. It sends the session id, encrypted messages and media, their sizes and timing, and your IP address. The relay cannot read session content and keeps encrypted messages only for late joiners, deleting them when you end the session or after 72 hours. Limits: 60 devices, 8 MB per media file, 25 sessions per day for everyone; when the free limit is reached it stops with an error and nothing is ever billed.
+Your computer connects to relay.actionstations.ai, run by the Action Stations project on Cloudflare. It sends the session id, encrypted messages and media, their sizes and timing, and your IP address. The relay cannot read session content and keeps encrypted messages only for late joiners, deleting them when you end the session or after 72 hours. Limits: 60 devices, 8 MB per media file, 100 sessions per day for everyone; when the daily limit is reached it stops with an error. Using it costs you nothing.
 ```
 
 **Your server.**
@@ -168,7 +168,7 @@ The listener is bound to the one address you chose, on port 8485 (or the next fr
 
 ## Remote and hybrid: the Action Stations relay
 
-The relay is a small service the project runs on Cloudflare's free plan. It forwards encrypted
+The relay is a small service the project runs on Cloudflare. It forwards encrypted
 messages between your app and the players' browsers, keeps them only so a player who joins late
 or reconnects can catch up, and deletes them when you end the session or after 72 hours at the
 latest.
@@ -180,17 +180,17 @@ or media, messages, votes, notes, names, or the keys. Its source is in this repo
 
 ### Limits, in plain numbers
 
-The relay costs nothing to run and stays that way because every session is capped:
+Using it costs you nothing. Every session is capped so the shared relay stays available:
 
 - 60 devices in a session.
 - Messages up to 64 KiB; media files up to 8 MiB each and 64 MiB per session. The app tells you
   which injects are too large for the relay and offers to show them on the main screen instead.
-- 30 messages a minute per participant (short bursts are fine); 1,500 stored messages kept for
+- 30 messages a minute per participant (short bursts are fine); 7,500 stored messages kept for
   players who join late or reconnect.
-- 3 sessions a day from one address, and 25 a day across everyone who uses the relay (the day
+- 10 sessions a day from one address, and 100 a day across everyone who uses the relay (the day
   resets at 00:00 UTC).
 
-### If you see "The Action Stations relay has reached today's free limit"
+### If you see "The Action Stations relay has reached today's limit"
 
 The shared daily allowance is used up. Nothing is wrong with your exercise and nothing is
 billed to anyone. You can:

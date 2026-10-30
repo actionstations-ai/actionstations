@@ -144,15 +144,16 @@ describe('worker: sessions', () => {
     const one = ip()
     for (let i = 0; i < SESSIONS_PER_ADDRESS_PER_DAY; i++)
       expect((await create(w, { v: 1 }, one)).status).toBe(201)
+    // Past the per-minute edge window, the address's daily share is what refuses it.
+    w.clock.now += 60_000
     const mine = await create(w, { v: 1 }, one)
     expect(mine.status).toBe(429)
-    expect(Number(mine.headers.get('Retry-After'))).toBe(12 * 3600)
+    expect(Number(mine.headers.get('Retry-After'))).toBe(12 * 3600 - 60)
     expect(w.sessions.size).toBe(SESSIONS_PER_ADDRESS_PER_DAY)
     // IPv6 addresses count by their /64.
-    expect((await create(w, { v: 1 }, '2001:db8:1:2::1')).status).toBe(201)
-    expect((await create(w, { v: 1 }, '2001:db8:1:2::2')).status).toBe(201)
-    expect((await create(w, { v: 1 }, '2001:db8:1:2:ffff::3')).status).toBe(201)
-    expect((await create(w, { v: 1 }, '2001:db8:1:2::4')).status).toBe(429)
+    for (let i = 1; i <= SESSIONS_PER_ADDRESS_PER_DAY; i++)
+      expect((await create(w, { v: 1 }, `2001:db8:1:2:${i.toString(16)}::1`)).status).toBe(201)
+    expect((await create(w, { v: 1 }, '2001:db8:1:2:ffff::3')).status).toBe(429)
     let created = w.sessions.size
     while (created < SESSIONS_PER_DAY) {
       expect((await create(w)).status).toBe(201)
@@ -160,7 +161,7 @@ describe('worker: sessions', () => {
     }
     const over = await create(w)
     expect(over.status).toBe(503)
-    expect(over.headers.get('Retry-After')).toBe(String(12 * 3600))
+    expect(over.headers.get('Retry-After')).toBe(String(12 * 3600 - 60))
     const body = (await over.json()) as { error: { code: string; message: string } }
     expect(body.error.code).toBe('DAILY_LIMIT')
     expect(body.error.message).toContain('00:00 UTC')
@@ -173,7 +174,9 @@ describe('worker: sessions', () => {
     const from = ip()
     const statuses: number[] = []
     for (let i = 0; i < 11; i++) statuses.push((await create(w, { v: 1 }, from)).status)
-    expect(statuses.slice(0, SESSIONS_PER_ADDRESS_PER_DAY)).toEqual([201, 201, 201])
+    expect(statuses.slice(0, SESSIONS_PER_ADDRESS_PER_DAY)).toEqual(
+      Array.from({ length: SESSIONS_PER_ADDRESS_PER_DAY }, () => 201),
+    )
     expect(statuses[10]).toBe(429)
   })
 
