@@ -12,7 +12,7 @@ const { HashEmbedder } = await import('../providers/embedding/hash')
 const { AppError } = await import('../lib/errors')
 
 import type { ChunkInput, IndexedDocument } from './types'
-import type { EmbeddingProvider } from '../providers/types'
+import type { EmbedMeta, EmbeddingProvider } from '../providers/types'
 
 const doc = (id: string, title = id.toUpperCase()): IndexedDocument => ({
   id,
@@ -192,6 +192,28 @@ class FakeEmbedder implements EmbeddingProvider {
     })
   }
 }
+
+describe('embedding requests name their documents (#502)', () => {
+  class Recording extends FakeEmbedder {
+    readonly titles: (string[] | undefined)[] = []
+    override async embed(texts: string[], _signal?: AbortSignal, meta?: EmbedMeta) {
+      this.titles.push(meta?.documentTitles)
+      return super.embed(texts)
+    }
+  }
+  afterEach(() => closeAllConnections())
+
+  it('passes the document title of every text', async () => {
+    const embedder = new Recording('fake', 8)
+    const store = openIndexAt(
+      join(mkdtempSync(join(tmpdir(), 'ttx-idx-')), 'index.sqlite'),
+      embedder,
+    )
+    await store.replaceDocument(doc('tirp'), TIRP_CHUNKS)
+    expect(embedder.titles.flat()).toHaveLength(TIRP_CHUNKS.length)
+    expect(new Set(embedder.titles.flat())).toEqual(new Set([doc('tirp').title]))
+  })
+})
 
 describe('embedder changes', () => {
   afterEach(() => closeAllConnections())

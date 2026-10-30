@@ -157,6 +157,7 @@ export function effectiveOf(global: PrivacySettings, project?: ProjectPrivacy): 
     redact: { ...global.redact, ...(project?.redact ?? {}) },
     alwaysRedact: project?.alwaysRedact ?? global.alwaysRedact,
     neverRedact: project?.neverRedact ?? global.neverRedact,
+    neverSend: project?.neverSend ?? global.neverSend,
   }
 }
 
@@ -181,4 +182,10 @@ export function cloudMarkerText(config: MarkerConfig): string | null {
   if (networkOption(config) === 'local' && canTreatAsLocal(config))
     return 'On your network, treated as local'
   return null
+}
+
+/** The ids with `id` added or removed. */
+export function toggleId(ids: readonly string[], id: string, on: boolean): string[] {
+  const rest = ids.filter((x) => x !== id)
+  return on ? [...rest, id] : rest
 }

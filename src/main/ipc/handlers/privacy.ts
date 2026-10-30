@@ -72,8 +72,8 @@ export default defineHandlers({
 
   'privacy:pending': ({ jobId }) => approvals.list(jobId),
 
-  'privacy:decide': ({ requestId, requestHash, decision }) =>
-    approvals.decide(requestId, requestHash, decision),
+  'privacy:decide': ({ requestId, requestHash, decision, leaveOut }) =>
+    approvals.decide(requestId, requestHash, decision, leaveOut),
 
   'privacy:preview-redaction': async ({ projectPath, text }) => {
     const root = await projectRoot(projectPath)

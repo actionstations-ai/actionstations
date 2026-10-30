@@ -34,6 +34,7 @@ import { extractJson } from '../json'
 import type {
   ChatRequest,
   ChatResponse,
+  EmbedMeta,
   EmbeddingProvider,
   MediaJob,
   MediaOutput,
@@ -382,7 +383,7 @@ class GuardedEmbeddingProvider implements EmbeddingProvider {
    * Previewed and approved, not redacted: search over placeholders would not work. One approval
    * covers the job's later batches (open question 5), so their texts are not fingerprinted.
    */
-  async embed(texts: string[], signal?: AbortSignal): Promise<Float32Array[]> {
+  async embed(texts: string[], signal?: AbortSignal, meta?: EmbedMeta): Promise<Float32Array[]> {
     if (texts.length === 1 && texts[0] === DIMENSION_PROBE) return this.inner.embed(texts, signal)
     const at = await where(this.deps, undefined, signal)
     const host = isCloudModel(this.config.kind, this.inner.model)
@@ -401,6 +402,7 @@ class GuardedEmbeddingProvider implements EmbeddingProvider {
         redactable: false,
         parts: texts.map((t, i) => ({ name: `Text ${i + 1}`, text: t, spans: [] })),
         excerpts: [],
+        sources: countSources(meta?.documentTitles),
       })
       return { manifest, body: texts, hash, content: [], registry }
     }
@@ -419,6 +421,13 @@ class GuardedEmbeddingProvider implements EmbeddingProvider {
     )
     return this.inner.embed(prepared.body, signal)
   }
+}
+
+/** Passages per document title, in the order the titles first appear. */
+export function countSources(titles?: string[]): { title: string; passages: number }[] {
+  const counts = new Map<string, number>()
+  for (const t of titles ?? []) counts.set(t, (counts.get(t) ?? 0) + 1)
+  return [...counts].map(([title, passages]) => ({ title, passages }))
 }
 
 function base(

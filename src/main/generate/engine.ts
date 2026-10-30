@@ -5,6 +5,11 @@
 // repair-msel.ts (generate:repair), which runs the same repairs on a finished scenario.
 import { placeLabels } from './places'
 import { readProjectMaps } from '../maps/project'
+import {
+  REDACTION_UNKNOWN,
+  recordPlaceholderWarnings,
+  watchPlaceholders,
+} from './placeholder-warnings'
 import { isPartnerRow, loadOwnerFilter, restorePartnerRows, type OwnerFilter } from './owner-filter'
 import { orderedCapabilities } from '@shared/core-capabilities'
 import {
@@ -162,6 +167,7 @@ export const PIPELINE_WARNINGS = new Set([
   FACILITY_UNKNOWN_ID,
   DECISION_POINT_RETAGGED,
   SEAM_ROW_ASSIGNED,
+  REDACTION_UNKNOWN,
 ])
 /** rowId the overview's dropped citations are recorded under. */
 export const OVERVIEW_ROW = 'overview'
@@ -1309,8 +1315,10 @@ async function executeStep(input: StepInput, opts: ExecuteOptions): Promise<Scen
   const work = structuredClone(input.scenario)
   relinkSeamRows(work)
   const docs: DocBuffer = new Map()
+  const watch = watchPlaceholders(env.ctx)
   try {
-    const run = await exec({ ...input, env: { ...env, docs }, scenario: work })
+    const run = await exec({ ...input, env: { ...env, ctx: watch.ctx, docs }, scenario: work })
+    recordPlaceholderWarnings(work, label, watch.found)
     keepPartnerRows(work, input.scenario, env)
     recordRun(work, run)
     if (GROUNDED_STAGES.has(step.stage)) await groundStep(env, work)

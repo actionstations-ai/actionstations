@@ -42,6 +42,20 @@ export interface PipelineDeps {
   /** Facility identifiers the project's documents state (#84). */
   loadFacilityFacts(projectPath: string, project: Project): Promise<FacilityFacts>
   store: ScenarioStoreDeps
+  /** Sections a request to a cloud provider must leave out (#502); absent in tests. */
+  withheldFromCloud?(projectPath: string | undefined, jobId: string): Promise<WithheldSections>
+}
+
+export interface WithheldSections {
+  documents: ReadonlySet<string>
+  chunks: ReadonlySet<number>
+}
+
+let withheldSource: PipelineDeps['withheldFromCloud']
+
+/** The outbound gate registers what a cloud request must leave out; tests leave it unset. */
+export function registerWithheldSource(source: PipelineDeps['withheldFromCloud']): void {
+  withheldSource = source
 }
 
 let overrides: Partial<PipelineDeps> = {}
@@ -87,5 +101,9 @@ const KEYS: (keyof PipelineDeps)[] = [
 export async function pipelineDeps(): Promise<PipelineDeps> {
   const missing = KEYS.filter((k) => overrides[k] === undefined)
   const real = await realDeps(missing)
-  return { ...real, ...overrides } as PipelineDeps
+  return {
+    ...real,
+    ...(withheldSource ? { withheldFromCloud: withheldSource } : {}),
+    ...overrides,
+  } as PipelineDeps
 }

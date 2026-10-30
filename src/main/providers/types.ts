@@ -93,11 +93,17 @@ export interface TextProvider {
   health(signal?: AbortSignal): Promise<ProviderHealth>
 }
 
+/** What an embedding request is made of, for the cloud approval (adapters ignore it). */
+export interface EmbedMeta {
+  /** The document each text comes from, one title per text, in order. */
+  documentTitles?: string[]
+}
+
 export interface EmbeddingProvider {
   readonly id: string
   readonly model: string
   readonly dims: number
-  embed(texts: string[], signal?: AbortSignal): Promise<Float32Array[]>
+  embed(texts: string[], signal?: AbortSignal, meta?: EmbedMeta): Promise<Float32Array[]>
 }
 
 export type MediaCapability = 'image' | 'video' | 'audio'

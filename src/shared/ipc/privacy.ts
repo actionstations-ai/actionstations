@@ -20,7 +20,7 @@ export const PrivacyView = z.object({
 })
 export type PrivacyView = z.infer<typeof PrivacyView>
 
-export const ApprovalDecision = z.enum(['send', 'approve-documents', 'cancel'])
+export const ApprovalDecision = z.enum(['send', 'approve-documents', 'leave-out', 'cancel'])
 export type ApprovalDecision = z.infer<typeof ApprovalDecision>
 
 export const ApprovalNeededEvent = z.object({
@@ -58,6 +58,8 @@ export const privacyChannels = {
       requestId: z.string().max(100),
       requestHash: z.string().max(128),
       decision: ApprovalDecision,
+      /** For `leave-out`: the chunk ids of the sections to take out of the request. */
+      leaveOut: z.array(z.number().int()).max(200).optional(),
     }),
     z.void(),
   ),

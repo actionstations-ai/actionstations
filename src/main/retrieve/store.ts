@@ -103,12 +103,15 @@ export class SqliteIndexStore implements IndexStore {
     texts: string[],
     onProgress?: (done: number, total: number) => void,
     signal?: AbortSignal,
+    titles?: string[],
   ): Promise<Float32Array[]> {
     const out: Float32Array[] = []
     onProgress?.(0, texts.length)
     for (let i = 0; i < texts.length; i += EMBED_BATCH) {
       signal?.throwIfAborted()
-      out.push(...(await this.embedder.embed(texts.slice(i, i + EMBED_BATCH), signal)))
+      const batch = texts.slice(i, i + EMBED_BATCH)
+      const meta = titles ? { documentTitles: titles.slice(i, i + EMBED_BATCH) } : undefined
+      out.push(...(await this.embedder.embed(batch, signal, meta)))
       onProgress?.(out.length, texts.length)
     }
     for (const v of out) {
@@ -132,6 +135,7 @@ export class SqliteIndexStore implements IndexStore {
         chunks.map((c) => (c.headingPath ? `${c.headingPath}\n${c.text}` : c.text)),
         onProgress,
         signal,
+        chunks.map(() => doc.title),
       )
       signal?.throwIfAborted()
       this.writeDocument(doc, chunks, vectors)
@@ -327,14 +331,18 @@ export class SqliteIndexStore implements IndexStore {
     return this.serialize(async () => {
       const rows = this.db
         .prepare(
-          `SELECT c.id, c.doc_id, c.heading_path, c.text FROM chunks c
+          `SELECT c.id, c.doc_id, c.heading_path, c.text, d.title AS doc_title FROM chunks c
+           JOIN documents d ON d.id = c.doc_id
            WHERE c.id NOT IN (SELECT chunk_id FROM chunk_vec) ORDER BY c.id`,
         )
-        .all() as Pick<ChunkRow, 'id' | 'doc_id' | 'heading_path' | 'text'>[]
+        .all() as (Pick<ChunkRow, 'id' | 'doc_id' | 'heading_path' | 'text'> & {
+        doc_title: string
+      })[]
       const vectors = await this.embedAll(
         rows.map((r) => (r.heading_path ? `${r.heading_path}\n${r.text}` : r.text)),
         onProgress,
         signal,
+        rows.map((r) => r.doc_title),
       )
       signal?.throwIfAborted()
       const insert = this.db.prepare(

@@ -31,6 +31,8 @@ export const PrivacySettings = z.object({
   redact: z.partialRecord(RedactionCategory, z.boolean()).default({}),
   alwaysRedact: z.array(Term).max(500).default([]),
   neverRedact: z.array(Term).max(500).default([]),
+  /** Documents whose sections never go to a cloud provider (#502). Set per project. */
+  neverSend: z.array(Id).max(500).default([]),
 })
 export type PrivacySettings = z.infer<typeof PrivacySettings>
 
@@ -40,6 +42,7 @@ export const ProjectPrivacy = z.object({
   redact: z.partialRecord(RedactionCategory, z.boolean()).optional(),
   alwaysRedact: z.array(Term).max(500).optional(),
   neverRedact: z.array(Term).max(500).optional(),
+  neverSend: z.array(Id).max(500).optional(),
 })
 export type ProjectPrivacy = z.infer<typeof ProjectPrivacy>
 
@@ -93,6 +96,8 @@ export const OutboundManifest = z.object({
   estimatedTokens: z.number().int(),
   /** False for embeddings: they are previewed but never redacted. Media uses plain stand-ins. */
   redactable: z.boolean(),
+  /** Embedding requests: which documents the texts come from, by name (#502). */
+  sources: z.array(z.object({ title: z.string(), passages: z.number().int() })).optional(),
   /** Images sent with the request (a video's input image), as data URLs for the dialog. */
   images: z.array(z.object({ name: z.string(), dataUrl: z.string() })).optional(),
   createdAt: IsoDateTime,

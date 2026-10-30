@@ -13,7 +13,9 @@ import {
   type StageOutputSchemaName,
 } from '@shared/schemas'
 import type { JobContext } from '../jobs/manager'
+import { isRemoteRequest } from '@shared/provider-network'
 import { AppError } from '../lib/errors'
+import { ExcerptsLeftOut } from '../providers/outbound/approvals'
 import { nowIso } from '../lib/ids'
 import { extractJson, jsonSpec } from '../providers/json'
 import type { ChatMessage, ChatRequest, ChatResponse, TextProvider } from '../providers/types'
@@ -25,6 +27,7 @@ import {
   retrievedVars,
   type RetrievedChunk,
 } from './retrieval'
+import { unknownPlaceholderLog } from './placeholder-warnings'
 import { asTask } from './task-errors'
 
 export interface StageCall {
@@ -195,11 +198,7 @@ async function callWithRepair(
   const chat = async (): Promise<ChatResponse> => {
     const res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
     if (res.unknownPlaceholders?.length)
-      ctx.log(
-        `REDACTION_UNKNOWN: the reply used placeholders this project never issued (${res.unknownPlaceholders.join(', ')}); they were left as written`,
-        'warn',
-        extra,
-      )
+      ctx.log(unknownPlaceholderLog(res.unknownPlaceholders), 'warn', extra)
     return res
   }
   let res = await chat()
@@ -274,12 +273,55 @@ async function retrieveFor(call: StageCall, prompt: PromptFile): Promise<Retriev
   return withPinned(call.index, pinned, found, limit)
 }
 
-/** Run one stage end to end. Throws StageFailure when the repair round also fails. */
+/** How many times one stage builds its request again after sections were left out. */
+const MAX_LEAVE_OUT_ROUNDS = 8
+
+/**
+ * Run one stage end to end. Throws StageFailure when the repair round also fails. When the
+ * user leaves sections out of the cloud approval, the request is built again without them.
+ */
 export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
+  const skipped = new Set<number>()
+  for (let round = 0; round < MAX_LEAVE_OUT_ROUNDS; round++) {
+    try {
+      return await runStageOnce<T>(call, skipped)
+    } catch (err) {
+      if (!(err instanceof ExcerptsLeftOut)) throw err
+      for (const id of err.chunkIds) skipped.add(id)
+      call.ctx.log(
+        `${call.stage}: ${err.chunkIds.length} plan section(s) left out at your request; building the request again`,
+        'info',
+        { stage: call.stage, ...(call.itemId ? { itemId: call.itemId } : {}) },
+      )
+    }
+  }
+  throw new AppError('CONFLICT', `Stage ${call.stage}: too many sections were left out; stopped.`)
+}
+
+/** Sections a cloud request must not carry: never-send documents and sections left out. */
+async function withoutWithheld(
+  call: StageCall,
+  chosen: { provider: TextProvider; model: string },
+  retrieved: RetrievedChunk[],
+  skipped: Set<number>,
+): Promise<RetrievedChunk[]> {
+  if (!isRemoteRequest(chosen.provider.config, chosen.model)) return retrieved
+  const held = await call.deps.withheldFromCloud?.(call.projectPath, call.ctx.jobId)
+  return retrieved.filter(
+    ({ hit }) =>
+      !skipped.has(hit.chunkId) &&
+      !held?.chunks.has(hit.chunkId) &&
+      !held?.documents.has(hit.documentId),
+  )
+}
+
+async function runStageOnce<T>(call: StageCall, skipped: Set<number>): Promise<StageResult<T>> {
   const { stage, itemId, ctx, deps, projectPath } = call
   const prompt = await deps.loadPrompt(call.promptName ?? stage, projectPath)
   const fm = prompt.frontmatter
-  const retrieved = await retrieveFor(call, prompt)
+  const chosen = await asTask(fm.task, () => deps.resolveTextProvider(fm.task, projectPath))
+  const { provider, model, providerId } = chosen
+  const retrieved = await withoutWithheld(call, chosen, await retrieveFor(call, prompt), skipped)
   if (call.requireRetrieval && !retrieved.length)
     throw new AppError('VALIDATION', `Stage ${stage} failed: ${call.requireRetrieval}`)
   const { name, schema } = schemaWhen(schemaFor(prompt), retrieved)
@@ -290,9 +332,6 @@ export async function runStage<T>(call: StageCall): Promise<StageResult<T>> {
     citationKeys: retrieved.map((r) => r.key),
     ...call.decorateVars?.(retrieved),
   })
-  const { provider, model, providerId } = await asTask(fm.task, () =>
-    deps.resolveTextProvider(fm.task, projectPath),
-  )
   const run = newRun(call, prompt, rendered.hash, model, providerId)
   const extra = { stage, ...(itemId ? { itemId } : {}) }
   ctx.log(`${stage}: ${retrieved.length} sections retrieved; ${providerId}/${model}`, 'info', extra)

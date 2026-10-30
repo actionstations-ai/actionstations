@@ -143,6 +143,34 @@ test('generation pauses for approval, then completes; cancel from the dialog can
   await expect.poll(() => jobStatus(page, second.jobId), { timeout: 30_000 }).toBe('cancelled')
   await expect(dialog(page)).toBeHidden()
 
+  // Leave-out path: one section is taken out, the request is built again with one fewer.
+  const third = await invoke<{ jobId: string }>('generate:scenario', {
+    projectPath: opened.path,
+    brief,
+  })
+  await page.getByRole('button', { name: 'Review' }).first().click({ timeout: 60_000 })
+  const excerptCount = async (): Promise<number> => {
+    const text = await dialog(page)
+      .getByRole('heading', { name: /^Plan excerpts \(\d+ from/ })
+      .textContent()
+    return Number(/\((\d+) from/.exec(text ?? '')?.[1])
+  }
+  const before = await excerptCount()
+  expect(before).toBeGreaterThan(1)
+  await dialog(page).locator('summary').first().click()
+  await dialog(page)
+    .getByRole('checkbox', { name: /Leave this section out/ })
+    .first()
+    .check()
+  await dialog(page)
+    .getByRole('button', { name: 'Leave out 1 section and review again' })
+    .click()
+  await page.getByRole('button', { name: 'Review' }).first().click({ timeout: 60_000 })
+  await expect(dialog(page)).toBeVisible()
+  expect(await excerptCount()).toBe(before - 1)
+  await dialog(page).getByRole('button', { name: 'Cancel job' }).click()
+  await expect.poll(() => jobStatus(page, third.jobId), { timeout: 30_000 }).toBe('cancelled')
+
   await running.app.close()
   running = undefined
   expectLoopbackOnly(net.read())

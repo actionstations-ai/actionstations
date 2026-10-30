@@ -399,7 +399,14 @@ Where the code differs from or adds to the design above, and why:
   rest go under `job-approval`. The dialog lists texts, not documents, because embedding batches
   carry no document metadata.
 - **Unknown placeholders** are reported as a `REDACTION_UNKNOWN` warning in the job log with the
-  stage and item, not yet as a scenario warning.
+  stage and item, and (#502) as a scenario warning on the step that produced them.
+- **Leave out and Never send (#502).** `privacy:decide` takes `leave-out` with `leaveOut` chunk
+  ids: the gate rejects the request with `ExcerptsLeftOut`, `runStage` builds it again without
+  those sections, and the job remembers them. `neverSend` (document ids) is part of
+  `ProjectPrivacy`; it can only tighten, so it travels in project.json. Both apply only when the
+  text request goes to a cloud provider; retrieval returns fewer sections rather than refilling.
+- **Embedding approvals (#502)** carry `sources` (document title and passage count) from an
+  `EmbedMeta` argument that the index passes; the texts are folded under "Exact text".
 - **Send log** lines are written just before the adapter call, so a request that fails after
   leaving the computer is still recorded.
 - **Detection additions.** Later mentions of a detected surname on its own are redacted too. The

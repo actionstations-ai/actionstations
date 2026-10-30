@@ -1,7 +1,7 @@
 // Review policies, document approvals and hash binding (FR-6 to FR-8).
 import { describe, expect, it, vi } from 'vitest'
 import type { OutboundManifest, ReviewPolicy } from '@shared/schemas'
-import { Approvals, policyDecision, scopeKeyFor, type ScopeState } from './approvals'
+import { Approvals, ExcerptsLeftOut, policyDecision, scopeKeyFor, type ScopeState } from './approvals'
 
 let n = 0
 function manifest(
@@ -163,6 +163,31 @@ describe('Approvals', () => {
     await p
     a.endJob('job1')
     void a.authorize(KEY, manifest('per-job'))
+    expect(a.list()).toHaveLength(1)
+  })
+
+  it('leave-out rejects the request with the chosen sections and remembers them for the job', async () => {
+    const a = new Approvals(hooks())
+    const m = manifest('every-request', [
+      [1, 'D1'],
+      [2, 'D1'],
+    ])
+    const p = a.authorize(KEY, m)
+    a.decide(m.requestId, m.requestHash, 'leave-out', [2, 99])
+    const err = await p.catch((e: unknown) => e)
+    expect(err).toBeInstanceOf(ExcerptsLeftOut)
+    expect((err as ExcerptsLeftOut).chunkIds).toEqual([2])
+    expect([...a.leftOut('job1')]).toEqual([2])
+    expect(a.list()).toEqual([])
+    a.endJob('job1')
+    expect([...a.leftOut('job1')]).toEqual([])
+  })
+
+  it('leave-out needs at least one section of the request', () => {
+    const a = new Approvals(hooks())
+    const m = manifest('every-request', [[1, 'D1']])
+    void a.authorize(KEY, m).catch(() => undefined)
+    expect(() => a.decide(m.requestId, m.requestHash, 'leave-out', [7])).toThrow(/at least one/)
     expect(a.list()).toHaveLength(1)
   })
 })
