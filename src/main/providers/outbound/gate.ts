@@ -372,6 +372,9 @@ class GuardedEmbeddingProvider implements EmbeddingProvider {
   get id(): string {
     return this.inner.id
   }
+  get remote(): boolean {
+    return true
+  }
   get model(): string {
     return this.inner.model
   }

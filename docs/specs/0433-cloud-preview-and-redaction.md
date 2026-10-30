@@ -405,6 +405,7 @@ Where the code differs from or adds to the design above, and why:
   those sections, and the job remembers them. `neverSend` (document ids) is part of
   `ProjectPrivacy`; it can only tighten, so it travels in project.json. Both apply only when the
   text request goes to a cloud provider; retrieval returns fewer sections rather than refilling.
+- **Never-send and embedders (#502).** A cloud embedder (`EmbeddingProvider.remote`) never receives a never-send document's text: the index keeps those chunks without vectors (keyword search only), re-embedding skips them, and the scenario check leaves their passages out of its similarity batch. The project list is merged with the global list by union.
 - **Embedding approvals (#502)** carry `sources` (document title and passage count) from an
   `EmbedMeta` argument that the index passes; the texts are folded under "Exact text".
 - **Send log** lines are written just before the adapter call, so a request that fails after

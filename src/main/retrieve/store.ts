@@ -93,6 +93,13 @@ export class SqliteIndexStore implements IndexStore {
     ensureVectorTable(this.db, { key: embedderKey(embedder), dims: embedder.dims })
   }
 
+  private withheld: ReadonlySet<string> = new Set()
+
+  /** Documents a cloud embedder must never see (#502): indexed for keyword search only. */
+  setWithheld(documentIds: ReadonlySet<string>): void {
+    this.withheld = documentIds
+  }
+
   private serialize<T>(fn: () => Promise<T>): Promise<T> {
     const run = this.writes.catch(() => undefined).then(fn)
     this.writes = run
@@ -131,12 +138,14 @@ export class SqliteIndexStore implements IndexStore {
     signal?: AbortSignal,
   ): Promise<void> {
     return this.serialize(async () => {
-      const vectors = await this.embedAll(
-        chunks.map((c) => (c.headingPath ? `${c.headingPath}\n${c.text}` : c.text)),
-        onProgress,
-        signal,
-        chunks.map(() => doc.title),
-      )
+      const vectors = this.withheld.has(doc.id)
+        ? []
+        : await this.embedAll(
+            chunks.map((c) => (c.headingPath ? `${c.headingPath}\n${c.text}` : c.text)),
+            onProgress,
+            signal,
+            chunks.map(() => doc.title),
+          )
       signal?.throwIfAborted()
       this.writeDocument(doc, chunks, vectors)
     })
@@ -176,7 +185,7 @@ export class SqliteIndexStore implements IndexStore {
           c.text,
           c.tokenCount,
         )
-        insertVec.run(BigInt(lastInsertRowid), doc.id, vectors[i]!)
+        if (vectors[i]) insertVec.run(BigInt(lastInsertRowid), doc.id, vectors[i]!)
       })
     })()
   }
@@ -335,7 +344,11 @@ export class SqliteIndexStore implements IndexStore {
            JOIN documents d ON d.id = c.doc_id
            WHERE c.id NOT IN (SELECT chunk_id FROM chunk_vec) ORDER BY c.id`,
         )
-        .all() as (Pick<ChunkRow, 'id' | 'doc_id' | 'heading_path' | 'text'> & {
+        .all()
+        .filter((r) => !this.withheld.has((r as { doc_id: string }).doc_id)) as (Pick<
+        ChunkRow,
+        'id' | 'doc_id' | 'heading_path' | 'text'
+      > & {
         doc_title: string
       })[]
       const vectors = await this.embedAll(

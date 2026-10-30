@@ -35,6 +35,8 @@ export interface GroundingContext {
   ignore: string[]
   /** Similarity is computed with this embedder, never with the hash embedder (FR-3.4). */
   embedder?: EmbeddingProvider
+  /** Documents a cloud embedder must not see (never-send, #502). */
+  withheldDocuments?: ReadonlySet<string>
   now: () => string
 }
 
@@ -180,18 +182,25 @@ const cosine = (a: Float32Array, b: Float32Array): number => {
 export async function similarities(
   items: Resolved[],
   embedder: EmbeddingProvider | undefined,
+  withheld: ReadonlySet<string> = new Set(),
 ): Promise<Map<string, Map<string, Map<number, number>>> | undefined> {
   if (!embedder || embedder.id === 'hash') return undefined
   const sentences = new Set<string>()
   const chunks = new Map<number, string>()
+  const titles = new Map<string, string>()
   for (const r of items) {
     if (r.item.kind === 'overview') continue
     for (const s of splitClaims(r.item.claimText)) sentences.add(s)
-    for (const p of r.passages) chunks.set(p.chunkId, p.text)
+    for (const p of r.passages) {
+      if (embedder.remote && withheld.has(p.documentId)) continue
+      chunks.set(p.chunkId, p.text)
+      titles.set(p.text, p.documentTitle)
+    }
   }
   if (!sentences.size || !chunks.size) return undefined
   const texts = [...sentences, ...chunks.values()]
-  const vectors = await embedder.embed(texts).catch(() => undefined)
+  const documentTitles = texts.map((t) => titles.get(t) ?? 'Scenario text')
+  const vectors = await embedder.embed(texts, undefined, { documentTitles }).catch(() => undefined)
   if (!vectors || vectors.length !== texts.length) return undefined
   const vecOf = new Map(texts.map((t, i) => [t, vectors[i]!]))
   const chunkVec = new Map([...chunks].map(([id, t]) => [id, vecOf.get(t)!]))
@@ -202,7 +211,9 @@ export async function similarities(
       perSentence.set(
         s,
         new Map(
-          r.passages.map((p) => [p.chunkId, cosine(vecOf.get(s)!, chunkVec.get(p.chunkId)!)]),
+          r.passages
+            .filter((p) => chunkVec.has(p.chunkId))
+            .map((p) => [p.chunkId, cosine(vecOf.get(s)!, chunkVec.get(p.chunkId)!)]),
         ),
       )
     out.set(r.item.key, perSentence)
@@ -244,7 +255,7 @@ export async function groundItems(
     const old = stored[r.item.key]
     return !old || old.fingerprint !== r.fingerprint || old.version !== GROUNDING_VERSION
   })
-  const sims = await similarities(stale, ctx.embedder)
+  const sims = await similarities(stale, ctx.embedder, ctx.withheldDocuments)
   const staleKeys = new Set(stale.map((r) => r.item.key))
   const out: Record<string, GroundingResult> = {}
   for (const r of resolved) {

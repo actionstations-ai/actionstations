@@ -1,7 +1,13 @@
 // Review policies, document approvals and hash binding (FR-6 to FR-8).
 import { describe, expect, it, vi } from 'vitest'
 import type { OutboundManifest, ReviewPolicy } from '@shared/schemas'
-import { Approvals, ExcerptsLeftOut, policyDecision, scopeKeyFor, type ScopeState } from './approvals'
+import {
+  Approvals,
+  ExcerptsLeftOut,
+  policyDecision,
+  scopeKeyFor,
+  type ScopeState,
+} from './approvals'
 
 let n = 0
 function manifest(

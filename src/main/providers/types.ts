@@ -101,6 +101,8 @@ export interface EmbedMeta {
 
 export interface EmbeddingProvider {
   readonly id: string
+  /** True for an embedder whose requests leave this computer (set by the outbound gate). */
+  readonly remote?: boolean
   readonly model: string
   readonly dims: number
   embed(texts: string[], signal?: AbortSignal, meta?: EmbedMeta): Promise<Float32Array[]>

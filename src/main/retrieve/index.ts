@@ -51,7 +51,13 @@ export function openIndexAt(file: string, embedder: EmbeddingProvider): SqliteIn
 
 /** Index for a project root (already checked with requireProject by IPC handlers). */
 export async function openIndex(projectPath: string): Promise<SqliteIndexStore> {
-  return openIndexAt(projectPaths(projectPath).index, await activeEmbedder(projectPath))
+  const embedder = await activeEmbedder(projectPath)
+  const store = openIndexAt(projectPaths(projectPath).index, embedder)
+  if (embedder.remote) {
+    const { neverSendDocuments } = await import('../providers/outbound/never-send')
+    store.setWithheld(await neverSendDocuments(projectPath, embedder))
+  } else store.setWithheld(new Set())
+  return store
 }
 
 /** Close a project's index connection (project closed or deleted). */

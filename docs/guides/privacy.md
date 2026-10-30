@@ -37,7 +37,7 @@ Your choices:
 
 Each plan excerpt has a **Leave this section out** box. Tick one or more and choose **Leave out N sections and review again**: nothing is sent, the request is built again without those sections, and you review the new request. Sections you leave out stay out of the rest of that job. Embedding requests (document search on a cloud provider) list the documents by name with a passage count; the exact text is folded under **Exact text**.
 
-To keep a document out of every cloud request, tick **Never send** for it under **Cloud and privacy** on the project (the choice is saved in the project file). Local providers still use it.
+To keep a document out of every cloud request, tick **Never send** for it under **Cloud and privacy** on the project (the choice is saved in the project file). Local providers still use it. With a cloud embedder, a never-send document is indexed for keyword search only (its text is not embedded, at indexing, re-embedding or in the scenario source check), so it is not found by meaning search. A project's list adds to the app-wide list and cannot shorten it.
 
 If a model writes a placeholder that this project never issued, the scenario gets a warning named `REDACTION_UNKNOWN` on the step that produced it, and the text is left as written.
 

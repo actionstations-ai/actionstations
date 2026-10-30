@@ -38,7 +38,8 @@ export function mergePrivacy(global: PrivacySettings, project?: ProjectPrivacy):
     redact: { ...global.redact, ...(project?.redact ?? {}) },
     alwaysRedact: project?.alwaysRedact ?? global.alwaysRedact,
     neverRedact: project?.neverRedact ?? global.neverRedact,
-    neverSend: project?.neverSend ?? global.neverSend,
+    // Never-send only grows: a project adds to the app-wide list and cannot shrink it.
+    neverSend: [...new Set([...global.neverSend, ...(project?.neverSend ?? [])])],
   })
 }
 

@@ -215,6 +215,46 @@ describe('embedding requests name their documents (#502)', () => {
   })
 })
 
+describe('never-send documents and a cloud embedder (#502)', () => {
+  class Cloud extends FakeEmbedder {
+    readonly remote = true
+    readonly seen: string[] = []
+    override async embed(texts: string[]) {
+      this.seen.push(...texts)
+      return super.embed(texts)
+    }
+  }
+  afterEach(() => closeAllConnections())
+  const open = () => {
+    const cloud = new Cloud('cloud', 8)
+    const file = join(mkdtempSync(join(tmpdir(), 'ttx-idx-')), 'index.sqlite')
+    return { cloud, file, store: openIndexAt(file, cloud) }
+  }
+  const SECRET = 'Doors fail unlocked; dispatch LEO.'
+
+  it('indexes a withheld document for keyword search without sending it to the embedder', async () => {
+    const { cloud, store } = open()
+    store.setWithheld(new Set(['tirp']))
+    await store.replaceDocument(doc('tirp'), TIRP_CHUNKS)
+    await store.replaceDocument(doc('eop'), [chunk(0, 'EOP › 1 Purpose', 'Public plan text.')])
+    expect(cloud.seen.join('\n')).not.toContain('dispatch LEO')
+    expect(cloud.seen.join('\n')).toContain('Public plan text.')
+    const hits = await store.search('dispatch LEO', { mode: 'fts' })
+    expect(hits.some((h) => h.text === SECRET)).toBe(true)
+  })
+
+  it('leaves a withheld document out of a re-embed', async () => {
+    const { cloud, store } = open()
+    await store.replaceDocument(doc('tirp'), TIRP_CHUNKS)
+    await store.replaceDocument(doc('eop'), [chunk(0, 'EOP › 1 Purpose', 'Public plan text.')])
+    cloud.seen.length = 0
+    store['db'].exec('DELETE FROM chunk_vec')
+    store.setWithheld(new Set(['tirp']))
+    await store.reembed()
+    expect(cloud.seen).toEqual(['EOP › 1 Purpose\nPublic plan text.'])
+  })
+})
+
 describe('embedder changes', () => {
   afterEach(() => closeAllConnections())
 
