@@ -30,6 +30,8 @@ export const EXPORT_TARGETS = [
   'eoc_package',
   /** CAP 1.2 XML for every CAP alert inject, marked as an exercise (#432). */
   'cap_xml',
+  /** One JSON file per live session of the scenario, in facilitator/live-sessions/ (#417). */
+  'live_log',
   'json',
   'markdown',
   'docx',

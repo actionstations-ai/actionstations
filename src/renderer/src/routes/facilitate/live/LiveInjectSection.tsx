@@ -1,6 +1,7 @@
 // The Inject panel's live part (#412): who the inject goes to, the send-to-devices switch,
 // and, once released, who has received and read it, with Resend.
 import { useId, useMemo, useState } from 'react'
+import { isCallInject } from '@shared/live/call-types'
 import type { Destination } from '@shared/live/schemas/envelope'
 import { resolveTargets } from '@shared/live/targets'
 import type { Scenario } from '@shared/schemas/scenario'
@@ -172,6 +173,21 @@ export function LiveInjectSection({
           value={targets}
           onChange={(t) => live.setOptions(rowId, { targets: t })}
         />
+      )}
+      {!released && isCallInject(entry.inject) && (
+        <div className="row">
+          <Button
+            size="sm"
+            onClick={() =>
+              live
+                .ringAsCall(rowId)
+                .then(() => toast.success('The call is ringing on the devices'))
+                .catch((e: Error) => toast.error('Could not ring the call', e.message))
+            }
+          >
+            Ring players as a call
+          </Button>
+        </div>
       )}
       {!released && o.sendToDevices && entry.row.expectedAction.trim() !== '' && (
         <label className="fac-live__check">

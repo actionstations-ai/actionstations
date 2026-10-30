@@ -16,7 +16,13 @@ import { createWebCryptoProvider } from '@shared/live/crypto/webcrypto'
 import { SessionHub } from '@shared/live/hub'
 import type { Transport } from '@shared/live/transport'
 import { LIMITS, PROTOCOL_VERSION } from '@shared/live/protocol'
-import type { BlobRef, ClientId, ClockState, Destination } from '@shared/live/schemas'
+import type {
+  BlobRef,
+  ClientId,
+  ClockState,
+  ControllerRosterPayload,
+  Destination,
+} from '@shared/live/schemas'
 import { MemoryServer } from '@shared/live/transport-memory'
 import type {
   Attribution,
@@ -27,6 +33,7 @@ import type {
   LiveConnection,
   LiveSession,
   LiveSessionStatus,
+  RegionalRosterView,
 } from '@shared/schemas/live'
 import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
 import type { Role } from '@shared/schemas/project'
@@ -38,8 +45,9 @@ import type { FacilitatorState } from '@shared/ipc/facilitator'
 import { readFacilitatorState } from '../facilitator/state'
 import { requireProject } from '../project/guard'
 import { scenarioLayout } from '../scenario/layout'
-import { getScenario } from '../scenario/store'
+import { getScenario, listInjects } from '../scenario/store'
 import { appendResponse, readSurvey } from '../surveys/store'
+import { rebuildSurveyResponses } from './survey-replay'
 import { inviteViews } from './invites'
 import { DEVICE_TARGET, teamSlug } from '@shared/live/targets'
 import { Delivery, type DeliverySeat } from './releases'
@@ -74,6 +82,8 @@ import {
   type StaffNotice,
 } from './live-control'
 import { trackClients } from './dashboard'
+import { callFromRow, isCallInject } from './inject-call'
+import { hostRoster, rosterView } from './regional-roster'
 import { Seats, type Seat } from './seats'
 import { runSessionEndHooks } from './end-hooks'
 import { requireConsent, isRemote } from './connection'
@@ -123,6 +133,8 @@ export interface Active {
   mediaCache: Map<string, BlobRef>
   /** The clock last published to devices, to skip a save that did not move it. */
   clockKey?: string
+  /** The co-controller roster last sent to devices (regional exercises, spec 0440). */
+  roster?: ControllerRosterPayload
   powerSave?: number
   unsubscribe: (() => void)[]
   dir: string
@@ -269,6 +281,8 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
     })
   }
   await a.client.send('welcome', `client:${msg.from}`, seating.welcome)
+  if (a.roster)
+    await a.client.send('controller.roster', `client:${msg.from}`, a.roster, { key: 'players' })
   if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
 }
 
@@ -810,6 +824,17 @@ async function logResume(a: Active, resume: ResumeInput): Promise<void> {
   })
 }
 
+/** The response file is a mirror of the log: put back what a crash kept out of it. */
+async function restoreSurveyResponses(a: Active): Promise<void> {
+  try {
+    const channel = a.session.surveyOnly ? 'qr' : 'live'
+    const entries = await readAll(a.log.path)
+    await rebuildSurveyResponses(a.root, a.session.scenarioId, entries, channel)
+  } catch (err) {
+    console.error('[live] could not rebuild survey responses:', (err as Error).message)
+  }
+}
+
 interface Parts {
   hub?: SessionHub
   transport: Transport
@@ -974,8 +999,11 @@ async function startOn(
   )
   simcell.startClock()
   await writeSessionFile(a)
-  if (resume) await logResume(a, resume)
-  else {
+  await publishRoster(a)
+  if (resume) {
+    await logResume(a, resume)
+    await restoreSurveyResponses(a)
+  } else {
     await log.append({
       kind: 'session.start',
       actor: { kind: 'controller' },
@@ -1306,6 +1334,74 @@ export async function publishClock(
     actor: { kind: 'controller' },
     data: { ...payload },
   })
+}
+
+/**
+ * Play a phone, radio or voicemail inject as a call on the devices it is for. The first line is
+ * the inject's own words; the SimCell takes over from the players' answers. Logged as a call.
+ */
+export async function ringInjectAsCall(
+  root: string,
+  scenarioId: string,
+  rowId: string,
+): Promise<{ callId: string; turn: number }> {
+  const a = activeFor(root, scenarioId)
+  const scenario = await getScenario(root, scenarioId)
+  const row = scenario.msel.find((r) => r.id === rowId)
+  if (!row) throw new AppError('NOT_FOUND', `No MSEL row ${rowId}`)
+  const injects = await listInjects(root, scenarioId)
+  const inject = injects.find((i) => i.mselRowId === row.id || i.id === row.injectId)
+  if (inject && !isCallInject(inject)) {
+    throw new AppError(
+      'VALIDATION',
+      'Only a phone call, radio call or voicemail can ring as a call',
+    )
+  }
+  const call = callFromRow(row, inject, scenario.roles)
+  if (!call.transcript) throw new AppError('VALIDATION', 'This row has no words to say')
+  return a.calls.ring({ ...call, canSpeak: false })
+}
+
+/** Send the regional co-controller roster to every device and remember it for late joiners. */
+async function publishRoster(a: Active): Promise<void> {
+  try {
+    const found = await hostRoster(a.root, a.session.scenarioId, (a.roster?.revision ?? 0) + 1)
+    if (!found || found.roster.controllers.length === 0) return
+    a.roster = found.roster
+    await a.client.send('controller.roster', 'all', found.roster, { key: 'players' })
+    await a.log.append({
+      kind: 'controller.notice',
+      actor: { kind: 'controller' },
+      data: {
+        to: 'all',
+        text: `Co-controller roster ${found.roster.revision}: ${found.roster.controllers.map((c) => c.name).join(', ')}`,
+        level: 'info',
+      },
+    })
+  } catch (err) {
+    console.error('[live] controller.roster:', (err as Error).message)
+  }
+}
+
+/** The roster as it stands now and whether devices have it. */
+export async function regionalRoster(
+  root: string,
+  scenarioId: string,
+): Promise<RegionalRosterView> {
+  const a =
+    active && active.root === root && active.session.scenarioId === scenarioId ? active : undefined
+  const found = await hostRoster(root, scenarioId, a?.roster?.revision ?? 1)
+  return rosterView(a?.roster, found?.missingLiveKey ?? [])
+}
+
+/** Send the roster again with a new revision, after a partner's live key was pinned. */
+export async function sendRegionalRoster(
+  root: string,
+  scenarioId: string,
+): Promise<RegionalRosterView> {
+  const a = activeFor(root, scenarioId)
+  await publishRoster(a)
+  return regionalRoster(root, scenarioId)
 }
 
 /** A notice for evaluator devices only; the facilitator speaks to players. */

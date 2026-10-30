@@ -10,6 +10,8 @@ export function BoardItem(props: {
   onSelect: (selected: boolean) => void
   /** Show a Restore / Accept button instead of the selection box. */
   action?: { label: string; run: () => void }
+  /** A past session's board: no selection box. */
+  readOnly?: boolean
 }) {
   const { item } = props
   const question = props.scenario.hotwash?.questions[Number(item.questionId?.slice(4)) - 1]
@@ -23,7 +25,7 @@ export function BoardItem(props: {
   ].filter(Boolean)
   return (
     <li className="fac-hw__item" data-promoted={item.promoted || undefined}>
-      {props.action ? null : (
+      {props.action || props.readOnly ? null : (
         <input
           type="checkbox"
           className="fac-hw__check"

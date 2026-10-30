@@ -5,8 +5,11 @@
  */
 import { promises as fs } from 'node:fs'
 import { dashboardView } from './dashboard'
+import { hotwashPrompts } from './hotwash'
+import { rebuildSurveyResponses } from './survey-replay'
+import { boardFromLog } from './hotwash-replay'
 import { trackerFeed, type TrackerFeed } from './tracker-feed'
-import type { DashboardView, LiveSession, LogTailEntry } from '@shared/schemas/live'
+import type { BoardView, DashboardView, LiveSession, LogTailEntry } from '@shared/schemas/live'
 import { AppError } from '../lib/errors'
 import { exists, readJson, safeJoin, writeJsonAtomic } from '../lib/fs'
 import { LiveSession as LiveSessionSchema } from '@shared/schemas/live'
@@ -78,6 +81,22 @@ export async function dashboard(
   })
 }
 
+/** A past session's hot wash board, folded from its log (spec 0415 FR-11). */
+export async function pastHotwashBoard(
+  root: string,
+  scenarioId: string,
+  sessionId: string,
+): Promise<BoardView> {
+  const { live } = await pickSession(root, scenarioId, sessionId)
+  if (live) await flushActiveLog(root, scenarioId)
+  const dir = sessionFolder(root, scenarioId, sessionId)
+  if (!(await exists(dir))) throw new AppError('NOT_FOUND', 'No such session')
+  const scenario = await getScenario(root, scenarioId)
+  const { roleName } = await roleNames(root, scenarioId)
+  const entries = await readAll(safeJoin(dir, LOG_FILE))
+  return boardFromLog(entries, hotwashPrompts(scenario.hotwash).questions, roleName)
+}
+
 export async function logTail(
   root: string,
   scenarioId: string,
@@ -143,6 +162,9 @@ export async function closeSession(
     summary: countEntries(entries),
   }
   await writeJsonAtomic(file, closed)
+  await rebuildSurveyResponses(root, scenarioId, entries, session.surveyOnly ? 'qr' : 'live').catch(
+    (e: unknown) => console.error('[live] could not rebuild survey responses:', e),
+  )
   return closed
 }
 

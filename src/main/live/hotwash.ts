@@ -127,6 +127,14 @@ export class HotWash {
   /** Switch moderation; items already waiting stay in the inbox. */
   setReview(review: boolean): void {
     this.review = review
+    // Logged so a past session's board can be rebuilt the way it was moderated.
+    void this.deps.log
+      .append({
+        kind: 'hotwash.update',
+        actor: { kind: 'controller' },
+        data: { action: 'review', review },
+      })
+      .catch(() => undefined)
     this.deps.changed()
   }
 
@@ -322,7 +330,7 @@ export class HotWash {
     for (const g of involved) if (g !== target) this.groups.delete(g)
     for (const id of merged) this.items.get(id)!.groupId = target
     await this.announceGroup(target)
-    await this.logGroup('group', target, [...merged])
+    await this.logGroup('group', target, [...merged], name)
     this.deps.changed()
   }
 

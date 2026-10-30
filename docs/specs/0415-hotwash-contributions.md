@@ -187,5 +187,6 @@ None. `FacilitatorState.hotwash` is 0419's addition with a default; a `facilitat
 
 - Promote returns the `FacilitatorState.hotwash` entry and the Facilitate page adds it (it owns `facilitator.json`); `live:hotwash-promote` and `live:hotwash-unpromote` return `{ entry | entryId, board }` instead of `FacilitatorState`. Entries keep the existing kinds `strength | improvement | other` and ids `dev-<id>`.
 - The presentation view is a `hotwash: true` target of `present()` (route `/present/:p/:s/hotwash/board`) and reads the board from main.
-- Not built here: reading a past session's board (FR-11), windowed columns above 100 items, the capability tag source beyond the scenario's evaluation guides.
+- FR-11 landed with #494: `live:hotwash-past` folds the session log into a read-only `BoardView` (`hotwash-replay.ts`) shown from **Hot wash** on the Past sessions row. Moderation changes are logged so the fold matches the live board: `setReview` writes a `hotwash.update` with `action: 'review'` and group creation logs its label. A device keeps its own items' ids, text and time in the tab's session storage (`own-items.ts`), so the "yours" marker and the withdraw window survive a reload.
+- Not built here: windowed columns above 100 items, the capability tag source beyond the scenario's evaluation guides.
 - Answers to a question are `kind: other` with `questionId` (`hwq-<n>`, the question's position).

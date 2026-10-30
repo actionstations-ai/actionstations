@@ -239,6 +239,31 @@ test.describe('hot wash from devices over the harness', () => {
     ).toBeVisible()
   })
 
+  test('a reload keeps an item waiting for review as your own (#494)', async ({ browser }) => {
+    const room = await HarnessController.create({ crypto: createWebCryptoProvider() })
+    const roomHarness = await startHarness({ controller: room })
+    try {
+      const ops = await open(browser, PIXEL, roomHarness.invite('players'))
+      players.push(ops)
+      await join(ops, /Operations Director/)
+      await room.hotwash.openOnDevices(true)
+      await openHotWash(ops)
+      await post(ops, 'Held across a reload')
+      await expect(ops.page.getByText('Waiting for the facilitator to show it')).toBeVisible()
+      await ops.page.reload()
+      await expect(ops.page.getByRole('heading', { level: 1, name: 'Inbox' })).toBeVisible()
+      await openHotWash(ops)
+      // Own items waiting for review come back, with Withdraw: only the author's device has it.
+      const mine = ops.page.locator('.hw-board li', { hasText: 'Held across a reload' })
+      await expect(mine.getByRole('button', { name: 'Withdraw' })).toBeVisible()
+      await expect(ops.page.getByText('Waiting for the facilitator to show it')).toBeVisible()
+      await room.hotwash.accept(idOf(room, 'Held across a reload'))
+      await expect(mine).toContainText('Yours')
+    } finally {
+      await roomHarness.close()
+    }
+  })
+
   test('review mode holds an item until the controller accepts it', async ({ browser }) => {
     // Its own room: the seats of the first test are still taken.
     const room = await HarnessController.create({ crypto: createWebCryptoProvider() })
