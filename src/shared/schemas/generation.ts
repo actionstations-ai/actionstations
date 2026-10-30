@@ -203,10 +203,11 @@ export const EegOutput = z.object({
             }),
           )
           .min(3)
-          .max(8),
+          .max(6),
       }),
     )
-    .min(1),
+    .min(1)
+    .max(6),
 })
 export type EegOutput = z.infer<typeof EegOutput>
 
@@ -260,7 +261,8 @@ export const SitManOutput = z.object({
           .max(6),
       }),
     )
-    .min(1),
+    .min(1)
+    .max(8),
 })
 export type SitManOutput = z.infer<typeof SitManOutput>
 

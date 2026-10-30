@@ -1,17 +1,45 @@
 {
   "formatVersion": 1,
-  "generatedAt": "2026-10-29T12:16:37.286Z",
+  "generatedAt": "2026-10-30T08:51:31.628Z",
   "suite": "standard",
   "suiteVersion": 1,
   "scoringVersion": 1,
-  "models": [],
+  "models": [
+    {
+      "model": {
+        "ref": "lmstudio:qwen/qwen3-30b-a3b-2507",
+        "tool": "lmstudio",
+        "name": "qwen/qwen3-30b-a3b-2507",
+        "quantization": "4bit",
+        "contextLength": 32768
+      },
+      "runs": 1,
+      "median": {
+        "overall": 59.9,
+        "tasks": { "ideation": 72.5, "drafting": 69.7, "critique": 34 },
+        "draftingReliability": 0.867
+      },
+      "range": { "overall": [57.9, 62.9] },
+      "unstable": false,
+      "hardware": [
+        {
+          "platform": "darwin",
+          "arch": "arm64",
+          "appleSilicon": true,
+          "ramGb": 128,
+          "budgetGb": 96
+        }
+      ],
+      "fitsBudgetGb": 0.3
+    }
+  ],
   "recommendations": [
     {
       "tier": "under 10 GB",
       "minBudgetGb": 0,
       "maxBudgetGb": 10,
       "model": null,
-      "reason": "No benchmarked model fits 5.5 GB yet.",
+      "reason": "None of the 1 benchmarked model(s) that fit 5.5 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -19,7 +47,7 @@
       "minBudgetGb": 10,
       "maxBudgetGb": 24,
       "model": null,
-      "reason": "No benchmarked model fits 10 GB yet.",
+      "reason": "None of the 1 benchmarked model(s) that fit 10 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -27,7 +55,7 @@
       "minBudgetGb": 24,
       "maxBudgetGb": 72,
       "model": null,
-      "reason": "No benchmarked model fits 24 GB yet.",
+      "reason": "None of the 1 benchmarked model(s) that fit 24 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -35,7 +63,7 @@
       "minBudgetGb": 72,
       "maxBudgetGb": null,
       "model": null,
-      "reason": "No benchmarked model fits 72 GB yet.",
+      "reason": "None of the 1 benchmarked model(s) that fit 72 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     }
   ],

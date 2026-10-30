@@ -47,7 +47,10 @@ function objectiveFor(name: string, objectives: Objective[]): Objective | undefi
   return (
     objectives.find((o) => o.name === name.trim()) ??
     objectives.find((o) => norm(o.name) === norm(name)) ??
-    objectives.find((o) => norm(o.text) === norm(name))
+    objectives.find((o) => norm(o.text) === norm(name)) ??
+    // The prompt lists objectives as "name: text"; models often copy the whole line back.
+    objectives.find((o) => norm(`${o.name}: ${o.text}`) === norm(name)) ??
+    objectives.find((o) => norm(name).startsWith(`${norm(o.name)}:`))
   )
 }
 

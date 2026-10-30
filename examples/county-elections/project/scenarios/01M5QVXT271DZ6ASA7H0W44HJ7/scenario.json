@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T21:09:04.711Z",
-  "updatedAt": "2026-10-24T22:43:50.327Z",
+  "updatedAt": "2026-10-30T12:28:57.046Z",
   "brief": {
     "userPrompt": "Thursday 10/29/2026, the fourth-to-last day of early voting for the 2026 general election in Lisle County. At 08:10 three voters at the Early Vote Center (18 South Market Street, Carrow) are shown on their Poll Pads as 'mail ballot issued' though they never asked for one; by 10:00 there are 23 such voters and a line out the door. Voter Registration Manager Beth Saylor finds that 1,186 records in Precinct 104, Precinct 105 and Precinct 207 were changed in VoterTrack (LCBOE-VR01) between 02:05 and 02:40 Wednesday by the account of Voter Registration Clerk Nina Ruiz, who on Tuesday clicked a 'Secretary of State directive update' email and approved a multi-factor prompt; her mailbox has a forwarding rule. At 11:30 poll workers for Polling Location 6 (Carrow Community Church, Precinct 111 and Precinct 112) receive an email from her account saying their location moved back to Carrow Middle School. At 13:00 a video viewed 200,000 times says Lisle County 'deleted 10,000 voters' and that the DS200 scanners are connected to the internet. Decisions: disabling the account and preserving the evidence, freezing record changes (COOP-DR-5), whether to hold the 10/31 final pollbook load and rebuild it from the statewide voter registration database, provisional ballots for affected voters, correcting the spoofed notice, reports to the Ohio Secretary of State, CISA and the FBI, the 22-month records hold, Board notification, and a public statement (COOP-DR-6) that tells voters how to check their registration without naming any party or candidate.",
     "audience": [
@@ -1350,6 +1350,435 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5QW0A89JFVDHZAM315HG03M",
+        "capability": "cybersecurity",
+        "why": "The objective focuses on detecting and isolating a compromised user account, which directly aligns with the cybersecurity capability's core function of protecting and restoring electronic systems and identities from unauthorized use."
+      },
+      {
+        "objectiveId": "01M5QW0A89JFVDHZAM315HG03M",
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective requires verifying account integrity and disabling access based on identity, which is a core function of access control and identity verification in protecting systems from unauthorized access."
+      },
+      {
+        "objectiveId": "01M5QW0A89HKYJYK9M7TQDPAG1",
+        "capability": "infrastructure_systems",
+        "why": "The objective requires validating and correcting pollbook data using a trusted, air-gapped copy of the VoterTrack export, which involves stabilizing critical infrastructure functions to ensure accurate and reliable election operations."
+      },
+      {
+        "objectiveId": "01M5QW0A89HKYJYK9M7TQDPAG1",
+        "capability": "operational_coordination",
+        "why": "The objective demands coordination across roles (VSM, IT, Voter Registration) to ensure the correct data is used and applied, which reflects the need for a unified operational structure to execute core functions during a crisis."
+      },
+      {
+        "objectiveId": "01M5QW0A89NRKWH1SJTWZMPENZ",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires issuing a unified public statement to correct misinformation, which is a direct application of public information and warning to deliver timely, accurate, and actionable information to the public."
+      },
+      {
+        "objectiveId": "01M5QW0A89NRKWH1SJTWZMPENZ",
+        "capability": "operational_coordination",
+        "why": "The objective depends on coordinated messaging between the PIO, Director, and Legal to ensure consistency and accuracy, which is a core function of operational coordination in managing interagency and internal communication."
+      },
+      {
+        "objectiveId": "01M5QW0A89NX8KXANY41CDZY8V",
+        "capability": "cybersecurity",
+        "why": "The objective involves isolating the VoterTrack database and blocking external data exfiltration, which is a direct application of cybersecurity to prevent further damage and secure electronic systems."
+      },
+      {
+        "objectiveId": "01M5QW0A89NX8KXANY41CDZY8V",
+        "capability": "forensics_and_attribution",
+        "why": "The objective includes preserving logs and forensic evidence to identify the attack vector and confirm the compromise, which supports the forensic analysis and attribution function to understand and document the incident."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The IT Manager and County CISO must immediately disable the compromised account 'nruiz@lislevotes.example' and block all network access to VoterTrack (LCBOE-VR01 and LCBOE-SQL01) to prevent further unauthorized changes, using procedures from C1 and C7.",
+        "objectiveRefs": [
+          "01M5QW0A89JFVDHZAM315HG03M",
+          "01M5QW0A89NX8KXANY41CDZY8V"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Disable the user account 'nruiz@lislevotes.example' in Entra ID and revoke all active sessions.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M",
+              "01M5QW0A89NX8KXANY41CDZY8V"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Block all outbound network traffic from LCBOE-FS01 and isolate LCBOE-VR01 and LCBOE-SQL01 from the network.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 5",
+              "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+              "chunkId": 7
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of confirmation",
+            "rowIds": [
+              "I-03",
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M",
+              "01M5QW0A89NX8KXANY41CDZY8V"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Preserve the original phishing email with full headers and all system logs from LCBOE-SQL01 and LCBOE-FS01 on a write-protected forensic drive.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
+            "rowIds": [
+              "I-03",
+              "I-08b",
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M",
+              "01M5QW0A89NX8KXANY41CDZY8V"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The IT Manager must verify the identity of the user 'nruiz@lislevotes.example' by confirming no physical presence during the compromise window and ensure that only authorized personnel can access VoterTrack, per C1 and C4.",
+        "objectiveRefs": [
+          "01M5QW0A89JFVDHZAM315HG03M"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that Nina Ruiz was not physically present in the office between 02:00 and 02:50 on 10/29/2026 using the physical log and access control records.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that the MFA prompt was approved from a device not in the office, using device ID and location data from the MFA log.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
+            "rowIds": [
+              "I-03",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "access_control_and_identity_verification",
+            "task": "Ensure that only the VR Manager and Director may lift the freeze on edits in VoterTrack for the affected precincts.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+              "chunkId": 32
+            },
+            "timing": "after freeze is initiated",
+            "rowIds": [
+              "I-08b",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89JFVDHZAM315HG03M"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Voting Systems Manager must rebuild the pollbook for Polling Location 6 using the trusted, air-gapped copy of the VoterTrack export from 10/28/2026 on LCBOE-PB01, ensuring no unauthorized changes are applied during the emergency load, as per C8 and C16.",
+        "objectiveRefs": [
+          "01M5QW0A89HKYJYK9M7TQDPAG1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "infrastructure_systems",
+            "task": "Verify the digital signature and hash of the 10/28 export against the chain of custody log on LCBOE-PB01.",
+            "citation": {
+              "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+              "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+              "headingPath": "Lisle County Board of Elections… › Section 7",
+              "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+              "chunkId": 49
+            },
+            "expectedBy": "vsm",
+            "timing": "before any data is used",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "infrastructure_systems",
+            "task": "Confirm that the workstation LCBOE-PB01 remains isolated from all networks, including the internet and internal systems, during the rebuild.",
+            "citation": {
+              "documentId": "01M5QVXR2YSPBMDNNWZMSH57CD",
+              "documentTitle": "Lisle County Board of Elections — Facilities, Precincts and Systems Description",
+              "headingPath": "Lisle County Board of Elections… › Section 7",
+              "quote": "| System | Purpose | Host | Owner | |---|---|---|---| | Statewide voter registration database | Official statewide list; county records synchronize nightly | Ohio Secretary of State | Secretary of Sta",
+              "chunkId": 49
+            },
+            "expectedBy": "vsm",
+            "timing": "during manual mode",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO must issue a unified public statement via the Board website, social media, and hotline using the EAC/CISA Election Infrastructure Incident Response Communications Guide, correcting the viral misinformation about voter deletion and confirming that all voters are eligible to vote in person.",
+        "objectiveRefs": [
+          "01M5QW0A89NRKWH1SJTWZMPENZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Draft and issue a holding statement: 'We are aware of reports and are investigating. All voters are welcome to vote in person. No one has been removed from the rolls.'",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "within 30 minutes of call",
+            "rowIds": [
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Post a 'Rumor vs. Fact' update on lislevotes.example and the Board's social media accounts confirming the location of Polling Location 6 is Carrow Community Church.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 hour of confirmation",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Publish the final press release draft on the Board website, social media, and hotline after approval from the Director and Legal.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "after COOP-DR-6 clearance",
+            "rowIds": [
+              "I-22"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander must activate COOP Level 2 per CIRP 2, coordinate the response across roles, and ensure that all actions are synchronized through the Operations Center, as directed in C5 and C7.",
+        "objectiveRefs": [
+          "01M5QW0A89HKYJYK9M7TQDPAG1",
+          "01M5QW0A89NRKWH1SJTWZMPENZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Declare CIRP Level 2 and activate COOP Level 2 per C7 and C8.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 5",
+              "quote": "| Level | Description | Response | |---|---|---| | CIRP 3 | Suspicious email reported, no click; single failed log-in alerts | IT Manager handles; logged | | CIRP 2 | A staff account compromised; unau",
+              "chunkId": 7
+            },
+            "expectedBy": "eo",
+            "timing": "after I-06",
+            "rowIds": [
+              "I-06",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1",
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "operational_coordination",
+            "task": "Convene the Incident Command Team and initiate 15-minute reporting cycles as directed in C8.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+              "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+              "chunkId": 32
+            },
+            "expectedBy": "eo",
+            "timing": "after CIRP level declaration",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1",
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "operational_coordination",
+            "task": "Ensure that all public statements are coordinated through the PIO and approved by the Director and Legal before release.",
+            "citation": {
+              "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+              "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 10",
+              "quote": "The PIO is the only voice of the Board to the media, with the Director. The PIO keeps a rumor log (LCBOE-F-25) and posts \"Rumor vs. Fact\" answers on lislevotes.example and the Board's social media acc",
+              "chunkId": 35
+            },
+            "expectedBy": "eo",
+            "timing": "before any public communication",
+            "rowIds": [
+              "I-22"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89HKYJYK9M7TQDPAG1",
+              "01M5QW0A89NRKWH1SJTWZMPENZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The IT Manager must preserve and document all forensic evidence from the VoterTrack system, including logs from LCBOE-SQL01 and the original phishing email, to support attribution and future investigation, per C1 and C20.",
+        "objectiveRefs": [
+          "01M5QW0A89NX8KXANY41CDZY8V"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve the original phishing email with full headers for the FBI and CISA, as required in C1.",
+            "citation": {
+              "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+              "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+              "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+              "quote": "1. Disable the account in Entra ID and revoke sessions (County CISO); reset its second factor. 2. Look for mailbox rules (forwarding, deletion) and messages sent from the account in the past 30 days; ",
+              "chunkId": 8
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of first anomaly report",
+            "rowIds": [
+              "I-03",
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5QW0A89NX8KXANY41CDZY8V"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, and write each response on a whiteboard to visually capture insights. This helps identify strengths and gaps quickly and ensures collective ownership of the debrief.",
@@ -1453,6 +1882,393 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented; players must respond based on the information available at each phase.",
+      "Players respond in accordance with existing plans, policies and procedures as outlined in the Lisle County Board of Elections Emergency Operations Plan (EOP)."
+    ],
+    "artificialities": [
+      "Time jumps occur between modules, simulating the passage of real-world hours.",
+      "The SimCell manages all external actors not in the room, including law enforcement, CISA, the Ohio Secretary of State, and the mail ballot tracking vendor.",
+      "Systems such as VoterTrack, the results website, and the mail ballot tracking service are simulated via injects and logs, not interacted with directly.",
+      "Injects are delivered via paper, screen, or audio, and players must infer actions based on text and timestamps.",
+      "The forensic evidence and system logs are pre-verified and consistent with the narrative, not subject to real-time verification."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5QW1XHGY360ETN7DKYPH068",
+        "narrativeMd": "It is 08:00. The Election Operations Center is open and staffed. All systems show normal status. The Early Vote Center is processing voters. Polling Location 6 (Carrow Community Church) has 12 poll workers on shift. The Board website (lislevotes.example) displays a standard 'Voting Information' banner. No alerts are active. Status is normal.\n\nAt 08:12, the hotline (555-0140) rings. Janet Cho, a staff member at the Early Vote Center, reports that 23 voters are showing up as 'Mail Ballot Received' in the system, but they have not received a ballot and are here to vote in person. The paper list does not reflect them as having voted.\n\nAt 08:17, the managed SOC reports a suspicious outbound connection from the county’s Microsoft 365 tenant (lislevotes.example) to IP 104.213.142.77 on port 443. The source IP is 10.72.12.20 (LCBOE-FS01), and no user authentication event was logged. The alert is flagged as 'Low Priority' by the on-call engineer.\n\nAt 08:25, the VoterTrack system log reveals that user 'nruiz@lislevotes.example' (Nina Ruiz, VR Clerk) made 1,186 rapid edits to the 'Absentee Ballot Status' field in VoterTrack between 02:05 and 02:40 on 10/29/2026. All edits were marked as 'received' for voters in Precincts 111 and 112. The source IP (10.100.45.12) is not in any authorized IP range. No MFA prompt was logged, and no associated login event occurred from 02:00 to 02:50.",
+        "keyIssues": [
+          "The team must recognize that a user account has been compromised based on anomalous activity, despite no direct login event.",
+          "The team must decide whether to act on the system log before confirming the anomaly with the user.",
+          "The team must initiate forensic checks on the user account and begin preserving logs, per EOP Section 5.",
+          "The team must assess whether to escalate to the Incident Commander based on the potential impact on voter registration integrity."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the system log, what immediate actions should you take to verify the legitimacy of the edits made by user 'nruiz@lislevotes.example'? Refer to EOP Section 5 for severity thresholds and initial response procedures.",
+            "roleIds": [
+              "eo",
+              "deputy",
+              "it"
+            ],
+            "objectiveRef": "Credential Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "IT: How should you begin preserving forensic evidence from the VoterTrack database and Microsoft 365 tenant? What steps must be taken to ensure logs are not overwritten or altered?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Credential Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your initial assessment of the risk posed by the unverified edits to voter status? Should you prepare a public statement before confirmation, or wait for official validation?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "VSM: How does the air-gapped nature of the Pollbook build workstation (LCBOE-PB01) affect your ability to validate the integrity of the data used for pollbook generation?",
+            "roleIds": [
+              "vsm"
+            ],
+            "objectiveRef": "Pollbook Accuracy",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "Sec: What physical and procedural actions should you initiate to secure the facility and prevent unauthorized access, given the possibility of a compromised account being used to manipulate records?",
+            "roleIds": [
+              "sec"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QW1XHGEZMW150GCEC78MRE",
+        "narrativeMd": "It is 09:00. The Early Vote Center line is 45 people long. The spoofed relocation notice for Polling Location 6 is circulating in 12 local Facebook groups and the hotline has received 137 calls in 30 minutes. IT has confirmed that Nina Ruiz's account was used overnight. No incident level has been declared yet.\n\nAt 09:15, the results website (results.lislevotes.example) shows a processing error: 1,186 voters in Precincts 111 and 112 are marked as 'Mail Ballot Received' with no corresponding ballot issuance record. The page load time is 47 seconds.\n\nAt 09:17, a reporter from The Carrow Courier calls the hotline, stating that 10,000 calls are coming in from people claiming they were deleted from the voter rolls. One woman says she was turned away at her polling place.\n\nAt 09:22, the results website frontend fails and is replaced with a fake CISA alert page. The banner reads: 'ELECTION INTEGRITY ADVISORY: Voter database compromised. See official guidance at phish.cisa.gov.lislevotes.example (not in LCBOE domain).'\n\nAt 09:25, the managed SOC confirms that a forwarding rule was created on user 'nruiz@lislevotes.example' (Nina Ruiz) that sent all incoming emails to an external domain ('nruiz.archive@mailbox-relay.example'). The rule was active from 02:03 to 08:20. 120 API calls to VoterTrack were logged during the compromise window. The account has been disabled, the rule removed, and logs preserved.",
+        "keyIssues": [
+          "The team must transition from reactive triage to unified command under pressure.",
+          "The team must recognize the public misinformation event and decide whether to issue a formal incident declaration.",
+          "The team must decide whether to declare a system-wide disruption based on external impact and public pressure.",
+          "The team must determine if the compromise constitutes a Level 3 or higher incident per EOP Section 5."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the public misinformation and the failure of the results website, what severity level should you assign to this incident? Refer to EOP Section 5 for the criteria.",
+            "roleIds": [
+              "eo",
+              "deputy"
+            ],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "IT: What evidence confirms that the compromise occurred between 02:05 and 02:40? How do you reconcile the lack of MFA prompt with the successful approval from the user’s phone?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Credential Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is the immediate priority for public messaging? Should you issue a statement before confirming the status of the 1,186 records, or wait for verification from the Voter Registration Manager?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "VSM: Given that the Pollbook build workstation is air-gapped and isolated, what steps must you take to ensure that no unauthorized changes are made during the emergency load?",
+            "roleIds": [
+              "vsm"
+            ],
+            "objectiveRef": "Pollbook Accuracy",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "Sec: What actions must you take to secure the perimeter at Polling Location 6 and prevent unauthorized personnel from accessing the site, given that a man in a voting official shirt has been seen near the drop box?",
+            "roleIds": [
+              "sec"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QW1XHG2M9P1MS8JJVG69VW",
+        "narrativeMd": "It is 10:00. Rover 3 confirms that Polling Location 6 is at Carrow Community Church. Nina Ruiz's account is disabled. The Early Vote Center is issuing provisional ballots to voters shown as 'mail ballot issued' while the records are checked. The results website is offline.\n\nAt 10:05, the forensic analyst confirms that an unauthorized session occurred on 10/29/2026 from IP 10.100.45.12 (not in any authorized range). The session lasted 35 minutes (02:05–02:40). User agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5992.90 Safari/537.36' — non-standard browser. MFA prompt was approved from Nina Ruiz’s phone (device ID: iPhone13-773A), but no physical device was present in the office.\n\nAt 10:15, the Voting Systems Manager reports that the air-gapped Pollbook build workstation (LCBOE-PB01) has a valid, unaltered copy of the VoterTrack export from 10/28/2026. The hash matches the digital signature in the chain of custody log. The workstation is not connected to any network. It is physically isolated and has not been accessed since 10/28. The team can rebuild Polling Location 6’s pollbook using this trusted copy — but only if they cut the network and disable all remote access to the system.",
+        "keyIssues": [
+          "The team must decide whether to isolate the VoterTrack database and block external data exfiltration.",
+          "The team must decide whether to proceed with manual operations using the air-gapped workstation, despite the risk of delay.",
+          "The team must manage the pressure from external actors, including the Ohio Secretary of State, while preserving forensic integrity.",
+          "The team must decide whether to accept a provisional ballot process for all affected voters, knowing that it may delay full verification."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the forensic evidence, what is your decision on whether to declare a Level 3 or higher incident? What factors justify this decision?",
+            "roleIds": [
+              "eo",
+              "deputy"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must you take to isolate the VoterTrack database from the network and block external data exfiltration? What evidence supports that the compromise window is closed?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "VSM: What is your recommendation for rebuilding the pollbook for Polling Location 6? Should you proceed with the air-gapped copy, or wait for a verified state database feed?",
+            "roleIds": [
+              "vsm"
+            ],
+            "objectiveRef": "Pollbook Accuracy",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your strategy for correcting the viral misinformation on TikTok? How should you coordinate with the legal team to ensure statements are defensible?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "Sec: What actions must you take to prevent unauthorized access to the Board office and the Early Vote Center, given that a man in a voting official shirt has been seen near the drop box?",
+            "roleIds": [
+              "sec"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QW1XHGF8MQR563R8N0Q9GW",
+        "narrativeMd": "It is 11:00. The 10/28 export on the air-gapped LCBOE-PB01 checks out against its hash; the Voting Systems Manager is rebuilding the Precinct 111 and Precinct 112 pollbook data from it. The Secretary of State's office holds the county's next upload. The TikTok video has passed 200,000 views.\n\nAt 11:05, the forensic team confirms that the compromise window (02:05–02:40) is closed. The account nruiz@lislevotes.example has been permanently disabled. The forwarding rule to 'nruiz.archive@mailbox-relay.example' has been removed. All network access to VoterTrack (LCBOE-VR01) is now blocked. Logs have been preserved in a write-protected image on a forensic drive (SHA-256: 5c0e9a7d3f21b84e6a90c1d27f43b58e9a6d0c2f71b34e85a9d06c3f2e71b48a) and sealed under chain of custody (COOP-DR-5).\n\nAt 11:10, the Voter Registration Manager reports that the 1,186 altered records were falsely marked as 'Ballot Issued'. No records were deleted. The correction can be made using a clean feed from the state database or a trusted, air-gapped export.\n\nAt 11:15, a social media post from @CarrowWatchh claims that 1,186 voters were confirmed as falsely marked. The post has 87,000 views in 4 minutes.\n\nAt 11:20, a draft press release is circulated, stating that no voters were deleted, but 1,186 were wrongly marked as having voted by mail. Provisional ballots will be issued to affected voters.",
+        "keyIssues": [
+          "The team must validate that the air-gapped export is accurate and that no changes were made during the compromise window.",
+          "The team must decide whether to accept a provisional ballot process for all affected voters, knowing that it may delay full verification.",
+          "The team must verify that the public statement is consistent with the verified data and approved by the legal team.",
+          "The team must determine whether to request external assistance from CISA or the FBI, given the scale of the incident."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the forensic log and the state database comparison, what is your final decision on whether to accept the air-gapped export as the source for pollbook correction? Refer to EOP Section 7 for data integrity checks.",
+            "roleIds": [
+              "eo",
+              "deputy"
+            ],
+            "objectiveRef": "Pollbook Accuracy",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+                "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+                "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+                "chunkId": 72
+              }
+            ]
+          },
+          {
+            "text": "IT: What is the status of the VoterTrack backup? Can it be restored, or does forensic recovery remain necessary?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "System Containment",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your final public statement, and how does it align with the EAC/CISA communications guide? Who must approve it before release?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Table of Contents",
+                "quote": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+                "chunkId": 20
+              }
+            ]
+          },
+          {
+            "text": "VSM: What is your confirmation that the air-gapped Pollbook build workstation has not been tampered with, and that the hash match is valid?",
+            "roleIds": [
+              "vsm"
+            ],
+            "objectiveRef": "Pollbook Accuracy",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2S2XRHS5MKT23PJ9Y4",
+                "documentTitle": "Lisle County Board of Elections — Cybersecurity Incident Response Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 4",
+                "quote": "| System | Connected to | Notes | |---|---|---| | County voter registration system \"VoterTrack\" (LCBOE-VR01, database LCBOE-SQL01) | County network; nightly synchronization with the statewide voter re",
+                "chunkId": 24
+              }
+            ]
+          },
+          {
+            "text": "Legal: What is your assessment of the legal risk in releasing a public statement before full verification? What steps must you take to ensure the statement is defensible under state breach law?",
+            "roleIds": [],
+            "objectiveRef": "Public Trust Management",
+            "citations": [
+              {
+                "documentId": "01M5QVXR2W2337F8B46V7YEP73",
+                "documentTitle": "Lisle County Board of Elections — Election Contingency and Continuity of Operations Plan",
+                "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+                "quote": "If the Voter Registration Manager or the IT Manager suspects that voter records in the county system were changed without authority: 1. Freeze changes in the county voter registration system for the a",
+                "chunkId": 72
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "VoterTrack database (LCBOE-SQL01)",
     "Pollbook build workstation (LCBOE-PB01)",
@@ -2788,6 +3604,1827 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:18:41.909Z",
+      "finishedAt": "2026-10-30T12:19:11.665Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11030,
+      "outputTokens": 2210,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:38:16.058Z",
+      "finishedAt": "2026-10-30T10:39:22.305Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 7689,
+      "outputTokens": 5519,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "053a15c268ec500d",
+        "claims": [],
+        "at": "2026-10-30T10:39:26.181Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "b090996f270f8e6a",
+        "claims": [
+          {
+            "text": "Deputy logs the call in LCBOE-F-07 and LCBOE-F-25; IT checks the VoterTrack system for anomalies; PIO notes the call in the rumor log and prepares to verify.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.111,
+            "matched": [
+              "LCBOE-F-07",
+              "LCBOE-F-25"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.553Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘approved’, ‘isolates’ are not in Section 10 or the facility facts.",
+        "fingerprint": "786138ddd9bbdbf2",
+        "claims": [
+          {
+            "text": "IT immediately investigates the connection; checks for unauthorized access, verifies the source IP and port against allowed egress; if not approved, isolates LCBOE-FS01 and alerts the County CISO. Preserves all logs for forensic review.",
+            "chunkId": 16,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.211,
+            "matched": [
+              "LCBOE-FS01"
+            ],
+            "missing": [
+              "approved",
+              "isolates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: IP 104.213.142.77; IP 10.72.12.20",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "IP 104.213.142.77",
+              "IP 10.72.12.20"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.554Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘notifies’, ‘isolates’ are not in Section 7 or the facility facts.",
+        "fingerprint": "0d8f25a77b082746",
+        "claims": [
+          {
+            "text": "IT immediately disables the user account 'nruiz@lislevotes.example'; isolates LCBOE-VR01 and LCBOE-SQL01; notifies the County CISO and the Director.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.667,
+            "matched": [
+              "Director",
+              "LCBOE-VR01",
+              "LCBOE-SQL01"
+            ],
+            "missing": [
+              "notifies",
+              "isolates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Confirms no physical presence of Nina Ruiz during the timeframe.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Preserves all logs.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.554Z",
+        "version": 1
+      },
+      "row:I-03b": {
+        "label": "review",
+        "reason": "‘Voter Registration Manager’, ‘IT Manager’, ‘activate’ are not in 6.4 Impersonation of the Board or the facility facts.",
+        "fingerprint": "552cc9a61c64b366",
+        "claims": [
+          {
+            "text": "CEO must immediately verify the authenticity of the notice with the Voter Registration Manager and the IT Manager; if the Board has not issued such a directive, declare a potential impersonation incident and activate CIRP Level 2.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.235,
+            "matched": [
+              "Board"
+            ],
+            "missing": [
+              "Voter Registration Manager",
+              "IT Manager",
+              "activate",
+              "declare"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All public statements must be coordinated through the PIO.",
+            "chunkId": 18,
+            "headingPath": "Lisle County Board of Elections… › Annex B",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.554Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "Only 13% of ‘The PIO must prepare a holding statement to address the fal…’ is in Section 7.",
+        "fingerprint": "e431191593cc935f",
+        "claims": [
+          {
+            "text": "IT must immediately investigate the unauthorized update to the results website; the Board website (lislevotes.example) remains unchanged and is not affected.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.5,
+            "matched": [
+              "Board"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must prepare a holding statement to address the false information and prevent public confusion.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.555Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "98dde6db8029297c",
+        "claims": [],
+        "at": "2026-10-30T10:39:26.185Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e0c96ed5274ff0c0",
+        "claims": [],
+        "at": "2026-10-30T10:39:26.185Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘isolates’ is not in Section 7 or the facility facts.",
+        "fingerprint": "2465b220158e6322",
+        "claims": [
+          {
+            "text": "IT and VSM immediately cross-check the front-end data against the offline VoterTrack export and the paper pollbook.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.556,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "VSM confirms no ballots were issued to those voters; IT validates the data feed source and isolates the results website from the VoterTrack API to prevent further corruption.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "isolates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "This confirms the data is tampered, not a system failure.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.555Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "Only 33% of ‘PIO confirms the call is received and logs it in LCBOE-F-25…’ is in Section 10.",
+        "fingerprint": "8f5f7e405198046c",
+        "claims": [
+          {
+            "text": "PIO confirms the call is received and logs it in LCBOE-F-25; immediately contacts the Director and VSM to verify voter registration status for Precincts 111 and 112.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.333,
+            "matched": [
+              "Director",
+              "LCBOE-F-25"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "PIO prepares a holding statement: 'We are aware of reports and are investigating.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.2,
+            "matched": [
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All voters are welcome to vote in person.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "No one has been removed from the rolls.'",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.555Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "Only 43% of ‘IT immediately disconnects the results website from the int…’ is in Section 7.",
+        "fingerprint": "2ce56defe6aa692e",
+        "claims": [
+          {
+            "text": "IT immediately disconnects the results website from the internet and blocks phish.cisa.gov.lislevotes.example at the firewall; PIO confirms the page is not an official CISA communication and begins drafting a correction statement.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.429,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT verifies the page was served from the results website server and not a DNS spoof.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.555Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "285b7be27a6d15cc",
+        "claims": [
+          {
+            "text": "IT confirms the account compromise and begins forensic preservation of logs; no further action is taken on the user account until the Director's approval.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.182,
+            "matched": [
+              "Director",
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.555Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "‘declares’ is not in Section 5 or the facility facts.",
+        "fingerprint": "c05d57fdc69361fc",
+        "claims": [
+          {
+            "text": "The CEO tells the Secretary of State what is known, declares the CIRP level and names who sends the written report and when.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.444,
+            "matched": [
+              "report"
+            ],
+            "missing": [
+              "declares"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.556Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "review",
+        "reason": "Only 40% of ‘Sec orders the rover team to hold position and not engage; …’ is in Section 3.",
+        "fingerprint": "c363a59361775b54",
+        "claims": [
+          {
+            "text": "Sec orders the rover team to hold position and not engage; the Poll Worker Coordinator must verify the inspector’s identity with a bipartisan pair before any interaction occurs.",
+            "chunkId": 26,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.4,
+            "matched": [
+              "Poll Worker Coordinator"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.557Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "Only 35% of ‘the CEO decides whether to freeze record changes in VoterTr…’ is in Annex C.",
+        "fingerprint": "a6b4b155ec9089e6",
+        "claims": [
+          {
+            "text": "the CEO decides whether to freeze record changes in VoterTrack (COOP-DR-5) and rebuild the 10/31 load from the trusted 10/28 export, at the cost of delaying legitimate changes made since; and confirms that affected voters vote a provisional ballot (or a regular one after verification).",
+            "chunkId": 40,
+            "headingPath": "Lisle County Board of Elections… › Annex C",
+            "overlap": 0.348,
+            "matched": [
+              "COOP-DR-5"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.557Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "Only 25% of ‘Dep logs the incident in LCBOE-F-07 and LCBOE-F-25; VSM con…’ is in Section 3.",
+        "fingerprint": "1bfdb489ba7fb290",
+        "claims": [
+          {
+            "text": "Dep logs the incident in LCBOE-F-07 and LCBOE-F-25; VSM confirms the BMD 30 was not used during that time window and checks for tamper-evident seal A0048213 on the device.",
+            "chunkId": 26,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.25,
+            "matched": [
+              "LCBOE-F-07",
+              "LCBOE-F-25"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ballots are not to be processed until the chain of custody is verified.",
+            "chunkId": 26,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8705a18a80369a99",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "‘isolated’ is not in Section 7 or the facility facts.",
+        "fingerprint": "d65ae813951940a2",
+        "claims": [
+          {
+            "text": "IT and VSM confirm that VoterTrack must be isolated immediately; the forensic evidence confirms a breach.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "isolated"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Begin manual operations using the trusted pollbook build from 10/28 and the offline copy on LCBOE-PB01.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.4,
+            "matched": [
+              "LCBOE-PB01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "No further system access is permitted until forensic review is complete.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: IP 10.100.45.12; NT 10.0",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "IP 10.100.45.12",
+              "NT 10.0"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "47692bc92a469bc6",
+        "claims": [
+          {
+            "text": "VSM confirms that LCBOE-PB01 is air-gapped and physically isolated.",
+            "chunkId": 5,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0,
+            "matched": [
+              "LCBOE-PB01",
+              "isolated"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT verifies the chain of custody and hash, then approves the manual pollbook rebuild for Polling Location 6 using the trusted offline copy.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.133,
+            "matched": [],
+            "missing": [
+              "approves"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "review",
+        "reason": "Only 40% of ‘PIO logs the video in LCBOE-F-25 and issues a holding state…’ is in Section 10.",
+        "fingerprint": "3a5595e4d54d59ea",
+        "claims": [
+          {
+            "text": "PIO logs the video in LCBOE-F-25 and issues a holding statement: 'The Board has confirmed that the location change was false.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.4,
+            "matched": [
+              "Board",
+              "LCBOE-F-25"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The actual Polling Location 6 is at Carrow Community Church.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Voters in Precincts 111 and 112 should go to their correct location.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All voters are eligible to vote in person.'",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "grounded",
+        "reason": "Every claim matches Lisle County Board of Elections….",
+        "fingerprint": "2095c61023a40865",
+        "claims": [
+          {
+            "text": "The Deputy notes it on the status board and keeps the team on the incident; no escalation.",
+            "chunkId": 41,
+            "headingPath": "Lisle County Board of Elections…",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.558Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "af08d430a92da3cf",
+        "claims": [],
+        "at": "2026-10-30T10:39:26.189Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "review",
+        "reason": "Only 17% of ‘IT confirms logs are preserved on a write-protected forensi…’ is in 8.2 Voter records in question (decision record COOP-DR-5).",
+        "fingerprint": "444de1f92bcdb063",
+        "claims": [
+          {
+            "text": "IT confirms logs are preserved on a write-protected forensic drive; no further access to the file server LCBOE-FS01 is permitted for this data.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.167,
+            "matched": [
+              "LCBOE-FS01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All recovery operations proceed using the forensic image and trusted air-gapped exports.",
+            "chunkId": 2,
+            "headingPath": "Lisle County Board of Elections… › Table of Contents",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.559Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "review",
+        "reason": "Only 39% of ‘Voter Registration Manager confirms data discrepancy and re…’ is in 8.2 Voter records in question (decision record COOP-DR-5).",
+        "fingerprint": "5c49dc0c59c67e32",
+        "claims": [
+          {
+            "text": "Voter Registration Manager confirms data discrepancy and requests a clean feed from the state; all teams defer to her verification before restoring any automated processes.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.385,
+            "matched": [
+              "Voter Registration Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.559Z",
+        "version": 1
+      },
+      "row:I-20b": {
+        "label": "review",
+        "reason": "‘Section 7.2’ is not in Section 10 or the facility facts.",
+        "fingerprint": "1a0cdc39013412ad",
+        "claims": [
+          {
+            "text": "PIO prepares a unified public statement using the EAC/CISA Election Infrastructure Incident Response Communications Guide (Section 7.2); no speculation allowed.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.563,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [
+              "Section 7.2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.559Z",
+        "version": 1
+      },
+      "row:I-22": {
+        "label": "review",
+        "reason": "Only 46% of ‘The PIO and the CEO correct the board's draft where needed,…’ is in Section 10.",
+        "fingerprint": "a576f7e1c1903199",
+        "claims": [
+          {
+            "text": "The PIO and the CEO correct the board's draft where needed, clear it (COOP-DR-6) and post it on the Board website, social media and the hotline message.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.455,
+            "matched": [
+              "Board",
+              "COOP-DR-6"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.559Z",
+        "version": 1
+      },
+      "row:I-21b": {
+        "label": "review",
+        "reason": "‘TICK-2026-1125’, ‘approval’ are not in Section 3 or the facility facts.",
+        "fingerprint": "607562c26e307c70",
+        "claims": [
+          {
+            "text": "IT logs the vendor request and initiates a ticket (TICK-2026-1125) with Legal and the Director; no action is taken until approval is received.",
+            "chunkId": 26,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.3,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "TICK-2026-1125",
+              "approval"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 8",
+            "chunkId": 2,
+            "headingPath": "Lisle County Board of Elections… › Table of Contents",
+            "overlap": 1,
+            "matched": [
+              "Section 8"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.559Z",
+        "version": 1
+      },
+      "row:I-23": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "7dbb327edc38f13f",
+        "claims": [
+          {
+            "text": "IT reports the backup corruption and initiates a forensic recovery plan per EOP 6.3; no manual restore of the database is attempted until the forensic team confirms integrity.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.071,
+            "matched": [],
+            "missing": [
+              "EOP 6.3",
+              "reports"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "row:I-24": {
+        "label": "review",
+        "reason": "Only 20% of ‘The Deputy and the VSM close the chain-of-custody question,…’ is in 8.2 Voter records in question (decision record COOP-DR-5).",
+        "fingerprint": "c7610ce2750f64ee",
+        "claims": [
+          {
+            "text": "The Deputy and the VSM close the chain-of-custody question, log it on LCBOE-F-07 and put the provisional envelopes back into the normal review.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.2,
+            "matched": [
+              "LCBOE-F-07"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "row:I-25": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4df74eb10f31ee2a",
+        "claims": [
+          {
+            "text": "The CEO confirms the records hold (litigation hold with Legal), the corrected-file plan and the on-site support; the incident stays open until the pollbook is verified.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.154,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "048e3eada86dc75c",
+        "claims": [],
+        "at": "2026-10-30T10:39:26.190Z",
+        "version": 1
+      },
+      "inject:01M5QWD2NJ6QJ4TNZBAY7C6GQK": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a1df0d716440f92e",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "inject:01M5QWD9121X73HJQC1EZX7MBH": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a core narrative inject.’ is in Annex A.",
+        "fingerprint": "1984aeda6a0b0956",
+        "claims": [
+          {
+            "text": "This is a core narrative inject.",
+            "chunkId": 38,
+            "headingPath": "Lisle County Board of Elections… › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Deputy must initiate the incident log and rumor log.",
+            "chunkId": 39,
+            "headingPath": "Lisle County Board of Elections… › Annex B",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT should begin investigating VoterTrack for anomalies.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must prepare to verify the claim and monitor for public spread.",
+            "chunkId": 38,
+            "headingPath": "Lisle County Board of Elections… › Annex A",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "inject:01M5QWDHN0HZEP0ZGGYA4ER1QY": {
+        "label": "review",
+        "reason": "‘isolate’ is not in Section 4 or the facility facts.",
+        "fingerprint": "b34f96ff6fd5e190",
+        "claims": [
+          {
+            "text": "This alert confirms the attacker's exfiltration attempt via the compromised user inbox.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT team must immediately isolate LCBOE-FS01 and preserve logs for forensic analysis.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.333,
+            "matched": [
+              "LCBOE-FS01"
+            ],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.560Z",
+        "version": 1
+      },
+      "inject:01M5QWDTQDR0CQZY8S4KQ1W5KK": {
+        "label": "review",
+        "reason": "‘isolate’ is not in Section 5 or the facility facts.",
+        "fingerprint": "89ee680227b8c488",
+        "claims": [
+          {
+            "text": "This inject confirms the attack vector: compromised credentials and unauthorized mass edits.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for IT to isolate LCBOE-VR01 and LCBOE-SQL01, disable the account, and notify the CISO and Director.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.333,
+            "matched": [
+              "Director",
+              "LCBOE-VR01",
+              "LCBOE-SQL01",
+              "notify"
+            ],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.561Z",
+        "version": 1
+      },
+      "inject:01M5QWE78BCKCGAT2561H425Y5": {
+        "label": "review",
+        "reason": "‘C1’, ‘C3’ are not in Annex C or the facility facts.",
+        "fingerprint": "9db8fade82ce3b32",
+        "claims": [
+          {
+            "text": "This is a core narrative inject.",
+            "chunkId": 45,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CEO must recognize the inconsistency with the documented relocation in C1 and C3, and immediately cross-check with the Voter Registration Manager and IT. The use of a non-organization domain (relocate.lislevotes.example) and a fake URL are red flags.",
+            "chunkId": 40,
+            "headingPath": "Lisle County Board of Elections… › Annex C",
+            "overlap": 0.235,
+            "matched": [
+              "Voter Registration Manager"
+            ],
+            "missing": [
+              "C1",
+              "C3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.561Z",
+        "version": 1
+      },
+      "inject:01M5QWEF9VW9RX9QRG6GH8PW17": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject confirms the fake relocation order has reached …’ is in Section 4.",
+        "fingerprint": "14b0f945b619284d",
+        "claims": [
+          {
+            "text": "This inject confirms the fake relocation order has reached the results website.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must trace the data feed from the upload workstation LCBOE-ENR01 and validate the integrity of the results file.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.7,
+            "matched": [
+              "LCBOE-ENR01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "PIO must initiate a public hold statement to prevent confusion from the false site update.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.561Z",
+        "version": 1
+      },
+      "inject:01M5QWF983QXXQ940PT6RH36JY": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4b9469356f17f84a",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 45,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The rover confirms the site is unoccupied and secured, which validates the spoofed email's falsity.",
+            "chunkId": 45,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.561Z",
+        "version": 1
+      },
+      "inject:01M5QWFNECMPH4YK4DA2F3WDR4": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d1b506d61bf64d5b",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.561Z",
+        "version": 1
+      },
+      "inject:01M5QWFW459JWE7KJPFS0QJ17H": {
+        "label": "review",
+        "reason": "‘isolate’ is not in Section 7 or the facility facts.",
+        "fingerprint": "ff76ca4ecd11bd6e",
+        "claims": [
+          {
+            "text": "This inject confirms the data tampering in VoterTrack has reached the public-facing results website.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT and VSM must now validate the feed against offline sources and isolate the compromised interface.",
+            "chunkId": 13,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWG752ED4N3GS8EDAAHBVW": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a pressure inject to test the PIO's immediate respo…’ is in 8.1 Pollbook down or offline.",
+        "fingerprint": "655067413cee4d96",
+        "claims": [
+          {
+            "text": "This is a pressure inject to test the PIO's immediate response to media escalation.",
+            "chunkId": 31,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.1 Pollbook down or offline",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the Director to confirm the call is logged and initiate the COOP-DR-6 process.",
+            "chunkId": 15,
+            "headingPath": "Lisle County Board of Elections… › Section 9",
+            "overlap": 0.286,
+            "matched": [
+              "Director",
+              "COOP-DR-6"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWGTT21DE9C92VVF4KJVJX": {
+        "label": "review",
+        "reason": "Only 11% of ‘This is a core narrative inject; the fake CISA page is the …’ is in 6.3 Results website attack or outage.",
+        "fingerprint": "46c4cbeabc3526ab",
+        "claims": [
+          {
+            "text": "This is a core narrative inject; the fake CISA page is the attacker's final deception.",
+            "chunkId": 10,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.3 Results website attack or outage",
+            "overlap": 0.111,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must block phish.cisa.gov.lislevotes.example and verify the results website server was the source.",
+            "chunkId": 10,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.3 Results website attack or outage",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must reject the fake advisory and begin correcting public perception.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWH71WPPFEWDP0PH129HS7": {
+        "label": "review",
+        "reason": "‘C2’ is not in 6.1 Phishing and account takeover or the facility facts.",
+        "fingerprint": "3bd296b8b2e9e65e",
+        "claims": [
+          {
+            "text": "This inject confirms the compromise of Nina Ruiz's account and triggers the formal forensic preservation step.",
+            "chunkId": 8,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT team must now halt any manual account recovery and follow the CISA guidance in C2.",
+            "chunkId": 8,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+            "overlap": 0.25,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [
+              "C2"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to re-enable the account or bypass the block.",
+            "chunkId": 8,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.1 Phishing and account takeover",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWHEPBCQYDJHSEA5MQE4YG": {
+        "label": "review",
+        "reason": "‘declare’ is not in Section 5 or the facility facts.",
+        "fingerprint": "c1f06b1a2139c152",
+        "claims": [
+          {
+            "text": "This inject confirms the CIRP 2 activation.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.75,
+            "matched": [
+              "activation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The EO must immediately declare the incident and begin the COOP Level 2 protocol.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [
+              "declare"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for timely declaration and coordination across roles.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "declaration"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWHTX784T7H7F5259NBQ7M": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "817cf029953c3d9c",
+        "claims": [
+          {
+            "text": "This inject introduces confusion and operational ambiguity.",
+            "chunkId": 44,
+            "headingPath": "Lisle County Board of Elections… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The security team must verify the inspector’s legitimacy through proper channels before any interaction.",
+            "chunkId": 44,
+            "headingPath": "Lisle County Board of Elections… › Section 2",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature engagement or unauthorized clearance.",
+            "chunkId": 44,
+            "headingPath": "Lisle County Board of Elections… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.562Z",
+        "version": 1
+      },
+      "inject:01M5QWJBJJ6NHYN0AW9Z5Q9R1N": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘declare’ are not in Section 5 or the facility facts.",
+        "fingerprint": "b15d61cc370b11d1",
+        "claims": [
+          {
+            "text": "This is a mandatory escalation point.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must declare CIRP 2 immediately; monitor for hesitation or confusion in response.",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [
+              "Incident Commander",
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.563Z",
+        "version": 1
+      },
+      "inject:01M5QWJQTYVF3DPP3XFK9DKVZM": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should triage it down with…’ is in 8.3 Chain of custody.",
+        "fingerprint": "26746d5de0879802",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 33,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.3 Chain of custody",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to bypass chain-of-custody verification.",
+            "chunkId": 33,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.3 Chain of custody",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.563Z",
+        "version": 1
+      },
+      "inject:01M5QWK3QGJ7KN95KJRB1C0226": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "98096d4c299e67de",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.563Z",
+        "version": 1
+      },
+      "inject:01M5QWKAVVTJSS1SBHJMNQQE6J": {
+        "label": "review",
+        "reason": "‘isolate’ is not in 1.4 Coordinated Documents or the facility facts.",
+        "fingerprint": "c45d19abf85fee89",
+        "claims": [
+          {
+            "text": "This inject confirms the breach and forces players to act on manual procedures.",
+            "chunkId": 24,
+            "headingPath": "Lisle County Board of Elections… › Section 1 › 1.4 Coordinated Documents",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Monitor for IT and VSM to isolate VoterTrack and initiate the manual response plan.",
+            "chunkId": 24,
+            "headingPath": "Lisle County Board of Elections… › Section 1 › 1.4 Coordinated Documents",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [
+              "isolate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.563Z",
+        "version": 1
+      },
+      "inject:01M5QWKKDQ1DVK8P9H6BRWG3DJ": {
+        "label": "review",
+        "reason": "‘authorize’ is not in Section 4 or the facility facts.",
+        "fingerprint": "b801fc6034f6d54b",
+        "claims": [
+          {
+            "text": "This inject confirms the air-gapped workstation is clean and usable for recovery.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The VSM must now authorize the manual rebuild, and IT must verify the integrity before proceeding.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.563Z",
+        "version": 1
+      },
+      "inject:01M5QWM1D0J8JMSRZX1NC2ZWB0": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject introduces viral public distrust.’ is in Section 3.",
+        "fingerprint": "0ba9c62d54a2ac9c",
+        "claims": [
+          {
+            "text": "This inject introduces viral public distrust.",
+            "chunkId": 45,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must log the video and issue a holding statement to counter the false location claim.",
+            "chunkId": 45,
+            "headingPath": "Lisle County Board of Elections… › Section 3",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWMDPFWBKEMN2P08S4WTK1": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "63f53d759c3cd784",
+        "claims": [
+          {
+            "text": "Confirm all roles have completed LCBOE-F-07 and LCBOE-F-25 entries before the hot wash.",
+            "chunkId": 29,
+            "headingPath": "Lisle County Board of Elections… › Section 6",
+            "overlap": 0.167,
+            "matched": [
+              "LCBOE-F-07",
+              "LCBOE-F-25"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Collect evaluator sheets.",
+            "chunkId": 10,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.3 Results website attack or outage",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWMP75R81N95X00N42Q1HT": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "c91a3a6c0e6ff0fa",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWMXK8HJS1C0ZZGJ8G3SXH": {
+        "label": "review",
+        "reason": "Only 30% of ‘This inject confirms the forensic chain of custody and lock…’ is in Section 4.",
+        "fingerprint": "c282c39e525a62a7",
+        "claims": [
+          {
+            "text": "This inject confirms the forensic chain of custody and locks down access to the compromised account and data.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The players must now rely exclusively on the forensic image and air-gapped exports to restore operations.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to access the original VoterTrack database or attempt to re-enable the account.",
+            "chunkId": 6,
+            "headingPath": "Lisle County Board of Elections… › Section 4",
+            "overlap": 0.625,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWN6T6S1SK0EXEABM1FEH9": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the data discrepancy and validates the…’ is in 8.2 Voter records in question (decision record COOP-DR-5).",
+        "fingerprint": "40f167b56101b533",
+        "claims": [
+          {
+            "text": "This inject confirms the data discrepancy and validates the path to recovery via the trusted export.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Voter Registration Manager now has authority to direct the correction process.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.667,
+            "matched": [
+              "Voter Registration Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams to defer to her verification before restoring automated systems.",
+            "chunkId": 32,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.2 Voter records in question (decision record COOP-DR-5)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWNQYP4N9VCPYERG9F1KGR": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject pressures the PIO to act under media scrutiny.’ is in 6.4 Impersonation of the Board.",
+        "fingerprint": "6bf79b1b73937932",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to act under media scrutiny.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a premature or speculative public statement.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.564Z",
+        "version": 1
+      },
+      "inject:01M5QWP790DSH7A3E10621V45E": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is the official public statement.’ is in Section 10.",
+        "fingerprint": "c69948a9c31f9fbc",
+        "claims": [
+          {
+            "text": "This is the official public statement.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must confirm that all internal and external messaging must align with this text.",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any deviation from this language in subsequent player actions.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "inject:01M5QWPGQGGW5ER98EBCCQH5BR": {
+        "label": "review",
+        "reason": "‘approval’ is not in Section 7 or the facility facts.",
+        "fingerprint": "2fdf040e02ab9680",
+        "claims": [
+          {
+            "text": "This inject requires IT to initiate a formal ticket and secure dual approval from Legal and the Director.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.1,
+            "matched": [
+              "Director"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The vendor is not bluffing — the service will not resume without a signed access request and ticket number.",
+            "chunkId": 49,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "inject:01M5QWPTPPY4YWW4K56NPWVXQY": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "0de8458c57612514",
+        "claims": [
+          {
+            "text": "This inject confirms the forensic path is the only valid route; the IT team must not attempt manual recovery.",
+            "chunkId": 13,
+            "headingPath": "Lisle County Board of Elections… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to bypass CISA protocols or restore from unverified backups.",
+            "chunkId": 31,
+            "headingPath": "Lisle County Board of Elections… › Section 8 › 8.1 Pollbook down or offline",
+            "overlap": 0.125,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "inject:01M5QWWYBQ8CEX7F4TP0J4640P": {
+        "label": "review",
+        "reason": "Only 18% of ‘This is a red herring: the ballots were not altered, but th…’ is in Section 6.",
+        "fingerprint": "d450efc57ca4ccc3",
+        "claims": [
+          {
+            "text": "This is a red herring: the ballots were not altered, but the gap in the chain of custody and the seal reuse point to a broader compromise.",
+            "chunkId": 48,
+            "headingPath": "Lisle County Board of Elections… › Section 6",
+            "overlap": 0.182,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The VSM must verify media integrity via air-gapped copy.",
+            "chunkId": 48,
+            "headingPath": "Lisle County Board of Elections… › Section 6",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overreaction to the gap without verifying from trusted sources.",
+            "chunkId": 48,
+            "headingPath": "Lisle County Board of Elections… › Section 6",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "inject:01M5QWQ9696S9D7V65XS5EXCN6": {
+        "label": "review",
+        "reason": "‘declaration’ is not in Section 10 or the facility facts.",
+        "fingerprint": "675e3953e0882711",
+        "claims": [
+          {
+            "text": "This is the final confirmation of incident closure.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CEO must now issue the formal declaration.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the timing of the public statement and ensure the PIO follows the EAC/CISA guide.",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 0.625,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "inject:01M5QWQKTXHKA0MT62VZ2ZVBTS": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "add68c984ba6d69d",
+        "claims": [],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "Section 5 is in the index as cited.",
+        "fingerprint": "cf90c42fb7103325",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Section 5",
+            "chunkId": 7,
+            "headingPath": "Lisle County Board of Elections… › Section 5",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "Section 6 is in the index as cited.",
+        "fingerprint": "71ab631fcdde89a1",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Section 6",
+            "chunkId": 29,
+            "headingPath": "Lisle County Board of Elections… › Section 6",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "Annex B is in the index as cited.",
+        "fingerprint": "4c30425e28c13e97",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Annex B",
+            "chunkId": 18,
+            "headingPath": "Lisle County Board of Elections… › Annex B",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "Section 10 is in the index as cited.",
+        "fingerprint": "3cd8d1ceee5177fd",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Section 10",
+            "chunkId": 35,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "6.4 Impersonation of the Board is in the index as cited.",
+        "fingerprint": "d6a8ba4fb58f5631",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "chunkId": 11,
+            "headingPath": "Lisle County Board of Elections… › Section 6 › 6.4 Impersonation of the Board",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "Section 10 is in the index as cited.",
+        "fingerprint": "b308b8548106425e",
+        "claims": [
+          {
+            "text": "Lisle County Board of Elections… › Section 10",
+            "chunkId": 16,
+            "headingPath": "Lisle County Board of Elections… › Section 10",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:11.565Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

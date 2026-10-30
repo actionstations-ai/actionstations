@@ -50,6 +50,8 @@ Examples simulate the organization being exercised and its people, airlines, pri
 
 Strip these with a script, not by hand. Keep binary media to at most 6 MB per example (one short voice clip as MP3 included); full media and PDF/ZIP exports belong to the GitHub release, not to git. A shipped example carries no lint warning but CRITIQUE notes: `make-example.mjs verify` and `tests/scripts/example-content.test.ts` both check it. Fix content in place in the release folder, then `refresh` and `package` (no model needed).
 
+To add a stage the packaged example predates (for example the evaluation guides and the Situation Manual, #499), run `node scripts/make-example.mjs stages --spec examples/<id>/build.json [--stages eeg,sitman]` with a model reachable, then `package`. It adopts the packaged project when there is no release folder, re-runs only those stages, keeps the scenario status, and retries a stage whose output leaves out a phase or an objective.
+
 ## How the app uses it
 
 - Each example ships in its domain's bundled pack (ADR-0020, `packs/bundled.json`: `airport-ncia` → Airports, `city-water` → Water utilities, `uas-operations` → Unmanned systems, `chemical-rmp` → Chemical facilities, `county-public-health` → Public health, `county-911` → Emergency communications, `county-elections` → Elections, `k12-district` → K-12 schools, `gas-distribution` → Gas utilities and pipelines). `examples:list` lists the examples of the enabled packs, bundled and installed (packaged: `<resources>/app-resources/packs/<pack>/examples/`; unpackaged: this folder, read in place; `TTX_EXAMPLES_DIR` lists a plain folder instead, for tests). A new example needs an entry in `packs/bundled.json`, or the build fails.

@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T21:39:00.181Z",
-  "updatedAt": "2026-10-24T22:43:50.377Z",
+  "updatedAt": "2026-10-30T12:29:30.336Z",
   "brief": {
     "userPrompt": "Tuesday of the spring state assessment window at Halverson Unified School District. At 06:40 Tallgrass MDR calls Information Security Manager Priya Castellanos about Defender alerts on HUSD-FS02 and HUSD-VH02; by 07:30 file shares, Tyler Munis on HUSD-ERP01 and the hosted VoIP on HUSD-PBX01 are encrypted and a ransom note appears on staff laptops, while PowerSchool, Google Workspace and Chromebooks still work through the school internet breakouts. The intruder came in through the unpatched VPN appliance HUSD-VPN01 (CIRP-4) and the shared local-admin password (CIRP-3), and copied the HUSD-FS02 student-services shares (IEPs, health logs, threat-assessment and custody files) before encrypting. CTO Victor Han must choose between containment steps C-3, C-4 and C-5 while grade 11 testing runs in the Halverson High School library and Commons; the Assessment Coordinator needs a pause decision for the Oregon Department of Education. At midday the actor emails parents and staff from a lookalike domain with sample IEP pages and a leak-site deadline, and parents post screenshots in the Halverson Parents Facebook group; Channel 6 calls the PIO. At 13:15 an emailed threat names Halverson High School and, minutes later, a 911 caller reports a shooter in C Wing: Brandt County 911 dispatches Halverson Police, the school goes to LOCKDOWN via CENTEGIX, phones to the District Service Center are down, and students must be bused from the Stadium to the Reunification Site (primary): Brandt County Fairgrounds Exhibit Hall on Bus Route 1 to Bus Route 4 using the 05:00 offline rosters. The Policy Group must decide on closures for Wednesday, the ransom demand with counsel, the risk pool and the FBI Portland Field Office, CISA and MS-ISAC/K12 SIX reporting, the Oregon Department of Education report, and data-exposure notices to families.",
     "audience": [
@@ -1440,6 +1440,531 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5QXNKFG6H2FBQGR8WJD11M4",
+        "capability": "cybersecurity",
+        "why": "The objective focuses on assessing and containing a multi-system cyber incident involving data exfiltration, encryption, and spoofed communications, which directly aligns with the cybersecurity capability's focus on protecting and restoring electronic systems and data from unauthorized use and exploitation."
+      },
+      {
+        "objectiveId": "01M5QXNKFG6H2FBQGR8WJD11M4",
+        "capability": "forensics_and_attribution",
+        "why": "The need to identify the attack vector, confirm data exfiltration via DNS tunneling, and preserve HUSD-VPN01 as evidence for law enforcement requires forensic analysis and attribution to determine the source and method of the attack, consistent with the forensics and attribution capability."
+      },
+      {
+        "objectiveId": "01M5QXNKFG4NKT694NZVG3N34N",
+        "capability": "operational_coordination",
+        "why": "The objective requires synchronized use of the 05:00 offline roster across multiple teams (Student Services, Transportation, EOC) to ensure accurate student accountability and reunification, which depends on a unified operational structure and coordination across roles and systems."
+      },
+      {
+        "objectiveId": "01M5QXNKFG4NKT694NZVG3N34N",
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective hinges on verifying that only the pre-incident, encrypted USB-key-stored roster (Section 6.3) is trusted, and that no unauthorized access to the SIS or cloud systems is permitted—this relies on identity verification and access control to prevent data corruption and ensure roster integrity."
+      },
+      {
+        "objectiveId": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
+        "capability": "planning",
+        "why": "The objective requires making rapid, coordinated decisions on school closure, ransom negotiation, legal reporting, and family notification under pressure, which depends on a structured, executable planning process to guide decision-making across legal, ethical, and operational imperatives."
+      },
+      {
+        "objectiveId": "01M5QXNKFG2AJ0ZBDV7KZ3S4WR",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes issuing timely, accurate, and actionable messages to families, media, and staff to maintain public trust, which is a core function of public information and warning, particularly in managing rumors and ensuring consistent messaging during a crisis."
+      },
+      {
+        "objectiveId": "01M5QXNKFGPX3FDF33GXWYZT1P",
+        "capability": "operational_coordination",
+        "why": "The objective demands synchronization across the Policy Group, EOC, Technology, Communications, and Student Services teams during a cascading incident, which requires a unified operational structure and process to integrate all stakeholders and support coordinated response actions."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The CTO and Technical Lead must contain the ransomware attack by isolating HUSD-FW01 via C-3 (EOP Section 7), block compromised accounts (j.lee@halversonusd.example) via Entra and Google Workspace (CIRP 4.3), and preserve HUSD-VPN01 as evidence without rebooting or wiping, per CISA and CIRP requirements.",
+        "objectiveRefs": [
+          "01M5QXNKFG6H2FBQGR8WJD11M4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Declare S3 High severity under C2 and notify Incident Commander and Policy Group via ICS 213 (SOP 6.4).",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
+            },
+            "expectedBy": "cto",
+            "timing": "within 5 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG6H2FBQGR8WJD11M4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Block the compromised user account j.lee@halversonusd.example and revoke all active sessions via Entra and Google Workspace (CIRP 4.3).",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "cto",
+            "timing": "within 10 minutes of I-07",
+            "rowIds": [
+              "I-07",
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG6H2FBQGR8WJD11M4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Verify the 1.2 GB of changes in HUSD-FS02 between 05:45 and 06:40 against file integrity hashes from 05:45 and confirm data exfiltration occurred during the maintenance window.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
+            },
+            "expectedBy": "cto",
+            "timing": "within 30 minutes of I-07",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG6H2FBQGR8WJD11M4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The Technical Lead must identify the attack vector (DNS tunneling via HUSD-VPN01) and confirm the exfiltrated data matches the sample on hudsonleak.333 by cross-referencing the file path, timestamp, and hash from HUSD-FS02, and preserve HUSD-VPN01 as evidence for law enforcement.",
+        "objectiveRefs": [
+          "01M5QXNKFG6H2FBQGR8WJD11M4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "forensics_and_attribution",
+            "task": "Confirm that the file path and timestamp of the leaked Chloe Mendez IEP (hudsonleak.333) match the forensic logs from HUSD-FS02 and the 05:00 roster.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+              "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+              "chunkId": 10
+            },
+            "expectedBy": "cto",
+            "timing": "within 15 minutes of I-08b",
+            "rowIds": [
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG6H2FBQGR8WJD11M4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander must activate the EOC, initiate reunification at the Brandt County Fairgrounds Exhibit Hall using the 05:00 offline roster, and direct all teams to operate under the EOP and CIRP, with the Site Incident Commander verifying student accountability via manual headcount and the Transportation Branch confirming student counts on buses.",
+        "objectiveRefs": [
+          "01M5QXNKFG4NKT694NZVG3N34N",
+          "01M5QXNKFGPX3FDF33GXWYZT1P"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Activate the full EOC per EOP 6.4 and declare a S4 Critical incident when the 911 call is received and confirmed as spoofed.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 3",
+              "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+              "chunkId": 5
+            },
+            "expectedBy": "dss",
+            "timing": "within 5 minutes of I-09",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Direct the Site Incident Commander to activate manual headcount using the 05:00 offline roster and confirm student accountability via physical verification.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+              "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+              "chunkId": 34
+            },
+            "expectedBy": "dss",
+            "timing": "within 10 minutes of I-09",
+            "rowIds": [
+              "I-09",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "Instruct the Transportation Branch to verify student counts on buses against the 05:00 roster and confirm that no unauthorized access to the SIS occurred via on-board devices.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
+            },
+            "expectedBy": "dss",
+            "timing": "within 15 minutes of I-12",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "Convene the Policy Group and brief the Board of Education per Oregon public-meetings notice rules.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 1 hour of I-09",
+            "rowIds": [
+              "I-09",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "operational_coordination",
+            "task": "Direct the SRO to secure the perimeter and confirm no unauthorized entries during the lockdown and reunification phase.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "sro",
+            "timing": "within 5 minutes of I-09",
+            "rowIds": [
+              "I-09",
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N",
+              "01M5QXNKFGPX3FDF33GXWYZT1P"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The CTO must verify that only the 05:00 offline roster stored on encrypted USB keys in the principal's office safe and in the EOC go-box is trusted for student accountability, and deny all requests to access the SIS or cloud systems via unauthorized methods.",
+        "objectiveRefs": [
+          "01M5QXNKFG4NKT694NZVG3N34N"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that the 05:00 offline roster is the only trusted source for student accountability and deny all SIS access requests via cloud or on-prem systems.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+              "quote": "At 05:00 each school day the SIS exports, for each school, the student roster with emergency contacts, authorized pick-up adults, medical alerts and bus assignments to an encrypted USB key in each pri",
+              "chunkId": 34
+            },
+            "expectedBy": "cto",
+            "timing": "within 10 minutes of I-07",
+            "rowIds": [
+              "I-07",
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that the SIS on Bus 113 shows 34 students but the 05:00 roster lists 32, and confirm that the student not on the roster must be accounted for via manual verification.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
+            },
+            "timing": "within 10 minutes of I-12",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that the student roster on Bus 102 shows 110 names but only 108 on the manifest, and direct maintenance to verify the door and student count manually.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Annex F",
+              "quote": "Students are moved by bus to the reunification site; parents check in at a separate gate, show ID, and are matched against the offline roster (Section 6.3). Request and release cards (Form J-4) are us",
+              "chunkId": 39
+            },
+            "timing": "within 15 minutes of I-20c",
+            "rowIds": [
+              "I-20c"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG4NKT694NZVG3N34N"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The Policy Group must make a rapid, coordinated decision on school closure, ransom negotiation, and family notification under pressure, using the EOP and CIRP to guide actions, and record the rationale for the decision to engage or not engage with the actor.",
+        "objectiveRefs": [
+          "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "planning",
+            "task": "Convene an emergency session of the Policy Group and brief the Board of Education per Oregon public-meetings notice rules.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 1 hour of I-09",
+            "rowIds": [
+              "I-09",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "planning",
+            "task": "Record the decision and its rationale in the EOP Decision Log and notify the Incident Commander and Legal Counsel.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 30 minutes of I-16",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "planning",
+            "task": "Confirm that the decision on school closure and reopening is made by the Policy Group and not delegated to the Incident Commander.",
+            "citation": {
+              "documentId": "01M5QWTTQA6645EB4DC1NTYXBE",
+              "documentTitle": "Halverson Unified School District — District Emergency Operations Plan (Basic Plan and Functional Annexes)",
+              "headingPath": "EOP › Section 3",
+              "quote": "HUSD uses the Incident Command System. The first person reached in each row fills the role until relieved. | ICS role | Primary | Alternate | Responsibilities | |---|---|---|---| | Policy Group chair ",
+              "chunkId": 27
+            },
+            "expectedBy": "supt",
+            "timing": "within 1 hour of I-16",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO must issue a coordinated, prompt, and reliable message to families and media stating that the SIS remains read-only, the 05:00 roster is the only trusted source, and that all inquiries are to be directed to the district’s website, using Pre-Approved Template 4C and verified video evidence.",
+        "objectiveRefs": [
+          "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Post a correction on ParentSquare and Facebook within 10 minutes of the HudsonLeak333 post (I-08b) and confirm with CTO that the file path and timestamp match forensic logs.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of I-08b",
+            "rowIds": [
+              "I-08b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "public_information_and_warning",
+            "task": "Activate the rumor control protocol and issue a ParentSquare alert with the 05:00 roster as the only verified source.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 15 minutes of I-20b",
+            "rowIds": [
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "public_information_and_warning",
+            "task": "Post a video from the EOC control room showing manual verification of the 05:00 roster to demonstrate accuracy and trustworthiness.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 20 minutes of I-20b",
+            "rowIds": [
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "public_information_and_warning",
+            "task": "Use Pre-Approved Template 4C for media inquiries and direct all inquiries to the district’s website.",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of I-14",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "public_information_and_warning",
+            "task": "Update the website banner to read: 'SIS data remains read-only. Verified roster in use. Trust the 05:00 roster.'",
+            "citation": {
+              "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+              "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+              "headingPath": "Halverson Unified School Distric… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+              "chunkId": 4
+            },
+            "expectedBy": "pio",
+            "timing": "within 15 minutes of I-20b",
+            "rowIds": [
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QXNKFG2AJ0ZBDV7KZ3S4WR"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Ask each team in rotation to share three things that went well and three that broke or failed during the exercise. Write responses on a whiteboard to visualize patterns and drive discussion. Encourage concise, actionable feedback.",
@@ -1523,6 +2048,504 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with injects unfolding in real time as described.",
+      "Players respond in accordance with existing plans, policies and procedures, as referenced in the EOP and supporting documents."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of real-world hours, with no continuous operational flow between injects.",
+      "The SimCell simulates all external stakeholders not in the room, including law enforcement, cyber task forces, and system vendors.",
+      "Systems such as HUSD-FS02, HUSD-VPN01, and HUSD-VMS01 are named as in the plan but are not physically accessed or controlled by players.",
+      "Injects are delivered via paper or screen, not through actual system access or network interaction."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5QXP7AVVJ12TPKPD8C09DRW",
+        "narrativeMd": "It is 06:30. The district is operating normally. The weather is clear, and the morning shift is underway at all schools. The district’s IT systems are online and functional. All 14 schools, 36 bus routes, and 120 buses are in their standard operational state. The narrative clock is set to 0:00. Status: Normal.\n\nAt 06:42, a system log alert appears: 147 files were accessed in 89 seconds from the Health Share folder on HUSD-FS02, including 23 IEPs, 12 medication logs, and 3 custody orders. The source IP is 10.72.10.2, a trusted internal address. No alert was generated at the time.\n\nAt 06:48, a nurse at Halverson High School reports that Chloe Mendez, who was manually marked present in the paper log and spreadsheet, still appears absent in the SIS. At 06:52, a parent posts on the district’s Facebook group questioning the SIS accuracy, citing a mismatch in Chloe’s record.\n\nAt 06:52, an email is forwarded to the CTO from the SIS admin: a new threat assessment flag for Chloe Mendez was created at 06:39, but no record exists in the BTA-2025 audit trail. The user who created it was j.lee@halversonusd.example, and the source was the HUSD-SIS cloud tenant (10.72.10.2). The SIS admin states they did not create it.\n\nAt 07:00, a Veeam backup log confirms a full backup completed at 05:45, but 1.2 GB of data was modified between 05:45 and 06:40—no alert was triggered.\n\nAt 07:25, a bus driver on Route 22 reports that the GPS tracker is showing a fake location near Salem, though the bus is at the stop. The SIS is still accessible, but anomalies are emerging across multiple systems.",
+        "keyIssues": [
+          "Whether to escalate a suspicious file access pattern when no alert was generated and no immediate system disruption occurred.",
+          "How to respond to a parent’s public concern about SIS accuracy when the system appears to be functioning but data may be corrupted.",
+          "Whether to investigate a new, unrecorded threat assessment in the SIS when the SIS admin denies creating it.",
+          "Whether to act on a large, unflagged data modification in the backup window, despite no system alert.",
+          "Whether to prioritize verifying SIS integrity over accepting routine operations as normal."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: How should the team determine whether a data access anomaly on HUSD-FS02 constitutes a reportable cyber incident under Section 3’s severity levels? What evidence would justify a S2 or S3 classification?",
+            "roleIds": [
+              "dss",
+              "supt",
+              "prin",
+              "sro",
+              "cto",
+              "pio"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 3",
+                "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+                "chunkId": 23
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+                "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "Technical Lead: How should the CTO assess whether the 1.2 GB of modified data in the Veeam log indicates a compromise, especially when no alert was generated and the backup completed successfully?",
+            "roleIds": [
+              "cto"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Communications: What initial message should the PIO prepare to address parents’ concerns about SIS accuracy, given that the system is still accessible but data may be inconsistent?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Policy Group: Under what conditions should the team escalate to a formal incident declaration, even if no system has failed, based on the presence of unexplained data access and modification?",
+            "roleIds": [
+              "supt",
+              "dss"
+            ],
+            "objectiveRef": "Crisis Leadership",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 3",
+                "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+                "chunkId": 23
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 2",
+                "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+                "chunkId": 22
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QXP7AVWTDW8K95YR3RAPZJ",
+        "narrativeMd": "It is now 07:30. The problem has spread to the SIS, file shares, and Munis payroll system. Ransomware has encrypted on-premises data, and a ransom note now appears on staff laptops. The 05:00 offline roster is now the only trusted source for student accountability. The EOC has not been activated yet, but the threat of systemic failure is imminent.\n\nAt 07:32, a system log confirms that encryption was detected on 98% of files in the Health Share and Special Ed IEP folders. The process hxd32.exe was running on HUSD-VPN01 (10.72.10.2), and the ransom note was pushed to 32 staff laptops via the same source. The note demands $2.4 million in Bitcoin and warns against contacting law enforcement.\n\nAt 07:35, a call from the Assessment Coordinator confirms that the SIS is now read-only—test admins cannot submit scores or change settings. The 05:00 offline roster is being used to verify student locations, including Chloe Mendez, who is confirmed in the library for testing.\n\nAt 07:38, a 911 call is received from the Halverson High School main office reporting a shooter in C Wing. The call was made from an internet phone number that spoofed the district’s main line. The HUSD-PBX01 is now down, and no callback is possible.\n\nAt 07:50, a post on a public social media account (@HudsonLeak333) reveals a sample IEP from HUSD-FS02, including student name, IEP goals, and a custody order reference. The post claims the file was exfiltrated and that more will follow.",
+        "keyIssues": [
+          "Whether to declare a cyber incident and escalate to a formal EOC activation, despite no physical threat yet confirmed.",
+          "How to respond to a public leak of sensitive student data when the EOC is not yet activated.",
+          "Whether to accept the ransom note as proof of compromise, given that it was delivered via a known internal system.",
+          "How to handle a fake 911 call from a spoofed district number, especially when the EOC is not yet activated.",
+          "Whether to continue operating under the 05:00 roster despite growing public and internal pressure to restore digital systems."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Incident Lead: Based on the presence of encryption, a ransom note, and a confirmed data leak, what severity level should be declared under Section 3, and what actions are required by Section 7 to contain the incident?",
+            "roleIds": [
+              "cto"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 3",
+                "quote": "| Severity | Description | Examples | Response | |---|---|---|---| | S1 Low | Single user or device, no data exposure | One phished account reset, blocked malware on a Chromebook | Helpdesk with Techn",
+                "chunkId": 23
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "Legal: Under Oregon breach-notice laws and FERPA, what obligations arise from the confirmed exfiltration of IEPs, custody orders, and medication logs, and what must be done before notifying parents or law enforcement?",
+            "roleIds": [
+              "supt",
+              "dss",
+              "cto",
+              "pio"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+                "quote": "| Data set | System | Sensitivity | |---|---|---| | Student demographics, schedules, grades, attendance | PowerSchool SIS (HUSD-SIS cloud tenant) | FERPA education records | | IEPs, 504 plans, evaluat",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Communications: What message should the PIO issue to the public and parents immediately after the leak is confirmed, and how should the team manage social media to prevent misinformation?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Incident Commander: What triggers the formal activation of the EOC under Section 6, and what authority does the Incident Commander have to order containment steps like disconnecting the network, even without a full policy group decision?",
+            "roleIds": [
+              "dss"
+            ],
+            "objectiveRef": "Crisis Leadership",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 2",
+                "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+                "chunkId": 22
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "Policy Group: Given that the threat of a physical attack was reported and a fake 911 call occurred, what must the Policy Group decide before allowing schools to remain open, and how should they weigh operational risk against safety?",
+            "roleIds": [
+              "supt",
+              "dss",
+              "prin"
+            ],
+            "objectiveRef": "Inter-Team Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 1",
+                "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+                "chunkId": 21
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QXP7AVNMYYGH1F7S0TKRSH",
+        "narrativeMd": "It is now 08:30. The threat has been confirmed: a ransomware actor breached the district via an unpatched HUSD-VPN01 and a shared local admin password. The system is now fully compromised. The EOC is activated. The network has been isolated and staff work from paper. The 05:00 offline roster is the only trusted source for student accountability. The threat to physical safety is active. The next phase is Manual Mode.\n\nAt 08:35, a transportation supervisor reports that Bus 113 on Route 34 has arrived at the Fairgrounds Exhibit Hall. The SIS on board shows 34 students, but the 05:00 roster lists 32. One student, J. Alvarez, was not on the original list but is now present. The driver says he saw a student in a hallway at 07:30 and picked him up.\n\nAt 08:40, a technical alert confirms that the HUSD-VMS01 server (10.72.10.10) is unreachable. The remote door control interface is locked, and no way to verify if external doors are locked from the inside. Physical checks are required.\n\nAt 08:45, a facilities lead reports that the main entrance doors (Door 1, 11, 14, 16) are locked via HUSD-VMS01, but some external doors are not closing. Custodians are manually unlocking them for evacuation. The team must use the 05:00 roster to verify who is in the building.\n\nAt 08:50, a reporter from Channel 6 News asks the PIO for a public statement on whether the 05:00 roster is trustworthy and if the district is hiding a student.\n\nAt 08:55, a helpdesk ticket requests temporary access to the cloud SIS to view the 05:00 roster, as the on-prem SIS remains read-only.",
+        "keyIssues": [
+          "Whether to trust the 05:00 roster as the sole source for student accountability, especially when new students appear on buses and doors are locked via a compromised system.",
+          "How to manage a physical safety risk when the building access control system is compromised and no verification is possible.",
+          "Whether to allow a student to be added to the roster based on a driver’s report, given that the SIS is down and the roster is not updated in real time.",
+          "How to respond to a media inquiry about the roster’s validity when the system is down and public trust is eroding.",
+          "Whether to grant temporary access to the cloud SIS, despite the risk of exposing data to a compromised environment."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: How should the team verify the identity and location of a student not on the 05:00 roster, such as J. Alvarez, and what steps must be taken before accepting a student into the accountability system?",
+            "roleIds": [
+              "dss",
+              "prin",
+              "sro",
+              "cto"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Incident Commander: What actions must be taken to ensure that student movement and evacuation can proceed safely when the VMS01 system is compromised and doors cannot be verified from the network?",
+            "roleIds": [
+              "dss",
+              "sro",
+              "prin"
+            ],
+            "objectiveRef": "Crisis Leadership",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 1",
+                "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+                "chunkId": 21
+              }
+            ]
+          },
+          {
+            "text": "Technical Lead: What steps must be taken to prevent unauthorized access to the cloud SIS, and under what conditions should temporary access be granted, even if the on-prem system is down?",
+            "roleIds": [
+              "cto"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Communications: What message should the PIO issue to the media and parents to maintain trust, given that the 05:00 roster is the only verified source and a student was added based on a driver’s report?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Policy Group: What must the Policy Group decide before allowing schools to reopen, and how should they balance the risk of a fake threat against the need to resume operations?",
+            "roleIds": [
+              "supt",
+              "dss"
+            ],
+            "objectiveRef": "Inter-Team Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 2",
+                "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+                "chunkId": 22
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 1",
+                "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+                "chunkId": 21
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QXP7AV76FQZBYZ1VW5K5GD",
+        "narrativeMd": "It is 09:30. Halverson PD has cleared Halverson High School: no shooter, no injuries. The lockdown ends. About 110 students who were evacuated from C Wing are already on buses to the Brandt County Fairgrounds Exhibit Hall; parents are arriving there and at the school. Police ask the district to reunify at the Fairgrounds only.\n\nAt 09:35, a technical log confirms that the HUSD-DC01 rebuild from clean media has started, and the krbtgt account has been reset. A Veeam copy of the 05:00 data has been restored to the isolated HUSD-BK01 test environment, and hash verification of the HUSD-FS02 dataset is 12% complete.\n\nAt 09:40, CISA confirms that the attacker used an unpatched vulnerability in HUSD-VPN01, which was fixed in May but never applied. The C2 IP (104.214.192.47) has been matched to a known Rhysida group node. The device must not be wiped or rebooted—preservation as evidence is required.\n\nAt 09:45, the Tyler Munis vendor confirms that payroll cannot be restored until a signed access request is submitted via the legal team. The request must be approved by the CFO and Legal Counsel.\n\nAt 09:50, the Oregon DOE asks whether the state assessment window can still be on schedule and requests a final confirmation by 10:00.\n\nAt 09:55, a parent post on the Facebook group demands proof that the 05:00 roster is correct and questions if a student was left behind.\n\nAt 10:05, a bus driver on Route 15 reports that the back door on Bus 102 is jammed, and the student roster shows 110 names, but only 108 are on the manifest. The team must confirm if anyone is missing.",
+        "keyIssues": [
+          "Whether to allow reconnection to the network before verifying that the domain controller and backups are clean and unaltered.",
+          "How to validate that the 05:00 roster remains accurate, especially when a student was added and a door is jammed on a bus.",
+          "Whether to restore the payroll system without a signed access request, given the legal and operational risk.",
+          "How to respond to a state assessment coordinator’s request for a final confirmation on testing, when the SIS remains down and no official verification has been made.",
+          "Whether to accept the DFIR firm’s interim status report as sufficient to justify reconnecting to the network, especially when a student may be missing from a bus."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Technical Lead: What steps must be completed before reconnecting to the network, and how should the CTO verify that the HUSD-DC01 rebuild and backup restore are free from compromise?",
+            "roleIds": [
+              "cto"
+            ],
+            "objectiveRef": "System Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Legal: What must be done before the risk pool negotiator can engage with the actor, and what legal risks arise from signing an access request for Munis payroll without full board approval?",
+            "roleIds": [
+              "supt",
+              "dss",
+              "cto"
+            ],
+            "objectiveRef": "Crisis Leadership",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 2",
+                "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+                "chunkId": 22
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Communications: What message should the PIO issue to parents and the media to address concerns about a missing student and the validity of the 05:00 roster, given that the SIS remains down and the DFIR firm has not yet verified all data?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          },
+          {
+            "text": "Policy Group: What must the Policy Group decide before allowing schools to reopen, and how should they weigh the risk of a fake threat against the need to resume operations, especially after CISA confirmed the attacker’s identity?",
+            "roleIds": [
+              "supt",
+              "dss"
+            ],
+            "objectiveRef": "Inter-Team Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 2",
+                "quote": "| Role | Primary | Alternate | Decides / owns | |---|---|---|---| | Incident Lead | Victor Han, CTO | Priya Castellanos | Declares a cyber incident and its severity, directs containment, briefs the In",
+                "chunkId": 22
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 1",
+                "quote": "This plan governs the district's response to a cyber incident affecting HUSD systems or data, including systems hosted by vendors that hold HUSD student or staff records. It covers the business networ",
+                "chunkId": 21
+              }
+            ]
+          },
+          {
+            "text": "Incident Commander: How should the team reconcile the conflicting reports from the bus driver (110 on roster, 108 on manifest) with the 05:00 roster, and what steps must be taken to confirm if a student is missing?",
+            "roleIds": [
+              "dss",
+              "prin",
+              "sro"
+            ],
+            "objectiveRef": "Trust in Data",
+            "citations": [
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 7",
+                "quote": "| Step | Action | Authority | Effect on schools | |---|---|---|---| | C-1 | Disable compromised accounts, revoke Google and Entra sessions, reset passwords | Technical Lead | Minimal | | C-2 | Isolate",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QWTTQ8XFPVZ70AXD9P8R8E",
+                "documentTitle": "Halverson Unified School District — Cyber Incident Response Plan",
+                "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+                "quote": "1. Contain per Section 7; protect backups first (Section 11.1). 2. Legal Counsel notifies the FBI Portland Field Office and reports to CISA; the Technical Lead shares indicators with MS-ISAC and K12 S",
+                "chunkId": 27
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "PowerSchool SIS (HUSD-SIS cloud tenant)",
     "HUSD-FS02 file server (with IEPs, health logs, threat assessments)",
@@ -2904,6 +3927,1815 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:20:55.518Z",
+      "finishedAt": "2026-10-30T12:21:39.490Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11103,
+      "outputTokens": 3470,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:44:20.198Z",
+      "finishedAt": "2026-10-30T10:45:36.336Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 6933,
+      "outputTokens": 6476,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8a250e6da89afe6d",
+        "claims": [],
+        "at": "2026-10-30T10:45:40.350Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "Only 38% of ‘CTO reviews the log for unauthorized access patterns and co…’ is in Section 3.",
+        "fingerprint": "0213dd3cb6493a70",
+        "claims": [
+          {
+            "text": "CTO reviews the log for unauthorized access patterns and confirms the account is valid and on a trusted network.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Begins investigation into the admin account's recent activity and checks for anomalous behavior in related systems.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.247Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "77c29f124d1d4967",
+        "claims": [
+          {
+            "text": "Prin confirms the paper log is valid; instructs front office to flag Chloe Mendez as present in the 05:00 offline roster and begin headcount; CTO to verify if the SIS sync is delayed due to network load.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.248Z",
+        "version": 1
+      },
+      "row:I-02b": {
+        "label": "review",
+        "reason": "Only 0% of ‘PIO logs the post and begins monitoring for further sentime…’ is in Section 3.",
+        "fingerprint": "fc4400e8a01ea374",
+        "claims": [
+          {
+            "text": "PIO logs the post and begins monitoring for further sentiment spikes.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Prepares a holding statement for ParentSquare in case the SIS issue is confirmed.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.248Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘CIRP 4.3’ is not in Section 7 or the facility facts.",
+        "fingerprint": "7eec8909977edcea",
+        "claims": [
+          {
+            "text": "CTO verifies the user account j.lee@halversonusd.example has been compromised; logs the fake record as a potential attack vector; blocks the account and revokes all sessions via Entra and Google Workspace (CIRP 4.3).",
+            "chunkId": 11,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.45,
+            "matched": [],
+            "missing": [
+              "CIRP 4.3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.248Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "‘Notifies’ is not in Section 11 or the facility facts.",
+        "fingerprint": "d80c07aa7a1dd2ea",
+        "claims": [
+          {
+            "text": "CTO reviews the backup log and confirms no job failure.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Notifies the DFIR team to analyze the 1.2 GB of changes and cross-check against file integrity hashes from 05:45.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Notifies"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Begins to suspect data exfiltration occurred during the maintenance window.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.248Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4b761fae4a37b657",
+        "claims": [
+          {
+            "text": "Transportation Branch Director checks the Transfinder feed and confirms the GPS data is corrupted.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [
+              "Transportation Branch Director"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Logs a defect ticket and begins to suspect a cyber compromise affecting fleet tracking.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.249Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9e785ab852bf3b8f",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.249Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘SOP 6.4’, ‘Incident Commander’, ‘C2’ are not in Section 3 or the facility facts.",
+        "fingerprint": "3e1254082229b5c6",
+        "claims": [
+          {
+            "text": "CTO confirms the encryption of HUSD-FS02, HUSD-ERP01, and HUSD-VMS01; orders immediate isolation of HUSD-FW01 via C-3 (EOP Section 7) and declares S3 High severity under C2; notifies Incident Commander and Policy Group via ICS 213 (SOP 6.4).",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.44,
+            "matched": [
+              "Section 7",
+              "HUSD-FS02",
+              "HUSD-ERP01",
+              "HUSD-VMS01",
+              "HUSD-FW01",
+              "C-3",
+              "S3",
+              "notifies",
+              "isolation",
+              "declares"
+            ],
+            "missing": [
+              "SOP 6.4",
+              "Incident Commander",
+              "C2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.249Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "‘Section 10’, ‘Assessment Coordinator’, ‘notifies’ are not in 4.3 Decisions Reserved to the Policy Group or the facility facts.",
+        "fingerprint": "c5586705f63d26fb",
+        "claims": [
+          {
+            "text": "DSS activates EOP Section 10: School-Day Continuity per HUSD-EOP-2026; instructs the Assessment Coordinator to pause testing and use the 05:00 offline roster for accountability; notifies the Policy Group of operational disruption to the state assessment window.",
+            "chunkId": 30,
+            "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+            "overlap": 0.391,
+            "matched": [
+              "HUSD-EOP-2026"
+            ],
+            "missing": [
+              "Section 10",
+              "Assessment Coordinator",
+              "notifies",
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.249Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "review",
+        "reason": "‘10 minutes’ is not in 6.3 Data the district holds that drives notification or the facility facts.",
+        "fingerprint": "a9a37d1685fcbbee",
+        "claims": [
+          {
+            "text": "PIO logs the leak site and posts a public correction on ParentSquare and Facebook within 10 minutes; confirms with CTO that the file path and timestamp match the forensic logs; begins rumor control protocol per EOP Section 6.3.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.238,
+            "matched": [
+              "Section 6.3"
+            ],
+            "missing": [
+              "10 minutes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.250Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "‘EOP 6.4’ is not in Section 3 or the facility facts.",
+        "fingerprint": "f0408aba9bfc8d64",
+        "claims": [
+          {
+            "text": "DSS activates the full EOC per EOP 6.4; SRO confirms the call was not from a known internal line and traces it to a spoofed HUSD-PBX01 (10.72.10.15) via network logs; orders immediate lockdown of Halverson High School and initiation of the reunification protocol using the 05:00 offline roster.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.393,
+            "matched": [
+              "HUSD-PBX01",
+              "EOC",
+              "activates"
+            ],
+            "missing": [
+              "EOP 6.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.250Z",
+        "version": 1
+      },
+      "row:I-09b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ecdb2866a9b5988b",
+        "claims": [],
+        "at": "2026-10-30T10:45:40.356Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 3.",
+        "fingerprint": "c94716aaff5a661e",
+        "claims": [
+          {
+            "text": "The SRO keeps the lockdown until police clear the building; the DSS and the principal plan the move from lockdown to reunification at the Reunification Site (primary) with the 05:00 offline rosters; the PIO holds messages until police confirm.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.563,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.251Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "‘Section 6.2’, ‘Incident Commander’, ‘notifies’ are not in Section 11 or the facility facts.",
+        "fingerprint": "8f1359b3d95a4161",
+        "claims": [
+          {
+            "text": "CTO verifies the DNS tunneling pattern against HUSD-CIRP-2026 Section 6.2 and confirms this is a data exfiltration vector; immediately notifies Incident Commander and Legal Counsel to initiate vendor engagement procedures under CIRP Form 2 (signed access request required).",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.308,
+            "matched": [
+              "HUSD-CIRP-2026"
+            ],
+            "missing": [
+              "Section 6.2",
+              "Incident Commander",
+              "notifies"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.251Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e98da0f5fd1a456a",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.251Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "Only 25% of ‘Transportation and CTO verify the 05:00 roster is the only …’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "44afafdf04809a90",
+        "claims": [
+          {
+            "text": "Transportation and CTO verify the 05:00 roster is the only trusted source; the driver and bus staff to keep the student on board; CTO to alert DFIR of potential unauthorized access to the SIS via the Chromebook on board (HUSD-CIRP-2026)",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.25,
+            "matched": [
+              "HUSD-CIRP-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.251Z",
+        "version": 1
+      },
+      "row:I-11b": {
+        "label": "review",
+        "reason": "‘Facilities Branch Director’, ‘notifies’ are not in Section 7 or the facility facts.",
+        "fingerprint": "a9b305499e1a38d3",
+        "claims": [
+          {
+            "text": "CTO notifies the Facilities Branch Director and SRO that external doors are not under network control and must be manually checked and secured.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "Facilities Branch Director",
+              "notifies"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "CIRP Section 7 and C14 must be followed.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.4,
+            "matched": [
+              "Section 7"
+            ],
+            "missing": [
+              "C14"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.252Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘report’ is not in Section 7 or the facility facts.",
+        "fingerprint": "778e3a0220eed574",
+        "claims": [
+          {
+            "text": "DSS confirms the doors are not under network control and orders the Site Incident Commander to activate the manual headcount using the 05:00 offline roster.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.571,
+            "matched": [
+              "Site Incident Commander",
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All staff must report to the main office for accountability.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "SRO secures the perimeter and confirms no unauthorized entries.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.252Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "8a48263bc871e3f9",
+        "claims": [
+          {
+            "text": "PIO confirms the 05:00 roster is the only trusted source; uses Pre-Approved Template 4C for media; directs all inquiries to the district’s website; does not speculate on student status.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [
+              "Approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.253Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "Only 24% of ‘CTO denies the request; confirms that only the 05:00 offlin…’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "269caf04c6aa6177",
+        "claims": [
+          {
+            "text": "CTO denies the request; confirms that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.235,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.253Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "Only 27% of ‘the Policy Group decides whether to engage with the actor (…’ is in Section 7.",
+        "fingerprint": "6bcb87fa0add271e",
+        "claims": [
+          {
+            "text": "the Policy Group decides whether to engage with the actor (with counsel, the risk pool and the FBI; no payment decision without them) and whether schools open on Wednesday; the decision and its rationale are recorded.",
+            "chunkId": 11,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.267,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.254Z",
+        "version": 1
+      },
+      "row:I-17b": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 3.",
+        "fingerprint": "809a6b45a08c7498",
+        "claims": [
+          {
+            "text": "Facilities and the Site Incident Commander verify the door status via physical inspection and confirm the door is locked but not secured from the inside; they activate the emergency light and use a bullhorn to call for help, per EOP Section 6.1 and HUSD-CIRP-2026 Section 7 (C-1 to C-5).",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.6,
+            "matched": [
+              "Section 6.1",
+              "Section 7",
+              "Site Incident Commander",
+              "HUSD-CIRP-2026",
+              "C-1",
+              "C-5",
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.254Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "111d919b920b343a",
+        "claims": [],
+        "at": "2026-10-30T10:45:40.360Z",
+        "version": 1
+      },
+      "row:I-18b": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 11.",
+        "fingerprint": "7a4b20e2874a012c",
+        "claims": [
+          {
+            "text": "The CTO reports realistic restore times to the IC; nothing is reconnected before verification and CIRP Form 4 sign-off.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.545,
+            "matched": [
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.254Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "review",
+        "reason": "Only 47% of ‘CTO acknowledges CISA’s directive; notifies the DFIR firm a…’ is in Section 11.",
+        "fingerprint": "1d743c913edbab88",
+        "claims": [
+          {
+            "text": "CTO acknowledges CISA’s directive; notifies the DFIR firm and Legal Counsel to preserve HUSD-VPN01 in its current state; logs the CISA request in the CIRP Form 4 and notes it as a legal evidence hold.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.471,
+            "matched": [
+              "HUSD-VPN01",
+              "CISA",
+              "notifies"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.255Z",
+        "version": 1
+      },
+      "row:I-19b": {
+        "label": "review",
+        "reason": "‘2 hours’, ‘HUSD-VR-2026’ are not in 4.3 Decisions Reserved to the Policy Group or the facility facts.",
+        "fingerprint": "331e8a0320f8ce3a",
+        "claims": [
+          {
+            "text": "CTO forwards the vendor email to CFO and Legal Counsel; requests a signed access request form (Form HUSD-VR-2026) to be completed and returned within 2 hours.",
+            "chunkId": 30,
+            "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "2 hours",
+              "HUSD-VR-2026"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.255Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "review",
+        "reason": "‘Assessment Coordinator’, ‘EOC’, ‘notify’ are not in 4.3 Decisions Reserved to the Policy Group or the facility facts.",
+        "fingerprint": "f6a58bc4e0edf983",
+        "claims": [
+          {
+            "text": "Supt calls the Policy Group into emergency session; reviews the 05:00 roster and EOC recovery status; decides to delay testing resumption until full verification and CIRP Form 4 sign-off; instructs the Assessment Coordinator to notify all schools to suspend testing until further notice.",
+            "chunkId": 30,
+            "headingPath": "EOP › Section 4 › 4.3 Decisions Reserved to the Policy Group",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "Assessment Coordinator",
+              "EOC",
+              "notify"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.255Z",
+        "version": 1
+      },
+      "row:I-20b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "af5d5863945a4818",
+        "claims": [
+          {
+            "text": "PIO activates the rumor control protocol: issues a ParentSquare alert with the 05:00 roster as the only verified source; posts a video from the 05:00 roster review in the EOC control room to demonstrate manual verification; updates the website banner to read: 'SIS data remains read-only.",
+            "chunkId": 33,
+            "headingPath": "EOP › Section 6 › 6.2 FERPA",
+            "overlap": 0.037,
+            "matched": [],
+            "missing": [
+              "EOC",
+              "activates"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Verified roster in use.",
+            "chunkId": 33,
+            "headingPath": "EOP › Section 6 › 6.2 FERPA",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Trust the 05:00 roster.'",
+            "chunkId": 33,
+            "headingPath": "EOP › Section 6 › 6.2 FERPA",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.255Z",
+        "version": 1
+      },
+      "row:I-20c": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "406a1f3345d7687e",
+        "claims": [
+          {
+            "text": "Transportation checks the 05:00 roster against the manifest and confirms two students are unaccounted for; dispatches a maintenance tech to the site to clear the door and verify student counts; does not assume the discrepancy is a system error but treats it as a manual verification task under Manual Mode.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.148,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c223a9aa4e82555c",
+        "claims": [
+          {
+            "text": "The CTO briefs the Policy Group on what is verified and what is not, and keeps the network isolated.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.167,
+            "matched": [
+              "isolated"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9e8733f1ff9ed89c",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QXZR6A2ACWTG90RSBQXZPX": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "2158d5d53f6c7da0",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QY02QT8EEVVMDX0ZMPRQAR": {
+        "label": "review",
+        "reason": "Only 22% of ‘This is a critical inject; the CTO must recognize the anoma…’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "d964bb23ed4191ed",
+        "claims": [
+          {
+            "text": "This is a critical inject; the CTO must recognize the anomalous pattern of bulk access to sensitive files.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether they immediately cross-reference the admin_husd account with AD and check for lateral movement.",
+            "chunkId": 50,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QY0HQXKW3HTMQ2QEQPHASG": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject confirms the SIS is not updating in real time.’ is in 6.3 Offline Rosters.",
+        "fingerprint": "75d508a531c4d2cc",
+        "claims": [
+          {
+            "text": "This inject confirms the SIS is not updating in real time.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The technical team must validate whether the delay is due to network load or a broader failure.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Prin to initiate headcount using the 05:00 offline roster.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QY0WPKANYQSPZ59EH4QW6T": {
+        "label": "review",
+        "reason": "Only 0% of ‘Monitor for sentiment escalation.’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "07a38cd9b73d2e57",
+        "claims": [
+          {
+            "text": "Monitor for sentiment escalation.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The post shows early signs of public distrust in SIS data; the PIO should prepare a response if the system remains inconsistent.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QY135W028ECGXGB5HET677": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a critical clue: the fake threat assessment was cre…’ is in Section 5.",
+        "fingerprint": "ebc4812cbea8b981",
+        "claims": [
+          {
+            "text": "This is a critical clue: the fake threat assessment was created by a compromised account.",
+            "chunkId": 50,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must immediately block j.lee@halversonusd.example and investigate the SIS cloud tenant as a potential attack vector.",
+            "chunkId": 50,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.256Z",
+        "version": 1
+      },
+      "inject:01M5QY1AVVYSMA68QDCXXD925H": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the full backup window occurred, but t…’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "ad315050cdeee8ca",
+        "claims": [
+          {
+            "text": "This inject confirms the full backup window occurred, but the 1.2 GB of changes between 05:45 and 06:40 is inconsistent with normal operations.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must cross-check file integrity hashes from 05:45 to detect exfiltration.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed DFIR engagement.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.257Z",
+        "version": 1
+      },
+      "inject:01M5QY1NWEM71XAH1HMTKQD7RF": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "72d24e6789677085",
+        "claims": [
+          {
+            "text": "Noise inject; the Transportation Branch Director should triage the GPS spoof and begin verifying fleet data integrity.",
+            "chunkId": 49,
+            "headingPath": "Halverson Unified School Distric… › Section 4",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Transportation Branch Director"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.257Z",
+        "version": 1
+      },
+      "inject:01M5QY235MG9N725M6Q6N7CWEF": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "7f2f28f1146b5eda",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.257Z",
+        "version": 1
+      },
+      "inject:01M5QY4ZBP8BVC6MKVR3KHWWT3": {
+        "label": "review",
+        "reason": "‘Section 7’ is not in Section 3 or the facility facts.",
+        "fingerprint": "966a7c1b11000e6d",
+        "claims": [
+          {
+            "text": "This is a core inject confirming full system compromise.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must declare S3 severity and activate EOP Section 7.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.714,
+            "matched": [
+              "S3",
+              "activate",
+              "declare"
+            ],
+            "missing": [
+              "Section 7"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed isolation of HUSD-FW01.",
+            "chunkId": 4,
+            "headingPath": "Halverson Unified School Distric… › Section 2",
+            "overlap": 0.25,
+            "matched": [
+              "HUSD-FW01",
+              "isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.257Z",
+        "version": 1
+      },
+      "inject:01M5QY5GG2BG48SWZANE17DRZH": {
+        "label": "review",
+        "reason": "‘activate’ is not in Section 10 or the facility facts.",
+        "fingerprint": "9964446284d264ea",
+        "claims": [
+          {
+            "text": "Operational friction inject; the Assessment Coordinator confirms the SIS is read-only and the test pause.",
+            "chunkId": 14,
+            "headingPath": "Halverson Unified School Distric… › Section 10",
+            "overlap": 0.333,
+            "matched": [
+              "Assessment Coordinator"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The DSS must activate EOP Section 10 and notify the Policy Group.",
+            "chunkId": 14,
+            "headingPath": "Halverson Unified School Distric… › Section 10",
+            "overlap": 0.714,
+            "matched": [
+              "Section 10",
+              "notify"
+            ],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.258Z",
+        "version": 1
+      },
+      "inject:01M5QY5VHPYCF4KCYEP2Y0E6ED": {
+        "label": "review",
+        "reason": "Only 14% of ‘This is a high-pressure social media leak inject; the PIO m…’ is in 6.3 Data the district holds that drives notification.",
+        "fingerprint": "2aa75a6837f75dd8",
+        "claims": [
+          {
+            "text": "This is a high-pressure social media leak inject; the PIO must immediately validate the file and timestamp against forensic logs and initiate rumor control.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The public trust in data integrity is now under direct assault.",
+            "chunkId": 10,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.3 Data the district holds that drives notification",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.258Z",
+        "version": 1
+      },
+      "inject:01M5QY65P1MX05WYFZ6AS3V9VT": {
+        "label": "review",
+        "reason": "‘EOP 6.4’ is not in Section 3 or the facility facts.",
+        "fingerprint": "0993a101be189e8a",
+        "claims": [
+          {
+            "text": "This inject triggers full EOC activation and initiates the reunification protocol.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.625,
+            "matched": [
+              "EOC",
+              "activation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The SRO must trace the spoofed PBX call to HUSD-PBX01 (10.72.10.15) and confirm it is not a valid internal line.",
+            "chunkId": 48,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.111,
+            "matched": [
+              "HUSD-PBX01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The DSS must declare S4 Critical per EOP 6.4.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.8,
+            "matched": [
+              "S4",
+              "declare"
+            ],
+            "missing": [
+              "EOP 6.4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.258Z",
+        "version": 1
+      },
+      "inject:01M5QY6FM4PAXMAB2TEXXT1076": {
+        "label": "review",
+        "reason": "‘Transportation Branch Director’ is not in Section 4 or the facility facts.",
+        "fingerprint": "4c53732d0345db25",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 5,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Transportation Branch Director must confirm the GPS feed is spoofed and the SIS is corrupted.",
+            "chunkId": 49,
+            "headingPath": "Halverson Unified School Distric… › Section 4",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "Transportation Branch Director"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.258Z",
+        "version": 1
+      },
+      "inject:01M5QY72AWEGN7CKBEEZ2C0TT1": {
+        "label": "review",
+        "reason": "Only 40% of ‘Watch for premature calls to end lockdown.’ is in Annex G.",
+        "fingerprint": "309669638c388c62",
+        "claims": [
+          {
+            "text": "Confirm spoofed call; the EOC must not de-escalate lockdown.",
+            "chunkId": 31,
+            "headingPath": "EOP › Section 5",
+            "overlap": 0.6,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature calls to end lockdown.",
+            "chunkId": 40,
+            "headingPath": "EOP › Annex G",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QYGWWFXQPJM2QQ8G7RQCT3": {
+        "label": "review",
+        "reason": "Only 44% of ‘This alert confirms data exfiltration via DNS tunneling, a …’ is in 6.2 Actions.",
+        "fingerprint": "53b431520139349b",
+        "claims": [
+          {
+            "text": "This alert confirms data exfiltration via DNS tunneling, a key indicator of a sustained breach.",
+            "chunkId": 9,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must immediately validate this pattern against HUSD-CIRP-2026 Section 6.2 and initiate legal and DFIR engagement procedures.",
+            "chunkId": 9,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "overlap": 0.364,
+            "matched": [
+              "Section 6.2",
+              "HUSD-CIRP-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY7EXS315GQ31VCVDGY84E": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "1adc5edc923ac79e",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY7SNQN934ZMHXX8QR7MHZ": {
+        "label": "review",
+        "reason": "Only 43% of ‘The CTO must verify the SIS was compromised via the Chromeb…’ is in 6.3 Offline Rosters.",
+        "fingerprint": "265d0aed568095ae",
+        "claims": [
+          {
+            "text": "This inject confirms the 05:00 offline roster as the only trusted source.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.714,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must verify the SIS was compromised via the Chromebook on Bus 113 (HUSD-CIRP-2026).",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.429,
+            "matched": [
+              "HUSD-CIRP-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the team to validate the student's presence using physical verification and confirm no duplicate entries exist.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY85VJP2G41MS9RV8XQFHG": {
+        "label": "review",
+        "reason": "Only 0% of ‘The threat of unauthorized entry is now active.’ is in Halverson Unified School Distric….",
+        "fingerprint": "14beb28169a9dba3",
+        "claims": [
+          {
+            "text": "This inject confirms the loss of network control over external doors.",
+            "chunkId": 44,
+            "headingPath": "Halverson Unified School Distric…",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must alert Facilities and SRO to begin manual door checks.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The threat of unauthorized entry is now active.",
+            "chunkId": 44,
+            "headingPath": "Halverson Unified School Distric…",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY8EMBXBC9NR9CENCB55EM": {
+        "label": "review",
+        "reason": "‘Site Incident Commander’, ‘activate’ are not in 6.3 Offline Rosters or the facility facts.",
+        "fingerprint": "939ba9deb985d2e9",
+        "claims": [
+          {
+            "text": "This inject confirms the loss of networked door control and forces the Site Incident Commander to activate manual accountability using the 05:00 offline roster.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.471,
+            "matched": [],
+            "missing": [
+              "Site Incident Commander",
+              "activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for coordination between SRO, Facilities Lead, and Prin on headcount procedures.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Facilities Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY8Z5A6PJ1S92PB9P6PSJN": {
+        "label": "review",
+        "reason": "‘Approved’ is not in Section 7 or the facility facts.",
+        "fingerprint": "f064d4a229eca976",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to uphold the EOP’s media protocol.",
+            "chunkId": 35,
+            "headingPath": "EOP › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to confirm or deny student status—only the 05:00 roster is valid.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must defer all questions to the website and use Pre-Approved Template 4C.",
+            "chunkId": 35,
+            "headingPath": "EOP › Section 7",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.259Z",
+        "version": 1
+      },
+      "inject:01M5QY95QVHKN608WMEZJMPGMK": {
+        "label": "review",
+        "reason": "Only 33% of ‘This ticket tests the CTO’s adherence to the CIRP and verif…’ is in Section 11.",
+        "fingerprint": "afa8653908cdad1e",
+        "claims": [
+          {
+            "text": "This ticket tests the CTO’s adherence to the CIRP and verification protocol.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must deny the request and reinforce that only the 05:00 offline roster is trusted; all SIS access must be via the cloud tenant only after CIRP Form 4 is signed and CISA confirms network integrity.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.611,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.260Z",
+        "version": 1
+      },
+      "inject:01M5QY9FH7BZPJTJE9D5SREWDH": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a final clearance inject.’ is in 4.2 Incident Levels.",
+        "fingerprint": "912c1635296cd4bc",
+        "claims": [
+          {
+            "text": "This is a final clearance inject.",
+            "chunkId": 29,
+            "headingPath": "EOP › Section 4 › 4.2 Incident Levels",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The EOC should close.",
+            "chunkId": 29,
+            "headingPath": "EOP › Section 4 › 4.2 Incident Levels",
+            "overlap": 0.5,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO and Legal must begin the AAR. The PIO should issue the final statement.",
+            "chunkId": 27,
+            "headingPath": "EOP › Section 3",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The threat is resolved.",
+            "chunkId": 29,
+            "headingPath": "EOP › Section 4 › 4.2 Incident Levels",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.260Z",
+        "version": 1
+      },
+      "inject:01M5QYHF8A00Y99AP43MBX2T7K": {
+        "label": "review",
+        "reason": "‘Section 6.1’, ‘activate’ are not in 4.1 Standard Response Actions or the facility facts.",
+        "fingerprint": "63a11eb3a8f5d264",
+        "claims": [
+          {
+            "text": "This inject introduces physical system integrity concerns in Manual Mode.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The players must verify door status through physical inspection and activate emergency protocols per EOP Section 6.1.",
+            "chunkId": 28,
+            "headingPath": "EOP › Section 4 › 4.1 Standard Response Actions",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [
+              "Section 6.1",
+              "activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed verification or over-reliance on digital systems.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.260Z",
+        "version": 1
+      },
+      "inject:01M5QY9SX3J6TMZXMX31YE3MHF": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is the final inject.’ is in Section 7.",
+        "fingerprint": "5ca0401ae429ab13",
+        "claims": [
+          {
+            "text": "This is the final inject.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The EOC has closed.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.5,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "All roles must transition to hot wash.",
+            "chunkId": 52,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "No further player actions are expected.",
+            "chunkId": 11,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.261Z",
+        "version": 1
+      },
+      "inject:01M5QYA3CEXBE3JP83B5V1EWT8": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the integrity of the pre-incident base…’ is in Section 11.",
+        "fingerprint": "6115df425288aadc",
+        "claims": [
+          {
+            "text": "This inject confirms the integrity of the pre-incident baseline.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must now initiate the verification sign-off process using CIRP Form 4.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0.625,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.261Z",
+        "version": 1
+      },
+      "inject:01M5QYAD51ACYZ7V814XDJB0NH": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms CISA’s forensic directive.’ is in 6.2 Actions.",
+        "fingerprint": "3059c6d63b34265c",
+        "claims": [
+          {
+            "text": "This inject confirms CISA’s forensic directive.",
+            "chunkId": 9,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "overlap": 0.25,
+            "matched": [
+              "CISA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must immediately notify DFIR and Legal to initiate the evidence hold.",
+            "chunkId": 9,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "overlap": 0.667,
+            "matched": [
+              "notify"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Monitor for any attempt to reboot or wipe HUSD-VPN01.",
+            "chunkId": 12,
+            "headingPath": "Halverson Unified School Distric… › Section 8",
+            "overlap": 0,
+            "matched": [
+              "HUSD-VPN01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.261Z",
+        "version": 1
+      },
+      "inject:01M5QYATNXV5WFD36J8YMYB20N": {
+        "label": "review",
+        "reason": "‘HUSD-VR-2026’ is not in Section 5 or the facility facts.",
+        "fingerprint": "0d4c4d3858d29938",
+        "claims": [
+          {
+            "text": "This inject tests the CTO’s ability to route critical vendor coordination through proper legal and financial channels.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to bypass CFO or Legal.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The form required is HUSD-VR-2026.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "HUSD-VR-2026"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.261Z",
+        "version": 1
+      },
+      "inject:01M5QYB3MDFHGJ8JVQM1WWRWK2": {
+        "label": "review",
+        "reason": "‘Superintendent’ is not in Section 5 or the facility facts.",
+        "fingerprint": "27f70877b7a21d00",
+        "claims": [
+          {
+            "text": "This inject pressures the Superintendent to make a policy decision under time pressure.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "Superintendent"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether they invoke the EOP or the Policy Group, and whether they consult the EOC or CTO before committing.",
+            "chunkId": 14,
+            "headingPath": "Halverson Unified School Distric… › Section 10",
+            "overlap": 0.5,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.261Z",
+        "version": 1
+      },
+      "inject:01M5QYBGYZ5HJB4TXX5HWZ34GE": {
+        "label": "review",
+        "reason": "‘activate’ is not in 6.3 Offline Rosters or the facility facts.",
+        "fingerprint": "689a0130904c814d",
+        "claims": [
+          {
+            "text": "This inject escalates public pressure on the PIO to validate the 05:00 roster.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must activate the rumor control protocol and demonstrate manual verification to restore trust.",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "inject:01M5QYBSNVTTX99DJ3Z2FCHQG7": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e7cce2ba2fa7a7d5",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 48,
+            "headingPath": "Halverson Unified School Distric… › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The roster discrepancy must be resolved manually via the 05:00 offline roster, not assumed to be a system error.",
+            "chunkId": 49,
+            "headingPath": "Halverson Unified School Distric… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "inject:01M5QYC6NEMG7KEZWTBPRPCSSV": {
+        "label": "review",
+        "reason": "‘EOC’ is not in Section 5 or the facility facts.",
+        "fingerprint": "5d0cb802d6dfece3",
+        "claims": [
+          {
+            "text": "This is the final recovery validation.",
+            "chunkId": 15,
+            "headingPath": "Halverson Unified School Distric… › Section 11",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CTO must now submit this to the EOC for Policy Group review and prepare for network reintegration under controlled conditions.",
+            "chunkId": 7,
+            "headingPath": "Halverson Unified School Distric… › Section 5",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "EOC"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "inject:01M5QYCSVN01WHPSNAW28JWWWH": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3bb4a1915c16e154",
+        "claims": [],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "Section 7 is in the index as cited.",
+        "fingerprint": "d1d2d26ee3bea5b4",
+        "claims": [
+          {
+            "text": "Halverson Unified School Distric… › Section 7",
+            "chunkId": 11,
+            "headingPath": "Halverson Unified School Distric… › Section 7",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "6.3 Offline Rosters is in the index as cited.",
+        "fingerprint": "06a8296ff02de8cf",
+        "claims": [
+          {
+            "text": "EOP › Section 6 › 6.3 Offline Rosters",
+            "chunkId": 34,
+            "headingPath": "EOP › Section 6 › 6.3 Offline Rosters",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "4.1 Standard Response Actions is in the index as cited.",
+        "fingerprint": "6be0eb857704b002",
+        "claims": [
+          {
+            "text": "EOP › Section 4 › 4.1 Standard Response Actions",
+            "chunkId": 28,
+            "headingPath": "EOP › Section 4 › 4.1 Standard Response Actions",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "6.2 Actions is in the index as cited.",
+        "fingerprint": "230752ebd97c2090",
+        "claims": [
+          {
+            "text": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "chunkId": 9,
+            "headingPath": "Halverson Unified School Distric… › Section 6 › 6.2 Actions",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "Table of Contents is in the index as cited.",
+        "fingerprint": "dd7b0c7f75ff265e",
+        "claims": [
+          {
+            "text": "EOP › Table of Contents",
+            "chunkId": 20,
+            "headingPath": "EOP › Table of Contents",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "Section 7 is in the index as cited.",
+        "fingerprint": "94fd15fe94a41edf",
+        "claims": [
+          {
+            "text": "EOP › Section 7",
+            "chunkId": 35,
+            "headingPath": "EOP › Section 7",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:06:55.262Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

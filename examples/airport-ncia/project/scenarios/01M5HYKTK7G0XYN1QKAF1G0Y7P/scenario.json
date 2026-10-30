@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-24T20:53:50.670Z",
+  "updatedAt": "2026-10-30T12:27:52.154Z",
   "brief": {
     "userPrompt": "Over two hours the facilitator role-plays 12 phone, email, in-person and social media contacts, 9 of them social engineering attacks and 3 legitimate, and teams must verify each one without rejecting everything.",
     "audience": [
@@ -440,6 +440,480 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-recognition",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The exercise tests the ability to recognize deceptive information patterns (e.g., false authority, urgency) and share that awareness across teams, as required in the TIRP and AEP for threat identification and response coordination."
+      },
+      {
+        "objectiveId": "obj-recognition",
+        "capability": "access_control_and_identity_verification",
+        "why": "Each contact involves a test of identity verification procedures, directly tied to the airport's policy on badge issuance and access control under 49 CFR § 1542.211 and the ASP's role in verifying legitimate access requests."
+      },
+      {
+        "objectiveId": "obj-verification",
+        "capability": "access_control_and_identity_verification",
+        "why": "The core of verification is the application of formal procedures to confirm identities and legitimacy of requests, as mandated in the ASP and TIRP for badge access, vendor visits, and federal agent claims."
+      },
+      {
+        "objectiveId": "obj-verification",
+        "capability": "operational_communications",
+        "why": "Verification requires reliable, direct communication with authorized sources (e.g., calling the FSD, TSA office, or the Airport Director's office), which is a key function of operational communications as defined in the AEP and TIRP."
+      },
+      {
+        "objectiveId": "obj-judgment",
+        "capability": "situational_assessment",
+        "why": "Judgment is exercised by evaluating the context, timing, and consistency of each contact against known plans and procedures (e.g., pre-arranged inspections, vendor work orders), which is a direct function of situational assessment in the AEP and TIRP."
+      },
+      {
+        "objectiveId": "obj-judgment",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The ability to distinguish real from fake relies on cross-checking information across sources (e.g., verifying a TSA inspector's call via the FSD office), a core function of intelligence and information sharing as defined in the AEP and TIRP."
+      },
+      {
+        "objectiveId": "obj-composure",
+        "capability": "on_scene_security_protection_and_law_enforcement",
+        "why": "Maintaining composure under pressure — such as intimidation by a fake FBI agent or flattery from a reporter — is essential for security personnel to uphold authority and prevent escalation, as required in the ASP and TIRP."
+      },
+      {
+        "objectiveId": "obj-composure",
+        "capability": "public_information_and_warning",
+        "why": "The PIO team must remain calm and consistent when handling media inquiries, even under emotional appeal (e.g., a worried traveler), to ensure accurate and professional public messaging, as required in the AEP and TIRP."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The Security and Operations teams will verify all access requests using documented procedures, including badge issuance, vendor work order validation, and direct verification with the TSA Federal Security Director, the FBI field office, and the Airport Director's office, as required by the ASP and TIRP.",
+        "objectiveRefs": [
+          "obj-recognition",
+          "obj-verification"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify the identity of any individual requesting access to secured areas by contacting the TSA Federal Security Director's office directly via known number.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+              "chunkId": 44
+            },
+            "expectedBy": "security-team",
+            "timing": "within 5 minutes of receiving a claim of federal authority",
+            "rowIds": [
+              "C-01",
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm the validity of a vendor visit by checking the work order number against the official vendor list and contacting the contracting manager.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "ops-team",
+            "timing": "before escorting any vendor to a secured area",
+            "rowIds": [
+              "C-07"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "access_control_and_identity_verification",
+            "task": "Refuse entry to any individual without verified credentials, including when pressured by claims of urgency or authority.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 4 › 4.1 Authority (49 CFR § 1542.211)",
+              "quote": "Badges issued to individuals with a legitimate operational need. Possession is a privilege, not a right.",
+              "chunkId": 58
+            },
+            "expectedBy": "security-team",
+            "timing": "immediately upon refusal of verification",
+            "rowIds": [
+              "C-01",
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-verification"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_communications",
+        "target": "The IT and Operations teams will use only verified, direct contact methods (e.g., known phone numbers, official email addresses) to confirm requests for remote access, system changes, or data sharing, as required by the AEP and TIRP.",
+        "objectiveRefs": [
+          "obj-verification"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "operational_communications",
+            "task": "Call the IT helpdesk directly using the official number to confirm a remote access request.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+              "quote": "**Impact:** airport computers locked; files encrypted; airline systems (separate networks) may be unaffected, but airport-provided systems (FIDS, BHS) fail. **Response:** IT — isolate the network; ord",
+              "chunkId": 124
+            },
+            "expectedBy": "it-team",
+            "timing": "within 10 minutes of receiving a remote access request",
+            "rowIds": [
+              "C-08"
+            ],
+            "objectiveRefs": [
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_communications",
+            "task": "Contact the Airport Director's office directly to verify a voicemail request for password reset or data access.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "it-team",
+            "timing": "immediately upon receiving a request to bypass standard procedures",
+            "rowIds": [
+              "C-12"
+            ],
+            "objectiveRefs": [
+              "obj-verification"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_communications",
+            "task": "Use the known emergency contact list to verify any claim of authority from a federal agent, vendor, or airline executive.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+              "chunkId": 44
+            },
+            "expectedBy": "security-team",
+            "timing": "before acting on any request involving access or data",
+            "rowIds": [
+              "C-01",
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-verification"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The Operations and Security teams will assess the context, timing, and consistency of each contact against known plans and schedules (e.g., pre-arranged inspections, vendor maintenance), as required by the AEP and TIRP.",
+        "objectiveRefs": [
+          "obj-judgment"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "situational_assessment",
+            "task": "Compare the timing and content of a contact to the official inspection calendar to determine legitimacy.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "ops-team",
+            "timing": "before confirming any inspection",
+            "rowIds": [
+              "C-03"
+            ],
+            "objectiveRefs": [
+              "obj-judgment"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "situational_assessment",
+            "task": "Verify that a vendor visit matches the scheduled maintenance window and documented work order.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "ops-team",
+            "timing": "before authorizing escort",
+            "rowIds": [
+              "C-07"
+            ],
+            "objectiveRefs": [
+              "obj-judgment"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The Security, IT, and Public Information teams will share verified information across roles to confirm the legitimacy of requests, using established contact points and verification protocols as defined in the ASP and TIRP.",
+        "objectiveRefs": [
+          "obj-recognition",
+          "obj-judgment"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-09",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Share verification results with the appropriate team (e.g., IT to Security) when a request involves cross-functional authority.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+              "chunkId": 44
+            },
+            "expectedBy": "security-team",
+            "timing": "within 5 minutes of completing verification",
+            "rowIds": [
+              "C-01",
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-judgment"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Confirm a media request by referring to the PIO team's approved messaging guide and sharing details only through the designated spokesperson.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
+            },
+            "expectedBy": "pio-team",
+            "timing": "before responding to any media inquiry",
+            "rowIds": [
+              "C-04",
+              "C-09"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-judgment"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Verify a vendor's legitimacy by checking the official vendor list and cross-referencing with the contracted maintenance schedule.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+              "quote": "- Ops: announce \"Evacuate\" on IC order (exits, assembly points); notify tenants; deploy \"Follow Me\" vests/signs; coordinate with LEO to stop inbound traffic. - LEO/Security: crowd direction; secure ev",
+              "chunkId": 95
+            },
+            "expectedBy": "ops-team",
+            "timing": "before approving any vendor visit",
+            "rowIds": [
+              "C-02",
+              "C-07"
+            ],
+            "objectiveRefs": [
+              "obj-recognition",
+              "obj-judgment"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "on_scene_security_protection_and_law_enforcement",
+        "target": "The Security team will maintain composure and enforce access control procedures under pressure, including when faced with intimidation, flattery, or false authority, as required by the ASP and TIRP.",
+        "objectiveRefs": [
+          "obj-composure"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-12",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Refuse access to any individual claiming federal authority if they refuse to be verified by the local FBI field office.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+              "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+              "chunkId": 44
+            },
+            "expectedBy": "security-team",
+            "timing": "immediately upon refusal of verification",
+            "rowIds": [
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Maintain a professional tone and follow protocol when a request involves emotional appeal, such as a new employee claiming to be late for a meeting.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 7 › 7.1 Training and Exercises",
+              "quote": "- **Annual Tabletop Exercise (TTX):** discussion-based exercise testing command and control (e.g., Cyber Incident, Severe Weather). - **Triennial Full-Scale Exercise (FSE):** live exercise with resour",
+              "chunkId": 24
+            },
+            "expectedBy": "security-team",
+            "timing": "during all interactions involving access requests",
+            "rowIds": [
+              "C-05"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "on_scene_security_protection_and_law_enforcement",
+            "task": "Deny entry to any individual who cannot produce verified credentials, even if they claim to be in a hurry or under stress.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 4 › 4.1 Authority (49 CFR § 1542.211)",
+              "quote": "Badges issued to individuals with a legitimate operational need. Possession is a privilege, not a right.",
+              "chunkId": 58
+            },
+            "expectedBy": "security-team",
+            "timing": "at all times",
+            "rowIds": [
+              "C-01",
+              "C-05",
+              "C-10"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information team will maintain composure and deliver consistent, accurate, and professional responses to media and public inquiries, even under emotional or flattery-based pressure, as required by the AEP and TIRP.",
+        "objectiveRefs": [
+          "obj-composure"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "public_information_and_warning",
+            "task": "Refer a media inquiry about security systems to the official spokesperson and decline to provide details on access control or emergency equipment.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
+            },
+            "expectedBy": "pio-team",
+            "timing": "before responding to any media request",
+            "rowIds": [
+              "C-04",
+              "C-09"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Decline to provide information about checkpoint lanes or emergency equipment locations to a public inquiry, citing policy.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
+            },
+            "expectedBy": "pio-team",
+            "timing": "during all public-facing interactions",
+            "rowIds": [
+              "C-09"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "public_information_and_warning",
+            "task": "Maintain a calm and consistent tone when handling emotionally charged messages, such as a worried traveler's DM.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+              "quote": "- All Staff: RUN. HIDE. FIGHT.; call 911 or ACC with shooter location/description when safe. - LEO/Security: assume IC; contact teams; establish cold/warm/hot zones; declare scene secure for EMS. - Op",
+              "chunkId": 120
+            },
+            "expectedBy": "pio-team",
+            "timing": "throughout the exercise",
+            "rowIds": [
+              "C-09"
+            ],
+            "objectiveRefs": [
+              "obj-composure"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "reveal_and_discuss",
     "methodDescription": "Go through all 12 contacts. For each one, reveal whether it was real or fake, what technique was used, and what the correct response would have been. Let the students react, then use the key discussion questions.",
@@ -491,6 +965,430 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects, with no external influence beyond the exercise design.",
+      "Players respond in accordance with existing plans, policies, and procedures as outlined in the Airport Emergency Plan (AEP) and the Threat and Incident Response Plan (TIRP)."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated to reflect the pacing of real-world incident response.",
+      "The SimCell operates as the external entity for local law enforcement, facility security authority, and TSA coordination, with no direct input from those roles.",
+      "Systems such as the EOC communications network, digital access logs, and the Mass Notification System are simulated and not physically engaged.",
+      "Injects are delivered via pre-printed forms, audio recordings, and digital messages, not through actual phone calls or in-person interactions."
+    ],
+    "modules": [
+      {
+        "phaseId": "p0",
+        "narrativeMd": "It is 0:00. The exercise has just begun. All participants have received their Player Briefing Packets and Social Engineering Reference Cards. The facilitator has introduced the scenario: a series of simulated contacts testing human factors in airport security, with a mix of real and deceptive requests. The goal is to identify social engineering techniques, follow verification procedures, and maintain composure under pressure. Some contacts are legitimate; rejecting all is not a winning strategy. The room is quiet, focused, and ready for the first inject.",
+        "keyIssues": [
+          "Distinguish between real and deceptive contacts based on tone, request, and authority.",
+          "Apply verification procedures consistently without over-relying on intuition.",
+          "Balance helpfulness with security compliance under time pressure."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "OPS: How would you verify the legitimacy of a request from a TSA inspector who claims to be conducting an unannounced audit? What information should you confirm?",
+            "roleIds": [
+              "ops-team"
+            ],
+            "objectiveRef": "Recognition",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+                "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+                "chunkId": 123
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps should the IT team take before granting remote access to a technician claiming to be from a vendor? Is a verbal request from a known vendor sufficient?",
+            "roleIds": [
+              "it-team"
+            ],
+            "objectiveRef": "Verification",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should the PIO respond to a media inquiry about medical equipment screening and AED locations, especially if the requester seems anxious or emotional?",
+            "roleIds": [
+              "pio-team"
+            ],
+            "objectiveRef": "Composure",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 0:10. The first inject has been delivered. A phone call from 'TSA Inspector Davis' demands the current TSA screening schedule and names of the FSD and AFSD on duty. The request is urgent and claims to be part of an unannounced audit. The clock is ticking. A second inject arrives: a man in a polo shirt with a vendor logo, 'Kevin from PaySecure,' asks to be walked to the POS terminals in Concourse A for firmware updates. He says Jordan from IT called him. The third inject is a call from the County Fire Marshal's office confirming an annual inspection scheduled for Thursday. The atmosphere is tense as teams begin to assess legitimacy and decide how to respond.",
+        "keyIssues": [
+          "Respond to a high-pressure request from an authority figure without verifying identity.",
+          "Distinguish between a vendor with a plausible story and a potential social engineering attempt.",
+          "Determine whether to escalate or verify when a request comes from a known department but lacks formal documentation."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "SEC: How would you verify the identity of a fire marshal claiming to confirm an annual inspection? What documentation or contact point should you use?",
+            "roleIds": [
+              "security-team"
+            ],
+            "objectiveRef": "Verification",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should you handle a media request about access control upgrades and PIN usage, especially if the reporter seems eager for positive PR?",
+            "roleIds": [
+              "pio-team"
+            ],
+            "objectiveRef": "Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "OPS: If a new employee claims to have forgotten her badge and is in a meeting with the CFO, would you allow entry under any circumstances? What verification steps would you take?",
+            "roleIds": [
+              "ops-team"
+            ],
+            "objectiveRef": "Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+                "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+                "chunkId": 123
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is 0:40. The pressure is mounting. The attackers are becoming more sophisticated. A fake FBI agent in a suit has arrived at the airport admin office and demands immediate access to employee badge records for the last 90 days, citing an active federal investigation. The request is delivered with authority and urgency. Simultaneously, a fake IT helpdesk call asks for remote desktop access to install a critical update, citing unusual activity on the workstation. A legitimate vendor call from ABC Mechanical confirms a scheduled HVAC maintenance visit. The teams are now under emotional pressure: flattery, fear, and urgency are being used to bypass verification. The room is tense as teams decide whether to trust, verify, or reject.",
+        "keyIssues": [
+          "Respond to a high-authority fake agent (FBI) without panicking or bypassing verification.",
+          "Recognize emotional manipulation (e.g., fear of federal interference) as a social engineering tactic.",
+          "Maintain verification rigor even when a request seems urgent or comes from a trusted department."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "SEC: How should you respond to a person claiming to be an FBI agent who demands access to employee badge records without showing a warrant or prior coordination with the ASC?",
+            "roleIds": [
+              "security-team"
+            ],
+            "objectiveRef": "Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+                "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+                "chunkId": 123
+              }
+            ]
+          },
+          {
+            "text": "IT: What should you do if a caller claims to be from the IT helpdesk and asks to enable remote access for a 'security update'? Is a verbal request from a known internal number enough?",
+            "roleIds": [
+              "it-team"
+            ],
+            "objectiveRef": "Verification",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "OPS: How would you handle a request from a Skyline Airlines VP for sensitive operational data, especially if the email appears to come from a valid domain?",
+            "roleIds": [
+              "ops-team"
+            ],
+            "objectiveRef": "Recognition",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is 1:15. The final test begins. The attackers are at their most deceptive. A deepfake voicemail from the Airport Director demands an immediate password reset on the financial reporting server and asks for the new credentials to be emailed to a personal Gmail account. The voice is authoritative, and the urgency is overwhelming. A fake Tribune reporter asks for details on medical equipment screening and AED locations, using emotional language to trigger sympathy. A final fake contact from a vendor claims to have a maintenance order, but the work order number is invalid. Meanwhile, a legitimate request from the North Coast Rotary Club confirms a community event approved for November 11th. Teams must now decide: who is real, and who is not? The stakes are high — one mistake could cost the team the gold.",
+        "keyIssues": [
+          "Detect a deepfake or spoofed voicemail from a high-ranking official.",
+          "Resist pressure to bypass procedures even when a request seems to come from a trusted source.",
+          "Identify a legitimate request that might be rejected due to overcaution and paranoia."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IT: If a voicemail from the Airport Director demands a password reset and sends credentials to a personal email, what verification steps should you take before acting?",
+            "roleIds": [
+              "it-team"
+            ],
+            "objectiveRef": "Verification",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 7 › 7.2 Plan Review and Cycle",
+                "quote": "Annual review by the Airport Security Coordinator (ASC) and Director of Operations. Contact/minor updates made immediately. After-Action Review (AAR) following any Alert 3 or Full-Scale Exercise; less",
+                "chunkId": 65
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should you respond to a social media message from a passenger who claims to have a medical condition and is anxious about TSA screening? Is it appropriate to share AED locations?",
+            "roleIds": [
+              "pio-team"
+            ],
+            "objectiveRef": "Composure",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "SEC: How would you handle a request from a fake FBI agent who uses intimidation and claims to be investigating an employee? What if the ASC is unavailable?",
+            "roleIds": [
+              "security-team"
+            ],
+            "objectiveRef": "Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+                "quote": "| Designation | Name | Title | 24/7 Contact | Email | |---|---|---|---|---| | Primary ASC | Michael T. Chen | Director of Public Safety / Security | (330) 555-0911 (Operations Center priority line) | ",
+                "chunkId": 123
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is 1:40. The exercise has concluded. All injects have been delivered. The facilitator has revealed the answer key, and teams are now scoring their responses. The gold medal is awarded to the team that best balanced verification, judgment, and composure. The room is focused on the final debrief. The facilitator asks: which contact fooled you? Why? Which legitimate contact almost got rejected? What technique was hardest to spot? And what would you change about verification procedures after today? The discussion is intense, reflective, and educational.",
+        "keyIssues": [
+          "Identify the most deceptive contact and explain why it succeeded.",
+          "Reflect on how overcaution or undercaution affected decision-making.",
+          "Update verification procedures based on observed vulnerabilities."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "All Teams: Which contact did you believe was real but was actually a social engineering attempt? What made it convincing?",
+            "roleIds": [
+              "ops-team",
+              "it-team",
+              "pio-team",
+              "security-team"
+            ],
+            "objectiveRef": "Recognition",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Annex A",
+                "quote": "All calls routed through the Airport Communications Center (ACC) at (330) 555-2424. | Internal (24/7) | Contact | |---|---| | Airport Communications Center (ACC) | (330) 555-2424 | | Airport Operation",
+                "chunkId": 258
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "All Teams: Which legitimate contact almost got rejected because of overcaution? What emotions or cues led to hesitation?",
+            "roleIds": [
+              "ops-team",
+              "it-team",
+              "pio-team",
+              "security-team"
+            ],
+            "objectiveRef": "Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 7 › 7.2 Plan Review and Cycle",
+                "quote": "Annual review by the Airport Security Coordinator (ASC) and Director of Operations. Contact/minor updates made immediately. After-Action Review (AAR) following any Alert 3 or Full-Scale Exercise; less",
+                "chunkId": 65
+              }
+            ]
+          },
+          {
+            "text": "All Teams: What one change would you make to your verification procedures after today’s exercise?",
+            "roleIds": [
+              "ops-team",
+              "it-team",
+              "pio-team",
+              "security-team"
+            ],
+            "objectiveRef": "Verification",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 7 › 7.2 Plan Review and Cycle",
+                "quote": "Annual review by the Airport Security Coordinator (ASC) and Director of Operations. Contact/minor updates made immediately. After-Action Review (AAR) following any Alert 3 or Full-Scale Exercise; less",
+                "chunkId": 65
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Badge office / PACS",
     "Main airport phone line",
@@ -986,6 +1884,648 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:10:15.934Z",
+      "finishedAt": "2026-10-30T12:10:41.360Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 6247,
+      "outputTokens": 2188,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:21:54.068Z",
+      "finishedAt": "2026-10-30T10:22:29.032Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 4103,
+      "outputTokens": 3321,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b077aeed272964f9",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "4fe9a36c68f4c6f2",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-02": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8865a4c9c90f393b",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-03": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "585ea105d8c825ae",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-04": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e709068d11cd79c1",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-05": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "fe839411a98d7f9d",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "400a70e000755e18",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-07": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "50b36f8d3bc4d693",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-08": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "f39304aaf6f8c139",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "e49394d420172d3b",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "536b1ce1f697a5bb",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.123Z",
+        "version": 1
+      },
+      "row:C-11": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "80c08904918561c0",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.124Z",
+        "version": 1
+      },
+      "row:C-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a5985ed7a1d230f6",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.124Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "fb62d8d6a2876d46",
+        "claims": [],
+        "at": "2026-10-30T10:22:29.124Z",
+        "version": 1
+      },
+      "inject:01M5HYKTM293C8KY04JNMRK6DR": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "6dae2425bbc0349e",
+        "claims": [],
+        "at": "2026-10-30T11:00:00.807Z",
+        "version": 1
+      },
+      "inject:01M5HYKZAFSK0B3B4BSWS2JD6F": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a fake request using authority and urgency.’ is in 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3).",
+        "fingerprint": "efb465a016ba67ff",
+        "claims": [
+          {
+            "text": "This is a fake request using authority and urgency.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The security team should not comply.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The correct response is to verify the caller via official channels.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-trust or immediate compliance.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.809Z",
+        "version": 1
+      },
+      "inject:01M5HYM5W1W9Y7XCYDF9JXFWZ6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "bbfb746005177374",
+        "claims": [
+          {
+            "text": "This inject tests recognition of a familiarity + helpfulness attack.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The vendor uses a known name (Jordan) and a plausible task (POS firmware update).",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The player must not let the visit proceed without verification.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.809Z",
+        "version": 1
+      },
+      "inject:01M5HYMCFQHKQTYJ65FPW6RXKC": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "18a011b1869ac927",
+        "claims": [
+          {
+            "text": "This is a legitimate inspection.",
+            "chunkId": 18,
+            "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Players must verify the calendar and confirm access.",
+            "chunkId": 18,
+            "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Rejecting it will result in a point deduction.",
+            "chunkId": 18,
+            "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.809Z",
+        "version": 1
+      },
+      "inject:01M5HYMNG2HZ6G9EK19SBGYKJA": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "80dac5764dbd3624",
+        "claims": [
+          {
+            "text": "Flattery + information extraction.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The reporter is probing for PACS architecture details.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-enthusiasm in response or willingness to name vendors and access point counts.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.809Z",
+        "version": 1
+      },
+      "inject:01M5HYMWQX4C2EJWHD901DDBB3": {
+        "label": "review",
+        "reason": "Only 0% of ‘Sympathy + urgency attack.’ is in 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link).",
+        "fingerprint": "9f0356b61b506ce9",
+        "claims": [
+          {
+            "text": "Sympathy + urgency attack.",
+            "chunkId": 68,
+            "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The player must not grant access based on emotion or time pressure.",
+            "chunkId": 68,
+            "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Verify via HR or direct call to supervisor.",
+            "chunkId": 68,
+            "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to bypass verification or accept the story as-is.",
+            "chunkId": 68,
+            "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.809Z",
+        "version": 1
+      },
+      "inject:01M5HYN339JHBNEHS6ED799TKB": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a fake authority + familiarity social engineering a…’ is in 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3).",
+        "fingerprint": "f6919445cd2ac6fa",
+        "claims": [
+          {
+            "text": "This is a fake authority + familiarity social engineering attack.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The sender uses a domain that mimics Skyline but is not official (skyline-air-corp.net).",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The request for sensitive operational data (AEP procedures, gate utilization) via unverified external email is a red flag.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The correct response is to verify the request through the known station manager number (555-2400).",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams who accept the data without verification.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.810Z",
+        "version": 1
+      },
+      "inject:01M5HYNE8A9AHAJZX4RZ65WHTZ": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a legitimate vendor call.’ is in Annex A.",
+        "fingerprint": "bb6bebd9ce0cbab9",
+        "claims": [
+          {
+            "text": "This is a legitimate vendor call.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The player must verify the WO number and confirm escort coordination.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-reliance on name familiarity or failure to verify the work order.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.810Z",
+        "version": 1
+      },
+      "inject:01M5HYNPF7P0YMAVJDRVHX3CF7": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a fake IT helpdesk call using the 'helpfulness' and…’ is in 13.4 Scenario A: Ransomware / Critical Network Failure.",
+        "fingerprint": "93d66064e17df4b7",
+        "claims": [
+          {
+            "text": "This is a fake IT helpdesk call using the 'helpfulness' and 'technical jargon' social engineering pattern.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The correct response is to not comply and to verify the call via official contact.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for immediate compliance or hesitation due to pressure.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.810Z",
+        "version": 1
+      },
+      "inject:01M5HYNZGHEGKE9FMK3PZQ7GTD": {
+        "label": "review",
+        "reason": "Only 25% of ‘Sympathy + information extraction inject.’ is in 1.4 Guidance Applicable for All Incident Plans.",
+        "fingerprint": "194b9e435afb6d4a",
+        "claims": [
+          {
+            "text": "Sympathy + information extraction inject.",
+            "chunkId": 85,
+            "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO team must not disclose checkpoint lane design or AED locations.",
+            "chunkId": 120,
+            "headingPath": "TIRP › Section 12 › 12.5 Checklist: Active Shooter",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Correct response: direct to TSA resources.",
+            "chunkId": 85,
+            "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+            "overlap": 0,
+            "matched": [
+              "TSA"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-trust in social media outreach.",
+            "chunkId": 85,
+            "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.811Z",
+        "version": 1
+      },
+      "inject:01M5HYP5R3DZ6HD1A9TEDDK34A": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a fake FBI agent using authority and intimidation.’ is in 5.1 Airport Authority Departments.",
+        "fingerprint": "c37dc0a18b587515",
+        "claims": [
+          {
+            "text": "This is a fake FBI agent using authority and intimidation.",
+            "chunkId": 19,
+            "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+            "overlap": 0.333,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The red flag is that a real agent will not object to verification.",
+            "chunkId": 130,
+            "headingPath": "TIRP › Annex C",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must not hand over badge data without confirming identity through official channels.",
+            "chunkId": 76,
+            "headingPath": "ASP › Appendix E",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.811Z",
+        "version": 1
+      },
+      "inject:01M5HYPF2D4CW1AVX4QD4N9DQZ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "81de06aa1ccf27f1",
+        "claims": [
+          {
+            "text": "This is a legitimate community event request.",
+            "chunkId": 102,
+            "headingPath": "TIRP › Section 5 › 5.3 Responsibilities",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The correct response is to verify the calendar, confirm space and power, and route to PIO for media.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-rejection due to social engineering fatigue.",
+            "chunkId": 102,
+            "headingPath": "TIRP › Section 5 › 5.3 Responsibilities",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.811Z",
+        "version": 1
+      },
+      "inject:01M5HYPSZXVPJJTXG07ESTE7KT": {
+        "label": "review",
+        "reason": "Only 13% of ‘This is a fake voicemail using authority, urgency, and deep…’ is in 1.2 Letter of Promulgation.",
+        "fingerprint": "5e178bdc32a9692f",
+        "claims": [
+          {
+            "text": "This is a fake voicemail using authority, urgency, and deepfake voice spoofing.",
+            "chunkId": 4,
+            "headingPath": "AEP › Part I › Section 1 › 1.2 Letter of Promulgation",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The correct response is to verify the request by calling the Airport Director’s office directly, not the number on the voicemail.",
+            "chunkId": 4,
+            "headingPath": "AEP › Part I › Section 1 › 1.2 Letter of Promulgation",
+            "overlap": 0.5,
+            "matched": [
+              "Airport Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams who act immediately without verification.",
+            "chunkId": 4,
+            "headingPath": "AEP › Part I › Section 1 › 1.2 Letter of Promulgation",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:00:00.813Z",
+        "version": 1
+      },
+      "inject:01M5HYQ0A6NHB3JVE5JD1J63K0": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "15926c7c21909e48",
+        "claims": [],
+        "at": "2026-10-30T11:00:00.813Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

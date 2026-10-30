@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:24:50.696Z",
-  "updatedAt": "2026-10-24T22:43:50.177Z",
+  "updatedAt": "2026-10-30T12:28:08.334Z",
   "brief": {
     "userPrompt": "At 08:58 the day shift is loading chlorine from TK-32 into a 90-ton rail tank car at Rail Spot 2 through loading arm LA-2. The flexible connection fails and chlorine detectors AT-313 and AT-314 alarm; the board operator trips ESD-310 from the CCR pushbutton and the DeltaV screen shows the remote-operated isolation valves closed, but the loader reports the yellow-green cloud still growing and the railcar scale WT-302 still changing. The ERT must close hand valve HV-312 in Level A suits; fence-line detectors AT-904 and AT-905 alarm as the cloud drifts east on a west-south-west wind toward the Riverside Addition and Corbin Falls Elementary School. Later the OT Engineer finds the Triconex key switch on TRI-1 in PROGRAM and an rl-support remote session from TVC-JMP-01 to TS-EWS-01 that has no entry in the remote-access log. The exercise covers the RMP tabletop scope of 40 CFR 68.96(b)(2): sirens S-1 to S-6 and the shelter-in-place request to Teague County OEM, the NRC, WV SERC, Teague County LEPC and WV DEP calls with a release estimate, OSHA reporting for an exposed loader, treatment and decontamination, TVIMA mutual aid and air monitoring, sheltering Corbin Falls Elementary School, which is in session, the cell-room trip decision (ERP 6.3), SIS integrity before any restart, CISA and the FBI, and media and neighbor pressure.",
     "audience": [
@@ -1373,6 +1373,576 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+        "capability": "operational_coordination",
+        "why": "The objective requires coordinating field observations with control-system displays under a cyber-incident, which relies on the Incident Commander and OT Engineer establishing unified command and validating system integrity per RMP Section 11 and TVCC-CFW-OTSEC-2026."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+        "capability": "cybersecurity",
+        "why": "The objective centers on identifying and triaging a cyber-incident involving unauthorized access and logic manipulation, which falls under the core function of protecting control systems from exploitation and unauthorized use."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BMQRS8T4BE35ZSR39",
+        "capability": "operational_coordination",
+        "why": "The objective demands parallel activation of emergency operations and cyber-investigation roles, requiring unified command and coordination between the OT Engineer, FSO, EHS Manager, and PIO as directed in RMP Section 11 and Play 4."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BMQRS8T4BE35ZSR39",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes managing dual response streams, including timely community alerts and media statements, which must be coordinated through the PIO and approved by the IC per ERP 8.1 and Form ERP-8."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BX0YH2219TKJT1V73",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires delivering factual, non-speculative information to regulators and the public, which depends on the PIO and EHS Manager following the holding statement template and avoiding cause speculation as per RMP Section 8 and Form ERP-8."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BX0YH2219TKJT1V73",
+        "capability": "operational_coordination",
+        "why": "The objective involves synchronized reporting to multiple agencies (NRC, SERC, LEPC, OSHA), which must be coordinated through the EHS Manager and IC to ensure consistency and compliance with ERP 5.1 and Form ERP-5."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BZ35M60VFJ7JJ11DP",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires activating sirens and issuing CAER-Text and community line updates within 30 minutes, which is governed by the PIO’s actions under RMP Section 8 and ERP 8.1."
+      },
+      {
+        "objectiveId": "01M5QSDJ5BZ35M60VFJ7JJ11DP",
+        "capability": "operational_coordination",
+        "why": "The objective depends on the Incident Commander authorizing the siren sequence and coordinating with the Teague County OEM, which is a core function of operational coordination in a multi-agency emergency."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander activates the CCR, establishes unified command, and ensures the OT Engineer, FSO, EHS Manager, and PIO are integrated into the emergency response under the ERP and RMP Section 11, with all roles reporting to the IC and sharing situational awareness via the ICS 201 and 202 forms.",
+        "objectiveRefs": [
+          "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+          "01M5QSDJ5BMQRS8T4BE35ZSR39",
+          "01M5QSDJ5BX0YH2219TKJT1V73",
+          "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "Activate the CCR and declare a General Emergency using the ICS 201 form.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ic",
+            "timing": "At once",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "Establish unified command by convening the OT Engineer, FSO, EHS Manager, and PIO in the CCR.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+              "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+              "chunkId": 54
+            },
+            "expectedBy": "ic",
+            "timing": "Within 15 minutes",
+            "rowIds": [
+              "I-02",
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "Assign the OT Engineer to validate SIS logic and the FSO to secure the engineering workstations under Form OT-3.",
+            "citation": {
+              "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+              "headingPath": "Teague Valley Chemical Company,… › Section 7",
+              "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+              "chunkId": 41
+            },
+            "expectedBy": "ic",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-10",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Confirm that the EHS Manager has initiated the NRC, SERC, LEPC, and OSHA calls using Form ERP-5.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ehs",
+            "timing": "At once",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Direct the PIO to initiate the CAER-Text and community line updates within 30 minutes of the first release call.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-05b",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS",
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The OT Engineer identifies a suspected cyber incident by detecting an unlogged remote session on TVC-JMP-01 and a Triconex key switch in PROGRAM mode, then isolates the SIS segment at FW-SIS, disconnects TS-EWS-01 from the network, and preserves evidence per TVCC-CFW-OTSEC-2026 and RMP Section 11.",
+        "objectiveRefs": [
+          "01M5QSDJ5BVFVEZD7D5CSZWPRS"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-06",
+            "capability": "cybersecurity",
+            "task": "Detect an unlogged remote session on TVC-JMP-01 via Windows security logs forwarded to the corporate SIEM.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 5",
+              "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+              "chunkId": 50
+            },
+            "expectedBy": "ot",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-07",
+            "capability": "cybersecurity",
+            "task": "Verify the Triconex key switch is in PROGRAM mode and not RUN, and log the observation.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 2",
+              "quote": "1. **Process safety first.** A cyber incident in a chlorine plant is a process safety event until proven otherwise. The Incident Commander under the ERP is in charge; the OT Engineer advises. 2. **Fie",
+              "chunkId": 47
+            },
+            "expectedBy": "ot",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "cybersecurity",
+            "task": "Isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network without powering it off.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 2",
+              "quote": "1. **Process safety first.** A cyber incident in a chlorine plant is a process safety event until proven otherwise. The Incident Commander under the ERP is in charge; the OT Engineer advises. 2. **Fie",
+              "chunkId": 47
+            },
+            "expectedBy": "ot",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "cybersecurity",
+            "task": "Preserve the engineering workstations, jump host, and firewalls as evidence by not rebuilding or reimaging them.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 2",
+              "quote": "1. **Process safety first.** A cyber incident in a chlorine plant is a process safety event until proven otherwise. The Incident Commander under the ERP is in charge; the OT Engineer advises. 2. **Fie",
+              "chunkId": 47
+            },
+            "expectedBy": "ot",
+            "timing": "At once",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BVFVEZD7D5CSZWPRS"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO issues a holding statement using the template in Annex B, Form ERP-8, within 30 minutes of a General Emergency, and ensures that all public messages, including CAER-Text and community line updates, are factual, non-speculative, and approved by the Incident Commander.",
+        "objectiveRefs": [
+          "01M5QSDJ5BMQRS8T4BE35ZSR39",
+          "01M5QSDJ5BX0YH2219TKJT1V73",
+          "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Initiate the CAER-Text message to 1,140 registered neighbors within 15 minutes of the first release call.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "Within 15 minutes",
+            "rowIds": [
+              "I-05b"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Update the community line (304-555-0190) with a recorded message every 30 minutes during the event.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "Every 30 minutes",
+            "rowIds": [
+              "I-05b",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "public_information_and_warning",
+            "task": "Issue a holding statement using Form ERP-8 within 30 minutes of a General Emergency, without speculating on cause or health effects.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-13",
+            "capability": "public_information_and_warning",
+            "task": "Refer all health-related questions to the Teague County Health Department and avoid speculation on system integrity or restart status.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "At all times",
+            "rowIds": [
+              "I-20",
+              "I-25b"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "public_information_and_warning",
+            "task": "Submit the holding statement for IC approval within 10 minutes of receiving a media request.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 8",
+              "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+              "chunkId": 17
+            },
+            "expectedBy": "comm",
+            "timing": "Within 10 minutes",
+            "rowIds": [
+              "I-25b"
+            ],
+            "objectiveRefs": [
+              "01M5QSDJ5BMQRS8T4BE35ZSR39",
+              "01M5QSDJ5BX0YH2219TKJT1V73",
+              "01M5QSDJ5BZ35M60VFJ7JJ11DP"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_communications",
+        "target": "The Incident Commander ensures that all emergency communications, including calls to 911, NRC, and the FBI, are made via the designated forms (ERP-5, ICS 201, 202, 203, 205, 208, 214) and that all messages are recorded and disseminated through the CCR to maintain situational awareness and operational continuity.",
+        "objectiveRefs": [],
+        "criticalTasks": [
+          {
+            "id": "T-15",
+            "capability": "operational_communications",
+            "task": "Call the Teague County 911 Center and the non-emergency line for updates using the 911 and 911 Center’s non-emergency line.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ic",
+            "timing": "At once",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "operational_communications",
+            "task": "Report the chlorine release to the NRC, WV SERC, LEPC, and OSHA using Form ERP-5 and record the time, person reached, and report number.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ehs",
+            "timing": "At once",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "operational_communications",
+            "task": "Notify the FBI and CISA of a suspected cyber cause via the Incident Commander and the OT Engineer.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ot",
+            "timing": "Within 15 minutes",
+            "rowIds": [
+              "I-11",
+              "I-12"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "operational_communications",
+            "task": "Confirm that the EHS Manager has initiated the NRC report and that the estimate is given in pounds with the basis (duration, hole size, railcar weight change).",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+              "quote": "| # | Who | How | When | Who calls | |---|---|---|---|---| | 1 | Teague County 911 Center | 911, then the 911 Center's non-emergency line for updates | At once | Board operator or Shift Supervisor | |",
+              "chunkId": 10
+            },
+            "expectedBy": "ehs",
+            "timing": "At once",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "operational_communications",
+            "task": "Ensure that all emergency calls and messages are recorded on Form ERP-5 and that the ICS 201, 202, 203, 205, 208, 214 forms are maintained in the CCR.",
+            "citation": {
+              "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+              "headingPath": "RMP › Annex B",
+              "quote": "- ERP-1 Initial Incident Report · ERP-5 Notification Record (time, agency, person, report number, chemical, estimated quantity, duration, medium, protective actions) · ERP-6 Muster and Accountability ",
+              "chunkId": 27
+            },
+            "expectedBy": "ic",
+            "timing": "At all times",
+            "rowIds": [
+              "I-07",
+              "I-12"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The OT Engineer and FSO preserve and document the forensic evidence from TS-EWS-01, TVC-JMP-01, and EWS-01, including the Triconex key switch position, SIS SOE logs, and remote-access logs, to support attribution of the cyber incident to unauthorized access and logic manipulation.",
+        "objectiveRefs": [],
+        "criticalTasks": [
+          {
+            "id": "T-20",
+            "capability": "forensics_and_attribution",
+            "task": "Photograph the Triconex key switch in PROGRAM mode and leave it untouched for forensic review.",
+            "citation": {
+              "documentId": "01M5QSCR8QXQJP7AGKDTYXBYRN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Facility and Process Description",
+              "headingPath": "Teague Valley Chemical Company,… › Section 7",
+              "quote": "| Detectors | Location | Alarm / trip | |---|---|---| | AT-311 to AT-318 | Rail Spot 1 to Rail Spot 4 (two per spot) | 1 ppm alarm, 3 ppm ESD-310 | | AT-321 to AT-326 | Chlorine Storage Building and D",
+              "chunkId": 41
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "forensics_and_attribution",
+            "task": "Export and preserve the SIS SOE log from TS-EWS-01 for forensic analysis.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 5",
+              "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+              "chunkId": 50
+            },
+            "expectedBy": "ot",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve the remote-access log from TVC-JMP-01 and confirm that no session was logged for the 08:57:59 event.",
+            "citation": {
+              "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+              "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+              "headingPath": "Teague Valley Chemical Company,… › Section 5",
+              "quote": "| Sign | Where it shows | First check | |---|---|---| | A setpoint, mode or valve command nobody on shift made | DeltaV event journal on OWS-01 to OWS-04 | Who was logged in; was a remote session open",
+              "chunkId": 50
+            },
+            "expectedBy": "ot",
+            "timing": "Within 30 minutes",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, and write each response on a whiteboard to create a visible, shared reflection. Encourage concise, specific feedback.",
@@ -1476,6 +2046,502 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to make decisions based on available information without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented; players must respond to the situation as it unfolds, not anticipate future injects.",
+      "Players respond in accordance with existing plans, policies and procedures, including the RMP, TVCC-CFW-OTSEC-2026, and Section 11 of the RMP for cyber-incident handling."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of hours; injects are delivered via paper or screen to maintain realism.",
+      "The SimCell simulates external entities: the FBI, CISA, Teague County OEM, the local fire department, and the media, based on their roles in the RMP and OT plan.",
+      "Systems such as TVC-JMP-01, TS-EWS-01, and EWS-01 are named and referenced per the RMP but not physically interacted with by players.",
+      "The OT Engineer, EHS Manager, and PIO roles are fulfilled by the SimCell, which provides injects based on plan requirements and timing.",
+      "All injects are delivered in sequence and reflect only what would be known to on-site personnel at the time, per the scenario state."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5QSE0A09N1J7RJAQPG2GJQ7",
+        "narrativeMd": "It is 09:00. The plant is at normal load; loading of a 90-ton chlorine rail tank car from TK-32 at Rail Spot 2 began at 08:40. Weather is clear and dry, with a west-south-west wind at 6 mph. Corbin Falls Elementary School is in session. No active alarms are showing on the DCS.\n\nAt 09:03, the loader on Rail Spot 2 reports to the Shift Supervisor: 'Control, this is Loader 1 on Rail Spot 2. The yellow-green cloud is still rising on WT-302 and ESD-310 is showing closed on the DeltaV HMI. I can see the vapor and the scale is climbing. The hand valve is open, but the screen says closed.'\n\nAt 09:05, the Operations Superintendent (Lorna Pike) contacts the OT Engineer (Victor Anand) to report the discrepancy and request a review of the DeltaV event journal and logs on OWS-01.",
+        "keyIssues": [
+          "Field and screen disagree on ESD-310 status; the release continues despite the DCS showing isolation.",
+          "The OT Engineer must initiate a cyber-incident triage within 30 minutes of first report, per Section 11.",
+          "The Shift Supervisor must decide whether to declare an emergency and activate the ICS roles based on the field report."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: Based on the field report from Loader 1, what emergency classification should you declare under Section 4, and what immediate actions must you take to activate the ICS roles?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Emergency Classification and Activation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 3",
+                "quote": "| Role | Person | Alternate | Responsibilities | |---|---|---|---| | OT Incident Lead | Victor Anand, Process Control and OT Engineer | Megan Sorrell, Instrument and Electrical Lead | Triage of contro",
+                "chunkId": 109
+              }
+            ]
+          },
+          {
+            "text": "OT: You have received a report of a field-screen discrepancy on ESD-310. What are your immediate actions under Section 11 of the RMP to validate the control-system state?",
+            "roleIds": [
+              "ot"
+            ],
+            "objectiveRef": "Field vs. Screen Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "OPS: As Operations Superintendent, you have confirmed the field report. What steps must you take to ensure safe-park decisions and unit shutdown sequence begin, per the ERP?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Field vs. Screen Integrity",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "EHS: You have received a preliminary release estimate from the EHS Coordinator. What regulatory reporting must begin immediately, and what information must be included in the initial NRC and SERC reports?",
+            "roleIds": [
+              "ehs"
+            ],
+            "objectiveRef": "Regulatory Notification Discipline",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Table of Contents",
+                "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 Facility Summary · Section 3 Roles and Responsibilities · Section 4 Emergency Classification and Activation · Section 5 Notification and Reporti",
+                "chunkId": 30
+              }
+            ]
+          },
+          {
+            "text": "PIO: You have received a social media post from a resident reporting a green cloud and no sirens. What is your immediate action to manage public perception and prepare for community notification?",
+            "roleIds": [
+              "comm"
+            ],
+            "objectiveRef": "Siren and Community Activation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 8",
+                "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+                "chunkId": 45
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QSE0A0HYBS3T8EV6WAAC4B",
+        "narrativeMd": "It is 10:00. The yellow-green cloud over Rail Spot 2 has grown visibly larger, and the fence-line detector AT-905 has just alarmed. The release continues at roughly 40 lb per minute, and the plume is drifting east toward the Riverside Addition and Corbin Falls Elementary School.\n\nThe ERT is now in Level A suits and en route to the loading rack. The shift cannot confirm the status of ESD-310 or the hand valve at Rail Spot 2 from the control room screen.\n\nAt 10:05, the EHS Manager issues a memo: WT-302 has dropped about 1,100 lb since the ESD-310 trip at 08:58, and the release is continuing at roughly 40 lb per minute. Wind is WSW at 6 mph; plume drifting toward sectors E-1 and E-2.\n\nAt 10:12, the ERT medic reports: 'Control, this is Medic 3 from the ERT. We are at the perimeter of Rail Spot 2. The vapor is thick, and the hand valve HV-312 is still open. The ESD-310 status on the DeltaV HMI still shows closed, but the field sees the release continuing. The wind is pushing the cloud toward Corbin Falls Elementary School. We are starting entry procedures now.'\n\nAt 10:15, the Operations Supervisor confirms: the Triconex key switch on TRI-1 is in PROGRAM mode, not RUN. The key is still on the Shift Supervisor’s ring; no one on shift turned it.",
+        "keyIssues": [
+          "The SIS logic was changed without approval, and the key switch is in PROGRAM mode — a red flag for unauthorized access.",
+          "The ERT confirms the hand valve is open and the release continues, despite the DCS showing ESD-310 closed.",
+          "The EHS Manager must report to regulators with factual data only, avoiding speculation on cause or health impact.",
+          "The PIO must activate the CAER-Text and update the community line within 30 minutes of the first release call."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: The ERT confirms the hand valve is open and the release continues, despite the DCS showing ESD-310 closed. What emergency classification should you declare, and what actions must you take to activate mutual aid and law enforcement?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Emergency Classification and Activation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 3",
+                "quote": "| Role | Person | Alternate | Responsibilities | |---|---|---|---| | OT Incident Lead | Victor Anand, Process Control and OT Engineer | Megan Sorrell, Instrument and Electrical Lead | Triage of contro",
+                "chunkId": 109
+              }
+            ]
+          },
+          {
+            "text": "OT: You have reviewed the Triconex SOE log and found a logic version mismatch (v2.1.7 vs. v2.1.6) and no MOC on file. What steps must you take to preserve evidence and report to CISA and the FBI under Section 11?",
+            "roleIds": [
+              "ot"
+            ],
+            "objectiveRef": "Cyber-Physical Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          },
+          {
+            "text": "FSO: You have received a report of a suspicious individual at Gate 1. What actions must you take to secure the facility and initiate the FBI liaison process?",
+            "roleIds": [
+              "fso"
+            ],
+            "objectiveRef": "Cyber-Physical Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          },
+          {
+            "text": "EHS: You have confirmed the release is ongoing and exceeds the RQ. What regulatory notifications must you make, and what information must be included in the initial NRC, SERC, and LEPC reports?",
+            "roleIds": [
+              "ehs"
+            ],
+            "objectiveRef": "Regulatory Notification Discipline",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Table of Contents",
+                "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 Facility Summary · Section 3 Roles and Responsibilities · Section 4 Emergency Classification and Activation · Section 5 Notification and Reporti",
+                "chunkId": 30
+              }
+            ]
+          },
+          {
+            "text": "PIO: You have received a social media post and a call from the school district. What is your immediate action to activate the CAER-Text and update the community line, and what must be included in the first holding statement?",
+            "roleIds": [
+              "comm"
+            ],
+            "objectiveRef": "Siren and Community Activation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 8",
+                "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+                "chunkId": 45
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QSE0A0FPFZ9YQ2544PYAEM",
+        "narrativeMd": "It is 11:00. The yellow-green cloud over Rail Spot 2 has grown to 300 meters in diameter and is now visible from the city limits. Fence-line detector AT-905 remains active. The ERT has reached the loading rack and is preparing to manually close HV-312.\n\nThe Triconex key switch is still in PROGRAM mode. The DCS shows ESD-310 closed, but the ERT confirms the hand valve HV-312 is open and the release continues. The shift must decide whether to trust the digital control system or take manual control under field authority.\n\nAt 11:05, the OT Engineer reports: the running logic version (v2.1.7) differs from the archived version (v2.1.6) in the ESD-310 output section. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM.\n\nAt 11:15, the EHS Manager confirms: NRC, WV SERC, LEPC, and WV DEP spill line have all been notified with a release estimate of 2,600 lb and cause under investigation.\n\nAt 11:25, the FSO and OT confirm: TS-EWS-01, EWS-01, and TVC-JMP-01 are powered and disconnected; the TRI-1 key switch is photographed and untouched. The FBI will collect the devices at 14:00.",
+        "keyIssues": [
+          "The SIS logic was changed without approval, and the key switch was in PROGRAM mode — a major breach of cyber integrity.",
+          "The ERT has manually closed HV-312, but the DCS still shows ESD-310 closed. The shift must now decide whether to trust the field or the screen.",
+          "The Incident Commander must decide whether to trip the cell room via local rectifier control, risking membrane damage and a 24-hour restart, or keep Unit 100 running under manual watch.",
+          "The EHS Manager must begin the PSM incident investigation within 48 hours, per 1910.119(m)."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: The ERT has manually closed HV-312, but the DCS still shows ESD-310 closed. The SIS logic is compromised. What is your decision on whether to trip the cell room locally, and what are the operational and regulatory implications?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Manual Operation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          },
+          {
+            "text": "OPS: You have confirmed the hand valve is now closed and the vapor has stopped rising. What steps must you take to ensure the unit remains safe-parked and to prevent future unauthorized access?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Manual Operation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "OT: You have confirmed the logic mismatch and unauthorized change. What actions must you take to prevent any further system changes, and how must you coordinate with Ridgeline Automation and CISA?",
+            "roleIds": [
+              "ot"
+            ],
+            "objectiveRef": "Cyber-Physical Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          },
+          {
+            "text": "EHS: The release has stopped and the PSM incident investigation must begin within 48 hours. What steps must you take to ensure compliance with 1910.119(m) and to prepare for the RMP accident history update?",
+            "roleIds": [
+              "ehs"
+            ],
+            "objectiveRef": "Regulatory Notification Discipline",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Table of Contents",
+                "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 Facility Summary · Section 3 Roles and Responsibilities · Section 4 Emergency Classification and Activation · Section 5 Notification and Reporti",
+                "chunkId": 30
+              }
+            ]
+          },
+          {
+            "text": "FSO: The FBI has confirmed the incident as a possible deliberate attack. What actions must you take to preserve evidence and support the FBI investigation?",
+            "roleIds": [
+              "fso"
+            ],
+            "objectiveRef": "Cyber-Physical Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QSE0A0KVHW9J933998QBTR",
+        "narrativeMd": "It is 12:00. The release has been stopped since 11:48. The ERT has decontaminated and returned. Fence-line detector AT-905 remains active, but readings are declining.\n\nAt 12:05, the FBI team confirms: they will image TS-EWS-01, EWS-01, and TVC-JMP-01 on site at 14:00, and they request the CCR access-card log and Gate 2 CCTV for 08:00–09:00.\n\nAt 12:10, the Schneider Electric Triconex specialist confirms: the running logic v2.1.7 was modified to force ESD-310 to report CLOSED regardless of limit-switch status. The change was downloaded from TS-EWS-01 at 08:57:59 while the key switch was in PROGRAM.\n\nAt 12:20, the EHS Manager issues a memo: OSHA report must be filed by 10:05 tomorrow if Loader 1 is admitted; RMP accident history entry and correction must be completed within six months; PSM incident investigation must begin within 48 hours.\n\nAt 12:30, the IT Incident Lead reports: the offline USB archive in the safe contains two SIS logic files, v2.1.5 (01/2026) and an unlabeled v2.1.6 (12/2025). Neither matches the version approved in MOC-25-077.",
+        "keyIssues": [
+          "The SIS logic was tampered with to mask a physical release. The change was made while the key switch was in PROGRAM mode.",
+          "The EHS Manager must ensure the PSSR is completed and the Plant Manager approves restart before any unit is restored.",
+          "The IT Incident Lead must resolve the logic version discrepancy before any download or reset.",
+          "The PIO must manage media inquiries about the cause and the air safety, without speculating.",
+          "The Incident Commander must confirm that no unit restarts until Section 10 of the OT plan and the PSSR are complete."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IC: The SIS logic has been confirmed as tampered with. What is your final decision on whether to allow a unit restart, and what must be verified before any change is made?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Restoration & Verification",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Table of Contents",
+                "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 Facility Summary · Section 3 Roles and Responsibilities · Section 4 Emergency Classification and Activation · Section 5 Notification and Reporti",
+                "chunkId": 30
+              }
+            ]
+          },
+          {
+            "text": "OT: You have confirmed the logic was forced to report CLOSED. What steps must you take to validate the running logic against the archive, and what must you ensure before any download or reset?",
+            "roleIds": [
+              "ot"
+            ],
+            "objectiveRef": "Restoration & Verification",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 11",
+                "quote": "The control systems are described in TVCC-CFW-FPD-2026, Section 6, and the cyber response in TVCC-CFW-OTSEC-2026. In an emergency the rules here come first: 1. **Field over screen.** When the DCS or t",
+                "chunkId": 48
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          },
+          {
+            "text": "EHS: You have confirmed the release stopped and the PSM investigation must begin within 48 hours. What steps must you take to ensure the RMP accident history is updated and the OSHA report is filed on time?",
+            "roleIds": [
+              "ehs"
+            ],
+            "objectiveRef": "Regulatory Notification Discipline",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Table of Contents",
+                "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 Facility Summary · Section 3 Roles and Responsibilities · Section 4 Emergency Classification and Activation · Section 5 Notification and Reporti",
+                "chunkId": 30
+              }
+            ]
+          },
+          {
+            "text": "PIO: You have received a media request for a live statement. What must you say, and what must you avoid saying, in your response to the reporter?",
+            "roleIds": [
+              "comm"
+            ],
+            "objectiveRef": "Siren and Community Activation",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 8",
+                "quote": "- **Sirens S-1 to S-6** (steady tone, 3 minutes) mean \"go inside and listen\". The siren panel is in the CCR; S-3 and S-5 also have a voice message. - **CAER-Text** (text and voice message to 1,140 reg",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "FSO: The FBI will collect evidence on site. What documentation must you provide to support the investigation, and what must you ensure about the chain of custody?",
+            "roleIds": [
+              "fso"
+            ],
+            "objectiveRef": "Cyber-Physical Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QSCR8MW6KT8Z6NRETNGTK0",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Emergency Response Plan (40 CFR 68.95)",
+                "headingPath": "RMP › Section 3",
+                "quote": "The Works uses the Incident Command System. The Shift Supervisor is the Incident Commander until relieved by the Emergency Coordinator or the Plant Manager. Positions are filled by the people below; t",
+                "chunkId": 36
+              },
+              {
+                "documentId": "01M5QSCR8RKGC2JKYDFJ9EJVQN",
+                "documentTitle": "Teague Valley Chemical Company, Corbin Falls Works — Process Control and Cybersecurity Plan (OT Incident Response Playbook)",
+                "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+                "quote": "When a chlorine release coincides with an unexplained control-system state (for example ESD-310 shown closed while the field sees the release continuing): 1. Treat the release under the ERP first: han",
+                "chunkId": 115
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "DCS (DeltaV)",
     "SIS (Triconex)",
@@ -3007,6 +4073,1804 @@
       "promptRef": "template+tts",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:12:07.494Z",
+      "finishedAt": "2026-10-30T12:12:50.113Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11109,
+      "outputTokens": 3080,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:25:10.672Z",
+      "finishedAt": "2026-10-30T10:26:24.644Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 7559,
+      "outputTokens": 6112,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "bedf5351eae55d87",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.817Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘SOP 7.2’, ‘ERP 5.1’, ‘notifies’ are not in Section 11 or the facility facts.",
+        "fingerprint": "57270f2b0a7d9315",
+        "claims": [
+          {
+            "text": "OPS confirms the field report and immediately notifies the OT Engineer per SOP 7.2; IC activates the CCR and initiates the emergency call sequence (ERP 5.1).",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.357,
+            "matched": [
+              "OT Engineer",
+              "report"
+            ],
+            "missing": [
+              "SOP 7.2",
+              "ERP 5.1",
+              "notifies",
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.188Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘Section 11’ is not in Section 3 or the facility facts.",
+        "fingerprint": "f97267ad3188b22f",
+        "claims": [
+          {
+            "text": "OT contacts the OT Engineer (Victor Anand) immediately; begins triage under RMP Section 11 and TVCC-CFW-OTSEC-2026.",
+            "chunkId": 48,
+            "headingPath": "Teague Valley Chemical Company,… › Section 3",
+            "overlap": 0.667,
+            "matched": [
+              "OT Engineer",
+              "TVCC-CFW-OTSEC-2026"
+            ],
+            "missing": [
+              "Section 11"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Activates Play 2 if needed.",
+            "chunkId": 48,
+            "headingPath": "Teague Valley Chemical Company,… › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.189Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 5.",
+        "fingerprint": "29218b15b2a32b60",
+        "claims": [
+          {
+            "text": "OT notes that the DCS only copies the SIS state and that the valves never reported closed; checks TVC-JMP-01 for open remote sessions and starts Play 1 and Play 2 (TVCC-CFW-OTSEC-2026).",
+            "chunkId": 50,
+            "headingPath": "Teague Valley Chemical Company,… › Section 5",
+            "overlap": 0.875,
+            "matched": [
+              "TVC-JMP-01",
+              "TVCC-CFW-OTSEC-2026",
+              "reported"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.190Z",
+        "version": 1
+      },
+      "row:I-05b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "ee95235d31bbb1b2",
+        "claims": [
+          {
+            "text": "PIO logs the post and activates the CAER-Text system within 15 minutes per ERP 8.1, pending IC approval.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.182,
+            "matched": [
+              "approval"
+            ],
+            "missing": [
+              "ERP 8.1",
+              "15 minutes",
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.190Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ba73a0d79169c18d",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.821Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "review",
+        "reason": "‘ERP 5.1’, ‘ERP-5’ are not in Section 8 or the facility facts.",
+        "fingerprint": "0054be7fdf0d2cb4",
+        "claims": [
+          {
+            "text": "EHS calls the NRC (800-424-8802), the WV SERC, the Teague County LEPC coordinator and the WV DEP spill line at once with the estimate and its basis (ERP 5.1), records each call on Form ERP-5 and corrects the estimate later; does not wait for a final number.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.25,
+            "matched": [
+              "NRC"
+            ],
+            "missing": [
+              "ERP 5.1",
+              "ERP-5"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.190Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "Only 31% of ‘EHS confirms the release and begins NRC/OSHA/LEPC reporting…’ is in Section 5.",
+        "fingerprint": "ee99fc4ed762f5f2",
+        "claims": [
+          {
+            "text": "EHS confirms the release and begins NRC/OSHA/LEPC reporting; OT verifies the alarm is not a false positive via the SIS SOE log (TS-EWS-01).",
+            "chunkId": 50,
+            "headingPath": "Teague Valley Chemical Company,… › Section 5",
+            "overlap": 0.308,
+            "matched": [
+              "TS-EWS-01",
+              "NRC",
+              "OSHA",
+              "reporting"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.191Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9fe3cbde66096918",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.821Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "‘EHS Manager’, ‘HV-312’, ‘notifies’ are not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "72d6471308f7de78",
+        "claims": [
+          {
+            "text": "Ops confirms the ERT is in progress and orders a field watch on HV-312; IC notifies the EHS Manager of the school proximity and orders CAER-Text to begin.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "EHS Manager",
+              "HV-312",
+              "notifies"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.191Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "grounded",
+        "reason": "Every claim matches Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN).",
+        "fingerprint": "2344726e387e2313",
+        "claims": [
+          {
+            "text": "IC orders the OT Engineer to immediately isolate the SIS segment at FW-SIS and disconnect TS-EWS-01 from the network; the OT Engineer confirms the switch position and logs it for forensic review.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.917,
+            "matched": [
+              "OT Engineer",
+              "FW-SIS",
+              "TS-EWS-01",
+              "isolate"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.191Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘declares’ is not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "8468bf66a21bf9f6",
+        "claims": [
+          {
+            "text": "OT Engineer declares a suspected cyber incident; runs Play 2 and Play 4: no reset, bypass or download; isolates the SIS segment at FW-SIS (Level 4) and disconnects TS-EWS-01 without powering it off; tells the IC that every SIS-protected operation must stop or run under field watch.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.889,
+            "matched": [
+              "OT Engineer",
+              "FW-SIS",
+              "TS-EWS-01",
+              "isolates"
+            ],
+            "missing": [
+              "declares"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.191Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘Section 8’ is not in Play 4 — Release with a possible cyber cause or the facility facts.",
+        "fingerprint": "3c7eb0b58766cebb",
+        "claims": [
+          {
+            "text": "OT Engineer gives CISA the facts known so far through the IC, keeps the evidence powered and disconnected (OTSEC Section 8) and asks for the ICS incident response support.",
+            "chunkId": 54,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+            "overlap": 0.4,
+            "matched": [
+              "OT Engineer",
+              "CISA"
+            ],
+            "missing": [
+              "Section 8"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.191Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘OT-3’ is not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "ce44716a7bfe3dac",
+        "claims": [
+          {
+            "text": "IC confirms that safety actions continue and that the FSO secures the engineering workstations and the jump host under Form OT-3; the FSO becomes the FBI liaison.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.308,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [
+              "OT-3"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.192Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "‘E-1’, ‘E-2’, ‘evacuate’ are not in Section 8 or the facility facts.",
+        "fingerprint": "26b50ef627da73ac",
+        "claims": [
+          {
+            "text": "PIO tells the IC; the IC asks Teague County OEM for shelter-in-place for sectors E-1 and E-2 and for the CAER-Text message (the Works recommends, the county decides, ERP 7); the school shelters on the county message; the Works does not tell the school to evacuate.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.412,
+            "matched": [],
+            "missing": [
+              "E-1",
+              "E-2",
+              "evacuate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.192Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "1905add6d906e03b",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.822Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a563a98ce7bfb0d8",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.822Z",
+        "version": 1
+      },
+      "row:I-15a": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 11.",
+        "fingerprint": "ab5685a102de542b",
+        "claims": [
+          {
+            "text": "OT Engineer confirms that the session was unauthorized, keeps vendor access disabled (Level 1), tells the IC and the FSO, and asks Ridgeline and Schneider Electric to plan the logic comparison on site.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.533,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.192Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "f5a155d855dbaa80",
+        "claims": [
+          {
+            "text": "IC notes that the NRC call came two hours after the release began and asks why; EHS tracks the OSHA 24-hour clock for an in-patient admission (29 CFR 1904.39) and the written follow-up to the SERC and LEPC.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.15,
+            "matched": [
+              "NRC",
+              "OSHA"
+            ],
+            "missing": [
+              "CFR 1904.39",
+              "2 hours",
+              "24-hour"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.193Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "45527a152511d53e",
+        "claims": [
+          {
+            "text": "FSO confirms the chain of custody on Form OT-3; OT Engineer notes that shutting down the jump host lost its memory and records it.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.083,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [
+              "OT-3",
+              "shutting down"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 4",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 1,
+            "matched": [
+              "Section 4"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.193Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "review",
+        "reason": "‘Operations Section Chief’ is not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "7f78181a3bd1f1e3",
+        "claims": [
+          {
+            "text": "Operations Section Chief and IC decide (ERP 6.3, decision record ERP-D3); the OT Engineer states which safety functions can no longer be relied on; the decision and its rationale are recorded.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.533,
+            "matched": [
+              "ERP 6.3",
+              "OT Engineer",
+              "ERP-D3"
+            ],
+            "missing": [
+              "Operations Section Chief"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.193Z",
+        "version": 1
+      },
+      "row:I-18b": {
+        "label": "grounded",
+        "reason": "Every claim matches Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN).",
+        "fingerprint": "415b634aeb13372e",
+        "claims": [
+          {
+            "text": "IC accepts the support visit and confirms that Unit 300 stays down; the OT Engineer prepares the archived logic file and the remote-access log for the comparison.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.571,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.193Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 8.",
+        "fingerprint": "87d5b63ebe47b107",
+        "claims": [
+          {
+            "text": "PIO issues a holding statement (Form ERP-8) without speculating on cause or health effects and refers health questions to the Teague County Health Department; the IC confirms whether sirens S-1 to S-6 and the shelter-in-place request were made and, if not, makes them now.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.789,
+            "matched": [
+              "Teague County Health Department",
+              "ERP-8",
+              "S-1",
+              "S-6"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.193Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "review",
+        "reason": "Only 20% of ‘OPS confirms the manual closure order was issued and the ER…’ is in Section 11.",
+        "fingerprint": "4443ee9a5b3fe3ad",
+        "claims": [
+          {
+            "text": "OPS confirms the manual closure order was issued and the ERT has completed the closure.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The release is under control.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.194Z",
+        "version": 1
+      },
+      "row:I-26": {
+        "label": "review",
+        "reason": "Only 33% of ‘OT confirms the physical state is stable; verifies that the…’ is in Section 5.",
+        "fingerprint": "83f92394cfbe8840",
+        "claims": [
+          {
+            "text": "OT confirms the physical state is stable; verifies that the local panel and field instruments agree with the ERT report; documents the final field state for the SIS integrity review.",
+            "chunkId": 50,
+            "headingPath": "Teague Valley Chemical Company,… › Section 5",
+            "overlap": 0.333,
+            "matched": [
+              "report"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "No further digital commands are issued until after forensic validation.",
+            "chunkId": 50,
+            "headingPath": "Teague Valley Chemical Company,… › Section 5",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.194Z",
+        "version": 1
+      },
+      "row:I-22b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a4b1e49ef1aaf68b",
+        "claims": [
+          {
+            "text": "OPS and OT confirm no fire alarm, no energy release, and no seismic event in the logs; instruct the fire chief to maintain awareness but not to dispatch unless confirmed; mark as a noise to prevent misallocation of resources.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.059,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.194Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "review",
+        "reason": "Only 47% of ‘IC and OPS accept the plan; the OT Engineer owns the valida…’ is in Section 10.",
+        "fingerprint": "9be99d067468a97d",
+        "claims": [
+          {
+            "text": "IC and OPS accept the plan; the OT Engineer owns the validation steps of OTSEC Section 10; Unit 300 stays down and the Plant Manager is briefed on the restart conditions (ERP 14).",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.474,
+            "matched": [
+              "Section 10",
+              "OT Engineer",
+              "Plant Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.194Z",
+        "version": 1
+      },
+      "row:I-21b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "4890d3c1b1217628",
+        "claims": [],
+        "at": "2026-10-30T10:26:25.825Z",
+        "version": 1
+      },
+      "row:I-22": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4a7f59dd9dde31ef",
+        "claims": [
+          {
+            "text": "OT Engineer briefs the IC: the ESD-310 status on the DeltaV screens could not be trusted and the valves never closed; the finding goes to CISA and the FBI and into the incident investigation.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.188,
+            "matched": [
+              "OT Engineer",
+              "ESD-310",
+              "CISA",
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.194Z",
+        "version": 1
+      },
+      "row:I-23": {
+        "label": "review",
+        "reason": "‘CFR 1904.39’ is not in Section 10 or the facility facts.",
+        "fingerprint": "e3fe1c844faf8a75",
+        "claims": [
+          {
+            "text": "IC assigns owners and dates for each obligation and confirms that no regulator approves the restart; it is the Works' own PSSR and Plant Manager decision, with notice to the county.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.615,
+            "matched": [
+              "Plant Manager",
+              "approves"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: CFR 1904.39",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "CFR 1904.39"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "row:I-24": {
+        "label": "review",
+        "reason": "Only 40% of ‘OT Engineer works out from MOC-25-077 and the Ridgeline ser…’ is in Section 10.",
+        "fingerprint": "0debda7ba9b2368b",
+        "claims": [
+          {
+            "text": "OT Engineer works out from MOC-25-077 and the Ridgeline service records which file is the approved logic before any comparison or download; the gap goes into the corrective actions.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.4,
+            "matched": [
+              "OT Engineer",
+              "MOC-25-077",
+              "approved"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "row:I-25": {
+        "label": "review",
+        "reason": "Only 46% of ‘The Incident Commander formally announces that no unit will…’ is in Play 4 — Release with a possible cyber cause.",
+        "fingerprint": "16d71f697593624f",
+        "claims": [
+          {
+            "text": "The Incident Commander formally announces that no unit will be restarted until the PSSR is signed and all regulatory and technical checks are complete.",
+            "chunkId": 54,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+            "overlap": 0.455,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "This establishes a hold on any restart activity.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Referenced: Section 10",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 1,
+            "matched": [
+              "Section 10"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "row:I-25b": {
+        "label": "review",
+        "reason": "‘10 minutes’, ‘EHS Manager’ are not in Section 8 or the facility facts.",
+        "fingerprint": "bb93ca82247e509a",
+        "claims": [
+          {
+            "text": "PIO confirms to the IC that the EHS Manager has not yet issued a final public statement; she prepares a holding statement using the template from Annex B, Form ERP-8, and submits it for IC approval within 10 minutes; she does not speculate on system integrity or restart status.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.381,
+            "matched": [
+              "Annex B",
+              "ERP-8",
+              "approval"
+            ],
+            "missing": [
+              "10 minutes",
+              "EHS Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8399765dfbd9eec6",
+        "claims": [],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "inject:01M5QSQN762N9S18C1CKWPVWPJ": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "789b04a19f46772f",
+        "claims": [],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "inject:01M5QSQW8KBR9Z9YDZYD3BVHNQ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "735bb6f8533a7473",
+        "claims": [
+          {
+            "text": "This inject confirms the core narrative: field and screen disagree.",
+            "chunkId": 13,
+            "headingPath": "RMP › Section 6 › 6.1 First actions (board operator and Shift Supervisor)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The OT Engineer must now be engaged to investigate the control-system inconsistency.",
+            "chunkId": 35,
+            "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "OT Engineer"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.195Z",
+        "version": 1
+      },
+      "inject:01M5QSR5TCRNCMHDJD82H9XPHD": {
+        "label": "grounded",
+        "reason": "Every claim matches Teague Valley Chemical Company,… and 3.3 Loading positions.",
+        "fingerprint": "7b40e5b790a908f7",
+        "claims": [
+          {
+            "text": "This call triggers OT triage under RMP Section 11 and TVCC-CFW-OTSEC-2026.",
+            "chunkId": 44,
+            "headingPath": "Teague Valley Chemical Company,…",
+            "overlap": 0.571,
+            "matched": [
+              "Section 11",
+              "TVCC-CFW-OTSEC-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the OT Engineer to initiate Play 2 if SIF-302 or ESD-310 override flags are found.",
+            "chunkId": 35,
+            "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+            "overlap": 0.5,
+            "matched": [
+              "OT Engineer",
+              "SIF-302",
+              "ESD-310"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.196Z",
+        "version": 1
+      },
+      "inject:01M5QSRG18NBPBYXM8VSCEZSY0": {
+        "label": "review",
+        "reason": "‘WT-302’ is not in Play 1 — Unexplained DCS change or the facility facts.",
+        "fingerprint": "47e6950cc90ff87d",
+        "claims": [
+          {
+            "text": "This inject confirms the unexplained change in WT-302 setpoint.",
+            "chunkId": 51,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 1 — Unexplained DCS change",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [
+              "WT-302"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The OT Engineer must now initiate cyber-incident triage per Play 1 and check remote access logs on TVC-JMP-01.",
+            "chunkId": 50,
+            "headingPath": "Teague Valley Chemical Company,… › Section 5",
+            "overlap": 0.7,
+            "matched": [
+              "OT Engineer",
+              "TVC-JMP-01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.196Z",
+        "version": 1
+      },
+      "inject:01M5QSRNEF0Q2JN419JPDMQFJX": {
+        "label": "unsupported",
+        "reason": "‘15 minutes’ is not in Section 8; the passage says ‘Media:** all statements come from the PIO, approved by the Incident Commander; the first holding statement within 30 minutes of a General Emergency.’.",
+        "fingerprint": "959b98ad074b7ebe",
+        "claims": [
+          {
+            "text": "This post triggers the CAER-Text activation protocol; the PIO must respond within 15 minutes.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "15 minutes",
+              "activation"
+            ],
+            "conflicting": [
+              {
+                "term": "15 minutes",
+                "passage": "Media:** all statements come from the PIO, approved by the Incident Commander; the first holding statement within 30 minutes of a General Emergency."
+              }
+            ]
+          },
+          {
+            "text": "Watch for delay in acknowledging the public report.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.196Z",
+        "version": 1
+      },
+      "inject:01M5QSS1PVJ5E183H7AENDRDMY": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "3966f30267f866f5",
+        "claims": [
+          {
+            "text": "Noise inject; the FSO should verify the manifest and deny entry, but not escalate unless challenged.",
+            "chunkId": 11,
+            "headingPath": "RMP › Section 5 › 5.2 What the first call says",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.196Z",
+        "version": 1
+      },
+      "inject:01M5QSSHJFS0JGD969BM5CMPQT": {
+        "label": "review",
+        "reason": "Only 31% of ‘This inject triggers the EHS Manager to begin formal report…’ is in 5.1 Order of calls in a General Emergency.",
+        "fingerprint": "7ed81ae34ce7a3a5",
+        "claims": [
+          {
+            "text": "This inject triggers the EHS Manager to begin formal reporting under EPCRA and OSHA. Watch for delay in calling the NRC if players focus on technical diagnostics instead of compliance.",
+            "chunkId": 10,
+            "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "overlap": 0.313,
+            "matched": [
+              "EHS Manager",
+              "OSHA",
+              "NRC",
+              "reporting"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.196Z",
+        "version": 1
+      },
+      "inject:01M5QSSRDBMKHJ24P3SXGCPTHD": {
+        "label": "review",
+        "reason": "‘reporting’ is not in Section 4 or the facility facts.",
+        "fingerprint": "225003b5af2c4ec1",
+        "claims": [
+          {
+            "text": "This is a critical verification point: the EHS team must confirm the fence-line alarm as valid and trigger reporting; the OT team must check the SIS SOE log on TS-EWS-01 to validate the alarm's authenticity and timing.",
+            "chunkId": 9,
+            "headingPath": "RMP › Section 4",
+            "overlap": 0.214,
+            "matched": [
+              "TS-EWS-01"
+            ],
+            "missing": [
+              "reporting"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.197Z",
+        "version": 1
+      },
+      "inject:01M5QST2FPZZ9T618V3DG0BV0R": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d4607bff61b64562",
+        "claims": [],
+        "at": "2026-10-30T11:01:27.197Z",
+        "version": 1
+      },
+      "inject:01M5QSTA17QAEWFNE0WP4GFYKC": {
+        "label": "review",
+        "reason": "‘Operations Section Chief’, ‘HV-312’, ‘activate’ are not in Play 4 — Release with a possible cyber cause or the facility facts.",
+        "fingerprint": "849af0a041064c54",
+        "claims": [
+          {
+            "text": "This inject confirms the field-screens discrepancy and escalates the threat to the school.",
+            "chunkId": 41,
+            "headingPath": "Teague Valley Chemical Company,… › Section 7",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the Operations Section Chief to order a field watch on HV-312 and the Incident Commander to activate CAER-Text.",
+            "chunkId": 54,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+            "overlap": 0.4,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [
+              "Operations Section Chief",
+              "HV-312",
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.197Z",
+        "version": 1
+      },
+      "inject:01M5QSTP2GM7TWEZCBCP4VPQWT": {
+        "label": "review",
+        "reason": "‘C1’, ‘C2’ are not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "2ae029e3d38d4288",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber intrusion: the key switch in PROGRAM mode is a hallmark of the TRITON/TRISIS attack pattern.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.583,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The OT Engineer must now follow C1, step 2 and C2, step 4.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.429,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [
+              "C1",
+              "C2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.197Z",
+        "version": 1
+      },
+      "inject:01M5QSTW78GH73ZKDW9MKHXSC9": {
+        "label": "review",
+        "reason": "‘C1’, ‘C2’ are not in Section 7 or the facility facts.",
+        "fingerprint": "67a7d87e528a93ee",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber-attack on the SIS. The OT Engineer must now initiate isolation per C1 and C2, Level 3.",
+            "chunkId": 55,
+            "headingPath": "Teague Valley Chemical Company,… › Section 7",
+            "overlap": 0.4,
+            "matched": [
+              "OT Engineer",
+              "isolation"
+            ],
+            "missing": [
+              "C1",
+              "C2"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.197Z",
+        "version": 1
+      },
+      "inject:01M5QSV927Q0B3K8WZ59MFMK2P": {
+        "label": "review",
+        "reason": "‘approval’ is not in Section 11 or the facility facts.",
+        "fingerprint": "a608771b33057e8a",
+        "claims": [
+          {
+            "text": "This is a high-priority, externally enforced directive.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The EHS Manager must immediately confirm receipt and forward to IC and FSO. The team must not initiate any system resets or rebuilds before CISA approval.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.444,
+            "matched": [
+              "EHS Manager",
+              "CISA"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.198Z",
+        "version": 1
+      },
+      "inject:01M5QSVM6YK6P6HZJ563C93GBB": {
+        "label": "review",
+        "reason": "Only 29% of ‘This inject confirms the FBI's formal involvement and manda…’ is in Section 9.",
+        "fingerprint": "bf7261e31aabb4d4",
+        "claims": [
+          {
+            "text": "This inject confirms the FBI's formal involvement and mandates evidence preservation.",
+            "chunkId": 57,
+            "headingPath": "Teague Valley Chemical Company,… › Section 9",
+            "overlap": 0.286,
+            "matched": [
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for IC to order FSO to secure all engineering workstations and block unauthorized access.",
+            "chunkId": 49,
+            "headingPath": "Teague Valley Chemical Company,… › Section 4",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.198Z",
+        "version": 1
+      },
+      "inject:01M5QSVYKH3J9ZK7C605MM4FMJ": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject tests the PIO’s awareness of the CAER-Text prot…’ is in Play 3 — Ransomware on the business network.",
+        "fingerprint": "587cbb11f1cbff0d",
+        "claims": [
+          {
+            "text": "This inject tests the PIO’s awareness of the CAER-Text protocol and their ability to recognize a gap in public notification.",
+            "chunkId": 53,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 3 — Ransomware on the business network",
+            "overlap": 0.2,
+            "matched": [
+              "notification"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether they initiate the alert sequence or wait for external confirmation.",
+            "chunkId": 16,
+            "headingPath": "RMP › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.199Z",
+        "version": 1
+      },
+      "inject:01M5QSWBJ9S6ZQBAQNQ2NKTJAT": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should triage it down with…’ is in Section 8.",
+        "fingerprint": "e890a5b0d6372907",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 42,
+            "headingPath": "Teague Valley Chemical Company,… › Section 8",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The FSO will later confirm no one matches the description.",
+            "chunkId": 42,
+            "headingPath": "Teague Valley Chemical Company,… › Section 8",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.199Z",
+        "version": 1
+      },
+      "inject:01M5QSWQW0G5PTG1R7RC0Z04AZ": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "94e09fd5fd1c3418",
+        "claims": [],
+        "at": "2026-10-30T11:01:27.199Z",
+        "version": 1
+      },
+      "inject:01M5QSWZ6JW4VGDF804R03RQ43": {
+        "label": "review",
+        "reason": "‘C4’, ‘C5’ are not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "548c2286102a6df4",
+        "claims": [
+          {
+            "text": "This inject confirms the cyber intrusion and triggers the OT Engineer to initiate manual closure under field authority.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.4,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the OT to reference C4 and C5 for guidance.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "C4",
+              "C5"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.199Z",
+        "version": 1
+      },
+      "inject:01M5QSX9FYDQKYAP2DAA2JKD24": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "38e4e2c9c95189e8",
+        "claims": [
+          {
+            "text": "This memo confirms the regulatory reporting chain is complete.",
+            "chunkId": 10,
+            "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "overlap": 0,
+            "matched": [
+              "reporting"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must now confirm awareness and proceed to the next phase of public communication.",
+            "chunkId": 10,
+            "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.200Z",
+        "version": 1
+      },
+      "inject:01M5QSXHTTQJRGZXKCPS72ST83": {
+        "label": "review",
+        "reason": "‘OT Lead’ is not in Section 8 or the facility facts.",
+        "fingerprint": "814e062adf741ed4",
+        "claims": [
+          {
+            "text": "This inject confirms that evidence is secured per CISA and FBI guidance.",
+            "chunkId": 56,
+            "headingPath": "Teague Valley Chemical Company,… › Section 8",
+            "overlap": 0.167,
+            "matched": [
+              "CISA",
+              "FBI"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The FSO and OT Lead must verify the chain of custody on Form OT-3 and ensure no device is reconnected or powered on.",
+            "chunkId": 56,
+            "headingPath": "Teague Valley Chemical Company,… › Section 8",
+            "overlap": 0.556,
+            "matched": [
+              "OT-3"
+            ],
+            "missing": [
+              "OT Lead"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.200Z",
+        "version": 1
+      },
+      "inject:01M5QSXYWWWEWMGCHBJ1TMW1EK": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject triggers the final decision point.’ is in Section 2.",
+        "fingerprint": "03026d6d9d978c16",
+        "claims": [
+          {
+            "text": "This inject triggers the final decision point.",
+            "chunkId": 47,
+            "headingPath": "Teague Valley Chemical Company,… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must lead the discussion on whether to trust the system or go manual.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for reliance on field evidence over screen data.",
+            "chunkId": 47,
+            "headingPath": "Teague Valley Chemical Company,… › Section 2",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.200Z",
+        "version": 1
+      },
+      "inject:01M5QSY5TFVDW18T2F862275H0": {
+        "label": "review",
+        "reason": "‘C1’, ‘C4’, ‘authorize’ are not in Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN) or the facility facts.",
+        "fingerprint": "e63087dfbed964ad",
+        "claims": [
+          {
+            "text": "This inject confirms the SIS compromise and mandates manual closure.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to authorize the ERT to proceed under field authority, per C1 and C4.",
+            "chunkId": 52,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 2 — SIS integrity (trip without cause, failure to trip, key switch not in RUN)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "C1",
+              "C4",
+              "authorize"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.200Z",
+        "version": 1
+      },
+      "inject:01M5QSYEHFDZ2HKR3W58FRG7Z3": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject pressures the PIO to act under media scrutiny.’ is in Section 8.",
+        "fingerprint": "e5a2052596142ea1",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to act under media scrutiny.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for her to reference the CAER-Text system and the holding statement template (Annex B, Form ERP-8) to clarify that the sirens were not activated due to a confirmed cyber-incident affecting the siren panel and that the community is under a shelter-in-place order per Teague County OEM.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.636,
+            "matched": [
+              "Annex B",
+              "ERP-8",
+              "activated"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.201Z",
+        "version": 1
+      },
+      "inject:01M5QSYQA75NK44VJ0CHGHAFTV": {
+        "label": "review",
+        "reason": "Only 20% of ‘This confirms the manual closure order was executed and the…’ is in Section 4.",
+        "fingerprint": "7c3089a6c2c08040",
+        "claims": [
+          {
+            "text": "This confirms the manual closure order was executed and the release is under control.",
+            "chunkId": 9,
+            "headingPath": "RMP › Section 4",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to reassert control via the DCS or SIS.",
+            "chunkId": 35,
+            "headingPath": "Teague Valley Chemical Company,… › Section 3 › 3.3 Loading positions",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.201Z",
+        "version": 1
+      },
+      "inject:01M5QT53M3NR1K3GMTAEGVCSJN": {
+        "label": "review",
+        "reason": "Only 30% of ‘The OT must now validate that the field evidence is final a…’ is in Section 11.",
+        "fingerprint": "3ae51ab2c57004c9",
+        "claims": [
+          {
+            "text": "This inject confirms the physical state of the system after manual closure.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The OT must now validate that the field evidence is final and that no further digital commands should be issued until forensic review is complete.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.201Z",
+        "version": 1
+      },
+      "inject:01M5QT6PDNSWJYSXSBBGK5EPTQ": {
+        "label": "review",
+        "reason": "‘report’ is not in Section 4 or the facility facts.",
+        "fingerprint": "ea2971c8864fa218",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 9,
+            "headingPath": "RMP › Section 4",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Confirm no system event matches the report.",
+            "chunkId": 9,
+            "headingPath": "RMP › Section 4",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.201Z",
+        "version": 1
+      },
+      "inject:01M5QSYZHGKP1GXRM5BQ1CQX0Q": {
+        "label": "review",
+        "reason": "Only 38% of ‘This inject confirms full SIS integrity and triggers the fo…’ is in Section 10.",
+        "fingerprint": "f8b27a6795201eca",
+        "claims": [
+          {
+            "text": "This inject confirms full SIS integrity and triggers the formal PSSR process.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the IC to initiate the pre-startup safety review under PSM and confirm EHS's clearance before any restart attempt.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.625,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QSZ896DK2G1Z6PTB2N1MZY": {
+        "label": "review",
+        "reason": "Only 17% of ‘This inject confirms the forensic handover and reinforces t…’ is in Section 11.",
+        "fingerprint": "67df01cf91eb11a3",
+        "claims": [
+          {
+            "text": "This inject confirms the forensic handover and reinforces the no-rebuild rule.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to re-enable remote access or restart systems.",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QSZNGXV2K1BC1X6BAN7RBP": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject confirms the successful restoration of SIS inte…’ is in Section 10.",
+        "fingerprint": "143a226fd636f7f7",
+        "claims": [
+          {
+            "text": "This inject confirms the successful restoration of SIS integrity.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The OT Engineer must now initiate the PSSR process under PSM and await EHS confirmation before proceeding to restart.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.444,
+            "matched": [
+              "OT Engineer"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QT00QH7ZPSDTHW304FV7T0": {
+        "label": "review",
+        "reason": "Only 33% of ‘This memo confirms the formal PSSR initiation and restart r…’ is in Section 14.",
+        "fingerprint": "44313b1b52dee78f",
+        "claims": [
+          {
+            "text": "This memo confirms the formal PSSR initiation and restart request submission.",
+            "chunkId": 25,
+            "headingPath": "RMP › Section 14",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must now validate the submission and await regulatory response.",
+            "chunkId": 25,
+            "headingPath": "RMP › Section 14",
+            "overlap": 0.286,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QT0952AB5AEEH7K2FFFVXW": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject confirms the completion of the vendor access ha…’ is in Section 4.",
+        "fingerprint": "7fb5019f45319dfd",
+        "claims": [
+          {
+            "text": "This inject confirms the completion of the vendor access hardening steps.",
+            "chunkId": 49,
+            "headingPath": "Teague Valley Chemical Company,… › Section 4",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The OT Engineer must verify the configuration and approve it before proceeding to any restart or PSSR steps.",
+            "chunkId": 49,
+            "headingPath": "Teague Valley Chemical Company,… › Section 4",
+            "overlap": 0.125,
+            "matched": [
+              "OT Engineer",
+              "approve"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QT0HZHQJDG8PTY3T44884V": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject formalizes the hold on restarts.’ is in Section 10.",
+        "fingerprint": "208bb004292aa7a5",
+        "claims": [
+          {
+            "text": "This inject formalizes the hold on restarts.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The players must now adhere strictly to Section 10 of TVCC-CFW-OTSEC-2026.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.4,
+            "matched": [
+              "Section 10",
+              "TVCC-CFW-OTSEC-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempts to bypass the PSSR or restart units prematurely.",
+            "chunkId": 58,
+            "headingPath": "Teague Valley Chemical Company,… › Section 10",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QT0T24WK7XTNMJZESDHMM6": {
+        "label": "review",
+        "reason": "Only 0% of ‘The IC must approve it before release.’ is in Section 8.",
+        "fingerprint": "da795c4a01f91f71",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to issue a holding statement under ERP-8.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0.5,
+            "matched": [
+              "ERP-8"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC must approve it before release.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0,
+            "matched": [
+              "approve"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overreach in content or premature speculation on system status.",
+            "chunkId": 17,
+            "headingPath": "RMP › Section 8",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "inject:01M5QT13EA0HWZ6AEJF41AQ4PZ": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "fea56e2b4810cc7f",
+        "claims": [],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "Section 11 is in the index as cited.",
+        "fingerprint": "b41d906506d738c9",
+        "claims": [
+          {
+            "text": "RMP › Section 11",
+            "chunkId": 20,
+            "headingPath": "RMP › Section 11",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "5.1 Order of calls in a General Emergency is in the index as cited.",
+        "fingerprint": "5caab4c4b8e86439",
+        "claims": [
+          {
+            "text": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "chunkId": 10,
+            "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "5.1 Order of calls in a General Emergency is in the index as cited.",
+        "fingerprint": "5caab4c4b8e86439",
+        "claims": [
+          {
+            "text": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "chunkId": 10,
+            "headingPath": "RMP › Section 5 › 5.1 Order of calls in a General Emergency",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "Play 4 — Release with a possible cyber cause is in the index as cited.",
+        "fingerprint": "dd53a054d0670a48",
+        "claims": [
+          {
+            "text": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+            "chunkId": 54,
+            "headingPath": "Teague Valley Chemical Company,… › Section 6 › Play 4 — Release with a possible cyber cause",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "Section 7 is in the index as cited.",
+        "fingerprint": "ba35e519da02dafc",
+        "claims": [
+          {
+            "text": "Teague Valley Chemical Company,… › Section 7",
+            "chunkId": 55,
+            "headingPath": "Teague Valley Chemical Company,… › Section 7",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "Annex C is in the index as cited.",
+        "fingerprint": "72143f41df7a7bcd",
+        "claims": [
+          {
+            "text": "RMP › Annex C",
+            "chunkId": 28,
+            "headingPath": "RMP › Annex C",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:01:27.202Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

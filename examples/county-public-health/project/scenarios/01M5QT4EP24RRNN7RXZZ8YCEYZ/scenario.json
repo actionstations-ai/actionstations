@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-24T20:37:45.282Z",
-  "updatedAt": "2026-10-24T22:43:50.229Z",
+  "updatedAt": "2026-10-30T12:29:08.137Z",
   "brief": {
     "userPrompt": "Measles outbreak OB-2026-0147 is in its second week in Health District 2 (Brandt): 9 confirmed cases, most linked to Grace Fellowship Academy, exposure sites at the North District Clinic waiting room and the St. Brigid Hospital emergency department, and an extra MMR clinic planned at POD 2 (Brandt Middle School gymnasium) for Saturday with 640 SlotWise bookings. At 06:50 Thursday County IT reports ransomware on the county network: the MCHD-FS01 shares are encrypted, ClinicTrack EHR (MCHD-EHR-APP01, MCHD-SQL02) and the Epi fax server MCHD-FAX01 are down, and the SharePoint line list shows edits from an unfamiliar account. The KDHE Immunization Program calls: last night's IIS-EXPORT-NIGHTLY file from MCHD-INT01 carried 412 MMR doses with lot numbers that are not in MCHD inventory. SlotWise shows the POD 2 appointments bulk-cancelled at 03:10 from Data Analyst Jenna Fowler's account after a phishing email, and a viral Facebook post says MCHD leaked children's vaccine records and cancelled the clinic. Paper mode (forms MCHD-F-10, MCHD-F-12, MCHD-F-40), pausing the state IIS export, whether to keep POD 2 open, exclusion and quarantine orders for Grace Fellowship Academy, the HIPAA hybrid-entity breach question for the clinic records, reports to KDHE, the FBI and CISA, and CERC messaging in English and Spanish.",
     "audience": [
@@ -1369,6 +1369,366 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5QT5RDXGM78NV1XRGTS80VK",
+        "capability": "cybersecurity",
+        "why": "The objective centers on detecting and verifying falsified data in the IIS export, which requires forensic analysis and verification of system integrity, core to cybersecurity."
+      },
+      {
+        "objectiveId": "01M5QT5RDXGM78NV1XRGTS80VK",
+        "capability": "operational_coordination",
+        "why": "The verification process involves coordination across IT, Epi, Legal, and the IC to validate data, reconcile discrepancies, and approve releases, requiring a unified operational structure."
+      },
+      {
+        "objectiveId": "01M5QT5RDXBK3GEKY5AHFFENKZ",
+        "capability": "public_information_and_warning",
+        "why": "The objective directly involves delivering consistent, timely, and actionable public information through multiple channels to prevent misinformation, which is the core function of public information and warning."
+      },
+      {
+        "objectiveId": "01M5QT5RDXBK3GEKY5AHFFENKZ",
+        "capability": "operational_coordination",
+        "why": "Synchronizing messaging across PIO, Legal, and media requires a coordinated operational process to ensure all public statements are approved and consistent, especially under pressure."
+      },
+      {
+        "objectiveId": "01M5QT5RDXEM4QP5MBJ0715PVB",
+        "capability": "infrastructure_systems",
+        "why": "The objective focuses on maintaining essential public health functions during a system failure, which aligns with infrastructure systems’ role in stabilizing critical functions and restoring services."
+      },
+      {
+        "objectiveId": "01M5QT5RDXEM4QP5MBJ0715PVB",
+        "capability": "operational_coordination",
+        "why": "Sustaining operations in paper mode requires coordination across Epi, IT, clinics, and the IC to ensure all roles follow procedures, use correct forms, and maintain accountability."
+      },
+      {
+        "objectiveId": "01M5QT5RDXW6FMEA79QBHZYKZZ",
+        "capability": "cybersecurity",
+        "why": "Restoring systems after a cyber incident requires verifying that the network and systems are clean and free of malicious software, a core cybersecurity function."
+      },
+      {
+        "objectiveId": "01M5QT5RDXW6FMEA79QBHZYKZZ",
+        "capability": "operational_coordination",
+        "why": "The restoration process involves multiple stakeholders (IT, IC, Legal, Epi) and must follow a defined order, requiring a unified operational structure to ensure no premature resumption of data flows."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The Informatics Lead and County IT must verify that MCHD-INT01 is clean and free of malicious software before any system restoration, using forensic evidence and approved software lists, and must confirm that the IIS export catch-up file is not released until the data-integrity check against paper records is complete and signed off.",
+        "objectiveRefs": [
+          "01M5QT5RDXGM78NV1XRGTS80VK",
+          "01M5QT5RDXW6FMEA79QBHZYKZZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Declare a Cyber 1 incident to authorize network isolation and forensic review.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 8",
+              "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+              "chunkId": 12
+            },
+            "expectedBy": "ho",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-11",
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Confirm that the restore of MCHD-INT01 was from an immutable backup taken before the incident and that the server is rebuilt from clean media.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of the restore",
+            "rowIds": [
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Verify that the IIS export catch-up file is not generated until the Informatics Lead and the Epi team have completed the data-integrity check against paper records and signed MCHD-F-62.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "it",
+            "timing": "Before any file generation",
+            "rowIds": [
+              "I-18",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer must deliver a unified, approved, and timely public statement through all channels using the CERC holding statement, confirming that the IIS data may be incomplete due to a technical issue, not a breach, and must not be released until Legal and IC approval are obtained.",
+        "objectiveRefs": [
+          "01M5QT5RDXBK3GEKY5AHFFENKZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "public_information_and_warning",
+            "task": "Draft a bilingual (English/Spanish) statement confirming that IIS data may be delayed or incomplete due to a technical issue, not a data leak, and send to Legal for approval.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of the social media post",
+            "rowIds": [
+              "I-05b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "public_information_and_warning",
+            "task": "Publish the approved statement on the MCHD website, social media, and hotline script within 30 minutes of Legal approval.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of approval",
+            "rowIds": [
+              "I-05b",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "public_information_and_warning",
+            "task": "Log all public inquiries and social media posts in the rumor log (MCHD-F-55) and update the 'What's True' panel on the MCHD website.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.3 Reporting up",
+              "quote": "- Suspect measles: telephone report to the KDHE Epidemiology Hotline as soon as the suspect case is known (MCHD practice: within 4 hours; the Lead Epidemiologist confirms the current state rule each J",
+              "chunkId": 40
+            },
+            "expectedBy": "pio",
+            "timing": "Within 1 hour of first post",
+            "rowIds": [
+              "I-05b",
+              "I-07b",
+              "I-20b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXBK3GEKY5AHFFENKZ"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Epi team must sustain case investigation, contact tracing, and vaccine administration using paper forms (MCHD-F-10, MCHD-F-12, MCHD-F-40) and double-check all entries against paper records and clinic logs to ensure no loss of accountability during paper mode.",
+        "objectiveRefs": [
+          "01M5QT5RDXEM4QP5MBJ0715PVB"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "infrastructure_systems",
+            "task": "Activate paper mode for case investigation and contact tracing per EOP 4.3 and Section 10, using the paper line list (MCHD-F-12) and MCHD-F-10 for intake.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 10",
+              "quote": "Paper mode is declared by the Incident Commander (decision record CYB-DR-1). In paper mode: - Disease reports are taken by phone on MCHD-F-10; investigators work cases in the state surveillance system",
+              "chunkId": 14
+            },
+            "expectedBy": "epi",
+            "timing": "Within 10 minutes of the IC's declaration",
+            "rowIds": [
+              "I-06",
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "infrastructure_systems",
+            "task": "Verify all vaccine doses administered in paper mode against the paper sign-in sheets and ColdSentry manual readings to ensure no loss of accountability.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "it",
+            "timing": "Daily",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "infrastructure_systems",
+            "task": "Update the paper line list (MCHD-F-12) at each operational period and photograph it to KDHE by secure email if county email is down.",
+            "citation": {
+              "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+              "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+              "headingPath": "Marston County Health Department… › Section 5 › 5.2 Outbreak numbers and line lists",
+              "quote": "The Lead Epidemiologist assigns an outbreak number (format OB-2026-0147) and opens the line list from template MCHD-F-12. The working line list lives on the county SharePoint site \"MCHD Epi Response\";",
+              "chunkId": 39
+            },
+            "expectedBy": "epi",
+            "timing": "At each operational period",
+            "rowIds": [
+              "I-06b",
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXEM4QP5MBJ0715PVB"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander must coordinate the stepwise restoration of systems under County IT's guidance, including approving the order of restoration, verifying data integrity, and ensuring all teams follow the correct sequence before any system is brought back online.",
+        "objectiveRefs": [
+          "01M5QT5RDXGM78NV1XRGTS80VK",
+          "01M5QT5RDXBK3GEKY5AHFFENKZ",
+          "01M5QT5RDXEM4QP5MBJ0715PVB",
+          "01M5QT5RDXW6FMEA79QBHZYKZZ"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Declare a Cyber 1 incident to authorize network isolation and forensic review, and confirm that all teams are operating under paper mode.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 8",
+              "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+              "chunkId": 12
+            },
+            "expectedBy": "ho",
+            "timing": "Immediately",
+            "rowIds": [
+              "I-11",
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "operational_coordination",
+            "task": "Approve the order of system restoration and confirm that County IT must verify the system is clean before any interface is resumed.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 9",
+              "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+              "chunkId": 13
+            },
+            "expectedBy": "ho",
+            "timing": "Before any system is restored",
+            "rowIds": [
+              "I-18",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Confirm that the IIS export catch-up file will not be built until the Informatics Lead and the Epi team have completed the data-integrity check and signed MCHD-F-62.",
+            "citation": {
+              "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+              "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+              "headingPath": "Marston County Health Department… › Section 6",
+              "quote": "Health data is only useful if it is right. During and after an incident the Informatics Lead checks: | Data set | Check | Owner | |---|---|---| | Vaccination records (ClinicTrack) | Daily dose count p",
+              "chunkId": 10
+            },
+            "expectedBy": "ho",
+            "timing": "Before any file generation",
+            "rowIds": [
+              "I-18",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5QT5RDXGM78NV1XRGTS80VK",
+              "01M5QT5RDXBK3GEKY5AHFFENKZ",
+              "01M5QT5RDXEM4QP5MBJ0715PVB",
+              "01M5QT5RDXW6FMEA79QBHZYKZZ"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, write responses on the whiteboard to capture the group’s feedback in real time.",
@@ -1452,6 +1812,442 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects; no participant may assume knowledge not provided in the scenario.",
+      "Players respond in accordance with existing plans, policies and procedures, as referenced in the EOP and supporting documents (e.g., C1, C2, C4, C7)."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated to compress the timeline and focus on decision points.",
+      "The SimCell plays all roles outside the room, including law enforcement (FBI), cyber SOC (Bluestem), and system vendors (SlotWise, ColdSentry), with information delivered via injects.",
+      "Systems are named as in the EOP (e.g., MCHD-INT01, MCHD-FAX01) but are not physically accessed; all actions are decision-based.",
+      "Injects are delivered via paper and screen; no actual system access is permitted.",
+      "The IIS export file and other data are treated as compromised, and the team must rely on paper records and verification processes to validate authenticity."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5QT79KVBXP7RQNFRF14HEQ6",
+        "narrativeMd": "It is 09:00. Measles outbreak OB-2026-0147 is in its second week in Health District 2 (Brandt), with 9 confirmed cases linked to Grace Fellowship Academy. An extra MMR clinic at POD 2 (Brandt Middle School gymnasium) is scheduled for Saturday with 640 SlotWise appointments. Systems are reporting normal status. At 09:15, a nurse at the North District Clinic reports a patient, Eli Hernandez, with an MMR dose recorded in ClinicTrack that was not administered, with a lot number not in inventory. At 09:22, a helpdesk ticket notes 12 new inbound faxes from KDHE on MCHD-FAX01, with no corresponding email or user action. At 09:33, a field report reveals a new draft line list on the outbreak SharePoint site with 5 cases added, including one with a future exposure window and no user log for the edit. At 09:41, a restaurant owner in Brandt reports being told to close due to a measles outbreak, despite no known cases and full MMR coverage among staff. At 09:55, Bluestem Managed Security issues a Cyber 2 alert: a suspicious script, 'auto_cleaner.py', is running on MCHD-INT01, deleting entries from the IIS export file. At 09:58, a social media post claims MCHD altered children’s MMR records and that 640 appointments were canceled by hackers.",
+        "keyIssues": [
+          "Whether to recognize the pattern of data anomalies as a cyber compromise, despite initial uncertainty.",
+          "Whether to declare a cyber incident before confirming the attacker’s intent or full impact.",
+          "How to respond to conflicting data across systems (ClinicTrack, IIS export, SharePoint) without immediate access to logs.",
+          "How to manage public concern when social media is spreading unverified claims.",
+          "Whether to initiate paper mode before system failure cascades into operational paralysis."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Epi: How should the Epi team prioritize verifying case data when digital and paper records conflict, and what criteria determine when to accept a paper record as valid?",
+            "roleIds": [
+              "epi"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              },
+              {
+                "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+                "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+                "headingPath": "Marston County Health Department… › Section 6",
+                "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+                "chunkId": 51
+              }
+            ]
+          },
+          {
+            "text": "IT: What immediate technical steps must the Informatics Lead take to assess the integrity of the IIS export interface and the script on MCHD-INT01, and what evidence must be collected before advising on isolation?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              }
+            ]
+          },
+          {
+            "text": "HO: Based on the evidence so far, what factors would justify delaying a formal Cyber 1 declaration, and what level of confidence is required to activate paper mode?",
+            "roleIds": [
+              "ho"
+            ],
+            "objectiveRef": "Paper Mode Continuity",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 9",
+                "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "PIO: What language should be used in a preliminary public statement to acknowledge concerns without confirming a breach, and how can messaging be kept consistent across social media, hotline, and media?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication Consistency",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+                "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+                "headingPath": "Marston County Health Department… › Section 2 › 2.2 Assumptions",
+                "quote": "- The department runs on county IT (network, email, identity, file shares). A county-wide IT outage takes MCHD's local systems with it (Section 10; Cyber Annex). - The state disease surveillance syste",
+                "chunkId": 87
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QT79KV8049TGVNSVKFND5P",
+        "narrativeMd": "It is 10:00. The problem has spread: the Epi team’s line list, the IIS export, and the fax server are compromised. The North District Clinic is operating on paper, but 30 children lack first-dose records, and 147 people are in the waiting room, including 64 under 5. The Epi team cannot validate case data. Social media is flooded with misinformation: a post claims 412 records were leaked, and another says the POD was canceled by hackers. At 10:15, a nurse at the North District Clinic reports that walk-in MMR clinic operations are on hold due to unverifiable records, and parents are panicking. At 10:18, a new edit to the outbreak SharePoint site shows a case from Lindell with no contact assignment and a future exposure window. At 10:20, a social media post claims MCHD leaked 412 records and canceled 640 appointments. At 10:28, another post claims MCHD altered records behind parents’ backs. At 10:30, County IT confirms the unauthorized script 'auto_cleaner.py' is actively deleting IIS export entries and demands a formal Cyber 1 call to isolate the network. At 10:35, a medical director confirms that the IIS export file contains 412 fake MMR doses with non-existent lot numbers. At 10:38, a parent from Lindell demands to know why her child was not exposed to measles. At 10:40, the medical director declares that this is not a glitch but an alteration, and that all interfaces must be paused.",
+        "keyIssues": [
+          "Whether to declare a Cyber 1 incident despite the absence of ransom demands or encryption.",
+          "How to balance the need for immediate action against the risk of overreaction or panic.",
+          "How to manage conflicting pressures from internal teams, external stakeholders, and public misinformation.",
+          "How to decide whether to isolate MCHD-INT01 and the IIS export interface, knowing that lab results will then come only by phone and fax.",
+          "How to determine if paper mode is viable when staff lack access to DOC kits and paper forms are incomplete."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "HO: What authority does the Incident Commander have to declare a Cyber 1 incident, and what documentation must be issued to justify the decision to the County Board and CISA?",
+            "roleIds": [
+              "ho"
+            ],
+            "objectiveRef": "System Restoration Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              }
+            ]
+          },
+          {
+            "text": "IT: What is the immediate action required to prevent further data corruption, and how should the Informatics Lead coordinate with County IT and Bluestem SOC to ensure evidence is preserved?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              }
+            ]
+          },
+          {
+            "text": "Epi: How should the Epi team handle contact tracing when digital and paper records show conflicting assignments, and what is the threshold for re-tracing contacts under time pressure?",
+            "roleIds": [
+              "epi"
+            ],
+            "objectiveRef": "Paper Mode Continuity",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              },
+              {
+                "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+                "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+                "headingPath": "Marston County Health Department… › Section 6",
+                "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+                "chunkId": 51
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is the immediate public messaging priority, and how should the PIO ensure that all external communications use the approved holding statement and avoid speculation?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication Consistency",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+                "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+                "headingPath": "Marston County Health Department… › Section 2 › 2.2 Assumptions",
+                "quote": "- The department runs on county IT (network, email, identity, file shares). A county-wide IT outage takes MCHD's local systems with it (Section 10; Cyber Annex). - The state disease surveillance syste",
+                "chunkId": 87
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QT79KVGCRD7KHVZ8ZJXS9D",
+        "narrativeMd": "It is 11:00. The Epi team has confirmed that the digital outbreak SharePoint site was altered by a user account not in the system’s activity log. The North District Clinic reports a 10-year-old boy with fever and rash who has no record of a second MMR dose, and parents are leaving. The clinic is under standing orders to vaccinate children with only one dose if they are not immune. At 11:05, County IT confirms that the IIS export interface has been compromised and that the attacker used a phishing email to access Jenna Fowler’s SlotWise account. The fake entries were designed to mimic real dose records. At 11:10, County IT informs the Incident Commander that the IIS export interface and MCHD-FAX01 have been isolated from the network, but new lab results will now come only by phone and fax. At 11:15, the nurse at North District Clinic asks whether to vaccinate the boy now or wait for verification. At 11:20, Channel 7 News demands a public statement within 15 minutes, citing the confirmed data breach. At 11:30, a field report confirms that 12 contact assignments were not updated in paper records, and 3 were assigned to the wrong contact. At 11:40, County IT confirms that MCHD-FAX01 and the IIS export interface have been isolated, and EnviroTrack is now offline. At 11:50, a ColdSentry alert reports a 2-hour temperature spike in the North District Clinic’s vaccine storage, but no alert was triggered in the MCHD system. At 11:58, a forensic team confirms that the attacker used a compromised account to cancel 640 appointments for POD 2.",
+        "keyIssues": [
+          "Whether to vaccinate a child with incomplete records under standing orders, knowing that the digital system is compromised.",
+          "How to manage public trust when a critical system (ColdSentry) failed to alert during a temperature spike.",
+          "How to decide whether to allow the MRC to deploy to POD 2 without verifying that the 640 canceled appointments were not re-activated.",
+          "How to manage conflicting demands from media, schools, and public health staff when paper mode is the only viable option.",
+          "How to maintain operational continuity when staff lack access to DOC kits and paper forms are incomplete."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Epi: Under standing orders, must the Epi team vaccinate a child with no record of a second dose if they are not immune, and what documentation is required to justify the action in paper mode?",
+            "roleIds": [
+              "epi"
+            ],
+            "objectiveRef": "Paper Mode Continuity",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+                "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+                "headingPath": "Marston County Health Department… › Section 6",
+                "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+                "chunkId": 51
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must the Informatics Lead take to verify that the IIS export interface is clean after restoration from a backup, and what must be checked before signing off on data integrity?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 9",
+                "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              }
+            ]
+          },
+          {
+            "text": "HO: What authority does the Incident Commander have to override system restoration order, and under what conditions can the IIS export be restored without a formal verification?",
+            "roleIds": [
+              "ho"
+            ],
+            "objectiveRef": "System Restoration Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 9",
+                "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "PIO: How should the PIO respond to media inquiries when the department cannot confirm the status of the POD, and what language should be used to avoid confirming or denying a breach?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication Consistency",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+                "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+                "headingPath": "Marston County Health Department… › Section 2 › 2.2 Assumptions",
+                "quote": "- The department runs on county IT (network, email, identity, file shares). A county-wide IT outage takes MCHD's local systems with it (Section 10; Cyber Annex). - The state disease surveillance syste",
+                "chunkId": 87
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5QT79KVGDGQ28YNN4HBE6WZ",
+        "narrativeMd": "It is 12:00. County IT confirms that MCHD-INT01 has been restored from an immutable backup taken on October 20, 23:00. The server is back online, but Bluestem SOC reports that the unauthorized script 'auto_cleaner.py' was still present in the backup and executed after the restore. At 12:05, the forensic team confirms that the attacker used a phishing email to compromise Jenna Fowler’s SlotWise account and that the fake MMR doses were inserted into the IIS export to mimic real data. At 12:15, a field report confirms that three of the five newly added cases on the line list were fabricated from a fake clinic and a forged lab result. At 12:25, the MRC reports that 24 volunteers are asking to deploy to POD 2 and need confirmation that the system is clean and that the 640 canceled appointments are not re-activated. At 12:30, County Emergency Management reports 40 calls requesting school closures in Health District 2, and Brandt Elementary has 140 children kept home. At 12:45, the Incident Commander issues a hold: the IIS export remains paused, KDHE holds the 412 invalid doses, and the County Counselor is reviewing the HIPAA hybrid-entity question. At 12:50, the team confirms that the IIS export will not resume until the Informatics Lead signs MCHD-F-62 against paper records. At 13:00, the exercise ends with MCHD-INT01 being rebuilt from clean media, the IIS export paused, and POD 2 confirmed for Saturday with re-booked appointments and paper screening.",
+        "keyIssues": [
+          "Whether to trust the system after a restore from a compromised backup, despite forensic confirmation of the attacker’s persistence.",
+          "How to verify that the catch-up file for 10-21 is accurate and free of tampering before it is sent to KDHE.",
+          "How to ensure that the 640 canceled appointments are not re-activated without verification, and what process must be followed to restore them.",
+          "How to manage public trust when a critical system was compromised and restored from a backup that contained malware.",
+          "How to coordinate recovery with state partners (KDHE) and ensure that no false data is accepted into the state system."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "IT: What must the Informatics Lead check before signing MCHD-F-62 to verify data integrity, and what is the role of the state IIS in validating the catch-up file?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Data Integrity Verification",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 9",
+                "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+                "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+                "headingPath": "Marston County Health Department… › Section 6",
+                "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+                "chunkId": 51
+              }
+            ]
+          },
+          {
+            "text": "HO: What authority does the Incident Commander have to delay system restoration, and what must be confirmed before resuming automated data flows to KDHE?",
+            "roleIds": [
+              "ho"
+            ],
+            "objectiveRef": "System Restoration Coordination",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 9",
+                "quote": "Systems return in this order unless the Incident Commander changes it: (1) phones and the fax server MCHD-FAX01, (2) email, (3) ClinicTrack EHR, (4) the file shares and the outbreak SharePoint site, (",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "Epi: How should the Epi team re-verify case data after a system compromise, and what process ensures that no fabricated cases are reintroduced into the digital system?",
+            "roleIds": [
+              "epi"
+            ],
+            "objectiveRef": "Paper Mode Continuity",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Table of Contents",
+                "quote": "Section 1 Purpose and Relationship to the County Plan · Section 2 Roles · Section 3 Severity Levels · Section 4 Detection and First Report · Section 5 Containment Decisions · Section 6 Data Integrity ",
+                "chunkId": 18
+              },
+              {
+                "documentId": "01M5QT4CPNTVJQ6BJQJV2Y2B89",
+                "documentTitle": "Marston County Health Department — Facilities, Districts and Information Systems Description",
+                "headingPath": "Marston County Health Department… › Section 6",
+                "quote": "| System | Purpose | Hosted | Host / URL | Owner | Paper fallback | |---|---|---|---|---|---| | State disease surveillance system | Case investigation, ELR and eCR receipt, contact records | KDHE | st",
+                "chunkId": 51
+              }
+            ]
+          },
+          {
+            "text": "PIO: What information should be included in a public verification statement to restore trust, and how should the PIO coordinate with state partners to ensure consistency?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication Consistency",
+            "citations": [
+              {
+                "documentId": "01M5QT4CPK56Z3BMSSCV75MCQ5",
+                "documentTitle": "Marston County Health Department — Cyber Incident Response Annex",
+                "headingPath": "Marston County Health Department… › Section 8",
+                "quote": "| Who | When | By whom | |---|---|---| | County IT and Bluestem Managed Security | Immediately | Anyone who sees it | | KDHE (Epidemiology and Immunization programs) | Within 4 hours of a Cyber 2 or C",
+                "chunkId": 28
+              },
+              {
+                "documentId": "01M5QT4CPQJHKX7Y7BG7TGHVX7",
+                "documentTitle": "Marston County Health Department — All-Hazards Public Health Emergency Operations Plan",
+                "headingPath": "Marston County Health Department… › Section 2 › 2.2 Assumptions",
+                "quote": "- The department runs on county IT (network, email, identity, file shares). A county-wide IT outage takes MCHD's local systems with it (Section 10; Cyber Annex). - The state disease surveillance syste",
+                "chunkId": 87
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Public health lab BSL-3 suite HVAC and directional airflow",
     "−80 °C freezers and autoclaves with alarms",
@@ -2779,6 +3575,1918 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:19:23.114Z",
+      "finishedAt": "2026-10-30T12:19:55.325Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 11667,
+      "outputTokens": 2390,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:40:12.425Z",
+      "finishedAt": "2026-10-30T10:40:51.876Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 7552,
+      "outputTokens": 3351,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8e67975ea3184744",
+        "claims": [],
+        "at": "2026-10-30T10:40:52.538Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "review",
+        "reason": "‘declare’ is not in Section 6 or the facility facts.",
+        "fingerprint": "894e93c914861a89",
+        "claims": [
+          {
+            "text": "Epi contacts the Informatics Lead (IT) to report the anomaly and request a data-integrity check on the ClinicTrack record.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.75,
+            "matched": [
+              "Informatics Lead",
+              "report"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi does not declare a cyber incident yet; instead, verifies the record’s timestamp and compares it to the paper sign-in sheet.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.417,
+            "matched": [],
+            "missing": [
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.796Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘10-minute’ is not in Section 6 or the facility facts.",
+        "fingerprint": "cac62621bafb0e1d",
+        "claims": [
+          {
+            "text": "IT reviews the fax log and notes a 10-minute gap in timestamps from 08:45 to 08:55.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [
+              "10-minute"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "IT flags the ticket as 'urgent' and notifies the Informatics Lead (Wes Tran) and County IT Director (Pamela Ruiz).",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.333,
+            "matched": [
+              "notifies"
+            ],
+            "missing": [
+              "Informatics Lead",
+              "County IT Director"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "IT does not escalate to EOP level yet but begins forensic review of MCHD-FAX01.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.167,
+            "matched": [
+              "MCHD-FAX01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.798Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "review",
+        "reason": "‘activate’ is not in Section 6 or the facility facts.",
+        "fingerprint": "b1f2dd3df1d67ecd",
+        "claims": [
+          {
+            "text": "Epi verifies the version history of the SharePoint site and confirms the edit was made from a non-Epi team account.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi notifies the Informatics Lead (IT) and requests a data-integrity check on the line list and a log review of the SharePoint server.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.667,
+            "matched": [
+              "Informatics Lead",
+              "notifies"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi does not activate paper mode yet.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.798Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "Only 40% of ‘EH verifies the inspection status in EnviroTrack; if it's n…’ is in Section 6.",
+        "fingerprint": "03c90c30e4cddb8b",
+        "claims": [
+          {
+            "text": "EH verifies the inspection status in EnviroTrack; if it's not in the system, uses the paper form MCHD-F-20 to log the call and notes the claim as unverified; does not close the restaurant yet.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.4,
+            "matched": [
+              "MCHD-F-20"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.799Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘County Information Security Officer’, ‘notifies’ are not in Section 6 or the facility facts.",
+        "fingerprint": "4a1e777a9c46478e",
+        "claims": [
+          {
+            "text": "IT immediately notifies the Incident Commander and the County Information Security Officer; suspends the IIS-EXPORT-NIGHTLY job; begins forensic review of MCHD-INT01 and the export file; checks for similar scripts in other systems.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.412,
+            "matched": [
+              "IIS-EXPORT-NIGHTLY",
+              "MCHD-INT01"
+            ],
+            "missing": [
+              "Incident Commander",
+              "County Information Security Officer",
+              "notifies"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.799Z",
+        "version": 1
+      },
+      "row:I-05b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "cf48d6b68cdbfdbb",
+        "claims": [
+          {
+            "text": "PIO activates the 'What's True' call center script; drafts a bilingual (English/Spanish) statement confirming that IIS data may be delayed or incomplete due to a technical issue, not a data leak; sends to Legal for approval and publishes within 30 minutes.",
+            "chunkId": 8,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [
+              "30 minutes",
+              "activates",
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.799Z",
+        "version": 1
+      },
+      "row:TIME_JUMP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "499cd9e305b37b6d",
+        "claims": [],
+        "at": "2026-10-30T11:05:42.799Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘Planning Section Chief’ are not in Section 10 or the facility facts.",
+        "fingerprint": "5d016bb6bebf3885",
+        "claims": [
+          {
+            "text": "Epi and IT immediately notify the Incident Commander and the Planning Section Chief.",
+            "chunkId": 48,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.333,
+            "matched": [
+              "notify"
+            ],
+            "missing": [
+              "Incident Commander",
+              "Planning Section Chief"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Epi activates the paper fallback for case investigation and contact tracing per EOP 4.3; IT verifies the status of the EHR and file shares with County IT. All teams must confirm DOC access and paper record status.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.722,
+            "matched": [],
+            "missing": [
+              "EOP 4.3",
+              "activates"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.800Z",
+        "version": 1
+      },
+      "row:I-06b": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 6.",
+        "fingerprint": "0692233ca3c229ef",
+        "claims": [
+          {
+            "text": "Epi verifies the paper line list (MCHD-F-12) against the printed master; marks the case as 'unverified' on the DOC status board.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.714,
+            "matched": [
+              "MCHD-F-12"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Reports the anomaly to IT and the IC. No case assignment until data integrity is confirmed.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.667,
+            "matched": [
+              "Reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.800Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "2418a19057aa0a4a",
+        "claims": [
+          {
+            "text": "PIO logs the post in the rumor log, gives the IC the facts known so far, and drafts a short bilingual \"what we know\" statement for IC and Legal clearance; no confirmation or denial of a leak before Legal and IT have facts.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.063,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.800Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘Planning Section Chief’, ‘notifies’ are not in Section 8 or the facility facts.",
+        "fingerprint": "380c72ef95094dab",
+        "claims": [
+          {
+            "text": "IT notifies the Incident Commander and the Planning Section Chief.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Incident Commander",
+              "Planning Section Chief",
+              "notifies"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Does not proceed with isolation.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Sends a formal request to the IC to declare a Cyber 1 incident to authorize network isolation.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "authorize",
+              "isolation",
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.800Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 8.",
+        "fingerprint": "8e092ee5a4db4ec1",
+        "claims": [
+          {
+            "text": "IT asks KDHE to hold the export until MCHD confirms the data (Cyber Annex: KDHE informed before any change to how reports reach the state); the HO considers a Cyber 1 call (confirmed alteration of health records) and EOP Level 1.",
+            "chunkId": 12,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.842,
+            "matched": [
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.801Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "review",
+        "reason": "‘approval’ is not in Section 8 or the facility facts.",
+        "fingerprint": "e8c93e6246db99c6",
+        "claims": [
+          {
+            "text": "PIO adds the post to the rumor log (MCHD-F-55); triggers the Spanish translation workflow for a response; prepares a draft statement under CERC, awaiting IC and Legal approval.",
+            "chunkId": 46,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.25,
+            "matched": [
+              "MCHD-F-55"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.801Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "‘Health Officer’, ‘declares’ are not in Section 3 or the facility facts.",
+        "fingerprint": "beba92896cd32842",
+        "claims": [
+          {
+            "text": "The Health Officer declares a Cyber 2 incident per EOP Section 3.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.667,
+            "matched": [
+              "Section 3"
+            ],
+            "missing": [
+              "Health Officer",
+              "declares"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Activates EOP Level 2 and unified command.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.5,
+            "matched": [
+              "Activates"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Issues a standing order: 'No paper mode without IC approval.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All system restores must be approved via the IC and the Informatics Lead.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.6,
+            "matched": [
+              "Informatics Lead"
+            ],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No data release until verification.'",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.801Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4126430821ef4a33",
+        "claims": [
+          {
+            "text": "EH confirms the HVAC alarm was not triggered by a physical event; contacts County IT to validate the remote session; logs the incident as a potential cyber intrusion; holds any public advisory until IT confirms system integrity.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.801Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘isolate’, ‘declare’ are not in Section 3 or the facility facts.",
+        "fingerprint": "936452c30d74f135",
+        "claims": [
+          {
+            "text": "The Incident Commander must declare a Cyber 1 incident and activate EOP Level 1; IT must isolate MCHD-INT01 and the IIS export interface from the network; Epi must verify all case data against paper records before any action.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.714,
+            "matched": [
+              "MCHD-INT01",
+              "activate"
+            ],
+            "missing": [
+              "Incident Commander",
+              "isolate",
+              "declare"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All teams must begin operating under paper mode as per C4 and C15.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [
+              "C4",
+              "C15"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.802Z",
+        "version": 1
+      },
+      "row:I-11b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "38a3ee467b192e72",
+        "claims": [
+          {
+            "text": "IT and the HO decide the restore order and who signs the SlotWise request; the PIO prepares re-booking messages for Saturday in English and Spanish.",
+            "chunkId": 12,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.802Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "review",
+        "reason": "‘isolation’, ‘declares’, ‘Reporting’ are not in Section 3 or the facility facts.",
+        "fingerprint": "f616ca3fef199d1d",
+        "claims": [
+          {
+            "text": "the HO decides isolation (with County IT, which owns the network decision) and the fallback for lab results (Disease Reporting Line, KDHE fax number, MCHD-F-10); declares Cyber 1 if not yet done and informs the Policy Group.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.4,
+            "matched": [
+              "MCHD-F-10"
+            ],
+            "missing": [
+              "isolation",
+              "declares",
+              "Reporting"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.802Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘C9’ is not in Section 6 or the facility facts.",
+        "fingerprint": "b7ff3702e3ce8391",
+        "claims": [
+          {
+            "text": "The Epi team must consult the paper record and standing orders; if the child is not immunized and under standing order, they may proceed with vaccination under protocol C9 and MCHD-F-40.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.273,
+            "matched": [
+              "MCHD-F-40"
+            ],
+            "missing": [
+              "C9"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The decision must be approved by the Medical Director and documented in the DOC kit.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Medical Director",
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.802Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "review",
+        "reason": "‘Approved’ is not in Section 10 or the facility facts.",
+        "fingerprint": "1bc64f7a93c9f738",
+        "claims": [
+          {
+            "text": "PIO must draft and send an MCHD-Approved Public Statement using the holding statement in MCHD-CERC-2025, and clear it with the IC and Legal before release.",
+            "chunkId": 48,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.2,
+            "matched": [
+              "MCHD-CERC-2025"
+            ],
+            "missing": [
+              "Approved"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No speculation on cause or validity of data claims.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.803Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "‘C14’ is not in Section 6 or the facility facts.",
+        "fingerprint": "7ed8c4b199a775c0",
+        "claims": [
+          {
+            "text": "Epi must confirm that the paper line list (MCHD-F-10, MCHD-F-12) is the current record for contact tracing, per C14.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.556,
+            "matched": [
+              "MCHD-F-10",
+              "MCHD-F-12"
+            ],
+            "missing": [
+              "C14"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "All team members must use the paper record until the digital version is reconciled and signed off by the Informatics Lead and the Epi team lead.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.556,
+            "matched": [
+              "Informatics Lead"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.803Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "a6bc188fbe243f98",
+        "claims": [
+          {
+            "text": "The IC confirms the isolation and updates the DOC status board; Epi works from paper; EH switches inspections and closure orders to paper forms; the PIO aligns public messages.",
+            "chunkId": 13,
+            "headingPath": "Marston County Health Department… › Section 9",
+            "overlap": 0.071,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.803Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "review",
+        "reason": "‘approved’ is not in Section 6 or the facility facts.",
+        "fingerprint": "6058b9a8ac313c5d",
+        "claims": [
+          {
+            "text": "IT confirms the ColdSentry sensor is not on the MCHD network; it's a cloud-based vendor system and not part of the local network.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The temperature data is not accessible via the local EHR or file shares.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT notes that the sensor was not in the approved list for direct integration and advises that paper logs must be used to verify vaccine cold chain.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "No action is required on the local network.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.803Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 6.",
+        "fingerprint": "bc6b9179fe1ff923",
+        "claims": [
+          {
+            "text": "IT does not send the catch-up file yet; the Informatics Lead asks how the restore was verified and plans the data-integrity check against paper records (MCHD-F-62) before anything goes to KDHE.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.688,
+            "matched": [
+              "Informatics Lead",
+              "MCHD-F-62"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.804Z",
+        "version": 1
+      },
+      "row:I-18b": {
+        "label": "review",
+        "reason": "‘isolated’ is not in Section 8 or the facility facts.",
+        "fingerprint": "efa00c80932c853e",
+        "claims": [
+          {
+            "text": "IT tells the IC that the restore brought the script back; MCHD-INT01 is isolated again and rebuilt from clean media; the svc-iisexport password is changed; the catch-up export stays on hold.",
+            "chunkId": 26,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.25,
+            "matched": [
+              "MCHD-INT01"
+            ],
+            "missing": [
+              "isolated"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.804Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "review",
+        "reason": "Only 37% of ‘Epi removes the three false cases, marks the two others unc…’ is in Section 6.",
+        "fingerprint": "0582f2db73912a35",
+        "claims": [
+          {
+            "text": "Epi removes the three false cases, marks the two others unconfirmed, tells KDHE Epidemiology, IT and Legal, and updates the DOC status board (line list: 9 confirmed, 2 pending, 3 invalid).",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.368,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.804Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "review",
+        "reason": "Only 20% of ‘The HO answers that school closure is not the measles contr…’ is in Section 3.",
+        "fingerprint": "dc57704e44caf69f",
+        "claims": [
+          {
+            "text": "The HO answers that school closure is not the measles control measure here; exclusion of non-immune students at Grace Fellowship Academy and the exposure notices stand; EH and the PIO give the county one consistent message.",
+            "chunkId": 36,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.804Z",
+        "version": 1
+      },
+      "row:I-20b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "cd04c47fd92b9edc",
+        "claims": [
+          {
+            "text": "PIO confirms MRC volunteers that POD 2 will not open until the IIS export is verified and approved; directs them to the public website for updates; logs the inquiry in the call center tracker.",
+            "chunkId": 17,
+            "headingPath": "Marston County Health Department…",
+            "overlap": 0.118,
+            "matched": [],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "review",
+        "reason": "Only 36% of ‘The IC staff confirm owners for each hold; Legal starts the…’ is in Section 8.",
+        "fingerprint": "6df6dd4c702ebfca",
+        "claims": [
+          {
+            "text": "The IC staff confirm owners for each hold; Legal starts the breach assessment; IT files the FBI and CISA reports; the PIO prepares Saturday messages in English and Spanish.",
+            "chunkId": 12,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.357,
+            "matched": [
+              "FBI",
+              "CISA",
+              "reports"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e3f99c9e8cb0a6ff",
+        "claims": [],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "inject:01M5QTND3RC106M83YKFB0943E": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "296273b0500382eb",
+        "claims": [],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "inject:01M5QTNN236MR1Z676GZPAD17F": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a core inject signaling data integrity failure.’ is in Annex A.",
+        "fingerprint": "be5e039794adb603",
+        "claims": [
+          {
+            "text": "This is a core inject signaling data integrity failure.",
+            "chunkId": 15,
+            "headingPath": "Marston County Health Department… › Annex A",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Epi to contact IT for verification, not immediate incident declaration.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.333,
+            "matched": [
+              "declaration"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "inject:01M5QTP0YTCG6M51SW2NYJ70NE": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject introduces a data integrity anomaly.’ is in Section 6.",
+        "fingerprint": "5eaefa5a94062bc6",
+        "claims": [
+          {
+            "text": "This inject introduces a data integrity anomaly.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must detect the gap in fax timestamps and recognize it as a potential attack vector.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether IT checks the fax log against known Epi workflows and flags the anomaly.",
+            "chunkId": 15,
+            "headingPath": "Marston County Health Department… › Annex A",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "inject:01M5QTPB283KBD8R7K7F1BP4BB": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a core narrative inject; the Epi team must verify t…’ is in Section 6.",
+        "fingerprint": "01a5890328511879",
+        "claims": [
+          {
+            "text": "This is a core narrative inject; the Epi team must verify the line list's integrity and escalate to IT. Watch for whether they initiate a data integrity check or jump to paper mode too early.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.805Z",
+        "version": 1
+      },
+      "inject:01M5QTPQGGVGT56RC64A4XEBF0": {
+        "label": "review",
+        "reason": "Only 14% of ‘Noise inject; the Environmental Health role should verify t…’ is in Section 4.",
+        "fingerprint": "d34d388d2df64e85",
+        "claims": [
+          {
+            "text": "Noise inject; the Environmental Health role should verify the inspection in EnviroTrack.",
+            "chunkId": 37,
+            "headingPath": "Marston County Health Department… › Section 4",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "If not present, they must log the call via paper form MCHD-F-20 and note as unverified.",
+            "chunkId": 37,
+            "headingPath": "Marston County Health Department… › Section 4",
+            "overlap": 0.286,
+            "matched": [
+              "MCHD-F-20"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.806Z",
+        "version": 1
+      },
+      "inject:01M5QTQ1P813FGNSZF4KJXT77K": {
+        "label": "review",
+        "reason": "‘isolation’ is not in 5.2 Interface pause (decision record CYB-DR-2) or the facility facts.",
+        "fingerprint": "cec42aa856dfaca4",
+        "claims": [
+          {
+            "text": "This inject confirms the presence of malicious persistence on MCHD-INT01.",
+            "chunkId": 8,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+            "overlap": 0.2,
+            "matched": [
+              "MCHD-INT01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT team must immediately initiate the interface pause procedure and begin forensic isolation of MCHD-INT01.",
+            "chunkId": 8,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.2 Interface pause (decision record CYB-DR-2)",
+            "overlap": 0.571,
+            "matched": [
+              "MCHD-INT01"
+            ],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.806Z",
+        "version": 1
+      },
+      "inject:01M5QTQDJKMVS7GQK9GQ0J8DVJ": {
+        "label": "review",
+        "reason": "‘30 minutes’, ‘activate’ are not in Section 8 or the facility facts.",
+        "fingerprint": "551a4617b67cd2a2",
+        "claims": [
+          {
+            "text": "Viral social pressure inject; the PIO must validate the claim, confirm the technical issue, and activate the 'What's True' FAQ within 30 minutes to counter the rumor.",
+            "chunkId": 46,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "30 minutes",
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.806Z",
+        "version": 1
+      },
+      "inject:01M5QTQQRXYZ3E9PCNTMBAXZG9": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "eec27923f379f8cb",
+        "claims": [],
+        "at": "2026-10-30T11:05:42.806Z",
+        "version": 1
+      },
+      "inject:01M5QTQZ3K7J61X4VNW42H4FD5": {
+        "label": "review",
+        "reason": "‘activation’ is not in Section 10 or the facility facts.",
+        "fingerprint": "e8e7b4008ef13e1d",
+        "claims": [
+          {
+            "text": "This inject confirms the activation of paper mode.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "activation"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Epi to declare paper mode in the EOP and for IT to confirm system status.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.429,
+            "matched": [
+              "declare"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi must now begin case investigation using the paper line list and MCHD-F-10.",
+            "chunkId": 48,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.857,
+            "matched": [
+              "MCHD-F-10"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.806Z",
+        "version": 1
+      },
+      "inject:01M5QTRFYW5ZH2YXG4Y2EFHQ71": {
+        "label": "review",
+        "reason": "Only 22% of ‘This inject confirms the data breach has altered case statu…’ is in 5.2 Outbreak numbers and line lists.",
+        "fingerprint": "7476a2031a902b21",
+        "claims": [
+          {
+            "text": "This inject confirms the data breach has altered case status and removed contact assignments.",
+            "chunkId": 39,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.2 Outbreak numbers and line lists",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi must now verify all line list entries against paper and halt assignments.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to override paper mode.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTRXZTSG7KMRR9KTM9BCY2": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject escalates public pressure.’ is in Section 8.",
+        "fingerprint": "35a8ca2efb6ca317",
+        "claims": [
+          {
+            "text": "This inject escalates public pressure.",
+            "chunkId": 46,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must immediately update the 'What's True' panel and confirm the email's forged IP. Watch for overreaction to the chyron.",
+            "chunkId": 46,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTSA8BS7R5BYHEEZNJV5TK": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘declaration’ are not in 5.1 Who decides or the facility facts.",
+        "fingerprint": "7b0dac2c74ecb321",
+        "claims": [
+          {
+            "text": "This inject forces IT to recognize the need to escalate to the Incident Commander for a Cyber 1 declaration.",
+            "chunkId": 7,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.1 Who decides",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "Incident Commander",
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether IT seeks the IC’s approval before initiating isolation, per C1.",
+            "chunkId": 7,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.1 Who decides",
+            "overlap": 0.167,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [
+              "C1",
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTSKNY5APT219CG5B1D2J8": {
+        "label": "review",
+        "reason": "‘declaration’ is not in Section 3 or the facility facts.",
+        "fingerprint": "83d506f04501ea92",
+        "claims": [
+          {
+            "text": "This inject triggers the formal declaration of Cyber 1.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must now activate EOP Level 1 and declare unified command.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.444,
+            "matched": [
+              "activate"
+            ],
+            "missing": [
+              "Incident Commander",
+              "declare"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any hesitation in declaring the level or delays in confirming isolation.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "isolation",
+              "declaring"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTSTR0T2TPYYENRM0RQJ1V": {
+        "label": "review",
+        "reason": "Only 13% of ‘This inject pressures the PIO to respond quickly to a commu…’ is in Annex B.",
+        "fingerprint": "3055ca80fc4b08d9",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to respond quickly to a community-level rumor with factual evidence.",
+            "chunkId": 51,
+            "headingPath": "Marston County Health Department… › Annex B",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to verify the claim through the paper record system (MCHD-F-40) and confirm whether the child in question was actually vaccinated.",
+            "chunkId": 51,
+            "headingPath": "Marston County Health Department… › Annex B",
+            "overlap": 0.333,
+            "matched": [
+              "MCHD-F-40"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTTAVMRE5Q7EAK0QXNS8WR": {
+        "label": "review",
+        "reason": "‘Health Officer’, ‘declare’ are not in Section 3 or the facility facts.",
+        "fingerprint": "71ac2923238f3393",
+        "claims": [
+          {
+            "text": "This inject confirms the data alteration.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Health Officer must now officially declare a Cyber 2 incident.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [
+              "Health Officer",
+              "declare"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delays in issuing the standing order or attempting to bypass verification.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.807Z",
+        "version": 1
+      },
+      "inject:01M5QTTMV4VSQQQN6MEYDJK773": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a noise inject.’ is in Section 4.",
+        "fingerprint": "ef9d86ea5a520edc",
+        "claims": [
+          {
+            "text": "This is a noise inject.",
+            "chunkId": 37,
+            "headingPath": "Marston County Health Department… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The HVAC alarm and session were not caused by a physical event.",
+            "chunkId": 37,
+            "headingPath": "Marston County Health Department… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team should validate the remote session with IT and not issue any public advisories until system integrity is confirmed.",
+            "chunkId": 15,
+            "headingPath": "Marston County Health Department… › Annex A",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.808Z",
+        "version": 1
+      },
+      "inject:01M5QTV0ZGCFWRS304X8Q774B9": {
+        "label": "review",
+        "reason": "Only 25% of ‘This is a definitive confirmation of data tampering.’ is in Section 6.",
+        "fingerprint": "7b602c5734b5c24d",
+        "claims": [
+          {
+            "text": "This is a definitive confirmation of data tampering.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must now declare Cyber 1 and activate EOP Level 1.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.75,
+            "matched": [
+              "Incident Commander",
+              "activate",
+              "declare"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must transition to paper mode immediately.",
+            "chunkId": 5,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.808Z",
+        "version": 1
+      },
+      "inject:01M5QTVBD53C9DERTMS5S03T3Z": {
+        "label": "review",
+        "reason": "‘declaration’ is not in Section 1 or the facility facts.",
+        "fingerprint": "49ffec201dfb4473",
+        "claims": [
+          {
+            "text": "This inject forces the Incident Commander to make the formal Cyber 1 declaration.",
+            "chunkId": 3,
+            "headingPath": "Marston County Health Department… › Section 1",
+            "overlap": 0.5,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [
+              "declaration"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation, over-consultation, or failure to invoke the EOP. IT must confirm isolation and begin handover to forensic teams.",
+            "chunkId": 4,
+            "headingPath": "Marston County Health Department… › Section 2",
+            "overlap": 0.222,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.808Z",
+        "version": 1
+      },
+      "inject:01M5QTVP8JF18RTQF7B0QZZNW7": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the formal declaration of Cyber 1.’ is in Section 2.",
+        "fingerprint": "3b0d1d6f48bdb3ae",
+        "claims": [
+          {
+            "text": "This inject confirms the formal declaration of Cyber 1.",
+            "chunkId": 4,
+            "headingPath": "Marston County Health Department… › Section 2",
+            "overlap": 0,
+            "matched": [
+              "declaration"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now transition to full paper mode and begin public messaging.",
+            "chunkId": 4,
+            "headingPath": "Marston County Health Department… › Section 2",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the Epi team to request the line list from the DOC kit.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.809Z",
+        "version": 1
+      },
+      "inject:01M5QTVZ5THD00VN6YXY6HQ68P": {
+        "label": "review",
+        "reason": "‘approval’ is not in 6.2 Contacts and post-exposure prophylaxis or the facility facts.",
+        "fingerprint": "0e061b1a0d0c1987",
+        "claims": [
+          {
+            "text": "This inject tests the Epi team’s adherence to standing orders and paper-mode protocols.",
+            "chunkId": 42,
+            "headingPath": "Marston County Health Department… › Section 6 › 6.2 Contacts and post-exposure prophylaxis",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The child is not immune; the Epi team must escalate to the Medical Director, not proceed under SO-MEA-03 without approval.",
+            "chunkId": 42,
+            "headingPath": "Marston County Health Department… › Section 6 › 6.2 Contacts and post-exposure prophylaxis",
+            "overlap": 0.667,
+            "matched": [
+              "Medical Director",
+              "SO-MEA-03"
+            ],
+            "missing": [
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.809Z",
+        "version": 1
+      },
+      "inject:01M5QTWCK2T22W125WHMMERR4B": {
+        "label": "review",
+        "reason": "‘approved’ is not in Annex C or the facility facts.",
+        "fingerprint": "93020c2a1ca3bd09",
+        "claims": [
+          {
+            "text": "This is a pressure inject; the PIO must immediately engage the IC and Legal to issue a pre-approved public statement.",
+            "chunkId": 52,
+            "headingPath": "Marston County Health Department… › Annex C",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "approved"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The deadline is real-time, and any delay will trigger media escalation.",
+            "chunkId": 52,
+            "headingPath": "Marston County Health Department… › Annex C",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.809Z",
+        "version": 1
+      },
+      "inject:01M5QTWKSCRF86G8MCD4SNP9T3": {
+        "label": "review",
+        "reason": "Only 33% of ‘Epi must now enforce paper-only use until reconciliation.’ is in Section 6.",
+        "fingerprint": "b34601671020571b",
+        "claims": [
+          {
+            "text": "This inject confirms the paper record as the only valid source for contact tracing.",
+            "chunkId": 51,
+            "headingPath": "Marston County Health Department… › Annex B",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Epi must now enforce paper-only use until reconciliation.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to use the digital record despite the warning.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.810Z",
+        "version": 1
+      },
+      "inject:01M5QTX42GWB8ZVSX97AJKETD2": {
+        "label": "review",
+        "reason": "‘isolation’ is not in Section 6 or the facility facts.",
+        "fingerprint": "dd16634848565a22",
+        "claims": [
+          {
+            "text": "This confirms the network isolation decision has been executed.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "isolation"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The Incident Commander must now validate the new system state with IT and update the DOC. Epi must begin cross-checking case data against paper records; PIO must ensure all public messaging reflects the new reality.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.588,
+            "matched": [
+              "Incident Commander"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.810Z",
+        "version": 1
+      },
+      "inject:01M5QTXCQGV71KMG5X5WTB9GMJ": {
+        "label": "review",
+        "reason": "Only 0% of ‘Noise inject; the technical team should triage it down with…’ is in Marston County Health Department….",
+        "fingerprint": "d3b6effb9fb37579",
+        "claims": [
+          {
+            "text": "Noise inject; the technical team should triage it down without engaging.",
+            "chunkId": 17,
+            "headingPath": "Marston County Health Department…",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The sensor is external and not on the local network.",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.810Z",
+        "version": 1
+      },
+      "inject:01M5QTXX8Q7APJNPBZGFMGCZBE": {
+        "label": "review",
+        "reason": "Only 29% of ‘This inject confirms the system recovery and initiates the …’ is in Section 9.",
+        "fingerprint": "daf0088661b844ea",
+        "claims": [
+          {
+            "text": "This inject confirms the system recovery and initiates the data-integrity verification process.",
+            "chunkId": 13,
+            "headingPath": "Marston County Health Department… › Section 9",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now follow Section 6 and complete the MCHD-F-62 form to trust the IIS export data again.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.7,
+            "matched": [
+              "Section 6",
+              "MCHD-F-62"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.810Z",
+        "version": 1
+      },
+      "inject:01M5QTY61RTJQR7B2NM4Z9C2ZH": {
+        "label": "review",
+        "reason": "‘Incident Commander’, ‘C2’, ‘C11’ are not in Section 8 or the facility facts.",
+        "fingerprint": "635471e12ef4f7f9",
+        "claims": [
+          {
+            "text": "This is a critical evidence inject confirming the attacker's use of a malicious script.",
+            "chunkId": 9,
+            "headingPath": "Marston County Health Department… › Section 5 › 5.3 What MCHD does not do",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must immediately validate the script's absence from the approved software list and escalate to the Incident Commander and County Information Security Officer per C2 and C11.",
+            "chunkId": 12,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 0.4,
+            "matched": [
+              "County Information Security Officer"
+            ],
+            "missing": [
+              "Incident Commander",
+              "C2",
+              "C11",
+              "approved"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.811Z",
+        "version": 1
+      },
+      "inject:01M5QTYM58WDHHMSW0EYJAJGDF": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 6 and Annex B.",
+        "fingerprint": "4a8adddae765f256",
+        "claims": [
+          {
+            "text": "This inject confirms the fake cases are not in the paper record, validating the need to trust the paper version.",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The Epi team must now correct the official line list and restart contact tracing.",
+            "chunkId": 51,
+            "headingPath": "Marston County Health Department… › Annex B",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.811Z",
+        "version": 1
+      },
+      "inject:01M5QTZ708G2RRP88CEQVPF5E9": {
+        "label": "review",
+        "reason": "Only 29% of ‘This is a red herring to test whether EH or HO will prematu…’ is in Section 3.",
+        "fingerprint": "e235d67e9c24ab65",
+        "claims": [
+          {
+            "text": "This is a red herring to test whether EH or HO will prematurely confirm or issue a public advisory.",
+            "chunkId": 36,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The EOC directive is based on public panic, not verified cases.",
+            "chunkId": 36,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.429,
+            "matched": [
+              "EOC"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The legal and policy team must validate any public statement.",
+            "chunkId": 36,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.811Z",
+        "version": 1
+      },
+      "inject:01M5QTZHWAWC8XJ62F8NCZ299S": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a distraction inject to test the PIO’s ability to m…’ is in Section 10.",
+        "fingerprint": "0d3ada017847fe9c",
+        "claims": [
+          {
+            "text": "This is a distraction inject to test the PIO’s ability to manage external volunteer pressure while adhering to verification protocols.",
+            "chunkId": 14,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature public confirmation or informal reassurance.",
+            "chunkId": 52,
+            "headingPath": "Marston County Health Department… › Annex C",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.811Z",
+        "version": 1
+      },
+      "inject:01M5QTZVX1ZW4JHCK0M1HPQ5KS": {
+        "label": "review",
+        "reason": "‘C1’, ‘reporting’ are not in Section 9 or the facility facts.",
+        "fingerprint": "1d52ee918648fba3",
+        "claims": [
+          {
+            "text": "This inject confirms the end of the cyber incident.",
+            "chunkId": 33,
+            "headingPath": "Marston County Health Department… › Section 1 › 1.4 Coordinated Documents",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IC has signed off on the final verification.",
+            "chunkId": 13,
+            "headingPath": "Marston County Health Department… › Section 9",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Players must now re-establish systems in the correct order per C1 and prepare for final reporting to KDHE.",
+            "chunkId": 13,
+            "headingPath": "Marston County Health Department… › Section 9",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "C1",
+              "reporting"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "inject:01M5QV07Q1GGV4HF738CGFS7N7": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9b61c0dd34599629",
+        "claims": [],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "Section 10 is in the index as cited.",
+        "fingerprint": "e8601253a236143d",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 10",
+            "chunkId": 48,
+            "headingPath": "Marston County Health Department… › Section 10",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "Section 6 is in the index as cited.",
+        "fingerprint": "61e0822f375db878",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 6",
+            "chunkId": 10,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "Section 4 is in the index as cited.",
+        "fingerprint": "eff166cf07c683d3",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 4",
+            "chunkId": 37,
+            "headingPath": "Marston County Health Department… › Section 4",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "Section 8 is in the index as cited.",
+        "fingerprint": "69c2f0e7fea0a18a",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 8",
+            "chunkId": 12,
+            "headingPath": "Marston County Health Department… › Section 8",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "Section 3 is in the index as cited.",
+        "fingerprint": "c2814558aed2a691",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 3",
+            "chunkId": 36,
+            "headingPath": "Marston County Health Department… › Section 3",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "Section 6 is in the index as cited.",
+        "fingerprint": "9af2a6ed45a69932",
+        "claims": [
+          {
+            "text": "Marston County Health Department… › Section 6",
+            "chunkId": 24,
+            "headingPath": "Marston County Health Department… › Section 6",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:05:42.812Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

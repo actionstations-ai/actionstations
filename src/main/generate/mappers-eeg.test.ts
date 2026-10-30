@@ -62,6 +62,24 @@ function output(over: Partial<EegOutput> = {}): EegOutput {
 const fresh = (): Scenario => structuredClone(base)
 
 describe('applyEeg', () => {
+  it('maps an objective the model wrote back as the whole "name: text" line', () => {
+    const s = fresh()
+    const line = `${s.objectives[0]!.name}: ${s.objectives[0]!.text}`
+    const out = output({
+      objectiveCapabilities: [
+        {
+          objective: line,
+          capabilities: [{ capability: 'operational_coordination', why: 'The Go Dark call.' }],
+        },
+      ],
+    })
+    const r = applyEeg(s, out, retrieved)
+    expect(r.unknownObjectives).toEqual([])
+    expect(s.evaluation.objectiveCapabilities.map((p) => p.objectiveId)).toEqual([
+      s.objectives[0]!.id,
+    ])
+  })
+
   it('maps objective names (exact, then case-insensitive) to ids and keeps the why', () => {
     const s = fresh()
     const r = applyEeg(s, output(), retrieved)

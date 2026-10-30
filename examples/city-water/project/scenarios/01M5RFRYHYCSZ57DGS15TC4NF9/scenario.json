@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-25T02:55:56.990Z",
-  "updatedAt": "2026-10-25T03:47:26.217Z",
+  "updatedAt": "2026-10-30T12:28:34.870Z",
   "brief": {
     "userPrompt": "During a July heat wave with demand near 14 MGD the Hilltop Tank radio repeater RP-1 fails at 05:30, so Orchard Standpipe, Northgate and Mill Road telemetry go stale on the HMI and the operators acknowledge the stale-data flags; at 06:10 the 24-inch Hilltop Transmission Main breaks near Summit Drive and Hilltop Tank begins to drain with no remote levels visible. Isolation valves V-2410 and V-2418, Mill Road Booster Station, the Carver County Water District interconnect IC-1, pressure at Millbrook General Hospital, and the boil-water decision for the depressurized part of Zone 2.",
     "audience": [
@@ -1185,6 +1185,496 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "01M5RFT2MH012CA2SBMSQS6SXJ",
+        "capability": "operational_coordination",
+        "why": "The objective requires synchronizing actions across the Control Room, field crews, lab, and PIO using non-HMI sources like radio DWS-1 and field readings, which is the core function of operational coordination to maintain a unified operational picture."
+      },
+      {
+        "objectiveId": "01M5RFT2MH012CA2SBMSQS6SXJ",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes ensuring consistent messaging to the public and internal stakeholders based on shared situational awareness, which relies on timely and accurate public information and warning to prevent misinformation during the telemetry outage."
+      },
+      {
+        "objectiveId": "01M5RFT2MH28ZFHV75734A087T",
+        "capability": "infrastructure_systems",
+        "why": "The objective centers on isolating a critical infrastructure segment (the Hilltop Transmission Main) and managing hydraulic trade-offs across Zones 1, 2, and 3, which falls under infrastructure systems to stabilize and maintain critical service functions."
+      },
+      {
+        "objectiveId": "01M5RFT2MH28ZFHV75734A087T",
+        "capability": "public_information_and_warning",
+        "why": "Deciding the advisory area and timing directly affects public safety and requires coordinated release of actionable information, which is a primary function of public information and warning."
+      },
+      {
+        "objectiveId": "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+        "capability": "infrastructure_systems",
+        "why": "The objective involves recognizing a failure mode (main break), isolating the break using the fewest valves, and managing inter-zone hydraulic dynamics — all core to infrastructure systems capability for stabilizing and restoring critical infrastructure."
+      },
+      {
+        "objectiveId": "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+        "capability": "operational_coordination",
+        "why": "The decision requires coordination between field crews, Control Room, and technical teams to validate valve operations and hydraulic impacts, ensuring a unified response to system-wide trade-offs."
+      },
+      {
+        "objectiveId": "01M5RFT2MHBHZ7HKMQ4Z9QPX57",
+        "capability": "operational_coordination",
+        "why": "The objective explicitly requires following structured procedures across multiple teams and roles, including the notification sequence and DDAGW consultation, which is the essence of operational coordination to ensure integrated and timely execution."
+      },
+      {
+        "objectiveId": "01M5RFT2MHBHZ7HKMQ4Z9QPX57",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes the release of advisories and updates to the public, which must be coordinated and consistent across channels, making public information and warning essential to its successful execution."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "operational_coordination",
+        "target": "The Control Room, Distribution, and lab maintain a single, shared picture of the system using field readings, radio DWS-1, and the OT Plan 10.6 checklist, with all teams reporting to the IC and updating the ERP-1 log every two hours.",
+        "objectiveRefs": [
+          "01M5RFT2MH012CA2SBMSQS6SXJ",
+          "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+          "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "operational_coordination",
+            "task": "The IC instructs the Distribution Superintendent to send field crews to Hilltop Tank and Orchard Standpipe to take sight-gauge readings every two hours.",
+            "citation": {
+              "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+              "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+              "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+              "chunkId": 162
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "operational_coordination",
+            "task": "The Distribution Superintendent logs the sight-gauge reading from Hilltop Tank (30.4 ft) and confirms it is being updated every 30 minutes.",
+            "citation": {
+              "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+              "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+              "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+              "chunkId": 162
+            },
+            "expectedBy": "dist",
+            "timing": "Within 15 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "operational_coordination",
+            "task": "The SCADA / IT Security Manager confirms the 24 VDC power supply failure at the Hilltop cabinet and closes the CODE CLEARWATER investigation.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.1 CODE CLEARWATER",
+              "quote": "\"CODE CLEARWATER\" announced on radio DWS-1 means a suspected cyber attack on, or unauthorized operation of, the control system. Every operator compares HMI values with local instruments and field read",
+              "chunkId": 44
+            },
+            "expectedBy": "it",
+            "timing": "Within 20 minutes of I-09",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "The IC confirms the values from RTU-01 (Hilltop Tank LIT-601 14.2 ft) against the field sight-gauge before trusting the HMI.",
+            "citation": {
+              "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+              "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+              "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+              "chunkId": 162
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of I-17",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "The IC shares the field and HMI data with the Water Quality Manager and the PIO to align on the advisory area.",
+            "citation": {
+              "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+              "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+              "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+              "chunkId": 162
+            },
+            "expectedBy": "ops",
+            "timing": "Within 15 minutes of I-17",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "The IC updates the ERP-1 log with the field readings, HMI values, and the status of the telemetry recovery.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Table of Contents",
+              "quote": "Section 1 Purpose, Authority and Plan Basis · Section 2 System Description · Section 3 Roles and Responsibilities · Section 4 Incident Levels and Activation · Section 5 Notification and Reporting · Se",
+              "chunkId": 2
+            },
+            "expectedBy": "ops",
+            "timing": "Within 10 minutes of I-17",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer ensures that all public messages, including the Boil Water Advisory, are delivered within 2 hours of the decision, using the MillbrookAlert system, the City website, social media, Channel 4, and the Millbrook Courier, with standardized instructions, street boundaries, next-update time, and Customer Service contact, and includes translations into Spanish and Nepali on every channel as per MDWS-PCP-2026 Sections 4 and 5.",
+        "objectiveRefs": [
+          "01M5RFT2MH012CA2SBMSQS6SXJ",
+          "01M5RFT2MH28ZFHV75734A087T",
+          "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Activate the MillbrookAlert system within 1 hour of the Boil Water Advisory decision to notify all affected customers.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.5 Sequence",
+              "quote": "Critical customers (Annex B) are called before any public release; the hospital and the dialysis center need 4 hours' notice to switch to tanker supply and each has 24 hours of stored water; Harvest R",
+              "chunkId": 41
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 hour",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_information_and_warning",
+            "task": "Post the official Boil Water Advisory on the City website and social media within 2 hours of the decision, including the affected streets, boiling instructions, next-update time, and Customer Service number.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 10 › 10.1 Boil Water Advisory",
+              "quote": "> **BOIL WATER ADVISORY — City of Millbrook Department of Water & Sewer (PWS ID OH-CARVER-0418)** > Issued [date] at [time]. > > **What happened.** At [time] on [date], [a water main break / a loss of",
+              "chunkId": 125
+            },
+            "expectedBy": "pio",
+            "timing": "within 2 hours",
+            "rowIds": [
+              "I-14",
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Include translations into Spanish and Nepali on every public channel, including the website, social media, and MillbrookAlert, as required by MDWS-PCP-2026 Sections 4 and 5.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.5 Sequence",
+              "quote": "Critical customers (Annex B) are called before any public release; the hospital and the dialysis center need 4 hours' notice to switch to tanker supply and each has 24 hours of stored water; Harvest R",
+              "chunkId": 41
+            },
+            "expectedBy": "pio",
+            "timing": "at time of release",
+            "rowIds": [
+              "I-14",
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Respond to public inquiries on social media within 30 minutes of a post, confirming the advisory is in effect and directing users to the official website and Customer Service.",
+            "citation": {
+              "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+              "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+              "quote": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+              "chunkId": 123
+            },
+            "expectedBy": "pio",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-12b"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Provide the City’s official response to media inquiries, including Channel 4 and the Millbrook Courier, within 1 hour of the first call, confirming the break, the advisory process, and the next update time.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.5 Sequence",
+              "quote": "Critical customers (Annex B) are called before any public release; the hospital and the dialysis center need 4 hours' notice to switch to tanker supply and each has 24 hours of stored water; Harvest R",
+              "chunkId": 41
+            },
+            "expectedBy": "pio",
+            "timing": "within 1 hour",
+            "rowIds": [
+              "I-11",
+              "I-22"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "public_information_and_warning",
+            "task": "Update the public every 12 hours with new information, including lab results, pressure status, and any changes to the advisory area, using the same standardized format and language.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 9 › 9.5 Sequence",
+              "quote": "Critical customers (Annex B) are called before any public release; the hospital and the dialysis center need 4 hours' notice to switch to tanker supply and each has 24 hours of stored water; Harvest R",
+              "chunkId": 41
+            },
+            "expectedBy": "pio",
+            "timing": "every 12 hours",
+            "rowIds": [
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH012CA2SBMSQS6SXJ",
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MHBHZ7HKMQ4Z9QPX57"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Control Room, Distribution, and Water Quality teams maintain system stability by using field readings, HMI values, and operational checks to make real-time decisions on valve isolation, booster activation, interconnect use, and pressure management, ensuring no zone is left without service or at risk of cascading failure.",
+        "objectiveRefs": [
+          "01M5RFT2MH28ZFHV75734A087T",
+          "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "infrastructure_systems",
+            "task": "The Distribution Superintendent isolates the break using the fewest valves, confirmed by street-level verification, and logs the valve closure times and affected streets.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "dist",
+            "timing": "Within 10 minutes of I-07b",
+            "rowIds": [
+              "I-07b"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "infrastructure_systems",
+            "task": "The IC activates Mill Road Booster Station (BP-401/402) to hold Zone 2 pressure and confirms the suction pressure at PIT-631 remains above 30 psi to prevent lockout.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "ops",
+            "timing": "Within 15 minutes of I-08",
+            "rowIds": [
+              "I-08",
+              "I-18b"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "infrastructure_systems",
+            "task": "The IC opens the Carver County Water District interconnect (IC-1) when Zone 2 demand exceeds 7 MGD or Hilltop Tank falls below 12 ft, and confirms the two-person crew has arrived and the valve is operational.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "ops",
+            "timing": "Within 30 minutes of I-16",
+            "rowIds": [
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "infrastructure_systems",
+            "task": "The SCADA / IT Security Manager confirms live HMI values from RTU-01 against field sight-gauge readings before trusting them, and logs the discrepancy and recovery time.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 11 › 11.1 CODE CLEARWATER",
+              "quote": "\"CODE CLEARWATER\" announced on radio DWS-1 means a suspected cyber attack on, or unauthorized operation of, the control system. Every operator compares HMI values with local instruments and field read",
+              "chunkId": 44
+            },
+            "expectedBy": "it",
+            "timing": "Within 10 minutes of I-17",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "infrastructure_systems",
+            "task": "The Distribution Superintendent confirms that Zone 3 is at risk if Zone 2 pressure remains low and plans how much of IC-1 and Mill Road capacity to allocate to Northgate Reservoir.",
+            "citation": {
+              "documentId": "01M5H5QTJWBW03A1WB9K27XXHQ",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — System Map and Asset Sheet",
+              "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+              "quote": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+              "chunkId": 162
+            },
+            "expectedBy": "dist",
+            "timing": "Within 15 minutes of I-21",
+            "rowIds": [
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "infrastructure_systems",
+            "task": "The IC ensures the repair crew flushes, disinfects, and samples the main before returning it to service, as required by ERP 7.1.",
+            "citation": {
+              "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+              "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+              "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+              "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+              "chunkId": 25
+            },
+            "expectedBy": "ops",
+            "timing": "Before the main is returned to service",
+            "rowIds": [
+              "END"
+            ],
+            "objectiveRefs": [
+              "01M5RFT2MH28ZFHV75734A087T",
+              "01M5RFT2MH8N7Q3KPPVFTTW3S5"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Each team names three things that went well and three that did not; the facilitator writes them up and looks for the same issue in more than one team.",
@@ -1252,6 +1742,478 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects, with no external knowledge beyond what is provided.",
+      "Players respond in accordance with existing plans, policies and procedures, including the ERP, OT Plan 10.6, and Section 9.5 notification sequence."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated to reflect the passage of operational hours.",
+      "The SimCell manages all external actors not in the room, including Carver County Public Health, the Carver County Water District, and partner agencies.",
+      "Systems such as SCADA, HMI, and telemetry are referenced as in the plans but are not physically operated or altered.",
+      "Injects are delivered via paper and screen, not via actual communication channels.",
+      "The Control Room's HMI and field instruments are treated as having conflicting or missing data, simulating a real-world stale-data crisis."
+    ],
+    "modules": [
+      {
+        "phaseId": "01M5RFWPEP5YADWGXBMC8M92RD",
+        "narrativeMd": "It is 05:30. The heat wave continues, with demand near 14 MGD and a forecast high of 97°F. The Hilltop Tank reads 33.1 ft, and no alarms are active in the Control Room. At 05:30, the MBW-HMI-01 system logs a telemetry outage: RTU-02, RTU-03, RTU-04, RTU-06, and RTU-01 (Hilltop Tank) are all marked as STALE. RTU-01’s last good reading was 33.1 ft at 05:29. The Control Room notes that RTU-01 should have failed over to its cellular modem but did not. At 05:35, the SCADA / IT Security Manager (TL) receives a call from Buckeye Telemetry suggesting that a shared 24 VDC power supply may have failed, affecting RP-1 and RTU-01. At 05:40, a meter technician at Eastfield Pump Station reports a cracked sight glass on the local discharge gauge, though the transmitter and HMI values remain stable. At 06:10, plant flow FIT-501 jumps from 13.8 to 17.9 MGD, and High Service discharge pressure PIT-501 drops from 72 to 58 psi. HSP-3 begins operating on low pressure. At 06:12, the after-hours helpdesk receives eleven calls reporting water bubbling up on Summit Drive, low pressure on Ridge Road and Crestview Avenue, and no water on some streets. At 06:20, a field report from Distribution 2 at Hilltop Tank confirms the sight gauge now reads 30.4 ft, and the radio cabinet is dark — no lights on RP-1 or RTU-01. Distribution 3 confirms a 24-inch main break under Summit Drive, with water across the road and into yards. The hospital calls at 06:45 to report a pressure drop from 62 to 44 psi over 30 minutes and requests four hours’ notice before switching to tankers.",
+        "keyIssues": [
+          "Recognize the main break from plant instruments (FIT-501 and PIT-501) despite stale telemetry.",
+          "Initiate the OT Plan 10.6 stale-data checklist to maintain situational awareness.",
+          "Verify the integrity of field data and radio communications as the primary source of system status.",
+          "Begin coordination with field teams and the Control Room to confirm hydraulic conditions and isolate the break.",
+          "Assess the risk of a boil water advisory based on incomplete pressure data and customer reports."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What immediate actions must you take to confirm the break and begin isolation, using only the plant’s internal instruments and field reports, per ERP Section 7.1?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              }
+            ]
+          },
+          {
+            "text": "SCADA / IT Security Manager: How do you apply the OT Plan 10.6 checklist to determine the root cause of the telemetry outage, and what steps are required to restore critical telemetry?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Telemetry Trust",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.6 Telemetry Outage / Stale Data Checklist",
+                "quote": "- [ ] Control Room: list every tag with the stale flag and its last update time; do not acknowledge the stale alarm without recording it - [ ] Distribution: dispatch to Hilltop Tank first (RP-1 and th",
+                "chunkId": 186
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: What initial public messaging should you prepare in response to the first customer calls and media inquiries, using the Section 10.7 call script and fact sheet, per ERP Section 10?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+                "quote": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+                "chunkId": 256
+              },
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+                "quote": "This plan tells the City of Millbrook how to inform customers, critical facilities, partner agencies and the news media during any event that affects the safety, pressure or availability of drinking w",
+                "chunkId": 235
+              }
+            ]
+          },
+          {
+            "text": "Water Quality Manager: How do you assess the risk of contamination in the absence of live pressure and flow data, and what immediate lab actions are required to support a boil water decision?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Distribution Superintendent: How do you coordinate field teams to confirm the break location and begin isolation using only radio DWS-1 and sight gauge readings, and what valve closures are prioritized?",
+            "roleIds": [
+              "dist"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RFWPEPHV6CEP84TD9F59NG",
+        "narrativeMd": "It is 07:30. The heat wave persists, and Hilltop Tank has dropped to 21 ft on the sight gauge. The break at Summit Drive continues to gush. Customer Service has received 46 calls from upper Zone 2. The hospital reports that pressure has dropped further and that it needs four hours’ notice to switch to tankers. The SCADA / IT Security Manager (TL) confirms via email that the 24 VDC power supply PS-1 in the Hilltop radio cabinet has failed, and that a spare is available but will take 20 minutes to install once it arrives. At 07:35, a social media post from a resident on Ridge Road shows a dry kitchen faucet and asks if tap water is safe to drink. At 07:45, a customer on Crestview Avenue reports that water has returned but is “milky white.” At 07:55, the Carver County Public Health Commissioner calls, stating that pressure has dropped below 20 psi somewhere in Zone 2, and demands a decision on whether to issue a boil water advisory for the entire zone or only for known affected streets. At 08:05, the Carver County Water District confirms it can supply up to 4.0 MGD into Zone 2 through IC-1 within the hour, with a two-person crew. At 08:20, the spare power supply is installed at Hilltop. RTU-01, RP-1, and the four repeater sites report back online. The first live values: Hilltop Tank LIT-601 reads 14.2 ft and falling; Mill Road suction PIT-631 (Zone 1) is 34 psi — four above the booster lockout at 30; Northgate Reservoir LIT-621 is falling; Orchard Standpipe is at 78 ft.",
+        "keyIssues": [
+          "Decide whether to open IC-1 to stabilize Zone 2, balancing demand, interconnect capacity, and health risk.",
+          "Confirm the break is isolated using only field valve reports and radio DWS-1, as telemetry remains partially unreliable.",
+          "Determine whether to issue a boil water advisory for the entire Zone 2 or only for known depressurized areas.",
+          "Assess the impact of Mill Road Booster Station BP-401 tripping on low suction (PIT-631 at 29 psi) and BP-402 still running.",
+          "Ensure that the lab and field teams begin sampling in the depressurized area before the advisory is issued."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: Based on the live telemetry and field reports, how do you decide whether to open IC-1 to prevent further pressure loss in Zone 2, per ERP Section 7.1 and 4.0 MGD capacity?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 2",
+                "quote": "The Millbrook system is described in full in MDWS-MAP-2026. In summary: the Riverside Water Treatment Plant (RWTP, 1400 River Road, rated 16.0 MGD) treats Millbrook River water drawn at Intake Structu",
+                "chunkId": 60
+              }
+            ]
+          },
+          {
+            "text": "SCADA / IT Security Manager: How do you validate that the telemetry outage has been resolved, and what new data confirms that the system is now operational and trustworthy?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Telemetry Trust",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.6 Telemetry Outage / Stale Data Checklist",
+                "quote": "- [ ] Control Room: list every tag with the stale flag and its last update time; do not acknowledge the stale alarm without recording it - [ ] Distribution: dispatch to Hilltop Tank first (RP-1 and th",
+                "chunkId": 186
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: What is the next step in the public notification sequence, and how do you draft a preliminary advisory using the Section 10.7 call script and fact sheet, given the pressure drop and customer complaints?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+                "quote": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+                "chunkId": 256
+              },
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+                "quote": "This plan tells the City of Millbrook how to inform customers, critical facilities, partner agencies and the news media during any event that affects the safety, pressure or availability of drinking w",
+                "chunkId": 235
+              }
+            ]
+          },
+          {
+            "text": "Water Quality Manager: What is the basis for issuing a boil water advisory, and how do you confirm that the sampling plan (Section 8.3) has been initiated in the depressurized area?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Distribution Superintendent: How do you confirm that the break is isolated using only radio DWS-1 and sight gauge readings, and what valve closures are confirmed or blocked?",
+            "roleIds": [
+              "dist"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RFWPEP87RVMM5FJG9A13MG",
+        "narrativeMd": "It is 08:35. The Mill Road Booster Station BP-401 has tripped on low suction (PIT-631 at 29 psi), and BP-402 is still running. Mill Road discharge pressure PIT-632 has dropped from 78 to 64 psi. The lab team reports initial field sampling results: free chlorine levels in the depressurized area range from 0.3 mg/L (Ridge Road) to 1.1 mg/L (edge of area on Mill Road). Bacteriological samples are in incubation. At 08:45, the Deputy PIO submits a draft Boil Water Advisory naming the area as \"Zone 2 (Hilltop, Eastfield and north downtown)\" and instructing customers not to bathe in tap water, but it lacks street boundaries and a next-update time. At 09:00, the Ohio EPA DDAGW calls, confirming a Tier 1 situation and requesting the advisory text, street boundaries, and sampling plan. The Director of Water Operations (IC) must decide whether to issue a boil water advisory for the entire Zone 2 or only for the known depressurized streets, and whether to proceed with IC-1. Northgate Reservoir continues to fall, and Altitude Valve ALV-301 is fully open but cannot refill due to low pressure in Zone 2.",
+        "keyIssues": [
+          "Decide whether to issue a boil water advisory for the entire Zone 2 or only for known depressurized streets, balancing risk and completeness.",
+          "Finalize the advisory text, including street boundaries and next-update time, to meet DDAGW and ERP Section 9.5 requirements.",
+          "Confirm that IC-1 is open and that the interconnect is functioning to prevent further pressure loss in Zone 2.",
+          "Ensure that the lab and field teams have completed sampling and are preparing for two satisfactory rounds.",
+          "Verify that critical customers (e.g., hospital) have been notified and that their contingency plans are activated."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is your decision on issuing a boil water advisory, and how do you define the advisory area using the lab results, customer reports, and field data, per ERP Section 9.1?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: How do you finalize the advisory text to include street boundaries, a next-update time, and a consistent message, using the Section 10.7 call script and fact sheet?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+                "quote": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+                "chunkId": 256
+              },
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+                "quote": "This plan tells the City of Millbrook how to inform customers, critical facilities, partner agencies and the news media during any event that affects the safety, pressure or availability of drinking w",
+                "chunkId": 235
+              }
+            ]
+          },
+          {
+            "text": "Water Quality Manager: How do you confirm that the sampling plan (Section 8.3) is complete and that lab results will support the advisory, and what is your recommendation for lifting the advisory?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Distribution Superintendent: How do you confirm that IC-1 is open and that the interconnect is supplying water to Zone 2, and what is the impact on Zone 1 and Zone 3?",
+            "roleIds": [
+              "dist"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 2",
+                "quote": "The Millbrook system is described in full in MDWS-MAP-2026. In summary: the Riverside Water Treatment Plant (RWTP, 1400 River Road, rated 16.0 MGD) treats Millbrook River water drawn at Intake Structu",
+                "chunkId": 60
+              }
+            ]
+          },
+          {
+            "text": "SCADA / IT Security Manager: How do you ensure that telemetry remains stable after the power supply swap, and what monitoring is required to prevent future outages?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Telemetry Trust",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.6 Telemetry Outage / Stale Data Checklist",
+                "quote": "- [ ] Control Room: list every tag with the stale flag and its last update time; do not acknowledge the stale alarm without recording it - [ ] Distribution: dispatch to Hilltop Tank first (RP-1 and th",
+                "chunkId": 186
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "01M5RFWPEPX4WAGZT1GNXZRDD7",
+        "narrativeMd": "It is 09:30. The break is isolated and the repair crew is mobilizing. Zone 2 is now running on Mill Road Booster Station BP-402 and IC-1. The boil water advisory has been issued, and sampling continues. Northgate Reservoir continues to fall, and Altitude Valve ALV-301 remains fully open but cannot refill Zone 3 due to low pressure in Zone 2. The lab reports that bacteriological samples are satisfactory, and two rounds of testing are needed before lifting the advisory. The hospital confirms it has received the advisory and will not switch to tankers unless pressure drops further. The media continues to monitor the situation, and the city is under pressure to explain the failure of a 1968 cast iron main. The Control Room has resumed normal operations, but telemetry remains under close watch. The Director of Water Operations (IC) must now ensure that all elements of the recovery plan are in place and that public trust is maintained.",
+        "keyIssues": [
+          "Ensure that the lab completes two satisfactory rounds of testing before lifting the boil water advisory.",
+          "Maintain pressure in Zone 2 and Zone 3 using IC-1 and the boosters, while monitoring Northgate Reservoir for further decline.",
+          "Communicate clearly with the public and media about the recovery process, including the timeline for lifting the advisory.",
+          "Confirm that the repair crew is on site and that the main will be flushed, disinfected, and sampled before being returned to service.",
+          "Verify that all critical customers have been informed and that their needs are being met."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Operations: What is the process for lifting the boil water advisory, and what conditions must be met per ERP Section 13 and DDAGW guidelines?",
+            "roleIds": [
+              "ops"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 9 › 9.1 Authority",
+                "quote": "The Director of Water Operations, with the Water Quality Manager, decides whether to issue, extend and lift an advisory, after consulting DDAGW and, for health questions, the Carver County Health Comm",
+                "chunkId": 89
+              }
+            ]
+          },
+          {
+            "text": "Public Information Officer: How do you manage public communication to prevent misinformation and maintain trust, especially in light of media inquiries and social media posts?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+                "quote": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+                "chunkId": 256
+              },
+              {
+                "documentId": "01M5H5QTJPXMWYPY8T6YCRQMCX",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Public Communications Plan for Water Emergencies",
+                "headingPath": "City of Millbrook Department of… › Section 1 › 1.1 Purpose",
+                "quote": "This plan tells the City of Millbrook how to inform customers, critical facilities, partner agencies and the news media during any event that affects the safety, pressure or availability of drinking w",
+                "chunkId": 235
+              }
+            ]
+          },
+          {
+            "text": "Water Quality Manager: How do you confirm that the main has been properly flushed, disinfected, and sampled before returning it to service, per ERP Section 7.1?",
+            "roleIds": [
+              "wq"
+            ],
+            "objectiveRef": "Boil Water Decision",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              }
+            ]
+          },
+          {
+            "text": "Distribution Superintendent: How do you monitor the pressure in Zone 2 and Zone 3 to prevent further loss, and what actions are required if Northgate Reservoir continues to fall?",
+            "roleIds": [
+              "dist"
+            ],
+            "objectiveRef": "Zone Isolation",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+                "quote": "1. Distribution on-call locates the break; Control Room trends FIT-501, PIT-501, LIT-601 and the booster stations. 2. Isolate with the fewest valves (map of record); confirm the isolated area by stree",
+                "chunkId": 77
+              },
+              {
+                "documentId": "01M5H5QTJERVGTEMTXKVEPV9C8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — Emergency Response Plan (AWIA / SDWA §1433)",
+                "headingPath": "ERP › Section 2",
+                "quote": "The Millbrook system is described in full in MDWS-MAP-2026. In summary: the Riverside Water Treatment Plant (RWTP, 1400 River Road, rated 16.0 MGD) treats Millbrook River water drawn at Intake Structu",
+                "chunkId": 60
+              }
+            ]
+          },
+          {
+            "text": "SCADA / IT Security Manager: What long-term actions are required to prevent future telemetry outages, and how do you improve system redundancy?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Telemetry Trust",
+            "citations": [
+              {
+                "documentId": "01M5H5QTJK3GDNQ9FWZHT1BTG8",
+                "documentTitle": "City of Millbrook Department of Water & Sewer — OT / Cybersecurity Plan and Incident Response Playbook",
+                "headingPath": "City of Millbrook Department of… › Section 10 › 10.6 Telemetry Outage / Stale Data Checklist",
+                "quote": "- [ ] Control Room: list every tag with the stale flag and its last update time; do not acknowledge the stale alarm without recording it - [ ] Distribution: dispatch to Hilltop Tank first (RP-1 and th",
+                "chunkId": 186
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "Hilltop radio cabinet: RP-1 and RTU-01 (shared 24 VDC supply)",
     "Hilltop Tank level (sight gauge while stale)",
@@ -2526,6 +3488,1333 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:16:24.458Z",
+      "finishedAt": "2026-10-30T12:16:39.986Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 29137,
+      "outputTokens": 3332,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:33:33.237Z",
+      "finishedAt": "2026-10-30T10:34:31.327Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5335,
+      "outputTokens": 5099,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3d9ef95532c5c08b",
+        "claims": [],
+        "at": "2026-10-30T10:34:33.362Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c107bfdc0fcfdde6",
+        "claims": [
+          {
+            "text": "The SCADA / IT Security Manager lists every stale tag with its last update time before the alarm is acknowledged (OT Plan 10.6) and asks why RTU-01’s cellular failover did not work; the IC sends Distribution to Hilltop Tank first and orders sight-gauge readings every two hours.",
+            "chunkId": 154,
+            "headingPath": "City of Millbrook Department of… › Section A › A.7.3 Behaviour on Telemetry Loss",
+            "overlap": 0.192,
+            "matched": [
+              "RTU-01"
+            ],
+            "missing": [
+              "2 hours",
+              "SCADA / IT Security Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.112Z",
+        "version": 1
+      },
+      "row:I-01b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "86242955a3e159a3",
+        "claims": [],
+        "at": "2026-10-30T10:34:33.364Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "review",
+        "reason": "‘SCADA / IT Security Manager’ is not in 7.1 Loss of Pressure / Main Break or the facility facts.",
+        "fingerprint": "9a6e164f8e3a6da5",
+        "claims": [
+          {
+            "text": "The SCADA / IT Security Manager sends the on-call technician to the Hilltop cabinet with a spare supply, has telemetry treated as unknown until restored, and asks the Control Room to watch FIT-501 and PIT-501 for a break signature in the meantime (OT Plan 10.6).",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.348,
+            "matched": [
+              "FIT-501",
+              "PIT-501"
+            ],
+            "missing": [
+              "SCADA / IT Security Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.113Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "7d6becb750126ee4",
+        "claims": [
+          {
+            "text": "The PIO decides whether to do the interview, prepares heat-wave conservation messages and checks with the IC that nothing is happening that would make the interview a problem.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.114Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "80dd4a6de99fe766",
+        "claims": [
+          {
+            "text": "The IC recognizes the main-break signature in ERP 6.6, declares the incident level and sends crews toward the Hilltop Transmission Main; the Water Quality Manager prepares ERP-3 sampling for wherever pressure has been lost.",
+            "chunkId": 86,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+            "overlap": 0.048,
+            "matched": [],
+            "missing": [
+              "ERP 6.6",
+              "Water Quality Manager",
+              "ERP-3",
+              "declares"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.114Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "review",
+        "reason": "Only 21% of ‘Distribution sends the nearest crew to Summit Drive; the PI…’ is in 9.2 Surge Procedure.",
+        "fingerprint": "76439764ecb3d34f",
+        "claims": [
+          {
+            "text": "Distribution sends the nearest crew to Summit Drive; the PIO starts a call log by street; the IC treats the street list as the first map of the depressurized area.",
+            "chunkId": 123,
+            "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+            "overlap": 0.214,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.114Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e2f6a9a0f7c2c0e1",
+        "claims": [
+          {
+            "text": "The IC estimates the drain rate (about 8 ft an hour), starts the ERP 7.1 sequence for a Hilltop Transmission Main break and sets the level at which IC-1 will be requested; the crew stays to read the gauge every 30 minutes.",
+            "chunkId": 31,
+            "headingPath": "ERP › Section 7 › 7.6 Physical Intrusion or Tampering at a Storage Facility",
+            "overlap": 0.091,
+            "matched": [],
+            "missing": [
+              "ERP 7.1",
+              "30 minutes",
+              "8 ft",
+              "IC-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.114Z",
+        "version": 1
+      },
+      "row:I-07b": {
+        "label": "review",
+        "reason": "‘Distribution Superintendent’, ‘V-2410’, ‘V-2418’ are not in 7.1 Loss of Pressure / Main Break or the facility facts.",
+        "fingerprint": "4a3e90204b127d0b",
+        "claims": [
+          {
+            "text": "The Distribution Superintendent isolates with the fewest valves (V-2410 and V-2418), sends a second crew with the valve-turning machine to V-2418, and confirms by street which customers the isolation will leave without the main.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.471,
+            "matched": [
+              "isolates"
+            ],
+            "missing": [
+              "Distribution Superintendent",
+              "V-2410",
+              "V-2418"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.114Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "review",
+        "reason": "‘4-hour’ is not in 2. Map of Record (described) or the facility facts.",
+        "fingerprint": "4f3e79a88b55e4d1",
+        "claims": [
+          {
+            "text": "The IC recognizes Zone 1 is being drained through the break (the plant is pushing water out of it) and that starting Mill Road Booster Station will pull Zone 1 lower; warns the hospital now (Zone 1 has no storage), gives it the four-hour notice decision and makes isolating the break the first priority.",
+            "chunkId": 162,
+            "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+            "overlap": 0.5,
+            "matched": [
+              "isolating"
+            ],
+            "missing": [
+              "4-hour"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.115Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "review",
+        "reason": "Only 32% of ‘The SCADA / IT Security Manager has the spare brought from …’ is in Section 2.",
+        "fingerprint": "ee76f2fc513a6626",
+        "claims": [
+          {
+            "text": "The SCADA / IT Security Manager has the spare brought from the shop, confirms the failure explains every stale site, closes the CODE CLEARWATER question, and plans a separate supply for RTU-01’s modem in the after-action report.",
+            "chunkId": 59,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.318,
+            "matched": [
+              "SCADA / IT Security Manager",
+              "RTU-01",
+              "report"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.115Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "28d99321d86c44d2",
+        "claims": [
+          {
+            "text": "Distribution declines or defers it during the heat wave and the incident; it is not related.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.115Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "review",
+        "reason": "‘isolating’ is not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "1d8abf4a1bdd8c74",
+        "claims": [
+          {
+            "text": "The PIO confirms a main break, says crews are isolating it, tells customers who have lost water or pressure what to expect, and does not announce an advisory before the IC and the Water Quality Manager decide one; gives the next update time.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.474,
+            "matched": [
+              "Water Quality Manager"
+            ],
+            "missing": [
+              "isolating"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "2f69111e7b8aba19",
+        "claims": [],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-12b": {
+        "label": "review",
+        "reason": "Only 31% of ‘The PIO answers with the facts and the Customer Service num…’ is in 5.2 Sequence.",
+        "fingerprint": "dc6b15415ea41ccf",
+        "claims": [
+          {
+            "text": "The PIO answers with the facts and the Customer Service number, says DWS will tell customers directly whether to boil water, and gives the next update time.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.308,
+            "matched": [
+              "Customer Service"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "review",
+        "reason": "‘Water Quality Manager’ is not in 9.2 Surge Procedure or the facility facts.",
+        "fingerprint": "c878549988bfe643",
+        "claims": [
+          {
+            "text": "The Water Quality Manager recognizes air in the lines after repressurization (the glass clears from the bottom up), has Customer Service give the standard answer and logs the address for sampling; it does not by itself change the advisory decision.",
+            "chunkId": 123,
+            "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+            "overlap": 0.25,
+            "matched": [
+              "Customer Service"
+            ],
+            "missing": [
+              "Water Quality Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 2.",
+        "fingerprint": "b187b3fadee86768",
+        "claims": [
+          {
+            "text": "The Director, with the Water Quality Manager, after consulting DDAGW and Public Health, decides the Boil Water Advisory area (all of Zone 2, or the streets bounded from customer calls and field gauges, widened as data comes in), obtains the City Manager’s approval, records the basis on ERP-2 and starts the critical-customer calls.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0.517,
+            "matched": [
+              "Director",
+              "Water Quality Manager",
+              "City Manager",
+              "ERP-2",
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "review",
+        "reason": "‘V-2418’, ‘V-2422’ are not in Section 3 or the facility facts.",
+        "fingerprint": "ec4a735fcc1b5b35",
+        "claims": [
+          {
+            "text": "The Distribution Superintendent decides between more time on V-2418 and closing V-2422, tells the IC and the PIO which additional streets would lose the main, and records the valve times.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.417,
+            "matched": [
+              "Distribution Superintendent"
+            ],
+            "missing": [
+              "V-2418",
+              "V-2422"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.116Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "review",
+        "reason": "‘ERP 7.1’, ‘7 MGD’, ‘12 ft’ are not in 5.2 Sequence or the facility facts.",
+        "fingerprint": "4a0edace89aa8897",
+        "claims": [
+          {
+            "text": "The IC decides when to open IC-1 against the ERP 7.1 triggers (Zone 2 demand above about 7 MGD, Hilltop Tank below 12 ft); Distribution sends the second person; the Water Quality Manager and Customer Service notify the home-dialysis patients and the Carver Kidney Center as a courtesy.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.345,
+            "matched": [
+              "Water Quality Manager",
+              "Customer Service",
+              "notify"
+            ],
+            "missing": [
+              "ERP 7.1",
+              "7 MGD",
+              "12 ft",
+              "Carver Kidney Center",
+              "IC-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.117Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9476c84a4de37c7b",
+        "claims": [
+          {
+            "text": "The SCADA / IT Security Manager confirms the values against the field readings before anyone trusts them; the IC sees that Mill Road Booster Station is close to locking out and that Zone 3 is now at risk, and acts on IC-1 and Zone 1 pressure.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.174,
+            "matched": [],
+            "missing": [
+              "SCADA / IT Security Manager",
+              "IC-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.117Z",
+        "version": 1
+      },
+      "row:I-18b": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "ba457698917a2d0e",
+        "claims": [
+          {
+            "text": "Distribution resets BP-401 locally only when suction recovers; the IC raises Zone 1 pressure at the plant (HSP setpoint) or brings IC-1 on to take load off Mill Road, and keeps the hospital informed.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.15,
+            "matched": [
+              "BP-401"
+            ],
+            "missing": [
+              "IC-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.117Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "review",
+        "reason": "Only 37% of ‘The Water Quality Manager uses the low residuals to confirm…’ is in 5.2 Sequence.",
+        "fingerprint": "d6e138a59bf186e5",
+        "claims": [
+          {
+            "text": "The Water Quality Manager uses the low residuals to confirm or widen the advisory area, sets the two-hour sampling round and the lifting criteria, and tells the PIO the advisory cannot be lifted before Thursday at the earliest.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.368,
+            "matched": [
+              "2-hour",
+              "Water Quality Manager"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.118Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "review",
+        "reason": "Only 40% of ‘The PIO and the Water Quality Manager correct it before rel…’ is in 5.2 Sequence.",
+        "fingerprint": "fda7827f1566d304",
+        "claims": [
+          {
+            "text": "The PIO and the Water Quality Manager correct it before release: the decided area by streets from the map of record (Eastfield and downtown are not in Zone 2), the standard boil-water instructions (bathing is fine), what is being done, when the next update comes and the Customer Service number.",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 0.4,
+            "matched": [
+              "Water Quality Manager",
+              "Customer Service"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.118Z",
+        "version": 1
+      },
+      "row:I-24": {
+        "label": "review",
+        "reason": "Only 20% of ‘Distribution schedules the repair; it is not related to the…’ is in 10.5 Ransomware on the Business Network Checklist.",
+        "fingerprint": "77575522aba061d3",
+        "claims": [
+          {
+            "text": "Distribution schedules the repair; it is not related to the incident.",
+            "chunkId": 86,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.5 Ransomware on the Business Network Checklist",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.118Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "review",
+        "reason": "‘9,000 people’ is not in 3.2 Remote Sites or the facility facts.",
+        "fingerprint": "14f8fd302a2dc00c",
+        "claims": [
+          {
+            "text": "The IC and Distribution recognize that Zone 3 (about 9,000 people) depends on Zone 2 recovering, plan how much of IC-1 and Mill Road capacity to give Northgate, and set a level at which Zone 3 customers are warned.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0.571,
+            "matched": [
+              "IC-1"
+            ],
+            "missing": [
+              "9,000 people"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "row:I-22": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "71327bbad6a560d1",
+        "claims": [
+          {
+            "text": "The PIO gives the facts of today’s response, refers the capital-plan question to the Director for a later answer and does not speculate about the cause of the break.",
+            "chunkId": 9,
+            "headingPath": "ERP › Section 3",
+            "overlap": 0.154,
+            "matched": [
+              "Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "row:I-23": {
+        "label": "review",
+        "reason": "‘ERP 7.1’, ‘Water Quality Manager’ are not in Section 13 or the facility facts.",
+        "fingerprint": "2863ad0ccab86a99",
+        "claims": [
+          {
+            "text": "The Water Quality Manager sends DDAGW the advisory, the map and the plan and records the consultation; the IC confirms the repair will be flushed, disinfected and sampled before the main returns to service (ERP 7.1).",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [
+              "ERP 7.1",
+              "Water Quality Manager"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d1fe24ec9d9a76cd",
+        "claims": [],
+        "at": "2026-10-30T10:34:33.370Z",
+        "version": 1
+      },
+      "inject:01M5RGN1YW2712QD20P7JZ8TQT": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4199a571c1b33470",
+        "claims": [],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "inject:01M5RGNBN02V1V9KA7JE9F30JG": {
+        "label": "review",
+        "reason": "Only 38% of ‘Watch for stale values treated as unknown and for Hilltop T…’ is in 11.1 Radio Network.",
+        "fingerprint": "e2f594f1263d0b2f",
+        "claims": [
+          {
+            "text": "The plant is now blind to Zone 2 storage.",
+            "chunkId": 8,
+            "headingPath": "ERP › Section 2",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for stale values treated as unknown and for Hilltop Tank checked first.",
+            "chunkId": 89,
+            "headingPath": "City of Millbrook Department of… › Section 11 › 11.1 Radio Network",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "inject:01M5RGNSMDN74497H42KZPFCTG": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "edb66e0407ebb49d",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 78,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Remote Sites in Manual",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "inject:01M5RGP6B65XNFW0F2XJXERFJA": {
+        "label": "review",
+        "reason": "Only 0% of ‘The cause is simple; the delay is the problem.’ is in 7.1 Loss of Pressure / Main Break.",
+        "fingerprint": "13205dad035b6d8e",
+        "claims": [
+          {
+            "text": "The cause is simple; the delay is the problem.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for someone sent with a spare and the Control Room told what to watch meanwhile.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.119Z",
+        "version": 1
+      },
+      "inject:01M5RGQDHQFKRC3G0XXNBZRY4H": {
+        "label": "review",
+        "reason": "‘20 minutes’ is not in 4.3 Level 2 — Operational Emergency or the facility facts.",
+        "fingerprint": "b7ff14b5aacce96d",
+        "claims": [
+          {
+            "text": "Routine pressure that becomes awkward in 20 minutes.",
+            "chunkId": 12,
+            "headingPath": "ERP › Section 4 › 4.3 Level 2 — Operational Emergency",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "20 minutes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.120Z",
+        "version": 1
+      },
+      "inject:01M5RGSG3RMRGF00R6CHAMTQ9E": {
+        "label": "review",
+        "reason": "‘ERP 6.6’ is not in 8.3 Failure-Mode Matrix or the facility facts.",
+        "fingerprint": "913b9d6a9e0e27ca",
+        "claims": [
+          {
+            "text": "ERP 6.6 in the plant’s own numbers.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [
+              "ERP 6.6"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for “main break” said out loud.",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.120Z",
+        "version": 1
+      },
+      "inject:01M5RGRFNTVDHGD0QW2RQKXK6D": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for it being used.’ is in 9.2 Surge Procedure.",
+        "fingerprint": "16e2d0c8c6d8eec6",
+        "claims": [
+          {
+            "text": "The first street-level map of the problem.",
+            "chunkId": 107,
+            "headingPath": "City of Millbrook Department of… › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for it being used.",
+            "chunkId": 123,
+            "headingPath": "City of Millbrook Department of… › Section 9 › 9.2 Surge Procedure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.120Z",
+        "version": 1
+      },
+      "inject:01M5RGVA8XETB2MMQFNRYZQ6MD": {
+        "label": "review",
+        "reason": "‘4 hours’, ‘8 ft’ are not in 8.1 Facilities or the facility facts.",
+        "fingerprint": "43637ed49a52c9e1",
+        "claims": [
+          {
+            "text": "About 8 ft an hour: roughly four hours to empty.",
+            "chunkId": 34,
+            "headingPath": "ERP › Section 8 › 8.1 Facilities",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "4 hours",
+              "8 ft"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for an IC-1 trigger level.",
+            "chunkId": 22,
+            "headingPath": "ERP › Section 6 › 6.4 Security Systems",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "IC-1"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.120Z",
+        "version": 1
+      },
+      "inject:01M5RGWKHHJQN95J9BQ6X0YC6C": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e8b713bb57c67b08",
+        "claims": [
+          {
+            "text": "Watch for the fewest-valves isolation and the second crew sent to V-2418 early.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [
+              "V-2418"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.121Z",
+        "version": 1
+      },
+      "inject:01M5RGYHJYRX6G4NHT6X2XTPP2": {
+        "label": "grounded",
+        "reason": "Every claim matches 7.1 Loss of Pressure / Main Break and 2. Map of Record (described).",
+        "fingerprint": "3da69f518b865628",
+        "claims": [
+          {
+            "text": "The break is draining Zone 1, which has no storage.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.8,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the hospital warned now, and for the Mill Road booster trade-off being understood.",
+            "chunkId": 162,
+            "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.121Z",
+        "version": 1
+      },
+      "inject:01M5RH0V4VYVS7E8DPQVZAKG5P": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "8c5fbaa21e1c48e6",
+        "claims": [
+          {
+            "text": "Clears the cyber question.",
+            "chunkId": 20,
+            "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for CODE CLEARWATER being closed and the spare sent.",
+            "chunkId": 20,
+            "headingPath": "ERP › Section 6 › 6.2 Online Water-Quality Instruments",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.121Z",
+        "version": 1
+      },
+      "inject:01M5RH1XPVNJM59T9AZBJTJ28S": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "023f4f5d568cf3a2",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 113,
+            "headingPath": "City of Millbrook Department of… › Section 6",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH344ETP26MBGG91NATDGV": {
+        "label": "review",
+        "reason": "Only 20% of ‘Watch for no advisory announced before it is decided, and a…’ is in 4.4 Level 3 — Public Health Emergency.",
+        "fingerprint": "cc3fd3edfad34815",
+        "claims": [
+          {
+            "text": "Watch for no advisory announced before it is decided, and a next-update time.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH3RCYM3VR30ZY8Y6G441G": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "0e301226f5022f94",
+        "claims": [],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH42ZAB54XNXF93HPKXZC9": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 3.",
+        "fingerprint": "03f76da5da5a2155",
+        "claims": [
+          {
+            "text": "Watch for a direct answer with facts and the Customer Service number.",
+            "chunkId": 107,
+            "headingPath": "City of Millbrook Department of… › Section 3",
+            "overlap": 0.667,
+            "matched": [
+              "Customer Service"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH4CCRGK6A8GEQ83H8JCY1": {
+        "label": "review",
+        "reason": "Only 25% of ‘Red herring: air in the lines.’ is in 8.2 Response Matrix.",
+        "fingerprint": "a4352fb20b9ef472",
+        "claims": [
+          {
+            "text": "Red herring: air in the lines.",
+            "chunkId": 120,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.2 Response Matrix",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch that it is answered, not escalated into the advisory decision.",
+            "chunkId": 113,
+            "headingPath": "City of Millbrook Department of… › Section 6",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH5F4B4ZVXQSJS2DT9224Q": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e07375a504038540",
+        "claims": [
+          {
+            "text": "The decision point.",
+            "chunkId": 47,
+            "headingPath": "ERP › Section 12",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "A whole-zone advisory is simple and over-broad; a street-bounded one is precise and may miss streets nobody has reported.",
+            "chunkId": 47,
+            "headingPath": "ERP › Section 12",
+            "overlap": 0.091,
+            "matched": [],
+            "missing": [
+              "reported"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for DDAGW consulted, ERP-2, the City Manager’s approval and a plan to widen the area as data returns.",
+            "chunkId": 51,
+            "headingPath": "ERP › Annex B",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "City Manager",
+              "ERP-2",
+              "approval"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.122Z",
+        "version": 1
+      },
+      "inject:01M5RH7B3Z8WFJB7EV03ZM2CCE": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "184e3a5e35104edd",
+        "claims": [
+          {
+            "text": "Watch for the trade-off stated by street, and for the PIO told before any wider shutoff.",
+            "chunkId": 162,
+            "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.123Z",
+        "version": 1
+      },
+      "inject:01M5RH8Y008SX1VWWQ9RCTHQ4X": {
+        "label": "review",
+        "reason": "‘ERP 7.1’, ‘notifications’ are not in 4.4 Level 3 — Public Health Emergency or the facility facts.",
+        "fingerprint": "755955d94e88c3b8",
+        "claims": [
+          {
+            "text": "Watch for the ERP 7.1 triggers, the dialysis notifications before the valve opens, and Northgate considered.",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "overlap": 0.3,
+            "matched": [],
+            "missing": [
+              "ERP 7.1",
+              "notifications"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.123Z",
+        "version": 1
+      },
+      "inject:01M5RHA43X86NFQCSPGF0XPRER": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "21c261301b0fbc8a",
+        "claims": [
+          {
+            "text": "The picture is worse than the field readings suggested.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the values checked against the field before they are trusted.",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.123Z",
+        "version": 1
+      },
+      "inject:01M5RHBA932MSNCW0F6JZWN3K4": {
+        "label": "review",
+        "reason": "Only 43% of ‘Watch for IC-1 or a plant pressure change, and the hospital…’ is in 3.2 Remote Sites.",
+        "fingerprint": "90ac9131e31ee137",
+        "claims": [
+          {
+            "text": "Zone 1 and Zone 2 are now fighting each other.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for IC-1 or a plant pressure change, and the hospital kept informed.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0.429,
+            "matched": [
+              "IC-1"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.123Z",
+        "version": 1
+      },
+      "inject:01M5RHDBKG8EC3T0146J3BAQ33": {
+        "label": "grounded",
+        "reason": "Every claim matches Annex C.",
+        "fingerprint": "25553e8c2317325e",
+        "claims": [
+          {
+            "text": "Watch for the area confirmed or widened and a realistic lifting time.",
+            "chunkId": 52,
+            "headingPath": "ERP › Annex C",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.124Z",
+        "version": 1
+      },
+      "inject:01M5RHEJSQKDSC5RM8TY1KD8ND": {
+        "label": "grounded",
+        "reason": "Every claim matches 10.6 Social Posts (English; Spanish and Nepali leads attached by the Deputy PIO) and 10.2 Do Not Drink Notice.",
+        "fingerprint": "6122b55424ecd4c7",
+        "claims": [
+          {
+            "text": "Wrong area (Eastfield and downtown are not Zone 2; no streets), wrong instructions (bathing is fine under a boil advisory), no next-update time.",
+            "chunkId": 130,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.6 Social Posts (English; Spanish and Nepali leads attached by the Deputy PIO)",
+            "overlap": 0.643,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for it corrected before release.",
+            "chunkId": 126,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.2 Do Not Drink Notice",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.124Z",
+        "version": 1
+      },
+      "inject:01M5RHG6T76J50WJXCNEXHC1KQ": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9038f731252cf25a",
+        "claims": [
+          {
+            "text": "Noise.",
+            "chunkId": 164,
+            "headingPath": "City of Millbrook Department of… › 3. Facilities › 3.2 Remote Sites",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.124Z",
+        "version": 1
+      },
+      "inject:01M5RHJ1XQWRBZXNS89EMPY413": {
+        "label": "grounded",
+        "reason": "Every claim matches 7.1 Loss of Pressure / Main Break.",
+        "fingerprint": "865a60e1a5336851",
+        "claims": [
+          {
+            "text": "Zone 3 has hours, not days.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a warning level for Zone 3 customers.",
+            "chunkId": 25,
+            "headingPath": "ERP › Section 7 › 7.1 Loss of Pressure / Main Break",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.124Z",
+        "version": 1
+      },
+      "inject:01M5RHKCT8ENH9FB9RQFR9WBEF": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "1ef8e9bd5ee0c4aa",
+        "claims": [
+          {
+            "text": "Watch for today’s facts given and the capital question deferred to the Director, not speculated on.",
+            "chunkId": 81,
+            "headingPath": "City of Millbrook Department of… › Section 9",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "Director"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.124Z",
+        "version": 1
+      },
+      "inject:01M5RHMXZ697EBGCYEG3PXCEQ7": {
+        "label": "review",
+        "reason": "Only 0% of ‘Watch for the materials sent.’ is in 10.4 Advisory Lifted.",
+        "fingerprint": "ace1ef5e3bdaa9ed",
+        "claims": [
+          {
+            "text": "DDAGW advises and records; the department decides.",
+            "chunkId": 48,
+            "headingPath": "ERP › Section 13",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the materials sent.",
+            "chunkId": 128,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.4 Advisory Lifted",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "inject:01M5RHPSW91S73Z5N3TR552MYT": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "141bd02b1ad8c336",
+        "claims": [],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "grounded",
+        "reason": "8.3 Failure-Mode Matrix is in the index as cited.",
+        "fingerprint": "1f4e516e9bd45d3d",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "chunkId": 79,
+            "headingPath": "City of Millbrook Department of… › Section 8 › 8.3 Failure-Mode Matrix",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "grounded",
+        "reason": "4.4 Level 3 — Public Health Emergency is in the index as cited.",
+        "fingerprint": "b9b411ec8b8aa0e9",
+        "claims": [
+          {
+            "text": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "chunkId": 13,
+            "headingPath": "ERP › Section 4 › 4.4 Level 3 — Public Health Emergency",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "grounded",
+        "reason": "5.2 Sequence is in the index as cited.",
+        "fingerprint": "41a0344905bd295a",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "chunkId": 112,
+            "headingPath": "City of Millbrook Department of… › Section 5 › 5.2 Sequence",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:3": {
+        "label": "grounded",
+        "reason": "10.3 Precautionary Advisory (tampering suspected at a storage facility) is in the index as cited.",
+        "fingerprint": "4fe887f904258c4a",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+            "chunkId": 127,
+            "headingPath": "City of Millbrook Department of… › Section 10 › 10.3 Precautionary Advisory (tampering suspected at a storage facility)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:4": {
+        "label": "grounded",
+        "reason": "2. Map of Record (described) is in the index as cited.",
+        "fingerprint": "dcdba517d87dca0b",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › 2. Map of Record (described)",
+            "chunkId": 162,
+            "headingPath": "City of Millbrook Department of… › 2. Map of Record (described)",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      },
+      "overview:5": {
+        "label": "grounded",
+        "reason": "Section 2 is in the index as cited.",
+        "fingerprint": "a5d4f2454a23e3b1",
+        "claims": [
+          {
+            "text": "City of Millbrook Department of… › Section 2",
+            "chunkId": 105,
+            "headingPath": "City of Millbrook Department of… › Section 2",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T11:03:34.125Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

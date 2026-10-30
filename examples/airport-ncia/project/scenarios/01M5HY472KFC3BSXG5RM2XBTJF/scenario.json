@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-24T20:53:40.404Z",
+  "updatedAt": "2026-10-30T12:27:36.912Z",
   "brief": {
     "userPrompt": "A local TV station broadcasts details from the airport's Sensitive Security Information security program, forcing a parallel insider-leak investigation and mass security remediation while the airport keeps operating.",
     "audience": [
@@ -468,6 +468,880 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-ssi",
+        "capability": "public_information_and_warning",
+        "why": "The objective tests whether the team understands the nature and consequences of SSI disclosure, and how to communicate about it without confirming sensitive details. The response must include public messaging that avoids revealing any SSI while acknowledging the incident, as required by the ASP and TIRP."
+      },
+      {
+        "objectiveId": "obj-ssi",
+        "capability": "cybersecurity",
+        "why": "The objective requires recognizing that SSI is a form of protected information, and that its unauthorized disclosure constitutes a cybersecurity and compliance failure. The team must demonstrate understanding of how SSI is protected under 49 CFR, and how breaches of SSI relate to broader cybersecurity controls like access logging, encryption, and digital rights management."
+      },
+      {
+        "objectiveId": "obj-dual-track",
+        "capability": "operational_coordination",
+        "why": "The objective demands simultaneous execution of investigation and remediation. The team must establish a unified structure to manage both tracks, ensuring that investigative actions do not disrupt operational changes, and that remediation does not interfere with evidence collection or legal processes."
+      },
+      {
+        "objectiveId": "obj-dual-track",
+        "capability": "situational_assessment",
+        "why": "The team must continuously assess the status of both tracks — the investigation and the remediation — to identify gaps, overlaps, and risks. This includes tracking the progress of TSA reporting, media escalation, and access control changes, all of which are critical to maintaining situational awareness across dual objectives."
+      },
+      {
+        "objectiveId": "obj-media-legal",
+        "capability": "public_information_and_warning",
+        "why": "The objective focuses on managing public messaging under pressure. The PIO must deliver consistent, non-confirmation statements that protect SSI, avoid fueling speculation, and maintain public trust — all in alignment with TIRP Section 1.2 and ASP SSI protocols."
+      },
+      {
+        "objectiveId": "obj-media-legal",
+        "capability": "access_control_and_identity_verification",
+        "why": "The objective tests whether the team understands that access to SSI must be strictly controlled and audited. The legal and media response must be grounded in the reality that access to the ASP was not properly verified or restricted, which enabled the leak — a systemic failure that must be addressed in messaging and policy."
+      },
+      {
+        "objectiveId": "obj-continuity",
+        "capability": "infrastructure_systems",
+        "why": "The objective centers on maintaining airport operations while rapidly changing physical and procedural security controls. The team must demonstrate that they can implement new door codes, access groups, and procedures across airlines, vendors, and airport staff without causing operational disruption, as required by AEP Section 4.5 and TIRP Section 13.3."
+      },
+      {
+        "objectiveId": "obj-systemic",
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "why": "The objective requires identifying that the leak was not caused by a single bad actor, but by systemic failures in SSI protection, access control, and auditability. The team must recognize that the root causes — unencrypted storage, unauthenticated workstations, lack of access logs — must be addressed through risk-informed improvements to protection programs."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer delivers consistent, non-confirmation statements to media, employees, and stakeholders, using approved language from the ASP and TIRP, to prevent the disclosure of SSI while acknowledging the incident and the airport's response actions.",
+        "objectiveRefs": [
+          "obj-ssi",
+          "obj-media-legal"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "public_information_and_warning",
+            "task": "Issue a public statement within 30 minutes of the Channel 5 broadcast, confirming that the airport is aware of the media report and is taking immediate steps to address it, without referencing any details from the ASP.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "pio",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-01",
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "obj-ssi",
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "public_information_and_warning",
+            "task": "Refuse to confirm or deny any specific security measure mentioned in the broadcast, including door codes, camera gaps, or ARFF override procedures, during any media interaction.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP",
+              "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+              "chunkId": 41
+            },
+            "expectedBy": "pio",
+            "timing": "immediately",
+            "rowIds": [
+              "I-03",
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-ssi",
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "public_information_and_warning",
+            "task": "Coordinate with the IT Director and Legal to ensure that all media statements are consistent with the SSI classification and do not inadvertently disclose protected information.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "pio",
+            "timing": "during all media interactions",
+            "rowIds": [
+              "I-03",
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-ssi",
+              "obj-media-legal"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The IT Director ensures that all SSI-related systems, including the file server and print logs, are preserved and analyzed to determine how the ASP was accessed and printed, and implements immediate technical controls to prevent future unauthorized access or disclosure.",
+        "objectiveRefs": [
+          "obj-ssi"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "cybersecurity",
+            "task": "Preserve the file server access logs, print server logs, and email gateway records from the 90-day period prior to the leak, and prevent any changes to these records.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+              "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+              "chunkId": 39
+            },
+            "expectedBy": "it-cyber",
+            "timing": "immediately after discovery",
+            "rowIds": [
+              "I-04",
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-ssi"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "cybersecurity",
+            "task": "Disable the shared local account on SECWS-02 and require individual authentication for all workstations in the Security office.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 60 minutes of I-08",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-ssi"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "cybersecurity",
+            "task": "Implement digital rights management (DRM) and encryption for the revised ASP, and restrict printing to authorized users only.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP",
+              "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+              "chunkId": 41
+            },
+            "expectedBy": "it-cyber",
+            "timing": "before final submission to TSA",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-ssi"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Airport Director, in coordination with the Ops Chief, IT Director, PIO, and Security/Legal, establishes and maintains a unified operational structure through the EOC, ensuring all roles are synchronized on priorities, timelines, and information sharing during the SSI breach response.",
+        "objectiveRefs": [
+          "obj-dual-track"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "Activate the EOC at Level 2 per AEP 4.5, notifying all key staff via SMS and confirming their presence in the EOC.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "Establish a unified command structure in the EOC, assigning the Airport Director as Incident Commander and designating the IT Director, PIO, and Security/Legal as functional leads.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 30 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "operational_coordination",
+            "task": "Convene a 15-minute operational sync every hour between the EOC leads to review progress on code changes, media statements, and investigative findings.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "every hour",
+            "rowIds": [
+              "I-02",
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-06",
+              "I-07",
+              "I-08",
+              "I-09",
+              "I-10",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "Log all decisions, changes, and communications in the EOC Incident Log, including timestamps and responsible roles.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-command",
+            "timing": "in real time",
+            "rowIds": [
+              "I-01",
+              "I-02",
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-06",
+              "I-07",
+              "I-08",
+              "I-09",
+              "I-10",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "operational_coordination",
+            "task": "Coordinate with airline and vendor representatives via the EOC to approve the sequence and timing of door code changes, ensuring no single change causes operational disruption.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "before any code change is implemented",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "Direct the IT Director to report all forensic findings to the EOC within 60 minutes of discovery, ensuring the operational team is aware of new evidence.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 60 minutes",
+            "rowIds": [
+              "I-04",
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The team provides decision-relevant information on the nature and extent of the SSI leak, including the status of the investigation, the impact on operations, and the progress of remediation, to all decision makers through structured briefings and updated logs.",
+        "objectiveRefs": [
+          "obj-dual-track"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "situational_assessment",
+            "task": "Initiate a 15-minute situational assessment briefing at 6:30 PM, summarizing the SSI leak, confirmed compromised measures, and initial response actions.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "situational_assessment",
+            "task": "Update the EOC Situation Report every 30 minutes to reflect new evidence from IT, HR, and field operations, including access logs, employee statements, and change progress.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-02",
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-06",
+              "I-07",
+              "I-08",
+              "I-09",
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "situational_assessment",
+            "task": "Conduct a 10-minute assessment review at 7:30 PM to validate that all compromised door codes have been changed and that airline and vendor coordination is on track.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "situational_assessment",
+            "task": "Integrate IT’s print log findings into the EOC Situation Report to confirm the timing and location of the ASP print, and assess its impact on the investigation.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.2 Guiding Principle: RUN. HIDE. FIGHT.",
+              "quote": "RUN if a clear path exists. HIDE: lock/barricade, lights off, phones silent. FIGHT as an absolute last resort.",
+              "chunkId": 118
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 10 minutes of I-08",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "situational_assessment",
+            "task": "Brief the Airport Director and TSA Compliance Team on the status of all compromised measures, including which have been changed and which are pending, using the EOC Situation Report as the source.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-dual-track"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The airport must enforce strict access controls and identity verification for all SSI, including encryption, role-based access, and authenticated workstations, to prevent unauthorized access and ensure accountability for all actions involving sensitive information.",
+        "objectiveRefs": [
+          "obj-media-legal"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-18",
+            "capability": "access_control_and_identity_verification",
+            "task": "Activate the SSI access control policy to restrict access to the ASP to only authorized personnel with verified roles.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP",
+              "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+              "chunkId": 41
+            },
+            "expectedBy": "security-legal",
+            "timing": "within 15 minutes of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-19",
+            "capability": "access_control_and_identity_verification",
+            "task": "Revoke all access to the ASP for terminated employees and ensure their accounts are disabled within 5 minutes of termination.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 5 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "access_control_and_identity_verification",
+            "task": "Replace the shared local account on SECWS-02 with a user-authenticated workstation that logs all access and requires individual credentials.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 30 minutes of I-08",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "access_control_and_identity_verification",
+            "task": "Implement a digital rights management (DRM) system on the ASP to prevent unauthorized printing, copying, or sharing.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP",
+              "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+              "chunkId": 41
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 60 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "access_control_and_identity_verification",
+            "task": "Conduct a full audit of all SSI-accessible systems to identify and remediate any unauthenticated or broadly accessible workstations.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 2 hours of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "access_control_and_identity_verification",
+            "task": "Require multi-factor authentication for all access to the SSI repository and for any administrative changes to access controls.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 2 hours of I-12",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-media-legal"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Airport Operations team ensures that all compromised physical and digital infrastructure systems—such as door codes, access control systems, and security office workstations—are restored, secured, and verified to prevent further exploitation, using manual procedures and phased rollouts as needed to maintain operational continuity.",
+        "objectiveRefs": [
+          "obj-continuity"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-24",
+            "capability": "infrastructure_systems",
+            "task": "Activate manual (analog) procedures to maintain operations while digital access controls are being updated.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+              "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+              "chunkId": 123
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 15 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-25",
+            "capability": "infrastructure_systems",
+            "task": "Coordinate with IT to implement new access controls on all compromised systems, including door codes, PINs, and access groups.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 1 hour of I-02",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "infrastructure_systems",
+            "task": "Preserve forensic images of the file server and print logs before making any changes to access controls or system configurations.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+              "quote": "- **Detection:** IT or Operations notices anomaly (mouse moving on its own, ransom note, lighting pattern change). - **Containment (The \"Disconnect\"):** The Airport Director or IT Director has the aut",
+              "chunkId": 39
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 30 minutes of I-04",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "infrastructure_systems",
+            "task": "Implement new access controls on the shared workstation in the Security office, including individual authentication and print restriction policies.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 12 › 12.2 Guiding Principle: RUN. HIDE. FIGHT.",
+              "quote": "RUN if a clear path exists. HIDE: lock/barricade, lights off, phones silent. FIGHT as an absolute last resort.",
+              "chunkId": 118
+            },
+            "expectedBy": "it-cyber",
+            "timing": "within 2 hours of I-08",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "infrastructure_systems",
+            "task": "Verify that all new door codes and access groups are functional and tested in a controlled environment before full deployment.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "ops-command",
+            "timing": "within 4 hours of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "infrastructure_systems",
+            "task": "Document all infrastructure changes in the EOC log and submit to TSA as part of the compliance review.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+              "quote": "| Level | Name | Description & Triggers | Staffing | |---|---|---|---| | 3 | Monitoring | Potential threat or minor incident. Severe Weather Watch, VIP visit, credible intel, \"Alert 1\" | AOC monitors.",
+              "chunkId": 17
+            },
+            "expectedBy": "security-legal",
+            "timing": "within 2 hours of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-continuity"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "target": "The team will identify and document at least three systemic risks in the airport's protection program that enabled the SSI leak, including uncontrolled access to sensitive documents, lack of access logging on critical systems, and absence of formal risk assessments for SSI handling procedures, and will propose risk-mitigation actions for each.",
+        "objectiveRefs": [
+          "obj-systemic"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-30",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Identify and list the three most significant systemic risks that allowed the ASP to be accessed and copied without detection.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "security-legal",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-31",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Document the absence of formal risk assessments for SSI handling procedures, including access controls, storage, and off-boarding, as a gap in the protection program.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "security-legal",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-32",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Propose a risk-based prioritization for remediation actions, including immediate, short-term, and long-term controls to prevent future SSI breaches.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "ops-command",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-33",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Require that all changes to access controls, storage, and off-boarding procedures be reviewed through a formal risk assessment process before implementation.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "it-cyber",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-34",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Establish a quarterly review of SSI handling procedures to identify and mitigate emerging risks, including changes in personnel, technology, or threat environment.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "security-legal",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-35",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Conduct a post-incident risk assessment to determine whether the airport’s protection program had previously identified and prioritized the risk of insider threats involving terminated employees with access to SSI.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 1 › 1.2 Scope",
+              "quote": "Actions required to manage passengers, employees (airport, airline, concessionaires, vendors), and the public in an orderly, safe, and secure manner during terminal incidents. Not intended to address ",
+              "chunkId": 83
+            },
+            "expectedBy": "security-legal",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-systemic"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "3-Up / 3-Down: identify three things that went well and three that failed, then work the key discussion questions. Focus on SSI handling failures, off-boarding procedures, the tension between investigation and remediation, and media/legal constraints.",
@@ -552,6 +1426,543 @@
       ]
     }
   ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with no external manipulation of outcomes.",
+      "Players respond in accordance with existing plans, policies and procedures, as referenced in the AEP, TIRP, and ASP documents.",
+      "The SimCell is actively managing all external systems (TSA, law enforcement, media, legal bodies) and delivering injects in a controlled, timed sequence.",
+      "All roles are represented in the room and will act on behalf of their assigned functions, including coordination across agencies as per C3 and C5.",
+      "The SSI status of documents is known to the players, and they are expected to treat the ASP as SSI per C2 and C3."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated to reflect the compressed nature of a real emergency response.",
+      "The SimCell manages all external actors (TSA, FBI, media, legal counsel, HR) and delivers injects via pre-scripted calls and messages.",
+      "System names (e.g., PACS, S:\u0000Security, SECWS-02) are used as in the plans but are not physically accessed or altered during the exercise.",
+      "No actual data is changed; all access logs, print records, and file permissions are pre-determined and presented as injects.",
+      "The role of 'Facilitator' is not a participant but a narrative guide who delivers injects and reveals facts at designated times."
+    ],
+    "modules": [
+      {
+        "phaseId": "p0",
+        "narrativeMd": "It is 18:15. The room is in a state of immediate alert. The Player Briefing Packet and SSI Reference Card have just been distributed. A news broadcast has just played on screen — Channel 5 has aired a report revealing sensitive details from the airport’s Security Plan (ASP), including door codes, camera blind spots, and the location of the armory. The transmission was not delayed; it was live, and the information is now public. The room is in shock — the document that was supposed to be protected as Sensitive Security Information (SSI) is being discussed on national television.\n\nThe immediate aftermath is palpable: confusion, disbelief, and rising tension. The airport’s most critical security documentation — a document that governs how the facility prevents unauthorized access and responds to threats — has been exposed. No one knows yet how it happened, but the damage is visible and irreversible. The room must now begin to respond.",
+        "keyIssues": [
+          "The ASP is now public — what actions must be taken immediately to contain the damage?",
+          "How to respond to TSA’s emergency call demanding a written report and verification of changes?",
+          "How to manage media inquiries while protecting the integrity of an ongoing investigation?",
+          "How to begin changing every compromised security measure without disrupting operations?",
+          "How to balance the need for immediate remediation with the need to preserve evidence for an internal investigation?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "OPS: How do you initiate the immediate security changes required by the SSI disclosure, given that 143 people must be notified of new codes across multiple facilities?",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Operational Continuity",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you respond to the Channel 5 reporter’s call, given that you cannot confirm or deny the source but must maintain credibility and avoid legal exposure?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Media & Legal Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+                "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "SEC: How do you begin to assess the risk of a federal SSI violation, given that the ASP was stored on a shared drive with no access controls, and what steps must you take to prevent future incidents?",
+            "roleIds": [
+              "security-legal"
+            ],
+            "objectiveRef": "SSI Awareness",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP",
+                "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+                "chunkId": 120
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: How do you begin to secure the ASP from further unauthorized access, given that it was stored as a PDF on a shared drive and printed from an unauthenticated workstation?",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Dual-Track Response",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+                "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+                "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+                "chunkId": 218
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 18:25. The emergency response has begun. The TSA Federal Security Director has just called — he saw the broadcast and demands a written incident report, a list of compromised security measures, and confirmation that all codes and PINs have been changed. The call was made on the after-hours emergency line, and the urgency is undeniable.\n\nSimultaneously, the Channel 5 reporter has called the PIO, asking for a response to the story. She is probing whether the airport is aware of the vulnerabilities and whether a former employee was involved. The pressure is mounting — the media is already framing the narrative, and the airport has no time to prepare a coordinated statement.\n\nThe IT team has already begun reviewing access logs. They have identified that Ray Delgado, a former security officer, accessed the ASP 22 days ago — the night before his last day. His account was not revoked until the next morning. The same night, the ASP was printed from a shared workstation in the Security office. The printer log confirms it. No user authentication occurred on that machine. Any person with physical access to the office could have used it.\n\nThe room must now decide: Who will lead the immediate response? What will be said to TSA? How will the media be managed? And who will be responsible for changing the codes — and when?",
+        "keyIssues": [
+          "How to prioritize actions between TSA compliance, media response, and internal investigation?",
+          "How to manage the pressure to change every code immediately, when doing so will disrupt operations across terminals?",
+          "How to begin investigating Delgado without confirming his involvement or triggering legal retaliation?",
+          "How to prevent further SSI exposure while the investigation is ongoing?",
+          "How to maintain command and control when multiple agencies (TSA, FBI, EMA) may become involved?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "OPS: How do you coordinate the immediate changes to door codes and access groups across airlines, vendors, and airport staff, given that 143 people must be notified and many are on shift?",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Operational Continuity",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you craft a public statement for the 11 PM news slot, given that you cannot confirm the source but must acknowledge the situation and show leadership?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Media & Legal Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+                "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "SEC: How do you begin to assess whether the ASP was mishandled in terms of SSI controls, and what immediate actions must be taken to prevent further breaches?",
+            "roleIds": [
+              "security-legal"
+            ],
+            "objectiveRef": "SSI Awareness",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP",
+                "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+                "chunkId": 120
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: How do you begin to secure the ASP in the digital environment, given that it was stored on a shared drive with no access logging or print restrictions?",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Dual-Track Response",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+                "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+                "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+                "chunkId": 218
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is 18:50. The investigation has intensified. The IT team has confirmed that the ASP was printed from SECWS-02 — a shared workstation in the Security office — using a local account with no authentication. The access log shows that Ray Delgado was the last known user to access the file via his still-active account. His account was not revoked until the next morning.\n\nHR has confirmed that Delgado was terminated three weeks ago for repeated policy violations. During his exit interview, he reportedly said: \"You'll regret this. People need to know how this place is really run.\" He has since filed a wrongful termination complaint with the state labor board.\n\nThe on-duty security officer reports that changing the codes for S-3 alone will take hours — not because the system is slow, but because 143 people must be notified. Many are mid-shift. The system can push the new code in two minutes, but getting people to use it instead of the old one will require constant communication and verification.\n\nThe Associated Press has just called — they are running a national story on the leak. The media pressure is now overwhelming. The airport must respond, but the investigation is still underway.\n\nThe room must now decide: How to manage the dual-track response? How to keep the investigation on track while making urgent operational changes? And how to prevent the media from driving the narrative before the facts are clear?",
+        "keyIssues": [
+          "How to prevent the investigation from being derailed by media pressure or public demands for action?",
+          "How to manage the tension between changing every code immediately and ensuring that the changes are actually adopted by users?",
+          "How to handle the legal threat from Delgado’s attorney, who warns against naming him as a suspect?",
+          "How to ensure that the TSA compliance team finds no systemic failures in the SSI handling process?",
+          "How to maintain command and control when the investigation and remediation are pulling resources in opposite directions?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "OPS: How do you manage the operational burden of changing every compromised security measure across multiple airlines and vendors, especially when users are on shift and may not immediately adopt new codes?",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Operational Continuity",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you manage the 11 PM follow-up broadcast, given that you must not confirm or deny the source, but must also avoid appearing evasive or uncooperative?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Media & Legal Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+                "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "SEC: How do you begin to assess whether the airport’s SSI handling process allowed for this breach, and what systemic failures must be addressed to prevent recurrence?",
+            "roleIds": [
+              "security-legal"
+            ],
+            "objectiveRef": "SSI Awareness",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP",
+                "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+                "chunkId": 120
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: How do you begin to redesign the storage and access controls for the ASP to prevent future SSI leaks, given that it was previously stored on a shared drive with no audit trail?",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Dual-Track Response",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+                "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+                "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+                "chunkId": 218
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is 19:25. The investigation has concluded. The facilitator reveals that Ray Delgado accessed the ASP on his last night, walked to the shared workstation in the Security office, printed the full document, and left with it. He did not hack anything. He did not bypass any controls. He walked through open doors.\n\nThe root cause is not a single bad actor — it is systemic failure. The ASP was stored as a PDF on a shared drive. It had no digital rights management. No print restrictions. No access alert. The shared workstation had no user authentication. The off-boarding process failed to revoke his access in time. The SSI handling process was not enforced.\n\nThe TSA compliance team has arrived and is demanding to see the SSI distribution log, the file server permissions, and the workstation authentication policy. They are already critical of the airport’s handling of SSI.\n\nThe team must now shift from crisis response to long-term remediation. They must plan for: new physical security controls (e.g., camera repositioning, new armory lock), new digital controls (e.g., encrypted storage, access logging), and new off-boarding procedures. The airport must also prepare a public statement and a proactive press conference.\n\nThe room must now decide: How to rebuild trust? How to prevent future SSI leaks? And how to balance the need for transparency with the need to protect sensitive information?",
+        "keyIssues": [
+          "How to rebuild trust with TSA, the public, and the media after a major SSI breach?",
+          "How to design long-term SSI controls that prevent future breaches without overburdening operations?",
+          "How to manage the tension between the investigation’s conclusion and the need for immediate public accountability?",
+          "How to ensure that the airport’s off-boarding process is robust enough to prevent a departing employee from accessing sensitive documents?",
+          "How to coordinate between legal, security, and IT to implement systemic changes that address both the leak and the underlying failures?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "SEC: What physical and procedural changes are needed to prevent future SSI leaks, including camera repositioning, new armory locks, and revised response procedures?",
+            "roleIds": [
+              "security-legal"
+            ],
+            "objectiveRef": "Systemic Thinking",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP",
+                "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+                "chunkId": 120
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: How should the ASP be stored going forward — with encryption, access logging, DRM, and what about the shared workstation problem?",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Systemic Thinking",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+                "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+                "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+                "chunkId": 218
+              }
+            ]
+          },
+          {
+            "text": "PIO: What should your statement be for the 11 PM follow-up, and what should your proactive press conference include to show leadership and accountability?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Media & Legal Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+                "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "OPS: How long will it take to fully replace all compromised security measures, and what is your plan for the TSA ASP revision requirement?",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Operational Continuity",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is 19:55. The exercise has concluded. The team has now addressed the root causes of the leak — not just the individual, but the systemic failures in SSI handling, off-boarding, and access control.\n\nThe room is now in a reflective mode. The 3-Up / 3-Down discussion has begun. The facilitator asks: What was your first instinct when you saw the broadcast? Fight the media? Find the leaker? Change the codes? How did you balance the investigation and the remediation? Could you have prevented this? What SSI controls would have stopped Delgado? And what does your organization’s off-boarding process look like?\n\nThe room must now reflect on the lessons learned. The leak was not a hacker attack. It was a failure of process. The airport must now rebuild its SSI culture — not just fix the document, but fix the system.",
+        "keyIssues": [
+          "What systemic failures allowed the SSI leak to occur, and how can they be prevented in the future?",
+          "How to ensure that off-boarding procedures prevent a departing employee from accessing sensitive documents?",
+          "How to balance the need for transparency with the need to protect sensitive information in a media environment?",
+          "How to ensure that the investigation and remediation efforts do not undermine each other?",
+          "How to foster a culture of SSI awareness across all levels of the organization?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "OPS: What does your organization’s off-boarding process look like, and how would it have prevented Ray Delgado from accessing the ASP on his last day?",
+            "roleIds": [
+              "ops-command"
+            ],
+            "objectiveRef": "Systemic Thinking",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.3 Responsibilities",
+                "quote": "Airport Operations initiates SIP notification via PA and all channels. LEO/Security secures the perimeter, prevents entry/exit, secures shelters. Fire/EMS stages. Facilities Maintenance shuts down/adj",
+                "chunkId": 219
+              }
+            ]
+          },
+          {
+            "text": "SEC: How would you have prevented the SSI leak if you had implemented stronger access controls, digital rights management, and workstation authentication?",
+            "roleIds": [
+              "security-legal"
+            ],
+            "objectiveRef": "SSI Awareness",
+            "citations": [
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP",
+                "quote": "TSA Approval Date: 09/01/2024 · Revision Number: 4.5 · Classification: SENSITIVE SECURITY INFORMATION (SSI) *(fictional marking for classroom use)* > **Fictional document** created for the CSAAP cours",
+                "chunkId": 120
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "PIO: How does the First Amendment protect the media, and how does that change your options for responding to a story about a security breach?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Media & Legal Judgment",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              },
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 2 › 2.1 Purpose",
+                "quote": "The primary purpose of this AEP is to establish a comprehensive framework for the response to, management of, and recovery from emergencies occurring at or affecting North Coast International Airport.",
+                "chunkId": 45
+              }
+            ]
+          },
+          {
+            "text": "IT: What changes would you implement to ensure that the ASP cannot be printed or copied without authorization, and how would you monitor access to prevent future breaches?",
+            "roleIds": [
+              "it-cyber"
+            ],
+            "objectiveRef": "Systemic Thinking",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+                "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+                "chunkId": 252
+              },
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 2 › 2.2 Situation and Assumptions",
+                "quote": "Triggers: Tornado Warning; Severe Thunderstorm Warning (80+ mph winds, large hail); external HAZMAT incident (I-80/I-90, rail, industrial); security incident as directed by law enforcement. | Location",
+                "chunkId": 218
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "PACS (door codes S-1 to S-6)",
     "Airport Security Program (ASP)",
@@ -1035,6 +2446,610 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:07:10.406Z",
+      "finishedAt": "2026-10-30T12:07:26.851Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 41549,
+      "outputTokens": 6631,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:16:38.329Z",
+      "finishedAt": "2026-10-30T10:17:16.275Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 4275,
+      "outputTokens": 3535,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5b0100fbaf6c464c",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.402Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "277da0a156349eeb",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.403Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "78889def5a013e01",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d47aa0ed4cd07d74",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "527910b1cd651393",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "66746143d4ff9e13",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "fbaed517b4a1d030",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5a2e6d17f25193d8",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ccaab2a791ea062f",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c45e249b60457e3e",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ebe0b68ec2c74cd3",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "c6df3d991c58c930",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "b8dafb5d855d1d27",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b79ec01f0a9f936c",
+        "claims": [],
+        "at": "2026-10-30T10:17:18.404Z",
+        "version": 1
+      },
+      "inject:01M5HY473F2M7FVA6MZY3DDQ81": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "62ebfe90a9aeb7f8",
+        "claims": [],
+        "at": "2026-10-30T10:58:10.367Z",
+        "version": 1
+      },
+      "inject:01M5HY4D4VZP2TCDZ20SMSAMBR": {
+        "label": "review",
+        "reason": "‘C1’, ‘C4’ are not in Appendix E or the facility facts.",
+        "fingerprint": "20296410140a3f1c",
+        "claims": [
+          {
+            "text": "This inject confirms the SSI leak.",
+            "chunkId": 76,
+            "headingPath": "ASP › Appendix E",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The players must immediately assess credibility and initiate the cyber-incident protocol.",
+            "chunkId": 76,
+            "headingPath": "ASP › Appendix E",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for confusion over who holds authority and whether they reference C1 or C4 for door behavior.",
+            "chunkId": 76,
+            "headingPath": "ASP › Appendix E",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [
+              "C1",
+              "C4"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.369Z",
+        "version": 1
+      },
+      "inject:01M5HY4JNDWJ55YPSXV17NHBJC": {
+        "label": "review",
+        "reason": "‘report’ is not in 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3) or the facility facts.",
+        "fingerprint": "2bb1cd9bf4ee3e90",
+        "claims": [
+          {
+            "text": "This is a high-pressure, time-bound call from a federal authority.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ASC must immediately initiate the incident report and begin compiling the compromised measures list.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation, duplication of effort, or failure to assign ownership.",
+            "chunkId": 127,
+            "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.369Z",
+        "version": 1
+      },
+      "inject:01M5HY4TNY79KNGPS1QPN8D9X1": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "62580af1d803d0f1",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to respond to media speculation about a former employee.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any confirmation of the leak source.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Correct response is to acknowledge the broadcast and state action is underway, without engaging the source question.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.091,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.370Z",
+        "version": 1
+      },
+      "inject:01M5HY527KWFC8PNFPEQWFW7RD": {
+        "label": "review",
+        "reason": "‘IT Manager’ is not in 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520) or the facility facts.",
+        "fingerprint": "8fa5ce09ded5dfb9",
+        "claims": [
+          {
+            "text": "This inject reveals the first concrete evidence of a suspect: Delgado.",
+            "chunkId": 45,
+            "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT team has not yet flagged the IT Manager's access as anomalous, so players must not assume it's malicious.",
+            "chunkId": 45,
+            "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "IT Manager"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature accusations or hasty escalation to legal without cross-checking.",
+            "chunkId": 45,
+            "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.370Z",
+        "version": 1
+      },
+      "inject:01M5HY5FBB1FF42A3PBCP71Z6J": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "375b0defa2cc333b",
+        "claims": [
+          {
+            "text": "This inject establishes motive for the leak.",
+            "chunkId": 45,
+            "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for legal to overreact or delay, and for security to push for a direct confrontation with Delgado.",
+            "chunkId": 45,
+            "headingPath": "ASP › Section 1 › 1.3 Protection of Sensitive Security Information (SSI) (49 CFR § 1520)",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.370Z",
+        "version": 1
+      },
+      "inject:01M5HY5P3D8J5SWSZE75MCS2BY": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject reveals the real-world friction of implementing…’ is in 4.5 Checklist: Repopulation.",
+        "fingerprint": "3a651ea02aae7227",
+        "claims": [
+          {
+            "text": "This inject reveals the real-world friction of implementing security changes across a multi-tenant airport.",
+            "chunkId": 100,
+            "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must decide whether to enforce immediate compliance or allow a phased rollout, balancing security urgency with operational continuity.",
+            "chunkId": 100,
+            "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+            "overlap": 0.182,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.370Z",
+        "version": 1
+      },
+      "inject:01M5HY5Z4JHKQZZDYQX48MJFEC": {
+        "label": "review",
+        "reason": "Only 17% of ‘This inject escalates media pressure to national level.’ is in Annex A.",
+        "fingerprint": "2b3379da80dd8f4c",
+        "claims": [
+          {
+            "text": "This inject escalates media pressure to national level.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must now respond not just to local media, but to a national wire service with a tight deadline.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for hesitation, inconsistency, or failure to issue a public quote.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The 10 PM deadline is now real.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.370Z",
+        "version": 1
+      },
+      "inject:01M5HY6C1SKWN18E80AGZ0C20S": {
+        "label": "review",
+        "reason": "‘SECWS-02’ is not in 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop) or the facility facts.",
+        "fingerprint": "5a110f4e7cd9cae1",
+        "claims": [
+          {
+            "text": "This inject confirms the timing and method of the ASP leak.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The shared workstation (SECWS-02) was used, and no authentication was recorded — a critical gap.",
+            "chunkId": 54,
+            "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [
+              "SECWS-02"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The legal team must decide if this constitutes a strong enough lead to involve law enforcement.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must now explain why the workstation lacks authentication.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.372Z",
+        "version": 1
+      },
+      "inject:01M5HY6Q82H128TBEDTFQSRTSB": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a legal escalation point.’ is in 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3).",
+        "fingerprint": "bd3a3dc3ef825dc8",
+        "claims": [
+          {
+            "text": "This is a legal escalation point.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The attorney is correct — the airport cannot publicly name Delgado as a suspect without evidence or law enforcement coordination.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.385,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The legal team must not engage in public attribution or retaliation.",
+            "chunkId": 44,
+            "headingPath": "ASP › Section 1 › 1.2 Airport Security Coordinator (ASC) (49 CFR § 1542.3)",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.373Z",
+        "version": 1
+      },
+      "inject:01M5HY6ZP9PJAZSBFR3EHM8211": {
+        "label": "review",
+        "reason": "‘C6’ is not in 4.4 Responsibilities or the facility facts.",
+        "fingerprint": "d7951e3714bed94e",
+        "claims": [
+          {
+            "text": "This inject forces players to confront the root causes of the leak — not just the person, but the failure to protect SSI as required by C6 and TIRP 4.4.",
+            "chunkId": 99,
+            "headingPath": "TIRP › Section 4 › 4.4 Responsibilities",
+            "overlap": 0.214,
+            "matched": [
+              "TIRP 4.4"
+            ],
+            "missing": [
+              "C6"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for blame-shifting vs. systemic analysis.",
+            "chunkId": 55,
+            "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The role must not confirm Delgado's guilt but must pressure for policy change.",
+            "chunkId": 55,
+            "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.373Z",
+        "version": 1
+      },
+      "inject:01M5HY78JA5Q8DG4V620ZF3MG8": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "42e74c4a00b92748",
+        "claims": [
+          {
+            "text": "This inject confirms the leak's origin and root cause.",
+            "chunkId": 35,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.3 Active Shooter",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must now shift from investigation to remediation and systemic reform.",
+            "chunkId": 35,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.3 Active Shooter",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for reactive blame-shifting or deflection — the deeper lesson is not about Delgado, but about the lack of controls that allowed him to act so freely.",
+            "chunkId": 35,
+            "headingPath": "AEP › Part II › Appendix 4 › 4.3 Active Shooter",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.374Z",
+        "version": 1
+      },
+      "inject:01M5HY7ESRYAEQ3TKNC26EBMA1": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject closes the scenario.’ is in 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link).",
+        "fingerprint": "393bf14b5e68544d",
+        "claims": [
+          {
+            "text": "This inject closes the scenario.",
+            "chunkId": 68,
+            "headingPath": "ASP › Section 6 › 6.4 Access Control System Failure (Cyber/Power) (Critical Scenario Link)",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The players must now deliver a full, time-bound remediation plan.",
+            "chunkId": 84,
+            "headingPath": "TIRP › Section 1 › 1.3 Coordinated Use with Other Documents",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Push for specific dates and responsible roles.",
+            "chunkId": 138,
+            "headingPath": "FEMA › Purpose and use › Block instructions (abridged)",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:58:10.374Z",
+        "version": 1
+      },
+      "inject:01M5HY7NEJ9VGMQJ57KBMCB0WB": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "6260d83c7cc1bc0c",
+        "claims": [],
+        "at": "2026-10-30T10:58:10.374Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }

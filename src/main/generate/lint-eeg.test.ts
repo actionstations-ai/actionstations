@@ -5,6 +5,8 @@ import { Scenario, type CriticalTask } from '@shared/schemas'
 import {
   EEG_CAPABILITY_MISSING,
   EEG_CAPABILITY_UNKNOWN,
+  EEG_COLLAPSED,
+  EEG_GUIDE_MISSING,
   EEG_ROW_UNCOVERED,
   EEG_TASK_UNCITED,
   EEG_TASK_UNLINKED,
@@ -62,6 +64,36 @@ describe('lintEeg', () => {
     expect(missing[0]?.severity).toBe('warning')
     // No EEGs yet: rows cannot be uncovered.
     expect(codes(s)).not.toContain(EEG_ROW_UNCOVERED)
+  })
+
+  it('warns when one guide covers more than two objectives or a mapped capability has none', () => {
+    const guide = (capability: 'infrastructure_systems' | 'planning') => ({
+      capability,
+      target: '',
+      objectiveRefs: [],
+      criticalTasks: [task('T-01', { capability })],
+    })
+    const s: Scenario = {
+      ...base,
+      evaluation: {
+        objectiveCapabilities: base.objectives.map((o, i) => ({
+          objectiveId: o.id,
+          capability: i === 0 ? ('planning' as const) : ('infrastructure_systems' as const),
+          why: '',
+        })),
+        eegs: [guide('infrastructure_systems')],
+      },
+    }
+    expect(base.objectives.length).toBeGreaterThan(2)
+    expect(codes(s)).toContain(EEG_COLLAPSED)
+    const missing = lintEeg(s).filter((w) => w.code === EEG_GUIDE_MISSING)
+    expect(missing.map((w) => w.message)).toEqual(['"Planning" has no evaluation guide'])
+    const fixed = {
+      ...s,
+      evaluation: { ...s.evaluation, eegs: [guide('infrastructure_systems'), guide('planning')] },
+    }
+    expect(codes(fixed)).not.toContain(EEG_COLLAPSED)
+    expect(codes(fixed)).not.toContain(EEG_GUIDE_MISSING)
   })
 
   it('notes unlinked tasks and uncovered non-control rows', () => {

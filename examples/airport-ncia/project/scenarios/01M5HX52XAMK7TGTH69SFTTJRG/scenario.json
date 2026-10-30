@@ -7,7 +7,7 @@
   "version": 1,
   "status": "ready",
   "createdAt": "2026-10-21T00:00:00.000Z",
-  "updatedAt": "2026-10-24T20:53:25.414Z",
+  "updatedAt": "2026-10-30T12:27:21.615Z",
   "brief": {
     "userPrompt": "A malicious actor manipulates the AODB so FIDS, BHS and PA mislead passengers; test data integrity, public trust and crowd management.",
     "audience": [
@@ -677,6 +677,474 @@
       }
     ]
   },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-communication",
+        "capability": "public_information_and_warning",
+        "why": "The objective requires timely, coordinated, and reliable messaging to the public and media during a cyber incident, which directly aligns with Public Information and Warning, ensuring consistent and actionable information is delivered via all channels."
+      },
+      {
+        "objectiveId": "obj-communication",
+        "capability": "operational_coordination",
+        "why": "The objective involves integrating IT, Operations, and Public Information roles into a unified response structure, which is the core function of Operational Coordination to ensure all stakeholders act in concert."
+      },
+      {
+        "objectiveId": "obj-decision",
+        "capability": "situational_assessment",
+        "why": "The objective centers on making life-safety and operational decisions under uncertainty, requiring continuous assessment of threat status, system behavior, and impact—key to Situational Assessment."
+      },
+      {
+        "objectiveId": "obj-decision",
+        "capability": "operational_coordination",
+        "why": "High-consequence decisions must be made in coordination across technical and operational leadership; this objective depends on a unified command structure to synchronize decisions, which is the purpose of Operational Coordination."
+      },
+      {
+        "objectiveId": "obj-technical",
+        "capability": "cybersecurity",
+        "why": "The objective directly tests the ability to identify a cyberattack vector (SQL injection, compromised credential) from technical logs, which is the core function of Cybersecurity in protecting and restoring systems."
+      },
+      {
+        "objectiveId": "obj-technical",
+        "capability": "access_control_and_identity_verification",
+        "why": "The root cause involves unauthorized access to the AODB via credential compromise, which falls under Access Control and Identity Verification, as it relates to protecting system integrity and preventing unauthorized access."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer (PIO) delivers coordinated, prompt, and reliable information to the public and media through social media, press releases, and public announcements, using the TIRP Section 13.7 Checklist and ASP Appendix D to ensure messaging consistency and accuracy during a system failure.",
+        "objectiveRefs": [
+          "obj-communication"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "public_information_and_warning",
+            "task": "Issue a public statement via social media to correct misinformation about a cyberattack on the airport's systems.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "pio",
+            "timing": "Within 10 minutes of receiving the viral social media post",
+            "rowIds": [
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "obj-communication"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "public_information_and_warning",
+            "task": "Coordinate with the IT Director to confirm the nature of the failure before issuing any public statement.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "pio",
+            "timing": "Before issuing any public statement",
+            "rowIds": [
+              "I-06b"
+            ],
+            "objectiveRefs": [
+              "obj-communication"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "public_information_and_warning",
+            "task": "Publish a",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes of the PA system announcement",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-communication"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Airport Operations Manager (Ops) establishes and maintains a unified command structure with the IT Director, Public Information Officer, and Airport Security Coordinator, using the TIRP Section 13.2 Command Structure and Section 13.7 Checklist to synchronize actions across technical and operational functions during a cyber incident.",
+        "objectiveRefs": [
+          "obj-communication",
+          "obj-decision"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Activate Unified Command by designating the Ops Director as Incident Commander and the IT Director as Technical Incident Command.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+              "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+              "chunkId": 122
+            },
+            "expectedBy": "ops-director",
+            "timing": "Within 5 minutes of the airline rep's threat to pull staff",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-communication",
+              "obj-decision"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Establish a daily coordination briefing with the IT Director, PIO, and ASC to synchronize operational and technical updates.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+              "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+              "chunkId": 122
+            },
+            "expectedBy": "ops-director",
+            "timing": "Within 30 minutes of Unified Command activation",
+            "rowIds": [
+              "I-08",
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-communication",
+              "obj-decision"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Log all decisions made during the incident in the Incident Action Log using the TIRP Section 13.7 Checklist.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "After each major decision point",
+            "rowIds": [
+              "I-09",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "obj-communication",
+              "obj-decision"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The IT Director identifies and isolates the root cause of the cyber incident using AODB logs and backup recovery procedures, as directed by the TIRP Section 13.7 Checklist and ASP Section 3.2 System Architecture, to prevent further compromise and restore system integrity.",
+        "objectiveRefs": [
+          "obj-technical"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "cybersecurity",
+            "task": "Identify unauthorized admin access in the AODB SQL database using the provided logs.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-director",
+            "timing": "Within 15 minutes of receiving the technical update from IT Helpdesk",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "cybersecurity",
+            "task": "Isolate the compromised server (NCIA-SEC-DB01) and disconnect it from the network.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-director",
+            "timing": "Within 5 minutes of identifying unauthorized access",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "cybersecurity",
+            "task": "Restore the AODB from a clean backup taken at 04:00 AM, using the backup tape library or alternate source.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-director",
+            "timing": "After verifying the backup is not corrupted",
+            "rowIds": [
+              "I-13",
+              "I-14b"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "access_control_and_identity_verification",
+        "target": "The IT Director confirms that the root cause of the cyber incident was a compromised credential via a phishing attack, using the ASP Section 3.2 System Architecture and TIRP Section 13.7 Checklist to validate access control and identity verification failures.",
+        "objectiveRefs": [
+          "obj-technical"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "access_control_and_identity_verification",
+            "task": "Trace the initial access point to a workstation (OPS_INTERN_03) that clicked a phishing link.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "it-director",
+            "timing": "Within 10 minutes of receiving the email forward",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "access_control_and_identity_verification",
+            "task": "Confirm that the compromised credential was used to gain unauthorized access to the AODB SQL database.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "it-director",
+            "timing": "After isolating the server and reviewing access logs",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "access_control_and_identity_verification",
+            "task": "Verify that the database encryption (AES-256) and TLS 1.2 protections were not bypassed during the attack.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+              "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+              "chunkId": 75
+            },
+            "expectedBy": "it-director",
+            "timing": "After system restoration",
+            "rowIds": [
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "obj-technical"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "situational_assessment",
+        "target": "The Ops Director makes a high-consequence operational decision to 'Go Dark' the FIDS and PA systems based on incomplete or conflicting technical data, using the TIRP Section 13.7 Checklist and AEP Section 4 to assess risk and impact and determine the appropriate course of action.",
+        "objectiveRefs": [
+          "obj-decision"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "situational_assessment",
+            "task": "Declare a terminal-wide 'Go Dark' decision to shut down FIDS and PA systems after receiving conflicting data from TSA and BHS.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "Within 5 minutes of the PA announcement",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-decision"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "situational_assessment",
+            "task": "Assess the impact of the failure on passenger flow, safety, and airline operations using real-time feedback from LEO, TSA, and airline liaisons.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-director",
+            "timing": "Before making any major operational change",
+            "rowIds": [
+              "I-08",
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-decision"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "situational_assessment",
+            "task": "Confirm that the decision to 'Go Dark' was based on a risk assessment that prioritized life safety over operational continuity.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-director",
+            "timing": "Before issuing the 'Go Dark' order",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-decision"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_communications",
+        "target": "The Airport Operations Manager ensures timely and reliable communications across all response forces using the TIRP Section 13.7 Checklist and ASP Section 3.2 Network Segmentation to maintain situational awareness and operational coordination during a cyber incident.",
+        "objectiveRefs": [],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "operational_communications",
+            "task": "Switch to manual communications (megaphones, whiteboards, and bullhorns) after the PA system fails.",
+            "citation": {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+              "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+              "chunkId": 127
+            },
+            "expectedBy": "ops-director",
+            "timing": "Within 5 minutes of the PA announcement",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "operational_communications",
+            "task": "Ensure that the LEO and TSA are using dedicated, secure radio channels to avoid interference from the compromised network.",
+            "citation": {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            "expectedBy": "ops-director",
+            "timing": "After the network failure is confirmed",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "operational_communications",
+            "task": "Verify that all response personnel are using the airport's emergency communication protocol (e.g., 'Crash Phone' or mass notification system) to report status.",
+            "citation": {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            },
+            "expectedBy": "ops-director",
+            "timing": "After EOC activation",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
   "hotwash": {
     "method": "3up3down",
     "methodDescription": "Ask the room to identify three things that went well and three things that broke/failed.",
@@ -696,6 +1164,404 @@
     ]
   },
   "simcellScripts": [],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented, with no external interference or changes to the injects.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in the TIRP, AEP, and related annexes.",
+      "All injects are authentic and reflect real-time developments as perceived by the players in the room.",
+      "The SimCell manages all external actors (e.g., law enforcement, cyber task force, vendors) and system behavior not directly controlled by the players.",
+      "Time advances only as specified in the injects, with no continuity assumed between modules beyond what is explicitly stated."
+    ],
+    "artificialities": [
+      "Time jumps between modules are simulated; the exercise progresses in discrete 60-minute phases with no in-module time progression.",
+      "The SimCell plays all roles not in the room, including law enforcement, cyber task force, and external vendor contacts.",
+      "System names (e.g., AODB, FIDS, BHS) are used as in the plans but are not physically accessed or modified by players.",
+      "Injects are delivered via paper, screen, or audio-visual means and reflect only what is visible to the players in the room.",
+      "The root cause (SQL injection via compromised credential) is not revealed until Phase 4, and players must infer it from logs and behavior."
+    ],
+    "modules": [
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 09:00. The terminal is bustling with passengers due to a holiday weekend. Weather is clear, and operations are running normally. The FIDS displays show accurate flight information, and airport staff are managing routine operations. At 09:15, an airline representative calls Ops to report a display error on a gate screen: a flight to Minneapolis is listed as going to Miami. At 09:20, a helpdesk ticket reports that vending machines in Concourse B are dispensing drinks unexpectedly. At 09:30, IT confirms that the source data from the AODB is actually sending 'Miami' as the destination, not a display glitch. At 09:45, TSA reports a discrepancy: passengers are scanning boarding passes for a flight to Chicago, but the FIDS shows it as 'Cancelled'. At 09:55, a viral social media post from @TravelGuy99 mocks the airport's reliability, claiming flight information is inconsistent across screens and apps.",
+        "keyIssues": [
+          "Is this a display glitch or a systemic data issue? When should an incident be declared?",
+          "How to respond to conflicting reports from multiple sources (airline, TSA, social media) without confirmation from IT?",
+          "Should the IT Department be notified immediately, or can it be handled via helpdesk ticketing?",
+          "How to prevent premature public messaging that could worsen confusion or panic?",
+          "How to balance technical verification against operational urgency when passenger flow is already affected."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Ops: How should you assess the initial signs of data inconsistency, and when should you escalate to formal incident status under TIRP Section 13.3?",
+            "roleIds": [
+              "ops-director"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+                "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+                "chunkId": 253
+              }
+            ]
+          },
+          {
+            "text": "IT: Based on the helpdesk ticket and AODB data confirmation, what is your immediate action under TIRP Section 13.7 Checklist: Cybersecurity Incident?",
+            "roleIds": [
+              "it-director"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your role in monitoring social media for misinformation, and how do you prepare to respond to a viral rumor under AEP Section 5.1?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "ASC: If access control systems were to fail, what would your immediate action be under TIRP Section 13.7?",
+            "roleIds": [
+              "asc"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "Airline-Liaison: How do you coordinate with airline staff when they report conflicting flight data, and what authority do you have to demand verification?",
+            "roleIds": [
+              "airline-liaison"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is now 10:00. The situation has escalated rapidly. The FIDS now shows 20% of flights with incorrect times or gates. At 10:00, a PA announcement falsely declares that Flight 666 to Purgatory is boarding at all gates. The FIDS screens mirror the message, causing panic. At 10:10, a fire alarm is reported in the Long Term Parking Deck—this is a red herring, but it adds to the confusion. At 10:15, a viral Facebook post claims that ISIS has taken over the control tower and planes are crashing. At 10:30, the BHS Control reports that the sortation logic is corrupted and all bags for Skyline and HWK Air are being sent to the manual encode pier, jamming the belt. At 10:40, IT confirms that an intern clicked a phishing link on workstation OPS_INTERN_03. At 10:45, an airline representative confronts Ops in person, stating that pilots are refusing to push back because their EFBs are syncing with corrupted data. The airport is no longer operating as normal.",
+        "keyIssues": [
+          "How to determine if the FIDS, BHS, and EFB systems are compromised or independently failing?",
+          "When to declare a full cyber incident and activate the EOC under AEP Section 3.5?",
+          "How to manage a growing public panic when media is already reporting 'cyber terror'?",
+          "How to ensure that IT’s technical findings are trusted by operations and airlines?",
+          "How to prevent operational paralysis when multiple systems fail simultaneously and evidence is incomplete."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Ops: Based on the convergence of FIDS, BHS, and EFB failures, what triggers the activation of the Airport Emergency Plan (AEP) under AEP Section 3.5?",
+            "roleIds": [
+              "ops-director"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+                "quote": "- **Notification:** Incidents may occur with little or no warning. Initial notification will likely come from the ATCT or a 911 call. - **Initial Overwhelm:** A significant incident (Alert 3 or Mass C",
+                "chunkId": 52
+              }
+            ]
+          },
+          {
+            "text": "IT: What is your immediate responsibility under TIRP Section 13.7 when unauthorized admin access is detected in the AODB database?",
+            "roleIds": [
+              "it-director"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you coordinate with the Joint Information Center (JIC) to counter a viral rumor about a terrorist takeover, and what is your first public statement under AEP Section 5.1?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "ASC: If the BHS system is sending bags to a manual pier, what do you do to prevent unauthorized access to the baggage area and ensure security continuity?",
+            "roleIds": [
+              "asc"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "Airline-Liaison: How do you manage airline staff who are threatening to pull their teams if data is restored without verification?",
+            "roleIds": [
+              "airline-liaison"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is now 11:00. The terminal is in manual mode. The FIDS screens are blank. The PA system has been silenced. At 11:00, IT confirms that the compromised server has been isolated and the AODB has been restored from a backup taken at 04:00 AM. However, at 11:15, a photo of the terminal is shown: crowds are gathering around airline counters, passengers are shouting, and the noise level is high. At 11:20, TSA reports that screening is halting because boarding pass data no longer matches the system. At 11:30, a radio call from security reports a crowd crush at Gate C4, where two flights were directed by old data. The airport is now operating under manual procedures. Whiteboards, paper manifests, and bullhorns are being used to relay information. The airport must manage passenger flow and maintain order without digital tools.",
+        "keyIssues": [
+          "How to implement manual/analog procedures across all departments when digital systems are down?",
+          "How to ensure consistency and accuracy in manual data entry across multiple teams?",
+          "How to manage passenger flow and prevent physical incidents like crowd crushes when information is not centralized?",
+          "How to maintain trust with airlines when manual verification is required for every flight?",
+          "How to prevent confusion when manual procedures are not yet standardized across teams."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Ops: What manual procedures must be activated under TIRP Section 13.3 to maintain operations when digital systems fail?",
+            "roleIds": [
+              "ops-director"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+                "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+                "chunkId": 253
+              }
+            ]
+          },
+          {
+            "text": "IT: What must you verify before allowing any data to be restored to the network, even if a backup exists?",
+            "roleIds": [
+              "it-director"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you manage media expectations when the airport is operating in manual mode and no official statement has been issued?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "ASC: What actions must you take to secure the airfield and prevent unauthorized entry when access control systems are not functional?",
+            "roleIds": [
+              "asc"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "Airline-Liaison: How do you ensure that airline staff follow manual procedures when they are under pressure and distrust the system?",
+            "roleIds": [
+              "airline-liaison"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is now 12:00. The airport is preparing to restore the FIDS and other systems. At 12:00, IT confirms that the AODB has been restored from a backup taken at 04:00 AM. However, at 12:10, a server error message appears: 'Backup Tape Library Not Mounted.' The restoration process is blocked. At 12:15, an airline representative demands a guarantee that the data is clean before any screens are turned on. At 12:20, IT confirms that the backup tape is not mounted, so the system cannot be restored from that point. At 12:30, airlines demand manual verification of every flight in the system before any data is published. The airport must now decide whether to trust the restored data, and how to verify it without a functioning network.",
+        "keyIssues": [
+          "How to verify data integrity when the backup is not mounted and no clean restore is possible?",
+          "How to decide whether to go 'dark' again or proceed with a potentially compromised system?",
+          "How to balance the need for speed in restoring operations with the need for verification?",
+          "How to rebuild public trust when the system has been restored from an incomplete backup?",
+          "How to manage the risk of a second failure if the system is reactivated without full verification."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Ops: What is your responsibility under TIRP Section 13.3 when the technical team cannot verify data integrity, and how do you decide whether to go 'dark' again?",
+            "roleIds": [
+              "ops-director"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.3 General Operations",
+                "quote": "First priority: isolate affected systems to prevent spread. Second: activate manual (analog) procedures to continue operations. Public communication coordinated between the IT Director (technical deta",
+                "chunkId": 253
+              }
+            ]
+          },
+          {
+            "text": "IT: What steps must you take to validate the integrity of the AODB data after a restore from a backup, especially when logs are missing?",
+            "roleIds": [
+              "it-director"
+            ],
+            "objectiveRef": "Technical Analysis",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              },
+              {
+                "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+                "headingPath": "ASP › Appendix F › F.2 Remote Access (Vendor Support)",
+                "quote": "Vendor remote access (Siemens, Johnson Controls) is NOT permitted to remain active 24/7. Procedure: vendor requests an access window → IT enables the specific VPN tunnel → IT monitors via screen recor",
+                "chunkId": 157
+              }
+            ]
+          },
+          {
+            "text": "PIO: How do you communicate to the public that the system has been restored, but verification is ongoing, without causing renewed panic?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          },
+          {
+            "text": "ASC: If the system is restored but the access control remains unreliable, how do you maintain perimeter security and prevent unauthorized entry?",
+            "roleIds": [
+              "asc"
+            ],
+            "objectiveRef": "Decision Making",
+            "citations": [
+              {
+                "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+                "headingPath": "TIRP › Section 13 › 13.7 Checklist: Cybersecurity Incident",
+                "quote": "- **IT Department:** assume Technical Incident Command (IT Director); identify and isolate affected systems; notify FBI (Cyber Task Force) and CISA; begin recovery from backups on a clean system. - **",
+                "chunkId": 257
+              }
+            ]
+          },
+          {
+            "text": "Airline-Liaison: How do you coordinate with airlines to manually verify every flight, and what authority do you have to enforce cooperation?",
+            "roleIds": [
+              "airline-liaison"
+            ],
+            "objectiveRef": "Communication",
+            "citations": [
+              {
+                "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+                "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+                "headingPath": "AEP › Part I › Section 5 › 5.1 Airport Authority Departments",
+                "quote": "**A. Airport Director (Chief Executive).** EOC Manager upon activation. Final authority on all policy decisions, including airport closure. Authorizes emergency expenditures. Approves all press releas",
+                "chunkId": 59
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "criticalResources": [
     "FIDS",
     "BHS",
@@ -1516,6 +2382,957 @@
       "promptRef": "template",
       "status": "ok",
       "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-30T12:04:59.957Z",
+      "finishedAt": "2026-10-30T12:05:22.058Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 5733,
+      "outputTokens": 2074,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-30T10:10:32.532Z",
+      "finishedAt": "2026-10-30T10:11:20.355Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 3537,
+      "outputTokens": 4411,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
     }
-  ]
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "57b55480c26d72f2",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.623Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9558626e986cdb2e",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-02a": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "6bc9877589c0a74b",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "32983215ce8d7792",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ec050ec2710cf0fa",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9ab7e8e070b35a2b",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9e96579de733effb",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-05b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c49636c2794e763d",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "The cited passage is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "a8cfcce95817ad03",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-06b": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3735cf32e7fb9f53",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "33ed238de0063050",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-08b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "fee95d0e25ad568a",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "9719e6ff3978ed95",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "56795d198778026c",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "The cited passage is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "934bd8436f22d766",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-10b": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "b8c1c9aa8884313c",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "unsupported",
+        "reason": "The cited passage is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "8225b600dce1eede",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "98efc918b7e9ba10",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "06bef47c56648708",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-13b": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e6a3fba958d30565",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a2b01237334691ab",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-14b": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3404294e1df74e35",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "unsupported",
+        "reason": "The cited passage is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "9dc4a9ef85b691b1",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "bc94860c9ac368f2",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.624Z",
+        "version": 1
+      },
+      "inject:01M5HX52YA0BZJ4K8ZBD788BD0": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ee8e5ebcf9e471e9",
+        "claims": [],
+        "at": "2026-10-30T10:56:24.898Z",
+        "version": 1
+      },
+      "inject:01M5HX5904QMVK8R7SQ6WSYRES": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a core narrative inject; the IT team should begin i…’ is in 4.6 Alert and Notification.",
+        "fingerprint": "6e9d4915074bad8e",
+        "claims": [
+          {
+            "text": "This is a core narrative inject; the IT team should begin investigating the FIDS data feed.",
+            "chunkId": 18,
+            "headingPath": "AEP › Part I › Section 4 › 4.6 Alert and Notification",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overconfidence in dismissing the error as minor.",
+            "chunkId": 17,
+            "headingPath": "AEP › Part I › Section 4 › 4.5 EOC Activation Levels",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.900Z",
+        "version": 1
+      },
+      "inject:01M5HX5HCAS0JDEFAA0NH3NVKV": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "9b25aff430568e14",
+        "claims": [
+          {
+            "text": "Noise inject; IT should not escalate this.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The maintenance team is already responding.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any attempt to route to IT for root cause analysis.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.900Z",
+        "version": 1
+      },
+      "inject:01M5HX5YZKJGQG8X8KESP70VAV": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "c7887da1b8ad9bc2",
+        "claims": [
+          {
+            "text": "This inject escalates the data integrity threat.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must investigate AODB logs for anomalies.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overconfidence in dismissing the issue as a 'one-off' error.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.900Z",
+        "version": 1
+      },
+      "inject:01M5HX66HTYF9EK0MQCSA5M3H6": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a inject.’ is in 13.4 Scenario A: Ransomware / Critical Network Failure.",
+        "fingerprint": "40e922e2a1eaec4b",
+        "claims": [
+          {
+            "text": "This is a inject.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ops team must recognize that FIDS data is inconsistent with actual flight status.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to verify with HWK Air or the AODB, and for confusion over whether to trust the screen or the gate.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.900Z",
+        "version": 1
+      },
+      "inject:01M5HX6FC38GHV178QQ9WTA31X": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "f3f1a8b23e962949",
+        "claims": [
+          {
+            "text": "Monitor social sentiment for spreading confusion; the error is now public and affecting multiple flights.",
+            "chunkId": 72,
+            "headingPath": "ASP › ATTACHMENTS",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX6NQ1T7MZW0R0JKG5H3S6": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d078b2242f05ed82",
+        "claims": [],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX6TMCSS4C5QGQ3T80P4VM": {
+        "label": "review",
+        "reason": "Only 25% of ‘Red herring inject; the fire alarm is fake and part of the …’ is in 8.2 Operations.",
+        "fingerprint": "c4e64478adeea460",
+        "claims": [
+          {
+            "text": "Red herring inject; the fire alarm is fake and part of the cyberattack.",
+            "chunkId": 109,
+            "headingPath": "TIRP › Section 8 › 8.2 Operations",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The security team may be distracted by the call, but the terminal FIDS and BHS issues remain unresolved.",
+            "chunkId": 110,
+            "headingPath": "TIRP › Section 8 › 8.4 Checklist: Structural Fire",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overreaction to the garage alarm.",
+            "chunkId": 109,
+            "headingPath": "TIRP › Section 8 › 8.2 Operations",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX73JYSEWXG1ZXS6826A9G": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a critical narrative inject.’ is in 6.2 Critical Systems & Impact.",
+        "fingerprint": "656d1f421acc65f9",
+        "claims": [
+          {
+            "text": "This is a critical narrative inject.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PA and FIDS are compromised.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The 'Purgatory' flight is fake and must be ignored.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Players must act to stop the PA from continuing and isolate the FIDS data feed.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.429,
+            "matched": [
+              "isolate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delay in disconnecting the PA system.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX7ERH9T3M6CPXCG3NTECJ": {
+        "label": "review",
+        "reason": "Only 10% of ‘This is a misinformation inject; the PIO must immediately i…’ is in 3.5 Planning Assumptions.",
+        "fingerprint": "b2253b2bb28a9f3f",
+        "claims": [
+          {
+            "text": "This is a misinformation inject; the PIO must immediately issue a statement to correct the false claim about aircraft being hijacked or crashed.",
+            "chunkId": 12,
+            "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the PIO to act before the rumor spreads further.",
+            "chunkId": 12,
+            "headingPath": "AEP › Part I › Section 3 › 3.5 Planning Assumptions",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX7QQ8GPBARY61R5595Q7B": {
+        "label": "review",
+        "reason": "Only 29% of ‘This inject escalates the BHS failure into a critical opera…’ is in 13.6 Scenario C: FIDS / BHS System Failure.",
+        "fingerprint": "a2dc973a517b8b40",
+        "claims": [
+          {
+            "text": "This inject escalates the BHS failure into a critical operational block.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Ops to activate IROPS, contact airlines, and initiate manual handling procedures.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.5,
+            "matched": [
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The jam is real and must be addressed.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX83PJ7T0JW60SC8J7WWY3": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject reveals the attack vector.’ is in 13.4 Scenario A: Ransomware / Critical Network Failure.",
+        "fingerprint": "9a5f7e0ddfe28768",
+        "claims": [
+          {
+            "text": "This inject reveals the attack vector.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must isolate OPS_INTERN_03 and initiate forensic containment.",
+            "chunkId": 124,
+            "headingPath": "TIRP › Section 13 › 13.4 Scenario A: Ransomware / Critical Network Failure",
+            "overlap": 0.286,
+            "matched": [
+              "isolate"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.901Z",
+        "version": 1
+      },
+      "inject:01M5HX8A3DATVVRZS8S94PYKK4": {
+        "label": "review",
+        "reason": "‘activate’ is not in 4.3 Direction and Control or the facility facts.",
+        "fingerprint": "5f5fb19194678f1a",
+        "claims": [
+          {
+            "text": "This inject triggers the need to formally declare an incident and activate Unified Command.",
+            "chunkId": 15,
+            "headingPath": "AEP › Part I › Section 4 › 4.3 Direction and Control",
+            "overlap": 0.5,
+            "matched": [
+              "declare"
+            ],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for players who hesitate to name the command roles or fail to reference TIRP. The airline's refusal to push back is a pressure point to force formal escalation.",
+            "chunkId": 15,
+            "headingPath": "AEP › Part I › Section 4 › 4.3 Direction and Control",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.902Z",
+        "version": 1
+      },
+      "inject:01M5HX8J00KWAW32V7A92JKQHJ": {
+        "label": "review",
+        "reason": "‘IT Lead’, ‘report’ are not in 3.3 Field Hardware & Components or the facility facts.",
+        "fingerprint": "95cec8902550216f",
+        "claims": [
+          {
+            "text": "This is a core inject confirming the attack vector and malicious payload.",
+            "chunkId": 74,
+            "headingPath": "ASP › Appendix D › D.2 Hardware Inventory (Critical Assets)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT Lead must now report the script execution and unauthorized access.",
+            "chunkId": 55,
+            "headingPath": "ASP › Section 3 › 3.3 Field Hardware & Components",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "IT Lead",
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Ops to assess whether to shut down FIDS to prevent further data corruption.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [
+              "shut down"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.902Z",
+        "version": 1
+      },
+      "inject:01M5HX8XV47MDZWC2SB6Z5MNPK": {
+        "label": "review",
+        "reason": "Only 40% of ‘This inject confirms the FIDS has gone fully dark.’ is in 6.2 Critical Systems & Impact.",
+        "fingerprint": "191d1e81f0b56e27",
+        "claims": [
+          {
+            "text": "This inject confirms the FIDS has gone fully dark.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ops team must now initiate manual information dissemination via megaphones and whiteboards.",
+            "chunkId": 38,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.2 Critical Systems & Impact",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any delay in calling for staff deployment.",
+            "chunkId": 94,
+            "headingPath": "TIRP › Section 3 › 3.4 Responsibilities",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.902Z",
+        "version": 1
+      },
+      "inject:01M5HX949BEYT8DT9DG6XZ3AMG": {
+        "label": "review",
+        "reason": "‘report’ is not in 9.3 Responsibilities or the facility facts.",
+        "fingerprint": "e8fe8e6b2e31caed",
+        "claims": [
+          {
+            "text": "Crowd management inject; the TSA team should report a physical line collapse and request manual mode.",
+            "chunkId": 112,
+            "headingPath": "TIRP › Section 9 › 9.3 Responsibilities",
+            "overlap": 0.2,
+            "matched": [
+              "TSA"
+            ],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Ops to coordinate the manual verification procedure and not escalate to full lockdown.",
+            "chunkId": 112,
+            "headingPath": "TIRP › Section 9 › 9.3 Responsibilities",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.903Z",
+        "version": 1
+      },
+      "inject:01M5HX9J1030EF88VWRJZ39CN2": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject escalates the threat from data corruption to ph…’ is in 3.5 Checklist: Evacuation.",
+        "fingerprint": "e8d5df9797dd0b23",
+        "claims": [
+          {
+            "text": "This inject escalates the threat from data corruption to physical safety.",
+            "chunkId": 95,
+            "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the Ops Director to shift priorities from flight operations to crowd control and medical response.",
+            "chunkId": 95,
+            "headingPath": "TIRP › Section 3 › 3.5 Checklist: Evacuation",
+            "overlap": 0.364,
+            "matched": [
+              "Ops Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.903Z",
+        "version": 1
+      },
+      "inject:01M5HXA1STESTPQ646TKPYQ36G": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "731e13bf01b39ed4",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to issue a public holding statement under media deadline.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature confirmation of cyber incident or unverified details.",
+            "chunkId": 128,
+            "headingPath": "TIRP › Annex A",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.903Z",
+        "version": 1
+      },
+      "inject:01M5HXAB8BANZN6P5K557R74AE": {
+        "label": "review",
+        "reason": "Only 31% of ‘This is a critical inject for IT to request authority to re…’ is in 13.6 Scenario C: FIDS / BHS System Failure.",
+        "fingerprint": "382b91caf04ef47b",
+        "claims": [
+          {
+            "text": "This is a critical inject for IT to request authority to restore FIDS. Watch for the Ops Director to ask for verification steps or to delay rollout due to public trust concerns.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.313,
+            "matched": [
+              "Ops Director"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.903Z",
+        "version": 1
+      },
+      "inject:01M5HXAKZSD7X36C19JEQPQ8ZH": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "68d46baf511b98d9",
+        "claims": [
+          {
+            "text": "This inject escalates operational friction.",
+            "chunkId": 114,
+            "headingPath": "TIRP › Section 10 › 10.2 Operations",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The airline rep is demanding a verifiable assurance, not just a statement.",
+            "chunkId": 100,
+            "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for Ops to request a formal verification process from IT instead of accepting a verbal go-ahead.",
+            "chunkId": 100,
+            "headingPath": "TIRP › Section 4 › 4.5 Checklist: Repopulation",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.903Z",
+        "version": 1
+      },
+      "inject:01M5HXAWSBQZGE49ZREPAK7PAR": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "6ef49b0d974e10a1",
+        "claims": [
+          {
+            "text": "This inject forces IT to define a verification process before restoring FIDS. Watch for whether IT proposes a test gate (e.g., Gate 14, which was previously correct) and a data source (e.g., the original 09:00 AM manifest).",
+            "chunkId": 73,
+            "headingPath": "ASP › Appendix D › D.1 Network Topology",
+            "overlap": 0.048,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.904Z",
+        "version": 1
+      },
+      "inject:01M5HXB3YSW0BZFR05YHC4JAPN": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "6a09440207927a22",
+        "claims": [
+          {
+            "text": "This inject creates a technical hurdle in the recovery process.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "IT must verify the physical tape library status or find an alternate backup source.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature escalation to Ops or attempts to bypass the error.",
+            "chunkId": 39,
+            "headingPath": "AEP › Part II › Appendix 6 › 6.3 Response Protocol (Cyber)",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.904Z",
+        "version": 1
+      },
+      "inject:01M5HXB8SSR1WXS7KENGKZHQHV": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject confirms the FIDS recovery attempt has failed.’ is in 13.6 Scenario C: FIDS / BHS System Failure.",
+        "fingerprint": "5fc5222b952203de",
+        "claims": [
+          {
+            "text": "This inject confirms the FIDS recovery attempt has failed.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The manual verification process is now mandatory.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for teams to reject the board's data without cross-checking airline manifests and flight plans.",
+            "chunkId": 126,
+            "headingPath": "TIRP › Section 13 › 13.6 Scenario C: FIDS / BHS System Failure",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-30T10:56:24.904Z",
+        "version": 1
+      },
+      "inject:01M5HXBN0TJXHDVF6DYJTYST9Z": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9753b55ede7f57c3",
+        "claims": [],
+        "at": "2026-10-30T10:56:24.904Z",
+        "version": 1
+      },
+      "overview:0": {
+        "label": "unsupported",
+        "reason": "The cited section is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "c0b7b2f89d2a9295",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.629Z",
+        "version": 1
+      },
+      "overview:1": {
+        "label": "unsupported",
+        "reason": "The cited section is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "6f5d30856de70cc2",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.629Z",
+        "version": 1
+      },
+      "overview:2": {
+        "label": "unsupported",
+        "reason": "The cited section is no longer in the index (the document was removed or imported again).",
+        "fingerprint": "8bcd00a4734ebd6f",
+        "claims": [],
+        "at": "2026-10-30T10:11:22.629Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
 }
