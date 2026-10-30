@@ -8,6 +8,8 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-30
+
 ### Changed
 
 - The Action Stations relay runs on Cloudflare Workers Paid, with larger caps (#539, ADR-0066): 100 sessions a day across everyone and 10 per address (were 25 and 3), and per session 15,000 row writes, 7,500 stored messages and 24 MiB stored (were 3,600, 1,500 and 12 MiB), so larger exercises and more organizations fit on one day. The caps keep the worst month inside the plan's included allowance. Using the relay still costs users nothing.
