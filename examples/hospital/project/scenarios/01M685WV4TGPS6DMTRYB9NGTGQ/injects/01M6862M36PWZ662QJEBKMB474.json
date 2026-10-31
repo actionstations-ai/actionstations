@@ -1,0 +1,211 @@
+{
+  "id": "01M6862M36PWZ662QJEBKMB474",
+  "mselRowId": "I-15",
+  "type": "field_report",
+  "title": "Infusion Pump Re-Flash Verification — Bench Status",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Clinical Engineering — Infrastructure Branch",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0312-1725",
+    "date": "March 12, 2026",
+    "time": "17:20-17:32",
+    "location": "Clinical Engineering Bench Area, Level 2, Building A",
+    "inspector": "Hao Tran, Clinical Engineering Technician",
+    "unit": "Pump Recovery Team 1",
+    "reportType": "incident",
+    "weather": "Overcast, 52°F, light rain",
+    "summary": "Re-flashing of 22 infusion pumps from the offline 4.2.1 image has been completed. Each pump was tested with three rate entries (10, 25, and 50 units/hr) using a standard saline solution. All test infusions matched the entered rate within ±1.5% and did not trigger alarms at any point. The library hash (SHA-256) for each pump was verified against the known-good image in the offline repository. No pumps have been reconnected to ORRMC-PUMP01 or the device network. The 38 spares remain unflashed and isolated. A signed log for each pump will be maintained in the Engineering Control Room.",
+    "findings": [
+      {
+        "item": "Pump server ORRMC-PUMP01 status",
+        "condition": "not_inspected",
+        "notes": "Server remains isolated; no access granted"
+      },
+      {
+        "item": "Library version 4.2.1 on all re-flashed pumps",
+        "condition": "ok",
+        "notes": "Verified via local console and hash check"
+      },
+      {
+        "item": "Test infusion accuracy at 10, 25, and 50 units/hr",
+        "condition": "ok",
+        "notes": "All three rates matched within 1.5% of target"
+      },
+      {
+        "item": "No alarms triggered during test infusion",
+        "condition": "ok",
+        "notes": "All pumps responded correctly to rate change"
+      },
+      {
+        "item": "Manual fallback mode active on all pumps",
+        "condition": "ok",
+        "notes": "Confirmed via local interface"
+      },
+      {
+        "item": "Central telemetry network access",
+        "condition": "not_inspected",
+        "notes": "Network remains isolated per HCC directive"
+      },
+      {
+        "item": "Pump server ORRMC-PUMP01 access logs",
+        "condition": "not_inspected",
+        "notes": "Logs preserved but not accessed"
+      },
+      {
+        "item": "Pump firmware version",
+        "condition": "ok",
+        "notes": "All units running v3.8.1, as per approved baseline"
+      },
+      {
+        "item": "Physical integrity of pump casing and tubing ports",
+        "condition": "ok",
+        "notes": "No damage observed"
+      },
+      {
+        "item": "Signature log for each re-flashed pump",
+        "condition": "ok",
+        "notes": "Log sheet completed and stored in Engineering Control Room"
+      }
+    ],
+    "actionsTaken": [
+      "Re-flashed 22 pumps from offline 4.2.1 image",
+      "Verified library hash (SHA-256) on all units",
+      "Performed three-rate test infusion on each pump",
+      "Signed log sheet for each pump with CE and nurse verification pending",
+      "Confirmed manual fallback mode is active",
+      "Notified CE and HCC of completion via radio at 17:32"
+    ],
+    "recommendations": [
+      "Reconnect pumps to network only after HCC approval and CE sign-off",
+      "Maintain signed log for every pump returned to service",
+      "Do not use any pump on 4.2.2 for high-alert drugs until full forensic rebuild of ORRMC-PUMP01",
+      "Preserve ORRMC-PUMP01 and ORRMC-VSB01 for forensic analysis"
+    ],
+    "photosNote": "4 photos attached: IMG_20260312-172501 (bench setup), IMG_20260312-172502 (test infusion), IMG_20260312-172503 (hash verification screen), IMG_20260312-172504 (signed log sheet)",
+    "signature": "Hao Tran, Clinical Engineering Technician",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the technical recovery of the pumps. The CE and CNO must now agree on the priority of pump return to service and the verification process. Watch for whether they prioritize high-alert units or standard care.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+      "chunkId": 18
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:14:32.519Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Infusion Pump Re-Flash Verification — Bench Status",
+        "type": "field_report",
+        "fields": {
+          "organization": "Clinical Engineering — Infrastructure Branch",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0312-1725",
+          "date": "March 12, 2026",
+          "time": "17:20-17:32",
+          "location": "Clinical Engineering Bench Area, Level 2, Building A",
+          "inspector": "Hao Tran, Clinical Engineering Technician",
+          "unit": "Pump Recovery Team 1",
+          "reportType": "incident",
+          "weather": "Overcast, 52°F, light rain",
+          "summary": "Re-flashing of 22 infusion pumps from the offline 4.2.1 image has been completed. Each pump was tested with three rate entries (10, 25, and 50 units/hr) using a standard saline solution. All test infusions matched the entered rate within ±1.5% and did not trigger alarms at any point. The library hash (SHA-256) for each pump was verified against the known-good image in the offline repository. No pumps have been reconnected to ORRMC-PUMP01 or the device network. The 38 spares remain unflashed and isolated. A signed log for each pump will be maintained in the Engineering Control Room.",
+          "findings": [
+            {
+              "item": "Pump server ORRMC-PUMP01 status",
+              "condition": "not_inspected",
+              "notes": "Server remains isolated; no access granted"
+            },
+            {
+              "item": "Library version 4.2.1 on all re-flashed pumps",
+              "condition": "ok",
+              "notes": "Verified via local console and hash check"
+            },
+            {
+              "item": "Test infusion accuracy at 10, 25, and 50 units/hr",
+              "condition": "ok",
+              "notes": "All three rates matched within 1.5% of target"
+            },
+            {
+              "item": "No alarms triggered during test infusion",
+              "condition": "ok",
+              "notes": "All pumps responded correctly to rate change"
+            },
+            {
+              "item": "Manual fallback mode active on all pumps",
+              "condition": "ok",
+              "notes": "Confirmed via local interface"
+            },
+            {
+              "item": "Central telemetry network access",
+              "condition": "not_inspected",
+              "notes": "Network remains isolated per HCC directive"
+            },
+            {
+              "item": "Pump server ORRMC-PUMP01 access logs",
+              "condition": "not_inspected",
+              "notes": "Logs preserved but not accessed"
+            },
+            {
+              "item": "Pump firmware version",
+              "condition": "ok",
+              "notes": "All units running v3.8.1, as per approved baseline"
+            },
+            {
+              "item": "Physical integrity of pump casing and tubing ports",
+              "condition": "ok",
+              "notes": "No damage observed"
+            },
+            {
+              "item": "Signature log for each re-flashed pump",
+              "condition": "ok",
+              "notes": "Log sheet completed and stored in Engineering Control Room"
+            }
+          ],
+          "actionsTaken": [
+            "Re-flashed 22 pumps from offline 4.2.1 image",
+            "Verified library hash (SHA-256) on all units",
+            "Performed three-rate test infusion on each pump",
+            "Signed log sheet for each pump with CE and nurse verification pending",
+            "Confirmed manual fallback mode is active",
+            "Notified CE and HCC of completion via radio at 17:32"
+          ],
+          "recommendations": [
+            "Reconnect pumps to network only after HCC approval and CE sign-off",
+            "Maintain signed log for every pump returned to service",
+            "Do not use any pump on 4.2.2 for high-alert drugs until full forensic rebuild of ORRMC-PUMP01",
+            "Preserve ORRMC-PUMP01 and ORRMC-VSB01 for forensic analysis"
+          ],
+          "photosNote": "4 photos attached: IMG_20260312-172501 (bench setup), IMG_20260312-172502 (test infusion), IMG_20260312-172503 (hash verification screen), IMG_20260312-172504 (signed log sheet)",
+          "signature": "Hao Tran, Clinical Engineering Technician",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the technical recovery of the pumps. The CE and CNO must now agree on the priority of pump return to service and the verification process. Watch for whether they prioritize high-alert units or standard care.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:38.826Z"
+}

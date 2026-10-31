@@ -1,0 +1,72 @@
+{
+  "id": "01M6863WBDAVFPK7F0N0DZV28R",
+  "mselRowId": "I-18",
+  "type": "memo",
+  "title": "Preliminary Privacy Assessment — Telemetry Data Access Risk",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "department": "Chief Privacy Office",
+    "to": "Administrator on Call (AOC), Information Security Officer (ISO), Public Information Officer (PIO)",
+    "from": "Joyce Tanaka, Chief Privacy Officer",
+    "cc": "Outside Counsel, Legal Department",
+    "date": "Thursday, March 12, 2026 · 17:55",
+    "subject": "Preliminary Privacy Assessment: Telemetry Server Access Risk from Unauthorized Vendor Session",
+    "urgency": "urgent",
+    "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+    "memoNumber": "CPO-2026-0312-004",
+    "body": "This is the preliminary assessment of the privacy risk from the unauthorized session on ORRMC-VSB01 (203.0.113.77) at 13:48–13:58. The session scanned ORRMC-MON01 and attempted a connection to the telemetry server, which hosts patient names, MRNs, and waveform data for ICU 3 North, 3 South, 4 East, and 7 East.\n\nNo evidence has been found in the logs that data was read, copied, or exfiltrated. However, the system was not designed to prevent access to stored protected health information (PHI) during a session. The forensic hold on ORRMC-MON01 logs has been initiated and will be preserved for review.\n\nPer 45 CFR 164.402, a ransomware incident involving encrypted PHI is treated as a presumptive breach unless the risk assessment shows a low probability of compromise. The discovery time of the incident is confirmed as 14:40 (from I-03), and I have begun the four-factor risk assessment as required.\n\nI will not issue a final determination until the forensic firm has analyzed the full log set, including the session timeline and memory dump from ORRMC-MON01. In the interim, no statement may claim that patient data was not accessed. The risk remains open.\n\nThis assessment is filed under CPO-2026-0312-004. All teams must defer disclosure until the CPO issues a formal risk conclusion.",
+    "signatureBlock": "Joyce Tanaka\nChief Privacy Officer\nOttawa River Regional Medical Center",
+    "initials": "JT",
+    "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the HIPAA breach assessment process under C1. The CPO is now formally engaged; the AOC and ISO must preserve discovery time and not close the risk window. The PIO must not comment on data access until the CPO finalizes the assessment.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+      "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+      "chunkId": 8
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:15:09.966Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Preliminary Privacy Assessment — Telemetry Data Access Risk",
+        "type": "memo",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "department": "Chief Privacy Office",
+          "to": "Administrator on Call (AOC), Information Security Officer (ISO), Public Information Officer (PIO)",
+          "from": "Joyce Tanaka, Chief Privacy Officer",
+          "cc": "Outside Counsel, Legal Department",
+          "date": "Thursday, March 12, 2026 · 17:55",
+          "subject": "Preliminary Privacy Assessment: Telemetry Server Access Risk from Unauthorized Vendor Session",
+          "urgency": "urgent",
+          "urgencyText": "URGENT — ACTION REQUIRED IMMEDIATELY",
+          "memoNumber": "CPO-2026-0312-004",
+          "body": "This is the preliminary assessment of the privacy risk from the unauthorized session on ORRMC-VSB01 (203.0.113.77) at 13:48–13:58. The session scanned ORRMC-MON01 and attempted a connection to the telemetry server, which hosts patient names, MRNs, and waveform data for ICU 3 North, 3 South, 4 East, and 7 East.\n\nNo evidence has been found in the logs that data was read, copied, or exfiltrated. However, the system was not designed to prevent access to stored protected health information (PHI) during a session. The forensic hold on ORRMC-MON01 logs has been initiated and will be preserved for review.\n\nPer 45 CFR 164.402, a ransomware incident involving encrypted PHI is treated as a presumptive breach unless the risk assessment shows a low probability of compromise. The discovery time of the incident is confirmed as 14:40 (from I-03), and I have begun the four-factor risk assessment as required.\n\nI will not issue a final determination until the forensic firm has analyzed the full log set, including the session timeline and memory dump from ORRMC-MON01. In the interim, no statement may claim that patient data was not accessed. The risk remains open.\n\nThis assessment is filed under CPO-2026-0312-004. All teams must defer disclosure until the CPO issues a formal risk conclusion.",
+          "signatureBlock": "Joyce Tanaka\nChief Privacy Officer\nOttawa River Regional Medical Center",
+          "initials": "JT",
+          "classification": "INTERNAL — NOT FOR PUBLIC RELEASE"
+        },
+        "instructorNote": "This inject triggers the HIPAA breach assessment process under C1. The CPO is now formally engaged; the AOC and ISO must preserve discovery time and not close the risk window. The PIO must not comment on data access until the CPO finalizes the assessment.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:39.461Z"
+}

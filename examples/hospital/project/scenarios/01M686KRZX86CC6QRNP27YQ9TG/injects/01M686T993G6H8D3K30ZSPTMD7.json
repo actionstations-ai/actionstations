@@ -1,0 +1,127 @@
+{
+  "id": "01M686T993G6H8D3K30ZSPTMD7",
+  "mselRowId": "I-13",
+  "type": "system_log",
+  "title": "Central Plant Water Sampling — Storage Tank and City Line",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "systemName": "Central Plant Monitoring System",
+    "host": "ORRMC-BMS01",
+    "ip": "10.72.1.55",
+    "os": "Linux Ubuntu 22.04",
+    "logSource": "/var/log/central_plant/water_sampling.log",
+    "exportedBy": "facility.ops@orrmc.example",
+    "exportedAt": "03/14/2026 08:45 AM",
+    "timezone": "EDT (UTC-4)",
+    "lines": [
+      {
+        "ts": "08:44:12",
+        "level": "INFO",
+        "msg": "Storage tank, sample 07:00 (before fill valve closed): total chlorine 3.6 mg/L, turbidity 0.3 NTU, no coliform detected.",
+        "highlight": false
+      },
+      {
+        "ts": "08:44:15",
+        "level": "INFO",
+        "msg": "Storage tank, sample 08:30: total chlorine 3.5 mg/L, turbidity 0.3 NTU.",
+        "highlight": false
+      },
+      {
+        "ts": "08:44:18",
+        "level": "WARN",
+        "msg": "City fill line at the tank inlet, flushed 07:05: total chlorine 4.4 mg/L, turbidity 4.1 NTU.",
+        "highlight": true
+      },
+      {
+        "ts": "08:44:20",
+        "level": "NOTICE",
+        "msg": "Samples are held for the health department laboratory; field kit results only.",
+        "highlight": false
+      }
+    ],
+    "terminalTitle": "Central Plant Monitoring Terminal",
+    "command": "tail -n 20 /var/log/central_plant/water_sampling.log",
+    "classification": "INTERNAL - INCIDENT EVIDENCE",
+    "pageLabel": "Page 1 of 1"
+  },
+  "variant": "printout",
+  "instructorNote": "This log confirms the stored water remains uncontaminated, but the city line shows high chlorine and turbidity. The field kit is not a lab result, so no action should be taken to resume use of the stored water. The samples must be submitted to the health department via EMA.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "- **Power:** two utility feeds from different substations into the Central Plant. Three diesel generators (G1, G2, G3; 2 MW each) carry the whole campus; fuel for 96 hours at full load, refuelling con",
+      "chunkId": 42
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+      "quote": "- **Staffing:** the nursing supervisor activates the call-in tree; Human Resources runs the staff care unit (childcare, rest areas, meals). Credentialed volunteers are used through the regional volunt",
+      "chunkId": 33
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:27:21.984Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Central Plant Water Sampling — Storage Tank and City Line",
+        "type": "system_log",
+        "fields": {
+          "systemName": "Central Plant Monitoring System",
+          "host": "ORRMC-BMS01",
+          "ip": "10.72.1.55",
+          "os": "Linux Ubuntu 22.04",
+          "logSource": "/var/log/central_plant/water_sampling.log",
+          "exportedBy": "facility.ops@orrmc.example",
+          "exportedAt": "03/14/2026 08:45 AM",
+          "timezone": "EDT (UTC-4)",
+          "lines": [
+            {
+              "ts": "08:44:12",
+              "level": "INFO",
+              "msg": "Storage tank, sample 07:00 (before fill valve closed): total chlorine 3.6 mg/L, turbidity 0.3 NTU, no coliform detected.",
+              "highlight": false
+            },
+            {
+              "ts": "08:44:15",
+              "level": "INFO",
+              "msg": "Storage tank, sample 08:30: total chlorine 3.5 mg/L, turbidity 0.3 NTU.",
+              "highlight": false
+            },
+            {
+              "ts": "08:44:18",
+              "level": "WARN",
+              "msg": "City fill line at the tank inlet, flushed 07:05: total chlorine 4.4 mg/L, turbidity 4.1 NTU.",
+              "highlight": true
+            },
+            {
+              "ts": "08:44:20",
+              "level": "NOTICE",
+              "msg": "Samples are held for the health department laboratory; field kit results only.",
+              "highlight": false
+            }
+          ],
+          "terminalTitle": "Central Plant Monitoring Terminal",
+          "command": "tail -n 20 /var/log/central_plant/water_sampling.log",
+          "classification": "INTERNAL - INCIDENT EVIDENCE",
+          "pageLabel": "Page 1 of 1"
+        },
+        "instructorNote": "This log confirms the stored water remains uncontaminated, but the city line shows high chlorine and turbidity. The field kit is not a lab result, so no action should be taken to resume use of the stored water. The samples must be submitted to the health department via EMA.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:28:40.134Z"
+}

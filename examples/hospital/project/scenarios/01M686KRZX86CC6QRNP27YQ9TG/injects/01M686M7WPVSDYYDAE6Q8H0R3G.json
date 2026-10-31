@@ -1,0 +1,137 @@
+{
+  "id": "01M686M7WPVSDYYDAE6Q8H0R3G",
+  "mselRowId": "I-02",
+  "type": "phone_call",
+  "title": "Dialysis Loop Test Failure — Do Not Drink Advisory",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "systemName": "Hospital Call System",
+    "callId": "CR-20260314-063015-0002",
+    "direction": "Internal",
+    "caller": {
+      "name": "Beth Kowalczyk, RN",
+      "number": "ext. 5-3020",
+      "label": "Dialysis Manager"
+    },
+    "callee": {
+      "name": "Dr. Anita Shah",
+      "number": "ext. 5-4010",
+      "label": "Dialysis Medical Director"
+    },
+    "startTime": "03/14/2026 06:30:15",
+    "duration": "1:12",
+    "transcript": [
+      {
+        "speaker": "Beth Kowalczyk, RN",
+        "offset": "00:00",
+        "text": "Dr. Shah, it's Beth Kowalczyk at the Outpatient Dialysis Center. I just ran the loop tests on the reverse osmosis system, and the total chlorine at the carbon bed outlet is 0.35 mg/L — above the 0.1 mg/L limit. The conductivity at the RO output is 8 μS/cm, and the machine disinfect log shows no recent cycles. The city has issued a Do Not Drink advisory, so I'm not starting any patients until we confirm the loop is safe. I've paused the 07:00 session and are calling patients to reschedule.",
+        "prompt": false
+      },
+      {
+        "speaker": "Dr. Anita Shah",
+        "offset": "00:45",
+        "text": "Understood, Beth. Hold all starts. Confirm total chlorine at the carbon bed outlet, conductivity at the RO output, and review the disinfect log for the last 48 hours. We cannot start any machines until all three pass. Call me back when you have the data.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {
+      "Beth Kowalczyk, RN": "Woman in her 50s, calm but urgent, background noise of dialysis machines and a pager",
+      "Dr. Elena M. Rivas, MD": "Woman in her 60s, authoritative, low tone, slight pause between sentences"
+    },
+    "injectId": "I-02"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests the dialysis team's adherence to EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) and the Facilities and Information Systems Description, Section 3. Watch for the correct verification sequence and whether the team contacts Facilities or Security for support.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Beth Kowalczyk, RN",
+        "voiceStyle": "Woman in her 50s, calm but urgent, background noise of dialysis machines and a pager",
+        "text": "Dr. Shah, it's Beth Kowalczyk at the Outpatient Dialysis Center. I just ran the loop tests on the reverse osmosis system, and the total chlorine at the carbon bed outlet is 0.35 mg/L — above the 0.1 mg/L limit. The conductivity at the RO output is 8 μS/cm, and the machine disinfect log shows no recent cycles. The city has issued a Do Not Drink advisory, so I'm not starting any patients until we confirm the loop is safe. I've paused the 07:00 session and am calling patients to reschedule."
+      },
+      {
+        "speaker": "Dr. Anita Shah",
+        "voiceStyle": "Woman in her 60s, authoritative, low tone, slight pause between sentences",
+        "text": "Understood, Beth. Hold all starts. Confirm total chlorine at the carbon bed outlet, conductivity at the RO output, and review the disinfect log for the last 48 hours. We cannot start any machines until all three pass. Call me back when you have the data."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:24:06.459Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Dialysis Loop Test Failure — Do Not Drink Advisory",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "Hospital Call System",
+          "callId": "CR-20260314-063015-0002",
+          "direction": "Internal",
+          "caller": {
+            "name": "Beth Kowalczyk, RN",
+            "number": "ext. 5-3020",
+            "label": "Dialysis Manager"
+          },
+          "callee": {
+            "name": "Dr. Anita Shah",
+            "number": "ext. 5-4010",
+            "label": "Dialysis Medical Director"
+          },
+          "startTime": "03/14/2026 06:30:15",
+          "duration": "1:12",
+          "transcript": [
+            {
+              "speaker": "Beth Kowalczyk, RN",
+              "offset": "00:00",
+              "text": "Dr. Shah, it's Beth Kowalczyk at the Outpatient Dialysis Center. I just ran the loop tests on the reverse osmosis system, and the total chlorine at the carbon bed outlet is 0.35 mg/L — above the 0.1 mg/L limit. The conductivity at the RO output is 8 μS/cm, and the machine disinfect log shows no recent cycles. The city has issued a Do Not Drink advisory, so I'm not starting any patients until we confirm the loop is safe. I've paused the 07:00 session and are calling patients to reschedule.",
+              "prompt": false
+            },
+            {
+              "speaker": "Dr. Anita Shah",
+              "offset": "00:45",
+              "text": "Understood, Beth. Hold all starts. Confirm total chlorine at the carbon bed outlet, conductivity at the RO output, and review the disinfect log for the last 48 hours. We cannot start any machines until all three pass. Call me back when you have the data.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {
+            "Beth Kowalczyk, RN": "Woman in her 50s, calm but urgent, background noise of dialysis machines and a pager",
+            "Dr. Elena M. Rivas, MD": "Woman in her 60s, authoritative, low tone, slight pause between sentences"
+          },
+          "injectId": "I-02"
+        },
+        "instructorNote": "This inject tests the dialysis team's adherence to EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) and the Facilities and Information Systems Description, Section 3. Watch for the correct verification sequence and whether the team contacts Facilities or Security for support.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:46.082Z"
+}

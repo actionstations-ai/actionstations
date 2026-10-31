@@ -1,0 +1,131 @@
+{
+  "id": "01M685F99NDEQ7HDYAMS0N6E9R",
+  "mselRowId": "I-01",
+  "type": "phone_call",
+  "title": "EHR Downtime — Downtime Declaration Requested",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "systemName": "Hospital Phone System",
+    "callId": "CR-20260303-054500-0012",
+    "direction": "Internal",
+    "caller": {
+      "name": "Gail Moreau",
+      "number": "555-0147",
+      "label": "Night Nursing Supervisor, 4 West, 5 East, ICU 3N, ED"
+    },
+    "callee": {
+      "name": "Carol Beckett",
+      "number": "555-0121",
+      "label": "Chief Nursing Officer"
+    },
+    "startTime": "03/03/2026 05:45:00",
+    "duration": "0:42",
+    "transcript": [
+      {
+        "speaker": "Gail Moreau",
+        "offset": "0:00",
+        "text": "CNO, it's Gail Moreau on nights. The EHR won't open on 4 West, 5 East, ICU 3 North, or in the ED. eMAR is frozen, and 06:00 medications are due on every unit. The last printed medication packet is from 01:00. IT says they're looking at it. Do I declare downtime or wait for IT?",
+        "prompt": false
+      },
+      {
+        "speaker": "Carol Beckett",
+        "offset": "0:25",
+        "text": "Gail, declare downtime now. Follow the EHR Downtime Procedures Annex, Section 2. Open the downtime cart on each unit, issue the DT-20260303-001 block, and activate the paper workflow. Use BCA-VIEW01 for active orders and allergies. The 06:00 meds go out from the pharmacist-checked list. I'll page the hospital.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-01"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers the formal downtime declaration. The CNO must act decisively to prevent medication delays. Watch for hesitation or over-reliance on IT.",
+  "citations": [
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+      "quote": "| Level | Condition | Declared by | Staff action | |---|---|---|---| | Brownout | The EHR is slow or one module (for example results or eMAR) is unavailable | IT on-call after 10 minutes of unresolved",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce…",
+      "quote": "Document Control Number: ORRMC-DT-ANX-2026 · Revision 3.2 · Effective Date: 02/01/2026 · Parent document: ORRMC-EOP-2026 · Owners: Carol Beckett (Chief Medical Information Officer) and Carol Beckett",
+      "chunkId": 13
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Gail Moreau",
+        "voiceStyle": "female, mid-40s, tired but urgent, slight Canadian accent, speaking rapidly with pauses for breath",
+        "text": "CNO, it's Gail Moreau on nights. The EHR won't open on 4 West, 5 East, ICU 3 North, or in the ED. eMAR is frozen, and 06:00 medications are due on every unit. The last printed medication packet is from 01:00. IT says they're looking at it. Do I declare downtime or wait for IT?"
+      },
+      {
+        "speaker": "Carol Beckett",
+        "voiceStyle": "female, early 50s, calm but firm, precise enunciation, neutral professional tone",
+        "text": "Gail, declare downtime now. Follow the EHR Downtime Procedures Annex, Section 2. Open the downtime cart on each unit, issue the DT-20260303-001 block, and activate the paper workflow. Use BCA-VIEW01 for active orders and allergies. The 06:00 meds go out from the pharmacist-checked list. I'll page the hospital."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:03:53.981Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Downtime — Downtime Declaration Requested",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "Hospital Phone System",
+          "callId": "CR-20260303-054500-0012",
+          "direction": "Internal",
+          "caller": {
+            "name": "Gail Moreau",
+            "number": "555-0147",
+            "label": "Night Nursing Supervisor, 4 West, 5 East, ICU 3N, ED"
+          },
+          "callee": {
+            "name": "Carol Beckett",
+            "number": "555-0121",
+            "label": "Chief Nursing Officer"
+          },
+          "startTime": "03/03/2026 05:45:00",
+          "duration": "0:42",
+          "transcript": [
+            {
+              "speaker": "Gail Moreau",
+              "offset": "0:00",
+              "text": "CNO, it's Gail Moreau on nights. The EHR won't open on 4 West, 5 East, ICU 3 North, or in the ED. eMAR is frozen, and 06:00 medications are due on every unit. The last printed medication packet is from 01:00. IT says they're looking at it. Do I declare downtime or wait for IT?",
+              "prompt": false
+            },
+            {
+              "speaker": "Carol Beckett",
+              "offset": "0:25",
+              "text": "Gail, declare downtime now. Follow the EHR Downtime Procedures Annex, Section 2. Open the downtime cart on each unit, issue the DT-20260303-001 block, and activate the paper workflow. Use BCA-VIEW01 for active orders and allergies. The 06:00 meds go out from the pharmacist-checked list. I'll page the hospital.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-01"
+        },
+        "instructorNote": "This inject triggers the formal downtime declaration. The CNO must act decisively to prevent medication delays. Watch for hesitation or over-reliance on IT.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:30.690Z"
+}

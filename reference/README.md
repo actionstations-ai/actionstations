@@ -41,6 +41,7 @@ These sets exercise the domain-neutral generator ([ADR-0014](../docs/adr/0014-do
 | `county-elections/` | Lisle County Board of Elections | Cybersecurity incident response plan; election contingency and continuity plan; facilities, precincts and systems description |
 | `county-public-health/` | Marston County Health Department | All-hazards public health emergency operations plan; cyber incident response annex; facilities, districts and information systems description |
 | `gas-distribution/` | Corwin Valley Gas Company, a natural gas distribution utility | Gas emergency plan (49 CFR 192.615); distribution system and SCADA description; cybersecurity incident response plan |
+| `hospital/` | Ottawa River Regional Medical Center, a 412-bed hospital in Toledo, Ohio | Emergency operations plan (42 CFR 482.15); EHR downtime procedures annex; cyber incident response plan; patient surge and evacuation annex; facilities and information systems description |
 | `k12-district/` | Halverson Unified School District | District Emergency Operations Plan; cyber incident response plan; schools, facilities and systems inventory |
 
 The example projects in [`examples/`](../examples/README.md) are generated from these sets (all but `transit/` and `dam/`).

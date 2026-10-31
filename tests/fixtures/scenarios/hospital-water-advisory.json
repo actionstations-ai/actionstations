@@ -1,0 +1,535 @@
+{
+  "id": "seed",
+  "projectId": "seed",
+  "title": "Water Line, No Drink",
+  "subtitle": "A Regional Water Advisory That Reaches Dialysis",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "The City of Toledo Department of Public Utilities issues a Do Not Drink advisory after a treatment disruption; the hospital protects its stored water, stops outpatient dialysis, moves patients, adapts sterile processing and food service, and speaks with one voice to staff, patients and the press.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Director of Facilities and Emergency Management (Infrastructure Branch)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "Dialysis Medical Director (Medical Care Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "06:15",
+    "threatFamily": "infrastructure_failure"
+  },
+  "overview": {
+    "theme": "Stored water and conservation, dialysis continuity, infection prevention and one voice",
+    "threat": "On Saturday, March 14, 2026 the City of Toledo Department of Public Utilities reports a treatment plant disruption and issues a Do Not Drink advisory for the service area that includes the hospital. Pressure is normal. The 40,000-gallon tank in the Central Plant is full and the dialysis reverse osmosis loop fails its chloramine test at 06:44. No date is given to lift the advisory.",
+    "operationalImpact": "Nine outpatients and 24 inpatients need dialysis that the hospital's loop cannot provide. Sterile Processing, food service, infant feeding, hand hygiene and cooling water all depend on a supply the hospital must ration. The stored water lasts about 18 hours at normal use and about 36 hours conserved, and the advisory may last as long.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Director of Facilities and Emergency Management (Infrastructure Branch), Chief Nursing Officer (Operations Section Chief), Dialysis Medical Director (Medical Care Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Stored Water and Conservation",
+      "text": "Demonstrate the ability to protect the 40,000-gallon supply, set conservation levels and name the points at which services are reduced (EOP Section 8)."
+    },
+    {
+      "id": "obj-2",
+      "name": "Dialysis Continuity",
+      "text": "Demonstrate the ability to decide which dialysis patients must be treated first, where, and how they get there when the hospital's loop fails its tests."
+    },
+    {
+      "id": "obj-3",
+      "name": "Infection Prevention and Sterile Processing",
+      "text": "Demonstrate the ability to adapt sterile processing, food service, hand hygiene and patient care to a Do Not Drink advisory with public health guidance."
+    },
+    {
+      "id": "obj-4",
+      "name": "One Voice",
+      "text": "Demonstrate the ability to give staff, patients and the press the same facts, and to coordinate with the City of Toledo Department of Public Utilities, the Lucas County EMA and the Toledo-Lucas County Health Department."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "fac",
+      "name": "Director of Facilities and Emergency Management (Infrastructure Branch)",
+      "abbreviation": "DFEM",
+      "team": "Team B: Infrastructure",
+      "description": "Dana Whitcomb. Runs the Central Plant, water storage and conservation, outside suppliers and the HCC logistics.",
+      "standingOrders": [
+        "Protect the stored water first; decide what to switch off in order of clinical impact.",
+        "Never connect an outside tanker without the Infection Prevention check on its certification and chlorine residual."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "dialysis",
+      "name": "Dialysis Medical Director (Medical Care Branch)",
+      "abbreviation": "NEPH",
+      "team": "Team D: Medical Care",
+      "description": "Dr. Anita Shah, with Dialysis Manager Beth Kowalczyk, RN. Decides which patients can wait for dialysis, which cannot, and where treatment can safely be given.",
+      "standingOrders": [
+        "A patient with a dangerous potassium or fluid overload is treated first, wherever the safe water is.",
+        "Dialysis never runs on water that has not passed the loop tests."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Advisory",
+      "goal": "Confirm the advisory, activate, and decide about dialysis with the first loop test.",
+      "beats": [
+        "The City of Toledo Department of Public Utilities calls the Lucas County EMA, which calls the hospital.",
+        "The dialysis loop test shows chloramine breakthrough and outpatient dialysis cannot start.",
+        "Twenty-four inpatients also receive dialysis, three of them in the ICU."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Conserve",
+      "goal": "Protect and ration the stored water, adapt Sterile Processing, food service and infection control, and answer the press.",
+      "beats": [
+        "The tank refill valve is on a float and the city main may be affected.",
+        "Sterile Processing cannot make instrument rinse water, and Saturday has six surgical cases.",
+        "The city says it cannot give a time for lifting the advisory."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Dialysis Options",
+      "goal": "Place the outpatients and cover the inpatients, test the tank and make the safe-water plan.",
+      "beats": [
+        "Four outpatients have missed treatment since Thursday.",
+        "A neighboring hospital outside the advisory area can take six outpatients and four inpatients.",
+        "A tank sample shows chloramine as expected; an early sample showed turbidity that needs explaining."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Hold the Line",
+      "goal": "Plan for 36 hours or more: triggers, a bulk-water supplier, infant formula, transport failures, and the criteria for resuming dialysis.",
+      "beats": [
+        "The city says the advisory will not lift before Sunday evening.",
+        "A water hauler can deliver tankers if the connection is protected.",
+        "The exercise ends with no date to resume dialysis."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "06:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "STARTEX: It is 06:15 on Saturday, March 14, 2026 at Ottawa River Regional Medical Center. At 06:02 the City of Toledo Department of Public Utilities told the Lucas County Emergency Management Agency that a treatment plant disruption has affected the water supply and that a Do Not Drink advisory will be issued for the area that includes the hospital. Water pressure is normal. The 40,000-gallon potable water tank in the Central Plant is full. Census is 322 inpatients. Nine outpatients are booked at the Outpatient Dialysis Center from 07:00, and six elective surgical cases start at 07:30.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "06:20",
+      "from": "Lucas County EMA duty officer (SimCell)",
+      "toRoleIds": ["ic", "fac"],
+      "toLabel": "AOC, DFEM",
+      "event": "Phone Call: \"Lucas County EMA. This is the formal notification. The City of Toledo Department of Public Utilities is issuing a Do Not Drink advisory for the service area that includes Ottawa River. They have not given a cause beyond a treatment disruption or a time to lift it. Pressure is normal, so the water looks fine. Please tell me your activation level and anything you need.\"",
+      "expectedAction": "The AOC activates EOP Level 2 (a water advisory is a Level 2 example in EOP Section 4), opens the HCC and names the Facilities, Medical Care and Infection Prevention leads. The Liaison Officer takes the EMA line and states the hospital's needs as unknown but expected: bottled water and a potable water supply for dialysis. The AOC asks for the advisory text in writing.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:15",
+      "wallClock": "06:30",
+      "from": "Dialysis Manager Beth Kowalczyk, RN",
+      "toRoleIds": ["dialysis", "clinical"],
+      "toLabel": "NEPH, CNO",
+      "event": "Phone Call: \"Beth Kowalczyk at the dialysis center. I have nine patients arriving from 07:00 and the reverse osmosis loop is fed from the city main. I do not want to start on water that the city says not to drink. I am pulling the loop tests now, chlorine and chloramine, conductivity and cultures. The carbon beds can handle normal levels but I do not know what is in the water today.\"",
+      "expectedAction": "The Dialysis Medical Director directs that no machine starts until the loop passes: total chlorine tested at the carbon bed outlet, conductivity at the RO output and the machine disinfect log reviewed (Facilities and Information Systems Description, Section 3). The Dialysis Manager calls patients with a 07:00 time and tells them to wait for a call.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:30",
+      "wallClock": "06:45",
+      "from": "Dialysis Water Treatment Technician",
+      "toRoleIds": ["dialysis", "fac"],
+      "toLabel": "NEPH, DFEM",
+      "event": "Field Report (Dialysis water room to HCC, 06:44): \"Test results. Total chlorine at the carbon bed outlet 0.35 mg/L; the limit for dialysis water is 0.1. Conductivity at the RO outlet is normal at 8 microsiemens. The second carbon bed is in line and we replaced the filter on Tuesday. The city water entering the plant smells of chlorine more strongly than usual. The loop fails. We cannot dialyze patients on it.\"",
+      "expectedAction": "The Dialysis Medical Director confirms outpatient dialysis cannot start, and the CNO and the AOC authorize stopping the loop and keeping it shut. Facilities draws a water sample to the Toledo-Lucas County Health Department's lab through the EMA, and the Dialysis Manager starts calling the nine patients to say today's treatment will be somewhere else, with transport arranged.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:40",
+      "wallClock": "06:55",
+      "from": "Dialysis Medical Director Dr. Anita Shah",
+      "toRoleIds": ["dialysis", "ic", "clinical"],
+      "toLabel": "NEPH, AOC, CNO",
+      "event": "Phone Call: \"Anita Shah. Beyond the nine outpatients I have 24 inpatients on dialysis. Twenty-one are on intermittent hemodialysis using the portable RO units, which draw from the same affected supply; three are on continuous renal replacement in ICU 3 South using bagged sterile fluids, which are fine. Two inpatients have potassium above 6.0 this morning and cannot wait. I need a safe water source or a place to take them.\"",
+      "expectedAction": "The AOC and the Dialysis Medical Director triage: the two high-potassium inpatients are treated first, either with temporizing measures and transfer to a hospital outside the advisory area or on bottled sterile water prepared by Pharmacy, depending on the CMO's view; the other inpatients are ranked by clinical urgency; CRRT continues on sterile fluids. The Liaison Officer asks the coalition for a dialysis-capable partner outside the advisory area.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:50",
+      "wallClock": "07:05",
+      "from": "Glass City Courier website",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "News Article (The Glass City Courier, 07:00): \"Do Not Drink advisory issued for Toledo area after treatment plant problem. Residents are told not to drink tap water or use it for baby formula until further notice. City officials have not said when the advisory will end. Hospitals are asking patients with dialysis appointments to call ahead.\"",
+      "expectedAction": "The PIO confirms the hospital has activated its emergency plan, uses the facts cleared by the AOC and the Dialysis Medical Director, and posts a short notice for patients: emergency care continues; outpatient dialysis patients will be called; bottled water is available at the entrances. The PIO uses the city's words for the advisory and does not add to them.",
+      "purposeTag": "PRESSURE",
+      "format": "news_article",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "07:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 07:15. The HCC has been open for 50 minutes at Level 2. Outpatient dialysis is on hold. Facilities has begun a first conservation round. The two high-potassium inpatients are being managed. The city has not given a time for lifting the advisory.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "07:20",
+      "from": "Director of Facilities Dana Whitcomb",
+      "toRoleIds": ["fac", "ic"],
+      "toLabel": "DFEM, AOC",
+      "event": "Phone Call: \"Dana Whitcomb. The Central Plant tank is at 39,100 gallons and falling at about 2,200 gallons an hour, which gives us about 18 hours. The tank is refilled from the city main by a float valve, so it will start taking advisory water as soon as the level drops. I can close the city fill valve now and protect what we have, or let it top up and hope the advisory is nothing. The cooling tower make-up alone uses about 600 gallons an hour. I need a decision.\"",
+      "expectedAction": "The AOC and the Director of Facilities close the city fill valve to the tank to protect the stored supply; the fire-suppression connection stays separate and is not touched. The Director of Facilities starts the conservation plan in order of clinical impact (cooling tower make-up reduced by running the chillers on a lower load, laundry and non-clinical uses paused, irrigation off) to reach about 1,100 gallons an hour, which gives about 36 hours (Facilities and Information Systems Description, Section 3).",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "07:30",
+      "from": "Sterile Processing Manager Tom Kessler",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Tom Kessler, Sterile Processing. Our washers and the final rinse use treated water from the hospital loop. I have enough clean sets for about six cases and nothing else. The six elective cases start at 07:30 and I cannot reprocess instruments on advisory water. Do I stop reprocessing? What do I tell the OR?\"",
+      "expectedAction": "The CMO and the CNO cancel the six elective cases and keep the Surgical Pavilion available for emergencies with existing clean sets; Sterile Processing stops reprocessing until Infection Prevention, with the Toledo-Lucas County Health Department, approves a water source (bottled sterile water or a certified supply). The Surgical Pavilion tells surgeons and patients and the PIO is informed.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "07:40",
+      "from": "Infection Preventionist Maya Ellison",
+      "toRoleIds": ["clinical", "fac", "ic"],
+      "toLabel": "CNO, DFEM, AOC",
+      "event": "Field Report (Infection Prevention to HCC): \"Interim guidance pending the health department call. I propose: no ice, no water fountains, no coffee from unfiltered taps; patient meals on disposable ware; alcohol hand rub for hand hygiene in patient care, with soap and water kept for visible soil only using bottled water in high-risk areas; no tap water for oral care of immunocompromised patients; and a sign on every tap. Please confirm I am speaking for the hospital.\"",
+      "expectedAction": "The AOC confirms Infection Prevention's interim guidance for the hospital; the CNO tells every unit; Facilities bags water fountains and posts signs; Food Services moves to disposable ware. The Infection Preventionist confirms the details with the Toledo-Lucas County Health Department and the City of Toledo Department of Public Utilities as soon as they call.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:45",
+      "wallClock": "08:00",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. Is Ottawa River turning dialysis patients away? We hear the unit is closed and patients are being sent home. Are you cancelling surgeries? Is the hospital's own water safe? What are you telling patients?\"",
+      "expectedAction": "The PIO says what is true and cleared: the hospital is open for emergencies; outpatient dialysis cannot use the hospital water today, and the Dialysis Manager is arranging treatment elsewhere for each patient; elective surgery is rescheduled; the hospital is following the advisory. The PIO does not say the water is contaminated, and does not say it is safe.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:55",
+      "wallClock": "08:10",
+      "from": "City of Toledo Department of Public Utilities (SimCell)",
+      "toRoleIds": ["ic", "fac", "pio"],
+      "toLabel": "AOC, DFEM, PIO",
+      "event": "Email Forward (from the City of Toledo Department of Public Utilities, 08:05, via the Lucas County EMA): \"Update to critical facilities. Sampling is under way at the plant and at twelve points on the distribution system. We cannot give a time to lift the advisory today and are planning for at least 24 to 36 hours. We can supply two potable water tankers to hospitals and dialysis centers once the plant is stabilized. Please send your priority list and the connections you can accept.\"",
+      "expectedAction": "The AOC and the Director of Facilities send the priority list (dialysis, sterile processing, drinking water for patients and staff), the connection type (a backflow-protected hose connection at the Central Plant) and the amounts. The Liaison Officer asks for the tanker order, and the AOC sets the next sitrep.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "08:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 08:15. The tank is at 37,300 gallons and use is down to about 1,300 gallons an hour. The fill valve is closed. All elective cases are cancelled, Sterile Processing has stopped, and the dialysis loop is shut. Nine outpatients and 24 inpatients need dialysis plans.",
+      "expectedAction": "Players move to the dialysis options.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "08:20",
+      "from": "Dialysis Manager Beth Kowalczyk, RN",
+      "toRoleIds": ["dialysis", "clinical", "ic"],
+      "toLabel": "NEPH, CNO, AOC",
+      "event": "Phone Call: \"Beth. I have called the nine outpatients. Four missed treatment Thursday and are due today, and one, Mr. Brandt, had a potassium of 6.1 last week. Two live alone and have no ride, and one is in a wheelchair. A partner unit in the suburbs on a different water system has six open chairs tomorrow from 06:00 and two today at 14:00. I need to know who goes first and how they get there.\"",
+      "expectedAction": "The Dialysis Medical Director ranks the nine by clinical risk (the four who missed treatment and the one with the high potassium go today) and the Dialysis Manager books the partner unit and calls each patient and the partner's physician; Social Work books wheelchair vans and calls the two who live alone; records go by secure fax. The AOC authorizes the transport cost.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:20",
+      "wallClock": "08:35",
+      "from": "Neighboring hospital transfer center (SimCell)",
+      "toRoleIds": ["dialysis", "ic"],
+      "toLabel": "NEPH, AOC",
+      "event": "Phone Call: \"Transfer center at a neighboring hospital outside the advisory area. We can take six of your outpatients on our dialysis unit and four inpatients tomorrow. For the inpatients we need physician-to-physician handoff, the last 48 hours of labs and the code status. What is your timeline?\"",
+      "expectedAction": "The Dialysis Medical Director gives the handoffs and sends the printed records. The CMO approves the transfer of two inpatients today whose potassium cannot wait. The Liaison Officer records the placements in the Patient Movement Log and tells the EMA what the hospital has placed and what remains.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:30",
+      "wallClock": "08:45",
+      "from": "Central Plant Sampling Log",
+      "toRoleIds": ["fac", "clinical", "ic"],
+      "toLabel": "DFEM, CNO, AOC",
+      "event": "System Log (Central Plant sampling, 08:44): \"Storage tank, sample 07:00 (before the fill valve closed): total chlorine 3.6 mg/L, turbidity 0.3 NTU, no coliform detected. Storage tank, sample 08:30: total chlorine 3.5 mg/L, turbidity 0.3 NTU. City fill line at the tank inlet, flushed 07:05: total chlorine 4.4 mg/L, turbidity 4.1 NTU. Samples are held for the health department laboratory; field kit results only.\"",
+      "expectedAction": "The Director of Facilities and Infection Prevention read the set: the stored water looks as it did before the advisory, while the city fill line is cloudy, which supports keeping the tank isolated. A field kit is not a laboratory result, so nobody calls the stored water safe to drink and the dialysis loop still has to pass its own tests. The samples go to the health department laboratory through the EMA.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "09:00",
+      "from": "Switchboard Operator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "PA Announcement: \"Attention all staff. A Do Not Drink advisory is in effect for the hospital. Do not drink or use tap water for drinking or oral care. Bottled water is at every nurses' station and the main entrances. Use alcohol hand rub for hand hygiene. Fountains and ice machines are out of service. Further guidance will come from your manager. This is not a drill.\"",
+      "expectedAction": "The CNO confirms that managers deliver the same message on each unit; Infection Prevention answers questions; Facilities restocks bottled water. The PIO confirms staff and patient messages use the same facts as the press. The AOC sets the 10:00 sitrep.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "pa_announcement",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "09:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 09:15. Four outpatients have been placed at the partner unit for today; five wait for tomorrow. Two inpatients have been transferred. The tank is at 35,800 gallons and use is steady at 1,150 gallons an hour. The city says the advisory will not lift before Sunday evening.",
+      "expectedAction": "Players move to planning for an extended advisory.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "09:20",
+      "from": "City of Toledo Department of Public Utilities (SimCell)",
+      "toRoleIds": ["ic", "fac"],
+      "toLabel": "AOC, DFEM",
+      "event": "Email Forward (from the City of Toledo Department of Public Utilities, 09:18): \"Two consecutive clean sets of samples, 24 hours apart, are needed before we lift the advisory; the first set was taken at 08:00. We expect no earlier than Sunday evening. We will issue a flushing instruction after that. Hospitals should plan for a Do Not Drink advisory through Sunday.\"",
+      "expectedAction": "The AOC sets planning for at least 36 hours and names the points at which services are reduced further: for example if the tank falls below 12,000 gallons without a delivery, the Surgical Pavilion closes to non-emergencies and units begin to consolidate; below 6,000 gallons, the AOC considers transfers out. The Director of Facilities reports tank level and use every hour.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "09:30",
+      "from": "Water Hauling Contractor dispatcher (SimCell)",
+      "toRoleIds": ["fac", "ic"],
+      "toLabel": "DFEM, AOC",
+      "event": "Phone Call: \"Dispatch at Maumee Valley Water Hauling. We can deliver 6,000-gallon tankers every three hours from 11:30. Our tankers are food-grade, cleaned and chlorinated, and we fill from a hydrant outside the advisory area. You will need a hose connection to your tank inlet that has a backflow preventer, and somebody to check the chlorine on every load. Do you want us?\"",
+      "expectedAction": "The Director of Facilities and Infection Prevention accept, after checking the contractor's certificate and the source, test each load for chlorine residual at the hose before it enters the tank, install a backflow-protected connection at the inlet and keep a log of loads. The AOC confirms the city's own tankers remain on order. The Director of Facilities tells the health department.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "09:40",
+      "from": "Facebook post (Toledo Dialysis Families)",
+      "toRoleIds": ["pio", "dialysis"],
+      "toLabel": "PIO, NEPH",
+      "event": "Facebook Post (Group: Toledo Dialysis Families): \"My husband got a call that his dialysis is moved to a clinic across town today but the van never showed and nobody at Ottawa River is answering the phone. He is 71 and in a wheelchair. His last treatment was Thursday. Is anybody else stuck?\" 38 reactions, 22 comments.",
+      "expectedAction": "The Dialysis Manager and Social Work contact the family at once, arrange the ride and confirm the chair time; the PIO does not argue in the group; the CNO opens a patient hotline staffed by nurses and social workers so that families do not reach the main switchboard. The AOC adds transport failure to the HCC issues list.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "09:50",
+      "from": "Women and Infants 6 West Nurse Manager Carla Dunn",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Field Report (6 West to HCC): \"6 West has 18 bassinets occupied and 32 mothers. Powdered formula is prepared with water; we have 220 ready-to-feed bottles and use about 600 a day. NICU feeding uses sterile water from Pharmacy. Breast pumps and cleaning need water. I need ready-to-feed formula and sterile water for the unit through Sunday.\"",
+      "expectedAction": "The CNO and Pharmacy order ready-to-feed formula and sterile water through the coalition and the regional suppliers, switch bottle cleaning to disposable systems, and ask the health department for guidance on infant formula. The AOC records the supply gap on the resource request list.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:45",
+      "wallClock": "10:00",
+      "from": "Planning Section Chief",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis"],
+      "toLabel": "AOC, DFEM, CNO, NEPH",
+      "event": "Sitrep 4, 10:00: \"Tank 34,900 gallons; use 1,150 gallons per hour; fill valve closed. Dialysis: four outpatients placed today, five tomorrow; 24 inpatients covered (two transferred, 3 on CRRT, 19 scheduled with neighboring hospital capacity or portable RO on bottled sterile water). Electives cancelled. Sterile Processing stopped. Bottled water: 1,800 cases. Open decisions: when to resume dialysis; criteria for lifting the conservation plan; who decides.\"",
+      "expectedAction": "The AOC records the criteria for resuming dialysis: a lifted advisory, a flushing instruction from the city, and loop tests (total chlorine, conductivity, cultures) passed on two consecutive runs by the Dialysis Medical Director; the criteria for lifting the conservation plan are set separately by the Director of Facilities and Infection Prevention. The next sitrep is set for 12:00.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "10:15",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "fac", "clinical", "dialysis", "pio"],
+      "toLabel": "All",
+      "event": "ENDEX: It is 10:15. The advisory is still in effect and the city has given no earlier date than Sunday evening. The tank holds 34,000 gallons and the plan covers about 30 hours. Outpatient dialysis is closed and nobody has set a date to resume. Two hauling tankers have not yet arrived. Staff, patients and the press have heard the same words.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": []
+  },
+  "warnings": [],
+  "provenance": []
+}

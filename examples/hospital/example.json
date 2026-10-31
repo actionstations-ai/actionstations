@@ -1,0 +1,34 @@
+{
+  "id": "hospital",
+  "title": "Ottawa River Regional Medical Center",
+  "domainProfile": "healthcare",
+  "summary": "A 412-bed Toledo, Ohio community hospital (Level II trauma center, ED, ICUs, surgical pavilion, outpatient dialysis, CareLine EHR, networked monitors and infusion pumps) run under HICS, with its simulated plans (EOP under 42 CFR 482.15, EHR downtime, cyber incident response, surge and evacuation) and four tabletop exercises: ransomware forcing EHR downtime, an infusion pump drug library compromise, a mass casualty surge during a network outage, and a regional water advisory that reaches dialysis.",
+  "fictional": true,
+  "notice": "EXERCISE MATERIAL — for training use. Ottawa River Regional Medical Center, its people, vendors and identifiers are simulated; Toledo, Lucas County and the public agencies are real. The public sources consulted for realism are listed in reference/hospital/SOURCES.md.",
+  "scenarios": [
+    {
+      "id": "01M685F271DN0QR4WZQ564TYDB",
+      "title": "Paper Charts",
+      "threatFamily": "cyber",
+      "summary": "Ransomware encrypts the EHR database and stops the interface engine before the morning shift; the hospital goes to paper, weighs diversion and isolation steps against patient care, and answers a leak-site claim with a restore that is not an all-clear."
+    },
+    {
+      "id": "01M685WV4TGPS6DMTRYB9NGTGQ",
+      "title": "Ghost Pumps",
+      "threatFamily": "cyber_physical",
+      "summary": "A vendor support account alters the infusion pump drug library and scans the device network while ICU monitors drop off the central station; a near-miss, a hypoglycemia event of unknown cause and the isolation decision follow."
+    },
+    {
+      "id": "01M686AESKA2WBJCRQB93TGYRC",
+      "title": "Core Collapse",
+      "threatFamily": "infrastructure_failure",
+      "summary": "A core switch failure takes down the EHR, lab and imaging just before a multi-vehicle crash sends 36 patients to the ED; the hospital tracks patients on paper, opens surge space, transfers patients out and decides on crisis standards of care."
+    },
+    {
+      "id": "01M686KRZX86CC6QRNP27YQ9TG",
+      "title": "Water Line, No Drink",
+      "threatFamily": "infrastructure_failure",
+      "summary": "A Do Not Drink advisory from the City of Toledo Department of Public Utilities fails the dialysis loop; the hospital protects its stored water, places 33 dialysis patients elsewhere, adapts sterile processing and plans for 36 hours or more."
+    }
+  ]
+}

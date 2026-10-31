@@ -1,0 +1,99 @@
+{
+  "id": "01M686DDQZ6J5E30T8426EA8JH",
+  "mselRowId": "I-10",
+  "type": "email_forward",
+  "title": "EHR Read-Only Access — Interface Engine Still Stuck",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Raymond Okafor",
+    "fromEmail": "raymond.okafor@orrmc.example",
+    "senderInitials": "RO",
+    "to": "Director of IT, Chief Nursing Officer, Administrator on Call",
+    "subject": "FW: EHR Read-Only Access — Interface Engine Still Stuck",
+    "sentAt": "Fri 03/13/2026 18:25",
+    "note": "The C-212 core is now carrying the clinical VLANs. The LIS came back at 18:20, but ORRMC-INT01 is still stuck in a restart loop. Results are flowing from lab to EHR but not back. The EHR is accessible read-only on 60 workstations across the campus. I’ve confirmed with Clinical Engineering that the device network (10.40.x.x) is stable and pumps and monitors are operating normally.\n\nIf we allow clinical units to begin charting in the EHR now, we risk a split record: 4–5 hours of paper documentation will need to be re-keyed into the EHR later, and the record will be fragmented across systems. The EHR may drop again if the interface engine fails.\n\nRecommendation: keep paper as the active record for orders and medications. Use the EHR only to read lab results, imaging reports, and medication histories. I’ll send a broadcast to all units to clarify what the screens will and will not show.",
+    "signature": "Raymond Okafor\nDirector of IT\nOttawa River Regional Medical Center",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "IT Operations",
+    "original": {
+      "fromName": "Network Engineer Nadia Petrov",
+      "fromEmail": "nadia.petrov@orrmc.example",
+      "sentAt": "Fri 03/13/2026 18:20",
+      "to": "Director of IT, Incident Command",
+      "cc": "",
+      "subject": "Interface Engine ORRMC-INT01 stuck in restart loop",
+      "body": "ORRMC-INT01 is not completing startup. The interface engine is still in a restart loop after 30 minutes. The other engine, ORRMC-INT02, is in standby and not active. The lab system (ORRMC-LIS01) is back online and sending results to the EHR, but the EHR cannot send orders or patient data back to the lab.\n\nWe have not yet disabled the engine. No restarts have been attempted on ORRMC-INT01.\n\nStatus: Interface engine operational status = 'Failed to Start'\n\nWe are awaiting direction from the IT leadership."
+    }
+  },
+  "instructorNote": "This inject triggers the AOC to confirm the decision to use EHR only for read access. The CNO must verify that paper procedures are still in force for orders and medications, and the DIT must clarify the EHR's read-only status to all units. Watch for confusion over what the EHR can and cannot do.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+      "chunkId": 18
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:20:22.336Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Read-Only Access — Interface Engine Still Stuck",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Raymond Okafor",
+          "fromEmail": "raymond.okafor@orrmc.example",
+          "senderInitials": "RO",
+          "to": "Director of IT, Chief Nursing Officer, Administrator on Call",
+          "subject": "FW: EHR Read-Only Access — Interface Engine Still Stuck",
+          "sentAt": "Fri 03/13/2026 18:25",
+          "note": "The C-212 core is now carrying the clinical VLANs. The LIS came back at 18:20, but ORRMC-INT01 is still stuck in a restart loop. Results are flowing from lab to EHR but not back. The EHR is accessible read-only on 60 workstations across the campus. I’ve confirmed with Clinical Engineering that the device network (10.40.x.x) is stable and pumps and monitors are operating normally.\n\nIf we allow clinical units to begin charting in the EHR now, we risk a split record: 4–5 hours of paper documentation will need to be re-keyed into the EHR later, and the record will be fragmented across systems. The EHR may drop again if the interface engine fails.\n\nRecommendation: keep paper as the active record for orders and medications. Use the EHR only to read lab results, imaging reports, and medication histories. I’ll send a broadcast to all units to clarify what the screens will and will not show.",
+          "signature": "Raymond Okafor\nDirector of IT\nOttawa River Regional Medical Center",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "IT Operations",
+          "original": {
+            "fromName": "Network Engineer Nadia Petrov",
+            "fromEmail": "nadia.petrov@orrmc.example",
+            "sentAt": "Fri 03/13/2026 18:20",
+            "to": "Director of IT, Incident Command",
+            "cc": "",
+            "subject": "Interface Engine ORRMC-INT01 stuck in restart loop",
+            "body": "ORRMC-INT01 is not completing startup. The interface engine is still in a restart loop after 30 minutes. The other engine, ORRMC-INT02, is in standby and not active. The lab system (ORRMC-LIS01) is back online and sending results to the EHR, but the EHR cannot send orders or patient data back to the lab.\n\nWe have not yet disabled the engine. No restarts have been attempted on ORRMC-INT01.\n\nStatus: Interface engine operational status = 'Failed to Start'\n\nWe are awaiting direction from the IT leadership."
+          }
+        },
+        "instructorNote": "This inject triggers the AOC to confirm the decision to use EHR only for read access. The CNO must verify that paper procedures are still in force for orders and medications, and the DIT must clarify the EHR's read-only status to all units. Watch for confusion over what the EHR can and cannot do.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:22:58.498Z"
+}

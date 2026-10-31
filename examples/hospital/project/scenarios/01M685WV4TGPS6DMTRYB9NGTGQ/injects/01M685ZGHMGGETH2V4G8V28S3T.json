@@ -1,0 +1,99 @@
+{
+  "id": "01M685ZGHMGGETH2V4G8V28S3T",
+  "mselRowId": "I-07",
+  "type": "email_forward",
+  "title": "Pump Library Anomaly — Manufacturer Security Alert",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Product Security Desk, MedPump Systems",
+    "fromEmail": "security@medpumpsystems.example",
+    "senderInitials": "PS",
+    "to": "ISO, CE, AOC",
+    "subject": "FW: Urgent: Unapproved Library 4.2.2 on ORRMC-PUMP01 — Do Not Use for High-Alert Infusions",
+    "sentAt": "Thu 03/12/2026 15:35",
+    "note": "We have confirmed that MedPump Systems did not issue library 4.2.2, and no remote session was scheduled for ORRMC today. The account pumplink-support was not authorized to make configuration changes on ORRMC-PUMP01. We are investigating a potential credential compromise. Until further notice, do not use any pump on 4.2.2 for high-alert medications. We recommend disabling remote access to ORRMC-PUMP01 immediately. We can ship 60 loaner pumps on 4.2.1 by 20:00. Please preserve the pump server and the session broker for forensic analysis.",
+    "signature": "MedPump Systems Product Security Desk\n203.0.113.77\nSecurity@medpumpsystems.example",
+    "importance": "high",
+    "external": true,
+    "attachments": [],
+    "printedBy": "ISO",
+    "original": {
+      "fromName": "Product Security Desk, MedPump Systems",
+      "fromEmail": "security@medpumpsystems.example",
+      "sentAt": "Thu 03/12/2026 15:32",
+      "to": "ORRMC-IT-Security@orrmc.example",
+      "cc": "incident-response@medpumpsystems.example",
+      "subject": "Urgent: Unapproved Library 4.2.2 on ORRMC-PUMP01 — Do Not Use for High-Alert Infusions",
+      "body": "This is a critical alert from MedPump Systems Product Security. We have detected an unauthorized configuration change on ORRMC-PUMP01 (host: ORRMC-PUMP01; IP: 10.40.30.11), where library version 4.2.2 was loaded at 13:55. We did not issue this library, and no remote session was scheduled by our team. The account pumplink-support was used in a session from 203.0.113.77 (a known external IP not associated with ORRMC). We are investigating whether credentials were exposed. As a precaution, we recommend: \n\n- Do not use any pump on 4.2.2 for high-alert infusions (e.g., heparin, insulin, fentanyl, norepinephrine).\n- Immediately disable remote access to ORRMC-PUMP01.\n- Preserve ORRMC-PUMP01 and ORRMC-VSB01 for forensic evidence.\n- We can ship 60 loaner pumps (4.2.1) by 20:00.\n\nPlease confirm receipt and action. Contact us directly at +1-800-555-0123 (ext. 4444) for technical coordination."
+    }
+  },
+  "instructorNote": "This inject confirms the attack vector and triggers the decision to accept loaner pumps and begin forensic preservation. Watch for the AOC to authorize the shipment and the CE to initiate the bench-flash from the offline copy.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:12:47.224Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Pump Library Anomaly — Manufacturer Security Alert",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Product Security Desk, MedPump Systems",
+          "fromEmail": "security@medpumpsystems.example",
+          "senderInitials": "PS",
+          "to": "ISO, CE, AOC",
+          "subject": "FW: Urgent: Unapproved Library 4.2.2 on ORRMC-PUMP01 — Do Not Use for High-Alert Infusions",
+          "sentAt": "Thu 03/12/2026 15:35",
+          "note": "We have confirmed that MedPump Systems did not issue library 4.2.2, and no remote session was scheduled for ORRMC today. The account pumplink-support was not authorized to make configuration changes on ORRMC-PUMP01. We are investigating a potential credential compromise. Until further notice, do not use any pump on 4.2.2 for high-alert medications. We recommend disabling remote access to ORRMC-PUMP01 immediately. We can ship 60 loaner pumps on 4.2.1 by 20:00. Please preserve the pump server and the session broker for forensic analysis.",
+          "signature": "MedPump Systems Product Security Desk\n203.0.113.77\nSecurity@medpumpsystems.example",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "ISO",
+          "original": {
+            "fromName": "Product Security Desk, MedPump Systems",
+            "fromEmail": "security@medpumpsystems.example",
+            "sentAt": "Thu 03/12/2026 15:32",
+            "to": "ORRMC-IT-Security@orrmc.example",
+            "cc": "incident-response@medpumpsystems.example",
+            "subject": "Urgent: Unapproved Library 4.2.2 on ORRMC-PUMP01 — Do Not Use for High-Alert Infusions",
+            "body": "This is a critical alert from MedPump Systems Product Security. We have detected an unauthorized configuration change on ORRMC-PUMP01 (host: ORRMC-PUMP01; IP: 10.40.30.11), where library version 4.2.2 was loaded at 13:55. We did not issue this library, and no remote session was scheduled by our team. The account pumplink-support was used in a session from 203.0.113.77 (a known external IP not associated with ORRMC). We are investigating whether credentials were exposed. As a precaution, we recommend: \n\n- Do not use any pump on 4.2.2 for high-alert infusions (e.g., heparin, insulin, fentanyl, norepinephrine).\n- Immediately disable remote access to ORRMC-PUMP01.\n- Preserve ORRMC-PUMP01 and ORRMC-VSB01 for forensic evidence.\n- We can ship 60 loaner pumps (4.2.1) by 20:00.\n\nPlease confirm receipt and action. Contact us directly at +1-800-555-0123 (ext. 4444) for technical coordination."
+          }
+        },
+        "instructorNote": "This inject confirms the attack vector and triggers the decision to accept loaner pumps and begin forensic preservation. Watch for the AOC to authorize the shipment and the CE to initiate the bench-flash from the offline copy.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:36.687Z"
+}

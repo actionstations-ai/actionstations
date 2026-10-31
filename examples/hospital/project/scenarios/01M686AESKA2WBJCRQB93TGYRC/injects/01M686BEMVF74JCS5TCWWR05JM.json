@@ -1,0 +1,91 @@
+{
+  "id": "01M686BEMVF74JCS5TCWWR05JM",
+  "mselRowId": "I-04",
+  "type": "pa_announcement",
+  "title": "Code Triage — Mass Casualty Incident",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "text": "Code Triage, Code Triage. Mass casualty incident. All department managers report to the Hospital Command Center. Surgical Pavilion, Imaging and Laboratory: report your capacity to the HCC. All staff: downtime procedures are in effect. Code Triage, Code Triage.",
+    "zones": "ALL ZONES",
+    "source": "Switchboard Operator (Main PA System)",
+    "voiceStyle": "human",
+    "voiceDirection": "Calm, authoritative male voice, steady pace, slight echo",
+    "terminalAmbience": "Hospital corridor, distant intercom chatter, muffled footsteps",
+    "chime": true,
+    "repeat": "Plays 3x, 20 s apart",
+    "time": "17:10",
+    "deliveryNote": "Play the audio on all hospital PA zones. Do not explain it.",
+    "audioFile": "I-04_pa.wav",
+    "duration": "0:28",
+    "injectId": "I-04",
+    "scenarioTitle": "Core Collapse — Mass Casualty Surge During a Network Outage"
+  },
+  "variant": "default",
+  "instructorNote": "This inject triggers full HICS activation. Watch for the AOC to call for the first HCC meeting and for the CNO to initiate the call-in tree.",
+  "citations": [
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+      "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "On notice from Lucas County EMS or Toledo Fire and Rescue of a mass casualty incident, the ED charge nurse and the ED physician: call Code Triage; the Nursing Supervisor opens the HCC; the Triage Offi",
+      "chunkId": 49
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Switchboard Operator (Main PA System)",
+        "voiceStyle": "calm, authoritative male voice, steady pace, slight echo",
+        "text": "Code Triage, Code Triage. Mass casualty incident. All department managers report to the Hospital Command Center. Surgical Pavilion, Imaging and Laboratory: report your capacity to the HCC. All staff: downtime procedures are in effect. Code Triage, Code Triage."
+      }
+    ],
+    "postFx": [
+      "pa",
+      "terminal_ambience"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:19:14.332Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Code Triage — Mass Casualty Incident",
+        "type": "pa_announcement",
+        "fields": {
+          "text": "Code Triage, Code Triage. Mass casualty incident. All department managers report to the Hospital Command Center. Surgical Pavilion, Imaging and Laboratory: report your capacity to the HCC. All staff: downtime procedures are in effect. Code Triage, Code Triage.",
+          "zones": "ALL ZONES",
+          "source": "Switchboard Operator (Main PA System)",
+          "voiceStyle": "human",
+          "voiceDirection": "Calm, authoritative male voice, steady pace, slight echo",
+          "terminalAmbience": "Hospital corridor, distant intercom chatter, muffled footsteps",
+          "chime": true,
+          "repeat": "Plays 3x, 20 s apart",
+          "time": "17:10",
+          "deliveryNote": "Play the audio on all hospital PA zones. Do not explain it.",
+          "audioFile": "I-04_pa.wav",
+          "duration": "0:28",
+          "injectId": "I-04",
+          "scenarioTitle": "Core Collapse — Mass Casualty Surge During a Network Outage"
+        },
+        "instructorNote": "This inject triggers full HICS activation. Watch for the AOC to call for the first HCC meeting and for the CNO to initiate the call-in tree.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:22:57.088Z"
+}

@@ -1,0 +1,92 @@
+{
+  "id": "01M685KP2PEENES0BBCTYRGF71",
+  "mselRowId": "I-14",
+  "type": "email_forward",
+  "title": "EHR Vendor Incident Desk — Restore Timeline and Clean Backup",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Tanya Rostova (EHR Vendor Incident Desk)",
+    "fromEmail": "tanya.rostova@careline-ehr.example",
+    "senderInitials": "TR",
+    "to": "ISO, AOC",
+    "subject": "FW: ORRMC EHR Database Encryption — Restore Path and Restore Point Request",
+    "sentAt": "Tue 03/03/2026 08:05 AM",
+    "note": "The CareLine EHR vendor has reviewed your ticket and confirms the standard response path for a full database encryption incident. This is not a temporary outage. We recommend you begin planning for an extended downtime. Please confirm your restore point so we can initiate the rebuild.",
+    "signature": "Tanya Rostova\nEHR Vendor Incident Desk\nCareLine Health Systems\ncontact@careline-ehr.example",
+    "importance": "high",
+    "external": true,
+    "attachments": [],
+    "printedBy": "ISO",
+    "original": {
+      "fromName": "CareLine Health Systems — Incident Desk",
+      "fromEmail": "incident-desk@careline-ehr.example",
+      "sentAt": "Tue 03/03/2026 07:58 AM",
+      "to": "ORRMC-ISO@orrmc.example",
+      "cc": "ORRMC-CIRP-2026@orrmc.example",
+      "subject": "ORRMC-26-03-03-001: EHR Database Encryption — Restore Path and Restore Point Request",
+      "body": "Dear ORRMC Incident Management Team,\n\nThank you for reporting the encryption of your CareLine EHR database servers (ORRMC-SQL01 and ORRMC-SQL02) on Tuesday, March 3, 2026.\n\nOur forensic team has confirmed that the database and file shares are encrypted, and the on-site backup repository (ORRMC-BKP01) has been deleted. The immutable cloud copy of the EHR database remains intact and has not been accessed by the attacker.\n\nOur standard incident response path for this scenario is as follows:\n\n1. Rebuild a clean environment in a secure, isolated network segment.\n2. Restore the EHR database from the last known clean backup (the immutable cloud copy, which you tell us holds a snapshot taken before the intruder first logged on).\n3. Rebuild and validate the interface engine (ORRMC-INT01) and application layer.\n4. Perform end-to-end interface validation with the EHR, lab (ORRMC-LIS01), imaging (ORRMC-PACS01), and pharmacy (ORRMC-PHARM01) systems.\n5. Obtain clinical sign-off from the CNO and CMO before restoring to production.\n\nBased on recent deployments, the full restoration process typically takes 18 to 24 hours for the database and applications, and longer if interface engine reconstruction is required.\n\nWe cannot restore into the current servers. You must provide the exact restore point you wish to use. Please confirm:\n\n- The snapshot time on the immutable cloud copy that you can show was taken before the first unauthorized logon.\n- Your readiness to begin the rebuild process.\n- Whether you have access to the cloud console to validate the backup integrity.\n\nWe will begin the rebuild once you confirm the restore point and provide a go-ahead from your leadership.\n\nSincerely,\n\nCareLine Health Systems — Incident Desk\nincident-desk@careline-ehr.example\n203.0.113.100 (port 443)\n\n[Note: This is a vendor-issued message. Do not respond via email. Use the secure portal at https://secure.careline-ehr.example/orrmc-incident]"
+    }
+  },
+  "instructorNote": "This inject confirms that full restoration will take more than 24 hours. The AOC must now plan for a Level 1, hospital-wide downtime, including cancelling elective cases and activating the full paper workflow. The ISO must verify the cloud backup before selecting a restore point.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+      "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+      "chunkId": 12
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:06:34.087Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Vendor Incident Desk — Restore Timeline and Clean Backup",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Tanya Rostova (EHR Vendor Incident Desk)",
+          "fromEmail": "tanya.rostova@careline-ehr.example",
+          "senderInitials": "TR",
+          "to": "ISO, AOC",
+          "subject": "FW: ORRMC EHR Database Encryption — Restore Path and Restore Point Request",
+          "sentAt": "Tue 03/03/2026 08:05 AM",
+          "note": "The CareLine EHR vendor has reviewed your ticket and confirms the standard response path for a full database encryption incident. This is not a temporary outage. We recommend you begin planning for an extended downtime. Please confirm your restore point so we can initiate the rebuild.",
+          "signature": "Tanya Rostova\nEHR Vendor Incident Desk\nCareLine Health Systems\ncontact@careline-ehr.example",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "ISO",
+          "original": {
+            "fromName": "CareLine Health Systems — Incident Desk",
+            "fromEmail": "incident-desk@careline-ehr.example",
+            "sentAt": "Tue 03/03/2026 07:58 AM",
+            "to": "ORRMC-ISO@orrmc.example",
+            "cc": "ORRMC-CIRP-2026@orrmc.example",
+            "subject": "ORRMC-26-03-03-001: EHR Database Encryption — Restore Path and Restore Point Request",
+            "body": "Dear ORRMC Incident Management Team,\n\nThank you for reporting the encryption of your CareLine EHR database servers (ORRMC-SQL01 and ORRMC-SQL02) on Tuesday, March 3, 2026.\n\nOur forensic team has confirmed that the database and file shares are encrypted, and the on-site backup repository (ORRMC-BKP01) has been deleted. The immutable cloud copy of the EHR database remains intact and has not been accessed by the attacker.\n\nOur standard incident response path for this scenario is as follows:\n\n1. Rebuild a clean environment in a secure, isolated network segment.\n2. Restore the EHR database from the last known clean backup (the immutable cloud copy, which you tell us holds a snapshot taken before the intruder first logged on).\n3. Rebuild and validate the interface engine (ORRMC-INT01) and application layer.\n4. Perform end-to-end interface validation with the EHR, lab (ORRMC-LIS01), imaging (ORRMC-PACS01), and pharmacy (ORRMC-PHARM01) systems.\n5. Obtain clinical sign-off from the CNO and CMO before restoring to production.\n\nBased on recent deployments, the full restoration process typically takes 18 to 24 hours for the database and applications, and longer if interface engine reconstruction is required.\n\nWe cannot restore into the current servers. You must provide the exact restore point you wish to use. Please confirm:\n\n- The snapshot time on the immutable cloud copy that you can show was taken before the first unauthorized logon.\n- Your readiness to begin the rebuild process.\n- Whether you have access to the cloud console to validate the backup integrity.\n\nWe will begin the rebuild once you confirm the restore point and provide a go-ahead from your leadership.\n\nSincerely,\n\nCareLine Health Systems — Incident Desk\nincident-desk@careline-ehr.example\n203.0.113.100 (port 443)\n\n[Note: This is a vendor-issued message. Do not respond via email. Use the secure portal at https://secure.careline-ehr.example/orrmc-incident]"
+          }
+        },
+        "instructorNote": "This inject confirms that full restoration will take more than 24 hours. The AOC must now plan for a Level 1, hospital-wide downtime, including cancelling elective cases and activating the full paper workflow. The ISO must verify the cloud backup before selecting a restore point.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:32.186Z"
+}

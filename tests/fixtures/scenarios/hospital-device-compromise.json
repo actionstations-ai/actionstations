@@ -1,0 +1,534 @@
+{
+  "id": "seed",
+  "projectId": "seed",
+  "title": "Ghost Pumps",
+  "subtitle": "Infusion Pump Integrity and Clinical Trust",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "Patient monitors in ICU 3 North and 3 South drop off the central station and an infusion pump drug library is found altered through a vendor remote-support account; Clinical Engineering and Information Security decide whether to isolate the device network, keep critical patients safe on manual checks and report to the manufacturer, the FDA and the public.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Information Security Officer (Technical Lead)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "Clinical Engineering Manager (Infrastructure Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "14:20",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Cyber-physical risk, a joint isolation decision, evidence and reporting, and disclosure to families",
+    "threat": "At 13:55 on Thursday, March 12, 2026 someone using stolen vendor remote-support credentials changes the drug library on the infusion pump server ORRMC-PUMP01 through the vendor session broker ORRMC-VSB01. 41 pumps in ICU 3 North, ICU 3 South and 4 East take library 4.2.2, which raises the hard dose limits, so the pumps will not alarm at unsafe rates. The same session scans the device network 10.40.x.x, and four ICU patients drop off the central monitoring display.",
+    "operationalImpact": "Nursing cannot rely on pump limits for heparin, insulin, opioids or vasopressors, or on the central telemetry display. The hospital must choose between blocking the intruder and keeping central monitoring, imaging and lab interfaces. A near-miss and a possible hypoglycemia event from an unknown cause raise disclosure and reporting duties.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Information Security Officer (Technical Lead), Chief Nursing Officer (Operations Section Chief), Clinical Engineering Manager (Infrastructure Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Cyber-Physical Risk",
+      "text": "Demonstrate the ability to recognize a device-integrity incident from clinical and technical signs and to assign high-alert infusions a safe manual process."
+    },
+    {
+      "id": "obj-2",
+      "name": "Isolation Decision",
+      "text": "Demonstrate the ability to make the device-network isolation decision jointly (Information Security, Clinical Engineering, Nursing, the CMO and the AOC), with the clinical costs stated before the decision."
+    },
+    {
+      "id": "obj-3",
+      "name": "Evidence and Reporting",
+      "text": "Demonstrate the ability to preserve evidence and to report to the manufacturer, the FDA, the FBI, CISA and H-ISAC on the clocks the plans name."
+    },
+    {
+      "id": "obj-4",
+      "name": "Patient and Public Communication",
+      "text": "Demonstrate the ability to disclose to an affected family before the public does and to hold a statement to confirmed facts."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Information Security Officer (Technical Lead)",
+      "abbreviation": "ISO",
+      "team": "Team B: Technology",
+      "description": "Marcus Hale. Leads containment, evidence preservation, outside reporting and the safety check before any restored system is used on patients.",
+      "standingOrders": [
+        "Preserve evidence before anything is wiped or rebuilt.",
+        "A restore is not an all-clear: watch restored systems for at least 72 hours."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "biomed",
+      "name": "Clinical Engineering Manager (Infrastructure Branch)",
+      "abbreviation": "CE",
+      "team": "Team D: Infrastructure",
+      "description": "Peter Lindqvist. Owns the networked medical devices (infusion pumps, monitors, ventilators, analyzers) and their manual fallbacks.",
+      "standingOrders": [
+        "Never trade a device that is working at the bedside for central visibility without the CNO agreeing."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Odd Signals",
+      "goal": "Link a monitoring display fault, a pump library change and a near-miss into one incident, and decide how to treat pumps that cannot be trusted.",
+      "beats": [
+        "Four ICU 3 North patients vanish from the central monitoring display while their bedside monitors keep working.",
+        "The pump server shows library 4.2.2 pushed at 13:55 by a vendor support account nobody scheduled.",
+        "A heparin rate of 180 units/kg/hr is accepted at the bedside without a hard-limit alarm and is caught by a second nurse."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Is the Network Safe?",
+      "goal": "Decide how far to trust the device network, review every high-alert infusion since 13:58, and answer the vendor, the FBI and the public.",
+      "beats": [
+        "Pharmacy finds six high-alert infusions started on pumps carrying the altered library.",
+        "The pump maker says it did not send the library and advises against using the affected pumps for high-alert drugs.",
+        "Scanning from the vendor session broker continues toward imaging modalities and the monitoring server."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Containment Costs",
+      "goal": "Isolate or not, and live with the consequences: lost central monitoring, a false alarm that sends a rapid response team, a hypoglycemia event with an unclear cause and a reporter's call.",
+      "beats": [
+        "The device network is isolated and telemetry for 32 ICU beds goes dark.",
+        "The central station shows \"asystole\" for a patient who is fine at the bedside.",
+        "An insulin patient is found at a glucose of 52 and the pump log shows a rate higher than the order for 31 minutes."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Verification",
+      "goal": "Rebuild trust one pump at a time, decide on the vendor's access, disclose to a family and prepare the regulators, and decide whether to reconnect monitoring.",
+      "beats": [
+        "Clinical Engineering re-flashes the pump library from the hospital's own offline copy and bench-tests each pump.",
+        "The vendor traces the account to stolen credentials from its own support portal.",
+        "The exercise ends with the device network still isolated and one open decision: reconnect central monitoring behind a new firewall rule."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "14:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "STARTEX: It is 14:20 on Thursday, March 12, 2026 at Ottawa River Regional Medical Center. Census is 326 inpatients with 19 in the ED; ICU 3 North and ICU 3 South are both full (16 patients each). The weather is overcast with light rain. At 14:17 the charge nurse in ICU 3 North noticed that four patients no longer appear on the central telemetry display on ORRMC-MON01. Their bedside monitors still show normal tracings. Nobody has linked this to anything else, and no incident has been declared.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "14:25",
+      "from": "ICU 3 North Charge Nurse Mara Voss",
+      "toRoleIds": ["clinical", "biomed"],
+      "toLabel": "CNO, CE",
+      "event": "Phone Call: \"Mara Voss, ICU 3 North. On the central board four beds have gone blank: 3, 7, 9 and 12. At the bedside the monitors look normal and nobody is alarming. I also have a pump on bed 7 that says \"library update pending\" and I have not seen that before. Do I need to do anything, or is this a display glitch?\"",
+      "expectedAction": "The CNO has the charge nurse put a nurse at the bedside of the four patients and keeps their bedside alarms audible. The CNO calls Clinical Engineering, who note the pump message and ask other units for the same message. Nothing is declared yet, but the CNO tells the Nursing Supervisor to ask all ICU and step-down units whether they have blank beds or the pump message.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:12",
+      "wallClock": "14:32",
+      "from": "Clinical Engineering Technician Hao Tran",
+      "toRoleIds": ["biomed", "it"],
+      "toLabel": "CE, ISO",
+      "event": "Helpdesk Ticket CE-26-03-0087, priority 2: \"ORRMC-PUMP01 shows drug library 4.2.2 loaded at 13:55 by the account pumplink-support. Our change log shows no library change scheduled this week; the current approved library is 4.2.1. 41 pumps in ICU 3 North, ICU 3 South and 4 East report 4.2.2 as of 14:10. Central monitoring shows four ICU 3 North beds with no data since 14:02. I have not changed anything.\"",
+      "expectedAction": "Clinical Engineering stops further library pushes (blocks the push schedule on ORRMC-PUMP01), keeps the server running to preserve logs, and calls the pump maker on the support number kept in the Clinical Engineering binder, not the number in the session. The CE tells the ISO. Under the Cyber Incident Response Plan (Section 3) the ISO treats suspected compromise of a device segment as Cyber 2, which means EOP Level 2 and an HCC.",
+      "purposeTag": "CLUE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:20",
+      "wallClock": "14:40",
+      "from": "Managed Detection Service",
+      "toRoleIds": ["it", "biomed"],
+      "toLabel": "ISO, CE",
+      "event": "SIEM Alert, high: \"Vendor session broker ORRMC-VSB01: account pumplink-support authenticated from 203.0.113.77 at 13:48 after a password reset through the vendor portal at 13:46; session closed 13:58. During the session, port scans of 10.40.10.0/24, 10.40.30.0/24 and 10.40.40.0/24 touched 212 hosts, including the pump server, the telemetry server and two imaging modalities. A configuration change was made on ORRMC-PUMP01 at 13:55.\"",
+      "expectedAction": "The ISO confirms the vendor account was not used by the vendor, blocks the account and the source address, suspends vendor remote access to all device systems, captures the broker's logs and a memory image of ORRMC-VSB01, and tells the AOC that the device network may be compromised. The AOC opens the HCC at Level 2 (EOP Section 4).",
+      "purposeTag": "CLUE",
+      "format": "siem_alert",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:30",
+      "wallClock": "14:50",
+      "from": "ICU 3 South Nurse Manager Dalia Hart",
+      "toRoleIds": ["clinical", "biomed"],
+      "toLabel": "CNO, CE",
+      "event": "Phone Call: \"Dalia Hart, ICU 3 South. Two minutes ago a nurse started a heparin infusion on bed 6 and typed 18.0 units/kg/hr as 180. The pump accepted it and did not alarm. The second nurse caught it at the bedside before the infusion started. Our hard limit is 25. I need to know if I can trust any pump on this unit.\"",
+      "expectedAction": "The CNO orders an independent double check, at the bedside, of every high-alert infusion rate (heparin, insulin, opioids, vasopressors, sedation) on every pump hospital-wide, until Clinical Engineering says otherwise, and has Pharmacy supply a rate-check card. Affected units set aside the pumps with library 4.2.2 for high-alert drugs where a pump on 4.2.1 is available. The CNO reports the near-miss through the safety event system.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:45",
+      "wallClock": "15:05",
+      "from": "Clinical Engineering Manager Peter Lindqvist",
+      "toRoleIds": ["biomed", "it", "clinical"],
+      "toLabel": "CE, ISO, CNO",
+      "event": "Radio Call: \"CE to ISO and CNO. The pumps on 4.2.2 are 41. We have 38 spare pumps on the shelf, all on 4.2.1, and no pump server we can trust. I can swap pumps on the highest-risk patients, 22 of them on high-alert drugs, over the next two hours, or I can wait for the maker's advice. Swapping interrupts infusions. Which do you want?\"",
+      "expectedAction": "The CNO and the CE prioritize: swap the pumps on the highest-risk infusions first, with a nurse at the bedside for each swap, a rate check by a second nurse and a restart log; use syringe or gravity methods only where a pump cannot be spared. The CMO is told which therapies cannot be interrupted (for example vasopressors), and the ISO is told that ORRMC-PUMP01 must not push anything.",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "15:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 15:20. The HCC is open at Level 2. The vendor account is blocked and ORRMC-PUMP01 is not pushing. Eleven of the 22 high-alert pumps have been swapped. The central board still shows the four dark beds. The pump maker's security desk is calling back.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "15:25",
+      "from": "Pharmacy Director Anil Desai",
+      "toRoleIds": ["clinical", "it"],
+      "toLabel": "CNO, ISO",
+      "event": "Phone Call: \"Anil Desai. I pulled the pump logs for the 41 pumps. Since 13:58 six high-alert infusions have started on them: two heparin, one insulin, two fentanyl and one norepinephrine. All six rates match the pharmacy order on the first check. But those pumps would not have alarmed at an unsafe rate, so I do not trust the match. Do I review all six by hand?\"",
+      "expectedAction": "The CMO and Pharmacy review the six patients now: each rate is compared with the order by a pharmacist at the bedside; heparin and insulin patients get a stat aPTT and a glucose; the pumps are swapped first for these six. The CNO records the review in the incident log and the CMO is told in case a disclosure conversation is needed.",
+      "purposeTag": "CLUE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "15:35",
+      "from": "Pump maker product security desk",
+      "toRoleIds": ["it", "biomed", "ic"],
+      "toLabel": "ISO, CE, AOC",
+      "event": "Email Forward (from the pump maker's product security desk): \"We did not issue library 4.2.2 and our remote support did not schedule a session at ORRMC today. The account pumplink-support belongs to a field engineer; we are checking whether its credentials were exposed. Until we know, we recommend that you do not use any pump on 4.2.2 for high-alert infusions, and that you disable remote access. We can ship 60 loaner pumps on 4.2.1 by 20:00. Please preserve the pump server and the session broker.\"",
+      "expectedAction": "The AOC accepts the loaner offer (so all 41 can be taken out of high-alert use without gutting capacity) and the CE schedules a bench-flash of the 41 from the hospital's own offline 4.2.1 copy. The ISO confirms that the hospital preserves the pump server and the broker. The ISO keeps the manufacturer on the incident log and starts the manufacturer and FDA reporting questions with the Chief Privacy Officer and outside counsel.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "15:45",
+      "from": "FBI Cleveland Field Office duty agent (SimCell)",
+      "toRoleIds": ["it", "ic"],
+      "toLabel": "ISO, AOC",
+      "event": "Phone Call: \"Duty agent at the FBI Cleveland Field Office, returning your call. We have your report. Please preserve logs, the broker and the pump server, and take images before you rebuild. We cannot tell you whether to isolate your device network: that is a patient-safety call that only you can make. If you can tell us the source address and times, our cyber squad will follow up this evening.\"",
+      "expectedAction": "The ISO confirms preservation and sends the times and the source address; the ISO also reports to CISA and H-ISAC. The AOC notes that the isolation decision is the hospital's alone, to be made on patient-safety grounds (Cyber Incident Response Plan, Section 5). The ISO logs the call and the agent's name.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:35",
+      "wallClock": "15:55",
+      "from": "@ToledoJen on social media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Social Media Post (@ToledoJen): \"My dad is in ICU at Ottawa River. Nurses are standing at every bed and the big monitor screens are BLANK. Nobody will tell us anything. Is the hospital hacked??\" Photo of an empty monitoring display. 44 reposts, 19 replies.",
+      "expectedAction": "The PIO logs the post, does not confirm a cause, and releases the holding statement approved in advance (Emergency Operations Plan, Section 10): the hospital is addressing a technical issue with some monitoring equipment, patients are being cared for at the bedside, and families can call a number staffed by the PIO team. The PIO asks the ICU managers to speak to families directly.",
+      "purposeTag": "MISINFORMATION",
+      "format": "tweet",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:45",
+      "wallClock": "16:05",
+      "from": "Clinical Engineering Manager Peter Lindqvist",
+      "toRoleIds": ["biomed", "it", "clinical", "ic"],
+      "toLabel": "CE, ISO, CNO, AOC",
+      "event": "Radio Call: \"CE to HCC. At 16:01 the logs still show scanning from 10.40.10.0/24 toward CT-2 and MRI-1 and a connection attempt to the telemetry server ORRMC-MON01 from the broker. I recommend isolating the whole device network, 10.40.x.x. That stops the library pushes and the scanning. It also means: central telemetry for 32 ICU beds goes dark, imaging cannot send to PACS, lab analyzers cannot send results, and no library updates. The alternative is to block just the broker and watch.\"",
+      "expectedAction": "This is the decision point. The AOC decides with the ISO, the CE, the CNO and the CMO. Whichever option is chosen, the AOC states the clinical cost first: for full isolation, a nurse or portable monitor for every telemetry patient, imaging read at the console, manual lab results; for blocking only the broker, the risk that an intruder already inside moves again. The decision, who made it and the reason go in the incident log (Cyber Incident Response Plan, Section 5 and Section 6).",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "16:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 16:20. The AOC has ordered the device network isolated and the ISO is applying the firewall rule. The 22 highest-risk pumps have been swapped; 19 pumps on 4.2.2 remain in use for low-risk fluids only. The sample from the six high-alert infusion review has gone to the lab by runner.",
+      "expectedAction": "Players move to the consequences of the isolation.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "16:25",
+      "from": "Nursing Supervisor Sana Qureshi",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Field Report (Nursing Supervisor to HCC): \"Isolation is in. Central telemetry for ICU 3 North, 3 South, 4 East and 7 East is dark. The bedside monitors work but nobody is watching 41 telemetry patients from a central desk. Staffing for one-to-one observation of the 12 highest-risk patients needs six more RNs tonight and three portable monitors we do not have. What do I tell the units?\"",
+      "expectedAction": "The CNO activates the call-in tree and uses float and agency staff, assigns one-to-one watch to the highest-risk telemetry patients, and asks Clinical Engineering for the portable monitors on the shelf and the ones that can come from other hospitals through the coalition. The AOC approves overtime and the Liaison Officer asks the coalition for monitors.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:15",
+      "wallClock": "16:35",
+      "from": "Central Monitoring Station ORRMC-MON01",
+      "toRoleIds": ["clinical", "biomed"],
+      "toLabel": "CNO, CE",
+      "event": "Alarm Summary (central station, 16:34): ICU 3 South bed 5 shows \"ASYSTOLE\" and \"NO DATA\" for 38 seconds before the station resets; 14 other beds show \"LEADS OFF\". The station is running on stale input after the isolation; the patient on bed 5 is awake and talking at the bedside. A rapid response team has been called.",
+      "expectedAction": "The CNO and the CE tell the units that after isolation the central display is not trusted, so alarm decisions are made at the bedside; the rapid response team stands down; the CE puts a notice on the central station. The CMO asks the ISO whether the display was manipulated or is simply stale. The decision to rely only on bedside monitors is recorded.",
+      "purposeTag": "CONFUSION",
+      "format": "alarm_summary",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:25",
+      "wallClock": "16:45",
+      "from": "Chief Medical Information Officer Dr. Priya Raman",
+      "toRoleIds": ["clinical", "biomed", "ic"],
+      "toLabel": "CNO, CE, AOC",
+      "event": "Phone Call: \"Priya Raman. ICU 3 South bed 3, an insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. The nurse says she entered 4.0. I cannot tell you whether the nurse mistyped, the pump misread the entry or the library changed the scaling. The patient is on dextrose and responding.\"",
+      "expectedAction": "The CMO and the nurse manager treat the patient, disclose the event to the patient and family without speculating on cause (hospital disclosure policy), and file the safety event. The CE and the ISO secure the pump and its log as evidence. The Chief Privacy Officer and outside counsel are told, and the question of device-related injury reporting to the manufacturer and the FDA is raised (the device reporting duties start with a serious injury) while the cause is unknown.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:35",
+      "wallClock": "16:55",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. A family member says a nurse told her that ICU pumps were hacked and a patient got too much insulin. Can you confirm a cyberattack on infusion pumps and a patient overdose at Ottawa River? We are going to air at 17:30.\"",
+      "expectedAction": "The PIO does not confirm or deny a cause or any patient event. The PIO uses facts cleared by the ISO, the CMO and the Chief Privacy Officer: the hospital is addressing a technical issue with some medical equipment, patients are being monitored at the bedside, and the hospital will provide more as soon as facts are confirmed. The CMO meets the family before any statement mentions the event.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "17:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 17:20. The device network has been isolated for an hour. Central telemetry remains dark and the extra RNs are arriving. The loaner pumps are on a courier's van. Clinical Engineering has re-flashed 22 pumps from the offline 4.2.1 copy.",
+      "expectedAction": "Players move to verification and recovery decisions.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "17:25",
+      "from": "Clinical Engineering Technician Hao Tran",
+      "toRoleIds": ["biomed", "clinical", "it"],
+      "toLabel": "CE, CNO, ISO",
+      "event": "Field Report (Clinical Engineering to HCC): \"Bench status. We re-flash from the offline copy, verify the library hash, run a test infusion at three rates and compare the result with the entered values. 22 pumps are done and 19 remain; each takes about 12 minutes, and we have two benches. We have not touched the 38 spares because they never connected to ORRMC-PUMP01. We will keep a signed sheet for every pump.\"",
+      "expectedAction": "The CE and the CNO agree the order of work (units with the most high-alert infusions first), the sign-off sheet, and that a pump comes back into service only after the CE signs it and a nurse checks the first rate at the bedside. The ISO keeps the pump server isolated until it is rebuilt from a known-good image.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "17:35",
+      "from": "Pump maker incident response lead",
+      "toRoleIds": ["it", "ic", "biomed"],
+      "toLabel": "ISO, AOC, CE",
+      "event": "Email Forward (from the pump maker's incident response lead): \"Update. The account pumplink-support was used with credentials taken from a third-party breach of our support portal on March 9. The pumps accept a library from the pump server without a signature check unless the server is configured for signed libraries, which yours was not. Other customers may be affected. We recommend that you turn off remote access entirely and enable signed libraries. We will report to the FDA as the manufacturer.\"",
+      "expectedAction": "The AOC and the ISO decide to keep vendor remote access off until the vendor shows multi-factor authentication and a supervised-session process, and to enable signed libraries when the server is rebuilt. The CE and the ISO record the lesson for the contract review. Outside counsel and the Chief Privacy Officer decide on the hospital's own reports as a user facility.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "17:45",
+      "from": "Facebook post (Toledo ICU families group)",
+      "toRoleIds": ["pio", "clinical"],
+      "toLabel": "PIO, CNO",
+      "event": "Facebook Post (Group: Toledo Hospital Families): \"My mom is in ICU 3 South at Ottawa River. A nurse just told me the pump gave her too much medicine this afternoon and hackers did it. Is anyone else hearing this? They are moving her to a different pump now.\" 23 reactions, 17 comments.",
+      "expectedAction": "The CMO and the nurse manager meet this family at once, tell them what is known and not known, and avoid blaming staff or confirming a cause. The PIO monitors the group, does not argue in it, and releases a short statement only if cleared by the Chief Privacy Officer, the ISO and the CMO. The CNO reminds staff that family and patient disclosure is handled by the CMO team, not at the bedside.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "17:55",
+      "from": "Chief Privacy Officer Joyce Tanaka",
+      "toRoleIds": ["ic", "it", "pio"],
+      "toLabel": "AOC, ISO, PIO",
+      "event": "Memo: \"Preliminary privacy assessment. The telemetry server stores patient names, MRNs and waveforms. The broker session scanned ORRMC-MON01 and made one connection attempt; the logs so far show no data read. That is not the same as no access. I will not write a conclusion until the forensic firm has the logs. I am starting the four-factor risk assessment (45 CFR 164.402) today and I want the clock note on file: discovery 14:40.\"",
+      "expectedAction": "The AOC, the CPO and outside counsel record discovery as 14:40, keep the risk assessment open and agree that no statement says patient data was not accessed. The ISO commits to the forensic timeline for the telemetry server logs. The FDA and manufacturer reporting questions stay on the HCC list with an owner.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:45",
+      "wallClock": "18:05",
+      "from": "Planning Section Chief (Situation Unit)",
+      "toRoleIds": ["ic", "it", "biomed", "clinical"],
+      "toLabel": "AOC, ISO, CE, CNO",
+      "event": "Sitrep 6: \"18:05. Device network isolated since 16:15. 28 of 41 pumps re-flashed and verified; 13 left; loaners arrive at 20:00. Central telemetry still dark; 12 patients on one-to-one observation. ORRMC-PUMP01 isolated and imaged. The ISO proposes to reconnect only the monitoring network, behind a new firewall rule that allows ORRMC-MON01 to talk to the bedside monitors and nothing else, after the telemetry server is rebuilt. Rebuild time 3 hours. Decision needed on the plan for the night.\"",
+      "expectedAction": "The AOC decides the night plan with the ISO, the CE, the CNO and the CMO: keep the device network isolated overnight, reconnect monitoring only after the rebuilt telemetry server is verified and the ISO signs, keep one-to-one observation until then, and set the next sitrep for 22:00. The decision does not declare the network safe.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "18:20",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "ENDEX: It is 18:20. The device network is still isolated. Thirteen pumps remain unverified, central monitoring is still off and the one-to-one observation continues. The manufacturer, FDA and privacy reports are open, and the question of reconnecting monitoring stands for the night.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": []
+  },
+  "warnings": [],
+  "provenance": []
+}

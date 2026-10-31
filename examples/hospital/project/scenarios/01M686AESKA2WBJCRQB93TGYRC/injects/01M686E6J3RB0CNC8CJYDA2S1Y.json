@@ -1,0 +1,190 @@
+{
+  "id": "01M686E6J3RB0CNC8CJYDA2S1Y",
+  "mselRowId": "I-12",
+  "type": "phone_call",
+  "title": "Transfer Center: ICU Patient Evacuation Request",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "A neighboring hospital",
+    "systemName": "Interfacility Transfer System",
+    "callId": "CR-20260313-185022-0043",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Transfer Center Coordinator",
+      "number": "555-0137",
+      "label": "Transfer Center"
+    },
+    "callee": {
+      "name": "Dr. Elaine Whitfield",
+      "number": "555-0112",
+      "label": "EDMD"
+    },
+    "startTime": "03/13/2026 18:50:22",
+    "duration": "0:52",
+    "transcript": [
+      {
+        "speaker": "Transfer Center",
+        "offset": "00:00",
+        "text": "The Transfer Center at a neighboring hospital to Ottawa River. We have six ICU patients on your list and capacity in our MICU. We need a summary for each: diagnosis, medications, allergies, and last labs. We cannot access your EHR. How will you send it, and who will give the physician-to-physician report?"
+      },
+      {
+        "speaker": "EDMD",
+        "offset": "00:28",
+        "text": "Understood. We’ll provide a printed summary from the BCA-VIEW01 viewer and the paper record. I’ll give the report to your physician directly."
+      },
+      {
+        "speaker": "Transfer Center",
+        "offset": "00:41",
+        "text": "Good. Send the list to our transfer coordinator, Dr. Elaine Whitfield, via secure fax at 555-0151. We’ll confirm receipt."
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-12"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests patient transfer coordination under downtime. Watch for the CNO and EDMD to use the BCA-VIEW01 viewer and paper record, and for them to initiate the transfer via the correct contact and method.",
+  "citations": [
+    {
+      "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+      "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "Every evacuated patient wears the evacuation tag with their name, medical record number or DT- number, allergies, code status, diagnosis and the receiving facility. The Patient Movement Log records ti",
+      "chunkId": 51
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Essential functions, ranked by recovery priority: (1) life-sustaining care and patient monitoring (ICUs, ED, OR, dialysis, labor and delivery, neonatal); (2) medication ordering, verification and admi",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Transfer Center",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "The Transfer Center at a neighboring hospital to Ottawa River. We have six ICU patients on your list and capacity in our MICU. We need a summary for each: diagnosis, medications, allergies, and last labs. We cannot access your EHR. How will you send it, and who will give the physician-to-physician report?"
+      },
+      {
+        "speaker": "EDMD",
+        "voiceStyle": "tired male physician in his 50s, hurried, out of breath, slightly strained",
+        "text": "Understood. We’ll provide a printed summary from the BCA-VIEW01 viewer and the paper record. I’ll give the report to your physician directly."
+      },
+      {
+        "speaker": "Transfer Center",
+        "voiceStyle": "calm female dispatcher in her 40s, measured, slight Midwestern accent",
+        "text": "Good. Send the list to our transfer coordinator, Dr. Elaine Whitfield, via secure fax at 555-0151. We’ll confirm receipt."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:20:50.269Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Transfer Center: ICU Patient Evacuation Request",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "A neighboring hospital",
+          "systemName": "Interfacility Transfer System",
+          "callId": "CR-20260313-185022-0043",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Transfer Center Coordinator",
+            "number": "555-0137",
+            "label": "Transfer Center"
+          },
+          "callee": {
+            "name": "ED Medical Director",
+            "number": "555-0112",
+            "label": "EDMD"
+          },
+          "startTime": "03/13/2026 18:50:22",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Transfer Center",
+              "offset": "00:00",
+              "text": "The Transfer Center at a neighboring hospital to Ottawa River. We have six ICU patients on your list and capacity in our MICU. We need a summary for each: diagnosis, medications, allergies, and last labs. We cannot access your EHR. How will you send it, and who will give the physician-to-physician report?"
+            },
+            {
+              "speaker": "EDMD",
+              "offset": "00:28",
+              "text": "Understood. We’ll provide a printed summary from the BCA-VIEW01 viewer and the paper record. I’ll give the report to your physician directly."
+            },
+            {
+              "speaker": "Transfer Center",
+              "offset": "00:41",
+              "text": "Good. Send the list to our transfer coordinator, Dr. Elaine Whitfield, via secure fax at 555-0151. We’ll confirm receipt."
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject tests patient transfer coordination under downtime. Watch for the CNO and EDMD to use the BCA-VIEW01 viewer and paper record, and for them to initiate the transfer via the correct contact and method.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-31T05:44:01.598Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Transfer Center: ICU Patient Evacuation Request",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "A neighboring hospital",
+          "systemName": "Interfacility Transfer System",
+          "callId": "CR-20260313-185022-0043",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Transfer Center Coordinator",
+            "number": "555-0137",
+            "label": "Transfer Center"
+          },
+          "callee": {
+            "name": "Dr. Elaine Whitfield",
+            "number": "555-0112",
+            "label": "EDMD"
+          },
+          "startTime": "03/13/2026 18:50:22",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Transfer Center",
+              "offset": "00:00",
+              "text": "The Transfer Center at a neighboring hospital to Ottawa River. We have six ICU patients on your list and capacity in our MICU. We need a summary for each: diagnosis, medications, allergies, and last labs. We cannot access your EHR. How will you send it, and who will give the physician-to-physician report?"
+            },
+            {
+              "speaker": "EDMD",
+              "offset": "00:28",
+              "text": "Understood. We’ll provide a printed summary from the BCA-VIEW01 viewer and the paper record. I’ll give the report to your physician directly."
+            },
+            {
+              "speaker": "Transfer Center",
+              "offset": "00:41",
+              "text": "Good. Send the list to our transfer coordinator, Dr. Elaine Whitfield, via secure fax at 555-0151. We’ll confirm receipt."
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject tests patient transfer coordination under downtime. Watch for the CNO and EDMD to use the BCA-VIEW01 viewer and paper record, and for them to initiate the transfer via the correct contact and method.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:41.572Z"
+}

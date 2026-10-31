@@ -1,0 +1,565 @@
+{
+  "id": "seed",
+  "projectId": "seed",
+  "title": "Core Collapse",
+  "subtitle": "Mass Casualty Surge During a Network Outage",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "A multi-vehicle crash on the interstate sends a surge of patients to the ED while a failed network core switch has taken down the EHR, lab and imaging connections; the hospital triages and tracks patients on paper, opens surge space and decides on diversion, transfers and crisis standards of care.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Director of IT (Infrastructure Branch)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "ED Medical Director (Medical Care Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "16:45",
+    "threatFamily": "infrastructure_failure"
+  },
+  "overview": {
+    "theme": "Surge on downtime, patient identification, crisis standards of care and return to the record",
+    "threat": "At 16:38 on Friday, March 13, 2026 the core network switch in room A-B02 fails and the failover core in room C-212 cannot carry the clinical networks. The EHR, the laboratory system, PACS and secure messaging are unreachable. Thirty minutes later EMS announces a multi-vehicle crash with a fuel tanker: 14 patients in the first wave, 22 in the second.",
+    "operationalImpact": "The ED already holds 31 patients and both ICUs are full. Registration, lab, imaging, medication verification and bed management all work from paper while the hospital receives 36 crash patients. Patient identification, blood supply, ventilators, staff endurance and ICU space limit what the hospital can do, and a partly restored EHR threatens to split the record.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Director of IT (Infrastructure Branch), Chief Nursing Officer (Operations Section Chief), ED Medical Director (Medical Care Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Surge on Downtime",
+      "text": "Demonstrate the ability to accept and treat a mass casualty incident with the EHR, laboratory and imaging interfaces unavailable, using Code Triage and the Patient Surge and Evacuation Annex."
+    },
+    {
+      "id": "obj-2",
+      "name": "Patient Identification and Tracking",
+      "text": "Demonstrate the ability to track patients on paper with trauma and DT- numbers without creating duplicate or crossed identities."
+    },
+    {
+      "id": "obj-3",
+      "name": "Capacity and Crisis Standards",
+      "text": "Demonstrate the ability to open surge space, move patients, request transfers and decide on crisis standards of care with physician leadership."
+    },
+    {
+      "id": "obj-4",
+      "name": "Return to the Record",
+      "text": "Demonstrate the ability to decide when a partly restored system may be used and how the paper record is reconciled."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Director of IT (Infrastructure Branch)",
+      "abbreviation": "DIT",
+      "team": "Team B: Technology",
+      "description": "Raymond Okafor. Restores the network core and the clinical systems, rules a cyberattack in or out with the Information Security Officer, and gives realistic restore times.",
+      "standingOrders": [
+        "Tell the HCC the time you will report next, even when you have no news.",
+        "Do not bring a partly restored system back into clinical use without telling the CNO what it will and will not show."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "ed",
+      "name": "ED Medical Director (Medical Care Branch)",
+      "abbreviation": "EDMD",
+      "team": "Team D: Medical Care",
+      "description": "Dr. Elaine Whitfield. Runs triage and treatment in the ED and decides, with the AOC, diversion, expectant categories and which patients go to which surge space.",
+      "standingOrders": [
+        "Keep the ED moving: discharge and move admitted patients out of the ED to make room.",
+        "Triage decisions in a crisis-standards situation are made by a physician, never a registration clerk."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Dark Network",
+      "goal": "Run the ED and the units on downtime while IT works the switch, and decide to accept a mass casualty incident with the clinical systems down.",
+      "beats": [
+        "The core switch in room A-B02 fails at 16:38 and failover to room C-212 does not take.",
+        "EMS reports a multi-vehicle crash with a fuel tanker; 14 patients are on the way, six critical.",
+        "Blood bank cannot see antibody history and asks for emergency release."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "First Wave",
+      "goal": "Receive 14 patients on paper, keep patient identification safe, open operating rooms and handle the crowd and the rumors.",
+      "beats": [
+        "Two arrivals get two different wristband numbers.",
+        "The OR needs three more rooms and instruments with no PACS for intra-operative imaging.",
+        "A second wave of 22 is announced when the ICU has no beds."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Capacity",
+      "goal": "Decide transfers, the use of surge space, staff relief and expectant triage, and talk to families and the press.",
+      "beats": [
+        "A neighboring hospital can take six ICU transfers but needs a record that the hospital cannot print.",
+        "Staff are at 12 hours and the day shift cannot go home.",
+        "The CMO asks the AOC to approve crisis standards for three expectant patients."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Network Back, Record in Doubt",
+      "goal": "Decide when and how to bring a partly restored EHR back, reconcile paper and system, and set the demobilization criteria.",
+      "beats": [
+        "A restored core brings the EHR back read-only while registration remains down.",
+        "The lab backlog produces duplicate and conflicting results.",
+        "The exercise ends with the hospital still at Level 1 for the night and the replacement switch not yet installed."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "16:45",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "STARTEX: It is 16:45 on Friday, March 13, 2026 at Ottawa River Regional Medical Center. At 16:38 the core network switch in room A-B02 failed. Failover to the second core in room C-212 did not take, and the EHR, the laboratory system, PACS and secure messaging are unreachable from most clinical networks. The telephones work. The IT on-call and the Nursing Supervisor declared downtime at 16:41. The ED holds 31 patients, both ICUs are full, and OR 1 and OR 2 each have a case in progress. The vendor says four hours for a replacement. Nothing yet suggests anything other than a hardware failure.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "16:50",
+      "from": "Network Engineer Nadia Petrov",
+      "toRoleIds": ["it", "ic"],
+      "toLabel": "DIT, AOC",
+      "event": "Helpdesk Ticket INC-26-03-0577, priority 1: \"Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4. I can load the March 10 backup config onto C-212, which would bring the clinical VLANs up but not the PACS and device VLANs, in about 45 minutes. Replacement hardware from the vendor is four hours away.\"",
+      "expectedAction": "The Director of IT chooses the partial restore on C-212 now (clinical VLANs first) and orders the replacement chassis in parallel. The Information Security Officer is told to verify that the failure has no malicious cause (logs on both cores) and rules it out in writing before the HCC treats it as plain hardware. The Director of IT gives the HCC a time to report next.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "16:55",
+      "from": "ED Charge Nurse Marcus Bell",
+      "toRoleIds": ["ed", "clinical"],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Marcus Bell, ED charge. I have two chest-pain patients waiting for a troponin, a stroke alert that needs a CT read, and a belly pain with a possible appendicitis who needs imaging. Nothing goes out and nothing comes back. We are walking specimens to the lab and films to Imaging. I have 31 patients and one runner. Tell me what you want me to do.\"",
+      "expectedAction": "The ED Medical Director and the CNO use the downtime process: point-of-care testing for troponin and glucose where available, a paper tracking board, runners from Environmental Services and Security, CT reads by the radiologist at the console, and a stroke alert pathway that does not wait for the PACS. The CNO assigns three more runners (Downtime Annex, Section 5).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:20",
+      "wallClock": "17:05",
+      "from": "Lucas County EMS dispatch (SimCell)",
+      "toRoleIds": ["ic", "ed"],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"Lucas County EMS to Ottawa River. Multi-vehicle crash on the interstate with a fuel tanker, fire on scene. First wave: 14 patients, six critical, ETA 12 minutes. More are expected. You are our trauma center. Are you accepting?\"",
+      "expectedAction": "The AOC and the ED Medical Director accept: Code Triage is called, a Level 1 activation is declared, the Triage Officer moves to the ambulance bay, the Decontamination and Isolation Suite is made ready for a possible fuel exposure, and EMS is told the hospital is accepting trauma but is on downtime with no PACS or lab interfaces. Non-MCI ambulance diversion is considered separately (Patient Surge and Evacuation Annex, Section 3 and Annex A).",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:25",
+      "wallClock": "17:10",
+      "from": "Switchboard Operator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "PA Announcement: \"Code Triage, Code Triage. Mass casualty incident. All department managers report to the Hospital Command Center. Surgical Pavilion, Imaging and Laboratory: report your capacity to the HCC. All staff: downtime procedures are in effect. Code Triage, Code Triage.\"",
+      "expectedAction": "The HCC fills in under the HICS structure. The AOC convenes the first HCC meeting within 30 minutes (EOP Section 4) and the Liaison Officer opens a line to Lucas County EMS and the Lucas County EMA. The CNO calls in staff through the call-in tree.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "pa_announcement",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:35",
+      "wallClock": "17:20",
+      "from": "Blood Bank Supervisor Lena Park",
+      "toRoleIds": ["ed", "clinical"],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Blood Bank. I have six critical patients coming and no way to see antibody history because the lab system is off the network. I have 14 units of O-negative and 22 of O-positive. I need the physician to authorize emergency release and I need a second person to check every unit at the bedside. I will also ask the regional blood center for more.\"",
+      "expectedAction": "The ED Medical Director and the Blood Bank follow the emergency-release process: physician signature, second-person check, paper administration record, O-positive for men and O-negative kept for women of childbearing age and unknown types. Blood Bank calls the regional blood center for O-negative and plasma and the CNO assigns a second checker to the ED resuscitation bays.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "17:45",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 17:45. The first 14 patients have arrived; six are critical. C-212 now carries the clinical networks, so the EHR can be reached read-only from some computers, but registration, PACS and secure messaging are still down. Tracking is on the paper board with trauma numbers T-1 to T-14.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "17:50",
+      "from": "Registration Supervisor Tamika Reed",
+      "toRoleIds": ["clinical", "ed"],
+      "toLabel": "CNO, EDMD",
+      "event": "Field Report (Registration to HCC): \"Two patients have two numbers. A man brought in as T-6 was registered at the desk as DT-004112 by a clerk who had not been told about the trauma numbers, and a woman is T-9 on the board and DT-004118 on her band. I also have a crash victim with no ID who may be the same person as a patient registered by his brother. I have 6 clerks and 3 blocks of DT numbers.\"",
+      "expectedAction": "The CNO and the ED Medical Director stop the use of two series at the bedside: trauma patients keep the T- number, and Registration cross-references it to a DT- number on the paper tracking board once, under one supervisor. Every wristband and specimen label is checked by two people (Downtime Annex, Section 3 and Section 5). The CPO is told because crossed identities can become a privacy event.",
+      "purposeTag": "CONFUSION",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "18:00",
+      "from": "Surgical Pavilion Charge Nurse Priya Nair",
+      "toRoleIds": ["ic", "ed", "clinical"],
+      "toLabel": "AOC, EDMD, CNO",
+      "event": "Phone Call: \"Priya in the Surgical Pavilion. OR 1 and OR 2 are closing. I have three trauma laparotomies and an orthopedic case waiting; ORs 3, 4 and 5 are ready but I have staff for four rooms and the sterile processing department is behind. We have no PACS for intra-operative imaging and the hybrid rooms 11 and 12 cannot show prior studies. Do I cancel the evening elective list and recall staff?\"",
+      "expectedAction": "The Chief Medical Officer and the AOC cancel all elective cases, recall off-duty OR staff, and open ORs 3 to 5 for trauma. The CNO moves instruments priority in Sterile Processing to trauma sets. Imaging uses portable films and the console for intra-operative images; hybrid rooms stay available for vascular cases. The AOC tells the Surgical Pavilion when it can expect imaging support.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "18:10",
+      "from": "Security Director Terrence Boyd",
+      "toRoleIds": ["ic", "ed"],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"Security to HCC. About 90 family members and friends are in the Tower B lobby and the ED waiting room, and a Channel 11 truck is at the main entrance. Some families are trying to walk through the ambulance bay. I need a reunification room away from the ED and a decision on who talks to the press.\"",
+      "expectedAction": "The AOC activates the family reunification center in the Tower A lobby (Patient Surge and Evacuation Annex, Section 3), staffed by Social Work and Spiritual Care, with Security controlling the ambulance bay and two public entrances. The PIO sets a media position away from patient areas. Patient information goes only to verified family and only as the CPO allows.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:30",
+      "wallClock": "18:15",
+      "from": "Facebook post (Toledo Scanner Watch)",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Facebook Post (Group: Toledo Scanner Watch): \"Tanker on fire and Ottawa River is on lockdown with their computers down. Do NOT go to Ottawa River, take people to a different hospital. Heard they are turning people away.\" 340 reactions, 96 comments.",
+      "expectedAction": "The PIO releases a short statement cleared by the AOC and the ED Medical Director: the Emergency Department is open and treating emergencies; the hospital is handling a technology disruption and a mass casualty incident; non-urgent patients should call first or use urgent care. The PIO also tells Lucas County EMS and the EMA so that official channels say the same.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:40",
+      "wallClock": "18:25",
+      "from": "Director of IT Raymond Okafor",
+      "toRoleIds": ["it", "clinical", "ic"],
+      "toLabel": "DIT, CNO, AOC",
+      "event": "Email Forward (from the Director of IT): \"C-212 is carrying the clinical VLANs. The LIS came back at 18:20 but the interface engine ORRMC-INT01 is stuck, so results flow one way. The EHR is up read-only on 60 computers. If we let the units chart in the EHR now, the 4-5 hours of paper will need to be re-keyed and the record will be split across two systems with a system that may drop again. I recommend we stay on paper for orders and medications and use the EHR to read.\"",
+      "expectedAction": "The AOC decides with the CMIO, the CNO and the Director of IT: the EHR is used only to read until the interface engine is stable and the downtime packet is reconciled; paper stays the record for orders and medications; the Director of IT tells the units exactly what the screens will and will not show. The decision and the reason go in the HCC log.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p2",
+      "time": "1:50",
+      "wallClock": "18:35",
+      "from": "Lucas County EMS dispatch (SimCell)",
+      "toRoleIds": ["ic", "ed"],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"EMS to Ottawa River. Second wave: 22 patients across three ambulances and two buses, eight critical, ETA 15 minutes. Is there any chance you divert some to another hospital? We have four others on standby.\"",
+      "expectedAction": "The AOC and the ED Medical Director use the surge levels in the annex: ICU is full, so PACU becomes an ICU overflow, the Pavilion C treatment areas open for minor injuries, and EMS is asked to send the most severe patients here and the minor injuries to the other hospitals. The Liaison Officer asks the coalition for ICU transfers out. The decision is recorded as Surge Level B moving to C.",
+      "purposeTag": "PRESSURE",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "18:45",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 18:45. 36 crash patients have arrived in total; 11 are critical and 4 are in the OR. The PACU holds six ICU overflow patients. The ED holds 64 patients, and ICU 3 North and ICU 3 South have no free beds. The replacement switch is on a courier's truck, ETA 21:30.",
+      "expectedAction": "Players move to capacity problems that come with a large surge.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "18:50",
+      "from": "Neighboring hospital transfer center (SimCell)",
+      "toRoleIds": ["ed", "clinical"],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Transfer center at a neighboring hospital. We can take six of your ICU patients. We need a summary for each: diagnosis, medications, allergies and last labs. We cannot see your chart. How will you send it, and who will give the physician-to-physician report?\"",
+      "expectedAction": "The CNO and the ED Medical Director use the printed BCA-VIEW01 report (last refreshed 16:30) plus the paper record for each patient and give a physician-to-physician report; disclosure to the receiving hospital is allowed for treatment under HIPAA, and the CPO is informed. The Patient Movement Log records time, destination, transport and receiving contact (Patient Surge and Evacuation Annex, Section 5).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:15",
+      "wallClock": "19:00",
+      "from": "Pharmacy Director Anil Desai",
+      "toRoleIds": ["clinical", "ed"],
+      "toLabel": "CNO, EDMD",
+      "event": "Field Report (Pharmacy to HCC): \"Opioid pulls from the override cabinets in the ED have tripled. Orders on paper are being re-written by the covering resident, and I found three antibiotics ordered twice for the same open-fracture patient. I need pharmacists in the ED and PACU, a count of every override pull by 20:00, and a decision on the antibiotic orders.\"",
+      "expectedAction": "The CNO places a pharmacist in the ED and PACU, requires the paper order sheet to be the only order source in the ED, counts override pulls on the half hour, and has the duplicates cancelled by the physician and the pharmacist. The CMO reminds residents that verbal orders are read back and signed within 24 hours.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:25",
+      "wallClock": "19:10",
+      "from": "Planning Section Situation Unit",
+      "toRoleIds": ["ic", "ed", "clinical"],
+      "toLabel": "AOC, EDMD, CNO",
+      "event": "Status Board (HCC capacity board, 19:10): ED 64 of 90 spaces; ICU 3 North 16/16, ICU 3 South 16/16, PACU overflow 6/10; ORs 1-5 in use, 6-8 staffed; blood bank O-neg 4 units; ventilators 31 of 38 in use; staffed beds 340, census 351; EHR read-only; PACS down; secure messaging down; replacement switch ETA 21:30.",
+      "expectedAction": "The AOC reads the board and acts on two numbers: ventilators (31 of 38) and O-negative blood (4 units) are the next shortages. The AOC asks the coalition for ventilators and the regional blood center for a courier and sets the next capacity report for 19:40.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "status_board",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p3",
+      "time": "2:35",
+      "wallClock": "19:20",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. How many victims has Ottawa River received and how many are dead? We have a family saying their relative is critical and nobody will tell them anything. Is it true the hospital computers are down? We want to report names.\"",
+      "expectedAction": "The PIO gives general numbers and general condition only as cleared by the AOC and the Chief Privacy Officer, no names (patient-specific information is released only as the CPO allows), confirms that the hospital is treating the injured while handling a technology disruption, and points families to the reunification center. Fatality numbers come from the county coroner or EMS, not from the hospital.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "19:30",
+      "from": "Nursing Supervisor Sana Qureshi",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Sana Qureshi, supervisor. About 140 nurses have been here 12 hours or more and many want to leave but cannot because the day shift is still covering. We have 30 staff from call-ins and nobody for the PACU overflow. Meals are not arranged and two nurses need childcare. What can I authorize?\"",
+      "expectedAction": "The CNO and Human Resources open the staff care unit (meals, rest, childcare), rotate staff out in four-hour blocks, approve mandatory overtime limits, bring in credentialed volunteers from the registry for non-clinical tasks only, and ask the coalition for travel nurses. The AOC approves overtime and the PACU overflow gets nurses from the Surgical Pavilion.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p3",
+      "time": "2:55",
+      "wallClock": "19:40",
+      "from": "Chief Medical Officer Dr. Samuel Obuya",
+      "toRoleIds": ["ic", "ed"],
+      "toLabel": "AOC, EDMD",
+      "event": "Memo: \"To the AOC. Of the 22 arrivals in the second wave, three have injuries that, with our current resources, have a very low chance of survival: two with massive head injuries and one with 70 percent burns. We are in surge Level C. I propose to classify them expectant (comfort care) so that the OR, blood and ventilators go to patients who can be saved. I need your approval and I want an ethics consult in the room.\"",
+      "expectedAction": "The AOC authorizes crisis standards of care for the ED with the CMO and the ED Medical Director: the decision is a physician decision with a second physician and the ethics service, documented on the paper triage tag; families are told by a physician and Spiritual Care; the decision is reviewed hourly as resources change (Patient Surge and Evacuation Annex, Section 2).",
+      "purposeTag": "DECISION_POINT",
+      "format": "memo",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "19:45",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 19:45. Six ICU patients have been transferred out and the PACU overflow is down to three. Three expectant patients are receiving comfort care with their families. The hospital is at 351 patients, the ED at 58. The replacement switch is in the building and the installation team will start at 21:30.",
+      "expectedAction": "Players move to the return to the record.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "19:50",
+      "from": "Laboratory Supervisor Hector Alvarez",
+      "toRoleIds": ["clinical", "it"],
+      "toLabel": "CNO, DIT",
+      "event": "Field Report (Laboratory to HCC): \"The LIS is back but the interface engine is not. I have 140 specimens waiting, results typed from the analyzers by hand, and I found a potassium of 6.8 for a patient whose paper result says 4.2. One of the two is a transcription error and the patient is on 4 West. I need to tell the unit which one to trust.\"",
+      "expectedAction": "The CNO has the lab repeat the potassium stat, hold both values until the repeat is back, and place a nurse at the bedside; the lab manager makes a second person check all hand-typed critical results against the analyzer printout. The Director of IT is told that the lab backlog depends on the interface engine and gives the HCC a restore time.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "20:00",
+      "from": "Lucas County EMA duty officer (SimCell)",
+      "toRoleIds": ["ic"],
+      "toLabel": "AOC",
+      "event": "Phone Call: \"Lucas County EMA. The Ohio Department of Health asked for a status from every hospital that took crash patients. Please give me: patients received, critical count, beds open, diversion status, and what resources you need overnight. I also need to know if you can take the second-wave patients still at the scene.\"",
+      "expectedAction": "The AOC (or the Liaison Officer) gives the numbers, states that the hospital is on Level 1 for the night, asks for the resources it needs (ICU transfers out, ventilators, blood, nurses), and says whether the hospital will take more patients. The AOC does not promise capacity it cannot staff.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "20:10",
+      "from": "Chief Privacy Officer Joyce Tanaka",
+      "toRoleIds": ["ic", "ed", "pio"],
+      "toLabel": "AOC, EDMD, PIO",
+      "event": "Email Forward (from the Chief Privacy Officer): \"Three things for the log. We shared patient summaries with a neighboring hospital for treatment, which is permitted. Two registration clerks used both numbers for the same patient, so there are two records for one person and a risk that results post to the wrong one. A reporter was able to see a paper tracking board through the ED door for an hour. I want the board covered and the reconciliation list started.\"",
+      "expectedAction": "The AOC has the board moved out of public sight, and the CPO starts the privacy log: disclosures for treatment, the crossed identity pair and the exposed board. The CPO tells the PIO that nothing about a patient is said to media. The HIM Director starts a list of DT- and T- numbers to merge in the record.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "20:20",
+      "from": "Planning Section Chief",
+      "toRoleIds": ["ic", "it", "ed", "clinical"],
+      "toLabel": "AOC, DIT, EDMD, CNO",
+      "event": "Sitrep 5, 20:20: \"Census 349. ED 52. ICU full. PACU overflow 3. Five ORs in use. EHR read-only; registration and PACS down. Replacement switch to be installed at 21:30, expected up by 23:30. The AOC must set the operational plan for the night, the criteria for stepping down from Level 1, and who decides when the EHR is used for charting.\"",
+      "expectedAction": "The AOC sets the night operational period: stay at Level 1 until the new switch is in and tested; the EHR returns for charting only after the Director of IT reports a stable interface engine and the CMIO and CNO agree on a reconciliation plan; the stepdown criteria are no surge patients in the ED holding, ICU capacity restored and the network stable for two hours; the next sitrep is at 22:30.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "20:45",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "ed", "pio"],
+      "toLabel": "All",
+      "event": "ENDEX: It is 20:45. The hospital is at Level 1 for the night. The replacement switch is not yet installed, the EHR is read-only, registration and PACS are still down and the paper record is the only record. Six patients were transferred out and three expectant patients are receiving comfort care. The reconciliation of two identity series and the lab backlog have not begun.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": []
+  },
+  "warnings": [],
+  "provenance": []
+}

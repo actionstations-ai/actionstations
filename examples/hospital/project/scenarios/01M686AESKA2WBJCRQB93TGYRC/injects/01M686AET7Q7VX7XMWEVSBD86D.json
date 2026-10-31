@@ -1,0 +1,175 @@
+{
+  "id": "01M686AET7Q7VX7XMWEVSBD86D",
+  "mselRowId": "START",
+  "type": "startex_card",
+  "title": "STARTEX: Core Network Failure — EHR and Clinical Systems Unreachable",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "startTime": "16:45",
+    "day": "Friday, March 13, 2026",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio",
+    "weather": "Overcast, 42°F. Light wind.",
+    "load": "High: ED holding 31 patients, both ICUs at capacity, two operating rooms in use",
+    "staffing": "Full staffing across clinical, IT, and facilities; on-call teams alerted",
+    "narration": "STARTEX. This is an exercise. It is 16:45 on Friday, March 13, 2026, at Ottawa River Regional Medical Center. At 16:38, the core network switch in room A-B02 failed. Failover to the secondary core in room C-212 did not occur. The EHR, laboratory information system, PACS, and secure messaging are currently unreachable from most clinical networks. Telephones remain functional. The IT on-call and Nursing Supervisor declared a system downtime at 16:41. The ED holds 31 patients, both ICUs are full, and OR 1 and OR 2 each have a case in progress. The vendor estimates four hours for a replacement. Nothing yet suggests anything other than a hardware failure.",
+    "status": [
+      {
+        "name": "Core Network",
+        "status": "red",
+        "note": "Primary core (A-B02) failed; failover to C-212 failed"
+      },
+      {
+        "name": "EHR (CareLine)",
+        "status": "red",
+        "note": "Unreachable; no access to orders, charting, eMAR, results"
+      },
+      {
+        "name": "Laboratory (LIS)",
+        "status": "red",
+        "note": "Specimen tracking and results unavailable"
+      },
+      {
+        "name": "PACS/RIS",
+        "status": "red",
+        "note": "Imaging and radiology worklists unavailable"
+      },
+      {
+        "name": "Secure Messaging",
+        "status": "red",
+        "note": "Staff phones and nurse call system partially functional via phone"
+      },
+      {
+        "name": "ED",
+        "status": "yellow",
+        "note": "31 patients; awaiting triage and bed assignment"
+      },
+      {
+        "name": "ICUs",
+        "status": "yellow",
+        "note": "Both ICUs at capacity; no new admissions allowed"
+      }
+    ],
+    "facilitatorNote": "Confirm all roles have the ICS 201, EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026), and Cyber Incident Response Plan (ORRMC-CIRP-2026) in hand before starting.",
+    "scenarioTitle": "Core Collapse — Mass Casualty Surge During a Network Outage",
+    "injectId": "START"
+  },
+  "variant": "default",
+  "instructorNote": "Players must recognize the EHR and clinical systems are down, but no threat is yet identified. The initial response is to assess impact and activate HICS per Level 2.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+      "chunkId": 29
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+      "quote": "| Priority | System | Target | |---|---|---| | 1 | Network core, identity, DNS | 4 hours | | 2 | EHR database and applications, interface engine | 8 hours | | 3 | Pharmacy, LIS, PACS | 8 hours | | 4 |",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M686JD1ZMB5C229WMP1KEDVT",
+      "kind": "image",
+      "path": "scenarios/01M686AESKA2WBJCRQB93TGYRC/media/01M686AET7Q7VX7XMWEVSBD86D/01M686JD1ZMB5C229WMP1KEDVT.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "38bfa43dff30e9ec535c05558532e0615ed988b5189b4dae7bac8045292ad629",
+      "provenance": {
+        "provider": "template",
+        "templateId": "startex_card",
+        "templateVersion": "1",
+        "createdAt": "2026-10-31T05:22:56.046Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-31T05:18:44.903Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "STARTEX: Core Network Failure — EHR and Clinical Systems Unreachable",
+        "type": "startex_card",
+        "fields": {
+          "startTime": "16:45",
+          "day": "Friday, March 13, 2026",
+          "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio",
+          "weather": "Overcast, 42°F. Light wind.",
+          "load": "High: ED holding 31 patients, both ICUs at capacity, two operating rooms in use",
+          "staffing": "Full staffing across clinical, IT, and facilities; on-call teams alerted",
+          "narration": "STARTEX. This is an exercise. It is 16:45 on Friday, March 13, 2026, at Ottawa River Regional Medical Center. At 16:38, the core network switch in room A-B02 failed. Failover to the secondary core in room C-212 did not occur. The EHR, laboratory information system, PACS, and secure messaging are currently unreachable from most clinical networks. Telephones remain functional. The IT on-call and Nursing Supervisor declared a system downtime at 16:41. The ED holds 31 patients, both ICUs are full, and OR 1 and OR 2 each have a case in progress. The vendor estimates four hours for a replacement. Nothing yet suggests anything other than a hardware failure.",
+          "status": [
+            {
+              "name": "Core Network",
+              "status": "red",
+              "note": "Primary core (A-B02) failed; failover to C-212 failed"
+            },
+            {
+              "name": "EHR (CareLine)",
+              "status": "red",
+              "note": "Unreachable; no access to orders, charting, eMAR, results"
+            },
+            {
+              "name": "Laboratory (LIS)",
+              "status": "red",
+              "note": "Specimen tracking and results unavailable"
+            },
+            {
+              "name": "PACS/RIS",
+              "status": "red",
+              "note": "Imaging and radiology worklists unavailable"
+            },
+            {
+              "name": "Secure Messaging",
+              "status": "red",
+              "note": "Staff phones and nurse call system partially functional via phone"
+            },
+            {
+              "name": "ED",
+              "status": "yellow",
+              "note": "31 patients; awaiting triage and bed assignment"
+            },
+            {
+              "name": "ICUs",
+              "status": "yellow",
+              "note": "Both ICUs at capacity; no new admissions allowed"
+            }
+          ],
+          "facilitatorNote": "Confirm all roles have the ICS 201, EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026), and Cyber Incident Response Plan (ORRMC-CIRP-2026) in hand before starting.",
+          "scenarioTitle": "Core Collapse — Mass Casualty Surge During a Network Outage",
+          "injectId": "START"
+        },
+        "instructorNote": "Players must recognize the EHR and clinical systems are down, but no threat is yet identified. The initial response is to assess impact and activate HICS per Level 2.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:22:56.270Z"
+}

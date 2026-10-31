@@ -1,0 +1,116 @@
+{
+  "id": "01M6860EQX98QQRNY2DMED4Q1V",
+  "mselRowId": "I-10",
+  "type": "radio_call",
+  "title": "Device Network Isolation Decision — Telemetry and Imaging Risk",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "centerName": "Hospital Command Center (HCC)",
+    "channel": "HCC-OPS",
+    "frequency": "TG 5001 / 450.120 MHz",
+    "date": "03/12/2026",
+    "callsign": "Clinical Engineering 1",
+    "lines": [
+      {
+        "time": "16:01",
+        "from": "Clinical Engineering 1",
+        "to": "HCC",
+        "text": "HCC, this is Clinical Engineering 1. At 16:01, the logs confirm ongoing scanning from 10.40.10.0/24 toward CT-2 and MRI-1. Connection attempts to ORRMC-MON01 from ORRMC-VSB01 are still active. The session broker is not blocked; it's still reachable. I recommend full isolation of the device network 10.40.x.x. This stops all unauthorized pushes and scans. The cost: central telemetry for 32 ICU beds goes dark, imaging cannot send to PACS, lab analyzers cannot send results, and no library updates. The alternative is to block only the broker and watch. I recommend full isolation to prevent further compromise."
+      },
+      {
+        "time": "16:02",
+        "from": "HCC",
+        "to": "Clinical Engineering 1",
+        "text": "Copy, Clinical Engineering 1. We are reviewing with the AOC, ISO, CNO, and CMO. Stand by for decision."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-10a_radio.wav",
+    "duration": "0:22",
+    "injectId": "I-10"
+  },
+  "instructorNote": "This is the critical decision point. The AOC must state the clinical impact first: full isolation means manual monitoring for 32 telemetry patients, on-console imaging reads, and lab result handoffs. The team must choose between risk of further movement (broker-only block) and operational paralysis (full isolation). The decision and rationale must be logged in CIRP Section 5 and 6.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 1",
+      "quote": "This plan tells ORRMC how to detect, contain and recover from a cyber incident and how technical decisions are made together with patient care. The Emergency Operations Plan (ORRMC-EOP-2026) governs h",
+      "chunkId": 2
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Clinical Engineering 1",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "HCC, this is Clinical Engineering 1. At 16:01, the logs confirm ongoing scanning from 10.40.10.0/24 toward CT-2 and MRI-1. Connection attempts to ORRMC-MON01 from ORRMC-VSB01 are still active. The session broker is not blocked; it's still reachable. I recommend full isolation of the device network 10.40.x.x. This stops all unauthorized pushes and scans. The cost: central telemetry for 32 ICU beds goes dark, imaging cannot send to PACS, lab analyzers cannot send results, and no library updates. The alternative is to block only the broker and watch. I recommend full isolation to prevent further compromise."
+      },
+      {
+        "speaker": "HCC",
+        "voiceStyle": "Calm, measured, professional female voice with slight urgency",
+        "text": "Copy, Clinical Engineering 1. We are reviewing with the AOC, ISO, CNO, and CMO. Stand by for decision."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:13:18.270Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Device Network Isolation Decision — Telemetry and Imaging Risk",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "centerName": "Hospital Command Center (HCC)",
+          "channel": "HCC-OPS",
+          "frequency": "TG 5001 / 450.120 MHz",
+          "date": "03/12/2026",
+          "callsign": "Clinical Engineering 1",
+          "lines": [
+            {
+              "time": "16:01",
+              "from": "Clinical Engineering 1",
+              "to": "HCC",
+              "text": "HCC, this is Clinical Engineering 1. At 16:01, the logs confirm ongoing scanning from 10.40.10.0/24 toward CT-2 and MRI-1. Connection attempts to ORRMC-MON01 from ORRMC-VSB01 are still active. The session broker is not blocked; it's still reachable. I recommend full isolation of the device network 10.40.x.x. This stops all unauthorized pushes and scans. The cost: central telemetry for 32 ICU beds goes dark, imaging cannot send to PACS, lab analyzers cannot send results, and no library updates. The alternative is to block only the broker and watch. I recommend full isolation to prevent further compromise."
+            },
+            {
+              "time": "16:02",
+              "from": "HCC",
+              "to": "Clinical Engineering 1",
+              "text": "Copy, Clinical Engineering 1. We are reviewing with the AOC, ISO, CNO, and CMO. Stand by for decision."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-10a_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This is the critical decision point. The AOC must state the clinical impact first: full isolation means manual monitoring for 32 telemetry patients, on-console imaging reads, and lab result handoffs. The team must choose between risk of further movement (broker-only block) and operational paralysis (full isolation). The decision and rationale must be logged in CIRP Section 5 and 6.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:37.230Z"
+}

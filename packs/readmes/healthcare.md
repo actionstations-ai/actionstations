@@ -8,6 +8,8 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 - **Domain profile `healthcare`:** units, towers and operating rooms as fact categories. Systems: the EHR, interface engine, PACS/RIS, LIS, pharmacy and dispensing cabinets, revenue cycle and clearinghouse, bed management, secure messaging, building automation, medical gas, generators and medical devices. Player roles: Administrator on Call (Incident Commander), CISO, PIO, Security, Chief Nursing Officer, Chief Privacy Officer, Facilities and Clinical Engineering.
 
+- **Example project:** Ottawa River Regional Medical Center (`hospital`), a fictional hospital in Toledo, Ohio with its emergency operations plan, EHR downtime annex, cyber incident response plan and surge and evacuation annex, and four exercises: ransomware and EHR downtime, an infusion pump compromise, a mass casualty surge during a network outage, and a regional water advisory that reaches dialysis. Open it from Projects, Examples.
+
 ## Plans and clocks the profile knows
 
 - **CMS emergency preparedness** (42 CFR 482.15): an all-hazards, facility- and community-based risk assessment; plan, policies, communication plan and training reviewed at least every two years; testing **twice a year**: one full-scale or functional exercise, and one more that may be a facilitator-led tabletop exercise or workshop.

@@ -1,0 +1,212 @@
+{
+  "id": "01M685FS6RWM396SPMY33TS1RY",
+  "mselRowId": "I-03",
+  "type": "siem_alert",
+  "title": "EHR Database Access — Suspicious Admin Logon",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Ottawa River Regional Medical Center",
+    "alertId": "ALR-2026-0303-060012",
+    "severity": "critical",
+    "riskScore": 94,
+    "rule": "Privileged Account Activity — Exfiltration and Deletion During Downtime Window",
+    "ruleDescription": "An administrator account accessed the EHR database server via VPN during the downtime window, followed by large data transfer and deletion of the on-site backup repository.",
+    "status": "New",
+    "assignee": "ISO",
+    "firstSeen": "2026-03-03T02:09:17Z",
+    "lastSeen": "2026-03-03T05:14:22Z",
+    "eventCount": 17,
+    "source": {
+      "host": "ORRMC-SQL01",
+      "ip": "198.51.100.44",
+      "user": "svc-ehr-admin",
+      "zone": "Internal"
+    },
+    "dest": {
+      "host": "ORRMC-BKP01",
+      "ip": "203.0.113.58",
+      "service": "SMB",
+      "zone": "Backup"
+    },
+    "tactics": [
+      "T1078 Valid Accounts",
+      "T1566 Phishing",
+      "T1486 Data Encrypted for Impact",
+      "T1041 Exfiltration Over C2 Channel"
+    ],
+    "details": [
+      {
+        "key": "Account",
+        "value": "svc-ehr-admin"
+      },
+      {
+        "key": "Source IP",
+        "value": "198.51.100.44"
+      },
+      {
+        "key": "Destination IP",
+        "value": "203.0.113.58"
+      },
+      {
+        "key": "Data Transferred",
+        "value": "380 GB"
+      },
+      {
+        "key": "Backup Deleted",
+        "value": "Yes"
+      },
+      {
+        "key": "Encryption Initiated",
+        "value": "05:14:22 UTC"
+      },
+      {
+        "key": "MFA Push Time",
+        "value": "02:09:03 UTC"
+      },
+      {
+        "key": "Last Good State",
+        "value": "05:15 UTC (downtime viewer BCA-VIEW01)"
+      },
+      {
+        "key": "Ransom Note",
+        "value": "READ_ME_NOW.txt on ORRMC-SQL01"
+      },
+      {
+        "key": "EHR Availability",
+        "value": "Down — No access to database or interface engine"
+      }
+    ],
+    "rawEvent": "2026-03-03T02:09:03Z ORRMC-SQL01 Windows Event Log 4624: User 'svc-ehr-admin' logged on via VPN from IP 198.51.100.44. MFA push approved at 02:09:03.\n2026-03-03T02:15:11Z ORRMC-SQL01 File System Event 4663: Access to 380 GB of EHR data (path: C:\\\\EHR\\\\Data\\\\DB01) initiated by svc-ehr-admin.\n2026-03-03T05:12:44Z ORRMC-BKP01 File System Event 4663: Delete operation on 380 GB of EHR data (backup volume BKP01-03) initiated by IP 198.51.100.44.\n2026-03-03T05:14:22Z ORRMC-SQL01 File System Event 4663: File encryption started on ORRMC-SQL01 and ORRMC-SQL02 (total 2.1 TB).",
+    "relatedAlerts": [
+      {
+        "time": "2026-03-03T05:45:12Z",
+        "title": "EHR Database Servers Unreachable — Ransom Note Found",
+        "severity": "critical"
+      }
+    ],
+    "analyst": "soc.shift.lead@orrmc.example"
+  },
+  "instructorNote": "This inject confirms the intrusion window and data exfiltration. The ISO must isolate the EHR environment and activate EOP Level 1. Watch for whether the AOC invokes crisis standards of care.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "Anyone who sees a ransom note, an encrypted file, an unexpected device behavior or a suspicious logon calls the IT service desk (ext. 5-0100) and does not turn off the machine unless told to. The mana",
+      "chunkId": 5
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:04:13.146Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Database Access — Suspicious Admin Logon",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Ottawa River Regional Medical Center",
+          "alertId": "ALR-2026-0303-060012",
+          "severity": "critical",
+          "riskScore": 94,
+          "rule": "Privileged Account Activity — Exfiltration and Deletion During Downtime Window",
+          "ruleDescription": "An administrator account accessed the EHR database server via VPN during the downtime window, followed by large data transfer and deletion of the on-site backup repository.",
+          "status": "New",
+          "assignee": "ISO",
+          "firstSeen": "2026-03-03T02:09:17Z",
+          "lastSeen": "2026-03-03T05:14:22Z",
+          "eventCount": 17,
+          "source": {
+            "host": "ORRMC-SQL01",
+            "ip": "198.51.100.44",
+            "user": "svc-ehr-admin",
+            "zone": "Internal"
+          },
+          "dest": {
+            "host": "ORRMC-BKP01",
+            "ip": "203.0.113.58",
+            "service": "SMB",
+            "zone": "Backup"
+          },
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1566 Phishing",
+            "T1486 Data Encrypted for Impact",
+            "T1041 Exfiltration Over C2 Channel"
+          ],
+          "details": [
+            {
+              "key": "Account",
+              "value": "svc-ehr-admin"
+            },
+            {
+              "key": "Source IP",
+              "value": "198.51.100.44"
+            },
+            {
+              "key": "Destination IP",
+              "value": "203.0.113.58"
+            },
+            {
+              "key": "Data Transferred",
+              "value": "380 GB"
+            },
+            {
+              "key": "Backup Deleted",
+              "value": "Yes"
+            },
+            {
+              "key": "Encryption Initiated",
+              "value": "05:14:22 UTC"
+            },
+            {
+              "key": "MFA Push Time",
+              "value": "02:09:03 UTC"
+            },
+            {
+              "key": "Last Good State",
+              "value": "05:15 UTC (downtime viewer BCA-VIEW01)"
+            },
+            {
+              "key": "Ransom Note",
+              "value": "READ_ME_NOW.txt on ORRMC-SQL01"
+            },
+            {
+              "key": "EHR Availability",
+              "value": "Down — No access to database or interface engine"
+            }
+          ],
+          "rawEvent": "2026-03-03T02:09:03Z ORRMC-SQL01 Windows Event Log 4624: User 'svc-ehr-admin' logged on via VPN from IP 198.51.100.44. MFA push approved at 02:09:03.\n2026-03-03T02:15:11Z ORRMC-SQL01 File System Event 4663: Access to 380 GB of EHR data (path: C:\\\\EHR\\\\Data\\\\DB01) initiated by svc-ehr-admin.\n2026-03-03T05:12:44Z ORRMC-BKP01 File System Event 4663: Delete operation on 380 GB of EHR data (backup volume BKP01-03) initiated by IP 198.51.100.44.\n2026-03-03T05:14:22Z ORRMC-SQL01 File System Event 4663: File encryption started on ORRMC-SQL01 and ORRMC-SQL02 (total 2.1 TB).",
+          "relatedAlerts": [
+            {
+              "time": "2026-03-03T05:45:12Z",
+              "title": "EHR Database Servers Unreachable — Ransom Note Found",
+              "severity": "critical"
+            }
+          ],
+          "analyst": "soc.shift.lead@orrmc.example"
+        },
+        "instructorNote": "This inject confirms the intrusion window and data exfiltration. The ISO must isolate the EHR environment and activate EOP Level 1. Watch for whether the AOC invokes crisis standards of care.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:30.868Z"
+}
