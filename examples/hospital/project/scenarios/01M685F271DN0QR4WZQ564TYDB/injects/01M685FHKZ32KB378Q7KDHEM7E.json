@@ -1,0 +1,126 @@
+{
+  "id": "01M685FHKZ32KB378Q7KDHEM7E",
+  "mselRowId": "I-02",
+  "type": "helpdesk_ticket",
+  "title": "EHR Database Servers Unreachable — Ransom Note Found",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "INC-26-03-0412",
+    "priority": "Critical",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "IT On-Call Engineer Dmitri Volkov",
+    "requesterContact": "ext. 5-0100",
+    "contactType": "Phone",
+    "category": "Cybersecurity",
+    "subcategory": "Ransomware Incident",
+    "location": "ORRMC-SQL01 and ORRMC-SQL02 (Data Center, Tower A)",
+    "configurationItem": "ORRMC-SQL01, ORRMC-SQL02",
+    "opened": "2026-03-03 05:50:15",
+    "assignmentGroup": "Incident Response Team",
+    "subject": "ORRMC-SQL01 and ORRMC-SQL02 unreachable; ransom note on ORRMC-SQL01 console",
+    "description": "ORRMC-SQL01 and ORRMC-SQL02 are unreachable from the application servers ORRMC-EHR-APP01 to -APP04. The interface engine service on ORRMC-INT01 is stopped. A text file named READ_ME_NOW.txt is on the console of ORRMC-SQL01: it says the EHR database is encrypted, names a Tor address and gives 72 hours. I have not touched either server.",
+    "activity": [
+      {
+        "author": "IT On-Call Engineer Dmitri Volkov",
+        "time": "2026-03-03 05:50:15",
+        "kind": "work_note",
+        "text": "Confirmed EHR database servers unresponsive. Interface engine ORRMC-INT01 stopped. Read file on ORRMC-SQL01 console: contains ransom note, Tor address, 72-hour deadline. No access to logs or network telemetry from console. Left servers untouched as per protocol."
+      },
+      {
+        "author": "System",
+        "time": "2026-03-03 05:50:15",
+        "kind": "system",
+        "text": "Ticket created from incoming call to IT service desk (ext. 5-0100)."
+      },
+      {
+        "author": "System",
+        "time": "2026-03-03 05:50:15",
+        "kind": "system",
+        "text": "Priority escalated to Critical based on system-wide EHR impact."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Ottawa River Regional Medical Center"
+  },
+  "instructorNote": "This is a Cyber 1-level incident; the ISO must immediately open the incident log, call the Director of IT, and escalate to the AOC for HCC activation. The ticket’s description confirms full EHR downtime and a ransom note.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "Anyone who sees a ransom note, an encrypted file, an unexpected device behavior or a suspicious logon calls the IT service desk (ext. 5-0100) and does not turn off the machine unless told to. The mana",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "| Level | Description | Hospital action | |---|---|---| | Cyber 3 | Single endpoint or account; no clinical function affected | ISO handles; no HCC | | Cyber 2 | One clinical or business system degrad",
+      "chunkId": 4
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:04:01.749Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Database Servers Unreachable — Ransom Note Found",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "INC-26-03-0412",
+          "priority": "Critical",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "IT On-Call Engineer Dmitri Volkov",
+          "requesterContact": "ext. 5-0100",
+          "contactType": "Phone",
+          "category": "Cybersecurity",
+          "subcategory": "Ransomware Incident",
+          "location": "ORRMC-SQL01 and ORRMC-SQL02 (Data Center, Tower A)",
+          "configurationItem": "ORRMC-SQL01, ORRMC-SQL02",
+          "opened": "2026-03-03 05:50:15",
+          "assignmentGroup": "Incident Response Team",
+          "subject": "ORRMC-SQL01 and ORRMC-SQL02 unreachable; ransom note on ORRMC-SQL01 console",
+          "description": "ORRMC-SQL01 and ORRMC-SQL02 are unreachable from the application servers ORRMC-EHR-APP01 to -APP04. The interface engine service on ORRMC-INT01 is stopped. A text file named READ_ME_NOW.txt is on the console of ORRMC-SQL01: it says the EHR database is encrypted, names a Tor address and gives 72 hours. I have not touched either server.",
+          "activity": [
+            {
+              "author": "IT On-Call Engineer Dmitri Volkov",
+              "time": "2026-03-03 05:50:15",
+              "kind": "work_note",
+              "text": "Confirmed EHR database servers unresponsive. Interface engine ORRMC-INT01 stopped. Read file on ORRMC-SQL01 console: contains ransom note, Tor address, 72-hour deadline. No access to logs or network telemetry from console. Left servers untouched as per protocol."
+            },
+            {
+              "author": "System",
+              "time": "2026-03-03 05:50:15",
+              "kind": "system",
+              "text": "Ticket created from incoming call to IT service desk (ext. 5-0100)."
+            },
+            {
+              "author": "System",
+              "time": "2026-03-03 05:50:15",
+              "kind": "system",
+              "text": "Priority escalated to Critical based on system-wide EHR impact."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Ottawa River Regional Medical Center"
+        },
+        "instructorNote": "This is a Cyber 1-level incident; the ISO must immediately open the incident log, call the Director of IT, and escalate to the AOC for HCC activation. The ticket’s description confirms full EHR downtime and a ransom note.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:09:04.281Z"
+}

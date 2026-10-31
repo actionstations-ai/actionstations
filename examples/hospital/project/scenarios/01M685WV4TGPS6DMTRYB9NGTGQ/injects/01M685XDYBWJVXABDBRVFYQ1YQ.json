@@ -1,0 +1,133 @@
+{
+  "id": "01M685XDYBWJVXABDBRVFYQ1YQ",
+  "mselRowId": "I-02",
+  "type": "helpdesk_ticket",
+  "title": "Infusion Pump Library Update Anomaly",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "CE-26-03-0087",
+    "priority": "High",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Clinical Engineering Technician Hao Tran",
+    "requesterContact": "x3021",
+    "contactType": "Monitoring",
+    "category": "Medical Devices",
+    "subcategory": "Infusion Pump Management",
+    "location": "ICU 3 North, ICU 3 South, 4 East (nursing units)",
+    "configurationItem": "ORRMC-PUMP01",
+    "opened": "2026-03-12 14:32:17",
+    "assignmentGroup": "Clinical Engineering",
+    "subject": "ORRMC-PUMP01 shows unauthorized drug library 4.2.2 loaded at 13:55",
+    "description": "ORRMC-PUMP01 shows drug library 4.2.2 loaded at 13:55 by the account pumplink-support. Our change log shows no library change scheduled this week; the current approved library is 4.2.1. 41 pumps in ICU 3 North, ICU 3 South and 4 East report 4.2.2 as of 14:10. Central monitoring shows four ICU 3 North beds with no data since 14:02. I have not changed anything.",
+    "activity": [
+      {
+        "author": "Hao Tran",
+        "time": "2026-03-12 14:32:17",
+        "kind": "work_note",
+        "text": "Initial alert from device telemetry. Confirmed via log on ORRMC-PUMP01: library 4.2.2 was pushed at 13:55 by pumplink-support. No internal change was scheduled."
+      },
+      {
+        "author": "System",
+        "time": "2026-03-12 14:32:17",
+        "kind": "system",
+        "text": "Ticket created from automated monitoring feed (ORRMC-MON01, 14:32:17)."
+      },
+      {
+        "author": "System",
+        "time": "2026-03-12 14:32:17",
+        "kind": "system",
+        "text": "Ticket routed to Clinical Engineering based on CMDB mapping for ORRMC-PUMP01."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Ottawa River Regional Medical Center"
+  },
+  "instructorNote": "This inject triggers the Cyber 2 escalation under the CIRP. The CE must not initiate any push from ORRMC-PUMP01; they must preserve logs and contact the vendor via the binder number, not the session. Watch for whether the CE calls the ISO or waits to be told.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "| Level | Description | Hospital action | |---|---|---| | Cyber 3 | Single endpoint or account; no clinical function affected | ISO handles; no HCC | | Cyber 2 | One clinical or business system degrad",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:11:37.161Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Infusion Pump Library Update Anomaly",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "CE-26-03-0087",
+          "priority": "High",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Clinical Engineering Technician Hao Tran",
+          "requesterContact": "x3021",
+          "contactType": "Monitoring",
+          "category": "Medical Devices",
+          "subcategory": "Infusion Pump Management",
+          "location": "ICU 3 North, ICU 3 South, 4 East (nursing units)",
+          "configurationItem": "ORRMC-PUMP01",
+          "opened": "2026-03-12 14:32:17",
+          "assignmentGroup": "Clinical Engineering",
+          "subject": "ORRMC-PUMP01 shows unauthorized drug library 4.2.2 loaded at 13:55",
+          "description": "ORRMC-PUMP01 shows drug library 4.2.2 loaded at 13:55 by the account pumplink-support. Our change log shows no library change scheduled this week; the current approved library is 4.2.1. 41 pumps in ICU 3 North, ICU 3 South and 4 East report 4.2.2 as of 14:10. Central monitoring shows four ICU 3 North beds with no data since 14:02. I have not changed anything.",
+          "activity": [
+            {
+              "author": "Hao Tran",
+              "time": "2026-03-12 14:32:17",
+              "kind": "work_note",
+              "text": "Initial alert from device telemetry. Confirmed via log on ORRMC-PUMP01: library 4.2.2 was pushed at 13:55 by pumplink-support. No internal change was scheduled."
+            },
+            {
+              "author": "System",
+              "time": "2026-03-12 14:32:17",
+              "kind": "system",
+              "text": "Ticket created from automated monitoring feed (ORRMC-MON01, 14:32:17)."
+            },
+            {
+              "author": "System",
+              "time": "2026-03-12 14:32:17",
+              "kind": "system",
+              "text": "Ticket routed to Clinical Engineering based on CMDB mapping for ORRMC-PUMP01."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Ottawa River Regional Medical Center"
+        },
+        "instructorNote": "This inject triggers the Cyber 2 escalation under the CIRP. The CE must not initiate any push from ORRMC-PUMP01; they must preserve logs and contact the vendor via the binder number, not the session. Watch for whether the CE calls the ISO or waits to be told.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:35.613Z"
+}

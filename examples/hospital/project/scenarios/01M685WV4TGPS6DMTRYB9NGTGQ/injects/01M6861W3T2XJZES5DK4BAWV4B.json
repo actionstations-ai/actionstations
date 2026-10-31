@@ -1,0 +1,199 @@
+{
+  "id": "01M6861W3T2XJZES5DK4BAWV4B",
+  "mselRowId": "I-13",
+  "type": "phone_call",
+  "title": "ICU 3 South Bed 3: Insulin Infusion Rate Discrepancy",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "systemName": "Ottawa River Regional Medical Center - AOC Console 3",
+    "callId": "CR-20260312-164500-0051",
+    "direction": "Internal",
+    "caller": {
+      "name": "Dr. Priya Raman",
+      "number": "555-0137",
+      "label": "Chief Medical Information Officer"
+    },
+    "callee": {
+      "name": "Carol Beckett",
+      "number": "555-0122",
+      "label": "Chief Nursing Officer"
+    },
+    "startTime": "03/12/2026 16:45:00",
+    "duration": "0:52",
+    "transcript": [
+      {
+        "speaker": "Dr. Priya Raman",
+        "offset": "0:00",
+        "text": "Carol, it's Dr. Raman. ICU 3 South bed 3 — insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. She says she entered 4.0. I can't confirm whether she mistyped, the pump misread the entry, or the library changed the scaling. The patient is on dextrose and responding.",
+        "prompt": false
+      },
+      {
+        "speaker": "Carol Beckett",
+        "offset": "0:32",
+        "text": "Understood. I'll notify the nurse manager and start the root cause review. We're not changing the infusion rate yet — the patient is stable.",
+        "prompt": true
+      },
+      {
+        "speaker": "Dr. Priya Raman",
+        "offset": "0:45",
+        "text": "Good. I'll send the log to Clinical Engineering and the ISO. We need to preserve the pump and the server as evidence. The family will need to be informed — we're not speculating on cause, but we're not hiding it either.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-13"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests clinical and operational response to a potential device-related adverse event. Watch for immediate patient safety actions, disclosure to family, and evidence preservation. The CMO must not speculate on root cause.",
+  "citations": [
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Essential functions, ranked by recovery priority: (1) life-sustaining care and patient monitoring (ICUs, ED, OR, dialysis, labor and delivery, neonatal); (2) medication ordering, verification and admi",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+      "chunkId": 7
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Dr. Priya Raman",
+        "voiceStyle": "calm female physician in her 40s, measured tone, slight accent of Indian origin, precise and clinical",
+        "text": "Carol, it's Dr. Raman. ICU 3 South bed 3 — insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. She says she entered 4.0. I can't confirm whether she mistyped, the pump misread the entry, or the library changed the scaling. The patient is on dextrose and responding."
+      },
+      {
+        "speaker": "Carol Beckett",
+        "voiceStyle": "steady female charge nurse in her 50s, calm but urgent, Mid-Atlantic accent, focused delivery",
+        "text": "Understood. I'll notify the nurse manager and start the root cause review. We're not changing the infusion rate yet — the patient is stable."
+      },
+      {
+        "speaker": "Dr. Priya Raman",
+        "voiceStyle": "same as above",
+        "text": "Good. I'll send the log to Clinical Engineering and the ISO. We need to preserve the pump and the server as evidence. The family will need to be informed — we're not speculating on cause, but we're not hiding it either."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:14:06.446Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "ICU 3 South Bed 3: Insulin Infusion Rate Discrepancy",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "Ottawa River Regional Medical Center - AOC Console 3",
+          "callId": "CR-20260312-164500-0051",
+          "direction": "Internal",
+          "caller": {
+            "name": "Dr. Priya Raman",
+            "number": "555-0137",
+            "label": "Chief Medical Information Officer"
+          },
+          "callee": {
+            "name": "Carol Beckett",
+            "number": "555-0122",
+            "label": "ICU 3 North Charge Nurse"
+          },
+          "startTime": "03/12/2026 16:45:00",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Dr. Priya Raman",
+              "offset": "0:00",
+              "text": "Carol, it's Dr. Raman. ICU 3 South bed 3 — insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. She says she entered 4.0. I can't confirm whether she mistyped, the pump misread the entry, or the library changed the scaling. The patient is on dextrose and responding.",
+              "prompt": false
+            },
+            {
+              "speaker": "Carol Beckett",
+              "offset": "0:32",
+              "text": "Understood. I'll notify the nurse manager and start the root cause review. We're not changing the infusion rate yet — the patient is stable.",
+              "prompt": true
+            },
+            {
+              "speaker": "Dr. Priya Raman",
+              "offset": "0:45",
+              "text": "Good. I'll send the log to Clinical Engineering and the ISO. We need to preserve the pump and the server as evidence. The family will need to be informed — we're not speculating on cause, but we're not hiding it either.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-13"
+        },
+        "instructorNote": "This inject tests clinical and operational response to a potential device-related adverse event. Watch for immediate patient safety actions, disclosure to family, and evidence preservation. The CMO must not speculate on root cause.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-31T05:43:56.480Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "ICU 3 South Bed 3: Insulin Infusion Rate Discrepancy",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "Ottawa River Regional Medical Center - AOC Console 3",
+          "callId": "CR-20260312-164500-0051",
+          "direction": "Internal",
+          "caller": {
+            "name": "Dr. Priya Raman",
+            "number": "555-0137",
+            "label": "Chief Medical Information Officer"
+          },
+          "callee": {
+            "name": "Carol Beckett",
+            "number": "555-0122",
+            "label": "Chief Nursing Officer"
+          },
+          "startTime": "03/12/2026 16:45:00",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "Dr. Priya Raman",
+              "offset": "0:00",
+              "text": "Carol, it's Dr. Raman. ICU 3 South bed 3 — insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. She says she entered 4.0. I can't confirm whether she mistyped, the pump misread the entry, or the library changed the scaling. The patient is on dextrose and responding.",
+              "prompt": false
+            },
+            {
+              "speaker": "Carol Beckett",
+              "offset": "0:32",
+              "text": "Understood. I'll notify the nurse manager and start the root cause review. We're not changing the infusion rate yet — the patient is stable.",
+              "prompt": true
+            },
+            {
+              "speaker": "Dr. Priya Raman",
+              "offset": "0:45",
+              "text": "Good. I'll send the log to Clinical Engineering and the ISO. We need to preserve the pump and the server as evidence. The family will need to be informed — we're not speculating on cause, but we're not hiding it either.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-13"
+        },
+        "instructorNote": "This inject tests clinical and operational response to a potential device-related adverse event. Watch for immediate patient safety actions, disclosure to family, and evidence preservation. The CMO must not speculate on root cause.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:36.718Z"
+}

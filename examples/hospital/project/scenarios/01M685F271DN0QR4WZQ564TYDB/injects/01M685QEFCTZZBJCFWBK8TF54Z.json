@@ -1,0 +1,151 @@
+{
+  "id": "01M685QEFCTZZBJCFWBK8TF54Z",
+  "mselRowId": "I-20",
+  "type": "radio_call",
+  "title": "Restore Verification — Pre-Live Checks",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "centerName": "Hospital Operations Center (HOC)",
+    "channel": "EMERGENCY RESPONSE 3",
+    "frequency": "TG 5003 / 455.125 MHz",
+    "date": "03/03/2026",
+    "callsign": "ISO-01",
+    "lines": [
+      {
+        "time": "09:00",
+        "from": "ISO-01",
+        "to": "CE-01, CNO-01",
+        "text": "Clinical Engineering, CNO, this is ISO-01. Clean-room build under way. Before any system returns to patient care, I need three verification checks: allergy and high-alert medication data must match the BCA-VIEW01 packets; pump drug libraries must be unchanged; and barcode scanning must work at two bedside units. I am not letting a restored EHR go live on a promise. Who owns each check?"
+      },
+      {
+        "time": "09:02",
+        "from": "CE-01",
+        "to": "ISO-01",
+        "text": "Understood, ISO. Clinical Engineering will validate the pump drug libraries and confirm no changes since 05:15 on BCA-VIEW01. I will report back by 09:15."
+      },
+      {
+        "time": "09:03",
+        "from": "CNO-01",
+        "to": "ISO-01",
+        "text": "Copy, ISO. The CNO will personally test barcode scanning on two units—4 West and ICU 3 North—before any go-live. I will confirm with you by 09:20."
+      },
+      {
+        "time": "09:04",
+        "from": "ISO-01",
+        "to": "CE-01, CNO-01",
+        "text": "Good. I will monitor restored hosts for 72 hours post-launch. The AOC will log that a restore is not an all-clear. We are not done until we are certain."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-20_radio.wav",
+    "duration": "0:22",
+    "injectId": "I-20"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the ISO's authority to delay go-live despite system restoration. Watch for the CNO to assign the barcode test, the CE to claim the pump library check, and the ISO to enforce verification. Do not accept a single check as complete.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+      "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Essential functions, ranked by recovery priority: (1) life-sustaining care and patient monitoring (ICUs, ED, OR, dialysis, labor and delivery, neonatal); (2) medication ordering, verification and admi",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "ISO-01",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "Clinical Engineering, CNO, this is ISO-01. Clean-room build under way. Before any system returns to patient care, I need three verification checks: allergy and high-alert medication data must match the BCA-VIEW01 packets; pump drug libraries must be unchanged; and barcode scanning must work at two bedside units. I am not letting a restored EHR go live on a promise. Who owns each check?"
+      },
+      {
+        "speaker": "CE-01",
+        "voiceStyle": "Calm, professional male voice, mid-40s, clear enunciation",
+        "text": "Understood, ISO. Clinical Engineering will validate the pump drug libraries and confirm no changes since zero five one five on BCA-VIEW01. I will report back by zero nine one five."
+      },
+      {
+        "speaker": "CNO-01",
+        "voiceStyle": "Confident female voice, late 40s, steady and deliberate",
+        "text": "Copy, ISO. The CNO will personally test barcode scanning on two units—four west and ICU three north—before any go-live. I will confirm with you by zero nine two zero."
+      },
+      {
+        "speaker": "ISO-01",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "Good. I will monitor restored hosts for seventy-two hours post-launch. The AOC will log that a restore is not an all-clear. We are not done until we are certain."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:08:25.850Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Restore Verification — Pre-Live Checks",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "centerName": "Hospital Operations Center (HOC)",
+          "channel": "EMERGENCY RESPONSE 3",
+          "frequency": "TG 5003 / 455.125 MHz",
+          "date": "03/03/2026",
+          "callsign": "ISO-01",
+          "lines": [
+            {
+              "time": "09:00",
+              "from": "ISO-01",
+              "to": "CE-01, CNO-01",
+              "text": "Clinical Engineering, CNO, this is ISO-01. Clean-room build under way. Before any system returns to patient care, I need three verification checks: allergy and high-alert medication data must match the BCA-VIEW01 packets; pump drug libraries must be unchanged; and barcode scanning must work at two bedside units. I am not letting a restored EHR go live on a promise. Who owns each check?"
+            },
+            {
+              "time": "09:02",
+              "from": "CE-01",
+              "to": "ISO-01",
+              "text": "Understood, ISO. Clinical Engineering will validate the pump drug libraries and confirm no changes since 05:15 on BCA-VIEW01. I will report back by 09:15."
+            },
+            {
+              "time": "09:03",
+              "from": "CNO-01",
+              "to": "ISO-01",
+              "text": "Copy, ISO. The CNO will personally test barcode scanning on two units—4 West and ICU 3 North—before any go-live. I will confirm with you by 09:20."
+            },
+            {
+              "time": "09:04",
+              "from": "ISO-01",
+              "to": "CE-01, CNO-01",
+              "text": "Good. I will monitor restored hosts for 72 hours post-launch. The AOC will log that a restore is not an all-clear. We are not done until we are certain."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-20_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-20"
+        },
+        "instructorNote": "This inject confirms the ISO's authority to delay go-live despite system restoration. Watch for the CNO to assign the barcode test, the CE to claim the pump library check, and the ISO to enforce verification. Do not accept a single check as complete.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:09:08.746Z"
+}

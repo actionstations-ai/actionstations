@@ -1,0 +1,186 @@
+{
+  "id": "01M68645RG7YCR94ZB24RR61C2",
+  "mselRowId": "I-19",
+  "type": "sitrep",
+  "title": "Sitrep 6: Device Network Isolation — Monitoring Reconnection Decision",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "number": "6",
+    "time": "03/12/2026 1805",
+    "organization": "Ottawa River Regional Medical Center",
+    "issuingOffice": "Hospital Command Center",
+    "incidentName": "Ghost Pumps — Infusion Pump Integrity and Clinical Trust",
+    "period": "1720–1805",
+    "from": "Planning Section Chief (Situation Unit)",
+    "to": "AOC, ISO, CE, CNO",
+    "summary": "Device network 10.40.x.x has been isolated since 16:15. Twenty-eight of 41 affected infusion pumps have been re-flashed from the offline 4.2.1 copy and verified via test infusions; 13 remain. Loaner pumps are en route and expected at 20:00. Central telemetry for 32 ICU beds remains dark. One-to-one observation continues for 12 high-risk patients. ORRMC-PUMP01 has been isolated and imaged. The ISO proposes reconnecting only the monitoring network behind a new firewall rule that permits ORRMC-MON01 to communicate with bedside monitors only, after the telemetry server is rebuilt. Rebuild time estimated at 3 hours. Decision required on the night plan.",
+    "keyStatus": [
+      {
+        "label": "Device Network",
+        "value": "Isolated"
+      },
+      {
+        "label": "Infusion Pumps (Verified)",
+        "value": "28/41"
+      },
+      {
+        "label": "Telemetry Central",
+        "value": "Offline"
+      },
+      {
+        "label": "Pump Server (ORRMC-PUMP01)",
+        "value": "Imaged and isolated"
+      },
+      {
+        "label": "Loaner Pumps",
+        "value": "En route, ETA 20:00"
+      }
+    ],
+    "actions": [
+      {
+        "time": "16:15",
+        "text": "Device network 10.40.x.x isolated via firewall rule HCC-OPS-1043"
+      },
+      {
+        "time": "17:25",
+        "text": "Clinical Engineering re-flashed 22 pumps from offline 4.2.1 copy; verification complete"
+      },
+      {
+        "time": "17:45",
+        "text": "Forensic imaging of ORRMC-PUMP01 completed and stored on ORRMC-BKP01"
+      },
+      {
+        "time": "18:00",
+        "text": "ISO issued request to rebuild ORRMC-MON01 under new network policy (HCC-OPS-1043b)"
+      }
+    ],
+    "planned": [
+      "ISO to complete telemetry server rebuild by 21:00",
+      "Reconnect monitoring network only to bedside monitors via new firewall rule (HCC-OPS-1043b)",
+      "Maintain one-to-one observation for 12 high-risk patients until monitoring restored",
+      "Next sitrep at 22:00 or on significant change"
+    ],
+    "issues": [
+      "Central telemetry remains dark; no remote monitoring for 32 ICU patients",
+      "12 high-risk patients under one-to-one observation; staffing shortage persists",
+      "No alternative to one-to-one observation; portable monitors not available"
+    ],
+    "nextReport": "22:00 or on significant change",
+    "preparedBy": "S. Patel, Planning Section Chief (Situation Unit)",
+    "approvedBy": "P. Lindqvist, Clinical Engineering Manager",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This is a decision-point inject. The AOC must decide whether to reconnect monitoring only, after the telemetry server is rebuilt and the ISO signs off. The network remains isolated overnight. No system is declared safe yet.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+      "chunkId": 7
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Essential functions, ranked by recovery priority: (1) life-sustaining care and patient monitoring (ICUs, ED, OR, dialysis, labor and delivery, neonatal); (2) medication ordering, verification and admi",
+      "chunkId": 31
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:15:21.743Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Sitrep 6: Device Network Isolation — Monitoring Reconnection Decision",
+        "type": "sitrep",
+        "fields": {
+          "number": "6",
+          "time": "03/12/2026 1805",
+          "organization": "Ottawa River Regional Medical Center",
+          "issuingOffice": "Hospital Command Center",
+          "incidentName": "Ghost Pumps — Infusion Pump Integrity and Clinical Trust",
+          "period": "1720–1805",
+          "from": "Planning Section Chief (Situation Unit)",
+          "to": "AOC, ISO, CE, CNO",
+          "summary": "Device network 10.40.x.x has been isolated since 16:15. Twenty-eight of 41 affected infusion pumps have been re-flashed from the offline 4.2.1 copy and verified via test infusions; 13 remain. Loaner pumps are en route and expected at 20:00. Central telemetry for 32 ICU beds remains dark. One-to-one observation continues for 12 high-risk patients. ORRMC-PUMP01 has been isolated and imaged. The ISO proposes reconnecting only the monitoring network behind a new firewall rule that permits ORRMC-MON01 to communicate with bedside monitors only, after the telemetry server is rebuilt. Rebuild time estimated at 3 hours. Decision required on the night plan.",
+          "keyStatus": [
+            {
+              "label": "Device Network",
+              "value": "Isolated"
+            },
+            {
+              "label": "Infusion Pumps (Verified)",
+              "value": "28/41"
+            },
+            {
+              "label": "Telemetry Central",
+              "value": "Offline"
+            },
+            {
+              "label": "Pump Server (ORRMC-PUMP01)",
+              "value": "Imaged and isolated"
+            },
+            {
+              "label": "Loaner Pumps",
+              "value": "En route, ETA 20:00"
+            }
+          ],
+          "actions": [
+            {
+              "time": "16:15",
+              "text": "Device network 10.40.x.x isolated via firewall rule HCC-OPS-1043"
+            },
+            {
+              "time": "17:25",
+              "text": "Clinical Engineering re-flashed 22 pumps from offline 4.2.1 copy; verification complete"
+            },
+            {
+              "time": "17:45",
+              "text": "Forensic imaging of ORRMC-PUMP01 completed and stored on ORRMC-BKP01"
+            },
+            {
+              "time": "18:00",
+              "text": "ISO issued request to rebuild ORRMC-MON01 under new network policy (HCC-OPS-1043b)"
+            }
+          ],
+          "planned": [
+            "ISO to complete telemetry server rebuild by 21:00",
+            "Reconnect monitoring network only to bedside monitors via new firewall rule (HCC-OPS-1043b)",
+            "Maintain one-to-one observation for 12 high-risk patients until monitoring restored",
+            "Next sitrep at 22:00 or on significant change"
+          ],
+          "issues": [
+            "Central telemetry remains dark; no remote monitoring for 32 ICU patients",
+            "12 high-risk patients under one-to-one observation; staffing shortage persists",
+            "No alternative to one-to-one observation; portable monitors not available"
+          ],
+          "nextReport": "22:00 or on significant change",
+          "preparedBy": "S. Patel, Planning Section Chief (Situation Unit)",
+          "approvedBy": "P. Lindqvist, Clinical Engineering Manager",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This is a decision-point inject. The AOC must decide whether to reconnect monitoring only, after the telemetry server is rebuilt and the ISO signs off. The network remains isolated overnight. No system is declared safe yet.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:15:39.689Z"
+}

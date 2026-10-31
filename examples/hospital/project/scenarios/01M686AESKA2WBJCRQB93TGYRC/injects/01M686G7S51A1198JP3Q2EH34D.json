@@ -1,0 +1,214 @@
+{
+  "id": "01M686G7S51A1198JP3Q2EH34D",
+  "mselRowId": "I-18",
+  "type": "field_report",
+  "title": "Laboratory: Critical Result Discrepancy — Hand-Typed vs Analyzer",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Ottawa River Regional Medical Center — Laboratory",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0413",
+    "date": "03/13/2026",
+    "time": "19:50",
+    "location": "Central Laboratory, Level 2, Pavilion C",
+    "inspector": "Hector Alvarez, Laboratory Supervisor",
+    "unit": "Lab Tech Team 3",
+    "reportType": "incident",
+    "weather": "Indoor — 72°F, no natural light",
+    "summary": "The LIS has returned to service but the interface engine ORRMC-INT01 remains non-functional, causing a one-way data flow. Manual entry of results from the analyzer is ongoing. A potassium result of 6.8 mmol/L for patient on 4 West was entered by lab tech after review of the analyzer printout. However, the paper record for the same test shows 4.2 mmol/L. The lab has no means to validate which value is correct. A second technician independently verified the analyzer output. The discrepancy is not attributable to instrument error. The lab is holding all critical results until the interface engine is restored.",
+    "findings": [
+      {
+        "item": "LIS operational status",
+        "condition": "failed",
+        "notes": "LIS returned to service but interface engine not active; results not flowing to EHR"
+      },
+      {
+        "item": "Analyzer printout integrity",
+        "condition": "ok",
+        "notes": "Printout for patient T-12 shows K+ 6.8 mmol/L, no visible error"
+      },
+      {
+        "item": "Paper record entry accuracy",
+        "condition": "deficient",
+        "notes": "Paper record for same test shows K+ 4.2 mmol/L; lab tech did not double-check input against printout"
+      },
+      {
+        "item": "Hand-typed result verification",
+        "condition": "not_inspected",
+        "notes": "No second review performed before submission"
+      },
+      {
+        "item": "Critical result tracking",
+        "condition": "failed",
+        "notes": "No alert mechanism for 6.8 mmol/L K+ in EHR; alert not sent to provider"
+      },
+      {
+        "item": "Analyzer log access",
+        "condition": "ok",
+        "notes": "Logs show no calibration error or outlier for T-12"
+      },
+      {
+        "item": "Backup verification process",
+        "condition": "failed",
+        "notes": "No independent review of hand-typed values before release"
+      },
+      {
+        "item": "Patient identification match",
+        "condition": "ok",
+        "notes": "Patient T-12 (4 West) matches lab requisition and wristband"
+      },
+      {
+        "item": "Specimen handling",
+        "condition": "ok",
+        "notes": "Specimen collected at 18:45, no signs of hemolysis"
+      },
+      {
+        "item": "Interface engine status",
+        "condition": "failed",
+        "notes": "ORRMC-INT01 still not processing outgoing messages; still shows 'stuck' in logs"
+      }
+    ],
+    "actionsTaken": [
+      "Verified potassium result against analyzer printout and found agreement at 6.8 mmol/L",
+      "Notified HCC via phone at 19:50 that critical result discrepancy exists",
+      "Placed lab tech on standby to recheck all hand-typed critical results against printouts",
+      "Initiated second review for all lab results from 18:30 to 19:50"
+    ],
+    "recommendations": [
+      "Restore ORRMC-INT01 to full function within 2 hours to resolve data flow and prevent further split records",
+      "Implement mandatory second-person verification for all hand-typed critical results during EHR downtime",
+      "Assign a lab tech to 4 West to confirm potassium level at bedside and reconcile with EHR",
+      "Update EHR downtime procedures to include lab verification workflows under CNO oversight"
+    ],
+    "photosNote": "4 photos attached: IMG_0413-0417 (analyzer printout K+ 6.8, paper record K+ 4.2, lab tech review, HCC call log)",
+    "signature": "Hector Alvarez, Laboratory Supervisor",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests the CNO’s ability to validate lab data under surge conditions and reinforce verification protocols. Watch for over-reliance on paper records or delayed action on critical values.",
+  "citations": [
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+      "quote": "| Level | Condition | Declared by | Staff action | |---|---|---|---| | Brownout | The EHR is slow or one module (for example results or eMAR) is unavailable | IT on-call after 10 minutes of unresolved",
+      "chunkId": 15
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+      "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:21:58.113Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Laboratory: Critical Result Discrepancy — Hand-Typed vs Analyzer",
+        "type": "field_report",
+        "fields": {
+          "organization": "Ottawa River Regional Medical Center — Laboratory",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0413",
+          "date": "03/13/2026",
+          "time": "19:50",
+          "location": "Central Laboratory, Level 2, Pavilion C",
+          "inspector": "Hector Alvarez, Laboratory Supervisor",
+          "unit": "Lab Tech Team 3",
+          "reportType": "incident",
+          "weather": "Indoor — 72°F, no natural light",
+          "summary": "The LIS has returned to service but the interface engine ORRMC-INT01 remains non-functional, causing a one-way data flow. Manual entry of results from the analyzer is ongoing. A potassium result of 6.8 mmol/L for patient on 4 West was entered by lab tech after review of the analyzer printout. However, the paper record for the same test shows 4.2 mmol/L. The lab has no means to validate which value is correct. A second technician independently verified the analyzer output. The discrepancy is not attributable to instrument error. The lab is holding all critical results until the interface engine is restored.",
+          "findings": [
+            {
+              "item": "LIS operational status",
+              "condition": "failed",
+              "notes": "LIS returned to service but interface engine not active; results not flowing to EHR"
+            },
+            {
+              "item": "Analyzer printout integrity",
+              "condition": "ok",
+              "notes": "Printout for patient T-12 shows K+ 6.8 mmol/L, no visible error"
+            },
+            {
+              "item": "Paper record entry accuracy",
+              "condition": "deficient",
+              "notes": "Paper record for same test shows K+ 4.2 mmol/L; lab tech did not double-check input against printout"
+            },
+            {
+              "item": "Hand-typed result verification",
+              "condition": "not_inspected",
+              "notes": "No second review performed before submission"
+            },
+            {
+              "item": "Critical result tracking",
+              "condition": "failed",
+              "notes": "No alert mechanism for 6.8 mmol/L K+ in EHR; alert not sent to provider"
+            },
+            {
+              "item": "Analyzer log access",
+              "condition": "ok",
+              "notes": "Logs show no calibration error or outlier for T-12"
+            },
+            {
+              "item": "Backup verification process",
+              "condition": "failed",
+              "notes": "No independent review of hand-typed values before release"
+            },
+            {
+              "item": "Patient identification match",
+              "condition": "ok",
+              "notes": "Patient T-12 (4 West) matches lab requisition and wristband"
+            },
+            {
+              "item": "Specimen handling",
+              "condition": "ok",
+              "notes": "Specimen collected at 18:45, no signs of hemolysis"
+            },
+            {
+              "item": "Interface engine status",
+              "condition": "failed",
+              "notes": "ORRMC-INT01 still not processing outgoing messages; still shows 'stuck' in logs"
+            }
+          ],
+          "actionsTaken": [
+            "Verified potassium result against analyzer printout and found agreement at 6.8 mmol/L",
+            "Notified HCC via phone at 19:50 that critical result discrepancy exists",
+            "Placed lab tech on standby to recheck all hand-typed critical results against printouts",
+            "Initiated second review for all lab results from 18:30 to 19:50"
+          ],
+          "recommendations": [
+            "Restore ORRMC-INT01 to full function within 2 hours to resolve data flow and prevent further split records",
+            "Implement mandatory second-person verification for all hand-typed critical results during EHR downtime",
+            "Assign a lab tech to 4 West to confirm potassium level at bedside and reconcile with EHR",
+            "Update EHR downtime procedures to include lab verification workflows under CNO oversight"
+          ],
+          "photosNote": "4 photos attached: IMG_0413-0417 (analyzer printout K+ 6.8, paper record K+ 4.2, lab tech review, HCC call log)",
+          "signature": "Hector Alvarez, Laboratory Supervisor",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject tests the CNO’s ability to validate lab data under surge conditions and reinforce verification protocols. Watch for over-reliance on paper records or delayed action on critical values.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:42.260Z"
+}

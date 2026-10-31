@@ -1,0 +1,3196 @@
+{
+  "formatVersion": 1,
+  "id": "01M686KRZX86CC6QRNP27YQ9TG",
+  "projectId": "01M685F066KESVZ41ZASN3ZZZE",
+  "title": "Water Line, No Drink",
+  "subtitle": "A Regional Water Advisory That Reaches Dialysis",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T05:45:59.431Z",
+  "brief": {
+    "userPrompt": "The City of Toledo Department of Public Utilities issues a Do Not Drink advisory after a treatment disruption; the hospital protects its stored water, stops outpatient dialysis, moves patients, adapts sterile processing and food service, and speaks with one voice to staff, patients and the press.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Director of Facilities and Emergency Management (Infrastructure Branch)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "Dialysis Medical Director (Medical Care Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "06:15",
+    "threatFamily": "infrastructure_failure"
+  },
+  "overview": {
+    "theme": "Stored water and conservation, dialysis continuity, infection prevention and one voice",
+    "threat": "On Saturday, March 14, 2026 the City of Toledo Department of Public Utilities reports a treatment plant disruption and issues a Do Not Drink advisory for the service area that includes the hospital. Pressure is normal. The 40,000-gallon tank in the Central Plant is full and the dialysis reverse osmosis loop fails its chloramine test at 06:44. No date is given to lift the advisory.",
+    "operationalImpact": "Nine outpatients and 24 inpatients need dialysis that the hospital's loop cannot provide. Sterile Processing, food service, infant feeding, hand hygiene and cooling water all depend on a supply the hospital must ration. The stored water lasts about 18 hours at normal use and about 36 hours conserved, and the advisory may last as long.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Director of Facilities and Emergency Management (Infrastructure Branch), Chief Nursing Officer (Operations Section Chief), Dialysis Medical Director (Medical Care Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Stored Water and Conservation",
+      "text": "Demonstrate the ability to protect the 40,000-gallon supply, set conservation levels and name the points at which services are reduced (EOP Section 8)."
+    },
+    {
+      "id": "obj-2",
+      "name": "Dialysis Continuity",
+      "text": "Demonstrate the ability to decide which dialysis patients must be treated first, where, and how they get there when the hospital's loop fails its tests."
+    },
+    {
+      "id": "obj-3",
+      "name": "Infection Prevention and Sterile Processing",
+      "text": "Demonstrate the ability to adapt sterile processing, food service, hand hygiene and patient care to a Do Not Drink advisory with public health guidance."
+    },
+    {
+      "id": "obj-4",
+      "name": "One Voice",
+      "text": "Demonstrate the ability to give staff, patients and the press the same facts, and to coordinate with the City of Toledo Department of Public Utilities, the Lucas County EMA and the Toledo-Lucas County Health Department."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "fac",
+      "name": "Director of Facilities and Emergency Management (Infrastructure Branch)",
+      "abbreviation": "DFEM",
+      "team": "Team B: Infrastructure",
+      "description": "Dana Whitcomb. Runs the Central Plant, water storage and conservation, outside suppliers and the HCC logistics.",
+      "standingOrders": [
+        "Protect the stored water first; decide what to switch off in order of clinical impact.",
+        "Never connect an outside tanker without the Infection Prevention check on its certification and chlorine residual."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "dialysis",
+      "name": "Dialysis Medical Director (Medical Care Branch)",
+      "abbreviation": "NEPH",
+      "team": "Team D: Medical Care",
+      "description": "Dr. Anita Shah, with Dialysis Manager Beth Kowalczyk, RN. Decides which patients can wait for dialysis, which cannot, and where treatment can safely be given.",
+      "standingOrders": [
+        "A patient with a dangerous potassium or fluid overload is treated first, wherever the safe water is.",
+        "Dialysis never runs on water that has not passed the loop tests."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Advisory",
+      "goal": "Confirm the advisory, activate, and decide about dialysis with the first loop test.",
+      "beats": [
+        "The City of Toledo Department of Public Utilities calls the Lucas County EMA, which calls the hospital.",
+        "The dialysis loop test shows chloramine breakthrough and outpatient dialysis cannot start.",
+        "Twenty-four inpatients also receive dialysis, three of them in the ICU."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Conserve",
+      "goal": "Protect and ration the stored water, adapt Sterile Processing, food service and infection control, and answer the press.",
+      "beats": [
+        "The tank refill valve is on a float and the city main may be affected.",
+        "Sterile Processing cannot make instrument rinse water, and Saturday has six surgical cases.",
+        "The city says it cannot give a time for lifting the advisory."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Dialysis Options",
+      "goal": "Place the outpatients and cover the inpatients, test the tank and make the safe-water plan.",
+      "beats": [
+        "Four outpatients have missed treatment since Thursday.",
+        "A neighboring hospital outside the advisory area can take six outpatients and four inpatients.",
+        "A tank sample shows chloramine as expected; an early sample showed turbidity that needs explaining."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Hold the Line",
+      "goal": "Plan for 36 hours or more: triggers, a bulk-water supplier, infant formula, transport failures, and the criteria for resuming dialysis.",
+      "beats": [
+        "The city says the advisory will not lift before Sunday evening.",
+        "A water hauler can deliver tankers if the connection is protected.",
+        "The exercise ends with no date to resume dialysis."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "06:15",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 06:15 on Saturday, March 14, 2026 at Ottawa River Regional Medical Center. At 06:02 the City of Toledo Department of Public Utilities told the Lucas County Emergency Management Agency that a treatment plant disruption has affected the water supply and that a Do Not Drink advisory will be issued for the area that includes the hospital. Water pressure is normal. The 40,000-gallon potable water tank in the Central Plant is full. Census is 322 inpatients. Nine outpatients are booked at the Outpatient Dialysis Center from 07:00, and six elective surgical cases start at 07:30.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M686KS0JETXRH3Q90CWP5GMR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "06:20",
+      "from": "Lucas County EMA duty officer (SimCell)",
+      "toRoleIds": [
+        "ic",
+        "fac"
+      ],
+      "toLabel": "AOC, DFEM",
+      "event": "Phone Call: \"Lucas County EMA. This is the formal notification. The City of Toledo Department of Public Utilities is issuing a Do Not Drink advisory for the service area that includes Ottawa River. They have not given a cause beyond a treatment disruption or a time to lift it. Pressure is normal, so the water looks fine. Please tell me your activation level and anything you need.\"",
+      "expectedAction": "The AOC activates EOP Level 2 (a water advisory is a Level 2 example in EOP Section 4), opens the HCC and names the Facilities, Medical Care and Infection Prevention leads. The Liaison Officer takes the EMA line and states the hospital's needs as unknown but expected: bottled water and a potable water supply for dialysis. The AOC asks for the advisory text in writing.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M686KZV3P2FWP3CQRD6W7W36",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:15",
+      "wallClock": "06:30",
+      "from": "Dialysis Manager Beth Kowalczyk, RN",
+      "toRoleIds": [
+        "dialysis",
+        "clinical"
+      ],
+      "toLabel": "NEPH, CNO",
+      "event": "Phone Call: \"Beth Kowalczyk at the dialysis center. I have nine patients arriving from 07:00 and the reverse osmosis loop is fed from the city main. I do not want to start on water that the city says not to drink. I am pulling the loop tests now, chlorine and chloramine, conductivity and cultures. The carbon beds can handle normal levels but I do not know what is in the water today.\"",
+      "expectedAction": "The Dialysis Medical Director directs that no machine starts until the loop passes: total chlorine tested at the carbon bed outlet, conductivity at the RO output and the machine disinfect log reviewed (Facilities and Information Systems Description, Section 3). The Dialysis Manager calls patients with a 07:00 time and tells them to wait for a call.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M686M7WPVSDYYDAE6Q8H0R3G",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:30",
+      "wallClock": "06:45",
+      "from": "Dialysis Water Treatment Technician",
+      "toRoleIds": [
+        "dialysis",
+        "fac"
+      ],
+      "toLabel": "NEPH, DFEM",
+      "event": "Field Report (Dialysis water room to HCC, 06:44): \"Test results. Total chlorine at the carbon bed outlet 0.35 mg/L; the limit for dialysis water is 0.1. Conductivity at the RO outlet is normal at 8 microsiemens. The second carbon bed is in line and we replaced the filter on Tuesday. The city water entering the plant smells of chlorine more strongly than usual. The loop fails. We cannot dialyze patients on it.\"",
+      "expectedAction": "The Dialysis Medical Director confirms outpatient dialysis cannot start, and the CNO and the AOC authorize stopping the loop and keeping it shut. Facilities draws a water sample to the Toledo-Lucas County Health Department's lab through the EMA, and the Dialysis Manager starts calling the nine patients to say today's treatment will be somewhere else, with transport arranged.",
+      "purposeTag": "CLUE",
+      "format": "field_report",
+      "injectId": "01M686MHNY9Y78FSK86XB9BZHM",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:40",
+      "wallClock": "06:55",
+      "from": "Dialysis Medical Director Dr. Anita Shah",
+      "toRoleIds": [
+        "dialysis",
+        "ic",
+        "clinical"
+      ],
+      "toLabel": "NEPH, AOC, CNO",
+      "event": "Phone Call: \"Anita Shah. Beyond the nine outpatients I have 24 inpatients on dialysis. Twenty-one are on intermittent hemodialysis using the portable RO units, which draw from the same affected supply; three are on continuous renal replacement in ICU 3 South using bagged sterile fluids, which are fine. Two inpatients have potassium above 6.0 this morning and cannot wait. I need a safe water source or a place to take them.\"",
+      "expectedAction": "The AOC and the Dialysis Medical Director triage: the two high-potassium inpatients are treated first, either with temporizing measures and transfer to a hospital outside the advisory area or on bottled sterile water prepared by Pharmacy, depending on the CMO's view; the other inpatients are ranked by clinical urgency; CRRT continues on sterile fluids. The Liaison Officer asks the coalition for a dialysis-capable partner outside the advisory area.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M686MVKV7E35HVC13GX8P2V7",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:50",
+      "wallClock": "07:05",
+      "from": "Glass City Courier website",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "News Article (The Glass City Courier, 07:00): \"Do Not Drink advisory issued for Toledo area after treatment plant problem. Residents are told not to drink tap water or use it for baby formula until further notice. City officials have not said when the advisory will end. Hospitals are asking patients with dialysis appointments to call ahead.\"",
+      "expectedAction": "The PIO confirms the hospital has activated its emergency plan, uses the facts cleared by the AOC and the Dialysis Medical Director, and posts a short notice for patients: emergency care continues; outpatient dialysis patients will be called; bottled water is available at the entrances. The PIO uses the city's words for the advisory and does not add to them.",
+      "purposeTag": "PRESSURE",
+      "format": "news_article",
+      "injectId": "01M686N9J4A2X9N97ZH9Z76RXV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "07:15",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 07:15. The HCC has been open for 50 minutes at Level 2. Outpatient dialysis is on hold. Facilities has begun a first conservation round. The two high-potassium inpatients are being managed. The city has not given a time for lifting the advisory.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686NJY6RH5YXX6KF6X6N66A",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "07:20",
+      "from": "Director of Facilities Dana Whitcomb",
+      "toRoleIds": [
+        "fac",
+        "ic"
+      ],
+      "toLabel": "DFEM, AOC",
+      "event": "Phone Call: \"Dana Whitcomb. The Central Plant tank is at 39,100 gallons and falling at about 2,200 gallons an hour, which gives us about 18 hours. The tank is refilled from the city main by a float valve, so it will start taking advisory water as soon as the level drops. I can close the city fill valve now and protect what we have, or let it top up and hope the advisory is nothing. The cooling tower make-up alone uses about 600 gallons an hour. I need a decision.\"",
+      "expectedAction": "The AOC and the Director of Facilities close the city fill valve to the tank to protect the stored supply; the fire-suppression connection stays separate and is not touched. The Director of Facilities starts the conservation plan in order of clinical impact (cooling tower make-up reduced by running the chillers on a lower load, laundry and non-clinical uses paused, irrigation off) to reach about 1,100 gallons an hour, which gives about 36 hours (Facilities and Information Systems Description, Section 3).",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M686NQRKNQAF3FV5P05PHJCC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "07:30",
+      "from": "Sterile Processing Manager Tom Kessler",
+      "toRoleIds": [
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Tom Kessler, Sterile Processing. Our washers and the final rinse use treated water from the hospital loop. I have enough clean sets for about six cases and nothing else. The six elective cases start at 07:30 and I cannot reprocess instruments on advisory water. Do I stop reprocessing? What do I tell the OR?\"",
+      "expectedAction": "The CMO and the CNO cancel the six elective cases and keep the Surgical Pavilion available for emergencies with existing clean sets; Sterile Processing stops reprocessing until Infection Prevention, with the Toledo-Lucas County Health Department, approves a water source (bottled sterile water or a certified supply). The Surgical Pavilion tells surgeons and patients and the PIO is informed.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "injectId": "01M686P0QWC5NJ9CQE8FN0KYD6",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "07:40",
+      "from": "Infection Preventionist Maya Ellison",
+      "toRoleIds": [
+        "clinical",
+        "fac",
+        "ic"
+      ],
+      "toLabel": "CNO, DFEM, AOC",
+      "event": "Field Report (Infection Prevention to HCC): \"Interim guidance pending the health department call. I propose: no ice, no water fountains, no coffee from unfiltered taps; patient meals on disposable ware; alcohol hand rub for hand hygiene in patient care, with soap and water kept for visible soil only using bottled water in high-risk areas; no tap water for oral care of immunocompromised patients; and a sign on every tap. Please confirm I am speaking for the hospital.\"",
+      "expectedAction": "The AOC confirms Infection Prevention's interim guidance for the hospital; the CNO tells every unit; Facilities bags water fountains and posts signs; Food Services moves to disposable ware. The Infection Preventionist confirms the details with the Toledo-Lucas County Health Department and the City of Toledo Department of Public Utilities as soon as they call.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M686P9FJWQKYGVN926SQGFPX",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:45",
+      "wallClock": "08:00",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. Is Ottawa River turning dialysis patients away? We hear the unit is closed and patients are being sent home. Are you cancelling surgeries? Is the hospital's own water safe? What are you telling patients?\"",
+      "expectedAction": "The PIO says what is true and cleared: the hospital is open for emergencies; outpatient dialysis cannot use the hospital water today, and the Dialysis Manager is arranging treatment elsewhere for each patient; elective surgery is rescheduled; the hospital is following the advisory. The PIO does not say the water is contaminated, and does not say it is safe.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M686PKXJBKF2STV4TVY91F2S",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:55",
+      "wallClock": "08:10",
+      "from": "City of Toledo Department of Public Utilities (SimCell)",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "pio"
+      ],
+      "toLabel": "AOC, DFEM, PIO",
+      "event": "Email Forward (from the City of Toledo Department of Public Utilities, 08:05, via the Lucas County EMA): \"Update to critical facilities. Sampling is under way at the plant and at twelve points on the distribution system. We cannot give a time to lift the advisory today and are planning for at least 24 to 36 hours. We can supply two potable water tankers to hospitals and dialysis centers once the plant is stabilized. Please send your priority list and the connections you can accept.\"",
+      "expectedAction": "The AOC and the Director of Facilities send the priority list (dialysis, sterile processing, drinking water for patients and staff), the connection type (a backflow-protected hose connection at the Central Plant) and the amounts. The Liaison Officer asks for the tanker order, and the AOC sets the next sitrep.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M686PR27BGF2M8KN4X8G1T0K",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "08:15",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 08:15. The tank is at 37,300 gallons and use is down to about 1,300 gallons an hour. The fill valve is closed. All elective cases are cancelled, Sterile Processing has stopped, and the dialysis loop is shut. Nine outpatients and 24 inpatients need dialysis plans.",
+      "expectedAction": "Players move to the dialysis options.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686Q01QB80BM21FKN1YQFZ2",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "08:20",
+      "from": "Dialysis Manager Beth Kowalczyk, RN",
+      "toRoleIds": [
+        "dialysis",
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "NEPH, CNO, AOC",
+      "event": "Phone Call: \"Beth. I have called the nine outpatients. Four missed treatment Thursday and are due today, and one, Mr. Brandt, had a potassium of 6.1 last week. Two live alone and have no ride, and one is in a wheelchair. A partner unit in the suburbs on a different water system has six open chairs tomorrow from 06:00 and two today at 14:00. I need to know who goes first and how they get there.\"",
+      "expectedAction": "The Dialysis Medical Director ranks the nine by clinical risk (the four who missed treatment and the one with the high potassium go today) and the Dialysis Manager books the partner unit and calls each patient and the partner's physician; Social Work books wheelchair vans and calls the two who live alone; records go by secure fax. The AOC authorizes the transport cost.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M686SJ411QF4JK3DJEH5ASA3",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:20",
+      "wallClock": "08:35",
+      "from": "Neighboring hospital transfer center (SimCell)",
+      "toRoleIds": [
+        "dialysis",
+        "ic"
+      ],
+      "toLabel": "NEPH, AOC",
+      "event": "Phone Call: \"Transfer center at a neighboring hospital outside the advisory area. We can take six of your outpatients on our dialysis unit and four inpatients tomorrow. For the inpatients we need physician-to-physician handoff, the last 48 hours of labs and the code status. What is your timeline?\"",
+      "expectedAction": "The Dialysis Medical Director gives the handoffs and sends the printed records. The CMO approves the transfer of two inpatients today whose potassium cannot wait. The Liaison Officer records the placements in the Patient Movement Log and tells the EMA what the hospital has placed and what remains.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M686SY46N8QD4DPKQT4254H5",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:30",
+      "wallClock": "08:45",
+      "from": "Central Plant Sampling Log",
+      "toRoleIds": [
+        "fac",
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "DFEM, CNO, AOC",
+      "event": "System Log (Central Plant sampling, 08:44): \"Storage tank, sample 07:00 (before the fill valve closed): total chlorine 3.6 mg/L, turbidity 0.3 NTU, no coliform detected. Storage tank, sample 08:30: total chlorine 3.5 mg/L, turbidity 0.3 NTU. City fill line at the tank inlet, flushed 07:05: total chlorine 4.4 mg/L, turbidity 4.1 NTU. Samples are held for the health department laboratory; field kit results only.\"",
+      "expectedAction": "The Director of Facilities and Infection Prevention read the set: the stored water looks as it did before the advisory, while the city fill line is cloudy, which supports keeping the tank isolated. A field kit is not a laboratory result, so nobody calls the stored water safe to drink and the dialysis loop still has to pass its own tests. The samples go to the health department laboratory through the EMA.",
+      "purposeTag": "CLUE",
+      "format": "system_log",
+      "injectId": "01M686T993G6H8D3K30ZSPTMD7",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "09:00",
+      "from": "Switchboard Operator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "PA Announcement: \"Attention all staff. A Do Not Drink advisory is in effect for the hospital. Do not drink or use tap water for drinking or oral care. Bottled water is at every nurses' station and the main entrances. Use alcohol hand rub for hand hygiene. Fountains and ice machines are out of service. Further guidance will come from your manager. This is not a drill.\"",
+      "expectedAction": "The CNO confirms that managers deliver the same message on each unit; Infection Prevention answers questions; Facilities restocks bottled water. The PIO confirms staff and patient messages use the same facts as the press. The AOC sets the 10:00 sitrep.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "pa_announcement",
+      "injectId": "01M686TGM37VZ08Z09KTCQKJ2D",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "09:15",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 09:15. Four outpatients have been placed at the partner unit for today; five wait for tomorrow. Two inpatients have been transferred. The tank is at 35,800 gallons and use is steady at 1,150 gallons an hour. The city says the advisory will not lift before Sunday evening.",
+      "expectedAction": "Players move to planning for an extended advisory.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686TRCPF7HBGC6NQ71C702H",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "09:20",
+      "from": "City of Toledo Department of Public Utilities (SimCell)",
+      "toRoleIds": [
+        "ic",
+        "fac"
+      ],
+      "toLabel": "AOC, DFEM",
+      "event": "Email Forward (from the City of Toledo Department of Public Utilities, 09:18): \"Two consecutive clean sets of samples, 24 hours apart, are needed before we lift the advisory; the first set was taken at 08:00. We expect no earlier than Sunday evening. We will issue a flushing instruction after that. Hospitals should plan for a Do Not Drink advisory through Sunday.\"",
+      "expectedAction": "The AOC sets planning for at least 36 hours and names the points at which services are reduced further: for example if the tank falls below 12,000 gallons without a delivery, the Surgical Pavilion closes to non-emergencies and units begin to consolidate; below 6,000 gallons, the AOC considers transfers out. The Director of Facilities reports tank level and use every hour.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email_forward",
+      "injectId": "01M686TZ1XJ5VSF4TER1S61Y79",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "09:30",
+      "from": "Water Hauling Contractor dispatcher (SimCell)",
+      "toRoleIds": [
+        "fac",
+        "ic"
+      ],
+      "toLabel": "DFEM, AOC",
+      "event": "Phone Call: \"Dispatch at Maumee Valley Water Hauling. We can deliver 6,000-gallon tankers every three hours from 11:30. Our tankers are food-grade, cleaned and chlorinated, and we fill from a hydrant outside the advisory area. You will need a hose connection to your tank inlet that has a backflow preventer, and somebody to check the chlorine on every load. Do you want us?\"",
+      "expectedAction": "The Director of Facilities and Infection Prevention accept, after checking the contractor's certificate and the source, test each load for chlorine residual at the hose before it enters the tank, install a backflow-protected connection at the inlet and keep a log of loads. The AOC confirms the city's own tankers remain on order. The Director of Facilities tells the health department.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M686V6QV54R2XQ1VWDYDMJNC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "09:40",
+      "from": "Facebook post (Toledo Dialysis Families)",
+      "toRoleIds": [
+        "pio",
+        "dialysis"
+      ],
+      "toLabel": "PIO, NEPH",
+      "event": "Facebook Post (Group: Toledo Dialysis Families): \"My husband got a call that his dialysis is moved to a clinic across town today but the van never showed and nobody at Ottawa River is answering the phone. He is 71 and in a wheelchair. His last treatment was Thursday. Is anybody else stuck?\" 38 reactions, 22 comments.",
+      "expectedAction": "The Dialysis Manager and Social Work contact the family at once, arrange the ride and confirm the chair time; the PIO does not argue in the group; the CNO opens a patient hotline staffed by nurses and social workers so that families do not reach the main switchboard. The AOC adds transport failure to the HCC issues list.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "injectId": "01M686VHRNA3693AXN8XJW0YRD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "09:50",
+      "from": "Women and Infants 6 West Nurse Manager Carla Dunn",
+      "toRoleIds": [
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "CNO, AOC",
+      "event": "Field Report (6 West to HCC): \"6 West has 18 bassinets occupied and 32 mothers. Powdered formula is prepared with water; we have 220 ready-to-feed bottles and use about 600 a day. NICU feeding uses sterile water from Pharmacy. Breast pumps and cleaning need water. I need ready-to-feed formula and sterile water for the unit through Sunday.\"",
+      "expectedAction": "The CNO and Pharmacy order ready-to-feed formula and sterile water through the coalition and the regional suppliers, switch bottle cleaning to disposable systems, and ask the health department for guidance on infant formula. The AOC records the supply gap on the resource request list.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "injectId": "01M686VRYPXXJDJCXNRHMV6ZB0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:45",
+      "wallClock": "10:00",
+      "from": "Planning Section Chief",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis"
+      ],
+      "toLabel": "AOC, DFEM, CNO, NEPH",
+      "event": "Sitrep 4, 10:00: \"Tank 34,900 gallons; use 1,150 gallons per hour; fill valve closed. Dialysis: four outpatients placed today, five tomorrow; 24 inpatients covered (two transferred, 3 on CRRT, 19 scheduled with neighboring hospital capacity or portable RO on bottled sterile water). Electives cancelled. Sterile Processing stopped. Bottled water: 1,800 cases. Open decisions: when to resume dialysis; criteria for lifting the conservation plan; who decides.\"",
+      "expectedAction": "The AOC records the criteria for resuming dialysis: a lifted advisory, a flushing instruction from the city, and loop tests (total chlorine, conductivity, cultures) passed on two consecutive runs by the Dialysis Medical Director; the criteria for lifting the conservation plan are set separately by the Director of Facilities and Infection Prevention. The next sitrep is set for 12:00.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "injectId": "01M686W52EQTNDA3GYN5MWKT9K",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "10:15",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "fac",
+        "clinical",
+        "dialysis",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX: It is 10:15. The advisory is still in effect and the city has given no earlier date than Sunday evening. The tank holds 34,000 gallons and the plan covers about 30 hours. Outpatient dialysis is closed and nobody has set a date to resume. Two hauling tankers have not yet arrived. Staff, patients and the press have heard the same words.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M686WG7R7AGZ6MCYPW0Q8WNV",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M686KRZX86CC6QRNP27YQ9TG/documents/handbook.md",
+    "briefing": "scenarios/01M686KRZX86CC6QRNP27YQ9TG/documents/briefing.md",
+    "hotwash": "scenarios/01M686KRZX86CC6QRNP27YQ9TG/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M687G0WBKJGPT1RF036NRR1B",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "The AOC failed to activate EOP Level 2 in response to I-01, delayed the stop-service decision until I-03 forced it, and did not assign or confirm roles for Facilities, Medical Care, or Infection Prevention within 5 minutes of the advisory. The Liaison Officer did not take the EMA line or request the advisory text in writing.",
+        "pass": "The AOC activated EOP Level 2 within 5 minutes of I-01, assigned the Facilities, Medical Care, and Infection Prevention leads, and directed the Liaison Officer to take the EMA line and request the advisory text. The AOC confirmed the decision to close the city fill valve at I-06 and authorized the transport of inpatients and outpatients at I-11 and I-12.",
+        "excellence": "The AOC activated EOP Level 2 and opened the HCC within 3 minutes of I-01, assigned roles and established the HCC structure before I-02, and proactively directed Facilities to begin conservation planning and the Liaison Officer to request the advisory text in writing. The AOC also pre-emptively set the criteria for resuming dialysis and lifting conservation at I-19, based on EOP Section 8 and C3.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-03",
+          "I-04",
+          "I-06",
+          "I-11",
+          "I-12",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Stored Water and Conservation",
+          "Dialysis Continuity",
+          "One Voice"
+        ]
+      },
+      {
+        "id": "01M687G0WCDTQMDR4F9STSFNT1",
+        "name": "Engineering Judgement",
+        "points": 30,
+        "fail": "The Director of Facilities delayed closing the city fill valve until I-06, failed to assess the risk of the tank drawing advisory water, and did not implement conservation measures until the tank was already at 39,100 gallons. The Director accepted the water hauler without verifying the source or testing the load for chlorine residual.",
+        "pass": "The Director of Facilities closed the city fill valve at I-06 after assessing the risk of drawing advisory water, implemented conservation measures in order of clinical impact, and accepted the water hauler after verifying the contractor’s certificate and testing each load for chlorine residual. The Director reported tank level and use every hour as required.",
+        "excellence": "The Director of Facilities closed the city fill valve at I-06 with a clear rationale based on EOP Section 8 and C3, and proactively initiated conservation and load testing before any inject. The Director also pre-emptively established a backflow-protected connection and log system for the hauler, and confirmed the source with the City of Toledo Department of Public Utilities before accepting the first load.",
+        "linkedInjectIds": [
+          "I-06",
+          "I-13",
+          "I-16",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Stored Water and Conservation",
+          "Dialysis Continuity",
+          "Infection Prevention and Sterile Processing"
+        ]
+      },
+      {
+        "id": "01M687G0WCR2RDHJ5BV01W6XK3",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "The PIO used unapproved language in I-09, stating that the hospital was 'not turning patients away' and implying that the water was safe. The PIO did not confirm facts with the AOC before speaking to media, and failed to update the public when the first tanker was delayed.",
+        "pass": "The PIO used only cleared facts from the AOC and the Dialysis Medical Director in I-05 and I-09, did not add to the city’s advisory language, and confirmed the same message was used for staff, patients, and press. The PIO opened a patient hotline at I-17 and did not engage in public misinformation.",
+        "excellence": "The PIO issued a holding statement at I-05 based on C4 and C3, and used only the city’s words for the advisory. The PIO proactively established a patient hotline at I-17 and updated the public on the status of dialysis placements and transport, using only verified facts from the HCC. The PIO did not respond to social media misinformation but instead redirected families to the hotline.",
+        "linkedInjectIds": [
+          "I-05",
+          "I-09",
+          "I-17",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "One Voice",
+          "Dialysis Continuity",
+          "Infection Prevention and Sterile Processing"
+        ]
+      },
+      {
+        "id": "01M687G0WCFKARX7NNCJ82WRPE",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "The team did not cite any EOP section or C3 guidance in their decisions. The AOC did not reference EOP Section 4 for activation levels, and the Director of Facilities did not cite EOP Section 8 for conservation or C3 for dialysis continuity. The PIO did not reference C4 for media control.",
+        "pass": "The AOC cited EOP Section 4 to justify EOP Level 2 activation, and the Director of Facilities referenced EOP Section 8 to justify conservation and tank protection. The Dialysis Medical Director cited C3 for dialysis continuity and the CMO for transfer decisions. The PIO cited C4 for media control and holding statements.",
+        "excellence": "The AOC cited EOP Section 4 and C3 to justify EOP Level 2 activation and dialysis triage. The Director of Facilities cited EOP Section 8 and C3 to justify conservation and water hauling. The PIO cited C4 and C3 to justify media messaging and the holding statement. The team consistently referenced doctrine before making decisions, including pre-emptive use of C3 for dialysis continuity and C4 for media control.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-06",
+          "I-08",
+          "I-11",
+          "I-16",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Stored Water and Conservation",
+          "Dialysis Continuity",
+          "One Voice"
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-1",
+        "capability": "infrastructure_systems",
+        "why": "The objective centers on protecting and managing the 40,000-gallon potable water tank and implementing conservation measures to extend its use, which directly aligns with Infrastructure Systems' focus on stabilizing critical infrastructure functions and restoring services during a failure."
+      },
+      {
+        "objectiveId": "obj-1",
+        "capability": "operational_coordination",
+        "why": "The objective requires coordination across Facilities, Infection Prevention, and Clinical leadership to implement conservation levels and service reductions, which is a core function of Operational Coordination in maintaining a unified response structure."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "public_health_healthcare_and_emergency_medical_services",
+        "why": "The objective involves clinical triage and treatment decisions for dialysis patients, which falls under Public Health, Healthcare, and Emergency Medical Services as it directly supports lifesaving medical treatment and patient care continuity during a crisis."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "operational_coordination",
+        "why": "The decision-making process for dialysis continuity requires coordination between the Dialysis Medical Director, AOC, CNO, and external partners, which is a key function of Operational Coordination to ensure integrated and timely response actions."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "public_health_healthcare_and_emergency_medical_services",
+        "why": "The objective involves implementing infection control measures in response to a public health advisory, including hand hygiene, sterile processing, and food service adaptations, which are core elements of public health and medical care during a crisis."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes ensuring that staff and patients follow consistent guidance based on public health directives, which requires coordinated messaging to maintain consistency and prevent misinformation, a key function of Public Information and Warning."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "public_information_and_warning",
+        "why": "The objective explicitly requires delivering consistent, accurate, and timely information to all stakeholders, which is the central purpose of Public Information and Warning."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "operational_coordination",
+        "why": "The objective demands coordination across internal roles (PIO, AOC, CNO) and external agencies (City of Toledo, EMA, Health Department), which is a core function of Operational Coordination to ensure a unified and integrated response."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "infrastructure_systems",
+        "target": "The Director of Facilities and the AOC protect the 40,000-gallon potable water tank by closing the city fill valve, implement conservation measures in order of clinical impact, and maintain the tank level at or above 12,000 gallons to prevent service reductions, as directed in EOP Section 3 and Section 8.",
+        "objectiveRefs": [
+          "obj-1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "infrastructure_systems",
+            "task": "Close the city fill valve to the 40,000-gallon tank to protect stored water from the advisory supply.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+              "quote": "- **Power:** two utility feeds from different substations into the Central Plant. Three diesel generators (G1, G2, G3; 2 MW each) carry the whole campus; fuel for 96 hours at full load, refuelling con",
+              "chunkId": 42
+            },
+            "expectedBy": "fac",
+            "timing": "Within 10 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "infrastructure_systems",
+            "task": "Implement conservation measures in order of clinical impact: reduce cooling tower make-up, pause laundry and non-clinical uses, and turn off irrigation.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+              "quote": "- **Power:** two utility feeds from different substations into the Central Plant. Three diesel generators (G1, G2, G3; 2 MW each) carry the whole campus; fuel for 96 hours at full load, refuelling con",
+              "chunkId": 42
+            },
+            "expectedBy": "fac",
+            "timing": "Within 15 minutes of I-06",
+            "rowIds": [
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "infrastructure_systems",
+            "task": "Report the tank level and water use rate to the HCC every hour.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+              "quote": "- **Power:** two utility feeds from different substations into the Central Plant. Three diesel generators (G1, G2, G3; 2 MW each) carry the whole campus; fuel for 96 hours at full load, refuelling con",
+              "chunkId": 42
+            },
+            "expectedBy": "fac",
+            "timing": "Every hour after I-06",
+            "rowIds": [
+              "I-06",
+              "I-15",
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The AOC, Facilities, Clinical, and Dialysis leadership establish and maintain a unified operational structure through the HCC, with clear roles and responsibilities, to coordinate conservation, patient care, and external communications, as required in EOP Section 4 and Section 10.",
+        "objectiveRefs": [
+          "obj-1",
+          "obj-2",
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Activate EOP Level 2 and open the HCC to begin unified command operations.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 1",
+              "quote": "This plan tells ORRMC how to detect, contain and recover from a cyber incident and how technical decisions are made together with patient care. The Emergency Operations Plan (ORRMC-EOP-2026) governs h",
+              "chunkId": 2
+            },
+            "expectedBy": "ic",
+            "timing": "Within 5 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "Assign the Liaison Officer to the Lucas County EMA and report needs for bottled water and potable water supply.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 1",
+              "quote": "This plan tells ORRMC how to detect, contain and recover from a cyber incident and how technical decisions are made together with patient care. The Emergency Operations Plan (ORRMC-EOP-2026) governs h",
+              "chunkId": 2
+            },
+            "expectedBy": "ic",
+            "timing": "Within 5 minutes of I-01",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Coordinate with the regional healthcare coalition to request and receive a dialysis-capable partner hospital for patient transfers.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 11",
+              "quote": "ORRMC reports status to the Lucas County Emergency Management Agency, the regional healthcare coalition and the Ohio Department of Health through the state's healthcare resource reporting channels. It",
+              "chunkId": 36
+            },
+            "expectedBy": "dialysis",
+            "timing": "Within 10 minutes of I-04",
+            "rowIds": [
+              "I-04",
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_health_healthcare_and_emergency_medical_services",
+        "target": "The CNO, Dialysis Medical Director, and Infection Preventionist implement and enforce infection control measures, including hand hygiene with alcohol rub, sterile processing on bottled water, and infant feeding with ready-to-feed formula, as directed in EOP Section 7 and Section 8.",
+        "objectiveRefs": [
+          "obj-2",
+          "obj-3"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "public_health_healthcare_and_emergency_medical_services",
+            "task": "Stop sterile processing reprocessing until a clean water source is approved by Infection Prevention and the Toledo-Lucas County Health Department.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+              "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+              "chunkId": 43
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 10 minutes of I-07",
+            "rowIds": [
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_health_healthcare_and_emergency_medical_services",
+            "task": "Switch patient hand hygiene to alcohol hand rub and use bottled water only for visible soil in high-risk areas.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 10 minutes of I-08",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_health_healthcare_and_emergency_medical_services",
+            "task": "Order ready-to-feed formula and sterile water for Women and Infants 6 West through the regional healthcare coalition and suppliers.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 15 minutes of I-18",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The PIO releases consistent, fact-based information to staff, patients, and the public using cleared facts from the AOC and the Dialysis Medical Director, and ensures that all messages match the city’s advisory language, as required in EOP Section 10 and Section 11.",
+        "objectiveRefs": [
+          "obj-3",
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "public_information_and_warning",
+            "task": "Post a short notice for patients stating that emergency care continues, outpatient dialysis will be called, and bottled water is available at entrances.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+              "quote": "Primary means: the hospital telephone system and the secure messaging service. Alternates: overhead paging, runners, the two-way radio system (channels assigned to Security, Facilities, Clinical Engin",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "Within 10 minutes of I-05",
+            "rowIds": [
+              "I-05"
+            ],
+            "objectiveRefs": [
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "public_information_and_warning",
+            "task": "Confirm that the media inquiry from Channel 11 is answered with the same facts cleared by the AOC and the Dialysis Medical Director.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+              "quote": "Primary means: the hospital telephone system and the secure messaging service. Alternates: overhead paging, runners, the two-way radio system (channels assigned to Security, Facilities, Clinical Engin",
+              "chunkId": 35
+            },
+            "expectedBy": "pio",
+            "timing": "Within 10 minutes of I-09",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "public_information_and_warning",
+            "task": "Ensure that all staff and patient messages use the same language as the press, including the city’s words for the advisory and no additions.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+              "quote": "Primary means: the hospital telephone system and the secure messaging service. Alternates: overhead paging, runners, the two-way radio system (channels assigned to Security, Facilities, Clinical Engin",
+              "chunkId": 35
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 10 minutes of I-14",
+            "rowIds": [
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, capturing responses on a whiteboard to ensure all voices are heard. Keep the discussion focused on operational performance, communication, and decision-making under pressure.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "When did you first stop trusting the water test results from the dialysis loop, and what changed your mind about whether to trust the city’s field samples or the hospital’s internal lab data?",
+        "objectiveRef": "Dialysis Continuity"
+      },
+      {
+        "topic": "The Gap",
+        "text": "At the moment you decided to close the city fill valve, what information was missing that made it hard to decide whether to protect stored water or risk contamination for conservation? How did that gap affect your confidence in the decision?",
+        "objectiveRef": "Stored Water and Conservation"
+      },
+      {
+        "topic": "The Call",
+        "text": "When you received the Facebook post about a patient stuck in a wheelchair with no ride, who did you call, and what would have allowed you to respond faster and prevent misinformation from spreading?",
+        "objectiveRef": "One Voice"
+      },
+      {
+        "topic": "The Evidence",
+        "text": "When the field report said the city water smelled stronger and the RO outlet conductivity was normal, did you treat that as evidence or as a ticket to keep operating? At what point did you decide to stop relying on sensory or partial data and act on public health guidance?",
+        "objectiveRef": "Infection Prevention and Sterile Processing"
+      },
+      {
+        "topic": "The Partner",
+        "text": "When you learned the neighboring hospital had open beds but no transport plan, what would have allowed you to decide faster to activate a regional transport protocol or involve the regional healthcare coalition?",
+        "objectiveRef": "One Voice"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "City of Toledo Department of Public Utilities",
+      "trigger": "AOC calls for water advisory status update",
+      "hardQuestions": [
+        "What is your timeline for lifting the advisory? We need a date to plan dialysis resumption.",
+        "Do you have a sample protocol for hospitals to follow when testing for safe water? We need to validate your lab results.",
+        "Are you issuing a flushing instruction for the hospital’s internal lines? If so, when?",
+        "Do you have a plan for transporting clean water to facilities that cannot self-supply?"
+      ],
+      "concessions": [
+        "Will confirm that two clean sample sets are required to lift the advisory.",
+        "Will provide a flushing instruction after two clean samples are confirmed.",
+        "Will accept a formal request for water tankers if the hospital submits a priority list and connection details."
+      ]
+    },
+    {
+      "rolePlayed": "Regional Healthcare Coalition (RHC)",
+      "trigger": "AOC requests mutual aid for dialysis capacity",
+      "hardQuestions": [
+        "What is your plan for transporting patients across the advisory area? We cannot accept a patient without a documented transfer protocol.",
+        "Do you have a list of partner facilities with clean water and operating dialysis units? We need to validate their readiness.",
+        "What is your role in verifying that a receiving facility has not been exposed to the advisory water?",
+        "How do you ensure that a patient transferred from one facility to another does not carry contamination risks?"
+      ],
+      "concessions": [
+        "Will provide a list of verified partner facilities with clean water and active dialysis capacity.",
+        "Will coordinate with the Ohio Hospital Association to validate transfer protocols.",
+        "Will accept a signed transfer agreement and a 48-hour lab history from the sending hospital."
+      ]
+    },
+    {
+      "rolePlayed": "FBI Cleveland Field Office",
+      "trigger": "AOC contacts FBI after suspecting a cyberattack on water treatment systems",
+      "hardQuestions": [
+        "What is your jurisdiction over a public utility’s water treatment system? We are not a healthcare entity.",
+        "Do you have forensic access to the city’s network logs? We need to see if this was a sabotage or a malware event.",
+        "How do you define a cyber incident that crosses into public health? We need to know if this is a threat to patient safety.",
+        "What is your process for notifying healthcare facilities when a utility is compromised?"
+      ],
+      "concessions": [
+        "Will provide a preliminary assessment of the incident as a cyber threat if the city confirms a breach.",
+        "Will accept a formal request for investigation with a case number and a signed access agreement.",
+        "Will share threat indicators if the city provides a timeline of the compromise."
+      ]
+    },
+    {
+      "rolePlayed": "Neighboring Hospital Transfer Center",
+      "trigger": "AOC asks to transfer inpatients for dialysis",
+      "hardQuestions": [
+        "What is your policy on accepting patients from facilities under a Do Not Drink advisory? We need to know your risk assessment.",
+        "Do you have a protocol for receiving patients with contaminated water exposure in their medical record? We need to validate your infection control procedures.",
+        "What is your timeline for admitting a patient with a potassium of 6.1? We need to know your capacity and triage process.",
+        "Can you confirm that your dialysis unit uses clean water and that your RO system is not connected to the advisory area?"
+      ],
+      "concessions": [
+        "Will accept inpatients for transfer if the sending hospital provides a physician-to-physician handoff and lab data from the past 48 hours.",
+        "Will confirm that its dialysis unit is on a separate water source and has passed its own RO testing.",
+        "Will accept a signed transfer agreement and a copy of the patient’s most recent lab results."
+      ]
+    },
+    {
+      "rolePlayed": "Ottawa River Regional Medical Center EHR Vendor (HealthSyst Inc.)",
+      "trigger": "AOC contacts vendor to request EHR access for patient data during downtime",
+      "hardQuestions": [
+        "Do you have a break-glass account for emergency EHR access? We need to see the log of your last use.",
+        "What is your policy on remote access during a system outage? We need to know if you’re still connected.",
+        "Do you have a backup of the EHR database from before the outage? We need to verify integrity.",
+        "How do you ensure that no unauthorized user has accessed the system during the downtime?"
+      ],
+      "concessions": [
+        "Will provide a copy of the EHR database from the last clean backup if the hospital submits a signed request and a ticket number.",
+        "Will grant temporary remote access only after a signed access request and a verification of the ISO’s approval.",
+        "Will accept a copy of the hospital’s downtime policy and a log of system access attempts."
+      ]
+    }
+  ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where participants are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented in the injects, with no external changes to the timeline or information.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in the EOP and related sections, including HICS structure and activation levels."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of hours and allow for structured decision-making.",
+      "The SimCell represents external agencies (e.g., City of Toledo Department of Public Utilities, neighbouring hospitals, vendor contractors) and performs actions on their behalf.",
+      "Systems named in the EOP (e.g., ORRMC-BMS01, ORRMC-INT01/02) are simulated and not actively used during the exercise.",
+      "Injects are delivered via written messages, emails, and simulated phone calls, not through actual network or system access."
+    ],
+    "modules": [
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 06:15 on Saturday, March 14, 2026. The City of Toledo Department of Public Utilities has issued a Do Not Drink advisory for the region, including the Ottawa River Regional Medical Center. Water pressure remains normal, and the 40,000-gallon potable water storage tank in the Central Plant is full. The hospital’s outpatient dialysis center has nine scheduled patients starting at 07:00, and six elective surgical cases are scheduled for 07:30. At 06:20, the Lucas County Emergency Management Agency formally notifies the AOC and DFEM of the advisory, emphasizing that the cause is unknown and no end time has been given. The Dialysis Manager, Beth Kowalczyk, reports that her reverse osmosis loop has failed its initial water quality tests due to elevated chlorine levels, rendering it unsafe for dialysis. The Dialysis Medical Director, Dr. Anita Shah, confirms that two inpatients have dangerously high potassium levels and require urgent treatment. The HCC has been activated at Level 2, and the first operational period has begun.",
+        "keyIssues": [
+          "Decide whether to activate the HCC at Level 2 or Level 1 based on the potential for sustained impact on care delivery.",
+          "Determine whether to proceed with outpatient dialysis given that the loop has failed and the advisory is in effect.",
+          "Initiate conservation measures for the 40,000-gallon water tank to preserve supply for critical care functions.",
+          "Coordinate initial messaging to prevent misinformation from spreading through media and social channels."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "AOC: What activation level should be declared, and what triggers the transition from Level 2 to Level 1? Refer to EOP Section 8 and Section 4.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Stored Water and Conservation",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "Dialysis: What criteria should be used to prioritize which dialysis patients are treated first, and what alternatives are available for inpatients with elevated potassium? Refer to EOP Section 8 and Section 7.",
+            "roleIds": [
+              "dialysis"
+            ],
+            "objectiveRef": "Dialysis Continuity",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+                "quote": "The Emergency Management Committee updates the Hazard Vulnerability Analysis (HVA) every year with the regional healthcare coalition and the Lucas County Emergency Management Agency. The 2026 analysis",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "PIO: What information should be released to staff, patients, and the public in the first 30 minutes, and who must approve it? Refer to EOP Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "One Voice",
+            "citations": []
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is now 07:15. The HCC has been open for 50 minutes at Level 2. The city has not provided a time to lift the advisory. The Central Plant tank is at 39,100 gallons and declining at 2,200 gallons per hour. The Director of Facilities, Dana Whitcomb, advises that the city fill valve can be closed to protect stored water, but doing so risks depleting the tank faster due to cooling tower and other non-potable uses. The Sterile Processing Manager, Tom Kessler, reports that he has enough clean instrument sets for only six surgical cases, but no reprocessing can occur on advisory water. The Infection Preventionist, Maya Ellison, proposes interim infection control measures, including no ice, no tap water for hand hygiene, and disposable mealware. A Channel 11 reporter contacts the PIO with urgent questions about dialysis cancellations and surgery status. The City of Toledo Department of Public Utilities confirms that the advisory will last at least 24 to 36 hours and offers two water tankers to critical facilities. All elective surgeries are cancelled, sterile processing has stopped, and the dialysis loop is shut down.",
+        "keyIssues": [
+          "Decide whether to close the city fill valve to protect stored water, and what trade-offs are acceptable.",
+          "Implement infection prevention and sterile processing adaptations under a Do Not Drink advisory.",
+          "Establish a coordinated public messaging strategy to prevent panic and misinformation.",
+          "Determine how to manage patient and staff needs when tap water is unsafe for hygiene, food, and formula preparation."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Facilities: What actions must be taken to protect the 40,000-gallon water tank from being refilled with advisory water, and what backup sources are available? Refer to EOP Section 8.",
+            "roleIds": [
+              "fac"
+            ],
+            "objectiveRef": "Stored Water and Conservation",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "Clinical: What infection prevention and sterile processing protocols should be implemented now that tap water is unsafe for rinsing and cleaning? Refer to EOP Section 8.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Infection Prevention and Sterile Processing",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "PIO: What should be said to the media and the public to ensure consistency and accuracy, and who must approve the message? Refer to EOP Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "One Voice",
+            "citations": []
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is now 08:15. The water tank is at 37,300 gallons, and use has decreased to 1,300 gallons per hour due to conservation. The city has confirmed that two consecutive clean water samples are required before lifting the advisory, and no earlier than Sunday evening. The Central Plant has taken new samples showing elevated chlorine in the city feed line, but no coliforms detected. The Dialysis Manager reports that four outpatients have been placed at a partner unit in the suburbs, and five are scheduled for tomorrow. The neighboring hospital transfer center offers to accept six outpatients and four inpatients, but requires physician handoff and medical records. The NICU reports a shortage of ready-to-feed formula and sterile water, and requests immediate support. The HCC has stabilized, and the focus shifts to long-term dialysis coverage and safe water use for infants.",
+        "keyIssues": [
+          "Assign priority for patient transport and placement based on clinical urgency and available capacity.",
+          "Establish a safe water plan for infants, including sterile water and ready-to-feed formula distribution.",
+          "Determine which patient groups are most vulnerable and how to maintain continuity of care.",
+          "Decide on the use of portable RO units and bottled sterile water for inpatient dialysis."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Dialysis: What is the priority for placing outpatients and inpatients, and what resources are needed to transfer them safely? Refer to EOP Section 8 and Section 7.",
+            "roleIds": [
+              "dialysis"
+            ],
+            "objectiveRef": "Dialysis Continuity",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              },
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+                "quote": "The Emergency Management Committee updates the Hazard Vulnerability Analysis (HVA) every year with the regional healthcare coalition and the Lucas County Emergency Management Agency. The 2026 analysis",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "Clinical: What actions are required to ensure safe feeding and hygiene for neonates and immunocompromised patients when tap water is unsafe? Refer to EOP Section 8.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Infection Prevention and Sterile Processing",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "AOC: What decisions must be made to ensure that the same information is shared with all stakeholders, including the public, staff, and partner agencies? Refer to EOP Section 10.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "One Voice",
+            "citations": []
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is now 09:15. The water tank holds 35,800 gallons, and consumption has stabilized at 1,150 gallons per hour. The city confirms that the advisory will not lift before Sunday evening, and two water tankers from Maumee Valley Water Hauling are scheduled to arrive at 11:30. The HCC has established a plan to cover all dialysis needs through Sunday, including portable RO units on bottled sterile water for 19 inpatients. The Facebook group",
+        "keyIssues": [
+          "Determine the criteria for resuming dialysis and lifting conservation measures.",
+          "Establish a protocol for receiving and testing water from hauling tankers.",
+          "Decide how to manage staff and patient stress over a prolonged advisory period.",
+          "Confirm the final plan for resuming normal operations, including when and how to reconnect to the city water supply."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "Facilities: What criteria must be met before reconnecting the city fill line to the storage tank, and who must approve it? Refer to EOP Section 8.",
+            "roleIds": [
+              "fac"
+            ],
+            "objectiveRef": "Stored Water and Conservation",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "Dialysis: What conditions must be met before resuming outpatient and inpatient dialysis, and who must authorize it? Refer to EOP Section 8.",
+            "roleIds": [
+              "dialysis"
+            ],
+            "objectiveRef": "Dialysis Continuity",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+                "quote": "| Level | Meaning | Examples | Actions | |---|---|---|---| | Level 3: Watch | An event may affect operations; normal command structure handles it | Severe weather watch; single-system outage under fou",
+                "chunkId": 29
+              }
+            ]
+          },
+          {
+            "text": "PIO: What message should be delivered to the public and staff to close the loop on the advisory and ensure trust, and who must sign off on it? Refer to EOP Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "One Voice",
+            "citations": []
+          }
+        ]
+      }
+    ]
+  },
+  "criticalResources": [],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M686KS0JETXRH3Q90CWP5GMR",
+      "startedAt": "2026-10-31T05:23:41.208Z",
+      "finishedAt": "2026-10-31T05:23:48.191Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5214,
+      "outputTokens": 654,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686KS0JETXRH3Q90CWP5GMR",
+      "startedAt": "2026-10-31T05:23:48.193Z",
+      "finishedAt": "2026-10-31T05:23:48.193Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686KZV3P2FWP3CQRD6W7W36",
+      "startedAt": "2026-10-31T05:23:48.200Z",
+      "finishedAt": "2026-10-31T05:23:53.794Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5257,
+      "outputTokens": 494,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686KZV3P2FWP3CQRD6W7W36",
+      "startedAt": "2026-10-31T05:23:53.796Z",
+      "finishedAt": "2026-10-31T05:23:56.435Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1601,
+      "outputTokens": 274,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686M7WPVSDYYDAE6Q8H0R3G",
+      "startedAt": "2026-10-31T05:23:56.442Z",
+      "finishedAt": "2026-10-31T05:24:03.553Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5871,
+      "outputTokens": 618,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686M7WPVSDYYDAE6Q8H0R3G",
+      "startedAt": "2026-10-31T05:24:03.555Z",
+      "finishedAt": "2026-10-31T05:24:06.459Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1740,
+      "outputTokens": 317,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686MHNY9Y78FSK86XB9BZHM",
+      "startedAt": "2026-10-31T05:24:06.466Z",
+      "finishedAt": "2026-10-31T05:24:16.631Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6444,
+      "outputTokens": 896,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686MHNY9Y78FSK86XB9BZHM",
+      "startedAt": "2026-10-31T05:24:16.632Z",
+      "finishedAt": "2026-10-31T05:24:16.632Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686MVKV7E35HVC13GX8P2V7",
+      "startedAt": "2026-10-31T05:24:16.638Z",
+      "finishedAt": "2026-10-31T05:24:25.780Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6074,
+      "outputTokens": 798,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686MVKV7E35HVC13GX8P2V7",
+      "startedAt": "2026-10-31T05:24:25.783Z",
+      "finishedAt": "2026-10-31T05:24:30.912Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2098,
+      "outputTokens": 556,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686N9J4A2X9N97ZH9Z76RXV",
+      "startedAt": "2026-10-31T05:24:30.921Z",
+      "finishedAt": "2026-10-31T05:24:38.235Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6386,
+      "outputTokens": 600,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686N9J4A2X9N97ZH9Z76RXV",
+      "startedAt": "2026-10-31T05:24:38.239Z",
+      "finishedAt": "2026-10-31T05:24:40.514Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1884,
+      "outputTokens": 233,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686NJY6RH5YXX6KF6X6N66A",
+      "startedAt": "2026-10-31T05:24:40.522Z",
+      "finishedAt": "2026-10-31T05:24:45.455Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6101,
+      "outputTokens": 377,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686NJY6RH5YXX6KF6X6N66A",
+      "startedAt": "2026-10-31T05:24:45.456Z",
+      "finishedAt": "2026-10-31T05:24:45.456Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686NQRKNQAF3FV5P05PHJCC",
+      "startedAt": "2026-10-31T05:24:45.464Z",
+      "finishedAt": "2026-10-31T05:24:51.847Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6749,
+      "outputTokens": 497,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686NQRKNQAF3FV5P05PHJCC",
+      "startedAt": "2026-10-31T05:24:51.849Z",
+      "finishedAt": "2026-10-31T05:24:54.648Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1901,
+      "outputTokens": 297,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686P0QWC5NJ9CQE8FN0KYD6",
+      "startedAt": "2026-10-31T05:24:54.656Z",
+      "finishedAt": "2026-10-31T05:25:00.811Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6543,
+      "outputTokens": 477,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686P0QWC5NJ9CQE8FN0KYD6",
+      "startedAt": "2026-10-31T05:25:00.814Z",
+      "finishedAt": "2026-10-31T05:25:03.598Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1867,
+      "outputTokens": 297,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686P9FJWQKYGVN926SQGFPX",
+      "startedAt": "2026-10-31T05:25:03.606Z",
+      "finishedAt": "2026-10-31T05:25:14.286Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6952,
+      "outputTokens": 901,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686P9FJWQKYGVN926SQGFPX",
+      "startedAt": "2026-10-31T05:25:14.287Z",
+      "finishedAt": "2026-10-31T05:25:14.287Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686PKXJBKF2STV4TVY91F2S",
+      "startedAt": "2026-10-31T05:25:14.294Z",
+      "finishedAt": "2026-10-31T05:25:18.531Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7475,
+      "outputTokens": 252,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686PKXJBKF2STV4TVY91F2S",
+      "startedAt": "2026-10-31T05:25:18.532Z",
+      "finishedAt": "2026-10-31T05:25:18.532Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686PR27BGF2M8KN4X8G1T0K",
+      "startedAt": "2026-10-31T05:25:18.539Z",
+      "finishedAt": "2026-10-31T05:25:26.707Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7393,
+      "outputTokens": 643,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686PR27BGF2M8KN4X8G1T0K",
+      "startedAt": "2026-10-31T05:25:26.708Z",
+      "finishedAt": "2026-10-31T05:25:26.708Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686Q01QB80BM21FKN1YQFZ2",
+      "startedAt": "2026-10-31T05:26:45.648Z",
+      "finishedAt": "2026-10-31T05:26:50.748Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 24845,
+      "outputTokens": 7492,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 2
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686Q01QB80BM21FKN1YQFZ2",
+      "startedAt": "2026-10-31T05:26:50.749Z",
+      "finishedAt": "2026-10-31T05:26:50.749Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686SJ411QF4JK3DJEH5ASA3",
+      "startedAt": "2026-10-31T05:26:50.757Z",
+      "finishedAt": "2026-10-31T05:26:59.050Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8050,
+      "outputTokens": 598,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686SJ411QF4JK3DJEH5ASA3",
+      "startedAt": "2026-10-31T05:26:59.053Z",
+      "finishedAt": "2026-10-31T05:27:03.043Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2150,
+      "outputTokens": 397,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686SY46N8QD4DPKQT4254H5",
+      "startedAt": "2026-10-31T05:27:03.051Z",
+      "finishedAt": "2026-10-31T05:27:10.972Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7519,
+      "outputTokens": 570,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686SY46N8QD4DPKQT4254H5",
+      "startedAt": "2026-10-31T05:27:10.975Z",
+      "finishedAt": "2026-10-31T05:27:14.464Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2110,
+      "outputTokens": 352,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686T993G6H8D3K30ZSPTMD7",
+      "startedAt": "2026-10-31T05:27:14.472Z",
+      "finishedAt": "2026-10-31T05:27:21.981Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7889,
+      "outputTokens": 519,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686T993G6H8D3K30ZSPTMD7",
+      "startedAt": "2026-10-31T05:27:21.984Z",
+      "finishedAt": "2026-10-31T05:27:21.984Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686TGM37VZ08Z09KTCQKJ2D",
+      "startedAt": "2026-10-31T05:27:21.992Z",
+      "finishedAt": "2026-10-31T05:27:28.160Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8012,
+      "outputTokens": 357,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686TGM37VZ08Z09KTCQKJ2D",
+      "startedAt": "2026-10-31T05:27:28.163Z",
+      "finishedAt": "2026-10-31T05:27:29.939Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1929,
+      "outputTokens": 162,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686TRCPF7HBGC6NQ71C702H",
+      "startedAt": "2026-10-31T05:27:29.947Z",
+      "finishedAt": "2026-10-31T05:27:36.761Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7801,
+      "outputTokens": 462,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686TRCPF7HBGC6NQ71C702H",
+      "startedAt": "2026-10-31T05:27:36.762Z",
+      "finishedAt": "2026-10-31T05:27:36.762Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686TZ1XJ5VSF4TER1S61Y79",
+      "startedAt": "2026-10-31T05:27:36.770Z",
+      "finishedAt": "2026-10-31T05:27:44.631Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8362,
+      "outputTokens": 531,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686TZ1XJ5VSF4TER1S61Y79",
+      "startedAt": "2026-10-31T05:27:44.632Z",
+      "finishedAt": "2026-10-31T05:27:44.632Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686V6QV54R2XQ1VWDYDMJNC",
+      "startedAt": "2026-10-31T05:27:44.639Z",
+      "finishedAt": "2026-10-31T05:27:52.674Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8451,
+      "outputTokens": 544,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686V6QV54R2XQ1VWDYDMJNC",
+      "startedAt": "2026-10-31T05:27:52.677Z",
+      "finishedAt": "2026-10-31T05:27:55.921Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2189,
+      "outputTokens": 322,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686VHRNA3693AXN8XJW0YRD",
+      "startedAt": "2026-10-31T05:27:55.930Z",
+      "finishedAt": "2026-10-31T05:28:03.282Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8571,
+      "outputTokens": 470,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686VHRNA3693AXN8XJW0YRD",
+      "startedAt": "2026-10-31T05:28:03.283Z",
+      "finishedAt": "2026-10-31T05:28:03.283Z",
+      "status": "skipped",
+      "error": "template only (row does not ask for a photo)",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686VRYPXXJDJCXNRHMV6ZB0",
+      "startedAt": "2026-10-31T05:28:03.290Z",
+      "finishedAt": "2026-10-31T05:28:15.690Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9216,
+      "outputTokens": 900,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686VRYPXXJDJCXNRHMV6ZB0",
+      "startedAt": "2026-10-31T05:28:15.691Z",
+      "finishedAt": "2026-10-31T05:28:15.691Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686W52EQTNDA3GYN5MWKT9K",
+      "startedAt": "2026-10-31T05:28:15.699Z",
+      "finishedAt": "2026-10-31T05:28:27.123Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9090,
+      "outputTokens": 818,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686W52EQTNDA3GYN5MWKT9K",
+      "startedAt": "2026-10-31T05:28:27.124Z",
+      "finishedAt": "2026-10-31T05:28:27.124Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686WG7R7AGZ6MCYPW0Q8WNV",
+      "startedAt": "2026-10-31T05:28:27.132Z",
+      "finishedAt": "2026-10-31T05:28:35.096Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9039,
+      "outputTokens": 500,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686WG7R7AGZ6MCYPW0Q8WNV",
+      "startedAt": "2026-10-31T05:28:35.097Z",
+      "finishedAt": "2026-10-31T05:28:35.097Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686KS0JETXRH3Q90CWP5GMR",
+      "startedAt": "2026-10-31T05:28:36.431Z",
+      "finishedAt": "2026-10-31T05:28:36.667Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686KZV3P2FWP3CQRD6W7W36",
+      "startedAt": "2026-10-31T05:44:45.649Z",
+      "finishedAt": "2026-10-31T05:44:45.860Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686M7WPVSDYYDAE6Q8H0R3G",
+      "startedAt": "2026-10-31T05:44:45.862Z",
+      "finishedAt": "2026-10-31T05:44:46.083Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686MHNY9Y78FSK86XB9BZHM",
+      "startedAt": "2026-10-31T05:28:37.085Z",
+      "finishedAt": "2026-10-31T05:28:37.399Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686MVKV7E35HVC13GX8P2V7",
+      "startedAt": "2026-10-31T05:44:46.085Z",
+      "finishedAt": "2026-10-31T05:44:46.310Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686N9J4A2X9N97ZH9Z76RXV",
+      "startedAt": "2026-10-31T05:28:46.443Z",
+      "finishedAt": "2026-10-31T05:29:06.781Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686NJY6RH5YXX6KF6X6N66A",
+      "startedAt": "2026-10-31T05:44:46.312Z",
+      "finishedAt": "2026-10-31T05:44:46.500Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686NQRKNQAF3FV5P05PHJCC",
+      "startedAt": "2026-10-31T05:44:46.502Z",
+      "finishedAt": "2026-10-31T05:44:46.704Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686P0QWC5NJ9CQE8FN0KYD6",
+      "startedAt": "2026-10-31T05:44:46.706Z",
+      "finishedAt": "2026-10-31T05:44:46.909Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686P9FJWQKYGVN926SQGFPX",
+      "startedAt": "2026-10-31T05:28:38.434Z",
+      "finishedAt": "2026-10-31T05:28:38.666Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686PKXJBKF2STV4TVY91F2S",
+      "startedAt": "2026-10-31T05:28:38.668Z",
+      "finishedAt": "2026-10-31T05:28:38.955Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686PR27BGF2M8KN4X8G1T0K",
+      "startedAt": "2026-10-31T05:44:46.910Z",
+      "finishedAt": "2026-10-31T05:44:47.150Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686Q01QB80BM21FKN1YQFZ2",
+      "startedAt": "2026-10-31T05:28:39.198Z",
+      "finishedAt": "2026-10-31T05:28:39.423Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686SJ411QF4JK3DJEH5ASA3",
+      "startedAt": "2026-10-31T05:44:47.151Z",
+      "finishedAt": "2026-10-31T05:44:47.375Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686SY46N8QD4DPKQT4254H5",
+      "startedAt": "2026-10-31T05:44:47.377Z",
+      "finishedAt": "2026-10-31T05:44:47.601Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686T993G6H8D3K30ZSPTMD7",
+      "startedAt": "2026-10-31T05:28:39.930Z",
+      "finishedAt": "2026-10-31T05:28:40.136Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686TGM37VZ08Z09KTCQKJ2D",
+      "startedAt": "2026-10-31T05:28:40.138Z",
+      "finishedAt": "2026-10-31T05:28:40.346Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686TRCPF7HBGC6NQ71C702H",
+      "startedAt": "2026-10-31T05:28:40.347Z",
+      "finishedAt": "2026-10-31T05:28:40.570Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686TZ1XJ5VSF4TER1S61Y79",
+      "startedAt": "2026-10-31T05:45:59.116Z",
+      "finishedAt": "2026-10-31T05:45:59.309Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686V6QV54R2XQ1VWDYDMJNC",
+      "startedAt": "2026-10-31T05:44:47.799Z",
+      "finishedAt": "2026-10-31T05:44:48.000Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686VHRNA3693AXN8XJW0YRD",
+      "startedAt": "2026-10-31T05:45:59.311Z",
+      "finishedAt": "2026-10-31T05:45:59.431Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686VRYPXXJDJCXNRHMV6ZB0",
+      "startedAt": "2026-10-31T05:28:41.112Z",
+      "finishedAt": "2026-10-31T05:28:41.390Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686W52EQTNDA3GYN5MWKT9K",
+      "startedAt": "2026-10-31T05:28:41.392Z",
+      "finishedAt": "2026-10-31T05:28:41.618Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686WG7R7AGZ6MCYPW0Q8WNV",
+      "startedAt": "2026-10-31T05:44:48.121Z",
+      "finishedAt": "2026-10-31T05:44:48.344Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-31T05:38:27.316Z",
+      "finishedAt": "2026-10-31T05:38:50.415Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 6305,
+      "outputTokens": 2100,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-31T05:38:52.370Z",
+      "finishedAt": "2026-10-31T05:39:06.763Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 6349,
+      "outputTokens": 1304,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-31T05:39:07.422Z",
+      "finishedAt": "2026-10-31T05:39:30.410Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 9995,
+      "outputTokens": 1810,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-31T05:39:32.466Z",
+      "finishedAt": "2026-10-31T05:39:46.027Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 3619,
+      "outputTokens": 1428,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-31T05:39:47.518Z",
+      "finishedAt": "2026-10-31T05:39:51.419Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 2647,
+      "outputTokens": 399,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-31T05:39:52.555Z",
+      "finishedAt": "2026-10-31T05:40:16.150Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 5820,
+      "outputTokens": 2221,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "f19f5c17fa13057f",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.191Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "2c756362612f7f51",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "1ed5f9034cbc92a7",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "f0facadc4b6a6716",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "bc8fa5cc9e004e96",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "b073d17b9add4770",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:TJ-1": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a4452ad11ad4318b",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "fd94ce615ab58be1",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "6f5de2d8cd4a2d81",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a143f0ba8222032f",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "bbd4ac0f8aa0bff9",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "f33e84952e243922",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:TJ-2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "b3019c536b6cf82d",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "47e62091616dab03",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ea4ec3b660906829",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "eb9bea351b5bd9e8",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5487f399bfd0b702",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:TJ-3": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "0293e6f056141c3b",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "85381c2b6d3d4b87",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a40eedc1a8861ea9",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "684d2f9a9c169ed1",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "e2d691f7b0583f1b",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "99023e963ce80ea5",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "01ccdb16b172b100",
+        "claims": [],
+        "at": "2026-10-31T05:23:41.192Z",
+        "version": 1
+      },
+      "inject:01M686KS0JETXRH3Q90CWP5GMR": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "7a12a8a72c3a5cab",
+        "claims": [],
+        "at": "2026-10-31T05:28:35.103Z",
+        "version": 1
+      },
+      "inject:01M686KZV3P2FWP3CQRD6W7W36": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 4.",
+        "fingerprint": "5854777d2664d210",
+        "claims": [
+          {
+            "text": "This is a core narrative inject; the AOC must activate Level 2, open the HCC, and assign leads.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.5,
+            "matched": [
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed or incomplete activation.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.5,
+            "matched": [
+              "activation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.105Z",
+        "version": 1
+      },
+      "inject:01M686M7WPVSDYYDAE6Q8H0R3G": {
+        "label": "review",
+        "reason": "Only 38% of ‘Watch for the correct verification sequence and whether the…’ is in Section 4.",
+        "fingerprint": "36ac60b0191197f1",
+        "claims": [
+          {
+            "text": "This inject tests the dialysis team's adherence to EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) and the Facilities and Information Systems Description, Section 3.",
+            "chunkId": 38,
+            "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+            "overlap": 0.786,
+            "matched": [
+              "Section 3",
+              "ORRMC-DT-ANX-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the correct verification sequence and whether the team contacts Facilities or Security for support.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.106Z",
+        "version": 1
+      },
+      "inject:01M686MHNY9Y78FSK86XB9BZHM": {
+        "label": "review",
+        "reason": "‘authorize’ is not in Section 3 or the facility facts.",
+        "fingerprint": "c7906ce6869db6b6",
+        "claims": [
+          {
+            "text": "This inject confirms the water loop failure and triggers the dialysis continuity protocol.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for NEPH to authorize halting the loop and for DFEM to initiate the sample submission.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The failed chlorine level is a direct clue to the city water issue, not a system fault.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.106Z",
+        "version": 1
+      },
+      "inject:01M686MVKV7E35HVC13GX8P2V7": {
+        "label": "review",
+        "reason": "‘activate’, ‘authorize’ are not in Section 5 or the facility facts.",
+        "fingerprint": "f816841e7bd8ae6d",
+        "claims": [
+          {
+            "text": "This inject establishes the critical triage point: two hyperkalemic inpatients must be treated immediately.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must authorize emergency fluid sourcing via Pharmacy and activate the regional coalition.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "activate",
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the CMO is engaged before the HCC issue is made.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.106Z",
+        "version": 1
+      },
+      "inject:01M686N9J4A2X9N97ZH9Z76RXV": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms the city-wide advisory and pressures t…’ is in Section 2.",
+        "fingerprint": "1a43ea7a2d6e7d1b",
+        "claims": [
+          {
+            "text": "This inject confirms the city-wide advisory and pressures the PIO to act swiftly with consistent messaging.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overstatement or internal contradiction in the PIO's response.",
+            "chunkId": 27,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.107Z",
+        "version": 1
+      },
+      "inject:01M686NJY6RH5YXX6KF6X6N66A": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3871a4a9d8dfea2c",
+        "claims": [],
+        "at": "2026-10-31T05:28:35.107Z",
+        "version": 1
+      },
+      "inject:01M686NQRKNQAF3FV5P05PHJCC": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "4eb2997c8a71860f",
+        "claims": [
+          {
+            "text": "This inject tests the AOC’s authority to override operational discretion and order a conservation protocol.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the AOC explicitly authorizes the action and confirms the conservation order.",
+            "chunkId": 53,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "authorizes"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.108Z",
+        "version": 1
+      },
+      "inject:01M686P0QWC5NJ9CQE8FN0KYD6": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "92c4ec91e91e61e7",
+        "claims": [
+          {
+            "text": "Operational friction inject; the CNO must cancel elective cases and halt reprocessing until water safety is confirmed by Infection Prevention and public health.",
+            "chunkId": 5,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.109Z",
+        "version": 1
+      },
+      "inject:01M686P9FJWQKYGVN926SQGFPX": {
+        "label": "review",
+        "reason": "Only 29% of ‘This inject confirms the hospital’s shift to infection prev…’ is in Section 5.",
+        "fingerprint": "eb9315cf63c787f2",
+        "claims": [
+          {
+            "text": "This inject confirms the hospital’s shift to infection prevention protocol under the advisory.",
+            "chunkId": 30,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must validate the guidance; the CNO must ensure unit-level communication.",
+            "chunkId": 30,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any delay in confirming with the health department.",
+            "chunkId": 30,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.109Z",
+        "version": 1
+      },
+      "inject:01M686PKXJBKF2STV4TVY91F2S": {
+        "label": "review",
+        "reason": "Only 33% of ‘This is a pressure inject to test the PIO's media comms und…’ is in Section 7.",
+        "fingerprint": "64931ef3eebb808c",
+        "claims": [
+          {
+            "text": "This is a pressure inject to test the PIO's media comms under time pressure.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for any overstatement of safety or premature admission of risk.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.109Z",
+        "version": 1
+      },
+      "inject:01M686PR27BGF2M8KN4X8G1T0K": {
+        "label": "review",
+        "reason": "Only 11% of ‘This inject advances the core narrative by introducing exte…’ is in Section 11.",
+        "fingerprint": "5b9d1deccba5c1fa",
+        "claims": [
+          {
+            "text": "This inject advances the core narrative by introducing external resource availability and a deadline.",
+            "chunkId": 36,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 11",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC and DFEM must decide on priority and logistics.",
+            "chunkId": 36,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 11",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for coordination between facilities and emergency management on tanker use and connection specs.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.109Z",
+        "version": 1
+      },
+      "inject:01M686Q01QB80BM21FKN1YQFZ2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "543ba59ae685884a",
+        "claims": [],
+        "at": "2026-10-31T05:28:35.109Z",
+        "version": 1
+      },
+      "inject:01M686SJ411QF4JK3DJEH5ASA3": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "b17d873e1a4f8e1b",
+        "claims": [
+          {
+            "text": "This inject tests the decision-making authority of the Dialysis Medical Director and the coordination between clinical and support teams for patient transport under water advisory constraints.",
+            "chunkId": 38,
+            "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+            "overlap": 0.154,
+            "matched": [],
+            "missing": [
+              "Dialysis Medical Director"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.110Z",
+        "version": 1
+      },
+      "inject:01M686SY46N8QD4DPKQT4254H5": {
+        "label": "review",
+        "reason": "‘approve’ is not in Section 7 or the facility facts.",
+        "fingerprint": "3744b12e20d18500",
+        "claims": [
+          {
+            "text": "This inject confirms the transfer plan and triggers the CMO to approve urgent transfers.",
+            "chunkId": 32,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [
+              "approve"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CMO to be prompted to approve the inpatient moves and for the Liaison Officer to update the Patient Movement Log.",
+            "chunkId": 32,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [
+              "Liaison Officer",
+              "approve"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.110Z",
+        "version": 1
+      },
+      "inject:01M686T993G6H8D3K30ZSPTMD7": {
+        "label": "review",
+        "reason": "Only 27% of ‘This log confirms the stored water remains uncontaminated, …’ is in Section 3.",
+        "fingerprint": "8ef787084629e83b",
+        "claims": [
+          {
+            "text": "This log confirms the stored water remains uncontaminated, but the city line shows high chlorine and turbidity.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The field kit is not a lab result, so no action should be taken to resume use of the stored water.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The samples must be submitted to the health department via EMA.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.110Z",
+        "version": 1
+      },
+      "inject:01M686TGM37VZ08Z09KTCQKJ2D": {
+        "label": "review",
+        "reason": "Only 0% of ‘This inject confirms hospital-wide awareness of the Do Not …’ is in Section 2.",
+        "fingerprint": "6bd1ed826f5af3ec",
+        "claims": [
+          {
+            "text": "This inject confirms hospital-wide awareness of the Do Not Drink advisory.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for unit managers to begin circulating the same message.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Infection Prevention should be ready to answer questions.",
+            "chunkId": 33,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must confirm consistency with public messaging.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0.667,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.110Z",
+        "version": 1
+      },
+      "inject:01M686TRCPF7HBGC6NQ71C702H": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4b2e28e89d9007eb",
+        "claims": [],
+        "at": "2026-10-31T05:28:35.110Z",
+        "version": 1
+      },
+      "inject:01M686TZ1XJ5VSF4TER1S61Y79": {
+        "label": "review",
+        "reason": "‘36 hours’ is not in Section 4 or the facility facts.",
+        "fingerprint": "625f75471d66d2a8",
+        "claims": [
+          {
+            "text": "This inject confirms the extended duration of the advisory.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must now plan for sustained operations under Level 2 for at least 36 hours, with pre-defined thresholds for service reduction and patient transfer.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [
+              "36 hours"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the team to assess tank consumption and begin contingency planning.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.111Z",
+        "version": 1
+      },
+      "inject:01M686V6QV54R2XQ1VWDYDMJNC": {
+        "label": "review",
+        "reason": "Only 13% of ‘The DFEM must validate the contractor’s credentials, assign…’ is in Section 3.",
+        "fingerprint": "8d33e9521625abf0",
+        "claims": [
+          {
+            "text": "This inject confirms the water hauling plan.",
+            "chunkId": 33,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The DFEM must validate the contractor’s credentials, assign an on-site monitor, and log each load.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the team to require a backflow device and test chlorine on each delivery.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.111Z",
+        "version": 1
+      },
+      "inject:01M686VHRNA3693AXN8XJW0YRD": {
+        "label": "review",
+        "reason": "‘activate’ is not in Section 5 or the facility facts.",
+        "fingerprint": "24a78e60c6b1c180",
+        "claims": [
+          {
+            "text": "This is a misinformation inject.",
+            "chunkId": 51,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The family has not received a ride, but the hospital has not failed to coordinate.",
+            "chunkId": 51,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO must activate the patient hotline immediately; the PIO must not engage the group directly.",
+            "chunkId": 51,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.111Z",
+        "version": 1
+      },
+      "inject:01M686VRYPXXJDJCXNRHMV6ZB0": {
+        "label": "review",
+        "reason": "Only 14% of ‘This inject reveals a critical care gap in neonatal feeding.’ is in Section 2.",
+        "fingerprint": "0c1a2f68d765f315",
+        "claims": [
+          {
+            "text": "This inject reveals a critical care gap in neonatal feeding.",
+            "chunkId": 41,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO and AOC must act on the supply request immediately, as infants are at high risk of dehydration and infection.",
+            "chunkId": 33,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delayed action on sterile water and formula procurement.",
+            "chunkId": 41,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.111Z",
+        "version": 1
+      },
+      "inject:01M686W52EQTNDA3GYN5MWKT9K": {
+        "label": "review",
+        "reason": "Only 43% of ‘This is a decision-point sitrep; the AOC must record the cr…’ is in Ottawa River Regional Medical Ce….",
+        "fingerprint": "69491e00a26ccd54",
+        "claims": [
+          {
+            "text": "This is a decision-point sitrep; the AOC must record the criteria for resuming dialysis and lifting conservation.",
+            "chunkId": 46,
+            "headingPath": "Ottawa River Regional Medical Ce…",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a formal approval of the exit criteria.",
+            "chunkId": 42,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.4,
+            "matched": [
+              "approval"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:28:35.112Z",
+        "version": 1
+      },
+      "inject:01M686WG7R7AGZ6MCYPW0Q8WNV": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "289455e580f60bbe",
+        "claims": [],
+        "at": "2026-10-31T05:28:35.112Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
+}

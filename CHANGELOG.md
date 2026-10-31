@@ -8,6 +8,15 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- A bundled hospital example project in the Healthcare pack (#556): **Ottawa River Regional Medical Center** (`hospital`), a fictional 412-bed hospital in Toledo, Ohio run under HICS, with an emergency operations plan that maps 42 CFR 482.15, an EHR downtime annex, a cyber incident response plan and a patient surge and evacuation annex, and four tabletop exercises with MSEL, injects with rendered media, SitMan and EEGs: ransomware forcing EHR downtime (_Paper Charts_), an infusion pump drug library compromise (_Ghost Pumps_), a mass casualty surge during a network outage (_Core Collapse_) and a regional water advisory that reaches dialysis (_Water Line, No Drink_). The website's hospital page no longer needs to borrow the county public health example.
+
+### Fixed
+
+- Generated injects showed today's date in dates, timestamps and datelines even when the scenario states its own date (a STARTEX card said "March 3, 2026" and later injects said "October 30"). The inject text stage now takes the date from the STARTEX row or the threat summary when it states one (#556).
+- The inject text prompt now also tells the model not to write street addresses for private property and to take outside internet addresses from the documentation ranges, with attackers not placed in a real country (#556).
+
 ## [0.6.1] - 2026-10-30
 
 ### Added

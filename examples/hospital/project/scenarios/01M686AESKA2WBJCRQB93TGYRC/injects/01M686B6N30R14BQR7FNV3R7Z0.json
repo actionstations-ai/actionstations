@@ -1,0 +1,167 @@
+{
+  "id": "01M686B6N30R14BQR7FNV3R7Z0",
+  "mselRowId": "I-03",
+  "type": "radio_call",
+  "title": "Lucas County EMS: Trauma Activation — Multi-Vehicle Crash with Fuel Tanker",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "centerName": "Hospital Command Center (HCC)",
+    "channel": "EMS-Trauma",
+    "frequency": "TG 5010 / 458.725 MHz",
+    "date": "03/13/2026",
+    "callsign": "Lucas County EMS Dispatch",
+    "lines": [
+      {
+        "time": "17:05:12",
+        "from": "Lucas County EMS Dispatch",
+        "to": "Ottawa River Regional Medical Center",
+        "text": "Ottawa River, this is Lucas County EMS Dispatch. We have a major multi-vehicle crash on I-75 near the Maumee River crossing. Fuel tanker involved, fire on scene. First wave: 14 patients, six critical. ETA 12 minutes. You are our designated trauma center. Are you accepting? Confirm now."
+      },
+      {
+        "time": "17:05:28",
+        "from": "Lucas County EMS Dispatch",
+        "to": "Ottawa River Regional Medical Center",
+        "text": "Ottawa River, confirm acceptance or advise on alternate routing. We have three ambulances en route with patients, and more are expected."
+      },
+      {
+        "time": "17:05:41",
+        "from": "Lucas County EMS Dispatch",
+        "to": "Ottawa River Regional Medical Center",
+        "text": "Ottawa River, we are holding two ambulances at the interchange. You are our only trauma facility on call. Please respond."
+      }
+    ],
+    "background": "vehicle",
+    "voiceStyle": "Young female, urgent, clipped, with background radio chatter and sirens",
+    "audioFile": "I-03_radio.wav",
+    "duration": "0:31",
+    "injectId": "I-03"
+  },
+  "variant": "default",
+  "instructorNote": "This is a critical decision point. The AOC and EDMD must declare Code Triage and activate the HCC. Watch for immediate coordination to begin.",
+  "citations": [
+    {
+      "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+      "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+      "quote": "The hospital goes on diversion for ambulance traffic when the ED cannot safely accept more patients, or a critical system (the EHR, CT, power, water) is down. Diversion is requested by the ED charge n",
+      "chunkId": 55
+    },
+    {
+      "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+      "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "On notice from Lucas County EMS or Toledo Fire and Rescue of a mass casualty incident, the ED charge nurse and the ED physician: call Code Triage; the Nursing Supervisor opens the HCC; the Triage Offi",
+      "chunkId": 49
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Lucas County EMS Dispatch",
+        "voiceStyle": "Young female, urgent, clipped, with background radio chatter and sirens",
+        "text": "Ottawa River, this is Lucas County EMS Dispatch. We have a major multi-vehicle crash on I-75 near the Maumee River crossing. Fuel tanker involved, fire on scene. First wave: 14 patients, six critical. ETA 12 minutes. You are our designated trauma center. Are you accepting? Confirm now."
+      },
+      {
+        "speaker": "Lucas County EMS Dispatch",
+        "voiceStyle": "Young female, urgent, clipped, with background radio chatter and sirens",
+        "text": "Ottawa River, confirm acceptance or advise on alternate routing. We have three ambulances en route with patients, and more are expected."
+      },
+      {
+        "speaker": "Lucas County EMS Dispatch",
+        "voiceStyle": "Young female, urgent, clipped, with background radio chatter and sirens",
+        "text": "Ottawa River, we are holding two ambulances at the interchange. You are our only trauma facility on call. Please respond."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [
+    {
+      "id": "01M686KE203M42FYJ5DMESZHSN",
+      "kind": "audio",
+      "path": "scenarios/01M686AESKA2WBJCRQB93TGYRC/media/01M686B6N30R14BQR7FNV3R7Z0/01M686KE203M42FYJ5DMESZHSN.mp3",
+      "role": "generated",
+      "durationSec": 37.58,
+      "sha256": "e0128b94c1001fcc39a77b5254a58e2a3ecb3ba3f67476b845ab7ecf394f450e",
+      "provenance": {
+        "provider": "local-tts-mlx-audio-3008",
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16 + mlx-community/VoxCPM2-8bit (clone)",
+        "prompt": "Lucas County EMS Dispatch: Ottawa River, this is Lucas County EMS Dispatch. We have a major multi-vehicle crash on I-75 near the Maumee River crossing. Fuel tanker involved, fire on scene. First wave: 14 patients, six critical. ETA 12 minutes. You are our designated trauma center. Are you accepting? Confirm now.\nLucas County EMS Dispatch: Ottawa River, confirm acceptance or advise on alternate routing. We have three ambulances en route with patients, and more are expected.\nLucas County EMS Dispatch: Ottawa River, we are holding two ambulances at the interchange. You are our only trauma facility on call. Please respond.",
+        "postFx": [
+          "radio"
+        ],
+        "createdAt": "2026-10-31T05:23:29.986Z"
+      }
+    },
+    {
+      "id": "01M687T75RNJY2VAQ4KA6D0B6X",
+      "kind": "image",
+      "path": "scenarios/01M686AESKA2WBJCRQB93TGYRC/media/01M686B6N30R14BQR7FNV3R7Z0/01M687T75RNJY2VAQ4KA6D0B6X.png",
+      "role": "rendered",
+      "width": 816,
+      "height": 1056,
+      "sha256": "6a7a560ecf3bc6c4b6f67b68f1cf7af0842f095c8f7632e036e3cb4c2397ea42",
+      "provenance": {
+        "provider": "template",
+        "templateId": "radio_call",
+        "templateVersion": "1",
+        "createdAt": "2026-10-31T05:44:40.768Z"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "at": "2026-10-31T05:19:08.441Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Lucas County EMS: Trauma Activation — Multi-Vehicle Crash with Fuel Tanker",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "centerName": "Hospital Command Center (HCC)",
+          "channel": "EMS-Trauma",
+          "frequency": "TG 5010 / 458.725 MHz",
+          "date": "03/13/2026",
+          "callsign": "Lucas County EMS Dispatch",
+          "lines": [
+            {
+              "time": "17:05:12",
+              "from": "Lucas County EMS Dispatch",
+              "to": "Ottawa River Regional Medical Center",
+              "text": "Ottawa River, this is Lucas County EMS Dispatch. We have a major multi-vehicle crash on I-75 near the Maumee River crossing. Fuel tanker involved, fire on scene. First wave: 14 patients, six critical. ETA 12 minutes. You are our designated trauma center. Are you accepting? Confirm now."
+            },
+            {
+              "time": "17:05:28",
+              "from": "Lucas County EMS Dispatch",
+              "to": "Ottawa River Regional Medical Center",
+              "text": "Ottawa River, confirm acceptance or advise on alternate routing. We have three ambulances en route with patients, and more are expected."
+            },
+            {
+              "time": "17:05:41",
+              "from": "Lucas County EMS Dispatch",
+              "to": "Ottawa River Regional Medical Center",
+              "text": "Ottawa River, we are holding two ambulances at the interchange. You are our only trauma facility on call. Please respond."
+            }
+          ],
+          "background": "vehicle",
+          "voiceStyle": "Young female, urgent, clipped, with background radio chatter and sirens",
+          "audioFile": "I-03_radio.wav",
+          "duration": "0:31",
+          "injectId": "I-03"
+        },
+        "instructorNote": "This is a critical decision point. The AOC and EDMD must declare Code Triage and activate the HCC. Watch for immediate coordination to begin.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:40.968Z"
+}

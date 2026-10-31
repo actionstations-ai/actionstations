@@ -1,0 +1,221 @@
+{
+  "id": "01M686C4AY8EECQR8WT9J052RC",
+  "mselRowId": "I-06",
+  "type": "field_report",
+  "title": "Patient Identity Conflict — Dual Numbering Detected",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "organization": "Ottawa River Regional Medical Center — Registration",
+    "formTitle": "Field Inspection Report",
+    "reportNo": "FIR-2026-0412",
+    "date": "03/13/2026",
+    "time": "17:50",
+    "location": "ED Triage Area, Registration Desk, Tower A Lobby",
+    "inspector": "Tamika Reed, Registration Supervisor",
+    "unit": "Registration Team · Block 3",
+    "reportType": "incident",
+    "weather": "Overcast, 52°F, wind ESE 8 mph",
+    "summary": "Two trauma patients on the paper tracking board have duplicate identifiers: T-6 (male, 34) was registered at the front desk as DT-004112 by a clerk who had not been briefed on the trauma number protocol. T-9 (female, 29) has a wristband labeled DT-004118, but the paper tracking board lists her as T-9. Additionally, a male crash victim with no ID is being held in the triage bay and may be the same individual as a patient registered by his brother using the name 'James M.' and a birth date that matches the T-6 profile. The Registration Department is using three blocks of DT numbers and has not synchronized with the HCC.",
+    "findings": [
+      {
+        "item": "Trauma number (T-) assigned on paper tracking board",
+        "condition": "ok",
+        "notes": "Used as per C1 and ORRMC-DT-ANX-2026, Section 3"
+      },
+      {
+        "item": "DT- number assigned via paper registration",
+        "condition": "deficient",
+        "notes": "Two patients registered with DT- numbers without cross-checking against trauma numbers"
+      },
+      {
+        "item": "Wristband labeling consistency",
+        "condition": "failed",
+        "notes": "DT-004112 and DT-004118 on wristbands conflict with T-6 and T-9 on tracking board"
+      },
+      {
+        "item": "Second-person verification of patient ID",
+        "condition": "failed",
+        "notes": "No verification performed by two staff on the same patient"
+      },
+      {
+        "item": "Registration clerk awareness of downtime protocol",
+        "condition": "failed",
+        "notes": "Clerk not informed of trauma number protocol during downtime activation"
+      },
+      {
+        "item": "Cross-reference between HCC and registration",
+        "condition": "failed",
+        "notes": "No real-time sync between paper tracking board and registration database"
+      },
+      {
+        "item": "Patient with no ID in triage",
+        "condition": "deficient",
+        "notes": "Unidentified male patient in triage bay, possible duplicate identity with T-6"
+      },
+      {
+        "item": "Use of duplicate number series",
+        "condition": "failed",
+        "notes": "DT- series used in parallel with T- series without central coordination"
+      },
+      {
+        "item": "Family member assisting with registration",
+        "condition": "ok",
+        "notes": "Brother registered a patient, but no verification of identity"
+      },
+      {
+        "item": "HCC tracking board status",
+        "condition": "failed",
+        "notes": "HCC not notified of dual numbering; board not updated to reflect DT- to T- mapping"
+      }
+    ],
+    "actionsTaken": [
+      "Notified HCC and EDMD via intercom at 17:50",
+      "Paused issuance of new DT- numbers until cross-reference complete",
+      "Assigned a second nurse to verify all wristbands and tracking board entries",
+      "Initiated a one-time cross-reference of T- and DT- numbers under supervision of the CNO"
+    ],
+    "recommendations": [
+      "Immediately suspend use of dual numbering series; standardize on T- for trauma patients and DT- for registration-only",
+      "Require dual verification by two staff for all patient IDs at bedside and on wristbands",
+      "Notify Chief Privacy Officer per ORRMC-DT-ANX-2026, Section 5",
+      "Document all duplicate identities for later reconciliation and audit"
+    ],
+    "photosNote": "3 photos attached: IMG_0412-0414 (wristband DT-004112, tracking board T-6, paper registration form), IMG_0415 (wristband DT-004118, tracking board T-9), IMG_0416 (unidentified male in triage, brother holding ID card)",
+    "signature": "Tamika Reed, Registration Supervisor",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject introduces a critical patient safety and privacy risk. The CNO and EDMD must halt dual numbering, enforce verification, and alert the CPO. Watch for delays in protocol enforcement or attempts to bypass verification.",
+  "citations": [
+    {
+      "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+      "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "On notice from Lucas County EMS or Toledo Fire and Rescue of a mass casualty incident, the ED charge nurse and the ED physician: call Code Triage; the Nursing Supervisor opens the HCC; the Triage Offi",
+      "chunkId": 49
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+      "chunkId": 18
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+      "quote": "During activation the Planning Section's Situation Unit keeps a patient tracking board (EHR when available; paper census sheet by unit when not). Each unit charge nurse reports census, acuity and avai",
+      "chunkId": 32
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:19:42.772Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Patient Identity Conflict — Dual Numbering Detected",
+        "type": "field_report",
+        "fields": {
+          "organization": "Ottawa River Regional Medical Center — Registration",
+          "formTitle": "Field Inspection Report",
+          "reportNo": "FIR-2026-0412",
+          "date": "03/13/2026",
+          "time": "17:50",
+          "location": "ED Triage Area, Registration Desk, Tower A Lobby",
+          "inspector": "Tamika Reed, Registration Supervisor",
+          "unit": "Registration Team · Block 3",
+          "reportType": "incident",
+          "weather": "Overcast, 52°F, wind ESE 8 mph",
+          "summary": "Two trauma patients on the paper tracking board have duplicate identifiers: T-6 (male, 34) was registered at the front desk as DT-004112 by a clerk who had not been briefed on the trauma number protocol. T-9 (female, 29) has a wristband labeled DT-004118, but the paper tracking board lists her as T-9. Additionally, a male crash victim with no ID is being held in the triage bay and may be the same individual as a patient registered by his brother using the name 'James M.' and a birth date that matches the T-6 profile. The Registration Department is using three blocks of DT numbers and has not synchronized with the HCC.",
+          "findings": [
+            {
+              "item": "Trauma number (T-) assigned on paper tracking board",
+              "condition": "ok",
+              "notes": "Used as per C1 and ORRMC-DT-ANX-2026, Section 3"
+            },
+            {
+              "item": "DT- number assigned via paper registration",
+              "condition": "deficient",
+              "notes": "Two patients registered with DT- numbers without cross-checking against trauma numbers"
+            },
+            {
+              "item": "Wristband labeling consistency",
+              "condition": "failed",
+              "notes": "DT-004112 and DT-004118 on wristbands conflict with T-6 and T-9 on tracking board"
+            },
+            {
+              "item": "Second-person verification of patient ID",
+              "condition": "failed",
+              "notes": "No verification performed by two staff on the same patient"
+            },
+            {
+              "item": "Registration clerk awareness of downtime protocol",
+              "condition": "failed",
+              "notes": "Clerk not informed of trauma number protocol during downtime activation"
+            },
+            {
+              "item": "Cross-reference between HCC and registration",
+              "condition": "failed",
+              "notes": "No real-time sync between paper tracking board and registration database"
+            },
+            {
+              "item": "Patient with no ID in triage",
+              "condition": "deficient",
+              "notes": "Unidentified male patient in triage bay, possible duplicate identity with T-6"
+            },
+            {
+              "item": "Use of duplicate number series",
+              "condition": "failed",
+              "notes": "DT- series used in parallel with T- series without central coordination"
+            },
+            {
+              "item": "Family member assisting with registration",
+              "condition": "ok",
+              "notes": "Brother registered a patient, but no verification of identity"
+            },
+            {
+              "item": "HCC tracking board status",
+              "condition": "failed",
+              "notes": "HCC not notified of dual numbering; board not updated to reflect DT- to T- mapping"
+            }
+          ],
+          "actionsTaken": [
+            "Notified HCC and EDMD via intercom at 17:50",
+            "Paused issuance of new DT- numbers until cross-reference complete",
+            "Assigned a second nurse to verify all wristbands and tracking board entries",
+            "Initiated a one-time cross-reference of T- and DT- numbers under supervision of the CNO"
+          ],
+          "recommendations": [
+            "Immediately suspend use of dual numbering series; standardize on T- for trauma patients and DT- for registration-only",
+            "Require dual verification by two staff for all patient IDs at bedside and on wristbands",
+            "Notify Chief Privacy Officer per ORRMC-DT-ANX-2026, Section 5",
+            "Document all duplicate identities for later reconciliation and audit"
+          ],
+          "photosNote": "3 photos attached: IMG_0412-0414 (wristband DT-004112, tracking board T-6, paper registration form), IMG_0415 (wristband DT-004118, tracking board T-9), IMG_0416 (unidentified male in triage, brother holding ID card)",
+          "signature": "Tamika Reed, Registration Supervisor",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject introduces a critical patient safety and privacy risk. The CNO and EDMD must halt dual numbering, enforce verification, and alert the CPO. Watch for delays in protocol enforcement or attempts to bypass verification.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:22:57.750Z"
+}

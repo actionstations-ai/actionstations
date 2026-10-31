@@ -123,6 +123,22 @@ export function exerciseDate(now = new Date()): string {
   })
 }
 
+const STATED_DATE =
+  /\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/
+
+/**
+ * The date the scenario itself states (in its STARTEX row or its threat summary, as when the
+ * brief names one), so every artifact shows it; today's date only when the scenario has none.
+ */
+export function scenarioDate(s: Scenario, now = new Date()): string {
+  const texts = [s.msel[0]?.event, s.overview?.threat]
+  for (const text of texts) {
+    const found = typeof text === 'string' ? STATED_DATE.exec(text) : null
+    if (found) return found[0]
+  }
+  return exerciseDate(now)
+}
+
 function phaseVars(s: Scenario, row: MselRow) {
   const p = s.phases.find((x) => x.id === row.phaseId)
   return p
@@ -169,7 +185,7 @@ function buildVars(input: InjectTextInput, choice: TypeChoice): Record<string, u
     }),
     row: rowVars(row, s.roles),
     phase: phaseVars(s, row),
-    exerciseDate: exerciseDate(),
+    exerciseDate: scenarioDate(s),
     injectType: choice.type,
     injectTypeLabel: info?.label ?? choice.type,
     injectCategory: info?.category ?? 'documents',

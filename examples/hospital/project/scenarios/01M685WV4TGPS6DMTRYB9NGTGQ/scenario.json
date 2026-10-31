@@ -1,0 +1,3631 @@
+{
+  "formatVersion": 1,
+  "id": "01M685WV4TGPS6DMTRYB9NGTGQ",
+  "projectId": "01M685F066KESVZ41ZASN3ZZZE",
+  "title": "Ghost Pumps",
+  "subtitle": "Infusion Pump Integrity and Clinical Trust",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T05:45:54.307Z",
+  "brief": {
+    "userPrompt": "Patient monitors in ICU 3 North and 3 South drop off the central station and an infusion pump drug library is found altered through a vendor remote-support account; Clinical Engineering and Information Security decide whether to isolate the device network, keep critical patients safe on manual checks and report to the manufacturer, the FDA and the public.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Information Security Officer (Technical Lead)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "Clinical Engineering Manager (Infrastructure Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "14:20",
+    "threatFamily": "cyber_physical"
+  },
+  "overview": {
+    "theme": "Cyber-physical risk, a joint isolation decision, evidence and reporting, and disclosure to families",
+    "threat": "At 13:55 on Thursday, March 12, 2026 someone using stolen vendor remote-support credentials changes the drug library on the infusion pump server ORRMC-PUMP01 through the vendor session broker ORRMC-VSB01. 41 pumps in ICU 3 North, ICU 3 South and 4 East take library 4.2.2, which raises the hard dose limits, so the pumps will not alarm at unsafe rates. The same session scans the device network 10.40.x.x, and four ICU patients drop off the central monitoring display.",
+    "operationalImpact": "Nursing cannot rely on pump limits for heparin, insulin, opioids or vasopressors, or on the central telemetry display. The hospital must choose between blocking the intruder and keeping central monitoring, imaging and lab interfaces. A near-miss and a possible hypoglycemia event from an unknown cause raise disclosure and reporting duties.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Information Security Officer (Technical Lead), Chief Nursing Officer (Operations Section Chief), Clinical Engineering Manager (Infrastructure Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Cyber-Physical Risk",
+      "text": "Demonstrate the ability to recognize a device-integrity incident from clinical and technical signs and to assign high-alert infusions a safe manual process."
+    },
+    {
+      "id": "obj-2",
+      "name": "Isolation Decision",
+      "text": "Demonstrate the ability to make the device-network isolation decision jointly (Information Security, Clinical Engineering, Nursing, the CMO and the AOC), with the clinical costs stated before the decision."
+    },
+    {
+      "id": "obj-3",
+      "name": "Evidence and Reporting",
+      "text": "Demonstrate the ability to preserve evidence and to report to the manufacturer, the FDA, the FBI, CISA and H-ISAC on the clocks the plans name."
+    },
+    {
+      "id": "obj-4",
+      "name": "Patient and Public Communication",
+      "text": "Demonstrate the ability to disclose to an affected family before the public does and to hold a statement to confirmed facts."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Information Security Officer (Technical Lead)",
+      "abbreviation": "ISO",
+      "team": "Team B: Technology",
+      "description": "Marcus Hale. Leads containment, evidence preservation, outside reporting and the safety check before any restored system is used on patients.",
+      "standingOrders": [
+        "Preserve evidence before anything is wiped or rebuilt.",
+        "A restore is not an all-clear: watch restored systems for at least 72 hours."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "biomed",
+      "name": "Clinical Engineering Manager (Infrastructure Branch)",
+      "abbreviation": "CE",
+      "team": "Team D: Infrastructure",
+      "description": "Peter Lindqvist. Owns the networked medical devices (infusion pumps, monitors, ventilators, analyzers) and their manual fallbacks.",
+      "standingOrders": [
+        "Never trade a device that is working at the bedside for central visibility without the CNO agreeing."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Odd Signals",
+      "goal": "Link a monitoring display fault, a pump library change and a near-miss into one incident, and decide how to treat pumps that cannot be trusted.",
+      "beats": [
+        "Four ICU 3 North patients vanish from the central monitoring display while their bedside monitors keep working.",
+        "The pump server shows library 4.2.2 pushed at 13:55 by a vendor support account nobody scheduled.",
+        "A heparin rate of 180 units/kg/hr is accepted at the bedside without a hard-limit alarm and is caught by a second nurse."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Is the Network Safe?",
+      "goal": "Decide how far to trust the device network, review every high-alert infusion since 13:58, and answer the vendor, the FBI and the public.",
+      "beats": [
+        "Pharmacy finds six high-alert infusions started on pumps carrying the altered library.",
+        "The pump maker says it did not send the library and advises against using the affected pumps for high-alert drugs.",
+        "Scanning from the vendor session broker continues toward imaging modalities and the monitoring server."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Containment Costs",
+      "goal": "Isolate or not, and live with the consequences: lost central monitoring, a false alarm that sends a rapid response team, a hypoglycemia event with an unclear cause and a reporter's call.",
+      "beats": [
+        "The device network is isolated and telemetry for 32 ICU beds goes dark.",
+        "The central station shows \"asystole\" for a patient who is fine at the bedside.",
+        "An insulin patient is found at a glucose of 52 and the pump log shows a rate higher than the order for 31 minutes."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Verification",
+      "goal": "Rebuild trust one pump at a time, decide on the vendor's access, disclose to a family and prepare the regulators, and decide whether to reconnect monitoring.",
+      "beats": [
+        "Clinical Engineering re-flashes the pump library from the hospital's own offline copy and bench-tests each pump.",
+        "The vendor traces the account to stolen credentials from its own support portal.",
+        "The exercise ends with the device network still isolated and one open decision: reconnect central monitoring behind a new firewall rule."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "14:20",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "biomed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 14:20 on Thursday, March 12, 2026 at Ottawa River Regional Medical Center. Census is 326 inpatients with 19 in the ED; ICU 3 North and ICU 3 South are both full (16 patients each). The weather is overcast with light rain. At 14:17 the charge nurse in ICU 3 North noticed that four patients no longer appear on the central telemetry display on ORRMC-MON01. Their bedside monitors still show normal tracings. Nobody has linked this to anything else, and no incident has been declared.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M685WV5HHT509WJP2XJ1FGWD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "14:25",
+      "from": "ICU 3 North Charge Nurse Mara Voss",
+      "toRoleIds": [
+        "clinical",
+        "biomed"
+      ],
+      "toLabel": "CNO, CE",
+      "event": "Phone Call: \"Mara Voss, ICU 3 North. On the central board four beds have gone blank: 3, 7, 9 and 12. At the bedside the monitors look normal and nobody is alarming. I also have a pump on bed 7 that says \"library update pending\" and I have not seen that before. Do I need to do anything, or is this a display glitch?\"",
+      "expectedAction": "The CNO has the charge nurse put a nurse at the bedside of the four patients and keeps their bedside alarms audible. The CNO calls Clinical Engineering, who note the pump message and ask other units for the same message. Nothing is declared yet, but the CNO tells the Nursing Supervisor to ask all ICU and step-down units whether they have blank beds or the pump message.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M685X23NQ9CZATPE97DW6Z9G",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:12",
+      "wallClock": "14:32",
+      "from": "Clinical Engineering Technician Hao Tran",
+      "toRoleIds": [
+        "biomed",
+        "it"
+      ],
+      "toLabel": "CE, ISO",
+      "event": "Helpdesk Ticket CE-26-03-0087, priority 2: \"ORRMC-PUMP01 shows drug library 4.2.2 loaded at 13:55 by the account pumplink-support. Our change log shows no library change scheduled this week; the current approved library is 4.2.1. 41 pumps in ICU 3 North, ICU 3 South and 4 East report 4.2.2 as of 14:10. Central monitoring shows four ICU 3 North beds with no data since 14:02. I have not changed anything.\"",
+      "expectedAction": "Clinical Engineering stops further library pushes (blocks the push schedule on ORRMC-PUMP01), keeps the server running to preserve logs, and calls the pump maker on the support number kept in the Clinical Engineering binder, not the number in the session. The CE tells the ISO. Under the Cyber Incident Response Plan (Section 3) the ISO treats suspected compromise of a device segment as Cyber 2, which means EOP Level 2 and an HCC.",
+      "purposeTag": "CLUE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M685XDYBWJVXABDBRVFYQ1YQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:20",
+      "wallClock": "14:40",
+      "from": "Managed Detection Service",
+      "toRoleIds": [
+        "it",
+        "biomed"
+      ],
+      "toLabel": "ISO, CE",
+      "event": "SIEM Alert, high: \"Vendor session broker ORRMC-VSB01: account pumplink-support authenticated from 203.0.113.77 at 13:48 after a password reset through the vendor portal at 13:46; session closed 13:58. During the session, port scans of 10.40.10.0/24, 10.40.30.0/24 and 10.40.40.0/24 touched 212 hosts, including the pump server, the telemetry server and two imaging modalities. A configuration change was made on ORRMC-PUMP01 at 13:55.\"",
+      "expectedAction": "The ISO confirms the vendor account was not used by the vendor, blocks the account and the source address, suspends vendor remote access to all device systems, captures the broker's logs and a memory image of ORRMC-VSB01, and tells the AOC that the device network may be compromised. The AOC opens the HCC at Level 2 (EOP Section 4).",
+      "purposeTag": "CLUE",
+      "format": "siem_alert",
+      "injectId": "01M685XNYCJ1B6TKP4DCEVD4MY",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:30",
+      "wallClock": "14:50",
+      "from": "ICU 3 South Nurse Manager Dalia Hart",
+      "toRoleIds": [
+        "clinical",
+        "biomed"
+      ],
+      "toLabel": "CNO, CE",
+      "event": "Phone Call: \"Dalia Hart, ICU 3 South. Two minutes ago a nurse started a heparin infusion on bed 6 and typed 18.0 units/kg/hr as 180. The pump accepted it and did not alarm. The second nurse caught it at the bedside before the infusion started. Our hard limit is 25. I need to know if I can trust any pump on this unit.\"",
+      "expectedAction": "The CNO orders an independent double check, at the bedside, of every high-alert infusion rate (heparin, insulin, opioids, vasopressors, sedation) on every pump hospital-wide, until Clinical Engineering says otherwise, and has Pharmacy supply a rate-check card. Affected units set aside the pumps with library 4.2.2 for high-alert drugs where a pump on 4.2.1 is available. The CNO reports the near-miss through the safety event system.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M685YGPAQP0Z999PVMTXMGW9",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:45",
+      "wallClock": "15:05",
+      "from": "Clinical Engineering Manager Peter Lindqvist",
+      "toRoleIds": [
+        "biomed",
+        "it",
+        "clinical"
+      ],
+      "toLabel": "CE, ISO, CNO",
+      "event": "Radio Call: \"CE to ISO and CNO. The pumps on 4.2.2 are 41. We have 38 spare pumps on the shelf, all on 4.2.1, and no pump server we can trust. I can swap pumps on the highest-risk patients, 22 of them on high-alert drugs, over the next two hours, or I can wait for the maker's advice. Swapping interrupts infusions. Which do you want?\"",
+      "expectedAction": "The CNO and the CE prioritize: swap the pumps on the highest-risk infusions first, with a nurse at the bedside for each swap, a rate check by a second nurse and a restart log; use syringe or gravity methods only where a pump cannot be spared. The CMO is told which therapies cannot be interrupted (for example vasopressors), and the ISO is told that ORRMC-PUMP01 must not push anything.",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "injectId": "01M685YTNDHTPNAW0Y4CSBKJZH",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "15:20",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "biomed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 15:20. The HCC is open at Level 2. The vendor account is blocked and ORRMC-PUMP01 is not pushing. Eleven of the 22 high-alert pumps have been swapped. The central board still shows the four dark beds. The pump maker's security desk is calling back.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M685Z1Q6JBT2Q0GQ55XDYWX2",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "15:25",
+      "from": "Pharmacy Director Anil Desai",
+      "toRoleIds": [
+        "clinical",
+        "it"
+      ],
+      "toLabel": "CNO, ISO",
+      "event": "Phone Call: \"Anil Desai. I pulled the pump logs for the 41 pumps. Since 13:58 six high-alert infusions have started on them: two heparin, one insulin, two fentanyl and one norepinephrine. All six rates match the pharmacy order on the first check. But those pumps would not have alarmed at an unsafe rate, so I do not trust the match. Do I review all six by hand?\"",
+      "expectedAction": "The CMO and Pharmacy review the six patients now: each rate is compared with the order by a pharmacist at the bedside; heparin and insulin patients get a stat aPTT and a glucose; the pumps are swapped first for these six. The CNO records the review in the incident log and the CMO is told in case a disclosure conversation is needed.",
+      "purposeTag": "CLUE",
+      "format": "phone_call",
+      "injectId": "01M685Z7MH8XZBN09WRH0J8YJR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "15:35",
+      "from": "Pump maker product security desk",
+      "toRoleIds": [
+        "it",
+        "biomed",
+        "ic"
+      ],
+      "toLabel": "ISO, CE, AOC",
+      "event": "Email Forward (from the pump maker's product security desk): \"We did not issue library 4.2.2 and our remote support did not schedule a session at ORRMC today. The account pumplink-support belongs to a field engineer; we are checking whether its credentials were exposed. Until we know, we recommend that you do not use any pump on 4.2.2 for high-alert infusions, and that you disable remote access. We can ship 60 loaner pumps on 4.2.1 by 20:00. Please preserve the pump server and the session broker.\"",
+      "expectedAction": "The AOC accepts the loaner offer (so all 41 can be taken out of high-alert use without gutting capacity) and the CE schedules a bench-flash of the 41 from the hospital's own offline 4.2.1 copy. The ISO confirms that the hospital preserves the pump server and the broker. The ISO keeps the manufacturer on the incident log and starts the manufacturer and FDA reporting questions with the Chief Privacy Officer and outside counsel.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M685ZGHMGGETH2V4G8V28S3T",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "15:45",
+      "from": "FBI Cleveland Field Office duty agent (SimCell)",
+      "toRoleIds": [
+        "it",
+        "ic"
+      ],
+      "toLabel": "ISO, AOC",
+      "event": "Phone Call: \"Duty agent at the FBI Cleveland Field Office, returning your call. We have your report. Please preserve logs, the broker and the pump server, and take images before you rebuild. We cannot tell you whether to isolate your device network: that is a patient-safety call that only you can make. If you can tell us the source address and times, our cyber squad will follow up this evening.\"",
+      "expectedAction": "The ISO confirms preservation and sends the times and the source address; the ISO also reports to CISA and H-ISAC. The AOC notes that the isolation decision is the hospital's alone, to be made on patient-safety grounds (Cyber Incident Response Plan, Section 5). The ISO logs the call and the agent's name.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M685ZTBV1VZT3QVBEG1JCC7Q",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:35",
+      "wallClock": "15:55",
+      "from": "@ToledoJen on social media",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Social Media Post (@ToledoJen): \"My dad is in ICU at Ottawa River. Nurses are standing at every bed and the big monitor screens are BLANK. Nobody will tell us anything. Is the hospital hacked??\" Photo of an empty monitoring display. 44 reposts, 19 replies.",
+      "expectedAction": "The PIO logs the post, does not confirm a cause, and releases the holding statement approved in advance (Emergency Operations Plan, Section 10): the hospital is addressing a technical issue with some monitoring equipment, patients are being cared for at the bedside, and families can call a number staffed by the PIO team. The PIO asks the ICU managers to speak to families directly.",
+      "purposeTag": "MISINFORMATION",
+      "format": "tweet",
+      "injectId": "01M68606DV0XH9Q9MV0WVXQSDQ",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:45",
+      "wallClock": "16:05",
+      "from": "Clinical Engineering Manager Peter Lindqvist",
+      "toRoleIds": [
+        "biomed",
+        "it",
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "CE, ISO, CNO, AOC",
+      "event": "Radio Call: \"CE to HCC. At 16:01 the logs still show scanning from 10.40.10.0/24 toward CT-2 and MRI-1 and a connection attempt to the telemetry server ORRMC-MON01 from the broker. I recommend isolating the whole device network, 10.40.x.x. That stops the library pushes and the scanning. It also means: central telemetry for 32 ICU beds goes dark, imaging cannot send to PACS, lab analyzers cannot send results, and no library updates. The alternative is to block just the broker and watch.\"",
+      "expectedAction": "This is the decision point. The AOC decides with the ISO, the CE, the CNO and the CMO. Whichever option is chosen, the AOC states the clinical cost first: for full isolation, a nurse or portable monitor for every telemetry patient, imaging read at the console, manual lab results; for blocking only the broker, the risk that an intruder already inside moves again. The decision, who made it and the reason go in the incident log (Cyber Incident Response Plan, Section 5 and Section 6).",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "injectId": "01M6860EQX98QQRNY2DMED4Q1V",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "16:20",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "biomed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 16:20. The AOC has ordered the device network isolated and the ISO is applying the firewall rule. The 22 highest-risk pumps have been swapped; 19 pumps on 4.2.2 remain in use for low-risk fluids only. The sample from the six high-alert infusion review has gone to the lab by runner.",
+      "expectedAction": "Players move to the consequences of the isolation.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M6860RP1S7J2TNAMXMT1VMAP",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "16:25",
+      "from": "Nursing Supervisor Sana Qureshi",
+      "toRoleIds": [
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "CNO, AOC",
+      "event": "Field Report (Nursing Supervisor to HCC): \"Isolation is in. Central telemetry for ICU 3 North, 3 South, 4 East and 7 East is dark. The bedside monitors work but nobody is watching 41 telemetry patients from a central desk. Staffing for one-to-one observation of the 12 highest-risk patients needs six more RNs tonight and three portable monitors we do not have. What do I tell the units?\"",
+      "expectedAction": "The CNO activates the call-in tree and uses float and agency staff, assigns one-to-one watch to the highest-risk telemetry patients, and asks Clinical Engineering for the portable monitors on the shelf and the ones that can come from other hospitals through the coalition. The AOC approves overtime and the Liaison Officer asks the coalition for monitors.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "injectId": "01M6861098XTYPH1Q6S6R72P7N",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:15",
+      "wallClock": "16:35",
+      "from": "Central Monitoring Station ORRMC-MON01",
+      "toRoleIds": [
+        "clinical",
+        "biomed"
+      ],
+      "toLabel": "CNO, CE",
+      "event": "Alarm Summary (central station, 16:34): ICU 3 South bed 5 shows \"ASYSTOLE\" and \"NO DATA\" for 38 seconds before the station resets; 14 other beds show \"LEADS OFF\". The station is running on stale input after the isolation; the patient on bed 5 is awake and talking at the bedside. A rapid response team has been called.",
+      "expectedAction": "The CNO and the CE tell the units that after isolation the central display is not trusted, so alarm decisions are made at the bedside; the rapid response team stands down; the CE puts a notice on the central station. The CMO asks the ISO whether the display was manipulated or is simply stale. The decision to rely only on bedside monitors is recorded.",
+      "purposeTag": "CONFUSION",
+      "format": "alarm_summary",
+      "injectId": "01M6861B93CF0CX4ZTTJ4A775G",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:25",
+      "wallClock": "16:45",
+      "from": "Chief Medical Information Officer Dr. Priya Raman",
+      "toRoleIds": [
+        "clinical",
+        "biomed",
+        "ic"
+      ],
+      "toLabel": "CNO, CE, AOC",
+      "event": "Phone Call: \"Priya Raman. ICU 3 South bed 3, an insulin infusion. The order was 4 units/hr. The nurse found a glucose of 52 at 16:30. The pump log shows the rate at 14 units/hr from 15:58 to 16:29. The nurse says she entered 4.0. I cannot tell you whether the nurse mistyped, the pump misread the entry or the library changed the scaling. The patient is on dextrose and responding.\"",
+      "expectedAction": "The CMO and the nurse manager treat the patient, disclose the event to the patient and family without speculating on cause (hospital disclosure policy), and file the safety event. The CE and the ISO secure the pump and its log as evidence. The Chief Privacy Officer and outside counsel are told, and the question of device-related injury reporting to the manufacturer and the FDA is raised (the device reporting duties start with a serious injury) while the cause is unknown.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M6861W3T2XJZES5DK4BAWV4B",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:35",
+      "wallClock": "16:55",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. A family member says a nurse told her that ICU pumps were hacked and a patient got too much insulin. Can you confirm a cyberattack on infusion pumps and a patient overdose at Ottawa River? We are going to air at 17:30.\"",
+      "expectedAction": "The PIO does not confirm or deny a cause or any patient event. The PIO uses facts cleared by the ISO, the CMO and the Chief Privacy Officer: the hospital is addressing a technical issue with some medical equipment, patients are being monitored at the bedside, and the hospital will provide more as soon as facts are confirmed. The CMO meets the family before any statement mentions the event.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M68627QHEFCC1SR6BA2114GG",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "17:20",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "biomed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 17:20. The device network has been isolated for an hour. Central telemetry remains dark and the extra RNs are arriving. The loaner pumps are on a courier's van. Clinical Engineering has re-flashed 22 pumps from the offline 4.2.1 copy.",
+      "expectedAction": "Players move to verification and recovery decisions.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M6862CZ74A285EAF4G4VY2R5",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "17:25",
+      "from": "Clinical Engineering Technician Hao Tran",
+      "toRoleIds": [
+        "biomed",
+        "clinical",
+        "it"
+      ],
+      "toLabel": "CE, CNO, ISO",
+      "event": "Field Report (Clinical Engineering to HCC): \"Bench status. We re-flash from the offline copy, verify the library hash, run a test infusion at three rates and compare the result with the entered values. 22 pumps are done and 19 remain; each takes about 12 minutes, and we have two benches. We have not touched the 38 spares because they never connected to ORRMC-PUMP01. We will keep a signed sheet for every pump.\"",
+      "expectedAction": "The CE and the CNO agree the order of work (units with the most high-alert infusions first), the sign-off sheet, and that a pump comes back into service only after the CE signs it and a nurse checks the first rate at the bedside. The ISO keeps the pump server isolated until it is rebuilt from a known-good image.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "field_report",
+      "injectId": "01M6862M36PWZ662QJEBKMB474",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "17:35",
+      "from": "Pump maker incident response lead",
+      "toRoleIds": [
+        "it",
+        "ic",
+        "biomed"
+      ],
+      "toLabel": "ISO, AOC, CE",
+      "event": "Email Forward (from the pump maker's incident response lead): \"Update. The account pumplink-support was used with credentials taken from a third-party breach of our support portal on March 9. The pumps accept a library from the pump server without a signature check unless the server is configured for signed libraries, which yours was not. Other customers may be affected. We recommend that you turn off remote access entirely and enable signed libraries. We will report to the FDA as the manufacturer.\"",
+      "expectedAction": "The AOC and the ISO decide to keep vendor remote access off until the vendor shows multi-factor authentication and a supervised-session process, and to enable signed libraries when the server is rebuilt. The CE and the ISO record the lesson for the contract review. Outside counsel and the Chief Privacy Officer decide on the hospital's own reports as a user facility.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M686316AB9HH14W4HXV9092V",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "17:45",
+      "from": "Facebook post (Toledo ICU families group)",
+      "toRoleIds": [
+        "pio",
+        "clinical"
+      ],
+      "toLabel": "PIO, CNO",
+      "event": "Facebook Post (Group: Toledo Hospital Families): \"My mom is in ICU 3 South at Ottawa River. A nurse just told me the pump gave her too much medicine this afternoon and hackers did it. Is anyone else hearing this? They are moving her to a different pump now.\" 23 reactions, 17 comments.",
+      "expectedAction": "The CMO and the nurse manager meet this family at once, tell them what is known and not known, and avoid blaming staff or confirming a cause. The PIO monitors the group, does not argue in it, and releases a short statement only if cleared by the Chief Privacy Officer, the ISO and the CMO. The CNO reminds staff that family and patient disclosure is handled by the CMO team, not at the bedside.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "injectId": "01M6863BCYNAWYP1S2F2HCXJ2W",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "17:55",
+      "from": "Chief Privacy Officer Joyce Tanaka",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "pio"
+      ],
+      "toLabel": "AOC, ISO, PIO",
+      "event": "Memo: \"Preliminary privacy assessment. The telemetry server stores patient names, MRNs and waveforms. The broker session scanned ORRMC-MON01 and made one connection attempt; the logs so far show no data read. That is not the same as no access. I will not write a conclusion until the forensic firm has the logs. I am starting the four-factor risk assessment (45 CFR 164.402) today and I want the clock note on file: discovery 14:40.\"",
+      "expectedAction": "The AOC, the CPO and outside counsel record discovery as 14:40, keep the risk assessment open and agree that no statement says patient data was not accessed. The ISO commits to the forensic timeline for the telemetry server logs. The FDA and manufacturer reporting questions stay on the HCC list with an owner.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "injectId": "01M6863WBDAVFPK7F0N0DZV28R",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:45",
+      "wallClock": "18:05",
+      "from": "Planning Section Chief (Situation Unit)",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "biomed",
+        "clinical"
+      ],
+      "toLabel": "AOC, ISO, CE, CNO",
+      "event": "Sitrep 6: \"18:05. Device network isolated since 16:15. 28 of 41 pumps re-flashed and verified; 13 left; loaners arrive at 20:00. Central telemetry still dark; 12 patients on one-to-one observation. ORRMC-PUMP01 isolated and imaged. The ISO proposes to reconnect only the monitoring network, behind a new firewall rule that allows ORRMC-MON01 to talk to the bedside monitors and nothing else, after the telemetry server is rebuilt. Rebuild time 3 hours. Decision needed on the plan for the night.\"",
+      "expectedAction": "The AOC decides the night plan with the ISO, the CE, the CNO and the CMO: keep the device network isolated overnight, reconnect monitoring only after the rebuilt telemetry server is verified and the ISO signs, keep one-to-one observation until then, and set the next sitrep for 22:00. The decision does not declare the network safe.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "injectId": "01M68645RG7YCR94ZB24RR61C2",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "18:20",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "biomed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX: It is 18:20. The device network is still isolated. Thirteen pumps remain unverified, central monitoring is still off and the one-to-one observation continues. The manufacturer, FDA and privacy reports are open, and the question of reconnecting monitoring stands for the night.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M6864H8J1DN93NV3C3D09PN6",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M685WV4TGPS6DMTRYB9NGTGQ/documents/handbook.md",
+    "briefing": "scenarios/01M685WV4TGPS6DMTRYB9NGTGQ/documents/briefing.md",
+    "hotwash": "scenarios/01M685WV4TGPS6DMTRYB9NGTGQ/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M6875799GNJXVEY5KMMMNKEY",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops failed to convene the joint decision team (ISO, CE, CNO, CMO, AOC) within 5 minutes of I-05, delayed the stop-service decision until I-09 forced it, and did not state the clinical cost of isolation before choosing full network isolation.",
+        "pass": "Ops convened the joint team by I-05, made the isolation decision with full discussion of clinical cost (e.g., loss of central telemetry, manual lab reporting), and documented the decision in the incident log per EOP Section 5.",
+        "excellence": "Ops proactively convened the joint decision team at I-04 after the first near-miss, anticipated the isolation decision point, and pre-identified clinical risks (e.g., loss of central telemetry, manual lab reporting) for inclusion in the decision framework before I-05.",
+        "linkedInjectIds": [
+          "I-04",
+          "I-05",
+          "I-10",
+          "I-19"
+        ],
+        "objectiveRefs": [
+          "Isolation Decision",
+          "Cyber-Physical Risk"
+        ]
+      },
+      {
+        "id": "01M68757996KAVZEFQJ5XJWWJS",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "IT failed to preserve the pump server and session broker after I-03, reset the controller after I-08b, destroying evidence, and did not block the vendor account or source IP before I-08.",
+        "pass": "IT preserved ORRMC-PUMP01 and ORRMC-VSB01 per EOP Section 3, blocked the account pumplink-support and the source IP 203.0.113.77 after I-03, and confirmed logs were captured before rebuilding.",
+        "excellence": "IT immediately isolated ORRMC-PUMP01 and ORRMC-VSB01 after I-03, captured memory and logs before any rebuild, and initiated forensic imaging of the broker and server as a precaution, per C3 and EOP Section 3.",
+        "linkedInjectIds": [
+          "I-03",
+          "I-08",
+          "I-16",
+          "I-18"
+        ],
+        "objectiveRefs": [
+          "Evidence and Reporting",
+          "Cyber-Physical Risk"
+        ]
+      },
+      {
+        "id": "01M6875799S9X8RKS8H5NW2H86",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "PIO failed to disclose to an affected family before the public did, released a statement before the CMO cleared it, and confirmed a cause in the social media response.",
+        "pass": "PIO disclosed to an affected family before I-09, released a holding statement approved in advance (EOP Section 10), and did not confirm a cause or patient event in any public response.",
+        "excellence": "PIO proactively contacted the family of ICU 3 South bed 3 before I-13, confirmed the CMO had met with them, and issued a public statement only after the CMO, ISO, and CPO cleared it, per C4 and EOP Section 10.",
+        "linkedInjectIds": [
+          "I-09",
+          "I-13",
+          "I-14",
+          "I-17"
+        ],
+        "objectiveRefs": [
+          "Patient and Public Communication"
+        ]
+      },
+      {
+        "id": "01M68757991ED84WZEG42J4JW1",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "Students failed to cite EOP Section 3 for the Cyber 2 classification, did not reference C3 for manufacturer reporting, and did not mention EOP Section 5 for the isolation decision process.",
+        "pass": "Students cited EOP Section 3 to justify the HCC activation and Cyber 2 classification, referenced C3 for reporting to the manufacturer and FDA, and cited EOP Section 5 to justify the joint decision process.",
+        "excellence": "Students cited EOP Section 3 (Cyber 2 classification), C3 (manufacturer reporting), and EOP Section 5 (joint decision process) in every major decision point, including I-05, I-10, and I-19, and referenced C4 for media control.",
+        "linkedInjectIds": [
+          "I-02",
+          "I-03",
+          "I-05",
+          "I-07",
+          "I-08",
+          "I-10",
+          "I-16",
+          "I-18"
+        ],
+        "objectiveRefs": [
+          "Evidence and Reporting",
+          "Isolation Decision",
+          "Patient and Public Communication"
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-1",
+        "capability": "cybersecurity",
+        "why": "The incident involves a cyber-physical compromise of medical devices, specifically infusion pumps, requiring cybersecurity actions to contain and assess the threat."
+      },
+      {
+        "objectiveId": "obj-1",
+        "capability": "operational_coordination",
+        "why": "The response requires coordination across Clinical Engineering, the ISO, Nursing, and the CMO to jointly assess and manage the risk to patient safety, as per the HICS structure and EOP Section 5."
+      },
+      {
+        "objectiveId": "obj-1",
+        "capability": "infrastructure_systems",
+        "why": "The integrity of the medical device network and its critical functions (e.g., infusion pumps, monitoring) must be stabilized to prevent harm, and manual fallbacks must be implemented to maintain care continuity."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "operational_coordination",
+        "why": "The decision to isolate the device network is a high-stakes, multi-role judgment that must be made in a coordinated fashion across clinical, technical, and administrative leadership, as required by EOP Section 5."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "public_information_and_warning",
+        "why": "The decision must be made with full awareness of its public and clinical implications, and the need to communicate the rationale clearly to internal and external stakeholders."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "cybersecurity",
+        "why": "The ISO must assess the threat level and technical risk to determine whether isolation is necessary to prevent further compromise, based on forensic evidence and system behavior."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "forensics_and_attribution",
+        "why": "The incident requires preservation of digital evidence (server, broker, logs) to support forensic analysis and attribution of the attack, as required by EOP Section 5."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "intelligence_and_information_sharing",
+        "why": "The hospital must share threat indicators and incident details with external entities (FBI, CISA, H-ISAC) in a timely and structured way, as per the EOP's reporting timelines."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "cybersecurity",
+        "why": "The ISO is responsible for ensuring evidence is preserved and that reporting to regulators and law enforcement occurs within the timeframes defined in the Cyber Incident Response Plan."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "public_information_and_warning",
+        "why": "The hospital must issue timely, accurate, and fact-based public statements to prevent misinformation and manage community trust, as required by EOP Section 10 and the PIO role."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "operational_coordination",
+        "why": "The PIO must coordinate with the ISO, CPO, and CMO to ensure all public statements are cleared and consistent, and that family disclosures are made before media release."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "cybersecurity",
+        "target": "The Information Security Officer preserves the pump server ORRMC-PUMP01 and the vendor session broker ORRMC-VSB01 by capturing memory and disk images, blocks the compromised vendor account pumplink-support, and prevents any further changes to the device network, as required by the Cyber Incident Response Plan (Section 5).",
+        "objectiveRefs": [
+          "obj-1",
+          "obj-2",
+          "obj-3"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "cybersecurity",
+            "task": "Capture a memory image of ORRMC-VSB01 and a disk image of ORRMC-PUMP01 before any system is rebuilt or wiped.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "within 15 minutes of the first alert",
+            "rowIds": [
+              "I-03",
+              "I-07",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "cybersecurity",
+            "task": "Block the vendor account pumplink-support and the source IP 203.0.113.77 in the network firewall.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "within 10 minutes of the SIEM alert",
+            "rowIds": [
+              "I-03",
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "cybersecurity",
+            "task": "Preserve the logs on ORRMC-VSB01 and ORRMC-PUMP01 by copying them to a write-protected media and storing them in the HCC evidence locker.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the account is blocked",
+            "rowIds": [
+              "I-03",
+              "I-07",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Incident Commander, with input from the ISO, Clinical Engineering, the CNO, and the CMO, makes a joint decision on device network isolation, states the clinical costs clearly, and documents the rationale and decision in the incident log, as required by EOP Section 5.",
+        "objectiveRefs": [
+          "obj-1",
+          "obj-2",
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-04",
+            "capability": "operational_coordination",
+            "task": "Convene a joint decision session in the HCC between the ISO, CE, CNO, CMO, and AOC to discuss the isolation decision.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "ic",
+            "timing": "within 30 minutes of the I-10 decision point",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "operational_coordination",
+            "task": "State the clinical cost of full isolation: 32 telemetry patients will be monitored only at the bedside, imaging and lab results will be manual, and no library updates will be received.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "ic",
+            "timing": "before the decision is made",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "operational_coordination",
+            "task": "Log the decision, who made it, and the rationale in the incident log, including the alternative of blocking only the broker.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "ic",
+            "timing": "immediately after the decision",
+            "rowIds": [
+              "I-10",
+              "TJ-2"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer issues a holding statement to families and the public using only facts cleared by the ISO, CPO, and CMO, and ensures that no statement is made until the hospital has confirmed the facts and the CMO has spoken to the affected family, as required by EOP Section 10.",
+        "objectiveRefs": [
+          "obj-2",
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "public_information_and_warning",
+            "task": "Release the holding statement approved in advance: 'The hospital is addressing a technical issue with some monitoring equipment, patients are being cared for at the bedside, and families can call a number staffed by the PIO team.'",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "pio",
+            "timing": "within 10 minutes of the I-09 social media post",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "public_information_and_warning",
+            "task": "Notify the CMO and the CPO that a family has been informed of a potential event, and confirm that the CMO has spoken to the family before any public statement mentions the event.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "expectedBy": "pio",
+            "timing": "within 15 minutes of the I-13 event",
+            "rowIds": [
+              "I-13",
+              "I-14"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "public_information_and_warning",
+            "task": "Monitor social media and family groups for misinformation and do not engage in debate; only release a new statement if cleared by the ISO, CPO, and CMO.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander (HICS) | Helen Marchetti, COO (Administrator on Call) | Dr. Samuel Obuya, CMO | Downtime level, diversion, evacuation, p",
+              "chunkId": 3
+            },
+            "expectedBy": "pio",
+            "timing": "continuously during the exercise",
+            "rowIds": [
+              "I-09",
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "obj-2",
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "forensics_and_attribution",
+        "target": "The Information Security Officer ensures that forensic evidence is preserved and that the hospital's forensic team is engaged under legal privilege to analyze the compromised systems, as required by EOP Section 5 and the Cyber Incident Response Plan.",
+        "objectiveRefs": [
+          "obj-3"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-10",
+            "capability": "forensics_and_attribution",
+            "task": "Engage the forensic firm under legal privilege to begin analysis of ORRMC-PUMP01 and ORRMC-VSB01.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "within 30 minutes of the first alert",
+            "rowIds": [
+              "I-03",
+              "I-07"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "forensics_and_attribution",
+            "task": "Preserve the telemetry server logs and the session broker logs as evidence, and ensure they are not altered or overwritten.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "immediately after the broker is blocked",
+            "rowIds": [
+              "I-03",
+              "I-07",
+              "I-18"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "forensics_and_attribution",
+            "task": "Report the incident to CISA and H-ISAC within 24 hours of discovery, using the hospital's established reporting form.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "it",
+            "timing": "within 24 hours of discovery (14:40)",
+            "rowIds": [
+              "I-08",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "intelligence_and_information_sharing",
+        "target": "The Information Security Officer reports the incident to the FBI, CISA, and H-ISAC within the timeframes specified in the EOP, and shares threat indicators including the source IP and compromised account, as required by EOP Section 5.",
+        "objectiveRefs": [
+          "obj-3"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Report the incident to the FBI Cleveland Field Office within 1 hour of the SIEM alert, including the source IP 203.0.113.77 and the compromised account pumplink-support.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "within 1 hour of I-03",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Report the incident to CISA and H-ISAC using the hospital's standardized template, including the source IP, account, and system affected.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "it",
+            "timing": "within 24 hours of discovery",
+            "rowIds": [
+              "I-08",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "intelligence_and_information_sharing",
+            "task": "Update the HCC incident log with the names and contact details of the FBI, CISA, and H-ISAC points of contact.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "it",
+            "timing": "after the first call",
+            "rowIds": [
+              "I-08",
+              "I-16"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "risk_management_for_protection_programs_and_activities",
+        "target": "The Chief Privacy Officer initiates a four-factor risk assessment under 45 CFR 164.402 within 15 minutes of discovery, and the AOC, CPO, and outside counsel agree that no statement will claim that patient data was not accessed, as required by EOP Section 6.",
+        "objectiveRefs": [],
+        "criticalTasks": [
+          {
+            "id": "T-16",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Begin the four-factor risk assessment under 45 CFR 164.402, with discovery noted as 14:40.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "timing": "within 15 minutes of discovery",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Agree with the AOC and outside counsel that no statement will claim that patient data was not accessed, pending forensic review.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "timing": "within 30 minutes of I-18",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "risk_management_for_protection_programs_and_activities",
+            "task": "Record the risk assessment as open and pending forensic analysis in the HCC log.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "timing": "immediately after the assessment is started",
+            "rowIds": [
+              "I-18"
+            ],
+            "objectiveRefs": [],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "infrastructure_systems",
+        "target": "The hospital stabilizes critical infrastructure functions by isolating the device network 10.40.x.x, re-flashing 41 infusion pumps from a known-good offline copy, and ensuring that all pumps are verified and signed off by Clinical Engineering before being returned to service, thereby minimizing health and safety threats and restoring a viable, resilient system.",
+        "objectiveRefs": [
+          "obj-1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-19",
+            "capability": "infrastructure_systems",
+            "task": "Isolate the device network 10.40.x.x to prevent further scanning and library pushes.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+              "chunkId": 6
+            },
+            "expectedBy": "ic",
+            "timing": "within 10 minutes of I-10",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "infrastructure_systems",
+            "task": "Re-flash 41 infusion pumps from the offline 4.2.1 copy using a bench-flash process.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "biomed",
+            "timing": "within 30 minutes of I-15",
+            "rowIds": [
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "infrastructure_systems",
+            "task": "Verify the library hash and run a test infusion at three rates on each pump before returning it to service.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "biomed",
+            "timing": "before each pump is signed off",
+            "rowIds": [
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "infrastructure_systems",
+            "task": "Keep the pump server ORRMC-PUMP01 isolated and imaged until rebuilt from a known-good image.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+              "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+              "chunkId": 10
+            },
+            "expectedBy": "it",
+            "timing": "before any restore",
+            "rowIds": [
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "infrastructure_systems",
+            "task": "Assign one-to-one bedside observation for all telemetry patients until central monitoring is restored and verified.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+              "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+              "chunkId": 7
+            },
+            "expectedBy": "clinical",
+            "timing": "within 15 minutes of I-11",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "infrastructure_systems",
+            "task": "Use portable monitors and float staff to maintain telemetry coverage after central monitoring is disabled.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+              "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+              "chunkId": 7
+            },
+            "expectedBy": "clinical",
+            "timing": "within 30 minutes of I-11",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the '3-Up, 3-Down' method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, and write each response on a whiteboard to create a shared visual record. Keep the discussion focused on actions, decisions, and communication.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "At the moment when Clinical Engineering reported that 41 pumps were on an unapproved library (I-02) and that telemetry had dropped (I-02), what caused you to stop trusting the system’s integrity, and what evidence made you believe the technical report over the clinical observation?",
+        "objectiveRef": "Cyber-Physical Risk"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When the nurse supervisor reported that one-to-one observation was now required for 12 high-risk patients (I-11), and that portable monitors were unavailable, how did you assess the gap between the technical plan and the actual bedside capability? What would have let you decide faster to bring in a vendor or external support?",
+        "objectiveRef": "Isolation Decision"
+      },
+      {
+        "topic": "The Call",
+        "text": "When the family posted on social media that 'a nurse just told me the pump gave her too much medicine' (I-17), what made you decide to contact the family before the public did? What information were you allowed to share, and what would have changed your timing?",
+        "objectiveRef": "Patient and Public Communication"
+      },
+      {
+        "topic": "The Evidence",
+        "text": "After Anil Desai reported that six high-alert infusions had started on the compromised pumps (I-06), you were asked whether to review all six by hand. What criteria did you use to decide that the evidence was not reliable enough to trust, and when did you decide to report to the FDA and CISA under EOP 4.3 and C3?",
+        "objectiveRef": "Evidence and Reporting"
+      },
+      {
+        "topic": "The Plan",
+        "text": "When the ISO proposed to reconnect only the monitoring network after rebuilding the telemetry server (I-19), what factors influenced your decision to accept or reject that plan? How did the plan name (EOP 4.3) and the clock on the plan guide your timing for approval?",
+        "objectiveRef": "Isolation Decision"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Pump maker incident response lead",
+      "trigger": "ISO calls the pump maker's security desk",
+      "hardQuestions": [
+        "Do you have the logs preserved from the session broker and the pump server? No? Call me back when you have evidence.",
+        "Do you have a signed copy of the library 4.2.2 that shows it was not issued by you? No? Then you cannot claim it was not authorized.",
+        "Do you have a record of the vendor portal breach date and the account that was compromised? No? Then you cannot confirm the credential theft."
+      ],
+      "concessions": [
+        "Will accept preserved logs and a written timeline.",
+        "Will provide a signed statement of the library’s origin and a copy of the vendor portal breach report.",
+        "Will send a forensic engineer to assist with the root-cause analysis if the hospital provides access to the session broker and pump server."
+      ]
+    },
+    {
+      "rolePlayed": "FBI Cleveland Field Office duty agent",
+      "trigger": "ISO calls the FBI",
+      "hardQuestions": [
+        "Have you preserved the session broker logs and the pump server memory image? No? Then you’ve destroyed evidence.",
+        "Do you have the source IP address 203.0.113.77 and the timestamps for the scan? No? Then you’re not ready for federal investigation.",
+        "Can you confirm the account pumplink-support was not used in any other known incident? No? Then you’re not a priority for our cyber squad."
+      ],
+      "concessions": [
+        "Will accept preserved logs and a timeline of system changes.",
+        "Will assign a cyber agent to review the forensic package within 24 hours if the hospital provides a complete chain of custody.",
+        "Will not block the hospital’s access to the vendor’s emergency patch if the hospital provides a signed affidavit of evidence preservation."
+      ]
+    },
+    {
+      "rolePlayed": "Ohio Department of Health (regulator)",
+      "trigger": "ISO or AOC reports to the state",
+      "hardQuestions": [
+        "Have you reported this to the state within 24 hours? No? Then you are in violation of 42 CFR 390.300.",
+        "Do you have a record of the 41 pumps that were compromised? No? Then you cannot prove you have the capacity to prevent future incidents.",
+        "Is the patient safety report filed with the state’s healthcare reporting system? No? Then you are not compliant with HHS cybersecurity performance goals."
+      ],
+      "concessions": [
+        "Will accept a completed breach assessment worksheet (45 CFR 164.402) within 48 hours.",
+        "Will defer the on-site review if the hospital provides a signed timeline and a copy of the forensic report.",
+        "Will not issue a citation if the hospital confirms all high-alert infusions were reviewed and documented."
+      ]
+    },
+    {
+      "rolePlayed": "Channel 11 reporter Laura Chen",
+      "trigger": "PIO receives media inquiry",
+      "hardQuestions": [
+        "Do you have a statement from the CNO on the insulin event? No? Then you’re not ready to talk.",
+        "Can you confirm the pump was changed to 4.2.2? No? Then you’re not telling the truth.",
+        "When will you release a full statement to the public? No? Then you’re not in control of the narrative."
+      ],
+      "concessions": [
+        "Will accept a quote from the CNO on patient safety if cleared by the ISO and CPO.",
+        "Will delay airtime if the hospital provides a verified timeline of the incident.",
+        "Will not use the word ‘hacked’ unless the hospital confirms it in writing."
+      ]
+    },
+    {
+      "rolePlayed": "Health-ISAC (information sharing partner)",
+      "trigger": "ISO contacts Health-ISAC",
+      "hardQuestions": [
+        "Have you shared the threat indicator (203.0.113.77) with Health-ISAC? No? Then you’re not protecting the healthcare sector.",
+        "Do you have a record of the vendor portal breach on March 9? No? Then you’re not participating in collective defense.",
+        "Is your network segmented from the device network? No? Then you’re not following the HHS guidance on medical device security."
+      ],
+      "concessions": [
+        "Will accept a signed report of the incident and a copy of the forensic findings.",
+        "Will share threat intelligence with the hospital if the hospital provides a signed NDA.",
+        "Will not notify other members until the hospital confirms the incident is contained."
+      ]
+    }
+  ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where players are encouraged to explore decisions without fear of real-world consequences.",
+      "The scenario is plausible, and events occur as they are presented through injects, with no external influence on timing or content.",
+      "Players respond in accordance with existing plans, policies and procedures as documented in the EOP, CIRP, and EHR Downtime Procedures Annex."
+    ],
+    "artificialities": [
+      "Time jumps between modules occur to simulate the passage of time and allow for inject review and discussion.",
+      "The SimCell plays all external actors not in the room, including the pump vendor, FBI, regulators, and media, using pre-scripted responses.",
+      "Systems named in the plans (e.g., ORRMC-PUMP01, ORRMC-MON01) are simulated and not physically accessed or modified.",
+      "Injects are delivered via paper or screen and not through actual system access or network interaction."
+    ],
+    "modules": [
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 14:20 on Thursday, March 12, 2026. The hospital’s census stands at 326 inpatients, with both ICU 3 North and ICU 3 South at full capacity. At 14:17, the charge nurse in ICU 3 North reported that four patients—beds 3, 7, 9, and 12—had disappeared from the central telemetry display on ORRMC-MON01, though bedside monitors showed normal tracings. Moments later, the same nurse reported a pump on bed 7 displaying \"library update pending,\" a new and unexplained message. Shortly after, a clinical engineering technician confirmed that 41 pumps across ICU 3 North, 3 South, and 4 East had unexpectedly updated to drug library version 4.2.2, which was not approved for use. The change occurred at 13:55, and no scheduled update was recorded. The managed detection service then alerted that a vendor session broker had been accessed from a suspicious IP (203.0.113.77) at 13:48, following a password reset at 13:46. The session included port scans across device network segments and a configuration change on the pump server. Minutes later, a nurse in ICU 3 South reported a near-miss with a heparin infusion, where a rate of 180 units/kg/hr was accepted by the pump instead of 18.0, suggesting a failure in the rate-limiting mechanism.",
+        "keyIssues": [
+          "Can the team identify a cyber-physical incident based on clinical and technical anomalies, and how to define trust in infusion pumps?",
+          "What immediate actions should be taken for high-alert infusions on pumps with untrusted software?",
+          "How to balance patient safety against operational continuity when device integrity is compromised?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "ISO: How do you assess the credibility of the pump library change and the vendor session as indicators of a cyber-physical incident, and what immediate technical controls should be applied?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Cyber-Physical Risk",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          },
+          {
+            "text": "CNO: What manual processes must be implemented for high-alert infusions on pumps with untrusted libraries, and who must approve the switch to manual mode?",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Cyber-Physical Risk",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+                "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+                "chunkId": 7
+              }
+            ]
+          },
+          {
+            "text": "CE: What is the minimum evidence required to determine that a pump is compromised, and how should you prioritize the replacement of pumps in high-risk units?",
+            "roleIds": [
+              "biomed"
+            ],
+            "objectiveRef": "Cyber-Physical Risk",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+                "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+                "chunkId": 7
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is now 15:20. The HCC has activated at Level 2. The vendor account pumplink-support has been blocked, and ORRMC-PUMP01 is no longer pushing updates. Eleven of the 22 high-alert pumps have been swapped to trusted spares on library 4.2.1. The central telemetry board remains dark for four beds in ICU 3 North. The pump maker’s security desk has confirmed that the library 4.2.2 was not issued by them, and that remote access was used without authorization. The FBI has returned the call, stating they cannot advise on network isolation but request that logs and system images be preserved for forensic analysis. The media has begun to react: a social media post from @ToledoJen shows a blank monitoring screen and questions a cyberattack. The pharmacy director reports that six high-alert infusions have been initiated on the 41 pumps since 13:58, all matching orders initially but with no alarm logic to prevent unsafe rates. The pump maker recommends discontinuing use of any pump on 4.2.2 for high-alert drugs and disabling remote access.",
+        "keyIssues": [
+          "What is the risk of continuing to use any pumps on 4.2.2, and how should the team define a safe threshold for continued use?",
+          "How to assess the risk of network scanning and unauthorized access to devices, and what evidence must be preserved?",
+          "What immediate reporting obligations arise under the CIRP and EHR Downtime Procedures Annex?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "ISO: What evidence must be preserved before any system rebuild, and how do you ensure that forensic integrity is maintained for the pump server, session broker, and telemetry server?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Evidence and Reporting",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          },
+          {
+            "text": "AOC: What is the threshold for reporting to the FDA, and what must be included in the initial report to the manufacturer and H-ISAC?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Evidence and Reporting",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              },
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+                "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+                "chunkId": 38
+              }
+            ]
+          },
+          {
+            "text": "PIO: What information can you release to the public before a media story breaks, and how do you prevent misinformation while maintaining transparency?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Patient and Public Communication",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is now 16:20. The device network (10.40.x.x) has been isolated at the firewall by the ISO, following a recommendation from Clinical Engineering. Central telemetry for 32 ICU beds is now dark, and no imaging, lab, or monitoring data is flowing. The 22 highest-risk pumps have been swapped, but 19 remain in use on 4.2.2 for low-risk fluids only. The pharmacy has completed a manual review of six high-alert infusions initiated since 13:58, and the results have been sent to the lab via runner. The pump maker confirms that the account was compromised via a third-party breach and that unsigned library updates were accepted—this was not a feature of their standard security model. A false alarm on ICU 3 South bed 5 triggered a rapid response team, though the patient was awake and stable. A nurse in ICU 3 South reports that a patient on insulin therapy had a glucose level of 52 at 16:30, and the pump log shows the rate at 14 units/hr from 15:58 to 16:29—though the order was for 4 units/hr. The media has escalated: a Channel 11 reporter calls to confirm a cyberattack and an overdose. A family post on Facebook claims a nurse told them the pump was hacked and a patient received too much insulin.",
+        "keyIssues": [
+          "What are the clinical and operational costs of isolating the device network, and how do they impact patient safety and staffing?",
+          "How to manage a false alarm and a real clinical event when system integrity is in question?",
+          "How to respond to a media story that includes unverified patient harm claims?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "CE: What is the impact of isolating the device network on patient monitoring, and what alternative safeguards are needed for the 12 highest-risk patients on one-to-one observation?",
+            "roleIds": [
+              "biomed"
+            ],
+            "objectiveRef": "Isolation Decision",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+                "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+                "chunkId": 7
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          },
+          {
+            "text": "CNO: How do you manage staffing shortages when central telemetry is lost, and what is the protocol for escalating to the AOC for additional RNs?",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Isolation Decision",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+                "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+                "chunkId": 7
+              }
+            ]
+          },
+          {
+            "text": "PIO: What must be said to the family of the insulin patient before a media report becomes public, and what is the process for confirming facts before disclosure?",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Patient and Public Communication",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is now 17:20. The device network has been isolated for one hour. Clinical Engineering has re-flashed 22 pumps from an offline 4.2.1 copy, verified each with test infusions, and begun a signed log for every unit. The remaining 13 pumps on 4.2.2 are being re-flashed in parallel, each taking 12 minutes. The loaner pumps are en route, expected by 20:00. The pump maker confirms that remote access was not secured and that signed libraries must be enabled. The forensic team has imaged ORRMC-PUMP01 and the session broker. The CPO has started a 45 CFR 164.402 risk assessment and noted the discovery time as 14:40. The ISO proposes to reconnect only the monitoring network behind a new firewall rule that allows ORRMC-MON01 to communicate with bedside monitors but not with the pump server or other devices. The rebuild will take three hours. The question remains: should monitoring be reconnected, and under what conditions?",
+        "keyIssues": [
+          "How to verify pump integrity one-by-one, and what documentation must be maintained for each unit?",
+          "What are the conditions for reconnecting the monitoring network, and who must approve it?",
+          "How to balance the need for central monitoring against the risk of a failed reconnection?"
+        ],
+        "discussionQuestions": [
+          {
+            "text": "CE: What is the verification process for re-flashing pumps, and how do you ensure that every pump in use has a documented, signed verification sheet before being returned to service?",
+            "roleIds": [
+              "biomed"
+            ],
+            "objectiveRef": "Evidence and Reporting",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+                "quote": "Clinical Engineering keeps the inventory of 9,400 networked devices with manufacturer, software version, network segment and manual fallback. When a device is thought to be compromised, the response i",
+                "chunkId": 7
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          },
+          {
+            "text": "ISO: What must be true before reconnecting the monitoring network, and what is the role of the firewall in protecting against re-infection?",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Isolation Decision",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          },
+          {
+            "text": "AOC: What is the final decision on reconnecting monitoring, and what must be communicated to the CMO, CNO, and the team before the change is made?",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Isolation Decision",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              },
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "criticalResources": [],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M685WV5HHT509WJP2XJ1FGWD",
+      "startedAt": "2026-10-31T05:11:09.751Z",
+      "finishedAt": "2026-10-31T05:11:16.850Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5592,
+      "outputTokens": 638,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685WV5HHT509WJP2XJ1FGWD",
+      "startedAt": "2026-10-31T05:11:16.851Z",
+      "finishedAt": "2026-10-31T05:11:16.851Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685X23NQ9CZATPE97DW6Z9G",
+      "startedAt": "2026-10-31T05:11:16.857Z",
+      "finishedAt": "2026-10-31T05:11:24.820Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6067,
+      "outputTokens": 694,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685X23NQ9CZATPE97DW6Z9G",
+      "startedAt": "2026-10-31T05:11:24.823Z",
+      "finishedAt": "2026-10-31T05:11:28.968Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1763,
+      "outputTokens": 466,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685XDYBWJVXABDBRVFYQ1YQ",
+      "startedAt": "2026-10-31T05:11:28.975Z",
+      "finishedAt": "2026-10-31T05:11:37.160Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6418,
+      "outputTokens": 676,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685XDYBWJVXABDBRVFYQ1YQ",
+      "startedAt": "2026-10-31T05:11:37.161Z",
+      "finishedAt": "2026-10-31T05:11:37.161Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685XNYCJ1B6TKP4DCEVD4MY",
+      "startedAt": "2026-10-31T05:11:37.167Z",
+      "finishedAt": "2026-10-31T05:11:50.441Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 14337,
+      "outputTokens": 2405,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685XNYCJ1B6TKP4DCEVD4MY",
+      "startedAt": "2026-10-31T05:12:04.551Z",
+      "finishedAt": "2026-10-31T05:12:04.551Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685YGPAQP0Z999PVMTXMGW9",
+      "startedAt": "2026-10-31T05:12:04.558Z",
+      "finishedAt": "2026-10-31T05:12:11.540Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6565,
+      "outputTokens": 575,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685YGPAQP0Z999PVMTXMGW9",
+      "startedAt": "2026-10-31T05:12:11.542Z",
+      "finishedAt": "2026-10-31T05:12:14.762Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1941,
+      "outputTokens": 349,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685YTNDHTPNAW0Y4CSBKJZH",
+      "startedAt": "2026-10-31T05:12:14.768Z",
+      "finishedAt": "2026-10-31T05:12:20.223Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6974,
+      "outputTokens": 389,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685YTNDHTPNAW0Y4CSBKJZH",
+      "startedAt": "2026-10-31T05:12:20.226Z",
+      "finishedAt": "2026-10-31T05:12:21.988Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1760,
+      "outputTokens": 176,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685Z1Q6JBT2Q0GQ55XDYWX2",
+      "startedAt": "2026-10-31T05:12:21.994Z",
+      "finishedAt": "2026-10-31T05:12:28.046Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6623,
+      "outputTokens": 476,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685Z1Q6JBT2Q0GQ55XDYWX2",
+      "startedAt": "2026-10-31T05:12:28.046Z",
+      "finishedAt": "2026-10-31T05:12:28.046Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685Z7MH8XZBN09WRH0J8YJR",
+      "startedAt": "2026-10-31T05:12:28.053Z",
+      "finishedAt": "2026-10-31T05:12:34.519Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7299,
+      "outputTokens": 477,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685Z7MH8XZBN09WRH0J8YJR",
+      "startedAt": "2026-10-31T05:12:34.522Z",
+      "finishedAt": "2026-10-31T05:12:37.170Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1910,
+      "outputTokens": 280,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685ZGHMGGETH2V4G8V28S3T",
+      "startedAt": "2026-10-31T05:12:37.177Z",
+      "finishedAt": "2026-10-31T05:12:47.223Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7499,
+      "outputTokens": 819,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685ZGHMGGETH2V4G8V28S3T",
+      "startedAt": "2026-10-31T05:12:47.224Z",
+      "finishedAt": "2026-10-31T05:12:47.224Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M685ZTBV1VZT3QVBEG1JCC7Q",
+      "startedAt": "2026-10-31T05:12:47.231Z",
+      "finishedAt": "2026-10-31T05:12:55.502Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7011,
+      "outputTokens": 665,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M685ZTBV1VZT3QVBEG1JCC7Q",
+      "startedAt": "2026-10-31T05:12:55.505Z",
+      "finishedAt": "2026-10-31T05:12:59.576Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2149,
+      "outputTokens": 437,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M68606DV0XH9Q9MV0WVXQSDQ",
+      "startedAt": "2026-10-31T05:12:59.583Z",
+      "finishedAt": "2026-10-31T05:13:04.563Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7289,
+      "outputTokens": 327,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M68606DV0XH9Q9MV0WVXQSDQ",
+      "startedAt": "2026-10-31T05:13:04.565Z",
+      "finishedAt": "2026-10-31T05:13:08.089Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1840,
+      "outputTokens": 389,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6860EQX98QQRNY2DMED4Q1V",
+      "startedAt": "2026-10-31T05:13:08.099Z",
+      "finishedAt": "2026-10-31T05:13:15.366Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8022,
+      "outputTokens": 525,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6860EQX98QQRNY2DMED4Q1V",
+      "startedAt": "2026-10-31T05:13:15.369Z",
+      "finishedAt": "2026-10-31T05:13:18.270Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2084,
+      "outputTokens": 297,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6860RP1S7J2TNAMXMT1VMAP",
+      "startedAt": "2026-10-31T05:13:18.277Z",
+      "finishedAt": "2026-10-31T05:13:26.052Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7710,
+      "outputTokens": 577,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6860RP1S7J2TNAMXMT1VMAP",
+      "startedAt": "2026-10-31T05:13:26.053Z",
+      "finishedAt": "2026-10-31T05:13:26.053Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6861098XTYPH1Q6S6R72P7N",
+      "startedAt": "2026-10-31T05:13:26.060Z",
+      "finishedAt": "2026-10-31T05:13:37.312Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7781,
+      "outputTokens": 907,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6861098XTYPH1Q6S6R72P7N",
+      "startedAt": "2026-10-31T05:13:37.313Z",
+      "finishedAt": "2026-10-31T05:13:37.313Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6861B93CF0CX4ZTTJ4A775G",
+      "startedAt": "2026-10-31T05:13:37.320Z",
+      "finishedAt": "2026-10-31T05:13:54.548Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8721,
+      "outputTokens": 1376,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6861B93CF0CX4ZTTJ4A775G",
+      "startedAt": "2026-10-31T05:13:54.552Z",
+      "finishedAt": "2026-10-31T05:13:54.552Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6861W3T2XJZES5DK4BAWV4B",
+      "startedAt": "2026-10-31T05:13:54.559Z",
+      "finishedAt": "2026-10-31T05:14:02.812Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8534,
+      "outputTokens": 578,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6861W3T2XJZES5DK4BAWV4B",
+      "startedAt": "2026-10-31T05:14:02.815Z",
+      "finishedAt": "2026-10-31T05:14:06.446Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2282,
+      "outputTokens": 355,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M68627QHEFCC1SR6BA2114GG",
+      "startedAt": "2026-10-31T05:14:06.453Z",
+      "finishedAt": "2026-10-31T05:14:11.811Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8688,
+      "outputTokens": 291,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M68627QHEFCC1SR6BA2114GG",
+      "startedAt": "2026-10-31T05:14:11.812Z",
+      "finishedAt": "2026-10-31T05:14:11.812Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6862CZ74A285EAF4G4VY2R5",
+      "startedAt": "2026-10-31T05:14:11.819Z",
+      "finishedAt": "2026-10-31T05:14:19.106Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8560,
+      "outputTokens": 475,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6862CZ74A285EAF4G4VY2R5",
+      "startedAt": "2026-10-31T05:14:19.107Z",
+      "finishedAt": "2026-10-31T05:14:19.107Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6862M36PWZ662QJEBKMB474",
+      "startedAt": "2026-10-31T05:14:19.115Z",
+      "finishedAt": "2026-10-31T05:14:32.518Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8973,
+      "outputTokens": 1022,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6862M36PWZ662QJEBKMB474",
+      "startedAt": "2026-10-31T05:14:32.519Z",
+      "finishedAt": "2026-10-31T05:14:32.519Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686316AB9HH14W4HXV9092V",
+      "startedAt": "2026-10-31T05:14:32.526Z",
+      "finishedAt": "2026-10-31T05:14:42.970Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9596,
+      "outputTokens": 718,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686316AB9HH14W4HXV9092V",
+      "startedAt": "2026-10-31T05:14:42.971Z",
+      "finishedAt": "2026-10-31T05:14:42.971Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6863BCYNAWYP1S2F2HCXJ2W",
+      "startedAt": "2026-10-31T05:14:42.979Z",
+      "finishedAt": "2026-10-31T05:14:50.212Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 18258,
+      "outputTokens": 922,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6863BCYNAWYP1S2F2HCXJ2W",
+      "startedAt": "2026-10-31T05:14:57.799Z",
+      "finishedAt": "2026-10-31T05:15:00.330Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2350,
+      "outputTokens": 216,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6863WBDAVFPK7F0N0DZV28R",
+      "startedAt": "2026-10-31T05:15:00.338Z",
+      "finishedAt": "2026-10-31T05:15:09.964Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9385,
+      "outputTokens": 645,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6863WBDAVFPK7F0N0DZV28R",
+      "startedAt": "2026-10-31T05:15:09.966Z",
+      "finishedAt": "2026-10-31T05:15:09.966Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M68645RG7YCR94ZB24RR61C2",
+      "startedAt": "2026-10-31T05:15:09.973Z",
+      "finishedAt": "2026-10-31T05:15:21.741Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9481,
+      "outputTokens": 836,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M68645RG7YCR94ZB24RR61C2",
+      "startedAt": "2026-10-31T05:15:21.743Z",
+      "finishedAt": "2026-10-31T05:15:21.743Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M6864H8J1DN93NV3C3D09PN6",
+      "startedAt": "2026-10-31T05:15:21.750Z",
+      "finishedAt": "2026-10-31T05:15:30.783Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9677,
+      "outputTokens": 540,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M6864H8J1DN93NV3C3D09PN6",
+      "startedAt": "2026-10-31T05:15:30.785Z",
+      "finishedAt": "2026-10-31T05:15:30.785Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685WV5HHT509WJP2XJ1FGWD",
+      "startedAt": "2026-10-31T05:15:34.949Z",
+      "finishedAt": "2026-10-31T05:15:35.171Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685X23NQ9CZATPE97DW6Z9G",
+      "startedAt": "2026-10-31T05:44:35.488Z",
+      "finishedAt": "2026-10-31T05:44:35.712Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685XDYBWJVXABDBRVFYQ1YQ",
+      "startedAt": "2026-10-31T05:15:35.394Z",
+      "finishedAt": "2026-10-31T05:15:35.616Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685XNYCJ1B6TKP4DCEVD4MY",
+      "startedAt": "2026-10-31T05:44:35.714Z",
+      "finishedAt": "2026-10-31T05:44:35.887Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685YGPAQP0Z999PVMTXMGW9",
+      "startedAt": "2026-10-31T05:44:35.892Z",
+      "finishedAt": "2026-10-31T05:44:36.090Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685YTNDHTPNAW0Y4CSBKJZH",
+      "startedAt": "2026-10-31T05:15:35.831Z",
+      "finishedAt": "2026-10-31T05:15:36.030Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685Z1Q6JBT2Q0GQ55XDYWX2",
+      "startedAt": "2026-10-31T05:15:36.038Z",
+      "finishedAt": "2026-10-31T05:15:36.241Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685Z7MH8XZBN09WRH0J8YJR",
+      "startedAt": "2026-10-31T05:44:36.092Z",
+      "finishedAt": "2026-10-31T05:44:36.289Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685ZGHMGGETH2V4G8V28S3T",
+      "startedAt": "2026-10-31T05:15:36.442Z",
+      "finishedAt": "2026-10-31T05:15:36.689Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M685ZTBV1VZT3QVBEG1JCC7Q",
+      "startedAt": "2026-10-31T05:44:36.290Z",
+      "finishedAt": "2026-10-31T05:44:36.515Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M68606DV0XH9Q9MV0WVXQSDQ",
+      "startedAt": "2026-10-31T05:15:39.955Z",
+      "finishedAt": "2026-10-31T05:16:31.203Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6860EQX98QQRNY2DMED4Q1V",
+      "startedAt": "2026-10-31T05:15:37.027Z",
+      "finishedAt": "2026-10-31T05:15:37.232Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6860RP1S7J2TNAMXMT1VMAP",
+      "startedAt": "2026-10-31T05:15:37.234Z",
+      "finishedAt": "2026-10-31T05:15:37.457Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6861098XTYPH1Q6S6R72P7N",
+      "startedAt": "2026-10-31T05:15:37.459Z",
+      "finishedAt": "2026-10-31T05:15:37.691Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6861B93CF0CX4ZTTJ4A775G",
+      "startedAt": "2026-10-31T05:15:37.694Z",
+      "finishedAt": "2026-10-31T05:15:37.873Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6861W3T2XJZES5DK4BAWV4B",
+      "startedAt": "2026-10-31T05:44:36.517Z",
+      "finishedAt": "2026-10-31T05:44:36.721Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M68627QHEFCC1SR6BA2114GG",
+      "startedAt": "2026-10-31T05:15:38.087Z",
+      "finishedAt": "2026-10-31T05:15:38.372Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6862CZ74A285EAF4G4VY2R5",
+      "startedAt": "2026-10-31T05:15:38.374Z",
+      "finishedAt": "2026-10-31T05:15:38.596Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6862M36PWZ662QJEBKMB474",
+      "startedAt": "2026-10-31T05:15:38.597Z",
+      "finishedAt": "2026-10-31T05:15:38.828Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686316AB9HH14W4HXV9092V",
+      "startedAt": "2026-10-31T05:45:53.969Z",
+      "finishedAt": "2026-10-31T05:45:54.307Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6863BCYNAWYP1S2F2HCXJ2W",
+      "startedAt": "2026-10-31T05:16:31.204Z",
+      "finishedAt": "2026-10-31T05:17:22.414Z",
+      "promptRef": "template+ai_image",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6863WBDAVFPK7F0N0DZV28R",
+      "startedAt": "2026-10-31T05:15:39.242Z",
+      "finishedAt": "2026-10-31T05:15:39.463Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M68645RG7YCR94ZB24RR61C2",
+      "startedAt": "2026-10-31T05:15:39.465Z",
+      "finishedAt": "2026-10-31T05:15:39.690Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M6864H8J1DN93NV3C3D09PN6",
+      "startedAt": "2026-10-31T05:44:36.966Z",
+      "finishedAt": "2026-10-31T05:44:37.196Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-31T05:32:41.398Z",
+      "finishedAt": "2026-10-31T05:33:01.308Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 7205,
+      "outputTokens": 1830,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-31T05:33:01.434Z",
+      "finishedAt": "2026-10-31T05:33:12.873Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 7323,
+      "outputTokens": 936,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-31T05:33:16.485Z",
+      "finishedAt": "2026-10-31T05:33:48.387Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 21102,
+      "outputTokens": 3631,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-31T05:34:01.556Z",
+      "finishedAt": "2026-10-31T05:34:14.021Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 3959,
+      "outputTokens": 1312,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-31T05:34:16.608Z",
+      "finishedAt": "2026-10-31T05:34:21.821Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 3338,
+      "outputTokens": 504,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-31T05:34:26.662Z",
+      "finishedAt": "2026-10-31T05:34:52.442Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 6450,
+      "outputTokens": 2436,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "cb71d763e303703d",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.733Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a954740a477f59a1",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c907c762c648f51e",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ab326149862fbdeb",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "0cb1e4745460d5e6",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "9274397bcb31b187",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:TJ-1": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "847b7c2430e28d0b",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "5e3764f466742f75",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "0d21f2e4f21a6eeb",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "14d858f1869750ca",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "bbb893bfad0a0232",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "fc74acf4f518bcad",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:TJ-2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4ddc769187cc95d7",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "480c6590e2b23cfa",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a9cab7211e46ef5d",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "625169388a0f754c",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "21dcbe874b2b06d4",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:TJ-3": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "7fc35dc3c2b8c087",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "60e0bb9cb7a6b89e",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "1e5f138bd506593a",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c55ce6deb03a2ccf",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c40730e1b8830372",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "890fdaf92ec60a96",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "d0a0d238eca114c5",
+        "claims": [],
+        "at": "2026-10-31T05:11:09.734Z",
+        "version": 1
+      },
+      "inject:01M685WV5HHT509WJP2XJ1FGWD": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4e173a8c880916d0",
+        "claims": [],
+        "at": "2026-10-31T05:15:30.791Z",
+        "version": 1
+      },
+      "inject:01M685X23NQ9CZATPE97DW6Z9G": {
+        "label": "review",
+        "reason": "‘activates’, ‘declaration’ are not in Section 4 or the facility facts.",
+        "fingerprint": "5ea8ba2d27d91e71",
+        "claims": [
+          {
+            "text": "This is a inject.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO must escalate to Clinical Engineering and initiate system-wide checks for the pump library message.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the CNO activates the EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) or calls for a formal incident declaration.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.273,
+            "matched": [
+              "ORRMC-DT-ANX-2026"
+            ],
+            "missing": [
+              "activates",
+              "declaration"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.794Z",
+        "version": 1
+      },
+      "inject:01M685XDYBWJVXABDBRVFYQ1YQ": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject triggers the Cyber 2 escalation under the CIRP.…’ is in Section 3.",
+        "fingerprint": "2611d27ba182e541",
+        "claims": [
+          {
+            "text": "This inject triggers the Cyber 2 escalation under the CIRP. The CE must not initiate any push from ORRMC-PUMP01; they must preserve logs and contact the vendor via the binder number, not the session.",
+            "chunkId": 4,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.25,
+            "matched": [
+              "ORRMC-PUMP01"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the CE calls the ISO or waits to be told.",
+            "chunkId": 4,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.794Z",
+        "version": 1
+      },
+      "inject:01M685XNYCJ1B6TKP4DCEVD4MY": {
+        "label": "review",
+        "reason": "‘activation’ is not in Section 3 or the facility facts.",
+        "fingerprint": "e5b065ffebc7df73",
+        "claims": [
+          {
+            "text": "This inject confirms the attacker's presence on the device network and establishes a chain of evidence for the ISO to act on.",
+            "chunkId": 6,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the ISO to block the vendor account and source IP, and to escalate to the AOC for HCC Level 2 activation.",
+            "chunkId": 4,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [
+              "activation"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.794Z",
+        "version": 1
+      },
+      "inject:01M685YGPAQP0Z999PVMTXMGW9": {
+        "label": "review",
+        "reason": "‘activate’ is not in Section 4 or the facility facts.",
+        "fingerprint": "34b888247930b959",
+        "claims": [
+          {
+            "text": "This inject confirms the clinical impact of the pump library change.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO must order a system-wide bedside verification of high-alert infusions and activate the EHR Downtime Procedures Annex.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.7,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for delays in initiating the double-check and any attempt to proceed with infusions.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.143,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.795Z",
+        "version": 1
+      },
+      "inject:01M685YTNDHTPNAW0Y4CSBKJZH": {
+        "label": "review",
+        "reason": "‘authorize’ is not in Section 4 or the facility facts.",
+        "fingerprint": "66ba070c20af72db",
+        "claims": [
+          {
+            "text": "This inject presents the core operational decision: prioritize risk mitigation by swapping pumps on high-alert infusions, or delay and risk unmonitored therapy.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.357,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO to authorize the swap protocol and for the ISO to confirm no further changes to ORRMC-PUMP01.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.286,
+            "matched": [
+              "ORRMC-PUMP01"
+            ],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.795Z",
+        "version": 1
+      },
+      "inject:01M685Z1Q6JBT2Q0GQ55XDYWX2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "744f748605ea31ec",
+        "claims": [],
+        "at": "2026-10-31T05:15:30.795Z",
+        "version": 1
+      },
+      "inject:01M685Z7MH8XZBN09WRH0J8YJR": {
+        "label": "review",
+        "reason": "‘6 patients’ is not in Section 5 or the facility facts.",
+        "fingerprint": "d255ff4b952a14a0",
+        "claims": [
+          {
+            "text": "This inject confirms the absence of alarm integrity in the compromised pumps.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO and CMO must now act on the six patients to prevent harm.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "6 patients"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for a delay in initiating the bedside verification.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.796Z",
+        "version": 1
+      },
+      "inject:01M685ZGHMGGETH2V4G8V28S3T": {
+        "label": "review",
+        "reason": "‘authorize’ is not in Section 4 or the facility facts.",
+        "fingerprint": "1a4b06c41ce6dfdb",
+        "claims": [
+          {
+            "text": "This inject confirms the attack vector and triggers the decision to accept loaner pumps and begin forensic preservation.",
+            "chunkId": 6,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.222,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the AOC to authorize the shipment and the CE to initiate the bench-flash from the offline copy.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.796Z",
+        "version": 1
+      },
+      "inject:01M685ZTBV1VZT3QVBEG1JCC7Q": {
+        "label": "review",
+        "reason": "‘H-ISAC’, ‘report’ are not in Section 4 or the facility facts.",
+        "fingerprint": "871aa3fec573006f",
+        "claims": [
+          {
+            "text": "This inject confirms external law enforcement engagement.",
+            "chunkId": 5,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ISO must log the call and report to CISA and H-ISAC. The AOC must reaffirm that isolation is a clinical safety decision under ORRMC-CIRP-2026, Section 5.",
+            "chunkId": 5,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.364,
+            "matched": [
+              "Section 5",
+              "ORRMC-CIRP-2026",
+              "CISA",
+              "isolation"
+            ],
+            "missing": [
+              "H-ISAC",
+              "report"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.797Z",
+        "version": 1
+      },
+      "inject:01M68606DV0XH9Q9MV0WVXQSDQ": {
+        "label": "review",
+        "reason": "Only 0% of ‘This is a misinfo inject; the PIO must not confirm a cybera…’ is in Section 10.",
+        "fingerprint": "c7d3de0cac306b08",
+        "claims": [
+          {
+            "text": "This is a misinfo inject; the PIO must not confirm a cyberattack.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The holding statement should be released immediately, and ICU managers should contact families.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.797Z",
+        "version": 1
+      },
+      "inject:01M6860EQX98QQRNY2DMED4Q1V": {
+        "label": "review",
+        "reason": "‘Section 5’ is not in Section 4 or the facility facts.",
+        "fingerprint": "439020462b65f658",
+        "claims": [
+          {
+            "text": "This is the critical decision point.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must state the clinical impact first: full isolation means manual monitoring for 32 telemetry patients, on-console imaging reads, and lab result handoffs.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.412,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The team must choose between risk of further movement (broker-only block) and operational paralysis (full isolation).",
+            "chunkId": 2,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 1",
+            "overlap": 0.1,
+            "matched": [
+              "isolation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The decision and rationale must be logged in CIRP Section 5 and 6.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "Section 5"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.797Z",
+        "version": 1
+      },
+      "inject:01M6860RP1S7J2TNAMXMT1VMAP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ee58509ccda58181",
+        "claims": [],
+        "at": "2026-10-31T05:15:30.797Z",
+        "version": 1
+      },
+      "inject:01M6861098XTYPH1Q6S6R72P7N": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "84607c10ac5f7a3f",
+        "claims": [
+          {
+            "text": "This inject triggers staffing and resource allocation decisions under operational friction.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO to activate the call-in tree and request external monitors.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must approve overtime and coalition support.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [
+              "approve"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.797Z",
+        "version": 1
+      },
+      "inject:01M6861B93CF0CX4ZTTJ4A775G": {
+        "label": "review",
+        "reason": "Only 44% of ‘The CNO and CE must validate that bedside monitoring is the…’ is in Section 6.",
+        "fingerprint": "3d7b60605d9e9a39",
+        "claims": [
+          {
+            "text": "This inject confirms that the central monitoring system is now operating on stale data.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO and CE must validate that bedside monitoring is the only trusted source, and that the rapid response team should stand down.",
+            "chunkId": 7,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.444,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The ISO must confirm whether the asystole alarm was real or a data artifact.",
+            "chunkId": 6,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.798Z",
+        "version": 1
+      },
+      "inject:01M6861W3T2XJZES5DK4BAWV4B": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "5250ef046704d363",
+        "claims": [
+          {
+            "text": "This inject tests clinical and operational response to a potential device-related adverse event.",
+            "chunkId": 31,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for immediate patient safety actions, disclosure to family, and evidence preservation.",
+            "chunkId": 31,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CMO must not speculate on root cause.",
+            "chunkId": 31,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.798Z",
+        "version": 1
+      },
+      "inject:01M68627QHEFCC1SR6BA2114GG": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject pressures the PIO to respond under media time p…’ is in Section 10.",
+        "fingerprint": "1dbd44a8a704ad6a",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to respond under media time pressure.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for premature disclosure or overcommitment to a narrative.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CMO must approve any mention of patient events.",
+            "chunkId": 38,
+            "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+            "overlap": 0.2,
+            "matched": [
+              "approve"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.798Z",
+        "version": 1
+      },
+      "inject:01M6862CZ74A285EAF4G4VY2R5": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "1dc6a6080eaf0367",
+        "claims": [],
+        "at": "2026-10-31T05:15:30.798Z",
+        "version": 1
+      },
+      "inject:01M6862M36PWZ662QJEBKMB474": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the technical recovery of the pumps.’ is in Section 6.",
+        "fingerprint": "b2dba638e9c50ba2",
+        "claims": [
+          {
+            "text": "This inject confirms the technical recovery of the pumps.",
+            "chunkId": 7,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CE and CNO must now agree on the priority of pump return to service and the verification process.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.571,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether they prioritize high-alert units or standard care.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.798Z",
+        "version": 1
+      },
+      "inject:01M686316AB9HH14W4HXV9092V": {
+        "label": "review",
+        "reason": "Only 20% of ‘This inject confirms the attacker's method and the vendor's…’ is in Section 4.",
+        "fingerprint": "8d735cb355984b97",
+        "claims": [
+          {
+            "text": "This inject confirms the attacker's method and the vendor's responsibility.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC and ISO must decide on long-term remote access policy, including multi-factor authentication and signed library enforcement.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to bypass the vendor's new requirements.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.2,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.799Z",
+        "version": 1
+      },
+      "inject:01M6863BCYNAWYP1S2F2HCXJ2W": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject introduces a family's emotional response to the…’ is in Section 5.",
+        "fingerprint": "a6f2fc419e3056a1",
+        "claims": [
+          {
+            "text": "This inject introduces a family's emotional response to the incident, testing the PIO's ability to monitor misinformation without engaging.",
+            "chunkId": 44,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to correct or defend the hospital in public.",
+            "chunkId": 44,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.799Z",
+        "version": 1
+      },
+      "inject:01M6863WBDAVFPK7F0N0DZV28R": {
+        "label": "review",
+        "reason": "‘C1’ is not in Section 7 or the facility facts.",
+        "fingerprint": "9a18ca1c78b96884",
+        "claims": [
+          {
+            "text": "This inject triggers the HIPAA breach assessment process under C1.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.429,
+            "matched": [],
+            "missing": [
+              "C1"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "The CPO is now formally engaged; the AOC and ISO must preserve discovery time and not close the risk window.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must not comment on data access until the CPO finalizes the assessment.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.799Z",
+        "version": 1
+      },
+      "inject:01M68645RG7YCR94ZB24RR61C2": {
+        "label": "review",
+        "reason": "‘declared’ is not in Section 5 or the facility facts.",
+        "fingerprint": "abc8d135bf225611",
+        "claims": [
+          {
+            "text": "This is a decision-point inject.",
+            "chunkId": 7,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must decide whether to reconnect monitoring only, after the telemetry server is rebuilt and the ISO signs off.",
+            "chunkId": 7,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The network remains isolated overnight.",
+            "chunkId": 7,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.5,
+            "matched": [
+              "isolated"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "No system is declared safe yet.",
+            "chunkId": 6,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "declared"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:15:30.799Z",
+        "version": 1
+      },
+      "inject:01M6864H8J1DN93NV3C3D09PN6": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "63e8aee8d44b8565",
+        "claims": [],
+        "at": "2026-10-31T05:15:30.799Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
+}

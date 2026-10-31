@@ -1,0 +1,3823 @@
+{
+  "formatVersion": 1,
+  "id": "01M686AESKA2WBJCRQB93TGYRC",
+  "projectId": "01M685F066KESVZ41ZASN3ZZZE",
+  "title": "Core Collapse",
+  "subtitle": "Mass Casualty Surge During a Network Outage",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T05:44:42.698Z",
+  "brief": {
+    "userPrompt": "A multi-vehicle crash on the interstate sends a surge of patients to the ED while a failed network core switch has taken down the EHR, lab and imaging connections; the hospital triages and tracks patients on paper, opens surge space and decides on diversion, transfers and crisis standards of care.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Director of IT (Infrastructure Branch)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "ED Medical Director (Medical Care Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "16:45",
+    "threatFamily": "infrastructure_failure"
+  },
+  "overview": {
+    "theme": "Surge on downtime, patient identification, crisis standards of care and return to the record",
+    "threat": "At 16:38 on Friday, March 13, 2026 the core network switch in room A-B02 fails and the failover core in room C-212 cannot carry the clinical networks. The EHR, the laboratory system, PACS and secure messaging are unreachable. Thirty minutes later EMS announces a multi-vehicle crash with a fuel tanker: 14 patients in the first wave, 22 in the second.",
+    "operationalImpact": "The ED already holds 31 patients and both ICUs are full. Registration, lab, imaging, medication verification and bed management all work from paper while the hospital receives 36 crash patients. Patient identification, blood supply, ventilators, staff endurance and ICU space limit what the hospital can do, and a partly restored EHR threatens to split the record.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Director of IT (Infrastructure Branch), Chief Nursing Officer (Operations Section Chief), ED Medical Director (Medical Care Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Surge on Downtime",
+      "text": "Demonstrate the ability to accept and treat a mass casualty incident with the EHR, laboratory and imaging interfaces unavailable, using Code Triage and the Patient Surge and Evacuation Annex."
+    },
+    {
+      "id": "obj-2",
+      "name": "Patient Identification and Tracking",
+      "text": "Demonstrate the ability to track patients on paper with trauma and DT- numbers without creating duplicate or crossed identities."
+    },
+    {
+      "id": "obj-3",
+      "name": "Capacity and Crisis Standards",
+      "text": "Demonstrate the ability to open surge space, move patients, request transfers and decide on crisis standards of care with physician leadership."
+    },
+    {
+      "id": "obj-4",
+      "name": "Return to the Record",
+      "text": "Demonstrate the ability to decide when a partly restored system may be used and how the paper record is reconciled."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Director of IT (Infrastructure Branch)",
+      "abbreviation": "DIT",
+      "team": "Team B: Technology",
+      "description": "Raymond Okafor. Restores the network core and the clinical systems, rules a cyberattack in or out with the Information Security Officer, and gives realistic restore times.",
+      "standingOrders": [
+        "Tell the HCC the time you will report next, even when you have no news.",
+        "Do not bring a partly restored system back into clinical use without telling the CNO what it will and will not show."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "ed",
+      "name": "ED Medical Director (Medical Care Branch)",
+      "abbreviation": "EDMD",
+      "team": "Team D: Medical Care",
+      "description": "Dr. Elaine Whitfield. Runs triage and treatment in the ED and decides, with the AOC, diversion, expectant categories and which patients go to which surge space.",
+      "standingOrders": [
+        "Keep the ED moving: discharge and move admitted patients out of the ED to make room.",
+        "Triage decisions in a crisis-standards situation are made by a physician, never a registration clerk."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "Dark Network",
+      "goal": "Run the ED and the units on downtime while IT works the switch, and decide to accept a mass casualty incident with the clinical systems down.",
+      "beats": [
+        "The core switch in room A-B02 fails at 16:38 and failover to room C-212 does not take.",
+        "EMS reports a multi-vehicle crash with a fuel tanker; 14 patients are on the way, six critical.",
+        "Blood bank cannot see antibody history and asks for emergency release."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "First Wave",
+      "goal": "Receive 14 patients on paper, keep patient identification safe, open operating rooms and handle the crowd and the rumors.",
+      "beats": [
+        "Two arrivals get two different wristband numbers.",
+        "The OR needs three more rooms and instruments with no PACS for intra-operative imaging.",
+        "A second wave of 22 is announced when the ICU has no beds."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "Capacity",
+      "goal": "Decide transfers, the use of surge space, staff relief and expectant triage, and talk to families and the press.",
+      "beats": [
+        "A neighboring hospital can take six ICU transfers but needs a record that the hospital cannot print.",
+        "Staff are at 12 hours and the day shift cannot go home.",
+        "The CMO asks the AOC to approve crisis standards for three expectant patients."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Network Back, Record in Doubt",
+      "goal": "Decide when and how to bring a partly restored EHR back, reconcile paper and system, and set the demobilization criteria.",
+      "beats": [
+        "A restored core brings the EHR back read-only while registration remains down.",
+        "The lab backlog produces duplicate and conflicting results.",
+        "The exercise ends with the hospital still at Level 1 for the night and the replacement switch not yet installed."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "16:45",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "STARTEX: It is 16:45 on Friday, March 13, 2026 at Ottawa River Regional Medical Center. At 16:38 the core network switch in room A-B02 failed. Failover to the second core in room C-212 did not take, and the EHR, the laboratory system, PACS and secure messaging are unreachable from most clinical networks. The telephones work. The IT on-call and the Nursing Supervisor declared downtime at 16:41. The ED holds 31 patients, both ICUs are full, and OR 1 and OR 2 each have a case in progress. The vendor says four hours for a replacement. Nothing yet suggests anything other than a hardware failure.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "injectId": "01M686AET7Q7VX7XMWEVSBD86D",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "16:50",
+      "from": "Network Engineer Nadia Petrov",
+      "toRoleIds": [
+        "it",
+        "ic"
+      ],
+      "toLabel": "DIT, AOC",
+      "event": "Helpdesk Ticket INC-26-03-0577, priority 1: \"Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4. I can load the March 10 backup config onto C-212, which would bring the clinical VLANs up but not the PACS and device VLANs, in about 45 minutes. Replacement hardware from the vendor is four hours away.\"",
+      "expectedAction": "The Director of IT chooses the partial restore on C-212 now (clinical VLANs first) and orders the replacement chassis in parallel. The Information Security Officer is told to verify that the failure has no malicious cause (logs on both cores) and rules it out in writing before the HCC treats it as plain hardware. The Director of IT gives the HCC a time to report next.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "injectId": "01M686AQNAM8ZN3ZA94RG7VQ7G",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "16:55",
+      "from": "ED Charge Nurse Marcus Bell",
+      "toRoleIds": [
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Marcus Bell, ED charge. I have two chest-pain patients waiting for a troponin, a stroke alert that needs a CT read, and a belly pain with a possible appendicitis who needs imaging. Nothing goes out and nothing comes back. We are walking specimens to the lab and films to Imaging. I have 31 patients and one runner. Tell me what you want me to do.\"",
+      "expectedAction": "The ED Medical Director and the CNO use the downtime process: point-of-care testing for troponin and glucose where available, a paper tracking board, runners from Environmental Services and Security, CT reads by the radiologist at the console, and a stroke alert pathway that does not wait for the PACS. The CNO assigns three more runners (Downtime Annex, Section 5).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "injectId": "01M686AZGD3QZZ5AF3NC5NRJZR",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:20",
+      "wallClock": "17:05",
+      "from": "Lucas County EMS dispatch (SimCell)",
+      "toRoleIds": [
+        "ic",
+        "ed"
+      ],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"Lucas County EMS to Ottawa River. Multi-vehicle crash on the interstate with a fuel tanker, fire on scene. First wave: 14 patients, six critical, ETA 12 minutes. More are expected. You are our trauma center. Are you accepting?\"",
+      "expectedAction": "The AOC and the ED Medical Director accept: Code Triage is called, a Level 1 activation is declared, the Triage Officer moves to the ambulance bay, the Decontamination and Isolation Suite is made ready for a possible fuel exposure, and EMS is told the hospital is accepting trauma but is on downtime with no PACS or lab interfaces. Non-MCI ambulance diversion is considered separately (Patient Surge and Evacuation Annex, Section 3 and Annex A).",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "injectId": "01M686B6N30R14BQR7FNV3R7Z0",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:25",
+      "wallClock": "17:10",
+      "from": "Switchboard Operator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "PA Announcement: \"Code Triage, Code Triage. Mass casualty incident. All department managers report to the Hospital Command Center. Surgical Pavilion, Imaging and Laboratory: report your capacity to the HCC. All staff: downtime procedures are in effect. Code Triage, Code Triage.\"",
+      "expectedAction": "The HCC fills in under the HICS structure. The AOC convenes the first HCC meeting within 30 minutes (EOP Section 4) and the Liaison Officer opens a line to Lucas County EMS and the Lucas County EMA. The CNO calls in staff through the call-in tree.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "pa_announcement",
+      "injectId": "01M686BEMVF74JCS5TCWWR05JM",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:35",
+      "wallClock": "17:20",
+      "from": "Blood Bank Supervisor Lena Park",
+      "toRoleIds": [
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Blood Bank. I have six critical patients coming and no way to see antibody history because the lab system is off the network. I have 14 units of O-negative and 22 of O-positive. I need the physician to authorize emergency release and I need a second person to check every unit at the bedside. I will also ask the regional blood center for more.\"",
+      "expectedAction": "The ED Medical Director and the Blood Bank follow the emergency-release process: physician signature, second-person check, paper administration record, O-positive for men and O-negative kept for women of childbearing age and unknown types. Blood Bank calls the regional blood center for O-negative and plasma and the CNO assigns a second checker to the ED resuscitation bays.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "injectId": "01M686BMCZSYDZZB56NCK4G17Q",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "17:45",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 17:45. The first 14 patients have arrived; six are critical. C-212 now carries the clinical networks, so the EHR can be reached read-only from some computers, but registration, PACS and secure messaging are still down. Tracking is on the paper board with trauma numbers T-1 to T-14.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686BY8KG5WG8V9JEEXJA6WP",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "17:50",
+      "from": "Registration Supervisor Tamika Reed",
+      "toRoleIds": [
+        "clinical",
+        "ed"
+      ],
+      "toLabel": "CNO, EDMD",
+      "event": "Field Report (Registration to HCC): \"Two patients have two numbers. A man brought in as T-6 was registered at the desk as DT-004112 by a clerk who had not been told about the trauma numbers, and a woman is T-9 on the board and DT-004118 on her band. I also have a crash victim with no ID who may be the same person as a patient registered by his brother. I have 6 clerks and 3 blocks of DT numbers.\"",
+      "expectedAction": "The CNO and the ED Medical Director stop the use of two series at the bedside: trauma patients keep the T- number, and Registration cross-references it to a DT- number on the paper tracking board once, under one supervisor. Every wristband and specimen label is checked by two people (Downtime Annex, Section 3 and Section 5). The CPO is told because crossed identities can become a privacy event.",
+      "purposeTag": "CONFUSION",
+      "format": "field_report",
+      "injectId": "01M686C4AY8EECQR8WT9J052RC",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "18:00",
+      "from": "Surgical Pavilion Charge Nurse Priya Nair",
+      "toRoleIds": [
+        "ic",
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "AOC, EDMD, CNO",
+      "event": "Phone Call: \"Priya in the Surgical Pavilion. OR 1 and OR 2 are closing. I have three trauma laparotomies and an orthopedic case waiting; ORs 3, 4 and 5 are ready but I have staff for four rooms and the sterile processing department is behind. We have no PACS for intra-operative imaging and the hybrid rooms 11 and 12 cannot show prior studies. Do I cancel the evening elective list and recall staff?\"",
+      "expectedAction": "The Chief Medical Officer and the AOC cancel all elective cases, recall off-duty OR staff, and open ORs 3 to 5 for trauma. The CNO moves instruments priority in Sterile Processing to trauma sets. Imaging uses portable films and the console for intra-operative images; hybrid rooms stay available for vascular cases. The AOC tells the Surgical Pavilion when it can expect imaging support.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "injectId": "01M686CG5QWJ7XZ545NPRH62E9",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "18:10",
+      "from": "Security Director Terrence Boyd",
+      "toRoleIds": [
+        "ic",
+        "ed"
+      ],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"Security to HCC. About 90 family members and friends are in the Tower B lobby and the ED waiting room, and a Channel 11 truck is at the main entrance. Some families are trying to walk through the ambulance bay. I need a reunification room away from the ED and a decision on who talks to the press.\"",
+      "expectedAction": "The AOC activates the family reunification center in the Tower A lobby (Patient Surge and Evacuation Annex, Section 3), staffed by Social Work and Spiritual Care, with Security controlling the ambulance bay and two public entrances. The PIO sets a media position away from patient areas. Patient information goes only to verified family and only as the CPO allows.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "radio_call",
+      "injectId": "01M686CTEGQ42HQ8Z030YJ6VYV",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:30",
+      "wallClock": "18:15",
+      "from": "Facebook post (Toledo Scanner Watch)",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Facebook Post (Group: Toledo Scanner Watch): \"Tanker on fire and Ottawa River is on lockdown with their computers down. Do NOT go to Ottawa River, take people to a different hospital. Heard they are turning people away.\" 340 reactions, 96 comments.",
+      "expectedAction": "The PIO releases a short statement cleared by the AOC and the ED Medical Director: the Emergency Department is open and treating emergencies; the hospital is handling a technology disruption and a mass casualty incident; non-urgent patients should call first or use urgent care. The PIO also tells Lucas County EMS and the EMA so that official channels say the same.",
+      "purposeTag": "MISINFORMATION",
+      "format": "facebook_post",
+      "injectId": "01M686D2GQZ1A1R6NBCZQVFJPD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:40",
+      "wallClock": "18:25",
+      "from": "Director of IT Raymond Okafor",
+      "toRoleIds": [
+        "it",
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "DIT, CNO, AOC",
+      "event": "Email Forward (from the Director of IT): \"C-212 is carrying the clinical VLANs. The LIS came back at 18:20 but the interface engine ORRMC-INT01 is stuck, so results flow one way. The EHR is up read-only on 60 computers. If we let the units chart in the EHR now, the 4-5 hours of paper will need to be re-keyed and the record will be split across two systems with a system that may drop again. I recommend we stay on paper for orders and medications and use the EHR to read.\"",
+      "expectedAction": "The AOC decides with the CMIO, the CNO and the Director of IT: the EHR is used only to read until the interface engine is stable and the downtime packet is reconciled; paper stays the record for orders and medications; the Director of IT tells the units exactly what the screens will and will not show. The decision and the reason go in the HCC log.",
+      "purposeTag": "DECISION_POINT",
+      "format": "email_forward",
+      "injectId": "01M686DDQZ6J5E30T8426EA8JH",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p2",
+      "time": "1:50",
+      "wallClock": "18:35",
+      "from": "Lucas County EMS dispatch (SimCell)",
+      "toRoleIds": [
+        "ic",
+        "ed"
+      ],
+      "toLabel": "AOC, EDMD",
+      "event": "Radio Call: \"EMS to Ottawa River. Second wave: 22 patients across three ambulances and two buses, eight critical, ETA 15 minutes. Is there any chance you divert some to another hospital? We have four others on standby.\"",
+      "expectedAction": "The AOC and the ED Medical Director use the surge levels in the annex: ICU is full, so PACU becomes an ICU overflow, the Pavilion C treatment areas open for minor injuries, and EMS is asked to send the most severe patients here and the minor injuries to the other hospitals. The Liaison Officer asks the coalition for ICU transfers out. The decision is recorded as Surge Level B moving to C.",
+      "purposeTag": "PRESSURE",
+      "format": "radio_call",
+      "injectId": "01M686DPT2EMQ511X9RTCYXRW2",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "18:45",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 18:45. 36 crash patients have arrived in total; 11 are critical and 4 are in the OR. The PACU holds six ICU overflow patients. The ED holds 64 patients, and ICU 3 North and ICU 3 South have no free beds. The replacement switch is on a courier's truck, ETA 21:30.",
+      "expectedAction": "Players move to capacity problems that come with a large surge.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686DZZYRYXXP90B66N49R82",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "18:50",
+      "from": "Neighboring hospital transfer center (SimCell)",
+      "toRoleIds": [
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "EDMD, CNO",
+      "event": "Phone Call: \"Transfer center at a neighboring hospital. We can take six of your ICU patients. We need a summary for each: diagnosis, medications, allergies and last labs. We cannot see your chart. How will you send it, and who will give the physician-to-physician report?\"",
+      "expectedAction": "The CNO and the ED Medical Director use the printed BCA-VIEW01 report (last refreshed 16:30) plus the paper record for each patient and give a physician-to-physician report; disclosure to the receiving hospital is allowed for treatment under HIPAA, and the CPO is informed. The Patient Movement Log records time, destination, transport and receiving contact (Patient Surge and Evacuation Annex, Section 5).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M686E6J3RB0CNC8CJYDA2S1Y",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:15",
+      "wallClock": "19:00",
+      "from": "Pharmacy Director Anil Desai",
+      "toRoleIds": [
+        "clinical",
+        "ed"
+      ],
+      "toLabel": "CNO, EDMD",
+      "event": "Field Report (Pharmacy to HCC): \"Opioid pulls from the override cabinets in the ED have tripled. Orders on paper are being re-written by the covering resident, and I found three antibiotics ordered twice for the same open-fracture patient. I need pharmacists in the ED and PACU, a count of every override pull by 20:00, and a decision on the antibiotic orders.\"",
+      "expectedAction": "The CNO places a pharmacist in the ED and PACU, requires the paper order sheet to be the only order source in the ED, counts override pulls on the half hour, and has the duplicates cancelled by the physician and the pharmacist. The CMO reminds residents that verbal orders are read back and signed within 24 hours.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "injectId": "01M686EJ30WM9B5FSVXGVTBGAM",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:25",
+      "wallClock": "19:10",
+      "from": "Planning Section Situation Unit",
+      "toRoleIds": [
+        "ic",
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "AOC, EDMD, CNO",
+      "event": "Status Board (HCC capacity board, 19:10): ED 64 of 90 spaces; ICU 3 North 16/16, ICU 3 South 16/16, PACU overflow 6/10; ORs 1-5 in use, 6-8 staffed; blood bank O-neg 4 units; ventilators 31 of 38 in use; staffed beds 340, census 351; EHR read-only; PACS down; secure messaging down; replacement switch ETA 21:30.",
+      "expectedAction": "The AOC reads the board and acts on two numbers: ventilators (31 of 38) and O-negative blood (4 units) are the next shortages. The AOC asks the coalition for ventilators and the regional blood center for a courier and sets the next capacity report for 19:40.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "status_board",
+      "injectId": "01M686EXJPHCJT3MTHHWRTKCE7",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p3",
+      "time": "2:35",
+      "wallClock": "19:20",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": [
+        "pio"
+      ],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11. How many victims has Ottawa River received and how many are dead? We have a family saying their relative is critical and nobody will tell them anything. Is it true the hospital computers are down? We want to report names.\"",
+      "expectedAction": "The PIO gives general numbers and general condition only as cleared by the AOC and the Chief Privacy Officer, no names (patient-specific information is released only as the CPO allows), confirms that the hospital is treating the injured while handling a technology disruption, and points families to the reunification center. Fatality numbers come from the county coroner or EMS, not from the hospital.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "injectId": "01M686F7C9C8BH73SKBV5EGXVB",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "19:30",
+      "from": "Nursing Supervisor Sana Qureshi",
+      "toRoleIds": [
+        "clinical",
+        "ic"
+      ],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Sana Qureshi, supervisor. About 140 nurses have been here 12 hours or more and many want to leave but cannot because the day shift is still covering. We have 30 staff from call-ins and nobody for the PACU overflow. Meals are not arranged and two nurses need childcare. What can I authorize?\"",
+      "expectedAction": "The CNO and Human Resources open the staff care unit (meals, rest, childcare), rotate staff out in four-hour blocks, approve mandatory overtime limits, bring in credentialed volunteers from the registry for non-clinical tasks only, and ask the coalition for travel nurses. The AOC approves overtime and the PACU overflow gets nurses from the Surgical Pavilion.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "injectId": "01M686FBZXMSTS2601VY8VHWME",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p3",
+      "time": "2:55",
+      "wallClock": "19:40",
+      "from": "Chief Medical Officer Dr. Samuel Obuya",
+      "toRoleIds": [
+        "ic",
+        "ed"
+      ],
+      "toLabel": "AOC, EDMD",
+      "event": "Memo: \"To the AOC. Of the 22 arrivals in the second wave, three have injuries that, with our current resources, have a very low chance of survival: two with massive head injuries and one with 70 percent burns. We are in surge Level C. I propose to classify them expectant (comfort care) so that the OR, blood and ventilators go to patients who can be saved. I need your approval and I want an ethics consult in the room.\"",
+      "expectedAction": "The AOC authorizes crisis standards of care for the ED with the CMO and the ED Medical Director: the decision is a physician decision with a second physician and the ethics service, documented on the paper triage tag; families are told by a physician and Spiritual Care; the decision is reviewed hourly as resources change (Patient Surge and Evacuation Annex, Section 2).",
+      "purposeTag": "DECISION_POINT",
+      "format": "memo",
+      "injectId": "01M686FS3ZKWT1CFQC09PDWMF3",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "19:45",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 19:45. Six ICU patients have been transferred out and the PACU overflow is down to three. Three expectant patients are receiving comfort care with their families. The hospital is at 351 patients, the ED at 58. The replacement switch is in the building and the installation team will start at 21:30.",
+      "expectedAction": "Players move to the return to the record.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "injectId": "01M686G19RRFGE45955SH9CWDM",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "19:50",
+      "from": "Laboratory Supervisor Hector Alvarez",
+      "toRoleIds": [
+        "clinical",
+        "it"
+      ],
+      "toLabel": "CNO, DIT",
+      "event": "Field Report (Laboratory to HCC): \"The LIS is back but the interface engine is not. I have 140 specimens waiting, results typed from the analyzers by hand, and I found a potassium of 6.8 for a patient whose paper result says 4.2. One of the two is a transcription error and the patient is on 4 West. I need to tell the unit which one to trust.\"",
+      "expectedAction": "The CNO has the lab repeat the potassium stat, hold both values until the repeat is back, and place a nurse at the bedside; the lab manager makes a second person check all hand-typed critical results against the analyzer printout. The Director of IT is told that the lab backlog depends on the interface engine and gives the HCC a restore time.",
+      "purposeTag": "TECH_HURDLE",
+      "format": "field_report",
+      "injectId": "01M686G7S51A1198JP3Q2EH34D",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:15",
+      "wallClock": "20:00",
+      "from": "Lucas County EMA duty officer (SimCell)",
+      "toRoleIds": [
+        "ic"
+      ],
+      "toLabel": "AOC",
+      "event": "Phone Call: \"Lucas County EMA. The Ohio Department of Health asked for a status from every hospital that took crash patients. Please give me: patients received, critical count, beds open, diversion status, and what resources you need overnight. I also need to know if you can take the second-wave patients still at the scene.\"",
+      "expectedAction": "The AOC (or the Liaison Officer) gives the numbers, states that the hospital is on Level 1 for the night, asks for the resources it needs (ICU transfers out, ventilators, blood, nurses), and says whether the hospital will take more patients. The AOC does not promise capacity it cannot staff.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "injectId": "01M686GMB46REK5WMA7N4Y1DWG",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "p4",
+      "time": "3:25",
+      "wallClock": "20:10",
+      "from": "Chief Privacy Officer Joyce Tanaka",
+      "toRoleIds": [
+        "ic",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "AOC, EDMD, PIO",
+      "event": "Email Forward (from the Chief Privacy Officer): \"Three things for the log. We shared patient summaries with a neighboring hospital for treatment, which is permitted. Two registration clerks used both numbers for the same patient, so there are two records for one person and a risk that results post to the wrong one. A reporter was able to see a paper tracking board through the ED door for an hour. I want the board covered and the reconciliation list started.\"",
+      "expectedAction": "The AOC has the board moved out of public sight, and the CPO starts the privacy log: disclosures for treatment, the crossed identity pair and the exposed board. The CPO tells the PIO that nothing about a patient is said to media. The HIM Director starts a list of DT- and T- numbers to merge in the record.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "injectId": "01M686GZV0PKZG54ZTX42D7A6F",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "p4",
+      "time": "3:35",
+      "wallClock": "20:20",
+      "from": "Planning Section Chief",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "ed",
+        "clinical"
+      ],
+      "toLabel": "AOC, DIT, EDMD, CNO",
+      "event": "Sitrep 5, 20:20: \"Census 349. ED 52. ICU full. PACU overflow 3. Five ORs in use. EHR read-only; registration and PACS down. Replacement switch to be installed at 21:30, expected up by 23:30. The AOC must set the operational plan for the night, the criteria for stepping down from Level 1, and who decides when the EHR is used for charting.\"",
+      "expectedAction": "The AOC sets the night operational period: stay at Level 1 until the new switch is in and tested; the EHR returns for charting only after the Director of IT reports a stable interface engine and the CMIO and CNO agree on a reconciliation plan; the stepdown criteria are no surge patients in the ED holding, ICU capacity restored and the network stable for two hours; the next sitrep is at 22:30.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "injectId": "01M686H7GFN222RZ9FE0CGQDGD",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "20:45",
+      "from": "Facilitator",
+      "toRoleIds": [
+        "ic",
+        "it",
+        "clinical",
+        "ed",
+        "pio"
+      ],
+      "toLabel": "All",
+      "event": "ENDEX: It is 20:45. The hospital is at Level 1 for the night. The replacement switch is not yet installed, the EHR is read-only, registration and PACS are still down and the paper record is the only record. Six patients were transferred out and three expectant patients are receiving comfort care. The reconciliation of two identity series and the lab backlog have not begun.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "injectId": "01M686J1W1ZWF18DD5JNQ16SZK",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {
+    "handbook": "scenarios/01M686AESKA2WBJCRQB93TGYRC/documents/handbook.md",
+    "briefing": "scenarios/01M686AESKA2WBJCRQB93TGYRC/documents/briefing.md",
+    "hotwash": "scenarios/01M686AESKA2WBJCRQB93TGYRC/documents/hotwash.md"
+  },
+  "rubric": {
+    "metrics": [
+      {
+        "id": "01M687A064BMEAERVJCHGDT8CC",
+        "name": "Operational Coordination",
+        "points": 30,
+        "fail": "Ops roles failed to synchronize on surge activation: the AOC did not convene the HCC within 30 minutes of I-04, and the CNO did not activate the call-in tree until 10 minutes after I-02, delaying staffing for the ED and surgical teams. The Liaison Officer did not open a line to Lucas County EMA until 1:30, after I-08, missing the opportunity to coordinate patient diversion and resource requests in real time.",
+        "pass": "The AOC convened the HCC within 30 minutes of I-04 and activated the call-in tree within 5 minutes of I-02. The Liaison Officer opened a line to Lucas County EMA and the regional healthcare coalition by 1:00, enabling timely coordination of patient diversion and staff requests. The CNO assigned three additional runners per Downtime Annex, Section 5, and the Surgical Pavilion activated ORs 3–5 for trauma after I-07.",
+        "excellence": "The AOC convened the HCC within 15 minutes of I-04, activated the call-in tree immediately after I-02, and assigned a dedicated runner to the ED from Facilities to support triage. The Liaison Officer proactively contacted the regional healthcare coalition and Lucas County EMA before I-08, and the CNO deployed a pharmacist to the ED and PACU before I-13, anticipating medication errors. The AOC established a 15-minute reporting cycle for all sections by 1:00.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-04",
+          "I-05",
+          "I-07",
+          "I-08",
+          "I-11",
+          "I-13"
+        ],
+        "objectiveRefs": [
+          "Surge on Downtime",
+          "Patient Identification and Tracking",
+          "Capacity and Crisis Standards"
+        ]
+      },
+      {
+        "id": "01M687A064ZSSG58YQRD71F12V",
+        "name": "Technical Competence",
+        "points": 30,
+        "fail": "The Director of IT delayed the partial restore of C-212 despite having the March 10 backup config available, and did not verify the failure's non-malicious nature before proceeding. The EHR was used for charting after I-10 without a stable interface engine, creating a split record. The lab's hand-typed potassium result was accepted without a repeat, risking a critical medication error.",
+        "pass": "The Director of IT chose to load the March 10 backup config onto C-212 to restore clinical VLANs within 10 minutes of I-01, and verified the failure was non-malicious via logs from both cores. The EHR was used only for read-only access after I-10, and the lab repeated the potassium stat and held both values until the result was confirmed. The Director of IT reported a stable interface engine by 22:30.",
+        "excellence": "The Director of IT immediately loaded the March 10 backup config onto C-212 and verified the failure was non-malicious via logs from both cores within 5 minutes of I-01. The EHR was used only for read-only access after I-10, and the lab repeated the potassium stat and held both values until the result was confirmed. The Director of IT provided a real-time status update to the HCC every 15 minutes, and the interface engine was restored by 20:00.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-05",
+          "I-10",
+          "I-18",
+          "I-21"
+        ],
+        "objectiveRefs": [
+          "Surge on Downtime",
+          "Return to the Record",
+          "Patient Identification and Tracking"
+        ]
+      },
+      {
+        "id": "01M687A064F9M07F6Q9YKRSKW0",
+        "name": "Public Communication",
+        "points": 20,
+        "fail": "The PIO released a statement to Facebook before confirming the hospital was open for emergencies, and did not consult the AOC or EDMD first. The PIO allowed a reporter to see the paper tracking board through the ED door for an hour, violating privacy policy. The AOC did not authorize a media statement until 2:35, after I-15.",
+        "pass": "The PIO released a statement cleared by the AOC and EDMD after I-09, stating the ED was open and treating emergencies. The PIO told Lucas County EMS and the EMA to disseminate the same message. The paper tracking board was covered after I-20, and the CPO was notified of the exposure. The AOC approved the media statement within 10 minutes of I-15.",
+        "excellence": "The PIO released a statement within 5 minutes of I-09, cleared by the AOC and EDMD, and directed the EMA and Lucas County EMS to echo the message. The paper tracking board was covered immediately after I-20, and the CPO was notified within 2 minutes. The PIO issued a holding statement for a potential media inquiry every 30 minutes, and the AOC approved a media briefing at 21:00.",
+        "linkedInjectIds": [
+          "I-09",
+          "I-15",
+          "I-20"
+        ],
+        "objectiveRefs": [
+          "Public Communication",
+          "Patient Identification and Tracking"
+        ]
+      },
+      {
+        "id": "01M687A064VMXHP1SSJQK805YE",
+        "name": "Use of Doctrine",
+        "points": 20,
+        "fail": "The AOC did not cite any EOP section when activating Code Triage or declaring a Level 1 activation. The CNO did not reference Downtime Annex, Section 5 when assigning runners. The CMO did not cite Patient Surge and Evacuation Annex, Section 2 when authorizing crisis standards of care. The CPO did not reference C3 or C4 when reporting privacy violations.",
+        "pass": "The AOC cited EOP Section 4 when convening the HCC and Patient Surge and Evacuation Annex, Section 3 when activating the family reunification center. The CNO cited Downtime Annex, Section 5 when assigning runners and C3 for emergency blood release. The CMO cited Patient Surge and Evacuation Annex, Section 2 for crisis standards of care. The CPO cited C3 and C4 for privacy disclosures and exposure.",
+        "excellence": "The AOC cited EOP Section 4 and Patient Surge and Evacuation Annex, Section 3 for Code Triage activation and family reunification. The CNO cited Downtime Annex, Section 5 for runner assignment and C3 for emergency blood release. The CMO cited Patient Surge and Evacuation Annex, Section 2 for crisis standards of care and C4 for privacy policy. The CPO cited C3 and C4 for privacy violations and C2 for the after-action report. All decisions were documented in the HCC log with section references.",
+        "linkedInjectIds": [
+          "I-01",
+          "I-02",
+          "I-03",
+          "I-04",
+          "I-05",
+          "I-07",
+          "I-08",
+          "I-09",
+          "I-10",
+          "I-11",
+          "I-13",
+          "I-15",
+          "I-17",
+          "I-18",
+          "I-19",
+          "I-20",
+          "I-21"
+        ],
+        "objectiveRefs": [
+          "Surge on Downtime",
+          "Patient Identification and Tracking",
+          "Return to the Record",
+          "Capacity and Crisis Standards"
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "objectiveCapabilities": [
+      {
+        "objectiveId": "obj-1",
+        "capability": "infrastructure_systems",
+        "why": "The objective tests the hospital's ability to maintain critical infrastructure functions—such as EHR, lab, and imaging—during a network outage, and to stabilize operations using alternate systems and procedures, which is the core of Infrastructure Systems."
+      },
+      {
+        "objectiveId": "obj-1",
+        "capability": "operational_coordination",
+        "why": "The objective requires unified coordination across departments (ED, IT, Blood Bank, etc.) under the HICS structure, ensuring that all stakeholders follow a common operational plan, which is the essence of Operational Coordination."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "infrastructure_systems",
+        "why": "The objective focuses on maintaining accurate patient identification and tracking using paper-based systems when electronic systems fail, which directly relates to the integrity and continuity of infrastructure systems during a disruption."
+      },
+      {
+        "objectiveId": "obj-2",
+        "capability": "public_information_and_warning",
+        "why": "The objective includes preventing misinformation and ensuring accurate public communication about patient status, which relies on coordinated, reliable, and timely information release to the public and families, a key function of Public Information and Warning."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "infrastructure_systems",
+        "why": "The objective tests the ability to expand capacity through surge space activation, patient movement, and crisis standards of care, all of which depend on the hospital’s ability to manage and stabilize its infrastructure systems under extreme stress."
+      },
+      {
+        "objectiveId": "obj-3",
+        "capability": "planning",
+        "why": "The objective requires the use of pre-established plans (e.g., Patient Surge and Evacuation Annex, Section 2) to make decisions on crisis standards of care, patient movement, and resource allocation, which is a direct application of the Planning capability."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "infrastructure_systems",
+        "why": "The objective tests the structured process for returning to electronic record systems after a downtime, including verification of system integrity, reconciliation of paper and electronic records, and controlled resumption of EHR use—core functions of Infrastructure Systems."
+      },
+      {
+        "objectiveId": "obj-4",
+        "capability": "cybersecurity",
+        "why": "The objective includes verifying that the restored environment is safe for clinical use, which requires a formal cybersecurity verification process (e.g., Information Security Officer confirmation), making Cybersecurity a critical component of the return-to-record process."
+      }
+    ],
+    "eegs": [
+      {
+        "capability": "infrastructure_systems",
+        "target": "The hospital maintains continuity of critical infrastructure functions by using paper-based systems, alternate care spaces, and manual processes for orders, medications, lab and imaging, and patient tracking, as directed in the Downtime Annex (Section 5) and Patient Surge and Evacuation Annex (Section 3), ensuring patient care continues during EHR and network outages.",
+        "objectiveRefs": [
+          "obj-1",
+          "obj-2",
+          "obj-3",
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-01",
+            "capability": "infrastructure_systems",
+            "task": "Activate Code Triage and open the Decontamination and Isolation Suite for contaminated patients.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+              "quote": "On notice from Lucas County EMS or Toledo Fire and Rescue of a mass casualty incident, the ED charge nurse and the ED physician: call Code Triage; the Nursing Supervisor opens the HCC; the Triage Offi",
+              "chunkId": 49
+            },
+            "expectedBy": "ic",
+            "timing": "Within 10 minutes of receiving the first wave of patients",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-02",
+            "capability": "infrastructure_systems",
+            "task": "Use paper order sets and a paper tracking board for all incoming patients, assigning trauma numbers T-1 to T-14.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+              "chunkId": 18
+            },
+            "expectedBy": "ed",
+            "timing": "Immediately upon activation of downtime",
+            "rowIds": [
+              "I-02",
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-03",
+            "capability": "infrastructure_systems",
+            "task": "Assign three additional runners from Environmental Services and Security to transport specimens and films.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+              "chunkId": 18
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 15 minutes of the ED charge nurse reporting the lab and imaging outage",
+            "rowIds": [
+              "I-02"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-04",
+            "capability": "infrastructure_systems",
+            "task": "Switch automated dispensing cabinets to 'override' mode and log every override pull on paper.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+              "chunkId": 18
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 30 minutes of downtime declaration",
+            "rowIds": [
+              "I-05",
+              "I-13"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-05",
+            "capability": "infrastructure_systems",
+            "task": "Use portable monitors and bedside telemetry for patients in ICU 3 North and 3 South, and assign a nurse to each telemetry patient.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+              "chunkId": 18
+            },
+            "expectedBy": "clinical",
+            "timing": "Within 20 minutes of the network failure",
+            "rowIds": [
+              "I-08"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-06",
+            "capability": "infrastructure_systems",
+            "task": "Conduct manual blood crossmatching and issue with a second-person check, using emergency-release protocol.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+              "quote": "**Registration:** register on paper using the DT- number, record two identifiers, and keep the face sheet in the downtime record. The ED uses a paper tracking board in the triage area. **Orders:** use",
+              "chunkId": 18
+            },
+            "expectedBy": "ed",
+            "timing": "Within 30 minutes of the lab system going down",
+            "rowIds": [
+              "I-05",
+              "I-06"
+            ],
+            "objectiveRefs": [
+              "obj-1",
+              "obj-2",
+              "obj-3",
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "operational_coordination",
+        "target": "The Hospital Command Center maintains a unified operational structure under HICS, with the Incident Commander, Section Chiefs, and Branch Directors coordinating all actions across departments, ensuring that decisions on patient movement, staffing, transfers, and system use are made collectively and documented in the Incident Action Plan.",
+        "objectiveRefs": [
+          "obj-1"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-07",
+            "capability": "operational_coordination",
+            "task": "The Incident Commander convenes the first HCC meeting within 30 minutes of the downtime declaration and establishes the HICS structure with Section Chiefs and Branch Directors.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "expectedBy": "ic",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-08",
+            "capability": "operational_coordination",
+            "task": "The Liaison Officer opens a direct line to Lucas County EMS and the Lucas County EMA and maintains a two-way information exchange on patient status, capacity, and diversion decisions.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-09",
+            "capability": "operational_coordination",
+            "task": "The Operations Section Chief and the Medical Care Branch Director jointly approve and implement the patient movement plan, including transfers to other hospitals, surge space activation, and staff reallocation, as directed by the Incident Commander.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "clinical",
+            "timing": "within 15 minutes of the second wave announcement",
+            "rowIds": [
+              "I-11"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-10",
+            "capability": "operational_coordination",
+            "task": "The Incident Commander authorizes the activation of crisis standards of care in the ED after a second physician and the ethics service review the expectant patient cases, and documents the decision in the HCC log.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "ic",
+            "timing": "immediately after the CMO's memo",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-11",
+            "capability": "operational_coordination",
+            "task": "The Director of IT, in coordination with the CNO and the CMIO, confirms the interface engine stability and provides a written report to the HCC before the EHR is used for charting.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+              "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "before any EHR charting",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-12",
+            "capability": "operational_coordination",
+            "task": "The Planning Section Chief issues the night operational period plan, including stepdown criteria and roles for decision-making, and ensures it is approved by the Incident Commander and distributed to all Section Chiefs.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "timing": "within 10 minutes of the sitrep",
+            "rowIds": [
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-1"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "public_information_and_warning",
+        "target": "The Public Information Officer issues timely, accurate, and actionable public statements through approved channels, including media releases, social media, and official briefings, to inform the public about the hospital's status, patient care, and recovery progress, ensuring consistency with the Incident Commander and Chief Privacy Officer.",
+        "objectiveRefs": [
+          "obj-2"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-13",
+            "capability": "public_information_and_warning",
+            "task": "Release a media statement confirming the Emergency Department is open and treating patients, and that the hospital is managing a technology disruption and a mass casualty incident, using only facts cleared by the AOC and the CPO.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "expectedBy": "pio",
+            "timing": "Within 15 minutes of receiving the media inquiry",
+            "rowIds": [
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-14",
+            "capability": "public_information_and_warning",
+            "task": "Issue a public correction on social media to counter false information, stating that the hospital is not turning people away and that non-urgent patients should call first or use urgent care.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "pio",
+            "timing": "Within 30 minutes of the post being detected",
+            "rowIds": [
+              "I-09"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-15",
+            "capability": "public_information_and_warning",
+            "task": "Provide a daily status update to the Lucas County EMA and the regional coalition, including patient counts, critical status, and resource needs, using a standardized template and approved language.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "expectedBy": "ic",
+            "timing": "Within 1 hour of receiving the request",
+            "rowIds": [
+              "I-19"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-16",
+            "capability": "public_information_and_warning",
+            "task": "Confirm with the CPO that no patient-specific information is released to the media, and direct all media inquiries to the PIO only.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "expectedBy": "ic",
+            "timing": "Immediately upon media inquiry",
+            "rowIds": [
+              "I-15"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-17",
+            "capability": "public_information_and_warning",
+            "task": "Update the public website and patient portal to reflect the hospital's current status, including diversion status and available services, using pre-approved content.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+              "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+              "chunkId": 12
+            },
+            "expectedBy": "pio",
+            "timing": "Within 1 hour of system recovery",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-18",
+            "capability": "public_information_and_warning",
+            "task": "Notify the regional coalition and Lucas County EMS of the hospital's capacity status and ability to accept additional patients, using a standardized message and verified data.",
+            "citation": {
+              "documentId": "01M685F079EYW07JXJR27SRH0Z",
+              "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "This plan is the hospital's emergency preparedness program under the Medicare Conditions of Participation. The table shows where each required element lives. | 42 CFR 482.15 element | Where addressed ",
+              "chunkId": 27
+            },
+            "expectedBy": "ic",
+            "timing": "Within 1 hour of the sitrep",
+            "rowIds": [
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-2"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "planning",
+        "target": "The Administrator on Call, in coordination with the Chief Medical Officer, the Chief Nursing Officer, and the Director of IT, activates the Patient Surge and Evacuation Annex, the EHR Downtime Procedures Annex, and the Cyber Incident Response Plan to manage the mass casualty incident under a network outage, ensuring all actions follow the hospital’s pre-established, executable procedures for surge, triage, capacity management, and recovery.",
+        "objectiveRefs": [
+          "obj-3"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-19",
+            "capability": "planning",
+            "task": "Activate the Patient Surge and Evacuation Annex and the EHR Downtime Procedures Annex in the HCC within 30 minutes of the core network failure.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "ic",
+            "timing": "within 30 minutes",
+            "rowIds": [
+              "I-04"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-20",
+            "capability": "planning",
+            "task": "Declare Surge Level B (Contingency) in response to a mass casualty incident of 20 or more patients, as defined in the EOP, and confirm the activation with the HCC log.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-03"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-21",
+            "capability": "planning",
+            "task": "Initiate the crisis standards of care process by authorizing the classification of three expectant patients as comfort care, following the protocol in the Patient Surge and Evacuation Annex, Section 2, and document the decision with a second physician and ethics review.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-17"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-22",
+            "capability": "planning",
+            "task": "Set the night operational plan by defining the criteria for stepping down from Level 1, including no surge patients in the ED holding, ICU capacity restored, and network stability for two hours, as directed in the Sitrep 5.",
+            "citation": {
+              "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+              "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+              "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+              "chunkId": 48
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-23",
+            "capability": "planning",
+            "task": "Require the Director of IT to report a stable interface engine and the CMIO and CNO to agree on a reconciliation plan before the EHR is used for charting.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+              "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+              "chunkId": 21
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-10"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-24",
+            "capability": "planning",
+            "task": "Initiate the privacy log for disclosures made to a neighboring hospital for treatment, for the crossed identity pair, and for the exposed paper tracking board, as required by the Chief Privacy Officer.",
+            "citation": {
+              "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+              "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+              "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+              "chunkId": 8
+            },
+            "expectedBy": "ic",
+            "timing": "immediately",
+            "rowIds": [
+              "I-20"
+            ],
+            "objectiveRefs": [
+              "obj-3"
+            ],
+            "locked": false
+          }
+        ]
+      },
+      {
+        "capability": "cybersecurity",
+        "target": "The Information Security Officer confirms in writing that the network failure was not caused by a malicious cyberattack, and verifies that the restored environment is safe for clinical use before any system is used for charting or data entry.",
+        "objectiveRefs": [
+          "obj-4"
+        ],
+        "criticalTasks": [
+          {
+            "id": "T-25",
+            "capability": "cybersecurity",
+            "task": "Notify the Information Security Officer (Marcus Hale) immediately upon network failure and request a forensic assessment of the core switch failure.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+              "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+              "chunkId": 43
+            },
+            "expectedBy": "it",
+            "timing": "Within 10 minutes of network failure",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-26",
+            "capability": "cybersecurity",
+            "task": "Confirm in writing that the failure was not due to a malicious cyberattack by reviewing logs from both core switches and the interface engine.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+              "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+              "chunkId": 43
+            },
+            "expectedBy": "it",
+            "timing": "Within 30 minutes of failure",
+            "rowIds": [
+              "I-01"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-27",
+            "capability": "cybersecurity",
+            "task": "Report to the HCC that the failure is not malicious and that the environment is safe for clinical use before any system is restored for charting.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+              "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "Before any EHR use for charting",
+            "rowIds": [
+              "I-10",
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-28",
+            "capability": "cybersecurity",
+            "task": "Verify that the interface engine and EHR database are not compromised before allowing any data entry into the EHR.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+              "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "Before EHR is used for charting",
+            "rowIds": [
+              "I-10",
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-29",
+            "capability": "cybersecurity",
+            "task": "Report to the HCC that the system is safe for clinical use only after the Information Security Officer provides written confirmation.",
+            "citation": {
+              "documentId": "01M685F077NG5HA756CYR9T934",
+              "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+              "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+              "chunkId": 21
+            },
+            "expectedBy": "it",
+            "timing": "Before any EHR use for charting",
+            "rowIds": [
+              "I-10",
+              "I-21"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          },
+          {
+            "id": "T-30",
+            "capability": "cybersecurity",
+            "task": "Confirm that the downtime viewer (BCA-VIEW01) is not compromised and that its data is accurate before using it for patient summaries.",
+            "citation": {
+              "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+              "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+              "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+              "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+              "chunkId": 43
+            },
+            "expectedBy": "it",
+            "timing": "Before any use of BCA-VIEW01 for transfers",
+            "rowIds": [
+              "I-12"
+            ],
+            "objectiveRefs": [
+              "obj-4"
+            ],
+            "locked": false
+          }
+        ]
+      }
+    ]
+  },
+  "hotwash": {
+    "method": "3up3down",
+    "methodDescription": "Use the 3-Up, 3-Down method by asking each team to share three things that went well and three that broke or failed during the exercise. Go around the room by team, capture responses on a whiteboard, and emphasize that this is a no-blame, learning-focused discussion to surface key insights from the scenario.",
+    "questions": [
+      {
+        "topic": "Trust",
+        "text": "When did you first stop trusting the EHR or the lab report during the outage, and what evidence led you to make that decision instead of relying on the system?",
+        "objectiveRef": "Surge on Downtime"
+      },
+      {
+        "topic": "The Gap",
+        "text": "At the 1:30 Facebook post, you had misinformation spreading while you were still assessing the actual status. What information did you need to decide whether to address the post publicly, and who should have made that call?",
+        "objectiveRef": "Patient Identification and Tracking"
+      },
+      {
+        "topic": "The Call",
+        "text": "At 1:40, you received the IT memo recommending you stay on paper despite partial EHR recovery. What made you decide to keep using paper for orders, and how would a different decision have changed the workflow in the ED and ORs?",
+        "objectiveRef": "Return to the Record"
+      },
+      {
+        "topic": "The Gap",
+        "text": "When the pharmacist reported duplicate antibiotic orders and tripled opioid pulls, what system or process failed to prevent those errors, and what immediate action could have closed that gap?",
+        "objectiveRef": "Capacity and Crisis Standards"
+      },
+      {
+        "topic": "Trust",
+        "text": "When you were deciding whether to classify three patients as expectant at 2:55, what did you trust most—the clinical data, the ethics consult, or the pressure to use limited resources on 'saveable' patients—and how did that shape your decision?",
+        "objectiveRef": "Capacity and Crisis Standards"
+      }
+    ]
+  },
+  "simcellScripts": [
+    {
+      "rolePlayed": "Lucas County EMS Dispatch",
+      "trigger": "AOC says: 'We accept the first wave.'",
+      "hardQuestions": [
+        "EMS to Ottawa River: How many critical patients do you have on paper? Can you confirm a second wave will be received? We need to know if you’re still accepting.",
+        "We have four other hospitals on standby. If you exceed capacity, we will divert the second wave to another facility. Confirm your acceptance now."
+      ],
+      "concessions": [
+        "Will accept a written triage log and a status update every 30 minutes.",
+        "Will not divert if the hospital confirms it is at full capacity and has a recovery plan."
+      ]
+    },
+    {
+      "rolePlayed": "Ottawa River Regional Medical Center EHR Vendor (CareLine Systems)",
+      "trigger": "DIT says: 'We need to restore the EHR.'",
+      "hardQuestions": [
+        "We have not received a formal access request or ticket number. Please provide a signed access request and a ticket ID from your IT helpdesk.",
+        "Do you have a forensic image of the server before the incident? We need to validate the integrity of the backup.",
+        "Our support policy requires a signed service agreement and a verified patch level. What is your current version?"
+      ],
+      "concessions": [
+        "Will provide remote support only after a signed access request and ticket number are received.",
+        "Will send a forensic analyst if the hospital provides a chain-of-custody log and a legal hold notice."
+      ]
+    },
+    {
+      "rolePlayed": "Ohio Department of Health (ODH) – Healthcare Emergency Response",
+      "trigger": "AOC says: 'We are reporting to ODH.'",
+      "hardQuestions": [
+        "We require a completed HHS-1004 form with patient counts, critical status, and resource needs. Where is it?",
+        "We have not received a formal report from you. Your status must be submitted within four hours of activation. What is your report number?",
+        "How do you verify that you are not missing any critical patients in the ED or ICU?"
+      ],
+      "concessions": [
+        "Will accept a verbal update and a follow-up written report within six hours.",
+        "Will not issue a mutual aid request until the hospital confirms it is at Level 1 and has activated HICS."
+      ]
+    },
+    {
+      "rolePlayed": "Channel 11 Reporter Laura Chen",
+      "trigger": "PIO says: 'We’re preparing a statement.'",
+      "hardQuestions": [
+        "How many patients are dead? We have a family who says their relative is critical and no one will talk to them.",
+        "We have a video of a paper tracking board visible from the ED door. Is that true?",
+        "Can you give us a name? We are on air in 15 minutes."
+      ],
+      "concessions": [
+        "Will accept a statement that says 'the hospital is managing a surge and will not confirm individual cases.'",
+        "Will not publish any name or detail unless cleared by the HCC and CPO."
+      ]
+    },
+    {
+      "rolePlayed": "FBI Cleveland Field Office – Cyber Incident Response",
+      "trigger": "DIT says: 'We believe this is a ransomware attack.'",
+      "hardQuestions": [
+        "We have not received a formal cyber incident report. Provide your case number, the date of the attack, and a contact for the forensic team.",
+        "Do you have preserved logs from the network core and firewall? We need to validate if this is a ransomware event.",
+        "We require a chain-of-custody for all evidence, including disk images and memory dumps."
+      ],
+      "concessions": [
+        "Will assign an on-site agent if the hospital provides a legal hold notice and a signed forensic access agreement.",
+        "Will not initiate a joint investigation until the hospital confirms it has engaged outside counsel and a forensic firm."
+      ]
+    }
+  ],
+  "sitman": {
+    "assumptions": [
+      "The exercise is conducted in a no-fault learning environment where all participants are encouraged to explore decisions and their consequences without fear of judgment.",
+      "The scenario is plausible, and events occur as they are presented—no external information or updates are provided beyond the injects.",
+      "Players respond in accordance with existing plans, policies and procedures as described in the referenced documents, and roles act within their assigned authorities."
+    ],
+    "artificialities": [
+      "Time jumps between modules simulate the passage of hours; actual time does not pass in real time.",
+      "The SimCell operates all external stakeholders, including EMS, neighboring hospitals, media, and regional agencies, and provides injects via pre-scripted messages.",
+      "Systems such as the EHR, LIS, PACS, and interface engine are named and described in the plans but are not physically accessed or manipulated during the exercise.",
+      "Injects are delivered via paper and screen, not through actual network or system failures.",
+      "The exercise does not require actual coordination with off-site facilities or vendors; all responses are simulated through role-based discussion."
+    ],
+    "modules": [
+      {
+        "phaseId": "p1",
+        "narrativeMd": "It is 16:45. The core network switch in room A-B02 has failed, and the backup core in C-212 did not take over due to outdated configuration. The EHR, laboratory, imaging, and secure messaging systems are unreachable across most of the clinical network. Telephones remain functional. The IT on-call and Nursing Supervisor have declared a downtime event. The ED holds 31 patients, both ICUs are full, and two operating rooms are in use. The vendor estimates four hours for a replacement switch. At 16:50, a network engineer reports that C-212’s configuration is from February 27 and lacks the March 4 VLAN updates. Loading the March 10 backup would restore clinical VLANs but not PACS or device networks. The ED charge nurse reports that critical tests are delayed and no results or orders can be sent. At 17:05, Lucas County EMS announces a multi-vehicle crash with a fuel tanker, 14 patients expected, six critical. The hospital is designated as the trauma center. The switchboard operator announces Code Triage and calls all department managers to the Hospital Command Center.",
+        "keyIssues": [
+          "Decide whether to accept the mass casualty incident with the EHR and key systems down.",
+          "Determine if the hospital can sustain a surge with no access to electronic lab, imaging, or order entry.",
+          "Decide whether to activate crisis standards of care or wait for system recovery.",
+          "Ensure patient identification is not compromised during the transition to paper tracking."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "AOC: What is your decision on accepting the first wave of 14 patients, and what level of surge (A, B, or C) will you activate based on current conditions? Refer to C1, Section 2.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Surge on Downtime",
+            "citations": [
+              {
+                "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+                "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+                "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "EDMD: How will you manage the immediate care of patients requiring lab tests, imaging, and medication administration without the EHR or interface engine? Refer to C4, Annex A.",
+            "roleIds": [
+              "ed"
+            ],
+            "objectiveRef": "Surge on Downtime",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          },
+          {
+            "text": "CNO: What immediate steps will you take to prevent duplicate or conflicting patient identities as paper tracking begins? Refer to C7, Section 7.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Patient Identification and Tracking",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          },
+          {
+            "text": "DIT: What network actions will you take to stabilize the environment, and what risks do you see in restoring partial connectivity too soon? Refer to C7, Section 7.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Surge on Downtime",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p2",
+        "narrativeMd": "It is 17:45. The first 14 patients have arrived; six are critical. C-212 now carries the clinical networks, allowing read-only access to the EHR on 60 computers, but registration, PACS, and secure messaging remain down. Paper tracking is in use with trauma numbers T-1 to T-14. The Blood Bank reports six critical patients and no way to access antibody history. The ED has 64 patients, and the PACU holds six overflow ICU patients. The Surgical Pavilion reports three trauma laparotomies and an orthopedic case waiting, with no PACS for intraoperative imaging. The Security Director reports 90 family members in the lobby and a Channel 11 truck at the main entrance. A Facebook post warns against going to the hospital and claims patients are being turned away. At 18:20, the LIS partially recovers but the interface engine remains stuck, so results flow only one way. The Director of IT advises against using the EHR for charting, as it would create a split record and require re-keying later.",
+        "keyIssues": [
+          "Maintain accurate patient identification across paper and EHR during a surge.",
+          "Manage the influx of 22 additional patients from the second wave with no system support.",
+          "Decide whether to allow EHR use for read-only access only, and what to do about the paper record.",
+          "Address family and media pressure while maintaining operational control.",
+          "Ensure that critical resources like blood, medications, and operating rooms are not over-allocated."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "AOC: How will you manage the second wave of 22 patients, and what actions will you take to prevent chaos in the ED and ORs? Refer to C1, Section 2.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Surge on Downtime",
+            "citations": [
+              {
+                "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+                "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+                "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "EDMD: How will you triage and assign the second wave, especially for patients with life-threatening injuries, given no EHR access and limited lab and imaging? Refer to C4, Annex A.",
+            "roleIds": [
+              "ed"
+            ],
+            "objectiveRef": "Patient Identification and Tracking",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          },
+          {
+            "text": "CNO: How will you assign staff to the ED and PACU overflow, and what resources will you request to manage fatigue and morale? Refer to C5, Section 8.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Capacity and Crisis Standards",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your message to the media and public, and how will you counter the false Facebook post? Refer to C10, Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": []
+          },
+          {
+            "text": "DIT: Should you allow the EHR for read-only use, or keep all charting on paper? What are the risks of a split record, and how will you mitigate them? Refer to C7, Section 7.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p3",
+        "narrativeMd": "It is 18:45. A total of 36 crash patients have arrived; 11 are critical and 4 are in the OR. The PACU overflow is at 6/10. The ED holds 64 patients, and both ICUs are full. The replacement switch is on-site, but installation is scheduled for 21:30. The neighboring hospital transfer center offers to take six ICU patients, but no electronic record is available. The Pharmacy reports tripled opioid pulls, duplicate antibiotic orders, and a need for pharmacists in the ED and PACU. The Planning Section reports that EHR is read-only, PACS and registration remain down, and the census is 351. The Chief Medical Officer proposes classifying three patients as expectant due to very low survival chances, to free up ORs, blood, and ventilators for those with a higher chance of survival. The Security Director reports that families are attempting to enter the ED, and the media is demanding information. The Chief Privacy Officer reports that two clerks used both trauma and DT numbers for one patient, creating a record duplication risk, and that a reporter saw the paper tracking board through a door.",
+        "keyIssues": [
+          "Decide whether to classify three patients as expectant and initiate comfort care.",
+          "Determine how to transfer six ICU patients to a neighboring hospital without electronic records.",
+          "Manage the paper record backlog and prevent data loss during recovery.",
+          "Address public and family concerns while maintaining operational focus.",
+          "Ensure that staff are not overworked and that morale is maintained during a prolonged crisis."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "AOC: Do you approve the classification of three patients as expectant under crisis standards of care? What steps will you take to ensure ethical review and documentation? Refer to C1, Section 2.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Capacity and Crisis Standards",
+            "citations": [
+              {
+                "documentId": "01M685F07CPXF9QPY6XHTVSKY4",
+                "documentTitle": "Ottawa River Regional Medical Center — Patient Surge and Evacuation Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+                "quote": "| Surge level | Trigger | Capacity actions | |---|---|---| | Level A (Conventional) | ED holds more than 12 admitted patients for 4 hours, or the census exceeds 90% | Open the PACU and Infusion Center",
+                "chunkId": 48
+              }
+            ]
+          },
+          {
+            "text": "EDMD: How will you communicate the transfer plan to the receiving hospital, and what information will you provide to ensure continuity of care? Refer to C11, Section 11.",
+            "roleIds": [
+              "ed"
+            ],
+            "objectiveRef": "Capacity and Crisis Standards",
+            "citations": []
+          },
+          {
+            "text": "CNO: How will you manage staffing shortages, including PACU overflow and fatigue, and what authority will you use to extend shifts or call in additional staff? Refer to C8, Section 8.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Capacity and Crisis Standards",
+            "citations": [
+              {
+                "documentId": "01M685F079EYW07JXJR27SRH0Z",
+                "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+                "quote": "The Emergency Management Committee updates the Hazard Vulnerability Analysis (HVA) every year with the regional healthcare coalition and the Lucas County Emergency Management Agency. The 2026 analysis",
+                "chunkId": 28
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your official statement to the media about patient numbers, deaths, and the hospital’s status, and how will you control the spread of misinformation? Refer to C10, Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": []
+          },
+          {
+            "text": "DIT: What is your assessment of the EHR’s stability, and when would you recommend a controlled return to using it for charting, if at all? Refer to C5, Section 8.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "phaseId": "p4",
+        "narrativeMd": "It is 19:45. Six ICU patients have been transferred out, and the PACU overflow is down to three. Three expectant patients are receiving comfort care with their families. The hospital is at 351 patients, the ED at 58. The replacement switch is in the building and will be installed at 21:30, with expected system recovery by 23:30. The laboratory reports a potassium result discrepancy: 6.8 on paper, 4.2 in the analyzer. The interface engine remains down, so lab results are not flowing. The Planning Section reports that the EHR is still read-only, registration and PACS are down, and the paper record is the only active record. The Chief Privacy Officer confirms that two clerks used both trauma and DT numbers for one patient, creating a record duplication. The reconciliation of two identity series and the lab backlog have not begun. The AOC must decide on the operational plan for the night, the criteria for stepping down from Level 1, and who will decide when the EHR is used for charting.",
+        "keyIssues": [
+          "Decide when and how to return to using the EHR for charting, given that it is partially restored.",
+          "Establish a process for reconciling paper records with the EHR and resolving duplicate identities.",
+          "Determine how to manage lab result discrepancies and prevent clinical harm.",
+          "Define the criteria for stepping down from crisis standards of care and returning to normal operations.",
+          "Set demobilization criteria for the night and ensure that all critical functions are sustained."
+        ],
+        "discussionQuestions": [
+          {
+            "text": "AOC: What are your criteria for stepping down from Level 1, and when will you allow the EHR to be used for charting and order entry? Refer to C5, Section 8.",
+            "roleIds": [
+              "ic"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              }
+            ]
+          },
+          {
+            "text": "EDMD: How will you ensure that lab results are correctly matched to patients when the interface engine remains down, and what actions will you take on the discrepancy found? Refer to C4, Annex A.",
+            "roleIds": [
+              "ed"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+                "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+                "chunkId": 12
+              }
+            ]
+          },
+          {
+            "text": "CNO: What steps will you take to reconcile duplicate patient identities and ensure that no patient receives the wrong treatment? Refer to C7, Section 7.",
+            "roleIds": [
+              "clinical"
+            ],
+            "objectiveRef": "Patient Identification and Tracking",
+            "citations": [
+              {
+                "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+                "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+                "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+                "chunkId": 6
+              }
+            ]
+          },
+          {
+            "text": "PIO: What is your final message to the public and media, and how will you confirm that the hospital is returning to normal operations? Refer to C10, Section 10.",
+            "roleIds": [
+              "pio"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": []
+          },
+          {
+            "text": "DIT: What is your final assessment of the EHR’s safety, and what must be confirmed before it is used for high-alert medication administration? Refer to C5, Section 8.",
+            "roleIds": [
+              "it"
+            ],
+            "objectiveRef": "Return to the Record",
+            "citations": [
+              {
+                "documentId": "01M685F077NG5HA756CYR9T934",
+                "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+                "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+                "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+                "chunkId": 21
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "criticalResources": [],
+  "warnings": [],
+  "provenance": [
+    {
+      "stage": "inject_text",
+      "itemId": "01M686AET7Q7VX7XMWEVSBD86D",
+      "startedAt": "2026-10-31T05:18:35.852Z",
+      "finishedAt": "2026-10-31T05:18:44.901Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5515,
+      "outputTokens": 701,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686AET7Q7VX7XMWEVSBD86D",
+      "startedAt": "2026-10-31T05:18:44.903Z",
+      "finishedAt": "2026-10-31T05:18:44.903Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686AQNAM8ZN3ZA94RG7VQ7G",
+      "startedAt": "2026-10-31T05:18:44.910Z",
+      "finishedAt": "2026-10-31T05:18:52.938Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5612,
+      "outputTokens": 728,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686AQNAM8ZN3ZA94RG7VQ7G",
+      "startedAt": "2026-10-31T05:18:52.939Z",
+      "finishedAt": "2026-10-31T05:18:52.939Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686AZGD3QZZ5AF3NC5NRJZR",
+      "startedAt": "2026-10-31T05:18:52.945Z",
+      "finishedAt": "2026-10-31T05:18:58.154Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5586,
+      "outputTokens": 438,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686AZGD3QZZ5AF3NC5NRJZR",
+      "startedAt": "2026-10-31T05:18:58.158Z",
+      "finishedAt": "2026-10-31T05:19:00.255Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1566,
+      "outputTokens": 211,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686B6N30R14BQR7FNV3R7Z0",
+      "startedAt": "2026-10-31T05:19:00.262Z",
+      "finishedAt": "2026-10-31T05:19:05.865Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5601,
+      "outputTokens": 486,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686B6N30R14BQR7FNV3R7Z0",
+      "startedAt": "2026-10-31T05:19:05.867Z",
+      "finishedAt": "2026-10-31T05:19:08.441Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1665,
+      "outputTokens": 282,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686BEMVF74JCS5TCWWR05JM",
+      "startedAt": "2026-10-31T05:19:08.447Z",
+      "finishedAt": "2026-10-31T05:19:12.951Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 5900,
+      "outputTokens": 311,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686BEMVF74JCS5TCWWR05JM",
+      "startedAt": "2026-10-31T05:19:12.954Z",
+      "finishedAt": "2026-10-31T05:19:14.332Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1472,
+      "outputTokens": 143,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686BMCZSYDZZB56NCK4G17Q",
+      "startedAt": "2026-10-31T05:19:14.339Z",
+      "finishedAt": "2026-10-31T05:19:21.114Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6635,
+      "outputTokens": 557,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686BMCZSYDZZB56NCK4G17Q",
+      "startedAt": "2026-10-31T05:19:21.116Z",
+      "finishedAt": "2026-10-31T05:19:24.433Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1770,
+      "outputTokens": 366,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686BY8KG5WG8V9JEEXJA6WP",
+      "startedAt": "2026-10-31T05:19:24.439Z",
+      "finishedAt": "2026-10-31T05:19:30.650Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6507,
+      "outputTokens": 489,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686BY8KG5WG8V9JEEXJA6WP",
+      "startedAt": "2026-10-31T05:19:30.651Z",
+      "finishedAt": "2026-10-31T05:19:30.651Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686C4AY8EECQR8WT9J052RC",
+      "startedAt": "2026-10-31T05:19:30.658Z",
+      "finishedAt": "2026-10-31T05:19:42.771Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 6769,
+      "outputTokens": 1059,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686C4AY8EECQR8WT9J052RC",
+      "startedAt": "2026-10-31T05:19:42.772Z",
+      "finishedAt": "2026-10-31T05:19:42.772Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686CG5QWJ7XZ545NPRH62E9",
+      "startedAt": "2026-10-31T05:19:42.779Z",
+      "finishedAt": "2026-10-31T05:19:49.821Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7105,
+      "outputTokens": 550,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686CG5QWJ7XZ545NPRH62E9",
+      "startedAt": "2026-10-31T05:19:49.824Z",
+      "finishedAt": "2026-10-31T05:19:53.292Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1940,
+      "outputTokens": 377,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686CTEGQ42HQ8Z030YJ6VYV",
+      "startedAt": "2026-10-31T05:19:53.300Z",
+      "finishedAt": "2026-10-31T05:19:59.268Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7075,
+      "outputTokens": 434,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686CTEGQ42HQ8Z030YJ6VYV",
+      "startedAt": "2026-10-31T05:19:59.271Z",
+      "finishedAt": "2026-10-31T05:20:01.556Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1804,
+      "outputTokens": 240,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686D2GQZ1A1R6NBCZQVFJPD",
+      "startedAt": "2026-10-31T05:20:01.563Z",
+      "finishedAt": "2026-10-31T05:20:07.202Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 14159,
+      "outputTokens": 828,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686D2GQZ1A1R6NBCZQVFJPD",
+      "startedAt": "2026-10-31T05:20:13.052Z",
+      "finishedAt": "2026-10-31T05:20:13.052Z",
+      "status": "skipped",
+      "error": "template only (row does not ask for a photo)",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686DDQZ6J5E30T8426EA8JH",
+      "startedAt": "2026-10-31T05:20:13.059Z",
+      "finishedAt": "2026-10-31T05:20:22.335Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7913,
+      "outputTokens": 722,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686DDQZ6J5E30T8426EA8JH",
+      "startedAt": "2026-10-31T05:20:22.336Z",
+      "finishedAt": "2026-10-31T05:20:22.336Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686DPT2EMQ511X9RTCYXRW2",
+      "startedAt": "2026-10-31T05:20:22.342Z",
+      "finishedAt": "2026-10-31T05:20:27.829Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7297,
+      "outputTokens": 381,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686DPT2EMQ511X9RTCYXRW2",
+      "startedAt": "2026-10-31T05:20:27.832Z",
+      "finishedAt": "2026-10-31T05:20:31.739Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1744,
+      "outputTokens": 437,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686DZZYRYXXP90B66N49R82",
+      "startedAt": "2026-10-31T05:20:31.746Z",
+      "finishedAt": "2026-10-31T05:20:38.463Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7144,
+      "outputTokens": 466,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686DZZYRYXXP90B66N49R82",
+      "startedAt": "2026-10-31T05:20:38.464Z",
+      "finishedAt": "2026-10-31T05:20:38.464Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686E6J3RB0CNC8CJYDA2S1Y",
+      "startedAt": "2026-10-31T05:20:38.471Z",
+      "finishedAt": "2026-10-31T05:20:44.940Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7345,
+      "outputTokens": 476,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686E6J3RB0CNC8CJYDA2S1Y",
+      "startedAt": "2026-10-31T05:20:44.943Z",
+      "finishedAt": "2026-10-31T05:20:50.269Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 1946,
+      "outputTokens": 597,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686EJ30WM9B5FSVXGVTBGAM",
+      "startedAt": "2026-10-31T05:20:50.276Z",
+      "finishedAt": "2026-10-31T05:21:02.034Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7992,
+      "outputTokens": 950,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686EJ30WM9B5FSVXGVTBGAM",
+      "startedAt": "2026-10-31T05:21:02.035Z",
+      "finishedAt": "2026-10-31T05:21:02.035Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686EXJPHCJT3MTHHWRTKCE7",
+      "startedAt": "2026-10-31T05:21:02.042Z",
+      "finishedAt": "2026-10-31T05:21:12.067Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7702,
+      "outputTokens": 806,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686EXJPHCJT3MTHHWRTKCE7",
+      "startedAt": "2026-10-31T05:21:12.070Z",
+      "finishedAt": "2026-10-31T05:21:12.070Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686F7C9C8BH73SKBV5EGXVB",
+      "startedAt": "2026-10-31T05:21:12.077Z",
+      "finishedAt": "2026-10-31T05:21:16.793Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 7924,
+      "outputTokens": 279,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686F7C9C8BH73SKBV5EGXVB",
+      "startedAt": "2026-10-31T05:21:16.794Z",
+      "finishedAt": "2026-10-31T05:21:16.794Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686FBZXMSTS2601VY8VHWME",
+      "startedAt": "2026-10-31T05:21:16.801Z",
+      "finishedAt": "2026-10-31T05:21:26.025Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8705,
+      "outputTokens": 677,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686FBZXMSTS2601VY8VHWME",
+      "startedAt": "2026-10-31T05:21:26.028Z",
+      "finishedAt": "2026-10-31T05:21:30.236Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2264,
+      "outputTokens": 444,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686FS3ZKWT1CFQC09PDWMF3",
+      "startedAt": "2026-10-31T05:21:30.244Z",
+      "finishedAt": "2026-10-31T05:21:38.612Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8222,
+      "outputTokens": 613,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686FS3ZKWT1CFQC09PDWMF3",
+      "startedAt": "2026-10-31T05:21:38.613Z",
+      "finishedAt": "2026-10-31T05:21:38.613Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686G19RRFGE45955SH9CWDM",
+      "startedAt": "2026-10-31T05:21:38.620Z",
+      "finishedAt": "2026-10-31T05:21:45.249Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8239,
+      "outputTokens": 444,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686G19RRFGE45955SH9CWDM",
+      "startedAt": "2026-10-31T05:21:45.250Z",
+      "finishedAt": "2026-10-31T05:21:45.250Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686G7S51A1198JP3Q2EH34D",
+      "startedAt": "2026-10-31T05:21:45.258Z",
+      "finishedAt": "2026-10-31T05:21:58.112Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8959,
+      "outputTokens": 992,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686G7S51A1198JP3Q2EH34D",
+      "startedAt": "2026-10-31T05:21:58.113Z",
+      "finishedAt": "2026-10-31T05:21:58.113Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686GMB46REK5WMA7N4Y1DWG",
+      "startedAt": "2026-10-31T05:21:58.121Z",
+      "finishedAt": "2026-10-31T05:22:06.281Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8812,
+      "outputTokens": 568,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686GMB46REK5WMA7N4Y1DWG",
+      "startedAt": "2026-10-31T05:22:06.284Z",
+      "finishedAt": "2026-10-31T05:22:09.885Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_media_brief@default",
+      "promptHash": "97504e3257a8de1988326f823a2692b43d92180df365e2e8c3951a2c99c8bcb7",
+      "inputTokens": 2235,
+      "outputTokens": 375,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686GZV0PKZG54ZTX42D7A6F",
+      "startedAt": "2026-10-31T05:22:09.892Z",
+      "finishedAt": "2026-10-31T05:22:17.739Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 8922,
+      "outputTokens": 526,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686GZV0PKZG54ZTX42D7A6F",
+      "startedAt": "2026-10-31T05:22:17.740Z",
+      "finishedAt": "2026-10-31T05:22:17.740Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686H7GFN222RZ9FE0CGQDGD",
+      "startedAt": "2026-10-31T05:22:17.748Z",
+      "finishedAt": "2026-10-31T05:22:30.778Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 20313,
+      "outputTokens": 1962,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 1
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686H7GFN222RZ9FE0CGQDGD",
+      "startedAt": "2026-10-31T05:22:44.734Z",
+      "finishedAt": "2026-10-31T05:22:44.734Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_text",
+      "itemId": "01M686J1W1ZWF18DD5JNQ16SZK",
+      "startedAt": "2026-10-31T05:22:44.741Z",
+      "finishedAt": "2026-10-31T05:22:52.497Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "inject_text@default",
+      "promptHash": "8895d9b04b6b0016afc712052852b2446d2883eb7acfac38f06ee0883623ba20",
+      "inputTokens": 9144,
+      "outputTokens": 501,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "inject_media_brief",
+      "itemId": "01M686J1W1ZWF18DD5JNQ16SZK",
+      "startedAt": "2026-10-31T05:22:52.498Z",
+      "finishedAt": "2026-10-31T05:22:52.498Z",
+      "status": "skipped",
+      "error": "template only",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686AET7Q7VX7XMWEVSBD86D",
+      "startedAt": "2026-10-31T05:22:56.042Z",
+      "finishedAt": "2026-10-31T05:22:56.272Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686AQNAM8ZN3ZA94RG7VQ7G",
+      "startedAt": "2026-10-31T05:22:56.273Z",
+      "finishedAt": "2026-10-31T05:22:56.499Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686AZGD3QZZ5AF3NC5NRJZR",
+      "startedAt": "2026-10-31T05:44:40.559Z",
+      "finishedAt": "2026-10-31T05:44:40.764Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686B6N30R14BQR7FNV3R7Z0",
+      "startedAt": "2026-10-31T05:44:40.766Z",
+      "finishedAt": "2026-10-31T05:44:40.970Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686BEMVF74JCS5TCWWR05JM",
+      "startedAt": "2026-10-31T05:22:56.887Z",
+      "finishedAt": "2026-10-31T05:22:57.090Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686BMCZSYDZZB56NCK4G17Q",
+      "startedAt": "2026-10-31T05:44:40.971Z",
+      "finishedAt": "2026-10-31T05:44:41.165Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686BY8KG5WG8V9JEEXJA6WP",
+      "startedAt": "2026-10-31T05:22:57.299Z",
+      "finishedAt": "2026-10-31T05:22:57.520Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686C4AY8EECQR8WT9J052RC",
+      "startedAt": "2026-10-31T05:22:57.522Z",
+      "finishedAt": "2026-10-31T05:22:57.751Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686CG5QWJ7XZ545NPRH62E9",
+      "startedAt": "2026-10-31T05:44:41.167Z",
+      "finishedAt": "2026-10-31T05:44:41.370Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686CTEGQ42HQ8Z030YJ6VYV",
+      "startedAt": "2026-10-31T05:22:57.960Z",
+      "finishedAt": "2026-10-31T05:22:58.142Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686D2GQZ1A1R6NBCZQVFJPD",
+      "startedAt": "2026-10-31T05:22:58.144Z",
+      "finishedAt": "2026-10-31T05:22:58.258Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686DDQZ6J5E30T8426EA8JH",
+      "startedAt": "2026-10-31T05:22:58.260Z",
+      "finishedAt": "2026-10-31T05:22:58.500Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686DPT2EMQ511X9RTCYXRW2",
+      "startedAt": "2026-10-31T05:22:58.501Z",
+      "finishedAt": "2026-10-31T05:22:58.698Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686DZZYRYXXP90B66N49R82",
+      "startedAt": "2026-10-31T05:22:58.699Z",
+      "finishedAt": "2026-10-31T05:22:58.904Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686E6J3RB0CNC8CJYDA2S1Y",
+      "startedAt": "2026-10-31T05:44:41.372Z",
+      "finishedAt": "2026-10-31T05:44:41.573Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686EJ30WM9B5FSVXGVTBGAM",
+      "startedAt": "2026-10-31T05:22:59.110Z",
+      "finishedAt": "2026-10-31T05:22:59.342Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686EXJPHCJT3MTHHWRTKCE7",
+      "startedAt": "2026-10-31T05:44:41.575Z",
+      "finishedAt": "2026-10-31T05:44:41.805Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686F7C9C8BH73SKBV5EGXVB",
+      "startedAt": "2026-10-31T05:22:59.576Z",
+      "finishedAt": "2026-10-31T05:22:59.858Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686FBZXMSTS2601VY8VHWME",
+      "startedAt": "2026-10-31T05:44:41.807Z",
+      "finishedAt": "2026-10-31T05:44:42.029Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686FS3ZKWT1CFQC09PDWMF3",
+      "startedAt": "2026-10-31T05:23:00.089Z",
+      "finishedAt": "2026-10-31T05:23:00.318Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686G19RRFGE45955SH9CWDM",
+      "startedAt": "2026-10-31T05:23:00.320Z",
+      "finishedAt": "2026-10-31T05:23:00.541Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686G7S51A1198JP3Q2EH34D",
+      "startedAt": "2026-10-31T05:44:42.031Z",
+      "finishedAt": "2026-10-31T05:44:42.262Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686GMB46REK5WMA7N4Y1DWG",
+      "startedAt": "2026-10-31T05:44:42.264Z",
+      "finishedAt": "2026-10-31T05:44:42.470Z",
+      "promptRef": "template+tts",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686GZV0PKZG54ZTX42D7A6F",
+      "startedAt": "2026-10-31T05:23:01.007Z",
+      "finishedAt": "2026-10-31T05:23:01.205Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686H7GFN222RZ9FE0CGQDGD",
+      "startedAt": "2026-10-31T05:44:42.472Z",
+      "finishedAt": "2026-10-31T05:44:42.698Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "media_render",
+      "itemId": "01M686J1W1ZWF18DD5JNQ16SZK",
+      "startedAt": "2026-10-31T05:23:01.443Z",
+      "finishedAt": "2026-10-31T05:23:01.665Z",
+      "promptRef": "template",
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "controller_handbook",
+      "startedAt": "2026-10-31T05:35:11.847Z",
+      "finishedAt": "2026-10-31T05:35:30.042Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "controller_handbook@default",
+      "promptHash": "e2fef25331b9e1d7345f70cd9b29ceec65c2c18f975219deb5ca4365edd96969",
+      "inputTokens": 7133,
+      "outputTokens": 1669,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "rubric",
+      "startedAt": "2026-10-31T05:35:31.887Z",
+      "finishedAt": "2026-10-31T05:35:49.444Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "rubric@default",
+      "promptHash": "ad7bd6953cef369fd9514e4afe0f3ba42c00ff46e006516319efc459947cf670",
+      "inputTokens": 7328,
+      "outputTokens": 1590,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "eeg",
+      "startedAt": "2026-10-31T05:35:51.934Z",
+      "finishedAt": "2026-10-31T05:36:06.071Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "eeg@default",
+      "promptHash": "17db3513ff22653d542af7e067a428b32139ca1d777ef336b88c58f0c7cd224a",
+      "inputTokens": 56096,
+      "outputTokens": 5250,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "player_briefing",
+      "startedAt": "2026-10-31T05:36:57.005Z",
+      "finishedAt": "2026-10-31T05:37:09.606Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "player_briefing@default",
+      "promptHash": "8f2102ec53a8b66fec8b29b0e02e33e403ab08766558036ece9685bb58015158",
+      "inputTokens": 3482,
+      "outputTokens": 1339,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "hotwash",
+      "startedAt": "2026-10-31T05:37:12.058Z",
+      "finishedAt": "2026-10-31T05:37:16.374Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "hotwash@default",
+      "promptHash": "3203b67c6ff847c27925a8402438166159dad09b8fcc35fd87fa19f0115e5216",
+      "inputTokens": 3179,
+      "outputTokens": 406,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "sitman",
+      "startedAt": "2026-10-31T05:37:17.105Z",
+      "finishedAt": "2026-10-31T05:38:14.145Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "sitman@default",
+      "promptHash": "3ec35060eb9400cdbc87a577f792e899f33cf872bae3f2bdb30c3aa7eddd8e7d",
+      "inputTokens": 6658,
+      "outputTokens": 5206,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ],
+  "grounding": {
+    "items": {
+      "row:START": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "4b2bce826692bf6b",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-01": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "c590e0ada70ba9ea",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-02": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "2c12cf3ab83d7b5f",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-03": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "68bc76725a9c3d81",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-04": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "83fd4eec88a873d5",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-05": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "aecbc108bc6f56aa",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:TJ-1": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "5343933fb1e11107",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-06": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "0693c8efc9d7a9f1",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-07": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "a61133ecfdfc4945",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-08": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "bb3d601309322c68",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-09": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "6c7ece0e8b669512",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-10": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "90b58e2ae5c38ba1",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.837Z",
+        "version": 1
+      },
+      "row:I-11": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "3553e2e71b56f870",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:TJ-2": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "00f10f10e0d691a9",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-12": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "d40cd4c2baabac2e",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-13": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "ddf6f6d145ab346c",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-14": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "79069023450538f6",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-15": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "606184fbb0ef7457",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-16": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "9f099b134537f9a8",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-17": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "2674caf74755d617",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:TJ-3": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "890301fa5dbe3e13",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-18": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "2e788da7c82b5617",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-19": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "1c3044233128e219",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-20": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "902bc240bf9bfb60",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:I-21": {
+        "label": "unsupported",
+        "reason": "No plan passage is cited for this claim.",
+        "fingerprint": "25bf8d3536786505",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "row:END": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "3739dce8ee52d43b",
+        "claims": [],
+        "at": "2026-10-31T05:18:35.838Z",
+        "version": 1
+      },
+      "inject:01M686AET7Q7VX7XMWEVSBD86D": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "90d56c255df097f3",
+        "claims": [],
+        "at": "2026-10-31T05:22:52.505Z",
+        "version": 1
+      },
+      "inject:01M686AQNAM8ZN3ZA94RG7VQ7G": {
+        "label": "review",
+        "reason": "Only 13% of ‘This inject establishes the root cause of the outage: a mis…’ is in Annex A.",
+        "fingerprint": "dde046c7a8202b7f",
+        "claims": [
+          {
+            "text": "This inject establishes the root cause of the outage: a misconfigured failover core.",
+            "chunkId": 23,
+            "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The IT leader must decide whether to restore partial connectivity now (clinical VLANs only) or wait for full hardware replacement.",
+            "chunkId": 10,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the DIT consults the ISO before proceeding.",
+            "chunkId": 10,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.507Z",
+        "version": 1
+      },
+      "inject:01M686AZGD3QZZ5AF3NC5NRJZR": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject tests the ED leadership's adherence to the EHR …’ is in Section 5.",
+        "fingerprint": "3e50347a97bb3d39",
+        "claims": [
+          {
+            "text": "This inject tests the ED leadership's adherence to the EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026), particularly the manual workflows for lab testing, imaging, and stroke alert triage.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [
+              "ORRMC-DT-ANX-2026"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for reliance on paper tracking and activation of additional runners.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.571,
+            "matched": [
+              "activation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.507Z",
+        "version": 1
+      },
+      "inject:01M686B6N30R14BQR7FNV3R7Z0": {
+        "label": "review",
+        "reason": "‘activate’, ‘declare’ are not in Section 3 or the facility facts.",
+        "fingerprint": "2f7d51da4b35dcd6",
+        "claims": [
+          {
+            "text": "This is a critical decision point.",
+            "chunkId": 55,
+            "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+            "overlap": 1,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC and EDMD must declare Code Triage and activate the HCC. Watch for immediate coordination to begin.",
+            "chunkId": 49,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "activate",
+              "declare"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.507Z",
+        "version": 1
+      },
+      "inject:01M686BEMVF74JCS5TCWWR05JM": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 4.",
+        "fingerprint": "7e552f132da4076a",
+        "claims": [
+          {
+            "text": "This inject triggers full HICS activation.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.6,
+            "matched": [
+              "activation"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the AOC to call for the first HCC meeting and for the CNO to initiate the call-in tree.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.625,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.507Z",
+        "version": 1
+      },
+      "inject:01M686BMCZSYDZZB56NCK4G17Q": {
+        "label": "review",
+        "reason": "‘authorization’ is not in Section 5 or the facility facts.",
+        "fingerprint": "09126a2020a8e3d1",
+        "claims": [
+          {
+            "text": "This inject tests adherence to the emergency blood release protocol under downtime.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.75,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the EDMD to initiate the paper authorization and assign a second checker, and for the CNO to respond to the request for staffing.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [
+              "authorization"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.508Z",
+        "version": 1
+      },
+      "inject:01M686BY8KG5WG8V9JEEXJA6WP": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "a2376588070502ab",
+        "claims": [],
+        "at": "2026-10-31T05:22:52.508Z",
+        "version": 1
+      },
+      "inject:01M686C4AY8EECQR8WT9J052RC": {
+        "label": "review",
+        "reason": "Only 29% of ‘This inject introduces a critical patient safety and privac…’ is in Section 5.",
+        "fingerprint": "38d306dd0b392d1f",
+        "claims": [
+          {
+            "text": "This inject introduces a critical patient safety and privacy risk.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO and EDMD must halt dual numbering, enforce verification, and alert the CPO. Watch for delays in protocol enforcement or attempts to bypass verification.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.154,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.508Z",
+        "version": 1
+      },
+      "inject:01M686CG5QWJ7XZ545NPRH62E9": {
+        "label": "review",
+        "reason": "Only 9% of ‘Watch for the CNO to assign sterile processing staff to tra…’ is in Section 2.",
+        "fingerprint": "38d64aed1f295d80",
+        "claims": [
+          {
+            "text": "This inject confirms the AOC’s decision to activate surge capacity.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.75,
+            "matched": [
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO to assign sterile processing staff to trauma instrument sets and for the EDMD to confirm imaging support timelines.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.091,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.510Z",
+        "version": 1
+      },
+      "inject:01M686CTEGQ42HQ8Z030YJ6VYV": {
+        "label": "review",
+        "reason": "‘activate’ is not in ANNEXES or the facility facts.",
+        "fingerprint": "ab8e2a6c9390fb2f",
+        "claims": [
+          {
+            "text": "This inject introduces operational friction from family and media pressure.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0.286,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must activate the reunification center per the Patient Surge and Evacuation Annex, and the PIO must assume media control to prevent unauthorized disclosures.",
+            "chunkId": 38,
+            "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+            "overlap": 0.462,
+            "matched": [
+              "Evacuation"
+            ],
+            "missing": [
+              "activate"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.510Z",
+        "version": 1
+      },
+      "inject:01M686D2GQZ1A1R6NBCZQVFJPD": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject introduces public misinformation that could div…’ is in Section 3.",
+        "fingerprint": "2ff3997efdbf3b94",
+        "claims": [
+          {
+            "text": "This inject introduces public misinformation that could divert patients and strain resources.",
+            "chunkId": 49,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The PIO must respond quickly to clarify the hospital's status and prevent patient diversion.",
+            "chunkId": 44,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.510Z",
+        "version": 1
+      },
+      "inject:01M686DDQZ6J5E30T8426EA8JH": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 4.",
+        "fingerprint": "c85d4f09c7cb097e",
+        "claims": [
+          {
+            "text": "This inject triggers the AOC to confirm the decision to use EHR only for read access.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The CNO must verify that paper procedures are still in force for orders and medications, and the DIT must clarify the EHR's read-only status to all units.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.7,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for confusion over what the EHR can and cannot do.",
+            "chunkId": 43,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.511Z",
+        "version": 1
+      },
+      "inject:01M686DPT2EMQ511X9RTCYXRW2": {
+        "label": "grounded",
+        "reason": "Every claim matches Section 2 and ANNEXES.",
+        "fingerprint": "33d0d659d7da234d",
+        "claims": [
+          {
+            "text": "This inject pushes the surge level to Crisis (Level C) and triggers the need to activate crisis standards of care.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.778,
+            "matched": [
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the AOC and EDMD to reference the EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) and the Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) to justify triage and transfer decisions.",
+            "chunkId": 38,
+            "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+            "overlap": 0.786,
+            "matched": [
+              "ORRMC-DT-ANX-2026",
+              "ORRMC-SE-ANX-2026",
+              "Evacuation"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.511Z",
+        "version": 1
+      },
+      "inject:01M686DZZYRYXXP90B66N49R82": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "8b49e54f26ab4aae",
+        "claims": [],
+        "at": "2026-10-31T05:22:52.511Z",
+        "version": 1
+      },
+      "inject:01M686E6J3RB0CNC8CJYDA2S1Y": {
+        "label": "review",
+        "reason": "Only 33% of ‘This inject tests patient transfer coordination under downt…’ is in Section 6.",
+        "fingerprint": "7ec8d5a1d4308b48",
+        "claims": [
+          {
+            "text": "This inject tests patient transfer coordination under downtime.",
+            "chunkId": 31,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.333,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO and EDMD to use the BCA-VIEW01 viewer and paper record, and for them to initiate the transfer via the correct contact and method.",
+            "chunkId": 31,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+            "overlap": 0.4,
+            "matched": [
+              "BCA-VIEW01"
+            ],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.511Z",
+        "version": 1
+      },
+      "inject:01M686EJ30WM9B5FSVXGVTBGAM": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject tests the team's ability to enforce downtime pr…’ is in Section 5.",
+        "fingerprint": "41e23636275779f9",
+        "claims": [
+          {
+            "text": "This inject tests the team's ability to enforce downtime procedures under surge conditions.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO to assign pharmacists and implement verification protocols.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The duplicate order is a direct result of the EHR being read-only and no centralized order tracking.",
+            "chunkId": 18,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.512Z",
+        "version": 1
+      },
+      "inject:01M686EXJPHCJT3MTHHWRTKCE7": {
+        "label": "review",
+        "reason": "Only 0% of ‘The AOC must initiate external requests immediately.’ is in Section 2.",
+        "fingerprint": "57194de877573a60",
+        "claims": [
+          {
+            "text": "This board confirms capacity strain and two critical shortages: ventilators and O-negative blood.",
+            "chunkId": 49,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.556,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must initiate external requests immediately.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.512Z",
+        "version": 1
+      },
+      "inject:01M686F7C9C8BH73SKBV5EGXVB": {
+        "label": "review",
+        "reason": "Only 11% of ‘Watch for attempts to share patient details or confirm fata…’ is in Section 7.",
+        "fingerprint": "d82087bdf3853d37",
+        "claims": [
+          {
+            "text": "This inject pressures the PIO to manage public messaging under time pressure.",
+            "chunkId": 35,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 10",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for attempts to share patient details or confirm fatalities before the AOC and CPO have cleared the message.",
+            "chunkId": 8,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+            "overlap": 0.111,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.512Z",
+        "version": 1
+      },
+      "inject:01M686FBZXMSTS2601VY8VHWME": {
+        "label": "review",
+        "reason": "‘approve’ is not in Section 8 or the facility facts.",
+        "fingerprint": "ea730e49676cedb6",
+        "claims": [
+          {
+            "text": "This inject tests leadership’s ability to activate staff support systems under extended crisis conditions.",
+            "chunkId": 33,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.455,
+            "matched": [
+              "activate"
+            ],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the CNO to engage HR and the regional coalition, and for the AOC to approve overtime and volunteer use.",
+            "chunkId": 33,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.375,
+            "matched": [],
+            "missing": [
+              "approve"
+            ],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.512Z",
+        "version": 1
+      },
+      "inject:01M686FS3ZKWT1CFQC09PDWMF3": {
+        "label": "unsupported",
+        "reason": "None of the claim’s wording appears in the cited passages; check the source or the claim.",
+        "fingerprint": "e3b87d3d8fa7ee57",
+        "claims": [
+          {
+            "text": "This inject triggers the formal adoption of crisis standards of care in the ED. The AOC must authorize the decision, which requires a second physician and ethics review.",
+            "chunkId": 49,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+            "overlap": 0.167,
+            "matched": [],
+            "missing": [
+              "authorize"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Monitor for delayed response or attempts to override without proper process.",
+            "chunkId": 47,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 1",
+            "overlap": 0,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.513Z",
+        "version": 1
+      },
+      "inject:01M686G19RRFGE45955SH9CWDM": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "ed3577d8ed8c5872",
+        "claims": [],
+        "at": "2026-10-31T05:22:52.513Z",
+        "version": 1
+      },
+      "inject:01M686G7S51A1198JP3Q2EH34D": {
+        "label": "review",
+        "reason": "Only 27% of ‘This inject tests the CNO’s ability to validate lab data un…’ is in Section 2.",
+        "fingerprint": "979fafb285287c49",
+        "claims": [
+          {
+            "text": "This inject tests the CNO’s ability to validate lab data under surge conditions and reinforce verification protocols.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.273,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for over-reliance on paper records or delayed action on critical values.",
+            "chunkId": 15,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.5,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.513Z",
+        "version": 1
+      },
+      "inject:01M686GMB46REK5WMA7N4Y1DWG": {
+        "label": "review",
+        "reason": "‘report’ is not in Section 5 or the facility facts.",
+        "fingerprint": "84f66e0800416857",
+        "claims": [
+          {
+            "text": "This inject tests the AOC’s ability to report accurate, complete, and responsible status to external agencies.",
+            "chunkId": 44,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+            "overlap": 0.1,
+            "matched": [],
+            "missing": [
+              "report"
+            ],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for overpromising capacity or underreporting critical needs.",
+            "chunkId": 48,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+            "overlap": 0.4,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.513Z",
+        "version": 1
+      },
+      "inject:01M686GZV0PKZG54ZTX42D7A6F": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject confirms the CPO is initiating privacy controls…’ is in Section 8.",
+        "fingerprint": "0a941ae71a8961c6",
+        "claims": [
+          {
+            "text": "This inject confirms the CPO is initiating privacy controls and record integrity tracking.",
+            "chunkId": 21,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for the AOC to act on the exposed board, and for the CPO to direct the PIO to withhold patient info.",
+            "chunkId": 21,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+            "overlap": 0.125,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.513Z",
+        "version": 1
+      },
+      "inject:01M686H7GFN222RZ9FE0CGQDGD": {
+        "label": "review",
+        "reason": "Only 25% of ‘This inject establishes the operational decision point for …’ is in Section 4.",
+        "fingerprint": "745685de330e5c5f",
+        "claims": [
+          {
+            "text": "This inject establishes the operational decision point for the night.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.25,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "The AOC must set the path forward: when to resume EHR charting, when to step down from Level 1, and how to manage reconciliation.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.417,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          },
+          {
+            "text": "Watch for whether the AOC defers to IT, or asserts command over operational decisions.",
+            "chunkId": 29,
+            "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+            "overlap": 0.6,
+            "matched": [],
+            "missing": [],
+            "conflicting": []
+          }
+        ],
+        "at": "2026-10-31T05:22:52.514Z",
+        "version": 1
+      },
+      "inject:01M686J1W1ZWF18DD5JNQ16SZK": {
+        "label": "none",
+        "reason": "No claim about the plans to check.",
+        "fingerprint": "c8f7a6d4481c9917",
+        "claims": [],
+        "at": "2026-10-31T05:22:52.514Z",
+        "version": 1
+      }
+    }
+  },
+  "seams": []
+}

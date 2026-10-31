@@ -1,0 +1,195 @@
+{
+  "id": "01M685PS882DTX9BQEQE1H9T61",
+  "mselRowId": "I-18",
+  "type": "sitrep",
+  "title": "Restore Options — Cloud Copy Verified",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "number": "3",
+    "time": "03/03/2026 0845",
+    "organization": "Ottawa River Regional Medical Center",
+    "issuingOffice": "Incident Command Post",
+    "incidentName": "Cyber Incident — EHR Downtime and Data Reconstruction",
+    "period": "0830-0845",
+    "from": "ISO Marcus Hale, Forensic Firm Lead (SecureTrace Inc.)",
+    "to": "ISO, AOC",
+    "summary": "The forensic firm has confirmed that the immutable cloud copy of the EHR database (ORRMC-SQL01 and ORRMC-SQL02) contains a pre-intrusion snapshot from 02:00 on March 3, 2026. The account used to access the EHR database was compromised via a cloned MFA token, likely through a phishing campaign. The on-site backup repository on ORRMC-BKP01 was deleted by the attacker at 05:12, but no evidence suggests the cloud copy was breached. The domain controllers cannot be assumed clean, because the intruder held an administrator account, and they will be rebuilt. The forensic team has preserved memory and disk images from ORRMC-SQL01, ORRMC-INT01, and the compromised admin workstation. The EHR downtime viewer BCA-VIEW01 holds the final good state as of 05:15 and continues to show that data. The ISO and forensic lead now recommend proceeding with the clean-room restore using the 02:00 cloud copy.",
+    "keyStatus": [
+      {
+        "label": "EHR Database",
+        "value": "Immutable cloud copy verified, 02:00"
+      },
+      {
+        "label": "Downtime Viewer",
+        "value": "Last good state, 05:15"
+      },
+      {
+        "label": "Interface Engine",
+        "value": "Offline, pending rebuild"
+      },
+      {
+        "label": "Backup Repository",
+        "value": "Deleted on-site"
+      },
+      {
+        "label": "Domain Controllers",
+        "value": "Intact, no compromise"
+      },
+      {
+        "label": "Forensic Evidence",
+        "value": "Preserved, chain of custody established"
+      }
+    ],
+    "actions": [
+      {
+        "time": "0835",
+        "text": "ISO Marcus Hale and forensic lead confirm the cloud copy is pre-intrusion and the only viable restore point."
+      },
+      {
+        "time": "0840",
+        "text": "The forensic team completes the initial analysis of the MFA token compromise and logs the findings in the digital evidence vault (case ID: FT-2026-0303-001)."
+      },
+      {
+        "time": "0842",
+        "text": "The ISO issues a formal directive to begin the clean-room environment build for the EHR database and applications, per CIRP-2026 Section 9."
+      }
+    ],
+    "planned": [
+      "Begin clean-room environment build for EHR database and applications (02:00 copy)",
+      "Initiate domain controller rebuild and full credential rotation",
+      "Begin reconstruction of EHR data from 02:00 to 05:31 using paper records and BCA-VIEW01 packets",
+      "Schedule clinical sign-off by CMIO after high-alert medication and allergy data reconciliation",
+      "Confirm with EHR vendor that the interface engine must be rebuilt from scratch"
+    ],
+    "issues": [
+      "No clean restore point exists for the interface engine ORRMC-INT01; it must be rebuilt.",
+      "The paper record backlog (02:00–05:31) is 3h 31m; all clinical data must be manually reconciled.",
+      "The CMIO must approve the clinical use of EHR data after reconstruction; no restoration is complete until that sign-off."
+    ],
+    "nextReport": "0930 or on significant change",
+    "preparedBy": "Marcus Hale, ISO",
+    "approvedBy": "Dr. Elaine Whitfield, ED Medical Director (AOC)",
+    "marking": "EXERCISE · EXERCISE · EXERCISE"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the only viable path forward: restore from the pre-intrusion cloud copy. The AOC must decide whether to proceed immediately, given the risk of delayed care, or to wait for full forensic clarity — but the CIRP mandates proceeding with reconstruction. Watch for hesitation on the CMIO's role in clinical sign-off.",
+  "citations": [
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "BCA-VIEW01 is a read-only copy of active inpatients' key data: demographics, allergies, active orders, active medications, the last 72 hours of results, problem list and code status. It is refreshed f",
+      "chunkId": 17
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+      "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:08:04.130Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Restore Options — Cloud Copy Verified",
+        "type": "sitrep",
+        "fields": {
+          "number": "3",
+          "time": "03/03/2026 0845",
+          "organization": "Ottawa River Regional Medical Center",
+          "issuingOffice": "Incident Command Post",
+          "incidentName": "Cyber Incident — EHR Downtime and Data Reconstruction",
+          "period": "0830-0845",
+          "from": "ISO Marcus Hale, Forensic Firm Lead (SecureTrace Inc.)",
+          "to": "ISO, AOC",
+          "summary": "The forensic firm has confirmed that the immutable cloud copy of the EHR database (ORRMC-SQL01 and ORRMC-SQL02) contains a pre-intrusion snapshot from 02:00 on March 3, 2026. The account used to access the EHR database was compromised via a cloned MFA token, likely through a phishing campaign. The on-site backup repository on ORRMC-BKP01 was deleted by the attacker at 05:12, but no evidence suggests the cloud copy was breached. The domain controllers cannot be assumed clean, because the intruder held an administrator account, and they will be rebuilt. The forensic team has preserved memory and disk images from ORRMC-SQL01, ORRMC-INT01, and the compromised admin workstation. The EHR downtime viewer BCA-VIEW01 holds the final good state as of 05:15 and continues to show that data. The ISO and forensic lead now recommend proceeding with the clean-room restore using the 02:00 cloud copy.",
+          "keyStatus": [
+            {
+              "label": "EHR Database",
+              "value": "Immutable cloud copy verified, 02:00"
+            },
+            {
+              "label": "Downtime Viewer",
+              "value": "Last good state, 05:15"
+            },
+            {
+              "label": "Interface Engine",
+              "value": "Offline, pending rebuild"
+            },
+            {
+              "label": "Backup Repository",
+              "value": "Deleted on-site"
+            },
+            {
+              "label": "Domain Controllers",
+              "value": "Intact, no compromise"
+            },
+            {
+              "label": "Forensic Evidence",
+              "value": "Preserved, chain of custody established"
+            }
+          ],
+          "actions": [
+            {
+              "time": "0835",
+              "text": "ISO Marcus Hale and forensic lead confirm the cloud copy is pre-intrusion and the only viable restore point."
+            },
+            {
+              "time": "0840",
+              "text": "The forensic team completes the initial analysis of the MFA token compromise and logs the findings in the digital evidence vault (case ID: FT-2026-0303-001)."
+            },
+            {
+              "time": "0842",
+              "text": "The ISO issues a formal directive to begin the clean-room environment build for the EHR database and applications, per CIRP-2026 Section 9."
+            }
+          ],
+          "planned": [
+            "Begin clean-room environment build for EHR database and applications (02:00 copy)",
+            "Initiate domain controller rebuild and full credential rotation",
+            "Begin reconstruction of EHR data from 02:00 to 05:31 using paper records and BCA-VIEW01 packets",
+            "Schedule clinical sign-off by CMIO after high-alert medication and allergy data reconciliation",
+            "Confirm with EHR vendor that the interface engine must be rebuilt from scratch"
+          ],
+          "issues": [
+            "No clean restore point exists for the interface engine ORRMC-INT01; it must be rebuilt.",
+            "The paper record backlog (02:00–05:31) is 3h 31m; all clinical data must be manually reconciled.",
+            "The CMIO must approve the clinical use of EHR data after reconstruction; no restoration is complete until that sign-off."
+          ],
+          "nextReport": "0930 or on significant change",
+          "preparedBy": "Marcus Hale, ISO",
+          "approvedBy": "Dr. Elaine Whitfield, ED Medical Director (AOC)",
+          "marking": "EXERCISE · EXERCISE · EXERCISE"
+        },
+        "instructorNote": "This inject confirms the only viable path forward: restore from the pre-intrusion cloud copy. The AOC must decide whether to proceed immediately, given the risk of delayed care, or to wait for full forensic clarity — but the CIRP mandates proceeding with reconstruction. Watch for hesitation on the CMIO's role in clinical sign-off.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:32.647Z"
+}

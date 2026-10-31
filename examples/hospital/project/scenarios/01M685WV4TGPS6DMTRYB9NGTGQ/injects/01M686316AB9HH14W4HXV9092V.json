@@ -1,0 +1,127 @@
+{
+  "id": "01M686316AB9HH14W4HXV9092V",
+  "mselRowId": "I-16",
+  "type": "email_forward",
+  "title": "Pump Library Anomaly — Vendor Remote Access Breach Confirmation",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems",
+    "fromEmail": "avery.chen@medpumpsystems.example",
+    "senderInitials": "AC",
+    "to": "Marcus Hale (ISO), Helen Marchetti (AOC), Peter Lindqvist (CE)",
+    "subject": "FW: Critical Alert — Unauthorized Remote Access to Infusion Pump System",
+    "sentAt": "Thu 03/12/2026 17:35",
+    "note": "This is an urgent update from our incident response lead. The account pumplink-support was compromised in a third-party breach of our vendor support portal on March 9. The attacker used stolen credentials to access your pump server ORRMC-PUMP01 and change the drug library to 4.2.2. The system does not validate library signatures unless explicitly configured, which your environment was not. We are reporting this to the FDA as a manufacturer-issued alert. Please disable all remote access to your pump server until we confirm a secure session process.",
+    "signature": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems\nIncident Response Lead, PumpLink Technologies",
+    "importance": "high",
+    "external": true,
+    "attachments": [],
+    "printedBy": "Information Security Office",
+    "original": {
+      "fromName": "Security Operations Center, PumpLink Technologies",
+      "fromEmail": "soc@medpumpsystems.example",
+      "sentAt": "Thu 03/12/2026 17:28",
+      "to": "pumplink-support@medpumpsystems.example",
+      "cc": "",
+      "subject": "Urgent: Compromised Vendor Account — pumplink-support",
+      "body": "This is a critical alert from the PumpLink Security Operations Center. The account pumplink-support was used to access a hospital's infusion pump server (ORRMC-PUMP01) via the session broker ORRMC-VSB01 on 2026-03-12 at 13:48. The attacker changed the drug library to version 4.2.2, which disables safety alarms for high-dose infusions. The same session scanned the device network 10.40.x.x and triggered device communication anomalies.\n\nThe account was compromised in a third-party breach of our vendor portal on 2026-03-09. We have disabled the account and are conducting a forensic review. We recommend that all users of our systems immediately disable remote access, enable signed library verification, and report any anomalies to the FDA. This incident has been escalated to the FDA’s Medical Device Cybersecurity Division.\n\nWe will provide a secure update package for the pump server and a new session broker configuration within 24 hours. Please preserve all logs, disk images, and network traffic from the session. Do not rebuild the server until you have our signed guidance."
+    }
+  },
+  "variant": "screen",
+  "instructorNote": "This inject confirms the attacker's method and the vendor's responsibility. The AOC and ISO must decide on long-term remote access policy, including multi-factor authentication and signed library enforcement. Watch for attempts to bypass the vendor's new requirements.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce…",
+      "quote": "Document Control Number: ORRMC-CIRP-2026 · Revision 2.3 · Effective Date: 02/01/2026 · Parent document: ORRMC-EOP-2026 · Owners: Marcus Hale (Information Security Officer) and Raymond Okafor (Director",
+      "chunkId": 1
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:14:42.971Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Pump Library Anomaly — Vendor Remote Access Breach Confirmation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems",
+          "fromEmail": "avery.chen@medpumpsystems.example",
+          "senderInitials": "AC",
+          "to": "Marcus Hale (ISO), Helen Marchetti (AOC), Peter Lindqvist (CE)",
+          "subject": "FW: Critical Alert — Unauthorized Remote Access to Infusion Pump System",
+          "sentAt": "Thu 03/12/2026 17:35",
+          "note": "This is an urgent update from our incident response lead. The account pumplink-support was compromised in a third-party breach of our vendor support portal on March 9. The attacker used stolen credentials to access your pump server ORRMC-PUMP01 and change the drug library to 4.2.2. The system does not validate library signatures unless explicitly configured, which your environment was not. We are reporting this to the FDA as a manufacturer-issued alert. Please disable all remote access to your pump server until we confirm a secure session process.",
+          "signature": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems\nIncident Response Lead, PumpLink Technologies",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "Information Security Office",
+          "original": {
+            "fromName": "Security Operations Center, PumpLink Technologies",
+            "fromEmail": "soc@medpumpsystems.example",
+            "sentAt": "Thu 03/12/2026 17:28",
+            "to": "pumplink-support@medpumpsystems.example",
+            "cc": "",
+            "subject": "Urgent: Compromised Vendor Account — pumplink-support",
+            "body": "This is a critical alert from the PumpLink Security Operations Center. The account pumplink-support was used to access a hospital's infusion pump server (ORRMC-PUMP01) via the session broker ORRMC-VSB01 on 2026-03-12 at 13:48. The attacker changed the drug library to version 4.2.2, which disables safety alarms for high-dose infusions. The same session scanned the device network 10.40.x.x and triggered device communication anomalies.\n\nThe account was compromised in a third-party breach of our vendor portal on 2026-03-09. We have disabled the account and are conducting a forensic review. We recommend that all users of our systems immediately disable remote access, enable signed library verification, and report any anomalies to the FDA. This incident has been escalated to the FDA’s Medical Device Cybersecurity Division.\n\nWe will provide a secure update package for the pump server and a new session broker configuration within 24 hours. Please preserve all logs, disk images, and network traffic from the session. Do not rebuild the server until you have our signed guidance."
+          }
+        },
+        "instructorNote": "This inject confirms the attacker's method and the vendor's responsibility. The AOC and ISO must decide on long-term remote access policy, including multi-factor authentication and signed library enforcement. Watch for attempts to bypass the vendor's new requirements.",
+        "deliveryMode": "hand_to_role"
+      }
+    },
+    {
+      "at": "2026-10-31T05:43:56.487Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "Pump Library Anomaly — Vendor Remote Access Breach Confirmation",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems",
+          "fromEmail": "avery.chen@medpumpsystems.example",
+          "senderInitials": "AC",
+          "to": "Marcus Hale (ISO), Helen Marchetti (AOC), Peter Lindqvist (CE)",
+          "subject": "FW: Critical Alert — Unauthorized Remote Access to Infusion Pump System",
+          "sentAt": "Thu 03/12/2026 17:35",
+          "note": "This is an urgent update from our incident response lead. The account pumplink-support was compromised in a third-party breach of our vendor support portal on March 9. The attacker used stolen credentials to access your pump server ORRMC-PUMP01 and change the drug library to 4.2.2. The system does not validate library signatures unless explicitly configured, which your environment was not. We are reporting this to the FDA as a manufacturer-issued alert. Please disable all remote access to your pump server until we confirm a secure session process.",
+          "signature": "Avery Chen, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems, Incident Response Lead, MedPump Systems\nIncident Response Lead, PumpLink Technologies",
+          "importance": "high",
+          "external": true,
+          "attachments": [],
+          "printedBy": "Information Security Office",
+          "original": {
+            "fromName": "Security Operations Center, PumpLink Technologies",
+            "fromEmail": "soc@medpumpsystems.example",
+            "sentAt": "Thu 03/12/2026 17:28",
+            "to": "pumplink-support@medpumpsystems.example",
+            "cc": "",
+            "subject": "Urgent: Compromised Vendor Account — pumplink-support",
+            "body": "This is a critical alert from the PumpLink Security Operations Center. The account pumplink-support was used to access a hospital's infusion pump server (ORRMC-PUMP01) via the session broker ORRMC-VSB01 on 2026-03-12 at 13:48. The attacker changed the drug library to version 4.2.2, which disables safety alarms for high-dose infusions. The same session scanned the device network 10.40.x.x and triggered device communication anomalies.\n\nThe account was compromised in a third-party breach of our vendor portal on 2026-03-09. We have disabled the account and are conducting a forensic review. We recommend that all users of our systems immediately disable remote access, enable signed library verification, and report any anomalies to the FDA. This incident has been escalated to the FDA’s Medical Device Cybersecurity Division.\n\nWe will provide a secure update package for the pump server and a new session broker configuration within 24 hours. Please preserve all logs, disk images, and network traffic from the session. Do not rebuild the server until you have our signed guidance."
+          }
+        },
+        "instructorNote": "This inject confirms the attacker's method and the vendor's responsibility. The AOC and ISO must decide on long-term remote access policy, including multi-factor authentication and signed library enforcement. Watch for attempts to bypass the vendor's new requirements.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:45:54.305Z"
+}

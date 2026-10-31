@@ -1,0 +1,106 @@
+{
+  "id": "01M685HH4BCGR7D2FGKXEADVTH",
+  "mselRowId": "I-08",
+  "type": "email_forward",
+  "title": "Email Forward — Forensic Triage and External Reporting",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "fromName": "Marcus Hale",
+    "fromEmail": "marcus.hale@orrmc.example",
+    "senderInitials": "MH",
+    "to": "AOC, ISO",
+    "subject": "FW: Forensic Triage — EHR Database Encryption and Data Exfiltration",
+    "sentAt": "Tue, Mar 3, 2026, 07:05 AM",
+    "note": "The managed detection service has completed initial forensic triage. We confirm the ransomware encrypted the CareLine EHR database and the file shares on ORRMC-FS01. The on-site backup repository on ORRMC-BKP01 was deleted. The immutable cloud copy of the EHR database remains unaltered in the vault. The attacker's note claims data was copied prior to encryption and demands payment within 72 hours. We advise engaging outside counsel and a forensic firm under legal privilege. Report to the FBI Cleveland Field Office, CISA, H-ISAC, and the cyber insurer immediately. The Liaison Officer must notify the Lucas County EMA and the Ohio Department of Health. The ransom decision is not made today — Section 7 of the CIRP applies.",
+    "signature": "Marcus Hale\nInformation Security Officer\nOttawa River Regional Medical Center",
+    "importance": "high",
+    "external": false,
+    "attachments": [],
+    "printedBy": "ISO",
+    "original": {
+      "fromName": "Managed Detection Service (SOC)",
+      "fromEmail": "soc@managedsecurity-ops.example",
+      "sentAt": "Tue, Mar 3, 2026, 06:58 AM",
+      "to": "Marcus Hale",
+      "cc": "",
+      "subject": "Critical Alert: Ransomware Attack on EHR Database and File Shares",
+      "body": "Forensic triage so far: the ransomware encrypted the CareLine EHR database and the file shares on ORRMC-FS01. The on-site backup repository on ORRMC-BKP01 was deleted at 05:12. We cannot yet confirm whether the immutable cloud copy of the EHR database was reached; the cloud console shows no deletion. The attacker's note on ORRMC-SQL01 demands payment within 72 hours and states data was copied. We advise you to engage outside counsel and a forensic firm today and to report to the FBI and CISA. Do not engage the attacker. The EHR database remains encrypted, and the interface engine is down. Recommend isolating all EHR-dependent systems and disabling the compromised svc-ehr-admin account."
+    }
+  },
+  "instructorNote": "This inject triggers the external reporting and legal engagement phase. Watch for the AOC to initiate the Policy Group meeting and for the ISO to call the FBI and CISA. The ransom decision point is not to be made here.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+      "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+      "chunkId": 10
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+      "quote": "The ISO reports to: the FBI Cleveland Field Office and CISA; H-ISAC; the Ohio Department of Health and the Lucas County Emergency Management Agency (through the HCC Liaison Officer); the cyber insurer",
+      "chunkId": 9
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    },
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:05:09.052Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Email Forward — Forensic Triage and External Reporting",
+        "type": "email_forward",
+        "fields": {
+          "fromName": "Marcus Hale",
+          "fromEmail": "marcus.hale@orrmc.example",
+          "senderInitials": "MH",
+          "to": "AOC, ISO",
+          "subject": "FW: Forensic Triage — EHR Database Encryption and Data Exfiltration",
+          "sentAt": "Tue, Mar 3, 2026, 07:05 AM",
+          "note": "The managed detection service has completed initial forensic triage. We confirm the ransomware encrypted the CareLine EHR database and the file shares on ORRMC-FS01. The on-site backup repository on ORRMC-BKP01 was deleted. The immutable cloud copy of the EHR database remains unaltered in the vault. The attacker's note claims data was copied prior to encryption and demands payment within 72 hours. We advise engaging outside counsel and a forensic firm under legal privilege. Report to the FBI Cleveland Field Office, CISA, H-ISAC, and the cyber insurer immediately. The Liaison Officer must notify the Lucas County EMA and the Ohio Department of Health. The ransom decision is not made today — Section 7 of the CIRP applies.",
+          "signature": "Marcus Hale\nInformation Security Officer\nOttawa River Regional Medical Center",
+          "importance": "high",
+          "external": false,
+          "attachments": [],
+          "printedBy": "ISO",
+          "original": {
+            "fromName": "Managed Detection Service (SOC)",
+            "fromEmail": "soc@managedsecurity-ops.example",
+            "sentAt": "Tue, Mar 3, 2026, 06:58 AM",
+            "to": "Marcus Hale",
+            "cc": "",
+            "subject": "Critical Alert: Ransomware Attack on EHR Database and File Shares",
+            "body": "Forensic triage so far: the ransomware encrypted the CareLine EHR database and the file shares on ORRMC-FS01. The on-site backup repository on ORRMC-BKP01 was deleted at 05:12. We cannot yet confirm whether the immutable cloud copy of the EHR database was reached; the cloud console shows no deletion. The attacker's note on ORRMC-SQL01 demands payment within 72 hours and states data was copied. We advise you to engage outside counsel and a forensic firm today and to report to the FBI and CISA. Do not engage the attacker. The EHR database remains encrypted, and the interface engine is down. Recommend isolating all EHR-dependent systems and disabling the compromised svc-ehr-admin account."
+          }
+        },
+        "instructorNote": "This inject triggers the external reporting and legal engagement phase. Watch for the AOC to initiate the Policy Group meeting and for the ISO to call the FBI and CISA. The ransom decision point is not to be made here.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:09:05.669Z"
+}

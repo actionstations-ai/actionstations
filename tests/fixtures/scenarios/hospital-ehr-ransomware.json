@@ -1,0 +1,579 @@
+{
+  "id": "seed",
+  "projectId": "seed",
+  "title": "Paper Charts",
+  "subtitle": "EHR Downtime and Trust in the Record",
+  "version": 1,
+  "status": "ready",
+  "createdAt": "2026-10-31T00:00:00.000Z",
+  "updatedAt": "2026-10-31T00:00:00.000Z",
+  "brief": {
+    "userPrompt": "Ransomware encrypts the CareLine EHR database cluster and stops the interface engine early on a weekday; the hospital goes to paper, decides how far to isolate and whether to divert, plans a restore that is not an all-clear, and answers a possible theft of patient data.",
+    "audience": [
+      "Administrator on Call (Incident Commander)",
+      "Information Security Officer (Technical Lead)",
+      "Chief Nursing Officer (Operations Section Chief)",
+      "Clinical Engineering Manager (Infrastructure Branch)",
+      "Public Information Officer (PIO)"
+    ],
+    "durationHours": 4,
+    "phaseCount": 4,
+    "learningObjectives": [],
+    "constraints": [],
+    "startWallClock": "05:40",
+    "threatFamily": "cyber"
+  },
+  "overview": {
+    "theme": "Downtime authority, containment against patient care, medication safety, and a truthful public position",
+    "threat": "At 05:31 on Tuesday, March 3, 2026 ransomware encrypts the CareLine EHR database servers ORRMC-SQL01 and ORRMC-SQL02 and stops the interface engine ORRMC-INT01. An administrator account logged on through the VPN at 02:10 and about 380 GB of data left ORRMC-SQL01 before the encryption. The on-site backup repository on ORRMC-BKP01 was deleted. The immutable cloud copy of the EHR database is intact. The downtime viewer BCA-VIEW01 holds the 05:15 state of inpatient data.",
+    "operationalImpact": "331 inpatients, 21 patients in the ED, 9 surgical cases from 07:30 and 11 dialysis outpatients at 08:00 lose the electronic record. Medication ordering, results, registration, barcode scanning and the pump drug-library link are unavailable, and staff work from paper and a downtime viewer that is four to five hours old. Ambulance diversion, elective surgery, the leak site and the restore plan all compete for the same people.",
+    "coreSectionsTested": [],
+    "targetAudience": "Administrator on Call (Incident Commander), Information Security Officer (Technical Lead), Chief Nursing Officer (Operations Section Chief), Clinical Engineering Manager (Infrastructure Branch), Public Information Officer (PIO)",
+    "location": "Ottawa River Regional Medical Center, Toledo, Lucas County, Ohio"
+  },
+  "objectives": [
+    {
+      "id": "obj-1",
+      "name": "Downtime Authority",
+      "text": "Demonstrate the ability to declare downtime and a Level 1 activation quickly, and to decide diversion and elective cases using the criteria in the EOP and the Patient Surge and Evacuation Annex."
+    },
+    {
+      "id": "obj-2",
+      "name": "Containment Versus Care",
+      "text": "Demonstrate the ability to weigh each isolation step against its effect on patients (viewer feed, interface engine, pump server) and to record who decided."
+    },
+    {
+      "id": "obj-3",
+      "name": "Medication and Record Safety",
+      "text": "Demonstrate the ability to keep medication administration safe on paper, with two-person checks and a plan to reconcile the record."
+    },
+    {
+      "id": "obj-4",
+      "name": "Truthful Public Position",
+      "text": "Demonstrate the ability to hold the facts-first rule: no claim about patient data until the Chief Privacy Officer clears it, and a restore never described as safe before the checks are done."
+    }
+  ],
+  "roles": [
+    {
+      "id": "ic",
+      "name": "Administrator on Call (Incident Commander)",
+      "abbreviation": "AOC",
+      "team": "Team A: Command",
+      "description": "Helen Marchetti, Chief Operating Officer. Activates the HICS structure, decides diversion, downtime level and public positions, and owns the Incident Action Plan.",
+      "standingOrders": [
+        "Decide with the Chief Medical Officer when a technical isolation changes how patients are cared for.",
+        "Keep the Policy Group (CEO, CMO, CNO, General Counsel) informed within 30 minutes of a Cyber 1 event."
+      ]
+    },
+    {
+      "id": "it",
+      "name": "Information Security Officer (Technical Lead)",
+      "abbreviation": "ISO",
+      "team": "Team B: Technology",
+      "description": "Marcus Hale. Leads containment, evidence preservation, outside reporting and the safety check before any restored system is used on patients.",
+      "standingOrders": [
+        "Preserve evidence before anything is wiped or rebuilt.",
+        "A restore is not an all-clear: watch restored systems for at least 72 hours."
+      ]
+    },
+    {
+      "id": "clinical",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Team C: Clinical",
+      "description": "Carol Beckett. Runs patient care while systems are down: downtime procedures, medication safety, staffing and unit census.",
+      "standingOrders": [
+        "Patient safety first: two-person checks replace barcode scanning for high-alert drugs and blood.",
+        "Units report census, acuity and open beds at the top of every hour at Level 1."
+      ]
+    },
+    {
+      "id": "biomed",
+      "name": "Clinical Engineering Manager (Infrastructure Branch)",
+      "abbreviation": "CE",
+      "team": "Team D: Infrastructure",
+      "description": "Peter Lindqvist. Owns the networked medical devices (infusion pumps, monitors, ventilators, analyzers) and their manual fallbacks.",
+      "standingOrders": [
+        "Never trade a device that is working at the bedside for central visibility without the CNO agreeing."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team E: Communications",
+      "description": "Kevin Dunmore. Releases information only from facts cleared by the Information Security Officer and the Chief Privacy Officer.",
+      "standingOrders": [
+        "Never say patient data was not accessed unless the Chief Privacy Officer has cleared the words.",
+        "Keep a media log; patient-specific information is released only as the Chief Privacy Officer allows."
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "index": 0,
+      "title": "First Report",
+      "goal": "Recognize that the EHR loss is not a slow system, declare downtime, and decide the first containment moves with incomplete facts.",
+      "beats": [
+        "05:31: the CareLine EHR stops responding on every unit; the night supervisor calls IT.",
+        "IT finds the database servers encrypted; the managed detection service reports an overnight administrator logon and a large outbound transfer.",
+        "The first medication passes of the day are due while the downtime packet is four hours old."
+      ],
+      "startTime": "0:00",
+      "endTime": "1:00"
+    },
+    {
+      "id": "p2",
+      "index": 1,
+      "title": "Downtime",
+      "goal": "Run the hospital on paper: medication safety, the ED, the operating rooms and diversion, while containment continues.",
+      "beats": [
+        "The ED fills; the Chief Medical Officer and the ED ask for diversion.",
+        "Clinical Engineering asks whether to disconnect the pump server as a precaution.",
+        "Rumors reach social media and Channel 11 before the hospital has said anything."
+      ],
+      "startTime": "1:00",
+      "endTime": "2:00"
+    },
+    {
+      "id": "p3",
+      "index": 2,
+      "title": "The Data Question",
+      "goal": "Handle the threat actor's claim of stolen patient data, a medication near-miss from the paper process, and a realistic restore estimate.",
+      "beats": [
+        "The threat actor posts a sample of patient face sheets and a 72-hour deadline.",
+        "A duplicate heparin dose shows the cost of a four-hour-old paper packet.",
+        "The EHR vendor says a full restore and validation takes 18 to 24 hours."
+      ],
+      "startTime": "2:00",
+      "endTime": "3:00"
+    },
+    {
+      "id": "p4",
+      "index": 3,
+      "title": "Restore Without an All-Clear",
+      "goal": "Decide the restore order and the safety checks, the breach and ransom positions, and how to staff and message an extended downtime.",
+      "beats": [
+        "The immutable cloud copy is verified as pre-intrusion, which costs about four hours of documentation.",
+        "The Chief Privacy Officer opens the breach risk assessment.",
+        "The exercise ends with the restore under way and the hospital still on paper."
+      ],
+      "startTime": "3:00",
+      "endTime": "4:00"
+    }
+  ],
+  "msel": [
+    {
+      "id": "START",
+      "phaseId": "p1",
+      "time": "0:00",
+      "wallClock": "05:40",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "STARTEX: It is 05:40 on Tuesday, March 3, 2026, as the night shift hands over to the day shift at Ottawa River Regional Medical Center. Census is 331 inpatients, with 21 patients in the ED. Nine surgical cases are booked from 07:30 and 11 outpatients are due at the Outpatient Dialysis Center at 08:00. Since 05:31 the CareLine EHR has not responded on any unit. The night nursing supervisor has called the IT on-call line. Downtime has not been declared, and nobody yet knows why the EHR is down. Power, water, medical gas and the telephone system are normal. The downtime viewer BCA-VIEW01 last refreshed at 05:15.",
+      "expectedAction": "Players read the situation and set the first priorities. No decision is forced yet.",
+      "purposeTag": "STARTEX",
+      "format": "startex_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-01",
+      "phaseId": "p1",
+      "time": "0:05",
+      "wallClock": "05:45",
+      "from": "Night Nursing Supervisor Gail Moreau",
+      "toRoleIds": ["clinical"],
+      "toLabel": "CNO",
+      "event": "Phone Call: \"CNO, it is Gail Moreau on nights. The EHR will not open on 4 West, 5 East, ICU 3 North or in the ED. eMAR is frozen, and 06:00 medications are due on every unit. The last printed medication packet is from 01:00. IT says they are looking at it. Do I declare downtime or wait for IT?\"",
+      "expectedAction": "The CNO has the declaration made now rather than waiting for IT: under the EHR Downtime Procedures Annex (Section 2) the IT on-call and the Nursing Supervisor declare downtime, the overhead page is \"Downtime, Downtime, Downtime: electronic health record, effective now\", carts are opened and the DT- number blocks are issued. The CNO tells units to give the 06:00 medications from the downtime MAR with a pharmacist-checked list, using BCA-VIEW01 (05:15) for allergies and active orders.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-02",
+      "phaseId": "p1",
+      "time": "0:10",
+      "wallClock": "05:50",
+      "from": "IT On-Call Engineer Dmitri Volkov",
+      "toRoleIds": ["it"],
+      "toLabel": "ISO",
+      "event": "Helpdesk Ticket INC-26-03-0412, priority 1: \"ORRMC-SQL01 and ORRMC-SQL02 are unreachable from the application servers ORRMC-EHR-APP01 to -APP04. The interface engine service on ORRMC-INT01 is stopped. A text file named READ_ME_NOW.txt is on the console of ORRMC-SQL01: it says the EHR database is encrypted, names a Tor address and gives 72 hours. I have not touched either server.\"",
+      "expectedAction": "The ISO takes the incident (Cyber Incident Response Plan, Section 4), starts the incident log in UTC and local time, calls the Director of IT and tells the engineer to leave both servers as they are. The ISO treats this as Cyber 1 (several clinical systems down, ransomware note) and asks the AOC to open the HCC.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "helpdesk_ticket",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-03",
+      "phaseId": "p1",
+      "time": "0:20",
+      "wallClock": "06:00",
+      "from": "Managed Detection Service (SOC shift lead)",
+      "toRoleIds": ["it", "ic"],
+      "toLabel": "ISO, AOC",
+      "event": "SIEM Alert, critical: \"Administrator account svc-ehr-admin logged on through the VPN at 02:10 from 198.51.100.44 after an MFA push was approved at 02:09. From 02:15 to 04:50 about 380 GB left ORRMC-SQL01 for 203.0.113.58. The backup repository on ORRMC-BKP01 was deleted at 05:12. File encryption began on ORRMC-SQL01 and ORRMC-SQL02 at 05:14. We recommend you isolate the EHR servers and disable the account. Call us.\"",
+      "expectedAction": "The ISO disables svc-ehr-admin, resets the privileged accounts, blocks both addresses at the perimeter and asks whether any other server was touched. The ISO tells the AOC the facts that matter for patients: the EHR is gone, the downtime viewer is the last good copy, and the intruder was inside for more than three hours before the encryption. The AOC activates EOP Level 1 (Section 4) and opens the HCC (Room A-114).",
+      "purposeTag": "CLUE",
+      "format": "siem_alert",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-04",
+      "phaseId": "p1",
+      "time": "0:30",
+      "wallClock": "06:10",
+      "from": "Pharmacy Director Anil Desai",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Anil Desai in Pharmacy. The automated dispensing cabinets cannot verify against pharmacy orders, so every pull is stuck waiting. I can put all cabinets into override, which opens the override list on every unit, including opioids and insulin. Or I can keep them locked and send pharmacists to the units. I have 14 pharmacists in the building at 06:10. Tell me which.\"",
+      "expectedAction": "The CNO and the Pharmacy Director agree on override mode for the override list with a second nurse witness for opioids, insulin and heparin, and send a pharmacist to ICU 3 North, ICU 3 South, the ED and 6 West. Every override pull goes on the paper log and Pharmacy counts the cabinets each shift (Downtime Annex, Section 5).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-05",
+      "phaseId": "p1",
+      "time": "0:45",
+      "wallClock": "06:25",
+      "from": "Dialysis Manager Beth Kowalczyk, RN",
+      "toRoleIds": ["clinical"],
+      "toLabel": "CNO",
+      "event": "Phone Call: \"Beth at the dialysis center. Eleven outpatients start at 08:00. Their prescriptions and the last labs live in the EHR, and the 05:15 printout is in front of me. Three of them are on a changed dry weight since Friday. Do I start on time, call everyone, or hold until IT says the system is back?\"",
+      "expectedAction": "The CNO has dialysis start on time with the 05:15 viewer data as the prescription source and a physician or nurse practitioner phone check for the three changed dry weights, two clinicians confirming every machine setting against paper (Downtime Annex, Section 5), and paper flowsheets. Anyone whose prescription cannot be confirmed waits for the nephrologist.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-1",
+      "phaseId": "p1",
+      "time": "1:00",
+      "wallClock": "06:40",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 06:40. The HCC has been open for 20 minutes and the whole hospital is on paper. The ISO has disabled the compromised account and isolated ORRMC-SQL01 and ORRMC-SQL02, and the managed detection service is combing the network. The ED holds 27 patients, with two ambulances on the way. The 07:30 surgical cases are three-quarters of an hour from their start.",
+      "expectedAction": "Players update their picture and set the next operational period objectives.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06",
+      "phaseId": "p2",
+      "time": "1:05",
+      "wallClock": "06:45",
+      "from": "ED Medical Director Dr. Elaine Whitfield",
+      "toRoleIds": ["ic", "clinical"],
+      "toLabel": "AOC, CNO",
+      "event": "Phone Call: \"Elaine Whitfield. I have 27 patients, no lab results since 05:20, and no way to look up allergies or old ECGs. Two ambulances are coming and I will not safely work up a third. I am asking you to put the ED on diversion for ambulances until the lab and imaging reports flow again. I will still take trauma activations and anyone in extremis.\"",
+      "expectedAction": "The AOC decides on diversion using Annex A of the Patient Surge and Evacuation Annex: a critical system is down, so diversion is allowed. The AOC and the ED Medical Director approve it, the Liaison Officer tells Lucas County EMS dispatch and the regional healthcare coalition, trauma activations and patients in extremis are still accepted, and the AOC sets a review at two hours.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-07",
+      "phaseId": "p2",
+      "time": "1:15",
+      "wallClock": "06:55",
+      "from": "@glasscityjen on social media",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Social Media Post (@glasscityjen): \"Friend who is a nurse at ORRMC says ALL the computers are locked and hackers want millions. Ambulances going somewhere else. Anyone have family there? Do NOT go to the ER at Ottawa River.\" 61 reposts in 18 minutes.",
+      "expectedAction": "The PIO logs the post and does not confirm or deny the ransom claim (the facts are not cleared). The PIO uses the pre-approved cyber holding statement from EOP Section 10 to say the hospital has an IT disruption, is caring for patients on downtime procedures, and that emergencies are being treated, and checks with the ISO and the Chief Privacy Officer before it goes out.",
+      "purposeTag": "MISINFORMATION",
+      "format": "tweet",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-08",
+      "phaseId": "p2",
+      "time": "1:25",
+      "wallClock": "07:05",
+      "from": "ISO Marcus Hale (message to the Policy Group)",
+      "toRoleIds": ["ic", "it"],
+      "toLabel": "AOC, ISO",
+      "event": "Email Forward (from the managed detection service, via the ISO): \"Forensic triage so far. The ransomware encrypted the EHR database and the file shares on ORRMC-FS01. The on-site backup repository was deleted. We cannot yet say whether the immutable cloud copy of the EHR database was reached; the cloud console shows no deletion. The note demands payment within 72 hours and says data was copied. We advise you to engage outside counsel and a forensic firm today and to report to the FBI and CISA.\"",
+      "expectedAction": "The ISO and the AOC bring in outside counsel, who engages the forensic firm under privilege (Cyber Incident Response Plan, Section 5). The ISO reports to the FBI Cleveland Field Office and CISA, and to H-ISAC, and the Liaison Officer tells the Lucas County EMA and the Ohio Department of Health. The AOC informs the Policy Group, and the cyber insurer is notified. The ransom question is not decided on day one (Section 7).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-09",
+      "phaseId": "p2",
+      "time": "1:35",
+      "wallClock": "07:15",
+      "from": "Surgical Pavilion Charge Nurse Priya Nair",
+      "toRoleIds": ["ic", "clinical"],
+      "toLabel": "AOC, CNO",
+      "event": "Phone Call: \"Priya in the Surgical Pavilion. We have nine cases from 07:30: two hip replacements, a knee, three laparoscopic cholecystectomies, an ovarian cyst and two cases that were add-ons yesterday for cancer. Anesthesia machines work. The surgical booking list, consents and pre-op labs are all in the EHR. Do we go?\"",
+      "expectedAction": "The Chief Medical Officer and the CNO decide: urgent and cancer cases proceed with paper consents and a printed pre-op checklist; elective cases are rescheduled until the record and labs are reliable (Downtime Annex, Section 9). The CNO confirms blood bank can crossmatch manually and tells the OR to use the paper anesthesia record. The AOC keeps ORs 1 to 3 staffed for emergencies.",
+      "purposeTag": "DECISION_POINT",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-10",
+      "phaseId": "p2",
+      "time": "1:45",
+      "wallClock": "07:25",
+      "from": "Clinical Engineering Manager Peter Lindqvist",
+      "toRoleIds": ["biomed", "it", "clinical"],
+      "toLabel": "CE, ISO, CNO",
+      "event": "Radio Call: \"Clinical Engineering to ISO and CNO. The 620 smart pumps are running their programs and nothing has pushed to them. The pump server ORRMC-PUMP01 sits on the device network, which is separate from the clinical network and shows nothing odd. I can pull the server off the network now as a precaution, but then we lose drug-library updates and the pump logs, and any library changes will have to be done by hand. Your call.\"",
+      "expectedAction": "The ISO and the CE weigh the precaution against the loss of logs: the server is isolated, not powered off, so logs are preserved, and the CNO is told that library updates are paused and high-alert infusions need a second-person rate check (Cyber Incident Response Plan, Section 6). The decision and its reason go in the incident log.",
+      "purposeTag": "DECISION_POINT",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "p2",
+      "time": "1:55",
+      "wallClock": "07:35",
+      "from": "Channel 11 reporter Laura Chen",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Media Inquiry Phone Slip: \"Laura Chen, Channel 11 News. Viewers say ambulances are being sent to other hospitals and that there is a ransom note. Is Ottawa River under a cyberattack? Is patient information safe? We go live at 08:00 and I would like a statement.\"",
+      "expectedAction": "The PIO gives only what has been cleared: the hospital has a technology disruption, patients are being cared for on downtime procedures and the ED is treating emergencies. The PIO does not say patient information is safe and does not confirm a ransom. The PIO tells the reporter when the next update will come and logs the call.",
+      "purposeTag": "PRESSURE",
+      "format": "media_inquiry_phone_slip",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-2",
+      "phaseId": "p2",
+      "time": "2:00",
+      "wallClock": "07:40",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 07:40. Seven of nine cases have gone ahead or been moved. The ED is on diversion for ambulances. The forensic firm is on a call with the ISO. Overnight the hospital recorded 14 new admissions on paper, and the downtime packet on every unit is now four and a half hours old.",
+      "expectedAction": "Players move to the problems that come with running on paper for hours.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-12",
+      "phaseId": "p3",
+      "time": "2:05",
+      "wallClock": "07:45",
+      "from": "ISO Marcus Hale",
+      "toRoleIds": ["it", "ic", "pio"],
+      "toLabel": "ISO, AOC, PIO",
+      "event": "Phone Call: \"The managed detection service has found our name on a leak site. The actor posted a sample of 40 patient face sheets with names, dates of birth and medical record numbers, all from 2024, and a clock counting down 71 hours. The sample is real. We do not yet know what else they hold.\"",
+      "expectedAction": "The ISO tells the Chief Privacy Officer, who starts the HIPAA risk assessment: ransomware that encrypted protected health information is presumed a breach unless shown otherwise, and confirmed theft makes notices certain (Cyber Incident Response Plan, Section 7). The AOC and outside counsel hold the Policy Group call, and the PIO prepares, but does not release, a draft that mentions the leak site.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-13",
+      "phaseId": "p3",
+      "time": "2:15",
+      "wallClock": "07:55",
+      "from": "ED Charge Nurse Marcus Bell",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Field Report (ED to HCC): \"Patient in ED bay 12, a 71-year-old on heparin, received 5,000 units IV at 05:50 in the ED, and was then sent to 4 West where the 06:00 paper packet from 01:00 did not show the ED dose. The 4 West nurse gave the scheduled heparin at 06:30. The ED nurse caught it when the patient came back for a CT. aPTT is pending and the lab is sending results by runner.\"",
+      "expectedAction": "The CNO has the lab treat the patient's aPTT as stat, has a pharmacist and a physician review dosing, and reports the near-miss. The CNO orders an hourly pharmacist and nurse reconciliation of every transfer between the ED and the units, with a transfer sheet that lists drugs given in the last 12 hours (Downtime Annex, Section 7 and Section 5).",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "field_report",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-14",
+      "phaseId": "p3",
+      "time": "2:25",
+      "wallClock": "08:05",
+      "from": "EHR vendor incident desk",
+      "toRoleIds": ["it", "ic"],
+      "toLabel": "ISO, AOC",
+      "event": "Email Forward (from the EHR vendor's incident desk): \"We have your ticket. Our standard path after a database encryption is a restore from your last clean backup into a rebuilt environment, followed by interface validation and a clinical sign-off. From recent customers: 18 to 24 hours for the database and applications, longer if the interface engine has to be rebuilt. We cannot restore into the current servers. Please send us your restore point.\"",
+      "expectedAction": "The AOC plans for an extended downtime (Level 1, hospital-wide, more than 24 hours), not a short outage: elective cases are cancelled through Wednesday, scribes and runners are recruited, supplies of paper forms are ordered, and the Liaison Officer tells the Ohio Department of Health and the regional healthcare coalition. The ISO chooses the restore point only after the cloud copy is verified (next phase).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "email_forward",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-15",
+      "phaseId": "p3",
+      "time": "2:35",
+      "wallClock": "08:15",
+      "from": "Blood Bank Supervisor Lena Park",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Blood Bank. A trauma patient is coming from the ambulance bay with no history. Normally the lab system shows prior antibodies and type. We cannot see it. I have 14 units of O-negative and I want the physician to sign the emergency release. Please confirm we follow the downtime blood process.\"",
+      "expectedAction": "The CNO and the ED physician confirm emergency release with a physician signature, a second-person check at the bedside, and the paper blood administration record (Downtime Annex, Section 5). Blood Bank asks the regional blood center to prepare O-negative units in case of a surge.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-16",
+      "phaseId": "p3",
+      "time": "2:45",
+      "wallClock": "08:25",
+      "from": "@Channel11News",
+      "toRoleIds": ["pio"],
+      "toLabel": "PIO",
+      "event": "Social Media Post (@Channel11News): \"Sources: dialysis patients being turned away at Ottawa River Regional after a ransomware attack. Hospital has not said where they are going. Updates at 09:00.\" 214 reposts.",
+      "expectedAction": "The PIO checks with the CNO and the Dialysis Manager: the Outpatient Dialysis Center is treating patients. The PIO corrects the claim with the facts cleared by the CNO and calls the reporter, rather than arguing on the platform. Beth Kowalczyk is told so staff do not field calls from frightened patients unprepared.",
+      "purposeTag": "MISINFORMATION",
+      "format": "tweet",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-17",
+      "phaseId": "p3",
+      "time": "2:55",
+      "wallClock": "08:35",
+      "from": "Lucas County EMA duty officer (SimCell)",
+      "toRoleIds": ["ic"],
+      "toLabel": "AOC",
+      "event": "Phone Call: \"Lucas County EMA duty desk. We have the coalition on the line and the Ohio Department of Health wants a status. Which hospitals can take your ambulances, what do you need, and will you be on diversion for the rest of the day? A quick answer helps us place patients.\"",
+      "expectedAction": "The AOC (or the Liaison Officer) gives occupancy, the diversion status and its two-hour review, and asks for what is needed: loaner laptops and printers, paper forms, runners and nurses for extended downtime (Emergency Operations Plan, Section 11). The AOC asks the coalition to prepare for transfers from other hospitals should the downtime pass 24 hours.",
+      "purposeTag": "PRESSURE",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "TJ-3",
+      "phaseId": "p3",
+      "time": "3:00",
+      "wallClock": "08:40",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "TIME_JUMP: It is now 08:40. The forensic firm has verified that the immutable cloud copy of the EHR database holds a snapshot from 02:00, before the intruder logged on. The domain controllers have not been rebuilt. The vendor says the earliest the EHR could return is about 04:00 on Wednesday. About 3 hours and 40 minutes of documentation exist only on paper or in the encrypted database.",
+      "expectedAction": "Players turn to the restore plan and what it costs.",
+      "purposeTag": "TIME_JUMP",
+      "format": "time_jump_card",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-18",
+      "phaseId": "p4",
+      "time": "3:05",
+      "wallClock": "08:45",
+      "from": "ISO Marcus Hale and forensic firm lead",
+      "toRoleIds": ["it", "ic"],
+      "toLabel": "ISO, AOC",
+      "event": "Sitrep: \"Restore options. A: restore the database from the 02:00 cloud copy into a clean environment tonight; every record from 02:00 to the outage is reconstructed from paper and the BCA-VIEW01 copy. B: wait for the forensic firm to confirm how the intruder got in and how the account was cloned before restoring; this could add 6 to 12 hours. Domain controllers must be rebuilt and every credential reset under either option.\"",
+      "expectedAction": "The AOC decides with the ISO and the CMIO: begin the clean-room build now and the credential reset in parallel (both options need them), set the restore point at the verified 02:00 copy only after the ISO signs that the copy is pre-intrusion, and plan the reconstruction of 02:00 to 05:31 from the BCA-VIEW01 packets and paper (Cyber Incident Response Plan, Section 9). The Chief Medical Information Officer owns the clinical sign-off.",
+      "purposeTag": "DECISION_POINT",
+      "format": "sitrep",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-19",
+      "phaseId": "p4",
+      "time": "3:10",
+      "wallClock": "08:50",
+      "from": "Chief Privacy Officer Joyce Tanaka",
+      "toRoleIds": ["it", "ic", "pio"],
+      "toLabel": "ISO, AOC, PIO",
+      "event": "Memo: \"Preliminary HIPAA assessment, 08:50. Encrypted protected health information is presumed a breach (45 CFR 164.402). The leak site sample confirms theft of at least 40 records, and the outbound volume suggests far more. The 60-day clock runs from discovery, which I am setting at 05:50 today. If 500 or more Ohio residents are affected, notice to individuals, to HHS and to the media follows together. I want no statement that says data was not accessed.\"",
+      "expectedAction": "The AOC, the CPO and outside counsel confirm discovery time and the notification clock (45 CFR 164.404, .406 and .408) and start the list of affected patients. The PIO is told that any public statement is cleared by the CPO. The ISO and counsel record the decision not to negotiate and not to pay on day one, with the FBI informed (Cyber Incident Response Plan, Section 7).",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "memo",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-20",
+      "phaseId": "p4",
+      "time": "3:20",
+      "wallClock": "09:00",
+      "from": "ISO Marcus Hale",
+      "toRoleIds": ["it", "biomed", "clinical"],
+      "toLabel": "ISO, CE, CNO",
+      "event": "Radio Call: \"ISO to CE and CNO. Clean-room build under way. Before anything returns to patients I need three checks: allergy and high-alert medication data match the BCA-VIEW01 packets, the pump drug libraries are unchanged, and barcode scanning works at the bedside. I am not letting a restored EHR go live on a promise. Who owns each check?\"",
+      "expectedAction": "The CMIO owns the allergy and medication comparison, Clinical Engineering the pump libraries and the CNO the barcode test on two units before wide release. The ISO keeps watching restored hosts for at least 72 hours and the AOC records that a restore is not an all-clear (Cyber Incident Response Plan, Section 9; Downtime Annex, Section 8).",
+      "purposeTag": "TECH_HURDLE",
+      "format": "radio_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-21",
+      "phaseId": "p4",
+      "time": "3:30",
+      "wallClock": "09:10",
+      "from": "Draft Press Statement for 09:30",
+      "toRoleIds": ["pio", "ic"],
+      "toLabel": "PIO, AOC",
+      "event": "Press Release (draft, from Marketing for PIO approval): \"Ottawa River Regional Medical Center is restoring its electronic systems after a cyber incident. Patient safety was never affected and no patient information was accessed. We expect to be fully back to normal by tomorrow morning.\" Release time 09:30.",
+      "expectedAction": "The PIO rejects the draft: the CPO has not cleared any statement about data and has just written that theft is confirmed; \"never affected\" cannot be said after a near-miss; and \"back to normal by tomorrow morning\" promises a restore that is not an all-clear. The PIO rewrites with the ISO and the CPO (what happened, what is being done, how to reach the hospital) and sends it for the AOC.",
+      "purposeTag": "PRESSURE",
+      "format": "press_release",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-22",
+      "phaseId": "p4",
+      "time": "3:40",
+      "wallClock": "09:20",
+      "from": "Nursing Supervisor Sana Qureshi",
+      "toRoleIds": ["clinical", "ic"],
+      "toLabel": "CNO, AOC",
+      "event": "Phone Call: \"Sana Qureshi, day supervisor. Night staff worked 12 hours and many cannot go home because the day shift cannot be doubled on paper. We have no scribes and only 18 runners. If the downtime goes into tomorrow I will lose staff. What can I promise them?\"",
+      "expectedAction": "The CNO sets the plan for a 24 to 48 hour downtime: scribes and runners from administrative and volunteer staff, mandatory overtime limits, rest areas and meals through Human Resources, and a staffing request to the coalition (EOP Section 8). The AOC authorizes the staff care unit.",
+      "purposeTag": "OPERATIONAL_FRICTION",
+      "format": "phone_call",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "END",
+      "phaseId": "p4",
+      "time": "4:00",
+      "wallClock": "09:40",
+      "from": "Facilitator",
+      "toRoleIds": ["ic", "it", "clinical", "biomed", "pio"],
+      "toLabel": "All",
+      "event": "ENDEX: It is 09:40. The hospital is still on paper. The clean-room build and credential reset are under way and the restore has not started. The breach assessment is open and no notice has gone out. The ED is on diversion and will be reviewed at the next operational period. Nobody has said the hospital is safe, and the restore will not be called safe until the three checks are done and the ISO has watched the restored systems for 72 hours.",
+      "expectedAction": "Move to the hot wash.",
+      "purposeTag": "ENDEX",
+      "format": "endex_card",
+      "citations": [],
+      "locked": false
+    }
+  ],
+  "documents": {},
+  "rubric": {
+    "metrics": []
+  },
+  "warnings": [],
+  "provenance": []
+}

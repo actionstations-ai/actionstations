@@ -1,0 +1,230 @@
+{
+  "id": "01M685ZTBV1VZT3QVBEG1JCC7Q",
+  "mselRowId": "I-08",
+  "type": "phone_call",
+  "title": "FBI Cleveland Field Office: Cyber Threat Confirmation",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "systemName": "AOC Console 3",
+    "callId": "CR-20260312-154500-0041",
+    "direction": "Inbound",
+    "caller": {
+      "name": "Duty Agent, FBI Cleveland Field Office",
+      "number": "555-0137",
+      "label": "FBI-CLE-01"
+    },
+    "callee": {
+      "name": "Marcus Hale",
+      "number": "5-0100",
+      "label": "ISO"
+    },
+    "startTime": "03/12/2026 15:45:00",
+    "duration": "0:52",
+    "transcript": [
+      {
+        "speaker": "FBI-CLE-01",
+        "offset": "0:00",
+        "text": "FBI Cleveland Field Office, duty agent speaking. We’re returning your call regarding the unauthorized access to your infusion pump network. We’ve reviewed your initial report and confirm that this is a high-priority cyber-physical incident."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "offset": "0:12",
+        "text": "Please preserve the logs from ORRMC-VSB01, the session broker, and the pump server ORRMC-PUMP01. Take memory and disk images before any rebuild. Do not touch the hosts until our cyber squad confirms the chain of custody."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "offset": "0:25",
+        "text": "We cannot advise on whether to isolate the device network 10.40.x.x. That decision rests with your clinical leadership and patient safety team. We can only follow up on the source address and timestamps."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "offset": "0:35",
+        "text": "If you can provide the source IP 203.0.113.77 and the session window — 13:48 to 13:58 — we’ll assign a cyber squad to track the attacker’s infrastructure. We’ll need that data by 20:00 tonight."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "offset": "0:45",
+        "text": "Do not disable remote access on ORRMC-PUMP01 until we’ve confirmed the session was not a legitimate vendor patch. We’re validating that with the manufacturer now."
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-08"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms external law enforcement engagement. The ISO must log the call and report to CISA and H-ISAC. The AOC must reaffirm that isolation is a clinical safety decision under ORRMC-CIRP-2026, Section 5.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "Anyone who sees a ransom note, an encrypted file, an unexpected device behavior or a suspicious logon calls the IT service desk (ext. 5-0100) and does not turn off the machine unless told to. The mana",
+      "chunkId": 5
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "FBI-CLE-01",
+        "voiceStyle": "calm male FBI agent, mid-40s, deliberate pace, clipped accent, neutral tone",
+        "text": "FBI Cleveland Field Office, duty agent speaking. We’re returning your call regarding the unauthorized access to your infusion pump network. We’ve reviewed your initial report and confirm that this is a high-priority cyber-physical incident."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "voiceStyle": "same as above",
+        "text": "Please preserve the logs from ORRMC-VSB01, the session broker, and the pump server ORRMC-PUMP01. Take memory and disk images before any rebuild. Do not touch the hosts until our cyber squad confirms the chain of custody."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "voiceStyle": "same as above",
+        "text": "We cannot advise on whether to isolate the device network 10.40.x.x. That decision rests with your clinical leadership and patient safety team. We can only follow up on the source address and timestamps."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "voiceStyle": "same as above",
+        "text": "If you can provide the source IP 203.0.113.77 and the session window — 13:48 to 13:58 — we’ll assign a cyber squad to track the attacker’s infrastructure. We’ll need that data by 20:00 tonight."
+      },
+      {
+        "speaker": "FBI-CLE-01",
+        "voiceStyle": "same as above",
+        "text": "Do not disable remote access on ORRMC-PUMP01 until we’ve confirmed the session was not a legitimate vendor patch. We’re validating that with the manufacturer now."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:12:59.576Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "FBI Cleveland Field Office: Cyber Threat Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "AOC Console 3",
+          "callId": "CR-20260312-154500-0041",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Duty Agent, FBI Cleveland Field Office",
+            "number": "555-0137",
+            "label": "FBI-CLE-01"
+          },
+          "callee": {
+            "name": "Information Security Officer",
+            "number": "5-0100",
+            "label": "ISO"
+          },
+          "startTime": "03/12/2026 15:45:00",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:00",
+              "text": "FBI Cleveland Field Office, duty agent speaking. We’re returning your call regarding the unauthorized access to your infusion pump network. We’ve reviewed your initial report and confirm that this is a high-priority cyber-physical incident."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:12",
+              "text": "Please preserve the logs from ORRMC-VSB01, the session broker, and the pump server ORRMC-PUMP01. Take memory and disk images before any rebuild. Do not touch the hosts until our cyber squad confirms the chain of custody."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:25",
+              "text": "We cannot advise on whether to isolate the device network 10.40.x.x. That decision rests with your clinical leadership and patient safety team. We can only follow up on the source address and timestamps."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:35",
+              "text": "If you can provide the source IP 203.0.113.77 and the session window — 13:48 to 13:58 — we’ll assign a cyber squad to track the attacker’s infrastructure. We’ll need that data by 20:00 tonight."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:45",
+              "text": "Do not disable remote access on ORRMC-PUMP01 until we’ve confirmed the session was not a legitimate vendor patch. We’re validating that with the manufacturer now."
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-08"
+        },
+        "instructorNote": "This inject confirms external law enforcement engagement. The ISO must log the call and report to CISA and H-ISAC. The AOC must reaffirm that isolation is a clinical safety decision under ORRMC-CIRP-2026, Section 5.",
+        "deliveryMode": "read_aloud"
+      }
+    },
+    {
+      "at": "2026-10-31T05:43:56.468Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "FBI Cleveland Field Office: Cyber Threat Confirmation",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "AOC Console 3",
+          "callId": "CR-20260312-154500-0041",
+          "direction": "Inbound",
+          "caller": {
+            "name": "Duty Agent, FBI Cleveland Field Office",
+            "number": "555-0137",
+            "label": "FBI-CLE-01"
+          },
+          "callee": {
+            "name": "Marcus Hale",
+            "number": "5-0100",
+            "label": "ISO"
+          },
+          "startTime": "03/12/2026 15:45:00",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:00",
+              "text": "FBI Cleveland Field Office, duty agent speaking. We’re returning your call regarding the unauthorized access to your infusion pump network. We’ve reviewed your initial report and confirm that this is a high-priority cyber-physical incident."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:12",
+              "text": "Please preserve the logs from ORRMC-VSB01, the session broker, and the pump server ORRMC-PUMP01. Take memory and disk images before any rebuild. Do not touch the hosts until our cyber squad confirms the chain of custody."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:25",
+              "text": "We cannot advise on whether to isolate the device network 10.40.x.x. That decision rests with your clinical leadership and patient safety team. We can only follow up on the source address and timestamps."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:35",
+              "text": "If you can provide the source IP 203.0.113.77 and the session window — 13:48 to 13:58 — we’ll assign a cyber squad to track the attacker’s infrastructure. We’ll need that data by 20:00 tonight."
+            },
+            {
+              "speaker": "FBI-CLE-01",
+              "offset": "0:45",
+              "text": "Do not disable remote access on ORRMC-PUMP01 until we’ve confirmed the session was not a legitimate vendor patch. We’re validating that with the manufacturer now."
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-08"
+        },
+        "instructorNote": "This inject confirms external law enforcement engagement. The ISO must log the call and report to CISA and H-ISAC. The AOC must reaffirm that isolation is a clinical safety decision under ORRMC-CIRP-2026, Section 5.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:36.514Z"
+}

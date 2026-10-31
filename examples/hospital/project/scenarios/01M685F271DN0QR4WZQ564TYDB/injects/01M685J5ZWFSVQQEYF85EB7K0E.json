@@ -1,0 +1,100 @@
+{
+  "id": "01M685J5ZWFSVQQEYF85EB7K0E",
+  "mselRowId": "I-10",
+  "type": "radio_call",
+  "title": "Infusion Pump Server — Isolation Decision",
+  "deliveryMode": "play_audio",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "centerName": "Hospital Operations Command Center (HOC)",
+    "channel": "MED-SEC",
+    "frequency": "TG 5501 / 480.125 MHz",
+    "date": "03/03/2026",
+    "callsign": "CE-01",
+    "lines": [
+      {
+        "time": "07:25:12",
+        "from": "Clinical Engineering to ISO and CNO",
+        "to": "ISO, CNO",
+        "text": "This is CE-01. The 620 smart pumps are running their programmed infusions and have not received any new commands or updates since the EHR went down. The pump server ORRMC-PUMP01 is on the device network, which is isolated from the clinical network by a firewall. No anomalies detected on the server or in the network traffic to or from ORRMC-PUMP01. I can disconnect the server now as a precaution, but doing so will stop all drug-library updates and disable the automated log collection. Any new library changes will need to be entered manually, and all high-alert infusions must have a second-person rate verification. Your call."
+      }
+    ],
+    "background": "office",
+    "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+    "audioFile": "I-10a_radio.wav",
+    "duration": "0:22",
+    "injectId": "I-10"
+  },
+  "variant": "default",
+  "instructorNote": "This inject tests the balance between system containment and operational continuity. Watch for the CE and ISO to confirm the server is not powered off but isolated, and for the CNO to acknowledge the need for double checks on high-alert medications.",
+  "citations": [
+    {
+      "documentId": "01M685F07BX4SKDPZ5BBCVMVZ2",
+      "documentTitle": "Ottawa River Regional Medical Center — Facilities and Information Systems Description",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 4",
+      "quote": "| System | What it does | Hosts and notes | |---|---|---| | CareLine EHR | Electronic health record: orders, charting, medication administration (eMAR), results, scheduling and registration | Applicat",
+      "chunkId": 43
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+      "quote": "**Ransomware on clinical servers:** isolate, preserve, activate downtime, assess data theft, restore from clean backups, notify. **Medical device compromise:** manual operation, segment isolation deci",
+      "chunkId": 12
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "Clinical Engineering",
+        "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+        "text": "This is CE-01. The 620 smart pumps are running their programmed infusions and have not received any new commands or updates since the EHR went down. The pump server ORRMC-PUMP01 is on the device network, which is isolated from the clinical network by a firewall. No anomalies detected on the server or in the network traffic to or from ORRMC-PUMP01. I can disconnect the server now as a precaution, but doing so will stop all drug-library updates and disable the automated log collection. Any new library changes will need to be entered manually, and all high-alert infusions must have a second-person rate verification. Your call."
+      }
+    ],
+    "postFx": [
+      "radio"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:05:30.384Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Infusion Pump Server — Isolation Decision",
+        "type": "radio_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "centerName": "Hospital Operations Command Center (HOC)",
+          "channel": "MED-SEC",
+          "frequency": "TG 5501 / 480.125 MHz",
+          "date": "03/03/2026",
+          "callsign": "CE-01",
+          "lines": [
+            {
+              "time": "07:25:12",
+              "from": "Clinical Engineering to ISO and CNO",
+              "to": "ISO, CNO",
+              "text": "This is CE-01. The 620 smart pumps are running their programmed infusions and have not received any new commands or updates since the EHR went down. The pump server ORRMC-PUMP01 is on the device network, which is isolated from the clinical network by a firewall. No anomalies detected on the server or in the network traffic to or from ORRMC-PUMP01. I can disconnect the server now as a precaution, but doing so will stop all drug-library updates and disable the automated log collection. Any new library changes will need to be entered manually, and all high-alert infusions must have a second-person rate verification. Your call."
+            }
+          ],
+          "background": "office",
+          "voiceStyle": "Middle-aged male, calm but urgent, slightly out of breath",
+          "audioFile": "I-10a_radio.wav",
+          "duration": "0:22",
+          "injectId": "I-10"
+        },
+        "instructorNote": "This inject tests the balance between system containment and operational continuity. Watch for the CE and ISO to confirm the server is not powered off but isolated, and for the CNO to acknowledge the need for double checks on high-alert medications.",
+        "deliveryMode": "play_audio"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:09:06.085Z"
+}

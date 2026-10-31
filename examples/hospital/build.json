@@ -1,0 +1,145 @@
+{
+  "id": "hospital",
+  "title": "Ottawa River Regional Medical Center",
+  "domainProfile": "healthcare",
+  "summary": "A 412-bed Toledo, Ohio community hospital (Level II trauma center, ED, ICUs, surgical pavilion, outpatient dialysis, CareLine EHR, networked monitors and infusion pumps) run under HICS, with its simulated plans (EOP under 42 CFR 482.15, EHR downtime, cyber incident response, surge and evacuation) and four tabletop exercises: ransomware forcing EHR downtime, an infusion pump drug library compromise, a mass casualty surge during a network outage, and a regional water advisory that reaches dialysis.",
+  "notice": "EXERCISE MATERIAL — for training use. Ottawa River Regional Medical Center, its people, vendors and identifiers are simulated; Toledo, Lucas County and the public agencies are real. The public sources consulted for realism are listed in reference/hospital/SOURCES.md.",
+  "project": {
+    "name": "Ottawa River Regional Medical Center",
+    "orgName": "Ottawa River Regional Medical Center",
+    "orgType": "healthcare",
+    "brand": {
+      "city": "Toledo",
+      "region": "Lucas County, Ohio",
+      "aliases": {
+        "org": "Ottawa River Regional Medical Center",
+        "orgShort": "ORRMC",
+        "orgDomain": "orrmc.example",
+        "localTv": "Channel 11",
+        "airport": "ORRMC Tower B helipad"
+      }
+    }
+  },
+  "documents": {
+    "dir": "reference/hospital",
+    "exclude": ["SOURCES.md"]
+  },
+  "media": {
+    "aiImagesPerScenario": 2,
+    "ttsPerScenario": 2
+  },
+  "scenarios": [
+    {
+      "key": "ehr-ransomware",
+      "threatFamily": "cyber",
+      "startWallClock": "05:40",
+      "summary": "Ransomware encrypts the EHR database and stops the interface engine before the morning shift; the hospital goes to paper, weighs diversion and isolation steps against patient care, and answers a leak-site claim with a restore that is not an all-clear.",
+      "userPrompt": "At 05:40 on Tuesday, March 3, 2026 the night nursing supervisor reports the CareLine EHR will not open. IT finds ORRMC-SQL01 and ORRMC-SQL02 encrypted with a ransom note, ORRMC-INT01 stopped, and BCA-VIEW01 still showing data from the 05:15 refresh. The managed detection service says an administrator account logged on from an unfamiliar address at 02:10 and large outbound transfers ran overnight. Day shift is arriving with 331 inpatients, 21 patients in the ED, 9 surgical cases scheduled from 07:30 and 11 dialysis patients due at 08:00. Issues: downtime declaration and paper mode, whether to disconnect the viewer feed, medication safety with the automated dispensing cabinets and smart pumps, diversion, restoring from the immutable cloud copy versus tapes, whether the restore brings back the intruder, the HIPAA breach question for possible data theft, reporting to the FBI Cleveland Field Office, CISA and H-ISAC, and the PIO's statement for local media and patients' families.",
+      "audience": [
+        "Administrator on Call (Incident Commander)",
+        "Information Security Officer (Technical Lead)",
+        "Chief Nursing Officer (Operations Section Chief)",
+        "Clinical Engineering (Infrastructure Branch)",
+        "Public Information Officer (PIO)"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain orrmc.example; outside parties use fictional domains and fictional outlet names (Channel 11, The Glass City Courier); never a real agency, company, hospital or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Toledo Fire and Rescue, Lucas County EMS, the Toledo-Lucas County Health Department, the Lucas County EMA, the City of Toledo Department of Public Utilities, the Ohio Department of Health, the FBI, CISA, H-ISAC, vendors, neighbouring hospitals, reporters) are played by the SimCell, not seated as players.",
+        "The brief states the exercise date: every row and artifact uses it, never today's date, and the STARTEX row opens at the moment of the first report with systems in the state the brief gives (nothing is announced as already known).",
+        "Use only the units, buildings, rooms, hostnames and people in the plans (for example ICU 3 North, 4 West, Tower B, room C-212, Marcus Hale as Information Security Officer); never 'Floor 3' or an invented street address, and never call the Information Security Officer a CISO.",
+        "Cite the plans by name and section (for example Cyber Incident Response Plan, Section 5); never an invented section, code or procedure number such as 'HEP 11.2', 'C4' or 'SOP 4.3'.",
+        "Internet addresses outside the hospital use the documentation ranges 192.0.2.x, 198.51.100.x or 203.0.113.x; an attacker is never placed in a named country; the hospital's own device network is 10.40.x.x.",
+        "The exercise does not end resolved: the last phase ends with containment done, a staged recovery under way and one open decision, with no all-clear. A restore is never declared safe in the phase it starts, and no public statement says patient data was not accessed unless an earlier row has established it.",
+        "The EHR is unavailable from the first row. Keep ONE data-integrity thread (whether the downtime viewer BCA-VIEW01 can still be trusted); do not add falsified allergy or lab data unless a row establishes how it happened.",
+        "Timing: forensic confirmation, a restore from the immutable cloud copy and the HIPAA risk assessment take hours, not minutes; by the end the restore is staged and being verified (Cyber Incident Response Plan, Section 9), and the HIPAA breach decision is still open."
+      ],
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/hospital-ehr-ransomware.json"
+      }
+    },
+    {
+      "key": "device-compromise",
+      "threatFamily": "cyber_physical",
+      "startWallClock": "14:20",
+      "summary": "A vendor support account alters the infusion pump drug library and scans the device network while ICU monitors drop off the central station; a near-miss, a hypoglycemia event of unknown cause and the isolation decision follow.",
+      "userPrompt": "At 14:20 on Thursday, March 12, 2026 the ICU 3 North charge nurse reports bedside monitors still work but four patients disappeared from the central telemetry display on ORRMC-MON01. Clinical Engineering finds that the drug library on the infusion pump server ORRMC-PUMP01 was changed at 13:55 from an account used by the pump vendor's remote support: the maximum dose limit for a high-alert drug is set far higher than the hospital standard, and 41 pumps on ICU 3 North, ICU 3 South and 4 East have already pulled the new library. The device network 10.40.x.x shows scanning traffic from a vendor session broker connection. Issues: stopping the library push, checking every pump, bedside nurse monitoring when central monitoring is not trusted, whether to isolate the device network and lose imaging and lab analyzer connections, preserving evidence, the manufacturer and vendor, FDA reporting, a patient-safety review of doses already given, reporting to the FBI Cleveland Field Office, CISA and H-ISAC, and a statement to families and staff.",
+      "audience": [
+        "Administrator on Call (Incident Commander)",
+        "Information Security Officer (Technical Lead)",
+        "Chief Nursing Officer (Operations Section Chief)",
+        "Clinical Engineering (Infrastructure Branch)",
+        "Public Information Officer (PIO)"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain orrmc.example; outside parties use fictional domains and fictional outlet names (Channel 11, The Glass City Courier); never a real agency, company, hospital or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Toledo Fire and Rescue, Lucas County EMS, the Toledo-Lucas County Health Department, the Lucas County EMA, the City of Toledo Department of Public Utilities, the Ohio Department of Health, the FBI, CISA, H-ISAC, vendors, neighbouring hospitals, reporters) are played by the SimCell, not seated as players.",
+        "The brief states the exercise date: every row and artifact uses it, never today's date, and the STARTEX row opens at the moment of the first report with systems in the state the brief gives (nothing is announced as already known).",
+        "Use only the units, buildings, rooms, hostnames and people in the plans (for example ICU 3 North, 4 West, Tower B, room C-212, Marcus Hale as Information Security Officer); never 'Floor 3' or an invented street address, and never call the Information Security Officer a CISO.",
+        "Cite the plans by name and section (for example Cyber Incident Response Plan, Section 5); never an invented section, code or procedure number such as 'HEP 11.2', 'C4' or 'SOP 4.3'.",
+        "Internet addresses outside the hospital use the documentation ranges 192.0.2.x, 198.51.100.x or 203.0.113.x; an attacker is never placed in a named country; the hospital's own device network is 10.40.x.x.",
+        "The exercise does not end resolved: the last phase ends with containment done, a staged recovery under way and one open decision, with no all-clear. A restore is never declared safe in the phase it starts, and no public statement says patient data was not accessed unless an earlier row has established it.",
+        "Infusion rates use the unit the drug uses (fentanyl in mcg/hr; heparin in units/hr). The altered drug library raises the dose limits, so pumps do not alarm at doses they should; the exercise establishes at most a near-miss and a few wrong-rate programming attempts, not patient harm.",
+        "Isolating the device network is the hospital's patient-safety decision (Cyber Incident Response Plan, Section 5); the FBI and CISA ask for evidence to be preserved but do not tell the hospital whether to isolate. The exercise ends with the network partly isolated and each pump being checked by hand."
+      ],
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/hospital-device-compromise.json"
+      }
+    },
+    {
+      "key": "surge-outage",
+      "threatFamily": "infrastructure_failure",
+      "startWallClock": "16:45",
+      "summary": "A core switch failure takes down the EHR, lab and imaging just before a multi-vehicle crash sends 36 patients to the ED; the hospital tracks patients on paper, opens surge space, transfers patients out and decides on crisis standards of care.",
+      "userPrompt": "At 16:45 on Friday, March 13, 2026 a failure of the core network switch in room A-B02 takes the EHR, the laboratory information system, PACS and secure messaging off the network; failover to the second core in room C-212 has not worked and the vendor says four hours. At 17:10 Toledo Fire and Rescue and Lucas County EMS report a multi-vehicle crash with a fuel tanker on the interstate: 14 patients are on the way in the first wave, up to 40 expected, 6 critical. The ED already holds 31 patients, ICU 3 North and ICU 3 South are full, OR 1 and OR 2 have cases running. Issues: Code Triage, paper registration and tracking with trauma numbers and DT- numbers, runners for lab and imaging results, blood bank, opening the PACU and Pavilion C surge space, cancelling elective cases, staff recall, diversion and transfers through the regional healthcare coalition, family reunification, crisis standards of care, and press statements.",
+      "audience": [
+        "Administrator on Call (Incident Commander)",
+        "Director of IT (Infrastructure Branch)",
+        "Chief Nursing Officer (Operations Section Chief)",
+        "ED Medical Director (Medical Care Branch)",
+        "Public Information Officer (PIO)"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain orrmc.example; outside parties use fictional domains and fictional outlet names (Channel 11, The Glass City Courier); never a real agency, company, hospital or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Toledo Fire and Rescue, Lucas County EMS, the Toledo-Lucas County Health Department, the Lucas County EMA, the City of Toledo Department of Public Utilities, the Ohio Department of Health, the FBI, CISA, H-ISAC, vendors, neighbouring hospitals, reporters) are played by the SimCell, not seated as players.",
+        "The brief states the exercise date: every row and artifact uses it, never today's date, and the STARTEX row opens at the moment of the first report with systems in the state the brief gives (nothing is announced as already known).",
+        "Use only the units, buildings, rooms, hostnames and people in the plans (for example ICU 3 North, 4 West, Tower B, room C-212, Marcus Hale as Information Security Officer); never 'Floor 3' or an invented street address, and never call the Information Security Officer a CISO.",
+        "Cite the plans by name and section (for example Cyber Incident Response Plan, Section 5); never an invented section, code or procedure number such as 'HEP 11.2', 'C4' or 'SOP 4.3'.",
+        "Internet addresses outside the hospital use the documentation ranges 192.0.2.x, 198.51.100.x or 203.0.113.x; an attacker is never placed in a named country; the hospital's own device network is 10.40.x.x.",
+        "The exercise does not end resolved: the last phase ends with containment done, a staged recovery under way and one open decision, with no all-clear. A restore is never declared safe in the phase it starts, and no public statement says patient data was not accessed unless an earlier row has established it.",
+        "The network outage is a hardware failure and nothing in any row makes it a cyberattack. Patient counts stay consistent (first wave 14, later waves up to 40, 6 critical); the core switch is replaced only late in the exercise.",
+        "Use the Patient Surge and Evacuation Annex (surge levels A to C, Code Triage, diversion criteria) and the EHR Downtime Procedures Annex (DT- numbers, runners, BCA-VIEW01)."
+      ],
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/hospital-surge-outage.json"
+      }
+    },
+    {
+      "key": "water-advisory",
+      "threatFamily": "infrastructure_failure",
+      "startWallClock": "06:15",
+      "summary": "A Do Not Drink advisory from the City of Toledo Department of Public Utilities fails the dialysis loop; the hospital protects its stored water, places 33 dialysis patients elsewhere, adapts sterile processing and plans for 36 hours or more.",
+      "userPrompt": "At 06:15 on Saturday, March 14, 2026 the City of Toledo Department of Public Utilities tells the Lucas County EMA and the hospital that a treatment plant disruption has affected the water supply: a Do Not Drink advisory covers the hospital's service area, the cause and duration unknown, pressure normal. The hospital's Central Plant 40,000-gallon tank is full; the Outpatient Dialysis Center has 12 chairs, 9 patients booked on Saturday, 41 patients each week; the RO loop test at 06:40 shows chloramine breakthrough on the carbon bed. Twenty-four hospital inpatients also receive dialysis. Issues: Level 2 or Level 1 activation, stopping dialysis safely, conserving the 40,000 gallons (about 18 hours normal, 36 conserved), bottled water and the water-hauling contract, sterile processing and the Surgical Pavilion, food service and hand hygiene, messages for patients, visitors and staff, moving outpatient dialysis patients to other facilities, the Ohio Department of Health and the Toledo-Lucas County Health Department, and public statements.",
+      "audience": [
+        "Administrator on Call (Incident Commander)",
+        "Director of Facilities and Emergency Management (Infrastructure Branch)",
+        "Chief Nursing Officer (Operations Section Chief)",
+        "Dialysis Medical Director (Medical Care Branch)",
+        "Public Information Officer (PIO)"
+      ],
+      "constraints": [
+        "Every email address of the hospital uses the exercise domain orrmc.example; outside parties use fictional domains and fictional outlet names (Channel 11, The Glass City Courier); never a real agency, company, hospital or newspaper domain.",
+        "Player roles are only those in the audience list; outside parties (Toledo Fire and Rescue, Lucas County EMS, the Toledo-Lucas County Health Department, the Lucas County EMA, the City of Toledo Department of Public Utilities, the Ohio Department of Health, the FBI, CISA, H-ISAC, vendors, neighbouring hospitals, reporters) are played by the SimCell, not seated as players.",
+        "The brief states the exercise date: every row and artifact uses it, never today's date, and the STARTEX row opens at the moment of the first report with systems in the state the brief gives (nothing is announced as already known).",
+        "Use only the units, buildings, rooms, hostnames and people in the plans (for example ICU 3 North, 4 West, Tower B, room C-212, Marcus Hale as Information Security Officer); never 'Floor 3' or an invented street address, and never call the Information Security Officer a CISO.",
+        "Cite the plans by name and section (for example Cyber Incident Response Plan, Section 5); never an invented section, code or procedure number such as 'HEP 11.2', 'C4' or 'SOP 4.3'.",
+        "Internet addresses outside the hospital use the documentation ranges 192.0.2.x, 198.51.100.x or 203.0.113.x; an attacker is never placed in a named country; the hospital's own device network is 10.40.x.x.",
+        "The exercise does not end resolved: the last phase ends with containment done, a staged recovery under way and one open decision, with no all-clear. A restore is never declared safe in the phase it starts, and no public statement says patient data was not accessed unless an earlier row has established it.",
+        "The advisory is a Do Not Drink advisory; nothing says the hospital's own water is contaminated unless a test row establishes it. Dialysis cannot run on advisory-affected supply; the 40,000-gallon tank lasts about 18 hours at normal use and 36 hours conserved.",
+        "The exercise ends before the advisory is lifted: dialysis patients are placed elsewhere or treated with a safe supply, conservation continues, and the question of when to resume is open."
+      ],
+      "seed": {
+        "scenario": "tests/fixtures/scenarios/hospital-water-advisory.json"
+      }
+    }
+  ]
+}

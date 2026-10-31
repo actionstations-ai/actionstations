@@ -1,0 +1,318 @@
+{
+  "id": "01M685XNYCJ1B6TKP4DCEVD4MY",
+  "mselRowId": "I-03",
+  "type": "siem_alert",
+  "title": "SIEM Alert: Unauthorized Vendor Session on Pump Network",
+  "deliveryMode": "display_main_screen",
+  "fields": {
+    "product": "Sentinel Point SIEM",
+    "tenant": "Ottawa River Regional Medical Center",
+    "alertId": "ALR-2026-0312-1440",
+    "severity": "high",
+    "riskScore": 92,
+    "rule": "Unauthorized Vendor Session with Network Scanning and Configuration Change",
+    "ruleDescription": "A vendor session broker (ORRMC-VSB01) authenticated from IP 203.0.113.77 using account pumplink-support, which had a password reset at 13:46. During the session (13:48–13:58), the account performed port scans across three device subnets and modified the drug library on ORRMC-PUMP01.",
+    "status": "New",
+    "assignee": "Unassigned",
+    "firstSeen": "2026-03-12T13:48:22",
+    "lastSeen": "2026-03-12T13:58:44",
+    "eventCount": 147,
+    "source": {
+      "host": "ORRMC-VSB01",
+      "ip": "203.0.113.77",
+      "user": "pumplink-support",
+      "zone": "Vendor Remote Access"
+    },
+    "dest": {
+      "host": "ORRMC-PUMP01",
+      "ip": "10.40.30.11",
+      "service": "SSH",
+      "zone": "Device Network"
+    },
+    "tactics": [
+      "T1078 Valid Accounts",
+      "T1041 Exfiltration Over Command and Control Channel",
+      "T1566 Phishing",
+      "T1595 Supply Chain Compromise"
+    ],
+    "details": [
+      {
+        "key": "Session Duration",
+        "value": "10 minutes, 16 seconds"
+      },
+      {
+        "key": "Authentication Method",
+        "value": "Password Reset via Vendor Portal"
+      },
+      {
+        "key": "Account Type",
+        "value": "Vendor Support (Non-Staff)"
+      },
+      {
+        "key": "Change Made",
+        "value": "Drug library updated to 4.2.2 on ORRMC-PUMP01"
+      },
+      {
+        "key": "Scanned Subnets",
+        "value": "10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24"
+      },
+      {
+        "key": "Confirmed Compromise",
+        "value": "Yes - 41 pumps updated, 4 telemetry patients dropped"
+      },
+      {
+        "key": "Session Origin",
+        "value": "203.0.113.77 (external, not in ORRMC IP range)"
+      },
+      {
+        "key": "Device Network Impact",
+        "value": "Telemetry display loss, pump library update, scanning detected"
+      }
+    ],
+    "rawEvent": "2026-03-12T13:48:22-05:00 ORRMC-VSB01 VENDOR-ACCESS 100002: Session established from 203.0.113.77 for user pumplink-support via password reset. 2026-03-12T13:55:11-05:00 ORRMC-VSB01 VENDOR-ACCESS 100005: Configuration change applied on ORRMC-PUMP01 (drug library 4.2.2). 2026-03-12T13:55:47-05:00 ORRMC-VSB01 VENDOR-ACCESS 100008: Port scan initiated on 10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24. 2026-03-12T13:58:44-05:00 ORRMC-VSB01 VENDOR-ACCESS 100001: Session closed normally.",
+    "relatedAlerts": [
+      {
+        "time": "2026-03-12T14:10:00",
+        "title": "Infusion Pump Library Anomaly Detected",
+        "severity": "high"
+      },
+      {
+        "time": "2026-03-12T14:25:00",
+        "title": "ICU 3 North Telemetry Display Glitch",
+        "severity": "high"
+      }
+    ],
+    "analyst": "it.oncall"
+  },
+  "instructorNote": "This inject confirms the attacker's presence on the device network and establishes a chain of evidence for the ISO to act on. Watch for the ISO to block the vendor account and source IP, and to escalate to the AOC for HCC Level 2 activation.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 5",
+      "quote": "| Decision | Who | Clinical effect to weigh | |---|---|---| | Disconnect the EHR application and database servers from the network | ISO with Director of IT; AOC informed | EHR down; downtime procedur",
+      "chunkId": 6
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 3",
+      "quote": "| Level | Description | Hospital action | |---|---|---| | Cyber 3 | Single endpoint or account; no clinical function affected | ISO handles; no HCC | | Cyber 2 | One clinical or business system degrad",
+      "chunkId": 4
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › ANNEXES",
+      "quote": "A. Patient Surge and Evacuation Annex (ORRMC-SE-ANX-2026) · B. EHR Downtime Procedures Annex (ORRMC-DT-ANX-2026) · C. Cyber Incident Response Plan (ORRMC-CIRP-2026) · D. Facilities and Information Sys",
+      "chunkId": 38
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:12:04.551Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "SIEM Alert: Unauthorized Vendor Session on Pump Network",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Ottawa River Regional Medical Center",
+          "alertId": "ALR-2026-0312-1440",
+          "severity": "high",
+          "riskScore": 92,
+          "rule": "Unauthorized Vendor Session with Network Scanning and Configuration Change",
+          "ruleDescription": "A vendor session broker (ORRMC-VSB01) authenticated from IP 203.0.113.77 using account pumplink-support, which had a password reset at 13:46. During the session (13:48–13:58), the account performed port scans across three device subnets and modified the drug library on ORRMC-PUMP01.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-03-12T13:48:22",
+          "lastSeen": "2026-03-12T13:58:44",
+          "eventCount": 147,
+          "source": {
+            "host": "ORRMC-VSB01",
+            "ip": "203.0.113.77",
+            "user": "pumplink-support",
+            "zone": "Vendor Remote Access"
+          },
+          "dest": [
+            {
+              "host": "ORRMC-PUMP01",
+              "ip": "10.40.30.11",
+              "service": "SSH",
+              "zone": "Device Network"
+            },
+            {
+              "host": "ORRMC-MON01",
+              "ip": "10.40.10.15",
+              "service": "TCP",
+              "zone": "Device Network"
+            },
+            {
+              "host": "ORRMC-PACS-IMG01",
+              "ip": "10.40.40.22",
+              "service": "TCP",
+              "zone": "Device Network"
+            }
+          ],
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1041 Exfiltration Over Command and Control Channel",
+            "T1566 Phishing",
+            "T1595 Supply Chain Compromise"
+          ],
+          "details": [
+            {
+              "key": "Session Duration",
+              "value": "10 minutes, 16 seconds"
+            },
+            {
+              "key": "Authentication Method",
+              "value": "Password Reset via Vendor Portal"
+            },
+            {
+              "key": "Account Type",
+              "value": "Vendor Support (Non-Staff)"
+            },
+            {
+              "key": "Change Made",
+              "value": "Drug library updated to 4.2.2 on ORRMC-PUMP01"
+            },
+            {
+              "key": "Scanned Subnets",
+              "value": "10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24"
+            },
+            {
+              "key": "Confirmed Compromise",
+              "value": "Yes - 41 pumps updated, 4 telemetry patients dropped"
+            },
+            {
+              "key": "Session Origin",
+              "value": "203.0.113.77 (external, not in ORRMC IP range)"
+            },
+            {
+              "key": "Device Network Impact",
+              "value": "Telemetry display loss, pump library update, scanning detected"
+            }
+          ],
+          "rawEvent": "2026-03-12T13:48:22-05:00 ORRMC-VSB01 VENDOR-ACCESS 100002: Session established from 203.0.113.77 for user pumplink-support via password reset. 2026-03-12T13:55:11-05:00 ORRMC-VSB01 VENDOR-ACCESS 100005: Configuration change applied on ORRMC-PUMP01 (drug library 4.2.2). 2026-03-12T13:55:47-05:00 ORRMC-VSB01 VENDOR-ACCESS 100008: Port scan initiated on 10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24. 2026-03-12T13:58:44-05:00 ORRMC-VSB01 VENDOR-ACCESS 100001: Session closed normally.",
+          "relatedAlerts": [
+            {
+              "time": "2026-03-12T14:10:00",
+              "title": "Infusion Pump Library Anomaly Detected",
+              "severity": "high"
+            },
+            {
+              "time": "2026-03-12T14:25:00",
+              "title": "ICU 3 North Telemetry Display Glitch",
+              "severity": "high"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms the attacker's presence on the device network and establishes a chain of evidence for the ISO to act on. Watch for the ISO to block the vendor account and source IP, and to escalate to the AOC for HCC Level 2 activation.",
+        "deliveryMode": "display_main_screen"
+      }
+    },
+    {
+      "at": "2026-10-31T05:43:56.456Z",
+      "by": "user",
+      "note": "Corrected by hand for the shipped example",
+      "snapshot": {
+        "title": "SIEM Alert: Unauthorized Vendor Session on Pump Network",
+        "type": "siem_alert",
+        "fields": {
+          "product": "Sentinel Point SIEM",
+          "tenant": "Ottawa River Regional Medical Center",
+          "alertId": "ALR-2026-0312-1440",
+          "severity": "high",
+          "riskScore": 92,
+          "rule": "Unauthorized Vendor Session with Network Scanning and Configuration Change",
+          "ruleDescription": "A vendor session broker (ORRMC-VSB01) authenticated from IP 203.0.113.77 using account pumplink-support, which had a password reset at 13:46. During the session (13:48–13:58), the account performed port scans across three device subnets and modified the drug library on ORRMC-PUMP01.",
+          "status": "New",
+          "assignee": "Unassigned",
+          "firstSeen": "2026-03-12T13:48:22",
+          "lastSeen": "2026-03-12T13:58:44",
+          "eventCount": 147,
+          "source": {
+            "host": "ORRMC-VSB01",
+            "ip": "203.0.113.77",
+            "user": "pumplink-support",
+            "zone": "Vendor Remote Access"
+          },
+          "dest": {
+            "host": "ORRMC-PUMP01",
+            "ip": "10.40.30.11",
+            "service": "SSH",
+            "zone": "Device Network"
+          },
+          "tactics": [
+            "T1078 Valid Accounts",
+            "T1041 Exfiltration Over Command and Control Channel",
+            "T1566 Phishing",
+            "T1595 Supply Chain Compromise"
+          ],
+          "details": [
+            {
+              "key": "Session Duration",
+              "value": "10 minutes, 16 seconds"
+            },
+            {
+              "key": "Authentication Method",
+              "value": "Password Reset via Vendor Portal"
+            },
+            {
+              "key": "Account Type",
+              "value": "Vendor Support (Non-Staff)"
+            },
+            {
+              "key": "Change Made",
+              "value": "Drug library updated to 4.2.2 on ORRMC-PUMP01"
+            },
+            {
+              "key": "Scanned Subnets",
+              "value": "10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24"
+            },
+            {
+              "key": "Confirmed Compromise",
+              "value": "Yes - 41 pumps updated, 4 telemetry patients dropped"
+            },
+            {
+              "key": "Session Origin",
+              "value": "203.0.113.77 (external, not in ORRMC IP range)"
+            },
+            {
+              "key": "Device Network Impact",
+              "value": "Telemetry display loss, pump library update, scanning detected"
+            }
+          ],
+          "rawEvent": "2026-03-12T13:48:22-05:00 ORRMC-VSB01 VENDOR-ACCESS 100002: Session established from 203.0.113.77 for user pumplink-support via password reset. 2026-03-12T13:55:11-05:00 ORRMC-VSB01 VENDOR-ACCESS 100005: Configuration change applied on ORRMC-PUMP01 (drug library 4.2.2). 2026-03-12T13:55:47-05:00 ORRMC-VSB01 VENDOR-ACCESS 100008: Port scan initiated on 10.40.10.0/24, 10.40.30.0/24, 10.40.40.0/24. 2026-03-12T13:58:44-05:00 ORRMC-VSB01 VENDOR-ACCESS 100001: Session closed normally.",
+          "relatedAlerts": [
+            {
+              "time": "2026-03-12T14:10:00",
+              "title": "Infusion Pump Library Anomaly Detected",
+              "severity": "high"
+            },
+            {
+              "time": "2026-03-12T14:25:00",
+              "title": "ICU 3 North Telemetry Display Glitch",
+              "severity": "high"
+            }
+          ],
+          "analyst": "it.oncall"
+        },
+        "instructorNote": "This inject confirms the attacker's presence on the device network and establishes a chain of evidence for the ISO to act on. Watch for the ISO to block the vendor account and source IP, and to escalate to the AOC for HCC Level 2 activation.",
+        "deliveryMode": "display_main_screen"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:44:35.885Z"
+}

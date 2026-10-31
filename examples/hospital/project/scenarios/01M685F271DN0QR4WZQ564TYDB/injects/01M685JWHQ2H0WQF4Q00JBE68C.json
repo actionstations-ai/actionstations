@@ -1,0 +1,148 @@
+{
+  "id": "01M685JWHQ2H0WQF4Q00JBE68C",
+  "mselRowId": "I-12",
+  "type": "phone_call",
+  "title": "EHR Downtime — Patient Data Leak on Actor's Site",
+  "deliveryMode": "read_aloud",
+  "fields": {
+    "orgName": "Ottawa River Regional Medical Center",
+    "systemName": "AOC Console 3 - Call Recorder",
+    "callId": "CR-20260303-074512-0089",
+    "direction": "Internal",
+    "caller": {
+      "name": "Marcus Hale",
+      "number": "555-0112",
+      "label": "ISO"
+    },
+    "callee": {
+      "name": "Helen Marchetti",
+      "number": "555-0103",
+      "label": "AOC"
+    },
+    "startTime": "03/03/2026 07:45:12",
+    "duration": "0:52",
+    "transcript": [
+      {
+        "speaker": "ISO",
+        "offset": "00:00",
+        "text": "Helen, Marcus Hale. The managed detection service just confirmed it: our name is on a leak site. The actor posted a sample of 40 patient face sheets — names, DOBs, medical record numbers — all from 2024. The clock is counting down 71 hours. We’ve verified the sample. It’s real.",
+        "prompt": false
+      },
+      {
+        "speaker": "AOC",
+        "offset": "00:28",
+        "text": "Confirmed, Marcus. The CPO must start the HIPAA risk assessment immediately. This is a presumptive breach under 45 CFR 164.402. We’ll convene the Policy Group now.",
+        "prompt": false
+      },
+      {
+        "speaker": "ISO",
+        "offset": "00:42",
+        "text": "Understood. I’m notifying the CPO and the outside counsel. The PIO should begin drafting a statement, but not release it yet.",
+        "prompt": false
+      }
+    ],
+    "voiceStyles": {},
+    "injectId": "I-12"
+  },
+  "variant": "default",
+  "instructorNote": "This inject confirms the attacker has exfiltrated PHI. The ISO must initiate the CPO’s risk assessment; the CPO must begin the HIPAA breach process. The AOC and outside counsel must initiate the Policy Group call. The PIO must prepare but not issue a public statement.",
+  "citations": [
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 7",
+      "quote": "The Chief Privacy Officer starts the HIPAA risk assessment as soon as it is possible that protected health information was accessed. Ransomware that encrypts protected health information is treated as",
+      "chunkId": 8
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 2",
+      "quote": "| Role | Primary | Alternate | Decides | |---|---|---|---| | Incident Commander (HICS) | Helen Marchetti, COO (Administrator on Call) | Dr. Samuel Obuya, CMO | Downtime level, diversion, evacuation, p",
+      "chunkId": 3
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template",
+      "tts"
+    ],
+    "voiceLines": [
+      {
+        "speaker": "ISO",
+        "voiceStyle": "calm male voice in his 40s, measured pace, slight Midwestern accent, focused and urgent",
+        "text": "Helen, Marcus Hale. The managed detection service just confirmed it: our name is on a leak site. The actor posted a sample of 40 patient face sheets — names, DOBs, medical record numbers — all from 2024. The clock is counting down 71 hours. We’ve verified the sample. It’s real."
+      },
+      {
+        "speaker": "AOC",
+        "voiceStyle": "steady female voice in her 50s, composed, clear enunciation, authoritative but calm",
+        "text": "Confirmed, Marcus. The CPO must start the HIPAA risk assessment immediately. This is a presumptive breach under 45 CFR 164.402. We’ll convene the Policy Group now."
+      },
+      {
+        "speaker": "ISO",
+        "voiceStyle": "calm male voice in his 40s, measured pace, slight Midwestern accent, focused and urgent",
+        "text": "Understood. I’m notifying the CPO and the outside counsel. The PIO should begin drafting a statement, but not release it yet."
+      }
+    ],
+    "postFx": [
+      "phone"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:05:55.506Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "EHR Downtime — Patient Data Leak on Actor's Site",
+        "type": "phone_call",
+        "fields": {
+          "orgName": "Ottawa River Regional Medical Center",
+          "systemName": "AOC Console 3 - Call Recorder",
+          "callId": "CR-20260303-074512-0089",
+          "direction": "Internal",
+          "caller": {
+            "name": "Marcus Hale",
+            "number": "555-0112",
+            "label": "ISO"
+          },
+          "callee": {
+            "name": "Helen Marchetti",
+            "number": "555-0103",
+            "label": "AOC"
+          },
+          "startTime": "03/03/2026 07:45:12",
+          "duration": "0:52",
+          "transcript": [
+            {
+              "speaker": "ISO",
+              "offset": "00:00",
+              "text": "Helen, Marcus Hale. The managed detection service just confirmed it: our name is on a leak site. The actor posted a sample of 40 patient face sheets — names, DOBs, medical record numbers — all from 2024. The clock is counting down 71 hours. We’ve verified the sample. It’s real.",
+              "prompt": false
+            },
+            {
+              "speaker": "AOC",
+              "offset": "00:28",
+              "text": "Confirmed, Marcus. The CPO must start the HIPAA risk assessment immediately. This is a presumptive breach under 45 CFR 164.402. We’ll convene the Policy Group now.",
+              "prompt": false
+            },
+            {
+              "speaker": "ISO",
+              "offset": "00:42",
+              "text": "Understood. I’m notifying the CPO and the outside counsel. The PIO should begin drafting a statement, but not release it yet.",
+              "prompt": false
+            }
+          ],
+          "voiceStyles": {},
+          "injectId": "I-12"
+        },
+        "instructorNote": "This inject confirms the attacker has exfiltrated PHI. The ISO must initiate the CPO’s risk assessment; the CPO must begin the HIPAA breach process. The AOC and outside counsel must initiate the Policy Group call. The PIO must prepare but not issue a public statement.",
+        "deliveryMode": "read_aloud"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:09:06.790Z"
+}

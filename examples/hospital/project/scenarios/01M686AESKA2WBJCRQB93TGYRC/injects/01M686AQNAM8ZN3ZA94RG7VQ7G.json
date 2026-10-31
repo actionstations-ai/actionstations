@@ -1,0 +1,141 @@
+{
+  "id": "01M686AQNAM8ZN3ZA94RG7VQ7G",
+  "mselRowId": "I-01",
+  "type": "helpdesk_ticket",
+  "title": "Core Stack Member 2 Boot Loop — C-212 Failover Incomplete",
+  "deliveryMode": "hand_to_role",
+  "fields": {
+    "ticketNo": "INC-26-03-0577",
+    "priority": "Critical",
+    "impact": "High",
+    "urgency": "High",
+    "status": "New",
+    "requester": "Network Engineer Nadia Petrov",
+    "requesterContact": "x5503",
+    "contactType": "Monitoring",
+    "category": "Network Infrastructure",
+    "subcategory": "Core Switching",
+    "location": "Room A-B02, Core Stack Member 2",
+    "configurationItem": "ORRMC-INT01",
+    "opened": "2026-03-13 16:50:12",
+    "assignmentGroup": "Network Operations",
+    "subject": "Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4.",
+    "description": "Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4. I can load the March 10 backup config onto C-212, which would bring the clinical VLANs up but not the PACS and device VLANs, in about 45 minutes. Replacement hardware from the vendor is four hours away.",
+    "activity": [
+      {
+        "author": "Network Engineer Nadia Petrov",
+        "time": "2026-03-13 16:50:12",
+        "kind": "work_note",
+        "text": "Confirmed boot loop on stack member 2 in A-B02. C-212 core has no record of VLAN changes from CHG-1184 (March 4). Configuration mismatch prevents failover. Manual intervention required."
+      },
+      {
+        "author": "Network Operations Team",
+        "time": "2026-03-13 16:50:12",
+        "kind": "system",
+        "text": "Ticket opened via network monitoring alert from ORRMC-INT01 (10.72.1.11)."
+      },
+      {
+        "author": "ServiceDesk",
+        "time": "2026-03-13 16:50:12",
+        "kind": "system",
+        "text": "Automated routing to Network Operations based on configuration item ORRMC-INT01."
+      }
+    ],
+    "systemName": "ServiceDesk",
+    "orgName": "Ottawa River Regional Medical Center"
+  },
+  "variant": "default",
+  "instructorNote": "This inject establishes the root cause of the outage: a misconfigured failover core. The IT leader must decide whether to restore partial connectivity now (clinical VLANs only) or wait for full hardware replacement. Watch for whether the DIT consults the ISO before proceeding.",
+  "citations": [
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Annex A",
+      "quote": "| Priority | System | Target | |---|---|---| | 1 | Network core, identity, DNS | 4 hours | | 2 | EHR database and applications, interface engine | 8 hours | | 3 | Pharmacy, LIS, PACS | 8 hours | | 4 |",
+      "chunkId": 23
+    },
+    {
+      "documentId": "01M685F077NG5HA756CYR9T934",
+      "documentTitle": "Ottawa River Regional Medical Center — EHR Downtime Procedures Annex",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 8",
+      "quote": "When Information Technology reports the EHR available, the Administrator on Call approves return to normal. Recovery follows this order: (1) Information Security confirms in writing that the restored ",
+      "chunkId": 21
+    },
+    {
+      "documentId": "01M685F079EYW07JXJR27SRH0Z",
+      "documentTitle": "Ottawa River Regional Medical Center — Emergency Operations Plan (All Hazards)",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 6",
+      "quote": "Essential functions, ranked by recovery priority: (1) life-sustaining care and patient monitoring (ICUs, ED, OR, dialysis, labor and delivery, neonatal); (2) medication ordering, verification and admi",
+      "chunkId": 31
+    },
+    {
+      "documentId": "01M685F075ZSE4EBT69YZF9FG4",
+      "documentTitle": "Ottawa River Regional Medical Center — Cyber Incident Response Plan",
+      "headingPath": "Ottawa River Regional Medical Ce… › Section 9",
+      "quote": "Restore in this order: network core, identity, DNS; the EHR database and applications; interface engine; pharmacy, laboratory and imaging; monitoring and pump servers; bed management and messaging; re",
+      "chunkId": 10
+    }
+  ],
+  "mediaBrief": {
+    "paths": [
+      "template"
+    ]
+  },
+  "assets": [],
+  "versions": [
+    {
+      "at": "2026-10-31T05:18:52.939Z",
+      "by": "ai",
+      "note": "generated",
+      "snapshot": {
+        "title": "Core Stack Member 2 Boot Loop — C-212 Failover Incomplete",
+        "type": "helpdesk_ticket",
+        "fields": {
+          "ticketNo": "INC-26-03-0577",
+          "priority": "Critical",
+          "impact": "High",
+          "urgency": "High",
+          "status": "New",
+          "requester": "Network Engineer Nadia Petrov",
+          "requesterContact": "x5503",
+          "contactType": "Monitoring",
+          "category": "Network Infrastructure",
+          "subcategory": "Core Switching",
+          "location": "Room A-B02, Core Stack Member 2",
+          "configurationItem": "ORRMC-INT01",
+          "opened": "2026-03-13 16:50:12",
+          "assignmentGroup": "Network Operations",
+          "subject": "Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4.",
+          "description": "Core stack member 2 in A-B02 is in a boot loop after a power fault on the stack link. The C-212 core did not take over because its configuration is from February 27 and does not include the clinical VLANs added in change CHG-1184 on March 4. I can load the March 10 backup config onto C-212, which would bring the clinical VLANs up but not the PACS and device VLANs, in about 45 minutes. Replacement hardware from the vendor is four hours away.",
+          "activity": [
+            {
+              "author": "Network Engineer Nadia Petrov",
+              "time": "2026-03-13 16:50:12",
+              "kind": "work_note",
+              "text": "Confirmed boot loop on stack member 2 in A-B02. C-212 core has no record of VLAN changes from CHG-1184 (March 4). Configuration mismatch prevents failover. Manual intervention required."
+            },
+            {
+              "author": "Network Operations Team",
+              "time": "2026-03-13 16:50:12",
+              "kind": "system",
+              "text": "Ticket opened via network monitoring alert from ORRMC-INT01 (10.72.1.11)."
+            },
+            {
+              "author": "ServiceDesk",
+              "time": "2026-03-13 16:50:12",
+              "kind": "system",
+              "text": "Automated routing to Network Operations based on configuration item ORRMC-INT01."
+            }
+          ],
+          "systemName": "ServiceDesk",
+          "orgName": "Ottawa River Regional Medical Center"
+        },
+        "instructorNote": "This inject establishes the root cause of the outage: a misconfigured failover core. The IT leader must decide whether to restore partial connectivity now (clinical VLANs only) or wait for full hardware replacement. Watch for whether the DIT consults the ISO before proceeding.",
+        "deliveryMode": "hand_to_role"
+      }
+    }
+  ],
+  "includeInDeck": true,
+  "locked": false,
+  "updatedAt": "2026-10-31T05:22:56.497Z"
+}
