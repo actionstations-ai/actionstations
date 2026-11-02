@@ -21,6 +21,7 @@
     "build:packs": "node scripts/build-bundled-packs.mjs",
     "build:player": "vite build -c vite.player.config.ts && node scripts/check-player-bundle.mjs",
     "dev:player": "node scripts/player-dev.mjs",
+    "sbom": "node scripts/sbom.mjs",
     "package:smoke": "node scripts/package-smoke.mjs",
     "icons": "electron build/make-icons.mjs",
     "release": "bash scripts/release.sh",

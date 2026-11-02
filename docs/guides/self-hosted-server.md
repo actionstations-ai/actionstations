@@ -116,6 +116,12 @@ Replace the program and restart; the database carries a schema version and a new
 - **"A server key is required".** The app has no key or an old one; run `rotate-key` and enter the new one.
 - **"This server has reached its session limit".** Raise `max-sessions` or end old sessions; ended sessions free their slot at once.
 
+## Software bill of materials
+
+Every release has a CycloneDX SBOM for the server, `actionstations-relay-<version>-sbom.cdx.json`,
+attached to the release on GitHub next to the executables. Give it to your vulnerability scanner or
+attach it to a change request.
+
 ## Security statement for a change request
 
 - The server stores and forwards ciphertext. It holds no key and cannot read messages, media, names or roles. It sees session ids, times, device ids, message types and sizes, and addresses.
