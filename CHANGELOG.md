@@ -20,6 +20,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Generated injects showed today's date in dates, timestamps and datelines even when the scenario states its own date (a STARTEX card said "March 3, 2026" and later injects said "October 30"). The inject text stage now takes the date from the STARTEX row or the threat summary when it states one (#556).
 - The inject text prompt now also tells the model not to write street addresses for private property and to take outside internet addresses from the documentation ranges, with attackers not placed in a real country (#556).
 
+### Security
+
+- The zip exporter's file matcher (`minimatch`, via `archiver`) is updated to 11.0.4 for a denial-of-service advisory (GHSA-g3hv-75wg-m249) (#569).
+
 ## [0.6.1] - 2026-10-30
 
 ### Added
