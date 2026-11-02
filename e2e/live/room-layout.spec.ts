@@ -40,6 +40,10 @@ function overlaps(a: Box, b: Box): boolean {
   )
 }
 
+// e2e compiles without the DOM lib; declare the two browser globals the probe uses.
+declare const document: { documentElement: { scrollWidth: number } }
+declare const window: { innerWidth: number }
+
 async function pageScrollsSideways(page: Page): Promise<boolean> {
   return page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
 }
