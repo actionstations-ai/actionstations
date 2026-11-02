@@ -33,6 +33,8 @@ Known limits of the PDFs Chromium writes: running headers and footers are page t
 
 Surveys translate like injects: they appear in the Languages list as **Survey: ...** items, you review them side by side, and the Spanish form is printed with the Spanish exports. Debrief surveys are not translated.
 
+For a formal statement, the [Accessibility Conformance Report (VPAT, Section 508)](../accessibility/ACR-508.md) rates the app, the player page and these PDFs against WCAG 2.2 AA and lists the known exceptions.
+
 ## Large print
 
 Tick **Also write a large-print copy** to get `-large-print.pdf` beside the briefing, handouts and player injects, in each language chosen. Letter size, one column, sans-serif, body text 18 point, headings 24 point or larger, line height 1.5, left aligned, black on white, no background images. Each inject picture is shown full width and followed by its words at 18 point. The blank ICS 201 form is left out of the large-print briefing; it has its own file.
