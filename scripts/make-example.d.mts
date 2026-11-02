@@ -115,3 +115,39 @@ export function chooseClip(
 export function injectContent(inject: unknown): string
 export function scenarioContent(scenario: unknown): string
 export function assertNoRewrite(result: unknown, key: string): void
+
+/** A recorded run of an exercise (examples/<id>/record/*.json, #559). */
+export interface RecordedRun {
+  date: string
+  delivered: Record<string, string>
+  notes: Record<string, string>
+  generalNotes: string
+  hotwash: { id: string; kind: string; text: string }[]
+  decisions: { id: string; exerciseTime: string; byRole?: string; text: string }[]
+  observations: { id: string; exerciseTime: string; taskId?: string }[]
+  ratings?: Record<string, string>
+  dropEvidence?: { capability: string; title: string; ref: string }[]
+}
+export function recordTime(date: string, exerciseTime: string, startMinutes?: number): string
+export function recordedRun(record: RecordedRun): {
+  state: {
+    delivered: Record<string, { at: string; exerciseTime: string }>
+    notes: Record<string, string>
+    generalNotes: string
+    hotwash: { id: string; kind: string; text: string; at: string }[]
+    decisions: { id: string; at: string; exerciseTime: string; byRole?: string; text: string }[]
+  }
+  observations: { id: string; at: string; taskId?: string; source: string }[]
+}
+export function reviewDraft<T>(
+  draft: T,
+  record: Pick<RecordedRun, 'date' | 'ratings' | 'dropEvidence'>,
+): T & {
+  exerciseDate?: string
+  capabilities: {
+    capability: string
+    rating?: string
+    proposedRating?: string
+    strengths: { title: string; evidence: string[] }[]
+  }[]
+}

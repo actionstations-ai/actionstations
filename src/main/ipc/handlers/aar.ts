@@ -50,7 +50,7 @@ export default defineHandlers({
     return { jobId: job.id }
   },
 
-  'aar:save': async ({ projectPath, scenarioId, aar, baseUpdatedAt }) => {
+  'aar:save': async ({ projectPath, scenarioId, aar, baseUpdatedAt, rerender }) => {
     const root = await requireProject(projectPath)
     const saved = await writeAar(root, scenarioId, aar, {
       by: 'user',
@@ -59,7 +59,7 @@ export default defineHandlers({
     })
     // The tables a person edits here (ratings, plan rows, organizations) are re-rendered into
     // the document; the prose they edited in the document editor stays.
-    await syncAarDocument(root, scenarioId, saved, 'refresh', { by: 'user' })
+    await syncAarDocument(root, scenarioId, saved, rerender ? 'full' : 'refresh', { by: 'user' })
     return saved
   },
 

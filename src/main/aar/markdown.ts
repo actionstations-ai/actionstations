@@ -23,7 +23,7 @@ import {
   type Finding,
 } from '@shared/schemas/aar'
 import type { Citation } from '@shared/schemas/common'
-import type { Scenario } from '@shared/schemas/scenario'
+import { conductOf, type ConductDetails, type Scenario } from '@shared/schemas/scenario'
 import { mdCell, mdTable } from '../export/escape'
 
 export const AAR_SECTIONS = [
@@ -172,6 +172,13 @@ export function evidenceSentence(aar: Pick<Aar, 'sourcesUsed'>): string {
   return head + tail
 }
 
+/** The overview's point of contact from the exercise details; a fill-in line while it is blank. */
+export function pointOfContactText(conduct: ConductDetails): string {
+  const d = conduct.director
+  const parts = [d.name, d.organization, d.phone, d.email].map((v) => v?.trim()).filter(Boolean)
+  return parts.length ? parts.join(', ') : '[Name, title, organization, phone, email]'
+}
+
 export function exerciseOverviewSection(aar: Aar, s: Scenario, orgName: string): string {
   const capabilities = [...new Set(aar.capabilities.map((c) => capabilityName(c.capability)))]
   const objectives = s.objectives.map((o) => (o.name ? `${o.name}: ${o.text}` : o.text))
@@ -188,7 +195,7 @@ export function exerciseOverviewSection(aar: Aar, s: Scenario, orgName: string):
     ['Scenario', s.overview?.theme ?? s.brief.userPrompt ?? '—'],
     ['Sponsor', orgName || '[Sponsor]'],
     ['Participating Organizations', 'See Appendix B'],
-    ['Point of Contact', '[Name, title, organization, phone, email]'],
+    ['Point of Contact', pointOfContactText(conductOf(s))],
   ]
   const table = rows.map(([k, v]) => `| **${mdCell(k)}** | ${mdCell(v)} |`).join('\n')
   return ['## Exercise Overview', '', '| | |', '|---|---|', table, '', evidenceSentence(aar)].join(
@@ -222,7 +229,7 @@ export function ratingsSection(aar: Aar, s: Scenario): string {
       name,
       capabilityName(c.capability),
       ...CAPABILITY_RATINGS.map((r) => ratingCell(c, r)),
-      c.rating ? '' : 'Rating pending',
+      c.rating ? `${CAPABILITY_RATING_LABELS[c.rating]} (${c.rating})` : 'Rating pending',
     ])
   })
   lines.push(
@@ -256,12 +263,7 @@ function capabilityBlock(c: CapabilityAnalysis, s: Scenario): string[] {
   const lines = [`### ${capabilityName(c.capability)}`, '']
   const objectives = capabilityObjectives(s, c).map((id) => objectiveLabel(s, id))
   if (objectives.length) lines.push(`Objectives: ${objectives.join('; ')}`, '')
-  lines.push(
-    c.rating
-      ? `Rating: **${CAPABILITY_RATING_LABELS[c.rating]} (${c.rating})**`
-      : 'Rating: _Rating pending_',
-    '',
-  )
+  lines.push(ratingLine(c), '')
   if (c.ratingRationale.trim()) lines.push(c.ratingRationale.trim(), '')
   lines.push('**Strengths**', '')
   if (!c.strengths.length) lines.push('_No strengths recorded for this capability._', '')
@@ -349,13 +351,18 @@ export function acronymsSection(aar: Aar): string {
   ].join('\n')
 }
 
-function header(aar: Aar, s: Scenario, orgName: string): string {
+/** The "Exercise date · organization · Status" line under the title. */
+function statusLine(aar: Aar, orgName: string): string {
   const status = aarStatus(aar) === 'draft' ? 'Draft (ratings pending)' : 'Reviewed'
+  return `Exercise date: ${aar.exerciseDate ?? '[Date]'} · ${orgName || '[Organization]'} · Status: ${status}`
+}
+
+function header(aar: Aar, s: Scenario, orgName: string): string {
   return [
     '# After-Action Report / Improvement Plan',
     `## ${s.title}${s.subtitle ? ` — ${s.subtitle}` : ''}`,
     '',
-    `Exercise date: ${aar.exerciseDate ?? '[Date]'} · ${orgName || '[Organization]'} · Status: ${status}`,
+    statusLine(aar, orgName),
     '',
     'This exercise is non-attributional: the report describes how plans and procedures worked, never how a person performed.',
   ].join('\n')
@@ -389,6 +396,27 @@ export function renderAarMarkdown(
   return parts.join('\n\n')
 }
 
+/** The "Rating:" line of a capability heading in the findings, which stay a person's prose. */
+function ratingLine(c: CapabilityAnalysis): string {
+  return c.rating
+    ? `Rating: **${CAPABILITY_RATING_LABELS[c.rating]} (${c.rating})**`
+    : 'Rating: _Rating pending_'
+}
+
+/** Keep each capability's rating line in the findings in step with aar.json; edits elsewhere stay. */
+export function refreshRatingLines(markdown: string, aar: Aar): string {
+  return aar.capabilities.reduce((md, c) => {
+    const heading = `### ${capabilityName(c.capability)}\n`
+    const at = md.indexOf(heading)
+    if (at < 0) return md
+    const from = at + heading.length
+    const end = md.indexOf('\n### ', from)
+    const block = md.slice(from, end < 0 ? undefined : end)
+    const next = block.replace(/^Rating: .*$/m, () => ratingLine(c))
+    return md.slice(0, from) + next + (end < 0 ? '' : md.slice(end))
+  }, markdown)
+}
+
 /**
  * Re-render the table sections of an existing document from aar.json and keep the prose a
  * person edited (summary, findings, feedback). A document without markers is rebuilt.
@@ -407,7 +435,9 @@ export function refreshAarMarkdown(
     }
     return renderAarMarkdown(aar, s, orgName, prose)
   }
-  let out = markdown
+  let out = refreshRatingLines(markdown, aar).replace(/^Exercise date: .* · Status: .*$/m, () =>
+    statusLine(aar, orgName),
+  )
   out = upsertSection(out, 'overview', exerciseOverviewSection(aar, s, orgName))
   out = upsertSection(out, 'ratings', ratingsSection(aar, s))
   out = upsertSection(out, 'ip', improvementPlanSection(aar, s))

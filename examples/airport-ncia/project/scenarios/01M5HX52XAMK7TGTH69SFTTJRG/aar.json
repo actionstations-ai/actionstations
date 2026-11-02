@@ -1,0 +1,1020 @@
+{
+  "formatVersion": 1,
+  "createdAt": "2026-11-02T20:06:28.223Z",
+  "updatedAt": "2026-11-02T20:23:01.970Z",
+  "exerciseDate": "2026-03-12",
+  "executiveSummaryMd": "The exercise tested the airport's response to a cyber incident that compromised the Flight Information Display System (FIDS), Baggage Handling System (BHS), and Public Address (PA) system, leading to misinformation, passenger confusion, and safety risks. The plans demonstrated strengths in technical root cause identification, the use of a single-screen test before full system restoration, and a factual holding statement to media. However, the response was delayed in key areas: Unified Command was not activated until under pressure from airlines, the PA was not silenced promptly, and the Incident Action Log was not maintained in real time. The failure to verify gate data against the official list led to a wasted police deployment to a non-existent gate. These issues point to systemic gaps in command structure, communication protocols, and backup system awareness. The most critical changes involve establishing command early, enforcing real-time documentation, and validating all data inputs against official sources.",
+  "sourcesUsed": [
+    "facilitator",
+    "evaluation"
+  ],
+  "capabilities": [
+    {
+      "capability": "public_information_and_warning",
+      "rating": "M",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. The PIO issued a holding statement within 10 minutes of the media call, which was timely and factual, but failed to issue a correction within 15 minutes of the PA announcement about Flight 666 to Purgatory. The first social media post on the cyberattack rumor was delayed by 30 minutes and did not address the misinformation. Coordination with IT was not established before the first post, and the PIO waited for IT to initiate contact.",
+      "observationCounts": {
+        "met": 0,
+        "partial": 1,
+        "not_met": 2,
+        "not_observed": 0
+      },
+      "objectiveRefs": [
+        "obj-communication"
+      ],
+      "strengths": [
+        {
+          "id": "01M6EYSX6HTDBEZ4A0QJTV8F6T",
+          "title": "Media Holding Statement",
+          "analysisMd": "The PIO issued a holding statement to Channel 5 News within 10 minutes of the call, confirming a disruption and an ongoing investigation without speculating on the cause. The statement was reviewed by the Ops Director and IT Director, ensuring factual accuracy and consistency with the airport's public messaging policy. This prevented premature speculation and maintained credibility.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob20"
+          ],
+          "objectiveRefs": [
+            "obj-communication"
+          ],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6J1TQSRKXB7NYNK1CS",
+          "title": "Delayed Public Correction After PA Announcement",
+          "analysisMd": "The PA announcement of Flight 666 to Purgatory created a false sense of threat. No public statement was issued within 15 minutes of the announcement to clarify that the flight was not real and that there was no physical threat. The first public post was issued at 1:50, 35 minutes after the announcement, and only acknowledged display problems without addressing the false flight. This delay allowed misinformation to spread and undermined public trust.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob03",
+            "obs:ob02",
+            "trk:U-I-06b"
+          ],
+          "objectiveRefs": [
+            "obj-communication"
+          ],
+          "recommendation": "The PIO must issue a public statement within 15 minutes of any PA or FIDS announcement that contains potentially misleading or false information, regardless of IT confirmation.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JZHFQN2Z2E2NEGESG",
+              "action": "Add a mandatory 15-minute public statement trigger to the TIRP 13.7 Checklist for any PA or FIDS announcement involving passenger movement or flight status.",
+              "element": "planning",
+              "ownerRole": "pio",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6JB91Z03H3ZKDAKFGG",
+              "action": "Train the PIO and IT Director on joint decision-making for public statements during cyber incidents, using a pre-approved script framework for false announcement scenarios.",
+              "element": "training",
+              "ownerRole": "pio",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        },
+        {
+          "id": "01M6EYSX6JAW3K22WZ4QCZH0DJ",
+          "title": "Uncoordinated Public Messaging with IT",
+          "analysisMd": "The PIO did not coordinate with the IT Director before issuing the first social media post. The PIO assumed IT would notify them, but IT did not initiate contact. This gap in communication led to a delayed and incomplete public statement. The PIO should not wait for IT to confirm the nature of the failure before issuing a public statement, especially when misinformation is spreading.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob02",
+            "trk:U-I-06b"
+          ],
+          "objectiveRefs": [
+            "obj-communication"
+          ],
+          "recommendation": "The PIO must initiate public messaging within 10 minutes of any public misinformation event, even if IT has not confirmed the cause.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6J853R9SKMBTR4J0QZ",
+              "action": "Include a 'Public Statement Initiation' step in the TIRP 13.7 Checklist that triggers the PIO to draft and release a holding statement within 10 minutes of a false announcement.",
+              "element": "planning",
+              "ownerRole": "pio",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6J9VBE8GC4TAZAAFV5",
+              "action": "Conduct a biannual tabletop exercise focused on public messaging during cyber incidents, with the PIO and IT Director as co-owners of the communication process.",
+              "element": "exercises",
+              "ownerRole": "pio",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    },
+    {
+      "capability": "operational_coordination",
+      "rating": "M",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. Unified Command was not activated until 1:45, 45 minutes after the first FIDS report, and only after airline pressure. The Incident Action Log was not opened until 2:00, and decisions made before that were recorded from memory. A daily coordination briefing was not established until 2:20, and the ASC was not invited to the first meeting.",
+      "observationCounts": {
+        "met": 0,
+        "partial": 2,
+        "not_met": 1,
+        "not_observed": 0
+      },
+      "objectiveRefs": [
+        "obj-communication",
+        "obj-decision"
+      ],
+      "strengths": [
+        {
+          "id": "01M6EYSX6J1WGVV7CQ41DCPVK0",
+          "title": "Flights verified by hand before the restart",
+          "analysisMd": "Ops and the Airline Liaison split the flights by airline and verified each one by hand before it was published again. The list was kept on a whiteboard rather than in the Incident Action Log, but the split kept the restart from putting bad data back on the screens.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+              "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+              "chunkId": 122
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "note:I-15",
+            "obs:ob19"
+          ],
+          "objectiveRefs": [
+            "obj-communication",
+            "obj-decision"
+          ],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6JTJABX44Z7617PAM8",
+          "title": "Delayed Unified Command Activation",
+          "analysisMd": "The Unified Command was not activated until 1:45, 45 minutes after the first FIDS report, and only after the airline threatened to ground flights. The Ops Director did not declare an incident or name the IT Director as technical lead until under pressure. This delay prevented a unified response and allowed confusion to spread.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+              "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+              "chunkId": 122
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob04",
+            "trk:U-I-08"
+          ],
+          "objectiveRefs": [
+            "obj-communication",
+            "obj-decision"
+          ],
+          "recommendation": "The Ops Director must activate Unified Command within 15 minutes of the first report of a system-wide failure, even if the cause is not confirmed.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6J3CS6SGKFZHWZWZZF",
+              "action": "Amend the TIRP 13.2 Command Structure to include a mandatory 15-minute activation window for Unified Command after the first report of a system-wide failure.",
+              "element": "planning",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6JVTAKXC79T5VYJ8R7",
+              "action": "Train the Ops Director on early command activation using a decision tree that triggers Unified Command at the first sign of a cascading failure.",
+              "element": "training",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        },
+        {
+          "id": "01M6EYSX6JNBKCGEHZS53JM4KQ",
+          "title": "Failure to Maintain Incident Action Log in Real Time",
+          "analysisMd": "The Incident Action Log was not opened until 2:00, and decisions made before that were recorded from memory. The flight verification list was kept on a whiteboard, not in the log. This violated the TIRP 13.7 Checklist requirement to log all decisions in real time. The lack of a real-time log made it difficult to track accountability and decision rationale.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XSZNPCJ0108KDRKJMT",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Terminal Incident Response Plan (TIRP)",
+              "headingPath": "TIRP › Section 13 › 13.2 Command Structure",
+              "quote": "A technical incident creates two parallel command structures that must be in constant communication: - **Technical Incident Command:** led by the IT Director or designee — identification, containment,",
+              "chunkId": 122
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob06"
+          ],
+          "objectiveRefs": [
+            "obj-communication",
+            "obj-decision"
+          ],
+          "recommendation": "All decisions must be logged in the Incident Action Log as they are made, not after the fact.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JZS6HQZYDW34204NA",
+              "action": "Add a real-time log entry requirement to the TIRP 13.7 Checklist, with a mandatory 5-minute window for log entry after any decision.",
+              "element": "planning",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6JEZVD7HY45F2NGE12",
+              "action": "Assign a dedicated logkeeper role during incidents, with training on the TIRP 13.7 Checklist and log maintenance.",
+              "element": "organization",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    },
+    {
+      "capability": "situational_assessment",
+      "rating": "S",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. The Go Dark decision was made at 2:05, 50 minutes after the first conflicting reports, and the PA was silenced only after 15 minutes of debate. The gate C4 report was not verified against the official gate list, leading to a wasted police deployment. The impact assessment was delayed and incomplete.",
+      "observationCounts": {
+        "met": 1,
+        "partial": 2,
+        "not_met": 0,
+        "not_observed": 0
+      },
+      "objectiveRefs": [
+        "obj-decision"
+      ],
+      "strengths": [
+        {
+          "id": "01M6EYSX6J3KP5RSXT2TSQGH3P",
+          "title": "Life Safety Prioritization",
+          "analysisMd": "The Ops Director explicitly stated that passenger safety outranked flight schedules when ordering the FIDS and PA shutdown. This confirmed that the decision to 'Go Dark' was based on a risk assessment that prioritized life safety over operational continuity, as required by AEP 4.1.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob15"
+          ],
+          "objectiveRefs": [
+            "obj-decision"
+          ],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6J60GRHVJGBMGXSFZY",
+          "title": "Delayed 'Go Dark' Decision",
+          "analysisMd": "The decision to shut down FIDS and PA systems was made at 2:05, 50 minutes after the first conflicting data from TSA and the airline. The PA was not silenced until 1:30, after 15 minutes of debate, and no one owned the decision. This delay allowed misinformation to spread and increased the risk of crowd incidents.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob13",
+            "trk:U-I-06"
+          ],
+          "objectiveRefs": [
+            "obj-decision"
+          ],
+          "recommendation": "The Ops Director must make the 'Go Dark' decision within 20 minutes of the first conflicting report, with no debate allowed.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JYQYXX18XVSFTNNH4",
+              "action": "Establish a 20-minute decision window for 'Go Dark' in the TIRP 13.6 Scenario C: FIDS / BHS System Failure.",
+              "element": "planning",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6J4WJY2FCE1JCF6TZ0",
+              "action": "Train the Ops Director on rapid decision-making under uncertainty using a pre-defined decision matrix for system failures.",
+              "element": "training",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        },
+        {
+          "id": "01M6EYSX6JHZ77SJQQFJY926F7",
+          "title": "Failure to Verify Gate Data",
+          "analysisMd": "The ASC reported a crowd at Gate C4, but no one checked whether C4 existed. The gate was not on the official list, and the report was not verified before police were dispatched. This resulted in a wasted deployment and 8 minutes of lost time. The impact assessment was incomplete because the false gate was not caught.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob14",
+            "hw:hw8"
+          ],
+          "objectiveRefs": [
+            "obj-decision"
+          ],
+          "recommendation": "All reports involving physical locations must be cross-checked against the official gate list before action is taken.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JRHS7F2WV6V13H89F",
+              "action": "Add a gate verification step to the TIRP 13.7 Checklist: 'Before any action, verify the location against the official gate list.'",
+              "element": "planning",
+              "ownerRole": "asc",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6JTN2Y7ME0T2HBTNMZ",
+              "action": "Train the ASC and LEO on using the official gate list during incidents, with a daily practice drill.",
+              "element": "training",
+              "ownerRole": "asc",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    },
+    {
+      "capability": "cybersecurity",
+      "rating": "S",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. The IT Director identified the unauthorized admin access and the script in the AODB logs within minutes, but the server isolation was delayed by 10 minutes due to a change approval debate. The backup tape library was not known to be unmounted, and a second copy was found only after 10 minutes of searching.",
+      "observationCounts": {
+        "met": 1,
+        "partial": 2,
+        "not_met": 0,
+        "not_observed": 0
+      },
+      "objectiveRefs": [
+        "obj-technical"
+      ],
+      "strengths": [
+        {
+          "id": "01M6EYSX6JVZDRGF9ZPD7H9GWK",
+          "title": "Rapid Root Cause Identification",
+          "analysisMd": "The IT Director identified the unauthorized admin access and the random_gate_generator.ps1 script in the AODB SQL logs within three minutes of the first technical report. This demonstrated strong technical analysis and adherence to the TIRP 13.7 Checklist.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob07"
+          ],
+          "objectiveRefs": [
+            "obj-technical"
+          ],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6JFDDX67YZXPDP8XS5",
+          "title": "Delayed Server Isolation",
+          "analysisMd": "The compromised server (NCIA-SEC-DB01) was identified at 2:00 but not isolated until 2:10, due to a debate on change approval. This delay allowed the attack to continue for 10 minutes and increased the risk of further compromise.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob08",
+            "trk:U-I-09"
+          ],
+          "objectiveRefs": [
+            "obj-technical"
+          ],
+          "recommendation": "The IT Director must have the authority to isolate a compromised server immediately, without waiting for change approval.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JBD1YXZV59HBGGNBA",
+              "action": "Amend the ASP Section 3.2 System Architecture to grant the IT Director emergency authority to isolate any server without change approval.",
+              "element": "planning",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6J9KZ7N48P4H77FMPS",
+              "action": "Train the IT Director on emergency isolation procedures and the legal authority under 49 CFR Part 1542.",
+              "element": "training",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        },
+        {
+          "id": "01M6EYSX6JCQ4AY4DKR6MMTXKJ",
+          "title": "Unreliable Backup Source Awareness",
+          "analysisMd": "The backup tape library was not mounted, and no one knew there was a second copy on disk. The IT team spent 10 minutes searching for a source that was not in the primary location. This delayed the AODB restoration and violated the TIRP 13.7 Checklist requirement to use an alternate source.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob09",
+            "hw:hw7",
+            "trk:U-I-14b"
+          ],
+          "objectiveRefs": [
+            "obj-technical"
+          ],
+          "recommendation": "All backup sources must be known and tested regularly to ensure they are accessible during an incident.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6JEY2XJQ5ECSQX66X2",
+              "action": "Create a backup source map and conduct a quarterly drill to verify all backup sources, including offsite and alternate media.",
+              "element": "exercises",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6JPJ2CRDSSQG5K98CR",
+              "action": "Add a backup source verification step to the TIRP 13.7 Checklist before any restoration attempt.",
+              "element": "planning",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    },
+    {
+      "capability": "access_control_and_identity_verification",
+      "rating": "S",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. The IT Director traced the initial access to a phishing link on workstation OPS_INTERN_03 and confirmed the credential was used to access the AODB. However, the database encryption and TLS protections were not verified, and the 5% badge loss threshold was not checked.",
+      "observationCounts": {
+        "met": 2,
+        "partial": 0,
+        "not_met": 0,
+        "not_observed": 1
+      },
+      "objectiveRefs": [
+        "obj-technical"
+      ],
+      "strengths": [
+        {
+          "id": "01M6EYSX6KM4R6N65K8G8BGT14",
+          "title": "Phishing Link Tracing",
+          "analysisMd": "The IT Director traced the initial access point to a phishing email on workstation OPS_INTERN_03 within minutes of the report. This confirmed the attack vector and supported the access control and identity verification process as required by ASP Section 3.2.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Section 3 › 3.2 System Architecture & Network Security (Critical for Cybersecurity Tabletop)",
+              "quote": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+              "chunkId": 54
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob10"
+          ],
+          "objectiveRefs": [
+            "obj-technical"
+          ],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6KFQ039D41NXEMYW79",
+          "title": "Unverified Encryption and TLS Protections",
+          "analysisMd": "The IT Director did not verify whether the database encryption (AES-256) or TLS 1.2 protections were bypassed during the attack. This is a critical part of the access control and identity verification process, as required by ASP D.3 Software Specifications. The lack of verification means the root cause was not fully confirmed.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "01M5HX50XPFR3MCGFKE06P14HM",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Security Program (ASP)",
+              "headingPath": "ASP › Appendix D › D.3 Software Specifications",
+              "quote": "PACS: Lenel OnGuard 7.5 (Update 2). Database: MS SQL Server 2017 Enterprise. Encryption: AES-256 at rest; TLS 1.2 for server-to-panel communications.",
+              "chunkId": 75
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob12",
+            "trk:U-I-13"
+          ],
+          "objectiveRefs": [
+            "obj-technical"
+          ],
+          "recommendation": "The IT Director must verify that encryption and TLS protections were not bypassed during a cyber incident.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6KMHBJNYKD9EX87E7N",
+              "action": "Add a verification step to the TIRP 13.7 Checklist: 'Confirm that AES-256 and TLS 1.2 protections were not bypassed during the attack.'",
+              "element": "planning",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6KQ5N16K7RXNV0JSEH",
+              "action": "Train the IT Director on digital forensics to identify signs of encryption bypass, using the CSIRP as a reference.",
+              "element": "training",
+              "ownerRole": "it-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    },
+    {
+      "capability": "operational_communications",
+      "rating": "S",
+      "proposedRating": "S",
+      "ratingRationale": "The capability was performed with some challenges. The PA was silenced only after 15 minutes of debate, and the use of bullhorns and whiteboards was not coordinated. The Crash Phone and mass notification system were not used, and police and TSA used the right channel but did not verify gate data.",
+      "observationCounts": {
+        "met": 1,
+        "partial": 1,
+        "not_met": 1,
+        "not_observed": 0
+      },
+      "objectiveRefs": [],
+      "strengths": [
+        {
+          "id": "01M6EYSX6KBSVY7J6G82G878HE",
+          "title": "Manual Communication Deployment",
+          "analysisMd": "After the PA was silenced, gate agents and officers used bullhorns and signs to direct passengers. This demonstrated effective use of manual communications as a fallback, as required by the TIRP 13.7 Checklist.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob16"
+          ],
+          "objectiveRefs": [],
+          "recommendation": "",
+          "correctiveActions": [],
+          "locked": false
+        }
+      ],
+      "areasForImprovement": [
+        {
+          "id": "01M6EYSX6K8TDDMNQGJ6B8B7T3",
+          "title": "Delayed PA Silencing and Lack of Ownership",
+          "analysisMd": "The PA announcement of Flight 666 to Purgatory was not silenced until 1:30, 15 minutes after the announcement. No one owned the decision, and the debate lasted 15 minutes. This allowed misinformation to spread and increased the risk of panic.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob13",
+            "hw:hw4",
+            "trk:U-I-06"
+          ],
+          "objectiveRefs": [],
+          "recommendation": "The Ops Director must own the decision to silence the PA immediately upon receiving a false announcement.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6KZPS36G3H08MMGYMR",
+              "action": "Add a mandatory 5-minute window for PA silencing in the TIRP 13.7 Checklist, with a clear owner.",
+              "element": "planning",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6KMQ49992MF05GQ3FM",
+              "action": "Train the Ops Director on immediate PA silencing under false announcement scenarios.",
+              "element": "training",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        },
+        {
+          "id": "01M6EYSX6KMEGEDPGY88S4HFD1",
+          "title": "Failure to Use Emergency Communication Protocols",
+          "analysisMd": "The Crash Phone and mass notification system were not used during the incident. Reports came by personal phones and runners, which is not compliant with the AEP Section 4.1 emergency communication protocol. This created a risk of miscommunication and delayed information flow.",
+          "citations": [
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.2 National Incident Management System (NIMS)",
+              "quote": "NCIA utilizes NIMS for all emergency events. All responding agencies must utilize the Incident Command System (ICS). **Plain Language:** \"10-codes\" are prohibited during multi-agency response. **Span ",
+              "chunkId": 14
+            },
+            {
+              "documentId": "tirp",
+              "documentTitle": "Terminal Incident Response Plan",
+              "headingPath": "TIRP › Section 1 › 1.4 Guidance Applicable for All Incident Plans › 1.4.5 Use of Communication Systems",
+              "quote": "Communication Systems (Using alternative methods)."
+            },
+            {
+              "documentId": "01M5HX50XJJXARJ27YA87B5FD2",
+              "documentTitle": "North Coast International Airport (NCIA) — Airport Emergency Plan (AEP)",
+              "headingPath": "AEP › Part I › Section 4 › 4.1 General Response Strategy",
+              "quote": "- **Phase 1: Discovery and Notification.** Incident detected (ATC, 911, sensor alarm). The AOC initiates the \"Crash Phone\" or mass notification system. Initial responders (ARFF/Police) deploy. - **Pha",
+              "chunkId": 13
+            }
+          ],
+          "evidence": [
+            "obs:ob18",
+            "trk:U-I-08"
+          ],
+          "objectiveRefs": [],
+          "recommendation": "All response personnel must use the airport's emergency communication protocol (e.g., 'Crash Phone' or mass notification system) during incidents.",
+          "correctiveActions": [
+            {
+              "id": "01M6EYSX6KBMAR81CS6Y9ABKHD",
+              "action": "Add a mandatory use of the Crash Phone or mass notification system to the TIRP 13.7 Checklist.",
+              "element": "planning",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            },
+            {
+              "id": "01M6EYSX6KXCX1JPVGGKQJ84JT",
+              "action": "Conduct a biannual drill to test the Crash Phone and mass notification system, with a focus on rapid deployment.",
+              "element": "exercises",
+              "ownerRole": "ops-director",
+              "ownerOrganization": "",
+              "poc": "",
+              "status": "open",
+              "locked": false
+            }
+          ],
+          "locked": false
+        }
+      ]
+    }
+  ],
+  "participantFeedbackMd": "",
+  "participatingOrganizations": [
+    "North Coast Regional Airport Authority: Airport Operations",
+    "North Coast Regional Airport Authority: IT and Cybersecurity",
+    "North Coast Regional Airport Authority: Public Information",
+    "North Coast Regional Airport Authority: Public Safety (Airport Security Coordinator)",
+    "Airline tenants of North Coast International Airport (Airline Liaison)"
+  ],
+  "acronyms": [],
+  "provenance": [
+    {
+      "stage": "aar",
+      "startedAt": "2026-11-02T20:05:00.938Z",
+      "finishedAt": "2026-11-02T20:06:28.221Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "aar@default",
+      "promptHash": "b1500fffc12ff762741fc51f38251da295527fb6c52ff0f670cc20b102d8aa3e",
+      "inputTokens": 9678,
+      "outputTokens": 4699,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "aar",
+      "startedAt": "2026-11-02T20:07:06.491Z",
+      "finishedAt": "2026-11-02T20:08:03.688Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "aar@default",
+      "promptHash": "b1500fffc12ff762741fc51f38251da295527fb6c52ff0f670cc20b102d8aa3e",
+      "inputTokens": 9937,
+      "outputTokens": 3925,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    },
+    {
+      "stage": "aar",
+      "startedAt": "2026-11-02T20:20:50.943Z",
+      "finishedAt": "2026-11-02T20:21:54.513Z",
+      "model": "qwen/qwen3-30b-a3b-2507",
+      "promptRef": "aar@default",
+      "promptHash": "b1500fffc12ff762741fc51f38251da295527fb6c52ff0f670cc20b102d8aa3e",
+      "inputTokens": 10097,
+      "outputTokens": 5119,
+      "costUsd": 0,
+      "status": "ok",
+      "repairAttempts": 0
+    }
+  ]
+}

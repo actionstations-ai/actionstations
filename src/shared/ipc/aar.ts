@@ -30,7 +30,15 @@ export const aarChannels = {
     z.object({ jobId: SafeId }),
   ),
   /** Save a person's edits (ratings, plan rows, organizations); CONFLICT on a stale base. */
-  'aar:save': channel(S.extend({ aar: Aar, baseUpdatedAt: IsoDateTime.optional() }), Aar),
+  'aar:save': channel(
+    S.extend({
+      aar: Aar,
+      baseUpdatedAt: IsoDateTime.optional(),
+      /** Render the whole document again from aar.json, replacing prose edited in the document. */
+      rerender: z.boolean().optional(),
+    }),
+    Aar,
+  ),
   /** The exercise record, identities removed, for the editor's evidence drawer. */
   'aar:record': channel(S.extend({ sessionId: SafeId.optional() }), ExerciseRecord),
   /** Live sessions the record can be read from, most recent first. */

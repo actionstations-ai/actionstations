@@ -151,7 +151,9 @@ describe('aar handlers', () => {
     })
     expect(saved.capabilities[0]!.rating).toBe('S')
     const md = await readScenarioDoc(projectPath, scenarioId, 'aar')
-    expect(md).toContain('| Decision Making | Operational Coordination |  | X |  |  |  |')
+    expect(md).toContain(
+      '| Decision Making | Operational Coordination |  | X |  |  | Performed with Some Challenges (S) |',
+    )
     const stale = await dispatch(handlers, 'aar:save', {
       projectPath,
       scenarioId,
