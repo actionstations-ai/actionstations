@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // Records repository stats for the README (#378): installer downloads, stars and forks.
 // GitHub keeps only a running total per release asset, with no history, and that total is lost
-// when an asset is replaced. No scheduled job runs for this repository, so this script keeps the
-// history: each run adds today's snapshot to docs/stats/history.json (a second run on the same
-// date replaces it) and redraws the chart and the downloads badge in docs/stats/. It reads the
-// repository with `gh api`, so the GitHub CLI must be signed in. scripts/release.sh runs it.
+// when an asset is replaced. This script keeps the history: each run adds today's snapshot to
+// history.json (a second run on the same date replaces it) and redraws the chart and the
+// downloads badge. It reads the repository with `gh api` (GH_TOKEN works too). The scheduled
+// workflow .github/workflows/stats.yml runs it daily and commits the result to the `stats`
+// branch (ADR-0067); `pnpm stats` is for local use and writes docs/stats/.
 //
 //   node scripts/repo-stats.mjs [--date YYYY-MM-DD] [--offline] [--out DIR]   (pnpm stats)
 //

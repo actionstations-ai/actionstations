@@ -218,8 +218,9 @@ The release workflow runs `package:smoke` on each OS. For anything it does not c
 ### Replacing a published file
 
 `gh release upload --clobber` deletes the old asset, and GitHub's download count for it
-restarts at zero. `pnpm stats` keeps the earlier count (see CONTRIBUTING, Repository stats);
-run it before replacing a file.
+restarts at zero. The daily stats workflow keeps the earlier count (see CONTRIBUTING, Repository
+stats); run it from the Actions tab before replacing a file. Releases take no stats snapshot of
+their own.
 
 Intel macOS (x64) was cross-built this way on Apple silicon and passed the packaged smoke test
 under Rosetta (first start under Rosetta takes over 30 s). Caveat: onnxruntime-node ships no

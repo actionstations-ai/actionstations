@@ -95,3 +95,21 @@ describe('this repository', () => {
     for (const target of ['--mac', '--win', '--linux']) expect(text).toContain(`target: ${target}`)
   })
 })
+
+describe('stats workflow (ADR-0067)', () => {
+  const text = readFileSync('.github/workflows/stats.yml', 'utf8')
+
+  it('passes the free-Actions checks', () => {
+    expect(workflowProblems(text)).toEqual([])
+  })
+
+  it('pushes only to the stats branch, never to main', () => {
+    expect(text.match(/git push .*/g)).toEqual(['git push origin HEAD:refs/heads/stats'])
+  })
+
+  it('runs on a schedule and by hand, with write access only on the job', () => {
+    expect(text).toMatch(/schedule:/)
+    expect(text).toMatch(/workflow_dispatch:/)
+    expect(text.match(/contents: write/g)).toHaveLength(1)
+  })
+})
