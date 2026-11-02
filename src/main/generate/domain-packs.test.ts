@@ -161,6 +161,28 @@ describe('fact extraction per domain', () => {
       unknown('Relocate Vote Center 15 and seal Drop Box 7; recount Measure C', facts),
     ).toEqual(['vote center / polling place:15', 'ballot measure:C'])
   })
+
+  it('federal_continuity: essential functions, alternate and devolution sites, continuity teams', () => {
+    const facts = factsFor(
+      'federal_continuity',
+      `PMEF 2 and MEF 4 move to Alternate Site 1 under ERG-A. Devolution Site 2 stands by with DERG-B.
+       Notify the FEMA ONCP, the National Operations Center and the Federal Protective Service.`,
+    )
+    expect(factIds(facts, 'essential_functions')).toEqual(['MEF 4', 'PMEF 2'])
+    expect(factIds(facts, 'continuity_sites')).toEqual(['1', '2'])
+    expect(factIds(facts, 'continuity_teams')).toEqual(['DERG-B', 'ERG-A'])
+    expect(factEntries(facts, 'agencies')).toEqual(
+      expect.arrayContaining([
+        'FEMA ONCP',
+        'National Operations Center',
+        'Federal Protective Service',
+      ]),
+    )
+    expect(unknown('Activate PMEF 9 at Alternate Site 3', facts)).toEqual([
+      'essential function:PMEF 9',
+      'alternate and devolution site:3',
+    ])
+  })
 })
 
 // ---- roles and threat-family lint ---------------------------------------------------------
@@ -211,6 +233,10 @@ const DOMAINS: {
     roles: { technical: 'tech', security: 'le', operations: 'dir', public: 'pio' },
   },
   { id: 'elections', roles: { technical: 'it', security: 'sec', operations: 'eo', public: 'pio' } },
+  {
+    id: 'federal_continuity',
+    roles: { technical: 'ciso', security: 'ops', operations: 'cm', public: 'pao' },
+  },
 ]
 
 describe('roles and threat-family lint per domain', () => {
