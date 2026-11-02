@@ -1,17 +1,29 @@
-allowBuilds:
-  electron: true
-  better-sqlite3: true
-  esbuild: true
-  onnxruntime-node: true
-  sharp: true
-  protobufjs: true
-  electron-winstaller: false
-  tesseract.js: false
-
-overrides:
-  exceljs>uuid: ^11.1.1
-  readdir-glob@3>minimatch: ^11.0.1
-
 # Live play servers (specs 0408, 0409): the shared core and its adapters.
 packages:
   - relay/*
+allowBuilds:
+  better-sqlite3: true
+  electron: true
+  electron-winstaller: false
+  esbuild: true
+  onnxruntime-node: true
+  protobufjs: true
+  sharp: true
+  tesseract.js: false
+
+overrides:
+  '@electron/asar>minimatch': ^11.0.1
+  '@electron/universal>minimatch': ^11.0.1
+  '@eslint/config-array>minimatch': ^11.0.1
+  '@typescript-eslint/typescript-estree>minimatch': ^11.0.1
+  app-builder-lib>minimatch: ^11.0.1
+  dir-compare>minimatch: ^11.0.1
+  eslint>minimatch: ^11.0.1
+  exceljs>uuid: ^11.1.1
+  filelist>minimatch: ^11.0.1
+  glob@7>minimatch: ^11.0.1
+  readdir-glob@1>minimatch: ^11.0.1
+  readdir-glob@3>minimatch: ^11.0.1
+patchedDependencies:
+  '@electron/asar@3.4.1': patches/@electron__asar@3.4.1.patch
+  dir-compare@4.2.0: patches/dir-compare@4.2.0.patch

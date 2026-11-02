@@ -12,6 +12,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 - Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).
 
+### Security
+
+- Cleared the remaining copies of minimatch below 11.0.1 (GHSA-g3hv-75wg-m249, Dependabot alert 3, #569): pnpm overrides move each consumer in the electron-builder, eslint and exceljs trees to minimatch 11, and two small patches (`patches/`) switch `@electron/asar` and `dir-compare` from the old default import to the named `minimatch` export. Packaging, the packaged-app smoke test and the xlsx export and import tests pass.
+
 ## [0.6.2] - 2026-11-02
 
 ### Added
