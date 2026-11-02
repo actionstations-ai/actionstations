@@ -48,7 +48,7 @@ describe('recorded run of Flight to Nowhere', () => {
 })
 
 describe('reviewDraft', () => {
-  const finding = (title: string, evidence: string[]) => ({ title, evidence })
+  const finding = (title: string, evidence: string[]) => ({ title, evidence, citations: [] })
   const draft = {
     capabilities: [
       {
@@ -109,7 +109,7 @@ describe('shipped AAR/IP', () => {
     for (const c of aar.capabilities)
       for (const f of [...c.strengths, ...c.areasForImprovement]) {
         expect(f.evidence.length, f.title).toBeGreaterThan(0)
-        for (const e of f.evidence) expect(known.has(e) || e.startsWith('log:'), e).toBe(true)
+        for (const e of f.evidence) expect(known.has(e) || /^(log|trk):/.test(e), e).toBe(true)
       }
   })
 
@@ -129,5 +129,26 @@ describe('shipped AAR/IP', () => {
     expect(md).not.toContain('TIRP 3.5')
     expect(md).not.toContain('[Date]')
     expect(md).toContain('Appendix A: Improvement Plan')
+    expect(md).toContain('exercises@ncraa.example')
+  })
+
+  it('shows every confirmed rating in the document, never a pending one', () => {
+    const md = readFileSync(join(SCENARIO, 'documents/aar.md'), 'utf8')
+    expect(md).not.toContain('Rating pending')
+    expect(md.match(/^Rating: \*\*/gm)).toHaveLength(aar.capabilities.length)
+  })
+
+  it('lists the participating organizations, never people', () => {
+    expect(aar.participatingOrganizations).toHaveLength(5)
+    const md = readFileSync(join(SCENARIO, 'documents/aar.md'), 'utf8')
+    expect(md).toContain('Airline tenants of North Coast International Airport')
+  })
+
+  it('lists no strength for a failure and no complete EEG task text is cut off', () => {
+    const scenario = Scenario.parse(readJson(join(SCENARIO, 'scenario.json')))
+    for (const e of scenario.evaluation!.eegs)
+      for (const t of e.criticalTasks) expect(t.task.split(' ').length, t.id).toBeGreaterThan(4)
+    const titles = aar.capabilities.flatMap((c) => c.strengths.map((f) => f.title))
+    expect(titles).not.toContain('Unified Command activated under pressure')
   })
 })

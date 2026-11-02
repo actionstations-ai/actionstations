@@ -26,6 +26,7 @@ import {
   evidenceSentence,
   hasFeedback,
   planSectionLabel,
+  pointOfContactText,
   sectionBody,
 } from '../aar/markdown'
 import { documentBodyHtml, markdownToHtml } from './escape'
@@ -84,7 +85,7 @@ function overviewRows(aar: Aar, model: ExportModel): { label: string; value: str
       value: model.conduct.sponsor || model.project.orgName || model.project.name,
     },
     { label: 'Participating Organizations', value: 'See Appendix B' },
-    { label: 'Point of Contact', value: '[Name, title, organization, phone, email]' },
+    { label: 'Point of Contact', value: pointOfContactText(model.conduct) },
   ]
 }
 

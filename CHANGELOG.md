@@ -21,6 +21,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 - The Room tab in a live session no longer draws its Seats and Released injects tables over each other at normal laptop window widths. The Room now lays itself out by its own width, stacks the tables in the narrow side panel, and lets a wide table scroll inside its own box instead of spilling out (#566).
 - The AAR/IP document kept "Draft (ratings pending)" and a missing exercise date in its header after the ratings were confirmed; the header line is now refreshed with the tables (#559).
+- The AAR/IP document kept "Rating pending" on every capability, a blank status column, "Draft (ratings pending)" and a missing exercise date after the ratings were confirmed, because the findings are kept as prose and were never refreshed. The rating lines, status column and header are now refreshed with the tables, and the Point of Contact row prints the exercise details instead of a placeholder (#559).
 
 - Generated injects showed today's date in dates, timestamps and datelines even when the scenario states its own date (a STARTEX card said "March 3, 2026" and later injects said "October 30"). The inject text stage now takes the date from the STARTEX row or the threat summary when it states one (#556).
 - The inject text prompt now also tells the model not to write street addresses for private property and to take outside internet addresses from the documentation ranges, with attackers not placed in a real country (#556).

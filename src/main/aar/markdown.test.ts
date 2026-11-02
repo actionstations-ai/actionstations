@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { Scenario, type Aar } from '@shared/schemas'
+import { ConductDetails } from '@shared/schemas/scenario'
 import {
   evidenceLabel,
   planSectionLabel,
@@ -127,7 +128,9 @@ describe('renderAarMarkdown', () => {
 
   it('prints only confirmed ratings and never the proposal', () => {
     const ratings = sectionBody(md, 'ratings')!
-    expect(ratings).toContain('| Decision Making | Operational Coordination |  | X |  |  |  |')
+    expect(ratings).toContain(
+      '| Decision Making | Operational Coordination |  | X |  |  | Performed with Some Challenges (S) |',
+    )
     expect(ratings).toContain('| Cybersecurity |  |  |  |  | Rating pending |')
     expect(ratings).toContain('Performed with Some Challenges (S):')
     const findings = sectionBody(md, 'findings')!
@@ -181,8 +184,39 @@ describe('refreshAarMarkdown', () => {
     const refreshed = refreshAarMarkdown(edited, confirmed, scenario, 'NCRAA')
     expect(sectionBody(refreshed, 'summary')).toBe('## Executive Summary\n\nMy own words.')
     expect(sectionBody(refreshed, 'findings')).toContain('Rewritten by the director.')
-    expect(sectionBody(refreshed, 'ratings')).toContain('| Cybersecurity |  |  | X |  |  |')
+    expect(sectionBody(refreshed, 'ratings')).toContain(
+      '| Cybersecurity |  |  | X |  | Performed with Major Challenges (M) |',
+    )
     expect(sectionBody(refreshed, 'ratings')).not.toContain('Rating pending')
+  })
+
+  it('refreshes each capability rating line and the table status in the findings prose', () => {
+    const pending: Aar = {
+      ...aar,
+      capabilities: aar.capabilities.map((c) => ({ ...c, rating: undefined })),
+    }
+    const md = renderAarMarkdown(pending, scenario, 'NCRAA')
+    expect(md).toContain('Rating: _Rating pending_')
+    const confirmed: Aar = {
+      ...aar,
+      capabilities: aar.capabilities.map((c) => ({ ...c, rating: 'M' })),
+    }
+    const refreshed = refreshAarMarkdown(md, confirmed, scenario, 'NCRAA')
+    expect(refreshed).not.toContain('Rating pending')
+    expect(refreshed).toContain('Rating: **Performed with Major Challenges (M)**')
+    expect(sectionBody(refreshed, 'ratings')).toContain('| Performed with Major Challenges (M) |')
+  })
+
+  it('prints the point of contact from the exercise details', () => {
+    const withContact = {
+      ...scenario,
+      conduct: ConductDetails.parse({
+        director: { name: 'Exercise Director', email: 'exercises@ncraa.example' },
+      }),
+    }
+    const md = renderAarMarkdown(aar, withContact, 'NCRAA')
+    expect(md).toContain('| **Point of Contact** | Exercise Director, exercises@ncraa.example |')
+    expect(renderAarMarkdown(aar, scenario, 'NCRAA')).toContain('[Name, title, organization')
   })
 
   it('updates the date and status line once the ratings are confirmed', () => {

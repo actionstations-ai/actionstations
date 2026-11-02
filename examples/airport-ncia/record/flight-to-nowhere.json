@@ -1,9 +1,9 @@
 {
-  "instructions": "Put each finding under the Core Capability whose critical tasks it concerns: public statements and PIO-IT coordination under Public Information and Warning; incident declaration, Unified Command, briefings and the Incident Action Log under Operational Coordination; the Go Dark decision and the Gate C4 report under Situational Assessment; server, logs and backup restore under Cybersecurity; phishing and credential tracing under Access Control and Identity Verification; PA, bullhorns, radio channels and the Crash Phone under Operational Communications. A strength must describe something that went well; never list a failure or a gap as a strength, and omit a strength when the record has none. Do not repeat a finding under a second capability. Ratings must follow the observation counts: any not_met observation or several partial ones means Some Challenges at best. Cite only plan sections that apply (for example TIRP 13.2 Command Structure, TIRP 13.6 Scenario C: FIDS / BHS System Failure, TIRP 13.7 Checklist: Cybersecurity Incident, ASP 3.2); do not cite TIRP 3.5, which is the evacuation checklist. Give one or two corrective actions per area for improvement, each different.",
+  "instructions": "Put each finding under the Core Capability whose critical tasks it concerns: public statements and PIO-IT coordination under Public Information and Warning; incident declaration, Unified Command, briefings and the Incident Action Log under Operational Coordination; the Go Dark decision and the Gate C4 report under Situational Assessment; server, logs and backup restore under Cybersecurity; phishing and credential tracing under Access Control and Identity Verification; PA, bullhorns, radio channels and the Crash Phone under Operational Communications. A strength must describe something that went well; never list a failure or a gap as a strength, and omit a strength when the record has none. Declaring an incident or naming Unified Command late is a gap, not a strength; if a capability has no real strength in the record, give it none. Do not repeat a finding under a second capability. Ratings must follow the observation counts: any not_met observation or several partial ones means Some Challenges at best. Cite only plan sections that apply (for example TIRP 13.2 Command Structure, TIRP 13.6 Scenario C: FIDS / BHS System Failure, TIRP 13.7 Checklist: Cybersecurity Incident, ASP 3.2); do not cite TIRP 3.5, which is the evacuation checklist. Give one or two corrective actions per area for improvement, each different.",
   "note": "Recorded run of Flight to Nowhere for the AAR/IP draft (#559): what the facilitator and three evaluators captured in the room. Simulated for the example; no real people.",
   "date": "2026-03-12",
   "ratings": {
-    "public_information_and_warning": "S",
+    "public_information_and_warning": "M",
     "operational_coordination": "M",
     "situational_assessment": "S",
     "cybersecurity": "S",
@@ -12,14 +12,24 @@
   },
   "dropEvidence": [
     {
-      "capability": "operational_coordination",
-      "title": "Unified Command activated under pressure",
-      "ref": "hw:hw1"
+      "capability": "situational_assessment",
+      "title": "Failure to Verify Gate Data",
+      "ref": "obs:ob08"
     },
     {
-      "capability": "operational_communications",
-      "title": "No use of emergency communication protocols",
-      "ref": "hw:hw9"
+      "capability": "situational_assessment",
+      "title": "Delayed 'Go Dark' Decision",
+      "ref": "obs:ob06"
+    },
+    {
+      "capability": "operational_coordination",
+      "title": "Delayed Unified Command Activation",
+      "ref": "obs:ob08"
+    },
+    {
+      "capability": "operational_coordination",
+      "title": "Failure to Maintain Incident Action Log in Real Time",
+      "ref": "obs:ob19"
     }
   ],
   "delivered": {
@@ -190,10 +200,10 @@
       "id": "ob03",
       "taskId": "T-03",
       "rowId": "I-06",
-      "exerciseTime": "2:55",
-      "rating": "met",
+      "exerciseTime": "2:05",
+      "rating": "not_met",
       "evaluator": "Evaluator 2",
-      "note": "Holding statement for Channel 5 issued within 10 minutes, reviewed by Ops and IT, no cause given."
+      "note": "No statement telling the public the Flight 666 announcement was false went out within 15 minutes of the PA announcement at 1:15; the first post came at 1:50 and did not mention it."
     },
     {
       "id": "ob04",
@@ -338,6 +348,48 @@
       "rating": "met",
       "evaluator": "Evaluator 1",
       "note": "Strength: Ops and the Airline Liaison split flights by airline for manual verification, which kept the restart safe."
+    },
+    {
+      "id": "ob20",
+      "kind": "note",
+      "capability": "public_information_and_warning",
+      "exerciseTime": "2:55",
+      "rating": "met",
+      "evaluator": "Evaluator 2",
+      "note": "Strength: the Channel 5 holding statement was issued within 10 minutes, reviewed by Ops and IT, and gave no cause."
     }
-  ]
+  ],
+  "conduct": {
+    "sponsor": "North Coast Regional Airport Authority",
+    "participatingOrganizations": [
+      "North Coast Regional Airport Authority: Airport Operations",
+      "North Coast Regional Airport Authority: IT and Cybersecurity",
+      "North Coast Regional Airport Authority: Public Information",
+      "North Coast Regional Airport Authority: Public Safety (Airport Security Coordinator)",
+      "Airline tenants of North Coast International Airport (Airline Liaison)"
+    ],
+    "director": {
+      "name": "Exercise Director, Office of Emergency Management",
+      "organization": "North Coast Regional Airport Authority",
+      "email": "exercises@ncraa.example"
+    }
+  },
+  "dropFindings": [
+    {
+      "capability": "access_control_and_identity_verification",
+      "title": "Unmonitored Badge Loss"
+    }
+  ],
+  "editFindings": [
+    {
+      "capability": "operational_coordination",
+      "title": "Post-Decision Coordination",
+      "set": {
+        "title": "Flights verified by hand before the restart",
+        "analysisMd": "Ops and the Airline Liaison split the flights by airline and verified each one by hand before it was published again. The list was kept on a whiteboard rather than in the Incident Action Log, but the split kept the restart from putting bad data back on the screens.",
+        "evidence": ["note:I-15", "obs:ob19"]
+      }
+    }
+  ],
+  "dropCitations": ["3.5 Checklist: Evacuation"]
 }

@@ -932,20 +932,31 @@ export function recordedRun(record) {
 export function reviewDraft(aarDoc, record) {
   const ratings = record.ratings ?? {}
   const dropped = record.dropEvidence ?? []
+  const gone = record.dropFindings ?? []
+  const edits = record.editFindings ?? []
+  const badCitations = record.dropCitations ?? []
   const review = (c, f) => {
     const drop = dropped.filter((d) => d.capability === c.capability && d.title === f.title)
-    return drop.length
-      ? { ...f, evidence: f.evidence.filter((e) => !drop.some((d) => d.ref === e)) }
-      : f
+    const edit = edits.find((e) => e.capability === c.capability && e.title === f.title)
+    const out = { ...f, ...(edit?.set ?? {}) }
+    return {
+      ...out,
+      evidence: out.evidence.filter((e) => !drop.some((d) => d.ref === e)),
+      citations: out.citations.filter((x) => !badCitations.some((b) => x.headingPath.includes(b))),
+    }
   }
+  const keep = (c, f) => !gone.some((g) => g.capability === c.capability && g.title === f.title)
   return {
     ...aarDoc,
     ...(record.date ? { exerciseDate: record.date } : {}),
+    ...(record.conduct?.participatingOrganizations
+      ? { participatingOrganizations: record.conduct.participatingOrganizations }
+      : {}),
     capabilities: aarDoc.capabilities.map((c) => ({
       ...c,
       ...(ratings[c.capability] ? { rating: ratings[c.capability] } : {}),
-      strengths: c.strengths.map((f) => review(c, f)),
-      areasForImprovement: c.areasForImprovement.map((f) => review(c, f)),
+      strengths: c.strengths.filter((f) => keep(c, f)).map((f) => review(c, f)),
+      areasForImprovement: c.areasForImprovement.filter((f) => keep(c, f)).map((f) => review(c, f)),
     })),
   }
 }
@@ -954,6 +965,14 @@ async function aarOne({ invoke, out, projectPath, entry, state, confirmOnly }) {
   const { scenarioId } = state.scenarios[entry.key]
   const record = JSON.parse(readFileSync(resolve(ROOT, entry.record), 'utf8'))
   const base = { projectPath, scenarioId }
+  if (record.conduct) {
+    const scenario = await invoke('scenarios:get', base)
+    await invoke('scenarios:save', {
+      projectPath,
+      scenario: { ...scenario, conduct: { ...scenario.conduct, ...record.conduct } },
+      note: 'Exercise details from the recorded run',
+    })
+  }
   if (!confirmOnly) {
     const run = recordedRun(record)
     const current = await invoke('facilitator:state-get', base)
@@ -965,7 +984,11 @@ async function aarOne({ invoke, out, projectPath, entry, state, confirmOnly }) {
   }
   let drafted = await invoke('aar:get', base)
   if (!drafted) throw new Error(`${entry.key}: no aar.json to confirm`)
-  drafted = await invoke('aar:save', { ...base, aar: reviewDraft(drafted, record) })
+  drafted = await invoke('aar:save', {
+    ...base,
+    aar: reviewDraft(drafted, record),
+    rerender: true,
+  })
   const dir = join(out, 'review', entry.key)
   mkdirSync(dir, { recursive: true })
   writeJson(join(dir, 'aar.json'), drafted)
