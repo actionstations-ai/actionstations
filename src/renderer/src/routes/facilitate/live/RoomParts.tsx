@@ -2,6 +2,7 @@
 // has a caption and column headers, and nothing relies on colour alone.
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import './room-window.css'
+import './room-layout.css'
 import type { DashboardView, InjectRow } from '@shared/schemas/live'
 import { Badge, Button } from '../../../components/ui'
 import { ANSWER_LABEL, clock, minutes, targetLabel } from './room-format'
@@ -10,31 +11,33 @@ export type RoleName = (id: string) => string | undefined
 
 export function RosterSummary({ view }: { view: DashboardView }) {
   return (
-    <table className="table room-table">
-      <caption className="room-caption">Seats</caption>
-      <thead>
-        <tr>
-          <th scope="col">Seat</th>
-          <th scope="col">Connected</th>
-          <th scope="col">Away</th>
-          <th scope="col">Removed</th>
-        </tr>
-      </thead>
-      <tbody>
-        {view.roster.map((r) => (
-          <tr key={r.seat}>
-            <th scope="row">{r.label}</th>
-            <td>
-              {r.connected}
-              {r.names.length > 0 && <span className="muted"> ({r.names.join(', ')})</span>}
-              {r.empty && <Badge tone="warn">Empty</Badge>}
-            </td>
-            <td>{r.away}</td>
-            <td>{r.removed}</td>
+    <div className="room-scroll" role="region" aria-label="Seats table" tabIndex={0}>
+      <table className="table room-table">
+        <caption className="room-caption">Seats</caption>
+        <thead>
+          <tr>
+            <th scope="col">Seat</th>
+            <th scope="col">Connected</th>
+            <th scope="col">Away</th>
+            <th scope="col">Removed</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {view.roster.map((r) => (
+            <tr key={r.seat}>
+              <th scope="row">{r.label}</th>
+              <td>
+                {r.connected}
+                {r.names.length > 0 && <span className="muted"> ({r.names.join(', ')})</span>}
+                {r.empty && <Badge tone="warn">Empty</Badge>}
+              </td>
+              <td>{r.away}</td>
+              <td>{r.removed}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
@@ -48,38 +51,40 @@ export function InjectsTable(props: { view: DashboardView; roleName: RoleName })
   const { injects } = props.view
   if (!injects.length) return <p className="muted">No inject has been released yet.</p>
   return (
-    <table className="table room-table">
-      <caption className="room-caption">Released injects</caption>
-      <thead>
-        <tr>
-          <th scope="col">Row</th>
-          <th scope="col">To</th>
-          <th scope="col">Delivered</th>
-          <th scope="col">Read</th>
-          <th scope="col">Acted on</th>
-          <th scope="col">First read</th>
-          <th scope="col">Response</th>
-          <th scope="col">Age</th>
-        </tr>
-      </thead>
-      <tbody>
-        {injects.map((r) => (
-          <tr key={r.releaseId}>
-            <th scope="row">
-              {r.rowId}
-              {r.withdrawn && <span className="muted"> (withdrawn)</span>}
-            </th>
-            <td>{r.targets.map((t) => targetLabel(t, props.roleName)).join(', ')}</td>
-            <td>{`${r.delivered} of ${r.expected}`}</td>
-            <td>{`${r.read} of ${r.expected}`}</td>
-            <td>{`${r.actioned} of ${r.expected}`}</td>
-            <td>{r.firstReadSec !== undefined ? clock(r.firstReadSec) : 'None yet'}</td>
-            <td>{answerText(r)}</td>
-            <td>{minutes(r.ageMin)}</td>
+    <div className="room-scroll" role="region" aria-label="Released injects table" tabIndex={0}>
+      <table className="table room-table room-table--wide">
+        <caption className="room-caption">Released injects</caption>
+        <thead>
+          <tr>
+            <th scope="col">Row</th>
+            <th scope="col">To</th>
+            <th scope="col">Delivered</th>
+            <th scope="col">Read</th>
+            <th scope="col">Acted on</th>
+            <th scope="col">First read</th>
+            <th scope="col">Response</th>
+            <th scope="col">Age</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {injects.map((r) => (
+            <tr key={r.releaseId}>
+              <th scope="row">
+                {r.rowId}
+                {r.withdrawn && <span className="muted"> (withdrawn)</span>}
+              </th>
+              <td>{r.targets.map((t) => targetLabel(t, props.roleName)).join(', ')}</td>
+              <td>{`${r.delivered} of ${r.expected}`}</td>
+              <td>{`${r.read} of ${r.expected}`}</td>
+              <td>{`${r.actioned} of ${r.expected}`}</td>
+              <td>{r.firstReadSec !== undefined ? clock(r.firstReadSec) : 'None yet'}</td>
+              <td>{answerText(r)}</td>
+              <td>{minutes(r.ageMin)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

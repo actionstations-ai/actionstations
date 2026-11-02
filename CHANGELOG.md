@@ -17,6 +17,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- The Room tab in a live session no longer draws its Seats and Released injects tables over each other at normal laptop window widths. The Room now lays itself out by its own width, stacks the tables in the narrow side panel, and lets a wide table scroll inside its own box instead of spilling out (#566).
 - Generated injects showed today's date in dates, timestamps and datelines even when the scenario states its own date (a STARTEX card said "March 3, 2026" and later injects said "October 30"). The inject text stage now takes the date from the STARTEX row or the threat summary when it states one (#556).
 - The inject text prompt now also tells the model not to write street addresses for private property and to take outside internet addresses from the documentation ranges, with attackers not placed in a real country (#556).
 
