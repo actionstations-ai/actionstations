@@ -1,0 +1,23 @@
+/* The Room sits in the Facilitate side panel, which is narrow whatever the window width, so the
+   layout answers to the Room's own width (container query), not the viewport (#566). */
+.room {
+  container-type: inline-size;
+  min-width: 0;
+}
+.room .room-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+@container (min-width: 52rem) {
+  .room .room-grid {
+    grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr);
+  }
+}
+/* A table too wide for the panel scrolls inside its own box instead of spilling over its
+   neighbour. The box is focusable (see RoomParts) so keyboard users can scroll it. */
+.room-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.room-table--wide {
+  min-width: 36rem;
+}
