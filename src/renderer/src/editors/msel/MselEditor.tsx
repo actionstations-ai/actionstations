@@ -161,6 +161,7 @@ function useEditorModel(projectPath: string, scenario: Scenario, jump: RowJump |
     isPartnerRow(draft.rows.find((r) => r.key === key)?.row ?? {}, regional)
   const ops = useRowOps({
     isReadOnly: readOnly,
+    snap: snap[0],
     draft,
     edit: editor.edit,
     grid,

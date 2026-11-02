@@ -3,7 +3,7 @@
 // WebGL, so it works on any computer. Large plans are drawn from a tile pyramid
 // (PlaneImage); small ones are one image.
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
 import type { MapLayer } from '@shared/schemas'
 import { isPercentPosition, type PinStatus } from '@shared/maps/pins'
 import { Button } from '../ui'
@@ -19,6 +19,7 @@ interface View {
 }
 const MIN = 1
 const MAX = 8
+const PAN_STEP = 80
 const FIT: View = { x: 0, y: 0, scale: 1 }
 
 export interface MapEngineProps {
@@ -78,6 +79,9 @@ export function SitePlanView(props: MapEngineProps & { layer: Plan }) {
     const { w, h } = size()
     apply((v) => zoomAt(v, factor, w / 2, h / 2))
   }
+
+  // Single-pointer alternative to dragging the plan (WCAG 2.5.7): one step per click.
+  const pan = (dx: number, dy: number) => apply((v) => ({ ...v, x: v.x + dx, y: v.y + dy }))
 
   const onWheel = (e: React.WheelEvent) => {
     const r = frame.current?.getBoundingClientRect()
@@ -140,6 +144,18 @@ export function SitePlanView(props: MapEngineProps & { layer: Plan }) {
         </Button>
         <Button size="sm" onClick={() => setView(FIT)} aria-label="Fit the whole plan">
           <Maximize2 size={14} aria-hidden />
+        </Button>
+        <Button size="sm" onClick={() => pan(PAN_STEP, 0)} aria-label="Pan left">
+          <ArrowLeft size={14} aria-hidden />
+        </Button>
+        <Button size="sm" onClick={() => pan(-PAN_STEP, 0)} aria-label="Pan right">
+          <ArrowRight size={14} aria-hidden />
+        </Button>
+        <Button size="sm" onClick={() => pan(0, PAN_STEP)} aria-label="Pan up">
+          <ArrowUp size={14} aria-hidden />
+        </Button>
+        <Button size="sm" onClick={() => pan(0, -PAN_STEP)} aria-label="Pan down">
+          <ArrowDown size={14} aria-hidden />
         </Button>
       </div>
       <div

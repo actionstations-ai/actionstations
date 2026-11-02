@@ -65,6 +65,8 @@ export function RowMenu({ r, active }: { r: DraftRow; active: boolean }) {
         >
           {item('add-after', 'Add row after')}
           {!partner && item('duplicate', 'Duplicate row')}
+          {!partner && item('move-up', 'Move up')}
+          {!partner && item('move-down', 'Move down')}
           {!partner && <MoveToPhase r={r} />}
           {item('sources', 'Source check…')}
           {!partner && item('places', r.row.placeIds?.length ? 'Places (set)…' : 'Places…')}

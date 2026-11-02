@@ -38,6 +38,14 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
 }
+/* WCAG 2.5.8: the control itself is at least 24 by 24 px, not only its label. */
+.export-target input[type='checkbox'],
+.export-target input[type='radio'] {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+}
 .export-target:hover {
   background: var(--color-surface-sunken);
 }
