@@ -51,6 +51,21 @@ app bundle is 672 MB on disk, of which `app.asar` is 208 MB and `app.asar.unpack
 The largest single item is `onnxruntime-web` (121 MB inside `app.asar`), which
 `@huggingface/transformers` pulls in next to `onnxruntime-node`.
 
+## Software bills of materials (#551)
+
+Each release carries two CycloneDX 1.5 JSON SBOMs as release assets (not Actions artifacts):
+
+- `actionstations-<version>-sbom.cdx.json`: the desktop app's production dependencies.
+- `actionstations-relay-<version>-sbom.cdx.json`: the self-hosted server's (`relay/node`).
+
+The `sbom` job in `.github/workflows/release.yml` runs `node scripts/sbom.mjs` (`pnpm sbom`
+locally; output goes to the ignored `sbom-out/` folder) and uploads both files to the draft with
+the installers. The script reads `pnpm list --prod --depth Infinity` for the locked versions,
+so it needs no extra tool, no network and no paid service; each component has a package URL, its
+declared license and its place in the dependency graph. The file name carries the version, so
+link to a release tag:
+`https://github.com/actionstations-ai/actionstations/releases/download/v<version>/actionstations-<version>-sbom.cdx.json`.
+
 ## What goes into the package
 
 - `app.asar`: `out/` (the electron-vite build), `package.json` and production
