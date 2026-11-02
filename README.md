@@ -13,7 +13,7 @@
 [![platforms](docs/badges/platforms.svg)](#download-and-install)
 [![telemetry: none](docs/badges/telemetry.svg)](#privacy-and-local-first)
 [![local-first](docs/badges/local-first.svg)](#privacy-and-local-first)
-[![downloads](docs/stats/downloads-badge.svg)](#project-stats)
+[![downloads](https://raw.githubusercontent.com/actionstations-ai/actionstations/stats/docs/stats/downloads-badge.svg)](#project-stats)
 [![GitHub stars](https://img.shields.io/github/stars/actionstations-ai/actionstations?style=flat&label=stars)](https://github.com/actionstations-ai/actionstations/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/actionstations-ai/actionstations?style=flat&label=forks)](https://github.com/actionstations-ai/actionstations/forks)
 
@@ -176,11 +176,11 @@ Source-available under the [PolyForm Internal Use License 1.0.0](LICENSE.md): an
 
 ## Project stats
 
-Installer downloads across all releases, with stars and forks. GitHub keeps only a running total per release file, so `pnpm stats` (also run by each release) records a dated snapshot in [docs/stats/history.json](docs/stats/history.json) and redraws this chart.
+Installer downloads across all releases, with stars and forks. GitHub keeps only a running total per release file, so a daily workflow records a dated snapshot in [history.json](https://github.com/actionstations-ai/actionstations/blob/stats/docs/stats/history.json) on the `stats` branch and redraws this chart.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/stats/downloads-dark.svg">
-  <img alt="Line charts of installer downloads, stars and forks over time; the latest values are in docs/stats/history.json" src="docs/stats/downloads-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/actionstations-ai/actionstations/stats/docs/stats/downloads-dark.svg">
+  <img alt="Line charts of installer downloads, stars and forks over time; the latest values are in history.json on the stats branch" src="https://raw.githubusercontent.com/actionstations-ai/actionstations/stats/docs/stats/downloads-light.svg">
 </picture>
 
 Stars over time, from [star-history.com](https://star-history.com/#actionstations-ai/actionstations&Date):

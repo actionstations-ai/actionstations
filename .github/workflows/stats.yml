@@ -1,0 +1,65 @@
+# Repository stats (#574, ADR-0067): once a day, records installer downloads, stars and forks and
+# commits docs/stats/ to the `stats` branch, never to main. The README chart and badge load from
+# that branch. The branch is created on the first run (an orphan branch holding only docs/stats/,
+# seeded from docs/stats/history.json on main). Nothing is stored on GitHub besides that commit:
+# no artifacts, no caches (ADR-0023; scripts/check-workflows.mjs enforces it).
+name: Repository stats
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-stats
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO_URL: https://github.com/${{ github.repository }}.git
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Open the stats branch (create it from main's history if missing)
+        run: |
+          set -euo pipefail
+          AUTH="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$AUTH"
+          git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic $AUTH"
+          git init -q -b stats "$RUNNER_TEMP/stats"
+          cd "$RUNNER_TEMP/stats"
+          git remote add origin "$REPO_URL"
+          if git fetch -q --depth 1 origin stats; then
+            git reset -q --hard FETCH_HEAD
+          else
+            echo "stats branch not found: seeding from main"
+            mkdir -p docs/stats
+            cp "$GITHUB_WORKSPACE/docs/stats/history.json" docs/stats/history.json
+          fi
+
+      - name: Record today's snapshot
+        run: node scripts/repo-stats.mjs --out "$RUNNER_TEMP/stats/docs/stats"
+
+      - name: Commit and push to the stats branch
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/stats"
+          git add docs/stats
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "chore(stats): snapshot $(date -u +%F) (#574)"
+          git push origin HEAD:refs/heads/stats
