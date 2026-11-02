@@ -43,6 +43,7 @@ describe('built-in domain profiles', () => {
       'public_health',
       'emergency_communications',
       'elections',
+      'federal_continuity',
       'k12_schools',
       'commercial_facilities',
       'food_agriculture',

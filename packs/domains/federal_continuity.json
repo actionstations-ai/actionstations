@@ -1,0 +1,247 @@
+{
+  "id": "federal_continuity",
+  "label": "Federal continuity (COOP)",
+  "description": "A federal executive branch department, agency or component exercising its continuity plan under Federal Continuity Directive 1 and 2: activation, relocation to an alternate site, devolution of authority to another office, performance of mission and primary mission essential functions, orders of succession, delegations of authority, essential records, continuity communications and reconstitution. Scenarios use a fictional agency and fictional officials.",
+  "aliases": [
+    "continuity",
+    "coop",
+    "continuity_of_operations",
+    "continuity_of_government",
+    "cog",
+    "fcd",
+    "federal_agency",
+    "federal",
+    "federal_department",
+    "devolution",
+    "mission_essential_functions",
+    "pmef"
+  ],
+  "vocabulary": {
+    "facility": "the agency's headquarters, its alternate and devolution sites and its field offices",
+    "public": "the public, Congress, the media, regulated parties and partner agencies",
+    "frontline": "emergency relocation group members, devolution emergency response group members, mission owners' staff, telework staff",
+    "operationsCenter": "the agency operations center and the continuity operations center at the alternate site"
+  },
+  "factCategories": [
+    {
+      "id": "essential_functions",
+      "label": "Essential functions",
+      "pattern": "\\b((?:PMEF|MEF|NEF|ESF)[- ]?\\d{1,3}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "continuity_sites",
+      "label": "Alternate and devolution sites",
+      "noun": "Alternate (?:Operating )?Sites?|Alternate Facility|Alternate Facilities|Relocation Sites?|Devolution Sites?|Continuity Sites?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "continuity_teams",
+      "label": "Continuity teams",
+      "pattern": "\\b((?:ERG|DERG)[- ]?[A-Z0-9]{1,3})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "components",
+      "label": "Components and field offices",
+      "noun": "Regional Offices?|Field Offices?|Components?|Bureaus?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "circuits",
+      "label": "Circuits and systems",
+      "pattern": "\\b((?:VPN|CKT|Circuit|Tunnel)[- ]?\\d{1,5})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "agency network, identity provider, email and collaboration suite",
+      "virtual private network and virtual desktop service for telework",
+      "continuity site network, replicated file shares and data backups",
+      "emergency notification and accountability system",
+      "personnel recall roster and human resources system",
+      "financial management, payroll and acquisition systems",
+      "essential records repository and electronic records management system",
+      "mission applications of the primary mission essential functions",
+      "satellite phones, government emergency telecommunications service and priority-service accounts"
+    ],
+    "ot": [
+      "headquarters building management, power and HVAC controls",
+      "badge access control and physical security systems",
+      "generators, fuel supply and uninterruptible power at the alternate site",
+      "secure communications facility (SCIF) environmental and access systems",
+      "alternate-site network and telecommunications circuits",
+      "fire alarm, mass notification and building lockdown systems"
+    ]
+  },
+  "roles": [
+    {
+      "key": "cc",
+      "name": "Continuity Coordinator (Senior Accountable Official)",
+      "abbreviation": "CC",
+      "team": "Team A: Leadership",
+      "description": "The senior accountable official for the continuity program: recommends activation to the agency head, directs relocation or devolution, and validates the after-action report."
+    },
+    {
+      "key": "cm",
+      "name": "Continuity Manager (Continuity Operations Center Director)",
+      "abbreviation": "CM",
+      "team": "Team A: Leadership",
+      "description": "Runs the continuity operations center: activation checklists, emergency relocation group accountability, alternate-site readiness and status reports to FEMA."
+    },
+    {
+      "key": "mo",
+      "name": "Mission Owner (Primary Mission Essential Function)",
+      "abbreviation": "MO",
+      "team": "Team B: Mission",
+      "description": "Owns an essential function: decides which tasks must run, in what order, with which staff, and reports whether the function is performed."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Officer / CISO",
+      "abbreviation": "CIO",
+      "team": "Team C: IT and Communications",
+      "description": "Owns the continuity network, replicated data, remote access and communications; decides what to isolate, fail over or restore."
+    },
+    {
+      "key": "ops",
+      "name": "Facilities and Security Manager",
+      "abbreviation": "FSM",
+      "team": "Team D: Sites and Security",
+      "description": "Owns headquarters evacuation, alternate-site access, security, transportation, lodging and supplies for the relocated group."
+    },
+    {
+      "key": "dir",
+      "name": "Devolution Site Director",
+      "abbreviation": "DSD",
+      "team": "Team E: Devolution",
+      "description": "Leads the devolution emergency response group at the devolution site and takes command and control when the headquarters cannot perform its functions."
+    },
+    {
+      "key": "hr",
+      "name": "Human Capital Officer",
+      "abbreviation": "HCO",
+      "team": "Team F: People and Records",
+      "description": "Owns personnel accountability, the recall roster, emergency pay, family communication and the reconstitution of the workforce."
+    },
+    {
+      "key": "pao",
+      "name": "Public Affairs Director (PIO)",
+      "abbreviation": "PIO",
+      "team": "Team G: Communications",
+      "description": "Owns messages to employees, the public, Congress and the media about the agency's status and when services resume."
+    }
+  ],
+  "outsideParties": [
+    "FEMA Office of National Continuity Programs and the FEMA regional continuity manager",
+    "the agency head, deputy and senior leadership (the next in line under the order of succession)",
+    "the National Operations Center and the National Continuity Coordinator's staff",
+    "CISA (Cybersecurity Advisors and the Hunt and Incident Response team)",
+    "the agency's inspector general and general counsel",
+    "the Office of Management and Budget and the Office of Personnel Management",
+    "the General Services Administration (alternate-site leases, vehicles and fleet)",
+    "the Federal Protective Service and building security",
+    "interagency partners that depend on the agency's functions",
+    "regulated parties, grantees and contractors",
+    "congressional oversight and appropriations staff",
+    "the state and local emergency management agency where the alternate site sits",
+    "the commercial network, cloud and telecommunications carriers",
+    "employee unions and the employee assistance program"
+  ],
+  "mediaChannels": [
+    "a reporter asking whether the agency is still issuing payments",
+    "a social media post claiming the headquarters has been evacuated and the agency head is missing",
+    "local TV live shots outside the evacuated headquarters",
+    "a congressional staff email asking for status within the hour",
+    "an employee group chat spreading an unverified recall instruction",
+    "an agency website banner and a recorded information line"
+  ],
+  "sceneAnchors": {
+    "public": "employees standing on the sidewalk outside a federal office building after an evacuation, lanyards and badges visible, a security officer with a clipboard, a fire engine at the curb, daylight",
+    "control": "a continuity operations center at an alternate site: rows of laptops on folding tables, wall displays showing status of essential functions, binders labeled with orders of succession, staff in lanyards, fluorescent lighting",
+    "exterior": "a plain two-story office building at an alternate site behind a perimeter fence, a backup generator on a concrete pad, a government van in the lot, overcast sky"
+  },
+  "injectTypes": [
+    "email",
+    "email_forward",
+    "email_header_analysis",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "tweet",
+    "facebook_post",
+    "news_article",
+    "news_chyron_still",
+    "reporter_email",
+    "media_inquiry_phone_slip",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "siem_alert",
+    "ransom_note",
+    "cctv_still",
+    "scene_photo",
+    "signage_photo",
+    "status_board",
+    "sitrep",
+    "incident_alert_notification",
+    "security_advisory",
+    "ics_201_prefill",
+    "ics_213_general_message",
+    "downtime_notice"
+  ],
+  "threatFamilies": [
+    "cyber",
+    "infrastructure_failure",
+    "natural_hazard",
+    "physical_security",
+    "insider"
+  ],
+  "noiseExamples": [
+    "an employee asking whether a parking permit is valid at the alternate site",
+    "a printer at the continuity site that will not connect",
+    "a vendor invoice question during the activation",
+    "a request to reschedule a routine staff meeting",
+    "a telework employee whose home internet is slow"
+  ],
+  "pressureExamples": [
+    "a congressional staffer demanding to know why a payment run is late",
+    "a reporter asking who is in charge while the agency head is unreachable",
+    "an interagency partner asking whether the agency can still perform its function",
+    "an inspector general inquiry about whether the delegation of authority was used correctly",
+    "employees asking on a viral thread whether they must report to the alternate site"
+  ],
+  "rolePatterns": {
+    "technical": "chief information|CIO|CISO",
+    "security": "facilities and security|security manager",
+    "operations": "continuity manager|continuity operations",
+    "public": "public affairs|PIO"
+  },
+  "agencyPattern": "FEMA ONCP|Office of National Continuity Programs|National Continuity Coordinator|Federal Protective Service|FPS|GSA|General Services Administration|OPM|OMB|CISA|National Operations Center|NOC|inspector general",
+  "coreCapabilities": [
+    "planning",
+    "operational_coordination",
+    "operational_communications",
+    "public_information_and_warning",
+    "situational_assessment",
+    "infrastructure_systems",
+    "logistics_and_supply_chain_management",
+    "cybersecurity"
+  ],
+  "frameworks": ["nist_csf_2"]
+}
