@@ -1,0 +1,343 @@
+{
+  "instructions": "Put each finding under the Core Capability whose critical tasks it concerns: public statements and PIO-IT coordination under Public Information and Warning; incident declaration, Unified Command, briefings and the Incident Action Log under Operational Coordination; the Go Dark decision and the Gate C4 report under Situational Assessment; server, logs and backup restore under Cybersecurity; phishing and credential tracing under Access Control and Identity Verification; PA, bullhorns, radio channels and the Crash Phone under Operational Communications. A strength must describe something that went well; never list a failure or a gap as a strength, and omit a strength when the record has none. Do not repeat a finding under a second capability. Ratings must follow the observation counts: any not_met observation or several partial ones means Some Challenges at best. Cite only plan sections that apply (for example TIRP 13.2 Command Structure, TIRP 13.6 Scenario C: FIDS / BHS System Failure, TIRP 13.7 Checklist: Cybersecurity Incident, ASP 3.2); do not cite TIRP 3.5, which is the evacuation checklist. Give one or two corrective actions per area for improvement, each different.",
+  "note": "Recorded run of Flight to Nowhere for the AAR/IP draft (#559): what the facilitator and three evaluators captured in the room. Simulated for the example; no real people.",
+  "date": "2026-03-12",
+  "ratings": {
+    "public_information_and_warning": "S",
+    "operational_coordination": "M",
+    "situational_assessment": "S",
+    "cybersecurity": "S",
+    "access_control_and_identity_verification": "S",
+    "operational_communications": "S"
+  },
+  "dropEvidence": [
+    {
+      "capability": "operational_coordination",
+      "title": "Unified Command activated under pressure",
+      "ref": "hw:hw1"
+    },
+    {
+      "capability": "operational_communications",
+      "title": "No use of emergency communication protocols",
+      "ref": "hw:hw9"
+    }
+  ],
+  "delivered": {
+    "START": "0:00",
+    "I-01": "0:15",
+    "I-02a": "0:20",
+    "I-02": "0:30",
+    "I-03": "0:45",
+    "I-04": "0:55",
+    "I-05": "1:00",
+    "I-05b": "1:10",
+    "I-06": "1:15",
+    "I-06b": "1:20",
+    "I-07": "1:30",
+    "I-08b": "1:40",
+    "I-08": "1:45",
+    "I-09": "2:00",
+    "I-10": "2:15",
+    "I-10b": "2:20",
+    "I-11": "2:30",
+    "I-12": "2:45",
+    "I-13": "3:00",
+    "I-13b": "3:10",
+    "I-14": "3:15",
+    "I-14b": "3:20",
+    "I-15": "3:30",
+    "END": "3:45"
+  },
+  "notes": {
+    "I-01": "Ops Director took the gate B4 call and sent a runner to look at the screen. The first reaction was a one-off FIDS glitch; a ticket went to IT.",
+    "I-02": "IT Director reported the FIDS server was sending what the AODB held, so the fault was upstream. Ops did not yet link it to the earlier boarding pass reports.",
+    "I-06": "PA announcement of Flight 666 to Purgatory. The room argued for about 15 minutes whether to silence the PA or keep it on to correct passengers. Ops Director called it at 1:30 after the Airline Liaison reported a gate crowd forming. IT disconnected the PA server only after being asked twice.",
+    "I-06b": "The PIO drafted a social post at once, then waited for IT to confirm the cause. The post went out at 1:50, thirty minutes after the rumor, and said only that there were display problems. No correction of the terror claim until I-12.",
+    "I-08": "Airline Liaison pushed hard on the electronic flight bag data. The Ops Director declared an incident and named the IT Director as technical lead only after the airline threatened to ground flights. No written command log was opened until I-09.",
+    "I-09": "IT Director found the random_gate_generator.ps1 job in the AODB SQL logs within minutes and named the server. Isolation of NCIA-SEC-DB01 took until 2:10 because the change approval step was debated first. Ops authorized the FIDS shutdown at 2:05.",
+    "I-11": "The first radio call named Gate C4; nobody checked that C4 does not exist. The ASC sent police to C4 and found nothing, then the Airline Liaison placed the crowd at B10. About 8 minutes lost.",
+    "I-12": "PIO issued a holding statement within 10 minutes that neither confirmed nor denied a cyber attack, and offered a spokesperson after 4:00 PM. Ops Director and IT Director reviewed it first.",
+    "I-14": "IT Director proposed bringing one screen up at a remote gate before the whole terminal. Ops Director agreed and set a 20-minute watch.",
+    "I-14b": "Tape library not mounted. IT found an offsite 04:00 copy on disk after about 10 minutes. Nobody had practiced this fallback.",
+    "I-15": "Ops and the Airline Liaison split the flights by airline for manual verification. It worked but the list was kept on a whiteboard, not in the log."
+  },
+  "generalNotes": "The group had the right people but treated the first hour as a customer-service problem. What held: IT root cause work, the holding statement, the single-screen test. The weak points: the first hour of command, the PA decision, the phantom gate C4 and written logging.",
+  "hotwash": [
+    {
+      "id": "hw1",
+      "kind": "strength",
+      "text": "IT found the script and the server fast from the AODB logs, and the single-screen test before the full restart was the right call."
+    },
+    {
+      "id": "hw2",
+      "kind": "strength",
+      "text": "The PIO's holding statement for the TV station stayed factual and did not guess at the cause."
+    },
+    {
+      "id": "hw3",
+      "kind": "strength",
+      "text": "The Airline Liaison brought real hold room information that corrected the bad data at Gate C4."
+    },
+    {
+      "id": "hw4",
+      "kind": "improvement",
+      "objectiveRef": "obj-decision",
+      "rowId": "I-06",
+      "text": "Silencing the PA took too long. We debated it for 15 minutes with no one owning the decision."
+    },
+    {
+      "id": "hw5",
+      "kind": "improvement",
+      "objectiveRef": "obj-communication",
+      "rowId": "I-06b",
+      "text": "The first public post came 30 minutes after the rumor and did not address it. The PIO waited for IT and IT did not know it was being waited for."
+    },
+    {
+      "id": "hw6",
+      "kind": "improvement",
+      "rowId": "I-08",
+      "text": "Unified Command was named only after the airlines threatened to ground flights, and nobody kept the Incident Action Log until 2:00."
+    },
+    {
+      "id": "hw7",
+      "kind": "improvement",
+      "rowId": "I-14b",
+      "text": "No one knew the backup tape library was not mounted or that there was a second copy. We lost 10 minutes finding it."
+    },
+    {
+      "id": "hw8",
+      "kind": "improvement",
+      "rowId": "I-11",
+      "text": "We sent police to a gate that does not exist. Radio reports were not checked against the gate list."
+    },
+    {
+      "id": "hw9",
+      "kind": "other",
+      "text": "Controllers noted that the ASC was seldom asked for input until the crowd injects."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "d1",
+      "exerciseTime": "1:30",
+      "rowId": "I-06",
+      "byRole": "ops-director",
+      "text": "Silence the terminal PA and send airline staff and the ASC's officers to the gates."
+    },
+    {
+      "id": "d2",
+      "exerciseTime": "1:45",
+      "rowId": "I-08",
+      "byRole": "ops-director",
+      "text": "Declare an incident, take Incident Commander, and name the IT Director as technical lead."
+    },
+    {
+      "id": "d3",
+      "exerciseTime": "2:05",
+      "rowId": "I-09",
+      "byRole": "ops-director",
+      "text": "Shut down all FIDS screens terminal-wide and go to manual information at the gates."
+    },
+    {
+      "id": "d4",
+      "exerciseTime": "2:10",
+      "rowId": "I-09",
+      "byRole": "it-director",
+      "text": "Take NCIA-SEC-DB01 off the network."
+    },
+    {
+      "id": "d5",
+      "exerciseTime": "2:38",
+      "rowId": "I-11",
+      "byRole": "asc",
+      "text": "Redirect police from Gate C4 to the B10 hold room."
+    },
+    {
+      "id": "d6",
+      "exerciseTime": "2:55",
+      "rowId": "I-12",
+      "byRole": "pio",
+      "text": "Release a holding statement that confirms disruption and an investigation but not the cause."
+    },
+    {
+      "id": "d7",
+      "exerciseTime": "3:15",
+      "rowId": "I-14",
+      "byRole": "ops-director",
+      "text": "Bring back one FIDS screen at a remote gate and watch it for 20 minutes before a wider restart."
+    }
+  ],
+  "observations": [
+    {
+      "id": "ob01",
+      "taskId": "T-01",
+      "rowId": "I-06b",
+      "exerciseTime": "1:50",
+      "rating": "partial",
+      "evaluator": "Evaluator 2",
+      "note": "Post went out 30 minutes after the rumor and said only that there were display problems."
+    },
+    {
+      "id": "ob02",
+      "taskId": "T-02",
+      "rowId": "I-06b",
+      "exerciseTime": "1:45",
+      "rating": "not_met",
+      "evaluator": "Evaluator 2",
+      "note": "PIO and IT Director did not speak before the first post; the PIO assumed IT would call."
+    },
+    {
+      "id": "ob03",
+      "taskId": "T-03",
+      "rowId": "I-06",
+      "exerciseTime": "2:55",
+      "rating": "met",
+      "evaluator": "Evaluator 2",
+      "note": "Holding statement for Channel 5 issued within 10 minutes, reviewed by Ops and IT, no cause given."
+    },
+    {
+      "id": "ob04",
+      "taskId": "T-04",
+      "rowId": "I-08",
+      "exerciseTime": "1:45",
+      "rating": "partial",
+      "evaluator": "Evaluator 1",
+      "note": "Unified Command named at 1:45, 45 minutes after the first FIDS report, and only under pressure from the airline."
+    },
+    {
+      "id": "ob05",
+      "taskId": "T-05",
+      "rowId": "I-09",
+      "exerciseTime": "2:20",
+      "rating": "partial",
+      "evaluator": "Evaluator 1",
+      "note": "A briefing with IT, PIO and ASC was held at 2:20 but the ASC was not invited to the first one."
+    },
+    {
+      "id": "ob06",
+      "taskId": "T-06",
+      "rowId": "I-14",
+      "exerciseTime": "3:15",
+      "rating": "not_met",
+      "evaluator": "Evaluator 1",
+      "note": "Incident Action Log opened at 2:00 but decisions 1 to 3 were written up afterwards from memory; the flight verification list lived on a whiteboard."
+    },
+    {
+      "id": "ob07",
+      "taskId": "T-07",
+      "rowId": "I-09",
+      "exerciseTime": "2:03",
+      "rating": "met",
+      "evaluator": "Evaluator 3",
+      "note": "IT Director found random_gate_generator.ps1 and the unauthorized admin account in the SQL logs within three minutes."
+    },
+    {
+      "id": "ob08",
+      "taskId": "T-08",
+      "rowId": "I-09",
+      "exerciseTime": "2:10",
+      "rating": "partial",
+      "evaluator": "Evaluator 3",
+      "note": "Server isolated 10 minutes after it was named because of a debate on change approval."
+    },
+    {
+      "id": "ob09",
+      "taskId": "T-09",
+      "rowId": "I-14b",
+      "exerciseTime": "3:30",
+      "rating": "partial",
+      "evaluator": "Evaluator 3",
+      "note": "Restore from the 04:00 copy succeeded but the tape library fallback was unknown and cost about 10 minutes."
+    },
+    {
+      "id": "ob10",
+      "taskId": "T-10",
+      "rowId": "I-08",
+      "exerciseTime": "2:25",
+      "rating": "met",
+      "evaluator": "Evaluator 3",
+      "note": "IT linked the intern's phishing email (OPS_INTERN_03) to the account change."
+    },
+    {
+      "id": "ob11",
+      "taskId": "T-11",
+      "rowId": "I-09",
+      "exerciseTime": "2:20",
+      "rating": "met",
+      "evaluator": "Evaluator 3",
+      "note": "IT confirmed the compromised credential was the one used on the AODB database."
+    },
+    {
+      "id": "ob12",
+      "taskId": "T-12",
+      "rowId": "I-13",
+      "exerciseTime": "3:00",
+      "rating": "not_observed",
+      "evaluator": "Evaluator 3",
+      "note": "Nobody checked whether the AES-256 and TLS protections were bypassed."
+    },
+    {
+      "id": "ob13",
+      "taskId": "T-13",
+      "rowId": "I-06",
+      "exerciseTime": "2:05",
+      "rating": "partial",
+      "evaluator": "Evaluator 1",
+      "note": "FIDS shutdown decided at 2:05, 50 minutes after the first conflicting reports; PA silenced at 1:30 after 15 minutes of debate."
+    },
+    {
+      "id": "ob14",
+      "taskId": "T-14",
+      "rowId": "I-11",
+      "exerciseTime": "2:38",
+      "rating": "partial",
+      "evaluator": "Evaluator 1",
+      "note": "Impact assessed with airline and police input but the nonexistent gate C4 was not caught for 8 minutes."
+    },
+    {
+      "id": "ob15",
+      "taskId": "T-15",
+      "rowId": "I-06",
+      "exerciseTime": "2:05",
+      "rating": "met",
+      "evaluator": "Evaluator 1",
+      "note": "Ops Director said aloud that passenger safety outranked flight schedules when ordering the shutdown."
+    },
+    {
+      "id": "ob16",
+      "taskId": "T-16",
+      "rowId": "I-06",
+      "exerciseTime": "1:40",
+      "rating": "met",
+      "evaluator": "Evaluator 2",
+      "note": "Gate agents and officers used bullhorns and signs once the PA was off."
+    },
+    {
+      "id": "ob17",
+      "taskId": "T-17",
+      "rowId": "I-11",
+      "exerciseTime": "2:35",
+      "rating": "partial",
+      "evaluator": "Evaluator 2",
+      "note": "Police and TSA used the right channel but the Gate C4 report was relayed unverified."
+    },
+    {
+      "id": "ob18",
+      "taskId": "T-18",
+      "rowId": "I-08",
+      "exerciseTime": "1:50",
+      "rating": "not_met",
+      "evaluator": "Evaluator 2",
+      "note": "Crash Phone and mass notification were never mentioned; reports came by personal phones and runners."
+    },
+    {
+      "id": "ob19",
+      "kind": "note",
+      "capability": "operational_coordination",
+      "exerciseTime": "3:30",
+      "rating": "met",
+      "evaluator": "Evaluator 1",
+      "note": "Strength: Ops and the Airline Liaison split flights by airline for manual verification, which kept the restart safe."
+    }
+  ]
+}

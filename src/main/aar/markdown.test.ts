@@ -185,6 +185,23 @@ describe('refreshAarMarkdown', () => {
     expect(sectionBody(refreshed, 'ratings')).not.toContain('Rating pending')
   })
 
+  it('updates the date and status line once the ratings are confirmed', () => {
+    const draft: Aar = {
+      ...aar,
+      exerciseDate: undefined,
+      capabilities: aar.capabilities.map((c) => ({ ...c, rating: undefined })),
+    }
+    const md = renderAarMarkdown(draft, scenario, 'NCRAA')
+    expect(md).toContain('Exercise date: [Date] · NCRAA · Status: Draft (ratings pending)')
+    const confirmed: Aar = {
+      ...aar,
+      capabilities: aar.capabilities.map((c) => ({ ...c, rating: 'S' })),
+    }
+    const refreshed = refreshAarMarkdown(md, confirmed, scenario, 'NCRAA')
+    expect(refreshed).toContain('Exercise date: 2026-10-28 · NCRAA · Status: Reviewed')
+    expect(refreshed).not.toContain('Draft (ratings pending)')
+  })
+
   it('rebuilds a document without markers but keeps prose sections it can find', () => {
     const md = refreshAarMarkdown('', aar, scenario, 'NCRAA')
     expect(sectionBody(md, 'ip')).toBeTruthy()

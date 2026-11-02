@@ -8,6 +8,7 @@
 //   node scripts/make-example.mjs export   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…]
 //   node scripts/make-example.mjs refresh  --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--voices]
 //   node scripts/make-example.mjs stages   --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--stages eeg,sitman]
+//   node scripts/make-example.mjs aar      --spec examples/<id>/build.json --out .tmp/examples-release/<id> [--only key,…] [--confirm-only]
 //   node scripts/make-example.mjs package  --spec examples/<id>/build.json --out .tmp/examples-release/<id>
 //   node scripts/make-example.mjs verify   --spec examples/<id>/build.json
 //
@@ -36,6 +37,7 @@
 //   of the injects corrected by hand instead, since the repair would rewrite authored rows.
 //   --voices: re-voices the edited injects that carry a voice clip with the local TTS
 //   (mlx-audio); every other task stays routed offline.
+
 // Names: documents, seed scenarios and seed documents pass through examples/simulated-names.json
 //   (scripts/simulate-names.mjs) on the way in, so released examples carry simulated names
 //   while reference/ keeps the source material (#283).
@@ -44,6 +46,11 @@
 //   examples/<id>/project (state.json is rebuilt from example.json), rebuilds the index, re-runs
 //   the listed stages on every scenario with generate:rerun-stage and re-exports. Package
 //   afterwards to copy the result back.
+// aar: for each scenario entry with a `record` (a recorded run: facilitator notes, hot wash,
+//   decision log, evaluator observations), loads it into <out>'s project, drafts the AAR/IP with
+//   the app's own aar:draft job against LM Studio, applies the record's review (`ratings`, `dropEvidence`),
+//   and exports the AAR/IP PDF to <out>/exports/<key>/aar/. --confirm-only skips the record
+//   load and the draft and only applies the review to the stored draft. Package afterwards.
 // package: copies <out>/project to examples/<id>/project without index.sqlite*, .cache, job
 //   or log files, provider ids and absolute paths, keeps one short voice clip per example (as
 //   MP3), the most useful rendered PNGs and at most two AI stills per scenario within the git
@@ -143,6 +150,7 @@ function parseArgs(argv) {
     else if (a === '--only') args.only = rest[++i].split(',').map((s) => s.trim())
     else if (a === '--replace') args.replace = true
     else if (a === '--voices') args.voices = true
+    else if (a === '--confirm-only') args.confirmOnly = true
     else if (a === '--stages')
       args.stages = rest[++i]
         .split(',')
@@ -151,12 +159,12 @@ function parseArgs(argv) {
     else throw new Error(`Unknown argument ${a}`)
   }
   if (
-    !['generate', 'repair', 'refresh', 'export', 'stages', 'package', 'verify'].includes(
+    !['generate', 'repair', 'refresh', 'export', 'stages', 'aar', 'package', 'verify'].includes(
       command ?? '',
     )
   )
     throw new Error(
-      'Usage: make-example.mjs generate|repair|refresh|export|stages|package|verify --spec <build.json> [--out <dir>]',
+      'Usage: make-example.mjs generate|repair|refresh|export|stages|aar|package|verify --spec <build.json> [--out <dir>]',
     )
   if (!args.spec) throw new Error('--spec is required')
   return args
@@ -888,6 +896,111 @@ async function stages(args) {
   }
 }
 
+// ---- aar ---------------------------------------------------------------------------------------
+
+/** ISO time on the recorded day for an exercise-clock "H:MM", counted from a 09:00 STARTEX. */
+export function recordTime(date, exerciseTime, startMinutes = 9 * 60) {
+  const [h, m] = exerciseTime.split(':').map(Number)
+  const total = startMinutes + h * 60 + m
+  const hh = String(Math.floor(total / 60)).padStart(2, '0')
+  const mm = String(total % 60).padStart(2, '0')
+  return `${date}T${hh}:${mm}:00.000Z`
+}
+
+/** The facilitator.json fields and the evaluation observations a recorded run describes. */
+export function recordedRun(record) {
+  const at = (t) => recordTime(record.date, t)
+  return {
+    state: {
+      delivered: Object.fromEntries(
+        Object.entries(record.delivered).map(([row, t]) => [row, { at: at(t), exerciseTime: t }]),
+      ),
+      notes: record.notes,
+      generalNotes: record.generalNotes,
+      hotwash: record.hotwash.map((h) => ({ ...h, at: at('3:45') })),
+      decisions: record.decisions.map((d) => ({ ...d, at: at(d.exerciseTime) })),
+    },
+    observations: record.observations.map((o) => ({
+      ...o,
+      at: at(o.exerciseTime),
+      source: 'facilitate',
+    })),
+  }
+}
+
+/** Apply a person's review of the draft: confirmed ratings, the exercise date, evidence refs dropped as wrong. */
+export function reviewDraft(aarDoc, record) {
+  const ratings = record.ratings ?? {}
+  const dropped = record.dropEvidence ?? []
+  const review = (c, f) => {
+    const drop = dropped.filter((d) => d.capability === c.capability && d.title === f.title)
+    return drop.length
+      ? { ...f, evidence: f.evidence.filter((e) => !drop.some((d) => d.ref === e)) }
+      : f
+  }
+  return {
+    ...aarDoc,
+    ...(record.date ? { exerciseDate: record.date } : {}),
+    capabilities: aarDoc.capabilities.map((c) => ({
+      ...c,
+      ...(ratings[c.capability] ? { rating: ratings[c.capability] } : {}),
+      strengths: c.strengths.map((f) => review(c, f)),
+      areasForImprovement: c.areasForImprovement.map((f) => review(c, f)),
+    })),
+  }
+}
+
+async function aarOne({ invoke, out, projectPath, entry, state, confirmOnly }) {
+  const { scenarioId } = state.scenarios[entry.key]
+  const record = JSON.parse(readFileSync(resolve(ROOT, entry.record), 'utf8'))
+  const base = { projectPath, scenarioId }
+  if (!confirmOnly) {
+    const run = recordedRun(record)
+    const current = await invoke('facilitator:state-get', base)
+    await invoke('facilitator:state-save', { ...base, state: { ...current, ...run.state } })
+    for (const observation of run.observations)
+      await invoke('evaluation:observe', { ...base, observation })
+    const { jobId } = await invoke('aar:draft', { ...base, instructions: record.instructions })
+    await waitForJob(invoke, jobId, `${entry.key} AAR draft`, 30 * 60_000)
+  }
+  let drafted = await invoke('aar:get', base)
+  if (!drafted) throw new Error(`${entry.key}: no aar.json to confirm`)
+  drafted = await invoke('aar:save', { ...base, aar: reviewDraft(drafted, record) })
+  const dir = join(out, 'review', entry.key)
+  mkdirSync(dir, { recursive: true })
+  writeJson(join(dir, 'aar.json'), drafted)
+  const outDir = join(out, 'exports', entry.key, 'aar')
+  rmSync(outDir, { recursive: true, force: true })
+  mkdirSync(outDir, { recursive: true })
+  const { jobId } = await invoke('export:run', { ...base, outDir, targets: ['aar_pdf'] })
+  await waitForJob(invoke, jobId, `${entry.key} AAR export`, 10 * 60_000)
+  log(`${entry.key}: AAR/IP ready (review/${entry.key}/aar.json, exports/${entry.key}/aar/)`)
+}
+
+/** Load a recorded run, draft the AAR/IP with the local text model, confirm ratings, export the PDF. */
+async function aar(args) {
+  const spec = loadSpec(args.spec)
+  const out = resolve(args.out ?? join(ROOT, '.tmp/examples-release', spec.id))
+  mkdirSync(out, { recursive: true })
+  if (!existsSync(join(out, 'state.json'))) adoptPackagedProject(spec, out)
+  const state = readState(out)
+  const { app, invoke } = await launchApp()
+  try {
+    const projectPath = join(out, state.projectPath)
+    await invoke('project:open', { path: projectPath })
+    const { jobId } = await invoke('index:rebuild', { projectPath })
+    await waitForJob(invoke, jobId, 'index rebuild', 10 * 60_000)
+    await routeToLocalStack(invoke)
+    const wanted = spec.scenarios.filter(
+      (s) => s.record && (!args.only.length || args.only.includes(s.key)),
+    )
+    for (const entry of wanted)
+      await aarOne({ invoke, out, projectPath, entry, state, confirmOnly: args.confirmOnly })
+  } finally {
+    await app.close()
+  }
+}
+
 // ---- package -----------------------------------------------------------------------------------
 
 /** Files and folders of a generated project that never ship: derived, transient, or local. */
@@ -1290,6 +1403,7 @@ if (isMain) {
         refresh,
         export: exportAll,
         stages,
+        aar,
         package: packageExample,
         verify,
       }[args.command](args)

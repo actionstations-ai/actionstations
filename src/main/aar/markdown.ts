@@ -349,13 +349,18 @@ export function acronymsSection(aar: Aar): string {
   ].join('\n')
 }
 
-function header(aar: Aar, s: Scenario, orgName: string): string {
+/** The "Exercise date · organization · Status" line under the title. */
+function statusLine(aar: Aar, orgName: string): string {
   const status = aarStatus(aar) === 'draft' ? 'Draft (ratings pending)' : 'Reviewed'
+  return `Exercise date: ${aar.exerciseDate ?? '[Date]'} · ${orgName || '[Organization]'} · Status: ${status}`
+}
+
+function header(aar: Aar, s: Scenario, orgName: string): string {
   return [
     '# After-Action Report / Improvement Plan',
     `## ${s.title}${s.subtitle ? ` — ${s.subtitle}` : ''}`,
     '',
-    `Exercise date: ${aar.exerciseDate ?? '[Date]'} · ${orgName || '[Organization]'} · Status: ${status}`,
+    statusLine(aar, orgName),
     '',
     'This exercise is non-attributional: the report describes how plans and procedures worked, never how a person performed.',
   ].join('\n')
@@ -407,7 +412,7 @@ export function refreshAarMarkdown(
     }
     return renderAarMarkdown(aar, s, orgName, prose)
   }
-  let out = markdown
+  let out = markdown.replace(/^Exercise date: .* · Status: .*$/m, () => statusLine(aar, orgName))
   out = upsertSection(out, 'overview', exerciseOverviewSection(aar, s, orgName))
   out = upsertSection(out, 'ratings', ratingsSection(aar, s))
   out = upsertSection(out, 'ip', improvementPlanSection(aar, s))
