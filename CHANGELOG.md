@@ -15,9 +15,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Security
 
 - Cleared the remaining copies of minimatch below 11.0.1 (GHSA-g3hv-75wg-m249, Dependabot alert 3, #569): pnpm overrides move each consumer in the electron-builder, eslint and exceljs trees to minimatch 11, and two small patches (`patches/`) switch `@electron/asar` and `dir-compare` from the old default import to the named `minimatch` export. Packaging, the packaged-app smoke test and the xlsx export and import tests pass.
+
 ### Added
 
-- Automated checks for seven WCAG 2.2 criteria the Section 508 ACR had rated Partially Supports (#568): `e2e/acr-checks.spec.ts` covers text spacing, content on hover or focus, focus not obscured, pointer cancellation, dragging alternatives, target size and consistent help on 16 desktop screens. The ACR now rates the desktop app Supports for all seven.
+- Automated checks for seven WCAG 2.2 criteria the Section 508 ACR had rated Partially Supports (#568): `e2e/acr-checks.spec.ts` covers text spacing, content on hover or focus, focus not obscured, pointer cancellation, dragging alternatives, target size and consistent help on 16 desktop screens. The ACR rates the desktop app Supports for six of them and Partially Supports for 2.5.2.
 - MSEL rows have **Move up** and **Move down** in their actions menu, and the site plan has **Pan** buttons, so reordering and panning no longer need dragging (#568).
 
 ### Fixed
