@@ -20,6 +20,8 @@ export type RowAction =
   | 'clocks'
   | 'controls'
   | 'places'
+  | 'move-up'
+  | 'move-down'
   | `move:${string}`
 
 export interface GridActions {

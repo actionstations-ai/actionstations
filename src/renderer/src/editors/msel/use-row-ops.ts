@@ -1,11 +1,13 @@
 // Row operations of the MSEL editor wired to the draft and the grid's focus: insert, delete,
 // duplicate, move, lock, cell commits and the stable action object the rows call.
+import { arrayMove } from '@dnd-kit/sortable'
 import { useCallback } from 'react'
 import type { Move } from './CellEditors'
 import { toast } from '../../components/toast-store'
 import { commitCell, tabTarget } from './cell-commit'
 import { useStableActions, type GridActions, type RowAction } from './grid-context'
 import type { Cell } from './grid-nav'
+import { applyDrop, lineKeys } from './operations'
 import {
   addRowAfter,
   deleteRows,
@@ -33,6 +35,8 @@ interface RowOpsDeps {
   openSources: (key: string) => void
   /** Partner-owned rows (regional exercises) cannot be changed here (#497). */
   isReadOnly: (key: string) => boolean
+  /** Minutes a moved row's time snaps to (the same step drag-and-drop uses). */
+  snap?: number
 }
 
 function useInsertRemove(draft: Draft, edit: RowOpsDeps['edit'], grid: GridState) {
@@ -63,6 +67,16 @@ export function useRowOps(d: RowOpsDeps) {
   const { draft, edit, grid } = d
   const { applyInsert, removeRow } = useInsertRemove(draft, edit, grid)
 
+  // Single-pointer alternative to dragging (WCAG 2.5.7): one line up or down, like a drop.
+  const stepRow = (key: string, action: 'move-up' | 'move-down') => {
+    const order = lineKeys(draft)
+    const at = order.indexOf(key)
+    const to = at + (action === 'move-up' ? -1 : 1)
+    if (at < 0 || to < 0 || to >= order.length) return
+    edit(applyDrop(draft, arrayMove(order, at, to), key, d.snap))
+    grid.focus({ line: key, col: 'actions' })
+  }
+
   const rowAction = (key: string, action: RowAction) => {
     if (action === 'sources') return d.openSources(key)
     if (action === 'add-after') return applyInsert(addRowAfter(draft, key))
@@ -71,6 +85,7 @@ export function useRowOps(d: RowOpsDeps) {
     if (action === 'clocks') return d.editTriggers(key)
     if (action === 'controls') return d.editControls(key)
     if (action === 'places') return d.editPlaces(key)
+    if (action === 'move-up' || action === 'move-down') return stepRow(key, action)
     if (action.startsWith('move:')) {
       edit(moveToPhase(draft, new Set([key]), action.slice(5)))
       return grid.focus({ line: key, col: 'time' })
