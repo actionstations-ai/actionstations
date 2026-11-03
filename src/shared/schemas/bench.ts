@@ -85,6 +85,11 @@ export const BenchRun = z.object({
   appCommit: z.string().max(60),
   promptHashes: z.record(z.string(), z.string()),
   corpusHashes: z.record(z.string(), z.string()),
+  // `pnpm bench:export` hash of the task set the run used (#586); older runs lack it.
+  taskSetHash: z
+    .string()
+    .regex(/^[0-9a-f]{64}$/)
+    .optional(),
   /** "local-onnx:Xenova/bge-small-en-v1.5" or "hash". */
   embedder: z.string().max(100),
   model: BenchModel,
