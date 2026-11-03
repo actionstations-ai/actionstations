@@ -85,3 +85,19 @@ export function resolveInference(input: ResolveInput): InferenceSettings {
     ...(draftModel ? { draftModel } : {}),
   }
 }
+
+const EFFORT_SCALE: Record<string, number> = { low: 0.5, medium: 1, high: 2 }
+
+/**
+ * Extra output tokens to budget for thinking (#591): the profile's `reasoning.tokens`, scaled by
+ * the effort level, or 0 when the model has no profile, reasoning is off, or no figure is set.
+ */
+export function reasoningAllowance(modelId: string, options?: InferenceOptions): number {
+  const profile = options?.modelProfile === 'off' ? undefined : findModelProfile(modelId)
+  const tokens = profile?.reasoning.tokens
+  if (!profile || !tokens) return 0
+  const reasoning = reasoningFor(profile, options?.reasoningEffort)
+  if (!reasoning || reasoning.level === 'off') return 0
+  const scale = reasoning.kind === 'effort' ? (EFFORT_SCALE[reasoning.level] ?? 1) : 1
+  return Math.round(tokens * scale)
+}

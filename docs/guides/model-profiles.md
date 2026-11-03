@@ -46,6 +46,16 @@ creative ones). The two combine like this:
 
 `top_p`, `top_k` and `min_p` always come from the profile.
 
+## Output cap and reasoning (#591)
+
+A stage's `maxTokens` in `prompts/*.md` is sized for the answer. A thinking model spends part of
+the same budget on reasoning, so when a profile's `reasoning.tokens` is set and thinking is on,
+that figure (halved at low effort, doubled at high) is added to the stage cap. The request is
+then limited to what the model's context window leaves after the prompt (the window comes from
+the provider's model list; if it is not listed, no limit applies). If a reply still stops at the
+length limit, the stage asks once more with a doubled cap (at most 12,000 tokens more, and never
+past the context) and logs the retry.
+
 ## Provider options
 
 Set these in the provider's `options` (they are not in the settings screen: they suit a

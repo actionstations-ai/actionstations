@@ -7,7 +7,7 @@ outputSchema: HandbookOutput
 task: draft
 modelHints:
   temperature: 0.6
-  maxTokens: 4000
+  maxTokens: 6000
 retrieval:
   queries:
     - 'notify law enforcement regulator incident reporting'

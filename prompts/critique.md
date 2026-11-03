@@ -7,7 +7,7 @@ outputSchema: CritiqueOutput
 task: critique
 modelHints:
   temperature: 0.2
-  maxTokens: 6000
+  maxTokens: 8000
 retrieval:
   queries:
     - '{{scenario.overview.threat}}'

@@ -33,6 +33,11 @@ export const ModelProfile = z.object({
     /** `effort`: a low/medium/high level; `switch`: thinking on or off; `none`: not supported. */
     kind: z.enum(['none', 'effort', 'switch']),
     default: ReasoningLevel.optional(),
+    /**
+     * Output tokens the model typically spends thinking before it answers (a medium effort or a
+     * switch that is on). Added to a stage's answer cap so the thinking does not eat the answer (#591).
+     */
+    tokens: z.number().int().positive().max(64_000).optional(),
   }),
   /**
    * The build to prefer on Apple Silicon when the benchmark showed MLX is not the better one.

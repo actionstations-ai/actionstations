@@ -27,6 +27,7 @@ import {
   retrievedVars,
   type RetrievedChunk,
 } from './retrieval'
+import { contextWindowOf, planOutputCap, retryCap } from './output-cap'
 import { unknownPlaceholderLog } from './placeholder-warnings'
 import { asTask } from './task-errors'
 
@@ -154,11 +155,14 @@ const repairMessage = (issues: string): string =>
   `Your previous reply did not match the required JSON schema:\n${issues}\n\n` +
   'Return the complete corrected JSON object only, with every required field, no commentary.'
 
-interface Conversation {
+export interface Conversation {
   provider: TextProvider
   base: Omit<ChatRequest, 'messages'>
   messages: ChatMessage[]
   onToken: (text: string) => void
+  /** Most reply tokens the loaded context can hold (#591). */
+  room?: number
+  lengthRetried?: boolean
 }
 
 function newRun(
@@ -191,8 +195,15 @@ function account(run: StageRun, res: ChatResponse): void {
   if (res.model) run.model = res.model
 }
 
+/** The larger cap for the one retry after a length cut-off; undefined when none applies. */
+function lengthRetryCap(conv: Conversation, res: ChatResponse): number | undefined {
+  const current = conv.base.maxTokens
+  if (res.finishReason !== 'length' || conv.lengthRetried || !current) return undefined
+  return retryCap(current, conv.room)
+}
+
 /** Call the model, validate, and on failure send the errors back once. */
-async function callWithRepair(
+export async function callWithRepair(
   conv: Conversation,
   schema: z.ZodType,
   run: StageRun,
@@ -201,7 +212,19 @@ async function callWithRepair(
   const { ctx, stage, itemId } = call
   const extra = { stage, ...(itemId ? { itemId } : {}) }
   const chat = async (): Promise<ChatResponse> => {
-    const res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
+    let res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
+    const bigger = lengthRetryCap(conv, res)
+    if (bigger) {
+      ctx.log(
+        `${stage}: reply cut off at ${conv.base.maxTokens} tokens; trying once more with ${bigger}`,
+        'warn',
+        extra,
+      )
+      account(run, res)
+      conv.lengthRetried = true
+      conv.base.maxTokens = bigger
+      res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
+    }
     if (res.unknownPlaceholders?.length)
       ctx.log(unknownPlaceholderLog(res.unknownPlaceholders), 'warn', extra)
     return res
@@ -342,8 +365,19 @@ async function runStageOnce<T>(call: StageCall, skipped: Set<number>): Promise<S
   const run = newRun(call, prompt, rendered.hash, model, providerId)
   const extra = { stage, ...(itemId ? { itemId } : {}) }
   ctx.log(`${stage}: ${retrieved.length} sections retrieved; ${providerId}/${model}`, 'info', extra)
+  const outputCap =
+    fm.modelHints.maxTokens === undefined
+      ? undefined
+      : planOutputCap({
+          stageCap: fm.modelHints.maxTokens,
+          modelId: model,
+          options: provider.config.options,
+          promptText: `${rendered.system}\n${rendered.cacheableContext ?? ''}\n${rendered.user}`,
+          contextWindow: await contextWindowOf(provider, model),
+        })
   const conv: Conversation = {
     provider,
+    ...(outputCap?.room ? { room: outputCap.room } : {}),
     base: {
       model,
       system: rendered.system,
@@ -351,7 +385,7 @@ async function runStageOnce<T>(call: StageCall, skipped: Set<number>): Promise<S
       ...(fm.modelHints.temperature !== undefined
         ? { temperature: fm.modelHints.temperature }
         : {}),
-      ...(fm.modelHints.maxTokens !== undefined ? { maxTokens: fm.modelHints.maxTokens } : {}),
+      ...(outputCap ? { maxTokens: outputCap.cap } : {}),
       json: jsonSpec(name, schema),
       signal: ctx.signal,
       outbound: {
