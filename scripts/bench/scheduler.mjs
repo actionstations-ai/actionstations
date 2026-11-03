@@ -43,14 +43,29 @@ export function floorMisses(tasks, reliability, thresholds) {
   return misses
 }
 
+/** Which floor criteria a repeat misses: task names, and "drafting reliability". */
+function missedCriteria(repeat, thresholds) {
+  const tasks = repeat.tasks.filter((t) => t.score < thresholds.floorTaskScore).map((t) => t.task)
+  return repeat.reliability < thresholds.floorDraftingReliability
+    ? [...tasks, 'drafting reliability']
+    : tasks
+}
+
 /**
- * Early stop after a repeat: a model that misses the floor in repeat 1 is not given more
- * repeats. Returns the reason, or null to carry on. Only applies when more repeats are planned.
+ * Early stop, only when the median of three repeats is already decided: after repeat 2, if both
+ * repeats miss the floor on the same criterion, the middle value of three is below it whatever
+ * repeat 3 scores. One repeat never decides a median, so nothing stops after repeat 1.
+ * `done` holds the finished repeats in order; returns the reason, or null to carry on.
  */
-export function earlyStopReason(repeat, plannedRepeats, thresholds) {
-  if (plannedRepeats <= 1) return null
-  const misses = floorMisses(repeat.tasks, repeat.reliability, thresholds)
-  return misses.length ? `Missed the floor in repeat 1: ${misses.join('; ')}` : null
+export function earlyStopReason(done, plannedRepeats, thresholds) {
+  if (plannedRepeats !== 3 || done.length !== 2) return null
+  const [a, b] = done.map((r) => missedCriteria(r, thresholds))
+  const shared = a.filter((c) => b.includes(c))
+  if (!shared.length) return null
+  return (
+    `Repeats 1 and 2 both missed the floor on ${shared.join(' and ')}, ` +
+    'so the median of three repeats cannot reach it'
+  )
 }
 
 /** Output tokens per second from a single-request pass; undefined without a usable timing. */

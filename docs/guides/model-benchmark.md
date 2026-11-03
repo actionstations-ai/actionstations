@@ -73,10 +73,11 @@ With more than one worker, the model's speed (output tokens per second) is measu
 pass: one ideation request on its own after the cases, so other cases sharing the model do not
 slow it. The per-task wall times in the run file are measured under load.
 
-After repeat 1 of a multi-repeat run, a model that misses the floor (any task under 50, or
-drafting reliability under 90%) is stopped. The run file keeps the one repeat and records the
-reason in `stoppedEarly`, and the terminal summary shows it. Use `--triage` to find such models
-cheaply, and the standard suite with three repeats to publish the rest.
+After repeat 2 of a three-repeat run, a model whose two repeats both miss the floor on the same
+criterion (a task under 50, or drafting reliability under 90%) is stopped, since the median of
+three can no longer reach it. The run file keeps the two repeats and records the reason in
+`stoppedEarly`, and the terminal summary shows it. Use `--triage` to screen models cheaply, and
+the standard suite with three repeats to publish the rest.
 
 Judge scores and the determinism result appear in the run file (`judge`, `determinism`) and
 the terminal summary.

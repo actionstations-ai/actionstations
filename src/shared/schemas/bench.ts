@@ -110,7 +110,7 @@ export const BenchRun = z.object({
   concurrency: z.number().int().min(2).max(8).optional(),
   /** A triage run (`--triage`): one repeat, pass or fail against the floor, never published. */
   triage: z.boolean().optional(),
-  /** Set when the run stopped after repeat 1 because it missed the floor (#584). */
+  /** Set when the run stopped after repeat 2 because both repeats missed the floor on one criterion (#584). */
   stoppedEarly: z
     .object({ afterRepeat: z.number().int().positive(), reason: z.string().max(500) })
     .optional(),

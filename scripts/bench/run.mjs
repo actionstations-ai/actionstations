@@ -375,22 +375,23 @@ async function speedPass(env, worker) {
   ctx.save()
 }
 
-/** Repeat 1, the early-stop check, then the other repeats. Returns the repeats that ran. */
+/** Repeats in order, with the early-stop check after repeat 2. Returns the repeats that ran. */
 async function runRepeats(env, workers, repeats, estimate) {
   const { suite, mstate, args } = env
   const run = (r) =>
     runPool(pendingCases(suite, r, mstate.cases), workers.length, (item, w) =>
       runCase(env, workers[w], item, estimate),
     )
-  await run(0)
-  const first = repeatFromCases(suite, 0, mstate.cases)
-  const reason = args.determinism ? null : earlyStopReason(first, repeats, suite.thresholds)
-  if (reason) {
-    log(`stopping after repeat 1: ${reason}`)
-    mstate.stoppedEarly = { afterRepeat: 1, reason }
-    return 1
+  for (let r = 0; r < repeats; r++) {
+    await run(r)
+    if (r !== 1 || args.determinism) continue
+    const done = [0, 1].map((i) => repeatFromCases(suite, i, mstate.cases))
+    const reason = earlyStopReason(done, repeats, suite.thresholds)
+    if (!reason) continue
+    log(`stopping after repeat 2: ${reason}`)
+    mstate.stoppedEarly = { afterRepeat: 2, reason }
+    return 2
   }
-  for (let r = 1; r < repeats; r++) await run(r)
   return repeats
 }
 
@@ -421,7 +422,9 @@ async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVers
   const workers = await startWorkers(count, { args, model })
   let ran
   try {
-    ran = mstate.stoppedEarly ? 1 : await runRepeats(env, workers, repeats, estimate)
+    ran = mstate.stoppedEarly
+      ? mstate.stoppedEarly.afterRepeat
+      : await runRepeats(env, workers, repeats, estimate)
     if (count > 1) await speedPass(env, workers[0])
   } finally {
     await Promise.all(workers.map(stopWorker))

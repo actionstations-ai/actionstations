@@ -434,11 +434,5 @@ Where the code differs from the text above, and why:
   scorer changed. Output tokens per second under load is slowed by the other cases, so with
   more than one worker a single ideation request is run on its own after the cases and its
   figure is used for every task. `--triage` is the standard suite at one repeat and prints
-  pass or miss against the floor; the report ignores triage runs. After repeat 1 a run that
-  misses the floor (a task under 50, or drafting reliability under 90%) is stopped, and the
-  reason is recorded in `stoppedEarly`. The median over three repeats could still recover, so
-  this trades a small chance of a false stop for hours saved; `--concurrency` does not change
+  pass or miss against the floor; the report ignores triage runs. After repeat 2 of a three-repeat run, a run stops when both repeats missed the floor on the same criterion (a task under 50, or drafting reliability under 90%): the median of three is then below the floor whatever repeat 3 scores, so the stop never changes the outcome. The reason is recorded in `stoppedEarly`. Nothing stops after repeat 1, because one repeat cannot decide a median. `--concurrency` does not change
   it. Per-case `wallSeconds` is measured under load when concurrency is above 1.
-- **Not built yet**: the first published runs of the other `TEXT_TIERS` models (task 9) and the site import
-  (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
-  building this.

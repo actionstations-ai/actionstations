@@ -8,7 +8,7 @@ export function runPool<T>(
 export function workerCount(concurrency: number, pending: number): number
 export function floorMisses(tasks: Scored[], reliability: number, thresholds: Thresholds): string[]
 export function earlyStopReason(
-  repeat: { tasks: Scored[]; reliability: number },
+  done: { tasks: Scored[]; reliability: number }[],
   plannedRepeats: number,
   thresholds: Thresholds,
 ): string | null

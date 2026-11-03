@@ -89,17 +89,30 @@ describe('the floor and early stop', () => {
     ])
   })
 
-  it('stops a multi-repeat run whose first repeat misses the floor, and says why', () => {
-    const reason = earlyStopReason({ tasks: tasks(70), reliability: 0.8 }, 3, thresholds)
-    expect(reason).toMatch(/Missed the floor in repeat 1: drafting reliability 80%/)
+  const rep = (d: number, reliability = 1, c = 80) => ({ tasks: tasks(d, c), reliability })
+
+  it('stops after repeat 2 when both repeats miss on the same criterion, and says which', () => {
+    const reason = earlyStopReason([rep(70, 0.8), rep(70, 0.85)], 3, thresholds)
+    expect(reason).toMatch(/Repeats 1 and 2 both missed the floor on drafting reliability/)
   })
 
-  it('carries on when the first repeat reaches the floor', () => {
-    expect(earlyStopReason({ tasks: tasks(70), reliability: 0.95 }, 3, thresholds)).toBeNull()
+  it('stops on a task score missed in both repeats', () => {
+    expect(earlyStopReason([rep(40), rep(45)], 3, thresholds)).toMatch(/on drafting,/)
   })
 
-  it('never stops a single-repeat run', () => {
-    expect(earlyStopReason({ tasks: tasks(10), reliability: 0 }, 1, thresholds)).toBeNull()
+  it('carries on when the repeats miss different criteria, since repeat 3 could still decide', () => {
+    expect(earlyStopReason([rep(40), rep(70, 0.8)], 3, thresholds)).toBeNull()
+    expect(earlyStopReason([rep(70, 0.5, 80), rep(70, 1, 20)], 3, thresholds)).toBeNull()
+  })
+
+  it('carries on when one repeat reaches the floor', () => {
+    expect(earlyStopReason([rep(70, 0.5), rep(70)], 3, thresholds)).toBeNull()
+  })
+
+  it('never stops after repeat 1, nor a run of one or two repeats', () => {
+    expect(earlyStopReason([rep(10, 0)], 3, thresholds)).toBeNull()
+    expect(earlyStopReason([rep(10, 0), rep(10, 0)], 2, thresholds)).toBeNull()
+    expect(earlyStopReason([rep(10, 0)], 1, thresholds)).toBeNull()
   })
 })
 
@@ -184,11 +197,13 @@ describe('the run file', () => {
     const run = build({
       concurrency: 3,
       triage: true,
-      stoppedEarly: { afterRepeat: 1, reason: 'Missed the floor in repeat 1: x' },
+      stoppedEarly: { afterRepeat: 2, reason: 'Repeats 1 and 2 both missed the floor on drafting' },
     })
     const parsed = BenchRun.parse(run)
     expect(parsed).toMatchObject({ concurrency: 3, triage: true })
-    expect(summaryMarkdown(parsed)).toContain('Stopped early: Missed the floor in repeat 1: x.')
+    expect(summaryMarkdown(parsed)).toContain(
+      'Stopped early: Repeats 1 and 2 both missed the floor on drafting.',
+    )
     expect(triageLine(parsed, thresholds)).toMatch(/misses the floor.*drafting reliability 50%/)
   })
 
