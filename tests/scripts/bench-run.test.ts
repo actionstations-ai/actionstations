@@ -16,8 +16,10 @@ import {
 } from '../../scripts/bench/corpus.mjs'
 import {
   assertLocalEndpoint,
+  inferenceOptions,
   modelInfo,
   parseModelRef,
+  profileRecord,
   providerConfig,
 } from '../../scripts/bench/model-info.mjs'
 import { buildRun, parseArgs, summaryMarkdown, type CaseResult } from '../../scripts/bench/run.mjs'
@@ -125,6 +127,7 @@ describe('the provider under test', () => {
       quantization: 'Q4_K_M',
       sizeBytes: 1929912432,
       contextLength: 32768,
+      inference: { profile: 'none' },
     })
     await expect(
       modelInfo(parseModelRef('ollama:missing'), 32768, async (url) => answers[url]),
@@ -141,7 +144,26 @@ describe('the provider under test', () => {
       name: 'qwen/qwen3.5-9b',
       quantization: '4bit',
       contextLength: 32768,
+      inference: expect.objectContaining({ profile: 'qwen3.5', reasoningEffort: 'off' }),
     })
+  })
+
+  it('records inference options from the environment and turns the profile off (#585)', () => {
+    const env = { BENCH_PROFILE: 'off', BENCH_EFFORT: 'low', BENCH_DRAFT: 'qwen/qwen3.5-4b' }
+    expect(inferenceOptions(env)).toEqual({
+      modelProfile: 'off',
+      reasoningEffort: 'low',
+      draftModel: 'qwen/qwen3.5-4b',
+    })
+    expect(profileRecord('openai/gpt-oss-120b', env)).toEqual({
+      profile: 'none',
+      reasoningEffort: 'low',
+      draftModel: 'qwen/qwen3.5-4b',
+    })
+    const record = profileRecord('openai/gpt-oss-120b', {})
+    expect(record).toMatchObject({ profile: 'gpt-oss', sampling: { temperature: 1, topP: 1 } })
+    const model = parseModelRef('lmstudio:openai/gpt-oss-120b')
+    expect(providerConfig(model, 11, 32768, env).options).toMatchObject({ modelProfile: 'off' })
   })
 })
 

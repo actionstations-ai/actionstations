@@ -1,6 +1,7 @@
 // Ollama native API adapter: /api/chat (NDJSON streaming, `format` = JSON schema),
 // /api/tags, /api/pull with progress, /api/embed, /api/version.
 import type { ModelInfo, ProviderConfig, ProviderHealth } from '@shared/schemas'
+import { resolveInference } from '@shared/model-profiles'
 import { AppError } from '../../../lib/errors'
 import { withChatLog, withEmbedLog } from '../../call-log'
 import { joinUrl, ndjsonLines, request, requestJson } from '../../http'
@@ -126,7 +127,15 @@ export class OllamaTextProvider implements TextProvider {
   private body(model: string, req: ChatRequest): Body {
     const system = combinedSystem(req)
     const options: Body = {}
-    if (req.temperature !== undefined) options.temperature = req.temperature
+    const inference = resolveInference({
+      modelId: model,
+      stageTemperature: req.temperature,
+      options: this.config.options,
+    })
+    if (inference.temperature !== undefined) options.temperature = inference.temperature
+    if (inference.topP !== undefined) options.top_p = inference.topP
+    if (inference.topK !== undefined) options.top_k = inference.topK
+    if (inference.minP !== undefined) options.min_p = inference.minP
     const maxTokens = req.maxTokens ?? numberOption(this.config, 'maxTokens')
     if (maxTokens !== undefined) options.num_predict = maxTokens
     if (req.stop?.length) options.stop = req.stop
@@ -142,6 +151,7 @@ export class OllamaTextProvider implements TextProvider {
         ...req.messages.map((m) => ({ role: m.role, content: m.content })),
       ],
       ...(req.json ? { format: req.json.schema } : {}),
+      ...thinkField(inference.reasoning),
       ...(Object.keys(options).length ? { options } : {}),
     }
   }
@@ -170,6 +180,13 @@ export class OllamaTextProvider implements TextProvider {
     const json = parsed === undefined ? undefined : restoreOptionals(parsed, req.json.schema)
     return { ...base, json, structuredVia: 'json_schema' }
   }
+}
+
+/** Ollama's `think`: a level for effort models (gpt-oss), a boolean for the rest. */
+function thinkField(r: ReturnType<typeof resolveInference>['reasoning']): Body {
+  if (!r) return {}
+  if (r.kind === 'switch') return { think: r.level !== 'off' }
+  return { think: r.level === 'off' ? false : r.level }
 }
 
 function withPullHint(err: unknown, model: string): unknown {

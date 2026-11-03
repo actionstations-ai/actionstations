@@ -20,6 +20,17 @@ export const BenchModel = z.object({
   sizeBytes: z.number().int().nonnegative().optional(),
   /** Context length the run configured (or the tool reported for the loaded model). */
   contextLength: z.number().int().positive().optional(),
+  /** Model-card settings the run used (#585): profile id, sampling, reasoning level, draft model. */
+  inference: z
+    .object({
+      profile: z.string().max(60),
+      sampling: z.record(z.string(), z.number()).optional(),
+      temperaturePolicy: z.enum(['profile', 'stage']).optional(),
+      source: z.string().url().optional(),
+      reasoningEffort: z.string().max(20).optional(),
+      draftModel: z.string().max(200).optional(),
+    })
+    .optional(),
 })
 export type BenchModel = z.infer<typeof BenchModel>
 

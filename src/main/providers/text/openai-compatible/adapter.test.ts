@@ -115,6 +115,85 @@ describe('OpenAI-compatible chat', () => {
     expect(calls[2]!.body as Body).not.toHaveProperty('seed')
   })
 
+  it('applies model-card sampling and reasoning effort to the request (#585)', async () => {
+    const calls = stubFetch([fixtureResponse('lmstudio-chat-stream')])
+    const req = { ...ask(), temperature: 0, model: 'openai/gpt-oss-120b' }
+    await provider({ options: { reasoningEffort: 'low' } }).chat(req)
+    expect(calls[0]!.body).toMatchObject({ temperature: 0, top_p: 1, reasoning_effort: 'low' })
+  })
+
+  it('turns thinking off through the chat template for a switch model (#585)', async () => {
+    const calls = stubFetch([fixtureResponse('lmstudio-chat-stream')])
+    const req = { ...ask(), model: 'qwen/qwen3.5-9b' }
+    await provider({ options: { reasoningEffort: 'off' } }).chat(req)
+    expect(calls[0]!.body).toMatchObject({
+      top_k: 20,
+      min_p: 0,
+      chat_template_kwargs: { enable_thinking: false },
+    })
+  })
+
+  it('sends the stage temperature alone with no profile or with profiles off (#585)', async () => {
+    const calls = stubFetch([
+      fixtureResponse('lmstudio-chat-stream'),
+      fixtureResponse('lmstudio-chat-stream'),
+    ])
+    await provider().chat({ ...ask(), temperature: 0.3, model: 'llama-3.1-8b' })
+    await provider({ options: { modelProfile: 'off' } }).chat({
+      ...ask(),
+      temperature: 0,
+      model: 'openai/gpt-oss-120b',
+    })
+    for (const call of calls) {
+      const extras = Object.keys(call.body as Body).filter((k) =>
+        /top_|min_p|reasoning|draft|chat_template/.test(k),
+      )
+      expect(extras).toEqual([])
+    }
+    expect((calls[0]!.body as Body).temperature).toBe(0.3)
+    expect((calls[1]!.body as Body).temperature).toBe(0)
+  })
+
+  it('passes draft_model only when the server lists that model (#585)', async () => {
+    const listing = (ids: string[]) =>
+      new Response(JSON.stringify({ data: ids.map((id) => ({ id })) }), {
+        headers: { 'content-type': 'application/json' },
+      })
+    const calls = stubFetch((call) =>
+      call.url.endsWith('/models')
+        ? listing(call.url.includes('1234') ? ['qwen/qwen3.5-4b'] : [])
+        : fixtureResponse('lmstudio-chat-stream'),
+    )
+    const options = { draftModel: 'qwen/qwen3.5-4b' }
+    const req = { ...ask(), model: 'qwen/qwen3.5-9b' }
+    await provider({ options }).chat(req)
+    await provider({ options, baseUrl: 'http://127.0.0.1:4321/v1' }).chat(req)
+    const chats = calls.filter((c) => c.url.endsWith('/chat/completions'))
+    expect((chats[0]!.body as Body).draft_model).toBe('qwen/qwen3.5-4b')
+    expect(chats[1]!.body as Body).not.toHaveProperty('draft_model')
+  })
+
+  it('repeats the request without draft_model when the server cannot load it (#585)', async () => {
+    const refusal = () =>
+      new Response(
+        JSON.stringify({ error: { message: 'Failed to load draft model: not supported for MLX' } }),
+        { status: 500, headers: { 'content-type': 'application/json' } },
+      )
+    const calls = stubFetch((call) => {
+      if (call.url.endsWith('/models'))
+        return new Response(JSON.stringify({ data: [{ id: 'qwen/qwen3.5-4b' }] }))
+      return (call.body as Body).draft_model ? refusal() : fixtureResponse('lmstudio-chat-stream')
+    })
+    const p = provider({ options: { draftModel: 'qwen/qwen3.5-4b' } })
+    const req = { ...ask(), model: 'qwen/qwen3.5-9b' }
+    await p.chat(req)
+    await p.chat(req)
+    const chats = calls.filter((c) => c.url.endsWith('/chat/completions'))
+    const drafts = chats.map((c) => (c.body as Body).draft_model)
+    expect(drafts[0]).toBe('qwen/qwen3.5-4b')
+    expect(drafts.slice(-2)).toEqual([undefined, undefined])
+  })
+
   it('sends a Bearer key only when one is stored', async () => {
     const calls = stubFetch([fixtureResponse('lmstudio-chat-stream')])
     await provider({ baseUrl: 'https://openrouter.ai/api/v1' }, 'sk-or-v1-abcdefabcdef').chat(ask())

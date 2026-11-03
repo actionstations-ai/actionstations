@@ -27,6 +27,8 @@ lms ls                      # lists downloaded models
 
 Mixture-of-experts models such as Qwen3-30B-A3B are fast on a laptop because only about 3B parameters are active per token. Smaller dense models (7B to 14B) work for ideation but follow the long MSEL prompt less reliably.
 
+On Apple Silicon, download the MLX build of a model when one exists, unless its [profile](../model-profiles.md) prefers GGUF (gpt-oss-120b). `lms ls --json` shows `safetensors` for MLX and `gguf` otherwise. For example `lms get https://huggingface.co/lmstudio-community/gemma-4-26B-A4B-it-MLX-4bit`. The app also sends each model family's recommended sampling and reasoning settings; see [Model profiles](../model-profiles.md).
+
 ## 3. Start the server and load the model with enough context
 
 The app's MSEL stage sends up to about 30,000 input tokens per phase and asks for up to 7,000 output tokens. **Load models with a context length of at least 32,768.** A model loaded with LM Studio's default context length can be far smaller; check the CONTEXT column of `lms ps`. With too little context, long stages fail with truncated output.

@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Added
+
+- Model profiles: each model family's recommended sampling (temperature, top_p, top_k, min_p) from its model card is sent with every request to LM Studio and Ollama, with a per-model reasoning level (gpt-oss, Qwen3.8, and the Qwen3.5/3.6 and Nemotron thinking switch) and an optional draft model for speculative decoding. Unknown models are called as before. The benchmark records the profile in each run file and prefers MLX builds on Apple Silicon. See `docs/guides/model-profiles.md` (#585).
+
 ### Fixed
 
 - OpenAI-compatible providers: a structured reply whose `content` is empty but whose `reasoning_content` holds the JSON (Qwen3.5 under LM Studio's `json_schema` mode) is now read instead of failing with "no JSON" (#503). gpt-oss-120b starts from `json_schema`, because under `json_object` LM Studio failed its replies with a 500 (#503).
