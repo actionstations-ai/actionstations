@@ -106,6 +106,14 @@ export const BenchRun = z.object({
   model: BenchModel,
   hardware: BenchHardware,
   startedAt: IsoDateTime,
+  /** App instances that ran cases in parallel (#584); absent for a serial run. */
+  concurrency: z.number().int().min(2).max(8).optional(),
+  /** A triage run (`--triage`): one repeat, pass or fail against the floor, never published. */
+  triage: z.boolean().optional(),
+  /** Set when the run stopped after repeat 2 because both repeats missed the floor on one criterion (#584). */
+  stoppedEarly: z
+    .object({ afterRepeat: z.number().int().positive(), reason: z.string().max(500) })
+    .optional(),
   repeats: z.array(BenchRepeat).min(1),
   median: BenchMedian,
   range: BenchRange,
