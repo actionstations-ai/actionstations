@@ -92,8 +92,9 @@ test('Facilitate tabs stay on one line and every tab can be reached', async () =
       ).toBeLessThanOrEqual(size.width)
       // Arrow keys move between tabs (checked once); each tab, once focused, is scrolled into view.
       await page.bringToFront()
-      await tabs.first().click()
-      await page.keyboard.press('ArrowRight')
+      // locator.press focuses the tab and sends the key in one step, so nothing can take focus
+      // between them (another app on the machine, a late render).
+      await tabs.first().press('ArrowRight')
       await expect(
         tabs.nth(1),
         `ArrowRight did not reach tab 2; focus is on ${await focusedElement(page)}`,

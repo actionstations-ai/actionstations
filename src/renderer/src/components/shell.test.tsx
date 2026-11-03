@@ -2,6 +2,7 @@
 import { act, cleanup, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router'
 import { afterEach, describe, expect, it } from 'vitest'
 import { queryClient } from '../lib/query'
@@ -27,6 +28,21 @@ function Page({ title, next }: { title: string; next?: string }) {
   )
 }
 
+/** A page whose heading reads "Loading…" until `ms` have passed, with a button to focus meanwhile. */
+function SlowPage({ ms }: { ms: number }) {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), ms)
+    return () => clearTimeout(t)
+  }, [ms])
+  return (
+    <div>
+      <h1>{ready ? 'Slow' : 'Loading…'}</h1>
+      <button type="button">Tab</button>
+    </div>
+  )
+}
+
 function setup(initial = '/a') {
   mockTtx({})
   queryClient.clear()
@@ -40,6 +56,8 @@ function setup(initial = '/a') {
           <Routes>
             <Route path="/a" element={<Page title="Alpha" next="/b" />} />
             <Route path="/b" element={<Page title="Beta" />} />
+            <Route path="/c" element={<Page title="Gamma" next="/slow" />} />
+            <Route path="/slow" element={<SlowPage ms={300} />} />
           </Routes>
         </main>
       </MemoryRouter>
@@ -59,6 +77,28 @@ describe('app shell', () => {
     await settle()
     expect(document.title).toBe('Beta · Action Stations')
     expect(document.activeElement).toBe(screen.getByRole('heading', { name: 'Beta' }))
+  })
+
+  it('leaves focus where the user moved it while the new page was still loading', async () => {
+    setup('/c')
+    await settle()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    // the heading still reads "Loading…": the user tabs to a control on the new page
+    act(() => screen.getByRole('button', { name: 'Tab' }).focus())
+    await act(() => new Promise((r) => setTimeout(r, 500)))
+    await settle()
+    expect(screen.getByRole('heading', { name: 'Slow' })).toBeTruthy()
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Tab' }))
+    expect(document.title).toBe('Slow · Action Stations')
+  })
+
+  it('moves focus to a heading that arrives late when the user has not moved', async () => {
+    setup('/c')
+    await settle()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    await act(() => new Promise((r) => setTimeout(r, 500)))
+    await settle()
+    expect(document.activeElement).toBe(screen.getByRole('heading', { name: 'Slow' }))
   })
 
   it('skip link moves focus to the main heading', async () => {
