@@ -9,7 +9,7 @@
 //               criteria are fixed pass/fail statements against the Scenario 3 reference
 //               (bench/gold/scenario-3.json) and the planted defects; see `criteriaFor*`.
 //   Completion  the chance that a full scenario drafts with no failed stage: the per-call
-//               first-try rate, over every Mini call, raised to the number of model calls in a
+//               success rate after the app's repair policy, over every Mini call, raised to the number of model calls in a
 //               scenario (bench/suites/mini.json, scenarioBudget.modelStages).
 // Review damage and draft time are reported next to the score and never mixed into it.
 import { citationScore } from '../score/citations.mjs'
@@ -370,10 +370,19 @@ export function compareRanges(a, b) {
   return a.min > b.max ? 'a' : 'b'
 }
 
-/** Per-call first-try rate (0 to 1) of a list of probe results. */
+/**
+ * Share (0 to 1) of calls that succeeded after the app's normal repair policy: a repair round
+ * is the app's automatic retry and is invisible to users, so it is not a failure.
+ */
 export function callRate(probes) {
   const results = Object.values(probes)
-  return results.length ? results.filter((p) => p.firstTry).length / results.length : 0
+  return results.length ? results.filter((p) => p.ok).length / results.length : 0
+}
+
+/** Share (0 to 1) of calls that needed a repair round or a longer-answer retry (reported apart). */
+export function repairRate(probes) {
+  const results = Object.values(probes)
+  return results.length ? results.filter((p) => p.ok && !p.firstTry).length / results.length : 0
 }
 
 // ---- speed and draft time ----------------------------------------------------------------------
@@ -447,7 +456,8 @@ export function speedOf({ calls, budget }) {
 
 /**
  * One repeat's numbers. `probes`: scored probes; `calls`: their observations with `key`.
- * completion = perCall ^ modelStages.
+ * completion = perCall ^ modelStages; perCall counts a call as failed only if it failed after the
+ * app's repair policy (or stalled or looped).
  */
 export function scoreRepeat({ probes, calls, suite }) {
   const budget = suite.scenarioBudget
@@ -455,15 +465,12 @@ export function scoreRepeat({ probes, calls, suite }) {
   const perCall = callRate(probes)
   const completion = perCall ** budget.modelStages
   const failures = Object.entries(probes)
-    .filter(([, p]) => p.failure || !p.firstTry)
-    .map(([key, p]) => ({
-      probe: key,
-      ...(p.failure ? { failure: p.failure } : {}),
-      ...(p.ok && !p.firstTry ? { repaired: true } : {}),
-    }))
+    .filter(([, p]) => !p.ok)
+    .map(([key, p]) => ({ probe: key, ...(p.failure ? { failure: p.failure } : {}) }))
   return {
     quality,
     perCallRate: round1(perCall * 100),
+    repairRate: round1(repairRate(probes) * 100),
     completion: round1(completion * 100),
     score: round1(quality.score * completion),
     damage: damageOf(probes),
@@ -482,7 +489,8 @@ export function miniResult({ repeats, suite }) {
   const stages = suite.scenarioBudget.modelStages
   const results = repeats.map((r) => r.result)
   const all = repeats.flatMap((r) => Object.values(r.probes))
-  const pooled = all.length ? all.filter((p) => p.firstTry).length / all.length : 0
+  const pooled = all.length ? all.filter((p) => p.ok).length / all.length : 0
+  const repairs = all.length ? all.filter((p) => p.ok && !p.firstTry).length / all.length : 0
   const quality = rangeOf(results.map((r) => r.quality.score))
   const completion = rangeOf(results.map((r) => r.completion))
   const perCall = rangeOf(results.map((r) => r.perCallRate))
@@ -493,6 +501,7 @@ export function miniResult({ repeats, suite }) {
   return {
     quality,
     perCallRate: { ...perCall, value: round1(pooled * 100) },
+    repairRate: { ...rangeOf(results.map((r) => r.repairRate)), value: round1(repairs * 100) },
     completion: { ...completion, value: completionValue },
     damage: rangeOf(results.map((r) => r.damage)),
     draftMinutes: draft,
@@ -504,7 +513,8 @@ export function miniResult({ repeats, suite }) {
       max: Math.max(score, ...scores),
     },
     calls: all.length,
-    firstTryCalls: all.filter((p) => p.firstTry).length,
+    failedCalls: all.filter((p) => !p.ok).length,
+    repairedCalls: all.filter((p) => p.ok && !p.firstTry).length,
   }
 }
 

@@ -12,8 +12,8 @@ rows, which every model passed, so it told models apart little.
 ## Decision
 
 - **Score = Quality x Completion.** Completion is the chance a full scenario drafts with no failed
-  stage: the per-call first-try rate over every Mini call (no failure, no repair round, no reply
-  cut off and asked again) raised to the number of model calls in a scenario (14, counted from the
+  stage: the per-call success rate over every Mini call (a call fails only if it fails after the
+  app's normal repair policy, or stalls or loops) raised to the number of model calls in a scenario (14, counted from the
   pipeline). Quality is the share of fixed pass/fail criteria the delivered replies meet,
   measured against the Scenario 3 reference and the planted defects. A call that returns nothing
   costs completion, not quality, so a failure is counted once.
@@ -39,9 +39,10 @@ rows, which every model passed, so it told models apart little.
 
 ## Consequences
 
-- A model that needs repair rounds scores low on completion even when its final output is good.
-  That is the stated meaning of the score. With eight calls, one failure leaves completion near
-  15%; the methods say so.
+- A repair round is the app's automatic retry and invisible to users, so it is not a failure. It
+  is reported as a separate repair rate (its cost is already in the measured draft time).
+- With about 10 calls the Mini detects frequent failures, not rare ones; "0 failures in 10 calls"
+  is shown with the count and the methods say so.
 - A live Mini takes longer: two runs, and no cap. A slow model finishes and is reported slow.
 - Changing a criterion, band, limit or the exponent changes the task-set hash and needs a new
   suite version (now 2). Version 1 run files do not parse as version 2 and are replayed, not

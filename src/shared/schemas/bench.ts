@@ -207,7 +207,7 @@ export type MiniFailure = z.infer<typeof MiniFailure>
 export const MiniProbe = z.object({
   /** False when the call produced no usable reply (failed, cut off, stalled or looped). */
   ok: z.boolean(),
-  /** Succeeded with no failure, no repair round and no reply cut off and asked again. */
+  /** Clean on the first try: no repair round and no reply cut off and asked again (not a failure if false). */
   firstTry: z.boolean(),
   /** The share of this probe's criteria met, 0 to 100 (for display; quality pools the criteria). */
   score: z.number().min(0).max(100),
@@ -250,8 +250,9 @@ export const MiniRepeat = z.object({
     met: z.number().int().nonnegative(),
     total: z.number().int().nonnegative(),
   }),
-  /** Percent of this run's calls that succeeded first time. */
+  /** Percent of this run's calls that succeeded after the app's repair policy. */
   perCallRate: z.number().min(0).max(100),
+  repairRate: z.number().min(0).max(100),
   completion: z.number().min(0).max(100),
   score: z.number().min(0).max(100),
   damage: z.number().min(0).max(100).optional(),
@@ -260,7 +261,6 @@ export const MiniRepeat = z.object({
     z.object({
       probe: z.string().max(40),
       failure: MiniFailure.optional(),
-      repaired: z.boolean().optional(),
     }),
   ),
 })
@@ -294,13 +294,15 @@ export const MiniRun = z.object({
     score: MiniRange,
     quality: MiniRange.optional(),
     perCallRate: MiniRange,
+    repairRate: MiniRange,
     completion: MiniRange,
     damage: MiniRange.optional(),
     draftMinutes: MiniRange.optional(),
     outputTokensPerSecond: MiniRange.optional(),
     promptTokensPerSecond: MiniRange.optional(),
     calls: z.number().int().nonnegative(),
-    firstTryCalls: z.number().int().nonnegative(),
+    failedCalls: z.number().int().nonnegative(),
+    repairedCalls: z.number().int().nonnegative(),
   }),
   verdict: z.object({
     level: z.enum(MINI_LEVELS),

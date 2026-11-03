@@ -41,7 +41,7 @@ apart.
 - **FR-1 Probes.** Fixed inputs, one project copy per probe and per run so one model's output
   never feeds another call (`bench/suites/mini.json`, `probes`):
   1. **Format**: re-run `scenario_overview` on city-water "pH on the Edge". Valid structured
-     output on the first try.
+     output; a repair round is reported in the repair rate, not as a failure.
   2. **Long prompt, a full phase**: re-run `msel_phase` for the **last phase** of the
      chemical-rmp scenario, stretched to 180 minutes (`phaseMinutes`). The app asks for six rows an
      hour, so the model must write 18 rows (allowed 21) with the corpus, the phase plan, the roles
@@ -57,11 +57,15 @@ apart.
   overlap are a tie (`compareRanges` in `score.mjs`).
 - **FR-3 No time cap.** A call is never ended for taking long. It ends only when it stalls or
   repeats itself, detected on the streamed reply (see "Stalls and loops").
-- **FR-4 Completion.** A call is a **first-try success** when it returns a usable reply with no
-  failure, no repair round and no reply cut off at the length limit and asked again. The per-call
-  rate is the share of first-try successes over every Mini call of both runs. Completion is that
-  rate raised to the number of model calls in a scenario (14: see "Token budget"). Both are
-  reported; completion is the one in the score and the bands.
+- **FR-4 Completion.** A call **fails** only if it fails after the app's normal repair policy
+  (the automatic repair round and the longer-answer retry are the app's own retries, invisible to
+  users) or if it stalls or loops. The per-call rate is the share of calls that did not fail, over
+  every Mini call of both runs. Completion is that rate raised to the number of model calls in a
+  scenario (14: see "Token budget"). Both are reported, with the observed count ("0 failures in
+  10 calls"); completion is the one in the score and the bands. The **repair rate** (calls that
+  needed a repair round or a longer-answer retry) is reported separately, in its own column; it is
+  not a failure and does not enter completion. Its cost is already in the measured seconds, so it
+  feeds draft time.
 - **FR-5 Quality.** The share of criteria met, 0 to 100, over the replies the model delivered
   (see "Criteria"). A call that returned nothing adds no criteria: it costs completion, not
   quality, so a failure is counted once. A run in which no call delivered a reply has quality 0.
@@ -77,7 +81,7 @@ apart.
   - **Usable with editing**: completion >= 75% and quality >= 60.
   - **Not recommended**: otherwise.
     When the ranges over the two runs reach into another band, the verdict says so (`uncertain`).
-    The verdict lists why the model falls short, names every failed or repaired call and, for a
+    The verdict lists why the model falls short, names every failed call and, for a
     stall or a loop, the raw tail of the reply.
 - **FR-8 One scoring implementation.** `scripts/bench/mini/score.mjs` composes `score/lint.mjs`,
   `score/citations.mjs`, `score/rubric.mjs` and `score/composite.mjs` (critique) and adds the
@@ -141,8 +145,11 @@ quality times completion. The range of each figure is the minimum and maximum ov
 (the score's range is the runs' own scores, widened to include the reported score).
 
 Completion falls fast by design: it is the chance a whole scenario succeeds. 98% of calls
-succeeding first time gives 75%, and one failure in eight Mini calls gives 15%. A model that
-needs a repair round on a fifth of its calls will not draft a scenario cleanly.
+succeeding gives 75%, and one failure in eight Mini calls gives 15%. **Detection power.** The
+Mini makes 8 calls (10 with the held-out review), so it detects frequent failures, not rare ones:
+a model that fails 1 call in 20 shows no failure in ten calls more than half the time (0.95^10 =
+60%), and its completion then reads 100%. "0 failures in 10 calls" is not "never fails". The
+full benchmark is the check for rare failures.
 
 ### Token budget
 
@@ -183,31 +190,32 @@ What it cannot recompute, and how the table marks it:
 - **The harder long-prompt probe**: the saved call was the unstretched one-hour phase (about
   eight rows). The rows-in-phase criterion is dropped, and the tag-mix and role criteria are
   judged on a short phase, so quality is not comparable with a live v2 run.
-- **Cut-off retries** were not recorded, so only repair rounds count against the first-try rate.
+- **Cut-off retries** were not recorded, so only repair rounds appear in the repair rate.
 - **Source support** is judged only where the saved run holds source-check results for the rows.
 
-| Model                  | Quality | Per-call   | Completion | Mini score | Damage | Draft time | Band now                      | Saved verdict (v1) |
-| ---------------------- | ------- | ---------- | ---------- | ---------- | ------ | ---------- | ----------------------------- | ------------------ |
-| gemma-4-31b            | 63.6    | 100% (4/4) | 100%       | 63.6       | 0%     | 67.3 min   | Usable with editing (partial) | Won't work 53.6    |
-| nemotron-3.5-lightning | 81.8    | 100% (5/5) | 100%       | 81.8       | 4.5%   | 6.7 min    | Recommended                   | Will work 85.3     |
-| gpt-oss-20b            | 81.8    | 40% (2/5)  | 0%         | 0          | 1.1%   | 7.7 min    | Not recommended               | Risky 86.3         |
-| qwen3-30b-a3b-2507     | 90.9    | 100% (5/5) | 100%       | 90.9       | 24%    | 9.7 min    | Usable with editing           | Risky 87.9         |
-| qwen3.5-4b             | 72.7    | 100% (5/5) | 100%       | 72.7       | 0%     | 3.3 min    | Usable with editing           | Will work 83.1     |
-| qwen3.5-9b             | 77.3    | 100% (5/5) | 100%       | 77.3       | 2.1%   | 8.1 min    | Usable with editing           | Will work 77.5     |
-| qwen3.6-27b            | 90.9    | 100% (5/5) | 100%       | 90.9       | 8.1%   | 22.7 min   | Usable with editing           | Risky 93.2         |
-| qwen3.6-35b-a3b-mlx    | 95.5    | 100% (5/5) | 100%       | 95.5       | 19.8%  | 7.1 min    | Usable with editing           | Risky 92           |
-| qwen3.8-27b-mlx        | 94.7    | 100% (4/4) | 100%       | 94.7       | 0%     | 24.8 min   | Recommended (partial)         | Risky 77.5         |
-| glm-4.7-flash          | 100     | 100% (2/2) | 100%       | 100        | n/a    | 11.3 min   | Recommended (partial)         | Won't work 28.4    |
+| Model                  | Quality | Completion (failures in calls) | Repair rate | Mini score | Damage | Draft time | Band now                      | Saved verdict (v1) | Not recomputed                     |
+| ---------------------- | ------- | ------------------------------ | ----------- | ---------- | ------ | ---------- | ----------------------------- | ------------------ | ---------------------------------- |
+| gemma-4-31b            | 63.6    | 100% (0 in 4)                  | 0%          | 63.6       | 0%     | 67.3 min   | Usable with editing (partial) | Won't work 53.6    | longContext                        |
+| nemotron-3.5-lightning | 81.8    | 100% (0 in 5)                  | 0%          | 81.8       | 4.5%   | 6.7 min    | Recommended                   | Will work 85.3     | none                               |
+| gpt-oss-20b            | 81.8    | 100% (0 in 5)                  | 60%         | 81.8       | 1.1%   | 7.7 min    | Recommended                   | Risky 86.3         | none                               |
+| qwen3-30b-a3b-2507     | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 24%    | 9.7 min    | Usable with editing           | Risky 87.9         | none                               |
+| qwen3.5-4b             | 72.7    | 100% (0 in 5)                  | 0%          | 72.7       | 0%     | 3.3 min    | Usable with editing           | Will work 83.1     | none                               |
+| qwen3.5-9b             | 77.3    | 100% (0 in 5)                  | 0%          | 77.3       | 2.1%   | 8.1 min    | Usable with editing           | Will work 77.5     | none                               |
+| qwen3.6-27b            | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 8.1%   | 22.7 min   | Usable with editing           | Risky 93.2         | none                               |
+| qwen3.6-35b-a3b-mlx    | 95.5    | 100% (0 in 5)                  | 0%          | 95.5       | 19.8%  | 7.1 min    | Usable with editing           | Risky 92           | none                               |
+| qwen3.8-27b-mlx        | 94.7    | 100% (0 in 4)                  | 0%          | 94.7       | 0%     | 24.8 min   | Recommended (partial)         | Risky 77.5         | review                             |
+| glm-4.7-flash          | 100     | 100% (0 in 2)                  | 0%          | 100        | n/a    | 11.3 min   | Recommended (partial)         | Won't work 28.4    | longContext, review, heldOutReview |
 
 Reading the table:
 
-- The new scoring separates the cases it was written to separate. gpt-oss-20b needed a repair
-  round in three of five calls, so its completion is 0% and it is Not recommended. The models that
-  rewrote correct rows (qwen3-30b 24%, qwen3.6-35b 19.8%) are Usable with editing and not
-  Recommended, because damage is a condition of the Recommended band.
-- Two rows are marked partial because their long-prompt or review call was cut by the old cap.
-  Their quality rests on fewer replies, and glm-4.7-flash's 100 rests on the handbook alone: it
-  shows what a partial replay cannot say, not that the model is Recommended.
+- No saved call failed after the repair policy, so every model completes at 100% on these
+  samples. The repair rate is the new signal: gpt-oss-20b needed a repair round in three of five
+  calls (60%), which v1 scored as a failure and now shows as a repair rate. Its band is
+  Recommended on quality 81.8 and damage 1.1%; the repair cost is in its draft time.
+- Models that rewrote correct rows (qwen3-30b 24%, qwen3.6-35b 19.8%) are Usable with editing,
+  not Recommended, because damage is a condition of the Recommended band.
+- Calls cut by the old cap were left out, so those rows are "(partial)". glm-4.7-flash's 100 rests
+  on the handbook alone and says nothing about the model.
 - Draft time is the measured rates applied to the token budget; gemma-4-31b's 67 minutes comes
   from the slow generation rate measured in its saved run. It is reported, not scored.
 
@@ -225,9 +233,7 @@ Ideation, injects and media, more than two runs and ranking for publication. A M
 
 ## Open questions
 
-1. With eight calls, one first-try failure puts completion near 15% and the model in Not
-   recommended. That follows from the stated definition (the chance a whole scenario succeeds). If
-   the owner wants a model with one repair round in eight calls to land in Usable, the exponent or
-   the band must change, and the methods must say so.
-2. The source-support criterion needs the app's source check to find claim-bearing rows in the
+1. The source-support criterion needs the app's source check to find claim-bearing rows in the
    stretched phase; when it finds none the criterion is left out.
+2. With about 10 calls the Mini cannot see a failure rate under about 10%. If screening needs to
+   catch rarer failures, more runs are the only fix.

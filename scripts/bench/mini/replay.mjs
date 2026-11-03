@@ -15,7 +15,7 @@
 //   - The long-prompt call was the unstretched last phase (about 6 rows), so the rows-in-phase
 //     criterion is dropped; the harder 15 to 20 row probe has no saved data.
 //   - Saved runs do not record a reply that was cut off and asked again, so only repair rounds
-//     count against the first-try rate.
+//     are visible, and they count in the repair rate, not as failures.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -221,12 +221,12 @@ const num = (r, unit = '') => (r ? `${r.value}${unit}` : 'n/a')
 
 export function tableMarkdown(rows) {
   const lines = [
-    '| Model | Quality | Per-call | Completion | Mini score | Damage | Draft time | Band now | Saved verdict (v1) | Not recomputed |',
+    '| Model | Quality | Completion (failures in calls) | Repair rate | Mini score | Damage | Draft time | Band now | Saved verdict (v1) | Not recomputed |',
     '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ...rows.map((r) => {
       const x = r.result
       const skipped = r.unknown.map((u) => u.probe).join(', ') || 'none'
-      return `| ${r.model} | ${num(x.quality)} | ${num(x.perCallRate, '%')} (${x.firstTryCalls}/${x.calls}) | ${num(x.completion, '%')} | ${num(x.score)} | ${num(x.damage, '%')} | ${num(x.draftMinutes, ' min')} | ${LEVEL_LABEL[r.verdict.level]}${r.unknown.length ? ' (partial)' : ''} | ${OLD_LABEL[r.before.level] ?? r.before.level} ${r.before.score} | ${skipped} |`
+      return `| ${r.model} | ${num(x.quality)} | ${num(x.completion, '%')} (${x.failedCalls} in ${x.calls}) | ${num(x.repairRate, '%')} | ${num(x.score)} | ${num(x.damage, '%')} | ${num(x.draftMinutes, ' min')} | ${LEVEL_LABEL[r.verdict.level]}${r.unknown.length ? ' (partial)' : ''} | ${OLD_LABEL[r.before.level] ?? r.before.level} ${r.before.score} | ${skipped} |`
     }),
   ]
   return lines.join('\n')

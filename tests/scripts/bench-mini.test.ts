@@ -339,16 +339,25 @@ describe('quality, completion and the Mini score', () => {
     expect(damageOf({ format: probe([]) })).toBeUndefined()
   })
 
-  it('raises the per-call first-try rate to the number of model calls in a scenario', () => {
+  it('raises the per-call success rate to the number of model calls in a scenario', () => {
     const allGood = { a: probe([true]), b: probe([true]), c: probe([true]), d: probe([true]) }
-    const one = { ...allGood, d: probe([true], { firstTry: false }) }
+    const one = { ...allGood, d: probe([], { ok: false, firstTry: false }) }
     expect(callRate(one)).toBe(0.75)
     const good = scoreRepeat({ probes: allGood, calls: calls(4), suite: mini })
-    expect(good).toMatchObject({ perCallRate: 100, completion: 100, score: 100 })
+    expect(good).toMatchObject({ perCallRate: 100, repairRate: 0, completion: 100, score: 100 })
     const bad = scoreRepeat({ probes: one, calls: calls(4), suite: mini })
     // 0.75 ^ 14 = 1.8%
     expect(bad.completion).toBeCloseTo(1.8, 1)
     expect(bad.score).toBeLessThan(2)
+  })
+
+  it('does not count a repair round as a failure: it is reported as a repair rate', () => {
+    const probes = { a: probe([true]), b: probe([true], { firstTry: false }) }
+    const r = scoreRepeat({ probes, calls: calls(2), suite: mini })
+    expect(r).toMatchObject({ perCallRate: 100, repairRate: 50, completion: 100, failures: [] })
+    const result = miniResult({ repeats: [{ probes, result: r }], suite: mini })
+    expect(result).toMatchObject({ failedCalls: 0, repairedCalls: 1, calls: 2 })
+    expect(result.repairRate.value).toBe(50)
   })
 
   it('multiplies quality by completion and reports ranges over the two runs', () => {
@@ -363,13 +372,13 @@ describe('quality, completion and the Mini score', () => {
     expect(r.calls).toBe(4)
   })
 
-  it('pools the first-try rate over every call of both runs', () => {
+  it('pools the success rate over every call of both runs', () => {
     const a = {
       probes: { a: probe([true]) },
       result: { quality: { score: 100 }, score: 100, completion: 100, perCallRate: 100, speed: {} },
     }
     const b = {
-      probes: { a: probe([true], { firstTry: false }) },
+      probes: { a: probe([], { ok: false, firstTry: false }) },
       result: { quality: { score: 100 }, score: 0, completion: 0, perCallRate: 0, speed: {} },
     }
     const r = miniResult({ repeats: [a, b], suite: mini })
@@ -433,7 +442,9 @@ describe('bands', () => {
     damage: range(2),
     draftMinutes: range(40),
     calls: 8,
-    firstTryCalls: 8,
+    failedCalls: 0,
+    repairedCalls: 0,
+    repairRate: range(0),
     ...over,
   })
 
@@ -460,7 +471,7 @@ describe('bands', () => {
               probe: 'longContext',
               failure: { kind: 'loop', detail: 'repeating', tail: 'abc abc' },
             },
-            { probe: 'format', repaired: true },
+            { probe: 'format', failure: { kind: 'format', detail: 'bad' } },
           ],
         },
       ],
@@ -469,7 +480,7 @@ describe('bands', () => {
     expect(v.level).toBe('usable')
     expect(v.reasons.join(' ')).toMatch(/Review damage 23%.*turn the review step off/)
     expect(v.notes[0]).toMatch(/longContext: loop.*abc abc/)
-    expect(v.notes[1]).toMatch(/format: needed a repair/)
+    expect(v.notes[1]).toMatch(/format: format: bad/)
   })
 
   it('marks a verdict whose ranges reach another band', () => {
@@ -627,7 +638,7 @@ describe('replaying saved runs', () => {
     expect(r.before).toMatchObject({ score: 53.6, level: 'wont_work' })
   })
 
-  it('counts a saved repair round as not first try and a saved failure as a failed call', () => {
+  it('counts a saved repair round as a repair, not a failure, and a saved failure as a failed call', () => {
     const repaired = replayMiniRun(
       run(),
       workFolder((stage) => ({ ...okRun(stage), repairAttempts: 1 })),
@@ -635,7 +646,8 @@ describe('replaying saved runs', () => {
       gold,
       undefined,
     )
-    expect(repaired.result.perCallRate.value).toBe(0)
+    expect(repaired.result.perCallRate.value).toBe(100)
+    expect(repaired.result.repairRate.value).toBe(100)
     const failed = replayMiniRun(
       run(),
       workFolder((stage) => ({

@@ -153,8 +153,9 @@ inputs from the bundled examples, each run twice, and one number with a stated m
 **Mini score = Quality x Completion**
 
 - **Completion** is the chance that a full scenario drafts with no failed stage. It is the share
-  of Mini calls that succeeded first time (no failure, no repair round, no reply cut off and asked
-  again), raised to the 14 model calls a scenario makes. Both numbers are shown.
+  of Mini calls that did not fail (a call fails only after the app's normal repair policy, or if it
+  stalls or loops), raised to the 14 model calls a scenario makes. It is shown with the observed
+  count, such as "0 failures in 10 calls". The **repair rate** is reported apart and is not a failure.
 - **Quality** (0 to 100) is the share of fixed criteria the replies meet, against the Scenario 3
   reference: a full 18-row MSEL phase on a long prompt (row count, pace, purpose-tag mix, citations
   resolved and supported, structure, lint), the handbook's completeness, and each planted defect
@@ -170,7 +171,7 @@ measured speed and the token budget of a scenario). A slow draft time is reporte
 | **Usable with editing** | completion >= 75% and quality >= 60            |
 | **Not recommended**     | anything else                                  |
 
-Completion falls fast: one first-try failure in eight calls leaves about 15%.
+Completion falls fast: one failure in eight calls leaves about 15%. About ten calls detect frequent failures, not rare ones.
 
 | Probe       | Call                                                      |
 | ----------- | --------------------------------------------------------- |

@@ -47,7 +47,7 @@ function shortfalls({ completion, quality, damage }, level, bands) {
   return out
 }
 
-/** One line per failed or repaired call: what happened, with the raw tail of a stall or a loop. */
+/** One line per failed call: what happened, with the raw tail of a stall or a loop. */
 function callNotes(repeats) {
   return repeats.flatMap((r, i) =>
     (r.failures ?? []).map((f) => {
@@ -56,7 +56,7 @@ function callNotes(repeats) {
         const tail = f.failure.tail ? ` Last output: "${f.failure.tail.slice(-120)}"` : ''
         return `${f.probe}${run}: ${f.failure.kind}: ${f.failure.detail}.${tail}`
       }
-      return `${f.probe}${run}: needed a repair round or a longer answer`
+      return `${f.probe}${run}: failed`
     }),
   )
 }
@@ -125,7 +125,8 @@ export function summaryMarkdown(run) {
       : []),
     ...verdict.notes.map((n) => `- ${n}`),
     '',
-    `Per-call first-try rate ${range(result.perCallRate, '%')} over ${result.calls} calls.`,
+    `Completion rests on ${result.failedCalls} failure${result.failedCalls === 1 ? '' : 's'} in ${result.calls} calls (per-call success ${range(result.perCallRate, '%')}). About ten calls detect frequent failures, not rare ones.`,
+    `Repair rate ${range(result.repairRate, '%')} (calls that needed a repair round or a longer-answer retry; not a failure).`,
     `Review damage ${range(result.damage, '%')}.`,
     `Draft time ${range(result.draftMinutes, ' min')} for a full scenario on this hardware` +
       (result.outputTokensPerSecond
