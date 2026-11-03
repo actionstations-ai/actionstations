@@ -25,19 +25,21 @@ export function changedFields(before, after) {
 }
 
 /**
- * `before` and `after`: MSEL rows; `planted`: from applyDefects (their rows are exempt, the
- * critique was meant to change them); `penalty`: points lost per percent of weighted damage.
+ * `before` and `after`: MSEL rows; `planted`: from applyDefects (their rows may be rewritten, but not
+ * removed, except a duplicate's rows); `penalty`: points lost per percent of weighted damage.
  */
 export function damageScore({ before, after, planted, penalty }) {
   const exempt = new Set(planted.flatMap((d) => d.rows))
+  const duplicated = new Set(planted.flatMap((d) => (d.probe?.type === 'duplicate' ? d.rows : [])))
   const rows = before.filter(
-    (r) => !exempt.has(r.id) && !['STARTEX', 'ENDEX'].includes(r.purposeTag),
+    (r) => !duplicated.has(r.id) && !['STARTEX', 'ENDEX'].includes(r.purposeTag),
   )
   const byId = new Map(after.map((r) => [r.id, r]))
   const damaged = []
   for (const row of rows) {
     const now = byId.get(row.id)
-    const fields = now ? changedFields(row, now) : ['removed']
+    // Rewriting a planted row is the point of the critique; deleting it fixes nothing.
+    const fields = now ? (exempt.has(row.id) ? [] : changedFields(row, now)) : ['removed']
     if (fields.length) damaged.push({ id: row.id, tag: row.purposeTag, fields })
   }
   const total = rows.reduce((n, r) => n + rowWeight(r), 0)

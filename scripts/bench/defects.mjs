@@ -60,10 +60,19 @@ function dropDecisionPoints(msel) {
   return touched
 }
 
-/** What the defective row holds after the edit, so a later scenario can be checked against it. */
-function fieldChecks(row, defect) {
-  const set = Object.keys(defect.set ?? {}).map((field) => ({ field, planted: row[field] }))
-  const replaced = (defect.replace ?? []).map((r) => ({ field: r.field, contains: r.with }))
+/** What the defective row held before (`clean`) and after the edit, for the later check. */
+function fieldChecks(clean, row, defect) {
+  const set = Object.keys(defect.set ?? {}).map((field) => ({
+    field,
+    planted: row[field],
+    clean: clean[field],
+  }))
+  const replaced = (defect.replace ?? []).map((r) => ({
+    field: r.field,
+    contains: r.with,
+    planted: row[r.field],
+    clean: clean[r.field],
+  }))
   return [...set, ...replaced]
 }
 
@@ -72,9 +81,11 @@ function applyOne(msel, defect) {
   if (!DEFECT_KINDS.includes(defect.kind))
     throw new Error(`defect ${defect.id}: unknown kind "${defect.kind}"`)
   if (defect.kind === 'missing_decision_point') {
+    const was = msel.filter((r) => r.purposeTag === 'DECISION_POINT')
     const rows = dropDecisionPoints(msel)
     if (!rows.length) throw new Error(`defect ${defect.id}: the scenario has no decision point`)
-    return { rows, anyRow: true, probe: { type: 'decision_point' } }
+    const probe = { type: 'decision_point', count: was.length, phases: was.map((r) => r.phaseId) }
+    return { rows, anyRow: true, probe }
   }
   const i = rowIndex(msel, defect.row, defect)
   if (defect.kind === 'duplicate_row') {
@@ -88,8 +99,9 @@ function applyOne(msel, defect) {
       probe: { type: 'duplicate', row: defect.row, copyId: defect.copyId, event: copy.event },
     }
   }
+  const clean = structuredClone(msel[i])
   editRow(msel[i], defect)
-  const probe = { type: 'fields', row: defect.row, checks: fieldChecks(msel[i], defect) }
+  const probe = { type: 'fields', row: defect.row, checks: fieldChecks(clean, msel[i], defect) }
   if (defect.kind === 'time_order') {
     const near = [msel[i - 1]?.id, defect.row, msel[i + 1]?.id].filter(Boolean)
     return { rows: near, anyRow: false, probe }
@@ -152,27 +164,62 @@ export function overlap(a, b) {
 /** Free-text fields count as changed once less than this share of the words is shared. */
 export const SAME_TEXT = 0.9
 
-const TEXT_FIELDS = new Set(['event', 'expectedAction', 'toLabel'])
+const minutes = (t) => {
+  const [h, m] = String(t ?? '')
+    .split(':')
+    .map(Number)
+  return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : NaN
+}
 
-function fieldFixed(row, check) {
-  if (check.contains !== undefined) return !String(row[check.field] ?? '').includes(check.contains)
-  if (TEXT_FIELDS.has(check.field)) return similarity(row[check.field], check.planted) < SAME_TEXT
-  return row[check.field] !== check.planted
+/** A time is fixed when it is the clean one, or sits between its neighbours again. */
+function timeFixed(msel, row, check) {
+  if (row.time === check.clean) return true
+  if (row.time === check.planted) return false
+  const i = msel.indexOf(row)
+  const t = minutes(row.time)
+  const lo = minutes(msel[i - 1]?.time)
+  const hi = minutes(msel[i + 1]?.time)
+  return t >= (Number.isNaN(lo) ? -Infinity : lo) && t <= (Number.isNaN(hi) ? Infinity : hi)
 }
 
 /**
- * Is planted defect `d` gone from `msel` (the revised rows)? A defect is fixed when its row was
- * removed, its edited field no longer holds the planted value (free text: no longer nearly the
- * same words), the copy of a duplicated row is gone or rewritten, or a decision point is back.
+ * Fixed once the field is closer to the clean value than to the planted one (so an unrelated
+ * rewrite is not a fix); for a replaced identifier the planted string must also be gone.
+ */
+function fieldFixed(msel, row, check) {
+  if (check.field === 'time') return timeFixed(msel, row, check)
+  const now = row[check.field]
+  if (check.contains !== undefined && String(now ?? '').includes(check.contains)) return false
+  const toClean = similarity(now, check.clean)
+  const toPlanted = similarity(now, check.planted)
+  return check.contains !== undefined ? toClean >= toPlanted && toClean >= 0.5 : toClean > toPlanted
+}
+
+function duplicateFixed(p, msel) {
+  const copy = msel.find((r) => r.id === p.copyId)
+  const original = msel.find((r) => r.id === p.row)
+  if (!copy || !original) return true // either one removed
+  const apart = similarity(copy.event, original.event) < SAME_TEXT
+  const echoed = msel.some((r) => r !== copy && similarity(r.event, copy.event) >= SAME_TEXT)
+  return apart && !echoed
+}
+
+function decisionPointBack(p, msel) {
+  const back = msel.filter((r) => r.purposeTag === 'DECISION_POINT')
+  return back.length >= p.count || back.some((r) => p.phases.includes(r.phaseId))
+}
+
+/**
+ * Is planted defect `d` gone from `msel` (the revised rows)? A duplicate is fixed when either row
+ * is removed or the copy is rewritten into something unlike every row; a decision point when as
+ * many exist as before or one is back in a phase that lost one; an edited field when it is closer
+ * to the clean value than to the planted one. A deleted row fixes none of the others (it is damage).
  */
 export function isFixed(d, msel) {
   const p = d.probe
   if (!p) return false
-  if (p.type === 'decision_point') return msel.some((r) => r.purposeTag === 'DECISION_POINT')
-  if (p.type === 'duplicate') {
-    const copy = msel.find((r) => r.id === p.copyId)
-    return !copy || !msel.some((r) => r.id === p.row) || similarity(copy.event, p.event) < SAME_TEXT
-  }
+  if (p.type === 'decision_point') return decisionPointBack(p, msel)
+  if (p.type === 'duplicate') return duplicateFixed(p, msel)
   const row = msel.find((r) => r.id === p.row)
-  return !row || p.checks.some((c) => fieldFixed(row, c))
+  return !!row && p.checks.some((c) => fieldFixed(msel, row, c))
 }

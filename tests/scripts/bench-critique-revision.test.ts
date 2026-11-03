@@ -20,6 +20,7 @@ import type { Planted } from '../../scripts/bench/defects.d.mts'
 
 type Row = {
   id: string
+  phaseId: string
   purposeTag: string
   from: string
   event: string
@@ -28,6 +29,7 @@ type Row = {
 }
 const row = (id: string, over: Partial<Row> = {}): Row => ({
   id,
+  phaseId: 'p1',
   purposeTag: 'CORE_NARRATIVE',
   from: 'Facilitator',
   event: `Event ${id}: the tank level alarm sounds at the east plant`,
@@ -46,50 +48,103 @@ const planted = (over: Partial<Planted> & { probe: unknown }): Planted => ({
 })
 
 describe('isFixed', () => {
-  it('sees a duplicate gone when the copy is removed or rewritten', () => {
-    const d = planted({
-      probe: { type: 'duplicate', row: 'I-01', copyId: 'I-01x', event: 'Same text here' },
-    })
-    expect(isFixed(d, [row('I-01'), row('I-01x', { event: 'Same text here' })])).toBe(false)
-    expect(isFixed(d, [row('I-01')])).toBe(true)
-    expect(
-      isFixed(d, [row('I-01'), row('I-01x', { event: 'A different inject about the pump' })]),
-    ).toBe(true)
+  const dup = planted({
+    probe: { type: 'duplicate', row: 'I-01', copyId: 'I-01x', event: 'Same text here' },
+  })
+  const same = { event: 'Same text here' }
+
+  it('sees a duplicate fixed when either row is removed', () => {
+    expect(isFixed(dup, [row('I-01', same), row('I-01x', same)])).toBe(false)
+    expect(isFixed(dup, [row('I-01', same)])).toBe(true)
+    expect(isFixed(dup, [row('I-01x', same)])).toBe(true)
   })
 
-  it('sees a field fixed once it no longer holds the planted value', () => {
-    const sender = planted({
-      probe: { type: 'fields', row: 'I-02', checks: [{ field: 'from', planted: 'Operator' }] },
-    })
-    expect(isFixed(sender, [row('I-02', { from: 'Operator' })])).toBe(false)
-    expect(isFixed(sender, [row('I-02', { from: 'Facilitator' })])).toBe(true)
+  it('counts a rewritten copy only when it is unlike the original and every other row', () => {
+    const other = { event: 'A different inject about the pump failing at the north site' }
+    const echo = [row('I-01', same), row('I-01x', other), row('I-07', other)]
+    expect(isFixed(dup, echo)).toBe(false) // now a copy of I-07
+    expect(isFixed(dup, [row('I-01', same), row('I-01x', other)])).toBe(true)
+  })
+
+  const text =
+    'The county health agency decides whether the plant stays open and when to reopen it.'
+  const clean =
+    'The plant manager decides whether the plant stays open and when to reopen it, with the county.'
+  const sentence = planted({
+    probe: {
+      type: 'fields',
+      row: 'I-03',
+      checks: [{ field: 'expectedAction', planted: text, clean }],
+    },
+  })
+
+  it('counts a field fixed when it is closer to the clean value than to the planted one', () => {
+    expect(isFixed(sentence, [row('I-03', { expectedAction: clean })])).toBe(true)
+    expect(isFixed(sentence, [row('I-03', { expectedAction: text })])).toBe(false)
+  })
+
+  it('does not count an unrelated rewrite, or a light rewording of the planted text', () => {
+    const unrelated = 'Crews photograph the damaged fence and file the insurance claim.'
+    expect(isFixed(sentence, [row('I-03', { expectedAction: unrelated })])).toBe(false)
+    expect(isFixed(sentence, [row('I-03', { expectedAction: `${text} Now.` })])).toBe(false)
+  })
+
+  it('needs a replaced identifier gone and the text still about the clean row', () => {
     const id = planted({
-      probe: { type: 'fields', row: 'I-02', checks: [{ field: 'event', contains: 'TANK-09' }] },
+      probe: {
+        type: 'fields',
+        row: 'I-02',
+        checks: [
+          {
+            field: 'event',
+            contains: 'TANK-09',
+            planted: 'Alarm on TANK-09 at the east plant',
+            clean: 'Alarm on TANK-01 at the east plant',
+          },
+        ],
+      },
     })
-    expect(isFixed(id, [row('I-02', { event: 'Alarm on TANK-09' })])).toBe(false)
-    expect(isFixed(id, [row('I-02', { event: 'Alarm on TANK-01' })])).toBe(true)
+    expect(isFixed(id, [row('I-02', { event: 'Alarm on TANK-09 at the east plant' })])).toBe(false)
+    expect(isFixed(id, [row('I-02', { event: 'Alarm on TANK-01 at the east plant' })])).toBe(true)
+    expect(isFixed(id, [row('I-02', { event: 'Crews photograph the fence' })])).toBe(false)
   })
 
-  it('does not count a light rewording of a planted sentence as a fix', () => {
-    const text =
-      'The county health agency decides whether the plant stays open and when to reopen it.'
+  it('does not count a deleted row as a fix for a field defect', () => {
     const d = planted({
-      probe: { type: 'fields', row: 'I-03', checks: [{ field: 'expectedAction', planted: text }] },
+      probe: {
+        type: 'fields',
+        row: 'I-09',
+        checks: [{ field: 'from', planted: 'Operator', clean: 'Facilitator' }],
+      },
     })
-    expect(isFixed(d, [row('I-03', { expectedAction: `${text} Now.` })])).toBe(false)
-    expect(
-      isFixed(d, [row('I-03', { expectedAction: 'The plant manager decides to close it.' })]),
-    ).toBe(true)
+    expect(isFixed(d, [row('I-01')])).toBe(false)
+    expect(isFixed(d, [row('I-09', { from: 'Facilitator' })])).toBe(true)
   })
 
-  it('counts a removed row as a fix and a restored decision point as a fix', () => {
+  it('counts a time fixed when clean or in sequence again, not when still out of order', () => {
     const d = planted({
-      probe: { type: 'fields', row: 'I-09', checks: [{ field: 'from', planted: 'X' }] },
+      probe: {
+        type: 'fields',
+        row: 'I-02',
+        checks: [{ field: 'time', planted: '9:00', clean: '0:20' }],
+      },
     })
-    expect(isFixed(d, [row('I-01')])).toBe(true)
-    const none = planted({ probe: { type: 'decision_point' } })
-    expect(isFixed(none, [row('I-01')])).toBe(false)
-    expect(isFixed(none, [row('I-01', { purposeTag: 'DECISION_POINT' })])).toBe(true)
+    const at = (t: string) => [
+      row('I-01', { time: '0:10' }),
+      row('I-02', { time: t }),
+      row('I-03', { time: '0:30' }),
+    ]
+    expect(isFixed(d, at('9:00'))).toBe(false)
+    expect(isFixed(d, at('1:50'))).toBe(false)
+    expect(isFixed(d, at('0:25'))).toBe(true)
+  })
+
+  it('needs the removed decision point back, not just any decision point', () => {
+    const none = planted({ probe: { type: 'decision_point', count: 2, phases: ['p2', 'p3'] } })
+    const dp = (id: string, phaseId: string) => row(id, { purposeTag: 'DECISION_POINT', phaseId })
+    expect(isFixed(none, [row('I-01'), dp('I-05', 'p1')])).toBe(false)
+    expect(isFixed(none, [dp('I-05', 'p1'), dp('I-06', 'p1')])).toBe(true)
+    expect(isFixed(none, [dp('I-05', 'p1'), dp('I-07', 'p3')])).toBe(true)
   })
 
   it('measures word overlap', () => {
@@ -134,6 +189,18 @@ describe('damageScore', () => {
     // weights: I-01 1, I-02 3, I-03 1, I-04 1 = 6; lost 3 + 1 = 4
     expect(d.damage).toBe(66.7)
     expect(d.intact).toBe(0)
+  })
+
+  it('counts a deleted planted row as damage but not a removed duplicate', () => {
+    const plantedRow = planted({
+      rows: ['I-03'],
+      probe: { type: 'fields', row: 'I-03', checks: [] },
+    })
+    const after = before.filter((r) => r.id !== 'I-03')
+    const hurt = damageScore({ before, after, planted: [plantedRow], penalty: 2 })
+    expect(hurt.damaged[0]).toMatchObject({ id: 'I-03', fields: ['removed'] })
+    const dup = planted({ rows: ['I-03', 'I-04'], probe: { type: 'duplicate' } })
+    expect(damageScore({ before, after, planted: [dup], penalty: 2 }).damage).toBe(0)
   })
 
   it('does not count a qualifier added to a sender or a light rewording', () => {
