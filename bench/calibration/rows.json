@@ -1,0 +1,302 @@
+[
+  {
+    "row": "Console Dump (Position 12): 'ALI Data Integrity Check — 15-minute window: 49% of ALI points missing; 12 unit status updates marked as invalid. Source: CAD-MDS01. Evidence captured on REC-01 (RCECD-F-21).'\nExpected action: Tech confirms ALI data is compromised; Supervisor declares CAD data untrusted; Floor moves to manual operations using cards (RCECD-F-11)",
+    "passage": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+    "score": 3
+  },
+  {
+    "row": "System Log (CAD-MDS01): 'Forensic audit trail — unauthorized admin session from RCECD-POS09 (10.12.200.102), user: jdoe (stolen credentials). Executed script: cleaner.bat. Actions: modified unit status for 17 active calls; altered ALI geolocation data for 12 incidents. Session duration: 32 seconds. Source: unauthenticated admin interface on CAD-APP01. Log entry confirmed on REC-01 (RCECD-F-21).'\nExpected action: Tech reports the forensic findings to the Incident Commander and Floor Supervisor; confirms that CAD data cannot be trusted and that the attacker has modified unit status and ALI data. Prepares to initiate manual dispatch per RCECD-OPS-2026 Section 7.",
+    "passage": "The Technical Lead, County security and the Director decide together, within 15 minutes, whether to: | Option | Gain | Cost | |---|---|---| | Keep CAD up and watch | Floor keeps CAD; no back-entry lat",
+    "score": 4
+  },
+  {
+    "row": "System Log (MBW-FS-01): \"New outbound connection detected from MBW-HMI-02 to 10.73.0.88 (DosaTech relay) — port 443 HTTPS. ScreenBridge agent running. Ransomware signature found in C:\\Shared\\MBW-Backup\\PLC-02.bat. File is locked and encrypted.\" \nExpected action: IT orders immediate isolation of MBW-HMI-02 from 10.73.0.x and disables FW-R-22 to block DosaTech; begins forensic imaging of MBW-BKP-01 SMB share without powering it off.",
+    "passage": "| Rule | From | To | Service | Purpose | Owner / Note | |---|---|---|---|---|---| | FW-R-05 | Business LAN | MBW-HIST-01 | HTTPS | Read-only historian dashboards for management and the lab | Nandakuma",
+    "score": 2
+  },
+  {
+    "row": "Sitrep: 'All 17 calls with corrupted ALI data have been reconciled. Verified via radio logs (12), run cards (RCECD-F-11), and 24-hour audit of unit movements. Medic 3 was on scene at the Marlow fire for 42 minutes; CAD showed them as available. Engine 4 was dispatched to a false address due to ALI spoofing but was corrected by field radio. All unit statuses now match field reports. Verification complete.'\nExpected action: Supervisor reports full reconciliation of ALI data and confirms manual dispatch accuracy; technical staff begin restore prep.",
+    "passage": "When RespondCAD is unavailable or cannot be trusted (decision record OPS-DR-3): 1. Supervisor announces \"CAD down, go to cards\" on all talkgroups. 2. Call takers write each call on a manual dispatch c",
+    "score": 4
+  },
+  {
+    "row": "Radio Call: \"Control, Distribution Office on DWS-1. Our work-order screen and the AMI tablets won’t load, every file on the S: drive is renamed with a .rptd extension, and there’s a RESTORE-MILLBROOK.txt on every desktop. Customer Service at City Hall says the billing screens show the same thing. Do you see anything on the plant side?\"\nExpected action: The Control Room compares MBW-HMI-01 values with local instruments and reports no change; the IC calls City IT and the SCADA / IT Security Manager by phone, not email (ERP Section 5); Customer Service switches to the paper intake form and the printed critical-customer list (OT Plan 10.5).",
+    "passage": "- Each RTU keeps running its local loops on the last setpoints received (tank fill bands, booster pressure setpoints, well start/stop on LIT-611). - The HMI holds last values with the STALE flag (A.5.",
+    "score": 4
+  },
+  {
+    "row": "Phone Call: City Manager Gloria Tennant: “Denise, I approve anything over 5,000 people. Zone 2 is 42,000 on a Sunday with church and football. Nothing is confirmed. Do we really need an advisory, and if so does it have to be the whole zone?”\nExpected action: The IC and the Water Quality Manager explain the ERP 8.2 rule (the decision does not wait for lab results), propose an area drawn by the streets the standpipe feeds rather than the whole zone, and say when they will bring her a recommendation for approval.",
+    "passage": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+    "score": 4
+  },
+  {
+    "row": "Field Report: \"Security, this is Control Room Operator Rios. I just saw a person in a gray hoodie and blue gloves walking near the Chemical Building's east door at 09:58. The door was ajar, and I could see the light on inside. I called the door intercom — no answer. I tried to contact the operator on site via radio — no response. I've checked the MBW-NVR-01 video feed for that time, and the door was locked at 09:58:33. The person was not on camera. I don’t know if they were real or a ghost. But the HMI says the door is closed, and the PACS says it's locked. I don’t trust the system anymore. Should I send a patrol?\" \nExpected action: Security orders a patrol to the Chemical Building's east door and activates the PACS emergency override to force a manual door unlock for verification; checks MBW-NVR-01 footage for the 09:58 time window and logs the event as a potential physical intrusion under Section 7.6.",
+    "passage": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+    "score": 1
+  },
+  {
+    "row": "System Log: 'CAD-DB01 restore from the 02:00 backup started 21:58 (Keystone Public Safety). CAD-MDS01 rebuild queued. Floor remains on cards; CAD not to be used for dispatch until the 24-hour unit audit is reconciled.'\nExpected action: The Technical Lead reports the restore start to the Director; nobody returns to CAD before verification.",
+    "passage": "Document Control Number: RCECD-CYB-2026 · Revision 2.1 · Effective Date: 03/01/2026 · Parent document: RCECD-OPS-2026 · Owners: Brent Harlow (911 Systems Manager) and Nadia Fenwick (County Information",
+    "score": 2
+  },
+  {
+    "row": "Email Forward: 'From: CISA-LIAISON@carver-oh.example To: ops@millbrook-oh.example Subject: URGENT: Potential Ransomware Lateral Movement via FW-R-17. Your SIEM logs show outbound SMB traffic from a business-domain engineering workstation to 192.168.45.103 (MBW-BKP-01). We are aware of a ransomware campaign targeting municipal billing and AMI systems that may have moved laterally. We request your immediate isolation of the control network per OT Plan 10.3 and confirmation that your backup server is not infected. Do not confirm or deny an intrusion until the SCADA/IT Security Manager and City IT Director agree on facts and the FBI/CISA liaison has consulted. We will coordinate with WaterISAC and the FBI. Reply within 30 minutes.'\nExpected action: IT confirms FW-R-17 is disabled within 30 minutes; SCADA/IT Security Manager begins islanding the control network per C3.1; Incident Commander declares Level 2 (Operational Emergency) and notifies the Mayor and Water Quality Manager within 15 minutes per C10.5",
+    "passage": "Follow MDWS-OTSEC-2026 Section 10. Summary for the Incident Commander: - Business-network incident (ransomware, phishing, loss of CIS/AMI): City IT contains; the SCADA / IT Security Manager decides wi",
+    "score": 2
+  },
+  {
+    "row": "System Log: PLC-02 re-imaged, verified and returned to automatic control at 11:04, two minutes after the program comparison started. All chemical feed loops are back on AUTO and the HMI matches the field readings.\nExpected action: TL confirms that the PLC-02 program backup is outdated and lacks the 08/2025 flow-pacing logic; IC authorizes full on-site re-image of PLC-02 by Kessler Controls under Section 7.4 change management; no return to automatic until verified by the SCADA / IT Security Manager and the Water Quality Manager.",
+    "passage": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+    "score": 1
+  },
+  {
+    "row": "Phone Call: The hospital facilities director: “Our supply pressure has dropped from 62 to 44 psi in half an hour. We have 24 hours of stored water and need four hours’ notice to switch to the Carver County tanker contract. Is this going to get worse?”\nExpected action: The IC recognizes Zone 1 is being drained through the break (the plant is pushing water out of it) and that starting Mill Road Booster Station will pull Zone 1 lower; warns the hospital now (Zone 1 has no storage), gives it the four-hour notice decision and makes isolating the break the first priority.",
+    "passage": "The system map (sheet MDWS-MAP-2026-1, 36 × 48 in, in the Control Room, the Distribution Office and every DWS truck) shows: - **Riverside Water Treatment Plant**, 1400 River Road, on the west bank of ",
+    "score": 4
+  },
+  {
+    "row": "Media Inquiry: Dana Whitfield of the Millbrook Courier says a source tells her the City is negotiating with the hackers and that customer card numbers are for sale on the dark web. She wants comment by 13:00.\nExpected action: The PIO answers “the City is working with law enforcement and will not discuss that,” does not confirm a breach, and asks the City IT Director and counsel when the data-breach question will be answered (OT Plan 12: notification per counsel).",
+    "passage": "| Rumor or claim | Typical form | Response | Who | |---|---|---|---| | \"The water is poisoned\" | Facebook post, often with a photo of discolored water | Reply with the current advisory, what the lab i",
+    "score": 5
+  },
+  {
+    "row": "Helpdesk Ticket: A customer on Crestview Avenue whose water has just come back says it is “milky white” and asks whether it is contaminated.\nExpected action: The Water Quality Manager recognizes air in the lines after repressurization (the glass clears from the bottom up), has Customer Service give the standard answer and logs the address for sampling; it does not by itself change the advisory decision.",
+    "passage": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+    "score": 4
+  },
+  {
+    "row": "Email Forward: City IT Director Kevin Marsh forwards the response firm’s note: the actor offers a decryptor for MBW-CIS-01 and MBW-FS-01 for 38 BTC; MBW-BKP-01 is encrypted, so the only offline copies are the October 1 tapes in the City Hall vault, which do not include the August PLC-02 logic (finding F-2); the firm recommends rebuilding the SCADA servers from clean media, which keeps the plant islanded and in manual for three to five days. The City Manager wants DWS’s recommendation by 11:30.\nExpected action: DECISION POINT: The IC, with the SCADA / IT Security Manager, decides whether the plant stays islanded and in manual operations until MBW-SCADA-SRV01/02 and MBW-EWS-01 are rebuilt from clean media (days of two-operator shifts and OHWARN help) or reconnects sooner on the existing servers; recommends to the City Manager that the City not pay or contact the actor (OT Plan 10.5); and records the decision and its basis on ERP-1.",
+    "passage": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+    "score": 4
+  },
+  {
+    "row": "Media Inquiry: The Harwick Daily News asks directly whether the Group paid a ransom and whether the FBI is involved.\nExpected action: Corporate Communications answers with the approved line — the Group does not pay ransoms and is working with law-enforcement through its security provider — after the General Manager confirms it.",
+    "passage": "A client is notified by the General Manager (with the Campaign Lead) when its data may have been exposed, altered or destroyed, when a deliverable will be late, or when an incident touches an instrume",
+    "score": 3
+  },
+  {
+    "row": "Memo: 'From the DFIR firm to the CTO — Interim status at 10:20. Done: HUSD-VPN01 preserved as evidence; leak sample matches files on HUSD-FS02. In progress: HUSD-DC01 rebuild, hash verification of backups. Not started: Munis restore (access request unsigned). No reconnection recommended before CIRP Form 4 sign-off.'\nExpected action: The CTO briefs the Policy Group on what is verified and what is not, and keeps the network isolated.",
+    "passage": "1. Backups: Veeam backups on HUSD-BK01 with an immutable copy in the cloud vault (30-day retention); the offline tape copy is taken every Friday. Verify the backup set predates the intrusion before re",
+    "score": 5
+  },
+  {
+    "row": "Email Forward (Vendor): 'Scheduled Maintenance Alert: CardConnect Firmware Update v4.2.1 for all POS terminals at 09:50 AM. Expected duration 30 minutes. Please reroute traffic to backup terminals if needed.' From vendor@cardconnect-solutions.example. (The email timestamp is incorrect; it was sent at 09:50, but all terminals were already offline).\nExpected action: IT and Ops log the email but note the timestamp discrepancy. IT and Ops continue to investigate the firewall rule as primary suspect. Do NOT credit the vendor claim at this stage.",
+    "passage": "**Impact:** all airport-controlled doors fail \"locked\" (no movement) or \"unlocked\" (massive security breach). **\"Fail Unlocked\":** LEO/Security immediately dispatch all available staff to physically s",
+    "score": 1
+  },
+  {
+    "row": "Email Forward: From: Luis Ferreira (Security & Emergency Manager) | To: Denise Albrecht (Director of Water Operations), Priya Nandakumar (SCADA / IT Security Manager) | Subject: OHWARN Mutual-Aid Request — Submitted\n\nThe OHWARN mutual-aid agreement has been activated. Two certified operators from the Carver County Water District have been dispatched and are en route. ETA: 10 hours. The request was submitted via the OHWARN portal (MDWS-OHWARN-2026) and confirmed by the Carver County EOC. The incoming staff will be briefed on site and must pass the onboarding checklist (Section 8.4) before being allowed to operate.\nExpected action: The Director confirms that OHWARN mutual-aid has been activated. The shift will be reinforced in 10 hours. The ICS team updates the incident status to reflect the incoming support.",
+    "passage": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+    "score": 3
+  },
+  {
+    "row": "Media Inquiry: Channel 4 has viewer video of two police cars at the Orchard Road standpipe. “Is someone poisoning the water? Is it safe to drink? We go live at 9.”\nExpected action: The PIO confirms police are at a City water facility, says the City is testing the water and will issue any advice to customers directly and quickly, gives a time for the next update and does not speculate.",
+    "passage": "| Rumor or claim | Typical form | Response | Who | |---|---|---|---| | \"The water is poisoned\" | Facebook post, often with a photo of discolored water | Reply with the current advisory, what the lab i",
+    "score": 5
+  },
+  {
+    "row": "Helpdesk Ticket: The after-hours line has eleven calls since 06:12: water bubbling up through the pavement at Summit Drive near Ridge Road, no water or a trickle on Ridge Road and Crestview Avenue, low pressure on upper Summit Drive.\nExpected action: Distribution sends the nearest crew to Summit Drive; the PIO starts a call log by street; the IC treats the street list as the first map of the depressurized area.",
+    "passage": "1. The Customer Service Lead activates the overflow recording (current advisory, boundaries, website, next update time) within 15 minutes of the notice. 2. Six additional agents are drawn from the Uti",
+    "score": 4
+  },
+  {
+    "row": "Email Forward: From: Marcus Oyelaran (Water Quality Manager) | To: Denise Albrecht (Director of Water Operations), Jordan Alvarez (Deputy PIO) | Subject: Lab Update — Zone 1 pH 9.6, Caustic 37 mg/L — Dialysis Patients Reporting\n\n- Sample ID: 24-1189 (Zone 1, 10:45) \n- pH: 9.6 \n- Caustic dose: 37 mg/L \n- Status: Still above safe limit (pH > 9.5, caustic > 40 mg/L PLC clamp)\n- Additional info: Two dialysis patients from the Zone 1 (Valley) clinic have reported burning in the throat and stomach pain after consuming tap water. One is in the ER. The clinic has requested a safe water supply.\n- Action: Continue Do Not Drink advisory. Recommend issuing a 'Do Not Use' for medical and dialysis purposes if not already in place.\nExpected action: WQ confirms that lab results remain above safe limits and that medical risk has increased. The Director must now decide whether to expand the advisory or keep it in effect.",
+    "passage": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+    "score": 2
+  },
+  {
+    "row": "Email Forward: 'From: support@trackmailballot.example\nTo: Rohan Mehta, IT Manager\nSubject: URGENT: Service Restoration Request for Mail Ballot Tracking Service\n\nWe require a signed access request and a ticket (Ticket #TICK-2026-1125) before restoring service. This is required under Section 8 of the EOP. Please obtain approval from the Director and the Legal Officer, Michael Strand. Without it, we cannot proceed.'\nExpected action: IT logs the vendor request and initiates a ticket (TICK-2026-1125) with Legal and the Director; no action is taken until approval is received.",
+    "passage": "Section 1 Purpose · Section 2 Principles · Section 3 Roles · Section 4 What Is Connected and What Is Not · Section 5 Severity Levels · Section 6 Playbooks · Section 7 Voter-Record Integrity Checks · S",
+    "score": 2
+  },
+  {
+    "row": "System Log: Audit Log for MBW-BKP-01 (10.73.20.60) — PLC-02 Program Backup Verification\n\n- Timestamp: 11:03:12\n- Action: Program comparison for PLC-02 (revision 3.2)\n- Source: MBW-BKP-01 (10.73.20.60)\n- Target: PLC-02 (10.72.20.10)\n- Result: Program version 03/2025 — does not contain the 08/2025 flow-pacing logic update (Section 7.4)\n- Note: The 08/2025 flow-pacing logic was not deployed prior to the attack (09:00). The program on MBW-BKP-01 is from a pre-update baseline. A full on-site re-image is required to restore correct logic.\nExpected action: TL confirms that the PLC-02 program backup is outdated and lacks the 08/2025 flow-pacing logic; IC authorizes full on-site re-image of PLC-02 by Kessler Controls under Section 7.4 change management; no return to automatic until verified by the SCADA / IT Security Manager and the Water Quality Manager.",
+    "passage": "| Tag | Description | Units | Normal range | Low alarm | High alarm | Hard limit / interlock | Who may change setpoint | |---|---|---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose (Hypochl",
+    "score": 2
+  },
+  {
+    "row": "Helpdesk Ticket: A homeowner on Mill Road asks to rent a hydrant meter to fill a backyard pool this afternoon.\nExpected action: Distribution declines or defers it during the heat wave and the incident; it is not related.",
+    "passage": "| Role | Name | Responsibilities | |---|---|---| | Public Information Officer (PIO) | Hannah Weiss, City Communications Director | Owns this plan; approves and releases all public statements; spokespe",
+    "score": 2
+  },
+  {
+    "row": "Email Forward: Channel 4’s morning producer wants the PIO live at 06:45 to talk about water use in the heat wave — “and whether Millbrook’s pipes can take it.”\nExpected action: The PIO decides whether to do the interview, prepares heat-wave conservation messages and checks with the IC that nothing is happening that would make the interview a problem.",
+    "passage": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+    "score": 2
+  },
+  {
+    "row": "System Log: The AIT-688 trend for the Orchard Standpipe outlet: 1.12 mg/L at midnight, 1.08 at 02:00, 0.96 at 03:00, 0.86 at 05:00, 0.78 at 07:00 and 0.74 at 07:20. The wellfield chlorine trim CL2-FC-611 has been at 100 % since 03:40. LIT-611 is steady at 84 ft and the wells are cycling normally.\nExpected action: The Water Quality Manager recognizes a residual falling against a trim pump at full output as a possible chlorine demand from something added, orders ERP-3 field sampling at the standpipe outlet and the first two hydrants downstream, and tells the IC that the two-hour advisory clock in ERP 8.2 will start when a sign of entry is confirmed.",
+    "passage": "A threat (call, letter, social post) or the discovery of a suspicious container, open hatch or unusual residue triggers the Water Contamination Threat procedure: assess credibility with Millbrook Poli",
+    "score": 5
+  },
+  {
+    "row": "Media Inquiry Phone Slip: From: Local TV Assignment Desk (Channel 4) | To: Hannah Weiss (PIO) | Subject: Do Not Drink Advisory — Follow-Up\n\n'Hi, this is Amanda from Channel 4 News. We’re preparing a live segment on the Millbrook water crisis. The advisory has been out for 1 hour. What’s the status? Is the plant back on automatic? Why are you running manual? And when will it be safe to drink again?'\n\nFollow-up: 'We’re getting calls from people in Zone 2 saying they’re starting to taste something. Is it spreading?'\n\nNote: The local TV station is asking for a live statement.\nExpected action: PIO prepares a revised statement based on the Director’s approval. The statement confirms manual operation and ongoing oversight. The PIO uses the pre-scripted message (MDWS-PCP-2026, Section 10) to answer media inquiries.",
+    "passage": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+    "score": 3
+  },
+  {
+    "row": "Field Report: Orchard Standpipe has been isolated since 09:34 and the wells are off. Hilltop Tank is falling about 0.4 ft an hour and reads 25.4 ft; Zone 2 pressure at the Summit Drive gauge is 58 psi. The crew is flushing the two hydrants downstream after sampling them.\nExpected action: The Distribution Superintendent sets the Hilltop Tank level for starting Mill Road Booster Station, confirms flushing only after sampling, and keeps a crew on two-hour hydrant sampling with the lab.",
+    "passage": "Before any PLC or HMI returns to service after an incident: confirm the program matches the last known-good backup (Section 9), confirm setpoints against Section 7.1, run 24 hours with hourly grab sam",
+    "score": 2
+  },
+  {
+    "row": "Technical Update: The POS VLAN is restored, but the payment gateway returns with a 'timeout' error at 11:48. The IT Director must isolate the gateway and notify the vendor of a potential infrastructure issue. The Operations Manager must activate manual procedures again while the IT team troubleshoots the gateway. CISA continues to monitor per C9 AEP Part I Section 4.5.\nExpected action: IT isolates gateway and notifies vendor; Ops reactivates manual procedures; PIO updates stakeholders on extended disruption.",
+    "passage": "**A. The \"Crash Phone\" (Red Phone).** Dedicated hardline connecting the ATCT to ARFF Station 9, AOC, Akron Fire Dispatch (911), and Airport Police Dispatch. **B. Alert Classifications (Aircraft).** Al",
+    "score": 1
+  },
+  {
+    "row": "Technical Update: \"PACS log review shows a single read event at 10:15. The log shows a 125 kHz frequency signature, but the reader display shows a 13.56 MHz signature at the same timestamp. The vendor technician was present at 10:00 and claims the badge was never cloned or stolen. The reader just confirmed a successful entry for a badge that the guard says is not their own.\" \"\", \nExpected action: IT Director notes the discrepancy and begins to correlate the PACS logs with the CCTV footage from CAM-Ramp (10.66.2.101), which shows a person with a vendor badge entering a secure area; Ops begins to prepare for manual inspection of the vendor badge.",
+    "passage": "| System | Function | Impact of Failure/Compromise | Response Action | |---|---|---|---| | ALCS | Airfield Lighting Control | Lights turn off, change intensity, or cannot be controlled by ATC | STOP a",
+    "score": 1
+  },
+  {
+    "row": "Regulatory Notice: From: Carol Dugan, Ohio EPA DDAGW Central District | To: Denise Albrecht, Director of Water Operations | Subject: Level 3 — Public Health Emergency — Advisory Status\nExpected action: IC acknowledges receipt and confirms advisory is in effect for Zone 1; directs WQ to continue monitoring pH and caustic levels; clarifies that the Director (IC) decides advisory status, not whether to expand it.",
+    "passage": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+    "score": 2
+  },
+  {
+    "row": "News chyron (Channel 12, 19:35): 'BREAKING: 911 IS DOWN — CALL 555-0177.' The station repeats the number from the viral post.\nExpected action: PIO calls the Channel 12 assignment desk (555-0161) to correct the number and asks the Director for a decision on OPS-DR-4 (alternate numbers from Annex A and a WEA through EMA).",
+    "passage": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+    "score": 4
+  },
+  {
+    "row": "System Log: Audit Log for MBW-HMI-07 (10.72.10.22)\n\n- Timestamp: 08:00:14\n- Action: Remote session initiated via DosaTech ScreenBridge\n- Source IP: 10.200.144.122\n- User: Unknown (no valid MFA token)\n- Session duration: 1h12m\n- Actions logged:\n • NAOH-FC-203 setpoint changed from 14 mg/L to 25 mg/L (08:05:03)\n • NAOH-FC-203 setpoint changed from 25 mg/L to 35 mg/L (08:12:47)\n • NAOH-FC-203 setpoint changed from 35 mg/L to 38 mg/L (08:22:11)\n • Audit log entry: 'Setpoint write to NAOH-FC-203: 38 mg/L' (08:22:12)\n\n- Host: MBW-HMI-07\n- HMI node: MBW-HMI-07\n- Account: No valid login (session not tied to a known user)\n- Note: No Kessler Controls ticket was open for this window. No approval in the remote-access log.\n\nAlert: Unauthorized remote access via DosaTech ScreenBridge detected.\nExpected action: IT confirms unauthorized remote access; activates evidence preservation protocol per Section 11.3 (SEC-4 form); isolates MBW-HMI-02 and MBW-JUMP-01 (SOP 11.2).",
+    "passage": "1. Kessler Controls opens a support ticket naming the technician (Jared Molina or Sam Whitfield), the systems to be touched and the work. 2. The SCADA / IT Security Manager approves a window (date, st",
+    "score": 3
+  },
+  {
+    "row": "Post (@SectionOneTwoFan): \"The water is being tested and the advisory will be lifted. But why is the HMI showing pH 9.5 when the plant is already in manual mode? Did a hacker change the setpoint to 40 mg/L and then leave? #MillbrookWater #HackedPlant\" — 1200+ reposts in 20 minutes, a photo of the control room showing the HMI with pH 9.5.\nExpected action: PIO prepares a holding statement confirming the HMI was not verified; directs the Deputy PIO to monitor the thread and answer questions with the current advisory status; cites C14 for the media response procedure.",
+    "passage": "| Rumor or claim | Typical form | Response | Who | |---|---|---|---| | \"The water is poisoned\" | Facebook post, often with a photo of discolored water | Reply with the current advisory, what the lab i",
+    "score": 3
+  },
+  {
+    "row": "Regulatory Notice: From: Carol Dugan, Ohio EPA DDAGW Central District | To: All (via MDWS-ELR-2026) | Subject: Confirmation of Clean Sample Rounds — Advisory Lift Initiation\n\n- Two clean sample rounds (24-1189, 24-1190) confirmed: pH 7.8, caustic 4.0 mg/L\n- You are authorized to begin the advisory lift process under ERP Section 11.3\n- Required: Submit the final lab report to DDAGW via the electronic reporting portal (DDAGW-ELR-2026) within 4 hours\n- Next step: The Director must confirm the advisory lift with the Water Quality Manager and the PIO before any public release\n- Note: The Ohio EPA will conduct a follow-up review within 72 hours to ensure compliance with safe water standards.\nExpected action: Regulator confirms receipt and verifies that the final lab report (24-1190) has been filed; initiates the 72-hour review window and notifies the city of the timeline.",
+    "passage": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+    "score": 2
+  },
+  {
+    "row": "Tech Ticket: Ticket #20260402-090 (Priority 1). Priya Nandakumar (SCADA/IT Security) notes that the PLC-02 program copy on MBW-BKP-01 is from 03/2025 and does not include the 08/2025 flow-pacing revision. The backup is stale and cannot be used for restoration. The team must use the vendor's verified backup from Jared Molina's laptop instead per Section 10.7 (do not power off or reimage any host until verified).\nExpected action: IT documents the backup gap; OPS maintains manual control; IC reviews the restoration path with the vendor; team agrees to use the vendor's verified backup for PLC-02 restoration after signature approval.",
+    "passage": "A.1 Overview and Platform · A.2 Control Network Inventory · A.3 PLC and RTU Register · A.4 Tag List and Setpoint Limits · A.5 Alarm Philosophy · A.6 Remote Access Paths · A.7 Telemetry · A.8 HMI Scree",
+    "score": 3
+  },
+  {
+    "row": "Phone Call: \"TSA Supervisor, the automated handheld scanners are showing 'Communication Error'. Passengers are queuing up, and we need to confirm we can proceed with manual screening. Can you authorize manual screening using the stop-and-search manual procedure?\" \nExpected action: AOM authorizes manual screening per TIRP Section 13.6; ASC deploys staff to secure sterile access points",
+    "passage": "**Impact:** FIDS go dark; BHS stops. **FIDS Failure:** Airlines make all announcements manually at gates; Ops uses whiteboards and PA announcements in the terminal to provide general flight informatio",
+    "score": 1
+  },
+  {
+    "row": "Lab Result Report: 'Final 2-hour grab sample #20260402-016 taken at 3:45 from the finished water line in Zone 1. pH 8.1 (range 6.5–8.5), residual chlorine 1.6 mg/L (range 1.5–3.5). All parameters are within acceptable limits for the current flow rate at 65 psi. The pH is trending down from the previous 8.9 reading. Recommend clearing the advisory for Zone 1 after vendor PLC restoration is complete and HMI values are verified.' — Marcus Oyelaran, Water Quality Manager.\nExpected action: WQ confirms lab results with the Incident Commander; IC prepares to coordinate with DDAGW for advisory rescission; OPS initiates verification of HMI vs. field gauge readings; PIO prepares to draft advisory rescission notice; WQ initiates regulatory reporting documentation per C2.",
+    "passage": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+    "score": 3
+  },
+  {
+    "row": "Radio Call: \"Field, this is Supervisor Oyelowo. Tech Jones at RS-22 confirms 30 in. w.c. on the field gauge. PR-7B is showing 15 in. w.c. and rising, and PR-7A is offline. The pilot regulator at RS-22 is cycling rapidly and not holding pressure. We need to report this as a potential overpressure condition.\"\n\nNote: PR-7B is a district pressure recorder; per C15, telemetry recorders provide end-point pressure data and are independent of SCADA.\nExpected action: Field confirms the pressure readings and reports to IC and GCM; initiates a manual isolation check for Pressure District 7; does not close any valves without authorization.",
+    "passage": "Each low-pressure regulator station (RS-21 to RS-24) has a worker regulator and a monitor regulator in series, with sensing lines connected to the downstream main, and a relief valve. Since 2024 each ",
+    "score": 4
+  },
+  {
+    "row": "TELEMETRY ALERT: SCADA system confirms NAOH-FC-203 setpoint now at 10 mg/L (manual mode). The hard-wired high-high switch PSH-302 is OFF (contactor reset). The control network is islanded (FW-R-22 and FW-R-17 disabled). The public advisory is active (MillbrookAlert posted). Kessler Controls on-site support has been requested. The Incident Commander (Director Denise Albrecht) declares Level 3: Public Health Emergency per ERP Section 4.4. The Incident Command Post is opened in the RWTP Administration Building conference room.\nExpected action: IC declares Level 3 Public Health Emergency, activates the Incident Command Post, and requests Carver County EMA activation. All sections confirm their actions: IT confirms islanding, OPS confirms manual control, WQ confirms sampling results, PIO confirms advisory is active. All teams report to the Command Post.",
+    "passage": "- Loss of disinfection (finished chlorine residual below 0.2 mg/L entering distribution) or any confirmed or credible contamination of source, plant or distribution water. - A Boil Water, Do Not Drink",
+    "score": 2
+  },
+  {
+    "row": "Field Report: \"Security, this is Supervisor Vance. I’ve reviewed the PACS badge and CAM-01 to CAM-10 camera logs for the Chemical Building from 09:55–10:05. No access events, no door alarms, no override codes used. The HMI shows the door closed and locked at 09:58:33. PSH-302 has not tripped. The physical safety system is not engaged. The HMI shows NAOH-FC-203 at 14 mg/L — within normal band — but the lab confirms pH is 9.3 and caustic dose is 38 mg/L. The control system is not reflecting reality. We did not have a physical breach.\"\nExpected action: IC confirms that the HMI value for NAOH-FC-203 (14 mg/L) is correct but does not reflect actual process conditions; the control system is compromised. WQ and TL validate that the lab results and physical evidence override HMI status. Activate Section 7.1 manual operation protocol under ERP Section 7.5.",
+    "passage": "| Tag | Function | Normal band | HMI alarm | PLC hard limit | Change requires | |---|---|---|---|---|---| | CL2-FC-201 | Pre-chlorination dose | 1.0–3.0 mg/L | High 4.0 | 6.0 mg/L | Operator | | CL2-F",
+    "score": 2
+  },
+  {
+    "row": "Post (@HaldenTruther): \"Official 911 update says they’re back online — but calls are still going to the wrong firehouse. A caller in Marlow said they got patched to Engine 7, not Engine 1. Is 911 really fixed? #RookCounty #911StillDown\" — 214 reposts in 10 minutes.\nExpected action: PIO confirms no system-wide routing error via the EMA and Tamarack County Communications; issues a correction via WEA and social media using the published alternate numbers 555-0110 and 555-0112, and advises the public to report any anomalies to the EOC hotline.",
+    "passage": "Section 1 Facility · Section 2 Call Delivery · Section 3 Positions · Section 4 CAD and Related Systems · Section 5 Networks and Accounts · Section 6 Radio System · Section 7 Agencies and Units Dispatc",
+    "score": 2
+  },
+  {
+    "row": "Media Inquiry Phone Slip: 'From: Channel 7 News (7-news@ellerymedia.example) To: Lena Abernathy (PIO) — Subject: Press Statement on MCHD Data Compromise'\n\n'On-air report: MCHD has confirmed a data breach affecting 412 children’s vaccination records. We need a statement from the Health Officer within 15 minutes. Can you confirm the IIS export was altered? Is the Epi team still using paper? Is the POD in Brandt open? We are running this as a live report in 10 minutes. Please send an MCHD-Approved Public Statement using the holding statement in MCHD-CERC-2025.'\nExpected action: PIO must draft and send an MCHD-Approved Public Statement using the holding statement in MCHD-CERC-2025, and clear it with the IC and Legal before release. No speculation on cause or validity of data claims.",
+    "passage": "| Essential function | Maximum downtime | Fallback | |---|---|---| | Receiving disease reports | 2 hours | Disease Reporting Line by phone; fax to a KDHE-provided number; paper intake form MCHD-F-10 |",
+    "score": 1
+  },
+  {
+    "row": "Draft Notice: The Deputy PIO’s draft Boil Water Advisory names the area as “Zone 2 (Hilltop, Eastfield and north downtown)”, tells customers not to bathe in tap water, and gives no street boundaries or next-update time. It is waiting for approval.\nExpected action: The PIO and the Water Quality Manager correct it before release: the decided area by streets from the map of record (Eastfield and downtown are not in Zone 2), the standard boil-water instructions (bathing is fine), what is being done, when the next update comes and the Customer Service number.",
+    "passage": "Covers: boil water advisories, do-not-drink and do-not-use notices, precautionary advisories, outage and pressure notices, planned-work notices during an emergency, media relations, social-media monit",
+    "score": 5
+  },
+  {
+    "row": "Radio Call: “Control, Distribution 2 at Hilltop Tank. The radio cabinet is dark — no lights on RP-1 or the RTU. Sight gauge reads thirty point four feet and you can see it moving. It was thirty-three at five-thirty.”\nExpected action: The IC estimates the drain rate (about 8 ft an hour), starts the ERP 7.1 sequence for a Hilltop Transmission Main break and sets the level at which IC-1 will be requested; the crew stays to read the gauge every 30 minutes.",
+    "passage": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+    "score": 3
+  },
+  {
+    "row": "MillbrookAlert Broadcast: 'The plant is now operating in manual mode. Water quality is being monitored every 2 hours. Service will resume when the system is verified safe. The advisory remains in effect. We are working with the Ohio EPA and CISA to restore safe service.'\nExpected action: The PIO confirms the public statement is released via MillbrookAlert, the city website, and social media channels. The message uses the pre-scripted language from MDWS-PCP-2026, Section 10, and includes the verified status update.",
+    "passage": "- Do not confirm or deny that an intrusion occurred until the SCADA / IT Security Manager and the City IT Director agree on the facts and the FBI/CISA liaison (when engaged) has been consulted on what",
+    "score": 2
+  },
+  {
+    "row": "Phone Call: \"This is the State ESInet NOC. We have stopped seeing 911 calls coming through SIP trunk group A to your floor. The overflow to Tamarack County Communications has been up since 20:05, but we are confirming that your CAD segment is isolated. Can you confirm that the floor is running on manual dispatch with RCECD-F-11 cards?\"\nExpected action: Dir confirms manual dispatch and card usage has been in effect since 19:30; Tech confirms CAD-MDS01 is isolated and the floor is tracking unit status on whiteboard and printed map book per RCECD-OPS-2026 Section 7.[]",
+    "passage": "Knowing which systems depend on the county network decides what a county-network incident takes away from the floor. | System | Network | Depends on county AD / email? | If the county network is isola",
+    "score": 3
+  },
+  {
+    "row": "Radio Call: \"Control, Castellano on DWS-1. PLC-02 and PLC-05 are on LOCAL at their cabinets, the chemical feeds are on the dose-table dials and HSP-1 and HSP-2 are in HAND from the MCC. Hilltop Tank reads 31 feet on the sight gauge. I have one operator at the Chemical Building and one at the High Service Pump Station and no relief until 18:00. Who covers tonight?\"\nExpected action: The IC confirms the relief plan for the 18:00 and overnight shifts (call-ins, OHWARN operators within 12 hours, ERP Section 12) and records the plant’s mode on ERP-1; the Water Quality Manager confirms the next ERP-3 sample round.",
+    "passage": "DWS uses the Incident Command System. Positions are filled by the people below; alternates are listed and the first person reached fills the role until relieved. | ICS role | Primary | Alternate | Res",
+    "score": 4
+  },
+  {
+    "row": "Phone Call: 'Victor, this is Lorna Pike, Operations Superintendent. We have a confirmed field-screen discrepancy on Rail Spot 2. ESD-310 shows closed on the DeltaV HMI, but the loader says the vapor is still rising and the hand valve is open. The scale WT-302 shows 38.1 tons and climbing. I need you to review the event journal and the logs on OWS-01 now.'\nExpected action: OT contacts the OT Engineer (Victor Anand) immediately; begins triage under RMP Section 11 and TVCC-CFW-OTSEC-2026. Activates Play 2 if needed.",
+    "passage": "| Role | Person | Alternate | Responsibilities | |---|---|---|---| | OT Incident Lead | Victor Anand, Process Control and OT Engineer | Megan Sorrell, Instrument and Electrical Lead | Triage of contro",
+    "score": 4
+  },
+  {
+    "row": "Facilitator prompt to IC, WQ, PIO: the situation now demands a call. What is your call, who signs off, and who must be told?\nExpected action: Phone Call: 'This is Carol Dugan, Ohio EPA DDAGW Central District. I am confirming a Level 3 — Public Health Emergency under ERP Section 4.4. The lab result (pH 9.3, caustic 38 mg/L) exceeds the safe limit. You must issue the official Do Not Drink advisory within 30 minutes. I need confirmation from the Water Quality Manager and the Director before I will accept your public statement.' DECISION POINT: Ops must authorize the issuance of the Do Not Drink advisory per ERP Section 4.4; WQ confirms lab results; PIO publishes the advisory using the Section 10 template and GIS boundary. All roles must act within 30 minutes of this call.",
+    "passage": "The Incident Commander terminates the incident when water quality is confirmed throughout the affected area, pressure is restored, the control system has been returned to service under the OT Plan ret",
+    "score": 1
+  },
+  {
+    "row": "END: It is 22:30. The CAD restore is in progress and the floor stays on cards through the night. 911 calls are answered at RCECD with Tamarack County Communications on standby. The CJIS report to the Indiana State Police and the reports to the FBI and CISA are filed. The hot wash begins.\nExpected action: All roles hand off to the hot wash; the Director lists the conditions for returning to CAD.",
+    "passage": "Document Control Number: RCECD-CYB-2026 · Revision 2.1 · Effective Date: 03/01/2026 · Parent document: RCECD-OPS-2026 · Owners: Brent Harlow (911 Systems Manager) and Nadia Fenwick (County Information",
+    "score": 2
+  },
+  {
+    "row": "Radio Call: 'Sup, this is Call Taker 4 on Position 4. Medic 3 shows as available on CAD, but the unit’s radio just reported they’re on scene at the Marlow structure fire. The ALI shows 123 S. Main St, Halden, and the GPS tracker shows them 1.2 miles away from the fire. The call has been in queue for 70 seconds.'\nExpected action: Sup orders the call taker to trust the field report and manually update Medic 3’s status to 'On Scene'; opens a ticket with Tech to investigate the ALI and CAD data discrepancy (SOP 5.3).",
+    "passage": "The TAC completes the security incident response form from the CJIS Security Policy appendix and sends it to the Indiana State Police information security officer through the IDACS channel or by the p",
+    "score": 2
+  },
+  {
+    "row": "Situation Update: At 09:28 the finished-water chlorine analyzer AIT-301 on MBW-HMI-01 dropped from 1.4 to 0.7 mg/L for four minutes and came back. With LIMS (MBW-LIMS-01) down, the lab cannot look up whether any work was scheduled on the analyzer.\nExpected action: The Water Quality Manager orders a grab sample at the Clearwell 1 outlet before anyone links the dip to the attack, records it on the paper bench sheet and finds the Monday calibration in the paper log; the IC does not change the plant’s mode on this reading alone.",
+    "passage": "- Each RTU keeps running its local loops on the last setpoints received (tank fill bands, booster pressure setpoints, well start/stop on LIT-611). - The HMI holds last values with the STALE flag (A.5.",
+    "score": 3
+  },
+  {
+    "row": "System Log: 'GateKeeper appliance — TDoS-strict rule set not activated. Manual override required. 17 silent calls received on 10-digit line 555-0100 in the last 12 minutes. 911 calls in queue: 9 (one over 70 seconds). Alarms: TDoS-strict match detected for ANI 555-0100, 555-0110, 555-0103.'\nExpected action: Sup activates the TDoS-strict rule set on the GateKeeper console per C1; notifies Dir to confirm if Level 1 should be declared under OPS-DR-1.",
+    "passage": "Section 1 Facility · Section 2 Call Delivery · Section 3 Positions · Section 4 CAD and Related Systems · Section 5 Networks and Accounts · Section 6 Radio System · Section 7 Agencies and Units Dispatc",
+    "score": 2
+  },
+  {
+    "row": "Radio Call: \"Control, Distribution 2. Monday inspection at Hilltop Tank is done: gate and ladder cage locked, hatch secure, ZS-601 matches. Sight gauge reads 30 and a half feet. Heading to Northgate.\"\nExpected action: The IC logs the reading and the routine inspection; nothing in it is related to the incident.",
+    "passage": "See Section 8. Do not enter a site where tampering is suspected until Millbrook Police have cleared it; photograph before anyone touches anything; isolate the facility from the system by valve if the ",
+    "score": 4
+  },
+  {
+    "row": "Field Report: 'This is the Payload Operator on UAS-11. PANEL CLEAR confirmed. The aircraft is now 120 meters east of the meadow, over the lodge patio. DAA-1 shows position as 43.1724°N, 77.5631°W. RTK-1 has a full fix. The aircraft telemetry shows a 150-meter jump in latitude under clear sky. The flight line is east–west over the meadow. This does not match the field. The aircraft is not on the flight line.'\nExpected action: Ops orders the RPIC and VO to declare 'ABORT' and switch to attitude mode; itcs to verify the GCS telemetry and link logs; security to confirm site access and monitor the launch area.",
+    "passage": "Indicators: commands the RPIC did not send; a second controller or ground station in the device list; telemetry that disagrees with what the VO sees; GNSS position jumps, satellite count drop under cl",
+    "score": 4
+  },
+  {
+    "row": "Phone Call: 'PIO, we have prepared the press release for the After-Action Report. It will focus on 'scheduled maintenance' and 'technical outage' rather than 'cyberattack'. We need to confirm this narrative is accurate and that we're not being held liable for any passenger confusion.'\nExpected action: AOM confirms the press release narrative is accurate and that the PIO is not being held liable for passenger confusion. AOM ensures the After-Action Report is distributed to all stakeholders.",
+    "passage": "Guidance for a significant IT system failure, whether caused by a malicious cyber-attack (e.g., ransomware) or a technical failure. Focus: operational continuity.",
+    "score": 1
+  },
+  {
+    "row": "MillbrookAlert Broadcast: 'The City of Millbrook is investigating a possible water quality issue in Zone 1. Please avoid drinking tap water until further notice.' — Posted to city website, social media, and SMS alert channel.\nExpected action: PIO confirms the message was sent via the Section 5.4 pre-scripted template; logs timestamp and channel in the media log; instructs Deputy PIO to monitor for public response.",
+    "passage": "1. The Director records the decision on Form ERP-2 (Advisory Decision Record) with the Water Quality Manager; the PIO is on that call. 2. The PIO selects the Section 10 template and fills in the bound",
+    "score": 2
+  },
+  {
+    "row": "System Log: 'CAD-APP01 query from Position 4 returned no GIS data. CAD-MDS01 shows no new logins. Hoosier Shield SOC logged malware beaconing from RCECD-POS09 and CAD-MDS01. Medic 3 shows as available on CAD while on a call. RespondCAD-APP01 is frozen.', \nExpected action: Tech to open a ticket with the vendor for access to CAD-FW01; to prepare a CJIS Security Policy incident response form (Annex B); to confirm whether the county backups are mounted and clean.",
+    "passage": "| Segment | Systems | Connection to county network | |---|---|---| | Call-handling network | CP-CORE01/02, position call-handling screens | None (vendor VPN for support only, enabled per ticket) | | C",
+    "score": 3
+  },
+  {
+    "row": "System Log (Firewall): '[10:01] SSH Connection Detected: Source 10.66.1.45 (Vendor Management Console) → Destination 10.66.2.15 (POS-Server-01). Action: ALLOW (Firewall Rule 8842 does NOT apply to internal VLAN traffic).'\nExpected action: IT isolates the SSH scan as internal traffic and notes the firewall rule is a misconfiguration for external traffic only. Opens ticket IT-20260402-0002 with Vendor to clarify intent.",
+    "passage": "**A. Server Infrastructure.** Primary Server: NCIA-SEC-DB01, Main Server Room (Admin Bldg); SQL database with all cardholder data and access logs. Redundant Server: NCIA-SEC-DB02, ARFF Station IT Clos",
+    "score": 2
+  }
+]
