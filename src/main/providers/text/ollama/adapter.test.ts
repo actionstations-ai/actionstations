@@ -89,6 +89,19 @@ describe('Ollama native adapter', () => {
     expect(calls[1]!.body as Body).not.toHaveProperty('options')
   })
 
+  it('applies model-card sampling and thinking level (#585)', async () => {
+    const calls = stubFetch([fixtureResponse('ollama-chat-format-stream')])
+    const ask = { messages: [{ role: 'user' as const, content: 'Two rows.' }], json: SCHEMA }
+    const options = { reasoningEffort: 'low' }
+    await new OllamaTextProvider(config({ defaultModel: 'gpt-oss:120b', options })).chat({
+      ...ask,
+      temperature: 0,
+    })
+    const body = calls[0]!.body as Body
+    expect(body.options).toEqual({ temperature: 1, top_p: 1 })
+    expect(body.think).toBe('low')
+  })
+
   it('accepts an OpenAI-style /v1 base URL', async () => {
     const calls = stubFetch([fixtureResponse('ollama-version')])
     await new OllamaTextProvider(config({ baseUrl: 'http://127.0.0.1:11434/v1' })).health()

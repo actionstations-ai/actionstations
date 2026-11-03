@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "profiles": [
+    {
+      "id": "qwen3-thinking-2507",
+      "label": "Qwen3 Thinking (2507)",
+      "match": "qwen3-.*thinking",
+      "source": [
+        "https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507/raw/main/generation_config.json"
+      ],
+      "sampling": { "temperature": 0.6, "topP": 0.95, "topK": 20, "minP": 0 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "none" }
+    },
+    {
+      "id": "qwen3-instruct-2507",
+      "label": "Qwen3 Instruct (2507)",
+      "match": "qwen3-(30b-a3b|235b-a22b|next).*(instruct|2507)",
+      "source": [
+        "https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507/raw/main/generation_config.json"
+      ],
+      "sampling": { "temperature": 0.7, "topP": 0.8, "topK": 20, "minP": 0 },
+      "temperaturePolicy": "stage",
+      "reasoning": { "kind": "none" }
+    },
+    {
+      "id": "qwen3.5",
+      "label": "Qwen3.5 (thinking by default)",
+      "match": "qwen3\\.5",
+      "source": [
+        "https://huggingface.co/Qwen/Qwen3.5-35B-A3B/raw/main/generation_config.json",
+        "https://huggingface.co/Qwen/Qwen3.5-35B-A3B/raw/main/README.md"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "switch", "default": "on" }
+    },
+    {
+      "id": "qwen3.6",
+      "label": "Qwen3.6 (thinking by default)",
+      "match": "qwen3\\.6",
+      "source": [
+        "https://huggingface.co/Qwen/Qwen3.6-27B/raw/main/generation_config.json",
+        "https://huggingface.co/Qwen/Qwen3.6-27B/raw/main/README.md"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "switch", "default": "on" }
+    },
+    {
+      "id": "qwen3.8",
+      "label": "Qwen3.8 (thinking by default, reasoning effort)",
+      "match": "qwen3\\.8",
+      "source": [
+        "https://huggingface.co/Qwen/Qwen3.8-27B/raw/main/generation_config.json",
+        "https://huggingface.co/Qwen/Qwen3.8-27B/raw/main/README.md"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "effort", "default": "medium" }
+    },
+    {
+      "id": "gpt-oss",
+      "label": "gpt-oss",
+      "match": "gpt-oss",
+      "source": [
+        "https://huggingface.co/openai/gpt-oss-120b/raw/main/README.md",
+        "https://huggingface.co/openai/gpt-oss-120b/raw/main/generation_config.json"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 1.0 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "effort", "default": "medium" }
+    },
+    {
+      "id": "gemma-4",
+      "label": "Gemma 4",
+      "match": "gemma-?4",
+      "source": [
+        "https://huggingface.co/google/gemma-4-26B-A4B-it/raw/main/generation_config.json",
+        "https://huggingface.co/google/gemma-4-26B-A4B-it/raw/main/README.md"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 64 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "none" }
+    },
+    {
+      "id": "glm-4.7",
+      "label": "GLM-4.7",
+      "match": "glm-?4\\.7",
+      "source": [
+        "https://huggingface.co/zai-org/GLM-4.7-Flash/raw/main/README.md",
+        "https://huggingface.co/zai-org/GLM-4.7-Flash/raw/main/generation_config.json"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95 },
+      "temperaturePolicy": "stage",
+      "reasoning": { "kind": "none" }
+    },
+    {
+      "id": "nemotron-3.5",
+      "label": "Nemotron 3.5",
+      "match": "nemotron-?3\\.5",
+      "source": [
+        "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16/raw/main/README.md",
+        "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16/raw/main/generation_config.json"
+      ],
+      "sampling": { "temperature": 1.0, "topP": 0.95 },
+      "temperaturePolicy": "profile",
+      "reasoning": { "kind": "switch", "default": "on" }
+    }
+  ]
+}

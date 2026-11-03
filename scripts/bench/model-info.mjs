@@ -4,6 +4,8 @@
 // to a remote service and has no flag to allow it. Metadata (size, quantization, digest,
 // context) comes from the tool's own local API.
 
+import { readFileSync } from 'node:fs'
+
 export const DEFAULT_BASE_URLS = {
   lmstudio: 'http://127.0.0.1:1234/v1',
   ollama: 'http://127.0.0.1:11434',
@@ -44,9 +46,22 @@ export function parseModelRef(ref, baseUrl, env = process.env) {
   return { ref: `${tool}:${name}`, tool, name, baseUrl: url.replace(/\/+$/, '') }
 }
 
+/**
+ * Inference settings for the run (#585): `BENCH_PROFILE=off` runs without the model-card profile
+ * (the old behaviour), `BENCH_EFFORT=low|medium|high|off` sets the reasoning level and
+ * `BENCH_DRAFT=<model id>` names a draft model for speculative decoding.
+ */
+export function inferenceOptions(env = process.env) {
+  const options = {}
+  if (env.BENCH_PROFILE === 'off') options.modelProfile = 'off'
+  if (env.BENCH_EFFORT) options.reasoningEffort = env.BENCH_EFFORT
+  if (env.BENCH_DRAFT) options.draftModel = env.BENCH_DRAFT
+  return options
+}
+
 /** The provider the app gets for the model under test (src/shared/schemas/provider.ts). */
-export function providerConfig(model, seed, contextLength) {
-  const options = { seed }
+export function providerConfig(model, seed, contextLength, env = process.env) {
+  const options = { seed, ...inferenceOptions(env) }
   if (model.tool === 'ollama') options.numCtx = contextLength
   return {
     kind: model.tool === 'ollama' ? 'ollama' : 'openai-compatible',
@@ -100,15 +115,35 @@ async function lmStudioInfo(model, get) {
   }
 }
 
+/** The model-card profile that applies to this model (src/shared/model-profiles.json), for the run file. */
+export function profileRecord(modelName, env = process.env) {
+  const file = new URL('../../src/shared/model-profiles.json', import.meta.url)
+  const { profiles } = JSON.parse(readFileSync(file, 'utf8'))
+  const options = inferenceOptions(env)
+  const profile =
+    options.modelProfile === 'off'
+      ? undefined
+      : profiles.find((p) => new RegExp(p.match, 'i').test(modelName))
+  return dropUndefined({
+    profile: profile?.id ?? 'none',
+    sampling: profile?.sampling,
+    temperaturePolicy: profile?.temperaturePolicy,
+    source: profile?.source[0],
+    reasoningEffort: options.reasoningEffort ?? profile?.reasoning.default,
+    draftModel: options.draftModel,
+  })
+}
+
 const dropUndefined = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v != null))
 
 /** BenchModel for the run file. `get` is injectable for tests. */
 export async function modelInfo(model, contextLength, get = getJson) {
   const base = { ref: model.ref, tool: model.tool, name: model.name }
   if (model.tool === 'mock') return { ...base, contextLength }
+  const inference = profileRecord(model.name)
   const extra =
     model.tool === 'ollama'
       ? await ollamaInfo(model, contextLength, get)
       : await lmStudioInfo(model, get)
-  return dropUndefined({ ...base, ...extra })
+  return dropUndefined({ ...base, ...extra, inference })
 }

@@ -12,10 +12,16 @@ export function parseModelRef(
   baseUrl?: string,
   env?: Record<string, string | undefined>,
 ): ModelRef
+export function inferenceOptions(env?: Record<string, string | undefined>): Record<string, string>
+export function profileRecord(
+  modelName: string,
+  env?: Record<string, string | undefined>,
+): Record<string, unknown>
 export function providerConfig(
   model: ModelRef,
   seed: number,
   contextLength: number,
+  env?: Record<string, string | undefined>,
 ): {
   kind: string
   label: string

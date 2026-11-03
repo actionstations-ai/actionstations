@@ -1,6 +1,7 @@
 // OpenAI-compatible /v1/chat/completions client: LM Studio, Ollama /v1, vLLM, OpenRouter,
 // OpenAI. Streaming SSE, structured-output negotiation, reasoning stripped before parsing.
-import type { ModelInfo, ProviderConfig, ProviderHealth } from '@shared/schemas'
+import type { InferenceSettings, ModelInfo, ProviderConfig, ProviderHealth } from '@shared/schemas'
+import { draftCandidate, resolveInference } from '@shared/model-profiles'
 import { AppError } from '../../../lib/errors'
 import { withChatLog } from '../../call-log'
 import { joinUrl, request, requestJson, sseEvents } from '../../http'
@@ -111,7 +112,11 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     onToken?: (t: string) => void,
   ): Promise<ChatResponse> {
     const start = Date.now()
-    const out = await this.stream(this.body(model, req, combinedSystem(req), {}), req, onToken)
+    const out = await this.stream(
+      this.body(model, req, combinedSystem(req), {}, await this.inference(model, req)),
+      req,
+      onToken,
+    )
     return this.toResponse(out, model, start, stripThinking(out.text).text)
   }
 
@@ -124,10 +129,11 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     const modes = modesToTry(key, stringOption(this.config, 'jsonMode'), model)
     for (const [i, mode] of modes.entries()) {
       const { system, extra } = jsonModeRequest(req, mode)
+      const settings = await this.inference(model, req)
       for (let attempt = 0; ; attempt++) {
         const start = Date.now()
         try {
-          const out = await this.stream(this.body(model, req, system, extra), req, onToken)
+          const out = await this.stream(this.body(model, req, system, extra, settings), req, onToken)
           rememberMode(key, mode)
           return this.structuredResponse(out, model, start, mode, req)
         } catch (err) {
@@ -155,7 +161,39 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     return { ...this.toResponse(out, model, start, text), json, structuredVia: mode }
   }
 
-  private body(model: string, req: ChatRequest, system: string | undefined, extra: Body): Body {
+  /** Model-card sampling, reasoning and draft model for this request (#585). */
+  private async inference(model: string, req: ChatRequest): Promise<InferenceSettings> {
+    const options = this.config.options
+    const wantsDraft = draftCandidate(model, options) !== undefined
+    return resolveInference({
+      modelId: model,
+      stageTemperature: req.temperature,
+      options,
+      ...(wantsDraft ? { installedModels: await this.installedModels() } : {}),
+    })
+  }
+
+  /** Model ids the server lists, fetched once a minute at most (a draft model must be installed). */
+  private async installedModels(): Promise<Set<string>> {
+    if (!this.installed || Date.now() - this.installed.at > 60_000) {
+      const ids = await this.fetchModels(undefined, 0, 5_000).then(
+        (models) => new Set(models.map((m) => m.id)),
+        () => new Set<string>(),
+      )
+      this.installed = { at: Date.now(), ids }
+    }
+    return this.installed.ids
+  }
+
+  private installed?: { at: number; ids: Set<string> }
+
+  private body(
+    model: string,
+    req: ChatRequest,
+    system: string | undefined,
+    extra: Body,
+    settings: InferenceSettings,
+  ): Body {
     const messages = [
       ...(system ? [{ role: 'system', content: system }] : []),
       ...req.messages.map((m) => ({ role: m.role, content: m.content })),
@@ -167,7 +205,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
       stream_options: { include_usage: true },
       ...extra,
     }
-    if (req.temperature !== undefined) body.temperature = req.temperature
+    Object.assign(body, samplingFields(settings))
     const maxTokens = req.maxTokens ?? numberOption(this.config, 'maxTokens')
     if (maxTokens !== undefined) body.max_tokens = maxTokens
     if (req.stop?.length) body.stop = req.stop
@@ -222,6 +260,21 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
       return (u.inputTokens * inP + u.outputTokens * outP) / 1_000_000
     return isLocalUrl(this.base) ? 0 : undefined
   }
+}
+
+/** Request fields for the resolved settings; LM Studio, llama.cpp and vLLM read the extras. */
+export function samplingFields(s: InferenceSettings): Body {
+  const fields: Body = {}
+  if (s.temperature !== undefined) fields.temperature = s.temperature
+  if (s.topP !== undefined) fields.top_p = s.topP
+  if (s.topK !== undefined) fields.top_k = s.topK
+  if (s.minP !== undefined) fields.min_p = s.minP
+  if (s.reasoning?.kind === 'effort' && s.reasoning.level !== 'off')
+    fields.reasoning_effort = s.reasoning.level
+  else if (s.reasoning)
+    fields.chat_template_kwargs = { enable_thinking: s.reasoning.level !== 'off' }
+  if (s.draftModel) fields.draft_model = s.draftModel
+  return fields
 }
 
 const FINISH_MAP: Record<string, ChatResponse['finishReason']> = {
