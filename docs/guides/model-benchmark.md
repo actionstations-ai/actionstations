@@ -115,3 +115,11 @@ setup recommendations in the app are updated by hand from this report.
 
 `pnpm e2e` includes `e2e/bench-smoke.spec.ts`, which runs the quick suite against the app's
 in-process mock provider (about a minute) and validates the run file. It needs no model.
+
+## Tabletop Bench (public view)
+
+The same runs feed Tabletop Bench, the public benchmark at
+https://github.com/actionstations-ai/tabletop-bench (spec 0444). `pnpm bench:export` prints the
+hash of each suite's task set and, with `--out <dir>`, writes the task-set files; every run file
+records that hash as `taskSetHash`. To submit a run there, use that repository's `tb run` and
+`tb add`; it checks the hash against the checkout you run from.

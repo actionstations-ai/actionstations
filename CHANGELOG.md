@@ -24,6 +24,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Added
 
+- Tabletop Bench (#586, spec 0444, ADR-0069): `pnpm bench:export` writes the benchmark's task set with a sha256 hash, and run files carry `taskSetHash`, so the public benchmark repository, Hugging Face dataset and site page can pin and check exactly what was asked. Scoring stays here.
 - The benchmark's optional judge now has its 60-row calibration set (`bench/calibration/rows.json`, #503): rows sampled from three models' drafts and the bundled examples, scored 1 to 5 by a hosted reference model and accepted by the maintainer; its README records how the set was made.
 - Automated checks for seven WCAG 2.2 criteria the Section 508 ACR had rated Partially Supports (#568): `e2e/acr-checks.spec.ts` covers text spacing, content on hover or focus, focus not obscured, pointer cancellation, dragging alternatives, target size and consistent help on 16 desktop screens. The ACR rates the desktop app Supports for six of them and Partially Supports for 2.5.2.
 - MSEL rows have **Move up** and **Move down** in their actions menu, and the site plan has **Pan** buttons, so reordering and panning no longer need dragging (#568).

@@ -27,6 +27,7 @@ import {
   runJudge,
 } from './judge.mjs'
 import { corpusHash, loadExample, loadSuite, ROOT, runFileName, slug } from './corpus.mjs'
+import { taskSetHash } from './taskset.mjs'
 import { modelInfo, parseModelRef, providerConfig } from './model-info.mjs'
 import {
   aggregateTask,
@@ -338,6 +339,7 @@ export function buildRun({ suite, model, embedder, mstate, repeats, hardware, ap
     appVersion,
     appCommit: appCommit(),
     promptHashes: hashes,
+    taskSetHash: taskSetHash(suite.suite),
     corpusHashes: Object.fromEntries(examples.map((e) => [e, corpusHash(loadExample(e))])),
     embedder,
     model,

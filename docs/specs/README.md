@@ -86,6 +86,7 @@ Decisions for the owner, each with a recommendation.
 | [Surveys: builder, templates, delivery and results](0422-surveys.md)                                               | #422  | 0.6.0     |
 | [Update notifications (opt-in)](0442-update-notifications.md)                                                      | #442  | 0.6.0     |
 | [Tip of the day](0443-tip-of-the-day.md)                                                                           | #443  | 0.6.0     |
+| [Tabletop Bench, a public benchmark](0444-tabletop-bench.md)                                                       | #586  | 0.9.0     |
 | [Grounding labels and contradictions between plans](0423-grounding-and-plan-conflicts.md)                          | #423  | 0.7.0     |
 | [Private hot wash transcription for the AAR](0425-hotwash-transcription.md)                                        | #425  | 0.7.0     |
 | [Regulatory clocks and compliance mapping](0426-regulatory-clocks.md)                                              | #426  | 0.7.0     |
