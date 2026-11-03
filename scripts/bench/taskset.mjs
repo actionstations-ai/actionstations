@@ -21,7 +21,12 @@ const json = (value) => `${JSON.stringify(value, null, 2)}\n`
 /** corpus.json: per example, its corpus hash and the briefs of the drafting cases using it. */
 export function corpusManifest(suite, root = ROOT) {
   const out = {}
-  const examples = [...suite.drafting, ...suite.ideation, ...suite.critique].map((c) => c.example)
+  const examples = [
+    ...suite.drafting,
+    ...suite.ideation,
+    ...suite.critique,
+    ...Object.values(suite.probes ?? {}),
+  ].map((c) => c.example)
   for (const id of new Set(examples))
     out[id] = { corpusHash: corpusHash(loadExample(id, root)), briefs: {} }
   for (const c of suite.drafting)
@@ -90,7 +95,7 @@ export function exportTaskSet(suiteName, outDir, root = ROOT) {
 function main(argv) {
   const arg = (name) => argv[argv.indexOf(name) + 1]
   const out = argv.includes('--out') ? arg('--out') : null
-  const suites = argv.includes('--suite') ? [arg('--suite')] : ['quick', 'standard']
+  const suites = argv.includes('--suite') ? [arg('--suite')] : ['quick', 'standard', 'mini']
   for (const s of suites) {
     if (!out) {
       const m = taskSetManifest(s)

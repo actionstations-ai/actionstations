@@ -5,7 +5,7 @@
 // against each model, scores them deterministically and writes one run file per model.
 //
 //   pnpm build:app
-//   pnpm bench -- --models ollama:qwen3.5:9b[,lmstudio:<id>…] [--suite quick|standard]
+//   pnpm bench -- --models ollama:qwen3.5:9b[,lmstudio:<id>…] [--suite quick|standard|mini]
 //                 [--repeats N] [--out <dir>] [--base-url <url>] [--embedder local|hash]
 //                 [--yes] [--resume] [--clean] [--judge lmstudio:<model>] [--determinism]
 //                 [--concurrency N] [--triage]
@@ -120,7 +120,7 @@ function applyTriage(args, argv) {
 
 // ---- environment ------------------------------------------------------------------------------
 
-function appCommit() {
+export function appCommit() {
   try {
     return execFileSync('git', ['rev-parse', '--short', 'HEAD'], {
       cwd: ROOT,
@@ -148,7 +148,7 @@ export async function benchHardware(app) {
 
 const localModelCached = () => existsSync(join(MODELS_CACHE, LOCAL_EMBEDDER, 'config.json'))
 
-async function confirmEmbedderDownload(args) {
+export async function confirmEmbedderDownload(args) {
   if (args.embedder !== 'local' || localModelCached() || args.yes) return
   const question =
     `The local embedder (${LOCAL_EMBEDDER}, about 130 MB) is downloaded once from Hugging Face ` +
@@ -207,7 +207,7 @@ const saveState = (out, state) => writeFileSync(statePath(out), JSON.stringify(s
 
 // ---- one model --------------------------------------------------------------------------------
 
-async function routeModel(invoke, model, seed, contextLength, providerId) {
+export async function routeModel(invoke, model, seed, contextLength, providerId) {
   if (model.tool === 'mock') return providerId
   const config = {
     ...providerConfig(model, seed, contextLength),
@@ -269,7 +269,7 @@ export function repeatFromCases(suite, r, cases, speed) {
 const sameSeed = (suite) => ({ ...suite, seeds: [suite.seeds[0], suite.seeds[0]] })
 
 /** One app instance with its own throwaway settings folder, embedder and provider. */
-async function startWorker(w, { args, model }) {
+export async function startWorker(w, { args, model }) {
   const userData = freshUserData('ttx-bench-')
   assertNoPromptOverrides(join(userData, 'prompts'), 'the user-data folder')
   linkModelsCache(userData)
@@ -285,7 +285,7 @@ async function startWorker(w, { args, model }) {
   return worker
 }
 
-async function stopWorker(worker) {
+export async function stopWorker(worker) {
   await worker.electronApp.close().catch(() => {})
   rmSync(worker.userData, { recursive: true, force: true })
 }
@@ -579,6 +579,8 @@ export function triageLine(run, thresholds) {
 }
 
 async function main(argv) {
+  if (argv[argv.indexOf('--suite') + 1] === 'mini' && argv.includes('--suite'))
+    return (await import('./mini/run.mjs')).main(argv)
   const args = parseArgs(argv)
   args.out = resolve(args.out)
   const suite = loadSuite(args.suite)
