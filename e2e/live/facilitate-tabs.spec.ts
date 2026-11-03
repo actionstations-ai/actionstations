@@ -79,6 +79,8 @@ test('Facilitate tabs stay on one line and every tab can be reached', async () =
         stripBox.x + stripBox.width,
         `tab strip runs off the window at ${label}`,
       ).toBeLessThanOrEqual(size.width)
+      // Keyboard steps need the window to hold OS focus (another app may have taken it).
+      await page.bringToFront()
       await tabs.first().click()
       for (let i = 0; i < count; i++) {
         const focused = tabs.nth(i)
