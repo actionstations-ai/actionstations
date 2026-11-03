@@ -79,13 +79,19 @@ test('Facilitate tabs stay on one line and every tab can be reached', async () =
         stripBox.x + stripBox.width,
         `tab strip runs off the window at ${label}`,
       ).toBeLessThanOrEqual(size.width)
+      // Keyboard steps need the window to hold OS focus (another app may have taken it).
+      await page.bringToFront()
       await tabs.first().click()
       for (let i = 0; i < count; i++) {
         const focused = tabs.nth(i)
         await expect(focused).toBeFocused()
         const name = (await focused.textContent()) ?? `tab ${i}`
-        const inView = insideHorizontally(await boxOf(focused), await boxOf(strip))
-        expect(inView, `${name} is clipped when focused at ${label}`).toBe(true)
+        // The strip scrolls the focused tab into view after focus moves; wait for it to land.
+        await expect
+          .poll(async () => insideHorizontally(await boxOf(focused), await boxOf(strip)), {
+            message: `${name} is clipped when focused at ${label}`,
+          })
+          .toBe(true)
         await page.keyboard.press('ArrowRight')
       }
     }
