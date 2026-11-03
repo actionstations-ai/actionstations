@@ -119,8 +119,8 @@ describe('the floor and early stop', () => {
 describe('arguments', () => {
   const base = ['--models', 'ollama:a']
 
-  it('defaults to three parallel cases and accepts 1 to 8', () => {
-    expect(parseArgs(base).concurrency).toBe(3)
+  it('runs one case at a time by default and accepts 1 to 8', () => {
+    expect(parseArgs(base).concurrency).toBe(1)
     expect(parseArgs([...base, '--concurrency', '1']).concurrency).toBe(1)
     for (const bad of ['0', '9', '2.5', 'x'])
       expect(() => parseArgs([...base, '--concurrency', bad])).toThrow(/--concurrency/)

@@ -424,12 +424,11 @@ Where the code differs from the text above, and why:
 - **Judge calibration (#503)**: with the 60 reference rows (#580), `qwen/qwen3-30b-a3b-2507` as judge reaches weighted kappa 0.039, far below 0.6, so judge scores stay unpublished. Measured with the old sampling settings (before #585); the threshold is unchanged.
 - **Not built yet**: the site import (task 10).
 - **Concurrency, triage and early stop (#584)**: cases run in parallel, `--concurrency N`
-  (default 3, 1 to 8). A single Electron instance is not used for parallel cases: projects,
+  (1 to 8, default 1). A single Electron instance is not used for parallel cases: projects,
   the index and the job queue are per app, and two critique cases edit the same stored
   scenario, so each worker is its own app instance with its own throwaway settings folder,
   embedder and project copies (`<out>/work/<model>/r<N>/w<M>/`). Cases are independent, so
-  scores do not depend on concurrency (checked on the mock provider and a 4B model: the same
-  scores at 1 and 3). The run file gains optional `concurrency`, `triage` and `stoppedEarly`;
+  scores did not depend on concurrency beyond run-to-run noise (mock provider identical; quick suite on LM Studio, 128 GB Apple silicon, model loaded at 131072 context with 4 slots: qwen3.5-4b overall 60.9 at 1 and 58.4 at 3, qwen3-30b-a3b-2507 64.4 at 1 and 63.0 at 3). It did not make runs faster there: wall 338 s at 1 and 558 s at 3 for the 4B, 1128 s and 1043 s for the 30B, because the requests overlap but each slows in proportion (drafting alone took 575 s at 1 and 1016 s at 3 for the 30B), so the default is 1. Before the model profiles of #589, the 4B scored near zero at 3 and also failed stages at 1 (replies cut off at the length limit), so the first comparisons measured that, not concurrency; loading at 131072 did not fix it, so a shared context was not the cause. The runner still warns when LM Studio's loaded context is below 32768 x workers, since slots may share it. The run file gains optional `concurrency`, `triage` and `stoppedEarly`;
   `formatVersion`, `suiteVersion` and `scoringVersion` are unchanged because no case, weight or
   scorer changed. Output tokens per second under load is slowed by the other cases, so with
   more than one worker a single ideation request is run on its own after the cases and its

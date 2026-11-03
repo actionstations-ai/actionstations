@@ -47,7 +47,7 @@ const MODELS_CACHE = join(ROOT, '.cache', 'bench', 'models')
 const GB = 1e9
 const GIB = 2 ** 30
 
-export const DEFAULT_CONCURRENCY = 3
+export const DEFAULT_CONCURRENCY = 1
 const MAX_CONCURRENCY = 8
 
 const log = (msg) => console.log(`[bench ${new Date().toISOString().slice(11, 19)}] ${msg}`)
@@ -396,17 +396,17 @@ async function runRepeats(env, workers, repeats, estimate) {
 }
 
 /**
- * LM Studio shares a loaded model's context between its parallel slots, so a model loaded at
- * 32K gives each of 4 slots about 8K and long stages are cut off (measured with #584).
+ * LM Studio may share a loaded model's context between its parallel slots, so a model loaded at
+ * 32K could leave each of 4 slots about 8K. Not seen as the cause of failures in #584 trials.
  */
 function warnSharedContext(model, info, suite, workers) {
   if (workers < 2 || model.tool !== 'lmstudio' || !info.contextLength) return
   const needed = suite.contextLength * workers
   if (info.contextLength >= needed) return
   log(
-    `warning: ${model.ref} is loaded with a ${info.contextLength}-token context. LM Studio splits it ` +
+    `warning: ${model.ref} is loaded with a ${info.contextLength}-token context. LM Studio may split it ` +
       `between parallel requests, so ${workers} workers need ${needed} (lms load <id> --context-length ` +
-      `${needed} --parallel ${workers} -y), or long stages are cut off and count against the model. ` +
+      `${needed} --parallel ${workers} -y), or long stages may be cut off and count against the model. ` +
       'Use --concurrency 1 otherwise.',
   )
 }
