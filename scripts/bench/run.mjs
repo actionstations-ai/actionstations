@@ -539,6 +539,13 @@ export function summaryMarkdown(run) {
     `Range ${run.range.overall[0]}–${run.range.overall[1]}${run.unstable ? ' (unstable)' : ''}; ` +
       `drafting reliability ${Math.round(run.median.draftingReliability * 100)}%; ` +
       `${run.repeats.reduce((n, r) => n + r.failures.length, 0)} failed stage(s).`,
+    ...(run.median.critique
+      ? [
+          '',
+          `Critique (advisory, not part of the floor): finds ${run.median.critique.recall}% of planted defects ` +
+            `(${run.median.critique.fixed}% fixed by the revision); the revision damaged ${run.median.critique.damage}% of correct rows.`,
+        ]
+      : []),
     ...(run.stoppedEarly ? ['', `Stopped early: ${run.stoppedEarly.reason}.`] : []),
     ...(run.determinism
       ? [

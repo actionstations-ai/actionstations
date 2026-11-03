@@ -84,9 +84,13 @@ describe('the floor and early stop', () => {
     expect(floorMisses(tasks(70), 1, thresholds)).toEqual([])
     expect(floorMisses(tasks(40, 30), 0.85, thresholds)).toEqual([
       'drafting scored 40, floor 50',
-      'critique scored 30, floor 50',
       'drafting reliability 85%, floor 90%',
     ])
+  })
+
+  it('leaves critique out: it is advisory', () => {
+    expect(floorMisses(tasks(70, 0), 1, thresholds)).toEqual([])
+    expect(earlyStopReason([rep(70, 1, 0), rep(70, 1, 10)], 3, thresholds)).toBeNull()
   })
 
   const rep = (d: number, reliability = 1, c = 80) => ({ tasks: tasks(d, c), reliability })

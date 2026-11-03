@@ -16,6 +16,7 @@ export function kvCacheGb(model: { sizeBytes?: number; contextLength?: number })
 export function fitsBudgetGb(model: { sizeBytes?: number; contextLength?: number }): number
 export function mergeRuns(runs: BenchRun[], unstableRange: number): MergedModel[]
 export function passesFloor(entry: MergedModel, thresholds: Suite['thresholds']): boolean
+export function criticWarning(entry: MergedModel, thresholds: Suite['thresholds']): string
 export function tierLabel(t: Tier): string
 export function tierBudget(t: Tier): number
 export function recommend(

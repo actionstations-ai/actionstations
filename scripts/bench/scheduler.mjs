@@ -28,12 +28,18 @@ export async function runPool(items, workers, fn) {
 export const workerCount = (concurrency, pending) => Math.max(1, Math.min(concurrency, pending))
 
 /**
+ * The tasks the recommendation floor judges (#592). Critique is advisory: its recall, fixed
+ * count and damage are reported next to the floor, but a model is not refused for them.
+ */
+export const FLOOR_TASKS = ['drafting', 'ideation']
+
+/**
  * Why a set of task scores and drafting reliability would miss the floor (FR-20); empty when
  * it passes. `tasks` is a repeat's `tasks` array; `reliability` the share 0 to 1.
  */
 export function floorMisses(tasks, reliability, thresholds) {
   const misses = tasks
-    .filter((t) => t.score < thresholds.floorTaskScore)
+    .filter((t) => FLOOR_TASKS.includes(t.task) && t.score < thresholds.floorTaskScore)
     .map((t) => `${t.task} scored ${Math.round(t.score)}, floor ${thresholds.floorTaskScore}`)
   if (reliability < thresholds.floorDraftingReliability)
     misses.push(
@@ -45,7 +51,9 @@ export function floorMisses(tasks, reliability, thresholds) {
 
 /** Which floor criteria a repeat misses: task names, and "drafting reliability". */
 function missedCriteria(repeat, thresholds) {
-  const tasks = repeat.tasks.filter((t) => t.score < thresholds.floorTaskScore).map((t) => t.task)
+  const tasks = repeat.tasks
+    .filter((t) => FLOOR_TASKS.includes(t.task) && t.score < thresholds.floorTaskScore)
+    .map((t) => t.task)
   return repeat.reliability < thresholds.floorDraftingReliability
     ? [...tasks, 'drafting reliability']
     : tasks

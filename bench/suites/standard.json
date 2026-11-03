@@ -26,13 +26,15 @@
       "spread": 0.15,
       "grounding": 0.2
     },
-    "critique": { "recall": 0.85, "noise": 0.15 }
+    "critique": { "recall": 0.65, "noise": 0.1, "intact": 0.25 }
   },
   "thresholds": {
     "lintCap": 20,
     "paceBand": [0.5, 2],
     "distinctCosine": 0.85,
     "noisePenaltyPer10Rows": 20,
+    "damagePenaltyPerPercent": 2,
+    "criticDamageWarn": 10,
     "unstableRange": 15,
     "floorTaskScore": 50,
     "floorDraftingReliability": 0.9

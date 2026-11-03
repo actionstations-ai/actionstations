@@ -83,8 +83,10 @@ export function caseBrief(example, key) {
   }
 }
 
+/** A defects file; the held-out ones (names starting "held-out-") live apart from the published set. */
 export function loadDefects(name, root = ROOT) {
-  return readJson(join(root, 'bench', 'defects', `${safeName(name, 'defects file')}.json`))
+  const folder = name.startsWith('held-out-') ? 'defects-held-out' : 'defects'
+  return readJson(join(root, 'bench', folder, `${safeName(name, 'defects file')}.json`))
 }
 
 function walk(dir) {

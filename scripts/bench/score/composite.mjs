@@ -9,8 +9,12 @@ import { reliability } from './reliability.mjs'
 import { rubricScore } from './rubric.mjs'
 import { mean, median, round1, weighted } from './util.mjs'
 
-/** 1: reliability, lint, citations (resolution, grounding support of #423, coverage), structure. */
-export const SCORING_VERSION = 1
+/**
+ * 1: reliability, lint, citations (resolution, grounding support of #423, coverage), structure.
+ * 2: critique scores the revised scenario (a fixed defect counts as found), measures damage to
+ * correct rows, and is advisory: the recommendation floor uses drafting and ideation (#592).
+ */
+export const SCORING_VERSION = 2
 
 /** One drafted scenario: reliability, lint, citations and structure. */
 export function draftingCase({ scenario, lints, gold, suite, grounding }) {
@@ -54,15 +58,24 @@ export function ideationCase({ ideas, dropped, suite, grounding }) {
   return { score: weighted(parts, suite.weights.ideation), parts, details: m }
 }
 
-export function critiqueCase({ notes, planted, lints, rowCount, suite }) {
+export function critiqueCase({ notes, planted, lints, rowCount, suite, before, after }) {
   const m = critiqueScore({
     notes,
     planted,
     lints,
     rowCount,
     noisePenalty: suite.thresholds.noisePenaltyPer10Rows,
+    damagePenalty: suite.thresholds.damagePenaltyPerPercent,
+    before,
+    after,
   })
-  const parts = { recall: m.recall, noise: m.noise }
+  const parts = {
+    recall: m.recall,
+    noise: m.noise,
+    intact: m.intact,
+    fixed: m.fixed,
+    damage: m.damage,
+  }
   return { score: weighted(parts, suite.weights.critique), parts, details: m }
 }
 
@@ -89,6 +102,16 @@ export function overallScore(tasks, weights) {
   return round1(weighted(Object.fromEntries(tasks.map((t) => [t.task, t.score])), weights))
 }
 
+/** Median recall, fixed and damage of the critique task over repeats; nothing without them. */
+function critiqueMedian(repeats) {
+  const parts = repeats
+    .map((r) => r.tasks.find((t) => t.task === 'critique')?.parts)
+    .filter((p) => p && 'recall' in p)
+  if (!parts.length) return {}
+  const med = (k) => round1(median(parts.map((p) => p[k] ?? 0)))
+  return { critique: { recall: med('recall'), fixed: med('fixed'), damage: med('damage') } }
+}
+
 /** Median, range and stability over repeats; `reliabilities` per repeat (0–1). */
 export function summarizeRepeats(repeats, reliabilities, unstableRange) {
   const overall = repeats.map((r) => r.overall)
@@ -106,6 +129,7 @@ export function summarizeRepeats(repeats, reliabilities, unstableRange) {
       overall: round1(median(overall)),
       tasks,
       draftingReliability: Math.round(median(reliabilities) * 1000) / 1000,
+      ...critiqueMedian(repeats),
     },
     range: { overall: [lo, hi] },
     unstable: hi - lo > unstableRange,

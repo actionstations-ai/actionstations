@@ -48,11 +48,19 @@ export function overallScore(
   weights: Record<string, number>,
 ): number
 export function summarizeRepeats(
-  repeats: { overall: number; tasks: { task: string; score: number }[] }[],
+  repeats: {
+    overall: number
+    tasks: { task: string; score: number; parts?: Record<string, number> }[]
+  }[],
   reliabilities: number[],
   unstableRange: number,
 ): {
-  median: { overall: number; tasks: Record<string, number>; draftingReliability: number }
+  median: {
+    overall: number
+    tasks: Record<string, number>
+    draftingReliability: number
+    critique?: { recall: number; fixed: number; damage: number }
+  }
   range: { overall: [number, number] }
   unstable: boolean
 }

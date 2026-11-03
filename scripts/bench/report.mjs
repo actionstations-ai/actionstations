@@ -16,6 +16,7 @@ import { pathToFileURL } from 'node:url'
 import { importMain } from '../lib/bundle-main.mjs'
 import { loadSuite, ROOT } from './corpus.mjs'
 import { SCORING_VERSION } from './score/composite.mjs'
+import { FLOOR_TASKS } from './scheduler.mjs'
 import { median } from './score/util.mjs'
 import { writeFormatted } from './write.mjs'
 
@@ -52,6 +53,17 @@ export const fitsBudgetGb = (model) =>
 
 const round1 = (n) => Math.round(n * 10) / 10
 
+/** The critique figures (recall, fixed, damage) as medians over the runs that have them. */
+function mergedCritique(list) {
+  const have = list.map((r) => r.median.critique).filter(Boolean)
+  if (!have.length) return {}
+  return {
+    critique: Object.fromEntries(
+      ['recall', 'fixed', 'damage'].map((k) => [k, round1(median(have.map((c) => c[k] ?? 0)))]),
+    ),
+  }
+}
+
 /** One entry per model ref: medians of the runs' medians, the widest range, every machine. */
 export function mergeRuns(runs, unstableRange) {
   const byRef = new Map()
@@ -72,6 +84,7 @@ export function mergeRuns(runs, unstableRange) {
           tasks.map((t) => [t, round1(median(list.map((r) => r.median.tasks[t] ?? 0)))]),
         ),
         draftingReliability: median(list.map((r) => r.median.draftingReliability)),
+        ...mergedCritique(list),
       },
       range: {
         overall: [
@@ -88,12 +101,14 @@ export function mergeRuns(runs, unstableRange) {
   })
 }
 
-/** The floor a recommended model must pass (FR-20). */
+/**
+ * The floor a recommended model must pass (FR-20): drafting and ideation at least the floor score,
+ * drafting reliability at least the floor share, stable. Critique is advisory (#592).
+ */
 export function passesFloor(entry, thresholds) {
-  const taskScores = Object.values(entry.median.tasks)
+  const taskScores = FLOOR_TASKS.map((t) => entry.median.tasks[t])
   return (
-    taskScores.length > 0 &&
-    taskScores.every((s) => s >= thresholds.floorTaskScore) &&
+    taskScores.every((s) => s !== undefined && s >= thresholds.floorTaskScore) &&
     entry.median.draftingReliability >= thresholds.floorDraftingReliability &&
     !entry.unstable
   )
@@ -107,6 +122,23 @@ export const tierLabel = (t) =>
       : `${t.min}–${t.max} GB`
 
 export const tierBudget = (t) => (t.min > 0 ? t.min : LOWEST_TIER_BUDGET_GB)
+
+/**
+ * The plain warning that goes with a model's critique figures (#592): empty when critique is
+ * unmeasured or sound, else what to expect from the app's critique pass with this model.
+ */
+export function criticWarning(entry, thresholds) {
+  const c = entry.median.critique
+  if (!c) return ''
+  const weak = (entry.median.tasks.critique ?? 100) < thresholds.floorTaskScore
+  const harms = c.damage > thresholds.criticDamageWarn
+  if (!weak && !harms) return ''
+  const what = [
+    weak && `it finds ${Math.round(c.recall)}% of planted defects`,
+    harms && `its revision changes ${Math.round(c.damage)}% of correct rows`,
+  ].filter(Boolean)
+  return ` Critique is advisory: ${what.join(' and ')}, so review the critique notes and revised rows before trusting them.`
+}
 
 /** The best model per tier that fits the tier's smallest machine and passes the floor. */
 export function recommend(entries, tiers, thresholds) {
@@ -127,14 +159,16 @@ export function recommend(entries, tiers, thresholds) {
         ...base,
         model: null,
         reason: fitting.length
-          ? `None of the ${fitting.length} benchmarked model(s) that fit ${budget} GB passes the floor (every task at least ${thresholds.floorTaskScore}, drafting reliability at least ${Math.round(thresholds.floorDraftingReliability * 100)}%, stable across repeats).`
+          ? `None of the ${fitting.length} benchmarked model(s) that fit ${budget} GB passes the floor (drafting and ideation at least ${thresholds.floorTaskScore}, drafting reliability at least ${Math.round(thresholds.floorDraftingReliability * 100)}%, stable across repeats).`
           : `No benchmarked model fits ${budget} GB yet.`,
         backedBy: [],
       }
     return {
       ...base,
       model: best.model.ref,
-      reason: `Highest median overall score (${best.median.overall}) of the ${passing.length} model(s) that fit ${budget} GB (needs about ${best.fitsBudgetGb} GB) and pass the floor.`,
+      reason:
+        `Highest median overall score (${best.median.overall}) of the ${passing.length} model(s) that fit ${budget} GB (needs about ${best.fitsBudgetGb} GB) and pass the floor.` +
+        criticWarning(best, thresholds),
       backedBy: best.backedBy,
     }
   })
@@ -203,8 +237,8 @@ export function readmeTables(report) {
   if (!report.models.length) lines.push('No runs for this suite version yet.')
   else
     lines.push(
-      '| Model | Tool | Quantization | Size | Overall (median, range) | Drafting | Critique | Ideation | Runs | Machines | Stability |',
-      '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+      '| Model | Tool | Quantization | Size | Overall (median, range) | Drafting | Ideation | Critique (advisory) | Critique recall / fixed / damage | Runs | Machines | Stability |',
+      '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
       ...report.models
         .map((m) =>
           [
@@ -214,8 +248,11 @@ export function readmeTables(report) {
             gbOf(m.model.sizeBytes),
             `${m.median.overall} (${m.range.overall[0]}–${m.range.overall[1]})`,
             m.median.tasks.drafting ?? 'n/a',
-            m.median.tasks.critique ?? 'n/a',
             m.median.tasks.ideation ?? 'n/a',
+            m.median.tasks.critique ?? 'n/a',
+            m.median.critique
+              ? `${m.median.critique.recall}% / ${m.median.critique.fixed}% / ${m.median.critique.damage}%`
+              : 'n/a',
             m.runs,
             m.hardware.length,
             m.unstable ? 'unstable' : 'stable',
@@ -223,6 +260,10 @@ export function readmeTables(report) {
         )
         .map((row) => `| ${row} |`),
     )
+  lines.push(
+    '',
+    'The recommendation floor uses drafting, drafting reliability and ideation. Critique is advisory: recall is the share of planted defects a note names or the revision removes, fixed is the share the revision removed, and damage is the share of correct rows (pressure, misinformation and clue rows weigh triple) the revision rewrote or dropped. Review the critique notes and revised rows of any model with low recall or high damage.',
+  )
   if (report.archived.length)
     lines.push(
       '',

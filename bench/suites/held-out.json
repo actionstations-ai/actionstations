@@ -1,0 +1,83 @@
+{
+  "suite": "held-out",
+  "suiteVersion": 1,
+  "description": "Critique cases on examples the standard suite does not use, kept out of the published task set (pnpm bench:export) so a model cannot be tuned to them. Compare its critique figures with the standard suite's to see whether a model's critique recall holds on new material. Critique only: ideation and drafting are empty, so a run reports no floor verdict.",
+  "repeats": 3,
+  "seeds": [11, 23, 37],
+  "contextLength": 32768,
+  "ideationCount": 6,
+  "weights": {
+    "overall": {
+      "drafting": 0.5,
+      "critique": 0.25,
+      "ideation": 0.25
+    },
+    "drafting": {
+      "reliability": 0.25,
+      "lint": 0.2,
+      "citations": 0.2,
+      "structure": 0.35
+    },
+    "citations": {
+      "resolution": 0.3,
+      "support": 0.4,
+      "coverage": 0.3
+    },
+    "structure": {
+      "pace": 1,
+      "tagMix": 2,
+      "decisionPhase": 2,
+      "startEnd": 1,
+      "rolesEveryPhase": 1,
+      "briefIds": 1,
+      "noReferenceLeak": 2
+    },
+    "ideation": {
+      "valid": 0.25,
+      "distinct": 0.2,
+      "resolution": 0.2,
+      "spread": 0.15,
+      "grounding": 0.2
+    },
+    "critique": {
+      "recall": 0.65,
+      "noise": 0.1,
+      "intact": 0.25
+    }
+  },
+  "thresholds": {
+    "lintCap": 20,
+    "paceBand": [0.5, 2],
+    "distinctCosine": 0.85,
+    "noisePenaltyPer10Rows": 20,
+    "damagePenaltyPerPercent": 2,
+    "criticDamageWarn": 10,
+    "unstableRange": 15,
+    "floorTaskScore": 50,
+    "floorDraftingReliability": 0.9
+  },
+  "ideation": [],
+  "drafting": [],
+  "critique": [
+    {
+      "id": "held-out-chemical-rmp",
+      "example": "chemical-rmp",
+      "defects": "held-out-chemical-rmp"
+    },
+    {
+      "id": "held-out-hospital",
+      "example": "hospital",
+      "defects": "held-out-hospital"
+    },
+    {
+      "id": "held-out-k12-district",
+      "example": "k12-district",
+      "defects": "held-out-k12-district"
+    },
+    {
+      "id": "held-out-uas-operations",
+      "example": "uas-operations",
+      "defects": "held-out-uas-operations"
+    }
+  ]
+}
