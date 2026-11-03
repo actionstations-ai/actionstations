@@ -15,6 +15,8 @@ export interface RunArgs {
   clean?: boolean
   judge?: string
   determinism?: boolean
+  concurrency: number
+  triage?: boolean
 }
 export function parseArgs(argv: string[]): RunArgs
 export interface CaseResult {
@@ -32,14 +34,23 @@ export function repeatFromCases(
   suite: Suite,
   r: number,
   cases: Record<string, CaseResult>,
+  speed?: { output: number; ms: number },
 ): BenchRun['repeats'][number] & { reliability: number }
 export function buildRun(input: {
   suite: Suite
   model: BenchRun['model']
   embedder: string
-  mstate: { startedAt: string; cases: Record<string, CaseResult> }
+  mstate: {
+    startedAt: string
+    cases: Record<string, CaseResult>
+    speed?: { output: number; ms: number }
+    stoppedEarly?: { afterRepeat: number; reason: string }
+  }
   repeats: number
   hardware: BenchRun['hardware']
   appVersion: string
+  concurrency?: number
+  triage?: boolean
 }): BenchRun
 export function summaryMarkdown(run: BenchRun): string
+export function triageLine(run: BenchRun, thresholds: Suite['thresholds']): string

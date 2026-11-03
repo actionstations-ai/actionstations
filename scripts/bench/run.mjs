@@ -8,6 +8,7 @@
 //   pnpm bench -- --models ollama:qwen3.5:9b[,lmstudio:<id>…] [--suite quick|standard]
 //                 [--repeats N] [--out <dir>] [--base-url <url>] [--embedder local|hash]
 //                 [--yes] [--resume] [--clean] [--judge lmstudio:<model>] [--determinism]
+//                 [--concurrency N] [--triage]
 //
 // Local endpoints only (127.0.0.1); there is no flag to allow a remote one.
 import { execFileSync } from 'node:child_process'
@@ -17,7 +18,7 @@ import { createInterface } from 'node:readline/promises'
 import { pathToFileURL } from 'node:url'
 import { freshUserData, launchApp, waitForJob } from '../lib/app-driver.mjs'
 import { importMain } from '../lib/bundle-main.mjs'
-import { assertNoPromptOverrides, RUNNERS } from './cases.mjs'
+import { assertNoPromptOverrides, RUNNERS, runIdeation } from './cases.mjs'
 import { determinismOf } from './determinism.mjs'
 import {
   loadCalibration,
@@ -35,6 +36,7 @@ import {
   SCORING_VERSION,
   summarizeRepeats,
 } from './score/composite.mjs'
+import { earlyStopReason, floorMisses, runPool, speedFigure, workerCount } from './scheduler.mjs'
 import { median } from './score/util.mjs'
 import { writeFormatted } from './write.mjs'
 
@@ -45,10 +47,19 @@ const MODELS_CACHE = join(ROOT, '.cache', 'bench', 'models')
 const GB = 1e9
 const GIB = 2 ** 30
 
+export const DEFAULT_CONCURRENCY = 3
+const MAX_CONCURRENCY = 8
+
 const log = (msg) => console.log(`[bench ${new Date().toISOString().slice(11, 19)}] ${msg}`)
 
 export function parseArgs(argv) {
-  const args = { suite: 'quick', out: '.tmp/bench', embedder: 'local', models: [] }
+  const args = {
+    suite: 'quick',
+    out: '.tmp/bench',
+    embedder: 'local',
+    models: [],
+    concurrency: DEFAULT_CONCURRENCY,
+  }
   const value = (i) => {
     if (argv[i + 1] === undefined) throw new Error(`${argv[i]} needs a value`)
     return argv[i + 1]
@@ -68,12 +79,21 @@ export function parseArgs(argv) {
     else if (a === '--embedder') args.embedder = value(i++)
     else if (a === '--judge') args.judge = value(i++)
     else if (a === '--determinism') args.determinism = true
+    else if (a === '--concurrency') args.concurrency = Number(value(i++))
+    else if (a === '--triage') args.triage = true
     else if (a === '--yes') args.yes = true
     else if (a === '--resume') args.resume = true
     else if (a === '--clean') args.clean = true
     else throw new Error(`Unknown argument ${a}`)
   }
   if (!args.models.length) throw new Error('--models is required (e.g. --models ollama:qwen3.5:9b)')
+  if (!(
+    Number.isInteger(args.concurrency) &&
+    args.concurrency >= 1 &&
+    args.concurrency <= MAX_CONCURRENCY
+  ))
+    throw new Error(`--concurrency is a whole number from 1 to ${MAX_CONCURRENCY}`)
+  applyTriage(args, argv)
   if (args.judge) parseJudgeRef(args.judge, args.baseUrl)
   if (args.determinism && args.repeats !== undefined)
     throw new Error('--determinism runs two repeats at one seed; leave out --repeats')
@@ -84,6 +104,18 @@ export function parseArgs(argv) {
   )
     throw new Error('--repeats is 1, 2 or 3 (one per fixed seed)')
   return args
+}
+
+/** `--triage` is the standard suite at one repeat; it conflicts with anything else. */
+function applyTriage(args, argv) {
+  if (!args.triage) return
+  if (argv.includes('--suite') && args.suite !== 'standard')
+    throw new Error('--triage runs the standard suite; leave out --suite or use --suite standard')
+  if (args.repeats !== undefined && args.repeats !== 1)
+    throw new Error('--triage runs one repeat; leave out --repeats')
+  if (args.determinism) throw new Error('--triage and --determinism cannot be combined')
+  args.suite = 'standard'
+  args.repeats = 1
 }
 
 // ---- environment ------------------------------------------------------------------------------
@@ -202,24 +234,14 @@ function makeEstimator(total, done) {
   }
 }
 
-/** Every case of one repeat; results land in `mstate.cases` as they finish. */
-async function runRepeat(ctx, r, mstate, estimate) {
-  for (const task of TASKS)
-    for (const c of ctx.suite[task]) {
-      const key = `${r}:${task}:${c.id}`
-      if (mstate.cases[key]) continue
-      log(`repeat ${r + 1}: ${task} ${c.id}`)
-      const result = await RUNNERS[task](ctx, c)
-      mstate.cases[key] = result
-      mstate.projects[r] = ctx.projects
-      ctx.save()
-      log(`  ${task} ${c.id}: ${result.score.toFixed(1)}`)
-      estimate()
-    }
+/** The speed figure: the single-request pass when there is one, else the cases' own timing. */
+function tokensPerSecond(tokens, speed) {
+  const figure = speedFigure(speed ?? tokens)
+  return figure === undefined ? {} : { outputTokensPerSecond: figure }
 }
 
 /** A repeat's task scores and overall from the stored case results. */
-export function repeatFromCases(suite, r, cases) {
+export function repeatFromCases(suite, r, cases, speed) {
   const tasks = TASKS.map((task) => {
     const results = suite[task].map((c) => cases[`${r}:${task}:${c.id}`]).filter(Boolean)
     const tokens = results.reduce(
@@ -228,7 +250,7 @@ export function repeatFromCases(suite, r, cases) {
     )
     return aggregateTask(task, results, {
       wallSeconds: results.reduce((n, x) => n + x.wallSeconds, 0),
-      ...(tokens.ms > 0 ? { outputTokensPerSecond: tokens.output / (tokens.ms / 1000) } : {}),
+      ...tokensPerSecond(tokens, speed),
     })
   })
   const drafting = suite.drafting.map((c) => cases[`${r}:drafting:${c.id}`]?.reliability ?? 0)
@@ -246,6 +268,132 @@ export function repeatFromCases(suite, r, cases) {
 /** Both repeats of a determinism check use the first seed. */
 const sameSeed = (suite) => ({ ...suite, seeds: [suite.seeds[0], suite.seeds[0]] })
 
+/** One app instance with its own throwaway settings folder, embedder and provider. */
+async function startWorker(w, { args, model }) {
+  const userData = freshUserData('ttx-bench-')
+  assertNoPromptOverrides(join(userData, 'prompts'), 'the user-data folder')
+  linkModelsCache(userData)
+  const env = model.tool === 'mock' ? { TTX_MOCK_PROVIDERS: '1' } : {}
+  const { app: electronApp, invoke } = await launchApp({ userData, env })
+  const worker = { w, userData, electronApp, invoke, projects: {} }
+  try {
+    worker.embedder = await setEmbedder(invoke, args.embedder)
+  } catch (err) {
+    await stopWorker(worker)
+    throw err
+  }
+  return worker
+}
+
+async function stopWorker(worker) {
+  await worker.electronApp.close().catch(() => {})
+  rmSync(worker.userData, { recursive: true, force: true })
+}
+
+/**
+ * Cases are independent and each worker is its own app instance with its own project copies, so
+ * parallel cases cannot touch each other's projects, job queue or index. Worker 0 starts first
+ * because it may download the embedder into the shared cache.
+ */
+async function startWorkers(count, opts) {
+  const workers = [await startWorker(0, opts)]
+  try {
+    workers.push(
+      ...(await Promise.all(Array.from({ length: count - 1 }, (_, i) => startWorker(i + 1, opts)))),
+    )
+  } catch (err) {
+    await Promise.all(workers.map(stopWorker))
+    throw err
+  }
+  return workers
+}
+
+/** The stored-projects key: the repeat alone for one worker (as before), else repeat and worker. */
+const projectsKey = (r, w, multi) => (multi ? `${r}.${w}` : r)
+
+function caseContext(env, worker, r) {
+  const { args, suite, gold, mstate, state, model, multi } = env
+  const key = projectsKey(r, worker.w, multi)
+  const base = join(args.out, 'work', slug(model.ref), `r${r + 1}`)
+  worker.projects[key] ??= { ...(mstate.projects[key] ?? {}) }
+  return {
+    invoke: worker.invoke,
+    suite,
+    gold,
+    log: multi ? (msg) => log(`[w${worker.w + 1}] ${msg}`) : log,
+    workDir: multi ? join(base, `w${worker.w + 1}`) : base,
+    judge: !!args.judge,
+    projects: worker.projects[key],
+    save: () => saveState(args.out, state),
+    key,
+  }
+}
+
+/** Route the worker's provider to the model with the repeat's seed. */
+async function routeWorker(env, worker, r) {
+  const { suite, model } = env
+  worker.providerId = await routeModel(
+    worker.invoke,
+    model,
+    suite.seeds[r],
+    suite.contextLength,
+    worker.providerId,
+  )
+}
+
+/** Run one case on a worker with the repeat's seed; the result lands in `mstate.cases`. */
+async function runCase(env, worker, { r, task, c }, estimate) {
+  await routeWorker(env, worker, r)
+  const ctx = caseContext(env, worker, r)
+  ctx.log(`repeat ${r + 1}: ${task} ${c.id}`)
+  const result = await RUNNERS[task](ctx, c)
+  env.mstate.cases[`${r}:${task}:${c.id}`] = result
+  env.mstate.projects[ctx.key] = ctx.projects
+  ctx.save()
+  ctx.log(`  ${task} ${c.id}: ${result.score.toFixed(1)}`)
+  estimate()
+}
+
+/** Cases of one repeat not yet in the state, longest tasks first so they start early. */
+function pendingCases(suite, r, cases) {
+  return ['drafting', 'critique', 'ideation'].flatMap((task) =>
+    suite[task].filter((c) => !cases[`${r}:${task}:${c.id}`]).map((c) => ({ r, task, c })),
+  )
+}
+
+/**
+ * One request on an idle model: the first ideation case again, unscored, so the speed figure
+ * is not slowed by the other cases sharing the model's slots.
+ */
+async function speedPass(env, worker) {
+  const c = env.suite.ideation[0]
+  if (!c || env.mstate.speed) return
+  await routeWorker(env, worker, 0)
+  const ctx = caseContext(env, worker, 0)
+  ctx.log('speed pass: one ideation request on its own')
+  env.mstate.speed = (await runIdeation(ctx, c)).tokens
+  ctx.save()
+}
+
+/** Repeat 1, the early-stop check, then the other repeats. Returns the repeats that ran. */
+async function runRepeats(env, workers, repeats, estimate) {
+  const { suite, mstate, args } = env
+  const run = (r) =>
+    runPool(pendingCases(suite, r, mstate.cases), workers.length, (item, w) =>
+      runCase(env, workers[w], item, estimate),
+    )
+  await run(0)
+  const first = repeatFromCases(suite, 0, mstate.cases)
+  const reason = args.determinism ? null : earlyStopReason(first, repeats, suite.thresholds)
+  if (reason) {
+    log(`stopping after repeat 1: ${reason}`)
+    mstate.stoppedEarly = { afterRepeat: 1, reason }
+    return 1
+  }
+  for (let r = 1; r < repeats; r++) await run(r)
+  return repeats
+}
+
 async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVersion }) {
   const suite = args.determinism ? sameSeed(baseSuite) : baseSuite
   const model = parseModelRef(ref, args.baseUrl)
@@ -262,44 +410,32 @@ async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVers
     cases: {},
     projects: {},
   })
-  const userData = freshUserData('ttx-bench-')
-  assertNoPromptOverrides(join(userData, 'prompts'), 'the user-data folder')
-  linkModelsCache(userData)
-  const env = model.tool === 'mock' ? { TTX_MOCK_PROVIDERS: '1' } : {}
-  const { app: electronApp, invoke } = await launchApp({ userData, env })
-  let embedder
+  const pending = Array.from({ length: repeats }, (_, r) =>
+    pendingCases(suite, r, mstate.cases),
+  ).flat().length
+  const count = workerCount(args.concurrency, pending)
+  const env = { args, suite, gold, mstate, state, model, multi: count > 1 }
+  const total = repeats * TASKS.reduce((n, t) => n + suite[t].length, 0)
+  const estimate = makeEstimator(total, Object.keys(mstate.cases).length)
+  log(`${count} app instance(s) for ${pending} case(s)`)
+  const workers = await startWorkers(count, { args, model })
+  let ran
   try {
-    embedder = await setEmbedder(invoke, args.embedder)
-    const total = repeats * TASKS.reduce((n, t) => n + suite[t].length, 0)
-    const estimate = makeEstimator(total, Object.keys(mstate.cases).length)
-    let providerId
-    for (let r = 0; r < repeats; r++) {
-      providerId = await routeModel(invoke, model, suite.seeds[r], suite.contextLength, providerId)
-      const workDir = join(args.out, 'work', slug(model.ref), `r${r + 1}`)
-      const ctx = {
-        invoke,
-        suite,
-        gold,
-        log,
-        workDir,
-        judge: !!args.judge,
-        projects: { ...(mstate.projects[r] ?? {}) },
-        save: () => saveState(args.out, state),
-      }
-      await runRepeat(ctx, r, mstate, estimate)
-    }
+    ran = mstate.stoppedEarly ? 1 : await runRepeats(env, workers, repeats, estimate)
+    if (count > 1) await speedPass(env, workers[0])
   } finally {
-    await electronApp.close()
-    rmSync(userData, { recursive: true, force: true })
+    await Promise.all(workers.map(stopWorker))
   }
   const run = buildRun({
     suite,
     model: info,
-    embedder,
+    embedder: workers[0].embedder,
     mstate,
-    repeats,
+    repeats: ran,
     hardware: await benchHardware(app),
     appVersion,
+    concurrency: count,
+    triage: args.triage,
   })
   if (args.determinism) run.determinism = determinismOf(run.repeats, suite.seeds[0])
   if (args.judge) run.judge = await judgeRun(args, mstate)
@@ -322,8 +458,20 @@ async function judgeRun(args, mstate) {
   })
 }
 
-export function buildRun({ suite, model, embedder, mstate, repeats, hardware, appVersion }) {
-  const reps = Array.from({ length: repeats }, (_, r) => repeatFromCases(suite, r, mstate.cases))
+export function buildRun({
+  suite,
+  model,
+  embedder,
+  mstate,
+  repeats,
+  hardware,
+  appVersion,
+  concurrency,
+  triage,
+}) {
+  const reps = Array.from({ length: repeats }, (_, r) =>
+    repeatFromCases(suite, r, mstate.cases, mstate.speed),
+  )
   const summary = summarizeRepeats(
     reps,
     reps.map((x) => x.reliability),
@@ -345,6 +493,9 @@ export function buildRun({ suite, model, embedder, mstate, repeats, hardware, ap
     model,
     hardware,
     startedAt: mstate.startedAt,
+    ...(concurrency > 1 ? { concurrency } : {}),
+    ...(triage ? { triage: true } : {}),
+    ...(mstate.stoppedEarly ? { stoppedEarly: mstate.stoppedEarly } : {}),
     repeats: reps.map(({ reliability: _r, ...rest }) => rest),
     ...summary,
   }
@@ -368,6 +519,7 @@ export function summaryMarkdown(run) {
     `Range ${run.range.overall[0]}–${run.range.overall[1]}${run.unstable ? ' (unstable)' : ''}; ` +
       `drafting reliability ${Math.round(run.median.draftingReliability * 100)}%; ` +
       `${run.repeats.reduce((n, r) => n + r.failures.length, 0)} failed stage(s).`,
+    ...(run.stoppedEarly ? ['', `Stopped early: ${run.stoppedEarly.reason}.`] : []),
     ...(run.determinism
       ? [
           '',
@@ -389,6 +541,15 @@ export function summaryMarkdown(run) {
   return lines.join('\n')
 }
 
+/** The triage verdict: pass or miss against the suite's floor (a published run needs 3 repeats). */
+export function triageLine(run, thresholds) {
+  const tasks = Object.entries(run.median.tasks).map(([task, score]) => ({ task, score }))
+  const misses = floorMisses(tasks, run.median.draftingReliability, thresholds)
+  return misses.length
+    ? `Triage: misses the floor (${misses.join('; ')}).`
+    : 'Triage: passes the floor. Run the standard suite with 3 repeats to publish.'
+}
+
 async function main(argv) {
   const args = parseArgs(argv)
   args.out = resolve(args.out)
@@ -406,7 +567,9 @@ async function main(argv) {
     )
     const file = join(args.out, runFileName(run.startedAt, run.model.ref, run.hardware))
     await writeFormatted(file, JSON.stringify(run))
-    console.log(`\n${summaryMarkdown(run)}\n\nWrote ${file}`)
+    console.log(
+      `\n${summaryMarkdown(run)}${run.triage ? `\n\n${triageLine(run, suite.thresholds)}` : ''}\n\nWrote ${file}`,
+    )
     delete state.models[run.model.ref]
     saveState(args.out, state)
   }

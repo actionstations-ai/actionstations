@@ -52,20 +52,31 @@ pnpm bench -- --models ollama:qwen3.5:9b --suite quick
 pnpm bench -- --models lmstudio:qwen/qwen3.5-9b,ollama:qwen3:30b --suite standard
 ```
 
-| Option                    | Meaning                                                                                                                                                                                                                                   |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--models <ref,…>`        | `ollama:<name from ollama list>` or `lmstudio:<model id from lms ls>`                                                                                                                                                                     |
-| `--suite quick\|standard` | Default `quick`                                                                                                                                                                                                                           |
-| `--repeats N`             | 1 to 3; default from the suite (quick 1, standard 3)                                                                                                                                                                                      |
-| `--out <dir>`             | Where run files and the generated projects go; default `.tmp/bench`                                                                                                                                                                       |
-| `--base-url <url>`        | A non-default port of LM Studio or Ollama, still on 127.0.0.1                                                                                                                                                                             |
-| `--embedder local\|hash`  | `local` (default) searches the plans with the bge-small-en-v1.5 model the app uses, downloaded once (about 130 MB) into `.cache/bench/models` after you confirm; `hash` runs fully offline with weaker search and is marked in the result |
-| `--yes`                   | Confirm the one-time embedder download without a prompt                                                                                                                                                                                   |
-| `--resume`                | Continue after an interruption from `<out>/state.json`                                                                                                                                                                                    |
-| `--clean`                 | Delete the generated projects in `<out>/work/` after the run                                                                                                                                                                              |
+| Option                    | Meaning                                                                                                                                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--models <ref,…>`        | `ollama:<name from ollama list>` or `lmstudio:<model id from lms ls>`                                                                                                                                                                            |
+| `--suite quick\|standard` | Default `quick`                                                                                                                                                                                                                                  |
+| `--repeats N`             | 1 to 3; default from the suite (quick 1, standard 3)                                                                                                                                                                                             |
+| `--out <dir>`             | Where run files and the generated projects go; default `.tmp/bench`                                                                                                                                                                              |
+| `--base-url <url>`        | A non-default port of LM Studio or Ollama, still on 127.0.0.1                                                                                                                                                                                    |
+| `--embedder local\|hash`  | `local` (default) searches the plans with the bge-small-en-v1.5 model the app uses, downloaded once (about 130 MB) into `.cache/bench/models` after you confirm; `hash` runs fully offline with weaker search and is marked in the result        |
+| `--concurrency N`         | Cases run in parallel, 1 to 8, default 3. Each worker is its own app instance, so keep N at or below the parallel slots the model server offers (LM Studio: 4 by default). Scores do not depend on it; wall times per case are longer under load |
+| `--triage`                | The standard suite at one repeat, with a pass or miss against the floor at the end. A quick screen before the full run; triage runs are not published and the report ignores them                                                                |
+| `--yes`                   | Confirm the one-time embedder download without a prompt                                                                                                                                                                                          |
+| `--resume`                | Continue after an interruption from `<out>/state.json`                                                                                                                                                                                           |
+| `--clean`                 | Delete the generated projects in `<out>/work/` after the run                                                                                                                                                                                     |
 
 | `--judge lmstudio:<model>` | Optional local judge: scores how plausible up to 30 cited MSEL rows are, quoting the row and passage (a score with a quote that is not in the text is dropped). Local models only, off by default, never part of the overall score. The scores are marked publishable only when the judge agrees with the reference rows in `bench/calibration/rows.json` (scored by a hosted reference model, accepted by the maintainer; see its README) (weighted kappa 0.6 or more, 60 rows); without that file they are kept but marked unpublished. Measured once (2026-11-03, old sampling settings) with `qwen/qwen3-30b-a3b-2507` as judge on the 60 rows: kappa 0.039, which does not clear 0.6, so no judge scores are published yet |
 | `--determinism` | Runs two repeats at the same seed and reports whether their scores and lint counts match (replaces `--repeats`) |
+
+With more than one worker, the model's speed (output tokens per second) is measured in a separate
+pass: one ideation request on its own after the cases, so other cases sharing the model do not
+slow it. The per-task wall times in the run file are measured under load.
+
+After repeat 1 of a multi-repeat run, a model that misses the floor (any task under 50, or
+drafting reliability under 90%) is stopped. The run file keeps the one repeat and records the
+reason in `stoppedEarly`, and the terminal summary shows it. Use `--triage` to find such models
+cheaply, and the standard suite with three repeats to publish the rest.
 
 Judge scores and the determinism result appear in the run file (`judge`, `determinism`) and
 the terminal summary.

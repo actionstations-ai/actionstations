@@ -423,3 +423,22 @@ Where the code differs from the text above, and why:
 - **Provider findings (#503)**: trial runs showed two adapter problems, fixed: LM Studio's `json_schema` mode puts Qwen3.5's JSON in `reasoning_content` with empty `content` (the adapter now falls back to the reasoning text for structured replies), and gpt-oss-120b under `json_object` or prompt mode writes a harmony `<|constrain|>` header that LM Studio rejects with a 500 (it now starts from `json_schema`; gpt-oss-20b keeps `json_object`, #81). Those trial scores are not published: the sampling settings are being replaced (#585), and the setup-tier runs will be redone with them.
 - **Judge calibration (#503)**: with the 60 reference rows (#580), `qwen/qwen3-30b-a3b-2507` as judge reaches weighted kappa 0.039, far below 0.6, so judge scores stay unpublished. Measured with the old sampling settings (before #585); the threshold is unchanged.
 - **Not built yet**: the site import (task 10).
+- **Concurrency, triage and early stop (#584)**: cases run in parallel, `--concurrency N`
+  (default 3, 1 to 8). A single Electron instance is not used for parallel cases: projects,
+  the index and the job queue are per app, and two critique cases edit the same stored
+  scenario, so each worker is its own app instance with its own throwaway settings folder,
+  embedder and project copies (`<out>/work/<model>/r<N>/w<M>/`). Cases are independent, so
+  scores do not depend on concurrency (checked on the mock provider and a 4B model: the same
+  scores at 1 and 3). The run file gains optional `concurrency`, `triage` and `stoppedEarly`;
+  `formatVersion`, `suiteVersion` and `scoringVersion` are unchanged because no case, weight or
+  scorer changed. Output tokens per second under load is slowed by the other cases, so with
+  more than one worker a single ideation request is run on its own after the cases and its
+  figure is used for every task. `--triage` is the standard suite at one repeat and prints
+  pass or miss against the floor; the report ignores triage runs. After repeat 1 a run that
+  misses the floor (a task under 50, or drafting reliability under 90%) is stopped, and the
+  reason is recorded in `stoppedEarly`. The median over three repeats could still recover, so
+  this trades a small chance of a false stop for hours saved; `--concurrency` does not change
+  it. Per-case `wallSeconds` is measured under load when concurrency is above 1.
+- **Not built yet**: the first published runs of the other `TEXT_TIERS` models (task 9) and the site import
+  (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
+  building this.

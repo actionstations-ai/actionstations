@@ -141,7 +141,8 @@ export function recommend(entries, tiers, thresholds) {
 }
 
 /** The report for the current suite and scoring versions; other versions are only counted. */
-export function buildReport(runs, { suite, scoringVersion, tiers, now = new Date() }) {
+export function buildReport(allRuns, { suite, scoringVersion, tiers, now = new Date() }) {
+  const runs = allRuns.filter((r) => !r.triage) // triage is a quick check, not the publish path
   const current = runs.filter(
     (r) => r.suiteVersion === suite.suiteVersion && r.scoringVersion === scoringVersion,
   )

@@ -20,6 +20,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Changed
 
 - Benchmark: the local judge measured at weighted kappa 0.039 against the 60 reference rows (old sampling settings), below the 0.6 bar, so its scores stay unpublished (#503).
+- The model benchmark runs cases in parallel (`--concurrency`, default 3, one app instance per worker), has a `--triage` screen (standard suite, one repeat, pass or miss against the floor) and stops a multi-repeat run after repeat 1 when it misses the floor, recording why. Output tokens per second come from a separate single-request pass. Scores are unchanged (#584).
 - Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).
 
 ### Security
