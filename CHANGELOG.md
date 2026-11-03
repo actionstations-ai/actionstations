@@ -14,6 +14,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Stages no longer run out of output tokens while a thinking model is still reasoning: a profile's `reasoning.tokens` is added to the stage cap when thinking is on, the request never exceeds what the loaded context leaves after the prompt, a reply cut off at the length limit is retried once with a larger cap, and the caps of `controller_handbook`, `msel_phase` and `critique` are raised (#591).
 - OpenAI-compatible providers: a structured reply whose `content` is empty but whose `reasoning_content` holds the JSON (Qwen3.5 under LM Studio's `json_schema` mode) is now read instead of failing with "no JSON" (#503). gpt-oss-120b starts from `json_schema`, because under `json_object` LM Studio failed its replies with a 500 (#503).
 - The Facilitate side panel's tab strip keeps each label on one line and scrolls sideways when the tabs do not fit, with a fade at the hidden edge; the focused or selected tab scrolls into view, so the last tab (Hot wash board) is reachable at laptop widths (#578).
 

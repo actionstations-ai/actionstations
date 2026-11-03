@@ -7,7 +7,7 @@ outputSchema: MselPhaseOutput
 task: draft
 modelHints:
   temperature: 0.75
-  maxTokens: 7000
+  maxTokens: 9000
 retrieval:
   queries:
     - 'situation overview facility description locations systems'

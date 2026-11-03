@@ -54,7 +54,8 @@
       "temperaturePolicy": "profile",
       "reasoning": {
         "kind": "switch",
-        "default": "off"
+        "default": "off",
+        "tokens": 4000
       }
     },
     {
@@ -74,7 +75,8 @@
       "temperaturePolicy": "profile",
       "reasoning": {
         "kind": "switch",
-        "default": "on"
+        "default": "on",
+        "tokens": 6000
       }
     },
     {
@@ -94,7 +96,8 @@
       "temperaturePolicy": "profile",
       "reasoning": {
         "kind": "effort",
-        "default": "medium"
+        "default": "medium",
+        "tokens": 6000
       }
     },
     {
@@ -112,7 +115,8 @@
       "temperaturePolicy": "stage",
       "reasoning": {
         "kind": "effort",
-        "default": "medium"
+        "default": "medium",
+        "tokens": 3000
       },
       "structuredOutput": "json_object"
     },
@@ -131,7 +135,8 @@
       "temperaturePolicy": "stage",
       "reasoning": {
         "kind": "effort",
-        "default": "medium"
+        "default": "medium",
+        "tokens": 4000
       },
       "structuredOutput": "json_schema",
       "preferredBuild": {
@@ -189,7 +194,8 @@
       "temperaturePolicy": "profile",
       "reasoning": {
         "kind": "switch",
-        "default": "on"
+        "default": "on",
+        "tokens": 4000
       }
     }
   ]
