@@ -29,9 +29,13 @@ export function corpusManifest(suite, root = ROOT) {
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)))
 }
 
+/** A suite whose cases are kept out of the published task set (bench/defects-held-out/). */
+export const isHeldOut = (suite) => suite.critique.some((c) => c.defects?.startsWith('held-out-'))
+
 /** { path: text } for every file of the task set, paths relative to the task-set folder. */
 export function taskSetFiles(suiteName, root = ROOT) {
   const suite = loadSuite(suiteName, root)
+  if (isHeldOut(suite)) throw new Error(`${suiteName} is held out and has no published task set`)
   const files = {
     'suite.json': readText(root, `bench/suites/${suiteName}.json`),
     'gold/scenario-3.json': readText(root, 'bench/gold/scenario-3.json'),
