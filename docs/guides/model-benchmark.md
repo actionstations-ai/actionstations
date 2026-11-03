@@ -145,24 +145,44 @@ hash of each suite's task set and, with `--out <dir>`, writes the task-set files
 records that hash as `taskSetHash`. To submit a run there, use that repository's `tb run` and
 `tb add`; it checks the hash against the checkout you run from.
 
-## Tabletop Mini Benchmark (a few minutes per model)
+## Tabletop Mini Benchmark (about ten minutes per model)
 
 The Mini answers "will this model work for tabletop generation?" with four model calls on fixed
-inputs from the bundled examples, then a verdict: **will work**, **risky** or **won't work**, with
-the reasons and the numbers (spec 0445).
+inputs from the bundled examples, each run twice, and one number with a stated meaning (spec 0445):
 
-| Probe       | Call                                                                | What decides it                                                             |
-| ----------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Format      | scenario overview (city-water)                                      | valid structured answer, repair rounds                                      |
-| Long prompt | MSEL phase 4 of the chemical-rmp scenario, a 20 to 30K-token prompt | lint, citations, structure of that phase; a cut-off fails it                |
-| Long output | controller handbook (city-water)                                    | finishes without a length cut-off, has its sections, does not repeat itself |
-| Review      | critique of the county-911 scenario with planted defects            | recall, fixed, damage to correct rows (the full benchmark's scorer)         |
-| Speed       | the calls above                                                     | output tokens per second, time for the long prompt                          |
+**Mini score = Quality x Completion**
 
-A call that runs longer than 180 seconds is cancelled and counts as a failure of that probe
-(`--cap <seconds>` changes it). A failed format, long-prompt or long-output call means
-_won't work_; a review that damages 10% or more of correct rows, a looping handbook, repair
-rounds, slow output or a low score mean _risky_.
+- **Completion** is the chance that a full scenario drafts with no failed stage. It is the share
+  of Mini calls that succeeded first time (no failure, no repair round, no reply cut off and asked
+  again), raised to the 14 model calls a scenario makes. Both numbers are shown.
+- **Quality** (0 to 100) is the share of fixed criteria the replies meet, against the Scenario 3
+  reference: a full 18-row MSEL phase on a long prompt (row count, pace, purpose-tag mix, citations
+  resolved and supported, structure, lint), the handbook's completeness, and each planted defect
+  the review finds.
+
+Shown next to the score and not part of it: **review damage** (the share of correct rows the
+review rewrote) and **draft time** (minutes for a full scenario on this hardware, from the model's
+measured speed and the token budget of a scenario). A slow draft time is reported, never a failure.
+
+| Band                    | Requirement                                    |
+| ----------------------- | ---------------------------------------------- |
+| **Recommended**         | completion >= 90%, quality >= 80, damage <= 5% |
+| **Usable with editing** | completion >= 75% and quality >= 60            |
+| **Not recommended**     | anything else                                  |
+
+Completion falls fast: one first-try failure in eight calls leaves about 15%.
+
+| Probe       | Call                                                      |
+| ----------- | --------------------------------------------------------- |
+| Format      | scenario overview (city-water)                            |
+| Long prompt | the last MSEL phase of chemical-rmp, stretched to 18 rows |
+| Long output | controller handbook (city-water)                          |
+| Review      | critique of the county-911 scenario with planted defects  |
+
+There is no time limit on a call. A call ends only when the model stops producing tokens (60
+seconds after it started, or 10 minutes while the prompt is read) or repeats the same text; the
+run file keeps the raw end of the reply. Every figure shows its range over the two runs, and
+models whose ranges overlap are a tie.
 
 ```
 pnpm build:app
@@ -176,9 +196,8 @@ loaded. `pnpm bench -- --suite mini …` is the same command. One run file per m
 `--out` (default `.tmp/bench-mini`). `--held-out` adds the maintainers' held-out review case.
 
 `pnpm bench:export -- --suite mini` prints the Mini task set's hash; run files record it as
-`taskSetHash`. `pnpm bench:mini:replay <run-dir>…` computes the Mini probes from the saved work
-folders of full runs without any model call; that is how the Mini was checked against the
-2026-11-03 runs (spec 0445).
+`taskSetHash`. `pnpm bench:mini:replay <mini-run-dir>` scores saved Mini runs again with no model
+call and names the calls it cannot recompute.
 
 ## Re-scoring saved runs
 

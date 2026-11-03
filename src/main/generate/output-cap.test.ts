@@ -93,15 +93,16 @@ describe('retry after a length cut-off', () => {
     }
     const runRecord = { repairAttempts: 0 } as StageRun
     const parsed = await callWithRepair(conv, z.object({ ok: z.boolean() }), runRecord, call)
-    return { seen, logs, parsed }
+    return { seen, logs, parsed, runRecord }
   }
 
   it('asks again once with a larger cap and logs it', async () => {
-    const { seen, logs, parsed } = await run([
+    const { seen, logs, parsed, runRecord } = await run([
       reply('length', '{"ok":'),
       reply('stop', '{"ok":true}'),
     ])
     expect(seen).toEqual([4000, 8000])
+    expect(runRecord.lengthRetries).toBe(1)
     expect(logs[0]).toContain('cut off at 4000 tokens')
     expect(parsed.ok).toBe(true)
   })

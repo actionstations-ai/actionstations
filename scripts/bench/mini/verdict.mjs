@@ -1,116 +1,137 @@
-// The Mini's summary: "will work", "risky" or "won't work" with the reasons (#604). Pure.
+// The Mini's verdict: a band from stated requirements (#606). Pure.
 //
-// Won't work: a generation call failed (format, long prompt or long output: an unparsable,
-// cut-off or timed-out reply), or the Mini score is under `riskyScore`.
-// Risky: everything ran but something would hurt in practice: a low probe score, repair
-// rounds, a looping handbook, a review that rewrites correct rows or finds little, or a model
-// too slow for a 22K-token prompt.
-// Will work: none of the above.
+// The bands are requirements, written in the methods, not calibrated against any other
+// benchmark (bench/suites/mini.json, `bands`):
+//   Recommended          completion >= 90%, quality >= 80 and review damage <= 5%
+//   Usable with editing  completion >= 75% and quality >= 60
+//   Not recommended      otherwise
+// A slow draft time is reported, never a failure. Completion is the chance that a full
+// scenario drafts with no failed stage, so it falls fast: with 14 model calls in a scenario,
+// 98% of calls succeeding first time is 75%, and one failure in eight Mini calls is 15%.
+// The band is judged on the reported figures. When the range over the two repeats reaches into
+// another band, the verdict says so (`uncertain`).
 
-const GENERATION = [
-  ['format', 'scenario overview'],
-  ['longContext', 'MSEL phase on a long prompt'],
-  ['longOutput', 'controller handbook'],
-]
+export const LEVELS = ['recommended', 'usable', 'not_recommended']
+export const LEVEL_LABEL = {
+  recommended: 'Recommended',
+  usable: 'Usable with editing',
+  not_recommended: 'Not recommended',
+}
 
-const pct = (n) => `${Math.round(n)}%`
+const pct = (n) => `${Math.round(n * 10) / 10}%`
 
-/** Reasons the model will not work: failed generation calls and a very low score. */
-function blockers(probes, score, t) {
+/** The band for one set of figures (completion and quality in 0..100, damage in percent). */
+export function bandOf({ completion, quality, damage }, bands) {
+  const r = bands.recommended
+  if (completion >= r.completion && quality >= r.quality && (damage ?? 0) <= r.damage)
+    return 'recommended'
+  const u = bands.usable
+  if (completion >= u.completion && quality >= u.quality) return 'usable'
+  return 'not_recommended'
+}
+
+/** Why the figures fall short of the next band up, in plain words. */
+function shortfalls({ completion, quality, damage }, level, bands) {
   const out = []
-  for (const [key, label] of GENERATION) {
-    const p = probes[key]
-    if (!p) out.push(`${label}: not run`)
-    else if (!p.ok) out.push(p.reason)
-  }
-  if (!out.length && score < t.riskyScore) out.push(`Mini score ${score}, under ${t.riskyScore}`)
+  const target = level === 'usable' ? bands.recommended : bands.usable
+  if (level === 'recommended') return out
+  if (completion < target.completion)
+    out.push(
+      `Completion ${pct(completion)}: the chance a full scenario drafts with no failed stage is under ${target.completion}%`,
+    )
+  if (quality < target.quality) out.push(`Quality ${Math.round(quality)}, under ${target.quality}`)
+  if (level === 'usable' && damage !== undefined && damage > bands.recommended.damage)
+    out.push(
+      `Review damage ${pct(damage)}, over ${bands.recommended.damage}%: turn the review step off or check its changes`,
+    )
   return out
 }
 
-function reviewRisks(review, label, t) {
-  if (!review) return []
-  if (!review.ok) return [review.reason]
-  const m = review.metrics
-  const out = []
-  if (m.damage >= t.criticDamageWarn)
-    out.push(
-      `${label} rewrites correct rows (${pct(m.damage)} damaged, warning at ${t.criticDamageWarn}%): ` +
-        'turn the review step off or check its changes',
-    )
-  if (m.recall < t.reviewRecallWarn)
-    out.push(
-      `${label} finds ${pct(m.recall)} of planted defects (warning under ${t.reviewRecallWarn}%)`,
-    )
-  return out
-}
-
-function risks(probes, speed, score, t) {
-  const out = []
-  if (score < t.workScore) out.push(`Mini score ${score}, under ${t.workScore}`)
-  for (const [key, label] of GENERATION) {
-    const p = probes[key]
-    if (p?.ok && p.metrics.repairAttempts >= t.repairWarn)
-      out.push(`${label} needed ${p.metrics.repairAttempts} repair round(s)`)
-  }
-  const lo = probes.longOutput
-  if (lo?.ok && lo.metrics.repetition >= t.repetitionWarn)
-    out.push(
-      `the handbook repeats itself (${pct(lo.metrics.repetition * 100)} of phrases repeated)`,
-    )
-  out.push(...reviewRisks(probes.review, 'The review', t))
-  out.push(...reviewRisks(probes.heldOutReview, 'The held-out review', t))
-  if (
-    speed.outputTokensPerSecond !== undefined &&
-    speed.outputTokensPerSecond < t.slowTokensPerSecond
+/** One line per failed or repaired call: what happened, with the raw tail of a stall or a loop. */
+function callNotes(repeats) {
+  return repeats.flatMap((r, i) =>
+    (r.failures ?? []).map((f) => {
+      const run = repeats.length > 1 ? ` (run ${i + 1})` : ''
+      if (f.failure) {
+        const tail = f.failure.tail ? ` Last output: "${f.failure.tail.slice(-120)}"` : ''
+        return `${f.probe}${run}: ${f.failure.kind}: ${f.failure.detail}.${tail}`
+      }
+      return `${f.probe}${run}: needed a repair round or a longer answer`
+    }),
   )
-    out.push(`slow: ${speed.outputTokensPerSecond} output tokens per second`)
-  if (speed.longPromptSeconds > t.slowLongPromptSeconds)
-    out.push(
-      `slow: ${Math.round(speed.longPromptSeconds)} s for a ${speed.longPromptTokens}-token prompt`,
-    )
-  return out
 }
 
-/** { level: 'will_work' | 'risky' | 'wont_work', reasons: string[] } */
-export function verdictOf({ probes, speed, score, thresholds }) {
-  const stop = blockers(probes, score, thresholds)
-  if (stop.length) return { level: 'wont_work', reasons: stop }
-  const flags = risks(probes, speed, score, thresholds)
-  return flags.length
-    ? { level: 'risky', reasons: flags }
-    : { level: 'will_work', reasons: ['all probes ran, scored and timed within the limits'] }
+const corner = (range, pick) => (range ? range[pick] : undefined)
+
+/**
+ * { level, reasons, notes, uncertain? }. `result` is miniResult(); `repeats` the per-repeat
+ * results (for the call notes). `uncertain` lists the other bands the ranges reach.
+ */
+export function verdictOf({ result, repeats = [], bands }) {
+  const at = (pick, damagePick) => ({
+    completion: corner(result.completion, pick),
+    quality: corner(result.quality, pick),
+    damage: corner(result.damage, damagePick),
+  })
+  const level = bandOf(
+    {
+      completion: result.completion.value,
+      quality: result.quality?.value ?? 0,
+      damage: result.damage?.value,
+    },
+    bands,
+  )
+  const worst = bandOf(at('min', 'max'), bands)
+  const best = bandOf(at('max', 'min'), bands)
+  const reasons = shortfalls(
+    {
+      completion: result.completion.value,
+      quality: result.quality?.value ?? 0,
+      damage: result.damage?.value,
+    },
+    level,
+    bands,
+  )
+  if (level === 'recommended')
+    reasons.push('Completion, quality and review damage all meet the bands')
+  const uncertain = [worst, best].filter((l) => l !== level)
+  return {
+    level,
+    reasons,
+    notes: callNotes(repeats),
+    ...(uncertain.length ? { uncertain: [...new Set(uncertain)] } : {}),
+  }
 }
 
-export const LEVEL_LABEL = { will_work: 'Will work', risky: 'Risky', wont_work: "Won't work" }
+const range = (r, unit = '') =>
+  r
+    ? r.min === r.max
+      ? `${r.value}${unit}`
+      : `${r.value}${unit} (${r.min} to ${r.max})`
+    : 'not measured'
 
-/** The summary printed after a run and used in the spec's validation table. */
+/** The summary printed after a run. */
 export function summaryMarkdown(run) {
-  const { probes, speed, verdict } = run
-  const row = (name, p) =>
-    p
-      ? `| ${name} | ${p.ok ? Math.round(p.score) : 'failed'} | ${p.seconds ?? ''} | ${p.note ?? ''} |`
-      : null
+  const { result, verdict } = run
   const lines = [
     `### ${run.model.ref} (Tabletop Mini Benchmark v${run.suiteVersion})`,
     '',
-    `**${LEVEL_LABEL[verdict.level]}.** Mini score ${run.score}.`,
+    `**${LEVEL_LABEL[verdict.level]}.** Mini score ${range(result.score)} = Quality ${range(result.quality)} x Completion ${range(result.completion, '%')}.`,
     ...verdict.reasons.map((r) => `- ${r}`),
+    ...(verdict.uncertain
+      ? [
+          `- The ranges over the two runs also reach: ${verdict.uncertain.map((l) => LEVEL_LABEL[l]).join(', ')}`,
+        ]
+      : []),
+    ...verdict.notes.map((n) => `- ${n}`),
     '',
-    '| Probe | Score | Seconds | Notes |',
-    '|---|---|---|---|',
-    row('Format', probes.format),
-    row('Long prompt', probes.longContext),
-    row('Long output', probes.longOutput),
-    row('Review', probes.review),
-    row('Held-out review', probes.heldOutReview),
-  ].filter((l) => l !== null)
-  lines.push(
-    '',
-    `Speed: ${speed.outputTokensPerSecond ?? 'unknown'} output tokens per second` +
-      (speed.longPromptTokens
-        ? `; ${speed.longPromptTokens} prompt tokens took ${speed.longPromptSeconds} s`
+    `Per-call first-try rate ${range(result.perCallRate, '%')} over ${result.calls} calls.`,
+    `Review damage ${range(result.damage, '%')}.`,
+    `Draft time ${range(result.draftMinutes, ' min')} for a full scenario on this hardware` +
+      (result.outputTokensPerSecond
+        ? ` (${range(result.outputTokensPerSecond)} output tokens/s, ${range(result.promptTokensPerSecond)} prompt tokens/s)`
         : '') +
-      `; ${speed.totalSeconds} s of model time in all.`,
-  )
+      '. Reported, never scored.',
+  ]
   return lines.join('\n')
 }

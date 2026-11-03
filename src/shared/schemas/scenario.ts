@@ -399,6 +399,8 @@ export const StageRun = z.object({
   status: z.enum(['running', 'ok', 'error', 'stale', 'skipped']),
   error: z.string().optional(),
   repairAttempts: z.number().int().default(0),
+  /** Replies cut off at the length limit and asked for again with a larger cap (#606). */
+  lengthRetries: z.number().int().optional(),
 })
 export type StageRun = z.infer<typeof StageRun>
 

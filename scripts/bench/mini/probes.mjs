@@ -1,7 +1,10 @@
-// The Mini's model calls (#604): each probe re-runs one pipeline stage of a bundled example's
-// hand-corrected scenario through the app's own IPC (generate:rerun-stage), so the upstream
-// inputs (phase plan, roles, MSEL, corpus) are identical for every model. A call that outlives
-// the suite's per-call cap is cancelled and recorded as a failure. Scoring is score.mjs.
+// The Mini's model calls (#604, #606): each probe re-runs one pipeline stage of a bundled
+// example's hand-corrected scenario through the app's own IPC (generate:rerun-stage), so the
+// upstream inputs (phase plan, roles, MSEL, corpus) are identical for every model. There is no
+// time cap on a call: the provider adapter streams the reply and ends it only when the model
+// stalls or loops (src/main/providers/stream-guard.ts, limits in the suite's `stream`). Every
+// probe runs once per repeat (two, each with its own seed and its own project copy).
+// Scoring is score.mjs.
 import { existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { applyDefects } from '../defects.mjs'
@@ -16,13 +19,27 @@ import {
   scoreFormat,
   scoreLongContext,
   scoreLongOutput,
+  scoreRepeat,
   scoreReview,
-  speedOf,
+  stretchPhase,
 } from './score.mjs'
 
 const MINUTE = 60_000
-/** Each probe works on its own project copy so one model's output never feeds another call. */
-const TAGS = { format: 'format', longOutput: 'long-output' }
+/** A job is waited for as long as it runs; only the stream guard ends a call. */
+const NO_CAP = 24 * 60 * MINUTE
+
+/** The provider options that switch the stream guard on, from the suite's `stream` block. */
+export function streamGuardOptions(suite) {
+  const s = suite.stream
+  return {
+    streamGuard: {
+      firstTokenMs: s.firstTokenSeconds * 1000,
+      stallMs: s.stallSeconds * 1000,
+      loopMinChars: s.loopMinChars,
+      loopMinRepeats: s.loopMinRepeats,
+    },
+  }
+}
 
 /** A project copy of an example for one probe (`tag` keeps probes on separate copies), indexed. */
 export async function openProject(ctx, exampleId, tag) {
@@ -46,24 +63,6 @@ export async function openProject(ctx, exampleId, tag) {
   return path
 }
 
-/** Wait for a job up to the cap; on timeout cancel it. Returns { job, capped }. */
-export async function waitCapped(ctx, jobId, label, capSeconds) {
-  const opts = { log: ctx.log, allowError: true, pollMs: ctx.pollMs ?? 2000 }
-  try {
-    return {
-      job: await waitForJob(ctx.invoke, jobId, label, capSeconds * 1000, opts),
-      capped: false,
-    }
-  } catch (err) {
-    if (!/timed out/.test(String(err?.message))) throw err
-    await ctx.invoke('jobs:cancel', { jobId }).catch(() => {})
-    const job = await waitForJob(ctx.invoke, jobId, `${label} (cancelling)`, 60_000, opts).catch(
-      () => ({ status: 'cancelled' }),
-    )
-    return { job, capped: true }
-  }
-}
-
 /** Re-run one stage and describe the call: wall time, success, tokens, repair rounds, error. */
 export async function rerunCall(ctx, { projectPath, scenarioId, stage, itemId }) {
   const t0 = Date.now()
@@ -74,13 +73,17 @@ export async function rerunCall(ctx, { projectPath, scenarioId, stage, itemId })
     ...(itemId ? { itemId } : {}),
   })
   const label = itemId ? `${stage} ${itemId}` : stage
-  const { job, capped } = await waitCapped(ctx, jobId, label, ctx.capSeconds)
+  const job = await waitForJob(ctx.invoke, jobId, label, NO_CAP, {
+    log: ctx.log,
+    allowError: true,
+    pollMs: ctx.pollMs ?? 2000,
+  })
   const seconds = (Date.now() - t0) / 1000
   const scenario = await ctx.invoke('scenarios:get', { projectPath, scenarioId })
-  if (job.status !== 'done' || capped)
-    return { obs: { ok: false, seconds, capped, error: job.error ?? job.status }, scenario }
+  if (job.status !== 'done')
+    return { obs: { ok: false, seconds, error: job.error ?? job.status }, scenario }
   const seen = runObservation(scenario, stage, itemId)
-  return { obs: { ...seen, ok: seen.ok, seconds, capped: false }, scenario }
+  return { obs: { ...seen, ok: seen.ok, seconds }, scenario }
 }
 
 const withNote = (probe, obs) => ({
@@ -90,17 +93,17 @@ const withNote = (probe, obs) => ({
   ...(obs.outputTokens ? { outputTokens: obs.outputTokens } : {}),
 })
 
-async function probeFormat(ctx, spec) {
+async function probeFormat(ctx, spec, r) {
   const example = loadExample(spec.example)
-  const projectPath = await openProject(ctx, spec.example, TAGS.format)
+  const projectPath = await openProject(ctx, spec.example, `format-r${r}`)
   const scenarioId = scenarioIdFor(example, spec.scenario)
   const { obs } = await rerunCall(ctx, { projectPath, scenarioId, stage: spec.stage })
   return { obs, probe: withNote(scoreFormat(obs), obs) }
 }
 
-async function probeLongOutput(ctx, spec) {
+async function probeLongOutput(ctx, spec, r) {
   const example = loadExample(spec.example)
-  const projectPath = await openProject(ctx, spec.example, TAGS.longOutput)
+  const projectPath = await openProject(ctx, spec.example, `long-output-r${r}`)
   const scenarioId = scenarioIdFor(example, spec.scenario)
   const { obs, scenario } = await rerunCall(ctx, { projectPath, scenarioId, stage: spec.stage })
   const doc = obs.ok
@@ -115,40 +118,45 @@ async function probeLongOutput(ctx, spec) {
   return { obs, probe: withNote(probe, obs) }
 }
 
-async function probeLongContext(ctx, spec) {
+/**
+ * The long-prompt probe: the last phase, stretched to `phaseMinutes` so the model must write a
+ * full phase of 15 to 20 rows, with every earlier phase's rows in the prompt.
+ */
+async function probeLongContext(ctx, spec, r) {
   const example = loadExample(spec.example)
-  const projectPath = await openProject(ctx, spec.example, 'long-context')
+  const projectPath = await openProject(ctx, spec.example, `long-context-r${r}`)
   const scenarioId = scenarioIdFor(example, spec.scenario)
   const stored = await ctx.invoke('scenarios:get', { projectPath, scenarioId })
   const phase = stored.phases.find((p) => p.index === spec.phaseIndex)
   if (!phase) throw new Error(`${spec.example}: no phase ${spec.phaseIndex}`)
+  if (spec.phaseMinutes)
+    await ctx.invoke('scenarios:save', {
+      projectPath,
+      scenario: stretchPhase(stored, phase.id, spec.phaseMinutes),
+      note: `Mini: phase ${phase.index + 1} stretched to ${spec.phaseMinutes} minutes`,
+    })
   const { obs, scenario } = await rerunCall(ctx, {
     projectPath,
     scenarioId,
     stage: spec.stage,
     itemId: phase.id,
   })
-  let after = scenario
-  let grounding
-  if (obs.ok) {
-    after = {
-      ...scenario,
-      warnings: await ctx.invoke('scenarios:lint', { projectPath, scenarioId }),
-    }
-    grounding = await ctx
-      .invoke('grounding:scenario', { projectPath, scenarioId })
-      .catch(() => undefined)
+  if (!obs.ok) return { obs, probe: withNote(scoreLongContext({ obs }), obs) }
+  const after = {
+    ...scenario,
+    warnings: await ctx.invoke('scenarios:lint', { projectPath, scenarioId }),
   }
-  const probe = obs.ok
-    ? scoreLongContext({
-        obs,
-        scenario: after,
-        phaseId: phase.id,
-        grounding,
-        suite: ctx.suite,
-        gold: ctx.gold,
-      })
-    : scoreLongContext({ obs })
+  const grounding = await ctx
+    .invoke('grounding:scenario', { projectPath, scenarioId })
+    .catch(() => undefined)
+  const probe = scoreLongContext({
+    obs,
+    scenario: after,
+    phaseId: phase.id,
+    grounding,
+    suite: ctx.suite,
+    gold: ctx.gold,
+  })
   return { obs, probe: withNote(probe, obs) }
 }
 
@@ -183,32 +191,50 @@ export async function probeReview(ctx, c, tag, what) {
   return { obs, probe: withNote(scoreReview({ obs, critique, what }), obs) }
 }
 
-/**
- * Every probe in order, cheapest first. A probe that throws (not a model failure: a missing
- * example, an app error) stops the run. Returns the scored probes, the timing and the calls.
- */
-export async function runProbes(ctx, { heldOut = false, heldOutCase } = {}) {
+/** One repeat: every probe in order, cheapest first. */
+async function runRepeat(ctx, r, { heldOut, heldOutCase }) {
   const spec = ctx.suite.probes
   const calls = []
   const probes = {}
   const take = async (key, run) => {
-    ctx.log(`probe ${key}`)
+    ctx.log(`repeat ${r + 1}: probe ${key}`)
     const { obs, probe } = await run()
     probes[key] = probe
     calls.push({ key, ...obs })
     ctx.log(`  ${key}: ${probe.ok ? Math.round(probe.score) : `failed (${probe.reason})`}`)
   }
-  await take('format', () => probeFormat(ctx, spec.format))
-  await take('longContext', () => probeLongContext(ctx, spec.longContext))
-  await take('longOutput', () => probeLongOutput(ctx, spec.longOutput))
-  await take('review', () => probeReview(ctx, ctx.suite.critique[0], 'review', 'The review call'))
+  await take('format', () => probeFormat(ctx, spec.format, r))
+  await take('longContext', () => probeLongContext(ctx, spec.longContext, r))
+  await take('longOutput', () => probeLongOutput(ctx, spec.longOutput, r))
+  await take('review', () =>
+    probeReview(ctx, ctx.suite.critique[0], `review-r${r}`, 'The review call'),
+  )
   if (heldOut && heldOutCase)
     await take('heldOutReview', () =>
-      probeReview(ctx, heldOutCase, 'held-out', 'The held-out review call'),
+      probeReview(ctx, heldOutCase, `held-out-r${r}`, 'The held-out review call'),
     )
-  const longPrompt = calls.find((c) => c.key === 'longContext' && c.ok)
+  return { probes, calls }
+}
+
+/**
+ * Every repeat of every probe. A probe that throws (not a model failure: a missing example, an
+ * app error) stops the run. `ctx.beforeRepeat(r, seed)` lets the runner set the repeat's seed.
+ * Returns the repeats with their scored probes, calls and per-repeat result, and the prompt hashes.
+ */
+export async function runProbes(ctx, { heldOut = false, heldOutCase } = {}) {
+  const repeats = []
+  for (let r = 0; r < ctx.suite.repeats; r++) {
+    const seed = ctx.suite.seeds[r]
+    await ctx.beforeRepeat?.(r, seed)
+    const { probes, calls } = await runRepeat(ctx, r, { heldOut, heldOutCase })
+    const result = scoreRepeat({ probes, calls, suite: ctx.suite })
+    repeats.push({ seed, probes, calls, result })
+  }
   const promptHashes = Object.fromEntries(
-    calls.filter((c) => c.promptHash).map((c) => [c.stage ?? c.key, c.promptHash]),
+    repeats
+      .flatMap((x) => x.calls)
+      .filter((c) => c.promptHash)
+      .map((c) => [c.stage ?? c.key, c.promptHash]),
   )
-  return { probes, calls, promptHashes, speed: speedOf({ calls, longPrompt }) }
+  return { repeats, promptHashes }
 }

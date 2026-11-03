@@ -1,28 +1,45 @@
 #!/usr/bin/env node
-// Validate the Mini against saved full runs, with no model call (#604, spec 0445). A run folder
-// (the --out folder of pnpm bench) keeps every stage's output in its work folder. For each
-// Mini probe this reads the same kind of call from the run's own drafted scenario (overview,
-// the last MSEL phase, the handbook) and its saved critique case, scores them with the Mini's
-// scorers and compares the verdict with the full run's results.
+// Score saved Mini runs again with the current scoring, with no model call (#606). A Mini run
+// folder (the --out folder of pnpm bench:mini) holds the run files and a work folder with the
+// project each probe used. For each probe this reads the saved scenario (what the call left
+// behind: its provenance, rows, handbook and, for the review, the planted-defect snapshot and
+// the revised MSEL) and scores it with the Mini's scorers, then builds the score, band and
+// ranges exactly as a live run does.
 //
-//   pnpm bench:mini:replay <run-dir> [<run-dir> ...] [--json]
+//   pnpm bench:mini:replay <mini-run-dir> [--json]
 //
-// The inputs differ from a live Mini (the run's own upstream stages, not the fixed ones), so
-// this shows whether the probes would see the failures, not what a live Mini scores.
+// What a replay cannot recompute is listed per run, never guessed:
+//   - A call cut by the old 180 s per-call cap has no saved reply: it is left out of the score
+//     (and out of the completion count), and named.
+//   - Only one sample was saved, so every range is a single value (no second run).
+//   - The long-prompt call was the unstretched last phase (about 6 rows), so the rows-in-phase
+//     criterion is dropped; the harder 15 to 20 row probe has no saved data.
+//   - Saved runs do not record a reply that was cut off and asked again, so only repair rounds
+//     count against the first-try rate.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
-import { basename, join, resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { loadDefects, loadExample, loadSuite, ROOT, scenarioIdFor } from '../corpus.mjs'
-import { findCaseScenario, rescoreCase } from '../rescore.mjs'
-import { median } from '../score/util.mjs'
+import { applyDefects } from '../defects.mjs'
 import {
-  miniScore,
+  loadDefects,
+  loadExample,
+  loadSuite,
+  ROOT,
+  scenarioIdFor,
+  shippedScenario,
+  slug,
+} from '../corpus.mjs'
+import { critiqueCase } from '../score/composite.mjs'
+import { critiqueNotes } from '../score/critique.mjs'
+import { lintFindings } from '../score/lint.mjs'
+import {
+  miniResult,
   runObservation,
   scoreFormat,
   scoreLongContext,
   scoreLongOutput,
+  scoreRepeat,
   scoreReview,
-  speedOf,
 } from './score.mjs'
 import { LEVEL_LABEL, verdictOf } from './verdict.mjs'
 
@@ -34,184 +51,183 @@ const dirs = (dir) =>
         .map((d) => join(dir, d.name))
     : []
 
-/** Scenario folders the run generated for `example` in repeat `r` (those with a started overview). */
-function generatedScenarios(workRoot, r, example, startedAt) {
-  const out = []
-  for (const model of dirs(workRoot))
-    for (const rep of dirs(model).filter((d) => d.endsWith(`/r${r + 1}`)))
-      for (const project of dirs(join(rep, example)).filter((d) => d.endsWith('.asproj')))
-        for (const dir of dirs(join(project, 'scenarios'))) {
-          const file = join(dir, 'scenario.json')
-          if (!existsSync(file)) continue
-          const scenario = readJson(file)
-          const first = scenario.provenance.find((p) => p.stage === 'scenario_overview')
-          if (first && first.startedAt >= startedAt.slice(0, 10)) out.push({ dir, scenario })
-        }
-  return out.sort((a, b) =>
-    a.scenario.provenance[0].startedAt.localeCompare(b.scenario.provenance[0].startedAt),
-  )
+/** The work-folder tag each probe ran in (probes.mjs before repeats were added). */
+const TAGS = {
+  format: 'format',
+  longContext: 'long-context',
+  longOutput: 'long-output',
+  review: 'review',
+  heldOutReview: 'held-out',
 }
 
-const handbookOf = (dir) => {
-  const file = join(dir, 'documents', 'handbook.md')
-  return existsSync(file) ? readFileSync(file, 'utf8') : ''
+/** The first project of a probe's tag folder, or undefined. */
+const projectOf = (workDir, tag) => dirs(join(workDir, tag)).find((d) => d.endsWith('.asproj'))
+
+const scenarioFile = (project, id) => join(project, 'scenarios', id, 'scenario.json')
+
+/** Was this saved probe a call cut by the old per-call cap? */
+const wasCapped = (old) => old && !old.ok && /time cap/.test(old.reason ?? '')
+
+/** The saved scenario of a probe, or undefined when the folder is missing. */
+function savedScenario(workDir, tag, example, key) {
+  const project = projectOf(workDir, tag)
+  if (!project) return undefined
+  const file = scenarioFile(project, scenarioIdFor(loadExample(example), key))
+  return existsSync(file) ? { project, file, scenario: readJson(file) } : undefined
 }
 
-/**
- * The Mini's long-prompt call is the last phase. A run that stopped at an earlier phase never
- * reached it, so the failed phase call stands in for it (the same stage, a shorter prompt).
- */
-function lastPhaseObservation(scenario) {
-  const phase = [...scenario.phases].sort((a, b) => b.index - a.index)[0]
-  const failedRun = scenario.provenance.find(
-    (r) => r.stage === 'msel_phase' && r.status === 'error',
-  )
-  if (failedRun) return { phase, obs: runObservation(scenario, 'msel_phase', failedRun.itemId) }
-  return { phase, obs: phase ? runObservation(scenario, 'msel_phase', phase.id) : undefined }
+/** The snapshot saved with the planted defects (history), newest match. */
+function plantedSnapshot(file, caseId) {
+  if (!existsSync(file)) return undefined
+  const note = `Benchmark ${caseId}: planted defects`
+  const hits = readFileSync(file, 'utf8')
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => JSON.parse(l))
+    .filter((e) => e.note === note)
+  return hits.at(-1)?.snapshot
 }
 
-function reviewProbe(workRoot, r, c, suite, what) {
+function replayReview(workDir, tag, c, suite, what) {
   const defects = loadDefects(c.defects)
-  const scenarioId = scenarioIdFor(loadExample(c.example), defects.scenario)
-  const found = findCaseScenario(workRoot, r, c, scenarioId)
-  if (!found) return undefined
-  const critique = rescoreCase(workRoot, r, c, suite)
-  const obs = runObservation(found.final, 'critique')
+  const saved = savedScenario(workDir, tag, c.example, defects.scenario)
+  if (!saved) return undefined
+  const snapshot = plantedSnapshot(join(saved.file, '..', 'history', 'scenario.jsonl'), c.id)
+  if (!snapshot) return undefined
+  const obs = runObservation(saved.scenario, 'critique')
+  const { planted } = applyDefects(
+    shippedScenario(loadExample(c.example), defects.scenario),
+    defects,
+  )
+  const critique = obs.ok
+    ? critiqueCase({
+        notes: critiqueNotes(saved.scenario.warnings),
+        planted,
+        lints: lintFindings(saved.scenario.warnings),
+        rowCount: snapshot.msel.length,
+        suite,
+        before: snapshot.msel,
+        after: saved.scenario.msel,
+      })
+    : undefined
   return { obs, probe: scoreReview({ obs, critique, what }) }
 }
 
-/** The Mini probes for one saved run folder; undefined parts are those the folder cannot supply. */
-export function miniFromRun(dir, mini, gold, repeat = 0, heldOutWork = undefined) {
-  const file = readdirSync(dir).find((f) => f.endsWith('.json') && f !== 'state.json')
-  if (!file) return undefined
-  const run = readJson(join(dir, file))
-  const work = join(dir, 'work')
-  const water = generatedScenarios(work, repeat, 'city-water', run.startedAt)[0]
+function replayFormat(workDir, spec) {
+  const saved = savedScenario(workDir, TAGS.format, spec.example, spec.scenario)
+  if (!saved) return undefined
+  const obs = runObservation(saved.scenario, spec.stage)
+  return { obs, probe: scoreFormat(obs) }
+}
+
+function replayLongContext(workDir, spec, suite, gold) {
+  const saved = savedScenario(workDir, TAGS.longContext, spec.example, spec.scenario)
+  if (!saved) return undefined
+  const phase = saved.scenario.phases.find((p) => p.index === spec.phaseIndex)
+  if (!phase) return undefined
+  const obs = runObservation(saved.scenario, spec.stage, phase.id)
+  // The saved phase is the unstretched one: its row count cannot meet the full-phase criterion.
+  const old = { ...suite, quality: { ...suite.quality, phaseMinRows: 0 } }
+  const probe = scoreLongContext({
+    obs,
+    scenario: saved.scenario,
+    phaseId: phase.id,
+    grounding: saved.scenario.grounding,
+    suite: old,
+    gold,
+  })
+  return { obs, probe }
+}
+
+function replayLongOutput(workDir, spec, suite) {
+  const saved = savedScenario(workDir, TAGS.longOutput, spec.example, spec.scenario)
+  if (!saved) return undefined
+  const obs = runObservation(saved.scenario, spec.stage)
+  const hb = join(saved.file, '..', 'documents', 'handbook.md')
+  const probe = scoreLongOutput({
+    obs,
+    handbookMd: existsSync(hb) ? readFileSync(hb, 'utf8') : '',
+    simcellScripts: saved.scenario.simcellScripts?.length,
+    suite,
+  })
+  return { obs, probe }
+}
+
+/**
+ * One saved Mini run scored again: { model, probes, unknown, repeat, result, verdict }.
+ * `old` is the saved run file (the previous scoring's), used only to know which calls the old
+ * cap cut and where the work folder is.
+ */
+export function replayMiniRun(old, workDir, suite, gold, heldOutCase) {
+  const spec = suite.probes
+  const found = {
+    format: replayFormat(workDir, spec.format),
+    longContext: replayLongContext(workDir, spec.longContext, suite, gold),
+    longOutput: replayLongOutput(workDir, spec.longOutput, suite),
+    review: replayReview(workDir, TAGS.review, suite.critique[0], suite, 'The review call'),
+    ...(old.probes.heldOutReview && heldOutCase
+      ? {
+          heldOutReview: replayReview(
+            workDir,
+            TAGS.heldOutReview,
+            heldOutCase,
+            suite,
+            'The held-out review call',
+          ),
+        }
+      : {}),
+  }
   const probes = {}
   const calls = []
-  if (water) {
-    const sc = water.scenario
-    const format = runObservation(sc, 'scenario_overview')
-    probes.format = scoreFormat(format)
-    calls.push({ key: 'format', ...format })
-    const { phase, obs } = lastPhaseObservation(sc)
-    const long = obs ?? { ok: false, error: 'the run never reached this stage' }
-    probes.longContext = phase
-      ? scoreLongContext({
-          obs: long,
-          scenario: sc,
-          phaseId: phase.id,
-          grounding: sc.grounding,
-          suite: mini,
-          gold,
-        })
-      : scoreLongContext({ obs: long })
-    calls.push({ key: 'longContext', ...long })
-    const hb = runObservation(sc, 'controller_handbook')
-    probes.longOutput = scoreLongOutput({
-      obs: hb,
-      handbookMd: handbookOf(water.dir),
-      simcellScripts: sc.simcellScripts?.length,
-      suite: mini,
-    })
-    calls.push({ key: 'longOutput', ...hb })
+  const unknown = []
+  for (const [key, hit] of Object.entries(found)) {
+    if (wasCapped(old.probes[key]))
+      unknown.push({ probe: key, why: 'cut by the old 180 s per-call cap; the reply is not saved' })
+    else if (!hit) unknown.push({ probe: key, why: 'no saved work for this probe' })
+    else {
+      probes[key] = hit.probe
+      calls.push({ key, ...hit.obs })
+    }
   }
-  const review = reviewProbe(work, repeat, mini.critique[0], mini, 'The review call')
-  if (review) {
-    probes.review = review.probe
-    calls.push({ key: 'review', ...review.obs })
+  const repeat = { seed: suite.seeds[0], probes, calls }
+  repeat.result = scoreRepeat({ probes, calls, suite })
+  const result = miniResult({ repeats: [repeat], suite })
+  const verdict = verdictOf({ result, repeats: [repeat.result], bands: suite.bands })
+  const before = {
+    score: old.score,
+    level: old.verdict?.level,
+    reasons: old.verdict?.reasons ?? [],
   }
-  const heldCase = loadSuite('mini-held-out').critique[0]
-  const held = reviewProbe(heldOutWork ?? work, repeat, heldCase, mini, 'The held-out review call')
-  if (held) probes.heldOutReview = held.probe
-  const longCall = calls.find((c) => c.key === 'longContext' && c.ok)
-  const speed = speedOf({ calls, longPrompt: longCall })
-  const score = miniScore(probes, mini.weights.mini)
-  return {
-    run,
-    probes,
-    speed,
-    score,
-    verdict: verdictOf({ probes, speed, score, thresholds: mini.thresholds }),
-  }
+  return { model: old.model.ref, probes, unknown, repeat, result, verdict, before }
 }
 
-/** Spearman rank correlation of two equal-length lists (average ranks for ties). */
-export function spearman(a, b) {
-  const ranks = (xs) =>
-    xs.map((x) => {
-      const less = xs.filter((y) => y < x).length
-      const same = xs.filter((y) => y === x).length
-      return less + (same + 1) / 2
-    })
-  const [ra, rb] = [ranks(a), ranks(b)]
-  const ma = ra.reduce((s, x) => s + x, 0) / ra.length
-  const mb = rb.reduce((s, x) => s + x, 0) / rb.length
-  const cov = ra.reduce((s, x, i) => s + (x - ma) * (rb[i] - mb), 0)
-  const va = ra.reduce((s, x) => s + (x - ma) ** 2, 0)
-  const vb = rb.reduce((s, x) => s + (x - mb) ** 2, 0)
-  return va && vb ? Math.round((cov / Math.sqrt(va * vb)) * 100) / 100 : 0
-}
+/** Saved run files (not state files) in a Mini run folder. */
+const runFiles = (dir) =>
+  readdirSync(dir).filter((f) => f.startsWith('mini-') && f.endsWith('.json'))
 
-const FULL_FLAGS = (run) => {
-  const out = []
-  if (run.median.draftingReliability < 0.9)
-    out.push(`reliability ${Math.round(run.median.draftingReliability * 100)}%`)
-  for (const t of ['drafting', 'ideation'])
-    if ((run.median.tasks[t] ?? 0) < 50) out.push(`${t} ${run.median.tasks[t]}`)
-  if (run.median.critique?.damage >= 10) out.push(`review damage ${run.median.critique.damage}%`)
-  return out.length ? out.join('; ') : 'none'
-}
-
-/** The work folder of a held-out run saved next to `<model>-quick` (`-held-out`, `-held-out2`). */
-function heldOutWorkFor(dir) {
-  if (!dir.endsWith('-quick')) return undefined
-  const base = dir.slice(0, -'-quick'.length)
-  return ['-held-out', '-held-out2']
-    .map((suffix) => join(`${base}${suffix}`, 'work'))
-    .find((work) => existsSync(work))
-}
-
-export function replayRows(targets) {
-  const mini = loadSuite('mini')
+export function replayDir(dir) {
+  const suite = loadSuite('mini')
   const gold = readJson(join(ROOT, 'bench', 'gold', 'scenario-3.json'))
-  return targets.flatMap((dir) => {
-    const m = miniFromRun(dir, mini, gold, 0, heldOutWorkFor(dir))
-    if (!m) return []
-    const critiqueDamage = m.probes.review?.metrics?.damage
-    return [
-      {
-        dir: basename(dir),
-        model: m.run.model.ref,
-        suite: m.run.suite,
-        full: {
-          overall: m.run.median.overall,
-          tasks: m.run.median.tasks,
-          flags: FULL_FLAGS(m.run),
-        },
-        mini: {
-          score: m.score,
-          level: m.verdict.level,
-          reasons: m.verdict.reasons,
-          probes: Object.fromEntries(
-            Object.entries(m.probes).map(([k, p]) => [k, p.ok ? Math.round(p.score) : 'failed']),
-          ),
-          reviewDamage: critiqueDamage,
-          speed: m.speed,
-        },
-      },
-    ]
+  const heldOutCase = loadSuite('mini-held-out').critique[0]
+  return runFiles(dir).map((f) => {
+    const old = readJson(join(dir, f))
+    return replayMiniRun(old, join(dir, 'work', slug(old.model.ref)), suite, gold, heldOutCase)
   })
 }
 
+const OLD_LABEL = { will_work: 'Will work', risky: 'Risky', wont_work: "Won't work" }
+
+const num = (r, unit = '') => (r ? `${r.value}${unit}` : 'n/a')
+
 export function tableMarkdown(rows) {
   const lines = [
-    '| Run | Full overall | Full drafting | Full flags | Mini score | Mini verdict | Mini reasons |',
-    '| --- | --- | --- | --- | --- | --- | --- |',
-    ...rows.map(
-      (r) =>
-        `| ${r.dir} | ${r.full.overall} | ${r.full.tasks.drafting} | ${r.full.flags} | ${r.mini.score} | ${LEVEL_LABEL[r.mini.level]} | ${r.mini.reasons.join('; ')} |`,
-    ),
+    '| Model | Quality | Per-call | Completion | Mini score | Damage | Draft time | Band now | Saved verdict (v1) | Not recomputed |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+    ...rows.map((r) => {
+      const x = r.result
+      const skipped = r.unknown.map((u) => u.probe).join(', ') || 'none'
+      return `| ${r.model} | ${num(x.quality)} | ${num(x.perCallRate, '%')} (${x.firstTryCalls}/${x.calls}) | ${num(x.completion, '%')} | ${num(x.score)} | ${num(x.damage, '%')} | ${num(x.draftMinutes, ' min')} | ${LEVEL_LABEL[r.verdict.level]}${r.unknown.length ? ' (partial)' : ''} | ${OLD_LABEL[r.before.level] ?? r.before.level} ${r.before.score} | ${skipped} |`
+    }),
   ]
   return lines.join('\n')
 }
@@ -221,16 +237,12 @@ function main(argv) {
   const targets = argv
     .filter((a) => !a.startsWith('--') && statSync(a, { throwIfNoEntry: false })?.isDirectory())
     .map((a) => resolve(a))
-  if (!targets.length) throw new Error('usage: pnpm bench:mini:replay <run-dir> [<run-dir> ...]')
-  const rows = replayRows(targets)
+  if (!targets.length) throw new Error('usage: pnpm bench:mini:replay <mini-run-dir> [--json]')
+  const rows = targets.flatMap(replayDir)
   if (json) return console.log(JSON.stringify(rows, null, 2))
   console.log(tableMarkdown(rows))
-  const mini = rows.map((r) => r.mini.score)
-  const rho = (pick) => spearman(mini, rows.map(pick))
-  console.log(
-    `\nSpearman rank correlation of the Mini score over ${rows.length} runs: ${rho((r) => r.full.overall)} with the full overall, ` +
-      `${rho((r) => r.full.tasks.drafting)} with full drafting (median Mini ${median(mini)}).`,
-  )
+  for (const r of rows)
+    for (const u of r.unknown) console.log(`- ${r.model}: ${u.probe} not recomputed: ${u.why}`)
 }
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href

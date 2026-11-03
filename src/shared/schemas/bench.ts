@@ -196,20 +196,75 @@ export function benchReportJsonSchema(): Record<string, unknown> {
 
 // ---- Tabletop Mini Benchmark (#604, docs/specs/0445-tabletop-mini-benchmark.md) --------------
 
+/** A failed call: what kind of failure, and for a stall or a loop the raw tail of the reply. */
+export const MiniFailure = z.object({
+  kind: z.enum(['stall', 'loop', 'cutoff', 'format', 'error']),
+  detail: z.string().max(400),
+  tail: z.string().max(400).optional(),
+})
+export type MiniFailure = z.infer<typeof MiniFailure>
+
 export const MiniProbe = z.object({
-  /** False when the call failed, was cut off or hit the per-call time cap. */
+  /** False when the call produced no usable reply (failed, cut off, stalled or looped). */
   ok: z.boolean(),
+  /** Succeeded with no failure, no repair round and no reply cut off and asked again. */
+  firstTry: z.boolean(),
+  /** The share of this probe's criteria met, 0 to 100 (for display; quality pools the criteria). */
   score: z.number().min(0).max(100),
   seconds: z.number().nonnegative().optional(),
   inputTokens: z.number().int().nonnegative().optional(),
   outputTokens: z.number().int().nonnegative().optional(),
-  /** Sub-scores and raw measures (lint, citations, recall, damage, repetition…). */
+  /** Absolute pass/fail criteria the quality score counts. */
+  criteria: z.array(
+    z.object({ id: z.string().max(80), label: z.string().max(200), met: z.boolean() }),
+  ),
+  /** Raw measures (lint, citations, recall, damage, repetition…). */
   metrics: z.record(z.string(), z.number()),
   reason: z.string().max(400).optional(),
+  failure: MiniFailure.optional(),
 })
 export type MiniProbe = z.infer<typeof MiniProbe>
 
-export const MINI_LEVELS = ['will_work', 'risky', 'wont_work'] as const
+export const MINI_LEVELS = ['recommended', 'usable', 'not_recommended'] as const
+
+/** A figure with the range over the Mini's two runs; overlapping ranges are ties. */
+export const MiniRange = z.object({ value: z.number(), min: z.number(), max: z.number() })
+export type MiniRange = z.infer<typeof MiniRange>
+
+const MiniSpeed = z.object({
+  promptTokensPerSecond: z.number().nonnegative().optional(),
+  outputTokensPerSecond: z.number().nonnegative().optional(),
+  method: z.enum(['fit', 'pooled']).optional(),
+  draftMinutes: z.number().nonnegative().optional(),
+  longPromptTokens: z.number().int().nonnegative().optional(),
+  longPromptSeconds: z.number().nonnegative().optional(),
+  totalSeconds: z.number().nonnegative(),
+})
+
+/** One run of every probe, with its own seed and project copies. */
+export const MiniRepeat = z.object({
+  seed: z.number().int(),
+  probes: z.record(z.string(), MiniProbe),
+  quality: z.object({
+    score: z.number().min(0).max(100),
+    met: z.number().int().nonnegative(),
+    total: z.number().int().nonnegative(),
+  }),
+  /** Percent of this run's calls that succeeded first time. */
+  perCallRate: z.number().min(0).max(100),
+  completion: z.number().min(0).max(100),
+  score: z.number().min(0).max(100),
+  damage: z.number().min(0).max(100).optional(),
+  speed: MiniSpeed,
+  failures: z.array(
+    z.object({
+      probe: z.string().max(40),
+      failure: MiniFailure.optional(),
+      repaired: z.boolean().optional(),
+    }),
+  ),
+})
+export type MiniRepeat = z.infer<typeof MiniRepeat>
 
 export const MiniRun = z.object({
   formatVersion: z.literal(BENCH_FORMAT_VERSION),
@@ -226,15 +281,32 @@ export const MiniRun = z.object({
   model: BenchModel,
   hardware: BenchHardware,
   startedAt: IsoDateTime,
-  callCapSeconds: z.number().int().positive(),
-  probes: z.record(z.string(), MiniProbe),
-  speed: z.object({
-    outputTokensPerSecond: z.number().nonnegative().optional(),
-    longPromptTokens: z.number().int().nonnegative().optional(),
-    longPromptSeconds: z.number().nonnegative().optional(),
-    totalSeconds: z.number().nonnegative(),
+  /** The stall and repetition limits the calls ran under (there is no time cap). */
+  stream: z.object({
+    firstTokenSeconds: z.number().positive(),
+    stallSeconds: z.number().positive(),
+    loopMinChars: z.number().int().positive(),
+    loopMinRepeats: z.number().int().positive(),
   }),
-  score: z.number().min(0).max(100),
-  verdict: z.object({ level: z.enum(MINI_LEVELS), reasons: z.array(z.string().max(400)) }),
+  repeats: z.array(MiniRepeat).min(1),
+  /** Quality x Completion, its pieces and the shown-alongside figures, each with its range. */
+  result: z.object({
+    score: MiniRange,
+    quality: MiniRange.optional(),
+    perCallRate: MiniRange,
+    completion: MiniRange,
+    damage: MiniRange.optional(),
+    draftMinutes: MiniRange.optional(),
+    outputTokensPerSecond: MiniRange.optional(),
+    promptTokensPerSecond: MiniRange.optional(),
+    calls: z.number().int().nonnegative(),
+    firstTryCalls: z.number().int().nonnegative(),
+  }),
+  verdict: z.object({
+    level: z.enum(MINI_LEVELS),
+    reasons: z.array(z.string().max(600)),
+    notes: z.array(z.string().max(700)),
+    uncertain: z.array(z.enum(MINI_LEVELS)).optional(),
+  }),
 })
 export type MiniRun = z.infer<typeof MiniRun>

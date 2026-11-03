@@ -222,6 +222,7 @@ export async function callWithRepair(
       )
       account(run, res)
       conv.lengthRetried = true
+      run.lengthRetries = (run.lengthRetries ?? 0) + 1
       conv.base.maxTokens = bigger
       res = await conv.provider.chat({ ...conv.base, messages: conv.messages }, conv.onToken)
     }

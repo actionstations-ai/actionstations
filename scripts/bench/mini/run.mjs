@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Tabletop Mini Benchmark runner (#604, docs/specs/0445-tabletop-mini-benchmark.md,
-// docs/guides/model-benchmark.md). Four model calls on fixed inputs plus timing, a verdict
-// ("will work", "risky", "won't work") and one run file per model.
+// Tabletop Mini Benchmark runner (#604, #606, docs/specs/0445-tabletop-mini-benchmark.md,
+// docs/guides/model-benchmark.md). Four model calls on fixed inputs, each run twice, with no
+// time cap on a call (a stalled or looping reply ends it), scored as Quality x Completion with
+// review damage and draft time alongside, a band ("Recommended", "Usable with editing", "Not
+// recommended") and one run file per model.
 //
 //   pnpm build:app
 //   pnpm bench:mini -- --models lmstudio:qwen/qwen3.5-9b,lmstudio:google/gemma-3-12b
@@ -12,7 +14,6 @@
 //   --held-out         add the maintainers' held-out review probe (needs bench/defects-held-out)
 //   --no-load          do not load and unload LM Studio models; they are already loaded
 //   --stop-server      run `lms server stop` after the last model
-//   --cap <seconds>    per-call time cap (default: the suite's callCapSeconds)
 //   --base-url, --embedder local|hash, --yes, --clean   as for pnpm bench
 //
 // For an LM Studio model the runner loads it at the suite's context length, runs the Mini and
@@ -28,8 +29,8 @@ import { modelInfo, parseModelRef } from '../model-info.mjs'
 import { SCORING_VERSION } from '../score/composite.mjs'
 import { taskSetHash } from '../taskset.mjs'
 import { writeFormatted } from '../write.mjs'
-import { runProbes } from './probes.mjs'
-import { miniScore } from './score.mjs'
+import { runProbes, streamGuardOptions } from './probes.mjs'
+import { miniResult } from './score.mjs'
 import { LEVEL_LABEL, summaryMarkdown, verdictOf } from './verdict.mjs'
 
 const log = (msg) => console.log(`[mini ${new Date().toISOString().slice(11, 19)}] ${msg}`)
@@ -53,7 +54,6 @@ export function parseMiniArgs(argv) {
     } else if (a === '--out') args.out = value(i++)
     else if (a === '--base-url') args.baseUrl = value(i++)
     else if (a === '--embedder') args.embedder = value(i++)
-    else if (a === '--cap') args.cap = Number(value(i++))
     else if (a === '--held-out') args.heldOut = true
     else if (a === '--no-load') args.load = false
     else if (a === '--stop-server') args.stopServer = true
@@ -63,8 +63,6 @@ export function parseMiniArgs(argv) {
   }
   if (!args.models.length) throw new Error('--models is required (e.g. --models ollama:qwen3.5:9b)')
   if (!['local', 'hash'].includes(args.embedder)) throw new Error('--embedder is local or hash')
-  if (args.cap !== undefined && !(Number.isInteger(args.cap) && args.cap >= 30 && args.cap <= 1800))
-    throw new Error('--cap is a whole number of seconds from 30 to 1800')
   return args
 }
 
@@ -114,16 +112,13 @@ export function buildMiniRun({
   appCommit,
   startedAt,
   result,
-  cap,
 }) {
-  const { probes, speed } = result
-  const score = miniScore(probes, suite.weights.mini)
-  const probeFile = Object.fromEntries(
-    Object.entries(probes).map(([k, p]) => [
-      k,
-      { ok: p.ok, score: Math.round(p.score * 10) / 10, metrics: p.metrics, ...pick(p) },
-    ]),
-  )
+  const summary = miniResult({ repeats: result.repeats, suite })
+  const repeats = result.repeats.map((r) => ({
+    seed: r.seed,
+    probes: Object.fromEntries(Object.entries(r.probes).map(([k, p]) => [k, probeRecord(p)])),
+    ...r.result,
+  }))
   const examples = [
     ...new Set([
       ...Object.values(suite.probes).map((p) => p.example),
@@ -145,19 +140,28 @@ export function buildMiniRun({
     model,
     hardware,
     startedAt,
-    callCapSeconds: cap,
-    probes: probeFile,
-    speed,
-    score,
-    verdict: verdictOf({ probes, speed, score, thresholds: suite.thresholds }),
+    stream: suite.stream,
+    repeats,
+    result: summary,
+    verdict: verdictOf({
+      result: summary,
+      repeats: result.repeats.map((r) => r.result),
+      bands: suite.bands,
+    }),
   }
 }
 
-const pick = (p) => ({
+const probeRecord = (p) => ({
+  ok: p.ok,
+  firstTry: p.firstTry,
+  score: Math.round(p.score * 10) / 10,
+  criteria: p.criteria,
+  metrics: p.metrics,
   ...(p.seconds !== undefined ? { seconds: p.seconds } : {}),
   ...(p.inputTokens ? { inputTokens: p.inputTokens } : {}),
   ...(p.outputTokens ? { outputTokens: p.outputTokens } : {}),
   ...(p.reason ? { reason: p.reason } : {}),
+  ...(p.failure ? { failure: p.failure } : {}),
 })
 
 async function runModel({ args, suite, heldOutCase, ref, bench, app, gold, appVersion }) {
@@ -169,13 +173,23 @@ async function runModel({ args, suite, heldOutCase, ref, bench, app, gold, appVe
     const startedAt = new Date().toISOString()
     const worker = await startWorker(0, { args, model })
     try {
-      await routeModel(worker.invoke, model, suite.seeds[0], suite.contextLength)
+      const guard = streamGuardOptions(suite)
+      const beforeRepeat = async (_r, seed) => {
+        worker.providerId = await routeModel(
+          worker.invoke,
+          model,
+          seed,
+          suite.contextLength,
+          worker.providerId,
+          guard,
+        )
+      }
       const ctx = {
         invoke: worker.invoke,
         suite,
         gold,
         log,
-        capSeconds: args.cap ?? suite.callCapSeconds,
+        beforeRepeat,
         workDir: join(args.out, 'work', slug(model.ref)),
         projects: {},
       }
@@ -191,7 +205,6 @@ async function runModel({ args, suite, heldOutCase, ref, bench, app, gold, appVe
           appCommit: appCommit(),
           startedAt,
           result,
-          cap: ctx.capSeconds,
         }),
       )
     } finally {
@@ -221,9 +234,7 @@ export async function main(argv) {
       const file = join(args.out, `mini-${runFileName(run.startedAt, run.model.ref, run.hardware)}`)
       await writeFormatted(file, JSON.stringify(run))
       console.log(`\n${summaryMarkdown(run)}\n\nWrote ${file}\n`)
-      summary.push(
-        `${ref}: ${LEVEL_LABEL[run.verdict.level]} (${run.score}), ${run.speed.totalSeconds} s`,
-      )
+      summary.push(`${ref}: ${LEVEL_LABEL[run.verdict.level]} (${run.result.score.value})`)
     } catch (err) {
       log(`${ref} stopped: ${err?.message ?? err}`)
       summary.push(`${ref}: no result (${err?.message ?? err})`)

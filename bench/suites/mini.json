@@ -1,82 +1,56 @@
 {
   "suite": "mini",
-  "suiteVersion": 1,
+  "suiteVersion": 2,
   "kind": "mini",
-  "description": "Tabletop Mini Benchmark: four model calls on fixed inputs from the bundled examples (format, long prompt, long output, review) plus timing, about 10 minutes for a 30B model. It screens a model; it does not replace the full Tabletop Benchmark.",
-  "repeats": 1,
-  "seeds": [11],
+  "description": "Tabletop Mini Benchmark: four model calls on fixed inputs from the bundled examples (format, a full MSEL phase on a long prompt, a long handbook, a review of planted defects), each run twice, with no time cap. It scores Quality x Completion and reports review damage and draft time next to it. It screens a model; it does not replace the full Tabletop Benchmark and reads none of its results.",
+  "repeats": 2,
+  "seeds": [11, 12],
   "contextLength": 32768,
   "ideationCount": 0,
-  "callCapSeconds": 180,
+  "stream": {
+    "firstTokenSeconds": 600,
+    "stallSeconds": 60,
+    "loopMinChars": 400,
+    "loopMinRepeats": 5
+  },
   "weights": {
-    "overall": {
-      "drafting": 0.5,
-      "critique": 0.25,
-      "ideation": 0.25
-    },
-    "drafting": {
-      "reliability": 0.25,
-      "lint": 0.2,
-      "citations": 0.2,
-      "structure": 0.35
-    },
-    "citations": {
-      "resolution": 0.3,
-      "support": 0.4,
-      "coverage": 0.3
-    },
-    "structure": {
-      "pace": 1,
-      "rolesEveryPhase": 1,
-      "briefIds": 1,
-      "noReferenceLeak": 2
-    },
-    "ideation": {
-      "valid": 0.25,
-      "distinct": 0.2,
-      "resolution": 0.2,
-      "spread": 0.15,
-      "grounding": 0.2
-    },
     "critique": {
       "recall": 0.65,
       "noise": 0.1,
       "intact": 0.25
-    },
-    "mini": {
-      "format": 0.1,
-      "longContext": 0.35,
-      "longOutput": 0.2,
-      "review": 0.35
-    },
-    "longContext": {
-      "lint": 0.3,
-      "citations": 0.3,
-      "structure": 0.4
-    },
-    "longOutput": {
-      "sections": 0.5,
-      "variety": 0.5
     }
   },
   "thresholds": {
-    "lintCap": 20,
-    "paceBand": [0.5, 2],
-    "distinctCosine": 0.85,
     "noisePenaltyPer10Rows": 20,
-    "damagePenaltyPerPercent": 2,
-    "criticDamageWarn": 10,
-    "unstableRange": 15,
-    "floorTaskScore": 50,
-    "floorDraftingReliability": 0.9,
-    "workScore": 60,
-    "riskyScore": 45,
-    "slowTokensPerSecond": 15,
-    "slowLongPromptSeconds": 150,
-    "handbookMinSections": 5,
-    "repetitionWarn": 0.25,
-    "reviewRecallWarn": 30,
-    "repairWarn": 1
+    "damagePenaltyPerPercent": 2
+  },
+  "quality": {
+    "paceBand": [0.8, 1.25],
+    "phaseMinRows": 15,
+    "citationResolution": 90,
+    "citationCoverage": 80,
+    "citationSupport": 70,
+    "lintPenaltyPer10Rows": 5,
+    "handbookSections": 5,
+    "handbookMinWords": 1000,
+    "handbookMaxRepetition": 0.25
+  },
+  "bands": {
+    "recommended": {
+      "completion": 90,
+      "quality": 80,
+      "damage": 5
+    },
+    "usable": {
+      "completion": 75,
+      "quality": 60
+    }
+  },
+  "scenarioBudget": {
+    "phases": 4,
+    "modelStages": 14,
+    "inputTokens": 237242,
+    "outputTokens": 37839
   },
   "probes": {
     "format": {
@@ -88,7 +62,8 @@
       "example": "chemical-rmp",
       "scenario": "rail-spot-release",
       "stage": "msel_phase",
-      "phaseIndex": 3
+      "phaseIndex": 3,
+      "phaseMinutes": 180
     },
     "longOutput": {
       "example": "city-water",

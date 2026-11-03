@@ -5,6 +5,7 @@ import { resolveInference } from '@shared/model-profiles'
 import { AppError } from '../../../lib/errors'
 import { withChatLog, withEmbedLog } from '../../call-log'
 import { joinUrl, ndjsonLines, request, requestJson } from '../../http'
+import { StreamGuard, streamGuardOption } from '../../stream-guard'
 import { stripThinking, thinkFilter } from '../../think'
 import type {
   AdapterModule,
@@ -99,29 +100,47 @@ export class OllamaTextProvider implements TextProvider {
     onToken?: (t: string) => void,
   ): Promise<ChatResponse> {
     const start = Date.now()
-    const res = await request(joinUrl(baseOf(this.config), '/api/chat'), {
-      method: 'POST',
-      body: this.body(model, req),
-      signal: req.signal,
-      timeoutMs: numberOption(this.config, 'timeoutMs') ?? 300_000,
-      vendor: VENDOR,
-    }).catch((err: unknown) => {
-      throw withPullHint(err, model)
-    })
-    const emit = thinkFilter(onToken)
-    let raw = ''
-    let last: ChatChunk = {}
-    for await (const line of ndjsonLines(res, { signal: req.signal, vendor: VENDOR })) {
-      const chunk = line as ChatChunk
-      if (chunk.error) throw new AppError('PROVIDER', `Ollama: ${chunk.error}`)
-      const piece = chunk.message?.content ?? ''
-      if (piece) {
-        raw += piece
-        emit(piece)
+    const guardOptions = streamGuardOption(this.config.options)
+    const guard = guardOptions ? new StreamGuard(guardOptions) : undefined
+    const signal =
+      guard && req.signal
+        ? AbortSignal.any([req.signal, guard.signal])
+        : (guard?.signal ?? req.signal)
+    guard?.arm()
+    try {
+      const res = await request(joinUrl(baseOf(this.config), '/api/chat'), {
+        method: 'POST',
+        body: this.body(model, req),
+        signal,
+        timeoutMs: guardOptions?.firstTokenMs ?? numberOption(this.config, 'timeoutMs') ?? 300_000,
+        vendor: VENDOR,
+      }).catch((err: unknown) => {
+        throw withPullHint(err, model)
+      })
+      const emit = thinkFilter(onToken)
+      let raw = ''
+      let last: ChatChunk = {}
+      const idleMs = guardOptions
+        ? 2 * Math.max(guardOptions.firstTokenMs, guardOptions.stallMs)
+        : undefined
+      for await (const line of ndjsonLines(res, { signal, vendor: VENDOR, idleMs })) {
+        const chunk = line as ChatChunk
+        if (chunk.error) throw new AppError('PROVIDER', `Ollama: ${chunk.error}`)
+        const piece = chunk.message?.content ?? ''
+        const thought = chunk.message?.thinking ?? ''
+        guard?.token(piece + thought)
+        if (piece) {
+          raw += piece
+          emit(piece)
+        }
+        last = chunk
       }
-      last = chunk
+      return this.toResponse(raw, last, model, req, start)
+    } catch (err) {
+      throw guard?.tripped ?? err
+    } finally {
+      guard?.stop()
     }
-    return this.toResponse(raw, last, model, req, start)
   }
 
   private body(model: string, req: ChatRequest): Body {
