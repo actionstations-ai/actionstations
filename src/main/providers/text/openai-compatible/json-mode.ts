@@ -28,12 +28,15 @@ export function clearJsonModeCache(): void {
 /**
  * Reasoning models (gpt-oss, o-series, DeepSeek-R1, QwQ) under LM Studio's strict
  * `json_schema` mode return one truncated item and stop (#81); they are started from
- * `json_object`, where the instruction-carrying prompt yields complete output.
+ * `json_object`, where the instruction-carrying prompt yields complete output. gpt-oss-120b is
+ * the exception (#503): under `json_object`/prompt it writes a harmony `<|constrain|>` header
+ * that LM Studio's parser rejects with a 500, while `json_schema` completes every stage.
  */
-const REASONING_MODEL = /gpt-oss|\bo[134](?:-mini|-pro)?\b|deepseek-r1|\bqwq\b|reasoning/i
+const JSON_OBJECT_FIRST_PROFILE =
+  /gpt-oss-20b|\bo[134](?:-mini|-pro)?\b|deepseek-r1|\bqwq\b|reasoning/i
 
 export function defaultModeFor(model: string): JsonMode {
-  return REASONING_MODEL.test(model) ? 'json_object' : 'json_schema'
+  return JSON_OBJECT_FIRST_PROFILE.test(model) ? 'json_object' : 'json_schema'
 }
 
 /** Modes to try, starting from a configured override, the remembered mode, or the model's default. */
