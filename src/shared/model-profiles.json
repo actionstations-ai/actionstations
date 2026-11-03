@@ -8,9 +8,16 @@
       "source": [
         "https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507/raw/main/generation_config.json"
       ],
-      "sampling": { "temperature": 0.6, "topP": 0.95, "topK": 20, "minP": 0 },
+      "sampling": {
+        "temperature": 0.6,
+        "topP": 0.95,
+        "topK": 20,
+        "minP": 0
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "none" }
+      "reasoning": {
+        "kind": "none"
+      }
     },
     {
       "id": "qwen3-instruct-2507",
@@ -19,9 +26,16 @@
       "source": [
         "https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507/raw/main/generation_config.json"
       ],
-      "sampling": { "temperature": 0.7, "topP": 0.8, "topK": 20, "minP": 0 },
+      "sampling": {
+        "temperature": 0.7,
+        "topP": 0.8,
+        "topK": 20,
+        "minP": 0
+      },
       "temperaturePolicy": "stage",
-      "reasoning": { "kind": "none" }
+      "reasoning": {
+        "kind": "none"
+      }
     },
     {
       "id": "qwen3.5",
@@ -31,9 +45,17 @@
         "https://huggingface.co/Qwen/Qwen3.5-35B-A3B/raw/main/generation_config.json",
         "https://huggingface.co/Qwen/Qwen3.5-35B-A3B/raw/main/README.md"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95,
+        "topK": 20,
+        "minP": 0
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "switch", "default": "on" }
+      "reasoning": {
+        "kind": "switch",
+        "default": "on"
+      }
     },
     {
       "id": "qwen3.6",
@@ -43,9 +65,17 @@
         "https://huggingface.co/Qwen/Qwen3.6-27B/raw/main/generation_config.json",
         "https://huggingface.co/Qwen/Qwen3.6-27B/raw/main/README.md"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95,
+        "topK": 20,
+        "minP": 0
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "switch", "default": "on" }
+      "reasoning": {
+        "kind": "switch",
+        "default": "on"
+      }
     },
     {
       "id": "qwen3.8",
@@ -55,9 +85,36 @@
         "https://huggingface.co/Qwen/Qwen3.8-27B/raw/main/generation_config.json",
         "https://huggingface.co/Qwen/Qwen3.8-27B/raw/main/README.md"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 20, "minP": 0 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95,
+        "topK": 20,
+        "minP": 0
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "effort", "default": "medium" }
+      "reasoning": {
+        "kind": "effort",
+        "default": "medium"
+      }
+    },
+    {
+      "id": "gpt-oss-20b",
+      "label": "gpt-oss 20B",
+      "match": "gpt-oss-20b",
+      "source": [
+        "https://huggingface.co/openai/gpt-oss-120b/raw/main/README.md",
+        "https://huggingface.co/openai/gpt-oss-120b/raw/main/generation_config.json"
+      ],
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 1.0
+      },
+      "temperaturePolicy": "profile",
+      "reasoning": {
+        "kind": "effort",
+        "default": "medium"
+      },
+      "structuredOutput": "json_object"
     },
     {
       "id": "gpt-oss",
@@ -67,9 +124,16 @@
         "https://huggingface.co/openai/gpt-oss-120b/raw/main/README.md",
         "https://huggingface.co/openai/gpt-oss-120b/raw/main/generation_config.json"
       ],
-      "sampling": { "temperature": 1.0, "topP": 1.0 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 1.0
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "effort", "default": "medium" }
+      "reasoning": {
+        "kind": "effort",
+        "default": "medium"
+      },
+      "structuredOutput": "json_schema"
     },
     {
       "id": "gemma-4",
@@ -79,9 +143,15 @@
         "https://huggingface.co/google/gemma-4-26B-A4B-it/raw/main/generation_config.json",
         "https://huggingface.co/google/gemma-4-26B-A4B-it/raw/main/README.md"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95, "topK": 64 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95,
+        "topK": 64
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "none" }
+      "reasoning": {
+        "kind": "none"
+      }
     },
     {
       "id": "glm-4.7",
@@ -91,9 +161,14 @@
         "https://huggingface.co/zai-org/GLM-4.7-Flash/raw/main/README.md",
         "https://huggingface.co/zai-org/GLM-4.7-Flash/raw/main/generation_config.json"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95
+      },
       "temperaturePolicy": "stage",
-      "reasoning": { "kind": "none" }
+      "reasoning": {
+        "kind": "none"
+      }
     },
     {
       "id": "nemotron-3.5",
@@ -103,9 +178,15 @@
         "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16/raw/main/README.md",
         "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16/raw/main/generation_config.json"
       ],
-      "sampling": { "temperature": 1.0, "topP": 0.95 },
+      "sampling": {
+        "temperature": 1.0,
+        "topP": 0.95
+      },
       "temperaturePolicy": "profile",
-      "reasoning": { "kind": "switch", "default": "on" }
+      "reasoning": {
+        "kind": "switch",
+        "default": "on"
+      }
     }
   ]
 }

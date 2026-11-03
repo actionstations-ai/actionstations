@@ -1,6 +1,7 @@
 // Structured-output mode negotiation for OpenAI-compatible servers. Order of preference:
 // response_format json_schema (strict) → json_object → prompt-only. The first mode a
 // server+model accepts is remembered in memory for the rest of the session.
+import { findModelProfile } from '@shared/model-profiles'
 import type { ChatRequest } from '../../types'
 import { combinedSystem, jsonInstruction } from '../common'
 import { toStrictSchema } from '../strict-schema'
@@ -26,16 +27,15 @@ export function clearJsonModeCache(): void {
 }
 
 /**
- * Reasoning models (gpt-oss, o-series, DeepSeek-R1, QwQ) under LM Studio's strict
- * `json_schema` mode return one truncated item and stop (#81); they are started from
- * `json_object`, where the instruction-carrying prompt yields complete output. gpt-oss-120b is
- * the exception (#503): under `json_object`/prompt it writes a harmony `<|constrain|>` header
- * that LM Studio's parser rejects with a 500, while `json_schema` completes every stage.
+ * Other reasoning models (o-series, DeepSeek-R1, QwQ) under LM Studio's strict `json_schema` mode
+ * return one truncated item and stop (#81); they are started from `json_object`. Model families
+ * with a profile (src/shared/model-profiles.json) name their own first mode there.
  */
-const JSON_OBJECT_FIRST_PROFILE =
-  /gpt-oss-20b|\bo[134](?:-mini|-pro)?\b|deepseek-r1|\bqwq\b|reasoning/i
+const JSON_OBJECT_FIRST_PROFILE = /\bo[134](?:-mini|-pro)?\b|deepseek-r1|\bqwq\b|reasoning/i
 
 export function defaultModeFor(model: string): JsonMode {
+  const fromProfile = findModelProfile(model)?.structuredOutput
+  if (fromProfile) return fromProfile
   return JSON_OBJECT_FIRST_PROFILE.test(model) ? 'json_object' : 'json_schema'
 }
 

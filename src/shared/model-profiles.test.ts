@@ -95,6 +95,16 @@ describe('resolveInference', () => {
   })
 })
 
+describe('structured output mode', () => {
+  it('starts gpt-oss-20b from json_object and gpt-oss-120b from json_schema', () => {
+    expect(findModelProfile('openai/gpt-oss-20b')?.structuredOutput).toBe('json_object')
+    expect(findModelProfile('openai/gpt-oss-120b')?.structuredOutput).toBe('json_schema')
+    expect(findModelProfile('mlx-community/gpt-oss-120b-MXFP4-Q4')?.structuredOutput).toBe(
+      'json_schema',
+    )
+  })
+})
+
 describe('draft model', () => {
   const draft = 'qwen/qwen3.5-4b'
   const model = 'qwen/qwen3.5-9b'

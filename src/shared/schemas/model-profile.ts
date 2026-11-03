@@ -34,6 +34,12 @@ export const ModelProfile = z.object({
     kind: z.enum(['none', 'effort', 'switch']),
     default: ReasoningLevel.optional(),
   }),
+  /**
+   * Structured-output mode to try first on OpenAI-compatible servers. gpt-oss-20b returns one
+   * truncated item under strict `json_schema` (#81), so it starts from `json_object`; gpt-oss-120b
+   * is rejected under `json_object` by LM Studio's harmony parser (#503) and starts from `json_schema`.
+   */
+  structuredOutput: z.enum(['json_schema', 'json_object']).optional(),
   /** Small model of the same family for speculative decoding (LM Studio `draft_model`). */
   draftModel: z.string().min(1).max(200).optional(),
 })

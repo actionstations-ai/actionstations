@@ -133,7 +133,11 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
       for (let attempt = 0; ; attempt++) {
         const start = Date.now()
         try {
-          const out = await this.stream(this.body(model, req, system, extra, settings), req, onToken)
+          const out = await this.stream(
+            this.body(model, req, system, extra, settings),
+            req,
+            onToken,
+          )
           rememberMode(key, mode)
           return this.structuredResponse(out, model, start, mode, req)
         } catch (err) {
