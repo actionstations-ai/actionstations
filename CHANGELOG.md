@@ -10,9 +10,12 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- OpenAI-compatible providers: a structured reply whose `content` is empty but whose `reasoning_content` holds the JSON (Qwen3.5 under LM Studio's `json_schema` mode) is now read instead of failing with "no JSON" (#503).
 - The Facilitate side panel's tab strip keeps each label on one line and scrolls sideways when the tabs do not fit, with a fade at the hidden edge; the focused or selected tab scrolls into view, so the last tab (Hot wash board) is reachable at laptop widths (#578).
 
 ### Changed
+
+- Benchmark: first published standard-suite runs of `qwen3.5-4b`, `qwen3.5-9b` and `gpt-oss-120b`; the local judge measured at kappa 0.039 against the 60 reference rows, so its scores stay unpublished (#503).
 
 - Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).
 

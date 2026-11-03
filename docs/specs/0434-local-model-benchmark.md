@@ -420,6 +420,6 @@ Where the code differs from the text above, and why:
   linearly weighted kappa against `bench/calibration/rows.json`. The 60 rows were scored by a hosted reference model and accepted by the maintainer (bench/calibration/README.md). `--determinism` replaces the `LIVE=1` check: it runs in the smoke test
   against the mock provider.
 - **Published so far (#503)**: one standard-suite run of `lmstudio:qwen/qwen3-30b-a3b-2507` (4-bit, 128 GB Apple silicon, local embedder, judge on and unpublished): overall 59.9 (57.9 to 62.9), ideation 72.5, drafting 69.7, critique 34, drafting reliability 87% with 10 failed stages, so it does not pass the floor for any tier. The `--determinism` check on the quick suite (not published) found the two repeats at seed 11 differ in ideation, drafting and critique on LM Studio, so a seed does not make a local run repeatable.
-- **Not built yet**: the first published runs of the other `TEXT_TIERS` models (task 9) and the site import
-  (task 10). Quick runs of `ollama:qwen2.5:3b` (hash embedder) completed end to end while
-  building this.
+- **Published (#503, 2026-11-03)**: standard-suite runs (3 repeats, local embedder, 32k context, 128 GB Apple silicon) of `qwen/qwen3.5-4b` (overall 51.5, drafting reliability 100%), `qwen/qwen3.5-9b` (56.3, 93%) and `openai/gpt-oss-120b` (13.5; LM Studio returned "output does not match the expected peg-native format" errors on most stages). None passes the floor for its tier. The first Qwen3.5 runs scored 3.8 because LM Studio's `json_schema` mode puts the JSON in `reasoning_content` and leaves `content` empty; the OpenAI-compatible adapter now falls back to the reasoning text for structured replies, and those runs were redone.
+- **Judge calibration (#503)**: with the 60 reference rows (#580), `qwen/qwen3-30b-a3b-2507` as judge reaches weighted kappa 0.039, far below 0.6, so judge scores stay unpublished. The threshold is unchanged.
+- **Not built yet**: the site import (task 10).
