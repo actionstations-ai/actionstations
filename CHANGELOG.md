@@ -8,6 +8,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+### Fixed
+
+- The Facilitate side panel's tab strip keeps each label on one line and scrolls sideways when the tabs do not fit, with a fade at the hidden edge; the focused or selected tab scrolls into view, so the last tab (Hot wash board) is reachable at laptop widths (#578).
+
 ### Changed
 
 - Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).

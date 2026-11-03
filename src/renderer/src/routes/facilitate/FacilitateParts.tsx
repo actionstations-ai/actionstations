@@ -28,6 +28,8 @@ import { LiveSurveysSection } from './live/SurveySend'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
 import { PostExerciseChecklist } from './PostExerciseChecklist'
+import { useTabOverflow } from './use-tab-overflow'
+import './fac-tabs.css'
 import { RoomPanel } from './live/RoomPanel'
 import { SessionsList } from './live/SessionsList'
 import { LIVE } from './live/strings'
@@ -193,6 +195,7 @@ export function SidePanel(props: {
 }) {
   const { selected, state, update, tools } = props
   const [tab, setTab] = useState('inject')
+  const { ref: stripRef, onFocus: stripFocus, onScroll: stripScroll } = useTabOverflow(tab)
   const warnings = tools.flags.filter((f) => f.level === 'warn').length
   const liveVotes = useLiveVotes(props.projectPath, props.scenario.id)
   const tallySource = useMemo(() => tallySourceFromVotes(liveVotes.votes), [liveVotes.votes])
@@ -203,7 +206,13 @@ export function SidePanel(props: {
         scenario={props.scenario}
         state={state}
       />
-      <Tabs.List className="fac-tabs" aria-label="Facilitator panels">
+      <Tabs.List
+        className="fac-tabs"
+        aria-label="Facilitator panels"
+        ref={stripRef}
+        onFocus={stripFocus}
+        onScroll={stripScroll}
+      >
         <Tabs.Trigger value="inject" className="fac-tabs__trigger">
           Inject
         </Tabs.Trigger>
