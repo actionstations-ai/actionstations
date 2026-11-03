@@ -192,10 +192,15 @@ export function RouteFocus() {
     const initial = first.current
     first.current = false
     if (pathname.startsWith('/present/')) return
+    // The heading can take a moment to arrive (a page still loading); if the user has moved focus
+    // to something new in the meantime, leave it there instead of pulling them back to the top.
+    const before = document.activeElement
     return whenHeading((h) => {
       const text = h?.textContent?.trim()
       document.title = text ? `${text} · ${APP_NAME}` : APP_NAME
-      if (!initial && h && shouldMoveFocus(document.activeElement)) focusTarget(h)
+      const now = document.activeElement
+      const userMoved = now !== before && now !== document.body && !!now?.isConnected
+      if (!initial && h && !userMoved && shouldMoveFocus(now)) focusTarget(h)
     })
   }, [pathname])
   return null
