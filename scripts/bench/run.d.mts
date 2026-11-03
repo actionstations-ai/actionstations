@@ -53,4 +53,7 @@ export function buildRun(input: {
   triage?: boolean
 }): BenchRun
 export function summaryMarkdown(run: BenchRun): string
-export function triageLine(run: BenchRun, thresholds: Suite['thresholds']): string
+export function triageLine(
+  run: BenchRun,
+  thresholds: { floorTaskScore: number; floorDraftingReliability: number },
+): string
