@@ -12,6 +12,8 @@ export function taskSetFiles(suiteName: string, root?: string): Record<string, s
 export function hashFiles(files: Record<string, string>): string
 export function taskSetManifest(suiteName: string, root?: string): TaskSetManifest
 export function taskSetHash(suiteName: string, root?: string): string
+/** A suite whose cases are kept out of the published task set. */
+export function isHeldOut(suite: { critique: { defects?: string }[] }): boolean
 export function exportTaskSet(
   suiteName: string,
   outDir: string,

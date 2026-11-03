@@ -8,8 +8,10 @@ import {
   hashFiles,
   taskSetFiles,
   taskSetHash,
+  isHeldOut,
   taskSetManifest,
 } from '../../scripts/bench/taskset.mjs'
+import { loadSuite } from '../../scripts/bench/corpus.mjs'
 
 describe('task set', () => {
   it('lists the suite, its defect files, the gold, the judge files and the corpus manifest', () => {
@@ -52,5 +54,13 @@ describe('task set', () => {
     const corpus = JSON.parse(taskSetFiles('quick')['corpus.json']!)
     expect(corpus['city-water'].corpusHash).toMatch(/^[0-9a-f]{16}$/)
     expect(corpus['city-water'].briefs['city-water-chem'].threatFamily).toBeTruthy()
+  })
+})
+
+describe('held-out suite', () => {
+  it('is recognised as held out and has no published task set', () => {
+    expect(isHeldOut(loadSuite('held-out'))).toBe(true)
+    expect(isHeldOut(loadSuite('quick'))).toBe(false)
+    expect(() => taskSetHash('held-out')).toThrow(/held out/)
   })
 })
