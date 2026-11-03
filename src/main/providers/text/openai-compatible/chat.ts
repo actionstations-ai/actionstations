@@ -4,6 +4,7 @@ import type { InferenceSettings, ModelInfo, ProviderConfig, ProviderHealth } fro
 import { draftCandidate, resolveInference } from '@shared/model-profiles'
 import { AppError } from '../../../lib/errors'
 import { withChatLog } from '../../call-log'
+import { StreamGuard, streamGuardOption } from '../../stream-guard'
 import { joinUrl, request, requestJson, sseEvents } from '../../http'
 import { stripThinking, thinkFilter } from '../../think'
 import type { ChatRequest, ChatResponse, TextProvider, Usage } from '../../types'
@@ -245,22 +246,40 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     req: ChatRequest,
     onToken?: (t: string) => void,
   ): Promise<StreamOutcome> {
-    const res = await request(joinUrl(this.base, '/chat/completions'), {
-      method: 'POST',
-      headers: authHeaders(this.config, this.secret),
-      body,
-      signal: req.signal,
-      timeoutMs: numberOption(this.config, 'timeoutMs') ?? 300_000,
-      vendor: VENDOR,
-      secret: this.secret,
-    })
-    const emit = thinkFilter(onToken)
-    const out: StreamOutcome = { text: '' }
-    for await (const ev of sseEvents(res, { signal: req.signal, vendor: VENDOR })) {
-      if (!ev.data || ev.data.trim() === '[DONE]') continue
-      applyChunk(out, JSON.parse(ev.data) as Body, emit)
+    const guardOptions = streamGuardOption(this.config.options)
+    const guard = guardOptions ? new StreamGuard(guardOptions) : undefined
+    const signal =
+      guard && req.signal
+        ? AbortSignal.any([req.signal, guard.signal])
+        : (guard?.signal ?? req.signal)
+    guard?.arm()
+    try {
+      const res = await request(joinUrl(this.base, '/chat/completions'), {
+        method: 'POST',
+        headers: authHeaders(this.config, this.secret),
+        body,
+        signal,
+        timeoutMs: guardOptions?.firstTokenMs ?? numberOption(this.config, 'timeoutMs') ?? 300_000,
+        vendor: VENDOR,
+        secret: this.secret,
+      })
+      const emit = thinkFilter(onToken)
+      const out: StreamOutcome = { text: '' }
+      const idleMs = guardOptions
+        ? 2 * Math.max(guardOptions.firstTokenMs, guardOptions.stallMs)
+        : undefined
+      for await (const ev of sseEvents(res, { signal, vendor: VENDOR, idleMs })) {
+        if (!ev.data || ev.data.trim() === '[DONE]') continue
+        const seen = [out.text.length, out.reasoning?.length ?? 0] as const
+        applyChunk(out, JSON.parse(ev.data) as Body, emit)
+        if (guard) guard.token(newOutput(out, seen))
+      }
+      return out
+    } catch (err) {
+      throw guard?.tripped ?? err
+    } finally {
+      guard?.stop()
     }
-    return out
   }
 
   private toResponse(out: StreamOutcome, model: string, start: number, text: string): ChatResponse {
@@ -308,6 +327,11 @@ const FINISH_MAP: Record<string, ChatResponse['finishReason']> = {
   length: 'length',
   tool_calls: 'tool_use',
   content_filter: 'other',
+}
+
+/** The answer and reasoning text added since the lengths in `seen`. */
+function newOutput(out: StreamOutcome, seen: readonly [number, number]): string {
+  return out.text.slice(seen[0]) + (out.reasoning ?? '').slice(seen[1])
 }
 
 function applyChunk(out: StreamOutcome, chunk: Body, emit: (t: string) => void): void {

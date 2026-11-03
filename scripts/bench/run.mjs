@@ -207,10 +207,10 @@ const saveState = (out, state) => writeFileSync(statePath(out), JSON.stringify(s
 
 // ---- one model --------------------------------------------------------------------------------
 
-export async function routeModel(invoke, model, seed, contextLength, providerId) {
+export async function routeModel(invoke, model, seed, contextLength, providerId, extraOptions) {
   if (model.tool === 'mock') return providerId
   const config = {
-    ...providerConfig(model, seed, contextLength),
+    ...providerConfig(model, seed, contextLength, process.env, extraOptions),
     ...(providerId ? { id: providerId } : {}),
   }
   const view = await invoke('providers:upsert', { config })

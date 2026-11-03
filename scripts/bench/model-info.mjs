@@ -60,8 +60,8 @@ export function inferenceOptions(env = process.env) {
 }
 
 /** The provider the app gets for the model under test (src/shared/schemas/provider.ts). */
-export function providerConfig(model, seed, contextLength, env = process.env) {
-  const options = { seed, ...inferenceOptions(env) }
+export function providerConfig(model, seed, contextLength, env = process.env, extraOptions = {}) {
+  const options = { seed, ...inferenceOptions(env), ...extraOptions }
   if (model.tool === 'ollama') options.numCtx = contextLength
   return {
     kind: model.tool === 'ollama' ? 'ollama' : 'openai-compatible',
