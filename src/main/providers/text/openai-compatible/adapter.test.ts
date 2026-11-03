@@ -275,6 +275,37 @@ describe('OpenAI-compatible chat', () => {
     expect((res.json as Body).rows[0].id).toBe('I-1')
   })
 
+  it('sends a structured request again when LM Studio reports a malformed model output (gpt-oss)', async () => {
+    const bad = openAiSse([
+      {
+        error: {
+          code: 500,
+          message: 'The model produced output that does not match the expected peg-native format',
+        },
+      },
+    ])
+    const good = openAiSse([
+      {
+        choices: [
+          {
+            index: 0,
+            delta: {
+              content: '{"rows":[{"id":"I-1","time":"T+5","purposeTag":"PRESSURE","event":"x"}]}',
+            },
+            finish_reason: 'stop',
+          },
+        ],
+      },
+    ])
+    const calls = stubFetch([
+      chunkedResponse(bad, { contentType: 'text/event-stream', chunkSize: 50 }),
+      chunkedResponse(good, { contentType: 'text/event-stream', chunkSize: 50 }),
+    ])
+    const res = await provider({ options: { jsonMode: 'prompt' } }).chat(ask(MINI))
+    expect(calls).toHaveLength(2)
+    expect((res.json as Body).rows[0].id).toBe('I-1')
+  })
+
   it('aborts a streaming request', async () => {
     const ctrl = new AbortController()
     stubFetch([fixtureResponse('lmstudio-chat-stream', 31)])

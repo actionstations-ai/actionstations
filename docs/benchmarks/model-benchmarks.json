@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "generatedAt": "2026-11-03T06:04:19.343Z",
+  "generatedAt": "2026-11-03T07:01:09.594Z",
   "suite": "standard",
   "suiteVersion": 1,
   "scoringVersion": 1,
@@ -31,87 +31,6 @@
         }
       ],
       "fitsBudgetGb": 0.3
-    },
-    {
-      "model": {
-        "ref": "lmstudio:qwen/qwen3.5-9b",
-        "tool": "lmstudio",
-        "name": "qwen/qwen3.5-9b",
-        "quantization": "4bit",
-        "contextLength": 32768
-      },
-      "runs": 1,
-      "median": {
-        "overall": 56.3,
-        "tasks": { "ideation": 71.4, "drafting": 61, "critique": 21.9 },
-        "draftingReliability": 0.929
-      },
-      "range": { "overall": [51.5, 58.2] },
-      "unstable": false,
-      "hardware": [
-        {
-          "platform": "darwin",
-          "arch": "arm64",
-          "appleSilicon": true,
-          "ramGb": 128,
-          "budgetGb": 96
-        }
-      ],
-      "fitsBudgetGb": 0.3
-    },
-    {
-      "model": {
-        "ref": "lmstudio:qwen/qwen3.5-4b",
-        "tool": "lmstudio",
-        "name": "qwen/qwen3.5-4b",
-        "quantization": "4bit",
-        "contextLength": 32768
-      },
-      "runs": 1,
-      "median": {
-        "overall": 51.5,
-        "tasks": { "ideation": 75.3, "drafting": 42.8, "critique": 28.8 },
-        "draftingReliability": 1
-      },
-      "range": { "overall": [40.2, 51.6] },
-      "unstable": false,
-      "hardware": [
-        {
-          "platform": "darwin",
-          "arch": "arm64",
-          "appleSilicon": true,
-          "ramGb": 128,
-          "budgetGb": 96
-        }
-      ],
-      "fitsBudgetGb": 0.3
-    },
-    {
-      "model": {
-        "ref": "lmstudio:openai/gpt-oss-120b",
-        "tool": "lmstudio",
-        "name": "openai/gpt-oss-120b",
-        "quantization": "MXFP4",
-        "contextLength": 32768
-      },
-      "runs": 1,
-      "median": {
-        "overall": 13.5,
-        "tasks": { "ideation": 27.2, "drafting": 0, "critique": 26.3 },
-        "draftingReliability": 0
-      },
-      "range": { "overall": [13.4, 16.7] },
-      "unstable": false,
-      "hardware": [
-        {
-          "platform": "darwin",
-          "arch": "arm64",
-          "appleSilicon": true,
-          "ramGb": 128,
-          "budgetGb": 96
-        }
-      ],
-      "fitsBudgetGb": 0.3
     }
   ],
   "recommendations": [
@@ -120,7 +39,7 @@
       "minBudgetGb": 0,
       "maxBudgetGb": 10,
       "model": null,
-      "reason": "None of the 4 benchmarked model(s) that fit 5.5 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
+      "reason": "None of the 1 benchmarked model(s) that fit 5.5 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -128,7 +47,7 @@
       "minBudgetGb": 10,
       "maxBudgetGb": 24,
       "model": null,
-      "reason": "None of the 4 benchmarked model(s) that fit 10 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
+      "reason": "None of the 1 benchmarked model(s) that fit 10 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -136,7 +55,7 @@
       "minBudgetGb": 24,
       "maxBudgetGb": 72,
       "model": null,
-      "reason": "None of the 4 benchmarked model(s) that fit 24 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
+      "reason": "None of the 1 benchmarked model(s) that fit 24 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     },
     {
@@ -144,7 +63,7 @@
       "minBudgetGb": 72,
       "maxBudgetGb": null,
       "model": null,
-      "reason": "None of the 4 benchmarked model(s) that fit 72 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
+      "reason": "None of the 1 benchmarked model(s) that fit 72 GB passes the floor (every task at least 50, drafting reliability at least 90%, stable across repeats).",
       "backedBy": []
     }
   ],

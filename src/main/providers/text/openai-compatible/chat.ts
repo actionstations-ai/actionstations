@@ -123,14 +123,18 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     const key = modeKey(this.base, model)
     const modes = modesToTry(key, stringOption(this.config, 'jsonMode'), model)
     for (const [i, mode] of modes.entries()) {
-      const start = Date.now()
       const { system, extra } = jsonModeRequest(req, mode)
-      try {
-        const out = await this.stream(this.body(model, req, system, extra), req, onToken)
-        rememberMode(key, mode)
-        return this.structuredResponse(out, model, start, mode, req)
-      } catch (err) {
-        if (!isModeRejection(err) || i === modes.length - 1) throw err
+      for (let attempt = 0; ; attempt++) {
+        const start = Date.now()
+        try {
+          const out = await this.stream(this.body(model, req, system, extra), req, onToken)
+          rememberMode(key, mode)
+          return this.structuredResponse(out, model, start, mode, req)
+        } catch (err) {
+          if (isOutputFormatError(err) && attempt < FORMAT_ERROR_RETRIES) continue
+          if (!isModeRejection(err) || i === modes.length - 1) throw err
+          break
+        }
       }
     }
     throw new AppError('INTERNAL', 'unreachable')
@@ -250,6 +254,21 @@ function applyChunk(out: StreamOutcome, chunk: Body, emit: (t: string) => void):
     emit(delta.content)
   }
   if (typeof choice.finish_reason === 'string') out.finish = choice.finish_reason
+}
+
+const FORMAT_ERROR_RETRIES = 2
+
+/**
+ * LM Studio ends the stream with a 500 ("The model produced output that does not match the
+ * expected peg-native format") when gpt-oss writes a malformed harmony message. It is
+ * sampling-dependent, so the same request is sent again before the stage is failed.
+ */
+function isOutputFormatError(err: unknown): boolean {
+  return (
+    err instanceof AppError &&
+    err.code === 'PROVIDER' &&
+    /does not match the expected [\w-]+ format/i.test(err.message)
+  )
 }
 
 /** A 400/422 on a structured request means "this response_format is not supported here". */
