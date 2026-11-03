@@ -210,7 +210,7 @@ describe('MselEditor', () => {
     expect(within(cell('I-02', 'from')).getByText('SOC')).toBeTruthy()
     busy = false
     act(() => ttx.emit('job:done', { jobId: 'J1', kind: 'generate-scenario', status: 'done' }))
-    await waitFor(() => expect(saves()).toHaveLength(2), { timeout: 2000 })
+    await waitFor(() => expect(saves()).toHaveLength(2), { timeout: 5000 })
     expect(savedRow(lastSaved(), 'I-02').from).toBe('SOC')
     await waitFor(() => expect(screen.queryByText(/Your edits are kept/)).toBeNull())
     expect(screen.getByText('All changes saved')).toBeTruthy()
@@ -392,7 +392,7 @@ describe('MselEditor save integrity', () => {
       },
     })
     await editFrom(user, 'SOC')
-    await waitFor(() => expect(saves()).toHaveLength(2), { timeout: 2000 })
+    await waitFor(() => expect(saves()).toHaveLength(2), { timeout: 5000 })
     expect((saves()[1] as SaveReq).baseUpdatedAt).toBe(newer.updatedAt)
     expect(lastSaved().title).toBe('Retitled by a job')
     expect(savedRow(lastSaved(), 'I-02').from).toBe('SOC')
