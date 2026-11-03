@@ -179,7 +179,7 @@ describe('failures', () => {
     })
     expect(bad).toMatchObject({ ok: false, firstTry: false, criteria: [] })
     expect(bad.reason).toMatch(/stalled/)
-    expect(bad.failure.kind).toBe('stall')
+    expect(bad.failure?.kind).toBe('stall')
   })
 
   it('counts a repair round or a reply cut off and asked again as not first try', () => {
@@ -229,7 +229,7 @@ describe('probe criteria', () => {
       suite: mini,
       gold,
     })
-    expect(r.criteria.find((c: any) => c.id === 'rows').met).toBe(false)
+    expect(r.criteria.find((c: any) => c.id === 'rows')?.met).toBe(false)
   })
 
   it('leaves the source-support criterion out when nothing was checked', () => {
@@ -262,7 +262,7 @@ describe('probe criteria', () => {
     expect(repetitionShare(loop)).toBeGreaterThan(0.8)
     const r = scoreLongOutput({ obs: okCall, handbookMd: loop, suite: mini })
     expect(r.criteria.filter((c: any) => c.met)).toHaveLength(0)
-    expect(r.criteria.find((c: any) => c.id === 'noRepeat').met).toBe(false)
+    expect(r.criteria.find((c: any) => c.id === 'noRepeat')?.met).toBe(false)
   })
 
   it('makes one criterion per planted defect and keeps damage as a metric', () => {
@@ -548,7 +548,7 @@ describe('calls with no time cap', () => {
     expect(obs.ok).toBe(false)
     const probe = scoreFormat(obs)
     expect(probe.failure).toMatchObject({ kind: 'stall' })
-    expect(probe.failure.tail).toContain('rows')
+    expect(probe.failure?.tail).toContain('rows')
   })
 
   it('runs every probe in two repeats, setting each repeat seed first', async () => {
