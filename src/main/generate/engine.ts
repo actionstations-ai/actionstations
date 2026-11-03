@@ -58,6 +58,7 @@ import {
   type FacilityFacts,
 } from './facility'
 import { CRITIQUE, withBasis } from './critique-notes'
+import { isDeliberate, notesDeliberateContent, revisionRejection, tagGuide } from './revision-guard'
 import { COMPACT_SECTIONS, compactCritiqueVars, critiqueContextError } from './critique-compact'
 import { findIdea } from './ideas'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
@@ -958,15 +959,30 @@ async function stepSitMan(input: StepInput): Promise<StageRun> {
 }
 
 /** Phases that have at least one error-severity critique issue on an unlocked row. */
-function phasesToRevise(s: Scenario, issues: CritiqueOutput['issues']): Map<string, string[]> {
+function phasesToRevise(
+  s: Scenario,
+  issues: CritiqueOutput['issues'],
+  ctx?: JobContext,
+): Map<string, string[]> {
   const byPhase = new Map<string, string[]>()
   for (const i of issues) {
     if (i.severity !== 'error' || !i.rowId) continue
     const row = s.msel.find((r) => r.id === i.rowId)
     if (!row || row.locked) continue
+    if (notesDeliberateContent(row, `${i.message} ${i.suggestion}`)) {
+      ctx?.log(
+        `critique: note on ${row.id} ignored — it objects to deliberate ${row.purposeTag} content`,
+        'info',
+        { stage: 'critique' },
+      )
+      continue
+    }
+    const intent = isDeliberate(row.purposeTag)
+      ? ` (tag ${row.purposeTag}: its false or odd content is intentional; change only what the note names and keep every number, name and the sender)`
+      : ''
     byPhase.set(row.phaseId, [
       ...(byPhase.get(row.phaseId) ?? []),
-      `${i.rowId}: ${i.message} Fix: ${i.suggestion}`,
+      `${i.rowId}: ${i.message} Fix: ${i.suggestion}${intent}`,
     ])
   }
   return byPhase
@@ -1004,6 +1020,14 @@ async function revisePhaseRows(
     const original = byId.get(r.id.trim().toUpperCase())
     if (!original || original.locked || isPartnerRow(original, env.ownerFilter)) return []
     if (!flagged.has(original.id.toUpperCase())) return []
+    const why = revisionRejection(original, r, s.roles)
+    if (why) {
+      env.ctx.log(`critique: revision of ${original.id} rejected, original kept — ${why}`, 'warn', {
+        stage: 'critique',
+        itemId: phase.id,
+      })
+      return []
+    }
     // A revision keeps the row's id, time and tag: a DECISION_POINT must survive its rewrite,
     // and so does the plan seam it tests (#427).
     const seam = original.seamId ? seamKey(s, original.seamId) : undefined
@@ -1094,7 +1118,7 @@ export async function reviseFromCritique(
 ): Promise<Set<string>> {
   const { scenario: s, env } = input
   const rewritten = new Set<string>()
-  for (const [phaseId, notes] of phasesToRevise(s, issues)) {
+  for (const [phaseId, notes] of phasesToRevise(s, issues, env.ctx)) {
     const phase = s.phases.find((p) => p.id === phaseId)
     if (!phase) continue
     env.ctx.throwIfCancelled()
@@ -1150,6 +1174,23 @@ function dismissFalseSourceIssues(s: Scenario, issues: Issue[], ctx: JobContext)
     if (!row || roleNamedBy(row.from, s.roles)) return true
     ctx.log(
       `critique: dismissed "${i.message.slice(0, 90)}…" — row ${row.id} comes from "${row.from}", not a player role`,
+      'info',
+      { stage: 'critique' },
+    )
+    return false
+  })
+}
+
+/**
+ * A note that only objects to a PRESSURE / NOISE / RED_HERRING / MISINFORMATION row's number
+ * or identifier (the row is false on purpose) is dismissed, with a log line (#590).
+ */
+function dismissDeliberateIssues(s: Scenario, issues: Issue[], ctx: JobContext): Issue[] {
+  return issues.filter((i) => {
+    const row = i.rowId ? s.msel.find((r) => r.id === i.rowId) : undefined
+    if (!row || !notesDeliberateContent(row, `${i.message} ${i.suggestion}`)) return true
+    ctx.log(
+      `critique: dismissed "${i.message.slice(0, 90)}…" — row ${row.id} is ${row.purposeTag}, its content is intentional`,
       'info',
       { stage: 'critique' },
     )
@@ -1255,7 +1296,11 @@ function critiqueSeamVars(s: Scenario): Record<string, unknown> {
  */
 async function callCritique(input: StepInput): Promise<StageResult<CritiqueOutput>> {
   const { scenario: s, env } = input
-  const full = vars(input, { lints: lintScenario(s, env.domain), ...critiqueSeamVars(s) })
+  const full = vars(input, {
+    lints: lintScenario(s, env.domain),
+    tagGuide: tagGuide(s),
+    ...critiqueSeamVars(s),
+  })
   try {
     return await call<CritiqueOutput>(input, full)
   } catch (err) {
@@ -1282,7 +1327,11 @@ async function stepCritique(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const repaired = reportStructure(repairStructure(s), env.ctx, { stage: 'critique' })
   const r = await callCritique(input)
-  const issues = dismissFalseSourceIssues(s, r.output.issues, env.ctx)
+  const issues = dismissDeliberateIssues(
+    s,
+    dismissFalseSourceIssues(s, r.output.issues, env.ctx),
+    env.ctx,
+  )
   const rewritten = await reviseFromCritique(input, [...issues, ...structuralIssues(s, env)], r.run)
   await reviseStructureAgain(input, r.run, rewritten, repaired)
   pruneRubricLinks(s, env.ctx)
