@@ -6,6 +6,7 @@
 export {
   BenchReport,
   BenchRun,
+  MiniRun,
   benchReportJsonSchema,
   BENCH_FORMAT_VERSION,
 } from '../../src/shared/schemas/bench'

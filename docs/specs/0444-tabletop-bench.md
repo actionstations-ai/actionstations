@@ -1,10 +1,10 @@
-# Spec 0444: Tabletop Bench, a public benchmark of LLMs generating tabletop exercises
+# Spec 0444: Tabletop Benchmark, a public benchmark of LLMs generating tabletop exercises
 
 Issue: #586 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), #585 (model profiles), #584 (concurrency and triage)
 
 ## Summary
 
-Tabletop Bench publishes the benchmark of spec 0434 as a public, citable artifact: versioned and
+Tabletop Benchmark publishes the benchmark of spec 0434 as a public, citable artifact: versioned and
 hashed task sets, model-free scoring, result files from open-weight models run locally, a
 leaderboard, and a way for anyone to submit a run. It lives in three places that all read the same
 files: the public repository `actionstations-ai/tabletop-bench`, a Hugging Face dataset and
@@ -29,10 +29,9 @@ settings of #585 are done.
 
 **Name, homes and licenses**
 
-- **FR-1** The benchmark is called **Tabletop Bench**. Homes: GitHub `actionstations-ai/tabletop-bench`
-  (public), Hugging Face dataset `mdctric/tabletop-bench` and Space `mdctric/tabletop-bench-leaderboard`
-  (user `mdctric`; no Hugging Face organization exists yet, and both can be transferred to one
-  later without changing the file formats), and `actionstations.ai/tabletop-bench/`.
+- **FR-1** The benchmark is called **Tabletop Benchmark**. Homes: GitHub `actionstations-ai/tabletop-bench`
+  (public), Hugging Face dataset `actionstations/tabletop-benchmark` and Space
+  `actionstations/tabletop-benchmark-leaderboard` (organization `actionstations`), and `actionstations.ai/tabletop-bench/`.
 - **FR-2** Licenses: task sets, result files and the leaderboard data are **CC BY 4.0**. Runner and
   report code are under the app's license (PolyForm Internal Use 1.0.0 with the education
   permission), text copied from this repository. The benchmark is never described as open source.
@@ -59,7 +58,7 @@ settings of #585 are done.
 **Scoring**
 
 - **FR-7** Scoring is deterministic and model-free, exactly as spec 0434 FR-9 to FR-16. The
-  optional local judge is not part of Tabletop Bench scores.
+  optional local judge is not part of Tabletop Benchmark scores.
 - **FR-7a** Critique (#592, ADR-0070) is scored on the revised scenario
   (a planted defect the revision removed counts as found, reported as `fixed`), damage to correct
   rows is measured, and critique is **advisory**: the recommendation floor is drafting at least
@@ -187,7 +186,7 @@ tests/                     node:test tests for the tooling
   writes it to a folder (`--out`). Tests in `tests/scripts/bench-taskset.test.ts`.
 - `BenchRun.taskSetHash` (optional) written by `buildRun`.
 - The generated `docs/benchmarks/` report is unchanged and continues to serve the app's per-tier
-  recommendations; Tabletop Bench is the public, versioned view of the same runs.
+  recommendations; Tabletop Benchmark is the public, versioned view of the same runs.
 
 ### Result and verification status
 
@@ -219,8 +218,7 @@ Status is derived by `tb build` from `verification/`; run files do not change.
 
 ## Open questions
 
-1. **Organization.** The Hugging Face assets sit under `mdctric` until an organization exists;
-   moving them changes URLs only. Recommendation: create the organization before the first numbers.
+1. **Organization.** Resolved: the Hugging Face assets sit under the organization `actionstations`.
 2. **Task-set size.** The standard suite (3 corpora, 5 briefs, 6 critique cases) is small. Growth
    goes into new suite versions (`standard-v2`), never edits.
 3. **Contamination.** The task inputs and planted defects are public, so a model trained on them

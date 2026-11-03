@@ -1,0 +1,108 @@
+{
+  "suite": "mini",
+  "suiteVersion": 1,
+  "kind": "mini",
+  "description": "Tabletop Mini Benchmark: four model calls on fixed inputs from the bundled examples (format, long prompt, long output, review) plus timing, about 10 minutes for a 30B model. It screens a model; it does not replace the full Tabletop Benchmark.",
+  "repeats": 1,
+  "seeds": [11],
+  "contextLength": 32768,
+  "ideationCount": 0,
+  "callCapSeconds": 180,
+  "weights": {
+    "overall": {
+      "drafting": 0.5,
+      "critique": 0.25,
+      "ideation": 0.25
+    },
+    "drafting": {
+      "reliability": 0.25,
+      "lint": 0.2,
+      "citations": 0.2,
+      "structure": 0.35
+    },
+    "citations": {
+      "resolution": 0.3,
+      "support": 0.4,
+      "coverage": 0.3
+    },
+    "structure": {
+      "pace": 1,
+      "rolesEveryPhase": 1,
+      "briefIds": 1,
+      "noReferenceLeak": 2
+    },
+    "ideation": {
+      "valid": 0.25,
+      "distinct": 0.2,
+      "resolution": 0.2,
+      "spread": 0.15,
+      "grounding": 0.2
+    },
+    "critique": {
+      "recall": 0.65,
+      "noise": 0.1,
+      "intact": 0.25
+    },
+    "mini": {
+      "format": 0.1,
+      "longContext": 0.35,
+      "longOutput": 0.2,
+      "review": 0.35
+    },
+    "longContext": {
+      "lint": 0.3,
+      "citations": 0.3,
+      "structure": 0.4
+    },
+    "longOutput": {
+      "sections": 0.5,
+      "variety": 0.5
+    }
+  },
+  "thresholds": {
+    "lintCap": 20,
+    "paceBand": [0.5, 2],
+    "distinctCosine": 0.85,
+    "noisePenaltyPer10Rows": 20,
+    "damagePenaltyPerPercent": 2,
+    "criticDamageWarn": 10,
+    "unstableRange": 15,
+    "floorTaskScore": 50,
+    "floorDraftingReliability": 0.9,
+    "workScore": 60,
+    "riskyScore": 45,
+    "slowTokensPerSecond": 15,
+    "slowLongPromptSeconds": 150,
+    "handbookMinSections": 5,
+    "repetitionWarn": 0.25,
+    "reviewRecallWarn": 30,
+    "repairWarn": 1
+  },
+  "probes": {
+    "format": {
+      "example": "city-water",
+      "scenario": "chem",
+      "stage": "scenario_overview"
+    },
+    "longContext": {
+      "example": "chemical-rmp",
+      "scenario": "rail-spot-release",
+      "stage": "msel_phase",
+      "phaseIndex": 3
+    },
+    "longOutput": {
+      "example": "city-water",
+      "scenario": "chem",
+      "stage": "controller_handbook"
+    }
+  },
+  "ideation": [],
+  "drafting": [],
+  "critique": [
+    {
+      "id": "county-911-storm-tdos",
+      "example": "county-911",
+      "defects": "county-911-storm-tdos"
+    }
+  ]
+}

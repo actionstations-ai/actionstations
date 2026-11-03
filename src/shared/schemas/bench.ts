@@ -193,3 +193,48 @@ export type BenchReport = z.infer<typeof BenchReport>
 export function benchReportJsonSchema(): Record<string, unknown> {
   return z.toJSONSchema(BenchReport, { io: 'output' }) as Record<string, unknown>
 }
+
+// ---- Tabletop Mini Benchmark (#604, docs/specs/0445-tabletop-mini-benchmark.md) --------------
+
+export const MiniProbe = z.object({
+  /** False when the call failed, was cut off or hit the per-call time cap. */
+  ok: z.boolean(),
+  score: z.number().min(0).max(100),
+  seconds: z.number().nonnegative().optional(),
+  inputTokens: z.number().int().nonnegative().optional(),
+  outputTokens: z.number().int().nonnegative().optional(),
+  /** Sub-scores and raw measures (lint, citations, recall, damage, repetition…). */
+  metrics: z.record(z.string(), z.number()),
+  reason: z.string().max(400).optional(),
+})
+export type MiniProbe = z.infer<typeof MiniProbe>
+
+export const MINI_LEVELS = ['will_work', 'risky', 'wont_work'] as const
+
+export const MiniRun = z.object({
+  formatVersion: z.literal(BENCH_FORMAT_VERSION),
+  kind: z.literal('mini'),
+  suite: z.literal('mini'),
+  suiteVersion: z.number().int().positive(),
+  scoringVersion: z.number().int().positive(),
+  appVersion: z.string().max(40),
+  appCommit: z.string().max(60),
+  promptHashes: z.record(z.string(), z.string()),
+  corpusHashes: z.record(z.string(), z.string()),
+  taskSetHash: z.string().regex(/^[0-9a-f]{64}$/),
+  embedder: z.string().max(100),
+  model: BenchModel,
+  hardware: BenchHardware,
+  startedAt: IsoDateTime,
+  callCapSeconds: z.number().int().positive(),
+  probes: z.record(z.string(), MiniProbe),
+  speed: z.object({
+    outputTokensPerSecond: z.number().nonnegative().optional(),
+    longPromptTokens: z.number().int().nonnegative().optional(),
+    longPromptSeconds: z.number().nonnegative().optional(),
+    totalSeconds: z.number().nonnegative(),
+  }),
+  score: z.number().min(0).max(100),
+  verdict: z.object({ level: z.enum(MINI_LEVELS), reasons: z.array(z.string().max(400)) }),
+})
+export type MiniRun = z.infer<typeof MiniRun>

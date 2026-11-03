@@ -137,13 +137,48 @@ setup recommendations in the app are updated by hand from this report.
 `pnpm e2e` includes `e2e/bench-smoke.spec.ts`, which runs the quick suite against the app's
 in-process mock provider (about a minute) and validates the run file. It needs no model.
 
-## Tabletop Bench (public view)
+## Tabletop Benchmark (public view)
 
-The same runs feed Tabletop Bench, the public benchmark at
+The same runs feed Tabletop Benchmark, the public benchmark at
 https://github.com/actionstations-ai/tabletop-bench (spec 0444). `pnpm bench:export` prints the
 hash of each suite's task set and, with `--out <dir>`, writes the task-set files; every run file
 records that hash as `taskSetHash`. To submit a run there, use that repository's `tb run` and
 `tb add`; it checks the hash against the checkout you run from.
+
+## Tabletop Mini Benchmark (a few minutes per model)
+
+The Mini answers "will this model work for tabletop generation?" with four model calls on fixed
+inputs from the bundled examples, then a verdict: **will work**, **risky** or **won't work**, with
+the reasons and the numbers (spec 0445).
+
+| Probe       | Call                                                                | What decides it                                                             |
+| ----------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Format      | scenario overview (city-water)                                      | valid structured answer, repair rounds                                      |
+| Long prompt | MSEL phase 4 of the chemical-rmp scenario, a 20 to 30K-token prompt | lint, citations, structure of that phase; a cut-off fails it                |
+| Long output | controller handbook (city-water)                                    | finishes without a length cut-off, has its sections, does not repeat itself |
+| Review      | critique of the county-911 scenario with planted defects            | recall, fixed, damage to correct rows (the full benchmark's scorer)         |
+| Speed       | the calls above                                                     | output tokens per second, time for the long prompt                          |
+
+A call that runs longer than 180 seconds is cancelled and counts as a failure of that probe
+(`--cap <seconds>` changes it). A failed format, long-prompt or long-output call means
+_won't work_; a review that damages 10% or more of correct rows, a looping handbook, repair
+rounds, slow output or a low score mean _risky_.
+
+```
+pnpm build:app
+pnpm bench:mini -- --models lmstudio:qwen/qwen3.5-9b,lmstudio:google/gemma-3-12b
+```
+
+A list of models runs one after the other. For LM Studio models the runner loads each one at
+32,768 tokens (`lms load`), runs the Mini and unloads it; pass `--no-load` if you load models
+yourself and `--stop-server` to stop the LM Studio server at the end. Ollama models are used as
+loaded. `pnpm bench -- --suite mini …` is the same command. One run file per model is written to
+`--out` (default `.tmp/bench-mini`). `--held-out` adds the maintainers' held-out review case.
+
+`pnpm bench:export -- --suite mini` prints the Mini task set's hash; run files record it as
+`taskSetHash`. `pnpm bench:mini:replay <run-dir>…` computes the Mini probes from the saved work
+folders of full runs without any model call; that is how the Mini was checked against the
+2026-11-03 runs (spec 0445).
 
 ## Re-scoring saved runs
 

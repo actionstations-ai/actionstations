@@ -1,4 +1,4 @@
-# ADR-0069: Tabletop Bench keeps scoring in the app repository and publishes hashed task sets
+# ADR-0069: Tabletop Benchmark keeps scoring in the app repository and publishes hashed task sets
 
 ## Context
 
@@ -10,8 +10,8 @@ the cases drive the built app. GitHub and services must cost nothing (ADR-0023).
 
 ## Decision
 
-- The benchmark is named **Tabletop Bench**. Public repo `actionstations-ai/tabletop-bench`;
-  Hugging Face dataset and Space under the user `mdctric` (movable to an organization later); a
+- The benchmark is named **Tabletop Benchmark**. Public repo `actionstations-ai/tabletop-bench`;
+  Hugging Face dataset and Space under the organization `actionstations` (`tabletop-benchmark`, `tabletop-benchmark-leaderboard`); a
   page on actionstations.ai.
 - **Scoring and runner stay in this repository.** The public repository holds the exported task
   sets (`pnpm bench:export`), results, verification records, methods, and tooling that aggregates
