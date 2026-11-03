@@ -14,7 +14,7 @@ import { mean, median, round1, weighted } from './util.mjs'
  * 2: critique scores the revised scenario (a fixed defect counts as found), measures damage to
  * correct rows, and is advisory: the recommendation floor uses drafting and ideation (#592).
  */
-export const SCORING_VERSION = 2
+export const SCORING_VERSION = 1
 
 /** One drafted scenario: reliability, lint, citations and structure. */
 export function draftingCase({ scenario, lints, gold, suite, grounding }) {
