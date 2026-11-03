@@ -62,7 +62,17 @@
                 "propertyNames": { "type": "string" },
                 "additionalProperties": { "type": "number" }
               },
-              "draftingReliability": { "type": "number", "minimum": 0, "maximum": 1 }
+              "draftingReliability": { "type": "number", "minimum": 0, "maximum": 1 },
+              "critique": {
+                "type": "object",
+                "properties": {
+                  "recall": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "fixed": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "damage": { "type": "number", "minimum": 0, "maximum": 100 }
+                },
+                "required": ["recall", "fixed", "damage"],
+                "additionalProperties": false
+              }
             },
             "required": ["overall", "tasks", "draftingReliability"],
             "additionalProperties": false

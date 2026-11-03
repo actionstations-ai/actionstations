@@ -1,0 +1,92 @@
+{
+  "case": "held-out-uas-operations",
+  "example": "uas-operations",
+  "scenario": "c2-hijack",
+  "defects": [
+    {
+      "id": "uas-order",
+      "kind": "time_order",
+      "row": "I-23",
+      "set": {
+        "time": "1:10"
+      },
+      "words": [
+        "out of order",
+        "out of sequence",
+        "chronolog",
+        "timeline",
+        "out of phase",
+        "earlier than",
+        "later than",
+        "comes before",
+        "listed after",
+        "precedes"
+      ]
+    },
+    {
+      "id": "uas-duplicate",
+      "kind": "duplicate_row",
+      "row": "I-12",
+      "copyId": "I-12c",
+      "words": ["duplicate", "repeat", "same as", "twice", "identical", "again"]
+    },
+    {
+      "id": "uas-facility",
+      "kind": "unknown_facility_id",
+      "row": "I-13",
+      "replace": [
+        {
+          "field": "event",
+          "find": "GCS-01",
+          "with": "GCS-07"
+        }
+      ],
+      "words": [
+        "gcs-07",
+        "identifier",
+        "unknown",
+        "not in the",
+        "does not exist",
+        "no such",
+        "not listed"
+      ]
+    },
+    {
+      "id": "uas-outside",
+      "kind": "outside_agency_decides",
+      "row": "I-20",
+      "set": {
+        "expectedAction": "The FAA FSDO decides whether UAS-11 switches to manual/attitude mode and orders the landing; the Incident Commander waits for the inspector instruction."
+      },
+      "words": [
+        "outside",
+        "agency",
+        "decid",
+        "authority",
+        "own decision",
+        "waits for",
+        "takes over"
+      ]
+    },
+    {
+      "id": "uas-restoration",
+      "kind": "fast_restoration",
+      "row": "I-24b",
+      "set": {
+        "event": "Email Forward: From Managed SOC to the Systems & Cybersecurity Lead: GCS-02 was re-imaged from the baseline, verified and returned to service at 12:10, ten minutes after it was quarantined. All ground stations are cleared to fly."
+      },
+      "words": [
+        "fast",
+        "quick",
+        "unrealistic",
+        "implausib",
+        "too soon",
+        "minutes",
+        "rapid",
+        "premature",
+        "returned to automatic",
+        "not yet verified"
+      ]
+    }
+  ]
+}

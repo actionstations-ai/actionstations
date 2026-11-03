@@ -1,0 +1,89 @@
+{
+  "case": "held-out-chemical-rmp",
+  "example": "chemical-rmp",
+  "scenario": "rail-spot-release",
+  "defects": [
+    {
+      "id": "rmp-order",
+      "kind": "time_order",
+      "row": "I-22",
+      "set": {
+        "time": "0:40"
+      },
+      "words": [
+        "out of order",
+        "out of sequence",
+        "chronolog",
+        "timeline",
+        "out of phase",
+        "earlier than",
+        "later than",
+        "comes before",
+        "listed after",
+        "precedes"
+      ]
+    },
+    {
+      "id": "rmp-player",
+      "kind": "player_inject",
+      "row": "I-13",
+      "set": {
+        "from": "Incident Commander"
+      },
+      "words": ["player", "role", "sender", "simcell", "should come from", "incident commander"]
+    },
+    {
+      "id": "rmp-facility",
+      "kind": "unknown_facility_id",
+      "row": "I-01",
+      "replace": [
+        {
+          "field": "event",
+          "find": "ESD-310",
+          "with": "ESD-390"
+        }
+      ],
+      "words": [
+        "esd-390",
+        "identifier",
+        "unknown",
+        "not in the",
+        "does not exist",
+        "no such",
+        "not listed"
+      ]
+    },
+    {
+      "id": "rmp-restoration",
+      "kind": "fast_restoration",
+      "row": "I-25",
+      "set": {
+        "event": "Face-to-Face: 'All hands, Incident Commander Hughes. Ridgeline reloaded the SIS logic and validated it in ten minutes. SIF-650 and ESD-310 are tested and back in service, and Unit 300 can restart now.'"
+      },
+      "words": [
+        "fast",
+        "quick",
+        "unrealistic",
+        "implausib",
+        "too soon",
+        "minutes",
+        "rapid",
+        "premature",
+        "returned to automatic",
+        "not yet verified"
+      ]
+    },
+    {
+      "id": "rmp-decision",
+      "kind": "missing_decision_point",
+      "words": [
+        "decision point",
+        "no decision",
+        "missing decision",
+        "lacks a decision",
+        "without a decision",
+        "no choice"
+      ]
+    }
+  ]
+}

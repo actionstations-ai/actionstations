@@ -1,6 +1,6 @@
 # Spec 0434: Benchmark local models on Action Stations tasks
 
-Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 1 with grounding support; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
+Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 2: critique scored on the revision and advisory, #592; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
 
 ## Summary
 
@@ -102,7 +102,18 @@ no cloud judge, no GitHub Actions.
 - **FR-14** **Critique**: recall of planted defects (a note matches when its `rowId` is the
   defect's row, or a row adjacent for order defects, and its text contains one of the defect's
   words), plus noise: notes on rows with no planted defect and no lint finding, per 10 rows,
-  reported but weighted lightly because some may be valid.
+  reported but weighted lightly because some may be valid. From scoring version 2 (#592) the
+  revised scenario is scored too: a planted defect is **found** when a note names it or the
+  revision no longer has it (**fixed**, checked per defect kind by `isFixed` in `defects.mjs`:
+  the row or the copy is gone, the edited field no longer holds the planted value, a decision
+  point is back); recall counts both and `fixed` is reported apart. **Damage** is the weighted
+  share of rows outside the planted defects that the revision removed, gave a different sender,
+  or rewrote past 60% word overlap in event or expected action (pressure, misinformation, clue
+  and red-herring rows weigh three times the others); the critique score takes it as an
+  `intact` part. Weights: recall 0.65, noise 0.1, intact 0.25 (`damagePenaltyPerPercent` 2 in
+  the suite file). `pnpm bench:rescore <run-dir>` scores saved runs again from their work
+  folders, with no model call. Cases the standard suite does not use are kept in
+  `bench/suites/held-out.json` and left out of the exported task set.
 - **FR-15** **Speed and footprint**: wall time per task, output tokens per second from `StageRun`
   usage, prompt tokens of the largest request, model size on disk and quantization (from Ollama
   `/api/show` or LM Studio `/api/v0/models`), context length configured.
@@ -131,8 +142,10 @@ no cloud judge, no GitHub Actions.
   `TEXT_TIERS` in `src/main/setup/models.ts` (memory budget below 10 GB, 10–24, 24–72, 72 GB and
   up, budget as computed by `hardwareView` in `src/main/setup/hardware.ts`), the model with the
   highest median overall score whose size on disk plus a KV-cache estimate for the context used
-  fits the tier's budget, provided it passes the floor: no task below 50, drafting reliability
-  ≥ 90%, and not flagged unstable. A tier with no model above the floor says so. The report lists
+  fits the tier's budget, provided it passes the floor: drafting and ideation each at least 50,
+  drafting reliability ≥ 90%, and not flagged unstable. **Critique is advisory** (#592,
+  ADR-0070): it is left out of the floor, and the report shows critique recall, fixed and damage
+  next to it, with a plain warning when recall is under 50 or damage is over 10%. A tier with no model above the floor says so. The report lists
   which runs (hardware, date) back each recommendation.
 - **FR-21** The website consumes `docs/benchmarks/model-benchmarks.json` only. The site repository
   copies it into `src/data/model-benchmarks.json` with a script beside its existing
@@ -435,3 +448,10 @@ Where the code differs from the text above, and why:
   figure is used for every task. `--triage` is the standard suite at one repeat and prints
   pass or miss against the floor; the report ignores triage runs. After repeat 2 of a three-repeat run, a run stops when both repeats missed the floor on the same criterion (a task under 50, or drafting reliability under 90%): the median of three is then below the floor whatever repeat 3 scores, so the stop never changes the outcome. The reason is recorded in `stoppedEarly`. Nothing stops after repeat 1, because one repeat cannot decide a median. `--concurrency` does not change
   it. Per-case `wallSeconds` is measured under load when concurrency is above 1.
+- **Critique scoring (#592, scoring version 2)**: the critique case now keeps the rows before the
+  critique (the planted scenario) and after its revision, and scores both. A saved run re-scored
+  with `pnpm bench:rescore` showed what version 1 hid: defects the revision removed counted as
+  missed, and revisions that rewrote correct rows (including pressure rows with a deliberate
+  false number) cost nothing. `median.critique` (recall, fixed, damage) is added to run files
+  and the report; the floor, early stop and triage line use drafting and ideation only. Older
+  runs are archived by the scoring version, as before.

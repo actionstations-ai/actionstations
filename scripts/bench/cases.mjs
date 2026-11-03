@@ -187,6 +187,8 @@ export async function runCritique(ctx, c) {
     lints,
     rowCount: scenario.msel.length,
     suite: ctx.suite,
+    before: scenario.msel,
+    after: after.msel,
   })
   const runs = after.provenance.filter((r) => r.stage === 'critique')
   return {

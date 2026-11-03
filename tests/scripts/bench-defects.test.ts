@@ -1,5 +1,5 @@
 // scripts/bench/defects.mjs: planted defects for the critique task of the benchmark (#434).
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
@@ -160,5 +160,49 @@ describe('the shipped defect files', () => {
         .critique.map((c) => c.defects)
         .sort(),
     ).toEqual([...files].sort())
+  })
+})
+
+describe('the held-out critique cases', () => {
+  const held = loadSuite('held-out').critique
+  const minutes = (t: string) => {
+    const [h = 0, m = 0] = t.split(':').map(Number)
+    return h * 60 + m
+  }
+
+  it.each(held.map((c) => [c.id, c] as const))('%s applies cleanly', (_id, c) => {
+    const file = loadDefects(c.defects!)
+    const { planted } = applyDefects(shippedScenario(loadExample(c.example), file.scenario!), file)
+    expect(planted.length).toBe(file.defects.length)
+  })
+
+  it('are not in the published suites, and use examples the standard suite does not', () => {
+    const published = [...loadSuite('standard').critique, ...loadSuite('quick').critique]
+    expect(held.some((c) => published.some((p) => p.defects === c.defects))).toBe(false)
+    const standard = loadSuite('standard')
+    const used = new Set(
+      [...standard.drafting, ...standard.ideation, ...standard.critique].map((x) => x.example),
+    )
+    expect(held.filter((c) => used.has(c.example))).toEqual([])
+  })
+
+  it('plant an identifier the facility facts do not have, and a time that breaks the order', () => {
+    for (const c of held) {
+      const file = loadDefects(c.defects!)
+      const example = loadExample(c.example)
+      const source = shippedScenario(example, file.scenario!)
+      const facts = readFileSync(join(example.dir, 'project', 'facility-facts.md'), 'utf8')
+      for (const d of file.defects) {
+        for (const r of d.replace ?? []) expect(facts).not.toContain(r.with)
+        if (d.kind !== 'time_order') continue
+        const i = source.msel.findIndex((r) => r.id === d.row)
+        const next = source.msel[i + 1]?.time
+        const moved = minutes(d.set!.time!)
+        expect(
+          moved < minutes(source.msel[i - 1]!.time) ||
+            (next !== undefined && moved > minutes(next)),
+        ).toBe(true)
+      }
+    }
   })
 })

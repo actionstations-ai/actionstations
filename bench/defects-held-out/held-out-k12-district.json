@@ -1,0 +1,84 @@
+{
+  "case": "held-out-k12-district",
+  "example": "k12-district",
+  "scenario": "testing-week-extortion",
+  "defects": [
+    {
+      "id": "k12-order",
+      "kind": "time_order",
+      "row": "I-12",
+      "set": {
+        "time": "0:50"
+      },
+      "words": [
+        "out of order",
+        "out of sequence",
+        "chronolog",
+        "timeline",
+        "out of phase",
+        "earlier than",
+        "later than",
+        "comes before",
+        "listed after",
+        "precedes"
+      ]
+    },
+    {
+      "id": "k12-duplicate",
+      "kind": "duplicate_row",
+      "row": "I-14",
+      "copyId": "I-14c",
+      "words": ["duplicate", "repeat", "same as", "twice", "identical", "again"]
+    },
+    {
+      "id": "k12-facility",
+      "kind": "unknown_facility_id",
+      "row": "I-01",
+      "replace": [
+        {
+          "field": "event",
+          "find": "HUSD-FS02",
+          "with": "HUSD-FS09"
+        }
+      ],
+      "words": [
+        "husd-fs09",
+        "identifier",
+        "unknown",
+        "not in the",
+        "does not exist",
+        "no such",
+        "not listed"
+      ]
+    },
+    {
+      "id": "k12-outside",
+      "kind": "outside_agency_decides",
+      "row": "I-19",
+      "set": {
+        "expectedAction": "CISA decides which systems the district takes offline and when they may be reconnected; the CTO waits for CISA's direction before acting."
+      },
+      "words": [
+        "outside",
+        "agency",
+        "decid",
+        "authority",
+        "own decision",
+        "waits for",
+        "takes over"
+      ]
+    },
+    {
+      "id": "k12-decision",
+      "kind": "missing_decision_point",
+      "words": [
+        "decision point",
+        "no decision",
+        "missing decision",
+        "lacks a decision",
+        "without a decision",
+        "no choice"
+      ]
+    }
+  ]
+}

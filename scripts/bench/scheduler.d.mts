@@ -6,6 +6,7 @@ export function runPool<T>(
   fn: (item: T, worker: number) => Promise<void>,
 ): Promise<void>
 export function workerCount(concurrency: number, pending: number): number
+export const FLOOR_TASKS: string[]
 export function floorMisses(tasks: Scored[], reliability: number, thresholds: Thresholds): string[]
 export function earlyStopReason(
   done: { tasks: Scored[]; reliability: number }[],

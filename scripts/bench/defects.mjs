@@ -60,6 +60,13 @@ function dropDecisionPoints(msel) {
   return touched
 }
 
+/** What the defective row holds after the edit, so a later scenario can be checked against it. */
+function fieldChecks(row, defect) {
+  const set = Object.keys(defect.set ?? {}).map((field) => ({ field, planted: row[field] }))
+  const replaced = (defect.replace ?? []).map((r) => ({ field: r.field, contains: r.with }))
+  return [...set, ...replaced]
+}
+
 /** Apply one defect to `msel` in place; returns the rows a note may cite. */
 function applyOne(msel, defect) {
   if (!DEFECT_KINDS.includes(defect.kind))
@@ -67,21 +74,27 @@ function applyOne(msel, defect) {
   if (defect.kind === 'missing_decision_point') {
     const rows = dropDecisionPoints(msel)
     if (!rows.length) throw new Error(`defect ${defect.id}: the scenario has no decision point`)
-    return { rows, anyRow: true }
+    return { rows, anyRow: true, probe: { type: 'decision_point' } }
   }
   const i = rowIndex(msel, defect.row, defect)
   if (defect.kind === 'duplicate_row') {
     if (!defect.copyId || msel.some((r) => r.id === defect.copyId))
       throw new Error(`defect ${defect.id}: copyId must be a new row id`)
     msel.splice(i + 1, 0, { ...structuredClone(msel[i]), id: defect.copyId })
-    return { rows: [defect.row, defect.copyId], anyRow: false }
+    const copy = msel[i + 1]
+    return {
+      rows: [defect.row, defect.copyId],
+      anyRow: false,
+      probe: { type: 'duplicate', row: defect.row, copyId: defect.copyId, event: copy.event },
+    }
   }
   editRow(msel[i], defect)
+  const probe = { type: 'fields', row: defect.row, checks: fieldChecks(msel[i], defect) }
   if (defect.kind === 'time_order') {
     const near = [msel[i - 1]?.id, defect.row, msel[i + 1]?.id].filter(Boolean)
-    return { rows: near, anyRow: false }
+    return { rows: near, anyRow: false, probe }
   }
-  return { rows: [defect.row], anyRow: false }
+  return { rows: [defect.row], anyRow: false, probe }
 }
 
 /**
@@ -107,4 +120,59 @@ export function noteMatches(note, d) {
   if (!onRow) return false
   const text = noteText(note)
   return d.words.some((w) => text.includes(w.toLowerCase()))
+}
+
+const words = (text) =>
+  new Set(
+    String(text ?? '')
+      .toLowerCase()
+      .match(/[a-z0-9]{2,}/g) ?? [],
+  )
+
+/** Share of words two texts have in common (Jaccard, 0 to 1); two empty texts are identical. */
+export function similarity(a, b) {
+  const x = words(a)
+  const y = words(b)
+  if (!x.size && !y.size) return 1
+  let both = 0
+  for (const w of x) if (y.has(w)) both++
+  return both / (x.size + y.size - both)
+}
+
+/** Share of the shorter text's words that the other has (1 when one text contains the other). */
+export function overlap(a, b) {
+  const x = words(a)
+  const y = words(b)
+  if (!x.size && !y.size) return 1
+  let both = 0
+  for (const w of x) if (y.has(w)) both++
+  return both / Math.min(x.size, y.size || 1)
+}
+
+/** Free-text fields count as changed once less than this share of the words is shared. */
+export const SAME_TEXT = 0.9
+
+const TEXT_FIELDS = new Set(['event', 'expectedAction', 'toLabel'])
+
+function fieldFixed(row, check) {
+  if (check.contains !== undefined) return !String(row[check.field] ?? '').includes(check.contains)
+  if (TEXT_FIELDS.has(check.field)) return similarity(row[check.field], check.planted) < SAME_TEXT
+  return row[check.field] !== check.planted
+}
+
+/**
+ * Is planted defect `d` gone from `msel` (the revised rows)? A defect is fixed when its row was
+ * removed, its edited field no longer holds the planted value (free text: no longer nearly the
+ * same words), the copy of a duplicated row is gone or rewritten, or a decision point is back.
+ */
+export function isFixed(d, msel) {
+  const p = d.probe
+  if (!p) return false
+  if (p.type === 'decision_point') return msel.some((r) => r.purposeTag === 'DECISION_POINT')
+  if (p.type === 'duplicate') {
+    const copy = msel.find((r) => r.id === p.copyId)
+    return !copy || !msel.some((r) => r.id === p.row) || similarity(copy.event, p.event) < SAME_TEXT
+  }
+  const row = msel.find((r) => r.id === p.row)
+  return !row || p.checks.some((c) => fieldFixed(row, c))
 }

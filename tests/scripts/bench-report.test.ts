@@ -14,6 +14,7 @@ import {
   loadRuns,
   md,
   readmeTables,
+  criticWarning,
   recommend,
   mergeRuns,
   spliceReadme,
@@ -106,10 +107,11 @@ describe('recommend', () => {
     ])
   })
 
-  it('skips models below the floor: a task under 50, drafting reliability under 90% or unstable', () => {
+  it('skips models below the floor: drafting or ideation under 50, drafting reliability under 90% or unstable', () => {
     const recs = recommend(
       entries([
-        run({ ref: 'ollama:weak-critic', sizeGb: 3, overall: 90, tasks: { critique: 40 } }),
+        run({ ref: 'ollama:weak-drafter', sizeGb: 3, overall: 90, tasks: { drafting: 40 } }),
+        run({ ref: 'ollama:no-ideas', sizeGb: 3, overall: 88, tasks: { ideation: 40 } }),
         run({ ref: 'ollama:flaky', sizeGb: 3, overall: 85, reliability: 0.8 }),
         run({ ref: 'ollama:unstable', sizeGb: 3, overall: 80, unstable: true }),
         run({ ref: 'ollama:steady', sizeGb: 3, overall: 55 }),
@@ -118,6 +120,27 @@ describe('recommend', () => {
       suite.thresholds,
     )
     expect(recs[0]!.model).toBe('ollama:steady')
+  })
+
+  it('does not refuse a model for weak critique, but says what its critique does', () => {
+    const critic = run({
+      ref: 'ollama:weak-critic',
+      sizeGb: 3,
+      overall: 90,
+      tasks: { critique: 30 },
+    })
+    critic.median.critique = { recall: 25, fixed: 10, damage: 40 }
+    const recs = recommend(entries([critic]), TIERS, suite.thresholds)
+    expect(recs[0]!.model).toBe('ollama:weak-critic')
+    expect(recs[0]!.reason).toMatch(
+      /Critique is advisory: it finds 25% of planted defects and its revision changes 40% of correct rows/,
+    )
+  })
+
+  it('adds no critique warning for a sound critic', () => {
+    const sound = run({ ref: 'ollama:sound', sizeGb: 3, overall: 90, tasks: { critique: 80 } })
+    sound.median.critique = { recall: 80, fixed: 40, damage: 2 }
+    expect(criticWarning(entries([sound])[0]!, suite.thresholds)).toBe('')
   })
 
   it('says so when no model in a tier passes the floor or none fits', () => {
@@ -218,7 +241,7 @@ describe('the README table', () => {
     const text = readmeTables(report)
     expect(text).toContain('| Memory for models | Recommended model | Why |')
     expect(text).toContain(
-      '| mid | ollama | Q4\\_K\\_M | 6.6 GB | 72 (70–74) | 72 | 72 | 72 | 1 | 1 | stable |',
+      '| mid | ollama | Q4\\_K\\_M | 6.6 GB | 72 (70–74) | 72 | 72 | 72 | n/a | 1 | 1 | stable |',
     )
   })
 

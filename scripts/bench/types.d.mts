@@ -84,6 +84,8 @@ export interface Suite {
     paceBand: [number, number]
     distinctCosine: number
     noisePenaltyPer10Rows: number
+    damagePenaltyPerPercent: number
+    criticDamageWarn: number
     unstableRange: number
     floorTaskScore: number
     floorDraftingReliability: number

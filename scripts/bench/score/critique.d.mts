@@ -8,11 +8,21 @@ export function critiqueScore(input: {
   lints: Partial<WarningLike>[]
   rowCount: number
   noisePenalty: number
+  before?: { id: string }[]
+  after?: { id: string }[]
+  damagePenalty?: number
 }): {
   recall: number
+  noted: number
+  fixed: number
+  damage: number
+  intact: number
   noise: number
   noisePer10Rows: number
   notes: number
   found: string[]
+  notedIds: string[]
+  fixedIds: string[]
+  damaged: { id: string; tag?: string; fields: string[] }[]
   missed: string[]
 }

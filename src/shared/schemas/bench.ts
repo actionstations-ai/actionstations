@@ -79,6 +79,17 @@ export const BenchMedian = z.object({
   tasks: z.record(z.string(), z.number()),
   /** Median share (0–1) of drafting pipeline stages that succeeded; the floor needs ≥ 0.9. */
   draftingReliability: z.number().min(0).max(1),
+  /**
+   * Critique is advisory (scoring version 2): median % of planted defects found (noted or fixed
+   * by the revision), % fixed by the revision, and % of correct rows the revision damaged.
+   */
+  critique: z
+    .object({
+      recall: z.number().min(0).max(100),
+      fixed: z.number().min(0).max(100),
+      damage: z.number().min(0).max(100),
+    })
+    .optional(),
 })
 export type BenchMedian = z.infer<typeof BenchMedian>
 
@@ -90,7 +101,7 @@ export const BenchRun = z.object({
   formatVersion: z.literal(BENCH_FORMAT_VERSION),
   suite: z.string().min(1).max(40),
   suiteVersion: z.number().int().positive(),
-  /** Bumped when a scorer changes; 1 includes grounding support (#423). */
+  /** Bumped when a scorer changes; 1 includes grounding support (#423), 2 scores the revised critique (#592). */
   scoringVersion: z.number().int().positive(),
   appVersion: z.string().max(40),
   appCommit: z.string().max(60),

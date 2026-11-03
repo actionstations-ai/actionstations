@@ -22,9 +22,15 @@ export interface Planted {
   words: string[]
   rows: string[]
   anyRow: boolean
+  /** What to look for in the revised rows to tell whether the defect is gone (isFixed). */
+  probe?: unknown
 }
 export function applyDefects<S extends ScenarioLike>(
   scenario: S,
   file: DefectsFile,
 ): { scenario: S; planted: Planted[] }
 export function noteMatches(note: Partial<WarningLike>, defect: Planted): boolean
+export function similarity(a: unknown, b: unknown): number
+export const SAME_TEXT: number
+export function isFixed(defect: Planted, msel: { id: string; purposeTag?: string }[]): boolean
+export function overlap(a: unknown, b: unknown): number

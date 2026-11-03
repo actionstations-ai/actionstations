@@ -20,6 +20,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Changed
 
+- Benchmark critique scoring (scoring version 2, #592, ADR-0070): a planted defect counts as found when a note names it or the revision removed it, damage to correct rows (pressure, misinformation and clue rows weigh triple) is scored, and critique is advisory: the recommendation floor uses drafting, drafting reliability and ideation, and the report shows critique recall, fixed and damage with a warning. `pnpm bench:rescore <run-dir>` scores saved runs again without a model. Four held-out critique cases are kept out of the exported task set. Runs at scoring version 1 are archived.
 - Benchmark: the local judge measured at weighted kappa 0.039 against the 60 reference rows (old sampling settings), below the 0.6 bar, so its scores stay unpublished (#503).
 - The model benchmark runs cases in parallel (`--concurrency N`, default 1, one app instance per worker), has a `--triage` screen (standard suite, one repeat, pass or miss against the floor) and stops a three-repeat run after repeat 2 when both repeats miss the floor on the same criterion (the median can no longer reach it), recording why. Output tokens per second come from a separate single-request pass. Scores are unchanged (#584).
 - Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).

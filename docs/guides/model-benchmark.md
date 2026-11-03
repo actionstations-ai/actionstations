@@ -16,8 +16,9 @@ Three tasks, on the fictional example projects that ship with the app (`examples
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Ideation | Proposes six scenario ideas from an example's plans                                                                                                                                           | Valid ideas, no near-duplicates, cited sections that resolve, spread of threat families, the source check on why each idea teaches                                                     |
 | Drafting | Writes a scenario from a fixed brief: overview, roles, phases, every MSEL phase, the documents and the review pass (no injects or media)                                                      | Stages that succeed, the app's own lint checks, citations (resolved, coverage, and rows the source check labels grounded), a structure rubric drawn from the Scenario 3 reference MSEL |
-| Critique | Reviews a hand-corrected example scenario with planted defects (an out-of-order row, a duplicate, a missing decision point, an unknown facility identifier, an implausibly fast restoration…) | Share of planted defects a note finds, minus notes on rows with nothing wrong                                                                                                          |
+| Critique | Reviews a hand-corrected example scenario with planted defects (an out-of-order row, a duplicate, a missing decision point, an unknown facility identifier, an implausibly fast restoration…) | Share of planted defects a note names or the revision removed, minus notes on rows with nothing wrong, minus damage to correct rows the revision rewrote or dropped                    |
 
+Critique is advisory: it is reported next to the floor but does not decide it (see below).
 Every score is 0 to 100 and computed without a model. The overall score weights drafting 0.5,
 critique 0.25 and ideation 0.25. The cases, weights and thresholds are in
 `bench/suites/quick.json` and `bench/suites/standard.json`; the planted defects are in
@@ -123,8 +124,11 @@ ranked with the current ones. Changing a case, weight or threshold in a suite fi
 
 For each memory tier of the setup screen (under 10 GB, 10–24 GB, 24–72 GB, 72 GB and up), the
 report recommends the model with the highest median overall score that fits the smallest
-machine in the tier and passes the floor: every task at least 50, drafting reliability at least
-90%, and stable. "Fits" is the size on disk plus an estimate of the context cache (a tenth of
+machine in the tier and passes the floor: drafting and ideation at least 50, drafting reliability
+at least 90%, and stable. Critique is not part of the floor. The report shows its recall, the share
+the revision fixed and the share of correct rows it damaged, and warns when recall is under 50 or
+damage is over 10%: such a model can still draft well, but review the critique notes and the
+revised rows before trusting them. "Fits" is the size on disk plus an estimate of the context cache (a tenth of
 the weights at 32K); the lowest tier assumes 5.5 GB. A tier with no such model says so. The
 setup recommendations in the app are updated by hand from this report.
 
@@ -140,3 +144,11 @@ https://github.com/actionstations-ai/tabletop-bench (spec 0444). `pnpm bench:exp
 hash of each suite's task set and, with `--out <dir>`, writes the task-set files; every run file
 records that hash as `taskSetHash`. To submit a run there, use that repository's `tb run` and
 `tb add`; it checks the hash against the checkout you run from.
+
+## Re-scoring saved runs
+
+`pnpm bench:rescore <run-dir> [<run-dir> ...]` scores the critique cases of saved runs again from
+their `work/` folders (the scenario before the critique, after its revision, and the stored
+notes), with no model call, and prints the old and new critique, overall and floor result. Use it
+after a scoring change to see what moved. `bench/suites/held-out.json` holds critique cases on
+examples the standard suite does not use; they are not in the exported task set.
