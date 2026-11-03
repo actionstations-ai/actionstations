@@ -113,6 +113,15 @@ the probes see the failures, not what a live Mini would score on the fixed input
   its own upstream output is not guaranteed to fail on the fixed input; the full benchmark remains
   the check for those.
 
+## Live timing check
+
+One run on gemma-4-26b-a4b-it-mlx (LM Studio, MLX, 32,768 context, 128 GB Apple Silicon) with the
+held-out review: **175 seconds** from `lms load` to unload, of which 126 seconds were model time
+(format 8 s, long prompt 24 s for 29,744 prompt tokens, handbook 20 s, review 60 s, held-out
+review 14 s). Verdict: will work, Mini score 90.7 (format 100, long prompt 92, long output 96,
+review 95, held-out review 73). A 30B model that runs at a third of that speed would take about
+10 minutes; the 3-minute per-call cap bounds a runaway.
+
 ## Out of scope
 
 Ideation, injects and media, several repeats (one seed, 11) and ranking for publication. A Mini
