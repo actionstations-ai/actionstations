@@ -60,7 +60,7 @@ settings of #585 are done.
 
 - **FR-7** Scoring is deterministic and model-free, exactly as spec 0434 FR-9 to FR-16. The
   optional local judge is not part of Tabletop Bench scores.
-- **FR-7a** From scoring version 2 (#592, ADR-0070) critique is scored on the revised scenario
+- **FR-7a** Critique (#592, ADR-0070) is scored on the revised scenario
   (a planted defect the revision removed counts as found, reported as `fixed`), damage to correct
   rows is measured, and critique is **advisory**: the recommendation floor is drafting at least
   50, drafting reliability at least 90%, ideation at least 50, and stable. Critique recall, fixed

@@ -1,6 +1,6 @@
 # Spec 0434: Benchmark local models on Action Stations tasks
 
-Issue: #434 · Milestone: 0.7.0 · Status: Implemented (scoring version 2: critique scored on the revision and advisory, #592; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
+Issue: #434 · Milestone: 0.7.0 · Status: Implemented (critique scored on the revision and advisory, #592; judge deferred, see As built) · Depends on: #423 (citation support scoring) · Related: #433
 
 ## Summary
 
@@ -102,7 +102,7 @@ no cloud judge, no GitHub Actions.
 - **FR-14** **Critique**: recall of planted defects (a note matches when its `rowId` is the
   defect's row, or a row adjacent for order defects, and its text contains one of the defect's
   words), plus noise: notes on rows with no planted defect and no lint finding, per 10 rows,
-  reported but weighted lightly because some may be valid. From scoring version 2 (#592) the
+  reported but weighted lightly because some may be valid. Since #592 the
   revised scenario is scored too: a planted defect is **found** when a note names it or the
   revision no longer has it (**fixed**, checked per defect kind by `isFixed` in `defects.mjs`:
   the row or the copy is gone, the edited field no longer holds the planted value, a decision
@@ -448,7 +448,7 @@ Where the code differs from the text above, and why:
   figure is used for every task. `--triage` is the standard suite at one repeat and prints
   pass or miss against the floor; the report ignores triage runs. After repeat 2 of a three-repeat run, a run stops when both repeats missed the floor on the same criterion (a task under 50, or drafting reliability under 90%): the median of three is then below the floor whatever repeat 3 scores, so the stop never changes the outcome. The reason is recorded in `stoppedEarly`. Nothing stops after repeat 1, because one repeat cannot decide a median. `--concurrency` does not change
   it. Per-case `wallSeconds` is measured under load when concurrency is above 1.
-- **Critique scoring (#592, scoring version 2)**: the critique case now keeps the rows before the
+- **Critique scoring (#592)**: the critique case now keeps the rows before the
   critique (the planted scenario) and after its revision, and scores both. A saved run re-scored
   with `pnpm bench:rescore` showed what version 1 hid: defects the revision removed counted as
   missed, and revisions that rewrote correct rows (including pressure rows with a deliberate
