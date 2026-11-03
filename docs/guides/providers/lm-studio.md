@@ -27,7 +27,7 @@ lms ls                      # lists downloaded models
 
 Mixture-of-experts models such as Qwen3-30B-A3B are fast on a laptop because only about 3B parameters are active per token. Smaller dense models (7B to 14B) work for ideation but follow the long MSEL prompt less reliably.
 
-On Apple Silicon, download the MLX build of a model when one exists: LM Studio runs it faster than the GGUF build. `lms ls --json` shows `safetensors` for MLX and `gguf` otherwise. For example `lms get https://huggingface.co/mlx-community/gpt-oss-120b-MXFP4-Q4` and `lms get https://huggingface.co/lmstudio-community/gemma-4-26B-A4B-it-MLX-4bit`. The app also sends each model family's recommended sampling and reasoning settings; see [Model profiles](../model-profiles.md).
+On Apple Silicon, download the MLX build of a model when one exists, unless its [profile](../model-profiles.md) prefers GGUF (gpt-oss-120b). `lms ls --json` shows `safetensors` for MLX and `gguf` otherwise. For example `lms get https://huggingface.co/lmstudio-community/gemma-4-26B-A4B-it-MLX-4bit`. The app also sends each model family's recommended sampling and reasoning settings; see [Model profiles](../model-profiles.md).
 
 ## 3. Start the server and load the model with enough context
 

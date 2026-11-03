@@ -20,9 +20,10 @@ llama.cpp) or Ollama receives. A model with no profile is called exactly as befo
 | --------------------- | ---------------------------------------------- | ------------------ | ---------------------------- |
 | Qwen3 Thinking (2507) | temperature 0.6, top_p 0.95, top_k 20, min_p 0 | profile            | always on                    |
 | Qwen3 Instruct (2507) | temperature 0.7, top_p 0.8, top_k 20, min_p 0  | stage              | none                         |
-| Qwen3.5, Qwen3.6      | temperature 1.0, top_p 0.95, top_k 20, min_p 0 | profile            | switch, on                   |
+| Qwen3.5               | temperature 1.0, top_p 0.95, top_k 20, min_p 0 | profile            | switch, off (measured)       |
+| Qwen3.6               | temperature 1.0, top_p 0.95, top_k 20, min_p 0 | profile            | switch, on                   |
 | Qwen3.8               | temperature 1.0, top_p 0.95, top_k 20, min_p 0 | profile            | effort, medium               |
-| gpt-oss               | temperature 1.0, top_p 1.0                     | profile            | effort, medium               |
+| gpt-oss               | temperature 1.0, top_p 1.0                     | stage              | effort, medium               |
 | Gemma 4               | temperature 1.0, top_p 0.95, top_k 64          | profile            | none (the card uses a token) |
 | GLM-4.7               | temperature 1.0, top_p 0.95                    | stage              | none                         |
 | Nemotron 3.5          | temperature 1.0, top_p 0.95                    | profile            | switch, on                   |
@@ -63,6 +64,43 @@ How reasoning reaches the server:
 - Switch models (Qwen3.5, Qwen3.6, Nemotron 3.5): `chat_template_kwargs.enable_thinking` on
   OpenAI-compatible servers, `think: true | false` on Ollama.
 
+## Measured defaults
+
+Quick suite, one run each, Apple M-series with 128 GB, 32K context, seed 11. One case per task,
+so treat differences of a few points as noise; the standard suite should confirm these.
+
+| Model and setting                                    | Overall | Drafting reliability   | Wall time (s) |
+| ---------------------------------------------------- | ------- | ---------------------- | ------------- |
+| Qwen3.5-9B MLX, old settings (thinking on)           | 62.6    | 100% (2 stages failed) | 1486          |
+| Qwen3.5-9B MLX, card sampling, thinking on           | 63.2    | 100%                   | 1034          |
+| Qwen3.5-9B MLX, card sampling, thinking off          | 66.6    | 100%                   | 1380          |
+| gpt-oss-120b MLX, old settings                       | 54.3    | 58%                    | 231           |
+| gpt-oss-120b MLX, card sampling, medium effort       | 41.5    | 58%                    | 186           |
+| gpt-oss-120b MLX, card sampling, low effort          | 41.9    | 58%                    | 190           |
+| gpt-oss-120b MLX, card sampling, high effort         | 49.8    | 55%                    | 171           |
+| gpt-oss-120b MLX, stage temperature + top_p, medium  | 46.6    | 55%                    | 171           |
+| gpt-oss-120b GGUF, stage temperature + top_p, medium | 67.3    | 100%                   | 1436          |
+
+What this decided:
+
+- **Qwen3.5 thinks off by default.** Critique scored 44 with thinking off against 32 and 15 with
+  it on, and the old settings (greedy stages, thinking on) lost two stages to replies cut off at
+  the length limit. This is a single case; set `reasoningEffort` to `on` to turn thinking back on.
+- **gpt-oss temperature stays the stage's.** Forcing the card's 1.0 on every stage did not score
+  higher than the old settings; the profile adds the card's `top_p`.
+- **gpt-oss reasoning effort stays at the card's medium.** Low, medium and high scored within
+  noise of each other and ran in the same time on MLX.
+- **gpt-oss-120b uses the GGUF build.** The MLX build completed only 55 to 58% of drafting stages
+  in every setting, the GGUF build all of them, so its profile has `preferredBuild: gguf` with the
+  reason. Other families prefer MLX unless a profile says otherwise.
+- **No profile names a draft model.** LM Studio refuses speculative decoding for MLX models
+  ("not supported for batched MLX models"), which is why the first Qwen draft run failed every
+  stage. The adapter now repeats such a request without `draft_model` and stops sending it. With
+  a GGUF target (gpt-oss-120b with gpt-oss-20b as the draft) scores and wall time matched the run
+  without a draft (67.3 in 1425 s against 67.3 in 1436 s), so no speedup was measured.
+
+Tokens per second were not recorded by the benchmark; wall time is the speed measure.
+
 ## Speculative decoding
 
 LM Studio accepts a `draft_model` field. It is sent only when a draft model is named (by the
@@ -71,8 +109,8 @@ request is unchanged. The draft must share the main model's tokenizer.
 
 ## MLX on Apple Silicon
 
-On a Mac, LM Studio runs MLX builds (format `safetensors` in `lms ls --json`) faster than GGUF
-builds of the same model. Prefer them:
+On a Mac, prefer the MLX build (format `safetensors` in `lms ls --json`) unless the model's profile
+says otherwise (`preferredBuild`; gpt-oss-120b is measured better as GGUF, see above):
 
 ```bash
 lms get https://huggingface.co/mlx-community/gpt-oss-120b-MXFP4-Q4

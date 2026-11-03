@@ -144,7 +144,7 @@ describe('the provider under test', () => {
       name: 'qwen/qwen3.5-9b',
       quantization: '4bit',
       contextLength: 32768,
-      inference: expect.objectContaining({ profile: 'qwen3.5', reasoningEffort: 'on' }),
+      inference: expect.objectContaining({ profile: 'qwen3.5', reasoningEffort: 'off' }),
     })
   })
 

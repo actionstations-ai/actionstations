@@ -35,6 +35,13 @@ export const ModelProfile = z.object({
     default: ReasoningLevel.optional(),
   }),
   /**
+   * The build to prefer on Apple Silicon when the benchmark showed MLX is not the better one.
+   * Without it, prefer the MLX build. `reason` cites the measurement.
+   */
+  preferredBuild: z
+    .object({ format: z.enum(['mlx', 'gguf']), reason: z.string().min(1) })
+    .optional(),
+  /**
    * Structured-output mode to try first on OpenAI-compatible servers. gpt-oss-20b returns one
    * truncated item under strict `json_schema` (#81), so it starts from `json_object`; gpt-oss-120b
    * is rejected under `json_object` by LM Studio's harmony parser (#503) and starts from `json_schema`.

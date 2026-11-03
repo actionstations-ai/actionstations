@@ -102,9 +102,31 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
   chat(req: ChatRequest, onToken?: (t: string) => void): Promise<ChatResponse> {
     const model = requireModel(req, this.config)
     return withChatLog({ providerId: this.id, kind: this.kind, model }, () =>
-      req.json ? this.structuredChat(model, req, onToken) : this.plainChat(model, req, onToken),
+      this.chatWithoutBrokenDraft(model, req, onToken),
     )
   }
+
+  /**
+   * LM Studio cannot load a draft model for every model (not for MLX builds, #585): when it
+   * refuses, the request is repeated without `draft_model`, and drafting stays off for this provider.
+   */
+  private async chatWithoutBrokenDraft(
+    model: string,
+    req: ChatRequest,
+    onToken?: (t: string) => void,
+  ): Promise<ChatResponse> {
+    const run = () =>
+      req.json ? this.structuredChat(model, req, onToken) : this.plainChat(model, req, onToken)
+    try {
+      return await run()
+    } catch (err) {
+      if (this.draftRefused || !isDraftRefusal(err)) throw err
+      this.draftRefused = true
+      return run()
+    }
+  }
+
+  private draftRefused = false
 
   private async plainChat(
     model: string,
@@ -168,7 +190,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
   /** Model-card sampling, reasoning and draft model for this request (#585). */
   private async inference(model: string, req: ChatRequest): Promise<InferenceSettings> {
     const options = this.config.options
-    const wantsDraft = draftCandidate(model, options) !== undefined
+    const wantsDraft = !this.draftRefused && draftCandidate(model, options) !== undefined
     return resolveInference({
       modelId: model,
       stageTemperature: req.temperature,
@@ -326,6 +348,11 @@ function isOutputFormatError(err: unknown): boolean {
     err.code === 'PROVIDER' &&
     /does not match the expected [\w-]+ format/i.test(err.message)
   )
+}
+
+/** The server's refusal to load a draft model or to speculate with this model. */
+function isDraftRefusal(err: unknown): boolean {
+  return err instanceof AppError && /draft model|speculative decoding/i.test(err.message)
 }
 
 /** A 400/422 on a structured request means "this response_format is not supported here". */

@@ -35,7 +35,7 @@ Two suites:
 1. Build the app: `pnpm install` then `pnpm build:app`.
 2. Start LM Studio or Ollama and have the model you want to test downloaded.
 3. On Apple Silicon, test the **MLX** build of a model (`safetensors` in `lms ls --json`), not the
-   GGUF build: it is what you would run day to day, and it is faster. The benchmark applies the
+   GGUF build, unless its profile says otherwise (`preferredBuild`). The benchmark applies the
    model-card settings in [Model profiles](model-profiles.md) and records the profile in the run
    file (`model.inference`). `BENCH_PROFILE=off` runs without them, `BENCH_EFFORT=low|medium|high|off`
    sets the reasoning level and `BENCH_DRAFT=<model id>` names a draft model for speculative decoding.

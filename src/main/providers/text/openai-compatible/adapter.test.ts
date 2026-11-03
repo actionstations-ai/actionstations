@@ -119,7 +119,7 @@ describe('OpenAI-compatible chat', () => {
     const calls = stubFetch([fixtureResponse('lmstudio-chat-stream')])
     const req = { ...ask(), temperature: 0, model: 'openai/gpt-oss-120b' }
     await provider({ options: { reasoningEffort: 'low' } }).chat(req)
-    expect(calls[0]!.body).toMatchObject({ temperature: 1, top_p: 1, reasoning_effort: 'low' })
+    expect(calls[0]!.body).toMatchObject({ temperature: 0, top_p: 1, reasoning_effort: 'low' })
   })
 
   it('turns thinking off through the chat template for a switch model (#585)', async () => {
@@ -171,6 +171,27 @@ describe('OpenAI-compatible chat', () => {
     const chats = calls.filter((c) => c.url.endsWith('/chat/completions'))
     expect((chats[0]!.body as Body).draft_model).toBe('qwen/qwen3.5-4b')
     expect(chats[1]!.body as Body).not.toHaveProperty('draft_model')
+  })
+
+  it('repeats the request without draft_model when the server cannot load it (#585)', async () => {
+    const refusal = () =>
+      new Response(
+        JSON.stringify({ error: { message: 'Failed to load draft model: not supported for MLX' } }),
+        { status: 500, headers: { 'content-type': 'application/json' } },
+      )
+    const calls = stubFetch((call) => {
+      if (call.url.endsWith('/models'))
+        return new Response(JSON.stringify({ data: [{ id: 'qwen/qwen3.5-4b' }] }))
+      return (call.body as Body).draft_model ? refusal() : fixtureResponse('lmstudio-chat-stream')
+    })
+    const p = provider({ options: { draftModel: 'qwen/qwen3.5-4b' } })
+    const req = { ...ask(), model: 'qwen/qwen3.5-9b' }
+    await p.chat(req)
+    await p.chat(req)
+    const chats = calls.filter((c) => c.url.endsWith('/chat/completions'))
+    const drafts = chats.map((c) => (c.body as Body).draft_model)
+    expect(drafts[0]).toBe('qwen/qwen3.5-4b')
+    expect(drafts.slice(-2)).toEqual([undefined, undefined])
   })
 
   it('sends a Bearer key only when one is stored', async () => {

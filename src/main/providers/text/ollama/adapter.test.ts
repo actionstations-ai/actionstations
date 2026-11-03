@@ -98,7 +98,7 @@ describe('Ollama native adapter', () => {
       temperature: 0,
     })
     const body = calls[0]!.body as Body
-    expect(body.options).toEqual({ temperature: 1, top_p: 1 })
+    expect(body.options).toEqual({ temperature: 0, top_p: 1 })
     expect(body.think).toBe('low')
   })
 

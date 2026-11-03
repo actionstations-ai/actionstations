@@ -54,7 +54,7 @@
       "temperaturePolicy": "profile",
       "reasoning": {
         "kind": "switch",
-        "default": "on"
+        "default": "off"
       }
     },
     {
@@ -109,7 +109,7 @@
         "temperature": 1.0,
         "topP": 1.0
       },
-      "temperaturePolicy": "profile",
+      "temperaturePolicy": "stage",
       "reasoning": {
         "kind": "effort",
         "default": "medium"
@@ -128,12 +128,16 @@
         "temperature": 1.0,
         "topP": 1.0
       },
-      "temperaturePolicy": "profile",
+      "temperaturePolicy": "stage",
       "reasoning": {
         "kind": "effort",
         "default": "medium"
       },
-      "structuredOutput": "json_schema"
+      "structuredOutput": "json_schema",
+      "preferredBuild": {
+        "format": "gguf",
+        "reason": "Quick suite, M-series 128 GB, 2026-11-03: gpt-oss-120b MLX (MXFP4) drafted reliably in 55-58% of stages in every setting (score 41-54); the GGUF build 100% (score 67.3)."
+      }
     },
     {
       "id": "gemma-4",

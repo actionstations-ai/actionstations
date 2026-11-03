@@ -19,6 +19,7 @@ greedy decoding loops (four stages use temperature 0); gpt-oss wants temperature
 - The OpenAI-compatible and Ollama adapters apply the result (`top_p`, `top_k`, `min_p`,
   `reasoning_effort` or `chat_template_kwargs.enable_thinking`, `draft_model`; Ollama `options` and
   `think`). The draft model is sent only when the server lists it as installed.
+- Defaults follow the quick-suite measurements in `docs/guides/model-profiles.md`: gpt-oss keeps the stage temperature and prefers GGUF, Qwen3.5 thinks off. No profile names a draft model.
 - The benchmark records the profile in each run file.
 
 ## Consequences

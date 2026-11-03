@@ -49,9 +49,9 @@ describe('resolveInference', () => {
     expect(r).toMatchObject({ temperature: 1, topP: 0.95, topK: 20, minP: 0 })
   })
 
-  it('uses gpt-oss sampling from the card whatever the stage asks for', () => {
+  it('adds the gpt-oss card top_p and keeps the stage temperature (measured, #585)', () => {
     const r = resolveInference({ modelId: 'openai/gpt-oss-120b', stageTemperature: 0.2 })
-    expect(r).toMatchObject({ temperature: 1, topP: 1 })
+    expect(r).toMatchObject({ temperature: 0.2, topP: 1 })
   })
 
   it('lets the stage temperature win where the card allows lower values', () => {
@@ -80,7 +80,7 @@ describe('resolveInference', () => {
   })
 
   it('treats a level as "on" and "off" as off for a switch model', () => {
-    const q = 'qwen/qwen3.5-9b'
+    const q = 'qwen/qwen3.6-27b'
     expect(resolveInference({ modelId: q }).reasoning).toEqual({ kind: 'switch', level: 'on' })
     const off = resolveInference({ modelId: q, options: { reasoningEffort: 'off' } })
     expect(off.reasoning).toEqual({ kind: 'switch', level: 'off' })
@@ -92,6 +92,21 @@ describe('resolveInference', () => {
     const bad = resolveInference({ modelId: 'openai/gpt-oss-20b', options: { reasoningEffort: 9 } })
     expect(bad.reasoning?.level).toBe('medium')
     expect(resolveInference({ modelId: 'google/gemma-4-26b-a4b' }).reasoning).toBeUndefined()
+  })
+})
+
+describe('measured defaults', () => {
+  it('runs Qwen3.5 with thinking off unless the provider turns it on (quick suite, #585)', () => {
+    const q = 'qwen/qwen3.5-9b'
+    expect(resolveInference({ modelId: q }).reasoning).toEqual({ kind: 'switch', level: 'off' })
+    const on = resolveInference({ modelId: q, options: { reasoningEffort: 'on' } })
+    expect(on.reasoning).toEqual({ kind: 'switch', level: 'on' })
+  })
+
+  it('prefers the GGUF build of gpt-oss-120b and records why', () => {
+    const build = findModelProfile('openai/gpt-oss-120b')?.preferredBuild
+    expect(build?.format).toBe('gguf')
+    expect(build?.reason).toMatch(/MLX/)
   })
 })
 
