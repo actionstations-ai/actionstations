@@ -395,6 +395,22 @@ async function runRepeats(env, workers, repeats, estimate) {
   return repeats
 }
 
+/**
+ * LM Studio shares a loaded model's context between its parallel slots, so a model loaded at
+ * 32K gives each of 4 slots about 8K and long stages are cut off (measured with #584).
+ */
+function warnSharedContext(model, info, suite, workers) {
+  if (workers < 2 || model.tool !== 'lmstudio' || !info.contextLength) return
+  const needed = suite.contextLength * workers
+  if (info.contextLength >= needed) return
+  log(
+    `warning: ${model.ref} is loaded with a ${info.contextLength}-token context. LM Studio splits it ` +
+      `between parallel requests, so ${workers} workers need ${needed} (lms load <id> --context-length ` +
+      `${needed} --parallel ${workers} -y), or long stages are cut off and count against the model. ` +
+      'Use --concurrency 1 otherwise.',
+  )
+}
+
 async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVersion }) {
   const suite = args.determinism ? sameSeed(baseSuite) : baseSuite
   const model = parseModelRef(ref, args.baseUrl)
@@ -415,6 +431,7 @@ async function runModel({ args, suite: baseSuite, ref, state, app, gold, appVers
     pendingCases(suite, r, mstate.cases),
   ).flat().length
   const count = workerCount(args.concurrency, pending)
+  warnSharedContext(model, info, suite, count)
   const env = { args, suite, gold, mstate, state, model, multi: count > 1 }
   const total = repeats * TASKS.reduce((n, t) => n + suite[t].length, 0)
   const estimate = makeEstimator(total, Object.keys(mstate.cases).length)
