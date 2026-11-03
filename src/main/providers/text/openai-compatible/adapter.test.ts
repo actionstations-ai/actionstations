@@ -255,6 +255,26 @@ describe('OpenAI-compatible chat', () => {
     expect((res.json as Body).rows[0].id).toBe('I-1')
   })
 
+  it('uses reasoning_content as the answer when a structured reply has empty content (Qwen3.5)', async () => {
+    const sse = openAiSse([
+      {
+        choices: [{ index: 0, delta: { content: '', reasoning_content: '{"rows":[{"id":"I-1",' } }],
+      },
+      {
+        choices: [
+          {
+            index: 0,
+            delta: { reasoning_content: '"time":"T+5","purposeTag":"PRESSURE","event":"x"}]}' },
+            finish_reason: 'stop',
+          },
+        ],
+      },
+    ])
+    stubFetch([chunkedResponse(sse, { contentType: 'text/event-stream', chunkSize: 9 })])
+    const res = await provider().chat(ask(MINI))
+    expect((res.json as Body).rows[0].id).toBe('I-1')
+  })
+
   it('aborts a streaming request', async () => {
     const ctrl = new AbortController()
     stubFetch([fixtureResponse('lmstudio-chat-stream', 31)])

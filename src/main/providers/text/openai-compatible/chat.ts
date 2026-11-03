@@ -40,6 +40,8 @@ export function authHeaders(config: ProviderConfig, secret?: string): Record<str
 interface StreamOutcome {
   model?: string
   text: string
+  /** reasoning_content deltas; used only when a structured reply has no content (see structuredResponse). */
+  reasoning?: string
   finish?: string
   usage?: { prompt_tokens?: number; completion_tokens?: number }
 }
@@ -141,7 +143,9 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     mode: JsonMode,
     req: ChatRequest,
   ): ChatResponse {
-    const text = stripThinking(out.text).text
+    // Qwen3.5 under LM Studio's json_schema mode puts the whole JSON in reasoning_content
+    // and leaves content empty; the schema-constrained reasoning is the answer then.
+    const text = stripThinking(out.text.trim() ? out.text : (out.reasoning ?? '')).text
     const parsed = parseJsonText(text)
     const json = parsed === undefined ? undefined : restoreOptionals(parsed, req.json!.schema)
     return { ...this.toResponse(out, model, start, text), json, structuredVia: mode }
@@ -237,7 +241,10 @@ function applyChunk(out: StreamOutcome, chunk: Body, emit: (t: string) => void):
   const choice = (chunk.choices as Body[] | undefined)?.[0]
   if (!choice) return
   const delta = choice.delta as Body | undefined
-  // reasoning_content / reasoning (gpt-oss, DeepSeek) are never part of the answer.
+  // reasoning_content / reasoning (gpt-oss, DeepSeek) are never part of the answer, but are kept
+  // as a fallback for structured replies whose content stays empty.
+  const reasoning = delta?.reasoning_content ?? delta?.reasoning
+  if (typeof reasoning === 'string' && reasoning) out.reasoning = (out.reasoning ?? '') + reasoning
   if (typeof delta?.content === 'string' && delta.content) {
     out.text += delta.content
     emit(delta.content)
