@@ -1,0 +1,1254 @@
+{
+  "formatVersion": 1,
+  "suite": "standard",
+  "suiteVersion": 1,
+  "scoringVersion": 1,
+  "appVersion": "0.6.2",
+  "appCommit": "c4dc59ad",
+  "promptHashes": {
+    "scenario_overview": "ef37a27ef2d787bd20bed7ad3e6a18e682b37c9bccebe66711767f65e6c8fe08",
+    "critique": "00f508013754aff8a9177694d94b7b0beb48e74a0d5a2bd2f189fa99a148e235"
+  },
+  "corpusHashes": {
+    "airport-ncia": "46840af28f6e4938",
+    "city-water": "7cc3b96b64cbd8ad",
+    "county-911": "5e9351a799792be2"
+  },
+  "embedder": "local-onnx:Xenova/bge-small-en-v1.5",
+  "model": {
+    "ref": "lmstudio:openai/gpt-oss-120b",
+    "tool": "lmstudio",
+    "name": "openai/gpt-oss-120b",
+    "quantization": "MXFP4",
+    "contextLength": 32768
+  },
+  "hardware": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "appleSilicon": true,
+    "ramGb": 128,
+    "budgetGb": 96
+  },
+  "startedAt": "2026-11-02T23:59:21.988Z",
+  "repeats": [
+    {
+      "seed": 11,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 26.1,
+          "parts": {
+            "valid": 33.3,
+            "distinct": 33.3,
+            "resolution": 33.3,
+            "spread": 22.2,
+            "grounding": 5.6
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 0,
+              "valid": 0,
+              "distinct": 0,
+              "resolution": 0,
+              "spread": 0,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 0,
+                "grounded": 0,
+                "review": 0,
+                "unsupported": 0
+              },
+              "ideas": 0,
+              "nearDuplicates": 0,
+              "citationsKept": 0,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 78.33333333333333,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 66.66666666666666,
+              "grounding": 16.666666666666664,
+              "groundingCounts": {
+                "support": 16.666666666666664,
+                "claimBearing": 6,
+                "grounded": 3,
+                "review": 1,
+                "unsupported": 2
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 19,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 0,
+              "valid": 0,
+              "distinct": 0,
+              "resolution": 0,
+              "spread": 0,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 0,
+                "grounded": 0,
+                "review": 0,
+                "unsupported": 0
+              },
+              "ideas": 0,
+              "nearDuplicates": 0,
+              "citationsKept": 0,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 90,
+          "outputTokensPerSecond": 13
+        },
+        {
+          "task": "drafting",
+          "score": 0,
+          "parts": {
+            "reliability": 0,
+            "lint": 0,
+            "citations": 0,
+            "citations.resolution": 0,
+            "citations.coverage": 0,
+            "citations.support": 0,
+            "structure": 0
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            }
+          },
+          "wallSeconds": 85,
+          "outputTokensPerSecond": 59.5
+        },
+        {
+          "task": "critique",
+          "score": 27.7,
+          "parts": { "recall": 22.2, "noise": 58.4 },
+          "details": {
+            "city-water-chem": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": [
+                "chem-order",
+                "chem-citation",
+                "chem-facility",
+                "chem-restoration",
+                "chem-player"
+              ]
+            },
+            "city-water-tank": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["tank-order", "tank-citation", "tank-facility", "tank-outside"]
+            },
+            "county-911-storm-tdos": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 63.09523809523809,
+              "recall": 66.66666666666666,
+              "noise": 42.85714285714286,
+              "noisePer10Rows": 2.86,
+              "notes": 8,
+              "found": ["copy-player", "copy-restoration"],
+              "missed": ["copy-duplicate"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 29.487179487179482,
+              "recall": 33.33333333333333,
+              "noise": 7.692307692307679,
+              "noisePer10Rows": 4.62,
+              "notes": 8,
+              "found": ["fire-decision"],
+              "missed": ["fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 28.33333333333333,
+              "recall": 33.33333333333333,
+              "noise": 0,
+              "noisePer10Rows": 6.67,
+              "notes": 12,
+              "found": ["olympics-player"],
+              "missed": ["olympics-duplicate", "olympics-order"]
+            }
+          },
+          "wallSeconds": 211,
+          "outputTokensPerSecond": 55.3
+        }
+      ],
+      "overall": 13.5,
+      "failures": [
+        {
+          "caseId": "airport-ncia",
+          "stage": "ideate",
+          "error": "Ideation (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911",
+          "stage": "ideate",
+          "error": "Stage ideate failed: Output did not match IdeasOutput after 1 repair attempt(s):\n- ideas: Invalid input: expected array, received undefined"
+        },
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-ransomware",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-tank",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        }
+      ]
+    },
+    {
+      "seed": 23,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 51.7,
+          "parts": {
+            "valid": 66.7,
+            "distinct": 66.7,
+            "resolution": 66.7,
+            "spread": 33.3,
+            "grounding": 16.7
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 76.66666666666667,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 33.33333333333333,
+              "grounding": 33.33333333333333,
+              "groundingCounts": {
+                "support": 33.33333333333333,
+                "claimBearing": 6,
+                "grounded": 2,
+                "review": 4,
+                "unsupported": 0
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 14,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 78.33333333333333,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 66.66666666666666,
+              "grounding": 16.666666666666664,
+              "groundingCounts": {
+                "support": 16.666666666666664,
+                "claimBearing": 6,
+                "grounded": 1,
+                "review": 5,
+                "unsupported": 0
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 18,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 0,
+              "valid": 0,
+              "distinct": 0,
+              "resolution": 0,
+              "spread": 0,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 0,
+                "grounded": 0,
+                "review": 0,
+                "unsupported": 0
+              },
+              "ideas": 0,
+              "nearDuplicates": 0,
+              "citationsKept": 0,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 110,
+          "outputTokensPerSecond": 34
+        },
+        {
+          "task": "drafting",
+          "score": 0,
+          "parts": {
+            "reliability": 0,
+            "lint": 0,
+            "citations": 0,
+            "citations.resolution": 0,
+            "citations.coverage": 0,
+            "citations.support": 0,
+            "structure": 0
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            }
+          },
+          "wallSeconds": 75,
+          "outputTokensPerSecond": 60.8
+        },
+        {
+          "task": "critique",
+          "score": 15,
+          "parts": { "recall": 0, "noise": 100 },
+          "details": {
+            "city-water-chem": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": [
+                "chem-order",
+                "chem-citation",
+                "chem-facility",
+                "chem-restoration",
+                "chem-player"
+              ]
+            },
+            "city-water-tank": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["tank-order", "tank-citation", "tank-facility", "tank-outside"]
+            },
+            "county-911-storm-tdos": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["copy-player", "copy-duplicate", "copy-restoration"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["fire-decision", "fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["olympics-duplicate", "olympics-player", "olympics-order"]
+            }
+          },
+          "wallSeconds": 111,
+          "outputTokensPerSecond": 58.6
+        }
+      ],
+      "overall": 16.7,
+      "failures": [
+        {
+          "caseId": "county-911",
+          "stage": "ideate",
+          "error": "Stage ideate failed: Output did not match IdeasOutput after 1 repair attempt(s):\n- ideas: Invalid input: expected array, received undefined"
+        },
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-ransomware",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-tank",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-7",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        }
+      ]
+    },
+    {
+      "seed": 37,
+      "tasks": [
+        {
+          "task": "ideation",
+          "score": 27.2,
+          "parts": {
+            "valid": 33.3,
+            "distinct": 33.3,
+            "resolution": 33.3,
+            "spread": 22.2,
+            "grounding": 11.1
+          },
+          "details": {
+            "airport-ncia": {
+              "score": 81.66666666666667,
+              "valid": 100,
+              "distinct": 100,
+              "resolution": 100,
+              "spread": 66.66666666666666,
+              "grounding": 33.33333333333333,
+              "groundingCounts": {
+                "support": 33.33333333333333,
+                "claimBearing": 6,
+                "grounded": 3,
+                "review": 2,
+                "unsupported": 1
+              },
+              "ideas": 6,
+              "nearDuplicates": 0,
+              "citationsKept": 14,
+              "citationsDropped": 0
+            },
+            "city-water": {
+              "score": 0,
+              "valid": 0,
+              "distinct": 0,
+              "resolution": 0,
+              "spread": 0,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 0,
+                "grounded": 0,
+                "review": 0,
+                "unsupported": 0
+              },
+              "ideas": 0,
+              "nearDuplicates": 0,
+              "citationsKept": 0,
+              "citationsDropped": 0
+            },
+            "county-911": {
+              "score": 0,
+              "valid": 0,
+              "distinct": 0,
+              "resolution": 0,
+              "spread": 0,
+              "grounding": 0,
+              "groundingCounts": {
+                "support": 0,
+                "claimBearing": 0,
+                "grounded": 0,
+                "review": 0,
+                "unsupported": 0
+              },
+              "ideas": 0,
+              "nearDuplicates": 0,
+              "citationsKept": 0,
+              "citationsDropped": 0
+            }
+          },
+          "wallSeconds": 75,
+          "outputTokensPerSecond": 29.2
+        },
+        {
+          "task": "drafting",
+          "score": 0,
+          "parts": {
+            "reliability": 0,
+            "lint": 0,
+            "citations": 0,
+            "citations.resolution": 0,
+            "citations.coverage": 0,
+            "citations.support": 0,
+            "structure": 0
+          },
+          "details": {
+            "airport-ncia-scenario-5": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "airport-ncia-scenario-6": {
+              "score": 0,
+              "lintByCode": {},
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 0,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-chem": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "city-water-ransomware": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            },
+            "county-911-storm-tdos": {
+              "score": 0,
+              "lintByCode": { "BRIEF_IDS_MISSING": 1 },
+              "rubric": {
+                "pace": false,
+                "tagMix": false,
+                "decisionPhase": false,
+                "startEnd": false,
+                "rolesEveryPhase": false,
+                "briefIds": false,
+                "noReferenceLeak": false
+              },
+              "rel": {
+                "score": 0,
+                "successRate": 0,
+                "stagesExpected": 11,
+                "stagesOk": 0,
+                "stagesFailed": 1,
+                "repairRounds": 1,
+                "noJson": 0,
+                "droppedCitations": 0
+              },
+              "citations": {
+                "resolution": 0,
+                "coverage": 0,
+                "support": 0,
+                "kept": 0,
+                "dropped": 0,
+                "grounding": {
+                  "support": 0,
+                  "claimBearing": 0,
+                  "grounded": 0,
+                  "review": 0,
+                  "unsupported": 0
+                }
+              }
+            }
+          },
+          "wallSeconds": 85,
+          "outputTokensPerSecond": 67
+        },
+        {
+          "task": "critique",
+          "score": 26.3,
+          "parts": { "recall": 15.6, "noise": 87.2 },
+          "details": {
+            "city-water-chem": {
+              "score": 66,
+              "recall": 60,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 12,
+              "found": ["chem-citation", "chem-facility", "chem-player"],
+              "missed": ["chem-order", "chem-restoration"]
+            },
+            "city-water-tank": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["tank-order", "tank-citation", "tank-facility", "tank-outside"]
+            },
+            "county-911-storm-tdos": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["storm-duplicate", "storm-decision", "storm-outside"]
+            },
+            "airport-ncia-scenario-5": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["copy-player", "copy-duplicate", "copy-restoration"]
+            },
+            "airport-ncia-scenario-6": {
+              "score": 31.794871794871792,
+              "recall": 33.33333333333333,
+              "noise": 23.07692307692308,
+              "noisePer10Rows": 3.85,
+              "notes": 10,
+              "found": ["fire-decision"],
+              "missed": ["fire-order", "fire-outside"]
+            },
+            "airport-ncia-scenario-7": {
+              "score": 15,
+              "recall": 0,
+              "noise": 100,
+              "noisePer10Rows": 0,
+              "notes": 0,
+              "found": [],
+              "missed": ["olympics-duplicate", "olympics-player", "olympics-order"]
+            }
+          },
+          "wallSeconds": 276,
+          "outputTokensPerSecond": 57.3
+        }
+      ],
+      "overall": 13.4,
+      "failures": [
+        {
+          "caseId": "city-water",
+          "stage": "ideate",
+          "error": "Ideation (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911",
+          "stage": "ideate",
+          "error": "Ideation (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "airport-ncia-scenario-6",
+          "stage": "scenario_overview",
+          "error": "Drafting (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "city-water-chem",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "city-water-ransomware",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "scenario_overview",
+          "error": "Output did not match OverviewOutput after 1 repair attempt(s):\n- title: Invalid input: expected string, received undefined\n- subtitle: Invalid input: expected string, received undefined\n- theme: Invalid input: expected string, received undefined\n- threat: Invalid input: expected string, received undefined\n- operationalImpact: Invalid input: expected string, received undefined\n- coreSectionsTested: Invalid input: expected array, received undefined\n- targetAudience: Invalid input: expected string,"
+        },
+        {
+          "caseId": "city-water-tank",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "county-911-storm-tdos",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-5",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        },
+        {
+          "caseId": "airport-ncia-scenario-7",
+          "stage": "job",
+          "error": "Critique (Benchmark: lmstudio:openai/gpt-oss-120b): OpenAI-compatible server stream error: Engine protocol predict stream returned an error: {\"code\":500,\"message\":\"The model produced output that does not match the expected peg-native format\",\"type\":\"server_error\"}"
+        }
+      ]
+    }
+  ],
+  "median": {
+    "overall": 13.5,
+    "tasks": { "ideation": 27.2, "drafting": 0, "critique": 26.3 },
+    "draftingReliability": 0
+  },
+  "range": { "overall": [13.4, 16.7] },
+  "unstable": false
+}
