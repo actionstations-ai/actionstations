@@ -1,6 +1,6 @@
 // The Facilitate side panel's tab strip at laptop widths (#578): every label stays on one line,
 // a tab that does not fit is reachable by scrolling, and the focused tab is fully in view.
-import { expect, test, type Locator } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 import { mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -41,6 +41,17 @@ async function tabHeights(tabs: Locator): Promise<number[]> {
   )
 }
 
+/** The element holding focus, for failure messages. */
+async function focusedElement(page: Page): Promise<string> {
+  // A string expression: this folder's tsconfig has no DOM types.
+  return page.evaluate<string>(`(() => {
+    const el = document.activeElement
+    if (!el) return 'nothing'
+    const label = el.getAttribute('aria-label') || (el.textContent || '').trim().slice(0, 40)
+    return '<' + el.tagName.toLowerCase() + ' role=' + el.getAttribute('role') + '> "' + label + '"'
+  })()`)
+}
+
 test('Facilitate tabs stay on one line and every tab can be reached', async () => {
   test.setTimeout(120_000)
   const { app, page } = await launch({ TTX_MOCK_PROVIDERS: '1', TTX_LIVE_BIND: '127.0.0.1' })
@@ -79,12 +90,17 @@ test('Facilitate tabs stay on one line and every tab can be reached', async () =
         stripBox.x + stripBox.width,
         `tab strip runs off the window at ${label}`,
       ).toBeLessThanOrEqual(size.width)
-      // Keyboard steps need the window to hold OS focus (another app may have taken it).
+      // Arrow keys move between tabs (checked once); each tab, once focused, is scrolled into view.
       await page.bringToFront()
       await tabs.first().click()
+      await page.keyboard.press('ArrowRight')
+      await expect(
+        tabs.nth(1),
+        `ArrowRight did not reach tab 2; focus is on ${await focusedElement(page)}`,
+      ).toBeFocused()
       for (let i = 0; i < count; i++) {
         const focused = tabs.nth(i)
-        await expect(focused).toBeFocused()
+        await focused.focus()
         const name = (await focused.textContent()) ?? `tab ${i}`
         // The strip scrolls the focused tab into view after focus moves; wait for it to land.
         await expect
@@ -92,7 +108,6 @@ test('Facilitate tabs stay on one line and every tab can be reached', async () =
             message: `${name} is clipped when focused at ${label}`,
           })
           .toBe(true)
-        await page.keyboard.press('ArrowRight')
       }
     }
   } finally {
