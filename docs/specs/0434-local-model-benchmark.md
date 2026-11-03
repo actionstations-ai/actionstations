@@ -173,7 +173,7 @@ bench/
   suites/quick.json, standard.json        cases, weights, thresholds, suiteVersion
   defects/<case>.json                     planted defects per critique case
   gold/scenario-3.json                    parsed gold MSEL stats (committed)
-  calibration/rows.json                   human-scored rows for the optional judge
+  calibration/rows.json                   scored rows for the optional judge (see its README)
   prompts/bench_judge.md                  judge prompt (optional, FR-17)
 scripts/bench/
   run.mjs (+ run.d.mts)                   CLI: launch app, set up providers, run cases, write run file
@@ -417,9 +417,7 @@ Where the code differs from the text above, and why:
 - **Judge and determinism (#503)**: `--judge` (FR-17) and `--determinism` are built. The judge
   scores up to 30 cited rows per run through the local OpenAI-compatible endpoint with
   `bench/prompts/bench_judge.md`, drops scores whose quotes are not in the text, and measures
-  linearly weighted kappa against `bench/calibration/rows.json`. That file is the maintainer's to
-  write (rows of `row`, `passage`, `score` 1 to 5); until it holds 60 rows the judge block is
-  marked unpublished. `--determinism` replaces the `LIVE=1` check: it runs in the smoke test
+  linearly weighted kappa against `bench/calibration/rows.json`. The 60 rows were scored by a hosted reference model and accepted by the maintainer (bench/calibration/README.md). `--determinism` replaces the `LIVE=1` check: it runs in the smoke test
   against the mock provider.
 - **Published so far (#503)**: one standard-suite run of `lmstudio:qwen/qwen3-30b-a3b-2507` (4-bit, 128 GB Apple silicon, local embedder, judge on and unpublished): overall 59.9 (57.9 to 62.9), ideation 72.5, drafting 69.7, critique 34, drafting reliability 87% with 10 failed stages, so it does not pass the floor for any tier. The `--determinism` check on the quick suite (not published) found the two repeats at seed 11 differ in ideation, drafting and critique on LM Studio, so a seed does not make a local run repeatable.
 - **Not built yet**: the first published runs of the other `TEXT_TIERS` models (task 9) and the site import

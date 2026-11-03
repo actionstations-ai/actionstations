@@ -5,6 +5,8 @@ import { BenchRun } from '@shared/schemas/bench'
 import { determinismOf, differingTasks } from '../../scripts/bench/determinism.mjs'
 import {
   judgeItems,
+  loadCalibration,
+  MIN_CALIBRATION_ROWS,
   judgeRowsOf,
   parseJudgeRef,
   parseJudgeReply,
@@ -158,5 +160,14 @@ describe('determinism', () => {
   it('the run file accepts judge and determinism blocks', () => {
     expect(BenchRun.shape.judge.isOptional()).toBe(true)
     expect(BenchRun.shape.determinism.isOptional()).toBe(true)
+  })
+})
+
+describe('calibration set', () => {
+  it('ships at least 60 distinct rows scored 1 to 5', () => {
+    const rows = loadCalibration()
+    expect(rows.length).toBeGreaterThanOrEqual(MIN_CALIBRATION_ROWS)
+    expect(new Set(rows.map((r) => r.row + r.passage)).size).toBe(rows.length)
+    for (const r of rows) expect([1, 2, 3, 4, 5]).toContain(r.score)
   })
 })

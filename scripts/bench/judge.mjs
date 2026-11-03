@@ -2,7 +2,7 @@
 // given, local endpoints only, and never part of the composite. A judge reads one MSEL row and
 // the passage it cites and scores how plausible the row is, quoting both. A score whose quotes
 // are not in the row or the passage is discarded. Scores are published only when the judge's
-// agreement with the maintainer's human-scored rows (bench/calibration/rows.json) reaches the
+// agreement with the reference rows (bench/calibration/rows.json) reaches the
 // threshold; without that file the scores are kept but marked unpublished.
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -105,7 +105,7 @@ export function weightedKappa(a, b) {
   return Math.round((1 - disagreement / expected) * 1000) / 1000
 }
 
-/** The maintainer's human-scored rows ({row, passage, score}), or [] without the file. */
+/** The reference rows ({row, passage, score}; bench/calibration/README.md), or [] without the file. */
 export function loadCalibration(file = CALIBRATION_FILE) {
   if (!existsSync(file)) return []
   return JSON.parse(readFileSync(file, 'utf8'))
