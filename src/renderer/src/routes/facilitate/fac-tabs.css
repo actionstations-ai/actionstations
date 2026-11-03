@@ -1,0 +1,39 @@
+/* Facilitator tab strip overflow (#578): one line per tab, sideways scroll, fade at hidden edges. */
+.fac-side {
+  min-width: 0;
+}
+.fac-tabs {
+  flex: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scroll-padding-inline: var(--space-6);
+}
+.fac-tabs__trigger {
+  flex: none;
+  white-space: nowrap;
+}
+/* Fade cues are sticky flex items that let clicks through, so a faded tab stays clickable. */
+.fac-tabs::before,
+.fac-tabs::after {
+  content: '';
+  display: none;
+  flex: none;
+  position: sticky;
+  width: var(--space-6);
+  pointer-events: none;
+}
+.fac-tabs::before {
+  left: 0;
+  margin-right: calc(-1 * (var(--space-6) + var(--space-1)));
+  background: linear-gradient(to right, var(--color-surface), transparent);
+}
+.fac-tabs::after {
+  right: 0;
+  margin-left: calc(-1 * (var(--space-6) + var(--space-1)));
+  background: linear-gradient(to left, var(--color-surface), transparent);
+}
+.fac-tabs[data-overflow-start]::before,
+.fac-tabs[data-overflow-end]::after {
+  display: block;
+}
