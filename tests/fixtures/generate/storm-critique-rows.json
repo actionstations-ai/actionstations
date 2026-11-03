@@ -1,0 +1,242 @@
+{
+  "roles": [
+    {
+      "id": "dir",
+      "name": "911 Director (Incident Commander)",
+      "abbreviation": "Dir",
+      "team": "Team A: Operations",
+      "description": "Manages center-level command, evacuation to the backup PSAP, overtime, and policy-group requests.",
+      "standingOrders": [
+        "Incident First: if the system shows a unit as available but the field says it’s engaged, trust the field and reassign.",
+        "Evacuate or Reroute: declare Level 1 and activate OPS-DR-5 within 5 minutes of CAD freeze and silent call surge.",
+        "Truth Over Reassurance: do not issue public statements until the FBI and CISA are notified via County Security.",
+        "Continuity Over Comfort: if the building is compromised, evacuate to the backup PSAP even if the main site appears functional."
+      ]
+    },
+    {
+      "id": "sup",
+      "name": "Floor Supervisor (Communications Supervisor)",
+      "abbreviation": "Sup",
+      "team": "Team B: Floor Operations",
+      "description": "Owns moment-to-moment call handling, the switch to manual dispatch with run cards, and talkgroup patches.",
+      "standingOrders": [
+        "Manual First: if CAD freezes, immediately initiate manual dispatch using RCECD-F-11 and position cards.",
+        "Patch to Preserve: maintain talkgroup patches to field agencies even if ALI is inaccurate, to ensure response coordination.",
+        "Queue Watch: if 911 calls queue over 20 seconds for 10 minutes, escalate to Level 2.",
+        "Call Back: if a caller reports a hostage situation, do not dismiss—patch to LE and initiate verification protocol."
+      ]
+    },
+    {
+      "id": "tech",
+      "name": "911 Systems / Technical Services Manager (Technical Lead)",
+      "abbreviation": "Tech",
+      "team": "Team C: Technology",
+      "description": "Owns the call-handling equipment, CAD, ALI, mapping and the recorder, and escalation to the 911 service provider and vendors.",
+      "standingOrders": [
+        "Isolate or Break: if malware beaconing is detected, manually firewall CAD-FW01 (CYB-DR-1) to stop lateral movement.",
+        "Vendor First: if 911 trunks are under TDoS, contact state ESInet NOC (555-0119) immediately to report and request overflow routing.",
+        "Evidence Chain: preserve call detail records and recordings on REC-01 before any system reboot or reset.",
+        "No Guessing: if ALI shows a unit at the wrong location, do not trust the data—verify via field radio and patch to LE."
+      ]
+    },
+    {
+      "id": "coml",
+      "name": "Radio System Manager / Communications Unit Leader (COML)",
+      "abbreviation": "Coml",
+      "team": "Team D: Radio",
+      "description": "Owns the trunked radio system, consoles, interoperability channels and the ICS 205.",
+      "standingOrders": [
+        "Interoperability First: if CAD is corrupted, maintain talkgroup patches to Sheriff, Police, and Fire using the P25 console.",
+        "No Silence: if a silent call floods the 10-digit lines, patch to the LE Liaison and activate the ICS 205 to alert field units.",
+        "Backup Voice: if the main radio console fails, switch to the secondary console and use the P25 backup channel.",
+        "Sirens Hold: do not initiate emergency alerting via radio unless directed by EMA or the Director."
+      ]
+    },
+    {
+      "id": "le",
+      "name": "Police / Sheriff Liaison (Patrol Commander)",
+      "abbreviation": "Le",
+      "team": "Team E: Field Agencies",
+      "description": "Owns the field response, the swatting response posture and BOLO dissemination.",
+      "standingOrders": [
+        "Verify Before Respond: if a caller reports a hostage situation, do not dispatch immediately—verify via the field radio and cross-check with the call taker.",
+        "Swatting Posture: if multiple calls report a fake hostage event, activate swatting response protocol and alert FBI via the County Security Officer.",
+        "BOLO Lock: if a silent call claims a false threat, do not issue a BOLO until the call is verified and the Director has approved.",
+        "Field Over Screen: if a unit reports they are on scene but CAD shows them as en route, trust the field and update the status manually."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "Pio",
+      "team": "Team F: Communications",
+      "description": "Owns the call-this-10-digit-number message, social media and the press.",
+      "standingOrders": [
+        "One Message: publish only the alternate 10-digit emergency number via WEA and social media once approved by the Director and EMA.",
+        "No Rumor: do not respond to false social media posts—wait for official verification and then issue a correction.",
+        "Press Control: if a reporter calls, state that 'the 911 center is operating under protocol and will issue a public update via WEA.'",
+        "No Speculation: never suggest that 911 is down—use 'service continuity measures are active' or 'call volume is high due to a cyber incident.'"
+      ]
+    }
+  ],
+  "before": [
+    {
+      "id": "I-03b",
+      "phaseId": "01M5QV5TKMJCBPZM0HB0YMK4CG",
+      "time": "0:30",
+      "wallClock": "19:00",
+      "from": "Resident (Social Media)",
+      "toRoleIds": ["pio"],
+      "toLabel": "Pio",
+      "event": "Post (@HaldenNeighbor): \"911 is down. Just called and got dead air. Call 555-0177 instead — it’s the real number. #911Down #HaldenHelp\" — 47 reposts in 8 minutes.",
+      "expectedAction": "PIO logs the post and notes the fake number 555-0177 as a social media misinformation artifact; does not respond or correct — waits for official verification and Director approval.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5QVHPWQ1C9E5XJST0MHBSBP",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06b",
+      "phaseId": "01M5QV5TKM1C6R5P8PV2X1E5ZM",
+      "time": "1:05",
+      "wallClock": "19:35",
+      "from": "Media Monitoring Dashboard",
+      "toRoleIds": ["pio"],
+      "toLabel": "Pio",
+      "event": "News chyron (Channel 12, 19:35): 'BREAKING: 911 IS DOWN — CALL 555-0177.' The station repeats the number from the viral post.",
+      "expectedAction": "PIO calls the Channel 12 assignment desk (555-0161) to correct the number and asks the Director for a decision on OPS-DR-4 (alternate numbers from Annex A and a WEA through EMA).",
+      "purposeTag": "PRESSURE",
+      "format": "news_chyron_still",
+      "injectId": "01M5QVJSAWYB0DTJ03AAYNNXNN",
+      "citations": [
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Annex C",
+          "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+          "chunkId": 39
+        },
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Section 10",
+          "quote": "Swatting calls report a violent emergency at a specific person's or institution's address to draw an armed response. Signs: a caller who is calm, scripted or sounds like a recording; a call on a 10-di",
+          "chunkId": 34
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5QV5TKMW2JY1VVQ1EFWEHSG",
+      "time": "2:10",
+      "wallClock": "20:40",
+      "from": "Incident Commander (Karen Voss)",
+      "toRoleIds": ["dir", "sup", "tech"],
+      "toLabel": "Dir, Sup, Tech",
+      "event": "Phone Call: 'This is Director Voss. I am calling the state ESInet NOC (555-0119) to report the pattern: silent calls on SIP trunk group A at 37 a minute, malware beaconing from CAD-MDS01 and altered ALI on our side. Keep the overflow to Tamarack County Communications under MCTA-2025 and start call-source analysis.'",
+      "expectedAction": "Dir contacts state ESInet NOC per SOP C3; reports cyber pattern and requests overflow routing; confirms that Tamarack County is on standby for call rerouting. Initiates Incident First protocol under RCECD-OPS-2026.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QVNHN6XPBMKHEC7BR36SEA",
+      "citations": [
+        {
+          "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+          "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+          "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+          "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+          "chunkId": 8
+        },
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.4 Coordinated Documents",
+          "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Playbook | RCECD-CYB-2026 | 2.1 | | Systems, Positions and Radio Description | RCECD-SYS-2026 | 3.0 | | Rook County Tactical In",
+          "chunkId": 23
+        }
+      ],
+      "locked": false
+    }
+  ],
+  "after": [
+    {
+      "id": "I-03b",
+      "phaseId": "01M5QV5TKMJCBPZM0HB0YMK4CG",
+      "time": "0:30",
+      "wallClock": "19:00",
+      "from": "Resident (Social Media)",
+      "toRoleIds": ["pio"],
+      "toLabel": "Pio",
+      "event": "Post (@HaldenNeighbor): \"911 is down. Just called and got dead air. Call 555-0110 instead — it’s the real number. #911Down #HaldenHelp\" — 47 reposts in 8 minutes.",
+      "expectedAction": "PIO logs sentiment and prepares a holding statement about call volume; does NOT confirm a cause before Ops and IT verify.",
+      "purposeTag": "PRESSURE",
+      "format": "tweet",
+      "injectId": "01M5QVHPWQ1C9E5XJST0MHBSBP",
+      "citations": [],
+      "locked": false
+    },
+    {
+      "id": "I-06b",
+      "phaseId": "01M5QV5TKM1C6R5P8PV2X1E5ZM",
+      "time": "1:05",
+      "wallClock": "19:35",
+      "from": "Media Monitoring Dashboard (Channel 12)",
+      "toRoleIds": ["pio"],
+      "toLabel": "Pio",
+      "event": "News chyron (Channel 12, 19:35): 'BREAKING: 911 IS DOWN — CALL 555-0110 INSTEAD.' The station repeats the number from the viral post.",
+      "expectedAction": "PIO confirms the alternate number 555-0110 is valid per RCECD-F-14 and prepares to publish via WEA and social media only after Director and EMA approval; does not issue a correction to the chyron.",
+      "purposeTag": "PRESSURE",
+      "format": "news_chyron_still",
+      "injectId": "01M5QVJSAWYB0DTJ03AAYNNXNN",
+      "citations": [
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Annex C",
+          "quote": "| Record | Decision | Owner | |---|---|---| | OPS-DR-1 | Declare an incident level | Shift Supervisor / Director | | OPS-DR-2 | Reroute all 911 calls to Tamarack County Communications | Director | | O",
+          "chunkId": 78
+        },
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Section 10",
+          "quote": "Swatting calls report a violent emergency at a specific person's or institution's address to draw an armed response. Signs: a caller who is calm, scripted or sounds like a recording; a call on a 10-di",
+          "chunkId": 73
+        }
+      ],
+      "locked": false
+    },
+    {
+      "id": "I-11",
+      "phaseId": "01M5QV5TKMW2JY1VVQ1EFWEHSG",
+      "time": "2:10",
+      "wallClock": "20:40",
+      "from": "State ESInet NOC",
+      "toRoleIds": ["sup", "tech", "dir"],
+      "toLabel": "Sup, Tech, Dir",
+      "event": "Phone Call: 'This is the state ESInet Network Operations Center, calling from 555-0119. We’ve received your alert about anomalous call patterns on SIP trunk group A. We’ve analyzed the source traffic and confirm a TDoS pattern. We recommend rerouting all 911 calls to Tamarack County Communications via the OPS-DR-2 overflow path. Please confirm your intent to reroute within 10 minutes, or we will initiate automatic reroute to prevent service loss.'",
+      "expectedAction": "Sup calls the Director to confirm rerouting under OPS-DR-5; Tech verifies the Tamarack County mutual aid agreement (MCTA-2025) is active and shares the contact with the Technical Lead; Director declares Level 1 and activates OPS-DR-5.",
+      "purposeTag": "CORE_NARRATIVE",
+      "format": "phone_call",
+      "injectId": "01M5QVNHN6XPBMKHEC7BR36SEA",
+      "citations": [
+        {
+          "documentId": "01M5QV3BW6ETXD6E6H0QMTB695",
+          "documentTitle": "Rook County Emergency Communications District — Cyber Incident Response Playbook",
+          "headingPath": "Rook County Emergency Communicat… › Section 5 › T-2 Contain",
+          "quote": "- **10-digit lines:** the GateKeeper call-screening appliance sits in front of the 10-digit lines (not the 911 trunks). The supervisor or Technical Lead turns on the stored \"TDoS-strict\" rule set (blo",
+          "chunkId": 25
+        },
+        {
+          "documentId": "01M5QV3BW8G1K6KC90SE37NYNE",
+          "documentTitle": "Rook County Emergency Communications District — ECC Operations and Continuity Plan",
+          "headingPath": "Rook County Emergency Communicat… › Section 1 › 1.4 Coordinated Documents",
+          "quote": "| Document | Number | Revision | |---|---|---| | Cyber Incident Response Playbook | RCECD-CYB-2026 | 2.1 | | Systems, Positions and Radio Description | RCECD-SYS-2026 | 3.0 | | Rook County Tactical In",
+          "chunkId": 62
+        }
+      ],
+      "locked": false
+    }
+  ]
+}
