@@ -48,6 +48,11 @@ export default tseslint.config(
       '.*/**',
       'test-results',
       'playwright-report',
+      // Player app build outputs and the practice page copied into them (spec 0446).
+      'mobile/**/build',
+      'mobile/**/.gradle',
+      'mobile/android/app/src/main/assets/demo',
+      'mobile/ios/Player/Demo',
     ],
   },
   js.configs.recommended,
