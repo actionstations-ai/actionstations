@@ -11,6 +11,8 @@
 // The band is judged on the reported figures. When the range over the two repeats reaches into
 // another band, the band is marked uncertain and the verdict lists every band the range reaches
 // (`uncertain`, `reaches`; #613). No extra run is made to settle it.
+// The failure evidence ("1 failure in 10 calls") is shown beside every completion figure (#614);
+// no extra call is made for a model with a single failure.
 
 export const LEVELS = ['recommended', 'usable', 'not_recommended']
 export const LEVEL_LABEL = {
@@ -35,14 +37,20 @@ export function bandOf({ completion, quality, damage }, bands) {
   return 'not_recommended'
 }
 
+/** The observed count behind completion, e.g. "1 failure in 10 calls". */
+export function failureEvidence(result) {
+  const n = result.failedCalls
+  return `${n} failure${n === 1 ? '' : 's'} in ${result.calls} call${result.calls === 1 ? '' : 's'}`
+}
+
 /** Why the figures fall short of the next band up, in plain words. */
-function shortfalls({ completion, quality, damage }, level, bands) {
+function shortfalls({ completion, quality, damage }, level, bands, evidence) {
   const out = []
   const target = level === 'usable' ? bands.recommended : bands.usable
   if (level === 'recommended') return out
   if (completion < target.completion)
     out.push(
-      `Completion ${shortOf(completion)}%: the chance a full scenario drafts with no failed stage is under ${target.completion}%`,
+      `Completion ${shortOf(completion)}% (${evidence}): the chance a full scenario drafts with no failed stage is under ${target.completion}%`,
     )
   if (quality < target.quality) out.push(`Quality ${shortOf(quality)}, under ${target.quality}`)
   if (level === 'usable' && damage !== undefined && damage > bands.recommended.damage)
@@ -97,6 +105,7 @@ export function verdictOf({ result, repeats = [], bands }) {
     },
     level,
     bands,
+    failureEvidence(result),
   )
   if (level === 'recommended')
     reasons.push('Completion, quality and review damage all meet the bands')
@@ -127,7 +136,7 @@ export function summaryMarkdown(run) {
   const lines = [
     `### ${run.model.ref} (Tabletop Mini Benchmark v${run.suiteVersion})`,
     '',
-    `**${LEVEL_LABEL[verdict.level]}${verdict.uncertain ? ' (uncertain)' : ''}.** Mini score ${range(result.score)} = Quality ${range(result.quality)} x Completion ${range(result.completion, '%')}.`,
+    `**${LEVEL_LABEL[verdict.level]}${verdict.uncertain ? ' (uncertain)' : ''}.** Mini score ${range(result.score)} = Quality ${range(result.quality)} x Completion ${range(result.completion, '%')} (${failureEvidence(result)}).`,
     ...verdict.reasons.map((r) => `- ${r}`),
     ...(verdict.uncertain
       ? [
@@ -136,7 +145,7 @@ export function summaryMarkdown(run) {
       : []),
     ...verdict.notes.map((n) => `- ${n}`),
     '',
-    `Completion rests on ${result.failedCalls} failure${result.failedCalls === 1 ? '' : 's'} in ${result.calls} calls (per-call success ${range(result.perCallRate, '%')}). About ten calls detect frequent failures, not rare ones.`,
+    `Completion rests on ${failureEvidence(result)} (per-call success ${range(result.perCallRate, '%')}, raised to the 14 calls of a scenario).${result.failedCalls === 1 ? ` A single failure is one call in ${result.calls}, and completion reads it as that rate at every stage of a scenario.` : ''} About ten calls detect frequent failures, not rare ones.`,
     `Repair rate ${range(result.repairRate, '%')} (calls that needed a repair round or a longer-answer retry; not a failure).`,
     `Review damage ${range(result.damage, '%')}.`,
     `Draft time ${range(result.draftMinutes, ' min')} for a full scenario on this hardware` +

@@ -53,6 +53,7 @@ import {
 import {
   LEVEL_LABEL,
   bandOf,
+  failureEvidence,
   overBy,
   shortOf,
   summaryMarkdown,
@@ -658,6 +659,49 @@ describe('bands', () => {
       })
       expect(md).toContain('**Recommended.**')
       expect(md).not.toContain('uncertain')
+    })
+  })
+
+  describe('failure evidence beside completion (#614)', () => {
+    const oneInTen = () =>
+      result({
+        completion: range(22.9),
+        perCallRate: range(90),
+        quality: range(85),
+        calls: 10,
+        failedCalls: 1,
+      })
+
+    it('words the count with its calls', () => {
+      expect(failureEvidence({ failedCalls: 1, calls: 10 })).toBe('1 failure in 10 calls')
+      expect(failureEvidence({ failedCalls: 0, calls: 10 })).toBe('0 failures in 10 calls')
+      expect(failureEvidence({ failedCalls: 3, calls: 8 })).toBe('3 failures in 8 calls')
+    })
+
+    it('puts it on the score line and in the completion reason', () => {
+      const r = oneInTen()
+      const v = verdictOf({ result: r, bands })
+      expect(v.reasons.join(' ')).toContain('Completion 22.9% (1 failure in 10 calls)')
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: v,
+      })
+      expect(md).toContain('Completion 22.9% (1 failure in 10 calls).')
+      expect(md).toContain('Completion rests on 1 failure in 10 calls')
+      expect(md).toContain('A single failure is one call in 10')
+    })
+
+    it('shows the count for a model with no failure too, and takes no extra call', () => {
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: result({ calls: 10 }),
+        verdict: verdictOf({ result: result({ calls: 10 }), bands }),
+      })
+      expect(md).toContain('(0 failures in 10 calls)')
+      expect(md).not.toContain('A single failure')
     })
   })
 
