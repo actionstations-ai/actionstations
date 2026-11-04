@@ -6,7 +6,10 @@ import type { MselRow, Role, Scenario } from '@shared/schemas'
 import { compileTemplate } from '../prompts/template'
 import {
   deliberateTokens,
+  isDecisionPointNote,
+  newDecisionBudget,
   notesDeliberateContent,
+  overreachRejection,
   revisionRejection,
   tagGuide,
 } from './revision-guard'
@@ -88,5 +91,76 @@ describe('critique prompt', () => {
     expect(text).toContain('CORE_NARRATIVE: Advances the main storyline\n')
     expect(text.indexOf('Check the design first')).toBeLessThan(text.indexOf('Then fact checks'))
     expect(text).toContain('Never report their invented numbers')
+  })
+})
+
+// #601: the same storm case, qwen3-30b run. The planted defect removes the DECISION POINT marker
+// from I-09; the revision turned I-16, I-17 and I-03b into decision prompts as well. The rows
+// are reduced from that run's before/after; I-09 "after" is a targeted, gemma-style fix.
+describe('revision guard: rows the note does not name (#601)', () => {
+  const rev = JSON.parse(
+    readFileSync('tests/fixtures/generate/qwen-decision-revision-rows.json', 'utf8'),
+  ) as { before: MselRow[]; after: (MselRow & { expectedAction: string })[] }
+  const rowBefore = (id: string) => rev.before.find((r) => r.id === id)!
+  const rowAfter = (id: string) => rev.after.find((r) => r.id === id)!
+  const decisionNote = (id: string) =>
+    `${id}: No row poses a decision with a cost on both sides. Fix: make this row the decision point.`
+  const check = (id: string, note: string, budget = newDecisionBudget()) =>
+    overreachRejection(rowBefore(id), rowAfter(id), note, budget)
+
+  it('recognises the missing-decision-point note', () => {
+    expect(isDecisionPointNote(decisionNote('I-09'))).toBe(true)
+    expect(isDecisionPointNote('I-16: The backup time contradicts the facts.')).toBe(false)
+  })
+
+  it('reverts I-16, whose sender and event were rewritten into a vendor email', () => {
+    expect(check('I-16', decisionNote('I-16'))).toMatch(/keeps its sender/)
+  })
+
+  it('reverts I-17, whose sitrep became a phone call from the EMA', () => {
+    expect(check('I-17', decisionNote('I-17'))).toMatch(/keeps its sender/)
+  })
+
+  it('reverts I-03b, a PRESSURE row turned into a decision prompt', () => {
+    expect(check('I-03b', decisionNote('I-03b'))).toMatch(/PRESSURE row into a decision/)
+  })
+
+  it('reverts any changed row the critique did not name', () => {
+    expect(check('I-16', '')).toMatch(/does not name this row/)
+  })
+
+  it('accepts the targeted fix: only I-09 gains its decision marker, same sender and event', () => {
+    const budget = newDecisionBudget()
+    expect(check('I-09', decisionNote('I-09'), budget)).toBe(undefined)
+    expect(revisionRejection(rowBefore('I-09'), asRevision(rowAfter('I-09')), roles)).toBe(
+      undefined,
+    )
+    expect(budget.left).toBe(0)
+  })
+
+  it('converts one row only: a second decision-point conversion is reverted', () => {
+    const budget = newDecisionBudget()
+    expect(check('I-09', decisionNote('I-09'), budget)).toBe(undefined)
+    const again = overreachRejection(
+      rowBefore('I-09'),
+      { ...rowAfter('I-09'), expectedAction: 'DECISION POINT: choose again.' },
+      decisionNote('I-09'),
+      budget,
+    )
+    expect(again).toMatch(/one row only/)
+  })
+
+  it('leaves a row alone when the revision changes nothing', () => {
+    const same = overreachRejection(rowBefore('I-16'), rowBefore('I-16'), '', newDecisionBudget())
+    expect(same).toBe(undefined)
+  })
+
+  it('lets an ordinary note on a named row through to the existing guards', () => {
+    const note = 'I-16: the backup time is wrong. Fix: say 02:00.'
+    const edited = {
+      ...rowBefore('I-16'),
+      event: rowBefore('I-16').event.replace('02:00', '02:30'),
+    }
+    expect(overreachRejection(rowBefore('I-16'), edited, note, newDecisionBudget())).toBe(undefined)
   })
 })

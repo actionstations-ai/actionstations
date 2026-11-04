@@ -109,3 +109,69 @@ function deliberateContentReason(row: MselRow, rev: Revised): string | undefined
 export function revisionRejection(row: MselRow, rev: Revised, roles: Role[]): string | undefined {
   return partyChangeReason(row, rev, roles) ?? deliberateContentReason(row, rev)
 }
+
+// Smallest change that resolves a note (#601). A small model asked to add the one missing
+// decision point rewrote several correct rows into decision prompts (new sender, new event,
+// new expected action). A row may change only when a critique note names it, and a
+// missing-decision-point note converts one row, keeping who sends it.
+
+/** A note whose complaint is that no row poses a decision. */
+const DECISION_NOTE = /decision[- ]point|\b(?:no|missing|lacks?|without)\b[^.]{0,30}\bdecision\b/i
+
+/** True when a critique note asks for a decision point rather than naming a defect in the row. */
+export const isDecisionPointNote = (noteText: string): boolean => DECISION_NOTE.test(noteText)
+
+/** How many rows missing-decision-point notes may add or convert in one critique revision. */
+export interface DecisionBudget {
+  left: number
+}
+
+export const newDecisionBudget = (): DecisionBudget => ({ left: 1 })
+
+interface RevisedRow {
+  from: string
+  event: string
+  expectedAction: string
+}
+
+const norm = (t: string): string => t.replace(/\s+/g, ' ').trim().toLowerCase()
+
+/** True when the revision differs from the original in event, sender or expected action. */
+export const changesRow = (row: MselRow, rev: RevisedRow): boolean =>
+  norm(row.event) !== norm(rev.event) ||
+  norm(row.from) !== norm(rev.from) ||
+  norm(row.expectedAction) !== norm(rev.expectedAction)
+
+/** Why a decision-point conversion of this row is refused, or undefined when it may proceed. */
+function conversionRefusal(
+  row: MselRow,
+  rev: RevisedRow,
+  budget: DecisionBudget,
+): string | undefined {
+  if (isDeliberate(row.purposeTag))
+    return `a missing-decision-point note does not turn a ${row.purposeTag} row into a decision`
+  if (!sameParty(row.from, rev.from) && !GENERIC_PARTY.test(row.from))
+    return `a missing-decision-point note converts a row but keeps its sender (${row.from}, not ${rev.from})`
+  if (budget.left <= 0)
+    return 'a missing-decision-point note converts one row only, and one was already converted'
+  return undefined
+}
+
+/**
+ * The reason a revised row must be rejected for going beyond its note, or undefined.
+ * `noteText` is everything the critique said about this row, empty when it named none. A
+ * missing-decision-point note spends the shared budget: one row is converted per revision.
+ */
+export function overreachRejection(
+  row: MselRow,
+  rev: RevisedRow,
+  noteText: string,
+  budget: DecisionBudget,
+): string | undefined {
+  if (!changesRow(row, rev)) return undefined
+  if (!noteText.trim()) return 'the critique note does not name this row'
+  if (!isDecisionPointNote(noteText)) return undefined
+  const refusal = conversionRefusal(row, rev, budget)
+  if (!refusal) budget.left -= 1
+  return refusal
+}

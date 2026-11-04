@@ -58,7 +58,15 @@ import {
   type FacilityFacts,
 } from './facility'
 import { CRITIQUE, withBasis } from './critique-notes'
-import { isDeliberate, notesDeliberateContent, revisionRejection, tagGuide } from './revision-guard'
+import {
+  isDeliberate,
+  newDecisionBudget,
+  notesDeliberateContent,
+  overreachRejection,
+  revisionRejection,
+  tagGuide,
+  type DecisionBudget,
+} from './revision-guard'
 import { COMPACT_SECTIONS, compactCritiqueVars, critiqueContextError } from './critique-compact'
 import { findIdea } from './ideas'
 import { describeStaleInjects, markInjectsStale } from './inject-stale'
@@ -997,9 +1005,15 @@ async function revisePhaseRows(
   input: StepInput,
   phase: Phase,
   notes: string[],
+  decisionBudget: DecisionBudget,
 ): Promise<Set<string>> {
   const { scenario: s, env } = input
-  const flagged = new Set(notes.map((n) => n.split(':')[0]!.trim().toUpperCase()))
+  const noteById = new Map<string, string>()
+  for (const n of notes) {
+    const id = n.split(':')[0]!.trim().toUpperCase()
+    noteById.set(id, `${noteById.get(id) ?? ''} ${n}`)
+  }
+  const flagged = new Set(noteById.keys())
   const current = s.msel.filter((r) => r.phaseId === phase.id)
   const step: StepKey = { stage: 'msel_phase', itemId: phase.id }
   const mselInput: StepInput = { ...input, step }
@@ -1020,7 +1034,9 @@ async function revisePhaseRows(
     const original = byId.get(r.id.trim().toUpperCase())
     if (!original || original.locked || isPartnerRow(original, env.ownerFilter)) return []
     if (!flagged.has(original.id.toUpperCase())) return []
-    const why = revisionRejection(original, r, s.roles)
+    const why =
+      revisionRejection(original, r, s.roles) ??
+      overreachRejection(original, r, noteById.get(original.id.toUpperCase()) ?? '', decisionBudget)
     if (why) {
       env.ctx.log(`critique: revision of ${original.id} rejected, original kept — ${why}`, 'warn', {
         stage: 'critique',
@@ -1118,6 +1134,7 @@ export async function reviseFromCritique(
 ): Promise<Set<string>> {
   const { scenario: s, env } = input
   const rewritten = new Set<string>()
+  const decisionBudget = newDecisionBudget()
   for (const [phaseId, notes] of phasesToRevise(s, issues, env.ctx)) {
     const phase = s.phases.find((p) => p.id === phaseId)
     if (!phase) continue
@@ -1126,7 +1143,7 @@ export async function reviseFromCritique(
     const extra = { stage: 'critique', itemId: phaseId }
     env.ctx.progress(0.95, `Revising ${stepLabel(s, step)} from the critique`, extra)
     try {
-      const ids = await revisePhaseRows(input, phase, notes)
+      const ids = await revisePhaseRows(input, phase, notes, decisionBudget)
       ids.forEach((id) => rewritten.add(id))
       env.ctx.log(
         `critique: ${ids.size} of ${notes.length} flagged row(s) in phase ${phase.index + 1} rewritten`,
