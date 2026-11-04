@@ -1,0 +1,150 @@
+{
+  "roles": [
+    {
+      "id": "dir",
+      "name": "911 Director (Incident Commander)",
+      "abbreviation": "Dir",
+      "team": "Team A: Operations",
+      "description": "Manages center-level command, evacuation to the backup PSAP, overtime, and policy-group requests.",
+      "standingOrders": [
+        "Incident First: if the system shows a unit as available but the field says it’s engaged, trust the field and reassign.",
+        "Evacuate or Reroute: declare Level 1 and activate OPS-DR-5 within 5 minutes of CAD freeze and silent call surge.",
+        "Truth Over Reassurance: do not issue public statements until the FBI and CISA are notified via County Security.",
+        "Continuity Over Comfort: if the building is compromised, evacuate to the backup PSAP even if the main site appears functional."
+      ]
+    },
+    {
+      "id": "sup",
+      "name": "Floor Supervisor (Communications Supervisor)",
+      "abbreviation": "Sup",
+      "team": "Team B: Floor Operations",
+      "description": "Owns moment-to-moment call handling, the switch to manual dispatch with run cards, and talkgroup patches.",
+      "standingOrders": [
+        "Manual First: if CAD freezes, immediately initiate manual dispatch using RCECD-F-11 and position cards.",
+        "Patch to Preserve: maintain talkgroup patches to field agencies even if ALI is inaccurate, to ensure response coordination.",
+        "Queue Watch: if 911 calls queue over 20 seconds for 10 minutes, escalate to Level 2.",
+        "Call Back: if a caller reports a hostage situation, do not dismiss—patch to LE and initiate verification protocol."
+      ]
+    },
+    {
+      "id": "tech",
+      "name": "911 Systems / Technical Services Manager (Technical Lead)",
+      "abbreviation": "Tech",
+      "team": "Team C: Technology",
+      "description": "Owns the call-handling equipment, CAD, ALI, mapping and the recorder, and escalation to the 911 service provider and vendors.",
+      "standingOrders": [
+        "Isolate or Break: if malware beaconing is detected, manually firewall CAD-FW01 (CYB-DR-1) to stop lateral movement.",
+        "Vendor First: if 911 trunks are under TDoS, contact state ESInet NOC (555-0119) immediately to report and request overflow routing.",
+        "Evidence Chain: preserve call detail records and recordings on REC-01 before any system reboot or reset.",
+        "No Guessing: if ALI shows a unit at the wrong location, do not trust the data—verify via field radio and patch to LE."
+      ]
+    },
+    {
+      "id": "coml",
+      "name": "Radio System Manager / Communications Unit Leader (COML)",
+      "abbreviation": "Coml",
+      "team": "Team D: Radio",
+      "description": "Owns the trunked radio system, consoles, interoperability channels and the ICS 205.",
+      "standingOrders": [
+        "Interoperability First: if CAD is corrupted, maintain talkgroup patches to Sheriff, Police, and Fire using the P25 console.",
+        "No Silence: if a silent call floods the 10-digit lines, patch to the LE Liaison and activate the ICS 205 to alert field units.",
+        "Backup Voice: if the main radio console fails, switch to the secondary console and use the P25 backup channel.",
+        "Sirens Hold: do not initiate emergency alerting via radio unless directed by EMA or the Director."
+      ]
+    },
+    {
+      "id": "le",
+      "name": "Police / Sheriff Liaison (Patrol Commander)",
+      "abbreviation": "Le",
+      "team": "Team E: Field Agencies",
+      "description": "Owns the field response, the swatting response posture and BOLO dissemination.",
+      "standingOrders": [
+        "Verify Before Respond: if a caller reports a hostage situation, do not dispatch immediately—verify via the field radio and cross-check with the call taker.",
+        "Swatting Posture: if multiple calls report a fake hostage event, activate swatting response protocol and alert FBI via the County Security Officer.",
+        "BOLO Lock: if a silent call claims a false threat, do not issue a BOLO until the call is verified and the Director has approved.",
+        "Field Over Screen: if a unit reports they are on scene but CAD shows them as en route, trust the field and update the status manually."
+      ]
+    },
+    {
+      "id": "pio",
+      "name": "Public Information Officer (PIO)",
+      "abbreviation": "Pio",
+      "team": "Team F: Communications",
+      "description": "Owns the call-this-10-digit-number message, social media and the press.",
+      "standingOrders": [
+        "One Message: publish only the alternate 10-digit emergency number via WEA and social media once approved by the Director and EMA.",
+        "No Rumor: do not respond to false social media posts—wait for official verification and then issue a correction.",
+        "Press Control: if a reporter calls, state that 'the 911 center is operating under protocol and will issue a public update via WEA.'",
+        "No Speculation: never suggest that 911 is down—use 'service continuity measures are active' or 'call volume is high due to a cyber incident.'"
+      ]
+    }
+  ],
+  "before": [
+    {
+      "id": "I-03b",
+      "from": "Resident (Social Media)",
+      "toRoleIds": ["pio"],
+      "event": "Post (@HaldenNeighbor): \"911 is down. Just called and got dead air. Call 555-0177 instead — it’s the real number. #911Down #HaldenHelp\" — 47 reposts in 8 minutes.",
+      "expectedAction": "PIO logs the post and notes the fake number 555-0177 as a social media misinformation artifact; does not respond or correct — waits for official verification and Director approval.",
+      "purposeTag": "PRESSURE"
+    },
+    {
+      "id": "I-16",
+      "from": "Technical Lead (Brent Harlow)",
+      "toRoleIds": ["dir"],
+      "event": "Email Forward: 'From Brent Harlow, 911 Systems Manager, to Karen Voss, 911 Director: CAD-MDS01 is imaged and isolated. The CAD-DB01 backup from 02:00 today predates the 18:45 intrusion. Before any restore, the 17 calls with altered ALI or unit status must be reconciled against radio recordings and run cards. Please approve the verification plan and the Keystone vendor access request.'",
+      "expectedAction": "Incident Commander reviews the request and authorizes the verification plan under EOP 5.2 (incident verification and recovery).",
+      "purposeTag": "CORE_NARRATIVE"
+    },
+    {
+      "id": "I-17",
+      "from": "Frontline Staff",
+      "toRoleIds": ["dir", "sup", "tech"],
+      "event": "Sitrep: 'All 17 calls with corrupted ALI data have been reconciled. Verified via radio logs (12), run cards (RCECD-F-11), and 24-hour audit of unit movements. Medic 3 was on scene at the Marlow fire for 42 minutes; CAD showed them as available. Engine 4 was dispatched to a false address due to ALI spoofing but was corrected by field radio. All unit statuses now match field reports. Verification complete.'",
+      "expectedAction": "Supervisor reports full reconciliation of ALI data and confirms manual dispatch accuracy; technical staff begin restore prep.",
+      "purposeTag": "CORE_NARRATIVE"
+    },
+    {
+      "id": "I-09",
+      "from": "Rook County EMA Director",
+      "toRoleIds": ["dir", "sup", "le"],
+      "event": "Phone Call: 'Karen, this is Paul Brodsky at the county EOC. We have a tornado on the ground near Pine Ridge and Channel 12 is telling people 911 is down. Is 911 working or not? If you want alternate numbers published and a WEA sent, I need the numbers and the wording from you in the next 10 minutes.'",
+      "expectedAction": "the Director decides whether to reroute all 911 calls to Tamarack County Communications (OPS-DR-2) and whether to publish the Annex A alternate numbers 555-0110 and 555-0112 with a WEA (OPS-DR-4, with the EMA Director); declares Level 1 (OPS-DR-1).",
+      "purposeTag": "CORE_NARRATIVE"
+    }
+  ],
+  "after": [
+    {
+      "id": "I-03b",
+      "from": "Resident (Social Media)",
+      "toRoleIds": ["pio"],
+      "event": "Post (@HaldenNeighbor): \"911 is down. Just called and got dead air. Call 555-0177 instead — it’s the real number. #911Down #HaldenHelp\" — 47 reposts in 8 minutes.",
+      "expectedAction": "Pio must decide whether to issue a public correction now via WEA and social media, or wait for Director approval; acting too fast risks spreading unverified info, but waiting risks public panic. DECISION POINT: Pio must decide whether to publish alternate number now or defer to Director.",
+      "purposeTag": "PRESSURE"
+    },
+    {
+      "id": "I-16",
+      "from": "Keystone Public Safety (RespondCAD Support)",
+      "toRoleIds": ["dir"],
+      "event": "Email Forward: 'From: Keystone Public Safety (RespondCAD Support) to Karen Voss, 911 Director: The forensic image of CAD-DB01 has been validated. We will restore from the 02:00 backup and rebuild CAD-MDS01. However, the 02:00 backup pre-dates the 18:45 intrusion. Before any restore, a full verification of 17 calls with altered ALI and unit status must be completed against radio recordings and RCECD-F-11 run cards. We request your formal approval to proceed with the verification plan and vendor access request (signed, via RCECD-F-24). Without approval, no restore will begin.'",
+      "expectedAction": "DECISION POINT: Director must approve or reject the verification plan and vendor access request. Approving allows the restore to begin; rejecting delays recovery and risks continued manual operations. The decision must be made within 30 minutes to avoid extended service disruption.",
+      "purposeTag": "CORE_NARRATIVE"
+    },
+    {
+      "id": "I-17",
+      "from": "Rook County Emergency Management (EMA)",
+      "toRoleIds": ["dir"],
+      "event": "Phone Call: 'Karen, this is Paul Brodsky at EMA. We’ve received a formal request from the Statewide 911 Board to confirm that 911 service is restored and safe to resume. They are prepared to lift the MCTA-2025 reroute to Tamarack County Communications only if you confirm that all 17 corrupted calls have been reconciled and that the CAD system is verified clean. They will not approve resumption of digital dispatch until you provide the verification report and a signed RCECD-F-24.'",
+      "expectedAction": "DECISION POINT: Director must decide whether to resume CAD operations based on verification status. Accepting allows return to digital dispatch and full service restoration but carries risk if the system contains hidden malware. Rejecting maintains manual operations and ensures data integrity but delays full recovery. The decision must be made within 15 minutes.",
+      "purposeTag": "CORE_NARRATIVE"
+    },
+    {
+      "id": "I-09",
+      "from": "Rook County EMA Director",
+      "toRoleIds": ["dir", "sup", "le"],
+      "event": "Phone Call: 'Karen, this is Paul Brodsky at the county EOC. We have a tornado on the ground near Pine Ridge and Channel 12 is telling people 911 is down. Is 911 working or not? If you want alternate numbers published and a WEA sent, I need the numbers and the wording from you in the next 10 minutes.'",
+      "expectedAction": "DECISION POINT: The Director decides whether to reroute all 911 calls to Tamarack County Communications (OPS-DR-2) and whether to publish the Annex A alternate numbers 555-0110 and 555-0112 with a WEA (OPS-DR-4, with the EMA Director); declares Level 1 (OPS-DR-1).",
+      "purposeTag": "CORE_NARRATIVE"
+    }
+  ]
+}

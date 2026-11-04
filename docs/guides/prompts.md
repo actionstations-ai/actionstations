@@ -164,6 +164,8 @@ A variable that does not exist renders as empty text; it does not raise an error
 
 The `variables:` list in each shipped prompt's frontmatter names exactly what that stage reads.
 
+The review revision is bounded in code, whatever the model returns (`src/main/generate/revision-guard.ts`): a rewritten row is reverted, and the revert logged, when it changes the deliberate content or the parties of a PRESSURE-style row (#590), when the critique did not name it, or when a missing-decision-point note converts a second row, a PRESSURE-style row, or changes the converted row's sender (#601).
+
 ## How a stage runs
 
 1. The prompt is loaded from the most specific layer.
