@@ -317,6 +317,8 @@ export const MiniRun = z.object({
     reasons: z.array(z.string().max(600)),
     notes: z.array(z.string().max(700)),
     uncertain: z.array(z.enum(MINI_LEVELS)).optional(),
+    /** Every band the two-run range reaches, best first, when the band is uncertain (#613). */
+    reaches: z.array(z.enum(MINI_LEVELS)).optional(),
   }),
 })
 export type MiniRun = z.infer<typeof MiniRun>
