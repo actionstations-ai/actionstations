@@ -1,6 +1,6 @@
 # ADR-0074: The Mini gives partial credit on continuous criteria
 
-Builds on ADR-0072. Issues #612, #613.
+Builds on ADR-0072. Issues #612, #613, #614.
 
 ## Context
 
@@ -45,6 +45,9 @@ coverage and support, pace, tag mix, handbook length.
 - **An uncertain band is shown, not settled with more calls (#613).** When the two-run range
   reaches into another band, the verdict marks the band uncertain and lists every band the range
   reaches. No automatic third run.
+- **The failure count sits beside every completion figure (#614).** "1 failure in 10 calls" is
+  printed with the completion and in the band reason. The definition (per-call rate raised to the
+  14 calls of a scenario) is unchanged and no extra calls are made for a model with one failure.
 
 ## Consequences
 
@@ -52,5 +55,7 @@ coverage and support, pace, tag mix, handbook length.
   longer decided by a single check.
 - Quality is not comparable across scoring versions; reports must not mix Mini runs of scoring
   version 1 and 2 without re-scoring.
+- A model with one failure in ten calls still lands at about 23% completion; the evidence shows
+  why, and the band is not softened.
 - The site methods page and the public task-set repository describe the criteria and need the
   mapping table; the task set itself is unchanged.

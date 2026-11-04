@@ -1,6 +1,6 @@
 # Spec 0445: Tabletop Mini Benchmark, a screening benchmark that runs in minutes
 
-Issues: #604, #606, #612, #613 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0074 (partial credit, uncertain bands)
+Issues: #604, #606, #612, #613, #614 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0074 (partial credit, uncertain bands, failure evidence)
 
 ## Summary
 
@@ -186,6 +186,14 @@ Per run, quality is the credit earned over all criteria. Over both runs, the per
 over every call, completion is `rate ^ 14`, quality is the mean of the runs, and the score is
 quality times completion. The range of each figure is the minimum and maximum over the two runs
 (the score's range is the runs' own scores, widened to include the reported score).
+
+**Failure evidence (#614).** Every completion figure is shown with the observed count behind it:
+"Completion 22.9% (1 failure in 10 calls)" in the summary line, in the band reason and in the
+replay table. One failed call in ten is a per-call rate of 90%, and 0.9 raised to 14 is 22.9%, so a
+single failure drops a model that would otherwise be at 100% well below the Usable band. The
+definition is kept (completion is the chance a whole scenario drafts with no failed stage), and the
+Mini makes **no extra calls** for a model with one failure: the count is shown so a reader can see
+that the band rests on one call, and the full benchmark is the check for a rare failure.
 
 Completion falls fast by design: it is the chance a whole scenario succeeds. 98% of calls
 succeeding gives 75%, and one failure in eight Mini calls gives 15%. **Detection power.** The
