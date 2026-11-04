@@ -10,12 +10,14 @@ import {
 import { applyDefects } from '../../scripts/bench/defects.mjs'
 
 const suite = loadSuite('quick')
-const unfinished = suite.critique[0]
+const unfinished = suite.critique[0] as { id: string; example: string; defects: string }
 
 /** The working project of an interrupted run: planted defects were already saved into it. */
 function interruptedWorkingScenario() {
   const defects = loadDefects(unfinished.defects)
-  const clean = structuredClone(shippedScenario(loadExample(unfinished.example), defects.scenario))
+  const clean = structuredClone(
+    shippedScenario(loadExample(unfinished.example), defects.scenario as string),
+  )
   return { defects, working: applyDefects(clean, defects).scenario }
 }
 
