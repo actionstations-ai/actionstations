@@ -44,6 +44,7 @@ import {
   summaryMarkdown,
   verdictOf,
 } from '../../scripts/bench/mini/verdict.mjs'
+import { restampRun } from '../../scripts/bench/mini/restamp.mjs'
 import { taskSetFiles, taskSetHash } from '../../scripts/bench/taskset.mjs'
 
 const mini = loadSuite('mini') as any
@@ -496,7 +497,7 @@ describe('bands', () => {
     const r = result({ quality: range(82, 76, 88) })
     const md = summaryMarkdown({
       model: { ref: 'lmstudio:x' },
-      suiteVersion: 2,
+      suiteVersion: 1,
       result: r,
       verdict: verdictOf({ result: r, bands }),
     })
@@ -703,6 +704,14 @@ describe('the runner', () => {
     manageModel({ name: 'qwen3.5:9b', tool: 'ollama' }, 32768, { load: true, exec }).done()
     manageModel({ name: 'x', tool: 'lmstudio' }, 32768, { load: false, exec }).done()
     expect(calls).toEqual([])
+  })
+
+  it('is the first published version of the suite, and old stamps are rewritten to it (#609)', () => {
+    expect(mini.suiteVersion).toBe(1)
+    const saved = { suite: 'mini', suiteVersion: 2, taskSetHash: 'old', result: { score: 70 } }
+    const stamped = restampRun(saved)
+    expect(stamped).toMatchObject({ suite: 'mini', suiteVersion: 1, result: { score: 70 } })
+    expect(stamped.taskSetHash).toBe(taskSetHash('mini'))
   })
 
   it('still unloads when the unload command fails', () => {
