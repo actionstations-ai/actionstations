@@ -7,7 +7,7 @@ import { existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { waitForJob } from '../lib/app-driver.mjs'
 import { applyDefects } from './defects.mjs'
-import { caseBrief, loadDefects, loadExample, scenarioIdFor } from './corpus.mjs'
+import { caseBrief, loadDefects, loadExample, scenarioIdFor, shippedScenario } from './corpus.mjs'
 import { critiqueCase, draftingCase, ideationCase } from './score/composite.mjs'
 import { critiqueNotes } from './score/critique.mjs'
 import { droppedIdeaKeys } from './score/ideation.mjs'
@@ -161,12 +161,21 @@ export async function runDrafting(ctx, c) {
   }
 }
 
+/**
+ * The defects planted into a copy of the clean shipped scenario. The working project is never the
+ * base: after an interrupted run (--resume) it may already carry the defects or a revision (#603).
+ */
+export function plantedCase(c) {
+  const example = loadExample(c.example)
+  const defects = loadDefects(c.defects)
+  const scenarioId = scenarioIdFor(example, defects.scenario)
+  const clean = structuredClone(shippedScenario(example, defects.scenario))
+  return { defects, scenarioId, ...applyDefects(clean, defects) }
+}
+
 export async function runCritique(ctx, c) {
   const projectPath = await openExample(ctx, c.example)
-  const defects = loadDefects(c.defects)
-  const scenarioId = scenarioIdFor(loadExample(c.example), defects.scenario)
-  const stored = await ctx.invoke('scenarios:get', { projectPath, scenarioId })
-  const { scenario, planted } = applyDefects(stored, defects)
+  const { scenarioId, scenario, planted } = plantedCase(c)
   await ctx.invoke('scenarios:save', {
     projectPath,
     scenario,
