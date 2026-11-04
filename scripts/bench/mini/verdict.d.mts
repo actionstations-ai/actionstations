@@ -13,4 +13,6 @@ export function verdictOf(input: { result: any; repeats?: any[]; bands: any }): 
   notes: string[]
   uncertain?: Level[]
 }
+export function shortOf(n: number): string
+export function overBy(n: number): string
 export function summaryMarkdown(run: any): string

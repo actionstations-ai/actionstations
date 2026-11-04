@@ -18,7 +18,11 @@ export const LEVEL_LABEL = {
   not_recommended: 'Not recommended',
 }
 
-const pct = (n) => `${Math.round(n * 10) / 10}%`
+// A figure printed next to the threshold it misses must not round across it (#611): "Quality 80,
+// under 80" was 79.6. One decimal, cut toward the threshold side, so a miss never reads as a tie.
+const tenth = (n) => Number((n * 10).toFixed(6))
+export const shortOf = (n) => (Math.floor(tenth(n)) / 10).toFixed(1)
+export const overBy = (n) => (Math.ceil(tenth(n)) / 10).toFixed(1)
 
 /** The band for one set of figures (completion and quality in 0..100, damage in percent). */
 export function bandOf({ completion, quality, damage }, bands) {
@@ -37,12 +41,12 @@ function shortfalls({ completion, quality, damage }, level, bands) {
   if (level === 'recommended') return out
   if (completion < target.completion)
     out.push(
-      `Completion ${pct(completion)}: the chance a full scenario drafts with no failed stage is under ${target.completion}%`,
+      `Completion ${shortOf(completion)}%: the chance a full scenario drafts with no failed stage is under ${target.completion}%`,
     )
-  if (quality < target.quality) out.push(`Quality ${Math.round(quality)}, under ${target.quality}`)
+  if (quality < target.quality) out.push(`Quality ${shortOf(quality)}, under ${target.quality}`)
   if (level === 'usable' && damage !== undefined && damage > bands.recommended.damage)
     out.push(
-      `Review damage ${pct(damage)}, over ${bands.recommended.damage}%: turn the review step off or check its changes`,
+      `Review damage ${overBy(damage)}%, over ${bands.recommended.damage}%: turn the review step off or check its changes`,
     )
   return out
 }

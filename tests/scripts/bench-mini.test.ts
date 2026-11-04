@@ -43,6 +43,8 @@ import {
 import {
   LEVEL_LABEL,
   bandOf,
+  overBy,
+  shortOf,
   summaryMarkdown,
   verdictOf,
 } from '../../scripts/bench/mini/verdict.mjs'
@@ -520,7 +522,7 @@ describe('bands', () => {
       bands,
     })
     expect(v.level).toBe('not_recommended')
-    expect(v.reasons.join(' ')).toMatch(/Completion 15%/)
+    expect(v.reasons.join(' ')).toMatch(/Completion 15\.0%/)
     expect(v.reasons.join(' ')).not.toMatch(/draft time|slow/i)
     expect(verdictOf({ result: result({ draftMinutes: range(900) }), bands }).level).toBe(
       'recommended',
@@ -544,9 +546,50 @@ describe('bands', () => {
       bands,
     })
     expect(v.level).toBe('usable')
-    expect(v.reasons.join(' ')).toMatch(/Review damage 23%.*turn the review step off/)
+    expect(v.reasons.join(' ')).toMatch(/Review damage 23\.0%.*turn the review step off/)
     expect(v.notes[0]).toMatch(/longContext: loop.*abc abc/)
     expect(v.notes[1]).toMatch(/format: format: bad/)
+  })
+
+  describe('band reasons never round across the threshold (#611)', () => {
+    const reasonFor = (over: Record<string, unknown>) =>
+      verdictOf({ result: result(over), bands }).reasons.join(' ')
+
+    it('prints one decimal: quality 79.6 is "79.6, under 80", not "80, under 80"', () => {
+      expect(reasonFor({ quality: range(79.6) })).toContain('Quality 79.6, under 80')
+    })
+
+    it('cuts toward the miss at the edges: 79.96 reads 79.9, 59.99 reads 59.9', () => {
+      expect(reasonFor({ quality: range(79.96) })).toContain('Quality 79.9, under 80')
+      expect(reasonFor({ quality: range(59.99), completion: range(95) })).toContain(
+        'Quality 59.9, under 60',
+      )
+    })
+
+    it('has no reason at the threshold itself, and one for the smallest miss', () => {
+      expect(verdictOf({ result: result({ quality: range(80) }), bands }).level).toBe('recommended')
+      expect(reasonFor({ quality: range(79.9) })).toContain('Quality 79.9, under 80')
+    })
+
+    it('does the same for completion below its threshold', () => {
+      expect(reasonFor({ completion: range(89.96) })).toContain('Completion 89.9%')
+      expect(reasonFor({ completion: range(89.96) })).toContain('is under 90%')
+    })
+
+    it('rounds review damage up when it is over its limit: 5.04 reads 5.1, never "5, over 5"', () => {
+      const v = (damage: number) => reasonFor({ damage: range(damage) })
+      expect(v(5.04)).toContain('Review damage 5.1%, over 5%')
+      expect(v(5.1)).toContain('Review damage 5.1%, over 5%')
+      expect(v(5)).not.toContain('Review damage')
+    })
+
+    it('formats exact values and survives float noise', () => {
+      expect(shortOf(80)).toBe('80.0')
+      expect(shortOf(79.6)).toBe('79.6')
+      expect(shortOf(0.1 * 3 * 100)).toBe('30.0')
+      expect(overBy(5)).toBe('5.0')
+      expect(overBy(23)).toBe('23.0')
+    })
   })
 
   it('marks a verdict whose ranges reach another band', () => {
