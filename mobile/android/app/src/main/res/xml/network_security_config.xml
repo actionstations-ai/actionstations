@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext is permitted at the platform level because LAN session hosts vary. The app's own check
+  (Invite.kt, spec 0446 FR-1) limits http to loopback, private, link-local and .local hosts.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Player" parent="android:Theme.DeviceDefault.DayNight">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_muted</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorPrimary">@color/bar</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bar</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:actionMenuTextColor">@color/on_bar</item>
+        <item name="android:actionBarStyle">@style/PlayerActionBar</item>
+        <item name="android:alertDialogTheme">@style/PlayerDialog</item>
+    </style>
+
+    <style name="Theme.Player.Launcher">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">@bool/light_bars</item>
+    </style>
+
+    <style name="PlayerActionBar" parent="android:Widget.DeviceDefault.ActionBar.Solid">
+        <item name="android:background">@color/bar</item>
+        <item name="android:titleTextStyle">@style/PlayerActionBarTitle</item>
+    </style>
+
+    <style name="PlayerActionBarTitle" parent="android:TextAppearance.DeviceDefault.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/on_bar</item>
+    </style>
+
+    <style name="PlayerDialog" parent="android:Theme.DeviceDefault.Dialog.Alert">
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text_muted</item>
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
+
+    <style name="LauncherTitle">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LauncherBody">
+        <item name="android:textColor">@color/text_muted</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="LauncherButton">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/on_accent</item>
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="LauncherButtonSecondary" parent="LauncherButton">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:background">@drawable/button_secondary</item>
+    </style>
+</resources>
