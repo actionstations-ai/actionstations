@@ -2,7 +2,8 @@
 // `pnpm dev:player`: rebuilds the player page on every change (vite build --watch, so the page
 // runs with its real CSP: no dev-server inline scripts) and serves it from a scripted session on
 // loopback (src/player/harness). The harness itself is TypeScript, bundled once here for Node.
-// Env: PLAYER_PORT (8485), PLAYER_NO_WS=1 (force the fetch fallback), PLAYER_LOG=1.
+// Env: PLAYER_PORT (8485), PLAYER_NO_WS=1 (force the fetch fallback), PLAYER_LOG=1,
+// PLAYER_TLS=1 (HTTPS with a session certificate and pinned links, for the player apps).
 import { spawn } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'

@@ -1247,6 +1247,11 @@ async function persistKeys(a: Active): Promise<void> {
   }
 }
 
+/** A self-hosted server's pinned certificate, which phones cannot verify on their own. */
+function pinnedFingerprint(c: Active['session']['connection']): string | undefined {
+  return c.kind === 'self-hosted' ? c.fingerprintSha256 : undefined
+}
+
 /** The running session's status when it belongs to this scenario; otherwise an empty status. */
 export function status(root: string, scenarioId: string): LiveSessionStatus {
   const a = active
@@ -1259,6 +1264,7 @@ export function status(root: string, scenarioId: string): LiveSessionStatus {
         sessionId: a.session.id,
         keys: a.keys,
         controllerPub: a.signing.publicKey,
+        fingerprintSha256: lan ? lan.fingerprintSha256 : pinnedFingerprint(a.session.connection),
       })
     : undefined
   const since = Date.now() - Date.parse(a.session.startedAt)
@@ -1653,6 +1659,7 @@ export async function createPartnerInvite(
       sessionId: a.session.id,
       keys: a.keys,
       controllerPub: a.signing.publicKey,
+      fingerprintSha256: pinnedFingerprint(a.session.connection),
     },
     'staff',
   ).url

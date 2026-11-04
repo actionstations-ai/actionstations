@@ -4,6 +4,7 @@
  * scripts/player-dev.mjs; stops on Ctrl-C and closes every connection.
  */
 import { createWebCryptoProvider } from '../../shared/live/crypto/webcrypto'
+import { createSessionCertificate } from '../../main/live/transport/lan/cert'
 import { HarnessController } from './controller'
 import { startHarness } from './server'
 
@@ -15,9 +16,15 @@ async function main(): Promise<void> {
     sessionName: 'Dev session',
     attribution: 'role',
   })
+  // PLAYER_TLS=1: HTTPS with a session certificate and pinned links, for the player apps (spec 0446).
+  const tls =
+    process.env.PLAYER_TLS === '1'
+      ? await createSessionCertificate('127.0.0.1', controller.sessionId)
+      : undefined
   const harness = await startHarness({
     controller,
     port,
+    ...(tls ? { tls } : {}),
     websocket: process.env.PLAYER_NO_WS !== '1',
     log: process.env.PLAYER_LOG === '1' ? (l) => console.log(l) : undefined,
   })

@@ -5,7 +5,7 @@
  */
 import QRCode from 'qrcode'
 import type { SessionKeys } from '@shared/live/crypto/keys'
-import { buildInvite } from '@shared/live/invite'
+import { buildInvite, pinFromFingerprint } from '@shared/live/invite'
 import type { KeyKind } from '@shared/live/protocol'
 import type { InviteView, QrMatrix } from '@shared/schemas/live'
 
@@ -27,6 +27,11 @@ export interface InviteMaterial {
   sessionId: string
   keys: SessionKeys
   controllerPub: Uint8Array
+  /**
+   * `AA:BB:…` of a certificate a phone cannot verify (the LAN session certificate, a self-signed
+   * own server), carried as the invite's pin for the player apps (spec 0446 FR-2).
+   */
+  fingerprintSha256?: string | undefined
 }
 
 export function inviteView(m: InviteMaterial, kind: KeyKind, now = new Date()): InviteView {
@@ -39,6 +44,7 @@ export function inviteView(m: InviteMaterial, kind: KeyKind, now = new Date()): 
     key: { kind, root },
     controllerPub: m.controllerPub,
     controllerEcdhPub: m.keys.controllerEcdhPub,
+    ...(m.fingerprintSha256 ? { pin: pinFromFingerprint(m.fingerprintSha256) } : {}),
   })
   return { kind, url, epoch: m.keys.currentEpoch, issuedAt: now.toISOString(), qr: qrMatrix(url) }
 }
