@@ -25,11 +25,17 @@ import {
   draftMinutes,
   firstTry,
   fitSpeeds,
+  MINI_SCORING_VERSION,
+  creditOf,
+  handbookCriteria,
+  longContextCredits,
   miniResult,
   phaseView,
   qualityOf,
+  ramp,
   rangeOf,
   rateBounds,
+  regradeProbe,
   repetitionShare,
   runObservation,
   scoreFormat,
@@ -829,5 +835,166 @@ describe('the runner', () => {
     expect(() =>
       manageModel({ name: 'x', tool: 'lmstudio' }, 32768, { load: true, exec }).done(),
     ).not.toThrow()
+  })
+})
+
+describe('partial credit for continuous criteria (#612)', () => {
+  const q = mini.quality
+
+  it('maps linearly between a zero point and a full-credit point, in either direction', () => {
+    expect(ramp(0, 0, 15)).toBe(0)
+    expect(ramp(10, 0, 15)).toBeCloseTo(2 / 3)
+    expect(ramp(15, 0, 15)).toBe(1)
+    expect(ramp(40, 0, 15)).toBe(1)
+    expect(ramp(12.5, 20, 5)).toBeCloseTo(0.5)
+    expect(ramp(2, 20, 5)).toBe(1)
+    expect(ramp(30, 20, 5)).toBe(0)
+    expect(ramp(NaN, 0, 1)).toBe(0)
+  })
+
+  it('earns pace credit inside the band, falling to zero at half the low edge and twice the high', () => {
+    const at = (rowsPerHour: number) => longContextCredits({ rows: 18, rowsPerHour }, q, gold).pace
+    const lo = gold.rowsPerHour.min * q.paceBand[0]
+    const hi = gold.rowsPerHour.max * q.paceBand[1]
+    expect(at(lo)).toBe(1)
+    expect(at(hi)).toBe(1)
+    expect(at(lo / 2)).toBe(0)
+    expect(at(hi * 2)).toBe(0)
+    expect(at(lo * 0.75)).toBeCloseTo(0.5)
+    expect(at(hi * 1.5)).toBeCloseTo(0.5)
+  })
+
+  it('credits lint, citations and tag mix by how far they got', () => {
+    const c = longContextCredits(
+      {
+        rows: 10,
+        tagGroups: { present: 4, total: 5 },
+        lintPenaltyPer10Rows: 7.5,
+        resolved: 70,
+        covered: 40,
+        supported: 35,
+      },
+      q,
+      gold,
+    )
+    expect(c.rows).toBeCloseTo(10 / 15)
+    expect(c.tagMix).toBeCloseTo(0.8)
+    expect(c.lintLow).toBeCloseTo(12.5 / 15)
+    expect(c.resolved).toBeCloseTo(0.5)
+    expect(c.covered).toBeCloseTo(0.5)
+    expect(c.supported).toBeCloseTo(0.5)
+  })
+
+  it('keeps yes/no items binary and marks only a full credit as met', () => {
+    const last = chemical.phases.at(-1)
+    const r = scoreLongContext({
+      obs: okCall,
+      scenario: chemical,
+      phaseId: last.id,
+      suite: mini,
+      gold,
+    })
+    for (const id of ['opensEnds', 'roles', 'briefIds', 'noLeak', 'noLintErrors'])
+      expect([0, 1]).toContain(r.criteria.find((c: any) => c.id === id)?.credit)
+    const rows = r.criteria.find((c: any) => c.id === 'rows') as any
+    expect(rows.met).toBe(false)
+    expect(rows.credit).toBeGreaterThan(0)
+    expect(rows.credit).toBeLessThan(1)
+    expect(r.metrics).toHaveProperty('rowsPerHour')
+    expect(r.metrics.tagGroupsTotal).toBe(5)
+  })
+
+  it('grades the handbook by sections, words and repetition', () => {
+    const [sections, length, repeat] = handbookCriteria(
+      { sections: 4, words: 500, repetition: 0.375 },
+      q,
+    )
+    expect(sections?.credit).toBeCloseTo(0.8)
+    expect(length?.credit).toBeCloseTo(0.5)
+    expect(repeat?.credit).toBeCloseTo(0.5)
+    const full = handbookCriteria({ sections: 5, words: 1000, repetition: 0.25 }, q)
+    expect(full.every((c: any) => c.met)).toBe(true)
+  })
+
+  it('adds credit, not only whole criteria, to the share of quality', () => {
+    const probe = (credits: number[]) => ({
+      ok: true,
+      firstTry: true,
+      score: 0,
+      metrics: {},
+      criteria: credits.map((credit, i) => ({ id: `c${i}`, label: 'x', met: credit >= 1, credit })),
+    })
+    expect(qualityOf({ a: probe([1, 0.5, 0, 0.5]) })).toEqual({ score: 50, met: 2, total: 4 })
+    expect(creditOf({ id: 'a', label: 'x', met: true })).toBe(1)
+    expect(creditOf({ id: 'a', label: 'x', met: false })).toBe(0)
+  })
+
+  it('re-grades a saved probe from its saved measures and leaves yes/no results alone', () => {
+    const saved = {
+      ok: true,
+      firstTry: true,
+      score: 54.5,
+      criteria: [
+        { id: 'rows', label: 'x', met: false },
+        { id: 'pace', label: 'x', met: false },
+        { id: 'opensEnds', label: 'x', met: true },
+        { id: 'covered', label: 'x', met: false },
+        { id: 'lintLow', label: 'x', met: false },
+      ],
+      metrics: { rows: 10, lintPenaltyPer10Rows: 7.5, citationsCovered: 75 },
+    }
+    const credit = (p: any, id: string) => p.criteria.find((c: any) => c.id === id)?.credit
+    const noShape = regradeProbe('longContext', saved, { suite: mini, gold })
+    expect(credit(noShape, 'pace')).toBe(0)
+    const withShape = regradeProbe('longContext', saved, {
+      suite: mini,
+      gold,
+      measured: { rowsPerHour: 3.3 },
+    })
+    expect(credit(withShape, 'pace')).toBeCloseTo(0.65)
+    expect(credit(withShape, 'opensEnds')).toBe(1)
+    expect(credit(withShape, 'covered')).toBeCloseTo(0.9375)
+    expect(withShape.score).toBeGreaterThan(saved.score)
+  })
+
+  it('re-scores saved runs offline with the new scoring version and the same completion', () => {
+    const repeat = (covered: number) => ({
+      seed: 11,
+      completion: 100,
+      probes: {
+        longContext: {
+          ok: true,
+          firstTry: true,
+          score: 0,
+          criteria: [{ id: 'covered', label: 'x', met: false }],
+          metrics: { citationsCovered: covered },
+        },
+      },
+      speed: {},
+      failures: [],
+    })
+    const saved = {
+      suite: 'mini',
+      scoringVersion: 1,
+      repeats: [repeat(40), repeat(80)],
+      result: {
+        quality: { value: 0, min: 0, max: 0 },
+        completion: { value: 100, min: 100, max: 100 },
+        score: { value: 0, min: 0, max: 0 },
+      },
+    }
+    const run = rescoreRun(saved)
+    expect(run.scoringVersion).toBe(MINI_SCORING_VERSION)
+    expect(run.result.quality).toEqual({ value: 75, min: 50, max: 100 })
+    expect(run.result.completion).toEqual(saved.result.completion)
+    expect(run.result.score.value).toBe(75)
+  })
+
+  it('leaves the task-set hash alone: the zero points are scoring code, not suite thresholds', () => {
+    expect(taskSetHash('mini')).toBe(
+      '499a538d4d9cb2fc6560378f2a88da8d6c36f89fa61b577fe1a03392eeadcdbc',
+    )
+    expect(MINI_SCORING_VERSION).toBe(2)
+    expect(mini.suiteVersion).toBe(1)
   })
 })

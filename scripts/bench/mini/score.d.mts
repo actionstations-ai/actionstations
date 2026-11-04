@@ -15,6 +15,8 @@ export interface Criterion {
   id: string
   label: string
   met: boolean
+  /** What the criterion earned, 0 to 1; absent in run files saved before partial credit. */
+  credit?: number
 }
 export interface ProbeResult {
   score: number
@@ -77,3 +79,18 @@ export function speedOf(input: { calls: any[]; budget: any }): any
 export function scoreRepeat(input: { probes: Record<string, any>; calls: any[]; suite: any }): any
 export function miniResult(input: { repeats: any[]; suite: any }): any
 export function runObservation(scenario: any, stage: string, itemId?: string): Observation
+
+export const MINI_SCORING_VERSION: number
+export const CREDIT_RULES: Record<string, number>
+export function ramp(value: number, zero: number, full: number): number
+export function creditOf(c: Criterion): number
+export function phaseShape(view: any, gold: any, q: any): any
+export function longContextMeasures(input: any): any
+export function longContextCredits(m: any, q: any, gold: any): Record<string, number>
+export function longLabels(q: any): Record<string, string>
+export function handbookCriteria(m: any, q: any): Criterion[]
+export function regradeProbe(
+  key: string,
+  probe: ProbeResult,
+  ctx: { suite: any; gold: any; measured?: any },
+): ProbeResult
