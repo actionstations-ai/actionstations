@@ -88,6 +88,7 @@ Decisions for the owner, each with a recommendation.
 | [Tip of the day](0443-tip-of-the-day.md)                                                                           | #443       | 0.6.0     |
 | [Tabletop Benchmark, a public benchmark](0444-tabletop-bench.md)                                                   | #586       | 0.9.0     |
 | [Tabletop Mini Benchmark, a screening benchmark](0445-tabletop-mini-benchmark.md)                                  | #604, #606 | 0.9.0     |
+| [Phone and tablet apps for players (iOS and Android)](0446-mobile-player-apps.md)                                  | #620       | 0.7.0     |
 | [Grounding labels and contradictions between plans](0423-grounding-and-plan-conflicts.md)                          | #423       | 0.7.0     |
 | [Private hot wash transcription for the AAR](0425-hotwash-transcription.md)                                        | #425       | 0.7.0     |
 | [Regulatory clocks and compliance mapping](0426-regulatory-clocks.md)                                              | #426       | 0.7.0     |

@@ -6,11 +6,13 @@
  * actions under `/__harness/` so Playwright can drive a session. Loopback only, never shipped.
  */
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
+import { createServer as createHttpsServer } from 'node:https'
 import { existsSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import type { AddressInfo } from 'node:net'
 import { WebSocketServer, type WebSocket } from 'ws'
 import { fromBase64Url } from '../../shared/live/bytes'
+import { pinFromFingerprint } from '../../shared/live/invite'
 import { LIMITS, PROTOCOL_VERSION } from '../../shared/live/protocol'
 import type { ClockState, Destination } from '../../shared/live/schemas'
 import type { Transport } from '../../shared/live/transport'
@@ -32,6 +34,8 @@ export interface HarnessServerOptions {
   websocket?: boolean
   /** Extra delay before frames reach a connection, to make races visible. */
   log?: (line: string) => void
+  /** Serve HTTPS with this certificate and put its pin in the invites (the player apps, spec 0446). */
+  tls?: { cert: string; key: string; fingerprintSha256: string }
 }
 
 export interface Harness {
@@ -122,7 +126,8 @@ export async function startHarness(opts: HarnessServerOptions): Promise<Harness>
   }
   const index = files.get('/index.html')!
   const sse = new Map<string, SseConn>()
-  let origin = `http://${host}`
+  const scheme = opts.tls ? 'https' : 'http'
+  let origin = `${scheme}://${host}`
 
   const headers = (type: string, cache = 'no-store') => ({
     'content-type': type,
@@ -182,7 +187,7 @@ export async function startHarness(opts: HarnessServerOptions): Promise<Harness>
     }
   }
 
-  const server: Server = createServer((req, res) => {
+  const handler = (req: IncomingMessage, res: ServerResponse) => {
     void (async () => {
       const url = new URL(req.url ?? '/', origin)
       const path = url.pathname
@@ -220,7 +225,11 @@ export async function startHarness(opts: HarnessServerOptions): Promise<Harness>
       if (s.kind === 'send' && req.method === 'POST') return serveSend(url, req, res)
       return error(res, 404, 'NOT_FOUND', 'No such path')
     })()
-  })
+  }
+  const server: Server = opts.tls
+    ? createHttpsServer({ cert: opts.tls.cert, key: opts.tls.key }, handler)
+    : createServer(handler)
+  if (opts.tls) controller.certPin = pinFromFingerprint(opts.tls.fingerprintSha256)
 
   const serveEvents = async (url: URL, req: IncomingMessage, res: ServerResponse) => {
     const parsed = parseConnectRequest({ search: url.search, headers: req.headers })
@@ -312,7 +321,7 @@ export async function startHarness(opts: HarnessServerOptions): Promise<Harness>
 
   await new Promise<void>((resolve) => server.listen(opts.port ?? 0, host, () => resolve()))
   const port = (server.address() as AddressInfo).port
-  origin = `http://${host}:${port}`
+  origin = `${scheme}://${host}:${port}`
   controller.base = origin
 
   return {

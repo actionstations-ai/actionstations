@@ -60,9 +60,15 @@ test('live: start a LAN session from Facilitate, serve the join page, stop', asy
     await expect(status).toContainText('Listening on 127.0.0.1:')
     await expect(status).toContainText('0 devices connected')
     const inviteUrl = (await page.locator('.live-invite__url').first().textContent()) ?? ''
-    expect(inviteUrl).toMatch(/^https:\/\/127\.0\.0\.1:\d+\/s\/[A-Za-z0-9_-]{22}#[A-Za-z0-9_-]+$/)
+    // The fragment ends with the certificate pin for the player apps (spec 0446 FR-2).
+    expect(inviteUrl).toMatch(
+      /^https:\/\/127\.0\.0\.1:\d+\/s\/[A-Za-z0-9_-]{22}#[A-Za-z0-9_-]+~[A-Za-z0-9_-]{43}$/,
+    )
     const origin = new URL(inviteUrl).origin
     await expect(page.getByText('Certificate fingerprint (SHA-256)')).toBeVisible()
+    const shown = (await page.locator('.live-fingerprint code').textContent()) ?? ''
+    const pin = Buffer.from(inviteUrl.split('~')[1]!, 'base64url')
+    expect(shown).toBe([...pin].map((b) => b.toString(16).padStart(2, '0').toUpperCase()).join(':'))
     await expect(page.getByRole('img', { name: `Join link: ${inviteUrl}` })).toBeVisible()
 
     const h = await health(origin)

@@ -1,8 +1,12 @@
 /**
- * Invite link and QR text: `<base>/s/<sessionId>#<fragment>[.<roleHint>]`.
+ * Invite link and QR text: `<base>/s/<sessionId>#<fragment>[.<roleHint>][~<pin>]`.
  *
  *   fragment = base64url( layout:u8 ‖ epoch:u16be ‖ root:32 ‖ controllerSigPub:65 ‖ controllerEcdhPub:65 )
  *   layout   = 0x01 players link (players root) | 0x02 staff link (staff root)
+ *   pin      = base64url( SHA-256 of the server's DER certificate ), only when a phone cannot
+ *              verify that certificate (LAN session, self-signed own server). The player apps
+ *              trust exactly that certificate (spec 0446); the page ignores it. `~` is in neither
+ *              the base64url nor the role hint alphabet, so the split is unambiguous.
  *
  * The fragment never reaches a server: browsers do not send it, and the page reads
  * `location.hash` once. A staff link derives the players key; a players link cannot derive the
@@ -22,6 +26,8 @@ import { SessionId } from './schemas/envelope'
 export const ROLE_HINT_KEYWORDS = ['evaluator', 'observer', 'simcell'] as const
 const ROLE_HINT = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/
 const FRAGMENT_BYTES = 1 + 2 + SESSION_KEY_BYTES + 2 * EC_PUBLIC_KEY_BYTES
+const PIN_BYTES = 32
+const FINGERPRINT = /^[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){31}$/
 const NOT_COMPLETE = 'This link is not complete. Ask for a new one.'
 
 export interface Invite {
@@ -34,6 +40,8 @@ export interface Invite {
   /** Controller ECDH public key: frames to the controller are sealed to it. */
   controllerEcdhPub: Uint8Array
   roleHint?: string
+  /** SHA-256 of the server's DER certificate, for the player apps (spec 0446 FR-2). */
+  pin?: Uint8Array
 }
 
 export type InviteErrorCode = 'MALFORMED' | 'UNKNOWN_LAYOUT'
@@ -69,10 +77,33 @@ export function buildInviteFragment(invite: Omit<Invite, 'base' | 'sessionId'>):
     (invite.epoch >> 8) & 0xff,
     invite.epoch & 0xff,
   ])
+  if (invite.pin !== undefined && invite.pin.length !== PIN_BYTES) {
+    throw new Error('Pin must be 32 bytes')
+  }
   const fragment = toBase64Url(
     concatBytes(head, invite.key.root, invite.controllerPub, invite.controllerEcdhPub),
   )
-  return invite.roleHint ? `${fragment}.${invite.roleHint}` : fragment
+  const withHint = invite.roleHint ? `${fragment}.${invite.roleHint}` : fragment
+  return invite.pin ? `${withHint}~${toBase64Url(invite.pin)}` : withHint
+}
+
+/** `AA:BB:…` (the form the Facilitate page and OS dialogs show) → the 32 pin bytes. */
+export function pinFromFingerprint(fingerprint: string): Uint8Array {
+  if (!FINGERPRINT.test(fingerprint)) throw new Error('Bad fingerprint')
+  return Uint8Array.from(fingerprint.split(':'), (pair) => parseInt(pair, 16))
+}
+
+function splitPin(text: string): { rest: string; pin?: Uint8Array } {
+  const tilde = text.lastIndexOf('~')
+  if (tilde === -1) return { rest: text }
+  let pin: Uint8Array
+  try {
+    pin = fromBase64Url(text.slice(tilde + 1))
+  } catch {
+    throw new InviteError('MALFORMED', NOT_COMPLETE)
+  }
+  if (pin.length !== PIN_BYTES) throw new InviteError('MALFORMED', NOT_COMPLETE)
+  return { rest: text.slice(0, tilde), pin }
 }
 
 export function buildInvite(invite: Invite): string {
@@ -91,7 +122,7 @@ function layoutKind(layout: number | undefined): KeyKind {
 }
 
 export function parseInviteFragment(fragment: string): Omit<Invite, 'base' | 'sessionId'> {
-  const text = fragment.startsWith('#') ? fragment.slice(1) : fragment
+  const { rest: text, pin } = splitPin(fragment.startsWith('#') ? fragment.slice(1) : fragment)
   const dot = text.indexOf('.')
   const encoded = dot === -1 ? text : text.slice(0, dot)
   const roleHint = dot === -1 ? undefined : text.slice(dot + 1)
@@ -115,8 +146,14 @@ export function parseInviteFragment(fragment: string): Omit<Invite, 'base' | 'se
   if (controllerPub[0] !== 0x04 || controllerEcdhPub[0] !== 0x04) {
     throw new InviteError('MALFORMED', NOT_COMPLETE)
   }
-  const invite = { epoch, key: { kind, root }, controllerPub, controllerEcdhPub }
-  return roleHint === undefined ? invite : { ...invite, roleHint }
+  return {
+    epoch,
+    key: { kind, root },
+    controllerPub,
+    controllerEcdhPub,
+    ...(roleHint === undefined ? {} : { roleHint }),
+    ...(pin === undefined ? {} : { pin }),
+  }
 }
 
 export function parseInvite(url: string): Invite {

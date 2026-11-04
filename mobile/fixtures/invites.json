@@ -1,0 +1,131 @@
+{
+  "about": "Invite links the player apps (mobile/android, mobile/ios) and src/shared/live/invite.ts must agree on (spec 0446 FR-1, FR-2). appAccepts: the app opens it. pageAccepts: parseInvite accepts it. pin: the certificate pin as AA:BB:… hex. host: the host the pin applies to.",
+  "sessionId": "AbCdEfGhIjKlMnOpQrStUv",
+  "vectors": [
+    {
+      "name": "LAN link with pin",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz~AQgPFh0kKzI5QEdOVVxjanF4f4aNlJuiqbC3vsXM09o",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "pin": "01:08:0F:16:1D:24:2B:32:39:40:47:4E:55:5C:63:6A:71:78:7F:86:8D:94:9B:A2:A9:B0:B7:BE:C5:CC:D3:DA",
+      "host": "192.168.4.20"
+    },
+    {
+      "name": "LAN link with role hint and pin",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz.ops-director~AQgPFh0kKzI5QEdOVVxjanF4f4aNlJuiqbC3vsXM09o",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "pin": "01:08:0F:16:1D:24:2B:32:39:40:47:4E:55:5C:63:6A:71:78:7F:86:8D:94:9B:A2:A9:B0:B7:BE:C5:CC:D3:DA",
+      "host": "192.168.4.20"
+    },
+    {
+      "name": "relay link, no pin",
+      "url": "https://relay.actionstations.ai/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "host": "relay.actionstations.ai"
+    },
+    {
+      "name": "staff link with role hint",
+      "url": "https://relay.actionstations.ai/s/AbCdEfGhIjKlMnOpQrStUv#AgABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz.evaluator",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "host": "relay.actionstations.ai"
+    },
+    {
+      "name": "own server under a path",
+      "url": "https://ttx.example.org/live/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz~AQgPFh0kKzI5QEdOVVxjanF4f4aNlJuiqbC3vsXM09o",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "pin": "01:08:0F:16:1D:24:2B:32:39:40:47:4E:55:5C:63:6A:71:78:7F:86:8D:94:9B:A2:A9:B0:B7:BE:C5:CC:D3:DA",
+      "host": "ttx.example.org"
+    },
+    {
+      "name": "plain HTTP on a private address",
+      "url": "http://10.0.0.5:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "host": "10.0.0.5"
+    },
+    {
+      "name": "plain HTTP on loopback",
+      "url": "http://127.0.0.1:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "host": "127.0.0.1"
+    },
+    {
+      "name": "plain HTTP on a .local name",
+      "url": "http://facilitator.local:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": true,
+      "pageAccepts": true,
+      "host": "facilitator.local"
+    },
+    {
+      "name": "plain HTTP on a public host",
+      "url": "http://relay.actionstations.ai/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": true
+    },
+    {
+      "name": "plain HTTP on 172.32 (not private)",
+      "url": "http://172.32.0.1/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": true
+    },
+    {
+      "name": "no fragment",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "empty fragment",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "truncated fragment (partial scan)",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "short pin",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz~AQgPFh0kKzI5QEdOVVxjanF4f4aNlJuiqbC3vsXM",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "pin with a bad character",
+      "url": "https://192.168.4.20:8485/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz~AQgPFh0kKzI5QEdOVVxjanF4f4aNlJuiqbC3vsXM09!",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "not a session path",
+      "url": "https://192.168.4.20:8485/x/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "session id too short",
+      "url": "https://192.168.4.20:8485/s/abc#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": false
+    },
+    {
+      "name": "other scheme",
+      "url": "ftp://192.168.4.20/s/AbCdEfGhIjKlMnOpQrStUv#AQABEREREREREREREREREREREREREREREREREREREREREREEIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgQzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz",
+      "appAccepts": false,
+      "pageAccepts": true
+    },
+    {
+      "name": "plain text",
+      "url": "hello",
+      "appAccepts": false,
+      "pageAccepts": false
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import {
   InviteError,
   parseInvite,
   parseInviteFragment,
+  pinFromFingerprint,
   publicJoinUrl,
 } from './invite'
 
@@ -137,5 +138,34 @@ describe('invite link', () => {
     )
     expect(() => buildInvite({ ...good, roleHint: 'has space' })).toThrow(/role hint/)
     expect(() => buildInvite({ ...good, sessionId: 'short' })).toThrow(/session id/)
+  })
+})
+
+describe('certificate pin (spec 0446 FR-2)', () => {
+  const FP = Array.from({ length: 32 }, (_, i) =>
+    ((i * 7 + 1) & 0xff).toString(16).padStart(2, '0'),
+  )
+    .join(':')
+    .toUpperCase()
+
+  it('round-trips a pin after the role hint and leaves the keys unchanged', async () => {
+    const ctl = await makeController(crypto)
+    const plain = parseInvite(ctl.invite('players', 'ops-director'))
+    const url = buildInvite({ ...plain, pin: pinFromFingerprint(FP) })
+    expect(url).toMatch(/\.ops-director~[A-Za-z0-9_-]{43}$/)
+    const parsed = parseInvite(url)
+    expect(parsed.roleHint).toBe('ops-director')
+    expect(bytesEqual(parsed.pin!, pinFromFingerprint(FP))).toBe(true)
+    expect(bytesEqual(parsed.key.root, plain.key.root)).toBe(true)
+    expect(parseInvite(ctl.invite('players')).pin).toBeUndefined()
+  })
+
+  it('refuses a short or undecodable pin, and bad fingerprints and pin sizes when building', async () => {
+    const ctl = await makeController(crypto)
+    const url = ctl.invite('players')
+    expect(() => parseInvite(url + '~AAAA')).toThrow(InviteError)
+    expect(() => parseInvite(url + '~' + 'A'.repeat(42) + '!')).toThrow(InviteError)
+    expect(() => pinFromFingerprint('AA:BB')).toThrow(/fingerprint/)
+    expect(() => buildInvite({ ...parseInvite(url), pin: new Uint8Array(31) })).toThrow(/32 bytes/)
   })
 })

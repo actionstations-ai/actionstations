@@ -127,6 +127,8 @@ export class HarnessController {
   readonly seatDefs: SeatDef[]
   clock: ClockState
   base = 'http://127.0.0.1'
+  /** Certificate pin for the invite when the harness serves HTTPS (spec 0446 FR-2). */
+  certPin: Uint8Array | undefined
   /** Every frame the controller received, for assertions. */
   readonly received: Opened[] = []
   private releases = 0
@@ -225,6 +227,7 @@ export class HarnessController {
       controllerPub: this.signing.publicKey,
       controllerEcdhPub: this.keys.controllerEcdhPub!,
       ...(roleHint ? { roleHint } : {}),
+      ...(this.certPin ? { pin: this.certPin } : {}),
     })
   }
 
