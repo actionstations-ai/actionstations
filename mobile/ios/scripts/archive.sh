@@ -12,7 +12,12 @@ export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Develope
 
 [ -d "$here/Player/Demo" ] || { echo "Player/Demo is missing: run 'pnpm build:player-demo' first." >&2; exit 1; }
 cd "$here"
-xcodegen generate >/dev/null
+# The generated project is committed; regenerate it when XcodeGen is installed.
+if command -v xcodegen >/dev/null 2>&1; then xcodegen generate >/dev/null; fi
+# Version from the desktop release (scripts/mobile-version.mjs), when the caller sets it.
+versions=()
+[ -n "${APP_VERSION:-}" ] && versions+=("MARKETING_VERSION=$APP_VERSION")
+[ -n "${APP_BUILD:-}" ] && versions+=("CURRENT_PROJECT_VERSION=$APP_BUILD")
 rm -rf "$out" && mkdir -p "$out"
 
 case "$mode" in
@@ -20,7 +25,7 @@ case "$mode" in
     : "${APPLE_TEAM_ID:?Set APPLE_TEAM_ID to your Apple Developer team id}"
     xcodebuild archive -project ActionStationsPlayer.xcodeproj -scheme Player \
       -destination 'generic/platform=iOS' -archivePath "$out/Player.xcarchive" \
-      DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic -allowProvisioningUpdates
+      DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic -allowProvisioningUpdates ${versions[@]+"${versions[@]}"}
     cat >"$out/ExportOptions.plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -37,13 +42,13 @@ EOF
   unsigned)
     xcodebuild build -project ActionStationsPlayer.xcodeproj -scheme Player -sdk iphoneos \
       -configuration Release -derivedDataPath "$out/dd" \
-      CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" ${versions[@]+"${versions[@]}"}
     version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$out/dd/Build/Products/Release-iphoneos/Player.app/Info.plist")"
     mkdir -p "$out/Payload"
     cp -R "$out/dd/Build/Products/Release-iphoneos/Player.app" "$out/Payload/"
-    (cd "$out" && zip -qry "ActionStationsPlayer-$version.ipa" Payload)
-    shasum -a 256 "$out/ActionStationsPlayer-$version.ipa" >"$out/ActionStationsPlayer-$version.ipa.sha256"
-    echo "Wrote $out/ActionStationsPlayer-$version.ipa"
+    (cd "$out" && zip -qry "ActionStationsPlayer-$version-unsigned.ipa" Payload)
+    (cd "$out" && shasum -a 256 "ActionStationsPlayer-$version-unsigned.ipa" >"ActionStationsPlayer-$version-unsigned.ipa.sha256")
+    echo "Wrote $out/ActionStationsPlayer-$version-unsigned.ipa"
     ;;
   *)
     echo "usage: archive.sh store|unsigned" >&2
