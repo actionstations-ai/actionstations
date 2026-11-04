@@ -216,7 +216,14 @@ export const MiniProbe = z.object({
   outputTokens: z.number().int().nonnegative().optional(),
   /** Absolute pass/fail criteria the quality score counts. */
   criteria: z.array(
-    z.object({ id: z.string().max(80), label: z.string().max(200), met: z.boolean() }),
+    z.object({
+      id: z.string().max(80),
+      label: z.string().max(200),
+      /** True when the criterion earned its full credit. */
+      met: z.boolean(),
+      /** Credit earned, 0 to 1: continuous measures earn a share (#612); absent in older run files. */
+      credit: z.number().min(0).max(1).optional(),
+    }),
   ),
   /** Raw measures (lint, citations, recall, damage, repetition…). */
   metrics: z.record(z.string(), z.number()),
@@ -247,7 +254,8 @@ export const MiniRepeat = z.object({
   probes: z.record(z.string(), MiniProbe),
   quality: z.object({
     score: z.number().min(0).max(100),
-    met: z.number().int().nonnegative(),
+    /** Credit earned over the criteria (a whole number when all were yes/no). */
+    met: z.number().nonnegative(),
     total: z.number().int().nonnegative(),
   }),
   /** Percent of this run's calls that succeeded after the app's repair policy. */
