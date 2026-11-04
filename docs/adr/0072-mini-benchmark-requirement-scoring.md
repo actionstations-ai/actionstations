@@ -45,7 +45,6 @@ rows, which every model passed, so it told models apart little.
   is shown with the count and the methods say so.
 - A live Mini takes longer: two runs, and no cap. A slow model finishes and is reported slow.
 - Changing a criterion, band, limit or the exponent changes the task-set hash and needs a new
-  suite version (now 2). Version 1 run files do not parse as version 2 and are replayed, not
-  migrated.
+  suite version (the Mini is at version 1, the first published).
 - The stream guard is a small addition to two adapters (OpenAI-compatible and Ollama); other
   adapters do not have it, and the Mini runs only against local endpoints of those two kinds.

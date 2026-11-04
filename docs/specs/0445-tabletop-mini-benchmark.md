@@ -91,7 +91,7 @@ apart.
   its model-card sampling), coarse hardware, prompt and corpus hashes, `taskSetHash`, the stream
   limits, both runs (each probe with its criteria, failure and raw tail), and the result with
   ranges. `pnpm bench:export -- --suite mini` writes the task set. Changing a probe, criterion or
-  band bumps `suiteVersion` (now 2).
+  band bumps `suiteVersion` (now 1, the first published version).
 - **FR-10 Running.** `pnpm bench:mini -- --models <a,b,c>` or `pnpm bench -- --suite mini --models …`.
   A list of models runs one after the other. For an LM Studio model the runner loads it at the
   suite's context length, runs the Mini and unloads it; `--no-load` leaves loading to the user,
@@ -175,10 +175,21 @@ read and write, so the two separate). If the fit is not usable (fewer than three
 negative rate), one pooled rate over all tokens is used and the run file says so (`method`).
 Draft time is `budget.input / P + budget.output / G`, in minutes, with its range over the runs.
 
+### Tokens per second (#610)
+
+The fit and the pooled rate estimate draft time only; they are not the figures shown as speeds.
+A call's time covers reading its prompt and writing its answer and the split is not recorded, so
+each shown rate is a lower bound the calls prove (`rateBounds`): **output tokens/s** is answer
+tokens over the time of the calls that wrote one (prompt reading counted as writing time), and
+**prompt tokens/s** is the fastest read among the calls (prompt tokens over that call's whole
+time). The two are never one figure. The summary says "at least". `pnpm bench:mini:rescore <dir>`
+(`scripts/bench/mini/rescore.mjs`) recomputes them, the draft time and the verdict from saved run
+files, with no model call.
+
 ## Replay of the saved Mini runs
 
 `pnpm bench:mini:replay ~/Code/as-triage/.tmp/mini` scores the ten saved Mini runs of 2026-11-03
-(scoring v1) again, with no model call. The saved work folders hold what each call left behind
+again with the current scoring, with no model call. The saved work folders hold what each call left behind
 (its provenance, rows, handbook, and for the review the planted-defect snapshot and the revised
 MSEL).
 
@@ -189,28 +200,28 @@ What it cannot recompute, and how the table marks it:
 - **The second run**: one sample was saved, so every range is a single value.
 - **The harder long-prompt probe**: the saved call was the unstretched one-hour phase (about
   eight rows). The rows-in-phase criterion is dropped, and the tag-mix and role criteria are
-  judged on a short phase, so quality is not comparable with a live v2 run.
+  judged on a short phase, so quality is not comparable with a live run.
 - **Cut-off retries** were not recorded, so only repair rounds appear in the repair rate.
 - **Source support** is judged only where the saved run holds source-check results for the rows.
 
-| Model                  | Quality | Completion (failures in calls) | Repair rate | Mini score | Damage | Draft time | Band now                      | Saved verdict (v1) | Not recomputed                     |
-| ---------------------- | ------- | ------------------------------ | ----------- | ---------- | ------ | ---------- | ----------------------------- | ------------------ | ---------------------------------- |
-| gemma-4-31b            | 63.6    | 100% (0 in 4)                  | 0%          | 63.6       | 0%     | 67.3 min   | Usable with editing (partial) | Won't work 53.6    | longContext                        |
-| nemotron-3.5-lightning | 81.8    | 100% (0 in 5)                  | 0%          | 81.8       | 4.5%   | 6.7 min    | Recommended                   | Will work 85.3     | none                               |
-| gpt-oss-20b            | 81.8    | 100% (0 in 5)                  | 60%         | 81.8       | 1.1%   | 7.7 min    | Recommended                   | Risky 86.3         | none                               |
-| qwen3-30b-a3b-2507     | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 24%    | 9.7 min    | Usable with editing           | Risky 87.9         | none                               |
-| qwen3.5-4b             | 72.7    | 100% (0 in 5)                  | 0%          | 72.7       | 0%     | 3.3 min    | Usable with editing           | Will work 83.1     | none                               |
-| qwen3.5-9b             | 77.3    | 100% (0 in 5)                  | 0%          | 77.3       | 2.1%   | 8.1 min    | Usable with editing           | Will work 77.5     | none                               |
-| qwen3.6-27b            | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 8.1%   | 22.7 min   | Usable with editing           | Risky 93.2         | none                               |
-| qwen3.6-35b-a3b-mlx    | 95.5    | 100% (0 in 5)                  | 0%          | 95.5       | 19.8%  | 7.1 min    | Usable with editing           | Risky 92           | none                               |
-| qwen3.8-27b-mlx        | 94.7    | 100% (0 in 4)                  | 0%          | 94.7       | 0%     | 24.8 min   | Recommended (partial)         | Risky 77.5         | review                             |
-| glm-4.7-flash          | 100     | 100% (0 in 2)                  | 0%          | 100        | n/a    | 11.3 min   | Recommended (partial)         | Won't work 28.4    | longContext, review, heldOutReview |
+| Model                  | Quality | Completion (failures in calls) | Repair rate | Mini score | Damage | Draft time | Band now                      | Saved verdict (earlier) | Not recomputed                     |
+| ---------------------- | ------- | ------------------------------ | ----------- | ---------- | ------ | ---------- | ----------------------------- | ----------------------- | ---------------------------------- |
+| gemma-4-31b            | 63.6    | 100% (0 in 4)                  | 0%          | 63.6       | 0%     | 67.3 min   | Usable with editing (partial) | Won't work 53.6         | longContext                        |
+| nemotron-3.5-lightning | 81.8    | 100% (0 in 5)                  | 0%          | 81.8       | 4.5%   | 6.7 min    | Recommended                   | Will work 85.3          | none                               |
+| gpt-oss-20b            | 81.8    | 100% (0 in 5)                  | 60%         | 81.8       | 1.1%   | 7.7 min    | Recommended                   | Risky 86.3              | none                               |
+| qwen3-30b-a3b-2507     | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 24%    | 9.7 min    | Usable with editing           | Risky 87.9              | none                               |
+| qwen3.5-4b             | 72.7    | 100% (0 in 5)                  | 0%          | 72.7       | 0%     | 3.3 min    | Usable with editing           | Will work 83.1          | none                               |
+| qwen3.5-9b             | 77.3    | 100% (0 in 5)                  | 0%          | 77.3       | 2.1%   | 8.1 min    | Usable with editing           | Will work 77.5          | none                               |
+| qwen3.6-27b            | 90.9    | 100% (0 in 5)                  | 0%          | 90.9       | 8.1%   | 22.7 min   | Usable with editing           | Risky 93.2              | none                               |
+| qwen3.6-35b-a3b-mlx    | 95.5    | 100% (0 in 5)                  | 0%          | 95.5       | 19.8%  | 7.1 min    | Usable with editing           | Risky 92                | none                               |
+| qwen3.8-27b-mlx        | 94.7    | 100% (0 in 4)                  | 0%          | 94.7       | 0%     | 24.8 min   | Recommended (partial)         | Risky 77.5              | review                             |
+| glm-4.7-flash          | 100     | 100% (0 in 2)                  | 0%          | 100        | n/a    | 11.3 min   | Recommended (partial)         | Won't work 28.4         | longContext, review, heldOutReview |
 
 Reading the table:
 
 - No saved call failed after the repair policy, so every model completes at 100% on these
   samples. The repair rate is the new signal: gpt-oss-20b needed a repair round in three of five
-  calls (60%), which v1 scored as a failure and now shows as a repair rate. Its band is
+  calls (60%), which the earlier scoring counted as a failure and now shows as a repair rate. Its band is
   Recommended on quality 81.8 and damage 1.1%; the repair cost is in its draft time.
 - Models that rewrote correct rows (qwen3-30b 24%, qwen3.6-35b 19.8%) are Usable with editing,
   not Recommended, because damage is a condition of the Recommended band.
@@ -223,7 +234,7 @@ Reading the table:
 
 A live Mini now makes eight calls (ten with the held-out review) with no cap, so a slow model
 takes as long as it takes: gemma-4-26b-a4b (MLX, 128 GB Apple Silicon) took 126 seconds of model
-time for one run of five calls in the v1 Mini; two runs of the stretched phase will take about
+time for one run of five calls in the earlier Mini; two runs of the stretched phase will take about
 twice that and a little more. No live run was made for #606; the owner decides on reruns.
 
 ## Out of scope

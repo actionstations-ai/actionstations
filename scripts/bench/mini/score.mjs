@@ -438,12 +438,40 @@ export function draftMinutes(speeds, budget) {
   return round1(seconds / 60)
 }
 
-/** The speed figures of one repeat: rates, draft time, and the long-prompt call's size and time. */
+/**
+ * The tokens-per-second figures to report, from the calls' own timings (#610). A call's time
+ * covers reading its prompt and writing its answer, and the split is not recorded, so neither
+ * rate can be read off exactly; each is a lower bound the calls prove:
+ * - output: answer tokens over the time of the calls that wrote one, so reading the prompt is
+ *   counted as writing time and the model writes at least this fast;
+ * - prompt: the fastest read among the calls (prompt tokens over that call's whole time), so
+ *   the model reads at least this fast.
+ * Never one figure for both: the old fallback divided all tokens by all seconds and printed the
+ * result as the output rate and again as the prompt rate.
+ */
+export function rateBounds(observations) {
+  const timed = observations.filter((o) => o.ok && o.seconds > 0)
+  const wrote = timed.filter((o) => o.outputTokens > 0)
+  const seconds = wrote.reduce((n, o) => n + o.seconds, 0)
+  const tokens = wrote.reduce((n, o) => n + o.outputTokens, 0)
+  const reads = timed.filter((o) => o.inputTokens > 0).map((o) => o.inputTokens / o.seconds)
+  return {
+    ...(seconds > 0 ? { outputTokensPerSecond: round1(tokens / seconds) } : {}),
+    ...(reads.length ? { promptTokensPerSecond: round1(Math.max(...reads)) } : {}),
+  }
+}
+
+/**
+ * The speed figures of one repeat: rates, draft time, and the long-prompt call's size and time.
+ * `method` says how the draft time was estimated (a fit of the two rates, or one pooled rate);
+ * the two reported rates are always the measured bounds of `rateBounds`.
+ */
 export function speedOf({ calls, budget }) {
   const speeds = fitSpeeds(calls)
   const long = calls.find((c) => c.key === 'longContext' && c.ok && c.inputTokens)
   return {
-    ...(speeds ?? {}),
+    ...(speeds ? { method: speeds.method } : {}),
+    ...rateBounds(calls),
     ...(speeds ? { draftMinutes: draftMinutes(speeds, budget) } : {}),
     ...(long
       ? { longPromptTokens: long.inputTokens, longPromptSeconds: round1(long.seconds) }

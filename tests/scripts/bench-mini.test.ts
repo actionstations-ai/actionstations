@@ -29,21 +29,27 @@ import {
   phaseView,
   qualityOf,
   rangeOf,
+  rateBounds,
   repetitionShare,
   runObservation,
   scoreFormat,
   scoreLongContext,
   scoreLongOutput,
   scoreRepeat,
+  speedOf,
   scoreReview,
   stretchPhase,
 } from '../../scripts/bench/mini/score.mjs'
 import {
   LEVEL_LABEL,
   bandOf,
+  overBy,
+  shortOf,
   summaryMarkdown,
   verdictOf,
 } from '../../scripts/bench/mini/verdict.mjs'
+import { restampRun } from '../../scripts/bench/mini/restamp.mjs'
+import { rescoreRun } from '../../scripts/bench/mini/rescore.mjs'
 import { taskSetFiles, taskSetHash } from '../../scripts/bench/taskset.mjs'
 
 const mini = loadSuite('mini') as any
@@ -422,6 +428,68 @@ describe('speed and draft time', () => {
     expect(speeds.outputTokensPerSecond).toBe(speeds.promptTokensPerSecond)
     expect(fitSpeeds([{ ok: false, seconds: 3 }])).toBeUndefined()
   })
+
+  // A recorded run (gemma-4-26b-a4b, MLX, second repeat of 2026-11-03): the five calls' own
+  // seconds and token counts. The pooled fallback used to print (input + output) / seconds,
+  // 577, as both the output and the prompt rate; the answers were written at about 47 tokens/s.
+  const recorded = [
+    { key: 'format', seconds: 8, inputTokens: 5031, outputTokens: 426 },
+    { key: 'longContext', seconds: 46.1, inputTokens: 30634, outputTokens: 3419 },
+    { key: 'longOutput', seconds: 20.1, inputTokens: 11558, outputTokens: 1376 },
+    { key: 'review', seconds: 42.1, inputTokens: 11743, outputTokens: 608 },
+    { key: 'heldOutReview', seconds: 16, inputTokens: 11180, outputTokens: 396 },
+  ].map((c) => ({ ...c, ok: true }))
+
+  it('reports output and prompt rates as separate measured bounds (#610)', () => {
+    const speed = speedOf({ calls: recorded, budget })
+    expect(speed.method).toBe('pooled')
+    expect(speed.outputTokensPerSecond).toBe(47.1)
+    expect(speed.promptTokensPerSecond).toBe(698.8)
+    expect(speed.outputTokensPerSecond).not.toBe(speed.promptTokensPerSecond)
+    expect(speed.outputTokensPerSecond).toBeLessThan(speed.promptTokensPerSecond)
+  })
+
+  it('keeps the draft time on the pooled estimate while the rates are bounds', () => {
+    const speed = speedOf({ calls: recorded, budget })
+    expect(speed.draftMinutes).toBe(draftMinutes(fitSpeeds(recorded)!, budget))
+  })
+
+  it('re-scores a saved run offline: new rates and draft time, same quality and completion', () => {
+    const probes = Object.fromEntries(
+      recorded.map((c) => [
+        c.key,
+        { ok: true, seconds: c.seconds, inputTokens: c.inputTokens, outputTokens: c.outputTokens },
+      ]),
+    )
+    const saved = {
+      suite: 'mini',
+      suiteVersion: 2,
+      repeats: [{ seed: 11, probes, failures: [], speed: { outputTokensPerSecond: 577 } }],
+      result: {
+        quality: { value: 80, min: 80, max: 80 },
+        completion: { value: 100, min: 100, max: 100 },
+        damage: { value: 2, min: 2, max: 2 },
+        outputTokensPerSecond: { value: 577, min: 577, max: 577 },
+        promptTokensPerSecond: { value: 577, min: 577, max: 577 },
+      },
+    }
+    const run = rescoreRun(saved)
+    expect(run.suiteVersion).toBe(1)
+    expect(run.result.outputTokensPerSecond.value).toBe(47.1)
+    expect(run.result.promptTokensPerSecond.value).toBe(698.8)
+    expect(run.result.quality).toEqual(saved.result.quality)
+    expect(run.verdict.level).toBe('recommended')
+  })
+
+  it('counts only calls that wrote an answer for the output rate, and skips failed calls', () => {
+    const calls = [
+      { ok: true, seconds: 10, inputTokens: 1000, outputTokens: 100 },
+      { ok: true, seconds: 5, inputTokens: 2000 },
+      { ok: false, seconds: 99, inputTokens: 9999, outputTokens: 9999 },
+    ]
+    expect(rateBounds(calls)).toEqual({ outputTokensPerSecond: 10, promptTokensPerSecond: 400 })
+    expect(rateBounds([{ ok: false, seconds: 3 }])).toEqual({})
+  })
 })
 
 describe('bands', () => {
@@ -454,7 +522,7 @@ describe('bands', () => {
       bands,
     })
     expect(v.level).toBe('not_recommended')
-    expect(v.reasons.join(' ')).toMatch(/Completion 15%/)
+    expect(v.reasons.join(' ')).toMatch(/Completion 15\.0%/)
     expect(v.reasons.join(' ')).not.toMatch(/draft time|slow/i)
     expect(verdictOf({ result: result({ draftMinutes: range(900) }), bands }).level).toBe(
       'recommended',
@@ -478,9 +546,50 @@ describe('bands', () => {
       bands,
     })
     expect(v.level).toBe('usable')
-    expect(v.reasons.join(' ')).toMatch(/Review damage 23%.*turn the review step off/)
+    expect(v.reasons.join(' ')).toMatch(/Review damage 23\.0%.*turn the review step off/)
     expect(v.notes[0]).toMatch(/longContext: loop.*abc abc/)
     expect(v.notes[1]).toMatch(/format: format: bad/)
+  })
+
+  describe('band reasons never round across the threshold (#611)', () => {
+    const reasonFor = (over: Record<string, unknown>) =>
+      verdictOf({ result: result(over), bands }).reasons.join(' ')
+
+    it('prints one decimal: quality 79.6 is "79.6, under 80", not "80, under 80"', () => {
+      expect(reasonFor({ quality: range(79.6) })).toContain('Quality 79.6, under 80')
+    })
+
+    it('cuts toward the miss at the edges: 79.96 reads 79.9, 59.99 reads 59.9', () => {
+      expect(reasonFor({ quality: range(79.96) })).toContain('Quality 79.9, under 80')
+      expect(reasonFor({ quality: range(59.99), completion: range(95) })).toContain(
+        'Quality 59.9, under 60',
+      )
+    })
+
+    it('has no reason at the threshold itself, and one for the smallest miss', () => {
+      expect(verdictOf({ result: result({ quality: range(80) }), bands }).level).toBe('recommended')
+      expect(reasonFor({ quality: range(79.9) })).toContain('Quality 79.9, under 80')
+    })
+
+    it('does the same for completion below its threshold', () => {
+      expect(reasonFor({ completion: range(89.96) })).toContain('Completion 89.9%')
+      expect(reasonFor({ completion: range(89.96) })).toContain('is under 90%')
+    })
+
+    it('rounds review damage up when it is over its limit: 5.04 reads 5.1, never "5, over 5"', () => {
+      const v = (damage: number) => reasonFor({ damage: range(damage) })
+      expect(v(5.04)).toContain('Review damage 5.1%, over 5%')
+      expect(v(5.1)).toContain('Review damage 5.1%, over 5%')
+      expect(v(5)).not.toContain('Review damage')
+    })
+
+    it('formats exact values and survives float noise', () => {
+      expect(shortOf(80)).toBe('80.0')
+      expect(shortOf(79.6)).toBe('79.6')
+      expect(shortOf(0.1 * 3 * 100)).toBe('30.0')
+      expect(overBy(5)).toBe('5.0')
+      expect(overBy(23)).toBe('23.0')
+    })
   })
 
   it('marks a verdict whose ranges reach another band', () => {
@@ -496,7 +605,7 @@ describe('bands', () => {
     const r = result({ quality: range(82, 76, 88) })
     const md = summaryMarkdown({
       model: { ref: 'lmstudio:x' },
-      suiteVersion: 2,
+      suiteVersion: 1,
       result: r,
       verdict: verdictOf({ result: r, bands }),
     })
@@ -703,6 +812,14 @@ describe('the runner', () => {
     manageModel({ name: 'qwen3.5:9b', tool: 'ollama' }, 32768, { load: true, exec }).done()
     manageModel({ name: 'x', tool: 'lmstudio' }, 32768, { load: false, exec }).done()
     expect(calls).toEqual([])
+  })
+
+  it('is the first published version of the suite, and old stamps are rewritten to it (#609)', () => {
+    expect(mini.suiteVersion).toBe(1)
+    const saved = { suite: 'mini', suiteVersion: 2, taskSetHash: 'old', result: { score: 70 } }
+    const stamped = restampRun(saved)
+    expect(stamped).toMatchObject({ suite: 'mini', suiteVersion: 1, result: { score: 70 } })
+    expect(stamped.taskSetHash).toBe(taskSetHash('mini'))
   })
 
   it('still unloads when the unload command fails', () => {
