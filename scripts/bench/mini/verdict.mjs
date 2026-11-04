@@ -9,7 +9,8 @@
 // scenario drafts with no failed stage, so it falls fast: with 14 model calls in a scenario,
 // 98% of calls succeeding first time is 75%, and one failure in eight Mini calls is 15%.
 // The band is judged on the reported figures. When the range over the two repeats reaches into
-// another band, the verdict says so (`uncertain`).
+// another band, the band is marked uncertain and the verdict lists every band the range reaches
+// (`uncertain`, `reaches`; #613). No extra run is made to settle it.
 
 export const LEVELS = ['recommended', 'usable', 'not_recommended']
 export const LEVEL_LABEL = {
@@ -68,8 +69,9 @@ function callNotes(repeats) {
 const corner = (range, pick) => (range ? range[pick] : undefined)
 
 /**
- * { level, reasons, notes, uncertain? }. `result` is miniResult(); `repeats` the per-repeat
- * results (for the call notes). `uncertain` lists the other bands the ranges reach.
+ * { level, reasons, notes, uncertain?, reaches? }. `result` is miniResult(); `repeats` the
+ * per-repeat results (for the call notes). `uncertain` lists the other bands the ranges reach and
+ * `reaches` every band the ranges reach, best first, the reported one included.
  */
 export function verdictOf({ result, repeats = [], bands }) {
   const at = (pick, damagePick) => ({
@@ -103,7 +105,12 @@ export function verdictOf({ result, repeats = [], bands }) {
     level,
     reasons,
     notes: callNotes(repeats),
-    ...(uncertain.length ? { uncertain: [...new Set(uncertain)] } : {}),
+    ...(uncertain.length
+      ? {
+          uncertain: [...new Set(uncertain)],
+          reaches: LEVELS.filter((l) => l === level || uncertain.includes(l)),
+        }
+      : {}),
   }
 }
 
@@ -120,11 +127,11 @@ export function summaryMarkdown(run) {
   const lines = [
     `### ${run.model.ref} (Tabletop Mini Benchmark v${run.suiteVersion})`,
     '',
-    `**${LEVEL_LABEL[verdict.level]}.** Mini score ${range(result.score)} = Quality ${range(result.quality)} x Completion ${range(result.completion, '%')}.`,
+    `**${LEVEL_LABEL[verdict.level]}${verdict.uncertain ? ' (uncertain)' : ''}.** Mini score ${range(result.score)} = Quality ${range(result.quality)} x Completion ${range(result.completion, '%')}.`,
     ...verdict.reasons.map((r) => `- ${r}`),
     ...(verdict.uncertain
       ? [
-          `- The ranges over the two runs also reach: ${verdict.uncertain.map((l) => LEVEL_LABEL[l]).join(', ')}`,
+          `- Band uncertain: the range over the two runs reaches ${(verdict.reaches ?? verdict.uncertain).map((l) => LEVEL_LABEL[l]).join(', ')}. Two runs do not settle which applies; the reported band follows the averaged figures.`,
         ]
       : []),
     ...verdict.notes.map((n) => `- ${n}`),

@@ -617,6 +617,50 @@ describe('bands', () => {
     expect(v.uncertain).toEqual(['usable'])
   })
 
+  describe('an uncertain band when the two-run range spans bands (#613)', () => {
+    it('lists every band the range reaches, best first, the reported one included', () => {
+      const v = verdictOf({
+        result: result({ quality: range(70, 54.5, 90) }),
+        bands,
+      })
+      expect(v.level).toBe('usable')
+      expect(v.uncertain).toEqual(expect.arrayContaining(['not_recommended', 'recommended']))
+      expect(v.reaches).toEqual(['recommended', 'usable', 'not_recommended'])
+    })
+
+    it('marks nothing uncertain when the range stays inside one band', () => {
+      const v = verdictOf({ result: result({ quality: range(88, 84, 92) }), bands })
+      expect(v.uncertain).toBeUndefined()
+      expect(v.reaches).toBeUndefined()
+    })
+
+    it('says so in the summary beside the band label and lists the bands', () => {
+      const r = result({ quality: range(70, 54.5, 90) })
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: verdictOf({ result: r, bands }),
+      })
+      expect(md).toContain('**Usable with editing (uncertain).**')
+      expect(md).toContain(
+        'reaches Recommended, Usable with editing, Not recommended. Two runs do not settle which applies',
+      )
+    })
+
+    it('does not add an uncertain label to a settled result', () => {
+      const r = result()
+      const md = summaryMarkdown({
+        model: { ref: 'lmstudio:x' },
+        suiteVersion: 1,
+        result: r,
+        verdict: verdictOf({ result: r, bands }),
+      })
+      expect(md).toContain('**Recommended.**')
+      expect(md).not.toContain('uncertain')
+    })
+  })
+
   it('prints the summary with the band label, the ranges and draft time as reported only', () => {
     const r = result({ quality: range(82, 76, 88) })
     const md = summaryMarkdown({

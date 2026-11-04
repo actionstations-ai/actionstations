@@ -1,6 +1,6 @@
 # Spec 0445: Tabletop Mini Benchmark, a screening benchmark that runs in minutes
 
-Issues: #604, #606, #612 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0074 (partial credit)
+Issues: #604, #606, #612, #613 · Status: Approved by the owner (delegated, 2026-11-03), building · Builds on: spec 0434 (local model benchmark), spec 0444 (Tabletop Benchmark), ADR-0071 (the Mini), ADR-0072 (requirement-based scoring, no time cap), ADR-0074 (partial credit, uncertain bands)
 
 ## Summary
 
@@ -83,8 +83,11 @@ apart.
   - **Recommended**: completion >= 90%, quality >= 80 and review damage <= 5%.
   - **Usable with editing**: completion >= 75% and quality >= 60.
   - **Not recommended**: otherwise.
-    When the ranges over the two runs reach into another band, the verdict says so (`uncertain`).
-    The verdict lists why the model falls short, names every failed call and, for a
+    When the ranges over the two runs reach into another band, the band is marked **uncertain**
+    ("Usable with editing (uncertain)") and the verdict lists every band the range reaches
+    (`uncertain`, `reaches`; #613). The reach is judged at the corners of the ranges: lowest
+    completion and quality with highest damage, and the reverse. **No extra run is taken** to settle
+    it: a third sample would change the cost of a Mini and still leave a range. The verdict lists why the model falls short, names every failed call and, for a
     stall or a loop, the raw tail of the reply.
 - **FR-8 One scoring implementation.** `scripts/bench/mini/score.mjs` composes `score/lint.mjs`,
   `score/citations.mjs`, `score/rubric.mjs` and `score/composite.mjs` (critique) and adds the

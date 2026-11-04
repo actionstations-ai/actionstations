@@ -12,6 +12,7 @@ export function verdictOf(input: { result: any; repeats?: any[]; bands: any }): 
   reasons: string[]
   notes: string[]
   uncertain?: Level[]
+  reaches?: Level[]
 }
 export function shortOf(n: number): string
 export function overBy(n: number): string

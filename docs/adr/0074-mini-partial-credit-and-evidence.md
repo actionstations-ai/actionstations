@@ -1,6 +1,6 @@
 # ADR-0074: The Mini gives partial credit on continuous criteria
 
-Builds on ADR-0072. Issue #612.
+Builds on ADR-0072. Issues #612, #613.
 
 ## Context
 
@@ -42,6 +42,9 @@ coverage and support, pace, tag mix, handbook length.
   runs. Saved Mini runs are scored again offline (`pnpm bench:mini:rescore`) and re-stamped.
 - **The band thresholds do not change.** Partial credit raises most quality figures by several
   points because near misses now count; the thresholds are requirements, not a calibration.
+- **An uncertain band is shown, not settled with more calls (#613).** When the two-run range
+  reaches into another band, the verdict marks the band uncertain and lists every band the range
+  reaches. No automatic third run.
 
 ## Consequences
 
