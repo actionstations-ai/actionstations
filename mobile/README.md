@@ -41,4 +41,22 @@ curl -k -X POST https://127.0.0.1:8485/__harness/release \
 
 Changing the `~<pin>` suffix of the link to anything else must end on "This is not the facilitator's computer."
 
+## iOS (`ios/`)
+
+SwiftUI, iOS and iPadOS 16 or later, bundle id `ai.actionstations.player`, no third-party dependencies. The Xcode project is generated from `ios/project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`) and the result is committed.
+
+```
+cd mobile/ios
+(cd ../.. && pnpm build:player-demo)   # the Try a demo page, copied to Player/Demo (git-ignored)
+xcodegen generate
+xcodebuild test -project ActionStationsPlayer.xcodeproj -scheme Player \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+```
+
+- `Player/Invite.swift`, `Pin.swift`, `OriginPolicy.swift` are pure and covered by `PlayerTests`, which load `fixtures/invites.json` from the test bundle.
+- Run against the harness: `PLAYER_TLS=1 pnpm dev:player` prints a pinned link. In a Debug build, launch with `-openURL '<link>'` (and optionally `-seat 'Public Information Officer'`) to join without scanning, or `-openDemo` for the practice session. These flags do not exist in Release builds.
+- Sideload IPA (unsigned, for AltStore or Sideloadly): `ios/scripts/archive.sh unsigned`.
+- App Store build, from the owner's Mac: `APPLE_TEAM_ID=<team> ios/scripts/archive.sh store`, then upload the IPA with Transporter.
+- The app keeps the invite in memory only and logs nothing about it. `PrivacyInfo.xcprivacy` declares no data collected.
+
 Unit tests of both apps run in `pnpm ci:local` when `mobile/` changed and the toolchain is present (`scripts/mobile-test.sh`; `MOBILE=1` forces them). Releases and store listings: [docs/mobile/STORES.md](../docs/mobile/STORES.md).

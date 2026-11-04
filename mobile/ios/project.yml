@@ -1,0 +1,74 @@
+name: ActionStationsPlayer
+options:
+  bundleIdPrefix: ai.actionstations
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.6.2"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  Player:
+    type: application
+    platform: iOS
+    sources:
+      - path: Player
+        excludes:
+          - Demo
+      - path: Player/Demo
+        type: folder
+        buildPhase: resources
+        optional: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.actionstations.player
+        PRODUCT_NAME: Player
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: Player/Info.plist
+      properties:
+        CFBundleDisplayName: Action Stations Player
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        ITSAppUsesNonExemptEncryption: false
+        NSCameraUsageDescription: Action Stations Player uses the camera to scan the room's QR code and to take photos you attach to messages during the exercise.
+        NSMicrophoneUsageDescription: Action Stations Player uses the microphone for calls and call recording during the exercise.
+        NSPhotoLibraryUsageDescription: Action Stations Player lets you attach photos from your library to messages during the exercise.
+        NSLocalNetworkUsageDescription: Action Stations Player connects to the facilitator's computer on your local network to join the exercise.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+  PlayerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - PlayerTests
+      - path: ../fixtures/invites.json
+        buildPhase: resources
+    dependencies:
+      - target: Player
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.actionstations.player.tests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Player:
+    build:
+      targets:
+        Player: all
+    test:
+      targets:
+        - PlayerTests

@@ -31,10 +31,13 @@ else
 fi
 
 export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
-device=$(limit 60 xcrun simctl list devices available -j 2>/dev/null | node -e "
-  let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{try{const d=JSON.parse(s).devices;
-  const p=Object.entries(d).filter(([r])=>r.includes('iOS')).flatMap(([,l])=>l).find(x=>/^iPhone/.test(x.name));
-  if(p)console.log(p.udid)}catch{}})" || true)
+# Ask xcodebuild itself: simctl can list a simulator whose iOS platform Xcode lacks.
+device=""
+if [[ -d mobile/ios/ActionStationsPlayer.xcodeproj ]]; then
+  device=$(limit 90 xcodebuild -showdestinations -project mobile/ios/ActionStationsPlayer.xcodeproj \
+    -scheme Player 2>/dev/null | grep 'platform:iOS Simulator' | grep -v 'error:' \
+    | sed -n 's/.*id:\([A-F0-9-]\{36\}\).*/\1/p' | head -1 || true)
+fi
 if [[ ! -d mobile/ios/ActionStationsPlayer.xcodeproj ]]; then
   echo "No iOS project on this branch"
 elif [[ -n "$device" ]]; then
@@ -42,5 +45,5 @@ elif [[ -n "$device" ]]; then
   (cd mobile/ios && limit 900 xcodebuild test -quiet -project ActionStationsPlayer.xcodeproj \
     -scheme Player -destination "id=$device" CODE_SIGNING_ALLOWED=NO)
 else
-  echo "No iOS simulator available (Xcode missing or its first-launch setup not done) — skipping iOS"
+  echo "No usable iOS simulator (Xcode missing, first-launch setup not done, or its iOS platform not installed) — skipping iOS"
 fi
