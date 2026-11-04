@@ -89,7 +89,7 @@ The WebSocket transport (and the SSE + POST fallback, ADR-0033) run inside the w
 ### Identity and naming
 
 - App name **Action Stations Player**; application id / bundle id `ai.actionstations.player` (the desktop app is `ai.actionstations.app`).
-- Version: the apps carry the desktop release version (`package.json`) as their marketing version and a build number from the release counter, set by `scripts/mobile-version.mjs`.
+- Version: the apps carry the desktop release version (`package.json`) as their marketing version and a build number derived from it (major·10000 + minor·100 + patch) by `scripts/mobile-version.mjs`, so each release is higher without a counter to keep.
 - Icon from `build/icon` artwork; launcher colors from `src/renderer/styles/tokens.css` values (light and dark).
 
 ### Releases (#619)
@@ -110,6 +110,7 @@ Apple's guideline 4.2 rejects apps that are only a website in a wrapper, and rev
 
 - **The keys.** The fragment never reaches a server (browsers do not send it, and the shells load the URL as given). The apps hold the invite in memory and drop it on Leave; they log nothing about it (Android `Log` and iOS `os_log` calls are limited to error codes).
 - **Certificate trust.** A pin read from the facilitator's screen is stronger than the browser's click-through. A pin applies to one host for one web view; a mismatch is never overridable. Without a pin, an untrusted certificate needs the player's explicit comparison with the fingerprint on the Facilitate page, the same check browser users are asked to make.
+- **A pin only narrows untrusted certificates.** Both platforms consult the app only when the system cannot verify a certificate, so a certificate a public CA vouches for is accepted for that host even when the invite carries a pin. The LAN and self-signed cases the pin exists for always reach the app; a public CA issuing a certificate for a private IP address is not a realistic threat for a tabletop.
 - **Origin confinement.** The web view stays on the session origin; other links open in the system browser. JavaScript bridges are not added: the page has no native API it can call, so a compromised page gains nothing over a browser.
 - **No data leaves except to the session's server.** Safe Browsing is off on Android (it would send visited URLs to Google); no SDKs; no network call at launch.
 - **Demo.** The demo bundle has no keys from a real session and makes no requests (its CSP is `connect-src 'none'`).

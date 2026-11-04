@@ -40,3 +40,5 @@ curl -k -X POST https://127.0.0.1:8485/__harness/release \
 ```
 
 Changing the `~<pin>` suffix of the link to anything else must end on "This is not the facilitator's computer."
+
+Unit tests of both apps run in `pnpm ci:local` when `mobile/` changed and the toolchain is present (`scripts/mobile-test.sh`; `MOBILE=1` forces them). Releases and store listings: [docs/mobile/STORES.md](../docs/mobile/STORES.md).

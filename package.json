@@ -20,6 +20,7 @@
     "build:check": "pnpm build:player && electron-vite build && node scripts/build-bundled-packs.mjs && electron-builder --dir",
     "build:packs": "node scripts/build-bundled-packs.mjs",
     "build:player": "vite build -c vite.player.config.ts && node scripts/check-player-bundle.mjs",
+    "build:player-demo": "vite build -c vite.player-demo.config.ts && node scripts/copy-player-demo.mjs",
     "dev:player": "node scripts/player-dev.mjs",
     "sbom": "node scripts/sbom.mjs",
     "package:smoke": "node scripts/package-smoke.mjs",

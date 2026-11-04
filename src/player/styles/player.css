@@ -342,6 +342,8 @@ code {
 /* Room shell: header / banner / scrolling main / tab bar */
 .room {
   display: grid;
+  /* minmax(0, …): an implicit auto column grows to a long scenario title and scrolls sideways. */
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto 1fr auto;
   grid-template-areas: 'head' 'banner' 'main' 'tabs';
   height: 100dvh;
@@ -497,7 +499,7 @@ code {
 }
 @media (min-width: 48rem) {
   .room {
-    grid-template-columns: 14rem 1fr;
+    grid-template-columns: 14rem minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     grid-template-areas: 'tabs head' 'tabs banner' 'tabs main';
   }
