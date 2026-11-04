@@ -130,7 +130,7 @@ export function summaryMarkdown(run) {
     `Review damage ${range(result.damage, '%')}.`,
     `Draft time ${range(result.draftMinutes, ' min')} for a full scenario on this hardware` +
       (result.outputTokensPerSecond
-        ? ` (${range(result.outputTokensPerSecond)} output tokens/s, ${range(result.promptTokensPerSecond)} prompt tokens/s)`
+        ? ` (at least ${range(result.outputTokensPerSecond)} output tokens/s and ${range(result.promptTokensPerSecond)} prompt tokens/s)`
         : '') +
       '. Reported, never scored.',
   ]

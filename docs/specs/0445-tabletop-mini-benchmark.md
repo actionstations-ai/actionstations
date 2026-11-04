@@ -175,6 +175,17 @@ read and write, so the two separate). If the fit is not usable (fewer than three
 negative rate), one pooled rate over all tokens is used and the run file says so (`method`).
 Draft time is `budget.input / P + budget.output / G`, in minutes, with its range over the runs.
 
+### Tokens per second (#610)
+
+The fit and the pooled rate estimate draft time only; they are not the figures shown as speeds.
+A call's time covers reading its prompt and writing its answer and the split is not recorded, so
+each shown rate is a lower bound the calls prove (`rateBounds`): **output tokens/s** is answer
+tokens over the time of the calls that wrote one (prompt reading counted as writing time), and
+**prompt tokens/s** is the fastest read among the calls (prompt tokens over that call's whole
+time). The two are never one figure. The summary says "at least". `pnpm bench:mini:rescore <dir>`
+(`scripts/bench/mini/rescore.mjs`) recomputes them, the draft time and the verdict from saved run
+files, with no model call.
+
 ## Replay of the saved Mini runs
 
 `pnpm bench:mini:replay ~/Code/as-triage/.tmp/mini` scores the ten saved Mini runs of 2026-11-03

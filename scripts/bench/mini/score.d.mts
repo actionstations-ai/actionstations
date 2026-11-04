@@ -62,6 +62,10 @@ export function rangesOverlap(a: Range, b: Range): boolean
 export function compareRanges(a: Range, b: Range): 'a' | 'b' | 'tie'
 export function repairRate(probes: Record<string, any>): number
 export function callRate(probes: Record<string, any>): number
+export function rateBounds(observations: any[]): {
+  promptTokensPerSecond?: number
+  outputTokensPerSecond?: number
+}
 export function outputSpeed(observations: Observation[]): number | undefined
 export function fitSpeeds(
   observations: any[],

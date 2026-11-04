@@ -29,12 +29,14 @@ import {
   phaseView,
   qualityOf,
   rangeOf,
+  rateBounds,
   repetitionShare,
   runObservation,
   scoreFormat,
   scoreLongContext,
   scoreLongOutput,
   scoreRepeat,
+  speedOf,
   scoreReview,
   stretchPhase,
 } from '../../scripts/bench/mini/score.mjs'
@@ -45,6 +47,7 @@ import {
   verdictOf,
 } from '../../scripts/bench/mini/verdict.mjs'
 import { restampRun } from '../../scripts/bench/mini/restamp.mjs'
+import { rescoreRun } from '../../scripts/bench/mini/rescore.mjs'
 import { taskSetFiles, taskSetHash } from '../../scripts/bench/taskset.mjs'
 
 const mini = loadSuite('mini') as any
@@ -422,6 +425,68 @@ describe('speed and draft time', () => {
     expect(speeds.method).toBe('pooled')
     expect(speeds.outputTokensPerSecond).toBe(speeds.promptTokensPerSecond)
     expect(fitSpeeds([{ ok: false, seconds: 3 }])).toBeUndefined()
+  })
+
+  // A recorded run (gemma-4-26b-a4b, MLX, second repeat of 2026-11-03): the five calls' own
+  // seconds and token counts. The pooled fallback used to print (input + output) / seconds,
+  // 577, as both the output and the prompt rate; the answers were written at about 47 tokens/s.
+  const recorded = [
+    { key: 'format', seconds: 8, inputTokens: 5031, outputTokens: 426 },
+    { key: 'longContext', seconds: 46.1, inputTokens: 30634, outputTokens: 3419 },
+    { key: 'longOutput', seconds: 20.1, inputTokens: 11558, outputTokens: 1376 },
+    { key: 'review', seconds: 42.1, inputTokens: 11743, outputTokens: 608 },
+    { key: 'heldOutReview', seconds: 16, inputTokens: 11180, outputTokens: 396 },
+  ].map((c) => ({ ...c, ok: true }))
+
+  it('reports output and prompt rates as separate measured bounds (#610)', () => {
+    const speed = speedOf({ calls: recorded, budget })
+    expect(speed.method).toBe('pooled')
+    expect(speed.outputTokensPerSecond).toBe(47.1)
+    expect(speed.promptTokensPerSecond).toBe(698.8)
+    expect(speed.outputTokensPerSecond).not.toBe(speed.promptTokensPerSecond)
+    expect(speed.outputTokensPerSecond).toBeLessThan(speed.promptTokensPerSecond)
+  })
+
+  it('keeps the draft time on the pooled estimate while the rates are bounds', () => {
+    const speed = speedOf({ calls: recorded, budget })
+    expect(speed.draftMinutes).toBe(draftMinutes(fitSpeeds(recorded)!, budget))
+  })
+
+  it('re-scores a saved run offline: new rates and draft time, same quality and completion', () => {
+    const probes = Object.fromEntries(
+      recorded.map((c) => [
+        c.key,
+        { ok: true, seconds: c.seconds, inputTokens: c.inputTokens, outputTokens: c.outputTokens },
+      ]),
+    )
+    const saved = {
+      suite: 'mini',
+      suiteVersion: 2,
+      repeats: [{ seed: 11, probes, failures: [], speed: { outputTokensPerSecond: 577 } }],
+      result: {
+        quality: { value: 80, min: 80, max: 80 },
+        completion: { value: 100, min: 100, max: 100 },
+        damage: { value: 2, min: 2, max: 2 },
+        outputTokensPerSecond: { value: 577, min: 577, max: 577 },
+        promptTokensPerSecond: { value: 577, min: 577, max: 577 },
+      },
+    }
+    const run = rescoreRun(saved)
+    expect(run.suiteVersion).toBe(1)
+    expect(run.result.outputTokensPerSecond.value).toBe(47.1)
+    expect(run.result.promptTokensPerSecond.value).toBe(698.8)
+    expect(run.result.quality).toEqual(saved.result.quality)
+    expect(run.verdict.level).toBe('recommended')
+  })
+
+  it('counts only calls that wrote an answer for the output rate, and skips failed calls', () => {
+    const calls = [
+      { ok: true, seconds: 10, inputTokens: 1000, outputTokens: 100 },
+      { ok: true, seconds: 5, inputTokens: 2000 },
+      { ok: false, seconds: 99, inputTokens: 9999, outputTokens: 9999 },
+    ]
+    expect(rateBounds(calls)).toEqual({ outputTokensPerSecond: 10, promptTokensPerSecond: 400 })
+    expect(rateBounds([{ ok: false, seconds: 3 }])).toEqual({})
   })
 })
 
