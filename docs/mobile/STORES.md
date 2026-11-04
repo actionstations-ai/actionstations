@@ -45,7 +45,7 @@ iOS has no free way to install an app on another person's phone. The unsigned IP
 1. Enroll in the Apple Developer Program as an **organization** (needs a D-U-N-S number and the legal entity's name on the listing).
 2. In Certificates, Identifiers & Profiles create the App ID `ai.actionstations.player` (no capabilities beyond the defaults).
 3. In App Store Connect create the app **Action Stations Player**, primary category **Business**, secondary **Productivity**, price free.
-4. On the owner's Mac: `TEAM_ID=<team> mobile/ios/scripts/archive.sh` builds, signs and uploads to TestFlight.
+4. On the owner's Mac: `APPLE_TEAM_ID=<team> mobile/ios/scripts/archive.sh store` builds and signs the IPA; upload it to TestFlight with Transporter.
 5. Install from TestFlight, join a LAN session and the practice session, then submit for review with the [review notes](#review-notes).
 6. App Privacy: **Data Not Collected**. Age rating: **4+** (answer _None_ to every content question). Export compliance: the app uses only the encryption built into iOS (HTTPS and WebCrypto) — choose the exemption for standard encryption.
 
