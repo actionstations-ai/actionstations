@@ -19,6 +19,8 @@ import { tableKind } from './table'
 import { timeSeriesKind } from './time-series'
 import './clinical_care'
 import './spill'
+// Field kinds register themselves when imported (weather).
+import './weather'
 
 registerFigureKind(timeSeriesKind)
 registerFigureKind(barKind)
