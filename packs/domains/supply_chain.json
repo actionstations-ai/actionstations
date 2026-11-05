@@ -1,0 +1,703 @@
+{
+  "id": "supply_chain",
+  "label": "Supply chain and logistics",
+  "description": "The people who buy, make, move, store and recall goods: supply chain and procurement leaders, logistics and transportation managers, distribution center and cold storage operators, third-party logistics providers, food safety and quality teams who run recalls, and supply chain programs at universities. Three variants share one profile: a manufacturer or brand owner (supplier risk, allocation, sourcing), a distributor or third-party logistics provider (lanes, dock, inventory, carriers) and a food recall team (lot tracing, consignee notices, regulator contact). Enterprise resource planning, warehouse and transportation systems, EDI, shipment visibility and lot traceability sit under them. Every company, supplier, carrier and customer is fictional.",
+  "aliases": [
+    "logistics",
+    "procurement",
+    "sourcing",
+    "distribution",
+    "distributor",
+    "warehouse",
+    "distribution_center",
+    "3pl",
+    "third_party_logistics",
+    "freight",
+    "freight_forwarder",
+    "cold_chain",
+    "traceability",
+    "recall",
+    "recall_team",
+    "inventory",
+    "demand_planning",
+    "supply_chain_program",
+    "fulfillment",
+    "wholesaler",
+    "manufacturer"
+  ],
+  "vocabulary": {
+    "facility": "the company's network (plants, distribution centers, cold storage, cross-docks and the lanes between them)",
+    "public": "customers, retailers and food service accounts, patients and consumers who depend on the product",
+    "frontline": "buyers, planners, dock and warehouse crews, drivers and dispatchers, quality technicians, customer service reps",
+    "operationsCenter": "the supply chain control tower (or the recall command room), with the transportation and warehouse desks"
+  },
+  "factCategories": [
+    {
+      "id": "distribution_centers",
+      "label": "Distribution centers",
+      "noun": "Distribution Centers?|DCs?|Warehouses?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "plants",
+      "label": "Plants",
+      "noun": "Plants?|Factories|Factory",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "lanes",
+      "label": "Lanes and routes",
+      "pattern": "\\b(?:Lane|Route)\\s+((?:[A-Z]{2,4}-)?[A-Z]{2,4}-[A-Z0-9]{2,4})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "purchase_orders",
+      "label": "Purchase and sales orders",
+      "pattern": "\\b((?:PO|SO)-\\d{4,9})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "lot_codes",
+      "label": "Lot codes",
+      "pattern": "\\b[Ll]ot (?:[Cc]ode|[Nn]o\\.|#)\\s{0,3}:?\\s{0,3}([A-Z0-9]{0,24}\\d[-A-Z0-9]{0,24})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "containers",
+      "label": "Container and trailer numbers",
+      "pattern": "\\b([A-Z]{4}\\d{6}\\d?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "enterprise resource planning (ERP) with demand and supply planning",
+      "warehouse management system (WMS) and transportation management system (TMS)",
+      "supplier portal, EDI and API links to suppliers, carriers and customers",
+      "shipment visibility (vessel, rail and truck tracking, telematics)",
+      "lot and batch traceability in the manufacturing execution system (MES), with label and barcode printing",
+      "customs and trade compliance software and the customs broker's filing system",
+      "supplier risk monitoring and spend analytics",
+      "email, identity and the managed service provider"
+    ],
+    "ot": [
+      "temperature monitoring: refrigeration controllers, data loggers and cold room alarms",
+      "conveyors, sortation and automated storage and retrieval",
+      "dock doors, yard management and gate scanners",
+      "handheld scanners and warehouse robots",
+      "backup power and generators for cold storage",
+      "CCTV and access control"
+    ]
+  },
+  "roles": [
+    {
+      "key": "csco",
+      "name": "Chief Supply Chain Officer / VP Supply Chain (Incident Commander)",
+      "abbreviation": "CSCO",
+      "team": "Team A: Executive",
+      "description": "Decides allocation among customers, expedite spend and alternate sources, and when to escalate to the CEO."
+    },
+    {
+      "key": "proc",
+      "name": "Procurement / Sourcing Director",
+      "abbreviation": "PROC",
+      "team": "Team B: Sourcing",
+      "description": "Decides to switch to a second source, qualify a substitute, and the contract and price terms."
+    },
+    {
+      "key": "srm",
+      "name": "Supplier Risk Manager",
+      "abbreviation": "SRM",
+      "team": "Team B: Sourcing",
+      "description": "Owns supplier status, tier-2 and tier-3 visibility and risk scores."
+    },
+    {
+      "key": "log",
+      "name": "Logistics / Transportation Manager",
+      "abbreviation": "LOG",
+      "team": "Team C: Logistics and Operations",
+      "description": "Decides reroutes, mode changes (ocean to air), carrier selection and detention and demurrage."
+    },
+    {
+      "key": "dc",
+      "name": "Distribution Center Manager",
+      "abbreviation": "DC",
+      "team": "Team C: Logistics and Operations",
+      "description": "Sets inbound and outbound priorities, labor, storage and quarantine areas."
+    },
+    {
+      "key": "plan",
+      "name": "Inventory / Demand Planner",
+      "abbreviation": "PLAN",
+      "team": "Team D: Planning",
+      "description": "Owns days of supply by item and site, rebalances inventory and resets the forecast."
+    },
+    {
+      "key": "fsqa",
+      "name": "Food Safety and Quality Assurance Lead",
+      "abbreviation": "FSQA",
+      "team": "Team E: Quality and Recall",
+      "description": "Holds product, supplies health hazard input and recommends a recall."
+    },
+    {
+      "key": "recall",
+      "name": "Recall Coordinator",
+      "abbreviation": "RECALL",
+      "team": "Team E: Quality and Recall",
+      "description": "Sets recall strategy depth, runs the lot trace, owns the consignee list and effectiveness checks."
+    },
+    {
+      "key": "cs",
+      "name": "Customer Service / Key Account Manager",
+      "abbreviation": "CS",
+      "team": "Team F: Commercial and Communications",
+      "description": "Sends customer notices and allocation messages and negotiates service credits."
+    },
+    {
+      "key": "gc",
+      "name": "General Counsel / Regulatory Affairs",
+      "abbreviation": "GC",
+      "team": "Team F: Commercial and Communications",
+      "description": "Owns regulator contact, force majeure positions and public statements."
+    },
+    {
+      "key": "comms",
+      "name": "Communications Lead (PIO)",
+      "abbreviation": "COMMS",
+      "team": "Team F: Commercial and Communications",
+      "description": "Writes the recall notice, customer letters and media statements."
+    },
+    {
+      "key": "it",
+      "name": "IT / Logistics Systems Lead (Technical Lead)",
+      "abbreviation": "IT",
+      "team": "Team G: IT",
+      "description": "Restores the transportation and warehouse systems and EDI connections."
+    }
+  ],
+  "outsideParties": [
+    "suppliers at tiers one to three",
+    "carriers, freight forwarders and third-party logistics providers",
+    "customs brokers, ports and terminals",
+    "customers: retail, wholesale, food service and hospital accounts",
+    "the FDA or USDA FSIS, and the state and local health departments",
+    "the insurer and the insurance broker",
+    "trade press and consumers",
+    "the cyber insurer, an incident response firm and CISA (for a logistics cyber attack)",
+    "the county emergency management agency (for a regional supply disruption)"
+  ],
+  "mediaChannels": [
+    "trade press and freight news sites",
+    "retailer and customer social posts about empty shelves",
+    "consumer posts on X and Reddit about a recalled product",
+    "local TV consumer reporters",
+    "a LinkedIn post by a laid-off supplier employee",
+    "a customer's procurement forum"
+  ],
+  "sceneAnchors": {
+    "public": "a grocery aisle with a half-empty shelf and a handwritten limit sign, a shopper reading a label, a store employee restocking from a pallet, bright fluorescent light",
+    "control": "a supply chain control tower: planners at long desks with laptops, a wall of shipment maps and bar charts, headsets, coffee cups, a whiteboard with lane names",
+    "exterior": "a distribution center yard: rows of trailers backed to dock doors, a gate shack, a line of trucks waiting, a forklift at a loading bay, overcast daylight"
+  },
+  "injectTypes": [
+    "email",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "chat_transcript",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "press_release",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "facebook_post",
+    "tweet",
+    "reddit_post",
+    "status_board",
+    "sitrep",
+    "figure",
+    "helpdesk_ticket",
+    "system_log",
+    "siem_alert",
+    "error_dialog",
+    "ransom_note",
+    "service_status_page",
+    "field_report",
+    "lab_result_report",
+    "regulatory_report_form",
+    "scene_photo",
+    "radio_call"
+  ],
+  "threatFamilies": [
+    "supplier_failure",
+    "lane_disruption",
+    "product_recall",
+    "logistics_provider_cyber",
+    "critical_supply_shortage",
+    "cyber",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "supplier_failure",
+      "label": "Supplier failure or supply shock",
+      "description": "A source the company depends on stops shipping (fire, bankruptcy, labor action, sanctions, a price spike); the team protects days of supply, allocates what is left and qualifies another source.",
+      "keywords": [
+        "single source",
+        "sole source",
+        "supplier failure",
+        "supplier fire",
+        "supplier bankruptcy",
+        "force majeure",
+        "allocation",
+        "stock-out",
+        "tier 2 supplier",
+        "sanctions",
+        "labor strike",
+        "component shortage",
+        "price spike"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "The first sign is small and arrives from the edge of the network, not from the supplier's own notice.",
+          "beats": [
+            "A buyer hears from a carrier that a supplier's dock is closed",
+            "A supplier portal status that has not updated in two days",
+            "A tier-2 mill mentioned in a trade press item that nobody here knew was in the chain"
+          ]
+        },
+        {
+          "title": "Verify and size",
+          "goal": "The team confirms what is lost and for how long, and learns how many days of supply sit where.",
+          "beats": [
+            "A force majeure letter with a vague restart date",
+            "A days-of-supply dashboard where the plant with the least stock is not the plant with the most urgent orders",
+            "Stock counted in the wrong location in the ERP"
+          ]
+        },
+        {
+          "title": "Protect supply",
+          "goal": "Allocation, expedite and alternate-source choices each have a cost and a clock.",
+          "beats": [
+            "A request to qualify a second source that needs a quality audit first",
+            "A key customer demanding priority and a contract clause that backs them",
+            "An expedite quote that eats the quarter's margin"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Customers, the board and the sales team hear the same facts in the same order.",
+          "beats": [
+            "A sales director promising a ship date the plan cannot meet",
+            "A customer reading about the failure in the trade press before hearing from the company"
+          ]
+        },
+        {
+          "title": "Recover and learn",
+          "goal": "Supply returns in stages and the team decides what to change in sourcing.",
+          "beats": [
+            "The supplier restarts at half capacity",
+            "A debate on dual sourcing against the cost of holding stock"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Allocate the remaining stock by contract priority or by customer criticality",
+        "Pay for air freight on a share of the order or accept a stock-out week",
+        "Qualify a second source now at a quality risk, or wait for the audit"
+      ],
+      "clueKinds": "a supplier portal status, a carrier remark, a force majeure letter, a days-of-supply row that falls below the reorder point, a sales order that cannot be filled",
+      "hurdleKinds": "the alternate source is not qualified, the bill of materials hides a tier-2 dependency, the ERP shows stock that is not physically there, customers hold contract allocation rights",
+      "keyCoordination": "the sole-source supplier's account manager, key customers, the alternate source, a freight forwarder",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "allocat|alternate|second source|expedite|qualif",
+          "description": "name the allocation, expedite or alternate-source choice and what it costs"
+        }
+      }
+    },
+    {
+      "id": "lane_disruption",
+      "label": "Port, rail or lane disruption",
+      "description": "A port, rail line, highway, canal or channel closes or clogs; shipments slip, containers pile up and the team reroutes, changes mode or accepts stock-outs.",
+      "keywords": [
+        "port closure",
+        "port congestion",
+        "canal blockage",
+        "canal",
+        "rail derailment",
+        "bridge closure",
+        "highway closure",
+        "container delay",
+        "vessel delay",
+        "demurrage",
+        "detention",
+        "reroute",
+        "dwell time",
+        "strike at port",
+        "channel closed"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "A closure or a blockage is reported, and its effect on this company's freight is not yet clear.",
+          "beats": [
+            "A carrier advisory about a closed lane",
+            "A vessel tracker showing a ship holding at anchor",
+            "A customs broker asking whether to hold a filing"
+          ]
+        },
+        {
+          "title": "Map the exposure",
+          "goal": "The team lists which shipments, containers and trailers sit behind the disruption and what each is carrying.",
+          "beats": [
+            "A shipment tracker where half the exceptions are coded 'delayed' with no reason",
+            "Two containers of a critical item on different vessels",
+            "A customer order with a promised date inside the delay"
+          ]
+        },
+        {
+          "title": "Reroute or accept",
+          "goal": "Mode change, alternate port, expedited truck and reallocation each cost money and shift the risk.",
+          "beats": [
+            "An ocean-to-air quote for a small share of the load",
+            "Detention and demurrage meters running at a terminal",
+            "A rail ramp that is open but without chassis"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Customers receive revised dates they can plan against.",
+          "beats": [
+            "Two account managers giving different revised dates",
+            "A retailer asking whether to cancel the promotion"
+          ]
+        },
+        {
+          "title": "Recover",
+          "goal": "Backlog clears unevenly and the team decides how much safety stock to rebuild.",
+          "beats": [
+            "A surge of arrivals that overwhelms the receiving dock",
+            "A cost review that questions the expedite spend"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Switch the critical item to air freight at a high cost, or accept a three-week stock-out",
+        "Divert vessels to another port and accept a longer trucking leg",
+        "Tell customers a revised date now, or wait until the carrier commits"
+      ],
+      "clueKinds": "a lane or port advisory, a vessel or trailer position, an ETA that slips between two updates, a dwell-time figure, a demurrage invoice",
+      "hurdleKinds": "no chassis or drivers at the alternate port, the alternate lane is also congested, the carrier will not commit to a date, free-time clocks expire",
+      "keyCoordination": "the carrier or ocean line, the port or terminal, the customs broker, the freight forwarder",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "reroute|mode|air|alternate port|expedit|accept",
+          "description": "name the reroute, mode change or accepted delay"
+        }
+      }
+    },
+    {
+      "id": "product_recall",
+      "label": "Product safety, cold chain and recall",
+      "description": "A contaminated lot, a cold chain breach or a labeling error means finding every shipment of the affected product, deciding the recall's depth and notifying every consignee on a clock.",
+      "keywords": [
+        "recall",
+        "lot trace",
+        "traceability",
+        "contamination",
+        "cold chain",
+        "temperature excursion",
+        "listeria",
+        "salmonella",
+        "e. coli",
+        "undeclared allergen",
+        "fda request",
+        "fsma 204",
+        "health hazard",
+        "consignee",
+        "withdrawal",
+        "hold and release"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "A complaint, a test result, a supplier notice or a regulator call opens the question; it can arrive at any step.",
+          "beats": [
+            "A retailer complaint with a lot code half legible on the photo",
+            "A positive result from a routine environmental swab",
+            "A call from a state inspector asking where a product went"
+          ]
+        },
+        {
+          "title": "Hold and investigate",
+          "goal": "Product is held, the health hazard is evaluated and the quality team decides how far to look.",
+          "beats": [
+            "Inventory in three distribution centers that has already shipped in part",
+            "A lab that cannot confirm until tomorrow",
+            "A tempting argument that only one lot is involved"
+          ]
+        },
+        {
+          "title": "Trace",
+          "goal": "The recall coordinator builds the ship-to list from shipping and receiving records, against a records request clock.",
+          "beats": [
+            "A shipping record missing its reference document",
+            "A lot code that changes format at a transformation step",
+            "A distributor who repacked and relabeled"
+          ]
+        },
+        {
+          "title": "Decide and notify",
+          "goal": "Class, depth, public warning and effectiveness checks are chosen, and every direct account gets a letter marked urgent where the class requires it.",
+          "beats": [
+            "A draft letter missing the lot numbers or the instructions",
+            "A decision on whether to warn the public now",
+            "A customer asking whether they can sell through"
+          ]
+        },
+        {
+          "title": "Retrieve and verify",
+          "goal": "Product comes back; effectiveness checks show who has not answered.",
+          "beats": [
+            "Accounts that have not replied after two days",
+            "Product already sold to consumers at retail",
+            "A status report due to the regulator with counts that disagree with the tracing spreadsheet"
+          ]
+        },
+        {
+          "title": "Root cause and restart",
+          "goal": "The cause is found, corrective action is documented and the line restarts on a stated rule.",
+          "beats": [
+            "A disagreement about whether to restart before the audit",
+            "An insurer asking for the timeline"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Recall to the consumer level with a public warning, or to the retail level without one",
+        "Send recall letters now with an incomplete ship-to list, or wait a day to complete it",
+        "Reply to the records request within the clock with known gaps, or ask the regulator for more time"
+      ],
+      "clueKinds": "a lot code on a complaint photo, a lab result, a data logger alert, a shipping record with a missing field, a consignee list with a duplicate account",
+      "hurdleKinds": "records on paper or in two systems, mismatched lot codes across a transformation, repackaged product, accounts that do not answer, a restart pressure from sales",
+      "keyCoordination": "the regulator (FDA or USDA FSIS), the state health department, distributors and retailers, the insurer",
+      "promptGuidance": "Stay at coordination level: lot codes, quantities, dates, ship-to lists, classes and letters. Do not write pathogen handling, culturing or sampling procedure detail.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "recall|hold|class|depth|public warning|effectiveness|notif",
+          "description": "name the recall, hold, depth or notification choice"
+        }
+      }
+    },
+    {
+      "id": "logistics_provider_cyber",
+      "label": "Logistics provider or warehouse system cyber attack",
+      "description": "A carrier, a third-party logistics provider or the company's own warehouse or transportation system is down; orders cannot ship and nobody is sure what has already left.",
+      "keywords": [
+        "tms outage",
+        "wms outage",
+        "warehouse system down",
+        "carrier ransomware",
+        "3pl ransomware",
+        "edi outage",
+        "manual shipping",
+        "paper bill of lading",
+        "logistics cyber",
+        "supplier portal down",
+        "dispatch system down"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "Orders stop flowing and the first explanation is a network glitch.",
+          "beats": [
+            "EDI acknowledgements that stop arriving",
+            "A warehouse supervisor reporting that scanners will not log in",
+            "A carrier call center that cannot look up a load"
+          ]
+        },
+        {
+          "title": "Contain and size",
+          "goal": "The team learns which systems and which partners are affected and what shipped in the last day.",
+          "beats": [
+            "A provider's notice that says only 'service interruption'",
+            "Pick lists printed from a stale cache",
+            "A second carrier asking the company to stop sending files"
+          ]
+        },
+        {
+          "title": "Operate manually",
+          "goal": "Shipping continues on paper or stops, and every manual choice creates a record gap.",
+          "beats": [
+            "Paper bills of lading with no lot code",
+            "A priority customer whose order is mid-pick",
+            "Drivers waiting at the gate without paperwork"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Customers and partners get the same plain statement about what is delayed.",
+          "beats": [
+            "A customer asking whether their data was taken",
+            "A press inquiry about a named provider"
+          ]
+        },
+        {
+          "title": "Restore and reconcile",
+          "goal": "Systems come back and records are rebuilt, with traceability gaps closed.",
+          "beats": [
+            "Duplicate shipments created at restart",
+            "A lot that cannot be tied to a ship-to without the paper"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Ship priority orders by hand without lot-level records, or hold them until the system returns",
+        "Cut the connection to the provider now, or keep it open to protect in-transit loads",
+        "Tell all customers a delay is expected, or only the affected ones"
+      ],
+      "clueKinds": "an EDI acknowledgement that does not arrive, a provider status note, a printed pick list with the wrong date, a driver without a load number, a ransom note",
+      "hurdleKinds": "no manual process for lot-level records, the provider will not share details, a restart that duplicates shipments, the backup is days old",
+      "keyCoordination": "the logistics provider, carriers, major customers, the cyber insurer and CISA or the FBI",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "manual|paper|hold|ship|disconnect|cut|reconcil",
+          "description": "name the manual, hold or disconnect choice"
+        }
+      }
+    },
+    {
+      "id": "critical_supply_shortage",
+      "label": "Critical product shortage",
+      "description": "A medical, food or industrial product the community depends on runs short; the team allocates, substitutes and communicates under pressure from customers and the public.",
+      "keywords": [
+        "shortage",
+        "critical supply",
+        "ration",
+        "medical supply shortage",
+        "infant formula",
+        "iv fluid shortage",
+        "substitute product",
+        "backorder",
+        "stockpile",
+        "priority customers",
+        "days of supply"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "Orders outrun supply; backorders appear before the cause is clear.",
+          "beats": [
+            "A backorder report that doubles in a week",
+            "Customers asking for larger shipments than usual",
+            "A news item about a plant closure upstream"
+          ]
+        },
+        {
+          "title": "Size the gap",
+          "goal": "The team estimates demand, stock and recovery date and learns where the stock is.",
+          "beats": [
+            "Inventory held at a customer that is not reported",
+            "A forecast built on pre-shortage demand",
+            "A substitute that is not interchangeable for every use"
+          ]
+        },
+        {
+          "title": "Allocate",
+          "goal": "A stated rule decides who gets product; each choice is defended.",
+          "beats": [
+            "A hospital asking for priority over a retailer",
+            "A contract clause that guarantees a customer a fixed share",
+            "A rule that is applied differently by two account managers"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Customers and the public hear what is available, to whom and why.",
+          "beats": [
+            "Customers hoarding after the first notice",
+            "A regulator asking for the allocation rule in writing"
+          ]
+        },
+        {
+          "title": "Recover",
+          "goal": "Supply rebuilds and the allocation is lifted in a stated sequence.",
+          "beats": [
+            "A false sense of recovery from one good week",
+            "A review of safety stock policy"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Allocate by historical share or by clinical or community need",
+        "Release the safety stock now or hold it for the weeks ahead",
+        "Allow a substitute that is not a full match, with a warning"
+      ],
+      "clueKinds": "a backorder report, a days-of-supply row, a customer order inflated above history, a regulator request, a substitute product data sheet",
+      "hurdleKinds": "demand is unreported, substitutes are not interchangeable, a contract guarantees share, news coverage drives hoarding",
+      "keyCoordination": "priority customers (hospitals, food banks), the regulator, distributors, the trade press",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "allocat|ration|release|substitut|priorit",
+          "description": "state the allocation rule or the substitution choice"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a purchase order with the wrong ship-to address",
+    "a driver disputing a detention charge",
+    "a customer asking about an unrelated backorder",
+    "a barcode label that will not scan on one pallet",
+    "a carrier rate increase notice effective next quarter",
+    "a freight invoice that does not match the bill of lading"
+  ],
+  "pressureExamples": [
+    "a key customer threatening to move volume to a competitor unless priority is confirmed",
+    "a retailer asking whether to pull product from shelves before the company has decided",
+    "a trade press reporter asking about a supplier the company has not yet named",
+    "a regulator asking for the ship-to list within the day",
+    "a board member asking why the company was not told about the tier-2 dependency",
+    "a social post claiming the product is unsafe, with a photo of the wrong lot"
+  ],
+  "rolePatterns": {
+    "technical": "logistics systems|it\\b|systems lead",
+    "operations": "supply chain officer|distribution center|logistics|transportation"
+  },
+  "agencyPattern": "FDA|USDA|FSIS|CBP|Customs|Coast Guard|Surface Transportation Board|Federal Maritime Commission|CISA|state health department",
+  "coreCapabilities": [
+    "supply_chain_integrity_and_security",
+    "logistics_and_supply_chain_management",
+    "operational_coordination",
+    "public_information_and_warning",
+    "economic_recovery"
+  ],
+  "suggestedToolkits": ["logistics", "media_environment"],
+  "frameworks": ["nist_csf_2"]
+}
