@@ -6,7 +6,7 @@ It adds six threat families: site emergency (crane, trench, fall, fire, utility 
 
 The profile keeps authority specific: the competent person and the superintendent stop work, the engineer of record decides structural adequacy, the building official declares a building unsafe, and rescue belongs to the fire department. It uses the three placard categories in words as well as color: INSPECTED, RESTRICTED USE and UNSAFE.
 
-The products an exercise needs (inspection records, stop-work orders, evaluation forms, monitoring figures and the like) come with the structures toolkit in a later release. The earthquake and weather toolkits are suggested for shaking and wind.
+The products an exercise needs (inspection records, stop-work orders, evaluation forms, monitoring figures and the like) come with the **Structures and building safety** toolkit, which this domain suggests, with the earthquake and weather toolkits for shaking and wind.
 
 Facts below were checked on 2026-11-05. Rules change, so check the current text before relying on a deadline. Summaries are not legal advice.
 
@@ -18,6 +18,10 @@ Facts below were checked on 2026-11-05. Rules change, so check the current text 
 | Excavations need a protective system unless in stable rock or under 5 feet deep with no indication of a cave-in                                  | 29 CFR 1926.652(a)(1) |
 | A competent person inspects excavations daily and after rainstorms or other hazard-increasing events; workers leave the hazard until it is fixed | 29 CFR 1926.651(k)    |
 | Trenches 4 feet or deeper need a safe way out within 25 feet of lateral travel                                                                   | 29 CFR 1926.651(c)(2) |
+
+## Reference library
+
+The catalog-only **Structures and building safety reference library** pins the OSHA reporting rule (29 CFR 1904.39), the excavation and crane standards (Subparts P and CC) and an OSHA scaffold guide, each with its licence checked.
 
 ## Not bundled
 

@@ -131,3 +131,45 @@ describe('construction domain with the toolkit', () => {
     for (const id of OWN) expect(domain.injectTypes).not.toContain(id)
   })
 })
+
+describe('structures reference library', () => {
+  const manifest = readJson('packs', 'documents', 'manifest.json') as {
+    libraries: Record<string, { domain: string }>
+    documents: {
+      pack: string
+      slug: string
+      sha256: string | null
+      license: string
+      basis: string
+    }[]
+    links: { pack: string; title: string; reason: string }[]
+  }
+
+  it('is a library of the construction domain', () => {
+    expect(manifest.libraries['structures-library']?.domain).toBe('construction')
+  })
+
+  it('pins every document the toolkit names, each a verified public-domain work', () => {
+    expect(toolkit.documents.length).toBeGreaterThan(0)
+    for (const d of toolkit.documents) {
+      expect(d.packId).toBe('ai.actionstations.structures-library')
+      const doc = manifest.documents.find(
+        (x) => x.pack === 'structures-library' && x.slug === d.documentId,
+      )
+      expect(doc, d.documentId).toBeDefined()
+      expect(doc!.sha256, d.documentId).toMatch(/^[0-9a-f]{64}$/)
+      expect(doc!.license).toBe('LicenseRef-US-Government-Work')
+      expect(doc!.basis.length).toBeGreaterThan(20)
+    }
+  })
+
+  it('links, and does not bundle, the placard forms and the codes of ethics', () => {
+    const titles = manifest.links.filter((l) => l.pack === 'structures-library').map((l) => l.title)
+    expect(titles.join(' ')).toMatch(/ATC-20/)
+    expect(titles.join(' ')).toMatch(/Codes of Ethics/)
+    const bundled = manifest.documents
+      .filter((d) => d.pack === 'structures-library')
+      .map((d) => d.slug)
+    expect(bundled.join(' ')).not.toMatch(/atc|ethics/)
+  })
+})
