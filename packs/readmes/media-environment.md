@@ -12,6 +12,11 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 - **Writing guidance:** news and wire conventions, holding statement structure, correction practice, CERC principles, verification and Content Credentials caveats.
 - **Existing templates reused:** social posts, news articles, press releases, reporter emails, call slips, voicemails, status pages and alerts.
 
+## Reference documents
+
+- **Included:** the FCC Public Safety and Homeland Security Bureau's _Report and Recommendations: Hawaii Emergency Management Agency, January 13, 2018 False Alert_ (April 2018), a US federal government work, as a communications case study.
+- **Linked, not bundled:** the CDC CERC manual (https://www.cdc.gov/cerc/php/cerc-manual), FEMA's NIMS Basic Guidance for Public Information Officers, December 2020 (https://www.fema.gov/sites/default/files/documents/fema_nims-basic-guidance-public-information-officers_12-2020.pdf), the SPJ Code of Ethics (https://www.spj.org/ethicscode.asp) and the Verification Handbook (https://verificationhandbook.com/). The first two are US federal works; they are linked because their files could not be fetched and checked when the pack was built.
+
 ## Teaching models
 
 Simulated spread and sentiment are teaching models with documented parameters. They do not predict real behavior, and every simulated figure and counter is labeled simulated.
