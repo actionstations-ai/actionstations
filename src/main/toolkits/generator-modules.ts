@@ -4,6 +4,7 @@
 import './ai/register-generators'
 import './epidemiology/register-generators'
 import './ems/generators'
+import './justice/register-generators'
 import './spill/generators'
 import './weather/simulate'
 import './weather/simulate-tropical'
