@@ -20,6 +20,7 @@ import {
 } from '../scenario/store'
 import { readEvaluation } from '../evaluation/store'
 import { refreshAarMarkdown, renderAarMarkdown } from './markdown'
+import { resolveExerciseTags } from '../toolkits/exercise-tags'
 
 export const AAR_FILE = 'aar.json'
 const HISTORY_FILE = 'aar-json.jsonl'
@@ -112,10 +113,11 @@ export async function syncAarDocument(
   const orgName = await sponsorOf(root, s)
   const current = await readScenarioDoc(root, scenarioId, 'aar')
   const metrics = await metricsFor(root, scenarioId, aar)
+  const tags = await resolveExerciseTags(conductOf(s).exerciseTags)
   const markdown =
     mode === 'full'
-      ? renderAarMarkdown(aar, s, orgName, {}, metrics)
-      : refreshAarMarkdown(current, aar, s, orgName, metrics)
+      ? renderAarMarkdown(aar, s, orgName, {}, metrics, tags)
+      : refreshAarMarkdown(current, aar, s, orgName, metrics, tags)
   if (markdown !== current)
     await writeScenarioDoc(root, scenarioId, 'aar', markdown, {
       by: opts.by,

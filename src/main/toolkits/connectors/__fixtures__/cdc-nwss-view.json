@@ -1,0 +1,30 @@
+{
+  "id": "atcp-73re",
+  "name": "CDC Wastewater Viral Activity Level for SARS-CoV-2, Influenza A and RSV",
+  "description": "This dataset provides a complete time history of weekly SARS-CoV-2, Influenza A, and RSV wastewater viral activity level (WVAL) values from US sampling locations. \n\nLearn more at: https://www.cdc.gov/wastewater\nThis dataset is updated weekly on Fridays.",
+  "attribution": "DIDRI/R3SB",
+  "rowsUpdatedAt": 1793372674,
+  "licenseId": "USGOV_WORKS",
+  "columns": [
+    {
+      "fieldName": "site_wval",
+      "dataTypeName": "number",
+      "description": "The calculated site wastewater viral activity level (WVAL) for the CDC/MMWR reporting week."
+    },
+    {
+      "fieldName": "site_wval_category",
+      "dataTypeName": "text",
+      "description": "Category for the calculated site WVAL for the CDC/MMWR reporting week. Categories are ordinal based on pathogen specific cut-offs of WVAL values: very low, low, moderate, high, very high; and includes a 'limited/no data' category when there is insufficient data to calculate a WVAL."
+    },
+    {
+      "fieldName": "week_end",
+      "dataTypeName": "text",
+      "description": "Last date in one week time period for CDC/MMWR reporting week (always a Saturday)"
+    },
+    {
+      "fieldName": "pathogen_target",
+      "dataTypeName": "text",
+      "description": "Pathogen for which wastewater viral activity levels calculated."
+    }
+  ]
+}

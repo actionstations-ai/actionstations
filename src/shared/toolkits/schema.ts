@@ -111,6 +111,59 @@ export const ToolkitKnowledge = z.object({
 })
 export type ToolkitKnowledge = z.infer<typeof ToolkitKnowledge>
 
+/** Identifiers and tasks a toolkit ties to one Core Capability (spec 0457 FR-13). */
+export const ToolkitCapabilityNote = z.object({
+  /** A FEMA Core Capability id (src/shared/core-capabilities.ts). */
+  coreCapability: z.string().regex(/^[a-z][a-z0-9_]{0,80}$/),
+  /** Critical tasks an evaluator looks for, phrased for this field. */
+  criticalTasks: z.array(z.string().max(400)).max(20).default([]),
+  /** The same capability in another framework (PHEP capability numbers, for example). */
+  mappings: z
+    .array(
+      z.object({
+        framework: Short,
+        ids: z.array(Short).max(20),
+      }),
+    )
+    .max(5)
+    .default([]),
+})
+export type ToolkitCapabilityNote = z.infer<typeof ToolkitCapabilityNote>
+
+export const EXERCISE_TAG_TYPES = ['discussion', 'functional', 'drill', 'full_scale'] as const
+
+/**
+ * An exercise a funding or accreditation program defines (the PHEP Biological Incident 100, for
+ * example). Tagging a scenario with it sets suggested objectives and participants and adds the
+ * program's improvement plan fields to the AAR. The text is versioned with `version`, the date
+ * of the program document it was read from; the app submits nothing to the program.
+ */
+export const ToolkitExerciseTag = z.object({
+  id: Key,
+  label: Short,
+  program: Short,
+  /** Date or edition of the program text ("April 2024"). */
+  version: Short,
+  /** Where the text was read; http or https. */
+  source: z
+    .string()
+    .regex(/^https?:\/\/\S+$/)
+    .max(300),
+  type: z.enum(EXERCISE_TAG_TYPES),
+  description: Prose.default(''),
+  objectives: z.array(z.string().max(600)).max(12).default([]),
+  participants: Prose.default(''),
+  frequency: Short.optional(),
+  /** Program capabilities the exercise touches, as labels ("Capability 8: ..."). */
+  capabilities: z.array(Short).max(15).default([]),
+  /** Cross-cutting program priorities the exercise must include. */
+  priorities: z.array(Short).max(10).default([]),
+  /** Days after the exercise by which the program asks for improvement plan data. */
+  improvementPlanDueDays: z.number().int().min(1).max(365).optional(),
+  notes: z.array(z.string().max(600)).max(10).default([]),
+})
+export type ToolkitExerciseTag = z.infer<typeof ToolkitExerciseTag>
+
 export const ToolkitSchema = z.object({
   id: ToolkitId,
   name: Short,
@@ -134,6 +187,10 @@ export const ToolkitSchema = z.object({
   knowledge: ToolkitKnowledge.default({ glossary: [], productConventions: [], realismRules: [] }),
   /** Built-in lint rule ids (format checks such as VTEC or METAR syntax). */
   lintRules: z.array(CapabilityId).max(50).default([]),
+  /** Critical tasks and framework mappings per Core Capability (spec 0457 FR-13). */
+  capabilities: z.array(ToolkitCapabilityNote).max(40).default([]),
+  /** Program exercises a scenario can be tagged with (spec 0457 FR-14). */
+  exerciseTags: z.array(ToolkitExerciseTag).max(40).default([]),
 })
 export type Toolkit = z.infer<typeof ToolkitSchema>
 
