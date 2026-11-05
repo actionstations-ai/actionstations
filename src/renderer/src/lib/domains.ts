@@ -67,6 +67,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
       'meteorology',
       'flooding',
       'ems_fire',
+      'geoscience',
     ],
   },
   {
