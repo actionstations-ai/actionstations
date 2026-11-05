@@ -6,6 +6,7 @@
 import { z } from 'zod'
 import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import {
+  CONFIDENCES,
   GROUND_TRUTHS,
   isFalseItem,
   verdictIsCorrect,
@@ -15,6 +16,7 @@ import {
 } from '@shared/toolkits/verification'
 import {
   attrText,
+  choiceLabel,
   decisionsOfKind,
   eventsOfKind,
   fieldText,
@@ -47,6 +49,7 @@ export interface VerificationInputs {
 const norm = (s: string) => s.trim().toLowerCase()
 const isTruth = (s: string): s is GroundTruth => (GROUND_TRUTHS as readonly string[]).includes(s)
 const isVerdict = (s: string): s is Verdict => (VERDICTS as readonly string[]).includes(s)
+const ACTIONS = ['Publish', 'Publish with caveat', 'Hold'] as const
 const publishes = (action: string) => action === 'Publish' || action === 'Publish with caveat'
 
 export function computeVerification(
@@ -65,9 +68,9 @@ export function computeVerification(
         norm(fieldText(c, 'item')) === norm(item.id) &&
         ms(c.time) <= (call ? ms(call.time) : Infinity),
     )
-    const verdictText = call ? fieldText(call, 'verdict') : ''
+    const verdictText = call ? choiceLabel(call, 'verdict', VERDICTS) : ''
     const verdict = isVerdict(verdictText) ? verdictText : undefined
-    const action = call ? fieldText(call, 'action') : ''
+    const action = call ? choiceLabel(call, 'action', ACTIONS) : ''
     return {
       item,
       truth,
@@ -87,7 +90,9 @@ export function computeVerification(
   const correct = rows.filter((r) => r.truth && r.verdict && verdictIsCorrect(r.truth, r.verdict))
   const judged = rows.filter((r) => r.truth && r.verdict)
   const confidentWrong = judged.filter(
-    (r) => !verdictIsCorrect(r.truth!, r.verdict!) && fieldText(r.call!, 'confidence') === 'High',
+    (r) =>
+      !verdictIsCorrect(r.truth!, r.verdict!) &&
+      choiceLabel(r.call!, 'confidence', CONFIDENCES) === 'High',
   )
   return {
     metricId: 'verification',
@@ -132,7 +137,7 @@ export function computeVerification(
           r.truth ?? NOT_AVAILABLE,
           String(r.asked.length),
           r.verdict ?? 'No verdict',
-          r.call ? fieldText(r.call, 'confidence') || NOT_AVAILABLE : NOT_AVAILABLE,
+          r.call ? choiceLabel(r.call, 'confidence', CONFIDENCES) || NOT_AVAILABLE : NOT_AVAILABLE,
           r.action || 'No decision',
           minutesText(r.minutes),
         ]),

@@ -247,6 +247,18 @@ describe('media figures and generators', () => {
     )
   })
 
+  it('leaves no id of the toolkit without code once the toolkit is registered', async () => {
+    const { readFileSync } = await import('node:fs')
+    const { ToolkitSchema } = await import('@shared/toolkits')
+    const { unknownCapabilityWarnings } = await import('../capabilities')
+    await import('./register-lint')
+    media.registerMediaToolkit()
+    const toolkit = ToolkitSchema.parse(
+      JSON.parse(readFileSync(resolve('packs/toolkits/media_environment.json'), 'utf8')),
+    )
+    expect(unknownCapabilityWarnings(toolkit)).toEqual([])
+  })
+
   it('registers its generators once', () => {
     media.registerMediaToolkit()
     media.registerMediaToolkit()

@@ -10,6 +10,7 @@ import {
   KeyFact,
   Observation,
   RowCriterion,
+  StatementCheck,
 } from '../schemas/evaluation'
 import { MetricResult } from '../schemas/metrics'
 
@@ -33,6 +34,7 @@ export const evaluationChannels = {
           toolkitId: z.string(),
           toolkitName: z.string(),
           needsKeyFacts: z.boolean(),
+          needsStatementChecks: z.boolean().optional(),
         }),
       ),
       sessionId: z.string().optional(),
@@ -53,6 +55,11 @@ export const evaluationChannels = {
       keyFacts: z.array(KeyFact).max(100),
       factStatements: z.array(FactStatement).max(1000),
     }),
+    EvaluationRecord,
+  ),
+  /** Save the claims checked against the fact sheet (statement accuracy). */
+  'evaluation:statement-checks': channel(
+    S.extend({ checks: z.array(StatementCheck).max(1000) }),
     EvaluationRecord,
   ),
 }

@@ -6,6 +6,7 @@ import { z } from 'zod'
 import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import {
   attrText,
+  choiceLabel,
   decisionsOfKind,
   eventsOfKind,
   fieldText,
@@ -52,7 +53,7 @@ export function computeReporterHandling(
   const dated = rows.filter((r) => r.deadline)
   const onTimeCount = dated.filter((r) => r.onTime).length
   const mode = (m: string) =>
-    answered.filter((r) => fieldText(r.answer!, 'response_mode') === m).length
+    answered.filter((r) => choiceLabel(r.answer!, 'response_mode', MODES) === m).length
   return {
     metricId: 'reporter_handling',
     title: 'Reporter handling',
@@ -79,7 +80,7 @@ export function computeReporterHandling(
           r.q.time,
           r.deadline || NOT_AVAILABLE,
           r.answer ? minutesText(minutesBetween(r.q.time, r.answer.time)) : NOT_AVAILABLE,
-          r.answer ? fieldText(r.answer, 'response_mode') : 'No response',
+          r.answer ? choiceLabel(r.answer, 'response_mode', MODES) : 'No response',
           r.onTime === null ? NOT_AVAILABLE : r.onTime ? 'Yes' : 'No',
         ]),
       },

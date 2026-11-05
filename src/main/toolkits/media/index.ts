@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { ENGAGEMENT_FIELDS } from '@shared/facilitator/engagement-fields'
 import { applyEngagement } from '@shared/facilitator/engagement'
 import { generatorIds, registerGenerator, type GeneratedDataset } from '../../case-data/generators'
+import { registerGdeltConnector } from '../connectors/gdelt'
 import { newsCycleSchedule, NewsCycleInput } from './news-cycle'
 import { engagementCounts, spreadSeries, SpreadParams, type SpreadState } from './spread'
 
@@ -101,6 +102,7 @@ function generateNews(p: z.output<typeof NewsGeneratorParams>): GeneratedDataset
 
 /** Register the media generators once; the app calls this at startup. */
 export function registerMediaToolkit(): void {
+  registerGdeltConnector()
   const have = new Set(generatorIds())
   if (!have.has('media-social-spread'))
     registerGenerator({

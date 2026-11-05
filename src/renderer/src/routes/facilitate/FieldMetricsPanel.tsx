@@ -3,7 +3,7 @@
 // data, and, for message consistency, the key facts and what each partner stated. The numbers
 // themselves are shown by FieldMetrics.
 import { useId, useState } from 'react'
-import type { FactStatement, KeyFact } from '@shared/schemas/evaluation'
+import type { FactStatement, KeyFact, StatementCheck } from '@shared/schemas/evaluation'
 import type { MetricResult } from '@shared/schemas/metrics'
 import { Button } from '../../components/ui'
 import { toast } from '../../components/toast-store'
@@ -17,6 +17,8 @@ interface Props {
   results: readonly MetricResult[]
   keyFacts: readonly KeyFact[]
   statements: readonly FactStatement[]
+  /** Claims checked against the fact sheet (statement accuracy). */
+  statementChecks?: readonly StatementCheck[]
 }
 
 const factId = (n: number): string => `fact_${n}`
@@ -124,6 +126,106 @@ function KeyFactsEditor(p: Omit<Props, 'results'>) {
   )
 }
 
+const STATUS_LABEL: Record<StatementCheck['status'], string> = {
+  accurate: 'Accurate',
+  inaccurate: 'Inaccurate',
+  unverifiable: 'Not on the fact sheet',
+}
+
+function StatementChecksEditor(p: Pick<Props, 'projectPath' | 'scenarioId' | 'statementChecks'>) {
+  const [rows, setRows] = useState<StatementCheck[]>([...(p.statementChecks ?? [])])
+  const req = { projectPath: p.projectPath, scenarioId: p.scenarioId }
+  const set = (i: number, patch: Partial<StatementCheck>) =>
+    setRows(rows.map((x, j) => (j === i ? { ...x, ...patch } : x)))
+
+  const save = async () => {
+    try {
+      const checks = rows.filter((r) => r.statementId.trim() && r.claim.trim())
+      const record = await call('evaluation:statement-checks', { ...req, checks })
+      queryClient.setQueryData(['evaluation:get', req], record)
+      void queryClient.invalidateQueries({ queryKey: ['evaluation:metrics-plan'] })
+      toast.success('Statement checks saved')
+    } catch (e) {
+      toast.error('Could not save the statement checks', e)
+    }
+  }
+
+  return (
+    <fieldset className="stack fac-metric-inputs">
+      <legend>Statement checks for accuracy</legend>
+      <p className="muted">
+        For each claim in a public statement, say whether it agrees with the fact sheet. A claim a
+        model suggested counts only after you mark it confirmed.
+      </p>
+      {rows.map((r, i) => (
+        <div className="row" key={i}>
+          <input
+            className="input"
+            aria-label={`Statement for claim ${i + 1}`}
+            placeholder="Statement"
+            maxLength={120}
+            value={r.statementId}
+            onChange={(e) => set(i, { statementId: e.target.value })}
+          />
+          <input
+            className="input"
+            aria-label={`Claim ${i + 1}`}
+            placeholder="Claim made"
+            maxLength={500}
+            value={r.claim}
+            onChange={(e) => set(i, { claim: e.target.value })}
+          />
+          <input
+            className="input"
+            aria-label={`Fact sheet entry for claim ${i + 1}`}
+            placeholder="Fact sheet entry"
+            maxLength={200}
+            value={r.factLabel}
+            onChange={(e) => set(i, { factLabel: e.target.value })}
+          />
+          <select
+            className="select"
+            aria-label={`Result for claim ${i + 1}`}
+            value={r.status}
+            onChange={(e) => set(i, { status: e.target.value as StatementCheck['status'] })}
+          >
+            {(Object.keys(STATUS_LABEL) as StatementCheck['status'][]).map((s) => (
+              <option key={s} value={s}>
+                {STATUS_LABEL[s]}
+              </option>
+            ))}
+          </select>
+          {r.suggested && (
+            <label>
+              <input
+                type="checkbox"
+                checked={false}
+                onChange={() => set(i, { suggested: false })}
+              />{' '}
+              Confirm suggestion
+            </label>
+          )}
+          <Button onClick={() => setRows(rows.filter((_, j) => j !== i))}>
+            Remove claim {i + 1}
+          </Button>
+        </div>
+      ))}
+      <div className="row">
+        <Button
+          onClick={() =>
+            setRows([...rows, { statementId: '', claim: '', factLabel: '', status: 'accurate' }])
+          }
+        >
+          Add a claim
+        </Button>
+        <Button variant="primary" onClick={save}>
+          Save statement checks
+        </Button>
+      </div>
+    </fieldset>
+  )
+}
+
 const idNumber = (f: KeyFact): number => Number(/(\d+)$/.exec(f.id)?.[1] ?? 0)
 
 export function FieldMetricsPanel(p: Props) {
@@ -133,6 +235,7 @@ export function FieldMetricsPanel(p: Props) {
   const [skipped, setSkipped] = useState<{ id: string; reason: string }[]>([])
   const metrics = plan.data?.metrics ?? []
   const wantsFacts = metrics.some((m) => m.id === 'message_consistency')
+  const wantsChecks = metrics.some((m) => m.id === 'statement_accuracy')
 
   const run = async () => {
     setBusy(true)
@@ -185,6 +288,7 @@ export function FieldMetricsPanel(p: Props) {
         )}
       </section>
       {wantsFacts && <KeyFactsEditor {...p} />}
+      {wantsChecks && <StatementChecksEditor {...p} />}
       <FieldMetrics results={p.results} />
     </div>
   )

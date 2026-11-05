@@ -206,4 +206,60 @@ describe('verification', () => {
     expect(summary(r, 'False items published')).toBe('0 of 2')
     expect(summary(r, 'Published items with a recorded verification step')).toBe('n/a')
   })
+
+  it('reads choices as live play stores them: option ids, not labels', () => {
+    const decisions = [
+      dec('h1', 'hold_or_publish', '2026-11-04T17:20:00Z', {
+        item: 'v1',
+        verdict: 'verified',
+        confidence: 'high',
+        action: 'publish_with_caveat',
+      }),
+      dec('h3', 'hold_or_publish', '2026-11-04T17:30:00Z', {
+        item: 'v3',
+        verdict: 'false',
+        confidence: 'medium',
+        action: 'hold',
+      }),
+    ]
+    const r = runMetric({ id: 'verification', config: {} }, { events, decisions })
+    expect(summary(r, 'Items published')).toBe('1')
+    expect(summary(r, 'False items published')).toBe('1 of 2')
+    expect(summary(r, 'False items correctly held')).toBe('1 of 2')
+    expect(summary(r, 'Wrong verdicts held with high confidence')).toBe('1')
+  })
+})
+
+describe('choices stored as option ids', () => {
+  it('counts reporter response modes and correction channels by option id', () => {
+    const q = [
+      ev('q1', 'reporter_query', '2026-11-04T15:00:00Z', { deadline: '2026-11-04T16:00:00Z' }),
+    ]
+    const handled = runMetric(
+      { id: 'reporter_handling', config: {} },
+      {
+        events: q,
+        decisions: [
+          dec('r1', 'respond_to_reporter', '2026-11-04T15:30:00Z', {
+            inquiry: 'q1',
+            response_mode: 'no_comment',
+          }),
+        ],
+      },
+    )
+    expect(summary(handled, 'No comment')).toBe('1')
+    const fixed = runMetric(
+      { id: 'corrections', config: {} },
+      {
+        events: [ev('e1', 'error_found', '2026-11-04T18:00:00Z', { channel: 'Social media' })],
+        decisions: [
+          dec('c1', 'issue_correction', '2026-11-04T18:10:00Z', {
+            error: 'e1',
+            channel: 'social_media',
+          }),
+        ],
+      },
+    )
+    expect(summary(fixed, 'Corrections on the channel the error spread on')).toBe('1 of 1')
+  })
 })

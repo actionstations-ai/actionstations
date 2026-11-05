@@ -9,8 +9,13 @@ vi.mock('electron', () => ({
   BrowserWindow: { getAllWindows: () => [] },
 }))
 
-const { readEvaluation, removeObservation, saveMetricResults, upsertObservation } =
-  await import('./store')
+const {
+  readEvaluation,
+  removeObservation,
+  saveMetricResults,
+  saveStatementChecks,
+  upsertObservation,
+} = await import('./store')
 const { createProject } = await import('../project/store')
 const { createScenario } = await import('../scenario/store')
 const { ScenarioBrief } = await import('@shared/schemas')
@@ -111,5 +116,19 @@ describe('evaluation store', () => {
       ['s1', '2'],
       ['s2', '9'],
     ])
+  })
+
+  it('keeps the claims checked against the fact sheet and replaces them on the next save', async () => {
+    const { root, scenarioId } = await setup()
+    const check = {
+      statementId: 'S1',
+      claim: 'Plants closed',
+      factLabel: 'Operations',
+      status: 'inaccurate' as const,
+    }
+    await saveStatementChecks(root, scenarioId, [check])
+    expect((await readEvaluation(root, scenarioId)).statementChecks).toEqual([check])
+    await saveStatementChecks(root, scenarioId, [])
+    expect((await readEvaluation(root, scenarioId)).statementChecks).toEqual([])
   })
 })
