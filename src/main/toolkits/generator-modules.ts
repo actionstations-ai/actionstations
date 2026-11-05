@@ -3,3 +3,4 @@
 import './clinical/generators'
 import './epidemiology/register-generators'
 import './ems/generators'
+import './spill/generators'

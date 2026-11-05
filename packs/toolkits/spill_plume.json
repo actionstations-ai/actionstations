@@ -169,7 +169,7 @@
       "Use a fictional responsible party and 555-01xx phone numbers; real geography is fine."
     ]
   },
-  "lintRules": [],
+  "lintRules": ["spill.notification_order", "spill.units"],
   "decisionForms": [
     {
       "id": "make_notifications",
@@ -460,12 +460,13 @@
       "id": "decision_timing",
       "label": "Notification timeliness",
       "config": {
-        "decisionKinds": "make_notifications",
-        "eventKinds": "notification_due",
+        "decisionKinds": ["make_notifications"],
+        "eventKinds": ["notification_due"],
         "leadWindowMin": 60,
         "graceWindowMin": 0,
         "matchArea": false
-      }
+      },
+      "groundTruth": "notification-deadlines"
     },
     {
       "id": "threshold_timing",
@@ -474,23 +475,29 @@
         "actionKind": "deploy_protective_boom",
         "threshold": 1,
         "clearanceMin": 0
-      }
+      },
+      "series": "spill-arrival"
     },
     {
       "id": "protection_coverage",
       "label": "Sensitive areas protected before landfall",
       "config": {
-        "actionKinds": "deploy_protective_boom, close_water_intake, close_fishery_or_shoreline",
+        "actionKinds": [
+          "deploy_protective_boom",
+          "close_water_intake",
+          "close_fishery_or_shoreline"
+        ],
         "threshold": 1,
         "clearanceMin": 0
-      }
+      },
+      "series": "spill-arrival"
     },
     {
       "id": "message_consistency",
       "label": "Message consistency across the responsible party, unified command and the JIC",
       "config": {
         "numericTolerance": 0,
-        "partners": "Responsible party, Unified command, Joint Information Center"
+        "partners": ["Responsible party", "Unified command", "Joint Information Center"]
       }
     }
   ],

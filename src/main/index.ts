@@ -31,7 +31,6 @@ import { registerMediaToolkit } from './toolkits/media'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
 import { registerSpillConnectors } from './toolkits/connectors/spill'
-import { registerSpillGenerators } from './toolkits/spill/generators'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
 import { scheduleStartupCheck } from './updates/check'
@@ -235,7 +234,6 @@ void app.whenReady().then(async () => {
   // Inject types from user and pack templates (#261): registered now and after every pack change.
   initTemplateRegistry()
   registerSpillConnectors()
-  registerSpillGenerators()
   await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
   // Opt-in update check (#442): only with the setting on, at most once a day, after the window

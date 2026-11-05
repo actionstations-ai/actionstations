@@ -100,7 +100,10 @@ registerMetric(messageConsistency, (b) => ({
   facts: b.facts ?? [],
   statements: b.statements ?? [],
 }))
-registerMetric(protectionCoverage, (b) => ({ series: b.series ?? [], decisions: b.decisions ?? [] }))
+registerMetric(protectionCoverage, (b) => ({
+  series: b.series ?? [],
+  decisions: b.decisions ?? [],
+}))
 // The media environment's metrics (events and decisions, except accuracy: checked claims).
 const eventsAndDecisions = (b: MetricInputBag) => ({
   events: b.events ?? [],

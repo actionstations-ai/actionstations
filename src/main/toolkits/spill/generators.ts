@@ -74,6 +74,11 @@ export const SpillSimulationParams = z.object({
     )
     .max(100)
     .default([]),
+  /** Notifications the plan requires, in minutes after the release, for scoring timeliness. */
+  notifications: z
+    .array(z.object({ who: z.string().min(1).max(80), minutes: z.number().min(0).max(14_400) }))
+    .max(12)
+    .default([]),
 })
 export type SpillSimulationParams = z.infer<typeof SpillSimulationParams>
 
@@ -149,6 +154,25 @@ export function generateSpill(p: SpillSimulationParams): GeneratedDataset[] {
       text: `Earliest contact, with the uncertainty envelope: hour ${l.hour} after the release (${iso(at(l.hour))}); ${best}. Simulated for the exercise.`,
     }
   })
+  // Scoring inputs (see CaseDataset.shape): when the oil reaches each shoreline, and when each
+  // required notification is due.
+  const arrival = p.shorelines.map((sh) => {
+    const hit = result.landfalls.find((l) => l.shorelineId === sh.id)
+    return {
+      zone: sh.name,
+      quantity: 'oil_presence',
+      points: result.steps.map((st) => ({
+        time: iso(at(st.hour)),
+        value: hit && st.hour >= hit.hour ? 1 : 0,
+      })),
+    }
+  })
+  const deadlines = p.notifications.map((nt, i) => ({
+    id: `notify-${i + 1}`,
+    time: iso(startMs + nt.minutes * 60_000),
+    kind: 'notification_due',
+    attrs: { who: nt.who },
+  }))
   return [
     {
       id: 'spill-trajectory',
@@ -174,6 +198,30 @@ export function generateSpill(p: SpillSimulationParams): GeneratedDataset[] {
       range,
       unit: p.unit,
     },
+    ...(arrival.length
+      ? [
+          {
+            id: 'spill-arrival',
+            label: 'Simulated oil arrival by shoreline (for scoring)',
+            kind: 'series' as const,
+            shape: 'modeled-series' as const,
+            data: arrival,
+            range,
+          },
+        ]
+      : []),
+    ...(deadlines.length
+      ? [
+          {
+            id: 'notification-deadlines',
+            label: 'Required notification times (for scoring)',
+            kind: 'reports' as const,
+            shape: 'ground-truth' as const,
+            data: deadlines,
+            range,
+          },
+        ]
+      : []),
     ...(landfalls.length
       ? [
           {
@@ -278,3 +326,5 @@ export function registerSpillGenerators(): void {
   const have = new Set(generatorIds())
   for (const g of SPILL_GENERATORS) if (!have.has(g.id)) registerGenerator(g as SimulatedGenerator)
 }
+
+registerSpillGenerators()
