@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire evacuation order, warning, shelter in place, all clear and re-entry notice",
+  "description": "A zone-based notice from a sheriff or emergency management agency: the action, then every zone with its status word (Evacuation order, Evacuation warning, Shelter in place, All clear, Re-entry open or No status), the area in words, the time of the status and the number of residents, with routes, shelters and help to leave. Zone ids and status words must match the zone map and every other message. The variant sets the title (order, warning, shelter in place, all clear or re-entry).",
+  "type": "object",
+  "required": ["agency", "incidentName", "issuedAt", "headline", "zones", "action"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency (sheriff, police or emergency management; fictional).",
+      "examples": ["Calloway County Sheriff's Office"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Fire name.",
+      "examples": ["Cinder Creek Fire"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time, local, with the time zone.",
+      "examples": ["4:55 PM PDT Sat Sep 12, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "One-line headline that names the action and the zones.",
+      "examples": ["Evacuation order for Zones C-1, C-2 and C-3: leave now"]
+    },
+    "zones": {
+      "type": "array",
+      "description": "Every zone named in this notice, one row each. Zone ids are written exactly as on the zone map and the same in every message.",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["zone", "status"],
+        "properties": {
+          "zone": {
+            "type": "string",
+            "description": "Zone id exactly as on the map.",
+            "examples": ["C-3"],
+            "x-translate": false
+          },
+          "area": {
+            "type": "string",
+            "description": "The area in words: neighborhoods, roads or landmarks.",
+            "examples": ["Pine Hollow and Upper Mill Road"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the zone, always one of these words.",
+            "examples": ["Evacuation order"],
+            "enum": [
+              "Evacuation order",
+              "Evacuation warning",
+              "Shelter in place",
+              "All clear",
+              "Re-entry open",
+              "No status"
+            ]
+          },
+          "since": {
+            "type": "string",
+            "description": "When the zone took this status.",
+            "examples": ["4:55 PM"]
+          },
+          "residents": {
+            "type": "integer",
+            "description": "Approximate residents, when known.",
+            "examples": [640],
+            "minimum": 0
+          },
+          "notes": {
+            "type": "string",
+            "description": "Special populations, sweeps or access notes.",
+            "examples": ["Mill Creek Care Home is being moved by ambulance bus."]
+          }
+        }
+      }
+    },
+    "action": {
+      "type": "string",
+      "description": "What people in the zones should do now, in order.",
+      "examples": ["Leave now. Take people, pets and medications. Do not wait for a second notice."]
+    },
+    "routes": {
+      "type": "string",
+      "description": "Evacuation routes and traffic direction.",
+      "examples": ["Use Canyon Road south to Highway 9. Contraflow is not in effect."]
+    },
+    "shelters": {
+      "type": "string",
+      "description": "Shelters, with the animal shelter.",
+      "examples": [
+        "People: Calloway High School gym (open). Large animals: County Fairgrounds, Gate B."
+      ]
+    },
+    "accessNeeds": {
+      "type": "string",
+      "description": "How people who need help to leave can get it.",
+      "examples": ["Call 555-0170 for a ride; deputies are checking known addresses."]
+    },
+    "definitions": {
+      "type": "string",
+      "description": "The project's own definition of the status words, since terms vary by place.",
+      "examples": [
+        "In Calloway County an evacuation order means leave immediately; an evacuation warning means be ready to leave."
+      ]
+    },
+    "reentryRules": {
+      "type": "string",
+      "description": "For re-entry or all clear: who may return, when and under what conditions.",
+      "examples": ["Residents with ID may return to Zone C-1 after 8 AM; utilities may be off."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line or website (fictional).",
+      "examples": ["Calloway County information line 555-0140 · calloway.example/cindercreek"]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update is expected.",
+      "examples": ["Next update 6:30 PM or sooner"]
+    }
+  }
+}

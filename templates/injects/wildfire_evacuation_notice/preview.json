@@ -1,0 +1,141 @@
+{
+  "variant": "order",
+  "fields": {
+    "agency": "Calloway County Sheriff's Office",
+    "incidentName": "Cinder Creek Fire",
+    "issuedAt": "4:55 PM PDT Sat Sep 12, 2026",
+    "headline": "Evacuation order for Zones C-1, C-2 and C-3: leave now",
+    "zones": [
+      {
+        "zone": "C-1",
+        "area": "Cinder Canyon Road and Ridgeview",
+        "status": "Evacuation order",
+        "since": "3:40 PM",
+        "residents": 420,
+        "notes": "Sweep complete at 4:30 PM."
+      },
+      {
+        "zone": "C-2",
+        "area": "Upper Mill Road",
+        "status": "Evacuation order",
+        "since": "4:10 PM",
+        "residents": 310,
+        "notes": "Sweep under way."
+      },
+      {
+        "zone": "C-3",
+        "area": "Pine Hollow",
+        "status": "Evacuation order",
+        "since": "4:55 PM",
+        "residents": 640,
+        "notes": "Mill Creek Care Home is being moved by ambulance bus."
+      },
+      {
+        "zone": "C-4",
+        "area": "Calloway Falls north",
+        "status": "Evacuation warning",
+        "since": "4:55 PM",
+        "residents": 1100,
+        "notes": "Be ready to leave."
+      }
+    ],
+    "action": "Leave now. Take people, pets and medications. Do not wait for a second notice.",
+    "routes": "Use Canyon Road south to Highway 9. Contraflow is not in effect.",
+    "shelters": "People: Calloway High School gym (open). Large animals: County Fairgrounds, Gate B.",
+    "accessNeeds": "Call 555-0170 for a ride; deputies are checking known addresses.",
+    "definitions": "In Calloway County an evacuation order means leave immediately; an evacuation warning means be ready to leave.",
+    "contact": "Calloway County information line 555-0140 · calloway.example/cindercreek",
+    "nextUpdate": "Next update 6:30 PM or sooner"
+  },
+  "variants": {
+    "warning": {
+      "fields": {
+        "headline": "Evacuation warning for Zones C-4 and C-5: be ready to leave",
+        "zones": [
+          {
+            "zone": "C-4",
+            "area": "Calloway Falls north",
+            "status": "Evacuation warning",
+            "since": "4:55 PM",
+            "notes": "Pack now."
+          },
+          {
+            "zone": "C-5",
+            "area": "Calloway Falls east",
+            "status": "Evacuation warning",
+            "since": "4:55 PM",
+            "notes": "Move large animals now."
+          }
+        ],
+        "action": "Get ready to leave. Pack people, pets and medications, fill your vehicle with fuel and listen for an order.",
+        "routes": "Plan two ways out; Canyon Road may close.",
+        "shelters": "Calloway High School gym is open.",
+        "accessNeeds": "If you need help to leave, call 555-0170 now."
+      }
+    },
+    "shelter_in_place": {
+      "fields": {
+        "headline": "Shelter in place for Zone H-2 (Calloway Regional Hospital campus)",
+        "zones": [
+          {
+            "zone": "H-2",
+            "area": "Calloway Regional Hospital campus and the medical office park",
+            "status": "Shelter in place",
+            "since": "5:10 PM",
+            "notes": "Doors closed, ventilation set to recirculate."
+          }
+        ],
+        "action": "Stay inside. Close doors and windows. Stay away from windows. Staff will direct visitors.",
+        "routes": "Do not drive toward the campus; Hospital Drive is closed.",
+        "shelters": "",
+        "accessNeeds": "Patients are kept in place under the hospital plan.",
+        "definitions": "In Calloway County shelter in place means stay inside a building and wait for instructions."
+      }
+    },
+    "all_clear": {
+      "fields": {
+        "headline": "All clear for Zone C-4",
+        "zones": [
+          {
+            "zone": "C-4",
+            "area": "Calloway Falls north",
+            "status": "All clear",
+            "since": "7:20 AM",
+            "notes": "Evacuation warning ended."
+          }
+        ],
+        "action": "The evacuation warning for Zone C-4 has ended. Normal activity may resume.",
+        "routes": "",
+        "shelters": "Calloway High School gym closes at noon.",
+        "accessNeeds": "",
+        "reentryRules": ""
+      }
+    },
+    "reentry": {
+      "fields": {
+        "headline": "Re-entry opens for Zones C-1 and C-2 at 8 AM",
+        "zones": [
+          {
+            "zone": "C-1",
+            "area": "Cinder Canyon Road and Ridgeview",
+            "status": "Re-entry open",
+            "since": "8:00 AM",
+            "notes": "Escort required for the last 2 miles."
+          },
+          {
+            "zone": "C-2",
+            "area": "Upper Mill Road",
+            "status": "Re-entry open",
+            "since": "8:00 AM",
+            "notes": "Check gas and electric before use."
+          }
+        ],
+        "action": "Residents with photo ID or a utility bill may return. Expect no power or water in some homes, and watch for hot spots and fallen trees.",
+        "routes": "Enter by Canyon Road from the south only.",
+        "shelters": "The shelter stays open for residents who cannot return.",
+        "accessNeeds": "Call 555-0170 for help with a return.",
+        "reentryRules": "Zone C-3 stays closed. Do not enter burned areas or move debris without protective gear."
+      }
+    }
+  }
+}

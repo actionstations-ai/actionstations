@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire road closure, traffic control point and contraflow status",
+  "description": "A road closure and traffic control point board for a wildfire: each point with its status (Closed, Open, Local traffic only, Contraflow or Controlled), the time of the status and who may pass, with the contraflow plan, detours and the next update. Status is written as a word and a symbol.",
+  "type": "object",
+  "required": ["agency", "incidentName", "issuedAt", "headline", "points"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency (county public works, highway patrol or sheriff; fictional).",
+      "examples": ["Calloway County Public Works and Sheriff's Office"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Fire name.",
+      "examples": ["Cinder Creek Fire"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time, local.",
+      "examples": ["5:15 PM PDT Sat Sep 12, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Road closures and traffic control points for the Cinder Creek Fire"]
+    },
+    "points": {
+      "type": "array",
+      "description": "Roads and traffic control points.",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["location", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Traffic control point id or road id.",
+            "examples": ["TCP-3"],
+            "x-translate": false
+          },
+          "location": {
+            "type": "string",
+            "description": "Road and location in words.",
+            "examples": ["Canyon Road at the fire station"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "examples": ["Closed"],
+            "enum": ["Closed", "Open", "Local traffic only", "Contraflow", "Controlled"]
+          },
+          "since": {
+            "type": "string",
+            "description": "Time of the status.",
+            "examples": ["3:20 PM"]
+          },
+          "notes": {
+            "type": "string",
+            "description": "Who may pass, the detour or the reason.",
+            "examples": ["Residents leaving only; responders and press with credentials."]
+          }
+        }
+      }
+    },
+    "contraflow": {
+      "type": "object",
+      "description": "Contraflow plan when in use.",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "route": {
+          "type": "string",
+          "description": "Route.",
+          "examples": [
+            "Canyon Road southbound lanes and northbound lane reversed from the fire station to Highway 9"
+          ]
+        },
+        "start": {
+          "type": "string",
+          "description": "Start time.",
+          "examples": ["5:30 PM"]
+        },
+        "end": {
+          "type": "string",
+          "description": "End time or 'until further notice'.",
+          "examples": ["Until further notice"]
+        },
+        "note": {
+          "type": "string",
+          "description": "Limits for responders and buses.",
+          "examples": ["Fire engines enter by the shoulder; buses move in convoy."]
+        }
+      }
+    },
+    "detours": {
+      "type": "string",
+      "description": "Public detours.",
+      "examples": ["Use Highway 9 and County Road 4 to reach Calloway Falls."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line.",
+      "examples": ["Public Works dispatch 555-0142 · calloway.example/roads"]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Next update.",
+      "examples": ["Next update 7:00 PM or sooner"]
+    }
+  }
+}

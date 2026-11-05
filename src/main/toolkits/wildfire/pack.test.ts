@@ -1,12 +1,14 @@
 // The wildfire domain content (spec 0461 FR-1, FR-2): valid against the schema, with the
 // threat families and arcs the research dossier names, and consistent with the other packs.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { DomainProfile, THREAT_FAMILY_IDS } from '@shared/domains/schema'
+import { KNOWLEDGE_PER_TOOLKIT_CAP, toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 
 const read = (p: string): unknown => JSON.parse(readFileSync(resolve(p), 'utf8'))
 const domain = DomainProfile.parse(read('packs/domains/wildfire.json'))
+const toolkit = ToolkitSchema.parse(read('packs/toolkits/wildfire.json'))
 const added = (domain.addedThreatFamilies ?? []).map((f) => f.id)
 
 describe('wildfire domain', () => {
@@ -67,5 +69,47 @@ describe('wildfire domain', () => {
     expect(domain.coreCapabilities).toEqual(
       expect.arrayContaining(['public_information_and_warning', 'fire_management_and_suppression']),
     )
+  })
+})
+
+describe('wildfire toolkit', () => {
+  it('ships a template folder with a taxonomy block for every inject type it adds', () => {
+    for (const t of toolkit.injectTypes) {
+      expect(existsSync(resolve(`templates/injects/${t}/template.html`)), t).toBe(true)
+      const meta = read(`templates/injects/${t}/meta.json`) as { taxonomy?: unknown }
+      expect(meta.taxonomy, `${t} needs a taxonomy block`).toBeTruthy()
+    }
+  })
+  it('prefixes the inject types it adds with the field name', () => {
+    for (const t of toolkit.injectTypes) expect(t).toMatch(/^wildfire_/)
+  })
+  it('fits the knowledge budget without cutting a line', () => {
+    const { text, truncated } = toolkitKnowledge([toolkit])
+    expect(truncated).toEqual([])
+    expect(text.length).toBeLessThan(KNOWLEDGE_PER_TOOLKIT_CAP)
+  })
+  it('states the AQI breakpoints, the shutoff windows and the perimeter rule', () => {
+    const k = JSON.stringify(toolkit.knowledge)
+    expect(k).toMatch(/9\.1-35\.4/)
+    expect(k).toMatch(/225\.5\+/)
+    expect(k).toMatch(/48-72 hours/)
+    expect(k).toMatch(/mapped polygon/)
+  })
+  it('does not duplicate weather products: red flag and fire weather stay with the weather toolkit', () => {
+    const weather = ToolkitSchema.parse(read('packs/toolkits/weather.json'))
+    expect(weather.injectTypes).toEqual(
+      expect.arrayContaining(['red_flag_warning', 'fire_weather_forecast']),
+    )
+    for (const t of toolkit.injectTypes) expect(weather.injectTypes).not.toContain(t)
+  })
+  it('is proposed to the domains that use it and lists wildfire for the media environment', () => {
+    for (const d of ['wildfire', 'healthcare', 'k12_schools', 'energy_utility', 'municipal'])
+      expect(toolkit.appliesTo.domains).toContain(d)
+    const media = ToolkitSchema.parse(read('packs/toolkits/media_environment.json'))
+    expect(media.appliesTo.domains).toContain('wildfire')
+    expect(domain.suggestedToolkits).toContain('media_environment')
+  })
+  it('is the toolkit the domain suggests', () => {
+    expect(domain.suggestedToolkits).toContain('wildfire')
   })
 })

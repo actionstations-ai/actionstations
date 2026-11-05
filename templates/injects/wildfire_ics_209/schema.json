@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire incident status summary (ICS 209 style)",
+  "description": "An incident status summary in the style of the ICS 209: incident name and number, report time and operational period, location, size, percent contained, estimated control, fuels, structure counts by type, evacuations, projected activity in time blocks, critical resource needs, weather concerns and resources. It is a teaching form that follows the structure of the real report and is not the official form. Projections are the scenario's own.",
+  "type": "object",
+  "required": [
+    "incidentName",
+    "reportTime",
+    "location",
+    "sizeAcres",
+    "containmentPct",
+    "structures",
+    "evacuations",
+    "projectedActivity",
+    "criticalNeeds",
+    "weatherConcerns",
+    "preparedBy"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name.",
+      "examples": ["Cinder Creek Fire"]
+    },
+    "incidentNumber": {
+      "type": "string",
+      "description": "Incident number (fictional).",
+      "examples": ["XX-JRD-000412"],
+      "x-translate": false
+    },
+    "reportTime": {
+      "type": "string",
+      "description": "Report date and time and the operational period it covers.",
+      "examples": ["Sep 12, 2026 1800 PDT · Operational period 1800 to 0600"]
+    },
+    "state": {
+      "type": "string",
+      "description": "Initial or update report.",
+      "examples": ["Update"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Planning section chief or the person who prepared the report (fictional name).",
+      "examples": ["R. Okafor, Planning Section Chief"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Location in words, with county.",
+      "examples": ["Cinder Canyon, Calloway County"]
+    },
+    "sizeAcres": {
+      "type": "integer",
+      "description": "Size in acres.",
+      "examples": [3200],
+      "minimum": 0
+    },
+    "containmentPct": {
+      "type": "integer",
+      "description": "Percent contained (0 to 100).",
+      "examples": [5],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "estimatedControl": {
+      "type": "string",
+      "description": "Estimated containment date, or 'to be determined'.",
+      "examples": ["To be determined"]
+    },
+    "fuels": {
+      "type": "string",
+      "description": "Fuels involved.",
+      "examples": ["Annual grass, chaparral and oak woodland"]
+    },
+    "structures": {
+      "type": "array",
+      "description": "Structure status by type.",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "threatened", "damaged", "destroyed"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Structure type.",
+            "examples": ["Residences"]
+          },
+          "threatened": {
+            "type": "integer",
+            "description": "Threatened.",
+            "examples": [380],
+            "minimum": 0
+          },
+          "damaged": {
+            "type": "integer",
+            "description": "Damaged.",
+            "examples": [0],
+            "minimum": 0
+          },
+          "destroyed": {
+            "type": "integer",
+            "description": "Destroyed.",
+            "examples": [0],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "evacuations": {
+      "type": "string",
+      "description": "Evacuation status, zones and number of people.",
+      "examples": [
+        "Zones C-1 to C-3 ordered (1,370 residents); Zones C-4 and C-5 warned (2,300 residents)."
+      ]
+    },
+    "projectedActivity": {
+      "type": "array",
+      "description": "Projected fire activity by time block; this is the incident's own projection, not a prediction by the app.",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["block", "activity"],
+        "properties": {
+          "block": {
+            "type": "string",
+            "description": "Time block.",
+            "examples": ["12 hours"]
+          },
+          "activity": {
+            "type": "string",
+            "description": "Projected activity.",
+            "examples": ["Continued wind-driven spread to the southwest; spotting to a half mile."]
+          }
+        }
+      }
+    },
+    "criticalNeeds": {
+      "type": "string",
+      "description": "Critical resource needs, in priority order.",
+      "examples": [
+        "1. Two strike teams of engines. 2. One heavy air tanker. 3. Night operations helicopter."
+      ]
+    },
+    "weatherConcerns": {
+      "type": "string",
+      "description": "Weather concerns.",
+      "examples": [
+        "Northeast gusts to 35 mph until 9 PM; humidity 9 to 12 percent; a red flag warning is in effect until 6 AM."
+      ]
+    },
+    "resources": {
+      "type": "string",
+      "description": "Resource summary.",
+      "examples": ["38 engines, 6 hand crews, 4 dozers, 3 helicopters, 312 personnel."]
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Remarks and cooperating agencies.",
+      "examples": ["Cooperating: county sheriff, state forestry, the utility's liaison."]
+    }
+  }
+}

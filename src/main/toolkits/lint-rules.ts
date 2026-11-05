@@ -18,5 +18,6 @@ import './pharmacy/register-lint'
 import './space_weather/register-lint'
 import './spill/lint'
 import './weather/lint'
+import './wildfire/register-lint'
 
 export { fieldLintIssues, fieldLintRuleIds } from './field-lint'

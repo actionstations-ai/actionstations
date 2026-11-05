@@ -1,0 +1,78 @@
+<article class="wf sheet">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">Incident Status Summary (ICS 209 style)</p>
+    <h1>{{fields.incidentName}}</h1>
+    <p class="meta">{{fields.incidentNumber}} · {{fields.state}} · {{fields.reportTime}}</p>
+  </header>
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Location</th>
+        <td colspan="3">{{fields.location}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Size</th>
+        <td>{{fields.sizeAcres}} acres</td>
+        <th scope="row">Contained</th>
+        <td>{{fields.containmentPct}}%</td>
+      </tr>
+      <tr>
+        <th scope="row">Estimated control</th>
+        <td>{{fields.estimatedControl}}</td>
+        <th scope="row">Fuels</th>
+        <td>{{fields.fuels}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Structure information</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Threatened</th>
+        <th scope="col">Damaged</th>
+        <th scope="col">Destroyed</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.structures}}
+      <tr>
+        <th scope="row">{{type}}</th>
+        <td>{{threatened}}</td>
+        <td>{{damaged}}</td>
+        <td>{{destroyed}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Evacuations</h2>
+  <p>{{fields.evacuations}}</p>
+  <h2>Projected activity</h2>
+  <table>
+    <tbody>
+      {{#each fields.projectedActivity}}
+      <tr>
+        <th scope="row">{{block}}</th>
+        <td>{{activity}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Critical resource needs</h2>
+  <p>{{fields.criticalNeeds}}</p>
+  <h2>Weather concerns</h2>
+  <p>{{fields.weatherConcerns}}</p>
+  <h2>Resources</h2>
+  <p>{{fields.resources}}</p>
+  {{#if fields.remarks}}
+  <h2>Remarks</h2>
+  <p>{{fields.remarks}}</p>
+  {{/if}}
+  <footer>
+    <p>Prepared by {{fields.preparedBy}}</p>
+    <p class="exercise">
+      Exercise material. The projections are the scenario's, not a fire behavior prediction.
+    </p>
+  </footer>
+</article>

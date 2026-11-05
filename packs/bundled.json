@@ -1914,11 +1914,19 @@
     {
       "id": "ai.actionstations.wildfire",
       "name": "Wildfire and power shutoff",
-      "summary": "Wildfire domain for fire districts, county evacuation programs and utility power shutoff programs: roles, systems, outside parties and six wildfire threat families.",
-      "tags": ["wildfire", "wui", "psps", "smoke", "evacuation"],
+      "summary": "Wildfire domain and toolkit: roles, six threat families, incident, evacuation, road and shelter products, and wildfire knowledge for fire districts, counties and utilities.",
+      "tags": ["wildfire", "wui", "psps", "smoke", "evacuation", "toolkit"],
       "domains": ["wildfire"],
       "contents": {
-        "domains": ["wildfire"]
+        "domains": ["wildfire"],
+        "toolkits": ["wildfire"],
+        "templates": [
+          "wildfire_evacuation_notice",
+          "wildfire_ics_209",
+          "wildfire_incident_summary",
+          "wildfire_road_status",
+          "wildfire_shelter_notice"
+        ]
       }
     }
   ]

@@ -1,0 +1,50 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">{{fields.incidentName}} · Issued {{fields.issuedAt}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Shelter</th>
+        <th scope="col">For</th>
+        <th scope="col">Status</th>
+        <th scope="col">Count / capacity</th>
+        <th scope="col">Services</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.shelters}}
+      <tr>
+        <th scope="row">{{name}}</th>
+        <td>{{kind}}</td>
+        <td
+          class="st {{#if (eq status 'Open')}}st-clear{{else if (eq status 'Full')}}st-order{{else}}st-warning{{/if}}"
+        >
+          <span aria-hidden="true"
+            >{{#if (eq status 'Open')}}●{{else if (eq status 'Full')}}■{{else}}▲{{/if}}</span
+          >
+          {{status}}
+        </td>
+        <td>{{occupancy}} / {{capacity}}</td>
+        <td>{{services}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.pets}}
+  <h2>Pets and animals</h2>
+  <p>{{fields.pets}}</p>
+  {{/if}} {{#if fields.transport}}
+  <h2>Need a ride</h2>
+  <p>{{fields.transport}}</p>
+  {{/if}}
+  <footer>
+    <p>{{fields.contact}}</p>
+    {{#if fields.nextUpdate}}
+    <p>{{fields.nextUpdate}}</p>
+    {{/if}}
+  </footer>
+</article>
