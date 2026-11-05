@@ -46,6 +46,10 @@ Players record structured decisions: activate the operations center, order an ev
 
 The evaluation measures compare those decisions with the water: closure before the road floods, evacuation start before the water reaches the area less the clearance time you enter, delivery before the action stage, equipment moved before it floods, warnings against observed flash flood reports, and whether the warning tag, the public message and partner messages agree. For the timing measures, each place's series is the stage in feet above the stage that floods that place.
 
+## Reference library
+
+The **Flooding reference library** pack (installed from the catalog) carries the National Weather Service definitions and water resources products documents, two USGS streamgage fact sheets, and the FEMA guidance on dam emergency action plans and inundation mapping. All are US government works. Some useful material could not be carried: the FEMA flood tabletop package, the FEMA substantial damage desk reference, the FEMA evacuation planning considerations and county after-action reports are listed with links in the pack's README instead.
+
 ## Limits
 
 - A simulated or modeled extent is an illustration. It is not a hazard map, a flood zone or an insurance determination.
