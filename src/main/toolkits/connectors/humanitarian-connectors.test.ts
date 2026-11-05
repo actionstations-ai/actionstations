@@ -61,8 +61,13 @@ describe('hdx-operational-presence', () => {
     )
   })
 
-  it('is off without an application name and contact, and refuses bad codes', () => {
-    expect(() => identifier({ ...hdxQ, options: { location: 'AFG' } })).toThrow(/application name/)
+  it('sends the app name and contact when none is entered, and refuses bad values and codes', () => {
+    expect(
+      Buffer.from(identifier({ ...hdxQ, options: { location: 'AFG' } }), 'base64').toString(),
+    ).toBe('ActionStations:help@actionstations.ai')
+    expect(() =>
+      identifier({ ...hdxQ, options: { location: 'AFG', contactEmail: 'not-an-email' } }),
+    ).toThrow(/not valid/)
     expect(() =>
       hdxOperationalPresence.estimate({
         ...hdxQ,

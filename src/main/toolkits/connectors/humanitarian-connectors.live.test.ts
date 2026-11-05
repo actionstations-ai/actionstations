@@ -14,7 +14,7 @@ const ctx: FetchContext = {
 }
 const range = { start: '2025-01-01T00:00:00Z', end: '2025-03-31T00:00:00Z' }
 
-describe.skipIf(!live || !process.env.HDX_APP || !process.env.HDX_CONTACT)('HDX live', () => {
+describe.skipIf(!live)('HDX live', () => {
   it('returns operational presence rows with a licence', async () => {
     const q: ConnectorQuery = {
       range,
@@ -23,8 +23,8 @@ describe.skipIf(!live || !process.env.HDX_APP || !process.env.HDX_CONTACT)('HDX 
         location: 'AFG',
         sector: 'HEA',
         admin1: 'AF01',
-        applicationName: process.env.HDX_APP!,
-        contactEmail: process.env.HDX_CONTACT!,
+        applicationName: process.env.HDX_APP ?? '',
+        contactEmail: process.env.HDX_CONTACT ?? '',
       },
     }
     const out = await hdxOperationalPresence.fetch(q, ctx)

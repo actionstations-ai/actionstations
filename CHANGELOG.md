@@ -124,6 +124,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ### Fixed
 
+- Humanitarian Data Exchange operational presence works without setup: the app identifies itself to HDX with its own name and help@actionstations.ai, and a name and contact you enter in Settings replace them. ReliefWeb still needs a name it has approved (#1099).
 - SEC EDGAR case data no longer refuses to fetch until you enter your own email: the app sends its contact, help@actionstations.ai, unless you set one under Settings, Case data (#1097).
 - The app now names itself `AS/<version> (+https://actionstations.ai)` in every request it makes (hazard data, connectors, maps, the update check and setup downloads). The USGS geomagnetism service refused the previous `ActionStations/<version>` name, so the space weather magnetometer connector could not fetch (#1095).
 
