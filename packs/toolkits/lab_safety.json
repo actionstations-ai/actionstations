@@ -76,8 +76,467 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "lab_notification_timing",
+      "label": "Select agent notifications: immediate notices and the Form 3 worksheet within 7 calendar days (exercise window of 60 minutes for 'immediately')",
+      "config": {
+        "startKind": "incident_discovered",
+        "required": [
+          "lab_notify_party:cdc_or_aphis_select_agent_program:60:Immediate notice to CDC or APHIS",
+          "lab_notify_party:law_enforcement:60:Immediate notice to law enforcement",
+          "lab_submit_written_report:aphis_cdc_form_3_exercise_worksheet:10080:Form 3 worksheet within 7 calendar days"
+        ]
+      },
+      "groundTruth": "lab-inventory-events"
+    },
+    {
+      "id": "lab_notification_timing",
+      "label": "Institution and NIH notifications: biosafety officer in 24 hours, IBC chair in 3 days, sponsor in 7 days, NIH in 30 days",
+      "config": {
+        "startKind": "incident_discovered",
+        "required": [
+          "lab_notify_party:biosafety_officer:1440:PI to biosafety officer within 24 hours",
+          "lab_notify_party:ibc_chair:4320:Biosafety officer to IBC chair within 3 days",
+          "lab_notify_party:sponsor:10080:Notice to the sponsor within 7 days",
+          "lab_submit_written_report:ibc_report_to_nih:43200:IBC report to NIH within 30 days"
+        ]
+      },
+      "groundTruth": "lab-exposure-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Exposure response: stop-work within the protocol time of the exposure report",
+      "config": {
+        "decisionKinds": ["lab_stop_work"],
+        "eventKinds": ["exposure_reported"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 30,
+        "matchArea": false
+      },
+      "groundTruth": "lab-exposure-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Exposure response: worker sent for medical evaluation within the protocol time",
+      "config": {
+        "decisionKinds": ["lab_send_for_medical_evaluation"],
+        "eventKinds": ["exposure_reported"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 60,
+        "matchArea": false
+      },
+      "groundTruth": "lab-exposure-events"
+    },
+    {
+      "id": "contact_reach",
+      "label": "Exposure follow-up: people in and near the room reached within the designer's target",
+      "config": {
+        "targetHours": 30,
+        "closeOnly": true
+      },
+      "groundTruth": "lab-exposure-contact-events"
+    },
+    {
+      "id": "lab_samples_saved",
+      "label": "Samples saved: share moved to backup before the designer's limit",
+      "config": {
+        "moveKind": "lab_move_samples_to_backup",
+        "clearanceMin": 0
+      },
+      "groundTruth": "lab-sample-events"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Samples moved before the designer's limit (degrees C above the limit)",
+      "config": {
+        "actionKind": "lab_move_samples_to_backup",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "lab-alarm-viability"
+    },
+    {
+      "id": "lab_data_recovery",
+      "label": "Data recovery: systems restored and hours of work lost",
+      "config": {
+        "restoreKind": "lab_restore_data_from_backup",
+        "acceptableLossHours": 24
+      },
+      "series": "lab-backup-series"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Lab, EHS, compliance and communications messages agree on the key facts",
+      "config": {
+        "numericTolerance": 0
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "lab_classify_incident",
+      "label": "Classify the incident",
+      "description": "Decide what kind of incident this is and on what basis; the classification decides which notifications are due.",
+      "fields": [
+        {
+          "id": "classification",
+          "label": "Classification",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Reportable select agent incident",
+            "Reportable to NIH through the IBC",
+            "Internal incident with no external report",
+            "Records discrepancy, not an incident",
+            "Not yet classified"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the classification",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "lab_notify_party",
+      "label": "Notify a party",
+      "description": "Record who was told, how and when. The time is the time of the notification.",
+      "fields": [
+        {
+          "id": "party",
+          "label": "Who was notified",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "CDC or APHIS (select agent program)",
+            "Law enforcement",
+            "NIH Office of Science Policy",
+            "IBC chair",
+            "Institutional official",
+            "Biosafety officer",
+            "Occupational health",
+            "Sponsor",
+            "IRB",
+            "Study participants",
+            "Local health department",
+            "Insurer"
+          ]
+        },
+        {
+          "id": "how",
+          "label": "How",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Telephone", "E-mail", "Federal reporting system", "Letter", "In person"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "label": "What was said",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "lab_stop_work",
+      "label": "Stop work in an area",
+      "description": "Order work to stop in a room or suite until a named condition is met.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Room or suite",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "condition",
+          "label": "What lifts the order",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_send_for_medical_evaluation",
+      "label": "Send a worker for medical evaluation",
+      "description": "Refer a worker by code, never by a real name.",
+      "fields": [
+        {
+          "id": "person",
+          "label": "Worker code",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "where",
+          "label": "Where",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Occupational health", "Emergency department", "Employee health on call"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_restrict_worker",
+      "label": "Restrict a worker",
+      "description": "Set a work restriction after an incident.",
+      "fields": [
+        {
+          "id": "person",
+          "label": "Worker code",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "restriction",
+          "label": "Restriction",
+          "kind": "choice",
+          "required": true,
+          "choices": ["No laboratory work", "Restricted duties", "No restriction"]
+        },
+        {
+          "id": "review",
+          "label": "Review date",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_move_samples_to_backup",
+      "label": "Move samples to backup",
+      "description": "Move a group of samples to a backup unit. If only some can move, give a count; the register order decides which.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Unit",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "group",
+          "label": "Which samples",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Irreplaceable samples",
+            "Samples with no backup",
+            "All samples",
+            "Replaceable samples"
+          ]
+        },
+        {
+          "id": "count",
+          "label": "How many (leave empty for the whole group)",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_activate_response_plan",
+      "label": "Activate the incident response plan",
+      "description": "Activate the entity's incident response plan.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Notify only", "Partial activation", "Full activation"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "lab_order_evacuation",
+      "label": "Order an evacuation",
+      "description": "Order people out of a room, wing or building.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "scope",
+          "label": "Scope",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Room", "Wing", "Building"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_submit_written_report",
+      "label": "Submit a written report",
+      "description": "Record which written report was submitted and when. Exercise worksheets are not official forms.",
+      "fields": [
+        {
+          "id": "report",
+          "label": "Which report",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "APHIS/CDC Form 3 (exercise worksheet)",
+            "IBC report to NIH",
+            "Internal incident report",
+            "IRB report",
+            "Sponsor report"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "lab_brief_institutional_official",
+      "label": "Brief the institutional official",
+      "description": "Record a briefing of the institutional official or vice president for research.",
+      "fields": [
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "topics",
+          "label": "What was covered",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decision",
+          "label": "Decision asked of the official",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "lab_issue_public_statement",
+      "label": "Issue a statement",
+      "description": "Release a statement. Keep it to what the organization decided and whom it told.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Staff and students", "Media", "Neighbors", "Sponsors", "Social media"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "summary",
+          "label": "What the statement says",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "lab_restore_data_from_backup",
+      "label": "Restore a system from backup",
+      "description": "Restore a research system. The time reads the backup series to show how much work was lost.",
+      "fields": [
+        {
+          "id": "system",
+          "label": "System",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "backup",
+          "label": "Backup used",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Last good backup", "Older backup", "No usable backup"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -121,6 +580,99 @@
     ]
   },
   "lintRules": ["lab.guardrails"],
-  "capabilities": [],
-  "exerciseTags": []
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Activate the incident response plan and name who holds each role, including the alternate responsible official when the first is absent.",
+        "Coordinate the biosafety office, the laboratory, facilities, security and occupational health under one picture of the incident.",
+        "Decide who orders stop-work and what lifts it."
+      ],
+      "mappings": [
+        {
+          "framework": "42 CFR 73.14",
+          "ids": ["Incident response plan: roles and lines of authority"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Make each required notification to the right party, by the right route, inside its deadline.",
+        "Keep the written report, the committee minutes and the notice to the sponsor consistent.",
+        "Keep a working call-out path when the alarm or phone tree fails."
+      ],
+      "mappings": [
+        {
+          "framework": "42 CFR 73.19",
+          "ids": ["Notification of theft, loss or release"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Issue a statement that matches the record and says nothing the record does not support.",
+        "Tell staff, students, the sponsor and neighbors what they need, in that order of need.",
+        "Never name an agent or give a handling detail in public material."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Reconcile the inventory against transfers, destruction logs and the audit trail before concluding loss.",
+        "Establish who was in the room, who was exposed and who has been reached.",
+        "Establish what was lost, moved or restored, and what remains at risk."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "environmental_response_health_and_safety",
+      "criticalTasks": [
+        "Stop work, secure the area and refer exposed workers for evaluation within the protocol times.",
+        "Brief emergency responders on facility hazards only and keep them out of restricted rooms without the biosafety officer.",
+        "Return rooms to use in order, on stated conditions, with a sign-off."
+      ],
+      "mappings": []
+    }
+  ],
+  "exerciseTags": [
+    {
+      "id": "select_agent_irp_drill",
+      "label": "Select agent incident response plan drill",
+      "program": "Federal Select Agent Program, 42 CFR 73.14",
+      "version": "eCFR text read November 4, 2026",
+      "source": "https://www.ecfr.gov/current/title-42/section-73.14",
+      "type": "discussion",
+      "description": "A registered entity's annual test of its written incident response plan: theft, loss or release, inventory discrepancies, security breaches, severe weather, workplace violence, fire and power outages.",
+      "objectives": [
+        "Test the roles and lines of authority in the incident response plan.",
+        "Test immediate notification and the written report deadline.",
+        "Test coordination with local emergency responders."
+      ],
+      "participants": "The responsible official and alternate, the biosafety officer, laboratory staff, facilities and security, and local responders as the plan names them.",
+      "frequency": "At least annually, and the plan is reviewed again after any drill, exercise or incident",
+      "capabilities": [
+        "Operational Coordination",
+        "Operational Communications",
+        "Situational Assessment",
+        "Environmental Response/Health and Safety"
+      ],
+      "priorities": [],
+      "notes": [
+        "Drills or exercises must be conducted at least annually to test and evaluate the effectiveness of the plan.",
+        "Follow your registration and the program's current guidance; this record is an exercise aid."
+      ],
+      "drillRecord": {
+        "elements": [
+          "How the plan was tested",
+          "Problems found",
+          "Corrective actions",
+          "Participants"
+        ],
+        "reviewPrompt": "Review the incident response plan now and revise it as necessary. The regulation requires a review after any drill, exercise or incident; record the review and the date."
+      }
+    }
+  ]
 }

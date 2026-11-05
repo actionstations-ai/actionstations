@@ -161,6 +161,17 @@ export const ToolkitExerciseTag = z.object({
   /** Days after the exercise by which the program asks for improvement plan data. */
   improvementPlanDueDays: z.number().int().min(1).max(365).optional(),
   notes: z.array(z.string().max(600)).max(10).default([]),
+  /**
+   * A drill record the program asks for (42 CFR 73.14 for a registered entity's incident response
+   * plan): the AAR adds a table of these elements, filled from the improvement plan and the
+   * participants, says which are missing, and prompts a review of the plan afterward.
+   */
+  drillRecord: z
+    .object({
+      elements: z.array(Short).min(1).max(8),
+      reviewPrompt: z.string().max(600),
+    })
+    .optional(),
 })
 export type ToolkitExerciseTag = z.infer<typeof ToolkitExerciseTag>
 

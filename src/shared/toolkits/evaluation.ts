@@ -1,6 +1,7 @@
 // What a toolkit adds to evaluation (spec 0457 FR-13, FR-14): critical tasks and framework
 // mappings per Core Capability, and the program exercise tags a scenario can carry. Pure
 // functions over parsed toolkits, shared by main and the renderer.
+import { drillRecordMarkdown, type DrillContext } from './drill-record'
 import type { Toolkit, ToolkitCapabilityNote, ToolkitExerciseTag } from './schema'
 
 /** The notes for one Core Capability from every toolkit, tasks and mappings merged, no repeats. */
@@ -119,6 +120,7 @@ export function programTagMarkdown(
   tags: readonly ToolkitExerciseTag[],
   rows: readonly ImprovementRow[],
   exerciseDate?: string,
+  drill?: DrillContext,
 ): string {
   const out: string[] = []
   for (const tag of tags) {
@@ -136,6 +138,7 @@ export function programTagMarkdown(
         : '_No corrective actions yet._',
       '',
     )
+    if (tag.drillRecord) out.push(drillRecordMarkdown(tag, rows, exerciseDate, drill), '')
   }
   return out.join('\n').trimEnd()
 }

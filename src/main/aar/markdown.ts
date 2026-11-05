@@ -332,7 +332,13 @@ export function improvementPlanSection(
       start: r[6]!,
       due: r[7]!,
     }))
-    lines.push('', programTagMarkdown(programTags, plain, aar.exerciseDate))
+    lines.push(
+      '',
+      programTagMarkdown(programTags, plain, aar.exerciseDate, {
+        participants: aar.participatingOrganizations,
+        exerciseTitle: s.title,
+      }),
+    )
   }
   return lines.join('\n')
 }
