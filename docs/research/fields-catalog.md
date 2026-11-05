@@ -6,18 +6,18 @@ Researched 2026-11-05 for the fields epics. Each field becomes a domain (the org
 
 The strongest pull is a requirement to exercise. Where one exists, Action Stations saves the organization real work every year.
 
-| Requirement                                                                                                                                   | Who                                      | Status         |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------- |
-| CMS emergency preparedness (42 CFR 482.15(d)): two exercises a year, a full-scale one every two years, the other may be a tabletop            | Hospitals and many provider types        | [V]            |
-| Joint Commission EM.16.01.01: an annual operations-based exercise plus an annual exercise of choice                                           | Accredited hospitals                     | [V]            |
-| PREP (oil spill): annual spill management team tabletop, full-plan exercise every three years, a worst-case discharge scenario each triennium | Vessels, facilities, pipelines, offshore | [V]            |
-| NERC CIP-008 and CIP-009: test incident response and recovery plans                                                                           | Electric utilities                       | [V]            |
-| USDA APHIS training and exercise program follows HSEEP for animal disease outbreaks                                                           | Animal health agencies                   | [V]            |
-| CDC PHEP: annual exercises with partners (waived in some recent periods)                                                                      | Public health departments                | [V, dated]     |
-| HIPAA Security Rule contingency plan testing and revision                                                                                     | Covered entities                         | [U]            |
-| FAA airport emergency plan exercises (14 CFR 139.325)                                                                                         | Certificated airports                    | [U]            |
-| NRC emergency preparedness exercises for nuclear plants                                                                                       | Nuclear operators                        | [U]            |
-| EU NIS2 and DORA, Australia's SOCI Act: incident response testing                                                                             | Critical sectors abroad                  | [V, secondary] |
+| Requirement                                                                                                                                               | Who                                      | Status         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------- |
+| CMS emergency preparedness (42 CFR 482.15(d)(2)): two exercises a year for hospitals, one of them full-scale (or functional), the other may be a tabletop | Hospitals and many provider types        | [V]            |
+| Joint Commission EM.16.01.01: an annual operations-based exercise plus an annual exercise of choice                                                       | Accredited hospitals                     | [V]            |
+| PREP (oil spill): annual spill management team tabletop, full-plan exercise every three years, a worst-case discharge scenario each triennium             | Vessels, facilities, pipelines, offshore | [V]            |
+| NERC CIP-008 and CIP-009: test incident response and recovery plans                                                                                       | Electric utilities                       | [V]            |
+| USDA APHIS training and exercise program follows HSEEP for animal disease outbreaks                                                                       | Animal health agencies                   | [V]            |
+| CDC PHEP: annual exercises with partners (waived in some recent periods)                                                                                  | Public health departments                | [V, dated]     |
+| HIPAA Security Rule contingency plan testing and revision                                                                                                 | Covered entities                         | [U]            |
+| FAA airport emergency plan exercises (14 CFR 139.325)                                                                                                     | Certificated airports                    | [U]            |
+| NRC emergency preparedness exercises for nuclear plants                                                                                                   | Nuclear operators                        | [U]            |
+| EU NIS2 and DORA, Australia's SOCI Act: incident response testing                                                                                         | Critical sectors abroad                  | [V, secondary] |
 
 Education is the second pull: nursing programs may replace up to half of clinical hours with high-quality simulation (NCSBN 2014) **[V]**, simulation follows the INACSL Healthcare Simulation Standards of Best Practice (prebriefing, facilitation, professional integrity, debriefing) **[V]**, and clinical judgment is measured with NCSBN's Clinical Judgment Measurement Model **[V]**. Only about 37% of hospitals without a past cyber emergency had run a cyber drill or tabletop (small survey) **[V]**.
 
