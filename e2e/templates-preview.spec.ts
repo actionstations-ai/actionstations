@@ -56,6 +56,8 @@ const TIME_JUMP = JSON.parse(readFileSync('templates/injects/time_jump_card/prev
   .fields as Record<string, unknown>
 
 test('every template renders its preview to PNG', async () => {
+  // One render per template variant, in sequence: the time grows with every field pack.
+  test.setTimeout(300_000)
   const out = resolve('test-results/templates')
   mkdirSync(out, { recursive: true })
   const { app, page } = await launch()
@@ -177,6 +179,8 @@ test('render:inject writes PNG + PDF into the project and records the assets', a
 })
 
 test('Templates gallery shows rendered previews and a detail view', async () => {
+  // The gallery renders every template's preview; with all field packs that takes a while.
+  test.setTimeout(180_000)
   const { app, page } = await launch()
   try {
     await page.setViewportSize({ width: 1280, height: 900 })
@@ -186,7 +190,9 @@ test('Templates gallery shows rendered previews and a detail view', async () => 
       .click()
     await expect(page.getByRole('heading', { name: 'Templates', level: 1 })).toBeVisible()
     const card = page.getByRole('button', { name: /Time jump card/ })
-    await expect(card.locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/)
+    await expect(card.locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/, {
+      timeout: 120_000,
+    })
     await page.screenshot({ path: '.tmp/gallery-grid.png' })
     await card.click()
     const detail = page.getByRole('region', { name: 'Time jump card' })

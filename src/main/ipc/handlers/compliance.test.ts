@@ -1,7 +1,7 @@
 // Integration: compliance channels through the IPC dispatcher against a real project folder,
 // with the bundled packs read from the repo (source mode).
 import { describe, expect, it, vi } from 'vitest'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -66,7 +66,10 @@ describe('compliance handlers', () => {
     const { projectPath } = await setup()
     const list = ok<List>(await dispatch(handlers, 'compliance:list', { projectPath }))
     const by = (id: string) => list.regulations.find((r) => r.regulation.id === id)!
-    expect(list.regulations).toHaveLength(10)
+    // Every bundled regulation is listed, whatever field packs add.
+    expect(list.regulations).toHaveLength(
+      readdirSync('packs/regulations').filter((f) => f.endsWith('.json')).length,
+    )
     expect(by('tsa_aviation_cyber')).toMatchObject({
       enabled: true,
       suggested: true,

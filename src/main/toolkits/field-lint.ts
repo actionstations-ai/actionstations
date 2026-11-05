@@ -28,11 +28,20 @@ export function registerFieldLintRule(rule: FieldLintRule): void {
 
 export const fieldLintRuleIds = (): string[] => [...rules.keys()].sort()
 
-/** Issues from every rule that reads this inject type; a rule that throws reports nothing. */
-export function fieldLintIssues(type: string, fields: Record<string, unknown>): FieldLintIssue[] {
+/**
+ * Issues from the rules that read this inject type; a rule that throws reports nothing. With
+ * `ruleIds`, only those rules run (the ones a scenario's toolkits name), so one field's rules do
+ * not reach exercises that do not use its toolkit.
+ */
+export function fieldLintIssues(
+  type: string,
+  fields: Record<string, unknown>,
+  ruleIds?: readonly string[],
+): FieldLintIssue[] {
   const out: FieldLintIssue[] = []
   for (const rule of rules.values()) {
     if (!rule.injectTypes.includes(type)) continue
+    if (ruleIds && !ruleIds.includes(rule.id)) continue
     try {
       out.push(...rule.check(fields))
     } catch {
