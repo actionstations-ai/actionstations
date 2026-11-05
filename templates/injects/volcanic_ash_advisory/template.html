@@ -1,0 +1,36 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <div class="gx-mono vaa">
+    <div>VOLCANIC ASH ADVISORY</div>
+    <div>DTG: {{fields.dtg}}</div>
+    <div>VAAC: {{fields.vaac}}</div>
+    <div>VOLCANO: {{fields.volcano}}</div>
+    <div>PSN: {{fields.psn}}</div>
+    {{#if fields.area}}
+    <div>AREA: {{fields.area}}</div>
+    {{/if}} {{#if fields.summitElevation}}
+    <div>SUMMIT ELEV: {{fields.summitElevation}}</div>
+    {{/if}}
+    <div>ADVISORY NR: {{fields.advisoryNumber}}</div>
+    <div>INFO SOURCE: {{fields.infoSource}}</div>
+    {{#if fields.colorCode}}
+    <div>AVIATION COLOR CODE: {{fields.colorCode}}</div>
+    {{/if}}
+    <div>ERUPTION DETAILS: {{fields.eruptionDetails}}</div>
+    <div>OBS VA DTG/CLD: {{fields.observed}}</div>
+    {{#if fields.forecast6}}
+    <div>FCST VA CLD +6 HR: {{fields.forecast6}}</div>
+    {{/if}} {{#if fields.forecast12}}
+    <div>FCST VA CLD +12 HR: {{fields.forecast12}}</div>
+    {{/if}} {{#if fields.forecast18}}
+    <div>FCST VA CLD +18 HR: {{fields.forecast18}}</div>
+    {{/if}} {{#if fields.remarks}}
+    <div>RMK: {{fields.remarks}}</div>
+    {{/if}} {{#if fields.nextAdvisory}}
+    <div>NXT ADVISORY: {{fields.nextAdvisory}}</div>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official volcano notice."}}
+  </div>
+</div>

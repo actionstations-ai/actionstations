@@ -1,0 +1,249 @@
+{
+  "id": "seismic",
+  "name": "Earthquakes and early warning",
+  "description": "Earthquake products and decisions: the event summary, PAGER, aftershock forecasts, early warning alerts and the automated actions they trigger, building safety placards and lifeline status. For seismic networks, early warning operations and every organization that has buildings, people and lifelines in shaking.",
+  "appliesTo": {
+    "keywords": [
+      "earthquake",
+      "quake",
+      "seismic",
+      "aftershock",
+      "shakemap",
+      "pager",
+      "early warning",
+      "shakealert",
+      "magnitude",
+      "liquefaction",
+      "cascadia",
+      "subduction",
+      "fault rupture"
+    ],
+    "domains": [
+      "geoscience",
+      "healthcare",
+      "k12_schools",
+      "campus",
+      "energy_utility",
+      "gas_pipeline",
+      "water_utility",
+      "water_dam",
+      "transit",
+      "freight_rail",
+      "data_center_it",
+      "municipal",
+      "port_maritime",
+      "airport",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "earthquake_event_summary",
+    "pager_alert",
+    "aftershock_forecast",
+    "eew_alert",
+    "eew_action_log",
+    "building_placard",
+    "lifeline_status_board"
+  ],
+  "figureKinds": [
+    "shakemap_intensity",
+    "dyfi_map",
+    "epicenter_map",
+    "seismogram",
+    "aftershock_plot",
+    "eew_timeline",
+    "time_series",
+    "status_board"
+  ],
+  "connectors": ["comcat", "fdsn-waveforms", "scenario-shakemaps"],
+  "outsideParties": [
+    "the regional seismic network and the national earthquake information center",
+    "early warning delivery partners (phone alerts, apps)",
+    "the state or county building department",
+    "the utility operations center (power, gas, water)",
+    "the transportation department and rail operators"
+  ],
+  "advisorRoles": [
+    {
+      "key": "duty_seismologist",
+      "name": "Duty Seismologist (advisor)",
+      "abbreviation": "SEIS",
+      "team": "Advisors",
+      "description": "Explains magnitudes, ShakeMap and PAGER, and the aftershock forecast to the players."
+    },
+    {
+      "key": "building_inspector_lead",
+      "name": "Building Inspector Lead (advisor)",
+      "abbreviation": "INSP",
+      "team": "Advisors",
+      "description": "Applies safety placards and explains re-entry rules for damaged buildings."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Protective action before shaking arrives",
+      "config": {
+        "actionKind": "early_warning_action",
+        "threshold": 4,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Agreement on magnitude, intensity and aftershock chances",
+      "config": {
+        "numericTolerance": 0.2
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "early_warning_action",
+      "label": "Take an early warning automated action",
+      "description": "An automated or manual protective action taken on an early warning alert.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Slow or stop trains",
+            "Send elevators to the nearest floor and open doors",
+            "Open bay or station doors",
+            "Close gas or fuel valves",
+            "Alert staff and occupants",
+            "No action"
+          ]
+        },
+        {
+          "id": "system",
+          "label": "System or site",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time the action completed",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "place_building_placard",
+      "label": "Place a building safety placard",
+      "description": "Inspect a damaged building and post a placard.",
+      "fields": [
+        {
+          "id": "category",
+          "label": "Placard",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Inspected", "Restricted use", "Unsafe"]
+        },
+        {
+          "id": "address",
+          "label": "Building address",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "close_route",
+      "label": "Close a road or rail line",
+      "description": "Close a road, bridge or rail line after damage or an aftershock.",
+      "fields": [
+        {
+          "id": "route",
+          "label": "Road, bridge or line",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "public_statement",
+      "label": "Issue a public statement",
+      "description": "A statement to the public or partners about the earthquake or aftershocks.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "text"
+        },
+        {
+          "id": "key_message",
+          "label": "Key message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Magnitude (Mw)",
+        "definition": "Moment magnitude, energy at the source, one number per earthquake (M 6.8). The first automatic value is revised within minutes to hours."
+      },
+      {
+        "term": "Intensity (MMI)",
+        "definition": "Modified Mercalli shaking at a place, Roman numerals I to X. Differs by place and falls with distance. A different scale from magnitude."
+      },
+      {
+        "term": "ShakeMap / PAGER",
+        "definition": "ShakeMap maps estimated shaking; PAGER estimates fatalities and economic loss, each with a color alert (green, yellow, orange, red). Versions rise as data arrive."
+      },
+      {
+        "term": "Early warning",
+        "definition": "An alert sent after rupture begins, seconds to tens of seconds before strong shaking. Near the epicenter it can arrive after shaking starts (blind zone)."
+      },
+      {
+        "term": "Aftershock forecast",
+        "definition": "Probability of at least one aftershock above a magnitude (3, 5, 6, 7) in a window (day, week, month, year), with expected ranges. Not a prediction of when."
+      },
+      {
+        "term": "Placard",
+        "definition": "Building safety tag: INSPECTED (green), RESTRICTED USE (yellow), UNSAFE (red); the word always appears."
+      }
+    ],
+    "productConventions": [
+      "Magnitude is M 6.8 (decimal); intensity is a Roman numeral MMI (VII). Never swap them.",
+      "Mark an event automatic or reviewed; a later magnitude differs from the first by 0.1 to 0.5.",
+      "Phone early warning alerts: M 5.0+ with expected MMI IV+; app alerts M 4.5+ with MMI III+. Text: Earthquake! Drop, Cover, Hold On."
+    ],
+    "realismRules": [
+      "No warning time for places within about 20 to 30 km of the epicenter; the alert can be late there. Strong shaking travels about 3.5 km per second.",
+      "Aftershock chances are probabilities and ranges. A larger earthquake than the mainshock is possible but unlikely. Nobody can say aftershocks have ended.",
+      "The building department places placards. A green placard is not a guarantee against aftershocks.",
+      "Lifelines are restored in stages, not all at once."
+    ]
+  },
+  "lintRules": ["magnitude_intensity_labels", "eew_timing_limits", "aftershock_probability_wording"]
+}

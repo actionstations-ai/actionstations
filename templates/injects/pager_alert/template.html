@@ -1,0 +1,48 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{default fields.issuer "Earthquake information center"}} · PAGER</div>
+    <h1>{{fields.title}}</h1>
+    <div class="gx-sub">{{fields.version}}</div>
+  </header>
+  <div class="gx-body">
+    <div class="lvls">
+      <div class="lvl lv-{{fields.fatalityLevel}}">
+        <b>{{t 'Estimated fatalities'}}</b>
+        <div class="w">{{fields.fatalityLevel}} {{t 'alert'}}</div>
+        <div class="r">{{fields.fatalityRange}}</div>
+      </div>
+      <div class="lvl lv-{{fields.economicLevel}}">
+        <b>{{t 'Estimated economic losses'}}</b>
+        <div class="w">{{fields.economicLevel}} {{t 'alert'}}</div>
+        <div class="r">{{fields.economicRange}}</div>
+      </div>
+    </div>
+    <div class="gx-h2">{{t 'Population exposed to shaking'}}</div>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">MMI</th>
+          <th scope="col">{{t 'Shaking'}}</th>
+          <th scope="col">{{t 'Estimated population'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.exposure}}
+        <tr>
+          <th scope="row"><span class="mmi mmi-{{mmi}}">{{mmi}}</span></th>
+          <td>{{shaking}}</td>
+          <td>{{population}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.comment}}
+    <p>{{fields.comment}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official earthquake, alert or inspection
+    record."}}
+  </div>
+</div>

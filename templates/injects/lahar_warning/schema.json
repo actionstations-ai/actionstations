@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lahar warning and siren activation",
+  "description": "A lahar (volcanic mudflow) warning from a county or detection system: what was detected and where, the time the sirens were activated, the estimated travel time to each community along the valley, and what people in the hazard zone should do. Travel times are minutes after the detection time.",
+  "type": "object",
+  "required": ["issuer", "detectedAt", "detection", "travel", "action"],
+  "additionalProperties": false,
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["Westport County Emergency Management"]
+    },
+    "detectedAt": {
+      "type": "string",
+      "description": "Detection time",
+      "examples": ["2026-11-05 19:12 PST"],
+      "x-translate": false
+    },
+    "detection": {
+      "type": "string",
+      "description": "What was detected and where",
+      "examples": [
+        "Flow detection sensors on the Hollis River near the upper bridge reported a rapid rise in ground vibration consistent with a lahar."
+      ]
+    },
+    "sirensActivatedAt": {
+      "type": "string",
+      "description": "Time the sirens were activated",
+      "examples": ["2026-11-05 19:14 PST"],
+      "x-translate": false
+    },
+    "sirenZone": {
+      "type": "string",
+      "description": "Sirens activated for",
+      "examples": ["Hollis River valley, Zones 1 to 4"],
+      "x-translate": false
+    },
+    "travel": {
+      "type": "array",
+      "description": "Estimated travel times by community (up to 8)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["place", "minutes"],
+        "properties": {
+          "place": {
+            "type": "string",
+            "description": "Community or site",
+            "examples": ["Riverbend Elementary School"],
+            "x-translate": false
+          },
+          "minutes": {
+            "type": "integer",
+            "description": "Minutes after detection until the lahar could reach it",
+            "examples": [38],
+            "minimum": 0
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "action": {
+      "type": "string",
+      "description": "Protective action",
+      "examples": [
+        "Move on foot to high ground now. Do not wait for official confirmation. Do not drive down the valley."
+      ]
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Volcano Observatory Notice for Aviation (VONA)",
+  "description": "A Volcano Observatory Notice for Aviation in the standard line format: header, DTG (YYYYMMDD/HHMMZ, UTC), VOLCANO name and number, PSN position, AREA, SOURCE ELEV, NOTICE NR, current and previous colour code, SVO (the observatory), ACT STS (activity status), ONSET, DUR, VA CLD HGT (volcanic ash cloud height), HGT SOURCE, MOV, CTC (contact), RMK and NXT NOTICE. Use NIL where a line has nothing to report.",
+  "type": "object",
+  "required": [
+    "dtg",
+    "volcano",
+    "psn",
+    "noticeNumber",
+    "currentColourCode",
+    "previousColourCode",
+    "svo",
+    "activityStatus"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "header": {
+      "type": "string",
+      "description": "Bulletin header line",
+      "examples": ["WMPA01 PHVO 030006"],
+      "x-translate": false
+    },
+    "dtg": {
+      "type": "string",
+      "description": "Date-time group, YYYYMMDD/HHMMZ",
+      "examples": ["20261105/1815Z"],
+      "x-translate": false
+    },
+    "volcano": {
+      "type": "string",
+      "description": "Volcano name and number",
+      "examples": ["HOLLIS 999999"],
+      "x-translate": false
+    },
+    "psn": {
+      "type": "string",
+      "description": "Position as N or S degrees and minutes, then W or E",
+      "examples": ["N4652 W12145"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Area",
+      "examples": ["WASHINGTON"],
+      "x-translate": false
+    },
+    "sourceElev": {
+      "type": "string",
+      "description": "Source (summit) elevation with unit and datum",
+      "examples": ["14411FT AMSL"],
+      "x-translate": false
+    },
+    "noticeNumber": {
+      "type": "string",
+      "description": "Notice number, year/number",
+      "examples": ["2026/147"],
+      "x-translate": false
+    },
+    "currentColourCode": {
+      "type": "string",
+      "description": "Current aviation colour code",
+      "examples": ["ORANGE"],
+      "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "UNASSIGNED"]
+    },
+    "previousColourCode": {
+      "type": "string",
+      "description": "Previous aviation colour code",
+      "examples": ["YELLOW"],
+      "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "UNASSIGNED"]
+    },
+    "svo": {
+      "type": "string",
+      "description": "State volcano observatory",
+      "examples": ["CASCADE VOLCANO OBSERVATORY"],
+      "x-translate": false
+    },
+    "activityStatus": {
+      "type": "string",
+      "description": "Activity status",
+      "examples": ["UNREST. NO ERUPTION"],
+      "x-translate": false
+    },
+    "onset": {
+      "type": "string",
+      "description": "Onset time of the activity, or NIL",
+      "examples": ["NIL"],
+      "x-translate": false
+    },
+    "duration": {
+      "type": "string",
+      "description": "Duration, or NIL",
+      "examples": ["NIL"],
+      "x-translate": false
+    },
+    "cloudHeight": {
+      "type": "string",
+      "description": "Volcanic ash cloud height with unit and datum",
+      "examples": ["0FT AMSL"],
+      "x-translate": false
+    },
+    "heightSource": {
+      "type": "string",
+      "description": "Source of the cloud height",
+      "examples": ["NO VA CLD PRODUCED"],
+      "x-translate": false
+    },
+    "movement": {
+      "type": "string",
+      "description": "Movement of the cloud",
+      "examples": ["NO VA CLD PRODUCED"],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["CVO DUTY SCIENTIST: 555-0100"],
+      "x-translate": false
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Remarks, in capitals",
+      "examples": [
+        "EARTHQUAKE RATE BENEATH THE VOLCANO HAS INCREASED AND THE SUMMIT HAS RISEN ABOUT 4 CM. NO ERUPTION IS OCCURRING."
+      ],
+      "x-translate": false
+    },
+    "nextNotice": {
+      "type": "string",
+      "description": "Next notice",
+      "examples": [
+        "A NEW VONA WILL BE ISSUED IF CONDITIONS CHANGE SIGNIFICANTLY OR IF THE COLOUR CODE CHANGES"
+      ],
+      "x-translate": false
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Volcanic ash advisory (text)",
+  "description": "A Volcanic Ash Advisory in the ICAO text format issued by a Volcanic Ash Advisory Center: DTG, VAAC, VOLCANO, PSN, AREA, SUMMIT ELEV, ADVISORY NR, INFO SOURCE, AVIATION COLOR CODE, ERUPTION DETAILS, observed ash cloud, forecast ash cloud at +6, +12 and +18 hours, remarks and next advisory. Heights are flight levels (FL) or feet; times are UTC. It is the basis for SIGMETs.",
+  "type": "object",
+  "required": [
+    "dtg",
+    "vaac",
+    "volcano",
+    "psn",
+    "advisoryNumber",
+    "infoSource",
+    "eruptionDetails",
+    "observed"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "dtg": {
+      "type": "string",
+      "description": "Date-time group of issue, YYYYMMDD/HHMMZ",
+      "examples": ["20261105/1900Z"],
+      "x-translate": false
+    },
+    "vaac": {
+      "type": "string",
+      "description": "VAAC name",
+      "examples": ["WASHINGTON"],
+      "x-translate": false
+    },
+    "volcano": {
+      "type": "string",
+      "description": "Volcano name and number",
+      "examples": ["HOLLIS 999999"],
+      "x-translate": false
+    },
+    "psn": {
+      "type": "string",
+      "description": "Position, e.g. N4652 W12145",
+      "examples": ["N4652 W12145"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Area",
+      "examples": ["USA-WASHINGTON"],
+      "x-translate": false
+    },
+    "summitElevation": {
+      "type": "string",
+      "description": "Summit elevation",
+      "examples": ["4392M"],
+      "x-translate": false
+    },
+    "advisoryNumber": {
+      "type": "string",
+      "description": "Advisory number, year/number",
+      "examples": ["2026/003"],
+      "x-translate": false
+    },
+    "infoSource": {
+      "type": "string",
+      "description": "Information source",
+      "examples": ["GOES-18 SATELLITE, PILOT REPORT, OBSERVATORY"],
+      "x-translate": false
+    },
+    "colorCode": {
+      "type": "string",
+      "description": "Aviation color code",
+      "examples": ["RED"],
+      "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "UNASSIGNED"]
+    },
+    "eruptionDetails": {
+      "type": "string",
+      "description": "Eruption details",
+      "examples": ["ERUPTION AT 20261105/1840Z. ASH TO FL300 REPORTED BY PILOT."],
+      "x-translate": false
+    },
+    "observed": {
+      "type": "string",
+      "description": "Observed ash cloud: time and extent",
+      "examples": ["05/1900Z SFC/FL300 N4652 W12145 - N4710 W12010 - N4640 W12000 MOV E 35KT"],
+      "x-translate": false
+    },
+    "forecast6": {
+      "type": "string",
+      "description": "Forecast +6 hours",
+      "examples": ["05/2500Z SFC/FL300 N4720 W11900 - N4700 W11700 - N4600 W11800"],
+      "x-translate": false
+    },
+    "forecast12": {
+      "type": "string",
+      "description": "Forecast +12 hours",
+      "examples": ["06/0100Z SFC/FL300 N4730 W11700 - N4650 W11400 - N4540 W11600"],
+      "x-translate": false
+    },
+    "forecast18": {
+      "type": "string",
+      "description": "Forecast +18 hours",
+      "examples": ["06/0700Z NO ASH EXP"],
+      "x-translate": false
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Remarks",
+      "examples": [
+        "ASH CLOUD MOVING EAST. SIGMETS AND MET OFFICE AIRSPACE ADVISORIES SHOULD BE CONSULTED."
+      ],
+      "x-translate": false
+    },
+    "nextAdvisory": {
+      "type": "string",
+      "description": "Next advisory",
+      "examples": ["WILL BE ISSUED BY 20261106/0100Z"],
+      "x-translate": false
+    }
+  }
+}

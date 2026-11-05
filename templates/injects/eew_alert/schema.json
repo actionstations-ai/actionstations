@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Earthquake early warning alert",
+  "description": "An earthquake early warning alert as it appears on a phone (variant phone: wireless emergency alert style, short text) or in an app (variant app: with estimated magnitude, expected shaking and the seconds of warning for the place). Early warning is a few seconds to tens of seconds before shaking; near the epicenter an alert can arrive after the shaking starts.",
+  "type": "object",
+  "required": ["headline", "message", "sentAt"],
+  "additionalProperties": false,
+  "properties": {
+    "headline": {
+      "type": "string",
+      "description": "Alert headline",
+      "examples": ["Earthquake detected"],
+      "x-translate": false
+    },
+    "message": {
+      "type": "string",
+      "description": "The alert text shown to the person",
+      "examples": ["Earthquake! Drop, Cover, Hold On. Protect yourself."]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Time the alert was sent (local, with seconds)",
+      "examples": ["06:22:21"],
+      "x-translate": false
+    },
+    "magnitude": {
+      "type": "number",
+      "description": "Estimated magnitude (app variant)",
+      "examples": [6.4],
+      "minimum": 0,
+      "maximum": 10
+    },
+    "expectedMmi": {
+      "type": "string",
+      "description": "Expected shaking at the place (Modified Mercalli, Roman numeral; app variant)",
+      "examples": ["VII"],
+      "enum": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+    },
+    "secondsWarning": {
+      "type": "integer",
+      "description": "Seconds of warning for the place before shaking is expected (0 if the alert is late)",
+      "examples": [12],
+      "minimum": 0
+    },
+    "place": {
+      "type": "string",
+      "description": "Place the alert is for",
+      "examples": ["Haldane"],
+      "x-translate": false
+    },
+    "sender": {
+      "type": "string",
+      "description": "Sender label",
+      "examples": ["Earthquake Early Warning"],
+      "x-translate": false
+    }
+  }
+}

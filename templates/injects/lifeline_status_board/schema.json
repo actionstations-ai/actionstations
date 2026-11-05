@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lifeline status board",
+  "description": "A board of community lifelines after an earthquake (power, water, gas, transportation, communications, health care, food and shelter) with a status for each, written as a word and a symbol: operating, degraded, out, or unknown, a detail line and the update time.",
+  "type": "object",
+  "required": ["title", "asOf", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Board title",
+      "examples": ["Westport County lifeline status"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of time",
+      "examples": ["As of 2026-11-05 18:00 PST"],
+      "x-translate": false
+    },
+    "rows": {
+      "type": "array",
+      "description": "Lifelines (up to 12)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "state"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Lifeline or system",
+            "examples": ["Electric power"]
+          },
+          "state": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["degraded"],
+            "enum": ["operating", "degraded", "out", "unknown"]
+          },
+          "detail": {
+            "type": "string",
+            "description": "Detail",
+            "examples": ["62% of customers restored; the 115 kV line to the harbor is down."]
+          },
+          "updated": {
+            "type": "string",
+            "description": "Last update",
+            "examples": ["17:40"],
+            "x-translate": false
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 12
+    }
+  }
+}

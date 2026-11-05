@@ -1,0 +1,43 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <div class="gx-mono vona">
+    <div>
+      VOLCANO OBSERVATORY NOTICE FOR AVIATION (VONA){{#if fields.header}} {{fields.header}}{{/if}}
+    </div>
+    <div>VONA</div>
+    <div>DTG: {{fields.dtg}}</div>
+    <div>VOLCANO: {{fields.volcano}}</div>
+    <div>PSN: {{fields.psn}}</div>
+    {{#if fields.area}}
+    <div>AREA: {{fields.area}}</div>
+    {{/if}} {{#if fields.sourceElev}}
+    <div>SOURCE ELEV: {{fields.sourceElev}}</div>
+    {{/if}}
+    <div>NOTICE NR: {{fields.noticeNumber}}</div>
+    <div>
+      CURRENT COLOUR CODE:
+      <span class="code cc-{{fields.currentColourCode}}">{{fields.currentColourCode}}</span>
+    </div>
+    <div>
+      PREVIOUS COLOUR CODE:
+      <span class="code cc-{{fields.previousColourCode}}">{{fields.previousColourCode}}</span>
+    </div>
+    <div>SVO: {{fields.svo}}</div>
+    <div>ACT STS: {{fields.activityStatus}}</div>
+    <div>ONSET: {{default fields.onset "NIL"}}</div>
+    <div>DUR: {{default fields.duration "NIL"}}</div>
+    <div>VA CLD HGT: {{default fields.cloudHeight "NIL"}}</div>
+    <div>HGT SOURCE: {{default fields.heightSource "NIL"}}</div>
+    <div>MOV: {{default fields.movement "NIL"}}</div>
+    {{#if fields.contact}}
+    <div>CTC: {{fields.contact}}</div>
+    {{/if}} {{#if fields.remarks}}
+    <div>RMK: {{fields.remarks}}</div>
+    {{/if}} {{#if fields.nextNotice}}
+    <div>NXT NOTICE: {{fields.nextNotice}}</div>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official volcano notice."}}
+  </div>
+</div>

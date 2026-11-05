@@ -1,0 +1,50 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.organization}}</div>
+    <h1>{{t 'Early warning automated action log'}}</h1>
+  </header>
+  <div class="gx-body">
+    <dl class="gx-kv">
+      <dt>{{t 'Alert received'}}</dt>
+      <dd>{{fields.alertReceived}}</dd>
+      {{#if fields.shakingArrival}}
+      <dt>{{t 'Strong shaking arrived'}}</dt>
+      <dd>{{fields.shakingArrival}}</dd>
+      {{/if}}
+    </dl>
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Time'}}</th>
+          <th scope="col">{{t 'System'}}</th>
+          <th scope="col">{{t 'Action'}}</th>
+          <th scope="col">{{t 'Result'}}</th>
+          <th scope="col">{{t 'Delay'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.rows}}
+        <tr>
+          <td>{{time}}</td>
+          <th scope="row">{{system}}</th>
+          <td>{{action}}</td>
+          <td>
+            {{#if (eq result "completed")}}✔ {{t 'Completed'}}{{else if (eq result "partial")}}◐ {{t
+            'Partial'}}{{else if (eq result "failed")}}✖ {{t 'Failed'}}{{else}}○ {{t 'Not
+            triggered'}}{{/if}}
+          </td>
+          <td>{{#if delaySec}}+{{delaySec}} s{{else}}–{{/if}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.note}}
+    <p>{{fields.note}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official earthquake, alert or inspection
+    record."}}
+  </div>
+</div>

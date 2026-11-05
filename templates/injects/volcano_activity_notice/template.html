@@ -1,0 +1,43 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">
+      {{fields.observatory}} · {{t 'Volcano Activity Notice'}}{{#if fields.noticeId}}
+      {{fields.noticeId}}{{/if}}
+    </div>
+    <h1>{{fields.volcano}}</h1>
+    <div class="gx-sub">{{fields.issued}}</div>
+  </header>
+  <div class="gx-body">
+    <div class="pair">
+      <div class="cc-{{fields.colorCode}}">
+        <small>{{t 'Volcano alert level'}}</small><b>{{fields.alertLevel}}</b>
+      </div>
+      <div class="cc-{{fields.colorCode}}">
+        <small>{{t 'Aviation color code'}}</small><b>{{fields.colorCode}}</b>
+      </div>
+    </div>
+    {{#if fields.previousLevel}}
+    <p><b>{{t 'Changed from'}}:</b> {{fields.previousLevel}}</p>
+    {{/if}}
+    <p>{{fields.summary}}</p>
+    {{#if fields.observations.length}}
+    <div class="gx-h2">{{t 'Recent observations'}}</div>
+    <ul>
+      {{#each fields.observations}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}} {{#if fields.hazards}}
+    <div class="gx-h2">{{t 'Hazards'}}</div>
+    <p>{{fields.hazards}}</p>
+    {{/if}} {{#if fields.nextUpdate}}
+    <p><b>{{t 'Next update'}}:</b> {{fields.nextUpdate}}</p>
+    {{/if}} {{#if fields.contact}}
+    <p><b>{{t 'Contact'}}:</b> {{fields.contact}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official volcano notice."}}
+  </div>
+</div>

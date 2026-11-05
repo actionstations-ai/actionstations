@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Volcano alert level badge",
+  "description": "A compact badge showing a volcano's alert level and aviation color code together, always as words (NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED), with the volcano name, the time the level took effect and a one-sentence statement.",
+  "type": "object",
+  "required": ["volcano", "alertLevel", "colorCode", "since"],
+  "additionalProperties": false,
+  "properties": {
+    "volcano": {
+      "type": "string",
+      "description": "Volcano name",
+      "examples": ["Mount Hollis"],
+      "x-translate": false
+    },
+    "observatory": {
+      "type": "string",
+      "description": "Observatory",
+      "examples": ["Cascade Volcano Observatory"]
+    },
+    "alertLevel": {
+      "type": "string",
+      "description": "Volcano alert level (ground-based hazard level)",
+      "examples": ["WATCH"],
+      "enum": ["NORMAL", "ADVISORY", "WATCH", "WARNING", "UNASSIGNED"]
+    },
+    "colorCode": {
+      "type": "string",
+      "description": "Aviation color code. It pairs with the alert level: NORMAL/GREEN, ADVISORY/YELLOW, WATCH/ORANGE, WARNING/RED",
+      "examples": ["ORANGE"],
+      "enum": ["GREEN", "YELLOW", "ORANGE", "RED", "UNASSIGNED"]
+    },
+    "since": {
+      "type": "string",
+      "description": "Level in effect since",
+      "examples": ["2026-11-05 09:15 PST"],
+      "x-translate": false
+    },
+    "statement": {
+      "type": "string",
+      "description": "One-sentence statement",
+      "examples": ["Unrest continues; an eruption is possible with little warning."]
+    }
+  }
+}

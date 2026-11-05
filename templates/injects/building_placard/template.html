@@ -1,0 +1,28 @@
+<div class="plc">
+  <div class="cat" data-cat="{{fields.category}}">
+    <h1>{{fields.category}}</h1>
+    <div class="m">
+      {{#if (eq fields.category "INSPECTED")}}{{t 'Lawful occupancy permitted'}}{{else if (eq
+      fields.category "UNSAFE")}}{{t 'Do not enter or occupy. Dangerous to life.'}}{{else}}{{t
+      'Entry limited as written below'}}{{/if}}
+    </div>
+  </div>
+  <dl>
+    <dt>{{t 'Address'}}</dt>
+    <dd>{{fields.address}}</dd>
+    <dt>{{t 'Inspected'}}</dt>
+    <dd>{{fields.inspectedOn}}</dd>
+    <dt>{{t 'Inspector'}}</dt>
+    <dd>{{fields.inspector}}</dd>
+    {{#if fields.restrictions}}
+    <dt>{{t 'Restrictions'}}</dt>
+    <dd>{{fields.restrictions}}</dd>
+    {{/if}} {{#if fields.comments}}
+    <dt>{{t 'Comments'}}</dt>
+    <dd>{{fields.comments}}</dd>
+    {{/if}}
+    <dt>{{t 'Issued by'}}</dt>
+    <dd>{{default fields.jurisdiction "Building department"}}</dd>
+  </dl>
+  <div class="ex">{{t 'Exercise product. Not a real placard.'}}</div>
+</div>

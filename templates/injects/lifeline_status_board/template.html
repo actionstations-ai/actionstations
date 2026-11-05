@@ -1,0 +1,36 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <h1>{{fields.title}}</h1>
+    <div class="gx-sub">{{fields.asOf}}</div>
+  </header>
+  <div class="gx-body">
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Lifeline'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+          <th scope="col">{{t 'Detail'}}</th>
+          <th scope="col">{{t 'Updated'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.rows}}
+        <tr>
+          <th scope="row">{{name}}</th>
+          <td class="st s-{{state}}">
+            {{#if (eq state "operating")}}● {{t 'Operating'}}{{else if (eq state "degraded")}}▲ {{t
+            'Degraded'}}{{else if (eq state "out")}}■ {{t 'Out'}}{{else}}? {{t 'Unknown'}}{{/if}}
+          </td>
+          <td>{{detail}}</td>
+          <td>{{updated}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="gx-foot">
+    {{default fields.footer "Exercise product. Not an official earthquake, alert or inspection
+    record."}}
+  </div>
+</div>

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Building safety placard",
+  "description": "A post-earthquake building safety placard in the three standard categories: INSPECTED (lawful occupancy permitted), RESTRICTED USE (entry limited as written) and UNSAFE (do not enter or occupy). The category is always written as words. It carries the building address, date and time, inspector and any restrictions.",
+  "type": "object",
+  "required": ["category", "address", "inspectedOn", "inspector"],
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "type": "string",
+      "description": "Placard category",
+      "examples": ["RESTRICTED USE"],
+      "enum": ["INSPECTED", "RESTRICTED USE", "UNSAFE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Jurisdiction issuing the placard",
+      "examples": ["City of Westport Building Department"]
+    },
+    "address": {
+      "type": "string",
+      "description": "Building address",
+      "examples": ["212 Harbor Street, Westport"],
+      "x-translate": false
+    },
+    "inspectedOn": {
+      "type": "string",
+      "description": "Inspection date and time",
+      "examples": ["2026-11-06 10:40"],
+      "x-translate": false
+    },
+    "inspector": {
+      "type": "string",
+      "description": "Inspector name and id",
+      "examples": ["R. Alvarez, Inspector 0417"],
+      "x-translate": false
+    },
+    "restrictions": {
+      "type": "string",
+      "description": "Restrictions or the hazard (for restricted use or unsafe)",
+      "examples": [
+        "Do not enter the north stairwell or the second-floor east wing. Ground floor open for daytime use only."
+      ]
+    },
+    "comments": {
+      "type": "string",
+      "description": "Further comment",
+      "examples": [
+        "Cracking in the north stairwell wall. Re-inspect after the next significant aftershock."
+      ]
+    }
+  }
+}
