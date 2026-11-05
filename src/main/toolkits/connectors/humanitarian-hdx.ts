@@ -121,6 +121,34 @@ async function licenceOf(ctx: FetchContext, datasetId: string): Promise<string> 
   }
 }
 
+/**
+ * The licences of the datasets behind up to `max` HAPI resources, read from HAPI's resource
+ * metadata and data.humdata.org. `open` is true only when every licence read allows
+ * redistribution; none read is not open. Shared by the HAPI connectors.
+ */
+export async function readLicences(
+  q: ConnectorQuery,
+  ctx: FetchContext,
+  resourceIds: readonly (string | undefined)[],
+  max = 3,
+): Promise<{ text: string; open: boolean }> {
+  const ids = [...new Set(resourceIds.filter((x): x is string => !!x))].slice(0, max)
+  const licences: string[] = []
+  for (const id of ids) {
+    const meta = (await getJson(
+      ctx,
+      `https://${HAPI}/api/v2/metadata/resource?resource_hdx_id=${encodeURIComponent(id)}&limit=1&app_identifier=${identifier(q)}`,
+      'HDX HAPI',
+    )) as { data?: { dataset_hdx_id?: string }[] }
+    const dsId = meta.data?.[0]?.dataset_hdx_id
+    licences.push(dsId ? await licenceOf(ctx, dsId) : 'unknown')
+  }
+  return {
+    text: licences.length ? [...new Set(licences)].join('; ') : 'unknown',
+    open: licences.length > 0 && licences.every((l) => OPEN_LICENCES.test(l)),
+  }
+}
+
 export const hdxOperationalPresence: Connector = {
   id: 'hdx-operational-presence',
   label: 'HDX operational presence (3W) by country',
@@ -162,20 +190,11 @@ export const hdxOperationalPresence: Connector = {
       rows.push(...got.data)
       if (got.data.length < PAGE) break
     }
-    const resources = [
-      ...new Set(rows.map((r) => r.resource_hdx_id).filter((x): x is string => !!x)),
-    ].slice(0, 3)
-    const licences: string[] = []
-    for (const id of resources) {
-      const meta = (await getJson(
-        ctx,
-        `https://${HAPI}/api/v2/metadata/resource?resource_hdx_id=${id}&limit=1&app_identifier=${identifier(q)}`,
-        'HDX HAPI',
-      )) as { data?: { dataset_hdx_id?: string }[] }
-      const dsId = meta.data?.[0]?.dataset_hdx_id
-      licences.push(dsId ? await licenceOf(ctx, dsId) : 'unknown')
-    }
-    const open = licences.length > 0 && licences.every((l) => OPEN_LICENCES.test(l))
+    const { text: licenceText, open } = await readLicences(
+      q,
+      ctx,
+      rows.map((r) => r.resource_hdx_id),
+    )
     const place = locationOf(q)
     const t = q.range.start
     const cells = new Map<string, Set<string>>()
@@ -192,7 +211,6 @@ export const hdxOperationalPresence: Connector = {
         title: key,
         text: `${orgs.size} organizations reporting: ${[...orgs].sort().slice(0, 12).join(', ')}.`,
       }))
-    const licenceText = licences.length ? licences.join('; ') : 'unknown'
     return {
       datasets: [
         {

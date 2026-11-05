@@ -1,11 +1,14 @@
-// The humanitarian replay connectors (#911): recorded responses (HDX HAPI and data.humdata.org
-// are real, trimmed; the ReliefWeb response is built from the documented v2 shape because the
-// service needs an approved application name), the URLs they build, what they refuse, and the
-// licence handling. The live test is in humanitarian-connectors.live.test.ts (LIVE=1).
+// The humanitarian replay connectors (#911): recorded responses (HDX HAPI, data.humdata.org and
+// the Aid Worker Security Database are real, trimmed; the AWSD fixture has its incident details,
+// places and coordinates removed; the ReliefWeb response is built from the documented v2 shape
+// because the service needs an approved application name), the URLs they build, what they
+// refuse, and the licence handling. The live test is in humanitarian-connectors.live.test.ts (LIVE=1).
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { TextFile } from '@shared/schemas/case-data'
+import { SeriesFile, TextFile } from '@shared/schemas/case-data'
+import { awsdIncidentCounts, awsdUrl, countryOf, yearsOf } from './humanitarian-awsd'
+import { figuresUrls, hdxKeyFigures } from './humanitarian-hapi-figures'
 import { hdxOperationalPresence, identifier, presenceUrl } from './humanitarian-hdx'
 import { appnameOf, reliefwebReports, reportsUrl } from './humanitarian-reliefweb'
 import type { ConnectorQuery, FetchContext } from './registry'
@@ -153,5 +156,173 @@ describe('reliefweb-reports', () => {
     const { ctx } = recorded({ '/v2/reports': '{}' }, 403)
     await expect(reliefwebReports.fetch(rwQ, ctx)).rejects.toThrow(/refused the application name/)
     await expect(reliefwebReports.fetch(rwQ, ctx)).rejects.not.toThrow(/approved-name/)
+  })
+})
+
+const kfQ: ConnectorQuery = {
+  range: { start: '2024-12-01T00:00:00Z', end: '2024-12-20T00:00:00Z' },
+  area: { label: 'Sudan' },
+  options: { location: 'sdn' },
+}
+const kfRecorded = (packageShow = fixture('hdx-package-show.json')) =>
+  recorded({
+    'humanitarian-needs': fixture('hdx-hapi-needs-sdn.json'),
+    'refugees-persons-of-concern': fixture('hdx-hapi-refugees-sdn.json'),
+    'affected-people/idps': fixture('hdx-hapi-idps-sdn.json'),
+    'coordination-context/funding': fixture('hdx-hapi-funding-sdn.json'),
+    'metadata/resource': fixture('hdx-hapi-resource.json'),
+    package_show: packageShow,
+  })
+
+describe('hdx-key-figures', () => {
+  it('builds four national queries on HAPI with the app identity and a ten-year window', () => {
+    const u = figuresUrls(kfQ)
+    const needs = new URL(u.needs)
+    expect(needs.host).toBe('hapi.humdata.org')
+    expect(needs.pathname).toBe('/api/v2/affected-people/humanitarian-needs')
+    expect(needs.searchParams.get('location_code')).toBe('SDN')
+    expect(needs.searchParams.get('admin_level')).toBe('0')
+    expect(needs.searchParams.get('start_date')).toBe('2015-01-01')
+    expect(needs.searchParams.get('end_date')).toBe('2024-12-31')
+    expect(new URL(u.refugees).searchParams.get('asylum_location_code')).toBe('SDN')
+    expect(new URL(u.funding).pathname).toBe('/api/v2/coordination-context/funding')
+    for (const url of Object.values(u))
+      expect(
+        Buffer.from(new URL(url).searchParams.get('app_identifier')!, 'base64').toString(),
+      ).toBe('ActionStations:help@actionstations.ai')
+  })
+
+  it('refuses a bad country and estimates without a request', () => {
+    expect(() => hdxKeyFigures.estimate({ ...kfQ, options: { location: 'Sudan' } })).toThrow(
+      /three-letter/,
+    )
+    const e = hdxKeyFigures.estimate(kfQ)
+    expect(e.items.map((i) => i.datasetId)).toEqual(['hdx-key-figures', 'hdx-key-figures-trend'])
+  })
+
+  it('summarises needs, refugees hosted, displacement and appeals for the year', async () => {
+    const { ctx, urls } = kfRecorded()
+    const out = await hdxKeyFigures.fetch(kfQ, ctx)
+    for (const u of urls)
+      expect(['hapi.humdata.org', 'data.humdata.org']).toContain(new URL(u).host)
+    const entries = JSON.parse(String(out.files[0]!.data)) as { title: string; text: string }[]
+    expect(TextFile.safeParse(entries).success).toBe(true)
+    expect(entries[0]!.title).toBe('People in need and targeted, SDN 2024')
+    expect(entries[0]!.text).toMatch(
+      /^All sectors: population 50,990,034, affected 28,928,873, in need 24,786,370, targeted 14,657,114, reached 14,000,000/,
+    )
+    expect(entries[0]!.text).toMatch(/Food Security: in need 19,325,222, targeted 11,409,615/)
+    expect(entries[1]!.text).toMatch(/refugees: 790,861/)
+    expect(entries[1]!.text).toMatch(/asylum seekers: 44,522/)
+    expect(entries[1]!.text).toMatch(/by origin: South Sudan 613,052, Eritrea 132,013/)
+    expect(entries[2]!.text).toBe(
+      'Armed Clashes in Sudan (Overview): 11,532,774 people, as of 2024-12-17',
+    )
+    expect(entries[3]!.text).toBe(
+      'Sudan Humanitarian Needs and Response Plan 2024 (Humanitarian needs and response plan): requirements US$2695.7 million, funding US$1889.3 million, 70% funded',
+    )
+    const trend = JSON.parse(String(out.files[1]!.data)) as {
+      t: string
+      v: Record<string, number>
+    }[]
+    expect(SeriesFile.safeParse(trend).success).toBe(true)
+    expect(trend.find((p) => p.t.startsWith('2023'))!.v.refugees_and_asylum_seekers).toBe(958_768)
+    expect(trend.find((p) => p.t.startsWith('2024'))!.v).toMatchObject({
+      people_in_need: 24_786_370,
+      requirements_usd: 2_695_680_744,
+    })
+    expect(out.citation).toMatch(/Licence read at fetch: Creative Commons/)
+    expect(out.citation).not.toMatch(/scenario only/)
+  })
+
+  it('marks the figures as scenario only when a licence is not open', async () => {
+    const { ctx } = kfRecorded(JSON.stringify({ result: { license_title: 'Other (not open)' } }))
+    const out = await hdxKeyFigures.fetch(kfQ, ctx)
+    expect(out.citation).toMatch(/Used in this scenario only; not exported in packs/)
+  })
+
+  it('says so when HAPI has no figures for the country', async () => {
+    const empty = JSON.stringify({ data: [] })
+    const { ctx } = recorded({
+      'humanitarian-needs': empty,
+      'refugees-persons-of-concern': empty,
+      'affected-people/idps': empty,
+      'coordination-context/funding': empty,
+    })
+    const out = await hdxKeyFigures.fetch(kfQ, ctx)
+    const entries = JSON.parse(String(out.files[0]!.data)) as { text: string }[]
+    expect(entries.map((e) => e.text)).toEqual([
+      'No response plan figures for SDN in HAPI.',
+      'No refugee figures for SDN as a host country in HAPI.',
+      'No national displacement figures for SDN in HAPI up to 2024-12-20.',
+      'No appeal for SDN in 2024 in HAPI.',
+    ])
+    expect(out.citation).toMatch(/scenario only/)
+  })
+})
+
+const awsdQ: ConnectorQuery = {
+  range: { start: '2024-04-15T00:00:00Z', end: '2024-05-15T00:00:00Z' },
+  area: { label: 'Sudan' },
+  options: { country: 'sd' },
+}
+
+describe('awsd-incident-counts', () => {
+  it('asks for one country on the fixed host, or the whole table without one', () => {
+    expect(awsdUrl(awsdQ)).toBe(
+      'https://www.aidworkersecurity.org/incidents/search?format=csv&country=SD',
+    )
+    expect(awsdUrl({ ...awsdQ, options: {} })).toBe(
+      'https://www.aidworkersecurity.org/incidents/search?format=csv',
+    )
+    expect(countryOf({ ...awsdQ, options: {} })).toBeUndefined()
+    expect(() => countryOf({ ...awsdQ, options: { country: 'SD&x=1' } })).toThrow(/two-letter/)
+    expect(yearsOf(awsdQ)).toEqual([2015, 2024])
+  })
+
+  it('estimates the download without a request', () => {
+    const e = awsdIncidentCounts.estimate(awsdQ)
+    expect(e.requests).toBe(1)
+    expect(e.items[0]!.label).toMatch(/downloads about 0.2 MB, keeps counts only/)
+    expect(awsdIncidentCounts.estimate({ ...awsdQ, options: {} }).items[0]!.label).toMatch(
+      /worldwide.*2.4 MB/,
+    )
+  })
+
+  it('keeps yearly counts only, never incident details', async () => {
+    const { ctx, urls } = recorded({ 'incidents/search': fixture('awsd-incidents-sd.csv') })
+    const out = await awsdIncidentCounts.fetch(awsdQ, ctx)
+    expect(urls.map((u) => new URL(u).host)).toEqual(['www.aidworkersecurity.org'])
+    const series = JSON.parse(String(out.files[0]!.data)) as {
+      t: string
+      v: Record<string, number>
+    }[]
+    expect(SeriesFile.safeParse(series).success).toBe(true)
+    expect(series).toHaveLength(10)
+    expect(series.find((p) => p.t.startsWith('2023'))!.v).toMatchObject({
+      incidents: 12,
+      killed: 9,
+    })
+    const summary = JSON.parse(String(out.files[1]!.data)) as { title: string; text: string }[]
+    expect(TextFile.safeParse(summary).success).toBe(true)
+    const y2024 = summary.find((s) => s.title === 'Aid worker security, Sudan, 2024')!
+    expect(y2024.text).toMatch(/^12 major incidents in Sudan in 2024, affecting 19 aid workers/)
+    expect(y2024.text).toMatch(/2 of these incidents are not yet verified/)
+    expect(summary[0]!.text).toBe(
+      'No major incidents affecting aid workers recorded in Sudan in 2015.',
+    )
+    const all = out.files.map((f) => String(f.data)).join('')
+    expect(all).not.toMatch(/details removed|Khartoum|Darfur/)
+    expect(out.modified).toMatch(/Incident details, places, coordinates and actor names left out/)
+  })
+
+  it('refuses a browser check page and explains a 403', async () => {
+    const page = '<!DOCTYPE html><title>Just a moment...</title>'
+    await expect(
+      awsdIncidentCounts.fetch(awsdQ, recorded({ 'incidents/search': page }).ctx),
+    ).rejects.toThrow(/expected incident table/)
+    await expect(
+      awsdIncidentCounts.fetch(awsdQ, recorded({ 'incidents/search': page }, 403).ctx),
+    ).rejects.toThrow(/browser check/)
   })
 })
