@@ -373,6 +373,80 @@ describe('DocumentsPage — add from pack (#265)', () => {
     expect(badge.parentElement?.textContent).toMatch(/License CC0-1\.0$/)
   })
 
+  it('shows a user-supplied document as needing your copy, then adds the checked file (#1101)', async () => {
+    let added = false
+    const replies = [
+      { ok: false, canceled: true },
+      {
+        ok: false,
+        message:
+          'This is not the file the library lists. Expected 4,458,346 bytes (4.5 MB); the chosen file is 12 bytes.',
+      },
+      { ok: true },
+    ]
+    const ttx = setup([makeDoc()], {
+      'packs:documents': () => [
+        {
+          ...packDoc(
+            'documents/pci-dss/pci-dss.pdf',
+            'PCI DSS v4.0.1',
+            'LicenseRef-Publisher-Terms',
+          ),
+          userSupplied: {
+            landing: 'https://www.pcisecuritystandards.org/document_library/',
+            getIt: 'Accept the PCI SSC License Agreement and download the PDF.',
+            size: 4_458_346,
+            added,
+          },
+        },
+      ],
+      'packs:addSuppliedDocument': () => {
+        const r = replies.shift()!
+        if (r.ok) added = true
+        return r
+      },
+    })
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: /Add from pack/ }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add documents from packs' })
+
+    // Not added yet: badge, where to get it, the publisher's page and the add button.
+    expect(within(dialog).getByText('Needs your copy')).toBeTruthy()
+    const box = within(dialog).getByRole('checkbox', { name: /PCI DSS v4\.0\.1/ })
+    expect((box as HTMLInputElement).disabled).toBe(true)
+    expect(box.getAttribute('aria-describedby')).toBeTruthy()
+    expect(dialog.textContent).toMatch(
+      /Get your own copy \(4\.5 MB\): Accept the PCI SSC License Agreement and download the PDF\./,
+    )
+    const page = within(dialog).getByRole('link', { name: "Open the publisher's page" })
+    expect(page.getAttribute('href')).toBe('https://www.pcisecuritystandards.org/document_library/')
+    expect(page.getAttribute('target')).toBe('_blank')
+
+    // Picker closed: nothing changes.
+    await user.click(within(dialog).getByRole('button', { name: 'Add the file…' }))
+    await waitFor(() => expect(ttx.calls('packs:addSuppliedDocument')).toHaveLength(1))
+    expect(ttx.calls('packs:addSuppliedDocument')[0]).toEqual({
+      packId: RAIL,
+      path: 'documents/pci-dss/pci-dss.pdf',
+    })
+    expect(within(dialog).queryByRole('alert')).toBeNull()
+
+    // Wrong file: the plain reason, still not addable.
+    await user.click(within(dialog).getByRole('button', { name: 'Add the file…' }))
+    expect((await within(dialog).findByRole('alert')).textContent).toMatch(
+      /Expected 4,458,346 bytes .* the chosen file is 12 bytes/,
+    )
+    expect((box as HTMLInputElement).disabled).toBe(true)
+
+    // The right file: the list refetches and the document can be added like the others.
+    await user.click(within(dialog).getByRole('button', { name: 'Add the file…' }))
+    expect(await within(dialog).findByText('Your copy')).toBeTruthy()
+    expect(within(dialog).queryByText('Needs your copy')).toBeNull()
+    expect(within(dialog).queryByRole('button', { name: 'Add the file…' })).toBeNull()
+    const ready = within(dialog).getByRole('checkbox', { name: /PCI DSS v4\.0\.1/ })
+    expect((ready as HTMLInputElement).disabled).toBe(false)
+  })
+
   it('hides the button when no enabled pack has documents', async () => {
     setup([makeDoc()], { 'packs:documents': () => [] })
     await screen.findAllByRole('button', { name: /Import documents/ })

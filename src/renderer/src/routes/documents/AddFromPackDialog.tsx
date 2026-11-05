@@ -1,14 +1,60 @@
 // "Add from pack" (#265): reference documents of the enabled packs, with title, source, license
 // and pack; the chosen files are copied into the project and ingested like any import.
+//
+// A document a library lists without its file (#1101) shows "Needs your copy" with where to get
+// it, a link to the publisher's page (opens in the browser) and "Add the file…": main checks the
+// chosen file against the pinned hash and keeps it on this computer, after which it can be added
+// like the others.
 import { useState } from 'react'
 import type { PackDocumentView } from '@shared/ipc/pack-documents'
-import { Button, Dialog } from '../../components/ui'
+import { Badge, Button, Dialog } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { useIpcMutation } from '../../lib/query'
 
 type Track = (jobId: string, targets: string[]) => void
 
 const keyOf = (d: PackDocumentView) => `${d.packId}\u0000${d.path}`
+
+const mb = (n: number) => `${(n / 1_000_000).toFixed(1)} MB`
+
+/** Where to get a user-supplied document, and the button that adds the downloaded file. */
+function NeedsYourCopy(props: { doc: PackDocumentView; describedBy: string }) {
+  const { doc } = props
+  const user = doc.userSupplied!
+  const [refused, setRefused] = useState<string>()
+  const supply = useIpcMutation('packs:addSuppliedDocument', { invalidates: ['packs:documents'] })
+  const addFile = async () => {
+    setRefused(undefined)
+    try {
+      const r = await supply.mutateAsync({ packId: doc.packId, path: doc.path })
+      if (r.ok) toast.info(`Your copy of ${doc.title} is added`)
+      else if (!r.canceled) setRefused(r.message ?? 'The file was not added.')
+    } catch (err) {
+      toast.error('Could not add the file', err)
+    }
+  }
+  return (
+    <div className="pack-doc__supply" id={props.describedBy}>
+      <p className="pack-doc__getit">
+        The publisher's terms do not let Action Stations include this document. Get your own copy (
+        {mb(user.size)}): {user.getIt}
+      </p>
+      <div className="pack-doc__actions">
+        <a className="btn btn--sm" href={user.landing} target="_blank" rel="noreferrer noopener">
+          Open the publisher's page
+        </a>
+        <Button size="sm" onClick={() => void addFile()} disabled={supply.isPending}>
+          Add the file…
+        </Button>
+      </div>
+      {refused && (
+        <p className="pack-doc__refused" role="alert">
+          {refused}
+        </p>
+      )}
+    </div>
+  )
+}
 
 function PackDocumentItem(props: {
   doc: PackDocumentView
@@ -18,27 +64,39 @@ function PackDocumentItem(props: {
   const { doc } = props
   const id = `pack-doc-${keyOf(doc).replace(/[^A-Za-z0-9_-]/g, '_')}`
   const added = !!doc.importedDocumentId
+  const needsCopy = !!doc.userSupplied && !doc.userSupplied.added
   return (
     <li className="pack-doc">
       <input
         id={id}
         type="checkbox"
         checked={props.checked}
-        disabled={added}
+        disabled={added || needsCopy}
         onChange={props.onToggle}
+        {...(needsCopy ? { 'aria-describedby': `${id}-supply` } : {})}
       />
-      <label htmlFor={id} className="pack-doc__body">
-        <span className="pack-doc__title">
+      <div className="pack-doc__body">
+        <label htmlFor={id} className="pack-doc__title">
           {doc.title}
           {added && <span className="muted"> (already in this project)</span>}
-        </span>
+        </label>
+        {doc.userSupplied && (
+          <span>
+            {needsCopy ? (
+              <Badge tone="warn">Needs your copy</Badge>
+            ) : (
+              <Badge tone="ok">Your copy</Badge>
+            )}
+          </span>
+        )}
         <span className="pack-doc__meta">
           {doc.bundled ? `Included: ${doc.packName}` : `${doc.packName} ${doc.packVersion}`} ·
           License {doc.license}
           {doc.source ? ` · Source: ${doc.source}` : ''}
         </span>
         {doc.description && <span className="pack-doc__desc">{doc.description}</span>}
-      </label>
+        {needsCopy && <NeedsYourCopy doc={doc} describedBy={`${id}-supply`} />}
+      </div>
     </li>
   )
 }

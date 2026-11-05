@@ -225,6 +225,74 @@ describe('buildLibraryPacks', () => {
     expect(readme).not.toContain('Every document here is a work of the United States federal')
   })
 
+  it('lists a user-supplied document by hash and never puts its file in the pack (#1101)', async () => {
+    const f = await fixture()
+    const STANDARD = Buffer.from('%PDF-1.7\n% a standard under its publisher license\n%%EOF\n')
+    // Even with the file in the cache (a maintainer checking the hash), the build leaves it out.
+    mkdirSync(join(f.cacheDir, 'card-standard'), { recursive: true })
+    writeFileSync(join(f.cacheDir, 'card-standard', 'card-standard.pdf'), STANDARD)
+    const manifest = DocumentsManifest.parse({
+      ...f.manifest,
+      documents: [
+        ...f.manifest.documents,
+        {
+          pack: 'freight-rail-library',
+          slug: 'card-standard',
+          file: 'card-standard.pdf',
+          title: 'Card data security standard',
+          publisher: 'Standards Council',
+          edition: 'v4.0.1',
+          url: 'https://example.org/standard.pdf',
+          landing: 'https://example.org/library',
+          sha256: sha256(STANDARD),
+          size: STANDARD.length,
+          license: 'LicenseRef-Publisher-Terms',
+          basis: 'Served after its license agreement is accepted. Read 2026-11-05',
+          supply: 'user',
+          getIt: 'Open the document library, accept the agreement and download the PDF.',
+        },
+      ],
+    })
+    const r = await buildLibraryPacks(manifest, opts(f))
+    expect(r.problems).toEqual([])
+    expect(r.packs[0]).toMatchObject({ documents: 3, userSupplied: ['card-standard'] })
+    const buf = readFileSync(join(f.outDir, r.packs[0]!.file))
+    const zip = await JSZip.loadAsync(buf)
+    expect(Object.keys(zip.files).filter((n) => n.includes('card-standard'))).toEqual([])
+    expect(buf.includes(STANDARD)).toBe(false)
+    const read = await readPack(
+      { buffer: buf },
+      {
+        appVersion: '0.3.0',
+        builtins: { templates: [], prompts: [], workflows: [], examples: [] },
+      },
+    )
+    expect(read.ok).toBe(true)
+    if (!read.ok) return
+    const m = read.pack.manifest
+    // Federal works only in the pack: the user-supplied one does not count toward the license.
+    expect(m.license).toBe('LicenseRef-US-Government-Work')
+    expect(m.contents.documents).not.toContain('card-standard')
+    expect(m.files.map((x) => x.path).filter((p) => p.includes('card-standard'))).toEqual([])
+    expect(m.userDocuments).toEqual([
+      {
+        path: 'documents/card-standard/card-standard.pdf',
+        title: 'Card data security standard',
+        source: 'Standards Council, https://example.org/library',
+        license: 'LicenseRef-Publisher-Terms',
+        description: expect.stringContaining('Edition: v4.0.1.'),
+        landing: 'https://example.org/library',
+        getIt: 'Open the document library, accept the agreement and download the PDF.',
+        sha256: sha256(STANDARD),
+        size: STANDARD.length,
+      },
+    ])
+    const readme = await zip.file('README.md')!.async('string')
+    expect(readme).toContain('## Add your own copy (1)')
+    expect(readme).toContain('| Card data security standard | Standards Council | v4.0.1 |')
+    expect(readme).toContain('Every document here is a work of the United States federal')
+  })
+
   it('is reproducible: the same cache gives the same archive bytes', async () => {
     const f = await fixture()
     const a = await buildLibraryPacks(f.manifest, opts(f))

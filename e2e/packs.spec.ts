@@ -190,6 +190,26 @@ const railPack = (version = '1.0.0') =>
     },
   })
 
+/** A standard the rail pack lists by hash only: each user adds their own copy (#1101). */
+const USER_DOC = '# Rail signal standard\n\nSignal aspects and their indications.\n'
+const railPackWithUserDocument = () =>
+  buildPack(undefined, {
+    manifest: (m) => {
+      m.userDocuments = [
+        {
+          path: 'documents/rail-signal-standard/rail-signal-standard.md',
+          title: 'Rail signal standard',
+          source: 'Signal Standards Board, https://127.0.0.1/library',
+          license: 'LicenseRef-Publisher-Terms',
+          landing: 'https://127.0.0.1/library',
+          getIt: 'Open the standards library, accept its license and download the file.',
+          sha256: sha256(Buffer.from(USER_DOC)),
+          size: Buffer.byteLength(USER_DOC),
+        },
+      ]
+    },
+  })
+
 async function openPacks(page: Page) {
   await goTo(page, '#/packs')
   await expect(page.getByRole('heading', { level: 1, name: 'Packs' })).toBeVisible()
@@ -311,7 +331,7 @@ test('a project uses the pack template and still renders it after the pack is un
   const dir = fresh('use')
   const p = await launchPacks('use')
   try {
-    await installByIpc(p.invoke, await writePack(dir, 'rail.aspack', railPack()))
+    await installByIpc(p.invoke, await writePack(dir, 'rail.aspack', railPackWithUserDocument()))
     const project = await newProject(p.invoke, 'Lakeshore Junction Railroad', 'heritage_rail')
     const scenario = await p.invoke<{ id: string; projectId: string }>('scenarios:create-empty', {
       projectPath: project.path,
@@ -362,7 +382,38 @@ test('a project uses the pack template and still renders it after the pack is un
     await expect(dialog.getByText('Railroad Emergency Response Plan (template)')).toBeVisible()
     await expect(dialog.getByText(/License CC0-1\.0/)).toBeVisible()
     await shot(p.page, 'documents-add-from-pack')
-    await dialog.getByRole('button', { name: 'Cancel' }).click()
+
+    // A document the pack lists without its file (#1101): the user adds their own copy.
+    const standard = dialog.getByRole('checkbox', { name: /Rail signal standard/ })
+    await expect(dialog.getByText('Needs your copy')).toBeVisible()
+    await expect(dialog.getByText(/accept its license and download the file/)).toBeVisible()
+    await expect(standard).toBeDisabled()
+    const wrong = join(dir, 'signal-standard-draft.md')
+    writeFileSync(wrong, '# Draft\n')
+    await stubOpenDialog(p.app, [wrong])
+    await dialog.getByRole('button', { name: 'Add the file…' }).click()
+    await expect(dialog.getByRole('alert')).toContainText(
+      `Expected ${Buffer.byteLength(USER_DOC)} bytes; the chosen file is 8 bytes`,
+    )
+    const right = join(dir, 'Rail Signal Standard.md')
+    writeFileSync(right, USER_DOC)
+    await stubOpenDialog(p.app, [right])
+    await dialog.getByRole('button', { name: 'Add the file…' }).click()
+    await expect(dialog.getByText('Your copy', { exact: true })).toBeVisible()
+    await expect(standard).toBeEnabled()
+    await standard.check()
+    await dialog.getByRole('button', { name: /^Add 1/ }).click()
+    await expect(dialog).toBeHidden()
+    await expect
+      .poll(
+        async () =>
+          (
+            await p.invoke<{ title: string; status: string }[]>('documents:list', {
+              projectPath: project.path,
+            })
+          ).find((d) => d.title === 'Rail signal standard')?.status,
+      )
+      .toBe('ok')
 
     await openPacks(p.page)
     await p.page.getByRole('button', { name: `Uninstall ${PACK_NAME}` }).click()

@@ -10,11 +10,13 @@
 // updating the pack changes nothing in the project.
 import type { DocumentMeta } from '@shared/schemas'
 import type { PackDocumentRef, PackDocumentView } from '@shared/ipc/pack-documents'
+import type { PackUserDocument } from '@shared/schemas/pack'
 import { AppError } from '../lib/errors'
 import { exists } from '../lib/fs'
 import { loadProject } from '../project/store'
 import { contentPacks, packById, packFilePath, type InstalledPack } from '../packs/layers'
 import { copyPackItem, copyPath, findCopy, forgetCopy } from '../packs/project-copies'
+import { hasSuppliedCopy, suppliedPath } from '../packs/supplied-documents'
 import { importSources, type ImportSource } from './pipeline'
 import { documentFiles } from './storage'
 
@@ -33,11 +35,13 @@ export function listPackDocuments(projectDocs: readonly DocumentMeta[] = []): Pa
       .filter((d) => d.source)
       .map((d) => [importedKey(d.source!.packId, d.source!.path), d.id]),
   )
-  return contentPacks().flatMap((pack) =>
-    [...pack.manifest.documents]
+  return contentPacks().flatMap((pack) => {
+    const supplied = new Map(pack.manifest.userDocuments.map((u) => [u.path, u]))
+    return [...pack.manifest.documents, ...pack.manifest.userDocuments]
       .sort((a, b) => a.path.localeCompare(b.path))
       .map((d) => {
         const importedDocumentId = imported.get(importedKey(pack.id, d.path))
+        const user = supplied.get(d.path)
         return {
           packId: pack.id,
           packVersion: pack.version,
@@ -50,9 +54,41 @@ export function listPackDocuments(projectDocs: readonly DocumentMeta[] = []): Pa
           license: d.license,
           ...(d.description ? { description: d.description } : {}),
           ...(importedDocumentId ? { importedDocumentId } : {}),
+          ...(user ? { userSupplied: userSuppliedView(user) } : {}),
         }
-      }),
-  )
+      })
+  })
+}
+
+const userSuppliedView = (u: PackUserDocument): NonNullable<PackDocumentView['userSupplied']> => ({
+  landing: u.landing,
+  getIt: u.getIt,
+  size: u.size,
+  added: hasSuppliedCopy(u),
+})
+
+/** A pack's user-supplied document by path, or NOT_FOUND. */
+export function userDocumentOf(ref: PackDocumentRef): {
+  pack: InstalledPack
+  doc: PackUserDocument
+} {
+  const pack = packById(ref.packId)
+  if (!pack) throw new AppError('NOT_FOUND', `Pack ${ref.packId} is not installed or is disabled`)
+  const doc = pack.manifest.userDocuments.find((d) => d.path === ref.path)
+  if (!doc) throw new AppError('NOT_FOUND', `${pack.name} lists no document to add at ${ref.path}`)
+  return { pack, doc }
+}
+
+/** Where an entry's bytes are: the pack folder, or the user's own copy of a listed document. */
+function entryFile(pack: InstalledPack, path: string): string {
+  const user = pack.manifest.userDocuments.find((d) => d.path === path)
+  if (!user) return packFilePath(pack, path)
+  if (!hasSuppliedCopy(user))
+    throw new AppError(
+      'NOT_FOUND',
+      `${user.title} needs your own copy: add the file you downloaded from the publisher first`,
+    )
+  return suppliedPath(user)
 }
 
 interface ResolvedRef {
@@ -65,14 +101,16 @@ interface ResolvedRef {
 function resolveRef(ref: PackDocumentRef): ResolvedRef {
   const pack = packById(ref.packId)
   if (!pack) throw new AppError('NOT_FOUND', `Pack ${ref.packId} is not installed or is disabled`)
-  const entry = pack.manifest.documents.find((d) => d.path === ref.path)
+  const entry = [...pack.manifest.documents, ...pack.manifest.userDocuments].find(
+    (d) => d.path === ref.path,
+  )
   if (!entry) throw new AppError('NOT_FOUND', `${pack.name} has no document ${ref.path}`)
   return {
     pack,
     path: ref.path,
     slug: slugOf(ref.path),
     source: {
-      path: packFilePath(pack, ref.path),
+      path: entryFile(pack, ref.path),
       meta: {
         title: entry.title,
         license: entry.license,

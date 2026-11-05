@@ -26,9 +26,10 @@ Facts below were checked on 2026-10-24 for the research dossier (`docs/research/
 
 The **Commercial facilities reference library** pack carries Nevada Gaming Commission Regulation 5.260 (cybersecurity) and the Scattered Spider advisory (AA23-320A, updated July 2025).
 
+**Add your own copy:** PCI DSS v4.0.1, PCI Security Standards Council. Its license agreement does not allow the standard to be passed on, so the library lists the exact file without it; download it from https://www.pcisecuritystandards.org/document_library/ after accepting the agreement, then add it in Action Stations (Documents, Add from pack, Add the file…), which checks it is the listed edition.
+
 These could not be carried, so the pack only names them:
 
-- PCI DSS v4.0.1, PCI Security Standards Council (the download needs a registration form and a license agreement): https://www.pcisecuritystandards.org/
 - NFPA 101 and NFPA 1, NFPA (sold): https://www.nfpa.org/
 - ASIS workplace violence and active assailant standard, ASIS International (sold): https://www.asisonline.org/
 - RH-ISAC reports (members only, behind a login): https://rhisac.org/

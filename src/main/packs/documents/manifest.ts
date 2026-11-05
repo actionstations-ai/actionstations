@@ -29,6 +29,14 @@ export type DocumentProcess = z.infer<typeof DocumentProcess>
 /** Extensions a fetched source file may have (the cache file keeps it). */
 export const SOURCE_EXTENSIONS = ['pdf', 'docx', 'pptx', 'xlsx', 'md', 'txt', 'zip'] as const
 
+/**
+ * How a library gets the file: `bundled` (default) puts it in the pack; `user` lists it by hash
+ * only, because its publisher's terms do not allow passing it on: each user downloads their own
+ * copy (`getIt`, `landing`) and adds it in the app, which checks it against `sha256` and `size`.
+ */
+export const DocumentSupply = z.enum(['bundled', 'user'])
+export type DocumentSupply = z.infer<typeof DocumentSupply>
+
 export const ManifestDocument = z
   .strictObject({
     /** The pack that carries it. */
@@ -56,6 +64,9 @@ export const ManifestDocument = z
     /** Who published it and what it states about its rights (factual). */
     basis: z.string().min(1).max(500),
     process: DocumentProcess.optional(),
+    supply: DocumentSupply.default('bundled'),
+    /** `supply: 'user'` only: where to go, what to accept and which file to download. */
+    getIt: z.string().min(1).max(1000).optional(),
     note: z.string().max(1000).optional(),
     /** Date the hash was pinned (YYYY-MM-DD). */
     pinned: z.iso.date().optional(),
@@ -90,6 +101,21 @@ export const ManifestDocument = z
         path: ['license'],
         message: `a core document must be ${BUNDLED_DOCUMENT_LICENSES.join(' or ')}`,
       })
+    if (d.supply === 'user') {
+      for (const [key, ok, message] of [
+        ['getIt', !!d.getIt, 'a user-supplied document needs getIt'],
+        ['landing', !!d.landing, 'a user-supplied document needs the landing page'],
+        ['sha256', !!d.sha256, 'a user-supplied document is pinned by sha256 and size'],
+        [
+          'pack',
+          d.pack !== 'core',
+          'the core pack ships in the installer: no user-supplied documents',
+        ],
+        ['process', !d.process, 'a user-supplied document is added as it is downloaded'],
+      ] as const)
+        if (!ok) ctx.addIssue({ code: 'custom', path: [key], message })
+    } else if (d.getIt)
+      ctx.addIssue({ code: 'custom', path: ['getIt'], message: 'getIt is for supply "user"' })
     if (d.alsoIn.includes(d.pack) || d.alsoIn.includes('core'))
       ctx.addIssue({
         code: 'custom',
@@ -164,6 +190,9 @@ export const libraryPacks = (m: DocumentsManifest): DocumentPackName[] =>
 /** The documents a pack carries (its own and the ones it shares). */
 export const documentsOf = (m: DocumentsManifest, pack: DocumentPackName): ManifestDocument[] =>
   m.documents.filter((d) => d.pack === pack || d.alsoIn.includes(pack))
+
+/** The document is listed by hash and each user adds their own copy. */
+export const isUserSupplied = (d: Pick<ManifestDocument, 'supply'>): boolean => d.supply === 'user'
 
 /** The links a pack README lists. */
 export const linksOf = (m: DocumentsManifest, pack: DocumentPackName): ManifestLink[] =>

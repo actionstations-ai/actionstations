@@ -145,6 +145,7 @@ function emptyManifest(id: string): PackManifest {
       toolkits: [],
     },
     documents: [],
+    userDocuments: [],
     files: [],
   }
 }
@@ -236,6 +237,7 @@ export function loadSourcePacks(
       domains: spec.domains,
       tags: spec.tags,
       contents: { ...base.contents, domains: domainIds },
+      userDocuments: [],
       files: a ? lazyFiles(a) : [],
     }
     return [

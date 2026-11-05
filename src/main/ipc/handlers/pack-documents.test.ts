@@ -16,6 +16,7 @@ import { basename, join, resolve } from 'node:path'
 import type { DocumentMeta } from '@shared/schemas'
 import { ProjectPacks } from '@shared/schemas/project-packs'
 import { buildPack, validPackTree } from '../../../../tests/fixtures/packs/build'
+import { createHash } from 'node:crypto'
 import { FakeIndex } from '../../../../tests/fixtures/ingest/fake-index'
 
 vi.mock('electron', () => ({
@@ -25,12 +26,14 @@ vi.mock('electron', () => ({
     getAppPath: () => process.cwd(),
     getPath: () => tmpdir(),
   },
-  BrowserWindow: { getAllWindows: () => [] },
+  BrowserWindow: { getAllWindows: () => [], getFocusedWindow: () => null },
   ipcMain: { handle: vi.fn() },
+  dialog: { showOpenDialog: vi.fn() },
 }))
 process.env.TTX_RESOURCES = resolve('.')
 process.env.TTX_APP_VERSION = '0.3.0'
 
+const electron = await import('electron')
 const { dispatch } = await import('../registry')
 const handlers = {
   ...(await import('./documents')).default,
@@ -130,6 +133,139 @@ describe('packs:documents', () => {
     ])
     await call('packs:setEnabled', { id: RAIL, enabled: false })
     expect(await installedDocuments()).toEqual([])
+  })
+})
+
+describe('user-supplied documents (#1101)', () => {
+  const STANDARD =
+    '# Card data security standard\n\nRequirement 8.4: multi-factor authentication.\n'
+  const USER = 'documents/card-standard/card-standard.md'
+  const digest = (s: string | Buffer) => createHash('sha256').update(s).digest('hex')
+  const ref = { packId: RAIL, path: USER }
+
+  async function installWithUserDocument(): Promise<void> {
+    const path = join(mkdtempSync(join(tmpdir(), 'ttx-packs-')), 'rail.aspack')
+    const buf = await buildPack(validPackTree(), {
+      manifest: (m) => {
+        m.userDocuments = [
+          {
+            path: USER,
+            title: 'Card data security standard',
+            source: 'Standards Council, https://example.org/library',
+            license: 'LicenseRef-Publisher-Terms',
+            landing: 'https://example.org/library',
+            getIt: 'Open the library, accept the agreement and download the file.',
+            sha256: digest(STANDARD),
+            size: Buffer.byteLength(STANDARD),
+          },
+        ]
+      },
+    })
+    writeFileSync(path, buf)
+    await call('packs:install', { path, source: { kind: 'file', name: basename(path) } })
+  }
+
+  /** The next file picker returns this file (or is closed). */
+  const pick = (file?: string) =>
+    vi
+      .mocked(electron.dialog.showOpenDialog)
+      .mockResolvedValueOnce(
+        (file
+          ? { canceled: false, filePaths: [file] }
+          : { canceled: true, filePaths: [] }) as never,
+      )
+
+  const writeTemp = (name: string, body: string): string => {
+    const p = join(mkdtempSync(join(tmpdir(), 'ttx-dl-')), name)
+    writeFileSync(p, body)
+    return p
+  }
+
+  const listed = async () =>
+    (await installedDocuments({ projectPath: root })).find(
+      (d) => (d as { path?: string }).path === USER,
+    ) as { userSupplied?: { added: boolean; getIt: string; landing: string; size: number } }
+
+  it("lists it as needing the user's copy, with where to get it", async () => {
+    await installWithUserDocument()
+    expect((await listed()).userSupplied).toEqual({
+      landing: 'https://example.org/library',
+      getIt: 'Open the library, accept the agreement and download the file.',
+      size: Buffer.byteLength(STANDARD),
+      added: false,
+    })
+    await expect(importAndWait([USER])).rejects.toThrow(/needs your own copy/)
+  })
+
+  it('refuses a file of another size, saying both sizes, and keeps nothing', async () => {
+    await installWithUserDocument()
+    pick(writeTemp('other.md', 'something else'))
+    const r = await call<{ ok: boolean; message?: string }>('packs:addSuppliedDocument', ref)
+    expect(r.ok).toBe(false)
+    expect(r.message).toMatch(
+      new RegExp(`Expected ${Buffer.byteLength(STANDARD)} bytes; the chosen file is 14 bytes`),
+    )
+    expect((await listed()).userSupplied?.added).toBe(false)
+    expect(
+      existsSync(
+        join(
+          process.env.TTX_USER_DATA!,
+          'supplied-documents',
+          digest(STANDARD),
+          'card-standard.md',
+        ),
+      ),
+    ).toBe(false)
+  })
+
+  it('refuses a file of the same size with other contents', async () => {
+    await installWithUserDocument()
+    pick(writeTemp('edited.md', STANDARD.replace('8.4', '9.9')))
+    const r = await call<{ ok: boolean; message?: string }>('packs:addSuppliedDocument', ref)
+    expect(r).toEqual({ ok: false, message: expect.stringMatching(/contents differ/) })
+  })
+
+  it('does nothing when the picker is closed', async () => {
+    await installWithUserDocument()
+    pick()
+    expect(await call('packs:addSuppliedDocument', ref)).toEqual({ ok: false, canceled: true })
+  })
+
+  it('keeps a matching copy, then imports and indexes it like any pack document', async () => {
+    await installWithUserDocument()
+    const downloaded = writeTemp('Card-Standard-v4.md', STANDARD)
+    pick(downloaded)
+    expect(await call('packs:addSuppliedDocument', ref)).toEqual({ ok: true })
+    expect((await listed()).userSupplied?.added).toBe(true)
+    const kept = join(
+      process.env.TTX_USER_DATA!,
+      'supplied-documents',
+      digest(STANDARD),
+      'card-standard.md',
+    )
+    expect(readFileSync(kept, 'utf8')).toBe(STANDARD)
+
+    const res = await importAndWait([USER])
+    const meta = (await loadProject(root)).documents.find((d) => d.id === res.documents[0]!.id)!
+    expect(meta).toMatchObject({
+      title: 'Card data security standard',
+      status: 'ok',
+      license: 'LicenseRef-Publisher-Terms',
+      source: { packId: RAIL, path: USER },
+    })
+    expect(
+      index.rows
+        .get(meta.id)!
+        .map((c) => c.text)
+        .join(' '),
+    ).toMatch(/multi-factor authentication/)
+  })
+
+  it('refuses a path the pack does not list as user-supplied', async () => {
+    await installWithUserDocument()
+    await expect(call('packs:addSuppliedDocument', { packId: RAIL, path: MD })).rejects.toThrow(
+      /lists no document to add/,
+    )
   })
 })
 

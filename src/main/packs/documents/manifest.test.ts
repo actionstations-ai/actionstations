@@ -103,6 +103,23 @@ describe('packs/documents/manifest.json', () => {
     )
   })
 
+  it('carries PCI DSS v4.0.1 in every library that named it, with no link left (#1101)', () => {
+    const pci = m.documents.find((d) => d.slug === 'pci-dss-v4-0-1')
+    expect(pci?.sha256).toMatch(/^[0-9a-f]{64}$/)
+    expect(pci?.license).toBe('LicenseRef-Publisher-Terms')
+    // Its license agreement does not allow passing it on: each user adds their own copy.
+    expect(pci?.supply).toBe('user')
+    expect(pci?.getIt).toMatch(/License Agreement/)
+    expect(pci?.landing).toMatch(/^https:\/\/www\.pcisecuritystandards\.org\//)
+    for (const p of [
+      'financial-services-library',
+      'commercial-facilities-library',
+      'stadium-venue-library',
+    ] as const)
+      expect(documentsOf(m, p).map((d) => d.slug)).toContain('pci-dss-v4-0-1')
+    expect(m.links.filter((l) => /PCI/.test(l.title))).toEqual([])
+  })
+
   it('states a technical reason for every reference it still only links (#1101)', () => {
     const terms =
       /copyright|owner decision|not a federal|public.domain status|not clearly a federal|state work|redistribution rights|license not|terms not/i
@@ -155,6 +172,32 @@ describe('DocumentsManifest schema', () => {
     expect(issues(manifest([doc({ process: 'strip-cover' })]))).toContain(
       'strip-cover works on .docx only',
     )
+  })
+
+  it('needs getIt, a landing page and a pinned hash for a user-supplied document (#1101)', () => {
+    const user = {
+      supply: 'user',
+      license: 'LicenseRef-Publisher-Terms',
+      landing: 'https://example.org/library',
+      getIt: 'Accept the agreement and download the PDF.',
+    } as const
+    expect(issues(manifest([doc(user)]))).toEqual([])
+    expect(issues(manifest([doc({ ...user, getIt: undefined })]))).toContain(
+      'a user-supplied document needs getIt',
+    )
+    expect(issues(manifest([doc({ ...user, landing: undefined })]))).toContain(
+      'a user-supplied document needs the landing page',
+    )
+    expect(issues(manifest([doc({ ...user, sha256: null, size: null })]))).toContain(
+      'a user-supplied document is pinned by sha256 and size',
+    )
+    expect(
+      issues(manifest([doc({ ...user, pack: 'core', license: 'LicenseRef-US-Government-Work' })])),
+    ).toContain('the core pack ships in the installer: no user-supplied documents')
+    expect(issues(manifest([doc({ getIt: 'Download it.' })]))).toContain(
+      'getIt is for supply "user"',
+    )
+    expect(DocumentsManifest.parse(manifest([doc()])).documents[0]?.supply).toBe('bundled')
   })
 
   it('pins sha256 and size together', () => {

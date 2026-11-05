@@ -8,10 +8,20 @@
 // `<cache>/inbox/` under any name; a file there whose sha256 matches a document is moved into
 // place. With `pin`, documents that have no hash yet (or are named in `repin`) take the fetched
 // file's sha256 and size, and the caller writes the manifest back.
+//
+// A user-supplied document (`supply: 'user'`, #1101) is never downloaded: its publisher's terms
+// do not allow passing it on, so the libraries list it by hash and each user adds their own copy
+// in the app. The fetcher only reports one already in the cache or the inbox (for checking the
+// pinned hash) and otherwise skips it with status `user`, which never fails the run.
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { cachePath, type DocumentsManifest, type ManifestDocument } from './manifest'
+import {
+  cachePath,
+  isUserSupplied,
+  type DocumentsManifest,
+  type ManifestDocument,
+} from './manifest'
 
 export const BROWSER_HEADERS: Readonly<Record<string, string>> = {
   'User-Agent':
@@ -29,6 +39,7 @@ export type FetchStatus =
   | 'mismatch' // downloaded, hash differs: refused
   | 'unpinned' // no hash in the manifest and pin mode is off: not written
   | 'failed' // every URL failed
+  | 'user' // user-supplied, not in the cache or inbox: skipped, never downloaded
 
 export interface FetchResult {
   slug: string
@@ -176,6 +187,7 @@ async function fetchOne(
     if (doc.sha256 === hash && !repin) return { ...seen, status: 'cached' }
     // A file placed in the cache by hand pins like a download.
     if (opts.pin && (doc.sha256 === null || repin)) return { ...seen, status: 'pinned' }
+    if (isUserSupplied(doc)) return { ...seen, status: 'user' }
     if (opts.offline) return { ...seen, status: doc.sha256 === null ? 'unpinned' : 'mismatch' }
   }
   if (doc.sha256 && inbox.has(doc.sha256)) {
@@ -192,6 +204,7 @@ async function fetchOne(
       errors: [],
     }
   }
+  if (isUserSupplied(doc)) return { slug: doc.slug, status: 'user', errors: [] }
   if (opts.offline) return { slug: doc.slug, status: 'failed', errors: ['offline'] }
   const errors: string[] = []
   for (const url of [doc.url, ...doc.mirrors]) {

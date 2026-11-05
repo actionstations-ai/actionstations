@@ -2,7 +2,7 @@
 // screen and the import that copies chosen files into the project through the ingest pipeline.
 import { z } from 'zod'
 import { channel } from './define'
-import { SafeId } from '../schemas/common'
+import { HttpUrl, SafeId } from '../schemas/common'
 import { PackId, PackPath, SemVer } from '../schemas/pack'
 import { DocumentMeta } from '../schemas/project'
 
@@ -23,6 +23,18 @@ export const PackDocumentView = z.object({
   description: z.string().optional(),
   /** With projectPath: the project document already imported from this pack file. */
   importedDocumentId: SafeId.optional(),
+  /**
+   * The pack lists the document without its file (#1101): the user downloads their own copy
+   * from `landing` and adds it; `added` once a copy with the pinned hash is on this computer.
+   */
+  userSupplied: z
+    .object({
+      landing: HttpUrl,
+      getIt: z.string(),
+      size: z.number().int().positive(),
+      added: z.boolean(),
+    })
+    .optional(),
 })
 export type PackDocumentView = z.infer<typeof PackDocumentView>
 
@@ -42,5 +54,18 @@ export const packDocumentChannels = {
       documents: z.array(PackDocumentRef).min(1).max(200),
     }),
     z.object({ jobId: SafeId, documents: z.array(DocumentMeta) }),
+  ),
+  /**
+   * Add the user's own copy of a user-supplied pack document (#1101): main opens a file picker,
+   * checks the chosen file's size and sha256 against the pack and keeps a copy on this computer.
+   * `canceled` when the picker was closed; `message` says why a file was refused.
+   */
+  'packs:addSuppliedDocument': channel(
+    PackDocumentRef,
+    z.object({
+      ok: z.boolean(),
+      canceled: z.boolean().optional(),
+      message: z.string().optional(),
+    }),
   ),
 }

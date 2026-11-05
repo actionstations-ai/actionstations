@@ -152,6 +152,12 @@ So that a project keeps working when a pack is updated, disabled or uninstalled,
 
   ![Adding documents from a pack](images/packs/documents-add-from-pack.png)
 
+  **Documents you add your own copy of.** Some publishers' standards cannot be shipped with Action Stations: their license lets you download and use a copy, but not pass it on. A reference library lists such a document by its exact file (size and fingerprint) without the file itself, for example PCI DSS v4.0.1 in the financial services, commercial facilities and stadium and venue libraries. In **Add from pack…** it shows **Needs your copy**, says where to get it and what to accept, and has two buttons:
+  1. **Open the publisher's page** opens the download page in your browser. Accept the publisher's agreement there yourself and download the file named in the instructions.
+  2. **Add the file…** lets you choose the downloaded file. The app checks that it is exactly the edition the library lists. If it is not (another edition, or a damaged download), it says so with the expected and the actual size and keeps nothing; download it again and choose that file.
+
+  Once your copy is added, the document shows **Your copy** and you can tick it and add it to any project like the others: it opens, is searchable and is indexed the same way. Your copy is kept on this computer only, for every library that lists it, and never leaves it. As with any document you add, the project folder holds its own copy of it.
+
 - **Example projects**: opening an example copies it, as for the built-in examples.
 
 Each copy is recorded in `<project>/packs.json` with the pack, version and file hashes. A copy shows a badge such as **From Freight Rail Operations 1.0.0**, plus:

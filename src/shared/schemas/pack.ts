@@ -414,6 +414,23 @@ export const PackDocument = z.object({
 })
 export type PackDocument = z.infer<typeof PackDocument>
 
+/**
+ * A reference document the pack lists but does not carry (#1101): its publisher's terms do not
+ * allow it to be passed on, so each user downloads their own copy from `landing` and adds it.
+ * The app accepts the file only when its sha256 and size match; it then reads like any of the
+ * pack's documents on that computer. `path` (documents/<slug>/<file>) names it and is not in
+ * `files`.
+ */
+export const PackUserDocument = PackDocument.extend({
+  /** The publisher's page to download it from. */
+  landing: HttpUrl,
+  /** Plain text: where to go, what to accept and which file to download. */
+  getIt: z.string().min(1).max(1000),
+  sha256: Sha256Hex,
+  size: z.number().int().positive().max(PACK_LIMITS.maxFileBytes),
+})
+export type PackUserDocument = z.infer<typeof PackUserDocument>
+
 /** Files each item must have, relative to its folder (or the flat file names). */
 function requiredFiles(kind: PackKind, id: string): string[] {
   switch (kind) {
@@ -509,6 +526,29 @@ function checkContents(m: { contents: PackContents; files: PackFile[] }, ctx: Ct
     })
 }
 
+function checkUserDocuments(
+  m: { files: PackFile[]; documents: PackDocument[]; userDocuments: PackUserDocument[] },
+  ctx: Ctx,
+): void {
+  const taken = new Set([...m.files, ...m.documents].map((f) => f.path.toLowerCase()))
+  for (const [i, d] of m.userDocuments.entries()) {
+    const c = classifyPackPath(d.path)
+    if ('error' in c || c.root || c.kind !== 'documents')
+      ctx.addIssue({
+        code: 'custom',
+        path: ['userDocuments', i, 'path'],
+        message: 'error' in c ? c.error : 'User-supplied document paths start with documents/',
+      })
+    if (taken.has(d.path.toLowerCase()))
+      ctx.addIssue({
+        code: 'custom',
+        path: ['userDocuments', i, 'path'],
+        message: `"${d.path}" is a file of the pack or listed twice; a user-supplied document is not in the pack`,
+      })
+    taken.add(d.path.toLowerCase())
+  }
+}
+
 function checkDocuments(
   m: { contents: PackContents; files: PackFile[]; documents: PackDocument[] },
   ctx: Ctx,
@@ -576,6 +616,8 @@ export const PackManifestShape = z.object({
   tags: z.array(PackTag).max(20).default([]),
   contents: PackContents,
   documents: z.array(PackDocument).max(PACK_LIMITS.maxFiles).default([]),
+  /** Documents each user adds their own copy of (#1101); not in `files`. */
+  userDocuments: z.array(PackUserDocument).max(500).default([]),
   files: z.array(PackFile).min(1).max(PACK_LIMITS.maxFiles),
 })
 
@@ -584,6 +626,7 @@ export const PackManifest = PackManifestShape.superRefine((m, ctx) => {
   checkFiles(m.files, m.contents, ctx)
   checkContents(m, ctx)
   checkDocuments(m, ctx)
+  checkUserDocuments(m, ctx)
   checkFormatVersion(m, ctx)
 })
 export type PackManifest = z.infer<typeof PackManifest>
