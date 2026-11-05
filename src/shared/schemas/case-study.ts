@@ -259,6 +259,8 @@ export const CaseStudyRun = z.object({
   learner: Text(80).optional(),
   /** The learner saw the privacy note and the content notice before starting. */
   acknowledged: z.boolean(),
+  /** The author is trying a case that is still a draft; preview runs are never counted. */
+  preview: z.boolean().default(false),
   startedAt: IsoDateTime,
   finishedAt: IsoDateTime.optional(),
   stageId: SafeId,

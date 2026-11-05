@@ -3,6 +3,7 @@ import {
   MapPinned,
   Clapperboard,
   CloudLightning,
+  ClipboardList,
   FileDiff,
   FileStack,
   FileText,
@@ -45,4 +46,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   maps: MapPinned,
   hazards: CloudLightning,
   classroom: GraduationCap,
+  'case-studies': ClipboardList,
 }

@@ -52,6 +52,7 @@ import { mediaConfirmChannels, MediaConfirmNeededEvent } from './media-confirm'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
+export { CASE_TRAJECTORY_KINDS, IdentifierWarning, PlayView } from './case-study'
 import type { ChannelDef } from './define'
 export { JobLogEntry } from './jobs'
 export { HistoryEntry } from './scenario'
@@ -157,7 +158,7 @@ type UnionToIntersection<U> = (U extends unknown ? (x: U) => void : never) exten
   ? I
   : never
 
-export const channels = mergeChannels(
+const channelGroups: Record<string, ChannelDef>[] = [
   appChannels,
   projectChannels,
   documentChannels,
@@ -205,7 +206,59 @@ export const channels = mergeChannels(
   classroomDashboardChannels,
   caseStudyChannels,
   mediaConfirmChannels,
-)
+]
+
+// Named, so the declaration of `channels` stays short however many channels there are.
+type AllChannels = UnionToIntersection<
+  | typeof appChannels
+  | typeof projectChannels
+  | typeof documentChannels
+  | typeof providerChannels
+  | typeof promptChannels
+  | typeof generateChannels
+  | typeof jobChannels
+  | typeof scenarioChannels
+  | typeof injectChannels
+  | typeof renderChannels
+  | typeof comfyChannels
+  | typeof exportChannels
+  | typeof facilitatorChannels
+  | typeof evaluationChannels
+  | typeof trackerChannels
+  | typeof exampleChannels
+  | typeof domainChannels
+  | typeof packChannels
+  | typeof templateChannels
+  | typeof packDocumentChannels
+  | typeof packExportChannels
+  | typeof setupChannels
+  | typeof updateChannels
+  | typeof surveyChannels
+  | typeof groundingChannels
+  | typeof aarChannels
+  | typeof privacyChannels
+  | typeof complianceChannels
+  | typeof liveChannels
+  | typeof liveRoomChannels
+  | typeof hotwashChannels
+  | typeof programChannels
+  | typeof redlineChannels
+  | typeof microDrillChannels
+  | typeof regionalChannels
+  | typeof translateChannels
+  | typeof simcellChannels
+  | typeof mapsChannels
+  | typeof hazardChannels
+  | typeof toolkitChannels
+  | typeof prepChannels
+  | typeof caseDataChannels
+  | typeof classroomChannels
+  | typeof classroomScoringChannels
+  | typeof classroomDashboardChannels
+  | typeof caseStudyChannels
+  | typeof mediaConfirmChannels
+>
+export const channels = mergeChannels(...channelGroups) as unknown as AllChannels
 
 export type Channels = typeof channels
 export type Channel = keyof Channels
