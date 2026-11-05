@@ -57,6 +57,18 @@ export function runCost(run: StageRun): string {
   return run.costUsd && run.costUsd > 0 ? formatUsd(run.costUsd) : ''
 }
 
+/**
+ * What the cost column shows: the cost when the provider reported one, "price not set" when
+ * tokens were used but no price is known (a hosted service without prices in its Advanced
+ * settings), nothing otherwise. Local providers record 0 and stay silent.
+ */
+export function runCostText(run: StageRun): string {
+  const cost = runCost(run)
+  if (cost) return cost
+  const usedTokens = (run.inputTokens ?? 0) + (run.outputTokens ?? 0) > 0
+  return run.costUsd === undefined && usedTokens ? 'price not set' : ''
+}
+
 /** Sum of the runs' reported costs ('' when none reported one). */
 export function totalCost(runs: StageRun[]): string {
   const sum = runs.reduce((n, r) => n + (r.costUsd && r.costUsd > 0 ? r.costUsd : 0), 0)

@@ -325,7 +325,21 @@ function parseLine(line: string, vendor: string): unknown {
   }
 }
 
-/** Join a base URL and a path without doubling or dropping slashes. */
+/**
+ * Join a base URL and a path without doubling or dropping slashes. Query strings on either
+ * side are kept and merged (Azure OpenAI's `api-version` lives on the base URL).
+ */
 export function joinUrl(base: string, path: string): string {
-  return `${base.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`
+  const [baseHead = '', baseQuery = ''] = splitQuery(base)
+  const [pathHead = '', pathQuery = ''] = splitQuery(path)
+  const query = [baseQuery, pathQuery].filter(Boolean).join('&')
+  const url = `${baseHead.replace(/\/+$/, '')}/${pathHead.replace(/^\/+/, '')}`
+  return query ? `${url}?${query}` : url
+}
+
+function splitQuery(url: string): [string, string] {
+  const hash = url.indexOf('#')
+  const clean = hash < 0 ? url : url.slice(0, hash)
+  const q = clean.indexOf('?')
+  return q < 0 ? [clean, ''] : [clean.slice(0, q), clean.slice(q + 1)]
 }

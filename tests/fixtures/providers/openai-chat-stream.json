@@ -1,0 +1,6 @@
+{
+  "name": "openai-chat-stream",
+  "status": 200,
+  "contentType": "text/event-stream",
+  "body": "data: {\"id\": \"chatcmpl-1\", \"object\": \"chat.completion.chunk\", \"model\": \"gpt-6.1-terra\", \"choices\": [{\"index\": 0, \"delta\": {\"role\": \"assistant\", \"content\": \"\"}, \"finish_reason\": null}]}\n\ndata: {\"id\": \"chatcmpl-1\", \"object\": \"chat.completion.chunk\", \"model\": \"gpt-6.1-terra\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \"The exercise \"}, \"finish_reason\": null}]}\n\ndata: {\"id\": \"chatcmpl-1\", \"object\": \"chat.completion.chunk\", \"model\": \"gpt-6.1-terra\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \"begins at STARTEX.\"}, \"finish_reason\": null}]}\n\ndata: {\"id\": \"chatcmpl-1\", \"object\": \"chat.completion.chunk\", \"model\": \"gpt-6.1-terra\", \"choices\": [{\"index\": 0, \"delta\": {}, \"finish_reason\": \"stop\"}]}\n\ndata: {\"id\": \"chatcmpl-1\", \"object\": \"chat.completion.chunk\", \"model\": \"gpt-6.1-terra\", \"choices\": [], \"usage\": {\"prompt_tokens\": 20, \"completion_tokens\": 8, \"total_tokens\": 28}}\n\ndata: [DONE]\n\n"
+}

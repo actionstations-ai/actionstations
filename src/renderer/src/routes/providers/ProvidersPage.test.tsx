@@ -143,6 +143,105 @@ describe('ProvidersPage', () => {
     expect(document.body.innerHTML).not.toContain(KEY)
   })
 
+  it('lists the hosted services, each filling the address, model and cloud options', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    const type = within(dialog).getByLabelText('Type') as HTMLSelectElement
+    const labels = Array.from(type.options).map((o) => o.text)
+    for (const name of [
+      'OpenAI',
+      'Google Gemini',
+      'OpenRouter',
+      'Mistral',
+      'Groq',
+      'DeepSeek',
+      'xAI',
+      'Together AI',
+      'Azure OpenAI',
+      'OpenAI-compatible',
+    ])
+      expect(labels).toContain(name)
+
+    await user.selectOptions(type, 'gemini')
+    expect((within(dialog).getByLabelText('Base URL') as HTMLInputElement).value).toBe(
+      'https://generativelanguage.googleapis.com/v1beta/openai/',
+    )
+    expect((within(dialog).getByLabelText('Default model') as HTMLInputElement).value).not.toBe('')
+
+    await user.selectOptions(type, 'openai')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    expect(within(dialog).getByText('This provider needs an API key.')).toBeTruthy()
+    await user.type(within(dialog).getByLabelText('API key'), 'sk-test-0000000000')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    const sent = ttx.calls('providers:upsert')[0] as { config: Record<string, any> } // eslint-disable-line @typescript-eslint/no-explicit-any
+    expect(sent.config).toMatchObject({
+      kind: 'openai-compatible',
+      baseUrl: 'https://api.openai.com/v1',
+      options: {
+        preset: 'openai',
+        network: 'remote',
+        modelProfile: 'off',
+        maxTokensParam: 'max_completion_tokens',
+      },
+    })
+  })
+
+  it('saves prices, the Azure api-version and the JSON mode from Advanced', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'azure-openai')
+    expect(within(dialog).getByLabelText('Default model')).toHaveProperty(
+      'placeholder',
+      'Your deployment name',
+    )
+    await user.click(within(dialog).getByRole('button', { name: 'Advanced' }))
+    await user.type(within(dialog).getByLabelText(/Input price/), '1.25')
+    await user.type(within(dialog).getByLabelText(/Output price/), '10')
+    await user.type(within(dialog).getByLabelText(/Price per image/), '0.04')
+    await user.type(within(dialog).getByLabelText('API version'), '2024-10-21')
+    await user.selectOptions(within(dialog).getByLabelText('JSON mode'), 'json_object')
+    await user.type(within(dialog).getByLabelText('API key'), 'azure-key-0000')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    expect(ttx.calls('providers:upsert')[0]).toMatchObject({
+      config: {
+        options: {
+          preset: 'azure-openai',
+          auth: 'api-key',
+          network: 'remote',
+          inputUsdPerMTok: 1.25,
+          outputUsdPerMTok: 10,
+          mediaUsdPerCall: 0.04,
+          apiVersion: '2024-10-21',
+          jsonMode: 'json_object',
+        },
+      },
+    })
+  })
+
+  it('refuses a price that is not a number, or only one of the two token prices', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'openai')
+    await user.type(within(dialog).getByLabelText('API key'), 'sk-test-0000000000')
+    await user.click(within(dialog).getByRole('button', { name: 'Advanced' }))
+    await user.type(within(dialog).getByLabelText(/Input price/), 'cheap')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    expect(within(dialog).getByText('Enter a price in US dollars, such as 1.25.')).toBeTruthy()
+    await user.clear(within(dialog).getByLabelText(/Input price/))
+    await user.type(within(dialog).getByLabelText(/Input price/), '2')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    expect(within(dialog).getByText('Enter both prices, or leave both empty.')).toBeTruthy()
+    expect(ttx.calls('providers:upsert')).toHaveLength(0)
+  })
+
   it('detects local services and adds LM Studio with a chat model as default', async () => {
     const ttx = setup()
     const user = userEvent.setup()

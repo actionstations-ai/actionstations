@@ -40,7 +40,35 @@ const BASE_URL_REQUIRED = new Set<ProviderConfig['kind']>([
   'ollama',
   'comfyui',
 ])
-const KEYLIKE_OPTION = /key|token|secret|password|authorization/i
+/**
+ * Option names that hold a credential: anything ending in key, secret, password or credential
+ * (apiKey, accessKey, key), a header that carries one (Authorization, api-key, x-api-key), or a
+ * token name (accessToken, token). maxTokensParam and similar counters are fine.
+ */
+const SECRET_OPTION_NAME =
+  /(key|secret|password|passwd|credentials?)$|^(authorization|proxy-authorization|cookie|token)$|(access|auth|bearer|api|refresh|secret|session|id)[-_]?token$/i
+/** A value that is itself a key: a vendor "sk-" key or a Bearer/Basic credential. */
+const SECRET_VALUE = /\b(sk-[A-Za-z0-9_-]{8,}|(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]{8,})/
+
+/**
+ * The first option that looks like a credential, by its name or its value, at any depth
+ * (options.headers is an object of header names and values). Returned as a dotted path.
+ */
+export function credentialLikeOption(
+  options: Record<string, unknown>,
+  prefix = '',
+): string | undefined {
+  for (const [k, v] of Object.entries(options)) {
+    const path = `${prefix}${k}`
+    if (SECRET_OPTION_NAME.test(k)) return path
+    if (typeof v === 'string' && SECRET_VALUE.test(v)) return path
+    if (v && typeof v === 'object' && !Array.isArray(v)) {
+      const inner = credentialLikeOption(v as Record<string, unknown>, `${path}.`)
+      if (inner) return inner
+    }
+  }
+  return undefined
+}
 
 async function toView(config: ProviderConfig): Promise<ProviderView> {
   return ProviderView.parse({ ...config, hasKey: await hasSecret(config.id) })
@@ -59,7 +87,7 @@ export function newProviderId(label: string): string {
 function validateConfig(config: Omit<ProviderConfig, 'id'>): void {
   if (BASE_URL_REQUIRED.has(config.kind) && !config.baseUrl)
     throw new AppError('VALIDATION', `A base URL is required for ${config.kind} providers`)
-  const keyLike = Object.keys(config.options).find((k) => KEYLIKE_OPTION.test(k))
+  const keyLike = credentialLikeOption(config.options)
   if (keyLike)
     throw new AppError(
       'VALIDATION',

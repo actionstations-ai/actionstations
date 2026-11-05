@@ -10,7 +10,7 @@ import { joinUrl, requestJson } from '../../http'
 import { assertLocalSpeechProvider } from '../../speech/local-only'
 import { seekLoop } from '../../speech/windows'
 import type { SpeechToTextProvider, TranscribeJob, TranscribeProgress } from '../../types'
-import { VENDOR, apiBase, authHeaders } from './chat'
+import { VENDOR, apiBaseOf, authHeaders } from './chat'
 
 /** verbose_json from OpenAI-style servers; plain `text` when segments are missing. */
 interface TranscriptionResponse {
@@ -44,7 +44,7 @@ export class OpenAiCompatibleTranscriber implements SpeechToTextProvider {
 
   private url(path: string): string {
     assertLocalSpeechProvider(this.config)
-    return joinUrl(apiBase(this.config.baseUrl), path)
+    return joinUrl(apiBaseOf(this.config), path)
   }
 
   async listModels(signal?: AbortSignal): Promise<ModelInfo[]> {
