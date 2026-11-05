@@ -6,8 +6,8 @@ import { randomUUID } from 'node:crypto'
 import { BrowserWindow } from 'electron'
 import type { MediaConfirmNeededEvent, MediaConfirmProvider } from '@shared/ipc/media-confirm'
 import { providerHost, isRemoteProvider } from '@shared/provider-network'
-import type { Inject, MediaBrief, ProviderConfig } from '@shared/schemas'
-import type { RenderPath } from '@shared/taxonomy'
+import type { Inject, ProviderConfig } from '@shared/schemas'
+import { injectTypeInfo, type RenderPath } from '@shared/taxonomy'
 import { AppError } from '../../lib/errors'
 import { emit } from '../../lib/events'
 import { getSettings, updateSettings } from '../../settings/store'
@@ -19,15 +19,36 @@ const TASK_OF_PATH: Partial<Record<RenderPath, MediaTask>> = {
   ai_video: 'video',
 }
 
-/** The media tasks one inject's render will call: the brief's paths, narrowed to `only`. */
-export function tasksForInject(brief: MediaBrief | undefined, only?: RenderPath[]): MediaTask[] {
-  const paths = brief ? (only ? brief.paths.filter((p) => only.includes(p)) : brief.paths) : only
-  return (paths ?? []).flatMap((p) => TASK_OF_PATH[p] ?? [])
+/** One media call a batch may make; `upTo` when the inject has no media plan yet. */
+export interface PlannedCall {
+  task: MediaTask
+  upTo: boolean
 }
 
-/** Every call a batch plans, from the stored briefs (an inject without a brief counts `only`). */
-export function plannedTasks(injects: Inject[], only?: RenderPath[]): MediaTask[] {
-  return injects.flatMap((i) => tasksForInject(i.mediaBrief, only))
+/**
+ * The paths an inject without a plan could get: what its type renders, plus an image (a
+ * template with an image slot adds one), narrowed to `only` when the run names paths.
+ */
+function possiblePaths(type: string, only?: RenderPath[]): RenderPath[] {
+  const paths = new Set<RenderPath>([...(injectTypeInfo(type)?.render ?? []), 'ai_image'])
+  return [...paths].filter((p) => !only || only.includes(p))
+}
+
+/** The media calls one inject's render will make: exact from its plan, else an upper bound. */
+export function callsForInject(inject: Inject, only?: RenderPath[]): PlannedCall[] {
+  const brief = inject.mediaBrief
+  const upTo = !brief
+  const paths = brief
+    ? only
+      ? brief.paths.filter((p) => only.includes(p))
+      : brief.paths
+    : possiblePaths(inject.type, only)
+  return paths.flatMap((p) => (TASK_OF_PATH[p] ? [{ task: TASK_OF_PATH[p]!, upTo }] : []))
+}
+
+/** Every call a batch may make. */
+export function plannedCalls(injects: Inject[], only?: RenderPath[]): PlannedCall[] {
+  return injects.flatMap((i) => callsForInject(i, only))
 }
 
 export type PaidTargets = Partial<Record<MediaTask, ProviderConfig>>
@@ -50,9 +71,9 @@ const cents = (usd: number): number => Math.round(usd * 100) / 100
  * providers and tasks without a provider are left out. The estimate is present only when every
  * planned call of that provider has a price.
  */
-export function countPaidCalls(tasks: MediaTask[], targets: PaidTargets): MediaConfirmProvider[] {
+export function countPaidCalls(calls: PlannedCall[], targets: PaidTargets): MediaConfirmProvider[] {
   const byProvider = new Map<string, MediaConfirmProvider & { priced: boolean; sum: number }>()
-  for (const task of tasks) {
+  for (const { task, upTo } of calls) {
     const config = targets[task]
     if (!config || !isPaidMedia(config)) continue
     let entry = byProvider.get(config.id)
@@ -68,12 +89,14 @@ export function countPaidCalls(tasks: MediaTask[], targets: PaidTargets): MediaC
       byProvider.set(config.id, entry)
     }
     entry.counts[task] += 1
+    if (upTo) entry.upTo = true
     const price = priceOf(config, task)
     if (price === undefined) entry.priced = false
     else entry.sum += price
   }
-  return [...byProvider.values()].map(({ priced, sum, ...p }) => ({
+  return [...byProvider.values()].map(({ priced, sum, upTo, ...p }) => ({
     ...p,
+    ...(upTo ? { upTo: true } : {}),
     ...(priced ? { estimateUsd: cents(sum) } : {}),
   }))
 }
@@ -85,6 +108,8 @@ export function providersToAsk(
 ): MediaConfirmProvider[] {
   return providers.filter((p) => !skip.includes(p.providerId))
 }
+
+export const anyUpTo = (providers: MediaConfirmProvider[]): boolean => providers.some((p) => p.upTo)
 
 export function totalEstimate(providers: MediaConfirmProvider[]): number | undefined {
   if (!providers.length || providers.some((p) => p.estimateUsd === undefined)) return undefined
@@ -147,6 +172,7 @@ export async function confirmPaidMedia(
     {
       requestId: randomUUID(),
       providers: pending,
+      ...(anyUpTo(pending) ? { upTo: true } : {}),
       ...(total !== undefined ? { totalEstimateUsd: total } : {}),
     },
     signal,

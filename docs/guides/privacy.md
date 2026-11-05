@@ -57,7 +57,7 @@ Embedding requests (when **Embeddings** is routed to a cloud provider) and image
 
 ## Paid media confirmation
 
-Before **Render media** starts calling a cloud image, video or voice provider, the app shows how many calls of each kind it will make to each provider and asks you to continue or cancel. If you set a price per call in the provider's **Advanced** settings, it also shows an estimated cost; without a price it shows no estimate. Tick **Don't ask again for this provider** to skip the question for that provider from then on. Media providers on your own computer never ask. The count covers injects that already have a media plan; injects that get their plan during the run are not included.
+Before **Render media** starts calling a cloud image, video or voice provider, the app shows how many calls of each kind it will make to each provider and asks you to continue or cancel. If you set a price per call in the provider's **Advanced** settings, it also shows an estimated cost; without a price it shows no estimate. Tick **Don't ask again for this provider** to skip the question for that provider from then on. Media providers on your own computer never ask. For injects that already have a media plan the counts are exact. For injects that do not have one yet, the app shows the most calls the run could make and marks them "up to"; the real number may be lower. If any paid provider could be called, you are asked.
 
 ## Redaction
 

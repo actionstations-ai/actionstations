@@ -47,6 +47,21 @@ describe('MediaConfirmDialog', () => {
     expect(dialog.textContent).toContain('Estimated total: about $1.35')
   })
 
+  it('shows "up to" when plans are missing, and exact counts otherwise', () => {
+    const upTo = {
+      ...request,
+      upTo: true,
+      providers: request.providers.map((p) => ({ ...p, upTo: true })),
+    }
+    const { unmount } = render(<MediaConfirmDialog request={upTo} onAnswer={() => undefined} />)
+    const text = screen.getByRole('dialog').textContent
+    expect(text).toContain('up to 3 images, 1 video, up to $1.25')
+    expect(text).toContain('Estimated total: up to $1.35')
+    unmount()
+    render(<MediaConfirmDialog request={request} onAnswer={() => undefined} />)
+    expect(screen.getByRole('dialog').textContent).not.toContain('up to')
+  })
+
   it('says no estimate is shown when no price is set', () => {
     const provider = { ...request.providers[0]! }
     delete provider.estimateUsd

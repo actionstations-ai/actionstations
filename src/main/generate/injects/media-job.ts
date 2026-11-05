@@ -30,7 +30,7 @@ import {
 } from './media-assets'
 import type { ProviderConfig } from '@shared/schemas'
 import type { MediaTask } from './deps'
-import { countPaidCalls, plannedTasks, type PaidTargets } from './media-confirm'
+import { countPaidCalls, plannedCalls, type PaidTargets } from './media-confirm'
 import { runMediaBrief } from './media-brief-stage'
 import { planMedia } from './media-plan'
 import { formatRepairs, repairFields, type FieldRepair } from './repair'
@@ -389,9 +389,15 @@ async function confirmPaid(
   ctx: JobContext,
 ): Promise<void> {
   const planned = targets.filter((i) => !(i.locked && !opts.injectIds))
-  const tasks = plannedTasks(planned, opts.paths)
-  if (!tasks.length) return
-  const paid = countPaidCalls(tasks, await targetsFor(env, tasks))
+  const calls = plannedCalls(planned, opts.paths)
+  if (!calls.length) return
+  const paid = countPaidCalls(
+    calls,
+    await targetsFor(
+      env,
+      calls.map((c) => c.task),
+    ),
+  )
   if (paid.length) await env.deps.confirmPaidMedia(paid, ctx.signal)
 }
 

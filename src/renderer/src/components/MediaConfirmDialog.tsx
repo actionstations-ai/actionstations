@@ -56,8 +56,10 @@ export function MediaConfirmDialog(props: {
               <strong>{p.label}</strong>
               {p.host ? <span className="muted"> ({p.host})</span> : null}
               {': '}
-              {describeCounts(p.counts)}
-              {p.estimateUsd !== undefined ? `, about ${formatUsd(p.estimateUsd)}` : ''}
+              {describeCounts(p.counts, p.upTo)}
+              {p.estimateUsd !== undefined
+                ? `, ${p.upTo ? 'up to' : 'about'} ${formatUsd(p.estimateUsd)}`
+                : ''}
             </p>
             <label className="row">
               <input
@@ -72,9 +74,14 @@ export function MediaConfirmDialog(props: {
       </ul>
       <p className="muted" role="note">
         {total !== undefined
-          ? `Estimated total: about ${formatUsd(total)}, from the price per call you set. Actual charges depend on the service.`
+          ? `Estimated total: ${request.upTo ? 'up to' : 'about'} ${formatUsd(total)}, from the price per call you set. Actual charges depend on the service.`
           : 'No price per call is set, so no estimate is shown. You can set one under Advanced in the provider’s settings.'}
       </p>
+      {request.upTo && (
+        <p className="muted">
+          Some injects have no media plan yet, so these are the most calls the run could make.
+        </p>
+      )}
     </Dialog>
   )
 }

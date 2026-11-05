@@ -18,6 +18,8 @@ export const MediaConfirmProvider = z.object({
   counts: MediaCallCounts,
   /** Estimated cost in US dollars, present when every planned call has a price per call. */
   estimateUsd: z.number().min(0).optional(),
+  /** The counts are upper bounds: some injects have no media plan yet. */
+  upTo: z.boolean().optional(),
 })
 export type MediaConfirmProvider = z.infer<typeof MediaConfirmProvider>
 
@@ -26,6 +28,7 @@ export const MediaConfirmNeededEvent = z.object({
   providers: z.array(MediaConfirmProvider).min(1).max(50),
   /** Sum of the providers' estimates, present when every provider has one. */
   totalEstimateUsd: z.number().min(0).optional(),
+  upTo: z.boolean().optional(),
 })
 export type MediaConfirmNeededEvent = z.infer<typeof MediaConfirmNeededEvent>
 
