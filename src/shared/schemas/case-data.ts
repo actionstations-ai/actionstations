@@ -145,7 +145,7 @@ export const CaseDataSettings = z.object({
   maxMbPerScenario: z.number().int().min(1).max(10_000).default(DEFAULT_CASE_LIMIT_MB),
   /**
    * The user's own contact email, sent in the User-Agent to archives whose fair-access rules ask
-   * for one (SEC EDGAR). Empty until the user sets it; never filled in by the app.
+   * for one (SEC EDGAR). Empty until the user sets it; while empty the app's own contact is sent.
    */
   contactEmail: z
     .string()

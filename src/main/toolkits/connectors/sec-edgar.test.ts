@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { createCaseGet, caseUserAgent } from '../../case-data/http'
+import { APP_CONTACT, createCaseGet, caseUserAgent } from '../../case-data/http'
 import { GroundTruthEvent } from '@shared/schemas/metrics'
 import {
   EDGAR_MIN_INTERVAL_MS,
@@ -128,7 +128,7 @@ describe('fair access', () => {
     expect(secEdgar8k.minIntervalMs).toBe(EDGAR_MIN_INTERVAL_MS)
   })
 
-  it('puts the user-set contact in the User-Agent and never a built-in one', () => {
+  it('puts the contact in the User-Agent only when one is given', () => {
     expect(caseUserAgent('1.0.0', 'person@example.org')).toBe('AS/1.0.0 (person@example.org)')
     expect(caseUserAgent('1.0.0')).not.toMatch(/@/)
   })
@@ -163,8 +163,7 @@ describe('fair access', () => {
 const live = process.env.LIVE === '1'
 describe.skipIf(!live)('live SEC EDGAR', () => {
   it('answers a search with the shape the connector reads', async () => {
-    const contact = process.env.EDGAR_CONTACT
-    if (!contact) throw new Error('Set EDGAR_CONTACT to your own email for the live test')
+    const contact = process.env.EDGAR_CONTACT || APP_CONTACT
     const get = createCaseGet({
       hosts: ['efts.sec.gov', 'www.sec.gov'],
       version: 'live-test',

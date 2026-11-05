@@ -9,7 +9,10 @@ import type { FetchContext } from '../toolkits/connectors/registry'
 export const MAX_CASE_REDIRECTS = 3
 export const CASE_TIMEOUT_MS = 60_000
 
-/** The User-Agent; an archive that requires a contact (SEC EDGAR) gets the user's own in it. */
+/** The app's contact, sent to an archive that requires one when the user has not set their own. */
+export const APP_CONTACT = 'help@actionstations.ai'
+
+/** The User-Agent; an archive that requires a contact (SEC EDGAR) gets one in it. */
 export const caseUserAgent = (version: string, contact?: string): string =>
   contact ? `AS/${version} (${contact})` : `AS/${version} (+https://actionstations.ai)`
 

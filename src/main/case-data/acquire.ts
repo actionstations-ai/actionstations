@@ -18,7 +18,7 @@ import {
   type ConnectorEstimate,
   type ConnectorResult,
 } from '../toolkits/connectors/registry'
-import { createCaseGet } from './http'
+import { APP_CONTACT, createCaseGet } from './http'
 import { addDatasets, fetchLogFile, roomLeft } from './store'
 
 export interface FetchPlan {
@@ -152,12 +152,7 @@ export async function runFetch(
   if (!plan || plan.expires < now.getTime() || plan.root !== root || plan.scenarioId !== scenarioId)
     throw new AppError('CONFLICT', 'Show the size estimate again before fetching')
   const connector = getConnector(plan.connectorId)
-  const contact = deps.contact?.trim()
-  if (connector.contact === 'required' && !contact)
-    throw new AppError(
-      'VALIDATION',
-      `${connector.source} asks every user to identify themselves. Add your contact email under Settings, Case data, then fetch again.`,
-    )
+  const contact = deps.contact?.trim() || APP_CONTACT
   pending.delete(estimateId)
   const room = await roomLeft(root, scenarioId, deps.maxMbPerScenario)
   if (plan.totalBytes > room)
@@ -174,7 +169,7 @@ export async function runFetch(
   }
   const get = createCaseGet({
     hosts: connector.hosts,
-    ...(connector.contact === 'required' && contact ? { contact } : {}),
+    ...(connector.contact === 'required' ? { contact } : {}),
     ...(connector.minIntervalMs ? { minIntervalMs: connector.minIntervalMs } : {}),
     ...(deps.sleep ? { sleep: deps.sleep } : {}),
     ...(deps.clock ? { clock: deps.clock } : {}),
