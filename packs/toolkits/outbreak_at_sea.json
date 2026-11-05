@@ -128,7 +128,214 @@
         "Keep guest, family, media and crew messages consistent with the counts"
       ],
       "mappings": []
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Keep the ship, the shoreside team and the authorities on one set of numbers and times",
+        "Confirm each report was received"
+      ],
+      "mappings": []
     }
   ],
-  "exerciseTags": []
+  "exerciseTags": [],
+  "decisionForms": [
+    {
+      "id": "hosp_report_to_authority",
+      "label": "Report to an authority",
+      "description": "Record a report to the CDC or another authority, which report it was and when it was sent.",
+      "fields": [
+        {
+          "id": "authority",
+          "label": "Authority",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "CDC Vessel Sanitation Program",
+            "CDC quarantine station",
+            "Port health authority",
+            "Local or state health department",
+            "FBI field office",
+            "US Coast Guard",
+            "Flag state"
+          ]
+        },
+        {
+          "id": "report",
+          "label": "Report",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Immediate report of death or illness",
+            "24-hour report",
+            "4-hour update report",
+            "Special report, 2 percent",
+            "Special report, 3 percent",
+            "Alleged crime report",
+            "Other"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Sent at",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "content",
+          "label": "What the report said (counts, percentages, actions)",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "hosp_isolate_and_clean",
+      "label": "Isolate and clean",
+      "description": "Isolation of ill persons and cleaning and disinfection, with scope and resources.",
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Ill passengers",
+            "Ill crew",
+            "Food employees",
+            "Public areas",
+            "Cabins",
+            "Terminal buildings"
+          ]
+        },
+        {
+          "id": "resources",
+          "label": "Resources and who does it",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Started at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hosp_itinerary_change",
+      "label": "Itinerary or port change",
+      "description": "A change to the plan for ports and arrival, with the reason.",
+      "fields": [
+        {
+          "id": "change",
+          "label": "Change",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Skip a port", "Change a port", "Delay arrival", "No change"]
+        },
+        {
+          "id": "new_plan",
+          "label": "New plan",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Decided at",
+          "kind": "time"
+        }
+      ]
+    },
+    {
+      "id": "hosp_boarding_decision",
+      "label": "Boarding decision for the next voyage",
+      "description": "Decide whether the next voyage boards on time, is delayed, or boards with conditions.",
+      "fields": [
+        {
+          "id": "decision",
+          "label": "Decision",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Proceed on time", "Delay boarding", "Proceed with conditions"]
+        },
+        {
+          "id": "conditions",
+          "label": "Conditions and who owns each",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Decided at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hosp_outbreak_statement",
+      "label": "Public statement (outbreak)",
+      "description": "A statement to one audience about the outbreak.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Passengers or guests",
+            "Crew or employees",
+            "Families",
+            "Media",
+            "Travel agents"
+          ]
+        },
+        {
+          "id": "key_message",
+          "label": "Key message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Released at",
+          "kind": "time"
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "hospitality_report_timeliness",
+      "label": "Authority reports filed on time",
+      "config": {
+        "specialGraceMin": 60
+      },
+      "groundTruth": "hosp-outbreak-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from the 2 percent level to isolation and cleaning",
+      "config": {
+        "decisionKinds": ["hosp_isolate_and_clean"],
+        "eventKinds": ["threshold_2pct"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 180,
+        "matchArea": false
+      },
+      "groundTruth": "hosp-outbreak-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across guest, family, media and employee messages",
+      "config": {
+        "numericTolerance": 0,
+        "partners": ["guests", "families", "media", "employees"]
+      }
+    }
+  ]
 }

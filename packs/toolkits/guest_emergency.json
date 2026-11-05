@@ -128,7 +128,183 @@
         "Secure evidence, recordings and the cabin"
       ],
       "mappings": []
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Keep the ship, the shoreside team and the authorities on one set of numbers and times",
+        "Confirm each report was received"
+      ],
+      "mappings": []
     }
   ],
-  "exerciseTags": []
+  "exerciseTags": [],
+  "decisionForms": [
+    {
+      "id": "hosp_evacuate_or_shelter",
+      "label": "Evacuate or shelter",
+      "description": "Decide whether guests leave, shelter in place or hold, for a property or a ship.",
+      "fields": [
+        {
+          "id": "where",
+          "label": "Where",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Property", "Ship"]
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Evacuate", "Shelter in place", "Hold in place"]
+        },
+        {
+          "id": "zones",
+          "label": "Floors, zones or decks",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Ordered at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hosp_guest_accounting",
+      "label": "Guest accounting",
+      "description": "Record the method and the count of persons not accounted for.",
+      "fields": [
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Manifest scan", "Room-by-room check", "In-house guest list", "Station count"]
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Count in progress",
+            "Count complete, all accounted for",
+            "Count complete, some not accounted for"
+          ]
+        },
+        {
+          "id": "unaccounted",
+          "label": "Persons not accounted for",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Count as of",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hosp_notify_family_consulate",
+      "label": "Notify family, consulate or authority",
+      "description": "A notification after a guest death, serious injury or missing person.",
+      "fields": [
+        {
+          "id": "who",
+          "label": "Who was told",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Family or next of kin",
+            "Consulate",
+            "Medical examiner or coroner",
+            "FBI field office",
+            "Company and brand"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Told at",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "note",
+          "label": "What was said (no names)",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "hosp_guest_statement",
+      "label": "Public statement (guests)",
+      "description": "A statement to one audience about a guest emergency.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Passengers or guests",
+            "Crew or employees",
+            "Families",
+            "Media",
+            "Travel agents"
+          ]
+        },
+        {
+          "id": "key_message",
+          "label": "Key message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Released at",
+          "kind": "time"
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "hospitality_accounting",
+      "label": "Time to account for every person at muster",
+      "config": {},
+      "groundTruth": "hosp-muster-events"
+    },
+    {
+      "id": "hospitality_accounting",
+      "label": "Time to account for every guest in a tower evacuation",
+      "config": {},
+      "groundTruth": "hosp-fire-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from the fire alarm to the evacuation decision",
+      "config": {
+        "decisionKinds": ["hosp_evacuate_or_shelter"],
+        "eventKinds": ["fire_alarm"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 10,
+        "matchArea": false
+      },
+      "groundTruth": "hosp-fire-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across guest, family, media and employee messages",
+      "config": {
+        "numericTolerance": 0,
+        "partners": ["guests", "families", "media", "employees"]
+      }
+    }
+  ]
 }

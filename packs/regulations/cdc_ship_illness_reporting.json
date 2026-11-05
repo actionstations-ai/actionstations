@@ -1,0 +1,99 @@
+{
+  "id": "cdc_ship_illness_reporting",
+  "label": "CDC ship illness reporting (42 CFR 71.21 and the Vessel Sanitation Program standards)",
+  "jurisdiction": "US",
+  "authority": "Centers for Disease Control and Prevention (Vessel Sanitation Program and quarantine stations)",
+  "citation": "42 CFR 71.21; VSP 2025 Environmental Public Health Standards, section 4.2",
+  "sources": [
+    {
+      "title": "42 CFR 71.21 (Sanitary, hygienic and medical reporting)",
+      "url": "https://www.law.cornell.edu/cfr/text/42/71.21"
+    },
+    {
+      "title": "Vessel Sanitation Program 2025 Environmental Public Health Standards",
+      "url": "https://www.cdc.gov/vessel-sanitation/media/pdfs/2025/06/2025_VSP_Environmental_Public_Health_Standards-508.pdf"
+    },
+    {
+      "title": "CDC: AGE outbreak response",
+      "url": "https://www.cdc.gov/vessel-sanitation/php/our-role/outbreak-response.html"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "The 24-hour and 4-hour reports are due before arrival, but the clock engine counts forward from a trigger. The scenario places the triggers arrival minus 36 hours and arrival minus 24 hours, and the clocks add the remaining time. The standards state no interval for the special reports or for the immediate report, so those clocks carry a short exercise allowance that the designer may change.",
+  "verifiedOn": "2026-11-05",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "death_or_illness",
+      "label": "Death or ill person on board",
+      "hint": "Any death or any ill person among passengers or crew in the 15 days before expected arrival at a US port, or since leaving a US port if that is shorter."
+    },
+    {
+      "id": "arrival_minus_36h",
+      "label": "Ship is 36 hours from arrival",
+      "hint": "Place this trigger 36 hours before the expected arrival at the US port: the 24-hour report window opens."
+    },
+    {
+      "id": "arrival_minus_24h",
+      "label": "Ship is 24 hours from arrival",
+      "hint": "Place this trigger 24 hours before the expected arrival; the 4-hour update is counted from here."
+    },
+    {
+      "id": "level_2_reached",
+      "label": "2 percent of passengers or of crew reportable cases",
+      "hint": "Cumulative reportable cases for the voyage reach 2 percent of passengers or of crew, with the ship within 15 days of a US port."
+    },
+    {
+      "id": "level_3_reached",
+      "label": "3 percent of passengers or of crew reportable cases",
+      "hint": "Cumulative reportable cases reach 3 percent of passengers or of crew, with the ship within 15 days of a US port. Three percent is the VSP outbreak level."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "immediate_report",
+      "label": "Report of death or ill person",
+      "recipient": "CDC quarantine station at or nearest the arrival port",
+      "dueAt": [{ "from": "death_or_illness", "amount": 30, "unit": "minutes" }],
+      "rule": "The master reports immediately (42 CFR 71.21(a)). No interval is stated; the clock shows a 30 minute exercise allowance.",
+      "injectTypes": ["port_health_notification"]
+    },
+    {
+      "id": "age_24h",
+      "label": "24-hour gastroenteritis report",
+      "recipient": "CDC Vessel Sanitation Program",
+      "dueAt": [{ "from": "arrival_minus_36h", "amount": 12, "unit": "hours" }],
+      "rule": "For ships carrying 13 or more passengers, the cumulative AGE count including zero, sent no less than 24 hours and no more than 36 hours before arrival (42 CFR 71.21(c); VSP standards 4.2.1.1). The deadline is 24 hours before arrival.",
+      "injectTypes": ["age_cumulative_report"]
+    },
+    {
+      "id": "age_4h",
+      "label": "4-hour update report",
+      "recipient": "CDC Vessel Sanitation Program",
+      "dueAt": [{ "from": "arrival_minus_24h", "amount": 20, "unit": "hours" }],
+      "rule": "If the count changed after the 24-hour report, a cumulative update no less than 4 hours before arrival (42 CFR 71.21(c); VSP standards 4.2.1.2). The deadline is 4 hours before arrival.",
+      "injectTypes": ["age_cumulative_report"]
+    },
+    {
+      "id": "special_2pct",
+      "label": "Special report at 2 percent",
+      "recipient": "CDC Vessel Sanitation Program (with a telephone call)",
+      "dueAt": [{ "from": "level_2_reached", "amount": 60, "unit": "minutes" }],
+      "rule": "A special report when cumulative reportable cases reach 2 percent of passengers or of crew within 15 days of a US port, with a telephone notification (VSP standards 4.2.3.1). No interval is stated; the clock shows a 60 minute exercise allowance.",
+      "injectTypes": ["age_cumulative_report"]
+    },
+    {
+      "id": "special_3pct",
+      "label": "Special report at 3 percent",
+      "recipient": "CDC Vessel Sanitation Program",
+      "dueAt": [{ "from": "level_3_reached", "amount": 60, "unit": "minutes" }],
+      "rule": "A second special report at 3 percent, which VSP treats as an outbreak (VSP standards 4.2.3.1). No interval is stated; the clock shows a 60 minute exercise allowance.",
+      "injectTypes": ["age_cumulative_report"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["outbreak_at_sea"],
+    "note": "Ships with an international itinerary destined for a US port; the 24-hour and 4-hour reports apply to ships carrying 13 or more passengers."
+  }
+}
