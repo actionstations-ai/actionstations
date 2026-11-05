@@ -1,0 +1,812 @@
+{
+  "id": "hospitality",
+  "label": "Hospitality, tourism and cruise",
+  "description": "The organizations that look after guests away from home: a cruise line with its ships and shoreside teams, a hotel or resort, and a destination tourism board. Plans and products: the ship's outbreak prevention and response plan and medical log, the safety management system, the muster and passenger accounting list, the in-house guest list, the hurricane plan, reports to the CDC Vessel Sanitation Program and the quarantine station, alleged crime reports to the FBI and Coast Guard, and guest letters and holding statements. Three variants share one profile: cruise line (ship and shoreside), hotel or resort (which borrows the lodging roles and systems of the commercial facilities profile), and tourism board. Port operations on the shore side belong to the port and maritime profile; stadiums and events belong to the stadium and venue profile.",
+  "aliases": [
+    "hospitality",
+    "cruise",
+    "cruise_line",
+    "cruise_ship",
+    "ship",
+    "tourism",
+    "tourism_board",
+    "destination",
+    "destination_marketing",
+    "dmo",
+    "visitor_bureau",
+    "convention_hotel",
+    "timeshare",
+    "vacation_rental",
+    "guest_services",
+    "front_office"
+  ],
+  "vocabulary": {
+    "facility": "the ship or the property (decks and cabins, towers and floors, public areas, back of house)",
+    "public": "passengers and hotel guests",
+    "frontline": "cabin stewards, front desk agents, housekeepers, security officers, medical staff, food and beverage staff, shuttle drivers",
+    "operationsCenter": "the ship's bridge and safety center, the hotel's command post, or the shoreside operations center"
+  },
+  "factCategories": [
+    {
+      "id": "decks",
+      "label": "Decks",
+      "noun": "Decks?",
+      "idShape": "number",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "muster_stations",
+      "label": "Muster stations",
+      "noun": "Muster Stations?|Assembly Stations?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "cabins",
+      "label": "Cabins",
+      "noun": "Cabins?|Staterooms?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "hotel_floors",
+      "label": "Hotel floors",
+      "noun": "Floors?|Levels?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "guest_rooms",
+      "label": "Guest rooms",
+      "noun": "Guest Rooms?|Rooms?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "shipboard medical log and illness surveillance record",
+      "safety management system and incident log",
+      "passenger and crew manifest with muster and accounting list",
+      "property management system, folio and central reservations",
+      "keycard and door-lock system",
+      "channel manager and booking engine",
+      "point of sale",
+      "guest Wi-Fi and onboard phone",
+      "call center and loyalty database",
+      "payment systems",
+      "social media monitoring",
+      "weather and routing feeds"
+    ],
+    "ot": [
+      "bridge and navigation systems",
+      "public address and general alarm",
+      "CCTV",
+      "fire alarm, mass notification and in-room alerts",
+      "elevators",
+      "HVAC and ventilation",
+      "food safety and temperature records",
+      "emergency generators",
+      "stability and watertight door controls"
+    ]
+  },
+  "roles": [
+    {
+      "key": "master",
+      "name": "Master (captain)",
+      "abbreviation": "MASTER",
+      "team": "Team A: Ship Command (cruise)",
+      "description": "Decides safety of the ship, reports to authorities, itinerary changes; final authority on board."
+    },
+    {
+      "key": "safety",
+      "name": "Staff Captain / Safety Officer",
+      "abbreviation": "SAFETY",
+      "team": "Team A: Ship Command (cruise)",
+      "description": "Emergency stations, muster, drills and passenger accounting."
+    },
+    {
+      "key": "doc",
+      "name": "Ship's Doctor / Medical Officer",
+      "abbreviation": "DOC",
+      "team": "Team B: Medical and Public Health (cruise)",
+      "description": "Case counts from the medical log, isolation, specimens and reports to CDC."
+    },
+    {
+      "key": "eho",
+      "name": "Environmental / Public Health Officer",
+      "abbreviation": "EHO",
+      "team": "Team B: Medical and Public Health (cruise)",
+      "description": "Sanitation program, outbreak prevention and response plan."
+    },
+    {
+      "key": "hotel_dir",
+      "name": "Hotel Director / Chief Housekeeper",
+      "abbreviation": "HOTEL",
+      "team": "Team C: Hotel Operations (cruise)",
+      "description": "Cleaning and disinfection, food and beverage controls, guest services."
+    },
+    {
+      "key": "sec_officer",
+      "name": "Security Officer",
+      "abbreviation": "SEC",
+      "team": "Team D: Ship Security (cruise)",
+      "description": "Crime reports, evidence and liaison with the FBI and Coast Guard."
+    },
+    {
+      "key": "dpa",
+      "name": "Designated Person Ashore",
+      "abbreviation": "DPA",
+      "team": "Team E: Shoreside (cruise)",
+      "description": "The link between ship and company under the safety management system."
+    },
+    {
+      "key": "ops",
+      "name": "Fleet / Marine Operations",
+      "abbreviation": "OPS",
+      "team": "Team E: Shoreside (cruise)",
+      "description": "Itinerary, port agents, delays and boarding of the next voyage."
+    },
+    {
+      "key": "med_dir",
+      "name": "Public Health / Medical Director ashore",
+      "abbreviation": "MED",
+      "team": "Team E: Shoreside (cruise)",
+      "description": "Outbreak response coordination with CDC and port health."
+    },
+    {
+      "key": "guest_care",
+      "name": "Guest Care / Communications",
+      "abbreviation": "COMMS",
+      "team": "Team F: Communications (cruise and hotel)",
+      "description": "Guest messages, media statements, family hotline and social media."
+    },
+    {
+      "key": "legal",
+      "name": "Legal / Risk",
+      "abbreviation": "LEGAL",
+      "team": "Team G: Legal and Risk (cruise and hotel)",
+      "description": "Notices, claims and passenger rights."
+    },
+    {
+      "key": "rooms_dir",
+      "name": "Rooms Division Director / Front Office Manager",
+      "abbreviation": "ROOMS",
+      "team": "Team H: Rooms Division (hotel and resort)",
+      "description": "In-house guest list, check-in and departures, guest accounting by room and floor; works beside the General Manager and Security roles of the commercial facilities profile."
+    },
+    {
+      "key": "housekeeping",
+      "name": "Executive Housekeeper",
+      "abbreviation": "HSKP",
+      "team": "Team H: Rooms Division (hotel and resort)",
+      "description": "Room status, cleaning and disinfection, staff accounting on the floors."
+    },
+    {
+      "key": "revenue",
+      "name": "Revenue Manager",
+      "abbreviation": "REV",
+      "team": "Team H: Rooms Division (hotel and resort)",
+      "description": "Inventory, rebooking, cancellations and what the booking channels show."
+    },
+    {
+      "key": "dmo_ceo",
+      "name": "Destination Organization CEO",
+      "abbreviation": "DMO",
+      "team": "Team I: Tourism Board",
+      "description": "Decides the destination's message and what the board asks of partners."
+    },
+    {
+      "key": "visitor_services",
+      "name": "Visitor Services Manager",
+      "abbreviation": "VIS",
+      "team": "Team I: Tourism Board",
+      "description": "Visitor centers, hotlines and information for visitors in the destination."
+    },
+    {
+      "key": "industry_liaison",
+      "name": "Industry Partners Liaison",
+      "abbreviation": "LIAISON",
+      "team": "Team I: Tourism Board",
+      "description": "Hotels, attractions, airlines and ground transport; one picture of the destination."
+    },
+    {
+      "key": "em_liaison",
+      "name": "Emergency Management Liaison",
+      "abbreviation": "EM-LIAISON",
+      "team": "Team I: Tourism Board",
+      "description": "Link to county or state emergency management and the joint information center."
+    }
+  ],
+  "outsideParties": [
+    "the CDC Vessel Sanitation Program and the CDC quarantine station",
+    "the port health authority and the port authority",
+    "the US Coast Guard",
+    "the FBI field office",
+    "the flag state and the port state",
+    "local and state health departments",
+    "county and state emergency management",
+    "airline and ground transport partners",
+    "consulates and embassies",
+    "guests' families and travel agents",
+    "the brand or franchisor",
+    "the press and social media"
+  ],
+  "mediaChannels": [
+    "guest videos on TikTok, Instagram and X",
+    "cruise forums and review sites",
+    "the local TV assignment desk at the port",
+    "travel press and trade press",
+    "a family group chat and a passenger Facebook group",
+    "the line's own social accounts and guest app"
+  ],
+  "sceneAnchors": {
+    "public": "a cruise ship atrium on embarkation day: passengers with lanyards, a curved staircase, a glass elevator, a welcome desk, bright overhead light",
+    "control": "a ship's bridge at night: officers at consoles, charts on screens, dim blue light, radios and a telephone, large windows onto a dark sea",
+    "exterior": "a cruise terminal quay: a white ship alongside, gangway, luggage carts, port workers in vests, late-afternoon light"
+  },
+  "injectTypes": [
+    "sitrep",
+    "press_release",
+    "phone_call",
+    "radio_call",
+    "email",
+    "text_message",
+    "memo",
+    "pa_announcement",
+    "tweet",
+    "tiktok_video_card",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "news_chyron_still",
+    "scene_photo",
+    "status_board",
+    "reunification_notice"
+  ],
+  "threatFamilies": [
+    "outbreak_at_sea",
+    "resort_hurricane",
+    "guest_death_or_injury",
+    "reservation_cyber",
+    "lobby_security",
+    "tower_fire",
+    "cyber",
+    "natural_hazard",
+    "physical_security"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "outbreak_at_sea",
+      "label": "Gastroenteritis outbreak at sea or in a property",
+      "description": "Cases of acute gastroenteritis (usually norovirus) climb in the medical log of a ship, or among guests and staff of a resort; reports, isolation, cleaning, guest messages and the boarding decision for the next voyage follow the counts.",
+      "keywords": [
+        "outbreak",
+        "norovirus",
+        "gastroenteritis",
+        "stomach illness",
+        "vomiting",
+        "diarrhea",
+        "cruise ship illness",
+        "medical log",
+        "cabin isolation",
+        "sanitation",
+        "legionella",
+        "foodborne"
+      ],
+      "phaseArc": [
+        {
+          "title": "First cluster in the medical log",
+          "goal": "Players see the first cases and decide whether this is a cluster and what to start now.",
+          "beats": [
+            "The medical log shows several cases from one deck within a day",
+            "The environmental health officer asks whether a common meal is involved",
+            "The hotel director asks whether to keep buffets open"
+          ]
+        },
+        {
+          "title": "Threshold crossed",
+          "goal": "Counts reach 2 percent and then 3 percent of passengers or crew; reports are due, and the ship is days from a US port.",
+          "beats": [
+            "A special report is due at 2 percent and again at 3 percent",
+            "The 24-hour report point to the quarantine station approaches",
+            "Crew cases include food handlers"
+          ]
+        },
+        {
+          "title": "Response, reports and guest communication",
+          "goal": "Isolation, cleaning, specimens and the cumulative report run while guests and families ask questions.",
+          "beats": [
+            "Passengers ask for refunds and itinerary changes",
+            "A guest posts a video of the infirmary queue",
+            "The ship asks the shoreside team whether to skip a port"
+          ]
+        },
+        {
+          "title": "Arrival and the next voyage",
+          "goal": "Port health boards or meets the ship, and the line decides whether the next voyage boards on time.",
+          "beats": [
+            "The 4-hour update report changes the count",
+            "The port authority asks about cleaning in the terminal",
+            "The boarding decision memo is due before embarkation opens"
+          ]
+        },
+        {
+          "title": "Investigation and close-out",
+          "goal": "Counts fall, the cause is discussed and the hot wash records what held and what slipped.",
+          "beats": [
+            "Laboratory results arrive",
+            "Compensation and claims questions begin",
+            "The outbreak response plan is reviewed"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "report the 2 percent count by special report and call now, or wait one more shift of the medical log and risk a late report",
+        "skip the next port to shorten the ship's exposure, or keep the itinerary to protect guest plans",
+        "delay boarding of the next voyage until the terminal and ship are cleaned, or board on time with conditions"
+      ],
+      "clueKinds": "a medical log count ahead of the guest letter, a deck or meal common to the first cases, a crew member who worked while ill, a laboratory result, the time left before the 24-hour report point",
+      "hurdleKinds": "a satellite link that fails during the report window, a medical log kept on paper in two places, a cleaning crew short of disinfectant, a port agent who cannot reach the quarantine station",
+      "keyCoordination": "the CDC Vessel Sanitation Program and the port health authority",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "State counts as cases of persons on board, with passengers and crew separate, and compute percentages from the persons on board. Counts are cumulative for the voyage and never go down. Time reports against arrival (24 to 36 hours before, and 4 hours before). Use the reportable case definition only in the medical-log context. Give hygiene and isolation steps from cited guidance and no medical advice beyond it. The ship, the line and the port are fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "CDC|Vessel Sanitation|VSP|port health|quarantine station|health department",
+          "description": "the CDC, the port health authority or the quarantine station"
+        }
+      }
+    },
+    {
+      "id": "resort_hurricane",
+      "label": "Hurricane affecting a resort or an itinerary",
+      "description": "A tropical cyclone threatens a resort or a ship's itinerary; guest departures depend on flight and road clearance, and the front office must account for every guest.",
+      "keywords": [
+        "hurricane",
+        "tropical storm",
+        "storm surge",
+        "shelter in place",
+        "guest departure",
+        "evacuation of guests",
+        "itinerary change",
+        "port closure",
+        "cone of uncertainty"
+      ],
+      "phaseArc": [
+        {
+          "title": "Watch",
+          "goal": "The advisory cone includes the property or a port; guests ask whether to leave.",
+          "beats": [
+            "A tropical storm watch is issued for the coast",
+            "Airlines publish waivers",
+            "The ship's routing office offers a new track"
+          ]
+        },
+        {
+          "title": "Departure window",
+          "goal": "Flight and road clearance set how many guests can leave and when.",
+          "beats": [
+            "Roads to the airport begin to close",
+            "Departures lag the plan",
+            "Staff ask about their own families"
+          ]
+        },
+        {
+          "title": "Shelter in place",
+          "goal": "Remaining guests move to the shelter plan and the front office tracks every room.",
+          "beats": [
+            "Elevators are locked out",
+            "Power is on generator",
+            "A guest with a medical need needs help"
+          ]
+        },
+        {
+          "title": "Impact and accounting",
+          "goal": "The storm passes; every guest and staff member is accounted for and damage is assessed.",
+          "beats": [
+            "Two rooms do not answer",
+            "Guests ask when they can leave",
+            "Insurers and brands ask for status"
+          ]
+        },
+        {
+          "title": "Recovery and return",
+          "goal": "Reopening, rebooking and guest communications.",
+          "beats": ["The airport reopens in stages", "Refund and rebooking questions arrive"]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the resort to new arrivals now, or keep selling the weekend until the next advisory",
+        "order the last departure convoy before the road floods, or hold guests in place",
+        "send the ship around the storm and cancel a port, or hold the port call and risk the weather"
+      ],
+      "clueKinds": "an advisory time that moved the cone, a road closure notice, an airline waiver, a guest list that does not match the rooms occupied, a generator fuel level",
+      "hurdleKinds": "a flight cancellation that strands guests, a shuttle driver who will not drive, a power loss that locks keycards, a phone system that fails",
+      "keyCoordination": "county emergency management and the airline and ground transport partners",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "DECISION_POINT": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "Tie each action to an advisory time and a departure window, not to the clock alone. Use the property's own floors and room counts. Guests are counted by name or room code and never by real personal data.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "emergency management|airline|airport|port",
+          "description": "county emergency management, the airline or the port"
+        }
+      }
+    },
+    {
+      "id": "guest_death_or_injury",
+      "label": "Guest death, serious injury or missing person",
+      "description": "A guest dies, is seriously hurt, goes missing or is lost overboard; notifications to families, authorities and consulates run beside operations and media interest.",
+      "keywords": [
+        "guest death",
+        "serious injury",
+        "man overboard",
+        "missing guest",
+        "missing passenger",
+        "fatality",
+        "coroner",
+        "consulate",
+        "alleged crime",
+        "next of kin"
+      ],
+      "phaseArc": [
+        {
+          "title": "The report",
+          "goal": "A crew member reports the event; the first minutes decide who is told.",
+          "beats": [
+            "A cabin steward finds a guest unresponsive",
+            "A camera shows a person entering the water",
+            "A family reports a guest missing"
+          ]
+        },
+        {
+          "title": "Immediate response",
+          "goal": "Medical response, search and scene protection start together.",
+          "beats": [
+            "The ship turns and starts a search plan",
+            "Security secures the cabin",
+            "The doctor declares death"
+          ]
+        },
+        {
+          "title": "Notifications",
+          "goal": "Authorities, family, consulate and the company are told in order.",
+          "beats": [
+            "The FBI and Coast Guard report is due",
+            "The family is reached by phone",
+            "The consulate asks for a manifest line"
+          ]
+        },
+        {
+          "title": "Communication",
+          "goal": "Media and social posts begin before the facts are complete.",
+          "beats": [
+            "A passenger posts a video",
+            "A reporter calls the shoreside team",
+            "Staff ask what they may say"
+          ]
+        },
+        {
+          "title": "Follow-up",
+          "goal": "Support for the family and crew, records, and the review.",
+          "beats": [
+            "The coroner asks for records",
+            "Crew need support",
+            "The company reviews procedures"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "call the family now with partial facts, or wait for a confirmed identification",
+        "keep searching and delay the port, or resume the itinerary",
+        "release a holding statement now, or wait for the authority to speak first"
+      ],
+      "clueKinds": "a camera time, a muster list that is one short, a key card entry log, a family call to the hotline, a time the person was last seen",
+      "hurdleKinds": "a cabin camera with no recording, a manifest with a wrong spelling, a language barrier with the family, a consulate closed overnight",
+      "keyCoordination": "the Coast Guard, the FBI and the family",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 5
+      },
+      "promptGuidance": "Keep to coordination steps and notifications. Do not describe injuries or methods of harm. Every guest, crew member and family is fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "FBI|Coast Guard|family|consulate|coroner|medical examiner|police",
+          "description": "an authority or the family"
+        }
+      }
+    },
+    {
+      "id": "reservation_cyber",
+      "label": "Cyber attack on reservations, property management or keycards",
+      "description": "Reservations, the property management system or keycards fail on a busy weekend; front desk, housekeeping and security run degraded and guests queue.",
+      "keywords": [
+        "reservation system",
+        "property management system",
+        "keycard",
+        "ransomware",
+        "check-in",
+        "booking",
+        "guest data breach",
+        "loyalty"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detection",
+          "goal": "Odd behavior in reservations and keycards points to an attack.",
+          "beats": [
+            "The front desk cannot check in a guest",
+            "Keycards fail to encode",
+            "A ransom note appears on a back-office server"
+          ]
+        },
+        {
+          "title": "Degraded operations",
+          "goal": "The property moves to paper check-in and manual keys.",
+          "beats": [
+            "Housekeeping works from printed lists",
+            "Guests wait in the lobby",
+            "Staff ask what to tell guests"
+          ]
+        },
+        {
+          "title": "Containment and reporting",
+          "goal": "Technical teams isolate systems and decide what to report and to whom.",
+          "beats": [
+            "Guest data may be involved",
+            "The card processor asks questions",
+            "The brand asks for status"
+          ]
+        },
+        {
+          "title": "Guest and media communication",
+          "goal": "Guests, travel agents and the press ask when service returns.",
+          "beats": ["A viral lobby video", "A letter under every door"]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Systems return in an order that protects safety first.",
+          "beats": [
+            "Keycards return before the reservation system",
+            "Reconciliation of lost bookings"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "cut keycard encoding and cut keys by hand, or hold arrivals at the door",
+        "tell guests their card data may be involved now, or wait for the investigation",
+        "pay or refuse, with legal and the insurer in the room"
+      ],
+      "clueKinds": "a failing encoder log, a locked reservations database, a duplicate booking, a vendor call, a ransom note",
+      "hurdleKinds": "no paper forms printed in advance, a master key shortage, a call center on the same network, a backup that is also encrypted",
+      "keyCoordination": "the brand, the card processor and the property management vendor",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Show degraded-mode operations in detail: paper check-in, manual keys, a run list. Do not name real hotel companies, vendors or incidents. Keep attacker methods at the level of symptoms the staff see.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "brand|processor|vendor|law enforcement|FBI|insurer|legal",
+          "description": "the brand, the processor, the vendor or law enforcement"
+        }
+      }
+    },
+    {
+      "id": "lobby_security",
+      "label": "Security incident in a lobby or public space",
+      "description": "A person with a weapon, a threat call or a disturbance in a lobby; guests are moved or held, police are called and messages must be consistent.",
+      "keywords": [
+        "lobby",
+        "armed person",
+        "active threat",
+        "lockdown",
+        "shots fired",
+        "threat call",
+        "disturbance",
+        "guest safety",
+        "bomb threat"
+      ],
+      "phaseArc": [
+        {
+          "title": "Report",
+          "goal": "Security receives a report and decides how to verify.",
+          "beats": [
+            "A guest reports a person with a weapon",
+            "Cameras show part of the lobby",
+            "A call claims a threat"
+          ]
+        },
+        {
+          "title": "Protective action",
+          "goal": "Staff choose between moving guests, holding in place and locking down.",
+          "beats": [
+            "The front desk asks what to say",
+            "Elevators are held",
+            "A conference group is in the ballroom"
+          ]
+        },
+        {
+          "title": "Police coordination",
+          "goal": "Police arrive and control the scene; hotel staff support.",
+          "beats": [
+            "Police ask for a floor plan and a master key",
+            "Staff count guests in the area"
+          ]
+        },
+        {
+          "title": "Communication",
+          "goal": "Guests, families and the press ask for facts.",
+          "beats": ["A social post claims shots were fired", "The brand asks for a statement"]
+        },
+        {
+          "title": "Reunification and review",
+          "goal": "Guests return to rooms, staff are supported and the review begins.",
+          "beats": ["A guest asks about a missing family member", "A debrief is scheduled"]
+        }
+      ],
+      "decisionPointExamples": [
+        "hold guests in place, or move them away from the lobby through a service corridor",
+        "lock down the tower, or keep elevators running for people already on their way out",
+        "release a statement before police confirm, or wait"
+      ],
+      "clueKinds": "a camera still, a door log, a call recording, a staff member who saw the person, a guest list for the area",
+      "hurdleKinds": "a master key not at the desk, a floor plan out of date, a PA system with no hotel-wide zone, a radio dead zone in the garage",
+      "keyCoordination": "police and the property's emergency management partners",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 25,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Coordination-level detail only. Do not describe weapons, tactics or methods. Staff roles, guest movement, communication and the police handoff are the content. All people are fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "police|law enforcement|sheriff",
+          "description": "police or law enforcement"
+        }
+      }
+    },
+    {
+      "id": "tower_fire",
+      "label": "Fire or life-safety event in a hotel tower",
+      "description": "A fire alarm or fire on a floor of a hotel tower; guests on upper floors, mobility needs, accounting by floor and information to the fire department.",
+      "keywords": [
+        "fire alarm",
+        "tower fire",
+        "floor evacuation",
+        "stairwell",
+        "smoke",
+        "in-house guest list",
+        "fire department",
+        "hotel fire"
+      ],
+      "phaseArc": [
+        {
+          "title": "Alarm",
+          "goal": "The panel shows a device on a floor and staff decide what to do.",
+          "beats": [
+            "Front office sees an alarm on floor 14",
+            "A guest calls about smoke",
+            "Engineering goes to check"
+          ]
+        },
+        {
+          "title": "Evacuation and accounting",
+          "goal": "Floors are cleared and guests accounted for against the in-house list.",
+          "beats": [
+            "Guests with mobility needs are on upper floors",
+            "Stairwells fill",
+            "The list is out of date"
+          ]
+        },
+        {
+          "title": "Fire department coordination",
+          "goal": "Command takes over; staff supply keys, plans and counts.",
+          "beats": [
+            "The fire department asks which rooms are unaccounted",
+            "Elevators are recalled"
+          ]
+        },
+        {
+          "title": "Care and information",
+          "goal": "Displaced guests need rooms, medicine and information.",
+          "beats": ["Guests stand in the street", "A family asks about a missing child"]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Floors are reoccupied or closed; the review begins.",
+          "beats": ["A floor stays closed", "Insurers ask for the timeline"]
+        }
+      ],
+      "decisionPointExamples": [
+        "re-enter a floor to check rooms, or hold for the fire department",
+        "move displaced guests to another property, or shelter them in the ballroom",
+        "use the in-house list as printed, or the front desk's live view"
+      ],
+      "clueKinds": "a panel device address, a guest call, an in-house list with a printout time, a floor warden report",
+      "hurdleKinds": "a printout older than the live list, a stairwell door that locks, an elevator out of service, a language barrier on a floor",
+      "keyCoordination": "the fire department",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "DECISION_POINT": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "Account by floor and room with the time of the list. Keep to evacuation, accounting and information. Do not describe fire behavior or methods.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "fire department|fire marshal|fire",
+          "description": "the fire department"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a request for a dietary accommodation on night three",
+    "a cabin steward asking about a broken shower",
+    "a shore excursion operator confirming a pickup time",
+    "a loyalty member asking about points",
+    "a vendor asking about a linen delivery",
+    "a guest lost in the wrong tower"
+  ],
+  "pressureExamples": [
+    "a guest posting a video of the infirmary queue",
+    "a travel writer asking whether the ship will skip the next port",
+    "a family calling the hotline every ten minutes",
+    "a travel agent threatening to move a group booking",
+    "a reporter asking how many passengers are sick right now",
+    "a brand executive asking for a statement within the hour"
+  ],
+  "rolePatterns": {
+    "technical": "it |information technology|systems",
+    "security": "security|sec officer",
+    "operations": "master|safety|hotel|rooms|operations|ops"
+  },
+  "agencyPattern": "Vessel Sanitation Program|VSP|Coast Guard|FBI|quarantine station|port health",
+  "coreCapabilities": [
+    "public_health_healthcare_and_emergency_medical_services",
+    "mass_care_services",
+    "operational_communications",
+    "public_information_and_warning",
+    "on_scene_security_protection_and_law_enforcement",
+    "fatality_management_services"
+  ],
+  "suggestedToolkits": [
+    "outbreak_at_sea",
+    "guest_emergency",
+    "epidemiology",
+    "weather",
+    "media_environment"
+  ]
+}

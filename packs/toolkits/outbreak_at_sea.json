@@ -1,0 +1,133 @@
+{
+  "id": "outbreak_at_sea",
+  "name": "Outbreak at sea",
+  "description": "Gastroenteritis outbreak response for ships and other congregate settings: the cumulative illness report and its 24-hour, 4-hour and 2 and 3 percent report points, the response checklist, guest letters, the port health notification and the boarding decision for the next voyage. It reuses the epidemiology toolkit for curves and case data and stays at reporting, isolation, cleaning and communication decisions, with no medical advice beyond the cited guidance.",
+  "appliesTo": {
+    "keywords": [
+      "norovirus",
+      "gastroenteritis",
+      "cruise ship",
+      "outbreak at sea",
+      "medical log",
+      "vessel sanitation",
+      "stomach illness",
+      "cabin isolation",
+      "boarding decision",
+      "port health"
+    ],
+    "domains": [
+      "hospitality",
+      "port_maritime",
+      "airport",
+      "campus",
+      "k12_schools",
+      "healthcare",
+      "public_health",
+      "stadium_venue",
+      "commercial_facilities",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "age_cumulative_report",
+    "outbreak_response_checklist",
+    "guest_letter",
+    "port_health_notification",
+    "boarding_decision_memo"
+  ],
+  "outsideParties": [
+    "the CDC Vessel Sanitation Program (VSP)",
+    "the CDC quarantine station at the arrival port",
+    "the port health authority",
+    "the state and local health department",
+    "the port authority and terminal operator",
+    "the flag state",
+    "guests' families and travel agents"
+  ],
+  "advisorRoles": [
+    {
+      "key": "vsp_adviser",
+      "name": "Vessel sanitation adviser",
+      "abbreviation": "VSP-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about report points, the 2 and 3 percent levels, isolation periods and what the VSP may ask of a line."
+    },
+    {
+      "key": "maritime_medical_adviser",
+      "name": "Ship medical officer adviser",
+      "abbreviation": "MED-ADV",
+      "team": "Advisors",
+      "description": "Advises on the medical log, case counting and the doctor's reporting duties."
+    }
+  ],
+  "documents": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Reportable AGE case",
+        "definition": "Diarrhea (3 or more loose stools in 24 hours, or above normal for the person), or vomiting plus one more symptom (loose stool, cramps, headache, muscle aches or fever of 38 C or more). Nausea alone is excluded. Reported to staff by a passenger or crew member. Source: CDC VSP 2025 Environmental Public Health Standards, 4.1.1."
+      },
+      {
+        "term": "24-hour report",
+        "definition": "Sent to the VSP 24 to 36 hours before US arrival; counts are cumulative for the cruise. 42 CFR 71.21(c) and VSP standards 4.2.1."
+      },
+      {
+        "term": "4-hour update",
+        "definition": "Cumulative total sent at least 4 hours before arrival if the count changed; another only if the ship is still more than 4 hours out."
+      },
+      {
+        "term": "2 and 3 percent special reports",
+        "definition": "Within 15 days of a US port, a special report when cumulative cases reach 2 percent of passengers or of crew (with a phone call to the VSP), and a second at 3 percent. Routine reports continue. VSP standards 4.2.3."
+      },
+      {
+        "term": "AGE outbreak",
+        "definition": "3 percent or more of passengers or crew, or an unusual illness pattern even below 3 percent."
+      },
+      {
+        "term": "Immediate report",
+        "definition": "The master reports any death or ill person in the 15 days before arrival to the quarantine station. 42 CFR 71.21(a)."
+      }
+    ],
+    "productConventions": [
+      "Counts are cumulative persons for the voyage, passengers and crew apart; each percentage is cases divided by persons on board.",
+      "Time every report against arrival: 24 to 36 hours before, then at least 4 hours before.",
+      "Ill passengers stay in cabins until 24 hours after symptoms end; ill food employees stay off duty 48 hours; other ill crew 24 hours (VSP 4.4).",
+      "At 2 percent the medical staff begin collecting specimens (VSP 4.3.2).",
+      "The VSP may ask a line to tell port authorities, delay boarding the next voyage and arrange terminal cleaning."
+    ],
+    "realismRules": [
+      "Cumulative counts never go down between reports.",
+      "Do not invent a CDC deadline; use the report points above.",
+      "Letters give hygiene and isolation steps only; no drugs, doses or treatment.",
+      "The ship, line and any guest are fictional; real ports are fine."
+    ]
+  },
+  "lintRules": [
+    "hosp_age_percent",
+    "hosp_age_cumulative",
+    "hosp_age_report_timing",
+    "hosp_letter_no_medical_advice",
+    "hosp_isolation_letter"
+  ],
+  "capabilities": [
+    {
+      "coreCapability": "public_health_healthcare_and_emergency_medical_services",
+      "criticalTasks": [
+        "Report to the CDC on the 24-hour and 4-hour points and at 2 and 3 percent",
+        "Isolate ill passengers and crew for the stated periods",
+        "Start specimens at 2 percent",
+        "Decide the next voyage's boarding with the counts and the authority's requests"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Tell guests what is happening and what to do before they hear it elsewhere",
+        "Keep guest, family, media and crew messages consistent with the counts"
+      ],
+      "mappings": []
+    }
+  ],
+  "exerciseTags": []
+}

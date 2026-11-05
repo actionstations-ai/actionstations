@@ -1,0 +1,93 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.line}}</div>
+      <div class="sub">{{fields.vessel}} · {{fields.voyage}}</div>
+    </div>
+    <div class="doc-title">Gastroenteritis report</div>
+  </header>
+  <table>
+    <tr>
+      <th>Report</th>
+      <td><strong>{{fields.reportType}}</strong></td>
+      <th>Sent</th>
+      <td class="mono">{{fields.reportedAt}}</td>
+    </tr>
+    <tr>
+      <th>Arrival port</th>
+      <td>{{fields.arrivalPort}}</td>
+      <th>Expected arrival</th>
+      <td class="mono">{{fields.expectedArrival}}</td>
+    </tr>
+    <tr>
+      <th>Hours before arrival</th>
+      <td class="mono">{{fields.hoursBeforeArrival}}</td>
+      <th>Sent to</th>
+      <td>CDC Vessel Sanitation Program</td>
+    </tr>
+  </table>
+  <h2>Cumulative reportable cases, whole voyage</h2>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th class="num">On board</th>
+        <th class="num">Cases</th>
+        <th class="num">Percent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Passengers</th>
+        <td class="num">{{fields.passengersOnBoard}}</td>
+        <td class="num">{{fields.passengerCases}}</td>
+        <td class="num">{{fields.passengerPercent}}</td>
+      </tr>
+      <tr>
+        <th>Crew</th>
+        <td class="num">{{fields.crewOnBoard}}</td>
+        <td class="num">{{fields.crewCases}}</td>
+        <td class="num">{{fields.crewPercent}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong>Against the 2 and 3 percent levels:</strong> {{fields.thresholdStatus}}
+  </div>
+  {{#if fields.daily}}
+  <h2>New cases by day of voyage</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th class="num">Passengers</th>
+        <th class="num">Crew</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.daily}}
+      <tr>
+        <td>{{this.day}}</td>
+        <td class="num">{{this.passengers}}</td>
+        <td class="num">{{this.crew}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.actionsTaken}}
+  <h2>Response actions</h2>
+  <ul>
+    {{#each fields.actionsTaken}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <p class="sign">Reported by <strong>{{fields.reportedBy}}</strong> · {{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Cumulative gastroenteritis report</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

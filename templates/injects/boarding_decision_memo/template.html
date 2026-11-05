@@ -1,0 +1,66 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">Calloway Cruise Line</div>
+      <div class="sub">{{fields.vessel}} · {{fields.nextVoyage}}</div>
+    </div>
+    <div class="doc-title">Boarding decision</div>
+  </header>
+  <p class="para">Issued {{fields.issuedAt}}</p>
+  <h1><span class="tag">{{fields.decision}}</span></h1>
+  <h2>Reasons</h2>
+  <ul>
+    {{#each fields.rationale}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.authorityRequests}}
+  <div class="callout"><strong>Asked by the authority:</strong> {{fields.authorityRequests}}</div>
+  {{/if}} {{#if fields.conditions}}
+  <h2>Conditions before boarding opens</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Condition</th>
+        <th style="width: 22%">Owner</th>
+        <th style="width: 16%">By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.conditions}}
+      <tr>
+        <td>{{this.condition}}</td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.by}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.reconsiderIf}}
+  <h2>We reconsider if</h2>
+  <ul>
+    {{#each fields.reconsiderIf}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <h2>Approved</h2>
+  <table>
+    <tbody>
+      {{#each fields.approvals}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.role}}</td>
+        <td class="mono">{{this.time}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Boarding decision memo</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

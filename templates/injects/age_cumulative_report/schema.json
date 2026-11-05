@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cumulative gastroenteritis report",
+  "description": "Cumulative acute gastroenteritis (AGE) report for a vessel bound for a US port: the 24-hour report, the 4-hour update, a special report at 2 or 3 percent, or a zero report. Counts are reportable cases for the whole voyage, passengers and crew separate, with each percentage equal to cases divided by persons on board. Counts never go down from one report to the next.",
+  "type": "object",
+  "required": [
+    "vessel",
+    "line",
+    "reportType",
+    "reportedAt",
+    "expectedArrival",
+    "arrivalPort",
+    "hoursBeforeArrival",
+    "passengersOnBoard",
+    "crewOnBoard",
+    "passengerCases",
+    "crewCases",
+    "passengerPercent",
+    "crewPercent"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Vessel name (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "line": {
+      "type": "string",
+      "description": "Cruise line (fictional)",
+      "examples": ["Calloway Cruise Line"],
+      "x-translate": false
+    },
+    "voyage": {
+      "type": "string",
+      "description": "Voyage or itinerary label",
+      "examples": ["7-night Eastern Caribbean, departed Port Canaveral Nov 1"],
+      "x-translate": false
+    },
+    "reportType": {
+      "type": "string",
+      "description": "Which report this is",
+      "examples": ["24-hour report"],
+      "enum": [
+        "24-hour report",
+        "4-hour update report",
+        "Special report, 2 percent",
+        "Special report, 3 percent",
+        "Zero report"
+      ]
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Date and time the report is sent, ship time",
+      "examples": ["Nov 6, 2026, 06:00"],
+      "x-translate": false
+    },
+    "expectedArrival": {
+      "type": "string",
+      "description": "Expected arrival at the US port, ship time",
+      "examples": ["Nov 7, 2026, 06:30"],
+      "x-translate": false
+    },
+    "arrivalPort": {
+      "type": "string",
+      "description": "US port of arrival (a real port is fine)",
+      "examples": ["Port Canaveral, Florida"],
+      "x-translate": false
+    },
+    "hoursBeforeArrival": {
+      "type": "number",
+      "description": "Hours from the report time to expected arrival. A 24-hour report is sent 24 to 36 hours before arrival; a 4-hour update at least 4 hours before.",
+      "examples": [24.5],
+      "minimum": 0,
+      "maximum": 400
+    },
+    "passengersOnBoard": {
+      "type": "number",
+      "description": "Passengers on board",
+      "examples": [2410],
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "crewOnBoard": {
+      "type": "number",
+      "description": "Crew on board",
+      "examples": [980],
+      "minimum": 1,
+      "maximum": 5000
+    },
+    "passengerCases": {
+      "type": "number",
+      "description": "Cumulative reportable cases among passengers for the voyage",
+      "examples": [61],
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "crewCases": {
+      "type": "number",
+      "description": "Cumulative reportable cases among crew for the voyage",
+      "examples": [14],
+      "minimum": 0,
+      "maximum": 5000
+    },
+    "passengerPercent": {
+      "type": "string",
+      "description": "Passenger cases divided by passengers on board, with one decimal and a percent sign",
+      "examples": ["2.5%"],
+      "x-translate": false
+    },
+    "crewPercent": {
+      "type": "string",
+      "description": "Crew cases divided by crew on board, with one decimal and a percent sign",
+      "examples": ["1.4%"],
+      "x-translate": false
+    },
+    "previousReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The previous report's cumulative counts, for the monotonic check; not printed as a table",
+      "properties": {
+        "passengerCases": {
+          "type": "number",
+          "description": "Passenger cases in the previous report",
+          "examples": [38],
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "crewCases": {
+          "type": "number",
+          "description": "Crew cases in the previous report",
+          "examples": [9],
+          "minimum": 0,
+          "maximum": 5000
+        },
+        "reportedAt": {
+          "type": "string",
+          "description": "When it was sent",
+          "examples": ["Nov 5, 2026, 18:00"],
+          "x-translate": false
+        }
+      }
+    },
+    "daily": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "New reportable cases by day of the voyage",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Voyage day",
+            "examples": ["Day 5"],
+            "x-translate": false
+          },
+          "passengers": {
+            "type": "number",
+            "description": "New passenger cases",
+            "examples": [22],
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "crew": {
+            "type": "number",
+            "description": "New crew cases",
+            "examples": [5],
+            "minimum": 0,
+            "maximum": 5000
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "day": "Day 5",
+            "passengers": 22,
+            "crew": 5
+          }
+        ]
+      ]
+    },
+    "thresholdStatus": {
+      "type": "string",
+      "description": "Plain statement of where the counts stand against the 2 and 3 percent levels",
+      "examples": [
+        "Passengers are above 2 percent and below 3 percent. A special report for the 2 percent level was sent Nov 5 and the VSP was telephoned."
+      ]
+    },
+    "actionsTaken": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Response actions in progress, short phrases",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Ill passengers asked to stay in cabins until 24 hours after symptoms end",
+          "Ill food handlers kept off duty for 48 hours after symptoms end",
+          "Increased cleaning and disinfection of public areas",
+          "Stool specimens collected from ill guests"
+        ]
+      ]
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Name and title of the person sending the report (fictional)",
+      "examples": ["Dr. Ines Marlowe, Chief Medical Officer"],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Telephone or email of the ship for follow-up",
+      "examples": ["Ship medical center, bridge line 7-1204"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

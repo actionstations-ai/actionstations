@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Guest letter",
+  "description": "A letter to guests or passengers from a ship or property: an illness notice, cabin isolation instructions, an itinerary or port change, a compensation offer, a shelter-in-place notice or a service outage notice. It names the real steps guests take, gives a contact, and offers no medical advice beyond cited guidance.",
+  "type": "object",
+  "required": ["letterKind", "operator", "dateLine", "salutation", "body", "signer"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "letterKind": {
+      "type": "string",
+      "description": "Kind of letter",
+      "examples": ["Illness notice"],
+      "enum": [
+        "Illness notice",
+        "Cabin isolation",
+        "Itinerary change",
+        "Compensation offer",
+        "Shelter in place",
+        "Service outage",
+        "Departure instructions"
+      ]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Ship, line or property (fictional)",
+      "examples": ["Calloway Cruise Line \u00b7 MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "dateLine": {
+      "type": "string",
+      "description": "Date and time of the letter",
+      "examples": ["November 5, 2026, 17:00 ship time"],
+      "x-translate": false
+    },
+    "salutation": {
+      "type": "string",
+      "description": "Salutation",
+      "examples": ["Dear guests,"]
+    },
+    "body": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Paragraphs of the letter",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "We want you to know that some guests and crew have had stomach illness during this voyage."
+        ]
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "What guests are asked to do, one step each",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Wash your hands with soap and water often, especially before eating.",
+          "If you feel ill, call the medical center at 4-1000 and stay in your cabin."
+        ]
+      ]
+    },
+    "whatWeAreDoing": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What the operator is doing, one line each",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Increased cleaning and disinfection of public areas"]]
+    },
+    "offer": {
+      "type": "string",
+      "description": "Compensation or rebooking offer, if the letter makes one",
+      "examples": [
+        "Every guest on this voyage receives a 25 percent credit toward a future cruise."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Where to get help",
+      "examples": ["Guest Services desk, Deck 5, open 24 hours \u00b7 cabin phone 4-2000"],
+      "x-translate": false
+    },
+    "signer": {
+      "type": "string",
+      "description": "Signer and title (fictional)",
+      "examples": ["Captain Elias Brandt, Master; Maren Okoye, Hotel Director"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -72,6 +72,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
       'k12_schools',
       'stadium_venue',
       'commercial_facilities',
+      'hospitality',
       'municipal',
       'emergency_communications',
       'elections',
