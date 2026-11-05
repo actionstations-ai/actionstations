@@ -28,6 +28,7 @@ import { PersonasEditor } from './PersonasEditor'
 import { StageTimeline } from './StageTimeline'
 import { HazardProvenance } from './HazardProvenance'
 import { LanguagesPanel } from './LanguagesPanel'
+import { ToolkitsPanel } from './ToolkitsPanel'
 import { useLiveLog } from './use-live-log'
 import './scenarios.css'
 import { errorText } from '../../lib/errors'
@@ -86,6 +87,7 @@ function ScenarioTabs(props: {
     ['rubric', 'Rubric'],
     ['evaluation', 'Evaluation'],
     ['languages', 'Languages'],
+    ['toolkits', 'Toolkits'],
     ['personas', `Personas (${scenario.simcellScripts.length})`],
     ['warnings', `Warnings (${props.lintCount ?? scenario.warnings.length})`],
   ]
@@ -138,6 +140,10 @@ function ScenarioTabs(props: {
       <Tabs.Content value="languages" className="tabs__panel">
         <PanelHeading>Languages</PanelHeading>
         <LanguagesPanel projectPath={projectPath} scenario={scenario} />
+      </Tabs.Content>
+      <Tabs.Content value="toolkits" className="tabs__panel">
+        <PanelHeading>Toolkits</PanelHeading>
+        <ToolkitsPanel projectPath={projectPath} scenario={scenario} />
       </Tabs.Content>
       <Tabs.Content value="personas" className="tabs__panel">
         <PanelHeading>Personas</PanelHeading>

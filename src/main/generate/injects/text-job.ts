@@ -10,7 +10,7 @@ import { contextFor, regroundScenario, sameGrounding } from '../../grounding/pro
 import type { JobContext } from '../../jobs/manager'
 import { AppError, toAppError } from '../../lib/errors'
 import { nowIso } from '../../lib/ids'
-import { domainContext } from '../domain'
+import { domainContextWithToolkits } from '../../toolkits/context'
 import { StageFailure } from '../stage'
 import { injectDeps, type InjectDeps } from './deps'
 import { runMediaBrief, type MediaBriefResult } from './media-brief-stage'
@@ -62,7 +62,7 @@ export async function openInjectEnv(
   const [project, index] = await Promise.all([deps.loadProject(root), deps.openIndex(root)])
   const facility = await deps.loadFacilityFacts(root, project)
   const scenario = scenarioId ? await deps.store.getScenario(root, scenarioId) : undefined
-  const domain = domainContext(project, scenario)
+  const domain = await domainContextWithToolkits(project, scenario)
   return { root, deps, index, project, facility, domain, ctx }
 }
 

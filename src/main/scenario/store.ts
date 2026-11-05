@@ -106,6 +106,7 @@ export async function createScenario(
     createdAt: now,
     updatedAt: now,
     brief: init.brief,
+    toolkits: project.toolkits,
   })
   await makeScenarioFolders(projectPath, scenario.id)
   await writeJsonAtomic(scenarioLayout(projectPath, scenario.id).file, scenario)

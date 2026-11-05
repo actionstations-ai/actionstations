@@ -40,7 +40,8 @@ import type { JobContext } from '../jobs/manager'
 import { AppError, toAppError } from '../lib/errors'
 import { nowIso } from '../lib/ids'
 import { pipelineDeps, type PipelineDeps, type SearchIndex } from './deps'
-import { domainContext, roleHeuristics, type DomainContext } from './domain'
+import { roleHeuristics, type DomainContext } from './domain'
+import { domainContextWithToolkits } from '../toolkits/context'
 import {
   hotwashSection,
   renderBriefingMarkdown,
@@ -48,6 +49,7 @@ import {
   renderHotwashMarkdown,
   renderMselMarkdown,
   rubricSection,
+  toolkitsHandbookSection,
   upsertSection,
 } from './docs'
 import {
@@ -789,7 +791,7 @@ async function stepHandbook(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
   const r = await call<HandbookOutput>(input, vars(input))
   applyHandbook(s, r.output)
-  const md = withSeams(s, renderHandbookMarkdown(s, r.output))
+  const md = withToolkits(env, withSeams(s, renderHandbookMarkdown(s, r.output)))
   await writeDoc(env, s, 'handbook', md, 'controller_handbook')
   return r.run
 }
@@ -797,6 +799,12 @@ async function stepHandbook(input: StepInput): Promise<StageRun> {
 /** FR-8: the handbook with its plan seams section (none when the scenario tests no seam). */
 function withSeams(s: Scenario, md: string): string {
   return s.seams.length ? upsertSection(md, 'seams', seamHandbookSection(s)) : md
+}
+
+/** The handbook lists the toolkits used and their data sources (spec 0448 FR-3). */
+function withToolkits(env: Env, md: string): string {
+  const toolkits = env.domain.toolkits ?? []
+  return toolkits.length ? upsertSection(md, 'toolkits', toolkitsHandbookSection(toolkits)) : md
 }
 
 const SECTION_BODY = {
@@ -1543,7 +1551,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
   ])
   const facility = await deps.loadFacilityFacts(root, project)
   const places = (await readProjectMaps(root).catch(() => undefined))?.maps.places ?? []
-  const domain = domainContext(project, scenario)
+  const domain = await domainContextWithToolkits(project, scenario)
   const hazardSnapshot = await snapshotFor(root, scenario)
   const hazards = hazardSnapshot ? hazardSummary(hazardSnapshot) : ''
   const ownerFilter = await loadOwnerFilter(root, scenario.id)

@@ -1,3 +1,4 @@
+import { ToolkitId } from '../toolkits/schema'
 import { z } from 'zod'
 import { ProjectCompliance } from './compliance'
 import {
@@ -167,6 +168,8 @@ export const Project = z.looseObject({
   program: z.object({ id: Id, path: z.string().max(2000) }).optional(),
   /** Fixed term pairs per player language, passed to the translation prompt (spec 0435). */
   glossary: ProjectGlossary.optional(),
+  /** Toolkit ids the project's new scenarios start with (spec 0448); each scenario keeps its own list. */
+  toolkits: z.array(ToolkitId).default([]),
   /** Where the organization is (#439); only rounded values are ever sent to a hazard source. */
   location: ProjectLocation.optional(),
 })

@@ -9,6 +9,13 @@ import {
   PURPOSE_TAGS,
   type InjectTypeInfo,
 } from '@shared/taxonomy'
+import {
+  KNOWLEDGE_TOTAL_CAP,
+  mergedOutsideParties,
+  toolkitInjectTypeIds,
+  toolkitKnowledge,
+  type Toolkit,
+} from '@shared/toolkits'
 import { citationLabel } from './docs'
 import { domainContext, domainVars, threatVars, type DomainContext } from './domain'
 import { DEFAULT_START_WALL_CLOCK, goalSummary, phaseBeats } from './mappers'
@@ -146,12 +153,65 @@ export interface BaseVarsInput {
   domain?: DomainContext
 }
 
+/**
+ * `toolkits` for the prompts (spec 0448 FR-3): the scenario's toolkits, their knowledge within
+ * the cap and the data sources they use. Undefined when the scenario has none, so a prompt's
+ * `{{#if toolkits}}` block drops out.
+ */
+export function toolkitVars(toolkits: readonly Toolkit[] | undefined) {
+  if (!toolkits?.length) return undefined
+  const knowledge = toolkitKnowledge(toolkits, KNOWLEDGE_TOTAL_CAP)
+  return dataSafe({
+    list: toolkits.map((t) => ({
+      id: t.id,
+      name: t.name,
+      description: t.description,
+      connectors: t.connectors,
+      figureKinds: t.figureKinds,
+      documents: t.documents.map((d) => d.title),
+    })),
+    names: toolkits.map((t) => t.name),
+    knowledge: knowledge.text.replace(/<(?=\s*\/?\s*toolkit_knowledge\b)/gi, '‹'),
+    hasKnowledge: knowledge.text.length > 0,
+  })
+}
+
+/** The profile's domain variables with the toolkits' outside parties and inject types added. */
+function domainVarsWith(domain: DomainContext) {
+  const base = domainVars(domain.profile)
+  const toolkits = domain.toolkits ?? []
+  if (!toolkits.length) return base
+  const known = new Set(injectTypes().map((t) => t.id))
+  return {
+    ...base,
+    outsideParties: mergedOutsideParties(base.outsideParties, toolkits),
+    injectTypes: [
+      ...base.injectTypes,
+      ...toolkitInjectTypeIds(base.injectTypes, toolkits).filter((id) => known.has(id)),
+    ],
+  }
+}
+
+/** The taxonomy with the toolkits' inject types after the domain's own. */
+function taxonomyWith(domain: DomainContext) {
+  const base = taxonomyVarsFor(domain.profile)
+  const toolkits = domain.toolkits ?? []
+  const have = new Set(base.injectTypes.map((t) => t.id))
+  const extra = toolkitInjectTypeIds([], toolkits)
+    .filter((id) => !have.has(id))
+    .map((id) => injectTypes().find((t) => t.id === id))
+    .filter((t): t is InjectTypeInfo => !!t)
+  return extra.length ? { ...base, injectTypes: [...base.injectTypes, ...typeVars(extra)] } : base
+}
+
 export function baseVars(input: BaseVarsInput): Record<string, unknown> {
   const { project, scenario, idea, instructions } = input
   const domain = input.domain ?? domainContext(project, scenario)
+  const toolkits = toolkitVars(domain.toolkits)
   return {
     project: projectVars(project),
-    domain: domainVars(domain.profile),
+    domain: domainVarsWith(domain),
+    ...(toolkits ? { toolkits } : {}),
     threat: threatVars(domain.threat),
     brief: scenario.brief,
     startWallClock: scenario.brief.startWallClock ?? DEFAULT_START_WALL_CLOCK,
@@ -163,7 +223,7 @@ export function baseVars(input: BaseVarsInput): Record<string, unknown> {
     scenario: scenarioVars(scenario),
     roles: scenario.roles.map(roleVars),
     phases: scenarioVars(scenario).phases,
-    taxonomy: taxonomyVarsFor(domain.profile),
+    taxonomy: taxonomyWith(domain),
     instructions: instructions ?? '',
   }
 }

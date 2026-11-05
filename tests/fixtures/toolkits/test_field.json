@@ -1,0 +1,57 @@
+{
+  "id": "test_field",
+  "name": "Test field",
+  "description": "A made-up field used by the tests: two invented products and one decision.",
+  "appliesTo": { "keywords": ["gale", "sea fog"], "domains": ["transit"] },
+  "injectTypes": ["test_bulletin"],
+  "figureKinds": ["time_series", "status_board"],
+  "connectors": ["test_archive"],
+  "outsideParties": ["Harbor watch desk", "Port authority liaison"],
+  "advisorRoles": [
+    {
+      "key": "field_liaison",
+      "name": "Field liaison",
+      "abbreviation": "FL",
+      "team": "Advisors",
+      "description": "Explains the field's products to the players."
+    }
+  ],
+  "documents": [
+    { "packId": "org.example.library", "documentId": "field-guide", "title": "Field guide" }
+  ],
+  "metrics": [{ "id": "decision_timing", "config": { "windowMinutes": 30 } }],
+  "decisionForms": [
+    {
+      "id": "issue_bulletin",
+      "label": "Issue a bulletin",
+      "description": "Publish a bulletin for the harbor.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Advisory", "Warning"]
+        },
+        { "id": "area", "label": "Area", "kind": "area" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Bulletin",
+        "definition": "A short notice with a level, an area and an expiry time."
+      }
+    ],
+    "productConventions": [
+      "A bulletin names its level first, then the area, then the expiry time."
+    ],
+    "realismRules": [
+      "A warning is never issued without an area.",
+      "Times are written in the local zone."
+    ]
+  },
+  "lintRules": ["bulletin_syntax"]
+}

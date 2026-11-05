@@ -13,6 +13,7 @@ import {
   type ThreatFamilyId,
 } from '@shared/domains'
 import { injectTypesForDomain } from '@shared/taxonomy'
+import type { Toolkit } from '@shared/toolkits'
 import {
   compressIds,
   expandIds,
@@ -24,6 +25,8 @@ import {
 export interface DomainContext {
   profile: DomainProfile
   threat: ThreatFamily
+  /** The scenario's toolkits (spec 0448), when resolved; only the generator's env sets it. */
+  toolkits?: Toolkit[]
 }
 
 /** The project fields its domain profile resolves from. */

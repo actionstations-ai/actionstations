@@ -223,6 +223,8 @@ export const DomainProfile = z.object({
   regulations: z.array(z.string().max(64)).max(30).optional(),
   /** Control framework ids (pack `frameworks/`) the coverage matrix uses by default (#426). */
   frameworks: z.array(z.string().max(64)).max(10).optional(),
+  /** Toolkit ids (pack `toolkits/`) proposed for scenarios of this domain (spec 0448). */
+  suggestedToolkits: z.array(z.string().max(64)).max(20).optional(),
 })
 export type DomainProfile = z.infer<typeof DomainProfile>
 
