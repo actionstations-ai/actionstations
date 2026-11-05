@@ -28,6 +28,7 @@ import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { registerFloodingToolkit } from './toolkits/flooding'
 import { registerMediaToolkit } from './toolkits/media'
+import { registerWeatherToolkit } from './toolkits/weather'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
 import { registerSpillConnectors } from './toolkits/connectors/spill'
@@ -217,6 +218,7 @@ void app.whenReady().then(async () => {
   registerIpc(isAppUrl)
   registerMediaToolkit()
   registerFloodingToolkit()
+  registerWeatherToolkit()
   // Decision forms for live play and Facilitate come from the scenario's toolkits (spec 0448).
   installToolkitDecisionForms()
   // Code-backed parts of the bundled toolkits (generators, connectors).

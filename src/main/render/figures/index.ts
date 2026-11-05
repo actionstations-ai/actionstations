@@ -51,12 +51,46 @@ const FiguresField = z.record(z.string().regex(/^[A-Za-z][A-Za-z0-9_]*$/), Figur
 
 const MAX_FIGURES = 12
 
+/** What the bridge needs of a resolved case reference. */
+export interface CaseValues {
+  [path: string]: { value: unknown; label?: string }
+}
+
+/**
+ * A figure's `data` can be a reference into case data: a dataset of features whose
+ * `properties.data` holds the figure's data for the moment the inject shows (a radar frame, a
+ * sounding). The render resolves the reference to display text and keeps the value under
+ * `figures.<name>.data`; the bridge swaps the text for that data, so the figure is still drawn
+ * from validated data and a historical or simulated dataset is the only source.
+ */
+function figureDataFromCase(
+  name: string,
+  data: unknown,
+  caseData: CaseValues | undefined,
+): unknown {
+  const resolved = caseData?.[`figures.${name}.data`]
+  if (typeof data !== 'string' || !resolved) return data
+  const features = Array.isArray(resolved.value) ? resolved.value : []
+  const hit = features.find(
+    (f) =>
+      f &&
+      typeof f === 'object' &&
+      typeof (f as { properties?: { data?: unknown } }).properties?.data === 'object',
+  ) as { properties: { data: unknown } } | undefined
+  if (!hit)
+    throw new AppError('VALIDATION', `figures.${name}: the case data holds no figure for this time`)
+  return hit.properties.data
+}
+
 /**
  * `figures.<name>` for a template: each entry of `fields.figures` drawn by its kind. Empty when
  * the inject has none. Invalid specs throw a VALIDATION error naming the figure, so a render
  * never ships a half-drawn chart.
  */
-export function computeFigures(fields: Record<string, unknown>): Record<string, FigureOutput> {
+export function computeFigures(
+  fields: Record<string, unknown>,
+  caseData?: CaseValues,
+): Record<string, FigureOutput> {
   const raw = fields.figures
   if (raw === undefined || raw === null) return {}
   const parsed = FiguresField.safeParse(raw)
@@ -71,7 +105,10 @@ export function computeFigures(fields: Record<string, unknown>): Record<string, 
   const out: Record<string, FigureOutput> = {}
   for (const [name, spec] of entries) {
     try {
-      out[name] = new FigureOutput(spec.kind, renderFigure(spec))
+      out[name] = new FigureOutput(
+        spec.kind,
+        renderFigure({ ...spec, data: figureDataFromCase(name, spec.data, caseData) }),
+      )
     } catch (e) {
       if (e instanceof AppError)
         throw new AppError(e.code, `figures.${name}: ${e.message}`, e.details)
