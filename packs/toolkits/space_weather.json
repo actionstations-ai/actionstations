@@ -1,0 +1,117 @@
+{
+  "id": "space_weather",
+  "name": "Space weather",
+  "description": "NOAA Space Weather Prediction Center watches, warnings and alerts, the G, S and R scales, Kp and flux series, GNSS error and timing holdover, and decisions scored by the clocks that matter: grid operating procedures applied before storm onset and time source failover before holdover expires. For any organization that has to operate through a geomagnetic storm, a radiation storm or a radio blackout: utilities, telecom, aviation, farms, rail, ports and satellite operators.",
+  "appliesTo": {
+    "keywords": [
+      "space weather",
+      "geomagnetic storm",
+      "geomagnetic disturbance",
+      "gmd",
+      "gic",
+      "solar flare",
+      "coronal mass ejection",
+      "cme",
+      "kp index",
+      "solar radiation storm",
+      "radio blackout",
+      "hf blackout",
+      "gnss",
+      "gps outage",
+      "timing holdover",
+      "scintillation",
+      "satellite anomaly",
+      "safe mode",
+      "aurora",
+      "solar storm"
+    ],
+    "domains": [
+      "space_weather",
+      "energy_utility",
+      "telecom",
+      "airport",
+      "food_agriculture",
+      "freight_rail",
+      "transit",
+      "port_maritime",
+      "gas_pipeline",
+      "emergency_communications",
+      "financial_services",
+      "unmanned_systems",
+      "municipal"
+    ]
+  },
+  "injectTypes": [],
+  "outsideParties": [
+    "the NOAA Space Weather Prediction Center",
+    "the reliability coordinator",
+    "NERC and the Regional Entity",
+    "the FAA and ICAO space weather centers",
+    "GNSS and receiver vendors",
+    "satellite customers",
+    "state emergency management"
+  ],
+  "advisorRoles": [
+    {
+      "key": "space_weather_forecaster",
+      "name": "Space weather forecaster (SWPC liaison)",
+      "abbreviation": "SWFC",
+      "team": "Advisors",
+      "description": "Explains the products, what a level means, what changed between messages and how uncertain the arrival time is."
+    },
+    {
+      "key": "grid_reliability_engineer",
+      "name": "Reliability engineer (grid advisor)",
+      "abbreviation": "REL",
+      "team": "Advisors",
+      "description": "Knows the operating plan elements, which entities must be told and what the log must show."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "G, S and R scales",
+        "definition": "NOAA levels 1 to 5 (Minor to Extreme) for geomagnetic storms (Kp), solar radiation storms (10 MeV proton flux) and radio blackouts (X-ray class)."
+      },
+      {
+        "term": "G to Kp",
+        "definition": "G1 is Kp 5, G2 is 6, G3 is 7, G4 is 8 (including 9-), G5 is 9."
+      },
+      {
+        "term": "R to X-ray class",
+        "definition": "R1 is M1, R2 is M5, R3 is X1, R4 is X10, R5 is X20."
+      },
+      {
+        "term": "S levels",
+        "definition": "S1 is 10 particle flux units at 10 MeV and above; each level is ten times the one before."
+      },
+      {
+        "term": "Watch, warning, alert",
+        "definition": "A watch is elevated risk with uncertain timing; a warning is an event occurring, imminent or likely; an alert says a threshold has been crossed."
+      },
+      {
+        "term": "GIC",
+        "definition": "Geomagnetically induced current in a transformer neutral, driven by the geoelectric field in V/km."
+      }
+    ],
+    "productConventions": [
+      "SWPC products carry a message code (for example WATA20, WARK05, ALTK06, SUMX01) and serial number, and times are UTC.",
+      "A geomagnetic storm watch lists the highest level predicted for each day; copy real layouts, not invented thresholds.",
+      "Grid procedure notices follow NERC EOP-010: information received, actions at predetermined conditions, a termination condition, and evidence in logs.",
+      "Impact messages state effects and actions, not solar physics; partner messages agree on severity and duration.",
+      "Exercise products are marked as exercises; a simulated level is never presented as an NOAA product."
+    ],
+    "realismRules": [
+      "Scale levels describe potential effects; impacts are regional and depend on latitude and ground conductivity.",
+      "CME arrival time is uncertain by hours; state the lead time the scenario assumes.",
+      "A flare gives minutes of effect and no lead time; radiation lasts hours to days; scintillation can last days after the peak.",
+      "Satellite navigation is degraded for hours at G4 and days at G5; HF is intermittent at G3 and may be lost for a day or two at G5.",
+      "Do not give engineering advice about protection settings or radiation doses.",
+      "Real storms are historical and dated; fictional events use invented utilities, satellites and places."
+    ]
+  },
+  "lintRules": []
+}
