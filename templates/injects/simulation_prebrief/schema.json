@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Simulation prebrief",
+  "description": "The briefing read to learners before a simulation or case study: objectives, a summary of the scenario, ground rules (confidentiality, psychological safety, the right to step out), orientation to the tools and roles, and the notices about scoring and who sees answers. Follows the structure of recognized simulation standards without reproducing their text.",
+  "required": ["title", "objectives", "scenarioSummary", "groundRules"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 FACILITATOR GUIDE"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Case or scenario title",
+      "examples": ["Sepsis after surgery: an unfolding case study"]
+    },
+    "objectives": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Learning objectives",
+      "items": {
+        "type": "string",
+        "description": "Learning objectives",
+        "examples": ["Recognize the cues that show a patient is changing"]
+      }
+    },
+    "scenarioSummary": {
+      "type": "string",
+      "description": "What the scenario is, in a few sentences",
+      "examples": [
+        "A simulated patient, day 2 after surgery. The case unfolds in six stages with questions at each."
+      ]
+    },
+    "groundRules": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Ground rules, including confidentiality and psychological safety",
+      "items": {
+        "type": "string",
+        "description": "Ground rules, including confidentiality and psychological safety",
+        "examples": ["What is said in the simulation stays in the simulation."]
+      }
+    },
+    "orientation": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Orientation to the tools, the roles and the debrief",
+      "items": {
+        "type": "string",
+        "description": "Orientation to the tools, the roles and the debrief",
+        "examples": ["The tools you will see: monitor trends, flowsheets and handoff forms."]
+      }
+    },
+    "contentNotice": {
+      "type": "string",
+      "description": "Content notice for death, violence or harm to children",
+      "examples": ["This case includes the death of a patient."]
+    },
+    "scoreNote": {
+      "type": "string",
+      "description": "How answers are scored",
+      "examples": ["Scores use this app's own scale. They are not NCLEX scores."]
+    },
+    "privacyNote": {
+      "type": "string",
+      "description": "Who can see answers",
+      "examples": ["Your instructor can see your answers in a class session."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

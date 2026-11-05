@@ -1,0 +1,47 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">Prebrief</div>
+      <h1 class="title">{{fields.title}}</h1>
+    </div>
+    <div class="sub"></div>
+  </header>
+  {{#if fields.contentNotice}}
+  <p class="note">
+    <strong>Content notice:</strong> {{fields.contentNotice}} You may choose not to do this case.
+  </p>
+  {{/if}}
+  <h2>What you will practice</h2>
+  <ul>
+    {{#each fields.objectives}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>The scenario</h2>
+  <p class="note">{{fields.scenarioSummary}}</p>
+  <h2>Ground rules</h2>
+  <ul>
+    {{#each fields.groundRules}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.orientation.length}}
+  <h2>Orientation</h2>
+  <ul>
+    {{#each fields.orientation}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.scoreNote}}
+  <p class="note">{{fields.scoreNote}}</p>
+  {{/if}} {{#if fields.privacyNote}}
+  <p class="note">{{fields.privacyNote}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Prebrief given by: ____________________ Date: ____________</span
+    ><span>Exercise content</span>
+  </footer>
+</section>

@@ -12,6 +12,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { useIpcQuery } from '../../lib/query'
 import { fromProjectKey } from '../../state/project'
+import { EducationPanel } from './EducationPanel'
 import { PlayerView } from './PlayerView'
 import './casestudies.css'
 
@@ -194,6 +195,16 @@ function CaseCard(props: {
       toast.error('Could not record the review', errorText(e))
     }
   }
+  const exportDoc = async (
+    kind: 'prebrief' | 'facilitation' | 'debrief' | 'feedback' | 'facilitator',
+  ) => {
+    try {
+      const r = await call('casestudy:export', { projectPath, kind, caseId: item.id })
+      toast.success('Document written', r.path)
+    } catch (e) {
+      toast.error('Could not write the document', errorText(e))
+    }
+  }
   const remove = async () => {
     try {
       await call('casestudy:delete', { projectPath, id: item.id })
@@ -215,6 +226,21 @@ function CaseCard(props: {
       {item.contentNotice && (
         <p className="cs-note cs-note--warn">Content notice: {item.contentNotice}</p>
       )}
+      <div className="row" role="group" aria-label={`Documents for ${item.title}`}>
+        {(
+          [
+            ['prebrief', 'Prebrief'],
+            ['facilitation', 'Facilitation guide'],
+            ['debrief', 'Debrief guide'],
+            ['feedback', 'Feedback form'],
+            ['facilitator', 'Class summary'],
+          ] as const
+        ).map(([kind, label]) => (
+          <Button key={kind} size="sm" onClick={() => void exportDoc(kind)}>
+            {label} (PDF)
+          </Button>
+        ))}
+      </div>
       <div className="row">
         <Button
           variant="primary"
@@ -322,6 +348,7 @@ export default function CaseStudiesPage() {
           </ul>
         )}
       </section>
+      <EducationPanel projectPath={projectPath} cases={list.data ?? []} />
     </div>
   )
 }

@@ -1,0 +1,53 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">Program record</div>
+      <h1 class="title">{{fields.program}}</h1>
+    </div>
+    <div class="sub">
+      Total simulation hours<br /><strong class="mono">{{fields.totalHours}}</strong>
+    </div>
+  </header>
+  <h2>Sessions</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Session</th>
+        <th scope="col">Hours</th>
+        <th scope="col">Prebriefing</th>
+        <th scope="col">Facilitation</th>
+        <th scope="col">Integrity</th>
+        <th scope="col">Debriefing</th>
+        <th scope="col">Check-in</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.sessions}}
+      <tr>
+        <td class="mono">{{this.date}}</td>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.title}}<br /><em>{{this.facilitator}} · {{this.participants}} participants</em>
+        </th>
+        <td class="mono">{{this.hours}}</td>
+        <td>{{this.prebrief}}</td>
+        <td>{{this.facilitation}}</td>
+        <td>{{this.integrity}}</td>
+        <td>{{this.debrief}}</td>
+        <td>{{this.checkIn}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="note">{{fields.hoursNote}}</p>
+  <footer class="foot">
+    <span>Prepared for the program's own records</span
+    ><span>Cornerstones follow the INACSL standards (cited, not reproduced)</span>
+  </footer>
+</section>

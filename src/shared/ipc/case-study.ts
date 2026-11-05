@@ -12,6 +12,7 @@ import {
   CjmmStep,
   StepScore,
 } from '../schemas/case-study'
+import { Cornerstone, EducationRecord } from '../schemas/education-record'
 
 const P = z.object({ projectPath: z.string().min(1) })
 
@@ -167,4 +168,37 @@ export const caseStudyChannels = {
   /** Move to the next stage (or finish) once every prompt of the stage is answered. */
   'casestudy:run-advance': channel(P.extend({ runId: SafeId }), PlayView),
   'casestudy:runs': channel(P.extend({ caseId: SafeId.optional() }), z.array(CaseStudyRun)),
+  /** Education records: that each cornerstone of a session was done, by whom, and the hours. */
+  'education:list': channel(P, z.array(EducationRecord)),
+  'education:save': channel(P.extend({ record: EducationRecord }), EducationRecord),
+  'education:delete': channel(P.extend({ id: SafeId }), z.object({})),
+  /** Mark a cornerstone done (a name is required) or take the mark back. */
+  'education:cornerstone': channel(
+    P.extend({
+      id: SafeId,
+      cornerstone: Cornerstone,
+      done: z.boolean(),
+      by: z.string().max(120).optional(),
+      note: z.string().max(500).optional(),
+    }),
+    EducationRecord,
+  ),
+  /** Write a prebrief, facilitation guide, debrief guide, feedback form, report or program record as a PDF. */
+  'casestudy:export': channel(
+    P.extend({
+      kind: z.enum([
+        'prebrief',
+        'facilitation',
+        'debrief',
+        'feedback',
+        'learner',
+        'facilitator',
+        'program',
+      ]),
+      caseId: SafeId.optional(),
+      runId: SafeId.optional(),
+      program: z.string().max(200).optional(),
+    }),
+    z.object({ path: z.string() }),
+  ),
 }

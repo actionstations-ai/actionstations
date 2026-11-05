@@ -1,0 +1,79 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">Learner report</div>
+      <h1 class="title">{{fields.title}}</h1>
+    </div>
+    <div class="sub">{{fields.learner}} · {{fields.mode}}<br />{{fields.date}}</div>
+  </header>
+  <p class="note">
+    Overall:
+    <strong
+      >{{#if (or fields.overall (eq fields.overall
+      0))}}{{fields.overall}}%{{else}}n/a{{/if}}</strong
+    >
+    of the possible credit on the practice scale.{{#if fields.strong}} Strongest step:
+    {{fields.strong}}.{{/if}}{{#if fields.weak}} Weakest step: {{fields.weak}}.{{/if}}
+  </p>
+  <h2>Profile across the six steps</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Step</th>
+        <th scope="col">Questions</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.steps}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.label}}
+        </th>
+        <td class="mono">{{this.prompts}}</td>
+        <td class="mono">{{this.percent}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.decisions.length}}
+  <h2>Decisions and rationale</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Step</th>
+        <th scope="col">Question and your answer</th>
+        <th scope="col">Score</th>
+        <th scope="col">Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.decisions}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.step}}
+        </th>
+        <td>{{this.question}}<br /><em>{{this.answer}}</em></td>
+        <td class="mono">{{this.percent}}%</td>
+        <td>{{this.rationale}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.scoreNote}}
+  <p class="note">
+    {{fields.scoreNote}} A low step is a prompt to review that kind of thinking, not a judgment of
+    you.
+  </p>
+  {{/if}}
+  <footer class="foot"><span>Practice report</span><span>Simulated patient</span></footer>
+</section>

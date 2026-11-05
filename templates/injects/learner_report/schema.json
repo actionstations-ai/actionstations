@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Learner report",
+  "description": "A learner's report on a case study: overall score on this app's practice scale, the profile across the six steps of clinical judgment, the strongest and weakest step, the decisions made with the rationale read. Not an NCLEX score.",
+  "required": ["title", "steps"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Case title",
+      "examples": ["Sepsis after surgery"]
+    },
+    "learner": {
+      "type": "string",
+      "description": "Learner name or label",
+      "examples": ["Anonymous"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["2026-11-04"]
+    },
+    "mode": {
+      "type": "string",
+      "description": "Individual or group",
+      "examples": ["Individual"]
+    },
+    "overall": {
+      "type": ["integer", "null"],
+      "description": "Overall percent on the practice scale, or null"
+    },
+    "steps": {
+      "type": "array",
+      "description": "The six steps (1-6)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Step",
+            "examples": ["Recognize cues"]
+          },
+          "percent": {
+            "type": "string",
+            "description": "Percent or n/a",
+            "examples": ["75%"]
+          },
+          "prompts": {
+            "type": "integer",
+            "description": "Questions answered"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["label", "percent"]
+      },
+      "minItems": 1
+    },
+    "strong": {
+      "type": "string",
+      "description": "Strongest step",
+      "examples": ["Recognize cues (100%)"]
+    },
+    "weak": {
+      "type": "string",
+      "description": "Weakest step",
+      "examples": ["Take action (40%)"]
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Decisions made (0-30)",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string",
+            "description": "Step",
+            "examples": ["Take action"]
+          },
+          "question": {
+            "type": "string",
+            "description": "Question",
+            "examples": ["What do you do now?"]
+          },
+          "answer": {
+            "type": "string",
+            "description": "The learner's answer",
+            "examples": ["Call rapid response"]
+          },
+          "percent": {
+            "type": "integer",
+            "description": "Score percent"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "The rationale shown after answering",
+            "examples": ["The safest first move is to bring help."]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scoreNote": {
+      "type": "string",
+      "description": "Scale note",
+      "examples": ["Scores use this app's own scale. They are not NCLEX scores."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

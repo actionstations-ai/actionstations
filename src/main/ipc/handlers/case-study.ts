@@ -10,6 +10,13 @@ import {
   reviewCaseStudy,
   saveCaseStudy,
 } from '../../casestudy/store'
+import {
+  deleteEducationRecord,
+  listEducationRecords,
+  markCornerstone,
+  saveEducationRecord,
+} from '../../casestudy/education'
+import { exportDocument } from '../../casestudy/export'
 import { advance, playView, startRun, submitAnswer } from '../../casestudy/run'
 import { listRuns } from '../../casestudy/store'
 import { newId } from '../../lib/ids'
@@ -87,4 +94,30 @@ export default defineHandlers({
 
   'casestudy:runs': async ({ projectPath, caseId }) =>
     listRuns(await requireProject(projectPath), caseId),
+
+  'education:list': async ({ projectPath }) =>
+    listEducationRecords(await requireProject(projectPath)),
+
+  'education:save': async ({ projectPath, record }) =>
+    saveEducationRecord(await requireProject(projectPath), record),
+
+  'education:delete': async ({ projectPath, id }) => {
+    await deleteEducationRecord(await requireProject(projectPath), id)
+    return {}
+  },
+
+  'education:cornerstone': async ({ projectPath, id, cornerstone, done, by, note }) =>
+    markCornerstone(await requireProject(projectPath), id, cornerstone, {
+      done,
+      ...(by !== undefined ? { by } : {}),
+      ...(note !== undefined ? { note } : {}),
+    }),
+
+  'casestudy:export': async ({ projectPath, kind, caseId, runId, program }) =>
+    exportDocument(await requireProject(projectPath), {
+      kind,
+      ...(caseId ? { caseId } : {}),
+      ...(runId ? { runId } : {}),
+      ...(program ? { program } : {}),
+    }),
 })
