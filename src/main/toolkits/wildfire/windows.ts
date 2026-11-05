@@ -1,6 +1,7 @@
 // Power shutoff notification windows (spec 0461 FR-6, FR-13). The windows are California's
-// example rule from the CPUC decision D.19-05-042 as quoted in a CPUC citation (the decision
-// text itself was not read). They are not a national requirement, so a project may replace them.
+// example rule from the CPUC decision D.19-05-042 (page 86 and Appendix A page A8 of the
+// decision, read 2026-11-05; the later decision D.21-06-034 updated the guidelines and was not
+// read). They are not a national requirement, so a project may replace them.
 // Pure functions shared by the format checks and the timing metric.
 
 export interface NotificationWindow {
