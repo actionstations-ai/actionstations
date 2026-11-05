@@ -48,7 +48,7 @@ A scenario without toolkits behaves as it always did.
 ## When a pack names something this app does not have
 
 A toolkit can only use charts, data sources, measures and format checks built into the app. If a pack names one your version of the app does not have, the pack still installs. Its details list the unknown names under **Names things this app lacks**, and those parts are ignored. Updating the app usually resolves it. The same notice appears for a domain that prefers an inject type nothing installed provides.
-Field packs that use toolkits: [Flooding exercises](flooding.md), [AI incidents and synthetic media](ai-incidents.md).
+Field packs that use toolkits: [Flooding exercises](flooding.md), [AI incidents and synthetic media](ai-incidents.md), [Research laboratories and biosafety](research-labs.md).
 
 ## Add your own
 

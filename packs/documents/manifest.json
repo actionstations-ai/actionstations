@@ -187,6 +187,12 @@
       "summary": "NIST AI Risk Management Framework and Generative AI Profile, the FinCEN alert on deepfake fraud and the FCC ruling on AI voices in robocalls.",
       "domain": "ai_incidents",
       "version": "1.0.0"
+    },
+    "research-labs-library": {
+      "name": "Research laboratories reference library",
+      "summary": "The select agent regulations (42 CFR part 73) and links to biosafety guidance, the NIH Guidelines and the draft NIH biosafety policy.",
+      "domain": "research_labs",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -5249,6 +5255,22 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): FCC.",
       "pinned": "2026-11-05"
+    },
+    {
+      "pack": "research-labs-library",
+      "slug": "cfr-42-part-73",
+      "file": "cfr-42-part-73.pdf",
+      "title": "Code of Federal Regulations, Title 42, Part 73: Select Agents and Toxins",
+      "publisher": "Office of the Federal Register and U.S. Government Publishing Office",
+      "edition": "CFR 2025 edition (Title 42, volume 1)",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol1/pdf/CFR-2025-title42-vol1-part73.pdf",
+      "landing": "https://www.govinfo.gov/app/details/CFR-2025-title42-vol1/CFR-2025-title42-vol1-part73",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. section 105): the Code of Federal Regulations is published by the Office of the Federal Register and the Government Publishing Office, and govinfo.gov states that it is in the public domain",
+      "note": "Sections 73.14 (incident response and annual drills) and 73.19 (notification of theft, loss or release; Form 3 within seven calendar days) are the clocks and the drill record the lab safety toolkit uses. The eCFR carries the current text; check it for changes after this edition.",
+      "sha256": "7dd5ef2366ebfd2f79b897ade0fc6e4a3e9f2f494135e77a1b710f1665fecdd2",
+      "size": 297140,
+      "pinned": "2026-11-05"
     }
   ],
   "links": [
@@ -7813,6 +7835,34 @@
       "publisher": "Coalition for Content Provenance and Authenticity",
       "url": "https://spec.c2pa.org/",
       "reason": "Specification terms are the C2PA's own; linked, not bundled"
+    },
+    {
+      "pack": "research-labs-library",
+      "title": "Biosafety in Microbiological and Biomedical Laboratories (BMBL), 6th edition",
+      "publisher": "CDC and NIH",
+      "url": "https://www.cdc.gov/labs/bmbl/index.html",
+      "reason": "The download was refused to scripts and the edition's copyright page was not read, so the license is unverified; read it on the CDC site"
+    },
+    {
+      "pack": "research-labs-library",
+      "title": "NIH Guidelines for Research Involving Recombinant or Synthetic Nucleic Acid Molecules",
+      "publisher": "NIH Office of Science Policy",
+      "url": "https://osp.od.nih.gov/policies/biosafety-and-biosecurity-policy/",
+      "reason": "The PDF was refused to scripts when the library was built, so its text and license were not verified; the NIH reporting clocks carry that caveat"
+    },
+    {
+      "pack": "research-labs-library",
+      "title": "Draft NIH Biosafety Policy for Research Involving Biohazards (NOT-OD-26-112, August 19, 2026)",
+      "publisher": "NIH Office of Science Policy",
+      "url": "https://grants.nih.gov/grants/guide/notice-files/NOT-OD-26-112.html",
+      "reason": "A draft notice (comments closed October 19, 2026) that may change or be withdrawn; link rather than copy and re-check its status at each release"
+    },
+    {
+      "pack": "research-labs-library",
+      "title": "Federal Select Agent Program: incident response plan guidance and APHIS/CDC Form 3",
+      "publisher": "Federal Select Agent Program (CDC and APHIS)",
+      "url": "https://www.selectagents.gov/compliance/guidance/incident-response/index.htm",
+      "reason": "The site footer reads 'All rights reserved' with no public domain notice, so the files are linked, not copied; Form 3 is a web form"
     }
   ]
 }
