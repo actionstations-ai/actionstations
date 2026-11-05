@@ -1,4 +1,4 @@
-# ADR-0080: Program exercise tags and capability mappings are toolkit data
+# ADR-0083: Program exercise tags and capability mappings are toolkit data
 
 Date: 2026-11-05 · Status: Accepted · Issue: #842 · Spec: [0457](../specs/0457-epidemiology.md) FR-13, FR-14 · Related: ADR-0074 (toolkits), ADR-0077 (field metrics)
 

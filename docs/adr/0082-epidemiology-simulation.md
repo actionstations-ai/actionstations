@@ -1,4 +1,4 @@
-# ADR-0079: Epidemiology simulations are small, documented and seeded
+# ADR-0082: Epidemiology simulations are small, documented and seeded
 
 Date: 2026-11-05 · Status: Accepted · Issues: #836, #838 · Spec: [0457](../specs/0457-epidemiology.md) · Related: ADR-0075 (figures), ADR-0076 (case data)
 

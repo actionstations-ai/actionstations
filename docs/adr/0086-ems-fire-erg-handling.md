@@ -1,4 +1,4 @@
-# ADR-0150: Guidebook distances are entered or invented, never bundled
+# ADR-0086: Guidebook distances are entered or invented, never bundled
 
 Date: 2026-11-05 · Status: Accepted · Issues: #802, #796 · Spec: [0456](../specs/0456-ems-fire.md) FR-4, FR-6
 

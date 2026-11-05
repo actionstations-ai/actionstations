@@ -1,4 +1,4 @@
-# ADR-0085: PREP exercise support is data plus a record
+# ADR-0084: PREP exercise support is data plus a record
 
 Date: 2026-11-05 · Status: Accepted · Issue: #782 · Spec: [0455](../specs/0455-environmental-response.md)
 
