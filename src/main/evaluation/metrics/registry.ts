@@ -31,6 +31,9 @@ import { corrections } from './corrections'
 import { decisionTiming } from './decision-timing'
 import { destinationFit } from './destination-fit'
 import { holdingStatementTime } from './holding-statement-time'
+import { needsCoverage } from './needs-coverage'
+import { serviceLevel } from './service-level'
+import { timeToCompletion } from './time-to-completion'
 import { messageConsistency, type FactStatement, type KeyFact } from './message-consistency'
 import { protectiveActionDistance } from './protective-action-distance'
 import { protectionCoverage } from './protection-coverage'
@@ -126,6 +129,10 @@ registerMetric(triageCompletion, eventsAndDecisions)
 registerMetric(destinationFit, eventsAndDecisions)
 registerMetric(protectiveActionDistance, eventsAndDecisions)
 registerMetric(accountability, eventsAndDecisions)
+// Human services (spec 0464): generic service level, time to completion and needs coverage.
+registerMetric(serviceLevel, (b) => ({ series: b.series ?? [] }))
+registerMetric(timeToCompletion, eventsAndDecisions)
+registerMetric(needsCoverage, eventsAndDecisions)
 
 export const metricIds = (): string[] => [...entries.keys()].sort()
 export const isMetricId = (id: string): boolean => entries.has(id)

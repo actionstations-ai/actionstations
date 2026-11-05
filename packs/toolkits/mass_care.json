@@ -59,7 +59,12 @@
       "description": "Advises on supports for people with access and functional needs, in place, in the general population area."
     }
   ],
-  "lintRules": ["hs_fnss_integration"],
+  "lintRules": [
+    "hs_fnss_integration",
+    "hs_safe_messaging",
+    "hs_exercise_helpline",
+    "hs_no_real_line_for_players"
+  ],
   "figureKinds": ["hs_shelter_dashboard", "hs_shelter_map"],
   "knowledge": {
     "glossary": [
@@ -98,6 +103,194 @@
         "Plan consolidation or closing with transition support for residents"
       ],
       "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Place resource requests with the EOC mass care branch with quantity, place and time",
+        "Consolidate or close shelters with a plan for each resident",
+        "Name roles and a single point of contact at the shelter"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Reconcile registration with the daily count",
+        "Track needs met and open by category",
+        "Watch generator fuel and supplies against hours remaining"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "health_and_social_services",
+      "criticalTasks": [
+        "Offer psychological first aid at a shelter mental health table",
+        "Refer residents who need clinical care through the health services lead",
+        "Support shelter staff over a long activation"
+      ],
+      "mappings": []
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "hs_open_shelter",
+      "label": "Open shelter",
+      "description": "Decide to open a shelter: where, capacity and when doors open.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "capacity",
+          "label": "Capacity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "opening_time",
+          "label": "Opening time",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "hs_report_shelter_doors_open",
+      "label": "Report doors open",
+      "description": "Record that a shelter has opened its doors.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "hs_close_or_consolidate_shelter",
+      "label": "Close or consolidate shelter",
+      "description": "Close a shelter or move residents into another.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Close", "Consolidate into another shelter"]
+        },
+        {
+          "id": "effective_time",
+          "label": "Effective time",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "transition_plan",
+          "label": "Transition plan for residents",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "hs_assign_fnss_support",
+      "label": "Assign functional needs support",
+      "description": "Meet a need in place in the general population area.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Shelter",
+          "kind": "area",
+          "required": true,
+          "draw": false
+        },
+        {
+          "id": "need",
+          "label": "Need",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Electricity for medical equipment",
+            "Communication access",
+            "Personal assistance",
+            "Medications and refrigeration",
+            "Supervision"
+          ]
+        },
+        {
+          "id": "resource",
+          "label": "Resource assigned",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "count",
+          "label": "Residents supported",
+          "kind": "number",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Shelter opening against tropical-storm-force wind",
+      "config": {
+        "actionKind": "hs_open_shelter",
+        "threshold": 39,
+        "clearanceMin": 120
+      },
+      "series": "hs-shelter-hazard"
+    },
+    {
+      "id": "time_to_completion",
+      "label": "Doors open after the decision to open",
+      "config": {
+        "populationLabel": "shelters opened",
+        "startDecisionKind": "hs_open_shelter",
+        "completionDecisionKind": "hs_report_shelter_doors_open",
+        "memberField": "site"
+      }
+    },
+    {
+      "id": "needs_coverage",
+      "label": "Functional needs met",
+      "config": {
+        "needEventKind": "need_recorded",
+        "categoryAttr": "label",
+        "decisionKind": "hs_assign_fnss_support",
+        "categoryField": "need",
+        "countField": "count",
+        "targetMin": 60
+      },
+      "groundTruth": "hs-shelter-events"
     }
   ]
 }
