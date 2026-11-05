@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Theft, loss or release worksheet",
+  "description": "Exercise worksheet that mirrors the kind of information a theft, loss or release report asks for: what was discovered, when, who was told and when, the records checked and the actions taken. Marked as an exercise and never the official form. No agent detail beyond a generic class.",
+  "type": "object",
+  "required": ["organization", "headline", "entity"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Inventory count differs from the record for one registered item"]
+    },
+    "entity": {
+      "type": "string",
+      "description": "Entity",
+      "examples": ["Marston State University (fictional registered entity)"],
+      "x-translate": false
+    },
+    "responsibleOfficial": {
+      "type": "string",
+      "description": "Responsible official",
+      "examples": ["Dr. Imani Okafor"],
+      "x-translate": false
+    },
+    "eventType": {
+      "type": "string",
+      "description": "Event type",
+      "examples": ["Possible loss (records discrepancy under review)"]
+    },
+    "discoveredAt": {
+      "type": "string",
+      "description": "Discovered",
+      "examples": ["2026-10-21 09:15"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Where discovered",
+      "examples": ["Freezer 3, Room 118, Whitfield Hall"],
+      "x-translate": false
+    },
+    "item": {
+      "type": "string",
+      "description": "Item, as a generic description",
+      "examples": ["One vial of a select agent, inventory record INV-0412"],
+      "x-translate": false
+    },
+    "cdcAphisNotifiedAt": {
+      "type": "string",
+      "description": "CDC or APHIS notified",
+      "examples": ["2026-10-21 09:40 by telephone"],
+      "x-translate": false
+    },
+    "lawEnforcementNotifiedAt": {
+      "type": "string",
+      "description": "Law enforcement notified",
+      "examples": ["2026-10-21 09:45 (campus police)"],
+      "x-translate": false
+    },
+    "writtenReportDue": {
+      "type": "string",
+      "description": "Written report due",
+      "examples": ["2026-10-28 (7 calendar days)"],
+      "x-translate": false
+    },
+    "circumstances": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Circumstances",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "The monthly count found one vial fewer than the inventory record.",
+          "The last clean count was on September 9."
+        ]
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Records and places checked",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "examples": ["Transfer log"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "examples": ["Transfer of two vials on October 3, one recorded"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "source": "Transfer log",
+            "result": "Transfer of two vials on October 3, one recorded"
+          }
+        ]
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Actions taken",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Access to Room 118 limited to the responsible official and the alternate.",
+          "Door log requested from Facilities."
+        ]
+      ]
+    },
+    "corrections": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Corrections and next steps",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Reconcile the transfer log with the inventory system.",
+          "Complete the written report by the due date."
+        ]
+      ]
+    }
+  }
+}

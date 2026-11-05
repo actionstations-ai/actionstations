@@ -1,0 +1,14 @@
+<article class="gfig">
+  {{#if fields.heading}}
+  <h1>{{fields.heading}}</h1>
+  {{/if}} {{#if fields.source}}
+  <p class="source">{{fields.source}}</p>
+  {{/if}}
+  <figure>
+    {{{figures.main}}}
+    <figcaption class="sr-only">{{figures.main.summary}}</figcaption>
+  </figure>
+  {{#unless fields.hideTable}}{{#if figures.main.table}}
+  <section class="data">{{{figures.main.tableHtml}}}</section>
+  {{/if}}{{/unless}}
+</article>

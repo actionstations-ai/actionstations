@@ -1,0 +1,101 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Exposure evaluation</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <table class="facts">
+    <tbody>
+      {{#if fields.reference}}
+      <tr>
+        <th>Incident reference</th>
+        <td>{{fields.reference}}</td>
+      </tr>
+      {{/if}} {{#if fields.worker}}
+      <tr>
+        <th>Worker</th>
+        <td>{{fields.worker}}</td>
+      </tr>
+      {{/if}} {{#if fields.evaluatedAt}}
+      <tr>
+        <th>Evaluated</th>
+        <td>{{fields.evaluatedAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.exposureTime}}
+      <tr>
+        <th>Time of exposure</th>
+        <td>{{fields.exposureTime}}</td>
+      </tr>
+      {{/if}} {{#if fields.route}}
+      <tr>
+        <th>Route, in general terms</th>
+        <td>{{fields.route}}</td>
+      </tr>
+      {{/if}} {{#if fields.agentClass}}
+      <tr>
+        <th>Agent, as a generic class</th>
+        <td>{{fields.agentClass}}</td>
+      </tr>
+      {{/if}} {{#if fields.evaluator}}
+      <tr>
+        <th>Evaluated by</th>
+        <td>{{fields.evaluator}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.responseSteps}}
+  <h2>Response steps taken</h2>
+  <ul>
+    {{#each fields.responseSteps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.recommendations}}
+  <h2>Recommendations</h2>
+  <ul>
+    {{#each fields.recommendations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.followUp}}
+  <h2>Follow-up schedule</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>When</th>
+        <th>What</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.followUp}}
+      <tr>
+        <td>{{this.when}}</td>
+        <td>{{this.what}}</td>
+        <td>{{this.owner}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.reporting}}
+  <h2>Reports to make</h2>
+  <ul>
+    {{#each fields.reporting}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Occupational health exposure evaluation · {{fields.reference}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

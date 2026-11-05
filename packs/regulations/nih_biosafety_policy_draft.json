@@ -1,0 +1,59 @@
+{
+  "id": "nih_biosafety_policy_draft",
+  "label": "Draft NIH Biosafety Policy (NOT-OD-26-112)",
+  "jurisdiction": "US",
+  "authority": "NIH Office of Science Policy",
+  "citation": "NOT-OD-26-112, released August 19, 2026",
+  "sources": [
+    {
+      "title": "NIH notice NOT-OD-26-112",
+      "url": "https://grants.nih.gov/grants/guide/notice-files/NOT-OD-26-112.html"
+    }
+  ],
+  "status": "proposed",
+  "statusNote": "A draft: comments closed October 19, 2026. It would replace the NIH Guidelines and extend oversight to all biohazards. Re-check its status at each release.",
+  "verifiedOn": "2026-11-04",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "reportable_incident_aware",
+      "label": "Reportable incident known",
+      "hint": "The institution becomes aware of a reportable incident, such as a potential laboratory-acquired infection."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "draft_notice_24h",
+      "label": "Notice to NIH (proposed)",
+      "recipient": "NIH",
+      "dueAt": [
+        {
+          "from": "reportable_incident_aware",
+          "amount": 24,
+          "unit": "hours"
+        }
+      ],
+      "rule": "Proposed: notice within 24 hours of awareness. Lower-risk incidents would go to the IBC.",
+      "injectTypes": ["regulatory_notice"]
+    },
+    {
+      "id": "draft_report_30",
+      "label": "Full report to NIH (proposed)",
+      "recipient": "NIH",
+      "dueAt": [
+        {
+          "from": "reportable_incident_aware",
+          "amount": 30,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Proposed: full report within 30 days.",
+      "injectTypes": ["regulatory_report_form"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["lab_exposure"],
+    "note": "A tabletop on what procedures a draft policy would need."
+  }
+}

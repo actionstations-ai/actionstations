@@ -1,0 +1,110 @@
+{
+  "id": "select_agent_73_19",
+  "label": "Select agents: theft, loss or release (42 CFR 73.19)",
+  "jurisdiction": "US",
+  "authority": "CDC Division of Regulatory Science and Compliance and USDA APHIS Agricultural Select Agent Services",
+  "citation": "42 CFR 73.19; 7 CFR 331.19; 9 CFR 121.19",
+  "sources": [
+    {
+      "title": "42 CFR 73.19 (eCFR)",
+      "url": "https://www.ecfr.gov/current/title-42/section-73.19"
+    },
+    {
+      "title": "Federal Select Agent Program",
+      "url": "https://www.selectagents.gov/"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "The written report is due within seven calendar days; one training slide treats three days as late, and the regulation controls. Check the program's current guidance and your registration.",
+  "verifiedOn": "2026-11-04",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "theft_or_loss_discovered",
+      "label": "Theft or loss discovered",
+      "hint": "The moment the entity discovers a theft or loss of a select agent or toxin, even if it is later recovered."
+    },
+    {
+      "id": "release_discovered",
+      "label": "Release discovered",
+      "hint": "A release causing occupational exposure, or outside the primary barriers of the biocontainment area."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "theft_loss_notice",
+      "label": "Immediate notice of theft or loss",
+      "recipient": "CDC or APHIS",
+      "dueAt": [
+        {
+          "from": "theft_or_loss_discovered",
+          "amount": 1,
+          "unit": "minutes"
+        }
+      ],
+      "rule": "Immediately on discovery, by telephone, facsimile or e-mail. The framework needs a duration, so the clock marks 1 minute as 'at once'.",
+      "injectTypes": ["phone_call", "regulatory_notice"]
+    },
+    {
+      "id": "theft_loss_law_enforcement",
+      "label": "Notice to law enforcement of theft or loss",
+      "recipient": "Federal, state or local law enforcement",
+      "dueAt": [
+        {
+          "from": "theft_or_loss_discovered",
+          "amount": 1,
+          "unit": "minutes"
+        }
+      ],
+      "rule": "Immediately on discovery of a theft or loss, to the appropriate agencies. Marked as 1 minute for 'at once'.",
+      "injectTypes": ["phone_call"]
+    },
+    {
+      "id": "theft_loss_form3",
+      "label": "Form 3 for theft or loss",
+      "recipient": "CDC or APHIS",
+      "dueAt": [
+        {
+          "from": "theft_or_loss_discovered",
+          "amount": 7,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "A completed APHIS/CDC Form 3 within seven calendar days. Exercise worksheets are not the official form.",
+      "injectTypes": ["lab_theft_loss_worksheet", "regulatory_report_form"]
+    },
+    {
+      "id": "release_notice",
+      "label": "Immediate notice of release",
+      "recipient": "CDC or APHIS",
+      "dueAt": [
+        {
+          "from": "release_discovered",
+          "amount": 1,
+          "unit": "minutes"
+        }
+      ],
+      "rule": "Immediately on discovery, by telephone, facsimile or e-mail. Marked as 1 minute for 'at once'.",
+      "injectTypes": ["phone_call", "regulatory_notice"]
+    },
+    {
+      "id": "release_form3",
+      "label": "Form 3 for release",
+      "recipient": "CDC or APHIS",
+      "dueAt": [
+        {
+          "from": "release_discovered",
+          "amount": 7,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "A completed APHIS/CDC Form 3 within seven calendar days.",
+      "injectTypes": ["lab_theft_loss_worksheet", "regulatory_report_form"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["lab_inventory_discrepancy", "lab_exposure", "lab_facility_emergency"],
+    "note": "Entities registered for select agents and toxins. Your registration and institutional policy may be stricter."
+  }
+}

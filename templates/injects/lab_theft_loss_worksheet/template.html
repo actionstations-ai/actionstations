@@ -1,0 +1,110 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <p class="banner">EXERCISE WORKSHEET. NOT THE OFFICIAL APHIS/CDC FORM 3. Do not file.</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Theft, loss or release worksheet</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <table class="facts">
+    <tbody>
+      {{#if fields.entity}}
+      <tr>
+        <th>Entity</th>
+        <td>{{fields.entity}}</td>
+      </tr>
+      {{/if}} {{#if fields.responsibleOfficial}}
+      <tr>
+        <th>Responsible official</th>
+        <td>{{fields.responsibleOfficial}}</td>
+      </tr>
+      {{/if}} {{#if fields.eventType}}
+      <tr>
+        <th>Event type</th>
+        <td>{{fields.eventType}}</td>
+      </tr>
+      {{/if}} {{#if fields.discoveredAt}}
+      <tr>
+        <th>Discovered</th>
+        <td>{{fields.discoveredAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.location}}
+      <tr>
+        <th>Where discovered</th>
+        <td>{{fields.location}}</td>
+      </tr>
+      {{/if}} {{#if fields.item}}
+      <tr>
+        <th>Item, as a generic description</th>
+        <td>{{fields.item}}</td>
+      </tr>
+      {{/if}} {{#if fields.cdcAphisNotifiedAt}}
+      <tr>
+        <th>CDC or APHIS notified</th>
+        <td>{{fields.cdcAphisNotifiedAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.lawEnforcementNotifiedAt}}
+      <tr>
+        <th>Law enforcement notified</th>
+        <td>{{fields.lawEnforcementNotifiedAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.writtenReportDue}}
+      <tr>
+        <th>Written report due</th>
+        <td>{{fields.writtenReportDue}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.circumstances}}
+  <h2>Circumstances</h2>
+  <ul>
+    {{#each fields.circumstances}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.checks}}
+  <h2>Records and places checked</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.checks}}
+      <tr>
+        <td>{{this.source}}</td>
+        <td>{{this.result}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.actions}}
+  <h2>Actions taken</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.corrections}}
+  <h2>Corrections and next steps</h2>
+  <ul>
+    {{#each fields.corrections}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Theft, loss or release worksheet · {{fields.entity}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1558,7 +1558,9 @@
       "summary": "Oil and hazardous release response domain: profile for the incident management team, unified command, OSRO and downstream stakeholders, with eight spill threat families.",
       "tags": ["environmental", "oil-spill", "response"],
       "domains": ["environmental_response"],
-      "contents": { "domains": ["environmental_response"] }
+      "contents": {
+        "domains": ["environmental_response"]
+      }
     },
     {
       "id": "ai.actionstations.toolkit-spill-plume",
@@ -1693,7 +1695,25 @@
       "summary": "Incident management for research labs: content guardrails, notification clocks, exposure and incident products, decisions and measures any domain can use.",
       "tags": ["toolkit", "lab-safety", "biosafety", "notification"],
       "contents": {
-        "toolkits": ["lab_safety"]
+        "toolkits": ["lab_safety"],
+        "templates": [
+          "lab_corrective_action_plan",
+          "lab_data_breach_notice",
+          "lab_exposure_evaluation",
+          "lab_figure",
+          "lab_ibc_minutes",
+          "lab_incident_report",
+          "lab_responder_briefing",
+          "lab_stop_work_order",
+          "lab_theft_loss_worksheet",
+          "lab_work_restriction_memo"
+        ],
+        "regulations": [
+          "lab_institution_deadlines",
+          "nih_biosafety_policy_draft",
+          "nih_guidelines_incident_reporting",
+          "select_agent_73_19"
+        ]
       }
     }
   ]

@@ -1,0 +1,78 @@
+{
+  "id": "lab_institution_deadlines",
+  "label": "Institution-set laboratory incident deadlines",
+  "jurisdiction": "US",
+  "authority": "The institution",
+  "citation": "Institutional biosafety and research compliance policy",
+  "sources": [
+    {
+      "title": "Federal Select Agent Program",
+      "url": "https://www.selectagents.gov/"
+    }
+  ],
+  "status": "guidance",
+  "statusNote": "Example values for the exercise. Edit them to match the institution's policy; where policy is stricter than a regulation, the stricter rule governs.",
+  "verifiedOn": "2026-11-04",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "incident_known_to_lab",
+      "label": "Incident known to the laboratory",
+      "hint": "The worker, lab manager or PI knows of the incident."
+    },
+    {
+      "id": "incident_known_to_bso",
+      "label": "Incident reported to the biosafety officer",
+      "hint": "The BSO receives the report."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "pi_to_bso",
+      "label": "PI reports to the biosafety officer",
+      "recipient": "Biosafety officer",
+      "dueAt": [
+        {
+          "from": "incident_known_to_lab",
+          "amount": 24,
+          "unit": "hours"
+        }
+      ],
+      "rule": "Example: within 24 hours. Institutions set their own period.",
+      "injectTypes": ["lab_incident_report"]
+    },
+    {
+      "id": "bso_to_ibc",
+      "label": "BSO reports to the IBC chair",
+      "recipient": "IBC chair",
+      "dueAt": [
+        {
+          "from": "incident_known_to_bso",
+          "amount": 3,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Example: within 3 days. Institutions set their own period.",
+      "injectTypes": ["lab_incident_report"]
+    },
+    {
+      "id": "institution_to_sponsor",
+      "label": "Notice to the sponsor",
+      "recipient": "Sponsor program officer",
+      "dueAt": [
+        {
+          "from": "incident_known_to_bso",
+          "amount": 7,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Example: per the award terms. Check the award.",
+      "injectTypes": ["official_letter"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["lab_exposure", "lab_sample_loss", "lab_data_breach"],
+    "note": "Designer-editable."
+  }
+}

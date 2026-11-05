@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Work restriction memo",
+  "description": "Memo that restricts a worker's duties after an incident: who, what is restricted, why in general terms, since when, until what condition and who reviews it. States no medical detail beyond the restriction.",
+  "type": "object",
+  "required": ["organization", "headline", "to"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Temporary restriction from laboratory work"]
+    },
+    "to": {
+      "type": "string",
+      "description": "To",
+      "examples": ["Dev Raman; Dr. Tomas Alvarez, principal investigator"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "From",
+      "examples": ["Nurse Abena Mensah, Occupational Health"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["2026-10-21"],
+      "x-translate": false
+    },
+    "reference": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "effectiveFrom": {
+      "type": "string",
+      "description": "Effective",
+      "examples": ["2026-10-21 17:45"],
+      "x-translate": false
+    },
+    "reviewDate": {
+      "type": "string",
+      "description": "Review date",
+      "examples": ["2026-10-28"],
+      "x-translate": false
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scope of the restriction",
+      "examples": ["No work in Whitfield Hall Room 214 or any BSL-2 room"]
+    },
+    "restrictions": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Restrictions",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "No bench work in any laboratory.",
+          "Office and computer work is permitted.",
+          "Report any new symptoms to Occupational Health at once."
+        ]
+      ]
+    },
+    "conditions": {
+      "type": "array",
+      "maxItems": 4,
+      "description": "Conditions to lift the restriction",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Occupational Health clearance after the follow-up visit.",
+          "Biosafety officer sign-off on the room."
+        ]
+      ]
+    },
+    "copies": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Copies",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Biosafety officer", "IBC chair", "Principal investigator"]]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Corrective action plan",
+  "description": "Corrective action plan after an incident: what went wrong in general terms, each action with an owner, a due date and a status, and when the plan is reviewed. Contains no method or agent detail.",
+  "type": "object",
+  "required": ["organization", "headline", "incidentRef"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Corrective actions after the Room 214 incident"]
+    },
+    "incidentRef": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "owner": {
+      "type": "string",
+      "description": "Plan owner",
+      "examples": ["Marcus Lindqvist, biosafety officer"],
+      "x-translate": false
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Approved by",
+      "examples": ["IBC chair, 2026-11-04"],
+      "x-translate": false
+    },
+    "reviewDate": {
+      "type": "string",
+      "description": "Next review",
+      "examples": ["2026-12-02"],
+      "x-translate": false
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Findings",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "The sharps disposal container was overfilled.",
+          "Refresher training for the technician was overdue."
+        ]
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Actions",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "No.",
+            "examples": ["CA-1"]
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Replace sharps containers on a weekly schedule"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Laboratory manager"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due",
+            "examples": ["2026-11-01"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "CA-1",
+            "action": "Replace sharps containers on a weekly schedule",
+            "owner": "Laboratory manager",
+            "due": "2026-11-01",
+            "status": "Done"
+          }
+        ]
+      ]
+    }
+  }
+}

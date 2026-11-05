@@ -1,0 +1,91 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Responder briefing sheet</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <table class="facts">
+    <tbody>
+      {{#if fields.building}}
+      <tr>
+        <th>Building</th>
+        <td>{{fields.building}}</td>
+      </tr>
+      {{/if}} {{#if fields.preparedBy}}
+      <tr>
+        <th>Prepared by</th>
+        <td>{{fields.preparedBy}}</td>
+      </tr>
+      {{/if}} {{#if fields.updated}}
+      <tr>
+        <th>Last updated</th>
+        <td>{{fields.updated}}</td>
+      </tr>
+      {{/if}} {{#if fields.commandPost}}
+      <tr>
+        <th>Responder meeting point</th>
+        <td>{{fields.commandPost}}</td>
+      </tr>
+      {{/if}} {{#if fields.onSceneContact}}
+      <tr>
+        <th>Contact on scene</th>
+        <td>{{fields.onSceneContact}}</td>
+      </tr>
+      {{/if}} {{#if fields.utilities}}
+      <tr>
+        <th>Utility shutoffs</th>
+        <td>{{fields.utilities}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.rooms}}
+  <h2>Rooms by general hazard</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Room</th>
+        <th>Use</th>
+        <th>Hazards for responders</th>
+        <th>Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rooms}}
+      <tr>
+        <td>{{this.room}}</td>
+        <td>{{this.use}}</td>
+        <td>{{this.hazards}}</td>
+        <td>{{this.entry}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.access}}
+  <h2>Access</h2>
+  <ul>
+    {{#each fields.access}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.doNotEnter}}
+  <h2>Do not enter without the biosafety officer</h2>
+  <ul>
+    {{#each fields.doNotEnter}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Emergency responder briefing sheet · {{fields.building}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
