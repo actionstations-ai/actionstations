@@ -1,0 +1,72 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'movement_log')}}Movement log{{else}}Count sheet{{/if}}
+    </div>
+  </header>
+  <div class="meta">
+    <span><b>Facility:</b> {{fields.facility}}</span
+    ><span><b>Count:</b> <span class="mono">{{fields.countTime}}</span></span
+    ><span><b>Type:</b> {{fields.countType}}</span><span><b>By:</b> {{fields.countedBy}}</span>
+  </div>
+  <div class="callout"><strong>Count status:</strong> {{fields.status}}</div>
+  <h2>Housing areas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Area</th>
+        <th style="width: 13%">Expected</th>
+        <th style="width: 13%">Counted</th>
+        <th style="width: 13%">Result</th>
+        <th style="width: 34%">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.areas}}
+      <tr>
+        <td>{{this.area}}</td>
+        <td class="mono">{{this.expected}}</td>
+        <td class="mono">{{this.counted}}</td>
+        <td class="mono">{{#if (eq this.expected this.counted)}}Match{{else}}Differs{{/if}}</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.movements.length}}
+  <h2>Movement log</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Time</th>
+        <th>Movement</th>
+        <th style="width: 12%">Logged</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.movements}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.movement}}</td>
+        <td>{{this.logged}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.reconciliation}}
+  <p class="contact"><strong>Reconciliation:</strong> {{fields.reconciliation}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.facility}} · count {{fields.countTime}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,49 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'emergency_docket')}}Emergency docket order{{else}}Closure order{{/if}}
+    </div>
+  </header>
+  <div class="meta">
+    <span><b>Order:</b> {{fields.orderNumber}}</span
+    ><span><b>Effective:</b> {{fields.effective}}</span>
+  </div>
+  <h1>{{fields.headline}}</h1>
+  {{#if fields.findings}}
+  <h2>Findings</h2>
+  <p>{{fields.findings}}</p>
+  {{/if}}
+  <h2>It is ordered that</h2>
+  <ol>
+    {{#each fields.orders}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{#if fields.continues.length}}
+  <div class="callout">
+    <strong>Continuing:</strong>
+    <ul>
+      {{#each fields.continues}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}} {{#if fields.deadlines}}
+  <h2>Deadlines</h2>
+  <p>{{fields.deadlines}}</p>
+  {{/if}}
+  <p class="contact"><strong>{{fields.judge}}</strong><br />Signed {{fields.signedAt}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.orderNumber}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Count sheet, reconciliation and movement log",
+  "description": "A jail count by housing area against the expected count, the movement log entries that reconcile a difference, and the status of the count. Counts are numbers and housing area names only; it never describes how doors, restraints or security systems work.",
+  "type": "object",
+  "required": ["agency", "facility", "countTime", "areas"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "facility": {
+      "type": "string",
+      "description": "Facility",
+      "examples": ["Marston County Detention Center"],
+      "x-translate": false
+    },
+    "countTime": {
+      "type": "string",
+      "description": "Count time",
+      "examples": ["15:20"],
+      "x-translate": false
+    },
+    "countType": {
+      "type": "string",
+      "description": "Type",
+      "examples": ["Emergency count"],
+      "enum": ["Scheduled count", "Emergency count", "Recount"]
+    },
+    "countedBy": {
+      "type": "string",
+      "description": "Counted by",
+      "examples": ["Shift Commander Lt. R. Vance"],
+      "x-translate": false
+    },
+    "areas": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Housing areas",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One area",
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Housing area",
+            "examples": ["Housing Unit 4"],
+            "x-translate": false
+          },
+          "expected": {
+            "type": "integer",
+            "description": "Expected count",
+            "examples": [64]
+          },
+          "counted": {
+            "type": "integer",
+            "description": "Counted",
+            "examples": [62]
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["Two on the movement log to medical"]
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "Count status",
+      "examples": ["Not clear"],
+      "enum": ["Clear", "Not clear", "Pending recount"]
+    },
+    "movements": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Movement log entries",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One entry",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:48"],
+            "x-translate": false
+          },
+          "movement": {
+            "type": "string",
+            "description": "Movement",
+            "examples": ["Two moved from Housing Unit 4 to Medical"]
+          },
+          "logged": {
+            "type": "string",
+            "description": "Logged",
+            "examples": ["Yes"],
+            "enum": ["Yes", "No"]
+          }
+        }
+      }
+    },
+    "reconciliation": {
+      "type": "string",
+      "description": "Reconciliation note",
+      "examples": [
+        "The difference of two in Housing Unit 4 is explained by the movement log. Total counted 214 of 216 expected; 2 are at Medical."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

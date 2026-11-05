@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Court closure order and emergency docket order",
+  "description": "A court order at the continuity level: a closure order that states which functions close or continue and for how long, or an emergency docket order that moves hearings. States the court, a fictional case or administrative number, the date, the judge and the effective period.",
+  "type": "object",
+  "required": ["agency", "orderNumber", "headline", "orders"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "orderNumber": {
+      "type": "string",
+      "description": "Fictional order number",
+      "examples": ["ADM-26-031"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Title of the order",
+      "examples": ["Order closing the courthouse and continuing essential functions"]
+    },
+    "effective": {
+      "type": "string",
+      "description": "Effective period",
+      "examples": ["October 29, 2026, 8:00 a.m. to November 2, 2026, 5:00 p.m."],
+      "x-translate": false
+    },
+    "findings": {
+      "type": "string",
+      "description": "Findings in plain language",
+      "examples": [
+        "The court’s case management system and electronic filing are unavailable because of a cybersecurity incident. The court finds that closing non-essential functions protects the integrity of court records."
+      ]
+    },
+    "orders": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "It is ordered that",
+      "items": {
+        "type": "string",
+        "examples": [
+          "Non-emergency hearings are continued; the clerk will reset them when systems return."
+        ]
+      }
+    },
+    "continues": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Functions that continue",
+      "items": {
+        "type": "string",
+        "examples": [
+          "Emergency protective orders, arraignments of people in custody and juvenile detention hearings"
+        ]
+      }
+    },
+    "deadlines": {
+      "type": "string",
+      "description": "Effect on filing deadlines",
+      "examples": [
+        "Filing deadlines that fall in the effective period are extended to the first court day after the order ends."
+      ]
+    },
+    "judge": {
+      "type": "string",
+      "description": "Presiding judge",
+      "examples": ["Hon. Marguerite Alder, Presiding Judge"],
+      "x-translate": false
+    },
+    "signedAt": {
+      "type": "string",
+      "description": "Signed",
+      "examples": ["October 28, 2026, 6:45 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

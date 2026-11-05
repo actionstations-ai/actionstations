@@ -1,0 +1,66 @@
+{
+  "variant": "count_sheet",
+  "fields": {
+    "agency": "Marston County Sheriff’s Office",
+    "division": "Detention Center Control Room",
+    "facility": "Marston County Detention Center",
+    "countTime": "15:20",
+    "countType": "Emergency count",
+    "countedBy": "Shift Commander Lt. R. Vance",
+    "areas": [
+      {
+        "area": "Housing Unit 1",
+        "expected": 58,
+        "counted": 58,
+        "note": ""
+      },
+      {
+        "area": "Housing Unit 2",
+        "expected": 60,
+        "counted": 60,
+        "note": ""
+      },
+      {
+        "area": "Housing Unit 3",
+        "expected": 34,
+        "counted": 34,
+        "note": ""
+      },
+      {
+        "area": "Housing Unit 4",
+        "expected": 64,
+        "counted": 62,
+        "note": "Two on the movement log to Medical"
+      }
+    ],
+    "status": "Not clear",
+    "movements": [],
+    "reconciliation": "Total counted 214 of 216 expected. The difference is in Housing Unit 4 and is checked against the movement log."
+  },
+  "variants": {
+    "movement_log": {
+      "fields": {
+        "division": "Shift Commander",
+        "status": "Clear",
+        "movements": [
+          {
+            "time": "14:48",
+            "movement": "Two moved from Housing Unit 4 to Medical",
+            "logged": "Yes"
+          },
+          {
+            "time": "14:55",
+            "movement": "One moved from Housing Unit 2 to court holding",
+            "logged": "Yes"
+          },
+          {
+            "time": "15:02",
+            "movement": "One returned from court holding to Housing Unit 2",
+            "logged": "No"
+          }
+        ],
+        "reconciliation": "Two in Housing Unit 4 are at Medical (logged). One return at 15:02 was not logged; the entry was added at 15:24 and the count is clear at 216."
+      }
+    }
+  }
+}

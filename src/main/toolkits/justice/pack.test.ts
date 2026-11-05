@@ -74,12 +74,17 @@ describe('justice domain', () => {
   })
 })
 
-describe('justice templates (command, family, negotiation, AMBER)', () => {
+describe('justice templates', () => {
   const own = [
     'justice_command_briefing',
     'justice_family_notice',
     'justice_negotiation_log',
     'justice_amber_worksheet',
+    'justice_count_sheet',
+    'justice_corrections_report',
+    'justice_court_order',
+    'justice_court_notice',
+    'justice_evidence_log',
   ]
   it('are in the toolkit with a taxonomy block and a golden for every variant', () => {
     for (const id of own) {
