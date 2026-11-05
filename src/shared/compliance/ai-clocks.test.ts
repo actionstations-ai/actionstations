@@ -70,9 +70,25 @@ describe('EU AI Act Article 73 clocks', () => {
     expect(ai.appliesTo.note).toMatch(/role/)
   })
 
-  it('keeps the application dates as data with a note that they need checking', () => {
-    expect(ai.dates.map((d) => d.date)).toEqual(['2027-12-02', '2028-08-02'])
-    for (const d of ai.dates) expect(d.note).toMatch(/Official Journal/)
+  it('keeps the Official Journal application dates as data (#1102)', () => {
+    // Regulation (EU) 2024/1689, Article 113: general application 2 August 2026 (Article 73
+    // included). Regulation (EU) 2026/1744, Article 1(40)(b): Chapter III, Sections 1 to 3 from
+    // 2 December 2027 (Annex III) and 2 August 2028 (Annex I).
+    expect(ai.dates.map((d) => d.date)).toEqual(['2026-08-02', '2027-12-02', '2028-08-02'])
+    expect(ai.dates[0]!.label).toMatch(/Article 73/)
+    expect(ai.dates[1]!.label).toMatch(/Annex III/)
+    expect(ai.dates[2]!.label).toMatch(/Annex I\b/)
+    for (const d of ai.dates) {
+      expect(d.note).toMatch(/Article 113/)
+      expect(d.note).toMatch(/Official Journal/)
+      expect(d.note).not.toMatch(/secondary/i)
+    }
+    expect(ai.statusNote).toMatch(/2026\/1744/)
+    expect(ai.statusNote).not.toMatch(/secondary summaries/)
+  })
+
+  it('cites the amending regulation in the Official Journal (#1102)', () => {
+    expect(ai.sources.map((s) => s.url)).toContain('https://eur-lex.europa.eu/eli/reg/2026/1744/oj')
   })
 
   it('cites the law and carries a checked-on date', () => {

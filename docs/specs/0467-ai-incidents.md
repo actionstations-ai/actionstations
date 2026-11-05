@@ -103,7 +103,7 @@ Golden images for each new template and figure; clock tests (15, 2 and 10 day co
 ## Open questions
 
 - **Which regime applies.** Article 73 binds providers of high-risk AI systems; most exercising organizations are deployers or fraud victims. Recommendation: the scenario asks the role (provider, deployer, victim) and the clocks follow it; a compliance specialist reviews the explanations.
-- **Application dates.** The Digital Omnibus changed the AI Act's dates in 2026; secondary sources disagree on some. Recommendation: confirm against the consolidated text before building the clock definitions, and store the dates as data.
+- **Application dates.** The Digital Omnibus changed the AI Act's dates in 2026; secondary sources disagree on some. Recommendation: confirm against the consolidated text before building the clock definitions, and store the dates as data. Confirmed against the Official Journal on 2026-11-05 (#1102): Regulation (EU) 2026/1744, Article 1(40)(b), sets 2 December 2027 (Annex III) and 2 August 2028 (Annex I) for Chapter III, Sections 1 to 3; Article 73 keeps the general date, 2 August 2026.
 - **Commission guidance status.** The draft Article 73 guidance and template (September 2025) may have been finalized; recommendation: check when the templates are built.
 - **Practitioner review.** An AI governance lead and a fraud investigator review the templates, safeguards and examples before release.
 - **Synthetic media providers.** Whether to ship deepfake-style audio and video at all in the first release. Recommendation: first release uses transcripts and described stills; synthesized fictional voices follow once the safeguards in FR-6 are built and tested.
