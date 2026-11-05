@@ -24,6 +24,7 @@ import { MessagesPanel, MessagesTabLabel } from './live/MessagesPanel'
 import { SimcellPanel } from './SimcellPanel'
 import { tallySourceFromVotes } from '@shared/branching/vote-input'
 import { useLiveVotes } from './live/use-live-votes'
+import { LiveDecisionsSection } from './live/LiveDecisions'
 import { LiveSurveysSection } from './live/SurveySend'
 import { VotePanel } from './live/VotePanel'
 import { VOTES } from './live/vote-strings'
@@ -353,6 +354,12 @@ export function SidePanel(props: {
           msel={props.scenario.msel}
         />
         <LiveSurveysSection projectPath={props.projectPath} scenarioId={props.scenario.id} />
+        <LiveDecisionsSection
+          projectPath={props.projectPath}
+          scenario={props.scenario}
+          state={state}
+          update={update}
+        />
         <SessionsList projectPath={props.projectPath} scenario={props.scenario} />
       </Tabs.Content>
       <Tabs.Content value="room" className="fac-tabs__panel">

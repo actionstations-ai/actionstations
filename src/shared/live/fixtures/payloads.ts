@@ -13,6 +13,7 @@ export const IDS = {
   release: 'release-00000000000000',
   vote: 'vote-00000000000000000',
   survey: 'survey-000000000000000',
+  decision: 'decision-0000000000000',
   drill: 'drill-0000000000000000',
   item: 'item-00000000000000000',
   message: 'message-00000000000000',
@@ -150,6 +151,41 @@ export const PAYLOAD_FIXTURES: PayloadInputByType = {
     ],
     anonymous: true,
     targets: ['all'],
+  },
+  'decision.form': {
+    form: {
+      id: 'issue-warning',
+      title: 'Issue a warning',
+      fields: [
+        {
+          id: 'level',
+          type: 'choice',
+          label: 'Level',
+          required: true,
+          options: [
+            { id: 'watch', label: 'Watch' },
+            { id: 'warning', label: 'Warning' },
+          ],
+        },
+        {
+          id: 'area',
+          type: 'area',
+          label: 'Area',
+          required: true,
+          draw: false,
+          areas: [
+            { id: 'north', label: 'North district' },
+            { id: 'harbor', label: 'Harbor' },
+          ],
+        },
+      ],
+    },
+  },
+  'decision.submit': {
+    decisionId: IDS.decision,
+    formId: 'issue-warning',
+    fields: [{ fieldId: 'level', value: 'warning' }],
+    area: { areaId: 'harbor' },
   },
   'survey.response': { surveyId: IDS.survey, answers: [{ questionId: 'q1', value: 4 }] },
   'survey.close': { surveyId: IDS.survey },

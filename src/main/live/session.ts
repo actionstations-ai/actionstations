@@ -63,6 +63,15 @@ import { DeviceMap } from './device-map'
 import { stageImageFile } from './assets'
 import { readProjectMaps } from '../maps/project'
 import { Votes, type VoteResult, type VoteSeat } from './votes'
+import { randomBytes } from 'node:crypto'
+import { Decisions, type FacilitatorEntry } from './decisions'
+import { decisionFormsFor } from './decision-forms'
+import { decisionRecordsFromLog } from '@shared/decisions/records'
+import {
+  buildDecisionRecord,
+  checkSubmission,
+  type DecisionRecord,
+} from '@shared/schemas/decisions'
 import {
   emptyStage,
   formatClock,
@@ -140,6 +149,8 @@ export interface Active {
   hotwash: HotWash
   calls: Calls
   votes: Votes
+  /** Structured decisions from forms a toolkit defines (spec 0448 FR-14). */
+  decisions: Decisions
   surveys: LiveSurveys
   /** Micro-drills sent to devices (spec 0437 FR-17). */
   drills: LiveDrills
@@ -249,6 +260,7 @@ function emitChanged(
     | 'staging'
     | 'messages'
     | 'votes'
+    | 'decisions'
     | 'evaluation'
     | 'hotwash'
     | 'drills'
@@ -307,6 +319,7 @@ async function onJoin(a: Active, msg: Opened<'join'>): Promise<void> {
   await a.client.send('welcome', `client:${msg.from}`, seating.welcome)
   if (a.roster)
     await a.client.send('controller.roster', `client:${msg.from}`, a.roster, { key: 'players' })
+  if (seating.ok && seating.seat.kind === 'player') await a.decisions.onJoin(msg.from)
   if (seating.ok && seating.seat.kind === 'evaluator') await a.evaluation.onJoin(msg.from)
   if (seating.ok && seating.seat.kind === 'simcell') await a.helpers.onJoin()
   if (seating.ok) refreshDeviceMap(a)
@@ -369,6 +382,11 @@ function wireClient(a: Active): void {
       'vote.cast',
       (msg) => void a.votes.onBallot(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
     ),
+    a.client.on('decision.submit', (msg) => {
+      // Sealed to the controller; only a device's own frame to the controller is a decision.
+      if (msg.to !== 'controller') return
+      void a.decisions.onSubmit(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e))
+    }),
     a.client.on(
       'hotwash.item',
       (msg) => void a.hotwash.onItem(msg.from, msg.seq, msg.payload).catch((e) => fail(a, e)),
@@ -672,6 +690,43 @@ function makeVotes(getActive: () => Active, roles: readonly Role[]): Votes {
     onClosed: (result) => {
       for (const listener of closedListeners) listener(result)
     },
+  })
+}
+
+/** Decisions' view of the session: the toolkit forms, the seated devices, the log, the clock. */
+function makeDecisions(getActive: () => Active, roles: readonly Role[]): Decisions {
+  const byId = new Map(roles.map((r) => [r.id, r]))
+  return new Decisions({
+    send: (type, to, payload) =>
+      getActive().client.send(type, to, payload as never, { key: 'players', sign: true }),
+    log: { append: (input) => getActive().log.append(input) },
+    seatOf: (id) => {
+      const a = getActive()
+      const s = a.seats.byClient.get(id)
+      if (!s) return undefined
+      const role = s.roleId ? byId.get(s.roleId) : undefined
+      const team = role ? teamSlug(role.team) : undefined
+      return {
+        clientId: s.clientId,
+        kind: s.kind,
+        online: s.online,
+        ...(s.roleId ? { roleId: s.roleId } : {}),
+        ...(team ? { teamId: team } : {}),
+        label: role?.name ?? s.kind,
+        ...(a.session.attribution === 'named' && s.name ? { displayName: s.name } : {}),
+      }
+    },
+    clientRef: (id) => clientRef(getActive(), id),
+    forms: () =>
+      decisionFormsFor({ root: getActive().root, scenarioId: getActive().session.scenarioId }),
+    roleLabel: (id) => byId.get(id)?.name,
+    exerciseTime: async () => {
+      const a = getActive()
+      return formatClock(await clockState(a.root, a.session.scenarioId), Date.now())
+    },
+    now: () => Date.now(),
+    newId: () => `dec-${toHex(getActive().crypto.random(6))}`,
+    changed: () => emitChanged('decisions'),
   })
 }
 
@@ -993,6 +1048,16 @@ async function logResume(a: Active, resume: ResumeInput): Promise<void> {
 }
 
 /** The response file is a mirror of the log: put back what a crash kept out of it. */
+/** Load the toolkit's decision forms and, on resume, bring back the decisions taken. */
+async function publishDecisionForms(a: Active): Promise<void> {
+  try {
+    await a.decisions.load()
+    a.decisions.restore(decisionRecordsFromLog(await readAll(a.log.path)))
+  } catch (err) {
+    console.error('[live] could not publish decision forms:', (err as Error).message)
+  }
+}
+
 async function restoreSurveyResponses(a: Active): Promise<void> {
   try {
     const channel = a.session.surveyOnly ? 'qr' : 'live'
@@ -1127,6 +1192,7 @@ async function startOn(
       simcellFor(root, req.scenarioId),
     ),
     votes: makeVotes(() => a, scenario.roles),
+    decisions: makeDecisions(() => a, scenario.roles),
     surveys: makeSurveys(() => a, scenario.roles, req.surveyOnly ? 'qr' : 'live'),
     drills: makeDrills(() => a, scenario.roles),
     deviceMap: makeDeviceMap(() => a, scenario.roles),
@@ -1190,6 +1256,7 @@ async function startOn(
       },
     })
   }
+  await publishDecisionForms(a)
   await persistKeys(a)
   a.powerSave = powerSaveBlocker.start('prevent-app-suspension')
   await rememberConnection(root, req.scenarioId, req.connection)
@@ -1947,6 +2014,52 @@ export async function recordVote(root: string, scenarioId: string, voteId: strin
     ...(rowId ? { rowId } : {}),
     text,
   }
+}
+
+/** The decision forms for a scenario, whether or not a session runs (the toolkit supplies them). */
+export const decisionForms = (root: string, scenarioId: string) =>
+  decisionFormsFor({ root, scenarioId })
+
+/** Decisions taken in the running session, oldest first; empty without a session. */
+export function listDecisions(root: string, scenarioId: string): DecisionRecord[] {
+  const a = active
+  return a && a.root === root && a.session.scenarioId === scenarioId && !a.session.surveyOnly
+    ? a.decisions.list()
+    : []
+}
+
+/**
+ * Record a decision the facilitator entered. With a session running it goes into the session log;
+ * without one it is only checked and built, and Facilitate keeps it in the facilitator file.
+ */
+export async function recordDecision(
+  root: string,
+  scenarioId: string,
+  entry: FacilitatorEntry,
+): Promise<DecisionRecord> {
+  const a = active
+  if (a && a.root === root && a.session.scenarioId === scenarioId && !a.session.surveyOnly)
+    return a.decisions.record(entry)
+  const forms = await decisionFormsFor({ root, scenarioId })
+  const form = forms.find((f) => f.id === entry.formId)
+  if (!form) throw new AppError('NOT_FOUND', 'No such decision form')
+  const checked = checkSubmission(form, { fields: entry.fields, area: entry.area })
+  if (!checked.ok) throw new AppError('VALIDATION', checked.error)
+  const scenario = await getScenario(root, scenarioId)
+  const role = scenario.roles.find((r) => r.id === entry.roleId)
+  return buildDecisionRecord({
+    id: `dec-${toHex(randomBytes(6))}`,
+    form,
+    checked,
+    seat: {
+      kind: 'facilitator',
+      ...(entry.roleId ? { roleId: entry.roleId } : {}),
+      ...(role ? { label: role.name } : {}),
+    },
+    source: 'facilitator',
+    time: new Date().toISOString(),
+    exerciseTime: formatClock(await clockState(root, scenarioId), Date.now()),
+  })
 }
 
 /** Send a survey to devices (spec 0422 FR-5). */

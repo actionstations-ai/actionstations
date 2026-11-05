@@ -9,6 +9,9 @@ import {
   ringInjectAsCall,
   activeSession,
   closeVote,
+  decisionForms,
+  listDecisions,
+  recordDecision,
   askEvaluator,
   evaluationCoverage,
   setEvaluatorWatch,
@@ -202,6 +205,15 @@ export default defineHandlers({
 
   'live:vote-scope': async ({ projectPath, scenarioId, targets, k }) =>
     voteScope(await requireProject(projectPath), scenarioId, targets, k),
+
+  'live:decision-forms': async ({ projectPath, scenarioId }) =>
+    decisionForms(await requireProject(projectPath), scenarioId),
+
+  'live:decisions': async ({ projectPath, scenarioId }) =>
+    listDecisions(await requireProject(projectPath), scenarioId),
+
+  'live:decision-record': async ({ projectPath, scenarioId, ...entry }) =>
+    recordDecision(await requireProject(projectPath), scenarioId, entry),
 
   'live:vote-record': async ({ projectPath, scenarioId, voteId }) =>
     recordVote(await requireProject(projectPath), scenarioId, voteId),

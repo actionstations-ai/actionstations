@@ -73,7 +73,7 @@ function plan(type: SealedType): { to: Destination; key: SealKind; from: string 
   const rule = KEY_BY_TYPE[type]
   if (rule === 'controller') return { to: 'controller', key: 'controller', from: IDS.playerA }
   if (rule === 'staff') return { to: `client:${IDS.evaluator}`, key: 'staff', from: IDS.controller }
-  if (type === 'drill.feedback') {
+  if (type === 'drill.feedback' || type === 'decision.form') {
     return { to: `client:${IDS.playerA}`, key: 'players', from: IDS.controller }
   }
   return { to: 'all', key: 'players', from: IDS.controller }

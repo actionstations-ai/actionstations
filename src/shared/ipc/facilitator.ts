@@ -4,6 +4,7 @@ import { ExerciseTime, IsoDateTime, SafeId } from '../schemas/common'
 import { BranchRule } from '../schemas/scenario'
 import { HotwashItemKind } from '../schemas/aar'
 import { ComplianceSession } from '../schemas/compliance'
+import { DecisionRecord as StructuredDecision } from '../schemas/decisions'
 import { LiveConnection } from '../schemas/live'
 import { SimcellExchange } from '../schemas/persona'
 
@@ -158,6 +159,11 @@ export const FacilitatorState = z.looseObject({
       }),
     )
     .default([]),
+  /**
+   * Structured decisions the facilitator recorded (spec 0448 FR-14), the same record the session
+   * log holds; kept here so an exercise without devices still has them.
+   */
+  decisionRecords: z.array(StructuredDecision).max(1000).optional(),
   /** Regulatory clocks: triggers fired, clocks filed or waived, clocks on screen (#426). */
   compliance: ComplianceSession.optional(),
   /** SimCell exchanges typed in without live play, kept for the hot wash (spec 0429 FR-15). */
