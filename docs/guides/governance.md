@@ -15,6 +15,8 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 - **Clocks:** the SEC Form 8-K Item 1.05 clock (four business days after the determination, or after an Attorney General delay ends) and the New York DFS notices (72 hours for an incident, 24 hours for an extortion payment, 30 days for the written explanation). Fire the trigger from the regulatory clocks panel when your players record the determination.
 - **Measures:** time from discovery to determination, determination to filing against the clock, discovery to board notice, functions restored within their recovery time objective at each hour and whether recovery followed the business impact analysis, decisions documented with owner, facts and basis, and message consistency across the board briefing, filing, press release and employee message.
 
+- **Real disclosure language for the facilitator:** from the Case data panel you can search public SEC Form 8-K filings that report Item 1.05 or Item 8.01 in a period, and read the item text of the first few. It is shown to the facilitator only, never put in player documents. The SEC asks every user to identify themselves, so add your own contact email under Settings, Case data first; the app sends it only to sec.gov, only after you agree to a fetch, and keeps to the SEC's limit of 10 requests a second.
+
 ## Things the toolkit knows
 
 - The determination follows discovery without unreasonable delay. It cannot be put off by delaying a meeting, and the investigation does not have to finish first.

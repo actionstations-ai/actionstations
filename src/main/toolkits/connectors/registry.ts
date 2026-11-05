@@ -70,6 +70,10 @@ export interface Connector {
   terms: string
   /** Fixed https hosts this connector may call. Never taken from pack data or the renderer. */
   hosts: readonly string[]
+  /** `required`: the archive's rules ask for a contact, so the user sets one in Settings first. */
+  contact?: 'required'
+  /** Least milliseconds between requests, for archives with a published rate limit. */
+  minIntervalMs?: number
   estimate(query: ConnectorQuery): ConnectorEstimate
   fetch(query: ConnectorQuery, ctx: FetchContext): Promise<ConnectorResult>
 }

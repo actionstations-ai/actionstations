@@ -26,6 +26,7 @@ const { runGenerator } = await import('../../case-data/generators')
 const { caseDir } = await import('../../case-data/store')
 const { readGroundTruth } = await import('../../evaluation/metrics/inputs')
 const { metricRefFromToolkit, runMetric } = await import('../../evaluation/metrics/registry')
+const { planFetch, runFetch } = await import('../../case-data/acquire')
 const { liveFormsOf } = await import('../decision-forms')
 const { DecisionForm: LiveDecisionForm } = await import('@shared/schemas/decisions')
 
@@ -141,5 +142,53 @@ describe('capabilities of the exercise', () => {
       'situational_assessment',
     ])
     for (const c of toolkit.capabilities) expect(c.criticalTasks.length).toBeGreaterThan(0)
+  })
+})
+
+describe('SEC EDGAR connector through the fetch path', () => {
+  const q = {
+    range: { start: '2026-01-01T00:00:00Z', end: '2026-01-31T00:00:00Z' },
+    area: { label: 'United States' },
+    options: { item: '1.05', limit: 2 },
+  }
+  const deps = {
+    maxMbPerScenario: 500,
+    version: '0.0.1',
+    now: () => new Date('2026-11-05T10:00:00Z'),
+  }
+  const search = readFileSync(
+    resolve('src/main/toolkits/connectors/__fixtures__/sec-edgar-search-8k.json'),
+    'utf8',
+  )
+
+  it('is named by the toolkit and refuses to fetch until the user has set a contact', async () => {
+    expect(toolkit.connectors).toContain('sec-edgar-8k')
+    const root = mkdtempSync(join(tmpdir(), 'gov-edgar-'))
+    const plan = await planFetch(root, 's1', 'sec-edgar-8k', q, deps)
+    expect(plan.hosts).toEqual(['efts.sec.gov', 'www.sec.gov'])
+    await expect(runFetch(root, 's1', plan.estimateId, true, deps)).rejects.toThrow(
+      /contact email under Settings/,
+    )
+  })
+
+  it('sends the contact the user set, then stores facilitator-only data', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'gov-edgar-'))
+    const plan = await planFetch(root, 's2', 'sec-edgar-8k', q, deps)
+    const agents: string[] = []
+    const fetchImpl = (async (url: string | URL | Request, init?: RequestInit) => {
+      agents.push((init?.headers as Record<string, string>)['user-agent']!)
+      return new Response(String(url).includes('efts.sec.gov') ? search : '<p>Item 1.05. x</p>', {
+        status: 200,
+      })
+    }) as unknown as typeof fetch
+    const manifest = await runFetch(root, 's2', plan.estimateId, true, {
+      ...deps,
+      contact: 'person@example.org',
+      fetchImpl,
+      sleep: async () => undefined,
+    })
+    expect(new Set(agents)).toEqual(new Set(['ActionStations/0.0.1 (person@example.org)']))
+    expect(manifest.datasets[0]!.shape).toBe('ground-truth')
+    expect(manifest.datasets[0]!.provenance.origin).toBe('historical')
   })
 })

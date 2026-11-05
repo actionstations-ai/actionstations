@@ -1,0 +1,58 @@
+{
+  "took": 12,
+  "timed_out": false,
+  "hits": {
+    "total": { "value": 3, "relation": "eq" },
+    "max_score": 16.68,
+    "hits": [
+      {
+        "_index": "edgar_file",
+        "_id": "0000000001-26-000011:ardr-20260105.htm",
+        "_score": 16.68,
+        "_source": {
+          "ciks": ["0000000001"],
+          "period_ending": "2026-01-05",
+          "file_num": ["001-00001"],
+          "display_names": ["Fictional Fabrication Corp  (CIK 0000000001)"],
+          "root_forms": ["8-K"],
+          "file_date": "2026-01-09",
+          "form": "8-K",
+          "adsh": "0000000001-26-000011",
+          "file_type": "8-K",
+          "file_description": "8-K",
+          "items": ["1.05", "9.01"]
+        }
+      },
+      {
+        "_index": "edgar_file",
+        "_id": "0000000002-26-000007:exmp-20260112.htm",
+        "_score": 15.9,
+        "_source": {
+          "ciks": ["0000000002"],
+          "period_ending": "2026-01-12",
+          "display_names": ["Example Logistics Holdings  (CIK 0000000002)"],
+          "root_forms": ["8-K"],
+          "file_date": "2026-01-14",
+          "form": "8-K",
+          "adsh": "0000000002-26-000007",
+          "file_type": "8-K",
+          "items": ["8.01", "9.01"]
+        }
+      },
+      {
+        "_index": "edgar_file",
+        "_id": "0000000003-26-000003:test-20260115.htm",
+        "_score": 15.1,
+        "_source": {
+          "ciks": ["0000000003"],
+          "display_names": ["Sample Software Group  (CIK 0000000003)"],
+          "file_date": "2026-01-20",
+          "form": "8-K/A",
+          "adsh": "0000000003-26-000003",
+          "items": ["1.05", "9.01"]
+        }
+      }
+    ]
+  },
+  "aggregations": {}
+}

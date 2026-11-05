@@ -8,8 +8,10 @@ export function CaseDataSection() {
   const settings = useIpcQuery('case:settings', undefined)
   const save = useIpcMutation('case:settings-save', { invalidates: ['case:settings', 'case:get'] })
   const [draft, setDraft] = useState<string>()
+  const [contactDraft, setContactDraft] = useState<string>()
   const current = settings.data?.maxMbPerScenario
   const shown = draft ?? (current === undefined ? '' : String(current))
+  const contact = contactDraft ?? settings.data?.contactEmail ?? ''
   const submit = (e: FormEvent) => {
     e.preventDefault()
     const mb = Math.round(Number(shown))
@@ -18,13 +20,14 @@ export function CaseDataSection() {
       return
     }
     save.mutate(
-      { maxMbPerScenario: mb },
+      { maxMbPerScenario: mb, contactEmail: contact.trim() },
       {
         onSuccess: () => {
           setDraft(undefined)
-          toast.success('Case data limit saved')
+          setContactDraft(undefined)
+          toast.success('Case data settings saved')
         },
-        onError: (err) => toast.error('Could not save the limit', err),
+        onError: (err) => toast.error('Could not save the settings', err),
       },
     )
   }
@@ -38,18 +41,37 @@ export function CaseDataSection() {
           works offline. This is the most one scenario may hold.
         </p>
       </div>
-      <form className="row" onSubmit={submit}>
-        <label htmlFor="case-limit-mb">Limit per scenario (MB)</label>
-        <input
-          id="case-limit-mb"
-          className="input"
-          inputMode="numeric"
-          value={shown}
-          onChange={(e) => setDraft(e.target.value)}
-        />
-        <Button type="submit" disabled={settings.isLoading || save.isPending}>
-          Save limit
-        </Button>
+      <form className="stack" onSubmit={submit}>
+        <div className="row">
+          <label htmlFor="case-limit-mb">Limit per scenario (MB)</label>
+          <input
+            id="case-limit-mb"
+            className="input"
+            inputMode="numeric"
+            value={shown}
+            onChange={(e) => setDraft(e.target.value)}
+          />
+          <Button type="submit" disabled={settings.isLoading || save.isPending}>
+            Save
+          </Button>
+        </div>
+        <div className="stack">
+          <label htmlFor="case-contact">Your contact email (optional)</label>
+          <input
+            id="case-contact"
+            className="input"
+            type="email"
+            autoComplete="email"
+            aria-describedby="case-contact-help"
+            value={contact}
+            onChange={(e) => setContactDraft(e.target.value)}
+          />
+          <p id="case-contact-help" className="muted">
+            Some public archives, such as SEC EDGAR, ask every user to identify themselves. If you
+            fetch from one, this address is sent in the request header to that archive only. Nothing
+            is sent until you agree to a fetch, and the app never fills it in.
+          </p>
+        </div>
       </form>
     </section>
   )
