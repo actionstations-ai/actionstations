@@ -282,9 +282,17 @@
       "clueKinds": "a gauge reading ahead of the forecast, a revised forecast issuance time, a seepage or boil report from a levee patrol, an upstream gauge already above flood stage",
       "hurdleKinds": "a road under water that cuts the sandbag supply route, a gauge that stops reporting at the worst time, a pump with no fuel, a shelter that fills early",
       "keyCoordination": "the NWS forecast office and River Forecast Center, and the levee or drainage district",
-      "purposeMix": { "CLUE": 25, "PRESSURE": 20, "DECISION_POINT": 15, "NOISE": 10 },
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
       "promptGuidance": "Use the point's own flood category stages; flood stage is not bankfull, and minor, moderate and major categories may not all exist at a point. Show the forecast crest changing with an issuance time. Stage is in feet with the gauge's datum, flow in cfs, times in local time with the gauge's time zone. Closures and evacuations should be tied to a stage, not to the clock alone.",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_flash",
@@ -347,9 +355,16 @@
       "clueKinds": "a rain gauge total, a 911 call about water over a road, a gauge on a small creek jumping, the warning polygon and its tag",
       "hurdleKinds": "no sirens in the county, no cell coverage, a bridge washed out, rescue teams already committed",
       "keyCoordination": "the NWS forecast office and 911 dispatch",
-      "purposeMix": { "CLUE": 25, "PRESSURE": 20, "DECISION_POINT": 15 },
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15
+      },
       "promptGuidance": "Flash flood warning tags are base, CONSIDERABLE and CATASTROPHIC; Wireless Emergency Alerts go out only for CONSIDERABLE and CATASTROPHIC, and CATASTROPHIC is used only with flash flood emergency language. Time between rain and rising water is minutes to hours. A night case must show how the warning reaches sleeping people.",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_levee_breach",
@@ -413,7 +428,10 @@
       "hurdleKinds": "a haul road under water, no sand on hand, crews at the limit of shifts",
       "keyCoordination": "the levee or drainage district and the US Army Corps of Engineers district",
       "promptGuidance": "A dam owner's emergency action plan stays with the dam; the flood response side is downstream warning, evacuation and inundation timing. Leveed points may show impacts only at moderate or major categories.",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_urban",
@@ -475,7 +493,10 @@
       "clueKinds": "a camera on an underpass, a rain gauge total, a pump station alarm, a 311 surge",
       "hurdleKinds": "a pump station without power, a barricade shortage, traffic that blocks pump trucks",
       "keyCoordination": "public works and the transit agency",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_ice_jam",
@@ -519,7 +540,10 @@
       "hurdleKinds": "a gauge frozen or iced, roads with ice debris, cold-weather shelter needs",
       "keyCoordination": "the NWS forecast office and the downstream community",
       "promptGuidance": "Stage at an ice-affected gauge can be unreliable; the exercise should say when a reading is estimated.",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_post_wildfire",
@@ -573,7 +597,10 @@
       "hurdleKinds": "a road blocked by debris, an evacuation route through the burn scar",
       "keyCoordination": "the NWS forecast office and the land management agency that holds the burned area",
       "promptGuidance": "The earth sciences toolkit holds the debris flow hazard material; this family covers the flood response and warning side.",
-      "lint": { "clueRequired": true, "clueRole": "operations" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
     },
     {
       "id": "flood_service_degradation",
@@ -635,7 +662,10 @@
       "hurdleKinds": "no sirens, radio coverage gaps, a stale forecast still on a public display",
       "keyCoordination": "the NWS forecast office and the USGS Water Science Center",
       "promptGuidance": "Missing data is not zero. The exercise should show how players tell a failed gauge from a falling river.",
-      "lint": { "clueRequired": true, "clueRole": "technical" }
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
     }
   ],
   "noiseExamples": [
@@ -668,5 +698,5 @@
     "infrastructure_systems",
     "logistics_and_supply_chain_management"
   ],
-  "suggestedToolkits": ["flooding", "weather"]
+  "suggestedToolkits": ["flooding", "weather", "media_environment"]
 }
