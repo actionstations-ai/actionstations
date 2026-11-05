@@ -82,7 +82,21 @@ export const SessionAccommodation = z.object({
   lines: z.array(z.string()),
 })
 
+const PdfFile = z.object({ fileName: z.string(), base64: z.string() })
+
 export const classroomDashboardChannels = {
+  /** The rubric as a printable handout (PDF bytes for the instructor to save). */
+  'classroom:rubric-pdf': channel(P.extend({ rubricId: SafeId }), PdfFile),
+  /** One student's score report for one session, with the evidence quoted. */
+  'classroom:student-report-pdf': channel(
+    P.extend({ scenarioId: SafeId, studentId: SafeId }),
+    PdfFile,
+  ),
+  /** One page per student with the reflection prompts, to collect reflections on paper. */
+  'classroom:reflection-sheets-pdf': channel(
+    P.extend({ sectionId: SafeId, scenarioId: SafeId }),
+    PdfFile,
+  ),
   /** Build the CSV in memory for the instructor to preview and save; nothing is sent anywhere. */
   'classroom:gradebook': channel(
     P.extend({

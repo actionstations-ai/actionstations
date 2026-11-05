@@ -12,9 +12,19 @@ import { classroomRoot } from '../../classroom/state'
 import { readCourse } from '../../classroom/store'
 import { buildGradebook, GRADEBOOK_LAYOUTS } from '../../export/gradebook-csv'
 import { listScenarios } from '../../scenario/manage'
+import { reflectionSheetsPdf, rubricPdf, studentReportPdf } from '../../classroom/documents'
 import { defineHandlers } from '../registry'
 
 export default defineHandlers({
+  'classroom:rubric-pdf': async ({ projectPath, rubricId }) =>
+    rubricPdf(await classroomRoot(projectPath), rubricId),
+
+  'classroom:student-report-pdf': async ({ projectPath, scenarioId, studentId }) =>
+    studentReportPdf(await classroomRoot(projectPath), scenarioId, studentId),
+
+  'classroom:reflection-sheets-pdf': async ({ projectPath, sectionId, scenarioId }) =>
+    reflectionSheetsPdf(await classroomRoot(projectPath), sectionId, scenarioId),
+
   'classroom:gradebook': async ({ projectPath, sectionId, ...options }) => {
     const root = await classroomRoot(projectPath)
     const course = await readCourse(root)

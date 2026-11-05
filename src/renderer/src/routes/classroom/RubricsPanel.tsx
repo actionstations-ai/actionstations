@@ -5,7 +5,7 @@ import { useState } from 'react'
 import type { ClassroomState } from '@shared/ipc/classroom'
 import type { ClassroomRubric, ClassroomRubricCriterion } from '@shared/schemas'
 import { Button, EmptyState, Field } from '../../components/ui'
-import { downloadText } from './download'
+import { downloadPdf, downloadText } from './download'
 import { call, change } from './use-classroom'
 
 type Props = { projectPath: string; state: ClassroomState }
@@ -199,6 +199,17 @@ export function RubricsPanel(props: Props) {
                 onClick={() => void exportOne(r.id)}
               >
                 Export
+              </Button>
+              <Button
+                size="sm"
+                aria-label={`Print ${r.name} as a PDF handout`}
+                onClick={() =>
+                  void call('classroom:rubric-pdf', { projectPath, rubricId: r.id }).then(
+                    downloadPdf,
+                  )
+                }
+              >
+                Handout PDF
               </Button>
               <Button
                 size="sm"
