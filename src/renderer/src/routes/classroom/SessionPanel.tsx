@@ -7,6 +7,7 @@ import type { ClassroomSession } from '@shared/schemas'
 import { Button, EmptyState, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
 import { useIpcQuery } from '../../lib/query'
+import { downloadPdf } from './download'
 import { call, change } from './use-classroom'
 
 type Props = { projectPath: string; state: ClassroomState }
@@ -168,6 +169,18 @@ export function SessionPanel({ projectPath, state }: Props) {
         </Button>
         <Button disabled={!saved} onClick={() => void reflection()}>
           Save the reflection survey
+        </Button>
+        <Button
+          disabled={!current.sectionId}
+          onClick={() =>
+            void call('classroom:reflection-sheets-pdf', {
+              projectPath,
+              sectionId: current.sectionId,
+              scenarioId,
+            }).then(downloadPdf)
+          }
+        >
+          Reflection sheets PDF
         </Button>
       </div>
       {accommodations.data && accommodations.data.length > 0 && (

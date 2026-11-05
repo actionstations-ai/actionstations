@@ -6,6 +6,7 @@ import type { ClassroomState } from '@shared/ipc/classroom'
 import type { ScoringCell, ScoringStudent } from '@shared/ipc/classroom-scoring'
 import { Button, EmptyState, Field } from '../../components/ui'
 import { useIpcQuery } from '../../lib/query'
+import { downloadPdf } from './download'
 import { call, change } from './use-classroom'
 
 type Props = { projectPath: string; state: ClassroomState }
@@ -84,6 +85,48 @@ function CellRow(props: {
   )
 }
 
+function TypedReflection(props: {
+  projectPath: string
+  scenarioId: string
+  student: ScoringStudent
+}) {
+  const [text, setText] = useState('')
+  const add = async () => {
+    const ok = await change('Could not save the reflection', () =>
+      call('classroom:evidence-add', {
+        projectPath: props.projectPath,
+        evidence: {
+          kind: 'reflection',
+          scenarioId: props.scenarioId,
+          studentId: props.student.studentId,
+          note: text,
+          count: 1,
+        },
+      }),
+    )
+    if (ok) setText('')
+  }
+  return (
+    <details>
+      <summary>Type in a reflection from a printed sheet</summary>
+      <Field label={`Reflection by ${props.student.name}`}>
+        {({ id }) => (
+          <textarea
+            id={id}
+            className="input"
+            rows={3}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        )}
+      </Field>
+      <Button size="sm" disabled={text.trim() === ''} onClick={() => void add()}>
+        Add reflection
+      </Button>
+    </details>
+  )
+}
+
 function StudentScores(props: {
   projectPath: string
   scenarioId: string
@@ -115,12 +158,30 @@ function StudentScores(props: {
         >
           + Hot wash contribution
         </Button>
+        <Button
+          size="sm"
+          aria-label={`Score report PDF for ${student.name}`}
+          onClick={() =>
+            void call('classroom:student-report-pdf', {
+              projectPath: props.projectPath,
+              scenarioId: props.scenarioId,
+              studentId: student.studentId,
+            }).then(downloadPdf)
+          }
+        >
+          Score report PDF
+        </Button>
         {student.unlinked.length > 0 && (
           <span className="muted">
             {student.unlinked.length} piece(s) of evidence not linked to a criterion
           </span>
         )}
       </div>
+      <TypedReflection
+        projectPath={props.projectPath}
+        scenarioId={props.scenarioId}
+        student={student}
+      />
       <table className="classroom-table">
         <caption className="sr-only">Scores for {student.name}</caption>
         <thead>
