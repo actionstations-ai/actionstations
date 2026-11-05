@@ -48,7 +48,7 @@ Turn on the **EU AI Act Article 73 serious incident reporting** rule in Settings
 
 ## Reference library
 
-The **AI incidents reference library** pack (installed from the catalog) carries the NIST AI Risk Management Framework and its Generative AI Profile, the FinCEN alert on deepfake fraud and the FCC ruling on AI voices in robocalls. All are US government works. The EU AI Act text, the AI Incident Database, the FBI Internet Crime Complaint Center announcement on impersonation of senior officials and the Content Credentials specification are linked in the pack's README, not bundled.
+The **AI incidents reference library** pack (installed from the catalog) carries the NIST AI Risk Management Framework and its Generative AI Profile, the FinCEN alert on deepfake fraud, the FCC ruling on AI voices in robocalls and the C2PA Content Credentials specification (version 2.3). The EU AI Act text, the AI Incident Database (a database, not a file) and the FBI Internet Crime Complaint Center announcement on impersonation of senior officials are linked in the pack's README, not bundled.
 
 ## Limits
 

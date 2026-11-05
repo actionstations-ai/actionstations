@@ -19,9 +19,11 @@ Facts below were checked on 2026-10-24. Rules change, so check the current text 
 - Work-related fatality to OSHA within 8 hours; in-patient hospitalization, amputation or loss of an eye within 24 hours (29 CFR 1904.39).
 - There is no sector cyber-incident reporting mandate.
 
-## Copyrighted references (not bundled)
+## Other references
+
+The **Chemical facility reference library** pack carries the ACC Responsible Care Security Code and the 2024 Emergency Response Guidebook (ERG 2024) under their publishers' terms.
+
+These are sold, so the pack only names them:
 
 - AIChE CCPS Guidelines series and the RBPS book: https://www.aiche.org/ccps
-- ACC Responsible Care Security Code: https://www.americanchemistry.com
 - NFPA 400, 652 and 704: https://www.nfpa.org
-- The 2024 Emergency Response Guidebook (ERG 2024) is a joint international work; link only: https://www.phmsa.dot.gov/training/hazmat/erg/emergency-response-guidebook-erg

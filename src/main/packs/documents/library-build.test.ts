@@ -177,6 +177,54 @@ describe('buildLibraryPacks', () => {
     })
   })
 
+  it('labels a library of federal works only as US government work (#1101)', async () => {
+    const f = await fixture()
+    const r = await buildLibraryPacks(f.manifest, opts(f))
+    const zip = await JSZip.loadAsync(readFileSync(join(f.outDir, r.packs[0]!.file)))
+    const pack = JSON.parse(await zip.file('pack.json')!.async('string'))
+    expect(pack.license).toBe('LicenseRef-US-Government-Work')
+    expect(pack.description).toMatch(/^Public-domain reference documents/)
+    const readme = await zip.file('README.md')!.async('string')
+    expect(readme).toContain('Every document here is a work of the United States federal')
+  })
+
+  it("names both licenses when a document is under its publisher's terms (#1101)", async () => {
+    const f = await fixture()
+    const manifest = DocumentsManifest.parse({
+      ...f.manifest,
+      documents: f.manifest.documents.map((d) =>
+        d.slug === 'rail-guide'
+          ? {
+              ...d,
+              license: 'LicenseRef-Publisher-Terms',
+              basis: 'Published by AAR; read 2026-11-05',
+            }
+          : d,
+      ),
+    })
+    const r = await buildLibraryPacks(manifest, opts(f))
+    expect(r.problems).toEqual([])
+    const read = await readPack(
+      { path: join(f.outDir, r.packs[0]!.file) },
+      {
+        appVersion: '0.3.0',
+        builtins: { templates: [], prompts: [], workflows: [], examples: [] },
+      },
+    )
+    expect(read.ok).toBe(true)
+    if (!read.ok) return
+    expect(read.pack.manifest.license).toBe(
+      'LicenseRef-Publisher-Terms AND LicenseRef-US-Government-Work',
+    )
+    expect(
+      read.pack.manifest.documents.find((d) => d.path.startsWith('documents/rail-guide/')),
+    ).toMatchObject({ license: 'LicenseRef-Publisher-Terms' })
+    const zip = await JSZip.loadAsync(readFileSync(join(f.outDir, r.packs[0]!.file)))
+    const readme = await zip.file('README.md')!.async('string')
+    expect(readme).toContain("published under their publisher's own terms")
+    expect(readme).not.toContain('Every document here is a work of the United States federal')
+  })
+
   it('is reproducible: the same cache gives the same archive bytes', async () => {
     const f = await fixture()
     const a = await buildLibraryPacks(f.manifest, opts(f))

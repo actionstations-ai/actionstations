@@ -19,6 +19,6 @@ The profile stays at public health response decisions: case definitions, counts,
 
 ## Reference links (not bundled)
 
-- CDC Field Epidemiology Manual: https://www.cdc.gov/field-epi-manual/
+- CDC Field Epidemiology Manual (web chapters only, no single file): https://www.cdc.gov/field-epi-manual/
 - CDC PHEP program: https://www.cdc.gov/readiness/php/phep/
 - CSTE: https://www.cste.org/

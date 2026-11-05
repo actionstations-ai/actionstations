@@ -35,6 +35,16 @@ export const CORE_PACK_ID = 'ai.actionstations.core'
 /** The only licenses a bundled document may carry (owner decision, ADR-0020). */
 export const BUNDLED_DOCUMENT_LICENSES = ['LicenseRef-US-Government-Work', 'CC0-1.0'] as const
 
+/**
+ * Licenses a catalog-only library document may carry (#1101): the bundled ones, plus
+ * `LicenseRef-Publisher-Terms` for a document published under its publisher's own terms, which
+ * the manifest `basis` states. Core (bundled) documents keep BUNDLED_DOCUMENT_LICENSES.
+ */
+export const LIBRARY_DOCUMENT_LICENSES = [
+  ...BUNDLED_DOCUMENT_LICENSES,
+  'LicenseRef-Publisher-Terms',
+] as const
+
 /** Installer budget for documents across all bundled packs (ADR-0020). */
 export const BUNDLED_DOCUMENTS_MAX_BYTES = 60 * 1024 * 1024
 

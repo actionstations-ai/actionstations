@@ -7,7 +7,7 @@
 import { z } from 'zod'
 import { HttpUrl } from '@shared/schemas/common'
 import { PACK_ITEM_ID, SemVer, Sha256Hex } from '@shared/schemas/pack'
-import { BUNDLED_DOCUMENT_LICENSES } from '../bundled-map'
+import { BUNDLED_DOCUMENT_LICENSES, LIBRARY_DOCUMENT_LICENSES } from '../bundled-map'
 
 export const DOCUMENTS_MANIFEST_VERSION = 1
 
@@ -50,8 +50,10 @@ export const ManifestDocument = z
     /** Pinned hash and size of the fetched bytes; null until first pinned. */
     sha256: Sha256Hex.nullable(),
     size: z.number().int().positive().nullable(),
-    license: z.enum(BUNDLED_DOCUMENT_LICENSES),
-    /** Why it is public domain. */
+    /** Core documents: BUNDLED_DOCUMENT_LICENSES only; library documents may also carry
+     * `LicenseRef-Publisher-Terms`. */
+    license: z.enum(LIBRARY_DOCUMENT_LICENSES),
+    /** Who published it and what it states about its rights (factual). */
     basis: z.string().min(1).max(500),
     process: DocumentProcess.optional(),
     note: z.string().max(1000).optional(),
@@ -81,6 +83,12 @@ export const ManifestDocument = z
         code: 'custom',
         path: ['sha256'],
         message: 'sha256 and size are pinned together',
+      })
+    if (d.pack === 'core' && !(BUNDLED_DOCUMENT_LICENSES as readonly string[]).includes(d.license))
+      ctx.addIssue({
+        code: 'custom',
+        path: ['license'],
+        message: `a core document must be ${BUNDLED_DOCUMENT_LICENSES.join(' or ')}`,
       })
     if (d.alsoIn.includes(d.pack) || d.alsoIn.includes('core'))
       ctx.addIssue({

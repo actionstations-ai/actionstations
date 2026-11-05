@@ -15,4 +15,6 @@ Earthquake, volcanic unrest and eruption, tsunami, post-fire debris flow, ground
 
 ## Copyrighted references (not bundled)
 
-- ICAO documents on volcanic ash (Doc 9691 and the Annex 3 provisions) are linked, not copied: https://www.icao.int/
+- ICAO documents on volcanic ash (Doc 9691 and the Annex 3 provisions) are sold, so they are linked, not copied: https://www.icao.int/
+
+The **Earth sciences reference library** pack carries the USGS fact sheets on volcano alert levels (2006-3139) and the HayWired scenario (2018-3016) and the Cascadia Rising 2016 after-action report.

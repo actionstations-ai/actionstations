@@ -22,4 +22,4 @@ Facts below were checked on 2026-11-05. Rules change, so check the current text 
 
 ## Not bundled
 
-- The separate **Environmental response reference library** pack carries the PREP Guidelines, the Coast Guard Deepwater Horizon preparedness review, the NTSB Marshall report and NOAA job aids and guides, each checked as a US federal work. The Coast Guard and EPA versions of ICS forms 232, 233 and 234, the Coast Guard FOSC guide and the ESI training data set are linked and not bundled; the library README gives the reason for each.
+- The separate **Environmental response reference library** pack carries the PREP Guidelines, the Coast Guard Deepwater Horizon preparedness review, the NTSB Marshall report and NOAA job aids and guides, each checked as a US federal work. It also carries the Coast Guard versions of ICS forms 232, 232A, 233 and 234. The EPA versions of those forms, the Coast Guard FOSC guide and the ESI training data set (a GIS zip) are linked and not bundled; the library README gives the reason for each.

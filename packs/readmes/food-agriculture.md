@@ -22,7 +22,6 @@ Facts below were checked on 2026-10-24 for the research dossier (`docs/research/
 ## Copyrighted references (named, not bundled)
 
 - Food and Ag-ISAC resources (membership): https://www.foodandag-isac.org/
-- FSPCA intentional adulteration training curriculum: https://www.ifsh.iit.edu/fspca/intentional-adulteration
-- _Insider Threats_ manual, UC Davis Western Institute for Food Safety & Security (hosted by FSIS, non-federal author): https://www.fsis.usda.gov/sites/default/files/media_file/2021-09/insider-threats-manual.pdf
+- FSPCA intentional adulteration training curriculum (sold): https://www.ifsh.iit.edu/fspca/intentional-adulteration
 
-FDA's Food Defense Plan Builder is a desktop application and is linked, not bundled: https://www.fda.gov/food/food-defense-tools/food-defense-plan-builder
+The **Food and agriculture reference library** pack carries the _Insider Threats_ manual (UC Davis Western Institute for Food Safety & Security, hosted by FSIS) and the Food Defense Plan Builder v2.0 user guide. The Food Defense Plan Builder itself is a desktop application and is linked, not bundled: https://www.fda.gov/food/food-defense-tools/food-defense-plan-builder

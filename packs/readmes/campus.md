@@ -19,7 +19,9 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- NFPA 3000, Active Shooter/Hostile Event Response: https://www.nfpa.org/
-- REN-ISAC: https://www.ren-isac.net/
+These have no file a pack can carry:
+
+- NFPA 3000, Active Shooter/Hostile Event Response (sold by NFPA): https://www.nfpa.org/
+- REN-ISAC (member alerts behind a login): https://www.ren-isac.net/
 
 Facts were checked against public sources on 2026-10-24. Check the current rules before relying on a deadline.

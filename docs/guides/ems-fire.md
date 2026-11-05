@@ -16,7 +16,7 @@ Everything here is exercise material. It is not clinical guidance, hazmat guidan
 
 - **Products:** placard, shipping paper, entry team briefing, air monitoring log, decontamination corridor, chemical emergency call record, and shelter in place or evacuation orders and recommendations.
 - **Isolation and protective action map:** a plan that draws the isolation circle and the downwind protective action square from the wind, with a scale, the places near the release and a table of the numbers.
-- **Guidebook distances:** the Emergency Response Guidebook is not included. Type the distances from your own copy and name its edition, or use a fictional material with invented distances. Every order and map says which. Players use their own guidebook for real decisions.
+- **Guidebook distances:** the EMS, fire and hazmat reference library carries the 2024 Emergency Response Guidebook, but its distances are not copied into exercise data. Type the distances from the guidebook and name its edition, or use a fictional material with invented distances. Every order and map says which. Players use their own guidebook for real decisions.
 - **Decisions:** set isolation and protective actions (with the area drawn on the map), and set the protective level and authorize entry.
 - **Evaluation:** whether the distances players set match the scenario's, and whether the action was in place before the plume reached each place.
 

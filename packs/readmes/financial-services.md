@@ -28,10 +28,14 @@ Facts below were checked on 2026-10-24 against eCFR (point-in-time 2026-10-01) f
 - **CIRCIA**: 72 hours for a covered cyber incident and 24 hours after a ransom payment once the final rule takes effect; it was not in force as of 2026-10-24.
 - **State regulator and state breach statutes**: vary by state.
 
-## Copyrighted references (named, not bundled)
+## Other references
 
-- PCI DSS v4.0.1, PCI Security Standards Council: https://www.pcisecuritystandards.org/document_library/
-- Nacha Operating Rules and the Nacha _Cybersecurity Tabletop Exercise Leader's Guide_: https://www.nacha.org/resources/cybersecurity-tabletop-exercise-leaders-guide
-- SIFMA cyber and operational resilience tabletop exercises: https://www.sifma.org/resources/general/cyber-and-operational-resilience-table-top-exercises/
-- FS-ISAC resources (membership): https://www.fsisac.com/
+The **Financial services reference library** pack carries the Federal Reserve Banks' Operating Circulars 4 (ACH), 5 (general provisions and electronic access), 6 (Fedwire Funds) and 8 (FedNow), the Nacha _Cybersecurity Tabletop Exercise Leader's Guide_ and SIFMA's Quantum Dawn VII public after-action report.
+
+These could not be carried, so the pack only names them:
+
+- PCI DSS v4.0.1, PCI Security Standards Council (the download needs a registration form and a license agreement): https://www.pcisecuritystandards.org/document_library/
+- Nacha Operating Rules (sold): https://www.nacha.org/rules
+- The Treasury _Financial Sector Cyber Exercise Template_ (fbiic.gov serves it behind a browser check an automated download could not pass): https://www.fbiic.gov/financial-sector-cyber-exercise.html
+- FS-ISAC resources (members only, behind a login): https://www.fsisac.com/
 - Sheltered Harbor data vaulting standard (members only): https://shelteredharbor.org/

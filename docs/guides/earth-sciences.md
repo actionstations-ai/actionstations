@@ -75,7 +75,7 @@ Field metrics then compare what players did with the clocks that matter: a prote
 
 ## Reference library
 
-An **Earth sciences reference library** pack carries USGS fact sheets on early warning, PAGER, aftershock forecasts, lahars and post-fire debris flows. Install it from the catalog and use **Add from pack** to bring a fact sheet into a project. Documents that are not in the public domain, such as the international aviation documents on volcanic ash, are linked, not copied.
+An **Earth sciences reference library** pack carries USGS fact sheets on early warning, PAGER, aftershock forecasts, lahars and post-fire debris flows. Install it from the catalog and use **Add from pack** to bring a fact sheet into a project. It also carries the USGS fact sheets on volcano alert levels and the HayWired scenario and the Cascadia Rising 2016 after-action report. Documents that are sold, such as the international aviation documents on volcanic ash, are linked, not copied.
 
 ## Accuracy
 
