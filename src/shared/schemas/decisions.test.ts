@@ -189,6 +189,18 @@ describe('records in the log', () => {
     expect(decisionRecordOf(line(r))).toEqual(r)
   })
 
+  it('logs the record under data.structured as { id, time, kind, area, fields, seat }', () => {
+    const data = decisionLogData(record()) as { structured: Record<string, unknown> }
+    expect(data.structured).toMatchObject({
+      id: 'dec-1',
+      time: '2026-11-04T10:00:00.000Z',
+      kind: 'warning',
+      area: { id: 'harbor' },
+      fields: { level: 'warning' },
+      seat: { roleId: 'pio' },
+    })
+  })
+
   it('keeps names out of the line data, so a name-free export stays name-free', () => {
     expect(JSON.stringify(decisionLogData(record()))).not.toContain('Sam')
     const stripped = line(record(), { actor: { kind: 'client', seat: { kind: 'player' } } })

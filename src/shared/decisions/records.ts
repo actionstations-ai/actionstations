@@ -40,6 +40,15 @@ export function decisionLogData(record: DecisionRecord): Record<string, unknown>
     ...(record.area ? { area: record.area } : {}),
     ...(record.seat.label ? { seatLabel: record.seat.label } : {}),
     ...(record.seat.roleId ? { roleId: record.seat.roleId } : {}),
+    // The shape the metrics builder reads. The seat never carries a name here.
+    structured: {
+      id: record.id,
+      time: record.time,
+      kind: record.kind,
+      ...(record.area ? { area: record.area } : {}),
+      fields: record.fields,
+      seat: { ...record.seat, name: undefined },
+    },
   }
 }
 
