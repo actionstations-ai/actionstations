@@ -55,7 +55,7 @@ describe('lint rules', () => {
   const warning = (tags: { name: string; value: string }[], at: string) => ({
     product: 'Flash Flood Warning',
     office: 'x',
-    issued: 'x',
+    issued: '214 PM EDT Wed Oct 21 2026',
     warningFor: ['x'],
     until: 'x',
     at,
@@ -84,7 +84,7 @@ describe('lint rules', () => {
     const f = (impacts: string) => ({
       office: 'x',
       product: 'Hydrologic Outlook',
-      issued: 'x',
+      issued: '214 PM EDT Wed Oct 21 2026',
       headline: 'x',
       areas: ['a'],
       discussion: ['b'],
