@@ -149,6 +149,7 @@ Decision forms are defined in the toolkit's `decisionForms` as data (`DecisionFo
 - The form `id` becomes the decision `kind` that metrics read. Flooding's metrics read `close_road`, `order_evacuation`, `order_resources` and `move_assets`; epidemiology's read the option ids `reached`, `unreachable` and `open`. A metric and its form are one contract: change one and you change the other.
 - A `choice` needs at least two choices. Option ids are slugs of the labels, so keep labels stable.
 - An `area` field with `draw: true` can be drawn on a map. With no `areas` listed, `caseAreaNames` offers the zones of the scenario's modeled series, or the case area label.
+- **Start a regulatory clock from a decision.** A form may list `firesTriggers`: `{ regulation, trigger }` and, to fire only for one choice, `field` (a choice field of the form) and `equals` (the choice's label). Facilitate fires the trigger once per recorded decision, at the decision's exercise time, when the project has that regulation on. The regulation and trigger ids must exist in `packs/regulations/` (governance's wiring test checks this).
 - Test that every form converts and passes the live `DecisionForm` schema (the "decision forms" tests in both wiring tests).
 
 ## 11. Threat families

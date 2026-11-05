@@ -56,6 +56,24 @@ function convertField(f: DecisionField, defaultAreas: readonly string[]): LiveFi
   }
 }
 
+/** The triggers a form fires, with the choice labelled as the option id the record holds. */
+function convertFires(form: DecisionForm) {
+  return (form.firesTriggers ?? []).map((t) => {
+    const field = form.fields.find((f) => f.id === t.field)
+    const option =
+      field && t.equals !== undefined
+        ? named(field.choices, DECISION_LIMITS.options).find(
+            (o) => o.label === t.equals?.slice(0, 80),
+          )
+        : undefined
+    return {
+      regulationId: t.regulation,
+      triggerId: t.trigger,
+      ...(field && option ? { fieldId: field.id, optionId: option.id } : {}),
+    }
+  })
+}
+
 /** One toolkit form as the live schema; the form id doubles as its kind for the metrics. */
 export function toLiveForm(
   form: DecisionForm,
@@ -68,6 +86,7 @@ export function toLiveForm(
     ...(form.description ? { description: form.description.slice(0, 300) } : {}),
     // A form with no fields cannot be filled in; the live schema's own check skips it.
     fields: form.fields.slice(0, DECISION_LIMITS.fields).map((f) => convertField(f, defaultAreas)),
+    ...(form.firesTriggers?.length ? { fires: convertFires(form) } : {}),
   }
 }
 
