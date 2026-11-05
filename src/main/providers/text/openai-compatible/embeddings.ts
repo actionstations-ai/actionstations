@@ -6,7 +6,7 @@ import { withEmbedLog } from '../../call-log'
 import { joinUrl, requestJson } from '../../http'
 import type { EmbeddingProvider } from '../../types'
 import { numberOption } from '../common'
-import { VENDOR, apiBase, authHeaders } from './chat'
+import { VENDOR, apiBaseOf, authHeaders } from './chat'
 
 const BATCH = 64
 
@@ -56,7 +56,7 @@ export class OpenAiCompatibleEmbedder implements EmbeddingProvider {
     signal?: AbortSignal,
   ): Promise<{ vectors: Float32Array[]; inputTokens: number }> {
     const res = await requestJson<EmbeddingsResponse>(
-      joinUrl(apiBase(this.config.baseUrl), '/embeddings'),
+      joinUrl(apiBaseOf(this.config), '/embeddings'),
       {
         method: 'POST',
         headers: authHeaders(this.config, this.secret),

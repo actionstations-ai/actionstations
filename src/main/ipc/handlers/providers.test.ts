@@ -151,6 +151,56 @@ describe('providers:upsert: "On my network, treat as local" (#454 review, findin
   })
 })
 
+describe('providers:upsert: option names and credentials', () => {
+  const upsert = (options: Record<string, unknown>) =>
+    call('providers:upsert', {
+      config: {
+        kind: 'openai-compatible',
+        label: 'OpenAI',
+        baseUrl: 'https://api.openai.com/v1',
+        options,
+      },
+    })
+
+  it('accepts hosted-service options whose names mention tokens', async () => {
+    await expect(
+      upsert({
+        preset: 'openai',
+        network: 'remote',
+        modelProfile: 'off',
+        maxTokensParam: 'max_completion_tokens',
+        maxTokens: 4096,
+        inputUsdPerMTok: 1,
+        outputUsdPerMTok: 5,
+        mediaUsdPerCall: 0.04,
+        apiVersion: '2024-10-21',
+      }),
+    ).resolves.toBeTruthy()
+  })
+
+  it.each([
+    { apiKey: 'abc' },
+    { api_key: 'abc' },
+    { secret: 'abc' },
+    { password: 'abc' },
+    { authorization: 'abc' },
+    { accessToken: 'abc' },
+    { token: 'abc' },
+    { clientSecret: 'abc' },
+  ])('still refuses a credential named %j', async (options) => {
+    await expect(upsert(options)).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
+  it('refuses a key pasted into an ordinary option', async () => {
+    await expect(upsert({ note: 'sk-proj-abcdefgh12345678' })).rejects.toMatchObject({
+      code: 'VALIDATION',
+    })
+    await expect(upsert({ note: 'Bearer abcdefgh12345678' })).rejects.toMatchObject({
+      code: 'VALIDATION',
+    })
+  })
+})
+
 describe('providers:remove', () => {
   it('deletes the config, its key and global routing that pointed at it', async () => {
     const a = await addMock({ label: 'A' }, KEY)

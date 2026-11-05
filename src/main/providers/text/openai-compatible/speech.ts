@@ -22,7 +22,7 @@ import type {
   MediaProvider,
 } from '../../types'
 import { elapsed, numberOption, stringOption } from '../common'
-import { VENDOR, apiBase, authHeaders } from './chat'
+import { VENDOR, apiBaseOf, authHeaders } from './chat'
 import { concatWav, wavDurationSec } from './wav'
 
 /** VoiceDesign models (Qwen3-TTS) reject requests without a voice description. */
@@ -68,7 +68,7 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
   async health(signal?: AbortSignal): Promise<ProviderHealth> {
     const start = Date.now()
     try {
-      await request(joinUrl(apiBase(this.config.baseUrl), '/models'), {
+      await request(joinUrl(apiBaseOf(this.config), '/models'), {
         headers: authHeaders(this.config, this.secret),
         signal,
         timeoutMs: 5_000,
@@ -150,7 +150,7 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
     if (configured) return configured
     try {
       const res = await requestJson<{ data?: { id: string }[] }>(
-        joinUrl(apiBase(this.config.baseUrl), '/models'),
+        joinUrl(apiBaseOf(this.config), '/models'),
         {
           headers: authHeaders(this.config, this.secret),
           signal,
@@ -207,7 +207,7 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
     speaker: string,
     signal?: AbortSignal,
   ): Promise<Uint8Array> {
-    const res = await request(joinUrl(apiBase(this.config.baseUrl), '/audio/speech'), {
+    const res = await request(joinUrl(apiBaseOf(this.config), '/audio/speech'), {
       method: 'POST',
       headers: authHeaders(this.config, this.secret),
       body,

@@ -7,6 +7,8 @@ import { toast } from '../../components/toast-store'
 import { useIpcMutation } from '../../lib/query'
 import { ApiKeyField, type KeyChange } from './ApiKeyField'
 import { ModelInput } from './ModelInput'
+import { AdvancedSection } from './AdvancedSection'
+import { advancedErrors, advancedFrom, applyAdvanced, type AdvancedDraft } from './advanced-options'
 import {
   KIND_LABELS,
   PRESETS,
@@ -30,6 +32,10 @@ interface Draft {
    * URL host shows the box unticked again; off means remote.
    */
   localHost: string | undefined
+  /** Options a preset starts with (cloud marker, model-profile off, auth style…). */
+  baseOptions: Record<string, unknown>
+  advanced: AdvancedDraft
+  modelPlaceholder: string | undefined
 }
 
 function draftFrom(existing: ProviderViewT | undefined): Draft {
@@ -43,11 +49,13 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
       enabled: existing.enabled,
       apiKey: undefined,
       localHost: grantedLocalHost(existing),
+      baseOptions: existing.options,
+      advanced: advancedFrom(existing.options),
+      modelPlaceholder: undefined,
     }
   const p = PRESETS[0]!
   return {
     ...fromPreset(p),
-    defaultModel: '',
     enabled: true,
     apiKey: undefined,
     localHost: undefined,
@@ -59,16 +67,33 @@ const fromPreset = (p: Preset) => ({
   kind: p.kind,
   label: p.label,
   baseUrl: p.baseUrl,
+  defaultModel: p.defaultModel ?? '',
+  baseOptions: p.options ?? {},
+  advanced: advancedFrom(undefined),
+  modelPlaceholder: p.modelPlaceholder,
 })
 
+/** A hosted service (set by a preset): always a cloud provider and always needs a key. */
+const isHosted = (d: Pick<Draft, 'kind' | 'baseOptions'>): boolean =>
+  d.kind === 'openai-compatible' && typeof d.baseOptions.preset === 'string'
+
+const keyRequired = (d: Draft): boolean => kindRequiresKey(d.kind) || isHosted(d)
+
 function validate(d: Draft, hasKey: boolean) {
-  const errors: { label?: string; baseUrl?: string; apiKey?: string } = {}
+  const errors: {
+    label?: string
+    baseUrl?: string
+    apiKey?: string
+    advanced?: ReturnType<typeof advancedErrors>
+  } = {}
   if (!d.label.trim()) errors.label = 'Give the provider a name.'
   if (kindUsesBaseUrl(d.kind) && !d.baseUrl.trim()) errors.baseUrl = 'Enter the server address.'
   else if (d.baseUrl.trim() && !/^https?:\/\/\S+$/.test(d.baseUrl.trim()))
     errors.baseUrl = 'Use an http:// or https:// address.'
   const keyAfterSave = typeof d.apiKey === 'string' || (hasKey && d.apiKey !== null)
-  if (kindRequiresKey(d.kind) && !keyAfterSave) errors.apiKey = 'This provider needs an API key.'
+  if (keyRequired(d) && !keyAfterSave) errors.apiKey = 'This provider needs an API key.'
+  const advanced = advancedErrors(d.advanced)
+  if (Object.keys(advanced).length) errors.advanced = advanced
   return errors
 }
 
@@ -85,15 +110,21 @@ function parsedBaseUrl(raw: string): string | undefined {
 }
 
 /** Options with the network choice: 'local' when ticked on a LAN host, else 'remote'. */
-function optionsFor(draft: Draft, existing: ProviderViewT | undefined): Record<string, unknown> {
-  const { network: _old, localHost: _host, ...rest } = existing?.options ?? {}
+function optionsFor(draft: Draft): Record<string, unknown> {
+  const { network: _old, localHost: _host, ...rest } = draft.baseOptions
   const baseUrl = parsedBaseUrl(draft.baseUrl)
   const config = { kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) }
-  if (!canTreatAsLocal(config)) return rest
+  const withAdvanced = (o: Record<string, unknown>) =>
+    draft.kind === 'openai-compatible' ? applyAdvanced(o, draft.advanced) : o
+  // A hosted preset is a cloud service whatever its address looks like.
+  if (isHosted(draft)) return withAdvanced({ ...rest, network: 'remote' })
+  if (!canTreatAsLocal(config)) return withAdvanced(rest)
   const host = providerHost(config)
-  return draft.localHost === host
-    ? { ...rest, network: 'local', localHost: host }
-    : { ...rest, network: 'remote' }
+  return withAdvanced(
+    draft.localHost === host
+      ? { ...rest, network: 'local', localHost: host }
+      : { ...rest, network: 'remote' },
+  )
 }
 
 /** The config providers:upsert stores for a draft (trimmed, empty optionals left out). */
@@ -103,7 +134,7 @@ function upsertRequest(draft: Draft, existing: ProviderViewT | undefined) {
   return {
     config: {
       ...(existing ? { id: existing.id } : {}),
-      options: optionsFor(draft, existing),
+      options: optionsFor(draft),
       kind: draft.kind,
       label: draft.label.trim(),
       ...(baseUrl ? { baseUrl } : {}),
@@ -219,7 +250,11 @@ function DefaultModelField(props: {
           {...(describedBy ? { describedBy } : {})}
           purpose="chat"
           value={props.draft.defaultModel}
-          placeholder={isSystemVoice ? 'System default' : 'e.g. qwen3-30b-a3b-2507'}
+          placeholder={
+            isSystemVoice
+              ? 'System default'
+              : (props.draft.modelPlaceholder ?? 'e.g. qwen3-30b-a3b-2507')
+          }
           onChange={(v) => props.set({ defaultModel: v })}
         />
       )}
@@ -258,7 +293,7 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
   const preset = PRESETS.find((p) => p.id === draft.presetId)
   const hasKey = existing?.hasKey ?? false
   const showKey = preset ? preset.usesKey : kindUsesKey(draft.kind) || hasKey
-  const errors = submitted ? validate(draft, hasKey) : {}
+  const errors: Errors = submitted ? validate(draft, hasKey) : {}
   const { save, pending } = useSaveProvider(existing, props.onDone)
 
   const submit = (e: FormEvent) => {
@@ -280,10 +315,18 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
       {showKey && (
         <ApiKeyField
           hasKey={hasKey}
-          required={kindRequiresKey(draft.kind)}
+          required={keyRequired(draft)}
           value={draft.apiKey}
           onChange={(v) => set({ apiKey: v })}
           {...(errors.apiKey ? { error: errors.apiKey } : {})}
+        />
+      )}
+      {draft.kind === 'openai-compatible' && (
+        <AdvancedSection
+          value={draft.advanced}
+          errors={errors.advanced ?? {}}
+          onChange={(patch) => set({ advanced: { ...draft.advanced, ...patch } })}
+          showApiVersion={draft.baseOptions.auth === 'api-key'}
         />
       )}
       <label className="row">

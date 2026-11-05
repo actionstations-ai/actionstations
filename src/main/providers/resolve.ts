@@ -10,6 +10,7 @@ import {
   type ProviderRouting,
   type ProviderTask,
 } from '@shared/schemas'
+import { hostedPresetOf } from '@shared/hosted-presets'
 import { AppError } from '../lib/errors'
 import { loadProject } from '../project/store'
 import { getSecret } from '../secrets'
@@ -202,7 +203,7 @@ export async function configFor(providerId: string, task?: ProviderTask): Promis
 
 async function secretFor(config: ProviderConfig): Promise<string | undefined> {
   const secret = await getSecret(config.id)
-  if (!secret && KEY_REQUIRED_KINDS.has(config.kind))
+  if (!secret && (KEY_REQUIRED_KINDS.has(config.kind) || hostedPresetOf(config)))
     throw new AppError('VALIDATION', `"${config.label}" needs an API key. Add one in Providers.`)
   return secret
 }

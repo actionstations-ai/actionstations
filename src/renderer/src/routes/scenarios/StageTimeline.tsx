@@ -15,7 +15,7 @@ import { RepairScenario } from './RepairScenario'
 import {
   itemLabel,
   latestRuns,
-  runCost,
+  runCostText,
   runDuration,
   runTokens,
   stageLabel,
@@ -127,7 +127,7 @@ function RunItem(props: {
       <Badge tone={STATUS_TONE[run.status]}>{run.status}</Badge>
       <span className="muted timeline__meta">
         {run.model ?? '—'} · {runTokens(run)}
-        {runCost(run) && ` · ${runCost(run)}`} · {runDuration(run)}
+        {runCostText(run) && ` · ${runCostText(run)}`} · {runDuration(run)}
       </span>
       {run.error && <span className="field__error timeline__error">{run.error}</span>}
       <Button

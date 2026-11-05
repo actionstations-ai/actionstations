@@ -2,6 +2,7 @@
 // OpenAI. Streaming SSE, structured-output negotiation, reasoning stripped before parsing.
 import type { InferenceSettings, ModelInfo, ProviderConfig, ProviderHealth } from '@shared/schemas'
 import { draftCandidate, resolveInference } from '@shared/model-profiles'
+import { isRemoteProvider } from '@shared/provider-network'
 import { AppError } from '../../../lib/errors'
 import { withChatLog } from '../../call-log'
 import { StreamGuard, streamGuardOption } from '../../stream-guard'
@@ -35,8 +36,31 @@ export function apiBase(baseUrl: string | undefined): string {
   return u.toString().replace(/\/+$/, '')
 }
 
+/** The API root for a provider, with Azure's `api-version` (options.apiVersion) as a query. */
+export function apiBaseOf(config: ProviderConfig): string {
+  const base = apiBase(config.baseUrl)
+  const version = stringOption(config, 'apiVersion')
+  if (!version) return base
+  const u = new URL(base)
+  if (!u.searchParams.has('api-version')) u.searchParams.set('api-version', version)
+  return u.toString()
+}
+
+/** Bearer by default; `options.auth: 'api-key'` sends the key in the `api-key` header (Azure). */
 export function authHeaders(config: ProviderConfig, secret?: string): Record<string, string> {
-  return { ...extraHeaders(config), ...(secret ? { authorization: `Bearer ${secret}` } : {}) }
+  const key: Record<string, string> = !secret
+    ? {}
+    : stringOption(config, 'auth') === 'api-key'
+      ? { 'api-key': secret }
+      : { authorization: `Bearer ${secret}` }
+  return { ...extraHeaders(config), ...key }
+}
+
+/** The request field that caps output: OpenAI's newer models need `max_completion_tokens`. */
+export function maxTokensField(config: ProviderConfig): 'max_tokens' | 'max_completion_tokens' {
+  return stringOption(config, 'maxTokensParam') === 'max_completion_tokens'
+    ? 'max_completion_tokens'
+    : 'max_tokens'
 }
 
 interface StreamOutcome {
@@ -59,8 +83,13 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     return this.config.id
   }
 
+  /** A hosted service (not this computer): no LM Studio workarounds, no local sampling extras. */
+  private get hosted(): boolean {
+    return isRemoteProvider(this.config)
+  }
+
   get base(): string {
-    return apiBase(this.config.baseUrl)
+    return apiBaseOf(this.config)
   }
 
   listModels(signal?: AbortSignal): Promise<ModelInfo[]> {
@@ -121,7 +150,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     try {
       return await run()
     } catch (err) {
-      if (this.draftRefused || !isDraftRefusal(err)) throw err
+      if (this.hosted || this.draftRefused || !isDraftRefusal(err)) throw err
       this.draftRefused = true
       return run()
     }
@@ -164,7 +193,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
           rememberMode(key, mode)
           return this.structuredResponse(out, model, start, mode, req)
         } catch (err) {
-          if (isOutputFormatError(err) && attempt < FORMAT_ERROR_RETRIES) continue
+          if (!this.hosted && isOutputFormatError(err) && attempt < FORMAT_ERROR_RETRIES) continue
           if (!isModeRejection(err) || i === modes.length - 1) throw err
           break
         }
@@ -190,7 +219,10 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
 
   /** Model-card sampling, reasoning and draft model for this request (#585). */
   private async inference(model: string, req: ChatRequest): Promise<InferenceSettings> {
-    const options = this.config.options
+    const options =
+      this.hosted && this.config.options.modelProfile !== 'on'
+        ? { ...this.config.options, modelProfile: 'off', draftModel: 'off' }
+        : this.config.options
     const wantsDraft = !this.draftRefused && draftCandidate(model, options) !== undefined
     return resolveInference({
       modelId: model,
@@ -234,7 +266,7 @@ export class OpenAiCompatibleTextProvider implements TextProvider {
     }
     Object.assign(body, samplingFields(settings))
     const maxTokens = req.maxTokens ?? numberOption(this.config, 'maxTokens')
-    if (maxTokens !== undefined) body.max_tokens = maxTokens
+    if (maxTokens !== undefined) body[maxTokensField(this.config)] = maxTokens
     if (req.stop?.length) body.stop = req.stop
     const seed = seedOption(this.config)
     if (seed !== undefined) body.seed = seed

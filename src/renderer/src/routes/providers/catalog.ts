@@ -4,6 +4,7 @@
 import type { ProviderKind, ProviderRef, ProviderRouting, ProviderTask } from '@shared/schemas'
 import type { ChannelResponse } from '@shared/ipc'
 import { pickChatModel } from '@shared/model-names'
+import { HOSTED_PRESETS } from '@shared/hosted-presets'
 
 export type RoutingView = ChannelResponse<'routing:get'>
 export type ProviderViewT = ChannelResponse<'providers:list'>[number]
@@ -91,7 +92,25 @@ export interface Preset {
   keyRequired: boolean
   baseUrlEditable: boolean
   hint: string
+  /** Hosted services: the model suggested for a new provider, and the options it starts with. */
+  defaultModel?: string
+  modelPlaceholder?: string
+  options?: Record<string, unknown>
 }
+
+const HOSTED: Preset[] = HOSTED_PRESETS.map((p) => ({
+  id: p.id,
+  label: p.label,
+  kind: 'openai-compatible',
+  baseUrl: p.baseUrl,
+  usesKey: true,
+  keyRequired: true,
+  baseUrlEditable: true,
+  hint: p.hint,
+  defaultModel: p.defaultModel,
+  ...(p.modelPlaceholder ? { modelPlaceholder: p.modelPlaceholder } : {}),
+  options: p.options,
+}))
 
 export const PRESETS: Preset[] = [
   {
@@ -124,6 +143,7 @@ export const PRESETS: Preset[] = [
     baseUrlEditable: false,
     hint: 'Claude models. Prompts and retrieved document excerpts are sent to Anthropic.',
   },
+  ...HOSTED,
   {
     id: 'openai-compatible',
     label: 'OpenAI-compatible',

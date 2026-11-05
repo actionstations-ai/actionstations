@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { StageRun } from '@shared/schemas/scenario'
-import { timelineEntries } from './stages'
+import { runCostText, timelineEntries } from './stages'
 
 const run = (stage: string, itemId: string | undefined, status: StageRun['status']): StageRun =>
   ({
@@ -39,5 +39,19 @@ describe('timelineEntries', () => {
   it('keeps a single per-inject run as a plain row', () => {
     const entries = timelineEntries([run('media_render', 'i1', 'ok')])
     expect(entries).toEqual([{ kind: 'run', run: run('media_render', 'i1', 'ok') }])
+  })
+})
+
+describe('runCostText', () => {
+  const used = { ...run('media_render', undefined, 'ok'), inputTokens: 100, outputTokens: 50 }
+  it('shows the cost when the provider reported one', () => {
+    expect(runCostText({ ...used, costUsd: 0.0123 })).toBe('$0.01')
+  })
+  it('says the price is not set when tokens were used and no price is known', () => {
+    expect(runCostText(used)).toBe('price not set')
+  })
+  it('stays silent for local runs (cost 0) and runs without tokens', () => {
+    expect(runCostText({ ...used, costUsd: 0 })).toBe('')
+    expect(runCostText(run('media_render', undefined, 'error'))).toBe('')
   })
 })

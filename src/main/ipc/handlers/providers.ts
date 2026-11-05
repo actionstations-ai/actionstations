@@ -40,7 +40,20 @@ const BASE_URL_REQUIRED = new Set<ProviderConfig['kind']>([
   'ollama',
   'comfyui',
 ])
-const KEYLIKE_OPTION = /key|token|secret|password|authorization/i
+/** Option names that hold a credential. Names that only mention "token" (maxTokensParam) are fine. */
+const SECRET_OPTION_NAME =
+  /^(api[-_]?key|secret|client[-_]?secret|password|passwd|authorization|private[-_]?key|(access|auth|bearer|api|refresh|secret)[-_]?token|token|.*(secret|password))$/i
+/** A value that is itself a key: a vendor "sk-" key or a Bearer credential. */
+const SECRET_VALUE = /\b(sk-[A-Za-z0-9_-]{8,}|Bearer\s+[A-Za-z0-9._~+/=-]{8,})/
+
+/** The first option that looks like a credential, by its name or its value. */
+export function credentialLikeOption(options: Record<string, unknown>): string | undefined {
+  return Object.keys(options).find(
+    (k) =>
+      SECRET_OPTION_NAME.test(k) ||
+      (typeof options[k] === 'string' && SECRET_VALUE.test(options[k] as string)),
+  )
+}
 
 async function toView(config: ProviderConfig): Promise<ProviderView> {
   return ProviderView.parse({ ...config, hasKey: await hasSecret(config.id) })
@@ -59,7 +72,7 @@ export function newProviderId(label: string): string {
 function validateConfig(config: Omit<ProviderConfig, 'id'>): void {
   if (BASE_URL_REQUIRED.has(config.kind) && !config.baseUrl)
     throw new AppError('VALIDATION', `A base URL is required for ${config.kind} providers`)
-  const keyLike = Object.keys(config.options).find((k) => KEYLIKE_OPTION.test(k))
+  const keyLike = credentialLikeOption(config.options)
   if (keyLike)
     throw new AppError(
       'VALIDATION',
