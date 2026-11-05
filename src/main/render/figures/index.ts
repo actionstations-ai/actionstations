@@ -43,6 +43,8 @@ import './pharmacy'
 // Field kinds register themselves when imported (logistics).
 import './logistics'
 import './space'
+// Field kinds register themselves when imported (wildfire).
+import './fire'
 
 export {
   FigureOutput,
