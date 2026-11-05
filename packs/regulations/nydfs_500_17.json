@@ -1,0 +1,78 @@
+{
+  "id": "nydfs_500_17",
+  "label": "NYDFS Cybersecurity Regulation 23 NYCRR 500.17",
+  "jurisdiction": "US-NY",
+  "authority": "New York State Department of Financial Services (Superintendent)",
+  "citation": "23 NYCRR 500.17(a) and (c)",
+  "sources": [
+    {
+      "title": "23 NYCRR 500.17 Notices to superintendent, Cornell LII",
+      "url": "https://www.law.cornell.edu/regulations/new-york/23-NYCRR-500.17"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "Applies to entities licensed or authorized under the New York banking, insurance or financial services laws. Notice of an extortion payment is due within 24 hours of the payment and a written explanation within 30 days.",
+  "verifiedOn": "2026-11-04",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "incident_determined",
+      "label": "Cybersecurity incident determined to have occurred",
+      "hint": "The covered entity determines that a reportable cybersecurity incident has occurred at the covered entity, its affiliates or a third-party service provider."
+    },
+    {
+      "id": "extortion_payment_made",
+      "label": "Extortion payment made",
+      "hint": "A payment is made to a threat actor in connection with a cybersecurity event."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "incident_notice",
+      "label": "Notice to the Superintendent",
+      "recipient": "NYDFS Superintendent",
+      "dueAt": [
+        {
+          "from": "incident_determined",
+          "amount": 72,
+          "unit": "hours"
+        }
+      ],
+      "rule": "Notify as promptly as possible and in no event later than 72 hours after determining that a cybersecurity incident has occurred.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "payment_notice",
+      "label": "Notice of an extortion payment",
+      "recipient": "NYDFS Superintendent",
+      "dueAt": [
+        {
+          "from": "extortion_payment_made",
+          "amount": 24,
+          "unit": "hours"
+        }
+      ],
+      "rule": "Notify within 24 hours of the extortion payment.",
+      "injectTypes": ["regulatory_report_form"]
+    },
+    {
+      "id": "payment_explanation",
+      "label": "Written explanation of the extortion payment",
+      "recipient": "NYDFS Superintendent",
+      "dueAt": [
+        {
+          "from": "extortion_payment_made",
+          "amount": 30,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Provide a written description of why the payment was necessary, the alternatives considered and the sanctions diligence conducted, within 30 days of the payment.",
+      "injectTypes": ["regulatory_report_form", "memo"]
+    }
+  ],
+  "controls": ["nist_csf_2:RS.CO-02"],
+  "appliesTo": {
+    "threatFamilies": ["cyber", "insider"],
+    "note": "Entities licensed or authorized by the New York Department of Financial Services (banks, insurers and other financial services companies)."
+  }
+}

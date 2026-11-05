@@ -310,6 +310,7 @@ export function recoveryEvents(
         rtoHours: r.rtoHours,
         recoveredHour: r.recoveredHour,
         withinRto: r.withinRto,
+        dependsOn: p.functions.find((f) => f.name === r.name)?.dependsOn ?? [],
       },
     })
   return events

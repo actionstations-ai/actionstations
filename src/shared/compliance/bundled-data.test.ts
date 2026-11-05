@@ -44,6 +44,7 @@ describe('bundled regulations', () => {
       'nih_biosafety_policy_draft',
       'nih_guidelines_incident_reporting',
       'nis2_art23',
+      'nydfs_500_17',
       'sec_8k_105',
       'select_agent_73_19',
       'tsa_aviation_cyber',

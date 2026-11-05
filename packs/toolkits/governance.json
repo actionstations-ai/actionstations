@@ -85,8 +85,347 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "gov_disclosure_timing",
+      "label": "Disclosure timing",
+      "groundTruth": "gov-facts",
+      "config": {
+        "filingBusinessDays": 4
+      }
+    },
+    {
+      "id": "gov_recovery_rto",
+      "label": "Recovery against RTO",
+      "groundTruth": "gov-recovery-events",
+      "config": {
+        "checkpointHours": "4, 8, 12, 24, 48, 72"
+      }
+    },
+    {
+      "id": "gov_decision_documentation",
+      "label": "Decision documentation",
+      "config": {
+        "requiredFields": "decided_by, information_known, basis"
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across board, filing, press and employees",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "Board briefing, Form 8-K, Press release, Employee message"
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "gov_materiality_determination",
+      "label": "Materiality determination",
+      "description": "Record the determination, the factors considered, what was known and who decided. 'Not yet determined' starts a visible determination-pending record; the call does not wait for the investigation to finish. Exercise aid, not legal advice.",
+      "fields": [
+        {
+          "id": "determination",
+          "label": "Determination",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Material", "Not material", "Not yet determined"]
+        },
+        {
+          "id": "factors",
+          "label": "Factors considered (quantitative and qualitative)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_disclosure_decision",
+      "label": "Disclosure",
+      "description": "Which Form 8-K item is filed, who approved it and when.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "Filing",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Item 1.05", "Item 8.01", "No filing yet"]
+        },
+        {
+          "id": "approver",
+          "label": "Approver",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "filing_time",
+          "label": "Filing time",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_ransom_payment",
+      "label": "Ransom payment",
+      "description": "The payment decision with its screening and notifications. Paying or refusing does not remove the duty to decide on materiality.",
+      "fields": [
+        {
+          "id": "decision",
+          "label": "Decision",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Pay", "Do not pay", "Defer"]
+        },
+        {
+          "id": "amount_band",
+          "label": "Amount band",
+          "kind": "choice",
+          "required": false,
+          "choices": ["No payment", "Under $1M", "$1M to $5M", "Over $5M"]
+        },
+        {
+          "id": "sanctions_screened",
+          "label": "Sanctions screening done",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No", "In progress"]
+        },
+        {
+          "id": "insurer_informed",
+          "label": "Insurer informed",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No"]
+        },
+        {
+          "id": "law_enforcement_informed",
+          "label": "Law enforcement informed",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No"]
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_activate_continuity",
+      "label": "Activate continuity plan",
+      "description": "Scope of the activation and what it covers.",
+      "fields": [
+        {
+          "id": "scope",
+          "label": "Scope",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Single function", "One site", "Enterprise"]
+        },
+        {
+          "id": "sites",
+          "label": "Sites",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "functions",
+          "label": "Functions",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_escalate_board",
+      "label": "Escalate to the board",
+      "description": "Who on the board is told, with what summary.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Told",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Audit committee chair", "Full board", "Lead independent director"]
+        },
+        {
+          "id": "summary",
+          "label": "Summary given",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_regulator_notice",
+      "label": "Regulator or insurer notice",
+      "description": "Which outside party is notified and on what basis.",
+      "fields": [
+        {
+          "id": "recipient",
+          "label": "Recipient",
+          "kind": "choice",
+          "required": true,
+          "choices": ["SEC", "State regulator", "Insurer", "Auditor", "Law enforcement", "Other"]
+        },
+        {
+          "id": "summary",
+          "label": "What was said",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "gov_succession_delegation",
+      "label": "Succession and delegation of authority",
+      "description": "Who acts and within what limits. No medical detail is recorded.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Name an interim", "Delegate signing authority", "Convene the board", "Other"]
+        },
+        {
+          "id": "who",
+          "label": "Who",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "limits",
+          "label": "Limits and approvals",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "decided_by",
+          "label": "Decided by (owner)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "information_known",
+          "label": "Facts known at the time",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -136,6 +475,53 @@
     "gov_item_801_no_materiality",
     "gov_decisions_documented"
   ],
-  "capabilities": [],
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "The crisis team, disclosure committee and board have clear roles and a call tree that reaches them",
+        "Legal, finance, security and continuity work from one set of facts",
+        "Outside counsel directs the forensic work so it stays privileged"
+      ]
+    },
+    {
+      "coreCapability": "planning",
+      "criticalTasks": [
+        "Recovery order follows the business impact analysis and its dependencies",
+        "The continuity plan is activated at the right scope",
+        "Delegations of authority are known and current"
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "The filing, press statement, employee message and investor answers agree",
+        "Statements say what is known, what is not and what is being done",
+        "No statement claims more than the facts support"
+      ]
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "The board hears what it needs, when it needs it",
+        "Regulators, the insurer and the auditor are told on their own clocks"
+      ]
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "A materiality determination is made without unreasonable delay and recorded with its basis",
+        "Facts that change are updated and earlier statements corrected",
+        "The investigation continues after the determination"
+      ]
+    },
+    {
+      "coreCapability": "economic_recovery",
+      "criticalTasks": [
+        "The financial impact range is kept current and informs the materiality call",
+        "Functions are restored within their recovery time objectives, or the miss is recorded and explained"
+      ]
+    }
+  ],
   "exerciseTags": []
 }
