@@ -82,8 +82,583 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Operating procedure applied before the Kp condition is reached (Kp above the procedure condition)",
+      "config": {
+        "actionKind": "space_apply_procedure",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "zones-procedure"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Time source failover before holdover expires (hours of GNSS loss beyond the holdover)",
+      "config": {
+        "actionKind": "space_switch_time_source",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "zones-holdover"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Safe mode before the proton flux threshold (pfu above the threshold)",
+      "config": {
+        "actionKind": "space_safe_mode",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "zones-safe-mode"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Grid, aviation, telecom and public messages agree on level and duration",
+      "config": {
+        "numericTolerance": 0.1
+      }
+    },
+    {
+      "id": "space_dissemination",
+      "label": "Each entity named in the operating plan was told (set the entity list for the project)",
+      "config": {
+        "entities": "",
+        "targetMinutes": 60
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "space_apply_procedure",
+      "label": "Apply the GMD operating procedure",
+      "description": "Apply the entity's own operating procedure at its predetermined condition.",
+      "fields": [
+        {
+          "id": "actions",
+          "label": "Actions taken, as listed in the procedure",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "condition",
+          "label": "Predetermined condition met",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_terminate_procedure",
+      "label": "Terminate the GMD operating procedure",
+      "description": "End the procedure when its termination condition is met.",
+      "fields": [
+        {
+          "id": "termination_condition",
+          "label": "Termination condition met",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_disseminate",
+      "label": "Disseminate space weather information",
+      "description": "Pass forecast and current space weather information to the entities named in the plan.",
+      "fields": [
+        {
+          "id": "entities",
+          "label": "Entities told, separated by commas",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Phone", "Email", "Notification system", "Operator hotline"]
+        },
+        {
+          "id": "summary",
+          "label": "What was passed on",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_grid_action",
+      "label": "Take a grid operating action",
+      "description": "An action the project configures for the scenario; the toolkit gives no engineering advice.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Reduce transfers",
+            "Bring reactive resources on line",
+            "Defer planned outages",
+            "Change protection settings as the procedure allows",
+            "Other action in the procedure"
+          ]
+        },
+        {
+          "id": "detail",
+          "label": "Detail",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_switch_time_source",
+      "label": "Switch a time source",
+      "description": "Fail over to another time source at a site.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "source",
+          "label": "Time source switched to",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_declare_holdover",
+      "label": "Declare holdover",
+      "description": "Record that a site is riding through on its oscillator.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "expected_hours",
+          "label": "Holdover hours expected",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_gnss_operations",
+      "label": "Stop or resume GNSS-guided operations",
+      "description": "Stop, switch to non-GNSS guidance, or resume GNSS-guided work.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Stop GNSS-guided operations",
+            "Switch to non-GNSS guidance",
+            "Resume GNSS-guided operations"
+          ]
+        },
+        {
+          "id": "operation",
+          "label": "Operation",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_reroute_flight",
+      "label": "Reroute a flight",
+      "description": "A reroute away from a polar or high-latitude path or an HF-dependent route.",
+      "fields": [
+        {
+          "id": "flight",
+          "label": "Flight",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "new_route",
+          "label": "New route",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "HF radio blackout",
+            "Radiation storm",
+            "GNSS degradation",
+            "Combined effects"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_safe_mode",
+      "label": "Put a satellite in safe mode",
+      "description": "Command a protective mode before the flux threshold.",
+      "fields": [
+        {
+          "id": "satellite",
+          "label": "Satellite",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_customer_notice",
+      "label": "Issue a notice to customers",
+      "description": "A satellite or service outage notice.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "text",
+          "label": "Notice",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "space_public_message",
+      "label": "Issue a public message",
+      "description": "A message that states impacts and actions, and agrees with partner messages.",
+      "fields": [
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Press release", "Social media", "Mass notification", "Website"]
+        },
+        {
+          "id": "level",
+          "label": "Level stated",
+          "kind": "choice",
+          "required": false,
+          "choices": ["G1 Minor", "G2 Moderate", "G3 Strong", "G4 Severe", "G5 Extreme"]
+        },
+        {
+          "id": "text",
+          "label": "Message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "SWPC watch or warning",
+            "SWPC alert or summary",
+            "Magnetometer or GIC reading",
+            "GNSS or timing alarm",
+            "Reliability coordinator or partner message",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which message, alarm or reading",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -143,5 +718,52 @@
     "space_gnss_error",
     "space_scale_panel",
     "space_impact_board"
+  ],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Impact-focused messages state effects and actions, not solar physics",
+        "Messages from the utility, airline, telecom and emergency management agree on level and duration",
+        "The public is told what a long or wide outage would mean before it begins"
+      ]
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Decisions rest on the latest SWPC product and name which message or reading they use",
+        "Players tell a failed data feed from a quiet Sun",
+        "The uncertainty of CME arrival time is carried into decisions"
+      ]
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Forecast and current space weather information reaches every entity named in the plan, with times logged",
+        "Backup communications are used when HF is lost"
+      ]
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "The reliability coordinator and transmission operators coordinate actions across the wide area",
+        "The procedure is applied at its predetermined condition and ended at its termination condition"
+      ]
+    },
+    {
+      "coreCapability": "infrastructure_systems",
+      "criticalTasks": [
+        "Time source failover happens before holdover expires",
+        "Satellites are protected before the flux threshold",
+        "GNSS-dependent operations stop and resume on stated accuracy"
+      ]
+    },
+    {
+      "coreCapability": "planning",
+      "criticalTasks": [
+        "The operating plan and procedure are followed and compared with the record afterward",
+        "Follow-up items from the post-event review have owners and dates"
+      ]
+    }
   ]
 }
