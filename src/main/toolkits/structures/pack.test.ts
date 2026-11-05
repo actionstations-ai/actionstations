@@ -20,6 +20,9 @@ import { TemplateMeta, TemplatePreview } from '../../render/templates'
 
 const { fieldLintIssues } = await import('../lint-rules')
 const { unknownCapabilityWarnings } = await import('../capabilities')
+const { registerStructuresToolkit } = await import('./register')
+
+registerStructuresToolkit()
 
 const root = process.cwd()
 const readJson = (...parts: string[]): unknown =>
@@ -73,7 +76,7 @@ describe('structures toolkit', () => {
     expect(domain.suggestedToolkits).toContain('structures')
   })
 
-  it('names lint rules the app has and nothing else it lacks', () => {
+  it('names only code the app has (lint rules, figure kinds and metrics)', () => {
     expect(unknownCapabilityWarnings(toolkit)).toEqual([])
   })
 })

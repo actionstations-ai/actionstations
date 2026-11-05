@@ -140,5 +140,377 @@
     "structures.excavation_rules",
     "structures.authority",
     "structures.crane_wind"
+  ],
+  "decisionForms": [
+    {
+      "id": "structures_stop_work",
+      "label": "Stop work",
+      "description": "Stop all or part of the work on the site. The competent person, superintendent and safety director may stop work.",
+      "fields": [
+        {
+          "id": "scope",
+          "label": "What work is stopped",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Effective at",
+          "kind": "time",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_evacuate",
+      "label": "Evacuate the site or an adjacent building",
+      "description": "Order people out of the site, a neighboring building or the street.",
+      "fields": [
+        {
+          "id": "what",
+          "label": "What is evacuated",
+          "kind": "choice",
+          "required": true,
+          "choices": ["The site", "An adjacent building", "The street or sidewalk"]
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": false,
+          "draw": true
+        },
+        {
+          "id": "time",
+          "label": "Effective at",
+          "kind": "time",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_call_911",
+      "label": "Call 911 and request rescue",
+      "description": "Call 911 and ask for the help the situation needs. Rescue tactics belong to the fire department.",
+      "fields": [
+        {
+          "id": "request",
+          "label": "Request",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Called 911",
+            "Requested technical rescue",
+            "Requested urban search and rescue"
+          ]
+        },
+        {
+          "id": "details",
+          "label": "Details given to the dispatcher",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_exclusion_zone",
+      "label": "Set the exclusion zone",
+      "description": "Keep people out of the area that could be hit by a further collapse or a falling load.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Area kept clear",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "distance",
+          "label": "Distance and reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_shore",
+      "label": "Shore or stabilize",
+      "description": "Ask for shoring or stabilize a load or structure. The engineer of record decides adequacy.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Request shoring",
+            "Stabilize the load",
+            "Hold in place and wait for the engineer"
+          ]
+        },
+        {
+          "id": "where",
+          "label": "Where",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_shutoff",
+      "label": "Shut off or isolate a utility",
+      "description": "Close a valve, open a breaker or ask the utility to isolate a line.",
+      "fields": [
+        {
+          "id": "utility",
+          "label": "Utility",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Natural gas", "Electric power", "Water", "Telecommunications"]
+        },
+        {
+          "id": "where",
+          "label": "Where",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_notify",
+      "label": "Notify OSHA, the owner, the insurer or the building official",
+      "description": "Report or notify. A work-related fatality is reported to OSHA within 8 hours; an in-patient hospitalization, amputation or loss of an eye within 24 hours.",
+      "fields": [
+        {
+          "id": "who",
+          "label": "Who is told",
+          "kind": "choice",
+          "required": true,
+          "choices": ["OSHA", "Owner", "Insurer", "Building official"]
+        },
+        {
+          "id": "detail",
+          "label": "What was said",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_post_placard",
+      "label": "Post a placard",
+      "description": "Post a placard from the information in the building record. The placard describes the building at the time it was evaluated.",
+      "fields": [
+        {
+          "id": "building",
+          "label": "Building id",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "placard",
+          "label": "Placard",
+          "kind": "choice",
+          "required": true,
+          "choices": ["INSPECTED", "RESTRICTED USE", "UNSAFE"]
+        },
+        {
+          "id": "restrictions",
+          "label": "Restrictions or hazard",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "team",
+          "label": "Team",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "structures_unsafe_order",
+      "label": "Issue an unsafe building order",
+      "description": "Only the building official declares a building unsafe.",
+      "fields": [
+        {
+          "id": "building",
+          "label": "Building id",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "structures_assign_team",
+      "label": "Assign an evaluation team",
+      "description": "Send a team to an area or a class of buildings.",
+      "fields": [
+        {
+          "id": "team",
+          "label": "Team",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": false,
+          "draw": true
+        },
+        {
+          "id": "priority",
+          "label": "Priority class",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Hospitals and critical facilities", "Shelters", "Schools", "Other buildings"]
+        }
+      ]
+    },
+    {
+      "id": "structures_public_statement",
+      "label": "Release a public statement",
+      "description": "Say what is known, what is not, and what people should do.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Neighbors", "Media", "Owner and tenants", "Workers' families"]
+        },
+        {
+          "id": "statement",
+          "label": "Statement",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Stop work before the monitoring reading passes the action level (reading in the unit above the action level)",
+      "config": {
+        "actionKind": "structures_stop_work",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "monitoring-action-series"
+    },
+    {
+      "id": "structures_warning_to_action",
+      "label": "Time from the first sign to stop work and evacuation",
+      "config": {
+        "signLevel": "alarm"
+      },
+      "groundTruth": "monitoring-truth"
+    },
+    {
+      "id": "structures_reporting_timeliness",
+      "label": "OSHA, owner and insurer notices against their clocks",
+      "config": {},
+      "groundTruth": "site-event-truth"
+    },
+    {
+      "id": "structures_rescue_timeline",
+      "label": "Collapse to 911, exclusion zone and shoring, and secondary hazards controlled",
+      "config": {
+        "controlWithinMin": 30
+      },
+      "groundTruth": "site-event-truth"
+    },
+    {
+      "id": "structures_placard_agreement",
+      "label": "Placards against the ground truth, priority order and throughput",
+      "config": {
+        "shiftHours": 8
+      },
+      "groundTruth": "inspection-truth"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Agreement on the structure status and the exclusion zone",
+      "config": {
+        "numericTolerance": 0
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Stop work and clear the site before anyone has proof of failure when a threshold is crossed.",
+        "Coordinate the contractor, owner, engineer, building department and fire department on one status of the structure."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_search_and_rescue_operations",
+      "criticalTasks": [
+        "Call 911 and request rescue at once, and support rescue with drawings, equipment and a structural opinion.",
+        "Control secondary hazards that endanger rescuers (gas, fire, a falling element)."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Keep streets and access routes clear of the exclusion zone and open for responders."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "infrastructure_systems",
+      "criticalTasks": [
+        "Isolate or shut off a struck utility and name who confirms it is safe.",
+        "Evaluate buildings in priority order: hospitals, shelters and schools first."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Read monitoring data and decide whether a silent sensor is failed or warning.",
+        "Count buildings by placard and report the counts to the emergency operations center."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Give neighbors and the public one consistent statement about the structure and the exclusion zone."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "on_scene_security_protection_and_law_enforcement",
+      "criticalTasks": [
+        "Secure the scene, control access with a sign-in log and preserve it for investigators."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "fatality_management_services",
+      "criticalTasks": [
+        "Account for every worker against the sign-in log and report a fatality to OSHA within 8 hours."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "planning",
+      "criticalTasks": [
+        "Assign evaluation teams by area and priority and keep the program record."
+      ],
+      "mappings": []
+    }
   ]
 }
