@@ -71,7 +71,7 @@ export async function setupGet(
       redirect: 'manual',
       signal,
       credentials: 'omit',
-      headers: { accept, 'user-agent': 'ActionStations-setup' },
+      headers: { accept, 'user-agent': 'AS-setup' },
     })
     if (res.status >= 300 && res.status < 400) {
       await res.body?.cancel().catch(() => undefined)

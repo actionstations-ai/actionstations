@@ -187,7 +187,7 @@ describe('SEC EDGAR connector through the fetch path', () => {
       fetchImpl,
       sleep: async () => undefined,
     })
-    expect(new Set(agents)).toEqual(new Set(['ActionStations/0.0.1 (person@example.org)']))
+    expect(new Set(agents)).toEqual(new Set(['AS/0.0.1 (person@example.org)']))
     expect(manifest.datasets[0]!.shape).toBe('ground-truth')
     expect(manifest.datasets[0]!.provenance.origin).toBe('historical')
   })

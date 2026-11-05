@@ -26,8 +26,7 @@ let appVersion = '0.0.0'
 export function setMapsAppVersion(v: string): void {
   appVersion = v
 }
-export const mapsUserAgent = (): string =>
-  `ActionStations/${appVersion} (+https://actionstations.ai)`
+export const mapsUserAgent = (): string => `AS/${appVersion} (+https://actionstations.ai)`
 
 export interface GuardedGetOptions {
   allowedHosts: readonly string[]

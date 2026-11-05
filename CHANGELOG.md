@@ -122,6 +122,10 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - **Justice figures and simulated events** (#731, #734, ADR-0131): six figures with a text summary and data table (unit status, incident timeline, jail population and count status, court continuity board, court recovery timeline, filings backlog) and five simulations labeled simulated (call surge, multi-agency incident timeline, jail count with a movement log that explains the difference, court outage with dependency-ordered restoration, evidence audit). Replay connectors for open call data and jail statistics are not included yet.
 - **Justice decisions, timing measures and guide** (#737, #740): fourteen decisions for live play and Facilitate (command post, unified command, mutual aid, negotiation team, family center, public statement, AMBER criteria and alert, lockdown or evacuation, count clear, court closure, paper filing, restore a system, notify the bar and public); timing measures for time to unified command, family center, accurate count and restoring each court function against its own objective, AMBER timing, message consistency and dispatch service level; critical tasks for seven core capabilities; the justice toolkit suggested to municipal, school, campus, venue, transit, airport, healthcare, elections, port, emergency communications and data center domains; and a guide for users. The reference library and example projects are not included yet.
 
+### Fixed
+
+- The app now names itself `AS/<version> (+https://actionstations.ai)` in every request it makes (hazard data, connectors, maps, the update check and setup downloads). The USGS geomagnetism service refused the previous `ActionStations/<version>` name, so the space weather magnetometer connector could not fetch (#1095).
+
 ## [0.7.1] - 2026-11-05
 
 ### Fixed

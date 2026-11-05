@@ -19,8 +19,7 @@ export const MAX_HAZARD_BYTES = 5 * 1024 * 1024
 export const HAZARD_TIMEOUT_MS = 30_000
 
 /** The only identification sent: the app, its version and its website. Never an email address. */
-export const userAgent = (version: string): string =>
-  `ActionStations/${version} (+https://actionstations.ai)`
+export const userAgent = (version: string): string => `AS/${version} (+https://actionstations.ai)`
 
 /** An HTTP error status, kept apart so callers can tell a rate limit from a broken request. */
 export class HazardHttpError extends AppError {

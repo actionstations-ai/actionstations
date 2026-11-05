@@ -11,9 +11,7 @@ export const CASE_TIMEOUT_MS = 60_000
 
 /** The User-Agent; an archive that requires a contact (SEC EDGAR) gets the user's own in it. */
 export const caseUserAgent = (version: string, contact?: string): string =>
-  contact
-    ? `ActionStations/${version} (${contact})`
-    : `ActionStations/${version} (+https://actionstations.ai)`
+  contact ? `AS/${version} (${contact})` : `AS/${version} (+https://actionstations.ai)`
 
 export interface CaseHttpOptions {
   hosts: readonly string[]

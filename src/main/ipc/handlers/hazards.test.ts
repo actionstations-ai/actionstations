@@ -137,7 +137,7 @@ describe('when turned on', () => {
         /^https:\/\/(api\.weather\.gov|earthquake\.usgs\.gov|www\.fema\.gov)\//.test(u),
       ),
     ).toBe(true)
-    expect(new Set(agents)).toEqual(new Set(['ActionStations/0.9.0 (+https://actionstations.ai)']))
+    expect(new Set(agents)).toEqual(new Set(['AS/0.9.0 (+https://actionstations.ai)']))
     const list = await call<{ active: string; snapshots: unknown[] }>('hazards:list', {
       projectPath: project,
     })

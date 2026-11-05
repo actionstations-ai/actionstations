@@ -74,7 +74,7 @@ test('with the check on, startup finds the newer release and shows the banner', 
   try {
     await expect(banner(page)).toBeVisible({ timeout: 20_000 })
     await expect(banner(page)).toContainText('Action Stations 0.6.0 is available (you have 0.5.0)')
-    expect(agents.at(-1)).toBe('ActionStations/0.5.0')
+    expect(agents.at(-1)).toBe('AS/0.5.0')
     await banner(page).getByRole('button', { name: 'Not now' }).click()
     await expect(banner(page)).toHaveCount(0)
   } finally {

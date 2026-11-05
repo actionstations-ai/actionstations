@@ -30,7 +30,7 @@ export function requestHeaders(appVersion: string): Record<string, string> {
   return {
     accept: 'application/vnd.github+json',
     'x-github-api-version': '2022-11-28',
-    'user-agent': `ActionStations/${appVersion}`,
+    'user-agent': `AS/${appVersion}`,
   }
 }
 

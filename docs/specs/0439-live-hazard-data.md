@@ -71,7 +71,7 @@ Consequence for HIFLD: this spec supports infrastructure layers by **local file 
 ### Non-functional requirements
 
 - **NFR-1** Cost: every source is free; FIRMS needs a free key. No paid service (CONTRIBUTING, Project rules 1).
-- **NFR-2** Privacy: off by default; nothing sent until the user presses Fetch; the dialog states what is sent and where; coordinates rounded; no cookies, no identifying headers beyond the `User-Agent` "ActionStations/<version> (+https://actionstations.ai)" (no user email); no analytics (Project rules 3).
+- **NFR-2** Privacy: off by default; nothing sent until the user presses Fetch; the dialog states what is sent and where; coordinates rounded; no cookies, no identifying headers beyond the `User-Agent` "AS/<version> (+https://actionstations.ai)" (no user email); no analytics (Project rules 3).
 - **NFR-3** Accessibility: WCAG 2.2 AA. The Fetch dialog is a labelled form; per-source results are text with status words, not icons alone; the snapshot viewer is a table with headers; maps are not required to use the feature.
 - **NFR-4** Offline: generation with an existing snapshot never touches the network; the e2e test fails on any non-loopback request.
 - **NFR-5** Limits: per request 30 s timeout, 5 MB response cap counted on received bytes, https only, at most 3 redirects and only to the same host; fixed host allow-list (`api.weather.gov`, `earthquake.usgs.gov`, `firms.modaps.eosdis.nasa.gov`, `www.fema.gov`).

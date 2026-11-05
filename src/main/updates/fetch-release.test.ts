@@ -21,7 +21,7 @@ describe('fetchLatestRelease', () => {
     expect(init.headers).toEqual({
       accept: 'application/vnd.github+json',
       'x-github-api-version': '2022-11-28',
-      'user-agent': 'ActionStations/0.5.1',
+      'user-agent': 'AS/0.5.1',
     })
   })
 
