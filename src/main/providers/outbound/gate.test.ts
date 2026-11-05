@@ -1,6 +1,7 @@
 // Gate contract (#433): what a cloud adapter receives, what comes back, and when the user is
 // asked. Every outgoing request is captured at the adapter boundary and checked for the values
 // redaction must hide and for the mapping, which must never leave.
+import { tmpdir } from 'node:os'
 import { describe, expect, it, vi } from 'vitest'
 import {
   PrivacySettings,
@@ -30,6 +31,10 @@ import {
   type GateDeps,
 } from './gate'
 import { RedactionRegistry } from './redact'
+
+vi.mock('electron', () => ({ app: { getPath: () => tmpdir() } }))
+const { OpenAiCompatibleMediaProvider } = await import('../text/openai-compatible/media')
+const { hostedPresetById } = await import('@shared/hosted-presets')
 
 const REMOTE: ProviderConfig = {
   id: 'cloud',
@@ -401,5 +406,45 @@ describe('outbound gate: embeddings and media', () => {
     approvals.decide(m.requestId, m.requestHash, 'send')
     await pending
     expect(generate.mock.calls[0]![0]).toMatchObject({ brief: job.brief, outDir: '/tmp/out' })
+  })
+
+  it('asks before a hosted OpenAI image prompt leaves, and sends nothing until approved', async () => {
+    const { deps, needed, approvals } = setup('every-request')
+    const preset = hostedPresetById('openai')!
+    const config: ProviderConfig = {
+      id: 'openai-img',
+      kind: 'openai-compatible',
+      label: 'OpenAI',
+      baseUrl: preset.baseUrl,
+      options: { ...preset.options, imageModel: 'gpt-image-test' },
+      enabled: true,
+    }
+    const fetchSpy = vi.fn(async () => new Response('{"data":[]}', { status: 200 }))
+    vi.stubGlobal('fetch', fetchSpy)
+    try {
+      const inner = new OpenAiCompatibleMediaProvider(config, 'sk-test-0000000000')
+      const pending = guardMedia(inner, config, deps).generate({
+        kind: 'image',
+        injectId: 'i1',
+        brief: { paths: ['ai_image'], imagePrompt: `Chief Dana Ruiz at the pump house` },
+        outDir: tmpdir(),
+      })
+      const settled = pending.catch(() => undefined)
+      const m = await waitFor(needed)
+      expect(fetchSpy).not.toHaveBeenCalled()
+      expect(m).toMatchObject({ kind: 'media', task: 'image', model: 'gpt-image-test' })
+      approvals.decide(m.requestId, m.requestHash, 'send')
+      await settled
+      expect(fetchSpy).toHaveBeenCalledTimes(1)
+      const sent = JSON.parse(
+        String(
+          (fetchSpy.mock.calls[0] as unknown[])[1] &&
+            ((fetchSpy.mock.calls[0] as unknown[])[1] as RequestInit).body,
+        ),
+      )
+      expect(sent.prompt).not.toContain('Dana Ruiz')
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 })

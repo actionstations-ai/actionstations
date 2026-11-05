@@ -224,6 +224,26 @@ describe('ProvidersPage', () => {
     })
   })
 
+  it('saves the image and speech models, and warns about OpenAI speech models only for OpenAI', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'gemini')
+    expect(within(dialog).queryByText(/January 6, 2027/)).toBeNull()
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'openai')
+    await user.click(within(dialog).getByRole('button', { name: 'Advanced' }))
+    expect(within(dialog).getByText(/shut down on January 6, 2027/)).toBeTruthy()
+    await user.type(within(dialog).getByLabelText('Image model'), 'gpt-image-1')
+    await user.type(within(dialog).getByLabelText('Speech model'), 'my-speech')
+    await user.type(within(dialog).getByLabelText('API key'), 'sk-test-0000000000')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    expect(ttx.calls('providers:upsert')[0]).toMatchObject({
+      config: { options: { preset: 'openai', imageModel: 'gpt-image-1', ttsModel: 'my-speech' } },
+    })
+  })
+
   it('refuses a price that is not a number, or only one of the two token prices', async () => {
     const ttx = setup()
     const user = userEvent.setup()

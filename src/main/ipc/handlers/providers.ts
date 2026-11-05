@@ -19,6 +19,7 @@ import { detectSystemVoice } from '../../providers/media/system-tts/service'
 import { canPullModels, pullProviderModel, type PullProgress } from '../../providers/model-pull'
 import { jobs } from '../../jobs/manager'
 import { isLocalSpeechProvider } from '../../providers/speech/local-only'
+import { isHostedImagePreset } from '../../providers/text/openai-compatible/images'
 import {
   assertRoutingTargetsExist,
   configFor,
@@ -272,7 +273,9 @@ async function taskSupport() {
       {
         kinds,
         providerIds: providers
-          .filter((p) => kinds.includes(p.kind))
+          // Images come from OpenAI, Gemini and Azure services, not from every OpenAI-compatible
+          // server, so they are offered per provider rather than per kind.
+          .filter((p) => kinds.includes(p.kind) || (task === 'image' && isHostedImagePreset(p)))
           // Transcription is offered only to providers on this computer (#425).
           .filter((p) => task !== 'transcribe' || isLocalSpeechProvider(p))
           .map((p) => p.id),

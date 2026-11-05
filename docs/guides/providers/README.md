@@ -55,7 +55,7 @@ The **Routing** table decides which provider and model each task uses:
 | **Drafting**   | Overview, roles, phases, MSEL, handbook, rubric, briefing, hot wash, injects. | Anthropic, OpenAI-compatible, Ollama                                 |
 | **Critique**   | Reviews the draft; the MSEL is then revised from the findings.                | Anthropic, OpenAI-compatible, Ollama                                 |
 | **Embeddings** | Document embeddings when Settings → Embeddings is "Configured provider".      | OpenAI-compatible, Ollama                                            |
-| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI                                                              |
+| **Image**      | Photographic scene images (text-bearing media always use templates).          | ComfyUI, OpenAI or Gemini ([OpenAI](openai.md), [Gemini](gemini.md)) |
 | **Video**      | Short clips animated from a scene image.                                      | ComfyUI                                                              |
 | **Audio**      | Voice lines for radio calls, voicemails and PA announcements.                 | OpenAI-compatible ([Local TTS](local-tts.md)), System voice, ComfyUI |
 

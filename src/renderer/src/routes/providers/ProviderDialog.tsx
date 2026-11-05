@@ -327,6 +327,9 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
           errors={errors.advanced ?? {}}
           onChange={(patch) => set({ advanced: { ...draft.advanced, ...patch } })}
           showApiVersion={draft.baseOptions.auth === 'api-key'}
+          preset={
+            typeof draft.baseOptions.preset === 'string' ? draft.baseOptions.preset : undefined
+          }
         />
       )}
       <label className="row">
