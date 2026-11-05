@@ -24,7 +24,7 @@
       "name": "Commercial facilities reference library",
       "summary": "Sector profile, active assailant planning products and retail and gaming CTEPs.",
       "domain": "commercial_facilities",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "data-center-it-library": {
       "name": "Data center and IT reference library",
@@ -66,7 +66,7 @@
       "name": "Financial services reference library",
       "summary": "FFIEC handbooks, incident notification rules, FinCEN and OFAC advisories and the FDIC Cyber Challenge.",
       "domain": "financial_services",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     "food-agriculture-library": {
       "name": "Food and agriculture reference library",
@@ -126,7 +126,7 @@
       "name": "Stadium and venue reference library",
       "summary": "CISA venue security guides, special events job aids, mass attack research and venue CTEPs.",
       "domain": "stadium_venue",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     "telecom-library": {
       "name": "Telecommunications reference library",
@@ -2957,6 +2957,23 @@
       "size": 2166342,
       "license": "LicenseRef-Publisher-Terms",
       "basis": "Published by SIFMA, an industry association, as the public report of its November 2023 exercise. Read 2026-11-05",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "financial-services-library",
+      "alsoIn": ["commercial-facilities-library", "stadium-venue-library"],
+      "slug": "pci-dss-v4-0-1",
+      "file": "pci-dss-v4-0-1.pdf",
+      "title": "Payment Card Industry Data Security Standard: Requirements and Testing Procedures, v4.0.1",
+      "publisher": "PCI Security Standards Council",
+      "edition": "Version 4.0.1, June 2024",
+      "url": "https://docs-prv.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0_1.pdf",
+      "landing": "https://www.pcisecuritystandards.org/document_library/?category=pcidss&document=pci_dss",
+      "sha256": "5e6b9093b84007b973097d20126a3768ea2f0a1d4200255c849b0fb3bf04ebc7",
+      "size": 4458346,
+      "license": "LicenseRef-Publisher-Terms",
+      "basis": "Published by PCI Security Standards Council, LLC, which states its copyright (©2006 - 2024, All Rights Reserved). Served after its License Agreement, accepted for Action Stations on 2026-11-05; the agreement grants the right to download, copy (for internal purposes only) and share the Standard with employees for study purposes, and bars sublicensing and modification. Read 2026-11-05",
+      "note": "The document library serves the PDF only after its license agreement form is accepted in a browser; save the file in the inbox and the fetcher takes it by hash.",
       "pinned": "2026-11-05"
     },
     {
@@ -8179,13 +8196,6 @@
     },
     {
       "pack": "commercial-facilities-library",
-      "title": "PCI DSS v4.0.1",
-      "publisher": "PCI SSC",
-      "url": "https://www.pcisecuritystandards.org/",
-      "reason": "The PCI SSC download requires a registration form with personal contact details and acceptance of a license agreement before the file is served"
-    },
-    {
-      "pack": "commercial-facilities-library",
       "title": "ASIS guidelines (Workplace Violence and Active Assailant ANSI standard)",
       "publisher": "ASIS International",
       "url": "https://www.asisonline.org/",
@@ -8561,13 +8571,6 @@
       "publisher": "FS-ISAC (private)",
       "url": "https://www.fsisac.com/",
       "reason": "A membership organization's site; its products are for members behind a login, with no public file"
-    },
-    {
-      "pack": "financial-services-library",
-      "title": "PCI DSS v4.0.1 document library",
-      "publisher": "PCI Security Standards Council",
-      "url": "https://www.pcisecuritystandards.org/document_library/",
-      "reason": "The PCI SSC download requires a registration form with personal contact details and acceptance of a license agreement before the file is served"
     },
     {
       "pack": "financial-services-library",
@@ -9415,13 +9418,6 @@
       "publisher": "International Association of Venue Managers",
       "url": "https://www.iavm.org/",
       "reason": "Organization web site, not a fixed document; resources are for members behind a login"
-    },
-    {
-      "pack": "stadium-venue-library",
-      "title": "PCI DSS",
-      "publisher": "PCI Security Standards Council",
-      "url": "https://www.pcisecuritystandards.org/",
-      "reason": "The PCI SSC document library serves PCI DSS only after the downloader clicks ACCEPT on its license agreement and becomes a party to it; not accepted on the owner's behalf"
     },
     {
       "pack": "stadium-venue-library",

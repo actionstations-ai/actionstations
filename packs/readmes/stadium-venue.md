@@ -15,11 +15,14 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 - **Drones:** the venue may detect and report. Since 1 Jul 2026 (SAFER SKIES Act interim final rule, 6 CFR and 28 CFR part 124), certified state and local law-enforcement agencies may mitigate credible UAS threats to mass gatherings, alongside DOJ and DHS.
 - **SAFETY Act** designation or certification of the venue's security program (6 CFR part 25).
 
+## Reference library
+
+The separate **Stadium and venue reference library** pack carries the CISA venue security guides, special events job aids, mass attack research, the venue CTEPs and PCI DSS v4.0.1, which carries the PCI Security Standards Council's own terms.
+
 ## Further reading (not bundled)
 
 - NCS4 best practices (spectator sports safety, free after an account registration): https://ncs4.usm.edu/
 - NFPA 101 _Life Safety Code_, NFPA 1, NFPA 3000 (free to read online after a login, no download): https://www.nfpa.org/
 - IAVM venue safety and security resources (members): https://www.iavm.org/
-- PCI DSS (download after accepting the PCI SSC license agreement): https://www.pcisecuritystandards.org/
 
 Facts were checked against public sources on 2026-10-24. Check the current rules before relying on them.

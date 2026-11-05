@@ -103,6 +103,19 @@ describe('packs/documents/manifest.json', () => {
     )
   })
 
+  it('carries PCI DSS v4.0.1 in every library that named it, with no link left (#1101)', () => {
+    const pci = m.documents.find((d) => d.slug === 'pci-dss-v4-0-1')
+    expect(pci?.sha256).toMatch(/^[0-9a-f]{64}$/)
+    expect(pci?.license).toBe('LicenseRef-Publisher-Terms')
+    for (const p of [
+      'financial-services-library',
+      'commercial-facilities-library',
+      'stadium-venue-library',
+    ] as const)
+      expect(documentsOf(m, p).map((d) => d.slug)).toContain('pci-dss-v4-0-1')
+    expect(m.links.filter((l) => /PCI/.test(l.title))).toEqual([])
+  })
+
   it('states a technical reason for every reference it still only links (#1101)', () => {
     const terms =
       /copyright|owner decision|not a federal|public.domain status|not clearly a federal|state work|redistribution rights|license not|terms not/i
