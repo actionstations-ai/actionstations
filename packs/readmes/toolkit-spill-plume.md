@@ -6,4 +6,4 @@ Products: ICS 202 incident objectives, ICS 204 assignment list, ICS 232 resource
 
 The ICS products are exercise products modeled on the structure of the public forms. They are marked as exercise products and are not the official forms; use the current Coast Guard or EPA version for a real incident. Operators, people and phone numbers in the samples are fictional.
 
-Turn the toolkit on for a scenario from its **Toolkits** tab. It is suggested for the environmental response, port, chemical and industrial domains, and for briefs that mention an oil spill or a worst case discharge.
+Turn the toolkit on for a scenario from its **Toolkits** tab. It is suggested for the environmental response, port, chemical, industrial, pipeline, energy, water, dam, rail, transit, food and agriculture, municipal and emergency communications domains, and for briefs that mention an oil spill or a worst case discharge.
