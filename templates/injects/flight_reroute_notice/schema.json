@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Airline dispatch reroute notice",
+  "description": "An airline operations control notice that a flight is rerouted because of space weather: HF radio blackout or radiation on a polar or high-latitude route, or GNSS degradation. States the flight, the original and new routes, the reason with the level in NOAA scale terms, the communications plan when HF is lost, the effect on time and fuel, and the dispatcher. No radiation dose figures; the decision and its basis only.",
+  "type": "object",
+  "required": ["airline", "flight", "issueTime", "originalRoute", "newRoute", "reason"],
+  "additionalProperties": false,
+  "properties": {
+    "airline": {
+      "type": "string",
+      "description": "The airline.",
+      "examples": ["Meridian Air"]
+    },
+    "flight": {
+      "type": "string",
+      "description": "Flight number and city pair.",
+      "examples": ["MA 212, Chicago to Tokyo"],
+      "x-translate": false
+    },
+    "issueTime": {
+      "type": "string",
+      "description": "Issue time in UTC.",
+      "examples": ["2026 Nov 06 2105 UTC"],
+      "x-translate": false
+    },
+    "originalRoute": {
+      "type": "string",
+      "description": "Planned route.",
+      "examples": ["Polar route over the Arctic Ocean"]
+    },
+    "newRoute": {
+      "type": "string",
+      "description": "Revised route.",
+      "examples": ["Southern Pacific track via the Aleutians"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why, with the NOAA scale level and the source product.",
+      "examples": [
+        "S3 (Strong) radiation storm in progress per SWPC alert and HF radio unreliable on the polar track."
+      ]
+    },
+    "communications": {
+      "type": "string",
+      "description": "Communications plan.",
+      "examples": ["Position reports by satellite voice and data link; HF is backup only."]
+    },
+    "impact": {
+      "type": "string",
+      "description": "Effect on time and fuel.",
+      "examples": ["Adds 55 minutes and 3,900 kg of fuel; the fuel load has been adjusted."]
+    },
+    "dispatcher": {
+      "type": "string",
+      "description": "Dispatcher.",
+      "examples": ["R. Okafor"]
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise notice. The airline and flight are fictional."]
+    }
+  }
+}

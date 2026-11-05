@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grid operator log (GMD)",
+  "description": "A transmission operator's or reliability coordinator's log for a geomagnetic disturbance: time-stamped entries in UTC for information received, actions taken, calls made and the decision to terminate, each with the person who made the entry. The log is the evidence an exercise produces; it shows what was known and done, in order.",
+  "type": "object",
+  "required": ["entity", "shift", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "entity": {
+      "type": "string",
+      "description": "The entity keeping the log.",
+      "examples": ["Lakeshore Transmission Operations"]
+    },
+    "shift": {
+      "type": "string",
+      "description": "Shift and date.",
+      "examples": ["Day shift, 2026 Nov 06 (UTC)"],
+      "x-translate": false
+    },
+    "entries": {
+      "type": "array",
+      "description": "Log entries in time order.",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "entry", "by"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Entry time in UTC.",
+            "examples": ["1858"],
+            "x-translate": false
+          },
+          "entry": {
+            "type": "string",
+            "description": "What was received, done or decided.",
+            "examples": [
+              "Received SWPC K-index warning WARK07 (serial 214) by email and the reliability coordinator call."
+            ]
+          },
+          "by": {
+            "type": "string",
+            "description": "Initials or role of the person making the entry.",
+            "examples": ["JA"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise log. Not a compliance record."]
+    }
+  }
+}

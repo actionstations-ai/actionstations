@@ -1,0 +1,41 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.organization}}</div>
+    <h1>{{t 'GNSS timing status'}}</h1>
+    <div class="sw-sub">{{t 'As of'}} {{fields.asOf}}</div>
+  </header>
+  <div class="sw-body">
+    {{#if fields.summary}}
+    <p>{{fields.summary}}</p>
+    {{/if}}
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Site'}}</th>
+          <th scope="col">{{t 'Source'}}</th>
+          <th scope="col">{{t 'State'}}</th>
+          <th scope="col">{{t 'Satellites'}}</th>
+          <th scope="col">{{t 'Time error'}}</th>
+          <th scope="col">{{t 'Holdover left'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.sites}}
+        <tr>
+          <th scope="row">{{site}}</th>
+          <td>{{source}}</td>
+          <td><strong>{{upper state}}</strong></td>
+          <td>{{satellites}}</td>
+          <td>{{timeError}}</td>
+          <td>{{holdoverRemaining}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Simulated values for exercise use. Not a prediction of receiver
+    performance."}}
+  </div>
+</div>

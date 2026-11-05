@@ -1,0 +1,44 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.coordinator}}</div>
+    <h1>{{t 'Space weather information'}}</h1>
+    <div class="sw-sub">{{fields.messageNumber}} · {{t 'Sent'}} {{fields.sentTime}}</div>
+  </header>
+  <div class="sw-body">
+    <p><b>{{t 'Source'}}:</b> {{fields.source}}</p>
+    <p>{{fields.summary}}</p>
+    {{#if fields.requestedActions.length}}
+    <div class="sw-h2">{{t 'Requested actions'}}</div>
+    <ul class="sw-list">
+      {{#each fields.requestedActions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    <div class="sw-h2">{{t 'Distribution'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Entity'}}</th>
+          <th scope="col">{{t 'Method'}}</th>
+          <th scope="col">{{t 'Sent (UTC)'}}</th>
+          <th scope="col">{{t 'Acknowledged (UTC)'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.distribution}}
+        <tr>
+          <th scope="row">{{entity}}</th>
+          <td>{{method}}</td>
+          <td>{{sent}}</td>
+          <td>{{acknowledged}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise message. All entities are fictional."}}
+  </div>
+</div>

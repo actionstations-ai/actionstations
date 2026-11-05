@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Satellite anomaly, safe-mode or customer notice",
+  "description": "A satellite operator's notice during a space weather event: an anomaly report, a safe-mode notice, a customer outage notice or an orbit change notice. States what was observed (not that the storm caused it, unless the operator concludes so), the spacecraft and time, the effect on service, the next update and a contact. Detail stays at the level of decisions and notices, not commanding.",
+  "type": "object",
+  "required": ["noticeKind", "operator", "spacecraft", "issueTime", "headline", "details"],
+  "additionalProperties": false,
+  "properties": {
+    "noticeKind": {
+      "type": "string",
+      "enum": [
+        "Anomaly report",
+        "Safe-mode notice",
+        "Customer outage notice",
+        "Orbit change notice"
+      ],
+      "description": "Which notice this is."
+    },
+    "operator": {
+      "type": "string",
+      "description": "The satellite operator.",
+      "examples": ["Meridian Orbital Services"]
+    },
+    "spacecraft": {
+      "type": "string",
+      "description": "The spacecraft name or designator.",
+      "examples": ["MERIDIAN-4"],
+      "x-translate": false
+    },
+    "issueTime": {
+      "type": "string",
+      "description": "Issue time in UTC.",
+      "examples": ["2026 Nov 06 2347 UTC"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["MERIDIAN-4 entered safe mode during a geomagnetic storm"]
+    },
+    "details": {
+      "type": "array",
+      "description": "Labeled facts.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Fact label.",
+            "examples": ["Time of event"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Fact value.",
+            "examples": ["2026 Nov 06 2331 UTC"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "customerImpact": {
+      "type": "string",
+      "description": "Effect on service for customers.",
+      "examples": [
+        "Broadband service in the northern beam is interrupted. Southern beams are not affected."
+      ]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update is due.",
+      "examples": ["The next update will be issued by 2026 Nov 07 0200 UTC."],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Where to get help.",
+      "examples": ["Customer operations desk, 24 hours"]
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise notice. The operator and spacecraft are fictional."]
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CME arrival forecast and discussion",
+  "description": "A forecast discussion about a coronal mass ejection: what was observed at the Sun, the model-based arrival estimate with an earliest, most likely and latest time, the expected level and its uncertainty, and when the next update is due. CME arrival time is uncertain by hours and the discussion says so. Times in UTC.",
+  "type": "object",
+  "required": ["issueTime", "title", "arrival", "sections"],
+  "additionalProperties": false,
+  "properties": {
+    "issueTime": {
+      "type": "string",
+      "description": "Issue time in UTC.",
+      "examples": ["2026 Nov 05 1230 UTC"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Title line.",
+      "examples": ["Forecast discussion: CME expected to arrive late on 6 November"]
+    },
+    "arrival": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["earliest", "mostLikely", "latest"],
+      "description": "The arrival estimate at Earth in UTC.",
+      "properties": {
+        "earliest": {
+          "type": "string",
+          "description": "Earliest plausible arrival.",
+          "examples": ["2026 Nov 06 1200 UTC"],
+          "x-translate": false
+        },
+        "mostLikely": {
+          "type": "string",
+          "description": "Most likely arrival.",
+          "examples": ["2026 Nov 06 2000 UTC"],
+          "x-translate": false
+        },
+        "latest": {
+          "type": "string",
+          "description": "Latest plausible arrival.",
+          "examples": ["2026 Nov 07 0400 UTC"],
+          "x-translate": false
+        },
+        "expectedLevel": {
+          "type": "string",
+          "description": "Expected storm level on arrival, with its uncertainty.",
+          "examples": ["G3 (Strong) likely, G4 (Severe) possible"]
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "Discussion sections.",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading.",
+            "examples": ["Solar activity"]
+          },
+          "text": {
+            "type": "string",
+            "description": "A short paragraph.",
+            "examples": [
+              "Region 4291 produced an X2.1 flare at 0918 UTC with an associated full halo CME."
+            ]
+          }
+        }
+      }
+    },
+    "nextIssuance": {
+      "type": "string",
+      "description": "When the next update is expected.",
+      "examples": ["The next discussion will be issued by 2026 Nov 05 1800 UTC."],
+      "x-translate": false
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise product. Not an official NOAA discussion."]
+    }
+  }
+}

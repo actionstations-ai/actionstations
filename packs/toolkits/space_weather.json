@@ -41,7 +41,20 @@
       "municipal"
     ]
   },
-  "injectTypes": [],
+  "injectTypes": [
+    "swpc_message",
+    "swpc_cme_discussion",
+    "icao_space_weather_advisory",
+    "gmd_procedure_notice",
+    "gmd_operator_log",
+    "gic_status_report",
+    "rc_dissemination_message",
+    "gmd_post_event_summary",
+    "gnss_timing_status",
+    "satellite_notice",
+    "ag_guidance_notice",
+    "flight_reroute_notice"
+  ],
   "outsideParties": [
     "the NOAA Space Weather Prediction Center",
     "the reliability coordinator",
@@ -113,5 +126,10 @@
       "Real storms are historical and dated; fictional events use invented utilities, satellites and places."
     ]
   },
-  "lintRules": []
+  "lintRules": [
+    "space.scale_mapping",
+    "space.swpc_message",
+    "space.cme_arrival",
+    "space.icao_advisory"
+  ]
 }

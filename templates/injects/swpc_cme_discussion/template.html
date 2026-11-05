@@ -1,0 +1,38 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">NOAA Space Weather Prediction Center</div>
+    <h1>{{fields.title}}</h1>
+    <div class="sw-sub">{{t 'Issue Time'}}: {{fields.issueTime}}</div>
+  </header>
+  <div class="sw-body">
+    <div class="sw-h2">{{t 'Estimated arrival at Earth'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Earliest'}}</th>
+          <th scope="col">{{t 'Most likely'}}</th>
+          <th scope="col">{{t 'Latest'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{fields.arrival.earliest}}</td>
+          <td><strong>{{fields.arrival.mostLikely}}</strong></td>
+          <td>{{fields.arrival.latest}}</td>
+        </tr>
+      </tbody>
+    </table>
+    {{#if fields.arrival.expectedLevel}}
+    <p><b>{{t 'Expected level'}}:</b> {{fields.arrival.expectedLevel}}</p>
+    {{/if}} {{#each fields.sections}}
+    <div class="sw-h2">{{heading}}</div>
+    <p>{{text}}</p>
+    {{/each}} {{#if fields.nextIssuance}}
+    <p><b>{{fields.nextIssuance}}</b></p>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise product. Not an official NOAA discussion."}}
+  </div>
+</div>

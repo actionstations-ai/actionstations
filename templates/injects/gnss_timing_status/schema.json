@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GNSS timing alarm and holdover status",
+  "description": "A network timing team's status notice during GNSS degradation: for each site the time source in use, its state (Locked, Holdover, Failed over, Free-running), satellites tracked, time error and holdover remaining. States are words. Holdover remaining counts down while GNSS is lost; a site that has failed over to another source states which one.",
+  "type": "object",
+  "required": ["organization", "asOf", "sites"],
+  "additionalProperties": false,
+  "properties": {
+    "organization": {
+      "type": "string",
+      "description": "The network or timing team.",
+      "examples": ["Lakeshore Regional Network, timing operations"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the status in UTC.",
+      "examples": ["2026 Nov 06 2230 UTC"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "One or two sentences.",
+      "examples": [
+        "Three of six sites have lost GNSS lock. One site has under two hours of holdover left."
+      ]
+    },
+    "sites": {
+      "type": "array",
+      "description": "Timing sites.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["site", "source", "state", "holdoverRemaining"],
+        "properties": {
+          "site": {
+            "type": "string",
+            "description": "Site name.",
+            "examples": ["Harbor central office"],
+            "x-translate": false
+          },
+          "source": {
+            "type": "string",
+            "description": "Time source in use.",
+            "examples": ["GNSS (primary)"]
+          },
+          "state": {
+            "type": "string",
+            "description": "Locked, Holdover, Failed over or Free-running.",
+            "examples": ["Holdover"]
+          },
+          "satellites": {
+            "type": "string",
+            "description": "Satellites tracked.",
+            "examples": ["3"],
+            "x-translate": false
+          },
+          "timeError": {
+            "type": "string",
+            "description": "Time error against the reference.",
+            "examples": ["180 ns"],
+            "x-translate": false
+          },
+          "holdoverRemaining": {
+            "type": "string",
+            "description": "Holdover remaining, or not applicable.",
+            "examples": ["1 h 40 min"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Simulated values for exercise use. Not a prediction of receiver performance."]
+    }
+  }
+}

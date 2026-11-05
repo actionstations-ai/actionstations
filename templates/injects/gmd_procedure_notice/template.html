@@ -1,0 +1,48 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.entity}}</div>
+    <h1>{{fields.procedure}}</h1>
+    <div class="sw-sub">{{t 'Issued'}}: {{fields.issueTime}}</div>
+  </header>
+  <div class="sw-body">
+    <div class="sw-banner" data-kind="{{fields.noticeKind}}">{{fields.noticeKind}}</div>
+    <div class="sw-h2">{{t 'Information received and condition met'}}</div>
+    <p>{{fields.trigger}}</p>
+    <div class="sw-h2">{{t 'Actions'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Action'}}</th>
+          <th scope="col">{{t 'Time'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.actions}}
+        <tr>
+          <td>{{action}}</td>
+          <td>{{time}}</td>
+          <td>{{status}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.notified.length}}
+    <div class="sw-h2">{{t 'Entities notified'}}</div>
+    <ul class="sw-list">
+      {{#each fields.notified}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    <div class="sw-h2">{{t 'Termination condition'}}</div>
+    <p>{{fields.terminationCondition}}</p>
+    {{#if fields.operator}}
+    <p><b>{{t 'Operator'}}:</b> {{fields.operator}}</p>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise record. All names and entities are fictional."}}
+  </div>
+</div>

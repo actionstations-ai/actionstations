@@ -1,0 +1,54 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">NOAA Space Weather Prediction Center</div>
+    <h1>{{t 'Space Weather Message Code'}}: {{fields.messageCode}}</h1>
+    <div class="sw-sub">
+      {{t 'Serial Number'}}: {{fields.serialNumber}} · {{t 'Issue Time'}}: {{fields.issueTime}}
+    </div>
+  </header>
+  <div class="sw-body">
+    <div class="sw-banner" data-kind="{{fields.productKind}}">
+      {{fields.productKind}}: {{fields.headline}}
+    </div>
+    {{#if fields.dayLevels.length}}
+    <div class="sw-h2">{{t 'Highest storm level predicted by day'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Day'}}</th>
+          <th scope="col">{{t 'Level'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.dayLevels}}
+        <tr>
+          <th scope="row">{{day}}</th>
+          <td>{{level}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if fields.details.length}}
+    <dl class="sw-kv">
+      {{#each fields.details}}
+      <dt>{{label}}</dt>
+      <dd>{{value}}</dd>
+      {{/each}}
+    </dl>
+    {{/if}} {{#if fields.noaaScale}}
+    <p><b>{{t 'NOAA Scale'}}:</b> {{fields.noaaScale}}</p>
+    {{/if}} {{#if fields.potentialImpacts.length}}
+    <div class="sw-h2">{{t 'Potential impacts'}}</div>
+    <dl class="sw-kv">
+      {{#each fields.potentialImpacts}}
+      <dt>{{heading}}</dt>
+      <dd>{{text}}</dd>
+      {{/each}}
+    </dl>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise product. Not an official NOAA message."}}
+  </div>
+</div>

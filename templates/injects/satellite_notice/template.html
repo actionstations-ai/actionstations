@@ -1,0 +1,28 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.operator}}</div>
+    <h1>{{fields.noticeKind}}: {{fields.spacecraft}}</h1>
+    <div class="sw-sub">{{t 'Issued'}} {{fields.issueTime}}</div>
+  </header>
+  <div class="sw-body">
+    <div class="sw-banner" data-kind="{{fields.noticeKind}}">{{fields.headline}}</div>
+    <dl class="sw-kv">
+      {{#each fields.details}}
+      <dt>{{label}}</dt>
+      <dd>{{value}}</dd>
+      {{/each}}
+    </dl>
+    {{#if fields.customerImpact}}
+    <div class="sw-h2">{{t 'Effect on service'}}</div>
+    <p>{{fields.customerImpact}}</p>
+    {{/if}} {{#if fields.nextUpdate}}
+    <p><b>{{fields.nextUpdate}}</b></p>
+    {{/if}} {{#if fields.contact}}
+    <p><b>{{t 'Contact'}}:</b> {{fields.contact}}</p>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise notice. The operator and spacecraft are fictional."}}
+  </div>
+</div>

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Post-event GMD summary",
+  "description": "A transmission planner's or protection engineer's post-event summary of a geomagnetic disturbance: the conditions that occurred (peak Kp and G level, onset time), what was observed on the system (neutral current peaks, relay operations, voltage excursions), what the operating procedure did, and follow-up items with owners and dates. Facts only; no engineering recommendations on settings.",
+  "type": "object",
+  "required": ["entity", "period", "conditions", "observations", "followUps"],
+  "additionalProperties": false,
+  "properties": {
+    "entity": {
+      "type": "string",
+      "description": "The utility.",
+      "examples": ["Lakeshore Transmission Operations"]
+    },
+    "period": {
+      "type": "string",
+      "description": "Event period in UTC.",
+      "examples": ["2026 Nov 06 1800 UTC to 2026 Nov 07 1200 UTC"],
+      "x-translate": false
+    },
+    "conditions": {
+      "type": "array",
+      "description": "Space weather conditions.",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Condition.",
+            "examples": ["Peak Kp"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value with time in UTC.",
+            "examples": ["8 at 2330 UTC (G4)"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "description": "Observed system effects.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Observation.",
+            "examples": ["Highest neutral current"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value with location and time.",
+            "examples": ["61 A at Harbor 345 kV T2, 2318 UTC"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "procedureSummary": {
+      "type": "string",
+      "description": "What the operating procedure did and when it ended.",
+      "examples": [
+        "The procedure was applied at 1912 UTC and terminated at 0615 UTC the next day when the termination condition was met."
+      ]
+    },
+    "followUps": {
+      "type": "array",
+      "description": "Follow-up items.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "owner", "due"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "The item.",
+            "examples": ["Review the neutral current alarm threshold at Harbor T2"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner.",
+            "examples": ["Protection engineering"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due date.",
+            "examples": ["2026 Dec 15"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise summary. Fictional readings."]
+    }
+  }
+}

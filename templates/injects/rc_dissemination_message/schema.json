@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reliability coordinator space weather message",
+  "description": "A reliability coordinator's dissemination of forecast and current space weather information to the entities in its geomagnetic disturbance operating plan: the source product, current and forecast conditions in plain words, any requested actions, and a distribution table with the method, send time and acknowledgement time for each entity. The distribution table is the evidence that each entity in the plan received the information.",
+  "type": "object",
+  "required": ["coordinator", "messageNumber", "sentTime", "source", "summary", "distribution"],
+  "additionalProperties": false,
+  "properties": {
+    "coordinator": {
+      "type": "string",
+      "description": "The reliability coordinator.",
+      "examples": ["Great Lakes Reliability Coordinator"]
+    },
+    "messageNumber": {
+      "type": "string",
+      "description": "Message number.",
+      "examples": ["RC-GMD-2026-014"],
+      "x-translate": false
+    },
+    "sentTime": {
+      "type": "string",
+      "description": "Time sent in UTC.",
+      "examples": ["2026 Nov 06 1859 UTC"],
+      "x-translate": false
+    },
+    "source": {
+      "type": "string",
+      "description": "The source product with code, serial number and issue time.",
+      "examples": ["SWPC WARK07, serial 214, issued 2026 Nov 06 1851 UTC"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Current and forecast conditions in plain words, with the level and the time window.",
+      "examples": [
+        "A K-index of 7 (G3, Strong) is expected from about 2100 UTC. Arrival time of the disturbance is uncertain by several hours."
+      ]
+    },
+    "requestedActions": {
+      "type": "array",
+      "description": "Actions requested of entities, per the operating plan.",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "examples": ["Confirm receipt and report any procedure actions taken."]
+      }
+    },
+    "distribution": {
+      "type": "array",
+      "description": "Each entity in the plan.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entity", "method", "sent", "acknowledged"],
+        "properties": {
+          "entity": {
+            "type": "string",
+            "description": "Entity name.",
+            "examples": ["Lakeshore Transmission Operations"]
+          },
+          "method": {
+            "type": "string",
+            "description": "How it was sent.",
+            "examples": ["Phone and email"]
+          },
+          "sent": {
+            "type": "string",
+            "description": "Time sent in UTC.",
+            "examples": ["1859"],
+            "x-translate": false
+          },
+          "acknowledged": {
+            "type": "string",
+            "description": "Time acknowledged, or Not yet.",
+            "examples": ["1903"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise message. All entities are fictional."]
+    }
+  }
+}

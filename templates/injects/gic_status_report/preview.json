@@ -1,0 +1,50 @@
+{
+  "fields": {
+    "entity": "Lakeshore Transmission Operations",
+    "asOf": "2026 Nov 06 2030 UTC",
+    "transformers": [
+      {
+        "site": "Harbor 345 kV T1",
+        "neutralCurrentA": "12",
+        "trend": "Steady",
+        "state": "Normal",
+        "note": ""
+      },
+      {
+        "site": "Harbor 345 kV T2",
+        "neutralCurrentA": "38",
+        "trend": "Rising",
+        "state": "Alarm",
+        "note": "Engineer called"
+      },
+      {
+        "site": "Northfield 230 kV T1",
+        "neutralCurrentA": "27",
+        "trend": "Rising",
+        "state": "Watch",
+        "note": ""
+      },
+      {
+        "site": "Cedar Point 345 kV T3",
+        "neutralCurrentA": "9",
+        "trend": "Steady",
+        "state": "Normal",
+        "note": ""
+      }
+    ],
+    "reactive": [
+      {
+        "area": "North corridor",
+        "availableMvar": "420",
+        "inUseMvar": "310"
+      },
+      {
+        "area": "South corridor",
+        "availableMvar": "380",
+        "inUseMvar": "120"
+      }
+    ],
+    "summary": "Neutral currents are rising at two of four monitored transformers. Reactive reserve in the north corridor is 420 Mvar with 310 Mvar in use.",
+    "footer": "Simulated readings for exercise use. Not engineering data."
+  }
+}

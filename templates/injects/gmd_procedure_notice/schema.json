@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Grid GMD operating procedure notice",
+  "description": "A transmission operator's notice that its geomagnetic disturbance operating procedure has been applied, is approaching its condition, or has been terminated: the space weather information received, the predetermined condition met, the actions taken with times and status, who was told, and the condition for termination. The elements follow NERC EOP-010 (information receipt, actions at predetermined conditions, termination conditions, evidence in logs). Actions are those in the entity's own procedure, not engineering advice.",
+  "type": "object",
+  "required": [
+    "entity",
+    "procedure",
+    "noticeKind",
+    "issueTime",
+    "trigger",
+    "actions",
+    "terminationCondition"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "entity": {
+      "type": "string",
+      "description": "The transmission operator or reliability coordinator.",
+      "examples": ["Lakeshore Transmission Operations"]
+    },
+    "procedure": {
+      "type": "string",
+      "description": "Name of the entity's procedure.",
+      "examples": ["GMD Operating Procedure TOP-GMD-01"],
+      "x-translate": false
+    },
+    "noticeKind": {
+      "type": "string",
+      "enum": ["Conditions approaching", "Procedure applied", "Procedure terminated"],
+      "description": "What this notice reports."
+    },
+    "issueTime": {
+      "type": "string",
+      "description": "Time of the notice in UTC and local.",
+      "examples": ["2026 Nov 06 1912 UTC (1312 CST)"],
+      "x-translate": false
+    },
+    "trigger": {
+      "type": "string",
+      "description": "The space weather information received and the predetermined condition it met.",
+      "examples": [
+        "SWPC K-index warning WARK07 serial 214: Kp of 7 expected. Procedure condition: Kp of 7 forecast."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Operator actions initiated, with time and status.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "time", "status"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The action as written in the procedure.",
+            "examples": ["Notified generation operators and neighboring transmission operators"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time of the action in UTC.",
+            "examples": ["1915 UTC"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status: Completed, In progress or Not started.",
+            "examples": ["Completed"]
+          }
+        }
+      }
+    },
+    "notified": {
+      "type": "array",
+      "description": "Entities told.",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "examples": ["Regional reliability coordinator"]
+      }
+    },
+    "terminationCondition": {
+      "type": "string",
+      "description": "The condition for ending the procedure.",
+      "examples": ["Kp below 5 for two consecutive three-hour periods and no active SWPC warning."]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Operator on duty.",
+      "examples": ["System Operator J. Alvarez"]
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise record. All names and entities are fictional."]
+    }
+  }
+}
