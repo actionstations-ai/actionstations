@@ -33,7 +33,14 @@ export interface ProfileGroup {
 export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[] }[] = [
   {
     label: 'Transportation',
-    ids: ['airport', 'transit', 'port_maritime', 'freight_rail', 'unmanned_systems'],
+    ids: [
+      'airport',
+      'transit',
+      'port_maritime',
+      'freight_rail',
+      'unmanned_systems',
+      'supply_chain',
+    ],
   },
   {
     label: 'Utilities and industry',
@@ -46,6 +53,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
       'chemical',
       'environmental_response',
       'food_agriculture',
+      'animal_health',
     ],
   },
   {
