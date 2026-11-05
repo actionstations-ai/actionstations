@@ -65,6 +65,39 @@ describe('animal disease toolkit file', () => {
   })
 })
 
+describe('reference library', () => {
+  const manifest = JSON.parse(
+    readFileSync(join(ROOT, 'packs/documents/manifest.json'), 'utf8'),
+  ) as {
+    documents: { pack: string; slug: string; sha256: string; license: string; edition: string }[]
+  }
+  const docs = manifest.documents.filter((d) => d.pack === 'animal-health-library')
+
+  it('pins every document by hash with a public-domain licence and an edition date', () => {
+    expect(docs.map((d) => d.slug)).toEqual([
+      'aphis-hpai-red-book',
+      'aphis-fmd-red-book',
+      'aphis-fadprep-1-0',
+      'aphis-fadprep-2-0',
+      'aphis-fadprep-3-0',
+      'aphis-fadprep-6-0',
+    ])
+    for (const d of docs) {
+      expect(d.sha256, d.slug).toMatch(/^[a-f0-9]{64}$/)
+      expect(d.license).toBe('LicenseRef-US-Government-Work')
+      expect(d.edition).toMatch(/20\d\d/)
+    }
+    expect(docs.find((d) => d.slug === 'aphis-hpai-red-book')!.edition).toBe('May 2017')
+    expect(docs.find((d) => d.slug === 'aphis-fmd-red-book')!.edition).toBe('October 2020')
+  })
+
+  it('is named by the toolkit', () => {
+    expect(toolkit.documents.map((d) => d.documentId)).toEqual(docs.map((d) => d.slug))
+    for (const d of toolkit.documents)
+      expect(d.packId).toBe('ai.actionstations.animal-health-library')
+  })
+})
+
 describe('media environment rule', () => {
   it('lists the animal health domain', () => {
     const media = ToolkitSchema.parse(
