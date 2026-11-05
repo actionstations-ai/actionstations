@@ -134,3 +134,31 @@ describe('where the toolkit is proposed', () => {
     expect(readdirSync(resolve('packs/domains'))).toContain('ai_incidents.json')
   })
 })
+
+describe('ai_incidents library', () => {
+  const manifest = read('packs/documents/manifest.json') as {
+    documents: { pack: string; slug: string; sha256: string | null; license: string }[]
+  }
+  const docs = manifest.documents.filter((d) => d.pack === 'ai-incidents-library')
+
+  it('pins every document by hash and bundles only US government works', () => {
+    expect(docs.map((d) => d.slug).sort()).toEqual([
+      'fcc-24-17-ai-voice-robocalls',
+      'fincen-fin-2024-alert004',
+      'nist-ai-100-1',
+      'nist-ai-600-1',
+    ])
+    for (const d of docs) {
+      expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
+      expect(d.license, d.slug).toBe('LicenseRef-US-Government-Work')
+    }
+  })
+
+  it('is the library the toolkit points to, document by document', () => {
+    expect(toolkit.documents.map((d) => d.documentId).sort()).toEqual(
+      docs.map((d) => d.slug).sort(),
+    )
+    for (const d of toolkit.documents)
+      expect(d.packId).toBe('ai.actionstations.ai-incidents-library')
+  })
+})
