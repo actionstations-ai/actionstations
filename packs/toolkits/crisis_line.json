@@ -52,7 +52,12 @@
       "description": "Answers questions about queue measures, rerouting and staffing as a peer center director would."
     }
   ],
-  "lintRules": ["hs_988_routing"],
+  "lintRules": [
+    "hs_988_routing",
+    "hs_safe_messaging",
+    "hs_exercise_helpline",
+    "hs_no_real_line_for_players"
+  ],
   "figureKinds": ["hs_contact_series", "hs_queue_board", "hs_staffing_coverage"],
   "knowledge": {
     "glossary": [
@@ -97,6 +102,151 @@
         "Escalate high-risk consults to a clinical supervisor without delay",
         "Debrief counselors after a surge"
       ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Issue a public statement on wait times with exercise numbers only and no method detail",
+        "Correct a wrong number or false closure through official channels",
+        "Keep partners and the state coordinator on one set of numbers"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Read the queue before the dashboard shows it and say what the numbers mean",
+        "Forecast demand and staffing for the next shift",
+        "Report measures against the stated targets"
+      ],
+      "mappings": []
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "hs_activate_surge_plan",
+      "label": "Activate surge plan",
+      "description": "Choose the surge action the center takes now.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Overflow to supervisors and trained staff",
+            "Pause outbound work and callbacks",
+            "Request backup support",
+            "Change scripts",
+            "Call in off-duty staff"
+          ]
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Calls", "Texts", "Chats", "All channels"]
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "hs_request_backup_support",
+      "label": "Request backup support",
+      "description": "Ask for backup for a contact type: from whom and from when.",
+      "fields": [
+        {
+          "id": "from",
+          "label": "From",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "State backup center",
+            "Another state center",
+            "Network administrator",
+            "Neighboring county center"
+          ]
+        },
+        {
+          "id": "contact_type",
+          "label": "Contact type",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Calls", "Texts", "Chats", "All channels"]
+        },
+        {
+          "id": "starts_at",
+          "label": "Starts at",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "hs_issue_public_statement",
+      "label": "Issue a public statement",
+      "description": "A statement about the surge. Never describe methods; show only an exercise line.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Public", "Partners", "Media", "Staff"]
+        },
+        {
+          "id": "summary",
+          "label": "Summary of the message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "helpline_shown",
+          "label": "Helpline shown",
+          "kind": "choice",
+          "required": false,
+          "choices": [
+            "No helpline number",
+            "Exercise line only",
+            "Real number with EXERCISE banner"
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "service_level",
+      "label": "Service level by contact type",
+      "config": {
+        "answerRateTargetPct": 90,
+        "thresholdSec": 120
+      },
+      "series": "hs-contact-queue"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Surge response timing",
+      "config": {
+        "decisionKinds": "hs_activate_surge_plan,hs_request_backup_support",
+        "eventKinds": "queue_over_timer",
+        "leadWindowMin": 60,
+        "graceWindowMin": 30,
+        "matchArea": false
+      },
+      "groundTruth": "hs-contact-events"
     }
   ]
 }

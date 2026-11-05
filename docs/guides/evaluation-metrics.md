@@ -55,6 +55,32 @@ Each fact reads Consistent, Conflict, Only one partner stated it, or Not stated,
 
 A model can optionally read the messages and propose values. This uses the text model your project routes evaluation to, and a hosted model shows the usual preview of what is sent and asks for approval first. Suggestions are marked and do not count until you confirm each one, and the result says how many were left out.
 
+## Service level
+
+Shows how well a service answered the work offered to it: for a crisis line, calls, texts and chats by channel.
+
+- It reads a series of contacts **offered**, **answered**, **abandoned** and **rerouted** to a backup center, with the average and longest wait, for each channel.
+- The **answer rate** is answered divided by offered. Contacts rerouted to backup are shown on their own and are not counted as answered by this center. **Abandonment** is abandoned divided by offered. **Mean time to answer** is weighted by the contacts answered.
+- You set the **target answer rate**. The default is the published federal goal for texts and chats (more than 90% by September 29, 2026), and the result prints where the target comes from so it is never mistaken for a rule. A center changes it to its own.
+- The **share answered promptly** is estimated from intervals: contacts answered in intervals whose longest wait stayed within the threshold you set. It is not measured contact by contact.
+- With a rerouting timer set, the result also counts the intervals whose longest wait ran past it.
+
+## Time to completion
+
+Measures how long it took to finish something for every member of a group: doors open after the decision to open a shelter, every student released after the site was activated, every displaced child located after the plan was activated.
+
+- The start is the first matching event or decision. A member completes when a decision of the chosen kind names it; a setting can require a value in a field, so a release only counts when identity was verified.
+- The group comes from the scenario's events when it has them (the students on the roster, the children in care). Students with no guardian coming can be left out.
+- The result gives how many completed, how many are **still open**, the **median** time and the **slowest**. Open members are listed and are never averaged in as zero.
+
+## Needs coverage
+
+Shows how many of the needs recorded in the scenario were met, and how long each took, by category: for a shelter, the support residents need to use the general population area.
+
+- A need is met by a decision of the chosen kind that names the same category, comes after the need was recorded and, where both name one, is for the same place. A decision can meet several needs at once through its count.
+- The result gives the share met, the median time to meet, and a row for each category with what was recorded, met and left open.
+- Needs are supports requested (electricity for equipment, communication access, personal assistance, medication, supervision), never diagnoses.
+
 ## Where results appear
 
 Results are saved with the exercise, so the same numbers show on the Evaluation tab and in the report. Each result lists its **inputs** (how many events and decisions, the windows, the threshold, the clearance time), the numbers, a table per event, zone or fact, and notes on what limits the result. The report section sits between the findings and the improvement plan, and re-running a metric replaces its earlier result instead of adding a second copy.

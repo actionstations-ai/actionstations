@@ -60,7 +60,13 @@
       "description": "Answers questions about locating children in care and the state disaster plan."
     }
   ],
-  "lintRules": ["hs_release_identity", "hs_crisis_counseling_duration"],
+  "lintRules": [
+    "hs_release_identity",
+    "hs_crisis_counseling_duration",
+    "hs_safe_messaging",
+    "hs_exercise_helpline",
+    "hs_no_real_line_for_players"
+  ],
   "figureKinds": ["hs_reunification_flow", "hs_displaced_tracker"],
   "knowledge": {
     "glossary": [
@@ -105,6 +111,172 @@
         "Continue hotline intake and visits from temporary sites",
         "Request crisis counseling immediate services for affected communities"
       ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Send parents the site, entrance and what to bring before they arrive",
+        "Correct a rumor that names the wrong site",
+        "Give the same facts to the call line and the text message"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Assign check-in, retrieval, release and exceptions roles at the site",
+        "Coordinate with law enforcement and social services for students no guardian reaches",
+        "Keep the release log and the roster in agreement"
+      ],
+      "mappings": []
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "hs_activate_reunification_site",
+      "label": "Activate reunification site",
+      "description": "Activate the relocation site with named roles and one release authority.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "roles",
+          "label": "Roles and leads",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "release_authority",
+          "label": "Release authority",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hs_release_student",
+      "label": "Release student to guardian",
+      "description": "Record each release. A guardian who cannot be verified goes to exceptions.",
+      "fields": [
+        {
+          "id": "student",
+          "label": "Student reference",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "relationship",
+          "label": "Guardian relationship",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "identity_check",
+          "label": "Identity check",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Verified: photo identification",
+            "Verified: exception approved by commander",
+            "Not verified: sent to exceptions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hs_locate_displaced_child",
+      "label": "Locate displaced child",
+      "description": "Record each attempt to locate a child in care.",
+      "fields": [
+        {
+          "id": "child",
+          "label": "Child code",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "required": false,
+          "choices": [
+            "Caseworker call",
+            "Provider call",
+            "Shelter registry match",
+            "School contact",
+            "Law enforcement or national center",
+            "Other"
+          ]
+        },
+        {
+          "id": "result",
+          "label": "Result",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Located and safe", "Contacted, location unconfirmed", "Not found"]
+        }
+      ]
+    },
+    {
+      "id": "hs_request_crisis_counseling",
+      "label": "Request crisis counseling program",
+      "description": "Request federal crisis counseling services after a declared disaster.",
+      "fields": [
+        {
+          "id": "program",
+          "label": "Program",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Immediate services (up to 60 days)", "Regular services (up to nine months)"]
+        },
+        {
+          "id": "counties",
+          "label": "Counties",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "time_to_completion",
+      "label": "Every student released after site activation",
+      "config": {
+        "populationLabel": "students released",
+        "startEventKind": "site_activated",
+        "completionDecisionKind": "hs_release_student",
+        "memberField": "student",
+        "completionRequires": "identity_check:verified",
+        "populationEventKind": "student",
+        "populationKey": "ref",
+        "excludeAttr": "unaccompanied"
+      },
+      "groundTruth": "hs-reunification-events"
+    },
+    {
+      "id": "time_to_completion",
+      "label": "Every displaced child located after plan activation",
+      "config": {
+        "populationLabel": "children located",
+        "startEventKind": "plan_activated",
+        "completionDecisionKind": "hs_locate_displaced_child",
+        "memberField": "child",
+        "completionRequires": "result:located",
+        "populationEventKind": "child_in_care",
+        "populationKey": "code"
+      },
+      "groundTruth": "hs-displaced-events"
     }
   ]
 }

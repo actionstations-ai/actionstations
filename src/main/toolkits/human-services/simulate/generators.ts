@@ -22,6 +22,7 @@ export const HS_DATASETS = {
   contactEvents: 'hs-contact-events',
   shelterPopulation: 'hs-shelter-population',
   shelterEvents: 'hs-shelter-events',
+  shelterHazard: 'hs-shelter-hazard',
   reunificationEvents: 'hs-reunification-events',
   reunificationFlow: 'hs-reunification-flow',
   displacedEvents: 'hs-displaced-events',
@@ -177,7 +178,24 @@ const shelterGenerator: SimulatedGenerator<z.output<typeof ShelterParams>> = {
       })),
     ]
     const range = { start: iso(t0), end: at(p.hours) }
+    // Wind at each shelter site (one county-wide track) rises to tropical-storm force (39 mph) at the hazard arrival hour.
+    const wind = Array.from({ length: Math.floor(p.hours) + 1 }, (_, h) => ({
+      time: at(h),
+      value:
+        h <= p.hazardArrivalHour
+          ? Math.round((15 + (24 * h) / Math.max(1, p.hazardArrivalHour)) * 10) / 10
+          : Math.min(120, Math.round((39 + 6 * (h - p.hazardArrivalHour)) * 10) / 10),
+    }))
     return [
+      {
+        id: HS_DATASETS.shelterHazard,
+        label: 'Hazard wind at each shelter site, mph (simulated)',
+        kind: 'series',
+        shape: 'modeled-series',
+        unit: 'mph',
+        range,
+        data: p.sites.map((s) => ({ zone: s.name, quantity: 'wind_mph', points: wind })),
+      },
       {
         id: HS_DATASETS.shelterPopulation,
         label: 'Shelter population and capacity (simulated)',
