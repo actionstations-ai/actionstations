@@ -59,9 +59,11 @@ export function upsertObservation(
   scenarioId: string,
   observation: Observation,
 ): Promise<EvaluationRecord> {
+  // evaluation.json never holds a student id (ADR-0090): the link is in classroom/evidence.json.
+  const { studentId: _dropped, ...anonymous } = observation
   return updateEvaluation(root, scenarioId, (record) => {
-    const observations = record.observations.filter((o) => o.id !== observation.id)
-    return { ...record, observations: [...observations, observation] }
+    const observations = record.observations.filter((o) => o.id !== anonymous.id)
+    return { ...record, observations: [...observations, anonymous] }
   })
 }
 

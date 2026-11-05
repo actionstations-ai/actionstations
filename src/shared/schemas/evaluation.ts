@@ -121,6 +121,12 @@ export const Observation = z.object({
   /** Free label such as "Evaluator 2"; never a person's name by default. */
   evaluator: z.string().max(EVALUATION_LIMITS.evaluator).optional(),
   source: z.enum(['facilitate', 'paper', 'live']).default('facilitate'),
+  /**
+   * Classroom mode only (ADR-0090). Accepted on the wire so an evaluator form can name a
+   * student, rejected by the evaluation store unless the project has Classroom on, and never
+   * written to evaluation.json: the link lives in classroom/evidence.json.
+   */
+  studentId: Id.optional(),
 })
 export type Observation = z.infer<typeof Observation>
 
