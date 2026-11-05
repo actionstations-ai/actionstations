@@ -1,0 +1,122 @@
+{
+  "id": "ai_incidents",
+  "name": "AI incidents and synthetic media",
+  "description": "Verification clues for synthetic media, model incident reports, AI system inventory entries, disclosure drafts and payment recall requests, with decisions scored on time to detect, payments stopped and disclosures on time. For any organization that faces a deepfaked executive, a fake spokesperson video, a harmful AI output, data poisoning or an AI vendor breach. Detector scores in the exercise are simulated. Every person, bank, vendor and company is fictional.",
+  "appliesTo": {
+    "keywords": [
+      "deepfake",
+      "deepfaked",
+      "synthetic media",
+      "voice cloning",
+      "voice clone",
+      "fake video",
+      "ai-generated",
+      "chatbot",
+      "ai assistant",
+      "ai model",
+      "ai vendor",
+      "model drift",
+      "data poisoning",
+      "prompt injection",
+      "harmful output",
+      "ai incident",
+      "serious incident",
+      "hallucination",
+      "impersonation",
+      "content credentials",
+      "detector",
+      "ai act"
+    ],
+    "domains": [
+      "ai_incidents",
+      "crisis_comms",
+      "financial_services",
+      "elections",
+      "campus",
+      "healthcare",
+      "municipal",
+      "emergency_communications",
+      "telecom",
+      "data_center_it"
+    ]
+  },
+  "injectTypes": [],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "the bank and payment processor",
+    "the beneficiary bank",
+    "the platform trust and safety team",
+    "the market surveillance authority",
+    "the data protection authority",
+    "the AI vendor",
+    "law enforcement",
+    "the insurer"
+  ],
+  "advisorRoles": [
+    {
+      "key": "ai_governance_advisor",
+      "name": "AI governance advisor",
+      "abbreviation": "AIGOV",
+      "team": "Advisors",
+      "description": "Explains what makes an event an AI incident, which questions decide whether a duty applies to a provider, a deployer or a fraud victim, and which of the organization's own plans to check. Gives no legal advice."
+    },
+    {
+      "key": "fraud_advisor",
+      "name": "Fraud advisor",
+      "abbreviation": "FRAUD",
+      "team": "Advisors",
+      "description": "Knows how recall requests work, why speed matters, what the bank needs and what a callback on a known number is."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Deepfake",
+        "definition": "AI-generated or manipulated image, audio or video that resembles real people or events and would falsely appear authentic (EU AI Act, Article 3(60))."
+      },
+      {
+        "term": "Detector score",
+        "definition": "A number from a classifier. It can be wrong in both directions, so give it with its uncertainty and the false positive and false negative counts."
+      },
+      {
+        "term": "Content Credentials (C2PA)",
+        "definition": "Signed provenance data bound to a file by hash. A valid one shows who signed and that the file is unchanged since; a missing one proves nothing."
+      },
+      {
+        "term": "Callback",
+        "definition": "Confirming a request by a number or channel found independently of the request, such as the company directory."
+      },
+      {
+        "term": "AI incident",
+        "definition": "An event in which an AI system or its output causes, or nearly causes, harm."
+      },
+      {
+        "term": "Serious incident",
+        "definition": "Under the EU AI Act, Article 3(49): death or serious harm to health, serious and irreversible disruption of critical infrastructure, infringement of fundamental rights obligations, or serious harm to property or the environment."
+      },
+      {
+        "term": "Provider and deployer",
+        "definition": "A provider develops or places a system on the market; a deployer uses it. Duties differ. A company defrauded by a deepfake with no AI system of its own involved has a fraud and cyber incident."
+      }
+    ],
+    "productConventions": [
+      "A synthetic media item is exercise material: carry a transcript and a text description, and put amounts, account numbers and instructions in a text product, never in audio alone.",
+      "A serious incident draft states the system, the date of awareness, the causal link assessment, the harm and the status; an initial report may be incomplete.",
+      "A payment recall request names the originating bank, the amount, the date, the beneficiary account and the reason, and goes first to the bank fraud desk.",
+      "A verification note gives each clue as present, valid, invalid or absent, and says what the clue cannot prove."
+    ],
+    "realismRules": [
+      "Never call media fake because a detector said so; give the score, its uncertainty and that detectors err.",
+      "The callback uses the directory number, never the number in the request.",
+      "Clocks come from the regulation the scenario configures; never invent a deadline or say a duty applies without naming the role question.",
+      "Do not give steps for making synthetic media or poisoning a model. Every person, bank, vendor and company is fictional, and no real person is imitated."
+    ]
+  },
+  "lintRules": [],
+  "capabilities": [],
+  "exerciseTags": []
+}
