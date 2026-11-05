@@ -1,0 +1,405 @@
+{
+  "id": "clinical_care",
+  "name": "Clinical care",
+  "description": "Bedside care for exercises and unfolding case studies: vital signs and early warning scores, lab results with reference ranges, medication administration records, SBAR handoffs, triage tags, staffing grids, isolation boards and evacuation lists. One library of synthetic patients serves tabletop play (a unit surge, an evacuation, an outbreak, a downtime shift) and case studies in which a patient's story unfolds in stages and the learner decides at each stage. Exercise content, never clinical guidance.",
+  "appliesTo": {
+    "keywords": [
+      "nursing unit",
+      "charge nurse",
+      "rapid response",
+      "deteriorating patient",
+      "triage",
+      "mass casualty",
+      "surge",
+      "early warning score",
+      "SBAR",
+      "handoff",
+      "medication error",
+      "case study",
+      "vital signs",
+      "isolation",
+      "cohort",
+      "vertical evacuation",
+      "patient evacuation",
+      "nursing home",
+      "long-term care",
+      "downtime"
+    ],
+    "domains": [
+      "nursing",
+      "healthcare",
+      "health_informatics",
+      "pharmacy",
+      "public_health",
+      "campus",
+      "k12_schools",
+      "stadium_venue",
+      "commercial_facilities"
+    ]
+  },
+  "outsideParties": [
+    "Attending physician or covering provider",
+    "Pharmacist on call",
+    "Respiratory therapist",
+    "Laboratory (critical value desk)",
+    "House supervisor",
+    "Receiving unit charge nurse",
+    "Receiving hospital transfer center",
+    "Staffing agency",
+    "Patient's family",
+    "Health department epidemiologist",
+    "Risk manager"
+  ],
+  "advisorRoles": [
+    {
+      "key": "clinical_educator",
+      "name": "Clinical educator",
+      "abbreviation": "Edu",
+      "team": "Advisors",
+      "description": "Checks that patient data, nursing actions and the sequence of care are plausible and coherent."
+    },
+    {
+      "key": "rrt_lead",
+      "name": "Rapid response team lead",
+      "abbreviation": "RRT",
+      "team": "Advisors",
+      "description": "Answers rapid response calls and decides on transfer to a higher level of care."
+    },
+    {
+      "key": "attending_advisor",
+      "name": "Physician advisor",
+      "abbreviation": "MD",
+      "team": "Advisors",
+      "description": "Plays the covering provider: orders, call-backs and the questions a provider asks a nurse."
+    },
+    {
+      "key": "infection_preventionist",
+      "name": "Infection preventionist",
+      "abbreviation": "IP",
+      "team": "Advisors",
+      "description": "Advises on precautions, cohorting and outbreak notification."
+    },
+    {
+      "key": "simulation_facilitator",
+      "name": "Simulation facilitator",
+      "abbreviation": "Fac",
+      "team": "Advisors",
+      "description": "Runs the prebrief and the structured debrief of a case study or tabletop."
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "assign_nurse",
+      "label": "Assign nurse",
+      "description": "Assign a nurse to a patient and record the resulting ratio.",
+      "fields": [
+        {
+          "id": "patient",
+          "label": "Patient (synthetic name or bed)",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "nurse", "label": "Nurse (role or name)", "kind": "text", "required": true },
+        { "id": "ratio", "label": "Resulting patients per nurse", "kind": "number" },
+        { "id": "reason", "label": "Reason", "kind": "text" }
+      ]
+    },
+    {
+      "id": "call_rapid_response",
+      "label": "Call rapid response",
+      "description": "Call the rapid response team for a patient.",
+      "fields": [
+        {
+          "id": "patient",
+          "label": "Patient (synthetic name or bed)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "trigger",
+          "label": "Trigger",
+          "kind": "choice",
+          "choices": [
+            "Early warning score",
+            "Single abnormal vital sign",
+            "Staff or family concern",
+            "Critical lab value",
+            "Other"
+          ]
+        },
+        { "id": "time", "label": "Time of call", "kind": "time", "required": true },
+        {
+          "id": "sbar_done",
+          "label": "SBAR used",
+          "kind": "choice",
+          "choices": ["Yes, complete", "Yes, parts missing", "No"]
+        }
+      ]
+    },
+    {
+      "id": "escalate_staffing_shortage",
+      "label": "Escalate staffing shortage",
+      "description": "Report a staffing shortage up the chain and say what is needed.",
+      "fields": [
+        {
+          "id": "to",
+          "label": "Escalate to",
+          "kind": "choice",
+          "choices": [
+            "House supervisor",
+            "Nurse manager",
+            "Chief Nursing Officer",
+            "Hospital command center",
+            "Staffing agency"
+          ],
+          "required": true
+        },
+        { "id": "shortfall", "label": "Nurses short", "kind": "number", "required": true },
+        { "id": "time", "label": "Time", "kind": "time" },
+        { "id": "ask", "label": "What is asked for", "kind": "text" }
+      ]
+    },
+    {
+      "id": "set_evacuation_order",
+      "label": "Set evacuation order",
+      "description": "Rank the patients to move first and say why.",
+      "fields": [
+        {
+          "id": "ranking",
+          "label": "Ranked patients (first to move first)",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "reasons", "label": "Reasons for the order", "kind": "text", "required": true },
+        {
+          "id": "movement",
+          "label": "Movement",
+          "kind": "choice",
+          "choices": ["Horizontal (same floor)", "Vertical (stairs or elevator)", "Both"]
+        },
+        { "id": "start", "label": "Start time", "kind": "time" }
+      ]
+    },
+    {
+      "id": "triage_arrival",
+      "label": "Triage arrival",
+      "description": "Assign a triage category to an arriving patient from the findings.",
+      "fields": [
+        {
+          "id": "patient",
+          "label": "Patient (tag number or description)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "category",
+          "label": "Category",
+          "kind": "choice",
+          "choices": [
+            "Immediate (red)",
+            "Delayed (yellow)",
+            "Minor (green)",
+            "Expectant (gray)",
+            "Deceased (black)"
+          ],
+          "required": true
+        },
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "choices": ["START", "SALT", "Other"]
+        },
+        { "id": "findings", "label": "Findings", "kind": "text" }
+      ]
+    },
+    {
+      "id": "isolate_or_cohort",
+      "label": "Isolate or cohort",
+      "description": "Isolate a patient or group patients with the same infection.",
+      "fields": [
+        { "id": "patients", "label": "Patients (rooms or beds)", "kind": "text", "required": true },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "choices": [
+            "Single room isolation",
+            "Cohort together",
+            "Dedicated staff",
+            "Close unit to admissions"
+          ],
+          "required": true
+        },
+        {
+          "id": "precautions",
+          "label": "Precautions",
+          "kind": "choice",
+          "choices": ["Standard", "Contact", "Droplet", "Airborne", "Contact plus"]
+        },
+        { "id": "area", "label": "Area", "kind": "area" }
+      ]
+    },
+    {
+      "id": "request_transfer",
+      "label": "Request transfer",
+      "description": "Request the transfer of a patient to another unit or hospital.",
+      "fields": [
+        {
+          "id": "patient",
+          "label": "Patient (synthetic name or bed)",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "destination", "label": "Destination", "kind": "text", "required": true },
+        {
+          "id": "level",
+          "label": "Level of care needed",
+          "kind": "choice",
+          "choices": ["Intensive care", "Step-down", "Medical-surgical", "Long-term care", "Other"]
+        },
+        { "id": "time", "label": "Time requested", "kind": "time" }
+      ]
+    },
+    {
+      "id": "disclose_event",
+      "label": "Disclose event",
+      "description": "Plan and record the disclosure of a harm event to a patient or family.",
+      "fields": [
+        { "id": "who_discloses", "label": "Disclosure lead", "kind": "text", "required": true },
+        {
+          "id": "to_whom",
+          "label": "To whom (patient or family member)",
+          "kind": "text",
+          "required": true
+        },
+        { "id": "time", "label": "Time of the conversation", "kind": "time", "required": true },
+        { "id": "content", "label": "What is said", "kind": "text" }
+      ]
+    },
+    {
+      "id": "notify",
+      "label": "Notify",
+      "description": "Notify a person or agency of an event.",
+      "fields": [
+        { "id": "who", "label": "Who is notified", "kind": "text", "required": true },
+        { "id": "what", "label": "What is said", "kind": "text", "required": true },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Clinical Judgment Measurement Model (CJMM)",
+        "definition": "The NCSBN model of six cognitive operations behind nursing judgment: recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action and evaluate outcomes. Case study prompts name the step they test."
+      },
+      {
+        "term": "Unfolding case study",
+        "definition": "One patient's story revealed in stages; at each stage the learner sees new data and answers prompts, and the next stage depends on the choices."
+      },
+      {
+        "term": "SBAR",
+        "definition": "Situation, Background, Assessment, Recommendation: a structured way to hand over concerns by phone or in person. A good SBAR states the patient, the problem now, the relevant history, the nurse's assessment of severity and a clear request. Read-back confirms the receiver heard it."
+      },
+      {
+        "term": "I PASS the BATON",
+        "definition": "A structured handoff mnemonic (Introduction, Patient, Assessment, Situation, Safety concerns, the Background, Actions, Timing, Ownership, Next)."
+      },
+      {
+        "term": "Early warning score",
+        "definition": "A composite of vital sign parameters turned into a total that triggers an escalation. The parameters, bands, triggers and recommended responses are a configuration; a named published score is used only with its source cited."
+      },
+      {
+        "term": "Rapid response team (RRT)",
+        "definition": "A team called to a patient who is deteriorating but not in arrest, to assess at the bedside and decide on a higher level of care."
+      },
+      {
+        "term": "START",
+        "definition": "Simple Triage and Rapid Treatment: sorts casualties by ability to walk, respirations, perfusion and mental status into minor, delayed, immediate and expectant or deceased."
+      },
+      {
+        "term": "SALT",
+        "definition": "Sort, Assess, Lifesaving interventions, Treatment and/or Transport: a mass casualty triage approach that adds lifesaving interventions and a sort by response to commands."
+      },
+      {
+        "term": "Under-triage and over-triage",
+        "definition": "Assigning a lower or higher category than the patient's findings warrant."
+      },
+      {
+        "term": "Critical value",
+        "definition": "A lab result so far outside the normal range that the laboratory must call a provider or nurse at once; the time of the call and read-back are documented."
+      },
+      {
+        "term": "MAR",
+        "definition": "Medication administration record: scheduled, given, held, refused and late doses for a patient."
+      },
+      {
+        "term": "Five rights",
+        "definition": "Right patient, drug, dose, route and time, with further rights added in many programs."
+      },
+      {
+        "term": "Nurse-to-patient ratio",
+        "definition": "The number of patients assigned to one nurse; the safe number depends on acuity, unit type and state law."
+      },
+      {
+        "term": "Acuity",
+        "definition": "How sick a patient is and how much nursing care they need."
+      },
+      {
+        "term": "Cohorting",
+        "definition": "Grouping patients with the same infection in one area with dedicated staff."
+      },
+      {
+        "term": "Contact, droplet, airborne precautions",
+        "definition": "Transmission-based isolation measures added to standard precautions according to how an organism spreads."
+      },
+      {
+        "term": "Vertical and horizontal evacuation",
+        "definition": "Moving patients to another floor (vertical) or behind a fire door on the same floor (horizontal)."
+      },
+      {
+        "term": "Downtime",
+        "definition": "A period when the electronic record or related systems are unavailable and care is documented on paper."
+      },
+      {
+        "term": "Prebrief and debrief",
+        "definition": "The briefing before a simulation (objectives, ground rules, confidentiality, psychological safety, orientation) and the structured conversation afterward that reflects on what happened. Both are planned parts of the simulation."
+      },
+      {
+        "term": "Disclosure",
+        "definition": "Telling a patient or family about a harm event promptly and plainly, with a named lead, what is known, what is not and what happens next."
+      },
+      { "term": "Hot wash", "definition": "A short debrief immediately after an exercise." }
+    ],
+    "productConventions": [
+      "Every patient is synthetic and labeled as exercise content; names are fictional and never those of real people.",
+      "A vital-signs entry has a date and time, heart rate, systolic and diastolic blood pressure, respiratory rate, oxygen saturation (with room air or the flow of oxygen), temperature (with units) and level of consciousness.",
+      "A lab result states the test, the value, the units, the reference range and a flag (H, L, or critical) that agrees with the range shown; a critical value records who was called, when, and the read-back.",
+      "An early warning score is shown as the parameters with their points, the total, the trigger band and the recommended response. The arithmetic must add up.",
+      "An SBAR has all four elements; when an element is deliberately missing, the product shows the gap rather than hiding it.",
+      "A triage tag shows the category, the findings that produced it (breathing, perfusion, mental status, ability to walk) and the time; the category agrees with the findings under the stated method.",
+      "A medication line has drug, dose, units, route, frequency and the scheduled time; given doses record the time and the nurse's initials; held or late doses record the reason.",
+      "A staffing grid shows needed, scheduled, called in and agency counts per shift and the resulting nurse-to-patient ratio; the numbers add up.",
+      "An evacuation list has one row per patient with bed, name, acuity and dependency (ventilator, infusion, bariatric, infant), the equipment that goes with the patient, the destination and the time out.",
+      "Times use the 24-hour clock; weights and doses use the metric system; temperatures state Celsius or Fahrenheit.",
+      "A case study stage shows only data the learner would have at that point; it never reveals the next stage's results."
+    ],
+    "realismRules": [
+      "Vital signs, labs and findings follow one coherent physiologic story; a patient in septic shock does not have a normal lactate and a normal blood pressure unless the case says why.",
+      "Heart rate, blood pressure, respiratory rate, oxygen saturation and temperature stay within human ranges and change gradually over time unless an event explains a jump.",
+      "Doses and routes are plausible for the named drug and patient; when unsure, name the drug and a typical adult dose range from a standard reference and flag it for review; never invent an implausible dose.",
+      "A nurse does not diagnose or prescribe; nursing actions are assessment, monitoring, nursing interventions within standing orders, escalation and documentation, and requests for orders.",
+      "Rapid response is called for deterioration, not arrest; a code is called for arrest. Do not mix them.",
+      "Hand hygiene for C. difficile uses soap and water; contact precautions with a gown and gloves apply. Alcohol hand rub does not kill the spores.",
+      "A handoff carries allergies, code status, isolation status, lines and drains, and pending results; a handoff missing these is the kind of gap a case study may deliberately show.",
+      "Staff ratios and patient flow numbers must add up across injects: beds, census, arrivals, discharges and nurses on duty.",
+      "A lab flag matches the reference range printed beside it; units and ranges match the test.",
+      "Triage categories follow the findings under START or SALT: a casualty who walks is minor; one who breathes only after repositioning, or has absent radial pulse, or cannot follow commands is immediate under START. Expectant is a resource decision, stated as such.",
+      "Content involving patient death, violence, or harm to children carries a content notice and an opt-out for learners.",
+      "No real patient data, real people or real hospitals; fictional teaching hospitals and units only. Real city names and public agencies are permitted.",
+      "Do not reproduce NCLEX items or any licensed exam content; write original prompts.",
+      "The score and recommendation text on a chart cite their source; a named published score is used only when its terms are confirmed."
+    ]
+  }
+}
