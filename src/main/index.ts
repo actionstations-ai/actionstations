@@ -30,6 +30,7 @@ import { registerFloodingToolkit } from './toolkits/flooding'
 import { registerMediaToolkit } from './toolkits/media'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
+import { registerSpillConnectors } from './toolkits/connectors/spill'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
 import { scheduleStartupCheck } from './updates/check'
@@ -232,6 +233,7 @@ void app.whenReady().then(async () => {
   // enabled packs' domains. Never fetches. A failure leaves the app running without packs.
   // Inject types from user and pack templates (#261): registered now and after every pack change.
   initTemplateRegistry()
+  registerSpillConnectors()
   await initPacks().catch((e: unknown) => console.error('[packs]', e))
   createMainWindow()
   // Opt-in update check (#442): only with the setting on, at most once a day, after the window

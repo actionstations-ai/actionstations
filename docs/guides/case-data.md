@@ -34,6 +34,16 @@ A toolkit can offer to find a real past event by date and place. Fetching happen
 Each request is recorded in a fetch log in the scenario's case folder, with the address (without
 its query), the status and the number of bytes.
 
+### Sources for oil and chemical spills
+
+The spill and plume toolkit can fetch three public NOAA sources, each from one fixed address:
+
+- **Tides and currents** (CO-OPS): water levels, winds and tidal currents at a station for up to about three months, in metric units and UTC.
+- **Buoy observations** (National Data Buoy Center): winds, air pressure and wave height at a buoy or coastal station, for a past year or the last 44 days. Readings the buoy did not report stay missing.
+- **Shoreline classes** (Environmental Sensitivity Index): the shoreline types of one ESI region, cropped to your area, which must be under half a square degree. The saved lines keep only the shore class and shore type, and the data says it was cropped.
+
+Each shows its size before anything is requested, and each is saved as historical data with its source and the date you fetched it.
+
 ### Size limit
 
 One scenario may hold up to 500 MB of case data by default. Change the limit under **Settings,
