@@ -30,6 +30,8 @@ describe('clinical_systems toolkit', () => {
       'isolate_devices',
       'notify',
       'return_to_normal',
+      'reconcile_unit',
+      'close_reconciliation',
     ])
   })
 

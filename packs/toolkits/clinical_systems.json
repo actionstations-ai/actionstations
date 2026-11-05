@@ -391,6 +391,60 @@
           "required": true
         }
       ]
+    },
+    {
+      "id": "reconcile_unit",
+      "label": "Report reconciliation progress",
+      "description": "After recovery, record how far one unit has got with entering its paper records and how many discrepancies it found.",
+      "fields": [
+        {
+          "id": "unit",
+          "label": "Unit",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "done",
+          "label": "Items entered and checked",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "remaining",
+          "label": "Items remaining",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "discrepancies",
+          "label": "Discrepancies found",
+          "kind": "number"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "close_reconciliation",
+      "label": "Close reconciliation",
+      "description": "End the reconciliation and say what is still open.",
+      "fields": [
+        {
+          "id": "open_items",
+          "label": "Open items",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
     }
   ],
   "knowledge": {
