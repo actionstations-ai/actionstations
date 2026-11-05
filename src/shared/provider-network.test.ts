@@ -39,6 +39,17 @@ describe('isRemoteProvider', () => {
     ).toBe(true)
   })
 
+  it('treats fal.ai as remote, whatever the base URL or option says', () => {
+    expect(isRemoteProvider(cfg({ kind: 'fal' }))).toBe(true)
+    expect(providerHost(cfg({ kind: 'fal' }))).toBe('queue.fal.run')
+    expect(
+      isRemoteProvider(
+        cfg({ kind: 'fal', baseUrl: 'http://127.0.0.1:9', options: { network: 'local' } }),
+      ),
+    ).toBe(true)
+    expect(canTreatAsLocal(cfg({ kind: 'fal', baseUrl: 'http://192.168.1.20' }))).toBe(false)
+  })
+
   it('treats loopback servers as local', () => {
     expect(isRemoteProvider(cfg({ baseUrl: 'http://127.0.0.1:1234/v1' }))).toBe(false)
     expect(isRemoteProvider(cfg({ kind: 'ollama', baseUrl: 'http://localhost:11434' }))).toBe(false)

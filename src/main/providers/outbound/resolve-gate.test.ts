@@ -42,7 +42,7 @@ async function route(task: ProviderTask, c: ProviderConfig): Promise<void> {
     s.providers = [c]
     s.defaultRouting = { [task]: { providerId: c.id } }
   })
-  if (c.kind === 'anthropic') await setSecret(c.id, 'sk-test-key')
+  if (c.kind === 'anthropic' || c.kind === 'fal') await setSecret(c.id, 'sk-test-key')
 }
 
 async function resolved(task: GatedTask): Promise<unknown> {
@@ -100,8 +100,8 @@ describe('provider resolution and the outbound gate', () => {
     },
   )
 
-  // Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
-  it.each(cases.filter(([, kind]) => kind !== 'anthropic' && kind !== 'ollama'))(
+  // Anthropic and fal.ai are cloud services whatever the address; Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
+  it.each(cases.filter(([, kind]) => kind !== 'anthropic' && kind !== 'fal' && kind !== 'ollama'))(
     '%s via %s: a local config is never gated',
     async (task, kind) => {
       await route(task, config(kind, false))

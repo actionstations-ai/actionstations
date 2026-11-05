@@ -23,6 +23,7 @@ export const ProviderKind = z.enum([
   'openai-compatible',
   'ollama',
   'comfyui',
+  'fal',
   'system-tts',
   'template',
   'local-whisper',

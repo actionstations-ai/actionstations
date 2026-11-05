@@ -244,6 +244,76 @@ describe('ProvidersPage', () => {
     })
   })
 
+  it('adds fal.ai with a key, per-call prices and a saved video model mapping', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'fal')
+    expect(within(dialog).getByLabelText('Base URL')).toHaveProperty('readOnly', true)
+    await user.click(within(dialog).getByRole('button', { name: 'Video model inputs' }))
+    await user.type(within(dialog).getByLabelText('Model'), 'acme/new-video')
+    await user.clear(within(dialog).getByLabelText('Prompt input'))
+    await user.type(within(dialog).getByLabelText('Prompt input'), 'text')
+    await user.type(within(dialog).getByLabelText('Starting image input'), 'first_frame')
+    await user.type(within(dialog).getByLabelText(/Lengths the model accepts/), '4, 8')
+    await user.type(within(dialog).getByLabelText('Duration input'), 'seconds')
+    await user.click(within(dialog).getByRole('button', { name: 'Advanced' }))
+    expect(within(dialog).queryByLabelText(/Input price/)).toBeNull()
+    await user.type(within(dialog).getByLabelText(/Video call price/), '0.35')
+    await user.type(within(dialog).getByLabelText('API key'), 'fal-key-0000:abcdef')
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    expect(ttx.calls('providers:upsert')[0]).toMatchObject({
+      apiKey: 'fal-key-0000:abcdef',
+      config: {
+        kind: 'fal',
+        baseUrl: 'https://queue.fal.run',
+        options: {
+          videoUsdPerCall: 0.35,
+          inputMap: {
+            'acme/new-video': {
+              prompt: 'text',
+              image: 'first_frame',
+              duration: 'seconds',
+              durationAllowed: [4, 8],
+            },
+          },
+        },
+      },
+    })
+  })
+
+  it('prefills a known fal.ai model and refuses an input name that is not a plain name', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'fal')
+    await user.type(within(dialog).getByLabelText('API key'), 'fal-key-0000:abcdef')
+    await user.click(within(dialog).getByRole('button', { name: 'Video model inputs' }))
+    await user.type(
+      within(dialog).getByLabelText('Model'),
+      'fal-ai/kling-video/v3/pro/image-to-video',
+    )
+    expect(within(dialog).getByLabelText('Starting image input')).toHaveProperty(
+      'value',
+      'start_image_url',
+    )
+    expect(within(dialog).getByLabelText(/Lengths the model accepts/)).toHaveProperty(
+      'value',
+      '3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15',
+    )
+    await user.clear(within(dialog).getByLabelText('Starting image input'))
+    await user.type(within(dialog).getByLabelText('Starting image input'), 'a b')
+    expect(
+      within(dialog).getByText('Use the input name only: letters, digits and underscores.'),
+    ).toBeTruthy()
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    expect(within(dialog).getByText('Fix the video model inputs before saving.')).toBeTruthy()
+    expect(ttx.calls('providers:upsert')).toHaveLength(0)
+  })
+
   it('refuses a price that is not a number, or only one of the two token prices', async () => {
     const ttx = setup()
     const user = userEvent.setup()

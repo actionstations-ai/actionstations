@@ -8,6 +8,7 @@ A **provider** is a model or media service the app may call: a local LLM server,
 | [Ollama](ollama.md)                                    | Ollama                   | Ideation, drafting, critique, embeddings      | macOS, Windows, Linux             |
 | [Anthropic](anthropic.md)                              | Anthropic                | Ideation, drafting, critique                  | Cloud (API key, paid per token)   |
 | [ComfyUI](comfyui.md)                                  | ComfyUI                  | Scene photos, short video clips, optional TTS | macOS (MPS), Windows/Linux (CUDA) |
+| [fal.ai](cloud-video.md)                               | fal.ai                   | Scene images, short video clips               | Cloud (API key, paid per call)    |
 | [Local TTS](local-tts.md)                              | OpenAI-compatible        | Voice: radio calls, voicemails, PA            | Apple Silicon (mlx-audio)         |
 | [System voice](local-tts.md#system-voice-any-platform) | System voice             | Offline voice fallback                        | macOS, Windows, Linux (espeak-ng) |
 
@@ -18,7 +19,7 @@ You need at least one text provider to generate scenarios. Everything else is op
 Open **Providers** in the sidebar.
 
 - **Detect local services** probes LM Studio (`127.0.0.1:1234`), Ollama (`127.0.0.1:11434`) and ComfyUI (`127.0.0.1:8188`, then ComfyUI Desktop's `127.0.0.1:8000`) on this computer only, with an 800 ms budget each, checks whether the operating system has a voice engine ([System voice](local-tts.md#system-voice-any-platform)), and offers **Add** for each one it finds.
-- **Add provider** opens a form: **Type** (LM Studio, Ollama, Anthropic, OpenAI-compatible, ComfyUI, System voice), **Name**, **Base URL** (none for the system voice), **Default model** (**Default voice** for the system voice), **API key** (Anthropic and OpenAI-compatible only) and **Enabled**.
+- **Add provider** opens a form: **Type** (LM Studio, Ollama, Anthropic, OpenAI-compatible, ComfyUI, fal.ai, System voice), **Name**, **Base URL** (none for the system voice), **Default model** (**Default voice** for the system voice), **API key** (Anthropic, fal.ai and OpenAI-compatible only) and **Enabled**.
 
 ![Detect local services](../images/detect-local.png)
 

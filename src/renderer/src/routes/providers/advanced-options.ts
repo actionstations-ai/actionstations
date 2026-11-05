@@ -5,6 +5,8 @@ export interface AdvancedDraft {
   inputUsdPerMTok: string
   outputUsdPerMTok: string
   mediaUsdPerCall: string
+  imageUsdPerCall: string
+  videoUsdPerCall: string
   apiVersion: string
   jsonMode: string
   imageModel: string
@@ -18,7 +20,13 @@ export const JSON_MODE_CHOICES = [
   { value: 'prompt', label: 'Ask in the prompt only' },
 ] as const
 
-const NUMBER_KEYS = ['inputUsdPerMTok', 'outputUsdPerMTok', 'mediaUsdPerCall'] as const
+const NUMBER_KEYS = [
+  'inputUsdPerMTok',
+  'outputUsdPerMTok',
+  'mediaUsdPerCall',
+  'imageUsdPerCall',
+  'videoUsdPerCall',
+] as const
 const TEXT_KEYS = ['apiVersion', 'jsonMode', 'imageModel', 'ttsModel'] as const
 
 const asText = (v: unknown): string =>
@@ -30,6 +38,8 @@ export function advancedFrom(options: Record<string, unknown> | undefined): Adva
     inputUsdPerMTok: asText(o.inputUsdPerMTok),
     outputUsdPerMTok: asText(o.outputUsdPerMTok),
     mediaUsdPerCall: asText(o.mediaUsdPerCall),
+    imageUsdPerCall: asText(o.imageUsdPerCall),
+    videoUsdPerCall: asText(o.videoUsdPerCall),
     apiVersion: asText(o.apiVersion),
     jsonMode: asText(o.jsonMode),
     imageModel: asText(o.imageModel),

@@ -5,7 +5,7 @@ import { createParser, type EventSourceMessage } from 'eventsource-parser'
 import { AppError } from '../lib/errors'
 
 export interface HttpRequest {
-  method?: 'GET' | 'POST' | 'DELETE'
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   headers?: Record<string, string>
   /** JSON-serialised unless a string or FormData (multipart, e.g. audio uploads). */
   body?: unknown
