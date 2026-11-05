@@ -44,7 +44,20 @@
       "nursing"
     ]
   },
-  "injectTypes": [],
+  "injectTypes": [
+    "supplier_status_board",
+    "supply_disruption_notice",
+    "temperature_excursion_alert",
+    "customer_complaint_log",
+    "product_recall_notice",
+    "recall_consignee_letter",
+    "recall_status_report",
+    "fda_records_request_letter",
+    "lab_result_report",
+    "sitrep",
+    "press_release",
+    "figure"
+  ],
   "figureKinds": [],
   "connectors": [],
   "outsideParties": [
@@ -467,7 +480,11 @@
       "Use fictional companies, carriers and customers; no real brand names."
     ]
   },
-  "lintRules": [],
+  "lintRules": [
+    "logistics_lot_code_format",
+    "logistics_recall_letter_complete",
+    "logistics_recall_counts_reconcile"
+  ],
   "capabilities": [
     {
       "coreCapability": "supply_chain_integrity_and_security",

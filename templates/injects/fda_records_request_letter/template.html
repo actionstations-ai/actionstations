@@ -1,0 +1,54 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+    </div>
+    <div class="doc-title">Records request</div>
+  </header>
+  <dl class="kv">
+    <dt>To</dt>
+    <dd>{{fields.firm}}</dd>
+    <dt>Requested</dt>
+    <dd>{{fields.requestedAt}}</dd>
+    <dt>Due</dt>
+    <dd><strong>{{fields.dueBy}}</strong></dd>
+  </dl>
+  {{#if fields.reason}}
+  <p class="summary">{{fields.reason}}</p>
+  {{/if}}
+  <h2>Foods and lots</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Food</th>
+        <th>Traceability lot codes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.foods}}
+      <tr>
+        <td>{{this.food}}</td>
+        <td class="mono">{{this.lots}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Records requested</h2>
+  <ol>
+    {{#each fields.recordsRequested}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <div class="callout"><strong>Format:</strong> {{fields.format}}</div>
+  <p class="contact">Contact: <strong>{{fields.contact}}</strong></p>
+  {{#if fields.signature}}
+  <p class="contact">{{fields.signature}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Records request · {{fields.requestedAt}}</span
+    ><span>Exercise material. All companies, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

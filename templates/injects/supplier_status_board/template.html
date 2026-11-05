@@ -1,0 +1,44 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.org}}</div>
+    <h1>{{fields.title}}</h1>
+    <div class="gx-sub">{{fields.asOf}}</div>
+  </header>
+  <div class="gx-body">
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Supplier'}}</th>
+          <th scope="col">{{t 'Tier'}}</th>
+          <th scope="col">{{t 'Site'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+          <th scope="col">{{t 'Last contact'}}</th>
+          <th scope="col">{{t 'Alternate source'}}</th>
+          <th scope="col">{{t 'Lead time (days)'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.rows}}
+        <tr>
+          <th scope="row">{{supplier}}</th>
+          <td>{{tier}}</td>
+          <td>{{site}}</td>
+          <td class="st s-{{status}}">
+            {{#if (eq status "operating")}}● {{t 'Operating'}}{{else if (eq status "degraded")}}▲
+            {{t 'Degraded'}}{{else if (eq status "down")}}■ {{t 'Down'}}{{else}}? {{t
+            'Unknown'}}{{/if}}
+          </td>
+          <td>{{lastContact}}</td>
+          <td>{{alternate}}</td>
+          <td>{{leadTimeDays}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.note}}
+    <p>{{fields.note}}</p>
+    {{/if}}
+  </div>
+  <div class="gx-foot">{{t 'Exercise product. Companies and suppliers are fictional.'}}</div>
+</div>

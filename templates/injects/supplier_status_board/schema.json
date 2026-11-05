@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Supplier status board",
+  "description": "A board of suppliers by tier and site with status, last contact, alternate source and lead time. Status is a word, never color alone.",
+  "type": "object",
+  "required": ["org", "title", "asOf", "rows"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Company that owns the board",
+      "examples": ["Harlow Appliance Works"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Board title",
+      "examples": ["Critical supplier status"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of date and time",
+      "examples": ["As of 2026-11-05 14:00 CST"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "One row per supplier site",
+      "items": {
+        "type": "object",
+        "properties": {
+          "supplier": {
+            "type": "string",
+            "description": "Supplier name",
+            "examples": ["Brightwater Motors"],
+            "x-translate": false
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["1", "2", "3"],
+            "description": "Supplier tier",
+            "examples": ["1"]
+          },
+          "site": {
+            "type": "string",
+            "description": "Supplier site",
+            "examples": ["Plant 2, Lindgren"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["operating", "degraded", "down", "unknown"],
+            "description": "Status",
+            "examples": ["down"]
+          },
+          "lastContact": {
+            "type": "string",
+            "description": "Last contact",
+            "examples": ["2026-11-05 09:30"]
+          },
+          "alternate": {
+            "type": "string",
+            "description": "Alternate source, or none",
+            "examples": ["Cobalt Drives (not qualified)"]
+          },
+          "leadTimeDays": {
+            "type": "number",
+            "description": "Lead time in days",
+            "examples": [21]
+          }
+        },
+        "required": ["supplier", "tier", "site", "status"],
+        "additionalProperties": false
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Note under the board",
+      "examples": ["Tier-2 steel mill for Brightwater has not been confirmed."]
+    }
+  },
+  "additionalProperties": false
+}

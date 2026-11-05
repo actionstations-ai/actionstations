@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Supply disruption notice",
+  "description": "One business letter or notice about a supply problem: an allocation notice, a force majeure letter, a purchase order change, an expedite request or a lane congestion notice. States the item, the old and new quantities or dates, and what the reader must do.",
+  "type": "object",
+  "required": ["kind", "from", "to", "date", "subject", "paragraphs"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "Allocation notice",
+        "Force majeure letter",
+        "Purchase order change",
+        "Expedite request",
+        "Lane congestion notice"
+      ],
+      "description": "Kind of notice",
+      "examples": ["Allocation notice"]
+    },
+    "from": {
+      "type": "string",
+      "description": "Sending company",
+      "examples": ["Harlow Appliance Works"],
+      "x-translate": false
+    },
+    "fromUnit": {
+      "type": "string",
+      "description": "Sending department",
+      "examples": ["Customer Supply Planning"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Receiving company or person",
+      "examples": ["Eastgate Home Stores, Purchasing"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["November 5, 2026"]
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference such as a PO or notice number",
+      "examples": ["PO-4471920"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["Allocation of Series 7 motors for November"]
+    },
+    "paragraphs": {
+      "type": "array",
+      "description": "Body paragraphs",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Our motor supplier has lost a plant to fire. We expect to ship 60 percent of confirmed November quantities."
+        ]
+      ]
+    },
+    "rows": {
+      "type": "array",
+      "description": "Items affected",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Series 7 motor"],
+            "x-translate": false
+          },
+          "original": {
+            "type": "string",
+            "description": "Original quantity or date",
+            "examples": ["1,000 units, Nov 12"]
+          },
+          "revised": {
+            "type": "string",
+            "description": "Revised quantity or date",
+            "examples": ["600 units, Nov 12; 200 units, Dec 3"]
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["Allocated pro rata"]
+          }
+        },
+        "required": ["item", "original", "revised"],
+        "additionalProperties": false
+      }
+    },
+    "actionRequested": {
+      "type": "string",
+      "description": "What the reader must do and by when",
+      "examples": ["Confirm acceptance by November 7, 5:00 p.m. Central."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact name, phone and email",
+      "examples": ["R. Okafor, (555) 010-4412, supply.planning@harlow.example"],
+      "x-translate": false
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signer and title",
+      "examples": ["Dana Whitcombe, Director of Supply Planning"]
+    }
+  },
+  "additionalProperties": false
+}

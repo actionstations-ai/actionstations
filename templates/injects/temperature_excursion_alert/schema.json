@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Temperature excursion alert",
+  "description": "A data logger or cold room monitor alert: the location, product, allowed range, how long and how far the temperature left it, and the lots at risk. The chart is a separate figure.",
+  "type": "object",
+  "required": [
+    "org",
+    "location",
+    "unit",
+    "limitLow",
+    "limitHigh",
+    "unitOfMeasure",
+    "excursionStart",
+    "peak",
+    "lots"
+  ],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Company",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Site",
+      "examples": ["DC 3, Marlow"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Cold room or trailer",
+      "examples": ["Cooler 4"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Product category",
+      "examples": ["Fresh-cut leafy greens"]
+    },
+    "limitLow": {
+      "type": "number",
+      "description": "Lower limit",
+      "examples": [1]
+    },
+    "limitHigh": {
+      "type": "number",
+      "description": "Upper limit",
+      "examples": [5]
+    },
+    "unitOfMeasure": {
+      "type": "string",
+      "enum": ["°C", "°F"],
+      "description": "Unit",
+      "examples": ["°C"]
+    },
+    "excursionStart": {
+      "type": "string",
+      "description": "Time the reading left the range",
+      "examples": ["2026-11-05 02:15"]
+    },
+    "excursionEnd": {
+      "type": "string",
+      "description": "Time it returned to range, or blank if ongoing",
+      "examples": [""]
+    },
+    "peak": {
+      "type": "number",
+      "description": "Highest reading",
+      "examples": [11.4]
+    },
+    "minutesOutOfRange": {
+      "type": "number",
+      "description": "Minutes out of range so far",
+      "examples": [190]
+    },
+    "currentReading": {
+      "type": "number",
+      "description": "Current reading",
+      "examples": [8.9]
+    },
+    "lots": {
+      "type": "array",
+      "description": "Lot codes in the unit",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["MLW-261104-A", "MLW-261104-B"]]
+    },
+    "action": {
+      "type": "string",
+      "description": "Action taken or required",
+      "examples": ["Hold all lots in Cooler 4 pending quality review."]
+    },
+    "alertId": {
+      "type": "string",
+      "description": "Alert number",
+      "examples": ["TA-20261105-0007"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Direct-account recall letter",
+  "description": "A letter from a recalling firm to each direct account (consignee). Names the product and lot numbers, the reason, the hazard and the instructions, and how to reply. Class I and Class II letters are marked urgent.",
+  "type": "object",
+  "required": [
+    "company",
+    "recipient",
+    "date",
+    "recallClass",
+    "urgent",
+    "products",
+    "reason",
+    "hazard",
+    "instructions",
+    "replyBy",
+    "contact"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "company": {
+      "type": "string",
+      "description": "Recalling firm",
+      "examples": ["Westmarch Fresh Distribution"],
+      "x-translate": false
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Consignee name and address",
+      "examples": ["Eastgate Home Stores, Receiving, 400 Depot Road, Eastgate"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["November 5, 2026"]
+    },
+    "recallClass": {
+      "type": "string",
+      "enum": ["Class I", "Class II", "Class III", "Market withdrawal", "Not classified yet"],
+      "description": "FDA class",
+      "examples": ["Class I"]
+    },
+    "urgent": {
+      "type": "boolean",
+      "description": "True when the letter is marked URGENT (always for Class I and II)",
+      "examples": [true]
+    },
+    "products": {
+      "type": "array",
+      "description": "Product and lot codes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product",
+            "examples": ["Spring mix, 5 oz clamshell"]
+          },
+          "lots": {
+            "type": "string",
+            "description": "Lot codes",
+            "examples": ["MLW-261104-A, MLW-261104-B"],
+            "x-translate": false
+          },
+          "quantityShipped": {
+            "type": "string",
+            "description": "Quantity shipped to this account, with unit",
+            "examples": ["480 cases"]
+          },
+          "shipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "examples": ["Nov 4, 2026"]
+          }
+        },
+        "required": ["name", "lots"],
+        "additionalProperties": false
+      }
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason",
+      "examples": ["One lot tested positive for Listeria monocytogenes."]
+    },
+    "hazard": {
+      "type": "string",
+      "description": "Hazard",
+      "examples": ["May cause serious illness, especially in people with weakened immune systems."]
+    },
+    "instructions": {
+      "type": "array",
+      "description": "What the account must do",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "Stop selling the product and remove it from shelves and storage immediately.",
+          "Notify your own customers if you resold it.",
+          "Return the reply form even if you have none of the product."
+        ]
+      ]
+    },
+    "replyBy": {
+      "type": "string",
+      "description": "Reply deadline",
+      "examples": ["November 6, 2026, 12:00 noon Eastern"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "How to reply",
+      "examples": ["recall@westmarch.example or (555) 010-9921"],
+      "x-translate": false
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signer and title",
+      "examples": ["Priya Venkataraman, Recall Coordinator"]
+    }
+  },
+  "additionalProperties": false
+}

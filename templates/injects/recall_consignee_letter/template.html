@@ -1,0 +1,61 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.company}}</div>
+    </div>
+    <div class="doc-title">Recall letter</div>
+  </header>
+  {{#if fields.urgent}}
+  <p class="urgent">Urgent: product recall</p>
+  {{/if}}
+  <dl class="kv">
+    <dt>To</dt>
+    <dd>{{fields.recipient}}</dd>
+    <dt>Date</dt>
+    <dd>{{fields.date}}</dd>
+    <dt>Recall class</dt>
+    <dd>{{fields.recallClass}}</dd>
+  </dl>
+  <h2>Product and lots</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Lot codes</th>
+        <th>Shipped to you</th>
+        <th>Ship date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.products}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td class="mono">{{this.lots}}</td>
+        <td>{{this.quantityShipped}}</td>
+        <td>{{this.shipDate}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Reason</h2>
+  <p>{{fields.reason}}</p>
+  <h2>Hazard</h2>
+  <p>{{fields.hazard}}</p>
+  <h2>What you must do</h2>
+  <ol>
+    {{#each fields.instructions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <div class="callout"><strong>Reply by {{fields.replyBy}}:</strong> {{fields.contact}}</div>
+  {{#if fields.signature}}
+  <p class="contact">{{fields.signature}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Recall letter · {{fields.date}}</span
+    ><span>Exercise material. All companies, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

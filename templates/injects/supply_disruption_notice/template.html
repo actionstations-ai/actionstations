@@ -1,0 +1,59 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.from}}</div>
+      {{#if fields.fromUnit}}
+      <div class="sub">{{fields.fromUnit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">{{fields.kind}}</div>
+  </header>
+  <dl class="kv">
+    <dt>To</dt>
+    <dd>{{fields.to}}</dd>
+    <dt>Date</dt>
+    <dd>{{fields.date}}</dd>
+    {{#if fields.reference}}
+    <dt>Reference</dt>
+    <dd class="mono">{{fields.reference}}</dd>
+    {{/if}}
+  </dl>
+  <h1>{{fields.subject}}</h1>
+  {{#each fields.paragraphs}}
+  <p class="summary">{{this}}</p>
+  {{/each}} {{#if fields.rows}}
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Original</th>
+        <th>Revised</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr>
+        <td>{{this.item}}</td>
+        <td>{{this.original}}</td>
+        <td>{{this.revised}}</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.actionRequested}}
+  <div class="callout"><strong>Action requested:</strong> {{fields.actionRequested}}</div>
+  {{/if}} {{#if fields.contact}}
+  <p class="contact">Contact: <strong>{{fields.contact}}</strong></p>
+  {{/if}} {{#if fields.signature}}
+  <p class="contact">{{fields.signature}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.kind}} · {{fields.date}}</span
+    ><span>Exercise material. All companies, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,42 @@
+<div class="gx">
+  <div class="gx-ex">{{t 'Exercise product'}}</div>
+  <header class="gx-head">
+    <div class="gx-org">{{fields.org}}</div>
+    <h1>{{fields.title}}</h1>
+    <div class="gx-sub">{{fields.asOf}}</div>
+  </header>
+  <div class="gx-body">
+    <table class="gx-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'No.'}}</th>
+          <th scope="col">{{t 'Received'}}</th>
+          <th scope="col">{{t 'Source'}}</th>
+          <th scope="col">{{t 'Product'}}</th>
+          <th scope="col">{{t 'Lot'}}</th>
+          <th scope="col">{{t 'Report'}}</th>
+          <th scope="col">{{t 'Severity'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.entries}}
+        <tr>
+          <th scope="row">{{id}}</th>
+          <td>{{received}}</td>
+          <td>{{source}}</td>
+          <td>{{product}}</td>
+          <td class="gx-mono">{{lot}}</td>
+          <td>{{complaint}}</td>
+          <td class="st sev-{{severity}}">
+            {{#if (eq severity "high")}}■ {{t 'High'}}{{else if (eq severity "medium")}}▲ {{t
+            'Medium'}}{{else}}● {{t 'Low'}}{{/if}}
+          </td>
+          <td>{{status}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="gx-foot">{{t 'Exercise product. Complaints are simulated.'}}</div>
+</div>
