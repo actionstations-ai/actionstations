@@ -76,6 +76,7 @@ export const KIND_LABELS: Record<ProviderKind, string> = {
   'openai-compatible': 'OpenAI-compatible',
   ollama: 'Ollama',
   comfyui: 'ComfyUI',
+  fal: 'fal.ai',
   'system-tts': 'System voice',
   template: 'Template',
   'local-whisper': 'Built-in Whisper',
@@ -165,6 +166,17 @@ export const PRESETS: Preset[] = [
     hint: 'Local image and video workflows (and audio, if you import a TTS workflow).',
   },
   {
+    id: 'fal',
+    label: 'fal.ai',
+    kind: 'fal',
+    baseUrl: 'https://queue.fal.run',
+    usesKey: true,
+    keyRequired: true,
+    baseUrlEditable: false,
+    hint: 'Cloud images and short video clips. The scene prompt and the generated still are sent to fal.ai, and each call is billed to your fal.ai account.',
+    modelPlaceholder: 'e.g. fal-ai/flux/schnell',
+  },
+  {
     id: 'system-tts',
     label: 'System voice',
     kind: 'system-tts',
@@ -182,9 +194,10 @@ export const kindUsesBaseUrl = (kind: ProviderKind): boolean =>
 
 /** Whether an existing provider of this kind shows the key field. */
 export const kindUsesKey = (kind: ProviderKind): boolean =>
-  kind === 'anthropic' || kind === 'openai-compatible'
+  kind === 'anthropic' || kind === 'openai-compatible' || kind === 'fal'
 
-export const kindRequiresKey = (kind: ProviderKind): boolean => kind === 'anthropic'
+export const kindRequiresKey = (kind: ProviderKind): boolean =>
+  kind === 'anthropic' || kind === 'fal'
 
 /** Default model for a detected service: never an embedding model while a chat model exists. */
 export function pickDefaultModel(s: {

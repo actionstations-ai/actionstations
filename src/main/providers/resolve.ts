@@ -59,7 +59,7 @@ export interface RoutingView {
 }
 
 /** Kinds that cannot work without an API key. */
-const KEY_REQUIRED_KINDS = new Set<ProviderConfig['kind']>(['anthropic'])
+const KEY_REQUIRED_KINDS = new Set<ProviderConfig['kind']>(['anthropic', 'fal'])
 
 // ---- mock seeding (dev / e2e) ------------------------------------------------------------
 

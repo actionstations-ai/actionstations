@@ -8,6 +8,8 @@ import { useIpcMutation } from '../../lib/query'
 import { ApiKeyField, type KeyChange } from './ApiKeyField'
 import { ModelInput } from './ModelInput'
 import { AdvancedSection } from './AdvancedSection'
+import { VideoInputsSection } from './VideoInputsSection'
+import { applyInputDrafts, inputErrors, type InputDrafts } from './video-inputs-options'
 import { advancedErrors, advancedFrom, applyAdvanced, type AdvancedDraft } from './advanced-options'
 import {
   KIND_LABELS,
@@ -35,6 +37,8 @@ interface Draft {
   /** Options a preset starts with (cloud marker, model-profile off, auth style…). */
   baseOptions: Record<string, unknown>
   advanced: AdvancedDraft
+  /** Video model input mappings edited in this form (fal.ai), by model id. */
+  inputDrafts: InputDrafts
   modelPlaceholder: string | undefined
 }
 
@@ -51,6 +55,7 @@ function draftFrom(existing: ProviderViewT | undefined): Draft {
       localHost: grantedLocalHost(existing),
       baseOptions: existing.options,
       advanced: advancedFrom(existing.options),
+      inputDrafts: {},
       modelPlaceholder: undefined,
     }
   const p = PRESETS[0]!
@@ -70,6 +75,7 @@ const fromPreset = (p: Preset) => ({
   defaultModel: p.defaultModel ?? '',
   baseOptions: p.options ?? {},
   advanced: advancedFrom(undefined),
+  inputDrafts: {},
   modelPlaceholder: p.modelPlaceholder,
 })
 
@@ -85,6 +91,7 @@ function validate(d: Draft, hasKey: boolean) {
     baseUrl?: string
     apiKey?: string
     advanced?: ReturnType<typeof advancedErrors>
+    inputs?: string
   } = {}
   if (!d.label.trim()) errors.label = 'Give the provider a name.'
   if (kindUsesBaseUrl(d.kind) && !d.baseUrl.trim()) errors.baseUrl = 'Enter the server address.'
@@ -94,6 +101,11 @@ function validate(d: Draft, hasKey: boolean) {
   if (keyRequired(d) && !keyAfterSave) errors.apiKey = 'This provider needs an API key.'
   const advanced = advancedErrors(d.advanced)
   if (Object.keys(advanced).length) errors.advanced = advanced
+  if (
+    d.kind === 'fal' &&
+    Object.values(d.inputDrafts).some((f) => Object.keys(inputErrors(f)).length)
+  )
+    errors.inputs = 'Fix the video model inputs before saving.'
   return errors
 }
 
@@ -114,8 +126,11 @@ function optionsFor(draft: Draft): Record<string, unknown> {
   const { network: _old, localHost: _host, ...rest } = draft.baseOptions
   const baseUrl = parsedBaseUrl(draft.baseUrl)
   const config = { kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) }
-  const withAdvanced = (o: Record<string, unknown>) =>
-    draft.kind === 'openai-compatible' ? applyAdvanced(o, draft.advanced) : o
+  const withAdvanced = (o: Record<string, unknown>) => {
+    if (draft.kind === 'fal')
+      return applyInputDrafts(applyAdvanced(o, draft.advanced), 'video', draft.inputDrafts)
+    return draft.kind === 'openai-compatible' ? applyAdvanced(o, draft.advanced) : o
+  }
   // A hosted preset is a cloud service whatever its address looks like.
   if (isHosted(draft)) return withAdvanced({ ...rest, network: 'remote' })
   if (!canTreatAsLocal(config)) return withAdvanced(rest)
@@ -331,6 +346,24 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
             typeof draft.baseOptions.preset === 'string' ? draft.baseOptions.preset : undefined
           }
         />
+      )}
+      {draft.kind === 'fal' && (
+        <>
+          <VideoInputsSection
+            savedOptions={draft.baseOptions}
+            defaultModel={draft.defaultModel}
+            value={draft.inputDrafts}
+            error={errors.inputs}
+            onChange={(inputDrafts) => set({ inputDrafts })}
+          />
+          <AdvancedSection
+            value={draft.advanced}
+            errors={errors.advanced ?? {}}
+            onChange={(patch) => set({ advanced: { ...draft.advanced, ...patch } })}
+            showApiVersion={false}
+            mediaOnly
+          />
+        </>
       )}
       <label className="row">
         <input
