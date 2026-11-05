@@ -36,7 +36,7 @@ Users who do not run local models, or whose organization uses a cloud service ot
 
 **Everywhere**
 
-- **FR-12 Cloud gate.** All new providers are cloud providers: they show the cloud badge, are refused while **Never send documents** is on, and their requests go through redaction, approval and the send log like Anthropic's (ADR-0031). Media prompts are redacted; the starting image is approved by its hash.
+- **FR-12 Cloud gate.** All new providers are cloud providers: they show the cloud badge, and their requests go through redaction, approval and the send log like Anthropic's (ADR-0031). **Never send documents** keeps document excerpts out of text requests, as for any cloud provider; media requests carry no excerpts, and their prompts are redacted and approved. The starting image is approved by its hash.
 - **FR-13 Health and errors.** **Test connection** checks the key with a cheap call (model list or account endpoint), never a paid generation. Errors are shown in plain words: invalid key, no credit, model not available, rate limited (with the retry time), content refused by the service.
 
 ### Non-functional requirements
@@ -103,7 +103,7 @@ New user guides under `docs/guides/providers/`: `openai.md`, `gemini.md`, `hoste
 
 - Contract tests per adapter against recorded or documented responses: success, polling, failure, content refusal, invalid key, rate limit, cancel, timeout; a fake HTTP server for the polling adapters.
 - openai-compatible: OpenAI `max_completion_tokens`, profile extras off, Azure header and query, images endpoint.
-- Renderer tests for the new dialog sections; gate tests that the new kinds are wrapped and refused under **Never send documents**.
+- Renderer tests for the new dialog sections; gate tests that the new kinds are remote and wrapped by the cloud gate.
 - `LIVE=1 LIVE_PAID=1` live tests with the smallest request each service allows, never in CI.
 
 ## Tasks
