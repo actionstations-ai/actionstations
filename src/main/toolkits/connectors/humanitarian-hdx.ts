@@ -4,11 +4,12 @@
 // structure for a scenario's country.
 //
 // HAPI asks every caller to identify itself with an application name and a contact address
-// (base64 of "name:address"). Both are entered by the user in Settings; neither is a secret and
-// neither is logged. Without them the connector refuses and the bundled sample data is used.
+// (base64 of "name:address"); it does not approve them. The app's own are sent unless the user
+// enters theirs in Settings. Neither is a secret and neither is logged (#1099).
 // The licence of each source dataset is read from data.humdata.org at fetch time and stored with
 // the data; a dataset whose licence is not an open one is marked for this scenario only.
 // Both hosts are fixed in code. Nothing runs without the user's consent.
+import { APP_CONTACT } from '../../case-data/http'
 import { AppError } from '../../lib/errors'
 import {
   type Connector,
@@ -27,6 +28,7 @@ const ISO3 = /^[A-Z]{3}$/
 const CODE = /^[A-Za-z0-9_-]{1,24}$/
 const APP = /^[A-Za-z0-9 ._-]{3,60}$/
 const CONTACT = /^[^\s@]{1,64}@[^\s@]{1,120}\.[A-Za-z]{2,24}$/
+export const APP_NAME = 'ActionStations'
 
 /** Licences that allow redistribution of the data in an exported pack. */
 const OPEN_LICENCES = /creative commons|\bcc[- ]by|\bcc0|public domain|open data commons|\bodc\b/i
@@ -45,12 +47,12 @@ interface Row {
 }
 
 export function identifier(q: ConnectorQuery): string {
-  const app = String(q.options.applicationName ?? '').trim()
-  const contact = String(q.options.contactEmail ?? '').trim()
+  const app = String(q.options.applicationName ?? '').trim() || APP_NAME
+  const contact = String(q.options.contactEmail ?? '').trim() || APP_CONTACT
   if (!APP.test(app) || !CONTACT.test(contact))
     throw new AppError(
       'VALIDATION',
-      'HDX asks for an application name and a contact address (Settings). Without them this source is off and the sample data is used.',
+      'The application name or contact address entered for HDX (Settings) is not valid. Leave both empty to use the app’s own.',
     )
   return Buffer.from(`${app}:${contact}`).toString('base64')
 }

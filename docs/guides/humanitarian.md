@@ -23,7 +23,10 @@ Turn it on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The
 
 ## Data you can bring in
 
-Two sources can seed a scenario with real structure. Both are off until you enter your own application name in **Settings**; it identifies your copy of the app and is not a secret. Without it the app uses sample data.
+Two sources can seed a scenario with real structure. Neither needs a key.
+
+- The Humanitarian Data Exchange works without setup: the app identifies itself with its own name and help@actionstations.ai. You can enter your own application name and contact in **Settings** instead.
+- ReliefWeb only answers application names it has approved. It stays off until you enter an approved name in **Settings**, and until then the app uses sample data.
 
 - **Operational presence (3W) by country** from the Humanitarian Data Exchange: which organizations report work in which sector and admin area. The licence of the source dataset is read when you fetch and kept with the data; data under a licence that does not allow redistribution stays in your scenario and is left out of exported packs.
 - **ReliefWeb report titles** for a country and period, for a timeline. Only titles, dates, sources and links are kept.
