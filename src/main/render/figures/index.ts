@@ -38,6 +38,8 @@ import './justice'
 import './lab'
 // Field kinds register themselves when imported (pharmacy).
 import './pharmacy'
+// Field kinds register themselves when imported (logistics).
+import './logistics'
 
 export {
   FigureOutput,
