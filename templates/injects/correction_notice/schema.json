@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Correction or retraction notice",
+  "description": "A published notice that names what was wrong and what is right, where and when the error ran, and who corrected it. A retraction withdraws the story. Do not repeat the false claim as a headline. Outlet and people are fictional.",
+  "type": "object",
+  "required": ["publisher", "wasWrong", "isRight"],
+  "properties": {
+    "publisher": {
+      "type": "string",
+      "description": "Outlet or organization issuing the notice (fictional)",
+      "examples": ["The Lakeshore Courier"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time of the notice",
+      "examples": ["November 4, 2026 · 7:20 PM ET"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Notice headline",
+      "examples": ["Correction: video of the plant fire was filmed in 2022"]
+    },
+    "original": {
+      "type": "string",
+      "description": "Where and when the error ran",
+      "examples": ["A web article and a push alert published at 5:42 PM ET on November 4."]
+    },
+    "wasWrong": {
+      "type": "string",
+      "description": "What was wrong, stated once, plainly",
+      "examples": [
+        "The article said a video showed a fire at the Halyard Components plant on Tuesday."
+      ]
+    },
+    "isRight": {
+      "type": "string",
+      "description": "What is right",
+      "examples": [
+        "The video was filmed at a different facility in 2022. There was no fire at the plant on Tuesday."
+      ]
+    },
+    "actionTaken": {
+      "type": "string",
+      "description": "What was done: removed, updated, notified",
+      "examples": ["The video was removed from the article and the push alert was withdrawn."]
+    },
+    "editor": {
+      "type": "string",
+      "description": "Who issued it",
+      "examples": ["Standards Editor, The Lakeshore Courier"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

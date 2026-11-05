@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JIC briefing schedule",
+  "description": "A Joint Information Center schedule of briefings, releases and deadlines for an operational period, with the speaker or agency and the channel. The JIC and agencies are fictional.",
+  "type": "object",
+  "required": ["jic", "incident", "period", "rows"],
+  "properties": {
+    "jic": {
+      "type": "string",
+      "description": "Joint Information Center name (fictional)",
+      "examples": ["Lakeshore County Joint Information Center"],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Tropical Storm Marlow response"]
+    },
+    "period": {
+      "type": "string",
+      "description": "Operational period",
+      "examples": ["Operational period 3: Nov 4, 6:00 AM to Nov 5, 6:00 AM ET"],
+      "x-translate": false
+    },
+    "rows": {
+      "type": "array",
+      "description": "Scheduled items in time order",
+      "items": {
+        "type": "object",
+        "required": ["time", "event"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["3:00 PM"],
+            "x-translate": false
+          },
+          "event": {
+            "type": "string",
+            "description": "Briefing, release or deadline",
+            "examples": ["Media briefing: road closures and shelters"]
+          },
+          "who": {
+            "type": "string",
+            "description": "Speaker or agency",
+            "examples": ["County Executive; Sheriff"],
+            "x-translate": false
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel or location",
+            "examples": ["EOC briefing room; livestream"],
+            "x-translate": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes: approval route, rumor control reminders",
+      "examples": [
+        "All releases clear the Lead PIO before posting. Rumor control page updates at 2:00 PM and 6:00 PM."
+      ]
+    },
+    "leadPio": {
+      "type": "string",
+      "description": "Lead PIO",
+      "examples": ["Lead PIO: Jordan Ellis"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

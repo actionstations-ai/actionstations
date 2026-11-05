@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Holding statement / full statement",
+  "description": "A public statement on organization letterhead. The default variant is a holding statement: the first public words, short (under 150 words), with what is known, what is not yet known and what is being done, when the next update comes and a media contact. The full variant is a complete statement with a body. The organization, people and outlets are fictional.",
+  "type": "object",
+  "required": ["org", "headline", "issuedAt"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Issuing organization on the letterhead (fictional)",
+      "examples": ["Halyard Components, Inc."],
+      "x-translate": false
+    },
+    "orgAddress": {
+      "type": "string",
+      "description": "Address or web line under the organization name",
+      "examples": ["400 Foundry Road · Lakeshore, Ohio"],
+      "x-translate": false
+    },
+    "kindLabel": {
+      "type": "string",
+      "description": "Document label at the top right",
+      "examples": ["Holding statement", "Statement"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time of issue with time zone, consistent with the exercise clock",
+      "examples": ["November 4, 2026 · 3:10 PM ET"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Statement headline, sentence case, plain words",
+      "examples": ["Halyard Components is investigating unauthorized access to a company system"]
+    },
+    "known": {
+      "type": "array",
+      "description": "What is known now: short, confirmed facts only (holding statement)",
+      "items": { "type": "string" },
+      "maxItems": 6,
+      "examples": [
+        ["On Tuesday morning our security team detected unauthorized access to a file server."]
+      ]
+    },
+    "notKnown": {
+      "type": "array",
+      "description": "What is not yet known: say so plainly (holding statement)",
+      "items": { "type": "string" },
+      "maxItems": 6,
+      "examples": [["We have not determined whether customer information was affected."]]
+    },
+    "beingDone": {
+      "type": "array",
+      "description": "What the organization is doing now (holding statement)",
+      "items": { "type": "string" },
+      "maxItems": 6,
+      "examples": [["We isolated the affected server and engaged outside forensic specialists."]]
+    },
+    "body": {
+      "type": "string",
+      "description": "Full statement text, blank lines between paragraphs (full variant)",
+      "examples": ["Halyard Components today confirmed..."]
+    },
+    "quote": {
+      "type": "string",
+      "description": "Optional quote from the spokesperson, attributed in speakerName",
+      "examples": ["Our priority is protecting our customers and employees."]
+    },
+    "speakerName": {
+      "type": "string",
+      "description": "Spokesperson name and title (fictional)",
+      "examples": ["Dana Whitfield, Vice President of Communications"],
+      "x-translate": false
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update will be issued",
+      "examples": ["We will provide another update by 6:00 PM ET today."]
+    },
+    "mediaContact": {
+      "type": "string",
+      "description": "Media contact line (fictional name, 555 phone)",
+      "examples": ["Media: Priya Raman · (216) 555-0142 · media@halyard.example"],
+      "x-translate": false
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Who approved release (shown small in the footer)",
+      "examples": ["Approved for release: General Counsel and CEO, 3:05 PM ET"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

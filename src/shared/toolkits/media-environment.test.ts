@@ -1,6 +1,6 @@
 // The bundled media environment toolkit and crisis communications domain (spec 0458): the files
 // parse, every domain suggests the toolkit, and a brief about the press proposes it.
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { DomainProfile } from '../domains/schema'
@@ -29,7 +29,28 @@ describe('media_environment toolkit', () => {
   it('reuses existing inject types rather than copying them', () => {
     for (const t of ['tweet', 'news_article', 'press_release', 'reporter_email'])
       expect(toolkit.injectTypes).toContain(t)
-    for (const t of toolkit.injectTypes) expect(INJECT_TYPE_IDS, t).toContain(t)
+    // Every type is built in or ships as a template in the repo (bundled in the same pack).
+    for (const t of toolkit.injectTypes)
+      expect(
+        INJECT_TYPE_IDS.includes(t) || existsSync(resolve('templates/injects', t, 'template.html')),
+        t,
+      ).toBe(true)
+  })
+
+  it('adds the ten communications templates the spec names', () => {
+    for (const t of [
+      'holding_statement',
+      'message_map',
+      'media_advisory',
+      'correction_notice',
+      'wire_alert',
+      'broadcast_rundown',
+      'verification_note',
+      'jic_schedule',
+      'live_blog',
+      'push_alert',
+    ])
+      expect(toolkit.injectTypes).toContain(t)
   })
 
   it('states that fictional names and simulated models are the rule', () => {

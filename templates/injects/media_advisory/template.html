@@ -1,0 +1,45 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{fields.org}}</div>
+    <div class="kind">{{t 'Media advisory'}}</div>
+  </header>
+  {{#if fields.issuedAt}}
+  <div class="issued">{{fields.issuedAt}}</div>
+  {{/if}}
+  <h1 class="headline">{{fields.headline}}</h1>
+  <table class="facts">
+    <tr>
+      <th scope="row">{{t 'What'}}</th>
+      <td>{{fields.what}}</td>
+    </tr>
+    <tr>
+      <th scope="row">{{t 'When'}}</th>
+      <td>{{fields.when}}</td>
+    </tr>
+    <tr>
+      <th scope="row">{{t 'Where'}}</th>
+      <td>{{fields.where}}</td>
+    </tr>
+    {{#if fields.who}}
+    <tr>
+      <th scope="row">{{t 'Who'}}</th>
+      <td>{{fields.who}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  {{#if fields.details}}
+  <p>{{fields.details}}</p>
+  {{/if}} {{#if fields.mediaContact}}
+  <p class="contact">{{fields.mediaContact}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span></span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

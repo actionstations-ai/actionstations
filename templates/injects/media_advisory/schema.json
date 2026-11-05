@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Media advisory",
+  "description": "A short notice inviting reporters to an event such as a press conference: who, what, when, where, and who will speak, with a media contact. The organization and people are fictional.",
+  "type": "object",
+  "required": ["org", "headline", "what", "when", "where"],
+  "properties": {
+    "org": {
+      "type": "string",
+      "description": "Organization (fictional)",
+      "examples": ["Lakeshore County Joint Information Center"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["November 4, 2026 · 1:15 PM ET"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Advisory headline",
+      "examples": ["County officials to brief media on storm response at 3 PM"]
+    },
+    "what": {
+      "type": "string",
+      "description": "What the event is",
+      "examples": [
+        "News conference on road closures, shelters and the rumor about the water supply"
+      ]
+    },
+    "when": {
+      "type": "string",
+      "description": "Date and time of the event",
+      "examples": ["Wednesday, November 4, 2026 · 3:00 PM ET"],
+      "x-translate": false
+    },
+    "where": {
+      "type": "string",
+      "description": "Location or livestream",
+      "examples": [
+        "County Emergency Operations Center, 120 Harbor Street; livestream on the county website"
+      ],
+      "x-translate": false
+    },
+    "who": {
+      "type": "string",
+      "description": "Who will speak",
+      "examples": ["County Executive; Sheriff; Director of Public Works"]
+    },
+    "details": {
+      "type": "string",
+      "description": "Logistics: parking, credentials, questions policy",
+      "examples": ["Reporters should check in at the front desk. A question period follows."]
+    },
+    "mediaContact": {
+      "type": "string",
+      "description": "Media contact (fictional name, 555 phone)",
+      "examples": ["Media: Jordan Ellis · (216) 555-0177"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
