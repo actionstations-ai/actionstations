@@ -1,6 +1,6 @@
 // The wildfire domain content (spec 0461 FR-1, FR-2): valid against the schema, with the
 // threat families and arcs the research dossier names, and consistent with the other packs.
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { DomainProfile, THREAT_FAMILY_IDS } from '@shared/domains/schema'
@@ -111,5 +111,42 @@ describe('wildfire toolkit', () => {
   })
   it('is the toolkit the domain suggests', () => {
     expect(domain.suggestedToolkits).toContain('wildfire')
+  })
+})
+
+describe('reuse by other domains (spec 0461 FR-17)', () => {
+  const REUSERS = [
+    'healthcare',
+    'k12_schools',
+    'campus',
+    'energy_utility',
+    'water_utility',
+    'water_dam',
+    'telecom',
+    'transit',
+    'freight_rail',
+    'airport',
+    'stadium_venue',
+    'food_agriculture',
+    'municipal',
+    'emergency_communications',
+    'public_health',
+  ]
+  it.each(REUSERS)('%s suggests the wildfire toolkit and the toolkit is proposed to it', (id) => {
+    const profile = DomainProfile.parse(read(`packs/domains/${id}.json`))
+    expect(profile.suggestedToolkits).toContain('wildfire')
+    expect(toolkit.appliesTo.domains).toContain(id)
+  })
+  it('suggests weather and wildfire together for the utility and municipal profiles', () => {
+    for (const id of ['energy_utility', 'municipal']) {
+      const profile = DomainProfile.parse(read(`packs/domains/${id}.json`))
+      expect(profile.suggestedToolkits).toEqual(expect.arrayContaining(['weather', 'wildfire']))
+    }
+  })
+  it('lists only domains that exist', () => {
+    const files = new Set(
+      readdirSync(resolve('packs/domains')).map((f) => f.replace(/\.json$/, '')),
+    )
+    for (const d of toolkit.appliesTo.domains) expect(files.has(d), d).toBe(true)
   })
 })
