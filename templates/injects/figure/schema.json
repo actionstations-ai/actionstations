@@ -4,7 +4,10 @@
   "type": "object",
   "required": ["figures"],
   "properties": {
-    "heading": { "type": "string", "description": "Heading above the figure" },
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure"
+    },
     "source": {
       "type": "string",
       "description": "Where the numbers come from, for example 'Plant historian, 14:00 to 16:00'"
@@ -15,7 +18,7 @@
     },
     "figures": {
       "type": "object",
-      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline, hydrograph, flood_gauge_summary, river_profile, rain_stage.",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline, hydrograph, flood_gauge_summary, river_profile, rain_stage, triage_counts, patient_tracking_board, hospital_capacity_board, protective_action_zone.",
       "required": ["main"],
       "properties": {
         "main": {
@@ -35,7 +38,11 @@
                 "hydrograph",
                 "flood_gauge_summary",
                 "river_profile",
-                "rain_stage"
+                "rain_stage",
+                "triage_counts",
+                "patient_tracking_board",
+                "hospital_capacity_board",
+                "protective_action_zone"
               ]
             },
             "data": {
@@ -45,8 +52,12 @@
             "options": {
               "type": "object",
               "properties": {
-                "width": { "type": "number" },
-                "height": { "type": "number" }
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
               },
               "additionalProperties": false
             }

@@ -37,6 +37,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Structured decisions: a toolkit can define decision forms; players fill them in under More, Decisions (queued offline like messages) and the facilitator can record one in the Live tab with or without devices. Decisions are sealed to the controller, checked against the form, and logged with the exercise time and the session's attribution level (#654).
 - **EMS, fire and hazmat domain and the mass casualty toolkit**: an `ems_fire` domain profile with five response threat families, and a Mass casualty and triage toolkit with a triage tag, MCI patient list, Medical Branch worksheet, treatment area assignments, transportation log and hospital call record, plus the decisions a Medical Group makes. (#790, #850)
 - **Hazmat and dispatch toolkits**: placards, shipping paper, entry briefing, air monitoring, decontamination corridor and protective action orders (no Emergency Response Guidebook text or tables are bundled; distances are entered or invented and labeled), plus CAD incident, unit status, pending calls, radio traffic, station alert and mutual aid views. (#799, #806)
+- **EMS and hazmat figures**: triage counts by priority, a patient tracking board, a hospital capacity board and an isolation and protective action zone plan (circle and downwind square from the wind, with a data table and the source of the distances). Every priority is a word and a pattern, not only a color. (#796, #802)
 
 ## [0.7.1] - 2026-11-05
 
