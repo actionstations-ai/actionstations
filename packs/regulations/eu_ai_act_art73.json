@@ -1,0 +1,99 @@
+{
+  "id": "eu_ai_act_art73",
+  "label": "EU AI Act Article 73 serious incident reporting",
+  "jurisdiction": "EU",
+  "authority": "Market surveillance authority of the member state where the incident occurred",
+  "citation": "Regulation (EU) 2024/1689, Article 73 (definitions in Article 3(49) and 3(61))",
+  "sources": [
+    {
+      "title": "Regulation (EU) 2024/1689 (AI Act), EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    },
+    {
+      "title": "AI Act Article 73 text, AI Act Service Desk and Future of Life Institute explorer",
+      "url": "https://artificialintelligenceact.eu/article/73/"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "Binds providers of high-risk AI systems placed on the Union market; deployers give the provider the information. A company defrauded by a deepfake, with no AI system of its own involved, has a fraud and cyber incident, not an Article 73 incident. This is not legal advice: check which of your own plans and which role (provider, deployer or victim) applies. The application dates were changed in 2026 by the amending act known as the Digital Omnibus on AI; the dates below come from secondary summaries and must be checked against the Official Journal text.",
+  "verifiedOn": "2026-11-05",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "aware_serious_incident",
+      "label": "Provider became aware of a serious incident",
+      "hint": "Any serious incident of a high-risk system. Report immediately after the causal link is established or reasonably likely."
+    },
+    {
+      "id": "aware_widespread",
+      "label": "Provider became aware of a widespread infringement or a critical infrastructure incident",
+      "hint": "A widespread infringement (Article 3(61)) or a serious incident of the kind in Article 3(49)(b)."
+    },
+    {
+      "id": "aware_death",
+      "label": "Provider became aware of a death",
+      "hint": "Start when the provider is aware of the death and a causal relationship is established or suspected."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "serious_incident_report",
+      "label": "Serious incident report (15 days)",
+      "recipient": "Market surveillance authority",
+      "dueAt": [
+        {
+          "from": "aware_serious_incident",
+          "amount": 15,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Immediately after the causal link is established or reasonably likely, and in any event not later than 15 days after the provider becomes aware. An incomplete initial report is allowed, followed by a complete one.",
+      "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
+    },
+    {
+      "id": "widespread_report",
+      "label": "Widespread infringement or critical infrastructure report (2 days)",
+      "recipient": "Market surveillance authority",
+      "dueAt": [
+        {
+          "from": "aware_widespread",
+          "amount": 2,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Immediately, and not later than two days after the provider becomes aware. An incomplete initial report is allowed.",
+      "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
+    },
+    {
+      "id": "death_report",
+      "label": "Death report (10 days)",
+      "recipient": "Market surveillance authority",
+      "dueAt": [
+        {
+          "from": "aware_death",
+          "amount": 10,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Immediately once a causal relationship is established or suspected, and not later than 10 days after the provider becomes aware of the death.",
+      "injectTypes": ["serious_incident_notice", "regulatory_report_form"]
+    }
+  ],
+  "dates": [
+    {
+      "label": "Annex III stand-alone high-risk systems apply",
+      "date": "2027-12-02",
+      "note": "Secondary summaries of the 2026 amendment. Check the Official Journal text."
+    },
+    {
+      "label": "Annex I embedded high-risk products apply",
+      "date": "2028-08-02",
+      "note": "Secondary summaries of the 2026 amendment. Check the Official Journal text."
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["ai_system_malfunction", "ai_data_poisoning", "ai_service_degradation"],
+    "note": "Providers of high-risk AI systems. Choose the scenario role (provider, deployer, victim of fraud) before using these clocks."
+  }
+}

@@ -35,6 +35,7 @@ describe('bundled regulations', () => {
     expect(regulations.map((r) => r.reg.id).sort()).toEqual([
       'circia',
       'dora_art19',
+      'eu_ai_act_art73',
       'gdpr_art33',
       'hipaa_breach',
       'nis2_art23',

@@ -66,7 +66,7 @@ describe('compliance handlers', () => {
     const { projectPath } = await setup()
     const list = ok<List>(await dispatch(handlers, 'compliance:list', { projectPath }))
     const by = (id: string) => list.regulations.find((r) => r.regulation.id === id)!
-    expect(list.regulations).toHaveLength(9)
+    expect(list.regulations).toHaveLength(10)
     expect(by('tsa_aviation_cyber')).toMatchObject({
       enabled: true,
       suggested: true,
