@@ -6,9 +6,14 @@ import { MB, caseBytes, readManifest, removeDataset, saveTimeMapping } from '../
 import { packAppVersion } from '../../packs/app-version'
 import { requireProject } from '../../project/guard'
 import { getSettings, updateSettings } from '../../settings/store'
+import { registerBuiltinConnectors } from '../../toolkits/connectors'
+import { registerFloodGenerators } from '../../toolkits/flooding'
 import { listConnectors } from '../../toolkits/connectors/registry'
 import '../../toolkits/generator-modules'
 import { defineHandlers } from '../registry'
+
+registerBuiltinConnectors()
+registerFloodGenerators()
 
 /** Swapped in tests: the fetch and the clock. */
 export const caseDeps: { fetchImpl: typeof fetch | undefined; now: () => Date } = {
