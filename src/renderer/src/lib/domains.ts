@@ -52,6 +52,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
       'industrial',
       'chemical',
       'environmental_response',
+      'construction',
       'food_agriculture',
       'animal_health',
     ],

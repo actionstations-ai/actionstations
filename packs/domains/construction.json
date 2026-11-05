@@ -1,0 +1,774 @@
+{
+  "id": "construction",
+  "label": "Construction, engineering and the built environment",
+  "description": "The people who build and inspect buildings: a general contractor's project team (project executive, project manager, site superintendent, safety director and the competent persons for excavations, scaffolds and cranes), an owner and design team (owner's representative, engineer of record, geotechnical engineer, special inspector), a building department with a post-disaster building evaluation program (building official, inspection team leaders, volunteer evaluators and the emergency operations center that asks for them), and an engineering or construction management class that runs the same cases as teaching exercises. The site is where a crane, a trench, a scaffold or a half-built frame can hurt people in a minute; the building department and the evaluators are where an earthquake or storm turns into hundreds of buildings that each need one decision. Authority is specific and the profile keeps it that way: a competent person or the superintendent stops work, the engineer of record decides structural adequacy, the building official declares a building unsafe, and rescue is run by the fire department and its technical rescue or urban search and rescue teams, not by the contractor. Placards describe the building at the time it was evaluated, in words as well as color: INSPECTED (green), RESTRICTED USE (yellow) and UNSAFE (red). Reporting clocks are 8 hours for a work-related fatality and 24 hours for an in-patient hospitalization, amputation or loss of an eye. Every product is an exercise product and is not a safety evaluation of any real structure.",
+  "aliases": [
+    "contractor",
+    "general_contractor",
+    "construction_site",
+    "jobsite",
+    "construction_safety",
+    "structural_engineering",
+    "engineer_of_record",
+    "building_official",
+    "building_department",
+    "code_enforcement",
+    "building_safety_evaluation",
+    "rapid_assessment",
+    "excavation",
+    "trench",
+    "scaffold",
+    "demolition",
+    "structural_collapse"
+  ],
+  "vocabulary": {
+    "facility": "the construction site (laydown yard, excavations, cranes and the structure going up) and the buildings the evaluation program must walk",
+    "public": "neighbors and occupants of adjacent buildings, passers-by, building owners and tenants waiting to return, and the families of workers",
+    "frontline": "the superintendent, foremen, competent persons, crane operators and signal persons, ironworkers, laborers, special inspectors and volunteer building safety evaluators",
+    "operationsCenter": "the site trailer and the contractor's incident command post, or the emergency operations center that tasks the building evaluation teams"
+  },
+  "factCategories": [
+    {
+      "id": "cranes",
+      "label": "Cranes",
+      "noun": "Tower Cranes?|Mobile Cranes?|Crawler Cranes?|Cranes?",
+      "context": "crane|lift|pick|hoist|boom|swing|load chart|wind|rigging",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "excavations",
+      "label": "Excavations and trenches",
+      "noun": "Excavations?|Trenches|Trench|Shafts?",
+      "genericNoun": "Pits?",
+      "context": "trench|excavat|shoring|trench box|cave-in|sloping|competent person|spoil|utility",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "buildings",
+      "label": "Buildings under evaluation",
+      "noun": "Buildings?|Structures?",
+      "genericNoun": "Sites?",
+      "context": "placard|evaluat|inspect|damage|unsafe|restricted use|assessment|parcel|occupan",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "zones",
+      "label": "Exclusion, evaluation and collapse zones",
+      "noun": "Exclusion Zones?|Collapse Zones?|Evaluation Zones?|Inspection Zones?|Zones?",
+      "context": "exclusion|collapse|evaluat|inspect|swing radius|muster|evacuat|fall zone",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "teams",
+      "label": "Evaluation teams",
+      "noun": "Evaluation Teams?|Inspection Teams?|Strike Teams?|Teams?",
+      "context": "evaluat|inspect|placard|assignment|shift|rapid assessment|strike team",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "monitoring_points",
+      "label": "Monitoring points",
+      "noun": "Crack Gauges?|Tiltmeters?|Settlement Points?|Load Cells?|Strain Gauges?|Monitoring Points?",
+      "context": "crack|tilt|settlement|shoring|load|alarm|threshold|monitor|data logger",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "project management software with the schedule, RFIs, submittals and change orders",
+      "daily reports, inspection checklists and the incident reporting app",
+      "document control with drawings, as-builts and the crane lift plans",
+      "site sign-in and worker credential records",
+      "building department permit and inspection software",
+      "post-disaster evaluation forms, team sign-in and assignment maps",
+      "emergency notification and mass text for workers and neighbors",
+      "email and the company website",
+      "social media accounts",
+      "helpdesk / ITSM"
+    ],
+    "ot": [
+      "crane load moment indicators and anemometers",
+      "structural monitoring data loggers with crack gauges, tiltmeters, strain gauges, settlement points and load cells on shoring",
+      "vibration monitors and survey prisms",
+      "temporary site power and lighting",
+      "site cameras, access control gates and drones used for surveys",
+      "site radios and the emergency alarm horn",
+      "trench boxes, shoring and dewatering pumps",
+      "fire alarm and standpipe systems in the building under construction"
+    ]
+  },
+  "roles": [
+    {
+      "key": "project_executive",
+      "name": "Project Executive / Operations Manager",
+      "abbreviation": "PE",
+      "team": "Team A: Company management",
+      "description": "Owns the company response: owner and insurer notice, media, resources and the decision to restart after a stop."
+    },
+    {
+      "key": "project_manager",
+      "name": "Project Manager",
+      "abbreviation": "PM",
+      "team": "Team B: Project team",
+      "description": "Carries the schedule and cost pressure, talks to the owner, and answers for the consequences of a stop-work order."
+    },
+    {
+      "key": "superintendent",
+      "name": "Site Superintendent",
+      "abbreviation": "SUPT",
+      "team": "Team C: Site",
+      "description": "Stops work, orders the site evacuated, directs the site until responders arrive and preserves the scene."
+    },
+    {
+      "key": "safety_director",
+      "name": "Construction Safety Director / Site Safety Manager",
+      "abbreviation": "SAFE",
+      "team": "Team D: Safety",
+      "description": "Holds stop-work authority, makes the OSHA reports, leads the incident investigation and changes the site safety plan."
+    },
+    {
+      "key": "competent_person",
+      "name": "Competent Person (excavation, scaffold or crane)",
+      "abbreviation": "CP",
+      "team": "Team C: Site",
+      "description": "Inspects the work area daily and after a hazard-increasing event, and removes workers from the hazard until precautions are taken."
+    },
+    {
+      "key": "lift_director",
+      "name": "Crane Operator / Lift Director / Signal Person",
+      "abbreviation": "CRANE",
+      "team": "Team C: Site",
+      "description": "Follows the lift plan and load chart, watches the wind limit and stops the lift."
+    },
+    {
+      "key": "engineer_of_record",
+      "name": "Engineer of Record (structural)",
+      "abbreviation": "EOR",
+      "team": "Team E: Design and owner",
+      "description": "Decides structural adequacy, designs repair or shoring, and says whether a building can be occupied."
+    },
+    {
+      "key": "geotechnical_engineer",
+      "name": "Geotechnical Engineer",
+      "abbreviation": "GEO",
+      "team": "Team E: Design and owner",
+      "description": "Classifies the soil, advises on trench protective systems and slope stability, and reads groundwater."
+    },
+    {
+      "key": "special_inspector",
+      "name": "Special Inspector / Third-party Inspector",
+      "abbreviation": "INSP",
+      "team": "Team E: Design and owner",
+      "description": "Holds hold points and writes deficiency reports that the owner and contractor must answer."
+    },
+    {
+      "key": "owner_rep",
+      "name": "Owner's Representative",
+      "abbreviation": "OWN",
+      "team": "Team E: Design and owner",
+      "description": "Decides schedule and money questions and speaks for the owner to the public."
+    },
+    {
+      "key": "building_official",
+      "name": "Building Official / Code Official",
+      "abbreviation": "BO",
+      "team": "Team F: Building department",
+      "description": "Issues stop orders, declares buildings unsafe, authorizes placards and decides re-entry."
+    },
+    {
+      "key": "evaluation_team_leader",
+      "name": "Inspection Team Leader / Strike Team Coordinator",
+      "abbreviation": "ITL",
+      "team": "Team G: Evaluation program",
+      "description": "Assigns areas and teams, watches throughput, checks the consistency of placards and reports counts to the building official."
+    },
+    {
+      "key": "building_evaluator",
+      "name": "Building Safety Evaluator (volunteer engineer, architect or inspector)",
+      "abbreviation": "EVAL",
+      "team": "Team G: Evaluation program",
+      "description": "Walks a building, fills in the rapid or detailed evaluation, recommends a placard and reports to the team leader."
+    },
+    {
+      "key": "construction_pio",
+      "name": "Public Information Officer / Communications Manager",
+      "abbreviation": "PIO",
+      "team": "Team H: Public information",
+      "description": "Drafts holding statements and neighbor notices for the company or the jurisdiction and answers media, with the owner's and the building official's approval."
+    },
+    {
+      "key": "emergency_manager",
+      "name": "Emergency Manager / EOC liaison (outside party)",
+      "abbreviation": "EM",
+      "team": "Outside parties",
+      "description": "Requests evaluators and sets priorities: hospitals, shelters and schools first."
+    },
+    {
+      "key": "structural_specialist",
+      "name": "Urban Search and Rescue Structural Specialist (outside party)",
+      "abbreviation": "SS",
+      "team": "Outside parties",
+      "description": "Assesses collapse hazards, designs shoring and says when it is safe for rescuers to enter."
+    }
+  ],
+  "outsideParties": [
+    "the OSHA area office or the state occupational safety plan",
+    "the fire department, EMS and 911 dispatch",
+    "the fire department's technical rescue team or a state urban search and rescue task force",
+    "the city or county building department",
+    "the owner and the owner's lender",
+    "gas, electric, water and telecom utilities and the one-call center",
+    "adjacent building owners and neighbors",
+    "the insurer and the surety",
+    "subcontractors and the union steward",
+    "NIOSH and state or federal investigators",
+    "the emergency operations center and the state emergency management agency",
+    "local media"
+  ],
+  "mediaChannels": [
+    "a neighbor's video of the crane boom on Facebook and Nextdoor",
+    "a passer-by's post on X/Twitter with the street name",
+    "the local TV station's helicopter view of the site",
+    "the contractor's and the owner's company pages",
+    "a trade association's member chat",
+    "a worker's family group chat",
+    "the city's emergency management page"
+  ],
+  "sceneAnchors": {
+    "public": "on a city sidewalk beside a construction fence with a green mesh screen: a tower crane above the roofline, orange barricades, a hand-lettered detour sign, passers-by looking up, daylight",
+    "control": "inside a construction site trailer: a rolled drawing set on a table, a wall schedule with colored bars, a radio charger, hard hats on hooks, a whiteboard with a headcount, fluorescent light",
+    "exterior": "at the edge of an open utility trench: a yellow trench box, a ladder, spoil piled back from the edge, a backhoe, orange utility flags, caution tape and a gray sky"
+  },
+  "injectTypes": [
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "911_cad_entry",
+    "pa_announcement",
+    "text_message",
+    "email",
+    "email_forward",
+    "memo",
+    "sitrep",
+    "scene_photo",
+    "cctv_still",
+    "regulatory_report_form",
+    "regulatory_notice",
+    "official_letter",
+    "helpdesk_ticket",
+    "alarm_summary",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip"
+  ],
+  "threatFamilies": [
+    "construction_site_emergency",
+    "structural_collapse_rescue",
+    "post_disaster_inspection",
+    "professional_dilemma",
+    "site_security_theft",
+    "construction_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "construction_site_emergency",
+      "label": "Site emergency (crane, trench, fall, fire, utility strike)",
+      "description": "A warning sign or an event on an active site (a boom out of plumb in rising wind, a wall slough in a trench, a worker fall, a fire in the building under construction, a backhoe through a gas line) forces a stop-work and evacuation decision before anyone has proof.",
+      "keywords": [
+        "crane",
+        "dropped load",
+        "boom",
+        "trench",
+        "excavation",
+        "cave-in",
+        "scaffold",
+        "fall from height",
+        "utility strike",
+        "gas line strike",
+        "stop work",
+        "job site",
+        "construction site"
+      ],
+      "phaseArc": [
+        {
+          "title": "Warning sign",
+          "goal": "Players see the first sign (a wind log near the lift limit, a sloughing trench wall, a monitoring alarm) and decide whether to stop on a hint.",
+          "beats": [
+            "A competent person's daily inspection notes a condition",
+            "The wind log or a monitoring series moves toward its limit",
+            "The schedule pressure to finish the lift or the pour is stated"
+          ]
+        },
+        {
+          "title": "Stop work and evacuation",
+          "goal": "The event or the alarm forces a stop-work, an evacuation of the site or a neighbor building and a headcount.",
+          "beats": [
+            "The superintendent or safety director stops the work",
+            "Workers are removed from the hazard and the muster count starts",
+            "911 is called and the exclusion zone is set"
+          ]
+        },
+        {
+          "title": "Response and notifications",
+          "goal": "First aid and rescue support run while the owner, insurer and OSHA are told on their clocks.",
+          "beats": [
+            "A worker is injured or missing and first aid is given",
+            "A utility is asked to shut off a line",
+            "The 8-hour or 24-hour OSHA clock starts and the owner and insurer are told"
+          ]
+        },
+        {
+          "title": "Investigation and restart",
+          "goal": "The scene is preserved, the cause is investigated and the restart is argued against the schedule.",
+          "beats": [
+            "OSHA or the building department arrives and asks for records",
+            "The owner asks when work resumes",
+            "A stand-down and a revised safety plan are weighed against the lost days"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "stop the lift and clear the swing radius on a rising wind reading, or finish the pick that is half done",
+        "pull workers out of the trench on a sloughing wall before the engineer arrives, or wait for the competent person's opinion",
+        "shut the gas main with a crew still inside the trench, or wait for the utility's truck"
+      ],
+      "clueKinds": "a daily inspection record with a noted condition, a wind log trending toward the load chart limit, an alarm threshold crossed on a monitoring series, a near-miss report from the shift before",
+      "hurdleKinds": "a headcount that does not match the sign-in log, a utility that does not answer in time, a radio channel that is blocked, a neighbor refusing to leave",
+      "keyCoordination": "the fire department and 911, the utility, and the owner",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Authority is specific: the competent person and the superintendent can stop work, the safety director can too, and the engineer of record decides structural adequacy. Use the OSHA clocks as summaries: a work-related fatality is reported within 8 hours and an in-patient hospitalization, amputation or loss of an eye within 24 hours. Excavation rules to rely on: a protective system at 5 feet or deeper unless in stable rock, a competent person's daily and post-rain inspection, a safe exit within 25 feet of lateral travel in a trench 4 feet deep or more, and workers removed from the hazard until precautions are taken. Do not state a depth threshold for engineered trench systems. Every product is an exercise product.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "structural_collapse_rescue",
+      "label": "Structural collapse and rescue support",
+      "description": "A partial collapse (a crane, a floor, a trench, an occupied building) leaves people trapped; the contractor and the engineer support a rescue run by the fire department and secure the scene.",
+      "keywords": [
+        "collapse",
+        "partial collapse",
+        "pancake",
+        "trapped",
+        "rescue",
+        "shoring",
+        "secondary collapse",
+        "technical rescue",
+        "occupied building",
+        "adjacent building"
+      ],
+      "phaseArc": [
+        {
+          "title": "Collapse and accounting",
+          "goal": "Players learn that something has fallen, call 911 and start an accounting of who was where.",
+          "beats": [
+            "A collapse or a falling element is reported",
+            "The sign-in log and the headcount disagree",
+            "911 is called and the rescue request is made"
+          ]
+        },
+        {
+          "title": "Hazard assessment and exclusion",
+          "goal": "The engineer and the rescue structural specialist assess what else can fall while an exclusion zone is set.",
+          "beats": [
+            "The engineer of record is asked what is still standing and why",
+            "Monitoring shows continued movement",
+            "Adjacent buildings and streets are cleared"
+          ]
+        },
+        {
+          "title": "Shoring and extrication",
+          "goal": "The rescue team shores and enters; the contractor supplies drawings, equipment and a person who knows the structure.",
+          "beats": [
+            "Rescuers ask for the drawings and the load path",
+            "Shoring materials and a crane are requested",
+            "A secondary hazard (gas, fire, a falling element) interrupts the rescue"
+          ]
+        },
+        {
+          "title": "Recovery and investigation",
+          "goal": "The rescue turns to recovery, the scene is preserved for investigators and the company and owner speak to the public.",
+          "beats": [
+            "Rescue ends and recovery begins",
+            "OSHA, the building department and investigators claim the scene",
+            "Families and the media ask for names and causes"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "keep rescuers out of a void until the engineer can say the floor above will hold, or let them enter on the fire department's judgment",
+        "evacuate the adjacent occupied building now on a movement alarm, or wait for the engineer to confirm",
+        "release the headcount to the families, or hold it until the sign-in log is reconciled"
+      ],
+      "clueKinds": "a monitoring series moving after the collapse, the as-built drawing of the load path, a sign-in log that does not match the headcount, a neighbor's video of the first movement",
+      "hurdleKinds": "a crane that cannot be used because it is part of the collapse, a rescue access route blocked by the fallen element, a gas smell, a monitoring logger that has lost power",
+      "keyCoordination": "the fire department's technical rescue team or the task force structural specialist, and the building official",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 5
+      },
+      "promptGuidance": "Keep rescue tactics with the fire department; the contractor and the engineer supply drawings, equipment, access and a structural opinion. The engineer of record decides structural adequacy of the building; the building official declares a building unsafe. State uncertainty about what is still standing as uncertainty. Use fictional workers, contractors and buildings.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "rescue|fire department|shoring|engineer|evacuat|exclusion",
+          "description": "the rescue, the engineer or the exclusion zone"
+        }
+      }
+    },
+    {
+      "id": "post_disaster_inspection",
+      "label": "Post-disaster building inspection program",
+      "description": "After an earthquake, windstorm or flood the jurisdiction must evaluate hundreds of buildings with a limited number of evaluators, post placards and report counts to the emergency operations center, hospitals, shelters and schools first.",
+      "keywords": [
+        "building inspection",
+        "rapid evaluation",
+        "damage assessment",
+        "placard",
+        "restricted use",
+        "unsafe building",
+        "building safety evaluator",
+        "post-earthquake",
+        "post-disaster",
+        "evaluation team",
+        "re-occupancy"
+      ],
+      "phaseArc": [
+        {
+          "title": "Request for evaluators",
+          "goal": "The jurisdiction sees the shaking or the wind and decides how many buildings need a look and how many evaluators it can seat.",
+          "beats": [
+            "The shaking map or the damage reports point to the worst areas",
+            "The EOC asks for evaluators and sets the priority buildings",
+            "A mutual aid request is weighed against credentialing"
+          ]
+        },
+        {
+          "title": "Assignments and rapid evaluations",
+          "goal": "Teams are assigned by area and priority, buildings are walked and the first placards go up.",
+          "beats": [
+            "The team leader assigns hospitals, shelters and schools first",
+            "Evaluators post the first INSPECTED and UNSAFE placards",
+            "An owner demands a placard change"
+          ]
+        },
+        {
+          "title": "Conflicts and detailed evaluations",
+          "goal": "Two placards disagree, an unsafe adjacent building changes a decision and detailed evaluations are requested.",
+          "beats": [
+            "The same condition is placarded two ways by two teams",
+            "An aftershock changes a building's condition",
+            "An engineer is requested for a detailed evaluation"
+          ]
+        },
+        {
+          "title": "Re-occupancy and closeout",
+          "goal": "Counts are reported, restrictions are lifted or kept and the program closes out.",
+          "beats": [
+            "The building official reports placard counts to the EOC",
+            "Owners ask for reinspection and re-occupancy",
+            "Volunteer evaluators are released and the records are kept"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "send the next team to the hospital annex or to the apartment block with more people",
+        "post RESTRICTED USE on a school gym with a cracked column or UNSAFE until the engineer sees it",
+        "pull a team off an assignment to chase an owner's complaint, or finish the block"
+      ],
+      "clueKinds": "a building's record with its construction type and occupancy, a shaking intensity for the block, a neighbor's report of a leaning wall, an evaluator's note that a placard disagrees with another team's",
+      "hurdleKinds": "an evaluator shortage, a credential dispute, a team without a building list, an owner who refuses to leave an unsafe building, an aftershock during an evaluation",
+      "keyCoordination": "the emergency operations center and the building official",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 25,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Placards are INSPECTED (green), RESTRICTED USE (yellow) and UNSAFE (red); the category is always written as words and the placard describes the building at the time it was evaluated. An evaluator recommends and the building official's program posts; the engineer of record is not the evaluator. Priorities are hospitals, shelters and schools, then other buildings. A rapid evaluation is not a structural analysis. Placards and forms follow the public methods in structure and wording but are new exercise templates.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "professional_dilemma",
+      "label": "Professional dilemma (schedule against safety)",
+      "description": "An engineer or inspector finds a deficiency and the owner wants to keep working; the case is about what is gathered, who is told and what is written down, not about one right answer.",
+      "keywords": [
+        "deficiency",
+        "ethics",
+        "schedule pressure",
+        "owner pressure",
+        "engineer of record",
+        "special inspector",
+        "keep working",
+        "hold point",
+        "professional judgment",
+        "cutting corners"
+      ],
+      "phaseArc": [
+        {
+          "title": "Deficiency found",
+          "goal": "An engineer or inspector finds something that does not match the drawings or the specification.",
+          "beats": [
+            "A field report notes a deficiency",
+            "The superintendent says the work is already covered",
+            "The inspector asks who else has seen it"
+          ]
+        },
+        {
+          "title": "Escalation",
+          "goal": "The finding moves up the chain and the first pressure arrives.",
+          "beats": [
+            "The engineer of record is told and asks for more information",
+            "The project manager warns about the schedule",
+            "The owner's representative asks if work can continue"
+          ]
+        },
+        {
+          "title": "Schedule pressure",
+          "goal": "The owner and contractor push; players weigh cost, delay and public safety.",
+          "beats": [
+            "A schedule recovery request lands with a penalty clause",
+            "A competitor's progress is mentioned",
+            "A colleague suggests a quiet fix"
+          ]
+        },
+        {
+          "title": "Decision and documentation",
+          "goal": "Players decide and document the decision, the people told and the reasons.",
+          "beats": [
+            "The engineer writes a letter or issues a stop on the affected work",
+            "The owner replies",
+            "The building official is told or not, and the record is kept"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "put the finding in writing and hold the pour, or accept a verbal assurance and let the work proceed",
+        "tell the building official now, or first give the owner a chance to fix it",
+        "sign the field report as written, or soften the wording after the project manager asks"
+      ],
+      "clueKinds": "a field report with a measurement, a mismatch between a drawing and an as-built photo, an email chain in which the wording is negotiated, a hold point that was signed off by someone who was not on site",
+      "hurdleKinds": "a missing record, an email chain that was deleted, an inspector who is off the project, a subcontractor who no longer answers",
+      "keyCoordination": "the owner and the building official",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 30,
+        "DECISION_POINT": 10,
+        "NOISE": 5
+      },
+      "promptGuidance": "This case has no single right answer and is scored on process: information gathered, escalation chain and documentation. The professional codes hold the safety, health and welfare of the public paramount; refer to that principle without quoting a code. Use fictional people and firms. Do not make the owner a villain; give each side a real reason.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "site_security_theft",
+      "label": "Site security, theft and trespass",
+      "description": "Material and equipment theft, trespass and vandalism on a site, kept brief; the case tests camera review, reporting and the work that continues around a crime scene.",
+      "keywords": [
+        "theft",
+        "stolen",
+        "copper theft",
+        "trespass",
+        "vandalism",
+        "break-in",
+        "security guard",
+        "site camera",
+        "stolen equipment"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "Players find missing material or equipment, or an intrusion alarm.",
+          "beats": [
+            "The morning walk finds a cut fence",
+            "A camera alert from overnight is found",
+            "A count of stored material comes up short"
+          ]
+        },
+        {
+          "title": "Report and review",
+          "goal": "The police report is made and the cameras are reviewed.",
+          "beats": [
+            "The police are called and a report number is given",
+            "Camera stills are matched to the gate log",
+            "A subcontractor's key is questioned"
+          ]
+        },
+        {
+          "title": "Safety effects",
+          "goal": "The theft or trespass has a safety effect (a stolen trench shoring, a removed guardrail, a cut cable) that players must find.",
+          "beats": [
+            "A removed guardrail is found on the third floor",
+            "Stolen copper has cut the power to the crane's lights",
+            "A trespasser is injured on site"
+          ]
+        },
+        {
+          "title": "Follow-up",
+          "goal": "Insurance, security upgrades and the schedule effect are handled.",
+          "beats": [
+            "The insurer asks for the claim records",
+            "The owner asks about guards",
+            "A statement is drafted for neighbors"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "stop work on the floor where guardrails were removed until it is checked, or keep the pour on schedule",
+        "report the missing equipment now, or wait to confirm it is not at another project",
+        "hire a night guard immediately, or wait for the owner to approve the cost"
+      ],
+      "clueKinds": "a camera still with a time stamp, a gate log entry, a count of material, a neighbor's note about a truck at night",
+      "hurdleKinds": "a camera that was offline, a gate log that was not kept, a key that cannot be traced, a police response that is delayed",
+      "keyCoordination": "the police and the insurer",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 15,
+        "DECISION_POINT": 10,
+        "NOISE": 15
+      },
+      "promptGuidance": "Keep it short and practical. Use fictional firms, people and equipment. A removed protective element is a safety issue, not only a loss.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security"
+      }
+    },
+    {
+      "id": "construction_service_degradation",
+      "label": "Service degradation (communications, loggers, evaluators)",
+      "description": "The tools that the response depends on fail or conflict: site communications go down, a data logger stops reporting, evaluators are short or two placards disagree.",
+      "keywords": [
+        "data logger failure",
+        "logger offline",
+        "radio failure",
+        "communications loss",
+        "evaluator shortage",
+        "conflicting placards",
+        "form system down",
+        "sensor dropout"
+      ],
+      "phaseArc": [
+        {
+          "title": "Something goes quiet",
+          "goal": "A monitoring series flat-lines, a radio channel fails or the evaluation forms system stops accepting submissions.",
+          "beats": [
+            "A monitoring alarm stops updating",
+            "A foreman reports a dead radio channel",
+            "The evaluation form app stalls"
+          ]
+        },
+        {
+          "title": "Is it the sensor or the structure",
+          "goal": "Players decide whether silence is a failure of the equipment or a sign of what it was measuring.",
+          "beats": [
+            "A manual reading is requested",
+            "Another logger shows movement",
+            "A competing explanation is offered"
+          ]
+        },
+        {
+          "title": "Work around it",
+          "goal": "Manual reads, runners and paper forms replace the failed system.",
+          "beats": [
+            "A runner carries paper forms",
+            "A manual survey reading is taken",
+            "Two teams placard the same condition differently"
+          ]
+        },
+        {
+          "title": "Reconcile",
+          "goal": "Records are reconciled and the cause of the degradation is recorded.",
+          "beats": [
+            "Logger data is recovered with a gap",
+            "Conflicting placards are reconciled by the team leader",
+            "A lesson for the safety plan is recorded"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "treat the silent tiltmeter as a failed sensor, or clear the area until a manual reading is taken",
+        "accept two conflicting placards for now, or send a third team to settle it",
+        "move to paper forms for the rest of the shift, or wait for the system to return"
+      ],
+      "clueKinds": "a flat-line in a monitoring series, a manual reading that disagrees with the logger, a form timestamp gap, a team report that conflicts with another",
+      "hurdleKinds": "a logger battery that failed, a radio channel jammed by traffic, an evaluator with no credentials, a printer with no paper",
+      "keyCoordination": "the engineer of record and the team leader",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 15,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "A flat monitoring series is ambiguous: say so, and give players a way to resolve it by a manual reading. Time the gap and say when it started. Do not state a cause until the exercise reveals it.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a supplier asking about a delivery window for rebar",
+    "a subcontractor's invoice dispute",
+    "a permit renewal reminder from the city",
+    "a request for a portable toilet service change",
+    "a vendor's brochure for a new scaffold system",
+    "a neighbor asking about the Saturday work hours"
+  ],
+  "pressureExamples": [
+    "an owner's representative asking if the pour can proceed while the engineer is reviewing",
+    "a reporter on the sidewalk asking how many workers were hurt",
+    "a neighbor posting a video of the boom with a wrong caption",
+    "a building owner demanding a placard change so tenants can return",
+    "a project manager citing a liquidated damages clause",
+    "a county commissioner asking why the school was not evaluated first"
+  ],
+  "rolePatterns": {
+    "public": "pio|public information|communications",
+    "technical": "engineer|geotechnical|inspector|logger|monitoring|crane",
+    "security": "police|security|law enforcement",
+    "operations": "superintendent|safety|competent|building official|team leader|project"
+  },
+  "agencyPattern": "OSHA|Occupational Safety and Health|NIOSH|FEMA|Applied Technology Council|ATC|ICC|International Code Council|NIST|building department|state emergency management|urban search and rescue|US&R",
+  "coreCapabilities": [
+    "operational_coordination",
+    "mass_search_and_rescue_operations",
+    "critical_transportation",
+    "infrastructure_systems",
+    "situational_assessment",
+    "public_information_and_warning",
+    "on_scene_security_protection_and_law_enforcement",
+    "fatality_management_services",
+    "planning"
+  ],
+  "suggestedToolkits": ["seismic", "weather", "media_environment"]
+}
