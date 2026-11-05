@@ -1,0 +1,108 @@
+{
+  "id": "lab_safety",
+  "name": "Lab safety",
+  "description": "Incident management for research laboratories: exposure and incident reports, notification matrices with clocks, inventory reconciliations, freezer alarms and access logs. Exercises concern what an organization decides and whom it tells. The toolkit carries guardrails that keep agent handling, production and modification detail out of every product.",
+  "appliesTo": {
+    "keywords": [
+      "laboratory",
+      "research lab",
+      "biosafety",
+      "select agent",
+      "exposure incident",
+      "needlestick",
+      "freezer failure",
+      "freezer alarm",
+      "sample loss",
+      "biobank",
+      "vivarium",
+      "animal facility",
+      "inventory discrepancy",
+      "institutional biosafety committee",
+      "responsible official",
+      "stop-work order",
+      "lab fire",
+      "research data breach",
+      "irb notification"
+    ],
+    "domains": [
+      "research_labs",
+      "healthcare",
+      "campus",
+      "public_health",
+      "epidemiology",
+      "k12_schools",
+      "food_agriculture"
+    ]
+  },
+  "injectTypes": [],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "the Federal Select Agent Program (CDC Division of Regulatory Science and Compliance or APHIS Agricultural Select Agent Services)",
+    "the NIH Office of Science Policy",
+    "the local health department",
+    "the local fire department and hazmat team",
+    "campus police and local law enforcement",
+    "the sponsor or funding agency",
+    "the institutional review board",
+    "the institution's insurer",
+    "the vendor of the monitoring or inventory system"
+  ],
+  "advisorRoles": [
+    {
+      "key": "biosafety_advisor",
+      "name": "Biosafety officer (advisor)",
+      "abbreviation": "BSO",
+      "team": "Advisors",
+      "description": "Explains what the biosafety program would do and which notifications and deadlines apply; never gives agent handling detail."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "BSO",
+        "definition": "biosafety officer: classifies incidents, checks containment, refers exposed workers for medical evaluation, reports to the IBC."
+      },
+      {
+        "term": "RO / ARO",
+        "definition": "responsible official and alternate of a select agent registration: decide notice to the Federal Select Agent Program and the written report."
+      },
+      {
+        "term": "IBC",
+        "definition": "institutional biosafety committee: reviews incidents; reports to NIH for recombinant or synthetic nucleic acid research."
+      },
+      {
+        "term": "Form 3",
+        "definition": "APHIS/CDC report of theft, loss or release, due 7 calendar days after discovery. Exercise worksheets are never the official form."
+      },
+      {
+        "term": "Incident response plan",
+        "definition": "a registered entity's written plan (42 CFR 73.14), drilled at least annually and reviewed after every drill, exercise or incident."
+      },
+      {
+        "term": "Drill record",
+        "definition": "how the plan was tested, problems found, corrective actions and participants."
+      }
+    ],
+    "productConventions": [
+      "Give every incident product a report number (LI-2026-0142), the date and time of discovery and the room.",
+      "Write times in 24-hour local time with the date, and a deadline with its basis: immediately, within 24 hours of awareness, within 7 calendar days of discovery, within 30 days.",
+      "Mark worksheets 'Exercise worksheet, not the official form'. Name an agent only as a generic class ('a select agent', 'a Risk Group 2 bacterium') or from the designer's reviewed list, with its biosafety level and nothing else.",
+      "Write each notification as who, how and when, next to its deadline."
+    ],
+    "realismRules": [
+      "An inventory discrepancy is usually a records problem: a transfer logged in one place only, an unsigned destruction, a mislabeled box. Show the search before the conclusion.",
+      "Select agent theft or loss, and a release causing occupational exposure, are reported immediately to CDC or APHIS (theft or loss also to law enforcement); the Form 3 is due in 7 calendar days, not 3.",
+      "NIH Guidelines: IBC reports significant problems and accidents to NIH within 30 days; an overt exposure in a BL2 lab is immediate. The draft NIH policy NOT-OD-26-112 (August 19, 2026) proposes 24 hours; call it a draft.",
+      "An institution may set shorter deadlines; the stricter rule governs. Say which one applies.",
+      "A freezer alarm fails through a changed call-out number, a silenced alarm or an offline sensor. Viability windows are the designer's exercise parameters, never biology.",
+      "Never describe methods, protocols, doses, concentrations, strain names or the making, growing, changing or spreading of anything biological. Keep the story on people, records, clocks and messages."
+    ]
+  },
+  "lintRules": ["lab.guardrails"],
+  "capabilities": [],
+  "exerciseTags": []
+}
