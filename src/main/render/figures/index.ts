@@ -9,6 +9,7 @@ import './epi'
 import './hs'
 import './ems'
 import './hazmat'
+import './hospitality'
 import { barKind, stackedBarKind } from './bar'
 // Field kinds register themselves on import (one line per field).
 import './clinical'

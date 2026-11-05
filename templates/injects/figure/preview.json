@@ -5972,6 +5972,238 @@
           }
         }
       }
+    },
+    "hosp_outbreak_curve": {
+      "fields": {
+        "heading": "Cases on MV Harbor Lantern against the 2 and 3 percent levels",
+        "source": "Simulated medical log, 7-night voyage",
+        "figures": {
+          "main": {
+            "kind": "hosp_outbreak_curve",
+            "data": {
+              "title": "Cumulative cases, passengers and crew",
+              "passengersOnBoard": 2410,
+              "crewOnBoard": 980,
+              "days": [
+                {
+                  "day": 1,
+                  "passengers": 0,
+                  "crew": 0
+                },
+                {
+                  "day": 2,
+                  "passengers": 3,
+                  "crew": 1
+                },
+                {
+                  "day": 3,
+                  "passengers": 9,
+                  "crew": 2
+                },
+                {
+                  "day": 4,
+                  "passengers": 18,
+                  "crew": 4
+                },
+                {
+                  "day": 5,
+                  "passengers": 22,
+                  "crew": 5
+                },
+                {
+                  "day": 6,
+                  "passengers": 9,
+                  "crew": 2
+                },
+                {
+                  "day": 7,
+                  "passengers": 5,
+                  "crew": 1
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hosp_muster_board": {
+      "fields": {
+        "heading": "Muster count, general emergency drill",
+        "source": "Safety center count, ship time 20:42",
+        "figures": {
+          "main": {
+            "kind": "hosp_muster_board",
+            "data": {
+              "title": "Persons accounted for",
+              "asOf": "20:42 ship time",
+              "rows": [
+                {
+                  "name": "Passengers",
+                  "expected": 2410,
+                  "mustered": 2388,
+                  "cabinsChecked": 540,
+                  "cabinsTotal": 1205
+                },
+                {
+                  "name": "Crew",
+                  "expected": 980,
+                  "mustered": 971
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hosp_floor_status": {
+      "fields": {
+        "heading": "North Tower evacuation by floor",
+        "source": "In-house guest list printed 19:30",
+        "figures": {
+          "main": {
+            "kind": "hosp_floor_status",
+            "data": {
+              "title": "Guests accounted for, floors 12 to 16",
+              "asOf": "19:58",
+              "listPrintedAt": "19:30",
+              "floors": [
+                {
+                  "floor": "16",
+                  "registered": 58,
+                  "accounted": 58,
+                  "assistance": 1,
+                  "state": "clear"
+                },
+                {
+                  "floor": "15",
+                  "registered": 60,
+                  "accounted": 57,
+                  "assistance": 2,
+                  "state": "clearing"
+                },
+                {
+                  "floor": "14",
+                  "registered": 62,
+                  "accounted": 41,
+                  "assistance": 3,
+                  "state": "clearing"
+                },
+                {
+                  "floor": "13",
+                  "registered": 61,
+                  "accounted": 61,
+                  "assistance": 0,
+                  "state": "clear"
+                },
+                {
+                  "floor": "12",
+                  "registered": 59,
+                  "accounted": 52,
+                  "assistance": 1,
+                  "state": "clearing"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hosp_departures_timeline": {
+      "fields": {
+        "heading": "Guest departures before the storm",
+        "source": "Front office count, advisory 14",
+        "figures": {
+          "main": {
+            "kind": "hosp_departures_timeline",
+            "data": {
+              "title": "Guests departed against clearance times",
+              "guestsRegistered": 600,
+              "points": [
+                {
+                  "time": "2026-09-17T12:00:00Z",
+                  "departed": 0
+                },
+                {
+                  "time": "2026-09-17T13:00:00Z",
+                  "departed": 40
+                },
+                {
+                  "time": "2026-09-17T14:00:00Z",
+                  "departed": 120
+                },
+                {
+                  "time": "2026-09-17T15:00:00Z",
+                  "departed": 210
+                },
+                {
+                  "time": "2026-09-17T16:00:00Z",
+                  "departed": 300
+                },
+                {
+                  "time": "2026-09-17T17:00:00Z",
+                  "departed": 360
+                },
+                {
+                  "time": "2026-09-17T18:00:00Z",
+                  "departed": 400
+                },
+                {
+                  "time": "2026-09-17T19:00:00Z",
+                  "departed": 420
+                },
+                {
+                  "time": "2026-09-17T20:00:00Z",
+                  "departed": 420
+                }
+              ],
+              "closures": [
+                {
+                  "time": "2026-09-17T20:00:00Z",
+                  "label": "Airport counter closes"
+                },
+                {
+                  "time": "2026-09-17T22:00:00Z",
+                  "label": "Causeway closes"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hosp_port_board": {
+      "fields": {
+        "heading": "Itinerary port status",
+        "source": "Routing office, advisory 14",
+        "figures": {
+          "main": {
+            "kind": "hosp_port_board",
+            "data": {
+              "title": "Ports in itinerary order",
+              "asOf": "Thu 18:00",
+              "ports": [
+                {
+                  "port": "Port Canaveral",
+                  "eta": "Sat 06:30",
+                  "status": "open"
+                },
+                {
+                  "port": "Nassau",
+                  "eta": "Mon 08:00",
+                  "status": "restricted",
+                  "note": "Pilot service suspended after 18:00"
+                },
+                {
+                  "port": "Freeport",
+                  "eta": "Tue 08:00",
+                  "status": "closed",
+                  "note": "Port closed to traffic"
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }
