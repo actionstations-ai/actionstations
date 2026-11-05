@@ -33,6 +33,8 @@ const PROJECT_GITIGNORE = [
   'index.sqlite-*',
   '.cache/',
   'exports/',
+  // Student records (ADR-0090) are never committed by accident.
+  'classroom/',
   'scenarios/*/hotwash/**/audio.*',
   // Map archives copied into a project (#436) are large and rebuildable from the store.
   'maps/*/*.pmtiles',

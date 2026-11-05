@@ -8,6 +8,7 @@ import {
 } from '../domains/schema'
 import { Id, IsoDateTime, RelPath } from './common'
 import { PackId, PackPath, SemVer } from './pack'
+import { ClassroomSettings } from './classroom'
 import { ProjectPrivacy } from './privacy'
 import { ProviderRouting } from './provider'
 import { ProjectLocation } from './hazards'
@@ -164,6 +165,8 @@ export const Project = z.looseObject({
   compliance: ProjectCompliance.optional(),
   /** Hot wash recording options (#425); absent until first changed. */
   hotwash: HotwashSettings.optional(),
+  /** Classroom mode (spec 0453, ADR-0090): off unless the instructor turns it on. */
+  classroom: ClassroomSettings.optional(),
   /** The exercise program this project is linked to (#424); the program folder holds the rest. */
   program: z.object({ id: Id, path: z.string().max(2000) }).optional(),
   /** Fixed term pairs per player language, passed to the translation prompt (spec 0435). */

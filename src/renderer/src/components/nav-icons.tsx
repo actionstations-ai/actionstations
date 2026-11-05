@@ -7,6 +7,7 @@ import {
   FileStack,
   FileText,
   FolderOpen,
+  GraduationCap,
   LayoutList,
   MessageSquareText,
   Network,
@@ -43,4 +44,5 @@ export const NAV_ICONS: Record<string, LucideIcon> = {
   regional: Network,
   maps: MapPinned,
   hazards: CloudLightning,
+  classroom: GraduationCap,
 }

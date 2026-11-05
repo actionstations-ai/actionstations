@@ -2,7 +2,7 @@
 // Derived data (index.sqlite*, .cache/) is skipped; it is rebuilt from the copied documents.
 import { promises as fs } from 'node:fs'
 import { dirname, relative, resolve, sep } from 'node:path'
-import type { OpenProject } from '@shared/schemas'
+import { CLASSROOM_DIR, type OpenProject } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { exists, slugify } from '../lib/fs'
 import { newId, nowIso } from '../lib/ids'
@@ -11,7 +11,13 @@ import { openProject, PROJECT_EXT, updateProject } from './store'
 /** True for paths (relative to the project root) that must not be copied. */
 export function isDerivedPath(rel: string): boolean {
   const top = rel.split(/[\\/]/)[0] ?? ''
-  return top === '.cache' || top === 'index.sqlite' || top.startsWith('index.sqlite-')
+  return (
+    top === '.cache' ||
+    top === 'index.sqlite' ||
+    top.startsWith('index.sqlite-') ||
+    // Student records stay with the instructor's project (ADR-0090).
+    top === CLASSROOM_DIR
+  )
 }
 
 /**
