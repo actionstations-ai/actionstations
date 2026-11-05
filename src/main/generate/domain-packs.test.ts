@@ -228,6 +228,7 @@ const DOMAINS: {
   },
   { id: 'chemical', roles: { technical: 'ot', security: 'fso', operations: 'ic', public: 'comm' } },
   { id: 'public_health', roles: { technical: 'it', operations: 'ho', public: 'pio' } },
+  { id: 'epidemiology', roles: { technical: 'it', operations: 'se', public: 'pio' } },
   {
     id: 'emergency_communications',
     roles: { technical: 'tech', security: 'le', operations: 'dir', public: 'pio' },
@@ -260,12 +261,13 @@ describe('roles and threat-family lint per domain', () => {
     expect(rule.clueRequired).toBe(true)
     expect(clue?.code).toBe(rule.clueRole === 'technical' ? 'MIX_NO_IT_CLUE' : 'MIX_NO_CLUE')
     expect(clue?.roleId).toBe(d.roles[rule.clueRole])
-    // A natural-hazard exercise of the same domain needs no clue every phase.
+    // A natural-hazard exercise of the same domain needs no clue every phase (domains that add
+    // their own families and do not list natural_hazard have nothing to compare).
+    if (!profile.threatFamilies.includes('natural_hazard')) return
     const hazard = domainContext(
       { orgType: d.id },
       { brief: { ...s.brief, threatFamily: 'natural_hazard' } },
     )
-    expect(profile.threatFamilies).toContain('natural_hazard')
     expect(
       phaseMixGaps(s, s.phases[1]!, hazard).filter((g) => /MIX_NO_(IT_)?CLUE/.test(g.code)),
     ).toEqual([])

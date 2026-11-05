@@ -1,0 +1,839 @@
+{
+  "id": "epidemiology",
+  "label": "Epidemiology and outbreak investigation",
+  "description": "The people who detect and investigate outbreaks: health department epidemiology and communicable disease programs, hospital infection prevention teams, public health laboratories and epidemiology programs. It describes the analytic work (case definitions, line lists, curves, contact follow-up, laboratory turnaround). The health department as an agency (operations center, health orders, dispensing) is the public health profile, which this one extends.",
+  "aliases": [
+    "epidemiologist",
+    "epi",
+    "epidemiology_program",
+    "disease_investigator",
+    "disease_investigation",
+    "communicable_disease",
+    "communicable_disease_unit",
+    "infection_prevention",
+    "infection_control",
+    "hospital_epidemiology",
+    "public_health_lab",
+    "public_health_laboratory",
+    "surveillance",
+    "contact_tracing",
+    "outbreak_response",
+    "field_epidemiology",
+    "disease_detective"
+  ],
+  "vocabulary": {
+    "facility": "the epidemiology program (surveillance unit, investigation team, the laboratory and, for a hospital, the infection prevention office)",
+    "public": "residents, exposed contacts, patients, families and the communities the program serves",
+    "frontline": "epidemiologists, disease investigators, contact tracers, infection preventionists, laboratory scientists, data analysts",
+    "operationsCenter": "the outbreak response team's command post or the departmental operations center (DOC)"
+  },
+  "factCategories": [
+    {
+      "id": "outbreaks",
+      "label": "Outbreak / investigation numbers",
+      "pattern": "\\b(OB-\\d{4}-\\d{2,5}|INV-\\d{2}-\\d{3,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "specimens",
+      "label": "Lab accession numbers",
+      "pattern": "\\b(PHL-\\d{2}-\\d{4,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "exposure_sites",
+      "label": "Exposure sites",
+      "noun": "Exposure Sites?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "dispensing_sites",
+      "label": "Dispensing sites (PODs)",
+      "noun": "POD Sites?|PODs?|Points? of Dispensing",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "reportable disease surveillance and case management system (e.g. NBS or a commercial platform)",
+      "electronic laboratory reporting (ELR) and electronic case reporting (eCR) feeds",
+      "syndromic surveillance (ESSENCE)",
+      "immunization information system (IIS)",
+      "outbreak investigation forms and line lists (Epi Info, REDCap or a spreadsheet)",
+      "contact tracing and monitoring platform",
+      "molecular typing and sequence-sharing networks for foodborne and respiratory pathogens",
+      "public health laboratory LIMS",
+      "wastewater surveillance dashboards",
+      "Health Alert Network messaging and partner mass notification",
+      "hospital infection surveillance software and the electronic health record",
+      "public website, data dashboards and the hotline",
+      "shared services: email, directory and SIEM"
+    ],
+    "ot": [
+      "public health laboratory biosafety cabinets and directional airflow",
+      "-80 °C freezers with alarms and specimen cold chain",
+      "automated extraction instruments and sequencers",
+      "vaccine refrigerators with remote temperature monitoring",
+      "hospital isolation room pressure monitors"
+    ]
+  },
+  "roles": [
+    {
+      "key": "se",
+      "name": "State Epidemiologist / Epidemiology Program Director",
+      "abbreviation": "SE",
+      "team": "Team A: Command",
+      "description": "Declares an outbreak, approves the case definition in use, requests CDC Epi-Aid and decides what data are released publicly."
+    },
+    {
+      "key": "epi",
+      "name": "Local Epidemiologist / Communicable Disease Lead",
+      "abbreviation": "EPI",
+      "team": "Team B: Surveillance and Investigation",
+      "description": "Sets investigation priorities, case tiers (confirmed, probable, suspect), contact categories and worker exclusion recommendations."
+    },
+    {
+      "key": "di",
+      "name": "Disease Investigator / Contact Tracer",
+      "abbreviation": "DI",
+      "team": "Team B: Surveillance and Investigation",
+      "description": "Interviews cases, classifies contacts by exposure window, keeps the follow-up schedule and escalates unreachable contacts."
+    },
+    {
+      "key": "data",
+      "name": "Surveillance Epidemiologist / Data Analyst",
+      "abbreviation": "DATA",
+      "team": "Team B: Surveillance and Investigation",
+      "description": "Owns the line list, the epidemic curve by onset date, rates and the numbers every message must match."
+    },
+    {
+      "key": "eh",
+      "name": "Environmental Health Specialist",
+      "abbreviation": "EH",
+      "team": "Team C: Environmental Health",
+      "description": "Inspects food sources, runs the traceback and recommends restaurant or facility closure."
+    },
+    {
+      "key": "lab",
+      "name": "Public Health Laboratory Director",
+      "abbreviation": "LAB",
+      "team": "Team D: Laboratory",
+      "description": "Sets testing priorities and specimen acceptance, manages turnaround and referral for confirmation and typing."
+    },
+    {
+      "key": "ip",
+      "name": "Infection Preventionist",
+      "abbreviation": "IP",
+      "team": "Team E: Hospital Infection Prevention",
+      "description": "Applies isolation precautions, assesses staff and patient exposure, recommends unit closure and reports to the health department."
+    },
+    {
+      "key": "he",
+      "name": "Hospital Epidemiologist / Infectious Disease Physician",
+      "abbreviation": "HE",
+      "team": "Team E: Hospital Infection Prevention",
+      "description": "Reviews cases clinically and advises on treatment and prophylaxis recommendations."
+    },
+    {
+      "key": "ho",
+      "name": "Health Officer",
+      "abbreviation": "HO",
+      "team": "Team A: Command",
+      "description": "Issues isolation, quarantine and closure orders on the epidemiologists' recommendation (the public health profile)."
+    },
+    {
+      "key": "eis",
+      "name": "Epidemiology Student / Epidemic Intelligence Service Officer",
+      "abbreviation": "EIS",
+      "team": "Team F: Field Team and Academic Program",
+      "description": "Works field tasks under supervision: questionnaires, line list entry, hypothesis tables. In a teaching exercise this role is the learner."
+    },
+    {
+      "key": "it",
+      "name": "Informatics Lead",
+      "abbreviation": "IT",
+      "team": "Team G: Informatics",
+      "description": "Owns the surveillance and contact tracing systems, ELR and eCR feeds and the access controls on contact lists."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team H: Communications",
+      "description": "Writes exposure notices, health alerts and press statements that match the numbers on the curve, and counters rumors."
+    }
+  ],
+  "outsideParties": [
+    "CDC (Epi-Aid, the Emergency Operations Center, foodborne, respiratory and vaccine-preventable disease programs)",
+    "neighboring health jurisdictions and the state health department",
+    "the state public health laboratory and reference laboratories",
+    "FDA and USDA FSIS (food traceback and recalls)",
+    "school districts and child care centers",
+    "airlines and the airport authority (exposure notification)",
+    "employers and congregate settings (nursing homes, shelters, camps)",
+    "clinicians, urgent care centers, pharmacies and hospital infection preventionists",
+    "the healthcare coalition",
+    "the press and local broadcasters",
+    "advocacy and community groups",
+    "residents and social media"
+  ],
+  "mediaChannels": [
+    "a local TV health reporter's email",
+    "a parent group on Facebook",
+    "a school district email to parents",
+    "a viral post naming the wrong restaurant",
+    "a clinician listserv",
+    "a Spanish-language radio call-in show"
+  ],
+  "sceneAnchors": {
+    "public": "a crowded urgent care waiting room: parents with children, a masked receptionist at a sliding window, hand-sanitizer stations, handwritten signs, daylight through a front window",
+    "control": "an outbreak response room: epidemiologists at long tables with laptops, a whiteboard with a hand-drawn epidemic curve, printed line lists and a map with pins, fluorescent lighting",
+    "exterior": "a restaurant kitchen entrance at the back of a strip mall, an environmental health inspector with a clipboard and a cooler, a dumpster and wet pavement under overcast sky"
+  },
+  "injectTypes": [
+    "press_release",
+    "email",
+    "email_forward",
+    "memo",
+    "official_letter",
+    "regulatory_notice",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "facebook_post",
+    "tweet",
+    "reddit_post",
+    "news_article",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "helpdesk_ticket",
+    "error_dialog",
+    "system_log",
+    "sitrep",
+    "status_board",
+    "ics_201_prefill",
+    "field_report",
+    "map_annotation",
+    "incident_alert_notification",
+    "lab_result_report",
+    "chain_of_custody_form"
+  ],
+  "threatFamilies": [
+    "foodborne_outbreak",
+    "respiratory_spread",
+    "vaccine_preventable_exposure",
+    "hai_cluster",
+    "mass_prophylaxis",
+    "surveillance_signal",
+    "laboratory_surge",
+    "epi_service_degradation"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "foodborne_outbreak",
+      "label": "Foodborne outbreak",
+      "description": "Illness spreads among people who shared a meal or a food source; the team works from the first complaints to the vehicle, the control and the public message.",
+      "keywords": [
+        "foodborne",
+        "food poisoning",
+        "gastroenteritis",
+        "norovirus",
+        "salmonella",
+        "banquet",
+        "buffet",
+        "restaurant illness",
+        "traceback",
+        "common source",
+        "potluck",
+        "vomiting and diarrhea"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "A cluster appears through an ordinary channel and nobody is sure it is more than coincidence.",
+          "beats": [
+            "Two complaints to the health department hotline or a restaurant inspector about illness after the same event",
+            "An unrelated noise report the surveillance team must set aside",
+            "A clinician calls about several patients with similar symptoms"
+          ]
+        },
+        {
+          "title": "Verify and define cases",
+          "goal": "The team confirms the diagnosis, decides whether this is an outbreak and writes a working case definition.",
+          "beats": [
+            "A first laboratory result that confirms or does not confirm a pathogen",
+            "A request to adopt a case definition before the line list is large",
+            "Pressure from the venue to say it was not their food"
+          ]
+        },
+        {
+          "title": "Describe by time, place and person",
+          "goal": "The epidemic curve and the line list tell a story the team must read correctly; onset date, not report date, drives the curve.",
+          "beats": [
+            "A line list with some late reports and some missing onset dates",
+            "A curve that looks like a point source, with a few cases outside the expected window",
+            "A secondary case that does not fit the common-source story"
+          ]
+        },
+        {
+          "title": "Hypothesis",
+          "goal": "Attack rates and odds ratios by food item point to a vehicle, with distractors that are plausible.",
+          "beats": [
+            "A table of exposures where two items look close",
+            "A food handler who was ill before the event"
+          ]
+        },
+        {
+          "title": "Control",
+          "goal": "The team acts before the investigation is complete: exclusion, closure or recall, each with a cost.",
+          "beats": [
+            "Recommendation to exclude ill food workers",
+            "A decision to close the facility or wait for the confirmatory result",
+            "A supplier recall that crosses jurisdictions"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Every message matches the numbers on the curve and the same advice reaches the public, clinicians and the venue.",
+          "beats": [
+            "A press release draft whose case count differs from the line list",
+            "Misinformation naming the wrong establishment"
+          ]
+        },
+        {
+          "title": "Close and after-action",
+          "goal": "The outbreak is declared over on a stated rule and the lessons are recorded.",
+          "beats": [
+            "Two incubation periods without a new case",
+            "A hot wash disagreement about when the case definition should have changed"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the establishment on a probable vehicle now, or wait a day for the laboratory result and risk more cases",
+        "issue a public notice naming the event, or hold it until the traceback is complete",
+        "request CDC Epi-Aid, or work with local staff only"
+      ],
+      "clueKinds": "a line list entry with an onset time, a food history that two cases share, a laboratory result or a typing match, an inspection finding, a worker who reported illness",
+      "hurdleKinds": "the surveillance system is slow, interviews are unreachable, the laboratory backlog delays the result, the venue's guest list is incomplete",
+      "keyCoordination": "the environmental health team, the public health laboratory, the venue or caterer and, for a recall, FDA or USDA FSIS",
+      "purposeMix": { "CLUE": 25, "DECISION_POINT": 15, "PRESSURE": 10, "NOISE": 10 },
+      "promptGuidance": "Keep the story at the level of public health response decisions: case definitions, counts, onset dates, exposures, control measures and messages. Give no pathogen culture, growth or handling detail.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "closure|close|exclu|recall|notice|Epi-Aid|case definition|environmental health",
+          "description": "a control or communication decision (exclusion, closure, recall, notice or the case definition)"
+        }
+      }
+    },
+    {
+      "id": "respiratory_spread",
+      "label": "Respiratory pathogen with community spread",
+      "description": "A respiratory illness rises in the community; the team decides how to define cases, which measures to recommend and when, and how to keep messages consistent.",
+      "keywords": [
+        "respiratory",
+        "influenza",
+        "novel virus",
+        "covid",
+        "sars-cov-2",
+        "community spread",
+        "pandemic",
+        "pertussis",
+        "legionella",
+        "legionnaires",
+        "rising cases",
+        "flu"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "Indicators rise before a name is agreed: visits, laboratory positives, school absences.",
+          "beats": [
+            "A syndromic indicator above baseline",
+            "A school reports absences",
+            "A wastewater activity level moves up one category"
+          ]
+        },
+        {
+          "title": "Verify and define cases",
+          "goal": "The team writes a case definition with confirmed, probable and suspect tiers and sets the testing priority.",
+          "beats": [
+            "A laboratory with limited capacity asks which specimens to prioritize",
+            "A hospital and the health department define a case differently"
+          ]
+        },
+        {
+          "title": "Describe and decide",
+          "goal": "The curve keeps rising while the team weighs measures with a cost for each.",
+          "beats": [
+            "A projection with a stated reproduction number the team treats as certain",
+            "A request from an employer for exclusion guidance",
+            "A neighboring county changes its recommendation"
+          ]
+        },
+        {
+          "title": "Control and communicate",
+          "goal": "Measures start, the public message must match the numbers and advice stays the same across partners.",
+          "beats": [
+            "A health alert to clinicians and a different school letter",
+            "A social post claiming the numbers are hidden"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "recommend a measure now on early data, or wait for another reporting cycle and risk a steeper curve",
+        "narrow testing to the highest-risk groups, or keep broad testing and accept longer turnaround",
+        "release the dashboard figures with caveats, or hold them until the reporting delay settles"
+      ],
+      "clueKinds": "a laboratory positivity trend, an age shift in cases, an absenteeism figure, a wastewater level change, a cluster in a congregate setting",
+      "hurdleKinds": "reporting delays, a laboratory instrument down, staff shortages in the investigation team, a dashboard that disagrees with the line list",
+      "keyCoordination": "the state health department, the hospitals' infection preventionists and the school districts",
+      "purposeMix": { "CLUE": 20, "DECISION_POINT": 15, "PRESSURE": 15, "MISINFORMATION": 10 },
+      "promptGuidance": "Describe disease spread only as numbers, curves and response decisions. Never describe how to grow, modify or spread any pathogen.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "recommend|guidance|testing|exclusion|alert|dashboard|measure|case definition",
+          "description": "a public health recommendation, testing, alert or data release decision"
+        }
+      }
+    },
+    {
+      "id": "vaccine_preventable_exposure",
+      "label": "Vaccine-preventable disease exposure",
+      "description": "A case of a vaccine-preventable disease such as measles was in public places while infectious; the team builds an exposure list and decides on notification and post-exposure measures.",
+      "keywords": [
+        "measles",
+        "exposure notice",
+        "exposure notification",
+        "unvaccinated",
+        "mumps",
+        "rubella",
+        "varicella",
+        "flight exposure",
+        "exposure window",
+        "post-exposure",
+        "immunity status"
+      ],
+      "phaseArc": [
+        {
+          "title": "Report",
+          "goal": "A clinician reports a suspected case and the infectious period must be worked out from the onset date.",
+          "beats": [
+            "A call from an urgent care about a suspected case with travel history",
+            "A specimen sent for confirmation with a turnaround the team must manage"
+          ]
+        },
+        {
+          "title": "Exposure list",
+          "goal": "Places and people the case visited while infectious are listed, with windows computed from onset and the infectious period.",
+          "beats": [
+            "A flight, a school and a clinic waiting room all on the itinerary",
+            "A contact list that grows each day and includes unreachable contacts"
+          ]
+        },
+        {
+          "title": "Notify and protect",
+          "goal": "Notices, immunity checks and exclusions go out with exact places and time windows.",
+          "beats": [
+            "An exposure notice draft with the wrong window",
+            "A school asks which students must stay home and for how long"
+          ]
+        },
+        {
+          "title": "Monitor and close",
+          "goal": "Contacts are followed through the incubation window and the response closes on a stated rule.",
+          "beats": ["A second case among contacts", "A decision to stop monitoring"]
+        }
+      ],
+      "decisionPointExamples": [
+        "publish an exposure notice naming the flight and the school now, or confirm the laboratory result first",
+        "exclude unvaccinated students for the full window, or allow return after post-exposure vaccination as the recommendation permits",
+        "classify a brief waiting-room overlap as a close contact or not"
+      ],
+      "clueKinds": "an itinerary detail, a vaccination record, a seating chart, a laboratory result, a contact who cannot be reached",
+      "hurdleKinds": "an incomplete passenger list from the airline, immunization registry gaps, contacts out of the jurisdiction, a hotline overwhelmed",
+      "keyCoordination": "the airline and airport, the school district, the clinic and neighboring health departments",
+      "purposeMix": { "CLUE": 20, "DECISION_POINT": 15, "PRESSURE": 10, "MISINFORMATION": 10 },
+      "promptGuidance": "Exposure windows are computed from the onset date and the infectious period of the disease; show the arithmetic in the controller notes and keep every notice consistent with it.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "notice|notification|exclu|quarantine|window|contact|immunity|vaccin",
+          "description": "an exposure notice, exclusion, contact classification or vaccination decision"
+        }
+      }
+    },
+    {
+      "id": "hai_cluster",
+      "label": "Healthcare-associated infection cluster",
+      "description": "Infections link patients in the same unit or procedure; infection prevention and the health department work the cluster and disagree on when to act.",
+      "keywords": [
+        "healthcare-associated",
+        "hospital cluster",
+        "nosocomial",
+        "infection prevention",
+        "infection control",
+        "candida auris",
+        "mdro",
+        "dialysis cluster",
+        "surgical site",
+        "unit closure",
+        "long-term care outbreak"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "Infection preventionists notice more cases than expected on one unit.",
+          "beats": [
+            "A surveillance report of three similar infections in a week on one unit",
+            "A noise item about an unrelated isolation room alarm"
+          ]
+        },
+        {
+          "title": "Investigate",
+          "goal": "The hospital and the health department define cases together and review exposures: procedures, devices, staff and rooms.",
+          "beats": [
+            "A shared device or procedure appears in several charts",
+            "The hospital prefers to investigate quietly; the health department wants the report now"
+          ]
+        },
+        {
+          "title": "Control",
+          "goal": "Precautions, cohorting, screening and possibly closing a unit, each with an operating cost.",
+          "beats": [
+            "A recommendation to stop admissions to the unit",
+            "A staffing shortage when staff are furloughed for exposure"
+          ]
+        },
+        {
+          "title": "Communicate and close",
+          "goal": "Patients, families, staff and the public hear consistent messages and the cluster is closed on a stated rule.",
+          "beats": [
+            "A family hears about the cluster from the press first",
+            "A decision to reopen the unit"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the unit to admissions on a probable link now, or keep it open with added precautions and risk more cases",
+        "notify affected patients and families now, or wait until the investigation identifies a source",
+        "share the hospital's line list with the health department in full, or only the minimum required"
+      ],
+      "clueKinds": "a shared procedure or device, a room history, a staff assignment sheet, a screening result, a typing match between isolates",
+      "hurdleKinds": "an incomplete room history, screening swabs delayed, staff shortages, disagreement about which tier a case belongs in",
+      "keyCoordination": "the infection preventionist, the hospital epidemiologist and the health department",
+      "purposeMix": { "CLUE": 20, "DECISION_POINT": 15, "PRESSURE": 10, "NOISE": 10 },
+      "promptGuidance": "Keep to infection prevention and public health response decisions; do not describe clinical procedures in detail.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "unit|admission|cohort|isolation|screening|notify|report|closure",
+          "description": "a unit, isolation, screening, notification or reporting decision"
+        }
+      }
+    },
+    {
+      "id": "mass_prophylaxis",
+      "label": "Mass prophylaxis or vaccination dispensing",
+      "description": "A dispensing site must open and keep throughput against a plan; the team decides on sites, hours, eligibility and the queue.",
+      "keywords": [
+        "dispensing",
+        "mass prophylaxis",
+        "mass vaccination",
+        "point of dispensing",
+        "pod site",
+        "throughput",
+        "queue",
+        "medical countermeasure",
+        "prophylaxis",
+        "dispensing site"
+      ],
+      "phaseArc": [
+        {
+          "title": "Activate",
+          "goal": "The decision to dispense is made and the site opens against a clock.",
+          "beats": [
+            "The decision to open sites with an eligibility rule",
+            "Staff and supplies arrive late at one site"
+          ]
+        },
+        {
+          "title": "Operate",
+          "goal": "Arrivals exceed station capacity and the queue grows.",
+          "beats": ["A queue of hundreds before opening", "A station is short of forms or staff"]
+        },
+        {
+          "title": "Adjust",
+          "goal": "The team re-balances stations, hours and sites using throughput and queue data.",
+          "beats": [
+            "Throughput is below plan at one site",
+            "A call to widen eligibility under pressure"
+          ]
+        },
+        {
+          "title": "Close and report",
+          "goal": "Sites close on a stated rule and the numbers are reported.",
+          "beats": [
+            "Leftover supplies and the accountability count",
+            "A message about the remaining supply that must match the totals"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "open a second site with thin staffing now, or add stations at the first site and accept a longer queue",
+        "widen eligibility to relieve pressure, or hold the stated priority groups",
+        "close a site at the posted hour with a queue outside, or extend and strain staff"
+      ],
+      "clueKinds": "a throughput count, a queue length report, a station staffing sheet, a supply count",
+      "hurdleKinds": "a late delivery, a cold chain alarm, a short-staffed station, a registration system outage",
+      "keyCoordination": "the medical countermeasure coordinator, county emergency management, law enforcement for site security and the Medical Reserve Corps",
+      "purposeMix": { "CLUE": 10, "DECISION_POINT": 15, "TECH_HURDLE": 15, "PRESSURE": 10 },
+      "promptGuidance": "Use throughput as people per hour per station and queue length over time; do not invent clinical dosing detail.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "site|station|queue|eligibility|staff|hours|throughput",
+          "description": "a site, station, queue, eligibility or staffing decision"
+        }
+      }
+    },
+    {
+      "id": "surveillance_signal",
+      "label": "Surveillance signal",
+      "description": "A wastewater, syndromic or laboratory signal appears before clinical reports; the team decides whether and how to act on it.",
+      "keywords": [
+        "wastewater",
+        "surveillance signal",
+        "syndromic",
+        "aberration",
+        "baseline exceeded",
+        "detection in wastewater",
+        "early warning",
+        "positivity rising",
+        "sewershed"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "An indicator crosses a threshold; the cause is not known.",
+          "beats": [
+            "A wastewater activity level rises from low to high in a sewershed",
+            "A syndromic count above the expected range"
+          ]
+        },
+        {
+          "title": "Verify",
+          "goal": "The team checks data quality before acting: a lab change, a reporting delay, a data entry error.",
+          "beats": [
+            "A sampling site change that may explain the rise",
+            "A clinic reports no unusual visits"
+          ]
+        },
+        {
+          "title": "Decide and inform",
+          "goal": "The team decides on a public or clinician notice with caveats.",
+          "beats": [
+            "A reporter asks about the signal",
+            "A neighboring jurisdiction sees the same pattern"
+          ]
+        },
+        {
+          "title": "Follow",
+          "goal": "Clinical indicators confirm or do not confirm the signal.",
+          "beats": [
+            "Cases appear a week later",
+            "The signal fades without cases and the team explains why"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "alert clinicians now on the wastewater signal alone, or wait for a second indicator",
+        "publish the sewershed level publicly with caveats, or hold until the next sample",
+        "start targeted testing in the affected area, or watch for another week"
+      ],
+      "clueKinds": "a second site's level, a laboratory positivity change, a school absence count, a sampling note",
+      "hurdleKinds": "a delayed sample, a laboratory method change, a dashboard lag, a data gap at a site",
+      "keyCoordination": "the wastewater utility, the state laboratory and the neighboring health departments",
+      "purposeMix": { "CLUE": 25, "DECISION_POINT": 15, "NOISE": 15 },
+      "promptGuidance": "Levels are shown with the dataset's own category names; never present a simulated series as real.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "alert|notice|publish|testing|verify|sample|clinician",
+          "description": "an alert, notice, publication or testing decision on the signal"
+        }
+      }
+    },
+    {
+      "id": "laboratory_surge",
+      "label": "Laboratory surge",
+      "description": "Specimen volume exceeds laboratory capacity; the team sets testing priorities and manages turnaround, referral and communication.",
+      "keywords": [
+        "laboratory surge",
+        "specimen backlog",
+        "turnaround",
+        "specimen volume",
+        "reference laboratory",
+        "testing capacity",
+        "lab backlog",
+        "surge testing",
+        "specimens received"
+      ],
+      "phaseArc": [
+        {
+          "title": "Rising volume",
+          "goal": "Specimens arrive faster than the laboratory can run them.",
+          "beats": [
+            "A hospital courier drops twice the usual specimens",
+            "Turnaround rises above its target"
+          ]
+        },
+        {
+          "title": "Prioritize",
+          "goal": "The laboratory and epidemiologists agree on which specimens come first.",
+          "beats": [
+            "A hospital requests priority for its patients",
+            "An outbreak-linked set of specimens arrives with chain of custody"
+          ]
+        },
+        {
+          "title": "Relieve",
+          "goal": "Referral, overtime and reagent decisions with a cost on both sides.",
+          "beats": [
+            "A reagent shortage",
+            "A request to send specimens to a reference laboratory with a longer transport time"
+          ]
+        },
+        {
+          "title": "Recover",
+          "goal": "The backlog clears and the laboratory reports turnaround plainly to partners.",
+          "beats": ["A partner complains about delays", "A final turnaround report"]
+        }
+      ],
+      "decisionPointExamples": [
+        "reject non-priority specimens to protect turnaround, or accept all and delay every result",
+        "refer a batch to a reference laboratory, or run overtime and keep control of results",
+        "tell clinicians to restrict testing, or keep testing open and accept the delay"
+      ],
+      "clueKinds": "a received, pending and positive count, a turnaround figure against target, an instrument downtime note",
+      "hurdleKinds": "an instrument fault, a reagent shortage, a staff gap, an interface failure that drops results",
+      "keyCoordination": "the clinical laboratories, hospitals, the courier service and the reference laboratory",
+      "purposeMix": { "CLUE": 15, "DECISION_POINT": 15, "TECH_HURDLE": 20, "PRESSURE": 10 },
+      "promptGuidance": "Keep to specimen counts, turnaround and priorities; give no laboratory method detail for any dangerous agent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "priorit|referral|reference laborator|turnaround|specimen|testing|overtime",
+          "description": "a testing priority, referral or turnaround decision"
+        }
+      }
+    },
+    {
+      "id": "epi_service_degradation",
+      "label": "Surveillance service degradation",
+      "description": "A surveillance system outage, a laboratory reporting backlog or a contact list breach degrades the investigation while the outbreak continues.",
+      "keywords": [
+        "surveillance system outage",
+        "reporting backlog",
+        "elr down",
+        "contact list breach",
+        "line list leaked",
+        "case management outage",
+        "data feed down",
+        "reporting delay",
+        "contact tracing platform"
+      ],
+      "phaseArc": [
+        {
+          "title": "Degradation",
+          "goal": "A feed or system fails quietly and counts stop matching.",
+          "beats": [
+            "The electronic laboratory reporting feed stops delivering",
+            "A helpdesk ticket from the investigation team"
+          ]
+        },
+        {
+          "title": "Impact",
+          "goal": "The curve and the line list diverge and decisions rest on stale numbers.",
+          "beats": [
+            "A dashboard that does not update",
+            "A manual line list started in a spreadsheet"
+          ]
+        },
+        {
+          "title": "Workaround",
+          "goal": "The team chooses between manual methods and waiting, and decides what to tell partners.",
+          "beats": ["A paper reporting fallback", "A report that a contact list was exposed"]
+        },
+        {
+          "title": "Recover and reconcile",
+          "goal": "Data are reconciled and the numbers in earlier messages are corrected where wrong.",
+          "beats": ["A backlog of results lands at once and the curve jumps", "A correction notice"]
+        }
+      ],
+      "decisionPointExamples": [
+        "keep reporting counts with a stated delay, or pause the public dashboard until data are reconciled",
+        "notify contacts of a list exposure now, or confirm the scope first",
+        "move to a paper line list, or wait for the system to return"
+      ],
+      "clueKinds": "a system log entry, a gap in daily counts, a vendor status note, a duplicated record",
+      "hurdleKinds": "a vendor restoration time, a manual process that doubles workload, mismatched counts between teams",
+      "keyCoordination": "the surveillance system vendor, the state health department and the privacy officer",
+      "purposeMix": { "TECH_HURDLE": 25, "CLUE": 15, "DECISION_POINT": 15 },
+      "promptGuidance": "Exercise data only; contact lists in the scenario are fictional and marked as exercise material.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "dashboard|manual|paper|notify|report|reconcile|counts|delay",
+          "description": "a reporting, notification, reconciliation or manual-process decision"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a restaurant owner disputing an inspection score",
+    "a routine rabies bite report",
+    "a reporter asking about last year's flu numbers",
+    "a laboratory courier running late for an unrelated panel",
+    "a spreadsheet macro that stopped working"
+  ],
+  "pressureExamples": [
+    "a venue's lawyer demanding the department not name the event",
+    "a viral post naming the wrong restaurant as the source",
+    "a school board member asking why the school was not told first",
+    "a reporter asking whether the department is hiding cases",
+    "a hospital executive asking the health department to delay a unit closure notice"
+  ],
+  "rolePatterns": {
+    "technical": "informatics",
+    "operations": "program director|health officer"
+  },
+  "agencyPattern": "CDC|Epi-Aid|FDA|USDA|FSIS|PulseNet|NNDSS|state health department|state public health lab(?:oratory)?|healthcare coalition",
+  "coreCapabilities": [
+    "public_health_healthcare_and_emergency_medical_services",
+    "situational_assessment",
+    "public_information_and_warning",
+    "operational_coordination"
+  ],
+  "suggestedToolkits": ["epidemiology"],
+  "regulations": ["hipaa_breach"],
+  "frameworks": ["nist_csf_2"]
+}
