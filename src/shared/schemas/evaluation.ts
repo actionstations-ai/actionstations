@@ -142,6 +142,18 @@ export const FactStatement = z.object({
 })
 export type FactStatement = z.infer<typeof FactStatement>
 
+/** One claim of a public statement checked against the fact sheet, as the evaluator scored it (statement accuracy). */
+export const StatementCheck = z.object({
+  statementId: z.string().min(1).max(120),
+  claim: z.string().min(1).max(500),
+  /** The fact-sheet entry it was checked against; empty when it is not on the sheet. */
+  factLabel: z.string().max(200).default(''),
+  status: z.enum(['accurate', 'inaccurate', 'unverifiable']),
+  /** A model suggestion the evaluator has not confirmed; it is not counted. */
+  suggested: z.boolean().optional(),
+})
+export type StatementCheck = z.infer<typeof StatementCheck>
+
 /** scenarios/<id>/evaluation.json. Loose so a newer build's fields survive a save (ADR-0016). */
 export const EvaluationRecord = z.looseObject({
   formatVersion: z.number().int().default(1),
@@ -151,6 +163,8 @@ export const EvaluationRecord = z.looseObject({
   /** Inputs the evaluator enters for message consistency (spec 0448 FR-12). */
   keyFacts: z.array(KeyFact).max(100).optional(),
   factStatements: z.array(FactStatement).max(1000).optional(),
+  /** Claims checked against the fact sheet (statement accuracy, media environment). */
+  statementChecks: z.array(StatementCheck).max(1000).optional(),
   updatedAt: IsoDateTime,
 })
 export type EvaluationRecord = z.infer<typeof EvaluationRecord>

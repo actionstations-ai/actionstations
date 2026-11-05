@@ -238,6 +238,7 @@ export function EvaluationTab(props: EvaluationTabProps) {
         results={record.data?.metricResults ?? []}
         keyFacts={record.data?.keyFacts ?? []}
         statements={record.data?.factStatements ?? []}
+        statementChecks={record.data?.statementChecks ?? []}
       />
     </div>
   )

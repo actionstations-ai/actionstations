@@ -32,6 +32,8 @@ export interface PlannedMetric {
   toolkitName: string
   /** The metric needs key facts the evaluator has not entered. */
   needsKeyFacts: boolean
+  /** The metric needs claims checked against the fact sheet that the evaluator has not entered. */
+  needsStatementChecks: boolean
 }
 
 export interface MetricsPlan {
@@ -74,6 +76,7 @@ export async function metricsPlan(root: string, scenarioId: string): Promise<Met
     newestSessionId(root, scenarioId),
   ])
   const hasFacts = (record.keyFacts ?? []).length > 0
+  const hasChecks = (record.statementChecks ?? []).some((c) => !c.suggested)
   return {
     metrics: configured.map(({ toolkit, ref }) => ({
       id: ref.id,
@@ -81,6 +84,7 @@ export async function metricsPlan(root: string, scenarioId: string): Promise<Met
       toolkitId: toolkit.id,
       toolkitName: toolkit.name,
       needsKeyFacts: ref.id === 'message_consistency' && !hasFacts,
+      needsStatementChecks: ref.id === 'statement_accuracy' && !hasChecks,
     })),
     ...(sessionId ? { sessionId } : {}),
   }
@@ -105,6 +109,7 @@ async function inputBag(
     decisions,
     facts: record.keyFacts ?? [],
     statements: record.factStatements ?? [],
+    checks: record.statementChecks ?? [],
   }
   const dir = caseDir(root, scenarioId)
   const truth = await datasetFile(root, scenarioId, ref.groundTruth)

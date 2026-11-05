@@ -2,7 +2,7 @@
 // criteria. Nothing here leaves the project folder.
 import { rowCriteria } from '../../generate/eeg-criteria'
 import { observeForStudent, removeObservationAndLinks } from '../../classroom/observations'
-import { readEvaluation, saveMetricInputs } from '../../evaluation/store'
+import { readEvaluation, saveMetricInputs, saveStatementChecks } from '../../evaluation/store'
 import { requireProject } from '../../project/guard'
 import { getScenario } from '../../scenario/store'
 import { metricsPlan, runToolkitMetrics } from '../../toolkits/metrics'
@@ -37,6 +37,11 @@ export default defineHandlers({
   'evaluation:metrics-run': async ({ projectPath, scenarioId, sessionId }) => {
     const root = await requireProject(projectPath)
     return runToolkitMetrics(root, scenarioId, sessionId ? { sessionId } : {})
+  },
+
+  'evaluation:statement-checks': async ({ projectPath, scenarioId, checks }) => {
+    const root = await requireProject(projectPath)
+    return saveStatementChecks(root, scenarioId, checks)
   },
 
   'evaluation:metric-inputs': async ({ projectPath, scenarioId, keyFacts, factStatements }) => {

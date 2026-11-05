@@ -105,4 +105,31 @@ describe('FieldMetricsPanel', () => {
       factStatements: [{ factId: 'fact_1', partner: 'County', value: '14:00' }],
     })
   })
+
+  it('takes claims checked against the fact sheet for statement accuracy and saves them', async () => {
+    const t = mockTtx({
+      'evaluation:metrics-plan': () => planOf(['statement_accuracy']),
+      'evaluation:statement-checks': () => record,
+    })
+    show()
+    await userEvent.click(await screen.findByRole('button', { name: 'Add a claim' }))
+    await userEvent.type(screen.getByLabelText('Statement for claim 1'), 'S1')
+    await userEvent.type(screen.getByLabelText('Claim 1'), 'Server isolated at 7:35')
+    await userEvent.type(screen.getByLabelText('Fact sheet entry for claim 1'), 'Isolation time')
+    await userEvent.selectOptions(screen.getByLabelText('Result for claim 1'), 'inaccurate')
+    await userEvent.click(screen.getByRole('button', { name: 'Save statement checks' }))
+    await waitFor(() => expect(t.calls('evaluation:statement-checks')).toHaveLength(1))
+    expect(t.calls('evaluation:statement-checks')[0]).toEqual({
+      projectPath: PROJECT,
+      scenarioId: 's1',
+      checks: [
+        {
+          statementId: 'S1',
+          claim: 'Server isolated at 7:35',
+          factLabel: 'Isolation time',
+          status: 'inaccurate',
+        },
+      ],
+    })
+  })
 })

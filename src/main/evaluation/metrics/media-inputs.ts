@@ -36,3 +36,21 @@ export function attrText(e: GroundTruthEvent, key: string): string {
   const v = e.attrs[key]
   return typeof v === 'string' ? v : ''
 }
+
+/** The key a choice's option id is made from (decision-forms.ts): lower case, runs of other characters as "_". */
+export const choiceKey = (s: string): string =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+
+/**
+ * A choice field's value as the canonical label. Live play stores the option id (a slug of the
+ * label); an evaluator or an older log may hold the label itself. Anything else is returned as
+ * written.
+ */
+export function choiceLabel(d: MetricDecision, key: string, labels: readonly string[]): string {
+  const raw = fieldText(d, key)
+  const hit = labels.find((l) => choiceKey(l) === choiceKey(raw))
+  return hit ?? raw
+}

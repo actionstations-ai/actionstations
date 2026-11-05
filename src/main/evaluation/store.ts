@@ -8,6 +8,7 @@ import {
   type KeyFact,
   type MetricResult,
   type Observation,
+  type StatementCheck,
 } from '@shared/schemas'
 import { nowIso } from '../lib/ids'
 import { readJsonOr, safeJoin, writeJsonAtomic } from '../lib/fs'
@@ -99,6 +100,15 @@ export function saveMetricResults(
     const kept = (record.metricResults ?? []).filter((old) => !results.some((r) => same(old, r)))
     return { ...record, metricResults: [...kept, ...results] }
   })
+}
+
+/** Replace the claims the evaluator checked against the fact sheet (statement accuracy). */
+export function saveStatementChecks(
+  root: string,
+  scenarioId: string,
+  checks: StatementCheck[],
+): Promise<EvaluationRecord> {
+  return updateEvaluation(root, scenarioId, (record) => ({ ...record, statementChecks: checks }))
 }
 
 /**

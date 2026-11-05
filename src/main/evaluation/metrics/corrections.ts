@@ -7,6 +7,7 @@ import { z } from 'zod'
 import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import {
   attrText,
+  choiceKey,
   decisionsOfKind,
   eventsOfKind,
   fieldText,
@@ -52,7 +53,9 @@ function pair(errors: GroundTruthEvent[], corrections: MetricDecision[]): Pair[]
       ...(correction ? { correction } : {}),
       minutes: correction ? minutesBetween(error.time, correction.time) : null,
       sameChannel:
-        correction && channel ? norm(fieldText(correction, 'channel')) === norm(channel) : null,
+        correction && channel
+          ? choiceKey(fieldText(correction, 'channel')) === choiceKey(channel)
+          : null,
     }
   })
 }
