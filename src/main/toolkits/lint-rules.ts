@@ -3,6 +3,7 @@
 import './clinical-systems/lint'
 import './clinical/lint'
 import './epidemiology/register-lint'
+import './flooding/register-lint'
 import './media/register-lint'
 
 export { fieldLintIssues, fieldLintRuleIds } from './field-lint'

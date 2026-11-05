@@ -54,15 +54,17 @@ interface Configured {
   ref: ToolkitMetric
 }
 
-/** The scenario's configured metrics, the first toolkit to name a metric id winning. */
+/** The scenario's configured metrics, the first toolkit to name a metric id and label winning. */
 async function configuredMetrics(root: string, scenarioId: string): Promise<Configured[]> {
   const scenario = await getScenario(root, scenarioId)
   const seen = new Set<string>()
   const out: Configured[] = []
   for (const toolkit of await resolveToolkits(scenario.toolkits))
     for (const ref of toolkit.metrics) {
-      if (seen.has(ref.id)) continue
-      seen.add(ref.id)
+      // A toolkit may configure one metric several ways (a label tells them apart).
+      const key = `${ref.id}\u0000${ref.label ?? ''}`
+      if (seen.has(key)) continue
+      seen.add(key)
       out.push({ toolkit, ref })
     }
   return out

@@ -111,7 +111,7 @@ export function lintProductOrder(products: readonly FloodProduct[]): FloodLintIs
 }
 
 const STAGE_NUMBER =
-  /\bstage\b[^.\d\n]{0,20}?(\d+(?:\.\d+)?)(?![\d.])(?!\s?(?:ft\b|feet\b|foot\b|'))/gi
+  /\bstage\b[^.\d\n]{0,20}?(\d+(?:\.\d+)?)(?![\d.])(?!\s?(?:ft\b|feet\b|foot\b|'|cfs\b|kcfs\b|days?\b|hours?\b|hrs?\b|minutes?\b|inch|in\b|mph\b|percent|%))/gi
 
 /** A stage number with no unit ("river stage of 14.2") is flagged; feet or ft is required. */
 export function lintStageUnits(text: string): FloodLintIssue[] {

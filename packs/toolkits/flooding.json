@@ -76,7 +76,38 @@
       "description": "Knows the flood maps, which buildings and roads sit at which stage, and the post-event damage rules."
     }
   ],
-  "documents": [],
+  "documents": [
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "nws-manual-10-950",
+      "title": "NWS Manual 10-950: Definitions and General Terminology"
+    },
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "nws-instruction-10-922",
+      "title": "NWS Instruction 10-922: Water Resources Products Specification"
+    },
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "usgs-fs-2011-3001-streamgage",
+      "title": "How Does a USGS Streamgage Work?"
+    },
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "usgs-fs-2005-3131-streamgaging",
+      "title": "USGS Streamgaging"
+    },
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "fema-p-64-dam-eap",
+      "title": "FEMA P-64: Emergency Action Planning for Dam Owners"
+    },
+    {
+      "packId": "ai.actionstations.flooding-library",
+      "documentId": "fema-p-946-inundation-mapping",
+      "title": "FEMA P-946: Dam Inundation Mapping"
+    }
+  ],
   "metrics": [
     {
       "id": "threshold_timing",
@@ -85,7 +116,8 @@
         "actionKind": "close_road",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-road"
     },
     {
       "id": "threshold_timing",
@@ -94,7 +126,8 @@
         "actionKind": "order_evacuation",
         "threshold": 0,
         "clearanceMin": 120
-      }
+      },
+      "series": "zones-population"
     },
     {
       "id": "threshold_timing",
@@ -103,7 +136,8 @@
         "actionKind": "order_resources",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-action"
     },
     {
       "id": "threshold_timing",
@@ -112,7 +146,8 @@
         "actionKind": "move_assets",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-facility"
     },
     {
       "id": "decision_timing",
@@ -121,7 +156,8 @@
         "leadWindowMin": 120,
         "graceWindowMin": 0,
         "matchArea": true
-      }
+      },
+      "groundTruth": "flash-flood-events"
     },
     {
       "id": "message_consistency",
@@ -188,7 +224,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": true
+          "required": true,
+          "draw": true
         },
         {
           "id": "clearance_minutes",
@@ -239,7 +276,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "floods_at_stage_ft",
@@ -401,7 +439,8 @@
           "id": "from",
           "label": "From (place)",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "floods_at_stage_ft",
@@ -526,7 +565,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "text",
@@ -610,5 +650,5 @@
       "Real past events are historical and dated; fictional events use invented gauges and places, never a real person or private business."
     ]
   },
-  "lintRules": ["flood_categories", "flash_flood_tags", "flood_product_order", "stage_units"]
+  "lintRules": ["flood.flash_tags", "flood.stage_units"]
 }

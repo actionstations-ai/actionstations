@@ -26,6 +26,7 @@ import { listAdapterKinds } from './providers/registry'
 import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
+import { registerFloodingToolkit } from './toolkits/flooding'
 import { registerMediaToolkit } from './toolkits/media'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
@@ -214,6 +215,7 @@ void app.whenReady().then(async () => {
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
   registerMediaToolkit()
+  registerFloodingToolkit()
   // Decision forms for live play and Facilitate come from the scenario's toolkits (spec 0448).
   installToolkitDecisionForms()
   // Code-backed parts of the bundled toolkits (generators, connectors).

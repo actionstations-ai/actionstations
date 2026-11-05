@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { IsoDateTime } from '@shared/schemas/common'
 import type { CategoryTableSchema } from '../../render/figures/flood/common'
 import { categoryOf } from '../../render/figures/flood/common'
+import { zoneSeries, type FloodZone } from './threshold-series'
 import type { GeneratedDataset, SimulatedGenerator } from '../../case-data/generators'
 import {
   FlashEventParams,
@@ -140,8 +141,55 @@ export const riverEventGenerator: SimulatedGenerator<z.infer<typeof RiverEventPa
         unit: 'count',
       })
     }
+    out.push(...zoneDatasets(p, truth[0]!.points))
     return out
   },
+}
+
+/**
+ * A dataset a metric reads (ModeledSeries per zone, or ground-truth events) is stored as a
+ * GeoJSON collection with no features and the rows under `series` or `events`; the metric
+ * input adapters read exactly that key and the case store accepts it as a features dataset.
+ */
+const metricFile = (key: 'series' | 'events', rows: unknown[]) => ({
+  type: 'FeatureCollection',
+  features: [],
+  [key]: rows,
+})
+
+/** One zone-series dataset per action the toolkit scores, from the reference gauge's stage. */
+function zoneDatasets(
+  p: z.infer<typeof RiverEventParams>,
+  stage: readonly { t: string; v: number }[],
+): GeneratedDataset[] {
+  const zone = (a: z.infer<typeof RiverEventParams>['assets'][number]): FloodZone => ({
+    name: a.name,
+    floodsAtStage: a.floodsAtStage,
+  })
+  const groups: [string, string, FloodZone[]][] = [
+    ['zones-road', 'Roads and crossings', p.assets.filter((a) => a.kind === 'road').map(zone)],
+    [
+      'zones-population',
+      'Areas to evacuate',
+      p.assets.filter((a) => a.kind === 'population').map(zone),
+    ],
+    [
+      'zones-facility',
+      'Facilities and stock to move',
+      p.assets.filter((a) => a.kind === 'facility' || a.kind === 'structure').map(zone),
+    ],
+  ]
+  const action = p.gauges[0]!.categories.action
+  if (action !== undefined)
+    groups.push(['zones-action', 'Action stage', [{ name: 'Action stage', floodsAtStage: action }]])
+  return groups
+    .filter(([, , zones]) => zones.length)
+    .map(([id, label, zones]) => ({
+      id,
+      kind: 'features' as const,
+      label: `${label}: feet above the stage that floods each, simulated`,
+      data: metricFile('series', zoneSeries(stage, zones)),
+    }))
 }
 
 export const flashEventGenerator: SimulatedGenerator<z.infer<typeof FlashEventParams>> = {
@@ -170,6 +218,25 @@ export const flashEventGenerator: SimulatedGenerator<z.infer<typeof FlashEventPa
         range: range(stage)!,
       },
     ]
+    const flood = g.categories.flood ?? g.categories.minor ?? g.categories.action
+    if (flood !== undefined) {
+      const crossed = stage.filter((x) => x.v >= flood)
+      if (crossed.length)
+        out.push({
+          id: 'flash-flood-events',
+          kind: 'features',
+          label: `Flash flood reports at ${g.name}, simulated`,
+          data: metricFile('events', [
+            {
+              id: 'first-flooding',
+              time: crossed[0]!.t,
+              area: p.basin,
+              kind: 'flash_flood_report',
+              attrs: { stageFt: crossed[0]!.v },
+            },
+          ]),
+        })
+    }
     if (p.warning) {
       const t0 = Date.parse(p.start)
       const issued = new Date(t0 + p.warning.issuedAtHour * 3_600_000)

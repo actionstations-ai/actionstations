@@ -157,6 +157,12 @@
       "summary": "EPA AWIA ERP template, incident action checklists, sector IR guide and the water CTEP.",
       "domain": "water_utility",
       "version": "1.0.0"
+    },
+    "flooding-library": {
+      "name": "Flooding reference library",
+      "summary": "NWS flood definitions and water resources products, USGS streamgage fact sheets and FEMA flood and dam guidance.",
+      "domain": "flooding",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -4383,6 +4389,7 @@
     },
     {
       "pack": "water-dam-library",
+      "alsoIn": ["flooding-library"],
       "slug": "fema-p-64-dam-eap",
       "file": "fema-p-64-dam-eap.pdf",
       "title": "Federal Guidelines for Dam Safety: Emergency Action Planning for Dams, FEMA P-64",
@@ -4498,6 +4505,7 @@
     },
     {
       "pack": "water-dam-library",
+      "alsoIn": ["flooding-library"],
       "slug": "fema-p-946-inundation-mapping",
       "file": "fema-p-946-inundation-mapping.pdf",
       "title": "Federal Guidelines for Inundation Mapping of Flood Risks Associated with Dam Incidents and Failures, FEMA P-946",
@@ -4764,6 +4772,66 @@
       "size": 3650216,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CDC funding guidance, no copyright notice.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "flooding-library",
+      "slug": "nws-manual-10-950",
+      "file": "nws-manual-10-950.pdf",
+      "title": "NWS Manual 10-950: Definitions and General Terminology (water resources)",
+      "publisher": "NOAA National Weather Service",
+      "edition": "November 26, 2019 (administrative update of June 17, 2025)",
+      "url": "https://www.weather.gov/media/directives/010_pdfs/pd01009050curr.pdf",
+      "landing": "https://www.weather.gov/directives/",
+      "sha256": "e397a432e2a19015e3337580ef9e68d24551bafd403c7f55edc2b2f934aefdd6",
+      "size": 721486,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): NOAA National Weather Service",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "flooding-library",
+      "slug": "nws-instruction-10-922",
+      "file": "nws-instruction-10-922.pdf",
+      "title": "NWS Instruction 10-922: Weather Forecast Office Water Resources Products Specification",
+      "publisher": "NOAA National Weather Service",
+      "edition": "August 3, 2021 (administrative update)",
+      "url": "https://www.weather.gov/media/directives/010_pdfs/pd01009022curr.pdf",
+      "landing": "https://www.weather.gov/directives/",
+      "sha256": "95b11fefadad6ab406b0c4b82a503e1516e65feb40df7ef77eced242b56a023a",
+      "size": 1608871,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): NOAA National Weather Service",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "flooding-library",
+      "slug": "usgs-fs-2011-3001-streamgage",
+      "file": "usgs-fs-2011-3001-streamgage.pdf",
+      "title": "How Does a U.S. Geological Survey Streamgage Work? (Fact Sheet 2011-3001)",
+      "publisher": "U.S. Geological Survey",
+      "edition": "Fact Sheet 2011-3001",
+      "url": "https://pubs.usgs.gov/fs/2011/3001/pdf/fs2011-3001.pdf",
+      "landing": "https://pubs.usgs.gov/fs/2011/3001",
+      "sha256": "0360be009eb441bd415c46a5c5d99c647fadfac9d04e9d4191952f5feeb91584",
+      "size": 692186,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): U.S. Geological Survey",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "flooding-library",
+      "slug": "usgs-fs-2005-3131-streamgaging",
+      "file": "usgs-fs-2005-3131-streamgaging.pdf",
+      "title": "U.S. Geological Survey Streamgaging (Fact Sheet 2005-3131)",
+      "publisher": "U.S. Geological Survey",
+      "edition": "Fact Sheet 2005-3131",
+      "url": "https://pubs.usgs.gov/fs/2005/3131/FS2005-3131.pdf",
+      "landing": "https://pubs.usgs.gov/fs/2005/3131",
+      "sha256": "011ddcb034ebbe81868793ae2580007a6be2ff3b36577f451b0abd3527615512",
+      "size": 1231185,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): U.S. Geological Survey",
       "pinned": "2026-11-05"
     }
   ],
@@ -7126,6 +7194,48 @@
       "publisher": "OFR / GPO (eCFR)",
       "url": "https://www.ecfr.gov/current/title-45/part-164/subpart-D",
       "reason": "The eCFR text changes; linked"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "FEMA Flood Tabletop Exercise package (situation manual, slides, evaluator handbook, AAR/IP template)",
+      "publisher": "FEMA",
+      "url": "https://webarchive.library.unt.edu/web/20161110130445/https://www.fema.gov/media-library/assets/documents/100098",
+      "reason": "Archived FEMA package, legacy formats in a ZIP; open it from the web archive"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "FEMA P-758: Substantial Improvement/Substantial Damage Desk Reference (2010)",
+      "publisher": "FEMA",
+      "url": "https://www.fema.gov/node/where-can-i-find-information-substantial-damage-and-substantial-improvements",
+      "reason": "The fema.gov file could not be fetched to pin; download it from FEMA"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "FEMA Emergency Operations Planning: Dam Incident Planning Guide (2019)",
+      "publisher": "FEMA",
+      "url": "https://www.fema.gov/sites/default/files/2020-08/dam_incident_planning_guide_2019.pdf",
+      "reason": "fema.gov refused an automatic download here; open it from FEMA"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "FEMA Planning Considerations: Evacuation and Shelter-in-Place (2019)",
+      "publisher": "FEMA",
+      "url": "https://www.fema.gov/emergency-managers/national-preparedness/plan/evacuation-shelter-in-place",
+      "reason": "Landing page; the PDF could not be fetched to pin"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "Tri-State Integrated Warning Team Tabletop Exercise Situation Manual (2018)",
+      "publisher": "NWS Charleston WV and partners",
+      "url": "https://www.weather.gov/media/rlx/IWTFiles/TTXSituationManual.pdf",
+      "reason": "A multi-agency exercise document; redistribution rights were not verified"
+    },
+    {
+      "pack": "flooding-library",
+      "title": "County and state flood exercise after-action reports",
+      "publisher": "Various",
+      "url": "https://preptoolkit.fema.gov/web/hseep-resources",
+      "reason": "Public reports; whether each permits redistribution was not verified, so they are linked, not bundled"
     }
   ]
 }
