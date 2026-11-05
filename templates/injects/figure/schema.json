@@ -18,7 +18,7 @@
     },
     "figures": {
       "type": "object",
-      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline, hydrograph, flood_gauge_summary, river_profile, rain_stage, triage_counts, patient_tracking_board, hospital_capacity_board, protective_action_zone, justice_unit_status, justice_incident_timeline, justice_jail_population, justice_court_continuity, justice_court_recovery, justice_filings_backlog, animal_premises_map, animal_premises_table, animal_movement_map, animal_depop_tracker, animal_sampling_schedule, animal_inundation_overlay.",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline, hydrograph, flood_gauge_summary, river_profile, rain_stage, triage_counts, patient_tracking_board, hospital_capacity_board, protective_action_zone, justice_unit_status, justice_incident_timeline, justice_jail_population, justice_court_continuity, justice_court_recovery, justice_filings_backlog, animal_premises_map, animal_premises_table, animal_movement_map, animal_depop_tracker, animal_sampling_schedule, animal_inundation_overlay, gov_bia_table, gov_recovery_tracker, gov_decision_timeline.",
       "required": ["main"],
       "properties": {
         "main": {
@@ -54,7 +54,10 @@
                 "animal_movement_map",
                 "animal_depop_tracker",
                 "animal_sampling_schedule",
-                "animal_inundation_overlay"
+                "animal_inundation_overlay",
+                "gov_bia_table",
+                "gov_recovery_tracker",
+                "gov_decision_timeline"
               ]
             },
             "data": {

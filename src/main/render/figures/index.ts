@@ -13,6 +13,7 @@ import { barKind, stackedBarKind } from './bar'
 import './clinical'
 import { gaugeKind } from './gauge'
 import './geo'
+import './governance'
 // Field kinds register themselves when imported (media environment).
 import './media'
 import { FigureOutput, registerFigureKind, renderFigure } from './registry'
