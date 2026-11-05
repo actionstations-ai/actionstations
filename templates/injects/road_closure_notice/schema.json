@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Road closure and low-water crossing status",
+  "description": "A road closure notice from a county public works department or state transportation agency: each road or low-water crossing with its status (Closed, Open, Reduced, Monitoring), the reason, the river stage at which it floods and when the status changed, a detour, a contact and the next update. Ties closures to the water, not only the clock.",
+  "type": "object",
+  "required": ["agency", "issuedAt", "headline", "closures"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency (fictional county or a state agency name).",
+      "examples": ["Haldane County Public Works"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time local.",
+      "examples": ["6:40 PM CST Sat Nov 7, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Road closures due to river flooding"]
+    },
+    "gauge": {
+      "type": "string",
+      "description": "The gauge the stage triggers refer to, with the current reading.",
+      "examples": ["Cedar River at Riverbend (RBDM7): 14.6 ft and rising"]
+    },
+    "closures": {
+      "type": "array",
+      "description": "Roads and crossings.",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["road", "status"],
+        "properties": {
+          "road": {
+            "type": "string",
+            "description": "Road and location.",
+            "examples": ["Mill Road at Cedar Creek low-water crossing"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "examples": ["Closed"],
+            "enum": ["Closed", "Open", "Reduced", "Monitoring"]
+          },
+          "floodsAt": {
+            "type": "string",
+            "description": "Gauge stage at which it floods.",
+            "examples": ["14.0 ft"]
+          },
+          "since": {
+            "type": "string",
+            "description": "Time of the status.",
+            "examples": ["4:15 PM"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason.",
+            "examples": ["Water over the road, about 1 foot"]
+          },
+          "detour": {
+            "type": "string",
+            "description": "Detour or note.",
+            "examples": ["Use County Road 12 and Highway 9"]
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "string",
+      "description": "Phone or website for updates.",
+      "examples": ["Public Works dispatch 555-0142 · haldane.example/roads"]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update is expected.",
+      "examples": ["Next update 9:00 PM or sooner"]
+    }
+  }
+}

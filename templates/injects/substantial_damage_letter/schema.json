@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Substantial damage determination letter",
+  "description": "A letter from a community floodplain administrator to a property owner after a flood: whether the building is substantially damaged under the community floodplain ordinance (cost to repair compared with the market value of the structure, with the 50 percent test of the National Flood Insurance Program), what that means for repairs, and how to appeal or ask for a review. Property addresses are fictional.",
+  "type": "object",
+  "required": [
+    "jurisdiction",
+    "date",
+    "ownerName",
+    "propertyAddress",
+    "determination",
+    "repairCost",
+    "marketValue"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Community issuing the letter (fictional).",
+      "examples": ["Haldane County Floodplain Management"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Letter date.",
+      "examples": ["November 20, 2026"]
+    },
+    "ownerName": {
+      "type": "string",
+      "description": "Owner name (fictional).",
+      "examples": ["Dana R. Whitaker"]
+    },
+    "propertyAddress": {
+      "type": "string",
+      "description": "Fictional property address.",
+      "examples": ["1450 Cedar Bend Lane, Riverbend"]
+    },
+    "parcelId": {
+      "type": "string",
+      "description": "Parcel id.",
+      "examples": ["P-0042-117"]
+    },
+    "eventName": {
+      "type": "string",
+      "description": "The flood event.",
+      "examples": ["the November 2026 Cedar River flood"]
+    },
+    "determination": {
+      "type": "string",
+      "description": "Result of the determination.",
+      "examples": ["Substantially damaged"],
+      "enum": ["Substantially damaged", "Not substantially damaged", "Review pending"]
+    },
+    "repairCost": {
+      "type": "string",
+      "description": "Estimated cost of repair.",
+      "examples": ["$96,400"]
+    },
+    "marketValue": {
+      "type": "string",
+      "description": "Market value of the structure before the flood.",
+      "examples": ["$158,000"]
+    },
+    "ratio": {
+      "type": "string",
+      "description": "Damage ratio.",
+      "examples": ["61 percent"]
+    },
+    "body": {
+      "type": "array",
+      "description": "Explanation and next steps, short paragraphs.",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "One paragraph.",
+        "examples": [
+          "Under the Haldane County floodplain ordinance, a building whose repair cost is 50 percent or more of its market value before the damage must be brought into compliance before it is repaired. This usually means raising the lowest floor to the required elevation."
+        ]
+      }
+    },
+    "appeal": {
+      "type": "string",
+      "description": "How to ask for review.",
+      "examples": [
+        "You may ask for a review within 30 days by contacting our office with your own repair estimate or an appraisal."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact line.",
+      "examples": ["Floodplain Administrator, 555-0160"]
+    },
+    "signer": {
+      "type": "string",
+      "description": "Signer name and title.",
+      "examples": ["Priya Nair, CFM, Floodplain Administrator"]
+    }
+  }
+}

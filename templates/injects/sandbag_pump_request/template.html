@@ -1,0 +1,59 @@
+<article class="doc">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <div>
+      <span class="org"
+        >{{default fields.organization (default brand.aliases.org "Emergency Operations
+        Center")}}</span
+      >
+      <h1>Resource request: sandbags and pumps</h1>
+    </div>
+    <div class="num"><span>REQUEST NO.</span><strong>{{fields.requestNo}}</strong></div>
+  </header>
+  <table class="info">
+    <tr>
+      <th>Requested by</th>
+      <td>{{fields.requestedBy}}</td>
+    </tr>
+    <tr>
+      <th>Date and time</th>
+      <td>{{fields.requestedAt}}</td>
+    </tr>
+    <tr>
+      <th>Priority</th>
+      <td>{{default fields.priority "Routine"}}</td>
+    </tr>
+  </table>
+  <h2>Resources</h2>
+  <table class="items">
+    <thead>
+      <tr>
+        <th scope="col">Resource</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Deliver to</th>
+        <th scope="col">Needed by</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <th scope="row">{{resource}}</th>
+        <td>{{quantity}}</td>
+        <td>{{deliverTo}}</td>
+        <td>{{needBy}}</td>
+        <td>{{default status "Requested"}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Basis for the request</h2>
+  <p>{{fields.basis}}</p>
+  {{#if fields.contact}}
+  <h2>Delivery contact</h2>
+  <p>{{fields.contact}}</p>
+  {{/if}}
+  <div class="sign">
+    <p><span>Approved by</span> {{default fields.approvedBy "(pending)"}}</p>
+  </div>
+</article>

@@ -1,0 +1,38 @@
+<article class="letter">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header><p class="org">{{fields.jurisdiction}}</p></header>
+  <p class="date">{{fields.date}}</p>
+  <p class="to">{{fields.ownerName}}<br />{{fields.propertyAddress}}</p>
+  <p class="re">
+    <strong
+      >Re: Substantial damage determination{{#if fields.parcelId}}, parcel
+      {{fields.parcelId}}{{/if}}{{#if fields.eventName}} after {{fields.eventName}}{{/if}}</strong
+    >
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Determination</th>
+        <th scope="col">Cost to repair</th>
+        <th scope="col">Market value before</th>
+        <th scope="col">Damage ratio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>{{fields.determination}}</strong></td>
+        <td>{{fields.repairCost}}</td>
+        <td>{{fields.marketValue}}</td>
+        <td>{{default fields.ratio "not stated"}}</td>
+      </tr>
+    </tbody>
+  </table>
+  {{#each fields.body}}
+  <p class="b">{{this}}</p>
+  {{/each}} {{#if fields.appeal}}
+  <p class="b">{{fields.appeal}}</p>
+  {{/if}} {{#if fields.contact}}
+  <p class="b">{{fields.contact}}</p>
+  {{/if}}
+  <p class="sig">Sincerely,<br /><br />{{fields.signer}}</p>
+</article>

@@ -1,0 +1,46 @@
+<article class="rc">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">Issued {{fields.issuedAt}}</p>
+  </header>
+  {{#if fields.gauge}}
+  <p class="gauge"><strong>River:</strong> {{fields.gauge}}</p>
+  {{/if}}
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Road or crossing</th>
+        <th scope="col">Status</th>
+        <th scope="col">Floods at</th>
+        <th scope="col">Since</th>
+        <th scope="col">Reason and detour</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.closures}}
+      <tr>
+        <th scope="row">{{road}}</th>
+        <td class="st st-{{lower status}}">
+          <span class="sym" aria-hidden="true"
+            >{{#if (eq status "Closed")}}■{{else if (eq status "Reduced")}}▲{{else if (eq status
+            "Monitoring")}}◆{{else}}●{{/if}}</span
+          >
+          {{status}}
+        </td>
+        <td>{{floodsAt}}</td>
+        <td>{{since}}</td>
+        <td>{{reason}}{{#if detour}}. {{detour}}{{/if}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="turn">Turn around, don't drown. Never drive through water over a road.</p>
+  <footer>
+    <p>{{fields.contact}}</p>
+    {{#if fields.nextUpdate}}
+    <p>{{fields.nextUpdate}}</p>
+    {{/if}}
+  </footer>
+</article>
