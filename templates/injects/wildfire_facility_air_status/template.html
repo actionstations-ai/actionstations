@@ -1,0 +1,20 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.organization}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">Issued {{fields.issuedAt}}</p>
+  </header>
+  <p class="band">
+    <strong>Air quality:</strong> AQI {{fields.aqi}}
+    <strong
+      class="aq {{#if (eq fields.category 'Good')}}aq-good{{else if (eq fields.category 'Moderate')}}aq-moderate{{else if (eq fields.category 'Unhealthy for Sensitive Groups')}}aq-usg{{else if (eq fields.category 'Unhealthy')}}aq-unhealthy{{else if (eq fields.category 'Very Unhealthy')}}aq-very{{else}}aq-hazardous{{/if}}"
+      >{{fields.category}}</strong
+    >
+    · <strong>Status:</strong> {{fields.status}}
+  </p>
+  <p>{{fields.details}}</p>
+  <h2>Resources and limits</h2>
+  <p>{{fields.resources}}</p>
+  <footer><p>{{fields.contact}}</p></footer>
+</article>

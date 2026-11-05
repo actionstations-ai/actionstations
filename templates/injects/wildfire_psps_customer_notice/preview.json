@@ -1,0 +1,68 @@
+{
+  "variant": "warning",
+  "fields": {
+    "utility": "Pinecrest Valley Electric",
+    "issuedAt": "5:00 PM PDT Fri Oct 9, 2026",
+    "headline": "Power may be shut off Saturday evening to reduce wildfire risk",
+    "timing": "24-48 hours before",
+    "message": "Strong winds and very dry conditions are forecast. We may turn off power on your circuit to reduce the chance of a wildfire.",
+    "powerOff": "Possible from 6:00 PM Saturday",
+    "powerOn": "We expect power back by midday Sunday after crews inspect lines.",
+    "circuits": "Circuit C-114: Cinder Canyon and Ridgeview",
+    "whatToDo": "Charge phones and medical devices, fill prescriptions, fill your vehicle with fuel and plan for several days without power.",
+    "medicalNote": "If you rely on power for a medical need, call 555-0100 now. In an emergency call 911.",
+    "resourceCenter": "Calloway High School gym, 8 AM to 8 PM Sunday: charging, water, restrooms.",
+    "contact": "Pinecrest Valley Electric 555-0100 · pinecrestvalley.example/outages"
+  },
+  "variants": {
+    "power_off": {
+      "fields": {
+        "headline": "Power has been shut off to reduce wildfire risk",
+        "timing": "At de-energization",
+        "issuedAt": "6:10 PM PDT Sat Oct 10, 2026",
+        "message": "We turned off power on your circuit at 6:04 PM because gusts reached 52 mph.",
+        "powerOff": "Off since 6:04 PM Saturday",
+        "powerOn": "Power returns after the wind falls and crews inspect lines; we will update you.",
+        "whatToDo": "Treat downed lines as live. Use generators outdoors only."
+      }
+    },
+    "restoration": {
+      "fields": {
+        "headline": "Power is being restored to your area",
+        "timing": "Restoration",
+        "issuedAt": "11:20 AM PDT Sun Oct 11, 2026",
+        "message": "Winds have fallen and crews finished inspecting circuit C-114.",
+        "powerOff": "Off since 6:04 PM Saturday",
+        "powerOn": "Restoration under way; most customers back by 1:00 PM.",
+        "whatToDo": "Turn off major appliances before power returns and turn them on one at a time.",
+        "medicalNote": ""
+      }
+    },
+    "cancellation": {
+      "fields": {
+        "headline": "Power shutoff canceled",
+        "timing": "Cancellation",
+        "issuedAt": "3:30 PM PDT Sat Oct 10, 2026",
+        "message": "Winds are lower than forecast. We will not turn off power on your circuit now.",
+        "powerOff": "No shutoff planned.",
+        "powerOn": "",
+        "whatToDo": "Stay ready; conditions can change until the red flag warning ends.",
+        "medicalNote": "",
+        "resourceCenter": ""
+      }
+    },
+    "all_clear": {
+      "fields": {
+        "headline": "All clear: the wildfire risk event has ended",
+        "timing": "Restoration",
+        "issuedAt": "2:45 PM PDT Sun Oct 11, 2026",
+        "message": "Power is back on for all customers and the red flag warning has ended.",
+        "powerOff": "",
+        "powerOn": "All circuits restored by 2:30 PM.",
+        "whatToDo": "Report any outage that remains at 555-0100.",
+        "medicalNote": "",
+        "resourceCenter": "The community resource center has closed."
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">Issued {{fields.issuedAt}} · Valid until {{fields.validUntil}}</p>
+  </header>
+  <p class="band">
+    <strong class="aq">{{fields.category}}</strong> · {{fields.aqiRange}} · {{fields.areas}}
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Who</th>
+        <th scope="col">What to do</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.guidance}}
+      <tr>
+        <th scope="row">{{group}}</th>
+        <td>{{advice}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.cleanAir}}
+  <h2>Clean-air shelters</h2>
+  <p>{{fields.cleanAir}}</p>
+  {{/if}}
+  <h2>Basis</h2>
+  <p>{{fields.basis}}</p>
+  <footer><p>{{fields.contact}}</p></footer>
+</article>

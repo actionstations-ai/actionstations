@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hospital status, event cancellation or clean-air shelter notice for smoke",
+  "description": "A facility notice about smoke: a hospital status report, an outdoor event cancellation or a clean-air shelter opening (set by the variant), with the AQI value and its EPA category name, the operating status, what the facility is doing and its resources and limits such as generator fuel hours.",
+  "type": "object",
+  "required": ["organization", "issuedAt", "headline", "aqi", "category", "status", "details"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Hospital, venue or shelter operator (fictional).",
+      "examples": ["Calloway Regional Hospital"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["8:00 AM PDT Sun Sep 13, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Hospital status: operating with filtered air, visitors limited"]
+    },
+    "aqi": {
+      "type": "integer",
+      "description": "AQI value at the site.",
+      "examples": [168],
+      "minimum": 0,
+      "maximum": 500
+    },
+    "category": {
+      "type": "string",
+      "description": "EPA category for that AQI.",
+      "examples": ["Unhealthy"],
+      "enum": [
+        "Good",
+        "Moderate",
+        "Unhealthy for Sensitive Groups",
+        "Unhealthy",
+        "Very Unhealthy",
+        "Hazardous"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Operating status.",
+      "examples": ["Open with restrictions"],
+      "enum": ["Open", "Open with restrictions", "Closed", "Cancelled"]
+    },
+    "details": {
+      "type": "string",
+      "description": "What the facility is doing.",
+      "examples": [
+        "Air handlers on recirculate; visitors limited to one per patient; elective procedures continue; emergency department open."
+      ]
+    },
+    "resources": {
+      "type": "string",
+      "description": "Resources and limits (generator fuel hours, beds, filters).",
+      "examples": ["Generator fuel: 36 hours. Emergency department census 41 of 48 beds."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact (fictional).",
+      "examples": ["Calloway Regional Hospital communications 555-0133"]
+    }
+  }
+}

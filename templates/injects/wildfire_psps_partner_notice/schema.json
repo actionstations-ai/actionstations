@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Power shutoff forecast notice to public safety partners",
+  "description": "The forecast notice a utility sends public safety partners 48 to 72 hours before a possible public safety power shutoff: the event window, the weather and fuel basis, the circuits with customers, medical baseline customers and critical facilities, the status of the decision (Possible, Likely, Decided or Not expected) and what is asked of partners. All names and counts are fictional.",
+  "type": "object",
+  "required": ["utility", "issuedAt", "headline", "window", "basis", "circuits"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "utility": {
+      "type": "string",
+      "description": "Utility (fictional).",
+      "examples": ["Pinecrest Valley Electric"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time, local, with the time zone.",
+      "examples": ["6:00 AM PDT Thu Oct 8, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": [
+        "Public safety power shutoff possible Saturday: forecast notice to public safety partners"
+      ]
+    },
+    "window": {
+      "type": "object",
+      "description": "The forecast event window.",
+      "additionalProperties": false,
+      "required": ["start", "end", "hoursAhead"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "description": "Window start.",
+          "examples": ["6:00 PM Sat Oct 10"]
+        },
+        "end": {
+          "type": "string",
+          "description": "Window end.",
+          "examples": ["10:00 AM Sun Oct 11"]
+        },
+        "hoursAhead": {
+          "type": "integer",
+          "description": "Hours from this notice to the start of the window.",
+          "examples": [60],
+          "minimum": 0
+        }
+      }
+    },
+    "basis": {
+      "type": "string",
+      "description": "The weather and fuel basis for the decision.",
+      "examples": [
+        "Gusts of 45 to 60 mph on ridges, humidity below 12 percent and a red flag warning from the weather service."
+      ]
+    },
+    "circuits": {
+      "type": "array",
+      "description": "Circuits that may be de-energized.",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["circuit", "customers", "status"],
+        "properties": {
+          "circuit": {
+            "type": "string",
+            "description": "Circuit id.",
+            "examples": ["C-114"],
+            "x-translate": false
+          },
+          "area": {
+            "type": "string",
+            "description": "Area in words.",
+            "examples": ["Cinder Canyon and Ridgeview"]
+          },
+          "customers": {
+            "type": "integer",
+            "description": "Customers on the circuit.",
+            "examples": [3120],
+            "minimum": 0
+          },
+          "medicalBaseline": {
+            "type": "integer",
+            "description": "Medical baseline customers.",
+            "examples": [96],
+            "minimum": 0
+          },
+          "critical": {
+            "type": "string",
+            "description": "Critical facilities on the circuit.",
+            "examples": ["Water booster station 4; cell site CS-12"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the decision.",
+            "examples": ["Possible"],
+            "enum": ["Possible", "Likely", "Decided", "Not expected"]
+          }
+        }
+      }
+    },
+    "partnerActions": {
+      "type": "string",
+      "description": "What the utility asks partners to do or prepare.",
+      "examples": [
+        "Confirm critical facility contacts; staff the community resource center locations; share any road closure plans."
+      ]
+    },
+    "nextCall": {
+      "type": "string",
+      "description": "Next coordination call or update.",
+      "examples": ["Coordination call Friday 10:00 AM; next notice Friday 6:00 PM"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Partner liaison line (fictional).",
+      "examples": ["Pinecrest Valley Electric partner liaison 555-0199"]
+    }
+  }
+}

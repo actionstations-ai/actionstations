@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Air quality observation and forecast summary",
+  "description": "A table of air quality readings and forecasts by reporting area: the AQI value, its EPA category written as a name and the PM2.5 concentration when known. The category must match the AQI value (0-50 Good, 51-100 Moderate, 101-150 Unhealthy for Sensitive Groups, 151-200 Unhealthy, 201-300 Very Unhealthy, 301 and above Hazardous).",
+  "type": "object",
+  "required": ["agency", "issuedAt", "title", "rows"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Source agency (fictional).",
+      "examples": ["Calloway County Public Health"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["7:00 AM PDT Sun Sep 13, 2026"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title.",
+      "examples": ["Air quality observations and forecast, Calloway County"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "Reporting areas with the current and forecast AQI. The category must match the AQI value.",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["area", "kind", "valid", "aqi", "category"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Reporting area or site.",
+            "examples": ["Calloway Falls"]
+          },
+          "kind": {
+            "type": "string",
+            "description": "Observation or forecast.",
+            "examples": ["Observed (NowCast)"],
+            "enum": ["Observed (NowCast)", "Forecast"]
+          },
+          "valid": {
+            "type": "string",
+            "description": "Time the value is for.",
+            "examples": ["6:00 AM"]
+          },
+          "aqi": {
+            "type": "integer",
+            "description": "AQI value (0 to 500).",
+            "examples": [168],
+            "minimum": 0,
+            "maximum": 500
+          },
+          "category": {
+            "type": "string",
+            "description": "EPA category for that AQI.",
+            "examples": ["Unhealthy"],
+            "enum": [
+              "Good",
+              "Moderate",
+              "Unhealthy for Sensitive Groups",
+              "Unhealthy",
+              "Very Unhealthy",
+              "Hazardous"
+            ]
+          },
+          "pm25": {
+            "type": "number",
+            "description": "PM2.5 in micrograms per cubic meter, when known.",
+            "examples": [78.4],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Note on the source and the limits of the data.",
+      "examples": ["Sensor readings are 1-hour NowCast values; forecasts are daily maximums."]
+    }
+  }
+}

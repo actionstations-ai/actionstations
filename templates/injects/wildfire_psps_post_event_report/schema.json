@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Power shutoff post-event report",
+  "description": "A utility's post-event report on a power shutoff: the circuits with customers, times off and on and hours without power; each notification against its required window with the time sent and whether it was met; medical baseline customers with contact attempts and customers reached; and complaints and lessons. Counts and times come from the event timeline.",
+  "type": "object",
+  "required": [
+    "utility",
+    "eventName",
+    "preparedAt",
+    "summary",
+    "circuits",
+    "notifications",
+    "medicalBaseline"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "utility": {
+      "type": "string",
+      "description": "Utility (fictional).",
+      "examples": ["Pinecrest Valley Electric"]
+    },
+    "eventName": {
+      "type": "string",
+      "description": "Event name.",
+      "examples": ["October 10-11 wind event"]
+    },
+    "preparedAt": {
+      "type": "string",
+      "description": "Date the report was prepared.",
+      "examples": ["Oct 18, 2026"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary of the event and the decision.",
+      "examples": ["Gusts reached 58 mph. Three circuits were de-energized for 15 to 20 hours."]
+    },
+    "circuits": {
+      "type": "array",
+      "description": "Circuits de-energized and restored.",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["circuit", "customers", "offAt", "onAt", "durationHours"],
+        "properties": {
+          "circuit": {
+            "type": "string",
+            "description": "Circuit id.",
+            "examples": ["C-114"],
+            "x-translate": false
+          },
+          "customers": {
+            "type": "integer",
+            "description": "Customers affected.",
+            "examples": [3120],
+            "minimum": 0
+          },
+          "offAt": {
+            "type": "string",
+            "description": "De-energized at.",
+            "examples": ["6:04 PM Sat"]
+          },
+          "onAt": {
+            "type": "string",
+            "description": "Restored at.",
+            "examples": ["1:10 PM Sun"]
+          },
+          "durationHours": {
+            "type": "number",
+            "description": "Hours without power.",
+            "examples": [19.1],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "notifications": {
+      "type": "array",
+      "description": "Notifications by audience, with the window the plan requires and when they were sent.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["audience", "window", "sentAt", "met"],
+        "properties": {
+          "audience": {
+            "type": "string",
+            "description": "Audience.",
+            "examples": ["Public safety partners"]
+          },
+          "window": {
+            "type": "string",
+            "description": "Required window.",
+            "examples": ["48-72 hours before"],
+            "enum": [
+              "48-72 hours before",
+              "24-48 hours before",
+              "1-4 hours before",
+              "At de-energization",
+              "Restoration",
+              "Cancellation"
+            ]
+          },
+          "requiredBy": {
+            "type": "string",
+            "description": "Latest time the notice should have gone out for the window.",
+            "examples": ["Thu 6:00 PM"]
+          },
+          "sentAt": {
+            "type": "string",
+            "description": "When it went out.",
+            "examples": ["Thu 6:00 AM"]
+          },
+          "met": {
+            "type": "string",
+            "description": "Whether the window was met.",
+            "examples": ["Met"],
+            "enum": ["Met", "Missed", "Not sent"]
+          }
+        }
+      }
+    },
+    "medicalBaseline": {
+      "type": "object",
+      "description": "Medical baseline customers.",
+      "additionalProperties": false,
+      "required": ["customers", "attempted", "reached"],
+      "properties": {
+        "customers": {
+          "type": "integer",
+          "description": "Medical baseline customers on de-energized circuits.",
+          "examples": [175],
+          "minimum": 0
+        },
+        "attempted": {
+          "type": "integer",
+          "description": "Customers with a contact attempt.",
+          "examples": [175],
+          "minimum": 0
+        },
+        "reached": {
+          "type": "integer",
+          "description": "Customers reached by a person or confirmed message.",
+          "examples": [148],
+          "minimum": 0
+        }
+      }
+    },
+    "complaints": {
+      "type": "string",
+      "description": "Complaints and lessons.",
+      "examples": [
+        "Eleven complaints about late text messages on circuit C-131; the batch was delayed 70 minutes."
+      ]
+    }
+  }
+}

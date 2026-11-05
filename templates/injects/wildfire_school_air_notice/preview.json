@@ -1,0 +1,37 @@
+{
+  "variant": "closure",
+  "fields": {
+    "district": "Calloway Unified School District",
+    "issuedAt": "6:15 AM PDT Mon Sep 14, 2026",
+    "headline": "All Calloway Falls schools closed today because of smoke",
+    "aqi": 168,
+    "category": "Unhealthy",
+    "threshold": "Schools close when the forecast AQI stays above 150 for the school day.",
+    "schools": "Calloway Falls Elementary, Calloway Middle and Calloway High School",
+    "details": "No classes or buses. Meals can be picked up at the high school from 11 AM to 1 PM. After-school activities are canceled.",
+    "reopening": "We will decide by 5 PM whether schools open Tuesday.",
+    "contact": "Calloway Unified 555-0120"
+  },
+  "variants": {
+    "early_release": {
+      "fields": {
+        "headline": "Early release at 12:30 PM because of smoke",
+        "aqi": 142,
+        "category": "Unhealthy for Sensitive Groups",
+        "threshold": "Schools release early when the AQI reaches 125 and is forecast to rise.",
+        "details": "Buses leave at 12:30 PM. Outdoor activities are canceled; students with asthma may go home now.",
+        "reopening": "Classes are expected Tuesday."
+      }
+    },
+    "indoor": {
+      "fields": {
+        "headline": "Indoor day: recess and sports moved inside",
+        "aqi": 108,
+        "category": "Unhealthy for Sensitive Groups",
+        "threshold": "Outdoor activity moves inside when the AQI is above 100.",
+        "details": "Classes meet normally. Air handlers run with the highest rated filters; windows stay closed.",
+        "reopening": "We will review at noon."
+      }
+    }
+  }
+}

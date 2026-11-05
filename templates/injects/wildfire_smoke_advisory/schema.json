@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire smoke advisory",
+  "description": "A smoke advisory from a public health or air quality agency: the highest forecast AQI category (always written as the category name beside the number range), the areas, guidance by group, clean-air shelters and the basis. AQI categories use the EPA PM2.5 breakpoints in effect since 6 May 2024.",
+  "type": "object",
+  "required": [
+    "agency",
+    "issuedAt",
+    "validUntil",
+    "headline",
+    "category",
+    "aqiRange",
+    "areas",
+    "guidance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency (fictional).",
+      "examples": ["Calloway County Public Health"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["7:00 AM PDT Sun Sep 13, 2026"]
+    },
+    "validUntil": {
+      "type": "string",
+      "description": "Valid until.",
+      "examples": ["6:00 PM PDT Tue Sep 15, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Smoke advisory: unhealthy air from the Cinder Creek Fire"]
+    },
+    "category": {
+      "type": "string",
+      "description": "Highest AQI category forecast.",
+      "examples": ["Unhealthy"],
+      "enum": [
+        "Good",
+        "Moderate",
+        "Unhealthy for Sensitive Groups",
+        "Unhealthy",
+        "Very Unhealthy",
+        "Hazardous"
+      ]
+    },
+    "aqiRange": {
+      "type": "string",
+      "description": "AQI range forecast, with the pollutant.",
+      "examples": ["AQI 151 to 200 (PM2.5)"]
+    },
+    "areas": {
+      "type": "string",
+      "description": "Areas affected.",
+      "examples": ["Calloway Falls, Mill Valley and the Cinder Canyon foothills"]
+    },
+    "guidance": {
+      "type": "array",
+      "description": "Guidance by group.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["group", "advice"],
+        "properties": {
+          "group": {
+            "type": "string",
+            "description": "Group.",
+            "examples": ["Everyone"]
+          },
+          "advice": {
+            "type": "string",
+            "description": "What to do.",
+            "examples": [
+              "Limit time outdoors; keep windows closed; use a well-fitted N95 respirator if you must be outside."
+            ]
+          }
+        }
+      }
+    },
+    "cleanAir": {
+      "type": "string",
+      "description": "Clean-air shelters.",
+      "examples": ["Calloway Public Library and Mill Valley Community Center, 9 AM to 7 PM."]
+    },
+    "basis": {
+      "type": "string",
+      "description": "Basis: observations and forecast.",
+      "examples": [
+        "Based on sensor readings in Calloway Falls and the smoke forecast from the fire weather office."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line.",
+      "examples": ["Calloway County Public Health 555-0166"]
+    }
+  }
+}

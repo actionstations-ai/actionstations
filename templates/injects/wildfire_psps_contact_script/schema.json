@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Power shutoff call, text and email script",
+  "description": "A script for contacting customers or partners during a power shutoff: the audience, the notice window, the words of a call, text or email, how a customer confirms and what happens when a customer cannot be reached. The variant is the channel (call, text or email).",
+  "type": "object",
+  "required": ["utility", "audience", "timing", "script", "confirm"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "utility": {
+      "type": "string",
+      "description": "Utility (fictional).",
+      "examples": ["Pinecrest Valley Electric"]
+    },
+    "audience": {
+      "type": "string",
+      "description": "Who this goes to.",
+      "examples": ["Medical baseline customers on circuit C-114"]
+    },
+    "timing": {
+      "type": "string",
+      "description": "Which notice window this is.",
+      "examples": ["24-48 hours before"],
+      "enum": [
+        "48-72 hours before",
+        "24-48 hours before",
+        "1-4 hours before",
+        "At de-energization",
+        "Restoration",
+        "Cancellation"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject or text sender line.",
+      "examples": ["Possible power shutoff Saturday evening"]
+    },
+    "script": {
+      "type": "string",
+      "description": "The words to say, text or send. A call script is read by an agent; keep it short and complete.",
+      "examples": [
+        "This is Pinecrest Valley Electric. Because of strong wind and dry conditions we may turn off power to your home starting 6 PM Saturday. If you rely on power for a medical need, say so now and we will connect you to help. Press 1 to confirm you got this message."
+      ]
+    },
+    "confirm": {
+      "type": "string",
+      "description": "How the customer confirms the message was received.",
+      "examples": ["Press 1, or reply YES to confirm."]
+    },
+    "unreachable": {
+      "type": "string",
+      "description": "What the agent or system does when the customer cannot be reached.",
+      "examples": [
+        "Retry twice at 30-minute intervals, then record the attempt and send a field visit request."
+      ]
+    },
+    "callback": {
+      "type": "string",
+      "description": "Callback number (fictional).",
+      "examples": ["555-0100"]
+    }
+  }
+}

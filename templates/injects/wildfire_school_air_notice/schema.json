@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "School closure, early release or indoor day notice for smoke",
+  "description": "A school district notice about smoke: the AQI value and its EPA category name, the decision (closure, early release or indoor day, set by the variant), the district's own threshold from its plan, schools affected, what changes and when the decision will be reviewed. The threshold is a local plan, not a federal rule.",
+  "type": "object",
+  "required": ["district", "issuedAt", "headline", "aqi", "category", "threshold", "details"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "district": {
+      "type": "string",
+      "description": "School district (fictional).",
+      "examples": ["Calloway Unified School District"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["6:15 AM PDT Mon Sep 14, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["All Calloway Falls schools closed today because of smoke"]
+    },
+    "aqi": {
+      "type": "integer",
+      "description": "AQI value that triggered the decision.",
+      "examples": [168],
+      "minimum": 0,
+      "maximum": 500
+    },
+    "category": {
+      "type": "string",
+      "description": "EPA category for that AQI.",
+      "examples": ["Unhealthy"],
+      "enum": [
+        "Good",
+        "Moderate",
+        "Unhealthy for Sensitive Groups",
+        "Unhealthy",
+        "Very Unhealthy",
+        "Hazardous"
+      ]
+    },
+    "threshold": {
+      "type": "string",
+      "description": "The district's own threshold from its air quality plan (a local plan, not a federal rule).",
+      "examples": ["Schools close when the forecast AQI stays above 150 for the school day."]
+    },
+    "schools": {
+      "type": "string",
+      "description": "Schools affected.",
+      "examples": ["Calloway Falls Elementary, Calloway Middle and Calloway High School"]
+    },
+    "details": {
+      "type": "string",
+      "description": "What changes: closure, early release, indoor day, buses, meals, sports.",
+      "examples": [
+        "No classes or buses. Meals can be picked up at the high school from 11 AM to 1 PM. After-school activities are canceled."
+      ]
+    },
+    "reopening": {
+      "type": "string",
+      "description": "When the decision will be reviewed.",
+      "examples": ["We will decide by 5 PM whether schools open Tuesday."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line.",
+      "examples": ["Calloway Unified 555-0120"]
+    }
+  }
+}

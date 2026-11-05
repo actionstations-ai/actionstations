@@ -1,0 +1,65 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.utility}} · Post-event report</p>
+    <h1>{{fields.eventName}}</h1>
+    <p class="meta">Prepared {{fields.preparedAt}}</p>
+  </header>
+  <p class="band">{{fields.summary}}</p>
+  <h2>Circuits</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Circuit</th>
+        <th scope="col">Customers</th>
+        <th scope="col">Off</th>
+        <th scope="col">On</th>
+        <th scope="col">Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.circuits}}
+      <tr>
+        <th scope="row">{{circuit}}</th>
+        <td>{{customers}}</td>
+        <td>{{offAt}}</td>
+        <td>{{onAt}}</td>
+        <td>{{durationHours}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Notifications against their windows</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Audience</th>
+        <th scope="col">Window</th>
+        <th scope="col">Required by</th>
+        <th scope="col">Sent</th>
+        <th scope="col">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.notifications}}
+      <tr>
+        <th scope="row">{{audience}}</th>
+        <td>{{window}}</td>
+        <td>{{requiredBy}}</td>
+        <td>{{sentAt}}</td>
+        <td class="st {{#if (eq met 'Met')}}st-clear{{else}}st-order{{/if}}">
+          <span aria-hidden="true">{{#if (eq met 'Met')}}●{{else}}■{{/if}}</span> {{met}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Medical baseline customers</h2>
+  <p>
+    {{fields.medicalBaseline.customers}} customers on de-energized circuits;
+    {{fields.medicalBaseline.attempted}} contact attempts; {{fields.medicalBaseline.reached}}
+    reached.
+  </p>
+  <h2>Complaints and lessons</h2>
+  <p>{{fields.complaints}}</p>
+</article>

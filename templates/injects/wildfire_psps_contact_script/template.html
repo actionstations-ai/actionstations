@@ -1,0 +1,29 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.utility}}</p>
+    <h1>
+      {{#if (eq variant 'call')}}Call script{{else if (eq variant 'text')}}Text
+      message{{else}}Email{{/if}}: {{fields.timing}}
+    </h1>
+    <p class="meta">Audience: {{fields.audience}}</p>
+  </header>
+  <p class="meta">{{#if (eq variant 'email')}}Subject{{else}}From{{/if}}: {{fields.subject}}</p>
+  <p class="band">{{nl2br fields.script}}</p>
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Confirmation</th>
+        <td>{{fields.confirm}}</td>
+      </tr>
+      <tr>
+        <th scope="row">If unreachable</th>
+        <td>{{fields.unreachable}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Callback</th>
+        <td>{{fields.callback}}</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
