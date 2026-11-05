@@ -44,6 +44,7 @@ import { hazardChannels } from './hazards'
 import { toolkitChannels } from './toolkits'
 import { caseDataChannels } from './case-data'
 import { classroomChannels } from './classroom'
+import { classroomScoringChannels } from './classroom-scoring'
 import { mediaConfirmChannels, MediaConfirmNeededEvent } from './media-confirm'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -196,6 +197,7 @@ export const channels = mergeChannels(
   toolkitChannels,
   caseDataChannels,
   classroomChannels,
+  classroomScoringChannels,
   mediaConfirmChannels,
 )
 

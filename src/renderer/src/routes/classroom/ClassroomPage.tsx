@@ -4,8 +4,10 @@ import { PageHeader } from '../../components/ui'
 import { CoursePanel } from './CoursePanel'
 import { ModeCard } from './ModeCard'
 import { OutcomesPanel } from './OutcomesPanel'
+import { RotationPanel } from './RotationPanel'
 import { RosterPanel } from './RosterPanel'
 import { RubricsPanel } from './RubricsPanel'
+import { ScoringPanel } from './ScoringPanel'
 import { useClassroom } from './use-classroom'
 import './classroom.css'
 
@@ -30,6 +32,8 @@ export default function ClassroomPage() {
             state={data}
           />
           <RubricsPanel projectPath={projectPath} state={data} />
+          <RotationPanel projectPath={projectPath} state={data} />
+          <ScoringPanel projectPath={projectPath} state={data} />
         </>
       )}
     </div>

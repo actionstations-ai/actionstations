@@ -25,6 +25,7 @@ const state = (over: Partial<ClassroomState> = {}): ClassroomState => ({
     rubrics: [],
     sessions: [],
     rotations: [],
+    reflectionPrompts: ['One', 'Two'],
     attainmentThreshold: 0.6,
     updatedAt: '2026-11-04T00:00:00.000Z',
   },
@@ -113,6 +114,74 @@ describe('ClassroomPage', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(screen.getByRole('button', { name: 'Add the starter rubrics' })).toBeTruthy()
     expect(screen.getByLabelText('Outcome 1 code')).toBeTruthy()
+    expect(await violations()).toEqual([])
+  })
+
+  it('shows a suggestion with its basis beside the score selector, without violations', async () => {
+    const level = (n: number) => ({ label: `L${n}`, descriptor: '', points: n })
+    const course = {
+      ...state().course,
+      sections: [{ id: 'a', name: 'A' }],
+      students: [{ id: 's1', sectionId: 'a', name: 'Ada' }],
+      rubrics: [
+        {
+          formatVersion: 1 as const,
+          id: 'r1',
+          name: 'Player',
+          role: 'player',
+          source: '',
+          criteria: [
+            {
+              id: 'c1',
+              name: 'Communication',
+              description: '',
+              weight: 1,
+              levels: [level(0), level(1), level(2)],
+              outcomeIds: [],
+              taskIds: [],
+            },
+          ],
+        },
+      ],
+    }
+    const cell = {
+      rubricId: 'r1',
+      criterionId: 'c1',
+      evidence: [],
+      suggestedLevel: 1,
+      basis: '2 of 3 pieces of evidence are at this level or higher.',
+      level: null,
+      fromTeam: false,
+      overridden: false,
+      comment: '',
+    }
+    mockTtx({
+      'classroom:get': () => state({ enabled: true, course }),
+      'scenarios:list': () => [
+        { id: 'sc', title: 'Run', status: 'draft', updatedAt: '2026-11-04T00:00:00.000Z' },
+      ],
+      'classroom:scoring-view': () => ({
+        scenarioId: 'sc',
+        sectionId: 'a',
+        practice: false,
+        rubricIds: ['r1'],
+        students: [
+          {
+            studentId: 's1',
+            name: 'Ada',
+            cells: [cell],
+            totals: [{ rubricId: 'r1', points: 0, maxPoints: 2, fraction: null, complete: false }],
+            outcomes: [],
+            unlinked: [],
+          },
+        ],
+        team: [],
+      }),
+    })
+    open()
+    expect(await screen.findByText(/Suggested: L1/)).toBeTruthy()
+    expect(screen.getByText(/2 of 3 pieces/)).toBeTruthy()
+    expect(screen.getByLabelText('Level for Ada, Communication')).toBeTruthy()
     expect(await violations()).toEqual([])
   })
 })
