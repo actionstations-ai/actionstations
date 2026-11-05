@@ -77,8 +77,492 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Road and crossing closure before the road floods (zone series in feet above the stage that floods the zone)",
+      "config": {
+        "actionKind": "close_road",
+        "threshold": 0,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Evacuation start before the water reaches the area, less clearance time (zone series in feet above the stage that floods the zone)",
+      "config": {
+        "actionKind": "order_evacuation",
+        "threshold": 0,
+        "clearanceMin": 120
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Sandbag and pump delivery before the action stage (series in feet above action stage)",
+      "config": {
+        "actionKind": "order_resources",
+        "threshold": 0,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Facility and stock moves before the stage that floods them (zone series in feet above the stage that floods the zone)",
+      "config": {
+        "actionKind": "move_assets",
+        "threshold": 0,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Warnings and public messages against observed flash flood reports",
+      "config": {
+        "leadWindowMin": 120,
+        "graceWindowMin": 0,
+        "matchArea": true
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Warning tag, public message and partner messages agree",
+      "config": {
+        "numericTolerance": 0.1
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "activate_eoc",
+      "label": "Activate the emergency operations center",
+      "description": "Raise the activation level.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Activation level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Monitoring", "Partial activation", "Full activation"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "order_evacuation",
+      "label": "Issue an evacuation order or advisory",
+      "description": "For an area drawn or picked on the map.",
+      "fields": [
+        {
+          "id": "type",
+          "label": "Type",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Advisory (voluntary)", "Order (mandatory)"]
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "clearance_minutes",
+          "label": "Clearance time in minutes",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "close_road",
+      "label": "Close a road, crossing or facility",
+      "description": "Name the road and the stage that floods it.",
+      "fields": [
+        {
+          "id": "road",
+          "label": "Road, crossing or facility",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": false
+        },
+        {
+          "id": "floods_at_stage_ft",
+          "label": "Stage in feet that floods it",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "open_shelter",
+      "label": "Open a shelter",
+      "description": "A reception center or shelter.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Shelter",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "capacity",
+          "label": "Capacity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "order_resources",
+      "label": "Order sandbags, pumps or a levee patrol",
+      "description": "A flood fight resource order.",
+      "fields": [
+        {
+          "id": "resource",
+          "label": "Resource",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Sandbags",
+            "Sand",
+            "Pumps",
+            "Hoses and fuel",
+            "Barriers",
+            "Levee patrol",
+            "Crews"
+          ]
+        },
+        {
+          "id": "quantity",
+          "label": "Quantity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "deliver_to",
+          "label": "Deliver to",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "need_by",
+          "label": "Needed by",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "move_assets",
+      "label": "Move facilities, stock or livestock",
+      "description": "Move equipment, grain, vehicles or animals out of the water's path.",
+      "fields": [
+        {
+          "id": "what",
+          "label": "What is moved",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "from",
+          "label": "From (place)",
+          "kind": "area",
+          "required": false
+        },
+        {
+          "id": "floods_at_stage_ft",
+          "label": "Stage in feet that floods it",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "request_help",
+      "label": "Request state or federal help",
+      "description": "Mutual aid, the state, or a declaration.",
+      "fields": [
+        {
+          "id": "to",
+          "label": "Requested from",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Neighboring county",
+            "State emergency management",
+            "National Guard",
+            "Army Corps of Engineers",
+            "Federal declaration"
+          ]
+        },
+        {
+          "id": "what",
+          "label": "What is asked for",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "public_message",
+      "label": "Issue a public message",
+      "description": "A message that must match the forecast category and the actions asked of people.",
+      "fields": [
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Wireless Emergency Alert",
+            "Mass notification",
+            "Social media",
+            "Press release",
+            "Door to door",
+            "Sirens"
+          ]
+        },
+        {
+          "id": "flood_category",
+          "label": "Category stated",
+          "kind": "choice",
+          "required": false,
+          "choices": [
+            "Action",
+            "Minor",
+            "Moderate",
+            "Major",
+            "Flash flood warning",
+            "Flash flood emergency"
+          ]
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": false
+        },
+        {
+          "id": "text",
+          "label": "Message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Gauge reading",
+            "Forecast crest",
+            "Flood or flash flood warning",
+            "Field or patrol report",
+            "Public or media report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which gauge, forecast issuance or report",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -102,25 +586,18 @@
         "definition": "The highest stage of a flood at a point, with a time; the forecast crest is revised with each forecast."
       },
       {
-        "term": "Hydrologic outlook, flood watch, flood warning",
-        "definition": "The Ready, Set, Go tiers of NWS water resources products: outlook days ahead, watch when flooding is possible, warning when it is occurring or imminent."
-      },
-      {
         "term": "Flash flood warning tags",
         "definition": "Base (no tag), CONSIDERABLE for urgent action, CATASTROPHIC only with flash flood emergency language; Wireless Emergency Alerts go out only for CONSIDERABLE and CATASTROPHIC."
-      },
-      {
-        "term": "cfs",
-        "definition": "Cubic feet per second, the unit of flow; kcfs is thousands of cfs."
       }
     ],
     "productConventions": [
       "Stage is in feet with the gauge location named; flow is in cfs or kcfs; times are local with the gauge's time zone.",
       "A forecast has an issuance time and a forecast crest with a time; revised forecasts say what changed since the last issuance.",
-      "Products come in order: outlook, watch, warning, statements while the warning continues.",
+      "NWS products follow Ready, Set, Go: outlook days ahead, watch when flooding is possible, warning when it is occurring or imminent, then statements.",
       "A flood warning names the river point, the category, the forecast crest and the impacts at that stage.",
       "A closure notice names the road, the status, the stage at which it floods and the time of the status.",
-      "Use field_report for a levee patrol report and ics_213_general_message for a flood fight request."
+      "Use field_report for a levee patrol report and ics_213_general_message for a flood fight request.",
+      "Evaluation guide tasks: warning messages match the forecast category (Public Information and Warning); decisions rest on the latest forecast issuance (Situational Assessment); roads closed before they flood (Critical Transportation); shelters sized for pets and access needs (Mass Care); pump stations and plants protected (Infrastructure Systems); sandbags delivered before action stage (Logistics)."
     ],
     "realismRules": [
       "Never claim a stage is minor, moderate or major unless the point's own category table says so; the same crest is moderate on one river and minor on another.",
