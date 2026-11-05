@@ -45,8 +45,12 @@ These are teaching models, not calibrated to any center, shelter or district. Se
 
 - **Open shelters.** A snapshot of the shelters open now from the federal shelter service. The service keeps no history, so a replay of a past event needs a snapshot you took at the time. Street addresses are left out.
 - **Electricity-dependent residents.** De-identified counts of Medicare beneficiaries who use electricity-dependent equipment, by county, from the public emPOWER service.
+- **Social vulnerability by neighborhood.** The CDC/ATSDR Social Vulnerability Index (2022 release) for every census tract in the area you draw: the overall rank and the four theme ranks (from 0, least vulnerable, to 1, most), with counts of people 65 and over, people with a disability, people with limited English and households without a vehicle. Each tract is a point at its center, so it can sit on the shelter map. Draw a box up to 2 degrees on a side.
+- **988 Lifeline monthly performance.** Routed calls, texts and chats, answer rates and average time to answer by month for one state or territory, or every state added up (enter US), from the state-by-state data file the Government Accountability Office published with its 2026 report. It covers July 2022 to September 2025 and counts contacts answered in state through the national network; the Spanish-language and veterans lines are not broken out. All months are kept whatever the scenario period, as a baseline for a surge. The file is about 170 KB.
 
-Both are fetched once, after you agree and see the size, and then used offline. Nothing about your plans is sent.
+All four are fetched once, after you agree and see the size, and then used offline. Nothing about your plans is sent, and none needs a key.
+
+The 988 network administrator's monthly state reports are PDF files, and the federal 988 performance page is an interactive dashboard, so neither can be fetched as data. The GAO file holds the same monthly measures up to its cut-off date.
 
 ## Reference documents
 
