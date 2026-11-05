@@ -7,3 +7,5 @@ Packs bundle public-domain documents only (US federal works, 17 U.S.C. §105, or
 Facts here were checked on the date above; regulations and editions change (for example TSA security directives expire, CIRCIA was not final). Re-check before relying on a deadline.
 
 `generic.md` is the core pack: HSEEP, NIMS, CPG 101, ICS forms, CISA tabletop exercise packages and cross-sector material.
+
+To start a new dossier, copy [`TEMPLATE.md`](TEMPLATE.md); the steps after it are in [Adding a professional field](../../developers/adding-a-field.md).

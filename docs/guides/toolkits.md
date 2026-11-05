@@ -52,4 +52,4 @@ Field packs that use toolkits: [Flooding exercises](flooding.md).
 
 ## Add your own
 
-A toolkit is a small JSON file in a pack. The format, with an example, is in the [pack format reference](../packs-format.md#toolkits-format-3). Anything that needs a program (a chart kind, a public data source, an evaluation measure, a format check) is built into the app; a toolkit names it and sets it up, and cannot add new code.
+A toolkit is a small JSON file in a pack. The format, with an example, is in the [pack format reference](../packs-format.md#toolkits-format-3). Anything that needs a program (a chart kind, a public data source, an evaluation measure, a format check) is built into the app; a toolkit names it and sets it up, and cannot add new code. Developers who add a whole new field can follow the [developer guide](../developers/adding-a-field.md).
