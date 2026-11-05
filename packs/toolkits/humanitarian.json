@@ -1,0 +1,114 @@
+{
+  "id": "humanitarian",
+  "name": "Humanitarian and international response",
+  "description": "Coordination, field security and supply expertise for humanitarian exercises: flash updates and situation reports, 3W (who does what where) tables, cluster gap lists, staff security reports and crisis management records, pipeline dashboards and camp health reports. Simulated data and replayed public datasets are always labeled. All organizations, people and crises are fictional.",
+  "appliesTo": {
+    "keywords": [
+      "humanitarian",
+      "refugee",
+      "displaced",
+      "camp",
+      "cluster",
+      "3w",
+      "who does what where",
+      "situation report",
+      "flash update",
+      "ngo",
+      "aid worker",
+      "relief",
+      "cholera",
+      "kidnapping",
+      "detention of staff",
+      "pipeline break",
+      "customs hold",
+      "hibernation",
+      "country director",
+      "crisis management team",
+      "saving lives together",
+      "voluntary organizations active in disaster"
+    ],
+    "domains": [
+      "humanitarian",
+      "public_health",
+      "epidemiology",
+      "municipal",
+      "port_maritime",
+      "food_agriculture",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "the Humanitarian Country Team and the cluster coordinators",
+    "the host government's disaster authority and customs service",
+    "donor representatives",
+    "other agencies' security focal points",
+    "shipping agents and port operators",
+    "community committees at the response site"
+  ],
+  "advisorRoles": [
+    {
+      "key": "cluster_adviser",
+      "name": "Cluster coordination adviser",
+      "abbreviation": "CLU-ADV",
+      "team": "Advisors",
+      "description": "Explains how clusters, the Humanitarian Country Team and the 3W picture work, and what a gap list line needs to be actionable."
+    },
+    {
+      "key": "security_adviser",
+      "name": "Field security adviser",
+      "abbreviation": "SEC-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about incident reporting, movement approval and information sharing between agencies, at the level of decisions and communications."
+    },
+    {
+      "key": "pipeline_adviser",
+      "name": "Humanitarian logistics adviser",
+      "abbreviation": "LOG-ADV",
+      "team": "Advisors",
+      "description": "Explains lead times, days of stock, customs holds and the options when a pipeline is about to break."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "3W",
+        "definition": "Who does what where: one row per organization, activity and admin area, with dates. An admin area with no row is a gap or a reporting failure, not proof of no work."
+      },
+      {
+        "term": "Cluster",
+        "definition": "A sector coordination group (health, water sanitation and hygiene, shelter, food security, protection, logistics and others) led by a cluster lead agency under the Humanitarian Coordinator."
+      },
+      {
+        "term": "Humanitarian Country Team (HCT)",
+        "definition": "The Humanitarian Coordinator with UN agencies, NGOs and the Red Cross and Red Crescent movement; agrees strategy, priorities, access and security approaches."
+      },
+      {
+        "term": "Saving Lives Together",
+        "definition": "The IASC framework for UN and NGO security collaboration (2015): sharing incident reports and alerts. It does not make the UN responsible for an NGO's security."
+      },
+      {
+        "term": "Hibernation, relocation, evacuation",
+        "definition": "Staying in a secure place; moving staff within the country; leaving the country. Three different decisions with different owners."
+      }
+    ],
+    "productConventions": [
+      "A flash update is numbered and dated, with sections: situation, humanitarian impact, response, gaps, access, contact. Say what is confirmed and what is an estimate.",
+      "A gap list line names the sector, the area, the need, the owner and a date; an unassigned line says so."
+    ],
+    "realismRules": [
+      "Cluster activation is requested by the Humanitarian Coordinator and decided by the Emergency Relief Coordinator with IASC Principals' endorsement; it is time-limited (IASC Transformative Agenda). Refugee settings use the refugee coordination model, not clusters (IASC and UNHCR, checked 2026-11-05).",
+      "Name cluster lead agencies only when the scenario states them. The humanitarian principles are humanity, neutrality, impartiality and independence (UN General Assembly resolutions 46/182 and 58/114).",
+      "Numbers agree across the flash update, the 3W table and the gap list. Days of stock equal stock on hand divided by daily consumption.",
+      "Keep staff security and kidnapping content to decisions and communications: no negotiation tactics, ransom mechanics or detention-resistance technique."
+    ]
+  },
+  "lintRules": [],
+  "capabilities": [],
+  "exerciseTags": []
+}

@@ -1,0 +1,893 @@
+{
+  "id": "humanitarian",
+  "label": "Humanitarian and international response",
+  "description": "NGOs, UN agencies, cluster partners and development programs responding to crises outside a single national emergency system: sudden-onset disasters, refugee influxes, outbreaks in camps, staff security incidents and supply pipeline breaks. Four variants: an international NGO country office, a coordination office with clusters, a response site and a headquarters crisis management team. All organizations, people and crises are fictional.",
+  "aliases": [
+    "humanitarian",
+    "humanitarian_response",
+    "international_aid",
+    "relief",
+    "ngo",
+    "ingo",
+    "un_country_team",
+    "cluster",
+    "hct",
+    "ocha",
+    "field_office",
+    "country_office",
+    "emergency_response_team",
+    "camp_management",
+    "refugee_response",
+    "disaster_response_abroad",
+    "development_program",
+    "international_response"
+  ],
+  "vocabulary": {
+    "facility": "the country office and the response sites (offices, warehouses, health posts and camps)",
+    "public": "affected people, displaced families and host communities",
+    "frontline": "programme officers, site and camp managers, logisticians, health and water and sanitation staff, drivers and community mobilisers",
+    "operationsCenter": "the emergency coordination room or the headquarters crisis management room"
+  },
+  "factCategories": [
+    {
+      "id": "security_reports",
+      "label": "Security incident reports",
+      "pattern": "\\b(SIR-\\d{4}-\\d{2,4})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "shipments",
+      "label": "Shipments and purchase orders",
+      "pattern": "\\b(SHP-\\d{4,6}|PO-\\d{4,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "sites",
+      "label": "Sites and camps",
+      "noun": "Sites?|Camps?|Settlements?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "shared drives, cluster mailing lists and meeting notes",
+      "3W (who does what where) matrix and dashboard",
+      "humanitarian data exchange platform and report library",
+      "beneficiary registration and case management database",
+      "cash and voucher platform",
+      "warehouse and stock management system",
+      "fleet tracking and mobile data collection",
+      "security incident reporting log",
+      "donor reporting portal",
+      "shared services: email, directory and file sharing"
+    ],
+    "ot": [
+      "satellite phones and VHF/HF radio networks",
+      "generators and solar power at field bases",
+      "water treatment and chlorination at water points",
+      "cold chain for vaccines and medicines",
+      "fuel storage and dispensing"
+    ]
+  },
+  "roles": [
+    {
+      "key": "cd",
+      "name": "NGO Country Director",
+      "abbreviation": "CD",
+      "team": "Team A: NGO country office",
+      "description": "Owns programme, staff and funding decisions in country, relations with the host government, and the call to hibernate, relocate or evacuate on the security manager's advice."
+    },
+    {
+      "key": "erm",
+      "name": "Emergency Response Manager",
+      "abbreviation": "ERM",
+      "team": "Team A: NGO country office",
+      "description": "Sets the scope and sites of the response, chooses partners, reports to the cluster and decides which coordination gaps the organization will fill."
+    },
+    {
+      "key": "log",
+      "name": "Head of Logistics and Supply Chain",
+      "abbreviation": "LOG",
+      "team": "Team A: NGO country office",
+      "description": "Owns the pipeline, procurement, transport and warehousing; sees a stock break coming and decides whether to reroute, borrow or ask for a customs waiver."
+    },
+    {
+      "key": "sec",
+      "name": "Security Manager",
+      "abbreviation": "SEC",
+      "team": "Team A: NGO country office",
+      "description": "Runs the security risk assessment, approves or refuses movements, records incident reports, shares alerts with other agencies and advises on hibernation or evacuation."
+    },
+    {
+      "key": "comms",
+      "name": "Communications and Advocacy Lead",
+      "abbreviation": "COMMS",
+      "team": "Team A: NGO country office",
+      "description": "Writes public statements and donor and partner messages, keeps them consistent with the headquarters line and the facts in the situation report."
+    },
+    {
+      "key": "grants",
+      "name": "Grants and Donor Relations Manager",
+      "abbreviation": "GRANTS",
+      "team": "Team A: NGO country office",
+      "description": "Tracks funding against the response plan, tells donors about pipeline changes and incidents, and drafts appeal and reporting inputs."
+    },
+    {
+      "key": "hc",
+      "name": "Humanitarian Coordinator",
+      "abbreviation": "HC",
+      "team": "Team B: Coordination (HCT and clusters)",
+      "description": "Leads the in-country response through the cluster lead agencies, chairs the Humanitarian Country Team and recommends scale-up and an appeal."
+    },
+    {
+      "key": "ocha",
+      "name": "Coordination Office Head",
+      "abbreviation": "OCHA",
+      "team": "Team B: Coordination (HCT and clusters)",
+      "description": "Convenes the Humanitarian Country Team, issues flash updates and situation reports and manages the shared information products."
+    },
+    {
+      "key": "cc",
+      "name": "Cluster Coordinator",
+      "abbreviation": "CC",
+      "team": "Team B: Coordination (HCT and clusters)",
+      "description": "Runs sector meetings, keeps the gap list, assigns gaps to partners and escalates to the Humanitarian Country Team what the cluster cannot close."
+    },
+    {
+      "key": "imo",
+      "name": "Information Management Officer",
+      "abbreviation": "IMO",
+      "team": "Team B: Coordination (HCT and clusters)",
+      "description": "Builds the 3W (who does what where) table and map from partner reports, sets data sharing rules and publishes dashboards."
+    },
+    {
+      "key": "camp",
+      "name": "Camp Manager",
+      "abbreviation": "CAMP",
+      "team": "Team C: Response site",
+      "description": "Runs site services, registration, site planning and the community feedback channel for a displacement site or settlement."
+    },
+    {
+      "key": "health",
+      "name": "Site Health Coordinator",
+      "abbreviation": "HEALTH",
+      "team": "Team C: Response site",
+      "description": "Runs camp health surveillance, reports cases and deaths, and asks the sectors for water, sanitation and treatment capacity when an outbreak starts."
+    },
+    {
+      "key": "wash",
+      "name": "Water, Sanitation and Hygiene Officer",
+      "abbreviation": "WASH",
+      "team": "Team C: Response site",
+      "description": "Keeps water supply, latrines and hygiene items in line with the population and the outbreak, and reports coverage by site."
+    },
+    {
+      "key": "prot",
+      "name": "Protection Officer",
+      "abbreviation": "PROT",
+      "team": "Team C: Response site",
+      "description": "Monitors protection risks, referrals and access for people at risk, and raises incidents with the protection cluster."
+    },
+    {
+      "key": "cmt",
+      "name": "Crisis Management Team Lead",
+      "abbreviation": "CMT",
+      "team": "Team D: Headquarters crisis management",
+      "description": "Activates the crisis management team for a staff incident, keeps the decision log and owns the line to the country office, the family, legal counsel and the donor."
+    },
+    {
+      "key": "flo",
+      "name": "Family Liaison Officer",
+      "abbreviation": "FLO",
+      "team": "Team D: Headquarters crisis management",
+      "description": "Is the one contact for a staff member's family, passes on only what the crisis management team has cleared and records each contact."
+    },
+    {
+      "key": "legal",
+      "name": "Legal and Insurance Adviser",
+      "abbreviation": "LEGAL",
+      "team": "Team D: Headquarters crisis management",
+      "description": "Advises the crisis management team on legal duties, insurance and what may be said about a staff member in custody."
+    },
+    {
+      "key": "hqmedia",
+      "name": "Headquarters Media Lead",
+      "abbreviation": "HQMEDIA",
+      "team": "Team D: Headquarters crisis management",
+      "description": "Holds the media line, issues the holding statement and answers press and social media questions about a staff incident."
+    }
+  ],
+  "outsideParties": [
+    "the host government's disaster management authority, its customs service and its health ministry",
+    "donors and their representatives",
+    "other NGOs and the national and local civil society organizations",
+    "UN agencies and cluster lead agencies",
+    "the refugee agency and the camp coordination partners",
+    "the military and police for civil-military coordination",
+    "shipping agents, port operators, banks and the telecom provider",
+    "affected communities and their committees",
+    "families of staff",
+    "the press, local broadcasters and social media"
+  ],
+  "mediaChannels": [
+    "an international wire reporter's email",
+    "a diaspora group on a messaging app",
+    "a community leader's radio call-in programme",
+    "a viral post about a distribution",
+    "a donor government's press office",
+    "a humanitarian news site"
+  ],
+  "sceneAnchors": {
+    "public": "a crowded distribution point outside a warehouse: families queuing in dust and sun, volunteers in bright vests, stacked sacks, a handwritten list board, daylight",
+    "control": "an emergency coordination room in a rented house: laptops on folding tables, a wall map with pins, a whiteboard of gaps, a satellite phone on charge, fans running",
+    "exterior": "a camp at the edge of a dry river plain: rows of white tents, water tanks on stands, a dirt road with a white four-wheel-drive vehicle, hills in haze"
+  },
+  "injectTypes": [
+    "sitrep",
+    "email",
+    "memo",
+    "official_letter",
+    "press_release",
+    "phone_call",
+    "radio_call",
+    "text_message",
+    "field_report",
+    "map_annotation",
+    "status_board",
+    "ics_213_general_message",
+    "tweet",
+    "facebook_post",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "scene_photo",
+    "voicemail"
+  ],
+  "threatFamilies": [
+    "humanitarian_sudden_onset",
+    "humanitarian_refugee_influx",
+    "humanitarian_site_outbreak",
+    "humanitarian_staff_security",
+    "humanitarian_pipeline_break",
+    "humanitarian_funding_gap",
+    "humanitarian_data_breach",
+    "humanitarian_service_degradation"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "humanitarian_sudden_onset",
+      "label": "Sudden-onset disaster abroad",
+      "description": "An earthquake, cyclone or flood in another country: the first 72 hours of assessment, cluster coordination, a 3W picture and an appeal.",
+      "keywords": [
+        "earthquake",
+        "cyclone",
+        "typhoon",
+        "flood",
+        "sudden-onset",
+        "sudden onset",
+        "disaster abroad",
+        "cluster activation",
+        "3w",
+        "who does what where",
+        "flash appeal",
+        "rapid assessment",
+        "humanitarian response"
+      ],
+      "phaseArc": [
+        {
+          "title": "Alert and first reports",
+          "goal": "Early reports arrive before anyone knows the scale; organizations decide whether to deploy.",
+          "beats": [
+            "A flash update with an unconfirmed casualty range",
+            "A national disaster authority statement that has not yet asked for international help",
+            "Partners ask who is leading coordination"
+          ]
+        },
+        {
+          "title": "First 24 hours",
+          "goal": "Assessment teams deploy, the government request is clarified and cluster activation is requested.",
+          "beats": [
+            "An assessment team cannot reach the worst-affected area",
+            "The Humanitarian Coordinator requests cluster activation",
+            "A customs delay holds relief items at the airport"
+          ]
+        },
+        {
+          "title": "First 72 hours",
+          "goal": "A 3W picture builds up from partner reports and the gap list shows where nobody is working.",
+          "beats": [
+            "Three partners report the same district while a neighbouring district has none",
+            "A cluster meeting produces a gap list with owners missing",
+            "An appeal needs a figure before the assessment is complete"
+          ]
+        },
+        {
+          "title": "First weeks",
+          "goal": "Access constraints, funding and duplicated effort test the response plan.",
+          "beats": [
+            "A bridge washout cuts a corridor",
+            "A donor asks why coverage in the north is low",
+            "Staff fatigue and rotation planning"
+          ]
+        },
+        {
+          "title": "Transition",
+          "goal": "The response hands over to recovery planning and the team records what to change.",
+          "beats": [
+            "A hot wash disagreement about when the gap list should have gone to the Humanitarian Country Team",
+            "A funding gap for the next quarter"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "fill a coverage gap now with the organization's own stock, or wait for the cluster to assign it and risk a longer delay",
+        "escalate an unassigned gap to the Humanitarian Country Team now or give the cluster another day",
+        "launch an appeal on the first assessment figure or wait for a better one"
+      ],
+      "clueKinds": "a partner's 3W entry, an assessment figure for one district, a cluster gap list line, a flash update paragraph, an access note from a logistics cluster meeting",
+      "hurdleKinds": "roads are cut, partners report late or in different formats, the assessment is incomplete, relief items are held at customs",
+      "keyCoordination": "the Humanitarian Country Team, the cluster coordinators, the host government's disaster authority and the donors",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10,
+        "TECH_HURDLE": 10
+      },
+      "promptGuidance": "Use a fictional country, province and crisis. Cluster activation is requested by the Humanitarian Coordinator and decided by the Emergency Relief Coordinator with the endorsement of the IASC Principals. Keep numbers in the 3W table, the gap list and the flash update consistent with each other.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "cluster|gap|appeal|assign|escalate|Humanitarian Country Team|HCT|coordinat",
+          "description": "a coordination decision (cluster, gap, appeal or escalation to the Humanitarian Country Team)"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_refugee_influx",
+      "label": "Refugee influx",
+      "description": "People cross a border faster than a site can register and shelter them; the refugee coordination model applies, not cluster activation.",
+      "keywords": [
+        "refugee",
+        "influx",
+        "border crossing",
+        "asylum",
+        "displaced",
+        "registration",
+        "transit centre",
+        "reception centre",
+        "site planning",
+        "refugee coordination"
+      ],
+      "phaseArc": [
+        {
+          "title": "Arrival",
+          "goal": "Numbers at the border rise and the first reception capacity is full.",
+          "beats": [
+            "A border post reports a rate far above the plan",
+            "A transit centre runs out of water containers",
+            "Local authorities ask who is in charge"
+          ]
+        },
+        {
+          "title": "Registration and reception",
+          "goal": "Registration throughput lags arrivals and a queue grows.",
+          "beats": [
+            "Registration kits break down",
+            "Unaccompanied children are identified in the queue",
+            "A partner proposes a site on a floodplain"
+          ]
+        },
+        {
+          "title": "Site and services",
+          "goal": "A site is chosen and the sectors scale services to the population.",
+          "beats": [
+            "Latrine coverage falls below the site plan",
+            "The camp manager asks for a coordination meeting no one chairs",
+            "A community leader raises a complaint about food"
+          ]
+        },
+        {
+          "title": "Consolidation",
+          "goal": "Roles settle between the refugee agency, the government and partners, and the plan is costed.",
+          "beats": [
+            "A donor asks for a costed plan by Friday",
+            "The government changes the site boundary"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "accept a site that is quick to open but at risk of flooding, or hold arrivals at the border longer",
+        "prioritise registration of families or of unaccompanied children first when capacity is short"
+      ],
+      "clueKinds": "an arrivals tally from a border post, a registration throughput figure, a site plan note, a community complaint",
+      "hurdleKinds": "registration equipment fails, arrivals exceed the plan, a site is not ready, interpreters are missing",
+      "keyCoordination": "the refugee agency, the host government, camp management partners and the sector leads",
+      "purposeMix": {
+        "CLUE": 15,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10,
+        "TECH_HURDLE": 10
+      },
+      "promptGuidance": "Refugee settings use the refugee coordination model led by the refugee agency with the government; do not activate clusters in this family. Treat people as actors with agency. Keep registration and arrival numbers consistent.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "site|registration|refugee agency|government|capacity|reception",
+          "description": "a site, registration or capacity decision with the refugee agency or the government"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_site_outbreak",
+      "label": "Outbreak in a displacement site",
+      "description": "Cholera or measles appears in a camp: surveillance, treatment capacity, water and sanitation, and communication with the community.",
+      "keywords": [
+        "cholera",
+        "measles",
+        "outbreak in a camp",
+        "acute watery diarrhoea",
+        "acute watery diarrhea",
+        "camp health",
+        "oral rehydration",
+        "case fatality",
+        "attack rate",
+        "displacement site"
+      ],
+      "phaseArc": [
+        {
+          "title": "First cases",
+          "goal": "A cluster of cases is noticed and reported through the site health post.",
+          "beats": [
+            "Three deaths from watery diarrhoea in one block",
+            "The health post asks for a case definition",
+            "A rumour that the water is poisoned"
+          ]
+        },
+        {
+          "title": "Confirm and declare",
+          "goal": "The team confirms the disease and decides whether to declare an outbreak response.",
+          "beats": [
+            "A rapid test result and a laboratory delay",
+            "Pressure to avoid the word cholera",
+            "The health cluster asks for a daily surveillance report"
+          ]
+        },
+        {
+          "title": "Response",
+          "goal": "Sectors scale treatment, water, sanitation and messaging together.",
+          "beats": [
+            "Treatment centre beds run short",
+            "Chlorine stock is low at the water points",
+            "Community feedback shows people do not trust the new latrines"
+          ]
+        },
+        {
+          "title": "Control and close",
+          "goal": "Cases fall, the team reviews the curve and the site returns to routine services.",
+          "beats": [
+            "A secondary peak in a neighbouring block",
+            "The outbreak is declared over after a stated period"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "declare an outbreak response on the clinical picture now, or wait for laboratory confirmation",
+        "move treatment beds from a quiet block to the busy one and accept a gap there"
+      ],
+      "clueKinds": "a surveillance line list, a daily case count, a water point chlorine reading, a community feedback entry",
+      "hurdleKinds": "laboratory transport is delayed, chlorine and oral rehydration supplies run short, roads limit access, rumours spread",
+      "keyCoordination": "the health cluster, the water, sanitation and hygiene cluster, camp management and the site's community committees",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10,
+        "TECH_HURDLE": 10
+      },
+      "promptGuidance": "Keep clinical content at the level of surveillance, coordination and supplies: counts, attack rate, case fatality, treatment capacity. Give no treatment protocols beyond naming oral rehydration and referral. Use the epidemiology toolkit for curves when it is on.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "outbreak|declare|treatment|water|chlorine|health cluster|surveillance",
+          "description": "an outbreak response decision (declaration, treatment capacity, water or the health cluster)"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_staff_security",
+      "label": "Staff security incident",
+      "description": "A staff member is detained, kidnapped or injured, or a convoy is attacked: the crisis management team's decisions, communications and family liaison. Decision and communications level only.",
+      "keywords": [
+        "kidnapping",
+        "kidnapped",
+        "abduction",
+        "detained",
+        "detention",
+        "staff incident",
+        "convoy attack",
+        "hibernation",
+        "relocation",
+        "evacuation of staff",
+        "crisis management team",
+        "duty of care",
+        "saving lives together"
+      ],
+      "phaseArc": [
+        {
+          "title": "Incident report",
+          "goal": "The country office reports a staff incident and the security manager records it.",
+          "beats": [
+            "A movement report is overdue by two hours",
+            "A partner reports a checkpoint incident involving a vehicle with the organization's markings",
+            "The first report is incomplete and conflicts with a second"
+          ]
+        },
+        {
+          "title": "Team activation",
+          "goal": "Headquarters activates the crisis management team and sets its roles and cadence.",
+          "beats": [
+            "The crisis management team meets for the first time",
+            "Legal asks what may be said and to whom",
+            "The country office asks whether to stop all movements"
+          ]
+        },
+        {
+          "title": "Family liaison and information control",
+          "goal": "One voice speaks to the family, the media, the donor and other agencies.",
+          "beats": [
+            "A relative calls the country office directly",
+            "A social media post names the staff member",
+            "Another agency asks for the alert"
+          ]
+        },
+        {
+          "title": "Resolution decisions",
+          "goal": "The team decides on movements, hibernation or relocation and what to share with other agencies.",
+          "beats": [
+            "Hibernate a field base or keep a programme running",
+            "Share a security alert with other agencies at the level of the information-sharing framework"
+          ]
+        },
+        {
+          "title": "Recovery and review",
+          "goal": "The staff member's return, care and a review of the decision log.",
+          "beats": [
+            "Staff care and debrief arrangements",
+            "A review of decision timing against the first report"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "stop all movements in the area now, or let essential programme travel continue under a stricter approval",
+        "hibernate a field base or relocate staff",
+        "share a security alert with other agencies now, or wait for more detail"
+      ],
+      "clueKinds": "an overdue movement report, a partner's call, a social media post, a family contact, a security alert from another agency",
+      "hurdleKinds": "communications are down, the first report is incomplete, the family contacts the wrong person, the media runs ahead of the facts",
+      "keyCoordination": "the crisis management team, the family liaison officer, legal counsel, other agencies' security focal points and the donor",
+      "purposeMix": {
+        "CLUE": 15,
+        "DECISION_POINT": 20,
+        "PRESSURE": 15,
+        "MISINFORMATION": 5,
+        "NOISE": 5
+      },
+      "promptGuidance": "Stay at the level of decisions, communications and coordination. Do not write negotiation tactics, ransom amounts or mechanics, techniques for evading or resisting detention, or tactical security procedures. Participation in an inter-agency security collaboration framework does not make the UN responsible for an NGO's security. Include a content notice for facilitators.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "movement|hibernat|relocat|evacuat|crisis management|family|alert|stop",
+          "description": "a staff safety decision (movement, hibernation, relocation, family contact or alert sharing)"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_pipeline_break",
+      "label": "Supply pipeline break",
+      "description": "A port closure, customs hold or access constraint makes stock run out before the next shipment arrives.",
+      "keywords": [
+        "pipeline break",
+        "stock out",
+        "stockout",
+        "customs hold",
+        "port closure",
+        "shipment delayed",
+        "food pipeline",
+        "procurement",
+        "warehouse",
+        "lead time",
+        "access constraint"
+      ],
+      "phaseArc": [
+        {
+          "title": "Early signal",
+          "goal": "Consumption runs ahead of the forecast and a shipment slips.",
+          "beats": [
+            "A warehouse report shows fewer days of stock than planned",
+            "A shipment's arrival date moves by a week"
+          ]
+        },
+        {
+          "title": "Break forecast",
+          "goal": "The pipeline dashboard shows a break date inside the lead time of any reorder.",
+          "beats": [
+            "The forecast break falls before the next shipment can arrive",
+            "A customs hold notice arrives for a container"
+          ]
+        },
+        {
+          "title": "Options",
+          "goal": "The team weighs rerouting, borrowing stock, rationing and a waiver request.",
+          "beats": [
+            "A reroute costs more and adds days",
+            "A partner offers to lend stock at a price",
+            "A waiver request needs a government signature"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Stock arrives, rations are restored and donors are told what changed.",
+          "beats": [
+            "A ration cut was announced too late",
+            "The donor asks for a revised delivery schedule"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "cut rations now to stretch stock, or hold the full ration and risk a harder cut later",
+        "reroute a shipment by a longer, costlier route, or wait for a customs waiver"
+      ],
+      "clueKinds": "a warehouse stock figure, a shipment status line, a customs hold notice, a consumption report from distribution",
+      "hurdleKinds": "customs and port delays, truck availability, a washed-out road, bank or payment delays",
+      "keyCoordination": "customs, the logistics cluster, the shipping agent, the donor and distribution partners",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10,
+        "TECH_HURDLE": 10
+      },
+      "promptGuidance": "Keep stock, consumption, lead times and the break date consistent: days of stock equal stock on hand divided by daily consumption. Use fictional commodities and quantities.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "ration|reroute|waiver|borrow|break|donor|shipment",
+          "description": "a pipeline decision (ration, reroute, waiver, borrowing or telling the donor)"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_funding_gap",
+      "label": "Funding gap",
+      "description": "Funding falls short of the response plan and programmes must be cut or prioritised.",
+      "keywords": [
+        "funding gap",
+        "underfunded",
+        "funding shortfall",
+        "appeal funded",
+        "donor cut",
+        "programme closure",
+        "prioritisation",
+        "prioritization"
+      ],
+      "phaseArc": [
+        {
+          "title": "Signal",
+          "goal": "Funding status shows the appeal well below the plan.",
+          "beats": ["The funding status page shows a low share funded", "A donor delays a tranche"]
+        },
+        {
+          "title": "Prioritise",
+          "goal": "Clusters and organizations decide what to cut or protect.",
+          "beats": [
+            "A cluster is asked to reduce its target by a quarter",
+            "A partner threatens to leave a site"
+          ]
+        },
+        {
+          "title": "Communicate",
+          "goal": "Messages to donors, partners and communities must agree.",
+          "beats": [
+            "A community meeting asks why food rations shrank",
+            "A donor asks for a prioritised list"
+          ]
+        },
+        {
+          "title": "Adjust",
+          "goal": "The plan is revised and the gap is tracked.",
+          "beats": ["A revised appeal is issued", "A partner's exit leaves a coverage gap"]
+        }
+      ],
+      "decisionPointExamples": [
+        "protect life-saving programmes and cut the rest, or spread cuts evenly across sectors"
+      ],
+      "clueKinds": "a funding status figure, a donor email, a cluster prioritisation note, a community feedback entry",
+      "hurdleKinds": "donor processes are slow, figures differ between sources, partners give conflicting numbers",
+      "keyCoordination": "donors, the cluster coordinators and the Humanitarian Country Team",
+      "purposeMix": {
+        "CLUE": 15,
+        "DECISION_POINT": 15,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep funding figures consistent between the funding status, the appeal and every message. Use fictional donors and amounts.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "prioriti|cut|protect|donor|appeal|revise",
+          "description": "a prioritisation or donor decision"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_data_breach",
+      "label": "Beneficiary data breach",
+      "description": "A registration or distribution list is exposed: staff must protect the people on it, notify those who must be told and keep programmes running.",
+      "keywords": [
+        "beneficiary data",
+        "data breach",
+        "registration list",
+        "exposed list",
+        "personal data",
+        "data protection",
+        "biometric",
+        "leak"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "A list of fictional beneficiaries is found exposed.",
+          "beats": [
+            "A staff member finds a shared folder open to anyone",
+            "A partner reports a stolen laptop with registration data"
+          ]
+        },
+        {
+          "title": "Contain and assess",
+          "goal": "The team decides what was exposed and who is at risk.",
+          "beats": ["The list includes a protection caseload", "Legal asks about reporting duties"]
+        },
+        {
+          "title": "Notify and protect",
+          "goal": "Affected people, partners and donors are told what they need to know.",
+          "beats": [
+            "A community meeting asks if their names are public",
+            "A donor asks for a written report"
+          ]
+        },
+        {
+          "title": "Review",
+          "goal": "Data sharing rules and storage are changed.",
+          "beats": ["The cluster information management officer asks for a data sharing review"]
+        }
+      ],
+      "decisionPointExamples": [
+        "tell affected communities now with partial facts, or wait until the scope is known"
+      ],
+      "clueKinds": "a file access log, a partner call, a registration list extract with fictional names, a complaint from a community member",
+      "hurdleKinds": "the scope is unclear, the offline copies cannot be traced, the partner is slow to respond",
+      "keyCoordination": "the data protection focal point, legal counsel, the protection cluster and the donor",
+      "purposeMix": {
+        "CLUE": 20,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10,
+        "TECH_HURDLE": 10
+      },
+      "promptGuidance": "Use fictional people and lists. Do not include real names or identifiers. Keep the response at the level of containment, notification and protection decisions.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "notify|contain|protect|legal|donor|community",
+          "description": "a notification or protection decision"
+        }
+      }
+    },
+    {
+      "id": "humanitarian_service_degradation",
+      "label": "Communications loss in the field",
+      "description": "Phones, radio, satellite links or the network fail, and the team must coordinate and keep staff safe without its usual tools.",
+      "keywords": [
+        "communications loss",
+        "satellite phone",
+        "vhf radio",
+        "network outage",
+        "no signal",
+        "field communications",
+        "radio check"
+      ],
+      "phaseArc": [
+        {
+          "title": "Degradation",
+          "goal": "Links drop or slow in the field offices and the sites.",
+          "beats": ["Radio checks are missed at three bases", "The satellite link is congested"]
+        },
+        {
+          "title": "Fallbacks",
+          "goal": "Teams switch to radio, runners and paper forms.",
+          "beats": ["A 3W update arrives by paper days late", "A movement approval cannot be sent"]
+        },
+        {
+          "title": "Safety",
+          "goal": "Staff safety decisions must be made with less information.",
+          "beats": ["A convoy is out of contact", "The security manager sets a check-in rule"]
+        },
+        {
+          "title": "Restoration",
+          "goal": "Links return and the team reconciles what was missed.",
+          "beats": [
+            "Backlogged reports arrive at once",
+            "A duplicate movement request is approved twice"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "hold all movements until contact is restored, or let convoys proceed on a pre-agreed schedule"
+      ],
+      "clueKinds": "a missed radio check, a paper form, a delayed report, a bounced email",
+      "hurdleKinds": "power, antenna, congested satellite links or a cut cable",
+      "keyCoordination": "the telecom provider, the security manager, other agencies and the headquarters crisis management team",
+      "purposeMix": {
+        "CLUE": 15,
+        "TECH_HURDLE": 20,
+        "DECISION_POINT": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Describe what players see in their tools and what they decide; do not give network configuration or repair detail.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "radio|satellite|check-in|movement|paper|fallback",
+          "description": "a fallback or movement decision during the loss"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a vendor offering generators the programme does not need",
+    "a cluster mailing list thread about meeting times",
+    "a visiting delegation asking for a tour",
+    "an old report re-sent by mistake",
+    "a request to join another working group"
+  ],
+  "pressureExamples": [
+    "a donor asking why coverage in one district is lower than in another",
+    "a government official demanding that a distribution be moved",
+    "a headquarters director asking for an answer to a media question in an hour",
+    "a community leader threatening to block a road over food rations",
+    "a family member demanding to know where a staff member is"
+  ],
+  "rolePatterns": {
+    "technical": "information management|IMO",
+    "security": "security",
+    "operations": "country director|coordinator|emergency response|logistics"
+  },
+  "agencyPattern": "OCHA|UNHCR|WFP|UNICEF|WHO|IOM|IFRC|Red Cross|Red Crescent|Humanitarian Country Team|HCT|IASC|Humanitarian Coordinator",
+  "coreCapabilities": [
+    "operational_coordination",
+    "situational_assessment",
+    "logistics_and_supply_chain_management",
+    "mass_care_services",
+    "public_health_healthcare_and_emergency_medical_services",
+    "operational_communications",
+    "public_information_and_warning"
+  ],
+  "regulations": ["gdpr_art33"],
+  "frameworks": ["nist_csf_2"],
+  "suggestedToolkits": ["humanitarian", "epidemiology", "media_environment"]
+}
