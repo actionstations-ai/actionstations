@@ -14,6 +14,7 @@ const GROUP_LABEL: Record<string, string> = {
   injects: 'Injects',
   messages: 'Messages',
   votes: 'Votes',
+  decisions: 'Decisions',
   hotwash: 'Hot wash',
   evaluation: 'Evaluation',
   devices: 'Devices',

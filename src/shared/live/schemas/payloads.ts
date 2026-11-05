@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { ExerciseTime, SafeId, WallClock } from '../../schemas/common'
 import { Base64Url22, Base64UrlBytes, ClientId, Destination, Nonce } from './envelope'
 import { BlobRef } from './blob'
+import { AreaValue, DecisionForm, SubmittedField, DECISION_LIMITS } from '../../schemas/decisions'
 
 const Text = (max: number) => z.string().max(max)
 const RoleId = SafeId
@@ -233,6 +234,20 @@ export const VoteClosePayload = z.strictObject({
     .max(640)
     .optional(),
   reveal: z.boolean(),
+})
+
+/** A decision form a toolkit defines, sent to the seats that may use it (spec 0448 FR-14). */
+export const DecisionFormPayload = z.strictObject({ form: DecisionForm })
+
+/**
+ * A decision a player submits. `decisionId` is chosen by the device and makes a resend after a
+ * dropped connection count once; the controller checks the rest against the form it sent.
+ */
+export const DecisionSubmitPayload = z.strictObject({
+  decisionId: Base64Url22,
+  formId: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/),
+  fields: z.array(SubmittedField).max(DECISION_LIMITS.fields),
+  area: AreaValue.optional(),
 })
 
 const HotwashKind = z.enum(['strength', 'improvement', 'other'])
@@ -578,6 +593,8 @@ export const SEALED_PAYLOADS = {
   'vote.open': VoteOpenPayload,
   'vote.cast': VoteCastPayload,
   'vote.close': VoteClosePayload,
+  'decision.form': DecisionFormPayload,
+  'decision.submit': DecisionSubmitPayload,
   'hotwash.item': HotwashItemPayload,
   'hotwash.update': HotwashUpdatePayload,
   'survey.open': SurveyOpenPayload,
@@ -611,6 +628,8 @@ export type MessageSendPayload = z.infer<typeof MessageSendPayload>
 export type VoteOpenPayload = z.infer<typeof VoteOpenPayload>
 export type VoteCastPayload = z.infer<typeof VoteCastPayload>
 export type VoteClosePayload = z.infer<typeof VoteClosePayload>
+export type DecisionFormPayload = z.infer<typeof DecisionFormPayload>
+export type DecisionSubmitPayload = z.infer<typeof DecisionSubmitPayload>
 export type HotwashItemPayload = z.infer<typeof HotwashItemPayload>
 export type HotwashUpdatePayload = z.infer<typeof HotwashUpdatePayload>
 export type SurveyOpenPayload = z.infer<typeof SurveyOpenPayload>

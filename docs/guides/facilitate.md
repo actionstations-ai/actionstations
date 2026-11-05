@@ -64,6 +64,16 @@ A scenario with branches (see the MSEL editor's **Branches** panel) adds a **Dec
 
 To print what happened, export **MSEL of one path** (the decisions taken and the path played) from the Export page.
 
+## Recording decisions from forms
+
+When the exercise comes with decision forms (for example "Issue a warning" or "Order an evacuation"), the **Live** tab shows a **Decisions** section. It works with or without devices.
+
+1. Pick the form if there is more than one. Fill in the fields: choices and areas are lists, times are hours and minutes on the exercise clock (`1:30`), numbers show their unit.
+2. Optionally say which role made the decision, then press **Record decision**. Required fields that are empty, or values outside the limits, are named and nothing is recorded until they are fixed.
+3. The decision is saved with the exercise time and the real time. With a live session running it is also written to the session log, next to the decisions players send from their devices.
+
+The list below the form shows every decision, newest first. It marks each as **From a device** or **Recorded here**, and shows the role that made it (and the name too, only when the session is named). The same record feeds the measures in the evaluation and the after-action report. An exercise with no forms shows no Decisions section.
+
 ## Controller tools
 
 ### Clock control

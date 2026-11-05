@@ -64,6 +64,10 @@ const READERS: Record<string, Reader> = {
   'vote.open': (e) => `Vote opened: ${clip(str(e.data.question))}`,
   'vote.cast': () => 'Vote cast',
   'vote.close': (e) => `Vote closed (${num(e.data.voted)} voted)`,
+  'decision.submitted': (e, r) => {
+    const roleId = e.actor.seat?.roleId ?? str(e.data.roleId)
+    return `Decision: ${clip(str(e.data.title))}${roleId ? ` by ${r(roleId) ?? roleId}` : ''}`
+  },
   'hotwash.open': () => 'Hot wash opened',
   'hotwash.close': () => 'Hot wash closed',
   'hotwash.item': (e) => `Hot wash: ${clip(str(e.data.text))}`,

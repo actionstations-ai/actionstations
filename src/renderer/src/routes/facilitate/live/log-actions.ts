@@ -7,6 +7,7 @@ export const KIND_GROUPS: Record<string, string[]> = {
   injects: ['inject.release', 'inject.receipt', 'inject.retract', 'inject.answered'],
   messages: ['message', 'message.handled', 'message.star', 'message.pinned'],
   votes: ['vote.open', 'vote.cast', 'vote.rationale', 'vote.close', 'vote.reopen', 'vote.recorded'],
+  decisions: ['decision.submitted'],
   hotwash: [
     'hotwash.open',
     'hotwash.close',

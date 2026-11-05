@@ -5,13 +5,15 @@ import type { Prefs, TextSize, Theme } from '../app/prefs'
 import type { PlayerSession } from '../app/session'
 import { useStore, type Store } from '../app/store'
 import { STRINGS } from '../app/strings'
+import { DecisionsScreen } from '../features/decisions/DecisionsScreen'
+import { formsForMe } from '../features/decisions/decisions'
 import { EvaluateScreen } from '../features/evaluate/EvaluateScreen'
 import { MapScreen } from '../features/map/MapScreen'
 import { HotWashScreen } from '../features/hotwash/HotWashScreen'
 import { SimcellScreen } from '../features/simcell/SimcellScreen'
 import { SIMCELL } from '../features/simcell/strings'
 
-type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash' | 'simcell' | 'map'
+type View = 'menu' | 'settings' | 'about' | 'evaluate' | 'hotwash' | 'simcell' | 'map' | 'decisions'
 
 interface Entry {
   id: string
@@ -39,6 +41,8 @@ export function MoreScreen({
   const info = useStore(session.store, (s) => s.info)
   const seat = useStore(session.store, (s) => s.seat)
   const features = info?.features
+  const forms = useStore(session.store, (s) => s.decisionForms)
+  const hasForms = formsForMe(forms, seat?.role?.id).length > 0 && seat?.kind === 'player'
   const reason = (on: boolean | undefined) =>
     on === false ? STRINGS.more.featureOff : STRINGS.more.laterUpdate
   const entries: Entry[] = [
@@ -61,6 +65,11 @@ export function MoreScreen({
         ? { onOpen: () => onOpenSurveys?.() }
         : { why: reason(features?.surveys) }),
     },
+    {
+      id: 'decisions',
+      label: STRINGS.more.decisions,
+      ...(hasForms ? { onOpen: () => setView('decisions') } : { why: STRINGS.more.noForms }),
+    },
     { id: 'map', label: STRINGS.more.map, onOpen: () => setView('map') },
     {
       id: 'evaluate',
@@ -80,6 +89,8 @@ export function MoreScreen({
 
   if (view === 'evaluate')
     return <EvaluateScreen session={session} onBack={() => setView('menu')} />
+  if (view === 'decisions')
+    return <DecisionsScreen session={session} onBack={() => setView('menu')} />
   if (view === 'map') return <MapScreen session={session} onBack={() => setView('menu')} />
   if (view === 'simcell') return <SimcellScreen session={session} onBack={() => setView('menu')} />
   if (view === 'settings')

@@ -88,6 +88,8 @@ export const MESSAGE_TYPES = [
   'vote.open',
   'vote.cast',
   'vote.close',
+  'decision.form',
+  'decision.submit',
   'hotwash.item',
   'hotwash.update',
   'survey.open',
@@ -140,6 +142,7 @@ export const SIGNED_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'map.state',
   'vote.open',
   'vote.close',
+  'decision.form',
   'hotwash.update',
   'survey.open',
   'survey.close',
@@ -165,6 +168,7 @@ export const HOST_ONLY_TYPES: ReadonlySet<MessageType> = new Set<MessageType>([
   'drill.close',
   'eval.assign',
   'map.state',
+  'decision.form',
   'controller.roster',
   'partner.receipt',
   'simcell.draft',
@@ -191,6 +195,7 @@ export const CLIENT_ADDRESSED_TYPES: ReadonlySet<MessageType> = new Set<MessageT
   'partner.receipt',
   'simcell.draft',
   'drill.feedback',
+  'decision.form',
 ])
 
 /** Never stored for catch-up. */
@@ -230,6 +235,8 @@ export const KEY_BY_TYPE: Record<Exclude<MessageType, PlaintextType>, KeyRule> =
   'vote.open': 'players',
   'vote.cast': 'controller',
   'vote.close': 'players',
+  'decision.form': 'players',
+  'decision.submit': 'controller',
   'hotwash.item': 'controller',
   'hotwash.update': 'players',
   'survey.open': 'players',

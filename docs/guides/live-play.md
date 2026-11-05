@@ -228,6 +228,24 @@ For the facilitator, in the **Votes** tab beside **Live** (a session must be run
 - **Reasons** are logged as separate lines with the option and the text, never with who wrote them.
 - A vote that is still open when the session ends is closed as **ended early** with the tally so far.
 
+## Decision forms
+
+Some exercises come with decision forms: structured questions such as "Issue a warning", "Order an evacuation" or "Request a ground stop". They come with the toolkits the exercise uses, and only the roles a form names can use it. Where there are no forms for your seat, **Decisions** under **More** says so and stays closed.
+
+On your device, open **More, Decisions**. The list shows the forms for your seat; pick one. Each field has a label and says whether it is required. A form can ask for:
+
+- a **choice** (a group of large radio buttons),
+- a **number**, with its unit and limits when it has them,
+- a **time** on the exercise clock, written as hours and minutes, for example `1:30`,
+- some **text**, and
+- an **area**, picked from a list of named places. A form may also allow drawing the area on a map; the map on this page shows places but cannot be drawn on, so you always pick from the list here.
+
+Press **Send decision**. If something is missing or out of range, a message names how many answers need a look and the first one takes focus; nothing is sent until they are fixed. A decision goes out at once or, if you are offline, is kept on the device and sent when the connection returns, once. The list under **Sent from this device** shows each decision as **Sent** or **Waiting to send**. Everything works with the keyboard and with screen readers.
+
+For the facilitator, decisions appear in the **Live** tab under **Decisions**, newest first, with the exercise time, the role and whether they came from a device or were recorded on this computer. They are also in the session log, which the metrics and the after-action report read.
+
+The **attribution** setting you chose for the session applies as it does for messages: with role-level attribution each decision carries the role of the seat that sent it and no name; with named attribution it also carries the name the person gave when joining. Unlike votes, a decision is not anonymous, because the record needs to say which role made it. Evaluators and observers do not see the forms, and a device cannot send a decision for a form it was not given.
+
 ## Messages with the SimCell
 
 The SimCell assistant can draft these replies for you to approve, and a persona can phone a player. See the [SimCell assistant guide](live-simcell.md).

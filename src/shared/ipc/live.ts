@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { channel } from './define'
 import { ReleaseTarget } from '../live/targets'
 import { HttpUrl, SafeId } from '../schemas/common'
+import { AreaValue, DecisionForm, DecisionRecord, DecisionValue } from '../schemas/decisions'
 import { LiveServerEntry } from '../schemas/settings'
 import {
   Attribution,
@@ -165,6 +166,23 @@ export const liveChannels = {
       rowId: SafeId.optional(),
       text: z.string(),
     }),
+  ),
+  /** The decision forms of the scenario's toolkits; works with or without a running session. */
+  'live:decision-forms': channel(S, z.array(DecisionForm)),
+  /** Decisions taken in the running session (devices and facilitator), oldest first. */
+  'live:decisions': channel(S, z.array(DecisionRecord)),
+  /**
+   * Record a decision the facilitator entered. Logged when a session runs; either way the record
+   * comes back for Facilitate to keep in the facilitator file.
+   */
+  'live:decision-record': channel(
+    S.extend({
+      formId: z.string().max(64),
+      fields: z.record(z.string().max(64), DecisionValue),
+      area: AreaValue.optional(),
+      roleId: SafeId.optional(),
+    }),
+    DecisionRecord,
   ),
   /** Play a phone, radio or voicemail row as a call on the devices it is for (spec 0429). */
   'live:inject-call': channel(

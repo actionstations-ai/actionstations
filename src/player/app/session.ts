@@ -47,6 +47,13 @@ import {
 } from '../features/surveys/surveys'
 import { applyClose, applyOpen, mayVote, type VoteMap } from '../features/votes/votes'
 import {
+  applyForm,
+  wireDecision,
+  type Draft,
+  type FormMap,
+  type SentDecision,
+} from '../features/decisions/decisions'
+import {
   EMPTY_HOTWASH,
   addOwn,
   addPlusMine,
@@ -157,6 +164,10 @@ export interface PlayerState {
   votes: VoteMap
   /** Surveys this device has heard of, by delivery id (spec 0422). */
   surveys: SurveyMap
+  /** Decision forms the controller sent for this seat, by form id (spec 0448). */
+  decisionForms: FormMap
+  /** Decisions this device sent or queued, newest first. */
+  decisions: SentDecision[]
   /** Micro-drills sent to this device, by drill id (spec 0437). */
   drills: DrillMap
   /** The map the controller is sharing, with the places this device may see (spec 0436). */
@@ -267,6 +278,8 @@ export class PlayerSession {
       messages: [],
       votes: {},
       surveys: {},
+      decisionForms: {},
+      decisions: [],
       drills: {},
       hotwash: EMPTY_HOTWASH,
       calls: {},
@@ -555,6 +568,11 @@ export class PlayerSession {
             : (msg as Opened<'map.state'>).payload,
         })
         break
+      case 'decision.form':
+        this.store.set((s) => ({
+          decisionForms: applyForm(s.decisionForms, msg as Opened<'decision.form'>),
+        }))
+        return
       case 'survey.open':
         this.applySurveyOpen(msg as Opened<'survey.open'>)
         break
@@ -643,6 +661,8 @@ export class PlayerSession {
       items: [],
       messages: [],
       surveys: {},
+      decisionForms: {},
+      decisions: [],
       drills: {},
       map: undefined,
       hotwash: EMPTY_HOTWASH,
@@ -1161,6 +1181,32 @@ export class PlayerSession {
     })
   }
 
+  /**
+   * Send a decision from a form. It goes out now, or on reconnect; the id is chosen here so a
+   * resend after a dropped connection counts once. Returns the id, or undefined when the form
+   * is not one this device was given.
+   */
+  async submitDecision(formId: string, draft: Draft): Promise<string | undefined> {
+    const form = this.state.decisionForms[formId]
+    if (!form || !this.outbox) return undefined
+    const decisionId = toBase64Url(this.deps.crypto.random(16))
+    const sent: SentDecision = {
+      decisionId,
+      formId,
+      title: form.title,
+      at: this.now(),
+      sent: false,
+    }
+    this.store.set((s) => ({ decisions: [sent, ...s.decisions].slice(0, 50) }))
+    await this.outbox.enqueue({
+      id: `decision:${decisionId}`,
+      type: 'decision.submit',
+      to: 'controller',
+      payload: wireDecision(form, draft, decisionId),
+    })
+    return decisionId
+  }
+
   private applyVoteClose(msg: Opened<'vote.close'>): void {
     const votes = applyClose(this.state.votes, msg, this.now())
     this.store.set({ votes })
@@ -1193,6 +1239,13 @@ export class PlayerSession {
         revision: number
       }
       void this.evaluate?.markSent(observationId, revision)
+      return
+    }
+    if (action.type === 'decision.submit') {
+      const id = String(action.payload.decisionId)
+      this.store.set((s) => ({
+        decisions: s.decisions.map((d) => (d.decisionId === id ? { ...d, sent: true } : d)),
+      }))
       return
     }
     if (action.type === 'survey.response') {
