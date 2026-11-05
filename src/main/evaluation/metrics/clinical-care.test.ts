@@ -304,7 +304,7 @@ describe('downtime_workflow_time', () => {
   it('measures the outage to the paper workflow decision of the configured kind', () => {
     const r = run('downtime_workflow_time', {
       events: [ev('o', 'downtime_start', 0, { system: 'EHR' })],
-      decisions: [dec('d', 'start_downtime_workflow', 20, {})],
+      decisions: [dec('d', 'declare_downtime', 20, {})],
     })
     expect(summary(r, 'Mean minutes, outage to paper workflows')).toBe('20 min')
     expect(summary(r, 'Started within 30 minutes')).toBe('1 of 1')
@@ -426,5 +426,25 @@ describe('decisions as the session log records them', () => {
       decisions,
     })
     expect(summary(r, 'Correct')).toBe('1 of 2 (0.500)')
+  })
+})
+
+describe('the downtime metric and the clinical systems toolkit', () => {
+  it('defaults to a decision form that exists in the clinical systems toolkit', () => {
+    const systems = ToolkitSchema.parse(
+      JSON.parse(readFileSync(resolve('packs/toolkits/clinical_systems.json'), 'utf8')),
+    )
+    const care = ToolkitSchema.parse(
+      JSON.parse(readFileSync(resolve('packs/toolkits/clinical_care.json'), 'utf8')),
+    )
+    const configured = care.metrics.find((m) => m.id === 'downtime_workflow_time')!.config
+      .decisionKind as string
+    expect(systems.decisionForms.map((f) => f.id)).toContain(configured)
+    expect(configured).toBe('declare_downtime')
+    const r = run('downtime_workflow_time', {
+      events: [ev('o', 'downtime_start', 0)],
+      decisions: [dec('d', 'declare_downtime', 10, {})],
+    })
+    expect(summary(r, 'Mean minutes, outage to paper workflows')).toBe('10 min')
   })
 })

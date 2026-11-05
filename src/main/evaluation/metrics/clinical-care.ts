@@ -598,7 +598,7 @@ export const disclosureTiming: Metric<DisclosureTimingConfig, ClinicalInputs> = 
 
 export const DowntimeWorkflowConfig = z.object({
   /** The decision form that starts paper workflows (from the clinical systems toolkit). */
-  decisionKind: z.string().default('start_downtime_workflow'),
+  decisionKind: z.string().default('declare_downtime'),
   targetMinutes: z.number().positive().default(30),
 })
 type DowntimeWorkflowConfig = z.infer<typeof DowntimeWorkflowConfig>
