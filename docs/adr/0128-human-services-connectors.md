@@ -18,3 +18,11 @@ The spec lists four replay sources: FEMA open shelters, HHS emPOWER counts, publ
 
 - A replay of a past shelter event is possible only from the user's own capture; the example and tests use fictional shelter data.
 - Adding the two deferred sources later needs a verified endpoint and terms, not a change to the framework.
+
+## Update 2026-11-05: the two deferred sources
+
+Owner decision: terms readings no longer block a source; only technical blockers do.
+
+- **`cdc-svi`**: the 2022 index by tract from the CDC OneMap feature service (onemap.cdc.gov, layer 2 of `SVI/CDC_ATSDR_Social_Vulnerability_Index_2022_USA`), queried by a rounded box of at most 2 degrees, centroids instead of boundaries, twelve fields kept; -999 (not computed) is stored as empty.
+- **`lifeline-988-gao`**: the state-by-state data file published with GAO-26-108114 (files.gao.gov, one fixed zip of about 170 KB holding a CSV), July 2022 to September 2025. One state's months, or every jurisdiction added up for `US` (rates and times weighted by routed contacts). The whole period is kept as a baseline whatever the scenario range. The CSV header is checked column by column, so a changed file is refused rather than misread.
+- **Still not a connector:** the network administrator's monthly in-state reports (988lifeline.org) are one PDF per month at a new address each time, and the SAMHSA performance page is an interactive dashboard with no data file behind a fixed address. The GAO file carries the same measures up to its cut-off.

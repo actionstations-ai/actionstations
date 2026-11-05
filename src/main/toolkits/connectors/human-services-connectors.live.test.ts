@@ -2,8 +2,10 @@
 // expect. Never run in CI; each test makes one or two small requests.
 import { describe, expect, it } from 'vitest'
 import { createCaseGet } from '../../case-data/http'
+import { cdcSvi } from './cdc-svi'
 import { femaOpenShelters } from './fema-open-shelters'
 import { hhsEmpower } from './hhs-empower'
+import { lifeline988 } from './lifeline-988'
 import type { FetchContext } from './registry'
 
 const live = process.env.LIVE === '1'
@@ -37,5 +39,25 @@ describe.skipIf(!live)('live human services services', () => {
     )
     const fc = JSON.parse(new TextDecoder().decode(r.files[0]!.data as Uint8Array))
     expect(fc.features.length).toBeGreaterThan(50)
+  }, 60_000)
+
+  it('the SVI service answers a tract query for a box with centroids and ranks', async () => {
+    const r = await cdcSvi.fetch(
+      { range, area: { label: 'Cleveland', bbox: [-81.75, 41.45, -81.65, 41.52] }, options: {} },
+      ctxFor(['onemap.cdc.gov']),
+    )
+    const fc = JSON.parse(new TextDecoder().decode(r.files[0]!.data as Uint8Array))
+    expect(fc.features.length).toBeGreaterThan(5)
+    expect(typeof fc.features[0].properties.tractFips).toBe('string')
+  }, 60_000)
+
+  it('the GAO 988 file downloads, unzips and parses for one state', async () => {
+    const r = await lifeline988.fetch(
+      { range, area: { label: 'Ohio' }, options: { state: 'OH' } },
+      ctxFor(['files.gao.gov']),
+    )
+    const points = JSON.parse(new TextDecoder().decode(r.files[0]!.data as Uint8Array))
+    expect(points.length).toBeGreaterThan(30)
+    expect(points[0].v.callsRouted).toBeGreaterThan(0)
   }, 60_000)
 })
