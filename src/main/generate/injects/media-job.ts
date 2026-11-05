@@ -28,6 +28,9 @@ import {
   videoStep,
   type StepContext,
 } from './media-assets'
+import type { ProviderConfig } from '@shared/schemas'
+import type { MediaTask } from './deps'
+import { countPaidCalls, plannedCalls, type PaidTargets } from './media-confirm'
 import { runMediaBrief } from './media-brief-stage'
 import { planMedia } from './media-plan'
 import { formatRepairs, repairFields, type FieldRepair } from './repair'
@@ -364,6 +367,40 @@ function note(summary: MediaJobSummary, inject: Inject, outcome: RenderOutcome):
   else if (!outcome.failed.length) summary.skipped.push({ ...entry, reason: 'nothing planned' })
 }
 
+/** The provider routed to each task a batch uses; a task with no working route is left out. */
+async function targetsFor(env: InjectEnv, tasks: MediaTask[]): Promise<PaidTargets> {
+  const out: PaidTargets = {}
+  for (const task of new Set(tasks)) {
+    try {
+      const { provider } = await env.deps.resolveMediaProvider(task, env.root)
+      out[task] = provider.config as ProviderConfig
+    } catch {
+      // The step reports a missing route when it runs.
+    }
+  }
+  return out
+}
+
+/** Ask before the batch calls a paid (remote) media provider; throws CANCELLED on Cancel. */
+async function confirmPaid(
+  env: InjectEnv,
+  targets: Inject[],
+  opts: MediaJobOptions,
+  ctx: JobContext,
+): Promise<void> {
+  const planned = targets.filter((i) => !(i.locked && !opts.injectIds))
+  const calls = plannedCalls(planned, opts.paths)
+  if (!calls.length) return
+  const paid = countPaidCalls(
+    calls,
+    await targetsFor(
+      env,
+      calls.map((c) => c.task),
+    ),
+  )
+  if (paid.length) await env.deps.confirmPaidMedia(paid, ctx.signal)
+}
+
 /** The job body. Returns the summary (also the job's result). */
 export async function runMediaJob(
   root: string,
@@ -376,6 +413,7 @@ export async function runMediaJob(
   const all = await env.deps.injects.listInjects(root, scenarioId)
   const targets = selectInjects(all, opts.injectIds)
   const summary: MediaJobSummary = { rendered: [], skipped: [], failed: [] }
+  await confirmPaid(env, targets, opts, ctx)
   for (const [i, inject] of targets.entries()) {
     ctx.throwIfCancelled()
     const window: [number, number] = [i / targets.length, (i + 1) / targets.length]

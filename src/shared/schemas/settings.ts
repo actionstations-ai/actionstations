@@ -158,6 +158,12 @@ export const RegionalIdentity = z.object({
 })
 export type RegionalIdentity = z.infer<typeof RegionalIdentity>
 
+/** Paid media confirmation: providers the user chose not to be asked about again. */
+export const MediaSettings = z.object({
+  skipPaidConfirmation: z.array(z.string().max(128)).max(100).default([]),
+})
+export type MediaSettings = z.infer<typeof MediaSettings>
+
 export const AppSettings = z.object({
   /** Organization identities on this computer, by orgId (spec 0440). */
   regional: z
@@ -193,6 +199,8 @@ export const AppSettings = z.object({
   simcell: SimcellSettings.default({ capability: {} }),
   /** Online maps (off by default) and the state map catalog (#436). */
   maps: MapsSettings.default(() => MapsSettings.parse({})),
+  /** Media generation choices (paid-call confirmation). */
+  media: MediaSettings.default(() => ({ skipPaidConfirmation: [] })),
   /** Optional public hazard data (#439); off until the user turns it on. */
   hazards: HazardSettings.default(() => ({ enabled: false })),
 })

@@ -37,12 +37,17 @@ export interface RenderedLine {
 }
 
 /** The provider for a persona: its own, else the one routed to `audio`, with its voice applied. */
-async function voiceProvider(root: string, card: PersonaCard): Promise<MediaProvider> {
-  const base = card.voice.providerId
-    ? await mediaProviderFor(await configFor(card.voice.providerId, 'audio'))
-    : (await resolveMediaProvider('audio', root)).provider
+async function voiceProvider(
+  root: string,
+  card: PersonaCard,
+): Promise<{ provider: MediaProvider; model?: string }> {
+  const routed = card.voice.providerId ? undefined : await resolveMediaProvider('audio', root)
+  const base = routed
+    ? routed.provider
+    : await mediaProviderFor(await configFor(card.voice.providerId as string, 'audio'))
+  const model = routed?.model
   const voice = card.voice.voiceId?.trim()
-  if (!voice) return base
+  if (!voice) return { provider: base, ...(model ? { model } : {}) }
   // The system voice adapter picks a voice per speaker from its `voices` option.
   const config: ProviderConfig = {
     ...base.config,
@@ -54,7 +59,7 @@ async function voiceProvider(root: string, card: PersonaCard): Promise<MediaProv
       },
     },
   }
-  return mediaProviderFor(config)
+  return { provider: await mediaProviderFor(config), ...(model ? { model } : {}) }
 }
 
 /** Speak `text` as the persona. The file is written under the scenario's media/_calls folder. */
@@ -65,7 +70,7 @@ export async function renderLine(
   text: string,
   signal?: AbortSignal,
 ): Promise<RenderedLine> {
-  const provider = await voiceProvider(root, card)
+  const { provider, model } = await voiceProvider(root, card)
   if (!provider.capabilities().has('audio'))
     throw new AppError(
       'VALIDATION',
@@ -75,6 +80,7 @@ export async function renderLine(
   await ensureDir(dir)
   const [out] = await provider.generate({
     kind: 'audio',
+    ...(model ? { model } : {}),
     injectId: 'call',
     brief: {
       paths: ['tts'],

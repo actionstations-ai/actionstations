@@ -116,6 +116,8 @@ export interface MediaJob {
   brief: MediaBrief
   /** Workflow to use (ComfyUI); adapter picks its default for `kind` when absent. */
   workflowId?: string
+  /** Model chosen on the routing row for this task; adapters fall back to their own default. */
+  model?: string
   width?: number
   height?: number
   seed?: number
