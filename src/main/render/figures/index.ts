@@ -23,6 +23,7 @@ import { tableKind } from './table'
 import { timeSeriesKind } from './time-series'
 import './clinical_care'
 import './spill'
+import './structures'
 // Field kinds register themselves when imported (weather).
 import './weather'
 

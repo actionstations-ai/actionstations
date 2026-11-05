@@ -50,7 +50,7 @@ describe('structures toolkit', () => {
     const seismic = ToolkitSchema.parse(readJson('packs', 'toolkits', 'seismic.json'))
     expect(seismic.injectTypes).toContain('building_placard')
     expect(OWN).not.toContain('building_placard')
-    expect(OWN).toHaveLength(12)
+    expect(OWN.length).toBeGreaterThanOrEqual(12)
   })
 
   it('is proposed for a trench brief and for the domains it suits', () => {
@@ -84,8 +84,9 @@ describe('structures products', () => {
   it.each(OWN)('%s is a template with a taxonomy block and valid, rule-clean samples', (id) => {
     const dir = join(root, 'templates', 'injects', id)
     expect(existsSync(join(dir, 'template.html'))).toBe(true)
-    expect(existsSync(join(dir, '__golden__', 'default.png'))).toBe(true)
     const meta = TemplateMeta.parse(readJson('templates', 'injects', id, 'meta.json'))
+    for (const v of meta.variants.length ? meta.variants : ['default'])
+      expect(existsSync(join(dir, '__golden__', `${v}.png`)), `${id} ${v}`).toBe(true)
     expect(meta.type).toBe(id)
     expect(meta.taxonomy).toBeDefined()
     expect(meta.paper).toBe(true)

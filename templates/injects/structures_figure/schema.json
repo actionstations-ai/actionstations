@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Structures figure (monitoring, site plan, inspection board and map)",
+  "description": "A chart, plan, board or map for a construction or building evaluation exercise, drawn by the app from data (never an image): a structural monitoring series with alarm and action levels, a site logistics plan, an inspection status board and an inspection assignment map. Each carries a text summary and a data table. The figure is an exercise product and not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["figures"],
+  "additionalProperties": false,
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure",
+      "examples": ["Structural monitoring"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the data come from",
+      "examples": ["Fictional exercise data, simulated"],
+      "x-translate": false
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw as { main: { kind, data } }.",
+      "required": ["main"],
+      "additionalProperties": false,
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "structures_monitoring",
+                "structures_site_plan",
+                "structures_status_board",
+                "structures_assignment_map"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
