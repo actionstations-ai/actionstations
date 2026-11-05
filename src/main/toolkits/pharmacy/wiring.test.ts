@@ -17,6 +17,11 @@ const { ToolkitSchema } = await import('@shared/toolkits')
 const { fieldLintIssues, fieldLintRuleIds } = await import('../lint-rules')
 const { unknownCapabilityWarnings } = await import('../capabilities')
 const { registerPharmacyToolkit } = await import('./register')
+const { DecisionForm } = await import('@shared/schemas/decisions')
+const { liveFormsOf } = await import('../decision-forms')
+const { isMetricId, runMetric } = await import('../../evaluation/metrics/registry')
+const { PHARMACY_DECISION_KINDS } = await import('../../evaluation/metrics/pharmacy')
+const { PHARMACY_GENERATORS } = await import('./simulate/generators')
 const { connectorIds } = await import('../connectors/registry')
 
 registerPharmacyToolkit()
@@ -39,6 +44,77 @@ describe('code the toolkit names exists', () => {
     expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(toolkit.lintRules))
     expect(connectorIds()).toEqual(expect.arrayContaining(toolkit.connectors))
     expect(unknownCapabilityWarnings(toolkit)).toEqual([])
+  })
+})
+
+describe('decision forms in live play', () => {
+  const forms = liveFormsOf([toolkit])
+  const form = (id: string) =>
+    DecisionForm.parse(forms.find((f) => (f as { id: string }).id === id))
+  const options = (formId: string, fieldId: string) => {
+    const field = form(formId).fields.find((f) => f.id === fieldId)
+    return field?.type === 'choice' ? field.options.map((o) => o.id) : []
+  }
+
+  it('converts every toolkit form to a valid live form with its id as the kind', () => {
+    expect(forms).toHaveLength(toolkit.decisionForms.length)
+    for (const f of forms) {
+      const parsed = DecisionForm.safeParse(f)
+      expect(parsed.success, JSON.stringify(parsed.error?.issues)).toBe(true)
+    }
+    expect(toolkit.decisionForms.map((f) => f.id)).toEqual(
+      expect.arrayContaining(Object.values(PHARMACY_DECISION_KINDS)),
+    )
+    expect(toolkit.decisionForms.every((f) => f.id.startsWith('pharmacy_'))).toBe(true)
+  })
+
+  it('uses the option ids the metrics read', () => {
+    expect(options('pharmacy_approve_substitution', 'checklist_result')).toEqual([
+      'passed',
+      'passed_with_conditions',
+      'failed',
+    ])
+    expect(options('pharmacy_viability_decision', 'decision')).toEqual([
+      'keep',
+      'discard',
+      'hold_for_manufacturer',
+    ])
+    const recipients = options('pharmacy_notify', 'recipient')
+    expect(recipients.some((r) => r.includes('field_division'))).toBe(true)
+    expect(recipients.some((r) => r.includes('106'))).toBe(true)
+    expect(recipients).toContain('patients')
+    expect(options('pharmacy_start_investigation', 'action')).toContain('review_patient_safety')
+  })
+})
+
+describe('metrics and ground truth', () => {
+  it('names registered metrics, each with a dataset a generator writes', () => {
+    const datasets = new Set(
+      PHARMACY_GENERATORS.flatMap((g) => g.generate(g.params.parse({}) as never).map((d) => d.id)),
+    )
+    for (const m of toolkit.metrics) {
+      expect(isMetricId(m.id), m.id).toBe(true)
+      if (m.groundTruth)
+        expect(datasets.has(m.groundTruth), `${m.id} → ${m.groundTruth}`).toBe(true)
+      const result = runMetric({ id: m.id, config: m.config }, {})
+      expect(result.metricId).toBe(m.id)
+    }
+  })
+
+  it('carries the core capability notes and the hospital exercise tag with its disclaimer', () => {
+    expect(toolkit.capabilities.map((c) => c.coreCapability)).toEqual(
+      expect.arrayContaining([
+        'supply_chain_integrity_and_security',
+        'logistics_and_supply_chain_management',
+        'public_health_healthcare_and_emergency_medical_services',
+        'operational_coordination',
+        'operational_communications',
+        'public_information_and_warning',
+      ]),
+    )
+    const tag = toolkit.exerciseTags[0]!
+    expect(tag.priorities).toHaveLength(6)
+    expect(tag.notes.join(' ')).toMatch(/not a compliance claim/)
   })
 })
 

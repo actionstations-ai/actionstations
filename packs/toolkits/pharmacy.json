@@ -135,8 +135,436 @@
       "title": "State Operations Manual Appendix Z: Emergency Preparedness (CMS)"
     }
   ],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "pharmacy_shortage_impact",
+      "label": "Patients affected by the shortage",
+      "config": {},
+      "groundTruth": "pharmacy-shortage-events"
+    },
+    {
+      "id": "pharmacy_safe_substitutions",
+      "label": "Safe substitutions",
+      "config": {},
+      "groundTruth": "pharmacy-shortage-events"
+    },
+    {
+      "id": "pharmacy_cold_chain_response",
+      "label": "Cold chain response",
+      "config": {},
+      "groundTruth": "pharmacy-cold-events"
+    },
+    {
+      "id": "pharmacy_diversion_clocks",
+      "label": "Diversion handling",
+      "config": {},
+      "groundTruth": "pharmacy-diversion-events"
+    },
+    {
+      "id": "pharmacy_recall_response",
+      "label": "Recall response",
+      "config": {},
+      "groundTruth": "pharmacy-recall-events"
+    },
+    {
+      "id": "pharmacy_queue_response",
+      "label": "Queue response",
+      "config": {},
+      "groundTruth": "pharmacy-queue-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across pharmacy, clinicians and patients",
+      "config": {}
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "pharmacy_set_allocation",
+      "label": "Set allocation",
+      "description": "Set how much of a short drug is served: the percentage of usage, the rule and the tiers.",
+      "fields": [
+        {
+          "id": "drug",
+          "label": "Drug and presentation",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "percent",
+          "label": "Percent of usage served (0 to 100)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "rule",
+          "label": "Rule",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Equal percentage for every unit", "By tier", "By patient need", "Other"]
+        },
+        {
+          "id": "tiers",
+          "label": "Tiers and who is in them",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "told",
+          "label": "Who is told",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_approve_substitution",
+      "label": "Approve substitution",
+      "description": "Approve an alternative product after the safety checklist.",
+      "fields": [
+        {
+          "id": "alternative",
+          "label": "Alternative product",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "dose_note",
+          "label": "Dose or conversion note (from the scenario, not invented)",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "checklist_result",
+          "label": "Safety checklist result",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Passed", "Passed with conditions", "Failed"]
+        },
+        {
+          "id": "told",
+          "label": "Who is told",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_restrict_use",
+      "label": "Restrict use",
+      "description": "Restrict who may use a short drug and for what.",
+      "fields": [
+        {
+          "id": "drug",
+          "label": "Drug",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "restriction",
+          "label": "Restriction",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "scope",
+          "label": "Units or services it applies to",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_source_supply",
+      "label": "Source supply",
+      "description": "Source more supply: an alternate supplier, an import or a loan from another hospital.",
+      "fields": [
+        {
+          "id": "source",
+          "label": "Source",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Alternate supplier",
+            "Import with different labeling",
+            "Loan from another hospital",
+            "Gray market offer",
+            "Other"
+          ]
+        },
+        {
+          "id": "quantity",
+          "label": "Quantity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "conditions",
+          "label": "Price, labeling and conditions",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "arrives",
+          "label": "Expected arrival",
+          "kind": "time",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_hold_or_release_batch",
+      "label": "Hold or release a batch",
+      "description": "Hold or release a compounded batch.",
+      "fields": [
+        {
+          "id": "batch",
+          "label": "Batch",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Hold", "Release"]
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_quarantine_product",
+      "label": "Quarantine product",
+      "description": "Quarantine product by lot and location.",
+      "fields": [
+        {
+          "id": "product",
+          "label": "Product",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "lots",
+          "label": "Lots",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "locations",
+          "label": "Locations searched",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "count",
+          "label": "Units quarantined",
+          "kind": "number",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_viability_decision",
+      "label": "Make viability decision",
+      "description": "Decide whether exposed product is usable.",
+      "fields": [
+        {
+          "id": "product",
+          "label": "Product",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "lot",
+          "label": "Lot",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "decision",
+          "label": "Decision",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Keep", "Discard", "Hold for manufacturer"]
+        },
+        {
+          "id": "basis",
+          "label": "Basis (the table or the manufacturer)",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "doses",
+          "label": "Doses",
+          "kind": "number",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_move_product",
+      "label": "Move product",
+      "description": "Move product to another unit or site.",
+      "fields": [
+        {
+          "id": "product",
+          "label": "Product",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "to",
+          "label": "Moved to",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "minutes",
+          "label": "Minutes the move takes",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "packout",
+          "label": "Container and temperature check",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_start_investigation",
+      "label": "Start investigation",
+      "description": "Start or advance a diversion investigation.",
+      "fields": [
+        {
+          "id": "subject",
+          "label": "Subject (user code or unit)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Step",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Review the data",
+            "Interview the user",
+            "Remove cabinet access",
+            "Review patient safety",
+            "Involve HR and security"
+          ]
+        },
+        {
+          "id": "involved",
+          "label": "Who is involved",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_notify",
+      "label": "Notify",
+      "description": "Notify a party.",
+      "fields": [
+        {
+          "id": "recipient",
+          "label": "Recipient",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "DEA Field Division (written notice)",
+            "DEA Form 106 (electronic)",
+            "State board of pharmacy",
+            "FDA",
+            "Health department",
+            "Immunization program",
+            "Patients",
+            "Prescribers",
+            "Other"
+          ]
+        },
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Written", "Phone", "Electronic filing", "Letter", "Other"]
+        },
+        {
+          "id": "summary",
+          "label": "What was said",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_switch_manual_workflow",
+      "label": "Switch to a manual workflow",
+      "description": "Switch to a manual workflow during an outage.",
+      "fields": [
+        {
+          "id": "system",
+          "label": "System down",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "workflow",
+          "label": "Workflow",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Manual claims",
+            "Cash price",
+            "Emergency supply",
+            "Paper downtime forms",
+            "Send to another pharmacy"
+          ]
+        },
+        {
+          "id": "policy",
+          "label": "Policy for critical medications",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_reassign_staff",
+      "label": "Reassign staff",
+      "description": "Change how many staff work a queue.",
+      "fields": [
+        {
+          "id": "queue",
+          "label": "Queue",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "staff",
+          "label": "Staff working the queue",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -195,6 +623,91 @@
     "pharmacy_lot_balance",
     "pharmacy_notice_timing"
   ],
-  "capabilities": [],
-  "exerciseTags": []
+  "capabilities": [
+    {
+      "coreCapability": "supply_chain_integrity_and_security",
+      "criticalTasks": [
+        "Verify the source and labeling of imported or alternate product before it reaches a patient.",
+        "Refuse gray market offers that cannot be traced, and record why.",
+        "Trace recalled lots to every location and, where dispensed, to patients."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "logistics_and_supply_chain_management",
+      "criticalTasks": [
+        "Size a shortage as days on hand (on hand over usage) and keep the figure current as usage changes.",
+        "Set an allocation rule, apply it the same way on every unit and review it on a stated schedule.",
+        "Source supply (alternate supplier, import, loan) and record quantity and arrival.",
+        "Move temperature-sensitive product within the time the product allows."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_health_healthcare_and_emergency_medical_services",
+      "criticalTasks": [
+        "Assess which patient groups depend on a short drug and what alternatives the scenario allows.",
+        "Check each substitution (concentration, dose, device, labeling, look-alike risk) before approval.",
+        "Decide the viability of exposed vaccine from the product table or the manufacturer, and keep or discard on that basis.",
+        "Keep controlled substances secured and report a theft or loss on time."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Convene the shortage team and name who decides what.",
+        "Coordinate with the incident commander, nursing, physicians and neighboring pharmacies.",
+        "Switch to a manual workflow during an outage and reconcile afterward."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Give staff, prescribers and patients the same facts about a shortage, a recall or an outage.",
+        "Send the DEA Field Division notice within one business day of discovering a loss and file Form 106 within 45 days."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Tell patients what a recall or shortage means for them and what to do, in plain language.",
+        "Answer the press without confirming facts the team does not yet have."
+      ],
+      "mappings": []
+    }
+  ],
+  "exerciseTags": [
+    {
+      "id": "hospital_annual_exercise_pharmacy",
+      "label": "Hospital annual exercise: pharmacy and drug supply",
+      "program": "CMS emergency preparedness (42 CFR 482.15) and Joint Commission emergency management",
+      "version": "42 CFR 482.15, CFR edition 1 October 2025",
+      "source": "https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-482/subpart-B/section-482.15",
+      "type": "discussion",
+      "description": "A facilitator-led tabletop in which the pharmacy plays inside the hospital's annual exercise. The after-action report groups findings under the Joint Commission's six critical areas for emergency management.",
+      "objectives": [
+        "Test the shortage team's assessment, allocation and communication for a drug the hospital cannot do without.",
+        "Test the pharmacy's downtime and cold chain procedures and the notices it owes outside parties.",
+        "Record what the pharmacy needs from the hospital command center."
+      ],
+      "participants": "Director of pharmacy, pharmacy operations, clinical pharmacists, medication safety, informatics, nursing and the hospital command center.",
+      "frequency": "Annually",
+      "capabilities": [],
+      "priorities": [
+        "Communications",
+        "Resources and assets",
+        "Safety and security",
+        "Staff responsibilities",
+        "Utilities",
+        "Clinical and support activities"
+      ],
+      "notes": [
+        "The six critical areas are named from the Joint Commission's emergency management standards and were not checked against the current text in this build; confirm them before relying on the grouping.",
+        "This is an aid, not a compliance claim. The hospital's compliance office decides which exercise this satisfies."
+      ]
+    }
+  ]
 }

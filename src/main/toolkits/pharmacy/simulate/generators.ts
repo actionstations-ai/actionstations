@@ -8,6 +8,7 @@ import { cToF } from '../../../../shared/pharmacy/arithmetic'
 import { ColdChainParams, runColdChain } from './coldchain'
 import { DiversionParams, runDiversion } from './diversion'
 import { QueueParams, runQueue } from './queue'
+import { RecallParams, runRecall } from './recall'
 import { ShortageParams, runShortage } from './shortage'
 
 const MINUTE_MS = 60_000
@@ -241,9 +242,51 @@ const diversionGenerator: SimulatedGenerator<DiversionParams> = {
   },
 }
 
+const recallGenerator: SimulatedGenerator<RecallParams> = {
+  id: 'pharmacy-recall',
+  label: 'Simulated drug recall (lots received, dispensed, on hand and patients to contact)',
+  params: RecallParams,
+  generate(p) {
+    const run = runRecall(p)
+    const range = { start: p.startDate, end: p.startDate }
+    return [
+      {
+        id: 'pharmacy-recall-lots',
+        label: 'Simulated recall response log by lot (fictional lots)',
+        kind: 'reports',
+        range,
+        data: p.lots.map((l) => ({
+          t: p.startDate,
+          title: `Lot ${l.lot}`,
+          text:
+            `EXERCISE ONLY. Fictional lot.\n${p.product}\nReceived ${l.received}; dispensed ${l.dispensed}; on hand ${l.onHand}; returned ${l.returned}.\n` +
+            `Expires ${l.expiration}. Where: ${l.where}.`,
+        })),
+      },
+      {
+        id: 'pharmacy-recall-events',
+        label: 'Simulated recall events: the notice and what must be found (for scoring)',
+        kind: 'reports',
+        range,
+        data: [
+          event(p.startDate, 'recall-model', 'recall_model', { params: p }),
+          event(p.startDate, 'recall-notice', 'recall_notice', {
+            product: p.product,
+            lots: p.lots.length,
+            onHand: run.totalOnHand,
+            dispensed: run.totalDispensed,
+            patientsToContact: run.patientsToContact,
+          }),
+        ],
+      },
+    ] satisfies GeneratedDataset[]
+  },
+}
+
 export const PHARMACY_GENERATORS = [
   shortageGenerator,
   queueGenerator,
   coldChainGenerator,
   diversionGenerator,
+  recallGenerator,
 ] as SimulatedGenerator<never>[]
