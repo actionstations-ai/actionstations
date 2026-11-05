@@ -175,5 +175,50 @@
       "Roads below burns close before the storm; re-opening waits for crews to inspect and clear."
     ]
   },
-  "lintRules": ["debris_flow_rainfall_wording", "ground_failure_regional_wording"]
+  "lintRules": ["debris_flow_rainfall_wording", "ground_failure_regional_wording"],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Tie warnings to intense short rainfall on recently burned slopes, not to total daily rainfall.",
+        "Call hazard maps planning guidance, not a forecast for a given day."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Compare rainfall observations with the threshold guidance and say which burn area and which threshold a decision used."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Agree closures and thresholds across partners before the storm and use one list."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Close roads below burn areas before the storm and re-open after crews inspect and clear."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "infrastructure_systems",
+      "criticalTasks": [
+        "Check culverts, debris basins and utilities in the flow path before and after the storm."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_search_and_rescue_operations",
+      "criticalTasks": [
+        "Plan search after a flow with the hazards of a second flow in mind, and stop when rainfall crosses the threshold again."
+      ],
+      "mappings": []
+    }
+  ]
 }

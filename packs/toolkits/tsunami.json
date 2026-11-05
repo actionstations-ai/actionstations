@@ -195,5 +195,44 @@
       "A Watch is never sent as a Wireless Emergency Alert."
     ]
   },
-  "lintRules": ["tsunami_message_levels", "tsunami_local_distant_timing"]
+  "lintRules": ["tsunami_message_levels", "tsunami_local_distant_timing"],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Use the warning, advisory, watch and information statement levels as defined; never send a watch as a wireless emergency alert.",
+        "Tell people near the source to move on feeling long or strong shaking, without waiting for a message.",
+        "Do not give wave heights before gauge or buoy observations; correct a changed preliminary magnitude in the next message."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Track tide gauge and buoy observations against the forecast and say that later waves can be larger than the first."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Upgrade or cancel a message against observed waves, and leave the local all clear to local officials."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Order evacuation of a zone with enough time to clear it before the first wave; direct ports and harbors on the same timeline."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Open reception and shelter locations outside the zone before the first wave and tell people where they are."
+      ],
+      "mappings": []
+    }
+  ]
 }
