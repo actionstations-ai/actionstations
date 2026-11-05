@@ -29,6 +29,18 @@ The app can generate events to score against. Every set is labeled **simulated**
 | Court systems down and returning in order         | Court outage      | Restoration order and times; an order that breaks a dependency fails |
 | An audit that finds missing or unlogged evidence  | Evidence audit    | Items, missing and unlogged counts                                   |
 
+## Real data
+
+Three public sources can give a scenario real baselines. Each uses the one-time fetch described in [Case data](case-data.md): you see the size and the service first, nothing is fetched until you agree, and the data then works offline. Only counts and summary times are kept; no record of a single call, person or case is fetched into the scenario.
+
+- **Police calls for service by hour** from a city's open data portal. Pick the city (Seattle or San Francisco for now) and a period of up to seven days. The app asks only for call numbers, priority and times, never addresses, locations or call descriptions, and keeps calls per hour by priority, officer-initiated calls, and the median time to dispatch and to arrive (with the 90th percentile arrival). Use it to size a call surge for the city your scenario is set in, or as a model for a city like it.
+- **Jail population by year** for a state or a county, from the Vera Institute of Justice Incarceration Trends files (built on the federal jail census and survey with state and local sources): population, rate per 100,000, pretrial count, admissions, discharges and rated capacity. Give a state's two-letter code, or a county's five-digit FIPS code. The county file is about 62 MB and is downloaded whole, though only that county's years are kept; the state file is under 2 MB. Some years are estimates.
+- **Reported crime by month** for a state or a single agency, from the FBI Crime Data Explorer: violent and property offenses, clearances, the rate per 100,000 and the national rate, for up to ten years. Give a state code, or the agency's nine-character ORI. This one needs a free api.data.gov key: save it under **Settings, Case data**. It is kept in your computer's keychain and sent only to api.usa.gov when you agree to a fetch. Without a key the source is off.
+
+Real agencies and places appear in this data as geography and context. The departments, people and incidents in your scenario stay fictional.
+
+The FBI's active shooter incident reports and the AMBER Alert program's annual reports are published as PDF reports only, with no data file, so they cannot be fetched as data.
+
 ## Working with the AMBER checklist
 
 The worksheet lists the five criteria the Justice Department recommends: a reasonable belief that an abduction occurred, imminent danger of serious bodily injury or death, enough descriptive information, a child 17 or younger, and the child's entry in the national crime database with the Child Abduction flag. Each is marked met, not met or unclear with the commander's reasoning. The database entry comes before the alert. States set their own criteria, so check yours.

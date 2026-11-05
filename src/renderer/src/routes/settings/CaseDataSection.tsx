@@ -1,8 +1,38 @@
-// Settings: how much case data one scenario may hold (spec 0448 NFR-4).
+// Settings: how much case data one scenario may hold (spec 0448 NFR-4), the contact sent to
+// archives that ask for one, and the api.data.gov key the FBI crime data connector needs.
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../components/ui'
 import { toast } from '../../components/toast-store'
+import { call } from '../../lib/api'
 import { useIpcMutation, useIpcQuery } from '../../lib/query'
+import { ApiKey, type KeyCopy } from './ApiKeyForm'
+
+const FBI_CDE_COPY: KeyCopy = {
+  label: 'api.data.gov key (FBI crime data)',
+  group: 'api.data.gov key',
+  hint: "Optional. A free key from api.data.gov turns on reported crime by month from the FBI Crime Data Explorer. It is stored in your computer's keychain and sent only to api.usa.gov when you agree to a fetch.",
+  noun: 'api.data.gov key',
+  signup: 'Get a free key',
+}
+
+function FbiCdeKey() {
+  const keys = useIpcQuery('case:keys', undefined)
+  const set = useIpcMutation('case:fbi-cde-key-set', { invalidates: ['case:keys'] })
+  const remove = useIpcMutation('case:fbi-cde-key-remove', { invalidates: ['case:keys'] })
+  if (!keys.data) return null
+  return (
+    <ApiKey
+      hasKey={keys.data.hasFbiCdeKey}
+      canStore={keys.data.encryptionAvailable}
+      copy={FBI_CDE_COPY}
+      ops={{
+        save: (key, done) => set.mutate({ key }, done),
+        remove: (done) => remove.mutate(undefined, done),
+        openSignup: () => void call('case:fbi-cde-signup-open'),
+      }}
+    />
+  )
+}
 
 export function CaseDataSection() {
   const settings = useIpcQuery('case:settings', undefined)
@@ -74,6 +104,7 @@ export function CaseDataSection() {
           </p>
         </div>
       </form>
+      <FbiCdeKey />
     </section>
   )
 }

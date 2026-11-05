@@ -53,6 +53,14 @@ export const CaseFetchPlan = z.object({
 })
 export type CaseFetchPlan = z.infer<typeof CaseFetchPlan>
 
+/** Which archive keys are saved (OS keychain, never a file); the keys themselves never leave main. */
+export const CaseKeys = z.object({
+  /** The api.data.gov key the FBI Crime Data Explorer connector uses. */
+  hasFbiCdeKey: z.boolean(),
+  encryptionAvailable: z.boolean(),
+})
+export type CaseKeys = z.infer<typeof CaseKeys>
+
 export const caseDataChannels = {
   'case:get': channel(S, CaseSummary),
   'case:connectors': channel(
@@ -87,4 +95,9 @@ export const caseDataChannels = {
   ),
   'case:settings': channel(z.void(), CaseDataSettings),
   'case:settings-save': channel(CaseDataSettings, CaseDataSettings),
+  'case:keys': channel(z.void(), CaseKeys),
+  /** Save the api.data.gov key in the OS keychain (refused when none is available). */
+  'case:fbi-cde-key-set': channel(z.object({ key: z.string().trim().min(1).max(200) }), CaseKeys),
+  'case:fbi-cde-key-remove': channel(z.void(), CaseKeys),
+  'case:fbi-cde-signup-open': channel(z.void(), z.void()),
 }

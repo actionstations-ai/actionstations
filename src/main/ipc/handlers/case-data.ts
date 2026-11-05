@@ -1,12 +1,20 @@
 // case:* (spec 0448, ADR-0076). The only network use is case:fetch, and only after case:plan-fetch
 // showed the size and the user consented. The renderer sends a connector id, never an address.
+import { shell } from 'electron'
 import { planFetch, runFetch } from '../../case-data/acquire'
 import { listGenerators, runGenerator } from '../../case-data/generators'
 import { MB, caseBytes, readManifest, removeDataset, saveTimeMapping } from '../../case-data/store'
 import { packAppVersion } from '../../packs/app-version'
 import { requireProject } from '../../project/guard'
+import { encryptionAvailable, hasSecret, setSecret } from '../../secrets'
 import { getSettings, updateSettings } from '../../settings/store'
+import {
+  FBI_CDE_KEY_ID,
+  FBI_CDE_SIGNUP_URL,
+  isValidDataGovKey,
+} from '../../toolkits/connectors/fbi-cde-crime'
 import { listConnectors } from '../../toolkits/connectors/registry'
+import { AppError } from '../../lib/errors'
 import '../../toolkits/generator-modules'
 import { defineHandlers } from '../registry'
 
@@ -14,6 +22,13 @@ import { defineHandlers } from '../registry'
 export const caseDeps: { fetchImpl: typeof fetch | undefined; now: () => Date } = {
   fetchImpl: undefined,
   now: () => new Date(),
+}
+
+async function caseKeys() {
+  return {
+    hasFbiCdeKey: await hasSecret(FBI_CDE_KEY_ID).catch(() => false),
+    encryptionAvailable: encryptionAvailable(),
+  }
 }
 
 const limitMb = async (): Promise<number> => (await getSettings()).caseData.maxMbPerScenario
@@ -70,5 +85,26 @@ export default defineHandlers({
       s.caseData = patch
     })
     return (await getSettings()).caseData
+  },
+
+  'case:keys': () => caseKeys(),
+
+  'case:fbi-cde-key-set': async ({ key }) => {
+    if (!isValidDataGovKey(key))
+      throw new AppError(
+        'VALIDATION',
+        'An api.data.gov key is 40 letters and digits (or DEMO_KEY).',
+      )
+    await setSecret(FBI_CDE_KEY_ID, key)
+    return caseKeys()
+  },
+
+  'case:fbi-cde-key-remove': async () => {
+    await setSecret(FBI_CDE_KEY_ID, null)
+    return caseKeys()
+  },
+
+  'case:fbi-cde-signup-open': async () => {
+    await shell.openExternal(FBI_CDE_SIGNUP_URL)
   },
 })

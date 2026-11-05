@@ -48,6 +48,10 @@ The spill and plume toolkit can fetch three public NOAA sources, each from one f
 
 Each shows its size before anything is requested, and each is saved as historical data with its source and the date you fetched it.
 
+### Keys for archives that need one
+
+Most sources need no account. The FBI Crime Data Explorer, used by the justice toolkit, needs a free api.data.gov key. Save it under **Settings, Case data**; it is stored in your computer's keychain, never in the project, and sent only to that archive when you agree to a fetch. Without it that source refuses to fetch.
+
 ### Size limit
 
 One scenario may hold up to 500 MB of case data by default. Change the limit under **Settings,
