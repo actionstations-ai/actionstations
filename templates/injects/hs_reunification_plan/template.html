@@ -1,0 +1,74 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Reunification plan</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.incident}}
+    <div>
+      <dt>Incident</dt>
+      <dd>{{fields.incident}}</dd>
+    </div>
+    {{/if}} {{#if fields.site}}
+    <div>
+      <dt>Site</dt>
+      <dd>{{fields.site}}</dd>
+    </div>
+    {{/if}} {{#if fields.activatedAt}}
+    <div>
+      <dt>Activated</dt>
+      <dd>{{fields.activatedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.commander}}
+    <div>
+      <dt>Site commander</dt>
+      <dd>{{fields.commander}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.flow}}
+  <h2>Flow</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Zone</th>
+        <th>Purpose</th>
+        <th>Staff</th>
+        <th>Where</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.flow}}
+      <tr>
+        <td>{{this.zone}}</td>
+        <td>{{this.purpose}}</td>
+        <td>{{this.staff}}</td>
+        <td>{{this.location}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.rules}}
+  <h2>Release rules</h2>
+  <ul>
+    {{#each fields.rules}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.support}}
+  <h2>Support</h2>
+  <div class="body">{{fields.support}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Reunification plan and site layout</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

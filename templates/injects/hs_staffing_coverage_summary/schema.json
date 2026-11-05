@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Staffing coverage summary",
+  "description": "Staffing against expected demand for a crisis center by shift: counselors scheduled, called out, on the floor and needed, with the gap and what is being done. Needed is based on expected contacts per counselor hour and says so. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "shifts"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Operations"],
+      "x-translate": false
+    },
+    "forDate": {
+      "type": "string",
+      "description": "Date covered",
+      "examples": ["Nov 3, 2026"],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Workforce / Operations Manager"],
+      "x-translate": false
+    },
+    "shifts": {
+      "type": "array",
+      "description": "One row per shift",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Shifts row",
+        "properties": {
+          "shift": {
+            "type": "string",
+            "description": "Shift name and hours",
+            "examples": ["Evening 15:00-23:00"],
+            "x-translate": false
+          },
+          "scheduled": {
+            "type": "string",
+            "description": "Counselors scheduled",
+            "examples": ["16"],
+            "x-translate": false
+          },
+          "calledOut": {
+            "type": "string",
+            "description": "Counselors who called out",
+            "examples": ["2"],
+            "x-translate": false
+          },
+          "onFloor": {
+            "type": "string",
+            "description": "Counselors on the floor now",
+            "examples": ["14"],
+            "x-translate": false
+          },
+          "needed": {
+            "type": "string",
+            "description": "Counselors needed for expected demand",
+            "examples": ["19"],
+            "x-translate": false
+          },
+          "gap": {
+            "type": "string",
+            "description": "Needed minus on floor",
+            "examples": ["5"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "shift": "Day 07:00-15:00",
+            "scheduled": "14",
+            "calledOut": "0",
+            "onFloor": "14",
+            "needed": "13",
+            "gap": "0"
+          }
+        ]
+      ]
+    },
+    "basis": {
+      "type": "string",
+      "description": "The planning ratio behind the needed counts",
+      "examples": [
+        "Needed uses 4.5 expected contacts per counselor hour on texts and chats and 6 on calls, against the forecast for the surge."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "What is being done to close the gap",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Call-in list worked for the evening and overnight shifts.",
+          "Supervisors cover two seats each until 22:00.",
+          "Break rotation shortened to 10 minutes."
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

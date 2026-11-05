@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Where is my child call script",
+  "description": "A script for the staff taking calls from parents who ask where their child is: what to say, what never to say, what to ask and how to escalate. It does not confirm a student's whereabouts to a caller who cannot be verified and gives a fictional exercise number. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "open", "say"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Family line"],
+      "x-translate": false
+    },
+    "line": {
+      "type": "string",
+      "description": "Fictional exercise line",
+      "examples": ["555-0120"],
+      "x-translate": false
+    },
+    "scriptVersion": {
+      "type": "string",
+      "description": "Version",
+      "examples": ["1.0 (exercise)"],
+      "x-translate": false
+    },
+    "open": {
+      "type": "array",
+      "description": "What staff say first",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "This is the Millbrook district family line. This is an exercise.",
+          "Thank you for calling. I will help you find where to go."
+        ]
+      ]
+    },
+    "ask": {
+      "type": "array",
+      "description": "What staff ask",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Is your child on the bus 14 roster, and what is the child's grade?",
+          "Are you on the release card for this student?"
+        ]
+      ]
+    },
+    "say": {
+      "type": "array",
+      "description": "What to say about where to go",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Students are safe and being reunified at the church hall entrance on Elm Street.",
+          "Bring photo identification.",
+          "Do not go to the crash site."
+        ]
+      ]
+    },
+    "neverSay": {
+      "type": "array",
+      "description": "What staff never say",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Never name a student's condition or say who is hurt.",
+          "Never confirm a student's location to an unverified caller.",
+          "Never promise a time."
+        ]
+      ]
+    },
+    "escalate": {
+      "type": "string",
+      "description": "When and how to escalate",
+      "examples": [
+        "Pass to the supervisor any caller who says they cannot reach the site, who is in distress or who names a custody dispute."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Supervisor escalation",
+  "description": "A supervisor escalating a capacity, wellbeing or process problem to the director or state coordinator: what happened, the measures, what has been tried and what is needed. It never describes the content of a contact. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "issue", "needed"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Evening shift"],
+      "x-translate": false
+    },
+    "escalationId": {
+      "type": "string",
+      "description": "Escalation id",
+      "examples": ["ESC-1103-02"],
+      "x-translate": false
+    },
+    "raisedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 20:05"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Shift Supervisor"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Crisis Center Director"],
+      "x-translate": false
+    },
+    "issue": {
+      "type": "string",
+      "description": "The problem in two or three sentences, with numbers",
+      "examples": [
+        "Texts are waiting 11 minutes and two counselors have asked for a break after back-to-back long contacts."
+      ]
+    },
+    "tried": {
+      "type": "array",
+      "description": "Actions already taken",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Moved two supervisors onto text seats.", "Posted a 15-minute break rotation."]]
+    },
+    "needed": {
+      "type": "string",
+      "description": "What the supervisor needs and by when",
+      "examples": ["Approve activation of the surge plan and request backup for texts by 20:15."]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "State coordinator briefing",
+  "description": "A briefing from a crisis center to the state 988 coordinator during a surge: situation, service measures against targets, staffing, backup status, asks of the state and the next briefing time. All numbers come from the center's own report and say so. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "situation", "measures"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Surge briefing"],
+      "x-translate": false
+    },
+    "briefingAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 21:00"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Role and center",
+      "examples": ["Crisis Center Director, Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["State 988 Coordinator"],
+      "x-translate": false
+    },
+    "situation": {
+      "type": "string",
+      "description": "Where the center stands, in three sentences, with numbers and time",
+      "examples": [
+        "Contacts are 1.9 times last week. Texts wait about 11 minutes. Backup for texts has been active since 19:42."
+      ]
+    },
+    "measures": {
+      "type": "array",
+      "description": "Measure, value, target and its source",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Service measures row",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "description": "Measure",
+            "examples": ["Text answer rate, last hour"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Current value",
+            "examples": ["71%"],
+            "x-translate": false
+          },
+          "target": {
+            "type": "string",
+            "description": "Target and where it comes from",
+            "examples": ["Above 90% (federal goal, September 2026)"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "measure": "Text answer rate, last hour",
+            "value": "71%",
+            "target": "Above 90% (federal goal, September 2026)"
+          }
+        ]
+      ]
+    },
+    "staffing": {
+      "type": "string",
+      "description": "Staffing status in two sentences",
+      "examples": [
+        "14 counselors on the floor against 19 needed. Call-in list worked; overnight is short by 3."
+      ]
+    },
+    "asks": {
+      "type": "array",
+      "description": "What the center needs from the state",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Confirm a second backup center for texts overnight.",
+          "Approve overtime above the contract cap for 72 hours.",
+          "Issue a joint public message on wait times."
+        ]
+      ]
+    },
+    "nextBriefing": {
+      "type": "string",
+      "description": "Time of the next briefing",
+      "examples": ["23:00"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

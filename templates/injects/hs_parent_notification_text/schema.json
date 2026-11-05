@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Parent notification text",
+  "description": "A text message from a school district to parents during a reunification: where to go, what to bring, what not to do. Short, calm and exact: it states the site, the entrance and the time, tells parents not to go to the incident location, and gives a fictional exercise information line. The EXERCISE marking is part of the message. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "message"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Communications"],
+      "x-translate": false
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Time sent",
+      "examples": ["Nov 3, 2026, 15:25"],
+      "x-translate": false
+    },
+    "channel": {
+      "type": "string",
+      "description": "Text, email or both",
+      "examples": ["Text and email"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "message": {
+      "type": "string",
+      "description": "The text of the message, under 480 characters, starting with EXERCISE",
+      "examples": [
+        "EXERCISE. Students from Route 9 bus 14 are safe and being reunified at Millbrook Community Church hall, 12 Elm Street entrance. Bring photo ID. Do not go to the crash site. Next update at 16:00. Info line: 555-0120."
+      ]
+    },
+    "followUps": {
+      "type": "array",
+      "description": "Follow-up messages and when",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["16:00 update on wait times", "When all students are released"]]
+    },
+    "languages": {
+      "type": "string",
+      "description": "Translations sent",
+      "examples": ["Spanish and Vietnamese versions sent at 15:27."]
+    }
+  },
+  "additionalProperties": false
+}

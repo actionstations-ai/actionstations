@@ -1,0 +1,68 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Staffing coverage</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.forDate}}
+    <div>
+      <dt>Date</dt>
+      <dd>{{fields.forDate}}</dd>
+    </div>
+    {{/if}} {{#if fields.preparedBy}}
+    <div>
+      <dt>Prepared by</dt>
+      <dd>{{fields.preparedBy}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.shifts}}
+  <h2>Shifts</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Shift</th>
+        <th>Scheduled</th>
+        <th>Called out</th>
+        <th>On floor</th>
+        <th>Needed</th>
+        <th>Gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.shifts}}
+      <tr>
+        <td>{{this.shift}}</td>
+        <td>{{this.scheduled}}</td>
+        <td>{{this.calledOut}}</td>
+        <td>{{this.onFloor}}</td>
+        <td>{{this.needed}}</td>
+        <td>{{this.gap}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.basis}}
+  <h2>How "needed" was set</h2>
+  <div class="body">{{fields.basis}}</div>
+  {{/if}} {{#if fields.actions}}
+  <h2>Actions</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Staffing coverage summary</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

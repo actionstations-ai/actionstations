@@ -1,0 +1,75 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">State coordinator briefing</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.briefingAt}}
+    <div>
+      <dt>Briefing time</dt>
+      <dd>{{fields.briefingAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.from}}
+    <div>
+      <dt>From</dt>
+      <dd>{{fields.from}}</dd>
+    </div>
+    {{/if}} {{#if fields.to}}
+    <div>
+      <dt>To</dt>
+      <dd>{{fields.to}}</dd>
+    </div>
+    {{/if}} {{#if fields.nextBriefing}}
+    <div>
+      <dt>Next briefing</dt>
+      <dd>{{fields.nextBriefing}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.situation}}
+  <h2>Situation</h2>
+  <div class="body">{{fields.situation}}</div>
+  {{/if}} {{#if fields.measures}}
+  <h2>Service measures</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Measure</th>
+        <th>Value</th>
+        <th>Target</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.measures}}
+      <tr>
+        <td>{{this.measure}}</td>
+        <td>{{this.value}}</td>
+        <td>{{this.target}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.staffing}}
+  <h2>Staffing</h2>
+  <div class="body">{{fields.staffing}}</div>
+  {{/if}} {{#if fields.asks}}
+  <h2>Asks of the state</h2>
+  <ul>
+    {{#each fields.asks}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>State coordinator briefing</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

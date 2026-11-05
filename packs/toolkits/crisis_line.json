@@ -1,0 +1,101 @@
+{
+  "id": "crisis_line",
+  "name": "Crisis line operations",
+  "description": "Crisis center expertise for 988 and other crisis lines: the daily contact report, network surge and backup notices, queue and staffing boards, supervisor escalation, de-identified contact summaries and the state coordinator briefing, with the rerouting rules and service measures. Works with the behavioral health safeguards toolkit.",
+  "appliesTo": {
+    "keywords": [
+      "988",
+      "crisis line",
+      "crisis center",
+      "lifeline",
+      "hotline",
+      "contact surge",
+      "answer rate",
+      "wait time",
+      "backup center",
+      "text and chat",
+      "suicide prevention"
+    ],
+    "domains": [
+      "human_services",
+      "emergency_communications",
+      "municipal",
+      "k12_schools",
+      "campus",
+      "healthcare",
+      "public_health",
+      "crisis_comms"
+    ]
+  },
+  "injectTypes": [
+    "hs_daily_contact_report",
+    "hs_network_surge_notice",
+    "hs_backup_activation_notice",
+    "hs_queue_wait_board",
+    "hs_staffing_coverage_summary",
+    "hs_supervisor_escalation",
+    "hs_contact_summary",
+    "hs_state_coordinator_briefing"
+  ],
+  "outsideParties": [
+    "the 988 network administrator",
+    "the state 988 coordinator",
+    "backup crisis centers in other states",
+    "the federal behavioral health agency"
+  ],
+  "advisorRoles": [
+    {
+      "key": "crisis_line_advisor",
+      "name": "Crisis line advisor",
+      "abbreviation": "CLA",
+      "team": "Advisors",
+      "description": "Answers questions about queue measures, rerouting and staffing as a peer center director would."
+    }
+  ],
+  "lintRules": ["hs_988_routing"],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Offered, answered, abandoned",
+        "definition": "Contacts offered to the center; contacts answered; contacts that left before an answer. Answer rate is answered divided by offered."
+      },
+      {
+        "term": "Rerouting to backup",
+        "definition": "An unanswered contact moves to a national backup center: calls after about 2 minutes, texts and chats after about 5 minutes; Spanish-language contacts cannot be rerouted. GAO-26-108114, status as of March 2026; check the current rules."
+      },
+      {
+        "term": "Local answer share",
+        "definition": "The share of contacts answered by the center in the state rather than by backup; about 76% of calls were answered locally from July 2022 to September 2025 (GAO-26-108114)."
+      }
+    ],
+    "productConventions": [
+      "Show contact types separately: calls, texts and chats. Texts and chats are not reported by state in the national statistics.",
+      "Waits are written m:ss; times of day are 24 hour; every number says its hour or day.",
+      "The federal near-term goal is for centers to answer more than 90% of routed texts and chats by September 29, 2026; show it as a labeled default the center can change, not as a law."
+    ],
+    "realismRules": [
+      "Surges follow news events; a center sees the queue before the dashboard shows it.",
+      "A supervisor escalation names the measure, what was tried and the decision needed, never the content of a contact.",
+      "Answered plus abandoned never exceeds offered."
+    ]
+  },
+  "capabilities": [
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Activate overflow and backup before the rerouting timers clear the queue",
+        "Report queue and staffing measures to the state coordinator on a set schedule",
+        "Keep contact types visible separately so texts and chats are not hidden by calls"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "health_and_social_services",
+      "criticalTasks": [
+        "Keep crisis counselor staffing and breaks in balance with demand",
+        "Escalate high-risk consults to a clinical supervisor without delay",
+        "Debrief counselors after a surge"
+      ]
+    }
+  ]
+}

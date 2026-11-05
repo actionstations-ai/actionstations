@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Queue wait-time board",
+  "description": "The wall board of a crisis center: for each contact type the contacts waiting, the longest wait, the current answer rate and the staff on, with a state word for each (normal, watch, critical). A state is always written as a word as well as shown by color. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "queues"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Floor display"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time the board was last updated",
+      "examples": ["19:52"],
+      "x-translate": false
+    },
+    "shift": {
+      "type": "string",
+      "description": "Shift",
+      "examples": ["Evening"],
+      "x-translate": false
+    },
+    "queues": {
+      "type": "array",
+      "description": "One row per contact type",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Queues row",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Contact type",
+            "examples": ["Texts"],
+            "x-translate": false
+          },
+          "waiting": {
+            "type": "string",
+            "description": "Contacts waiting now",
+            "examples": ["31"],
+            "x-translate": false
+          },
+          "longest": {
+            "type": "string",
+            "description": "Longest current wait, m:ss",
+            "examples": ["11:40"],
+            "x-translate": false
+          },
+          "rate": {
+            "type": "string",
+            "description": "Answer rate in the last hour",
+            "examples": ["71%"],
+            "x-translate": false
+          },
+          "staff": {
+            "type": "string",
+            "description": "Counselors on this channel",
+            "examples": ["6"],
+            "x-translate": false
+          },
+          "state": {
+            "type": "string",
+            "description": "normal, watch or critical, as a word",
+            "examples": ["CRITICAL"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "type": "Calls",
+            "waiting": "9",
+            "longest": "3:05",
+            "rate": "88%",
+            "staff": "11",
+            "state": "WATCH"
+          }
+        ]
+      ]
+    },
+    "banner": {
+      "type": "string",
+      "description": "A line the supervisor posts on the board",
+      "examples": ["Backup activated for texts at 19:42. Spanish-language contacts stay local."]
+    }
+  },
+  "additionalProperties": false
+}

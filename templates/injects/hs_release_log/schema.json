@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reunification release log",
+  "description": "The release log kept at the release table: each release with time, student exercise reference, the adult who took the student (relationship and identification checked) and the staff member who released. No real names; adults are identified by relationship. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "entries"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Reunification"],
+      "x-translate": false
+    },
+    "site": {
+      "type": "string",
+      "description": "Site",
+      "examples": ["Millbrook Community Church hall (relocation site)"],
+      "x-translate": false
+    },
+    "page": {
+      "type": "string",
+      "description": "Log page",
+      "examples": ["1 of 3"],
+      "x-translate": false
+    },
+    "releaseLead": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Release Lead"],
+      "x-translate": false
+    },
+    "entries": {
+      "type": "array",
+      "description": "One row per release",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Releases row",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["16:32"],
+            "x-translate": false
+          },
+          "student": {
+            "type": "string",
+            "description": "Exercise reference",
+            "examples": ["S-017"],
+            "x-translate": false
+          },
+          "adult": {
+            "type": "string",
+            "description": "Relationship",
+            "examples": ["Mother"],
+            "x-translate": false
+          },
+          "idChecked": {
+            "type": "string",
+            "description": "Yes or the exception",
+            "examples": ["Yes, driver license"],
+            "x-translate": false
+          },
+          "staff": {
+            "type": "string",
+            "description": "Staff initials or role",
+            "examples": ["REL-2"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "time": "16:32",
+            "student": "S-017",
+            "adult": "Mother",
+            "idChecked": "Yes, driver license",
+            "staff": "REL-2"
+          }
+        ]
+      ]
+    },
+    "exceptions": {
+      "type": "string",
+      "description": "Cases sent to the exceptions zone with reason",
+      "examples": ["S-031: adult named by phone is not on the card; sent to commander at 16:50."]
+    }
+  },
+  "additionalProperties": false
+}

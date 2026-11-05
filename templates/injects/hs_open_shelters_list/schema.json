@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Open shelters list",
+  "description": "A public or internal list of shelters that are open: name, address area, status, capacity, population and what the shelter accepts (pets, medical needs, accessible). Uses fictional names and street-level addresses are not given; a place is named by its general area. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "shelters"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Mass care branch"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 18:30"],
+      "x-translate": false
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the list comes from",
+      "examples": ["County EOC mass care branch (simulated)"],
+      "x-translate": false
+    },
+    "shelters": {
+      "type": "array",
+      "description": "One row per shelter",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Shelters row",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Shelter name (fictional)",
+            "examples": ["Eastside High School"],
+            "x-translate": false
+          },
+          "area": {
+            "type": "string",
+            "description": "General area, not a street address",
+            "examples": ["East Bay"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "OPEN, FULL or CLOSING as a word",
+            "examples": ["OPEN"],
+            "x-translate": false
+          },
+          "capacity": {
+            "type": "string",
+            "description": "Capacity",
+            "examples": ["220"],
+            "x-translate": false
+          },
+          "population": {
+            "type": "string",
+            "description": "Current population",
+            "examples": ["186"],
+            "x-translate": false
+          },
+          "accepts": {
+            "type": "string",
+            "description": "Pets, medical needs, accessible",
+            "examples": ["Pets, accessible, power for medical equipment"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "name": "Eastside High School",
+            "area": "East Bay",
+            "status": "OPEN",
+            "capacity": "220",
+            "population": "186",
+            "accepts": "Pets, accessible, power for medical equipment"
+          }
+        ]
+      ]
+    },
+    "note": {
+      "type": "string",
+      "description": "Notes for the public or EOC",
+      "examples": [
+        "Bring medications, identification if you have it and items for comfort. Service animals are welcome at every shelter."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

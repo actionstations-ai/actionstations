@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reunification plan and site layout",
+  "description": "A reunification plan for one incident: the relocation site, the flow (arrival, check-in, retrieval, release, exceptions), roles and who holds release authority, with a site layout described by zone. Release authority is verified by identity. Roles are check-in, retrieval, release and exceptions. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "flow", "rules"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Reunification plan"],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident in plain words",
+      "examples": ["School bus crash on Route 9 with 41 students aboard"],
+      "x-translate": false
+    },
+    "site": {
+      "type": "string",
+      "description": "Relocation site (fictional)",
+      "examples": ["Millbrook Community Church hall (relocation site)"],
+      "x-translate": false
+    },
+    "activatedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 15:10"],
+      "x-translate": false
+    },
+    "commander": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Reunification Site Commander"],
+      "x-translate": false
+    },
+    "flow": {
+      "type": "array",
+      "description": "Zones in order of use",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Flow row",
+        "properties": {
+          "zone": {
+            "type": "string",
+            "description": "Zone",
+            "examples": ["Arrival and queue"],
+            "x-translate": false
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What happens",
+            "examples": ["Parents line up; greeters hand out reunification cards"],
+            "x-translate": false
+          },
+          "staff": {
+            "type": "string",
+            "description": "Staff and roles",
+            "examples": ["4"],
+            "x-translate": false
+          },
+          "location": {
+            "type": "string",
+            "description": "Where at the site",
+            "examples": ["Parking lot to main door"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "zone": "Arrival and queue",
+            "purpose": "Parents line up; greeters hand out reunification cards",
+            "staff": "4",
+            "location": "Parking lot to main door"
+          }
+        ]
+      ]
+    },
+    "rules": {
+      "type": "array",
+      "description": "Rules for release",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Release only to an adult on the student's release card, verified by photo identification.",
+          "No release by phone or by assertion.",
+          "Unverified cases go to the exceptions zone."
+        ]
+      ]
+    },
+    "support": {
+      "type": "string",
+      "description": "Counselors, nurses, interpreters and where they sit",
+      "examples": ["Counselors and a nurse sit in the quiet room; two interpreters at check-in."]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "State child welfare disaster plan activation notice",
+  "description": "A notice that a state child welfare agency has activated its disaster plan: the counties, the plan elements (identify and locate children, continue services, respond to new cases, stay in contact with displaced staff), the lead and the reporting schedule. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "elements"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["State Children and Family Services (exercise)"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Disaster coordination"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice id",
+      "examples": ["DP-2026-03"],
+      "x-translate": false
+    },
+    "activatedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 4, 2026, 08:00"],
+      "x-translate": false
+    },
+    "counties": {
+      "type": "string",
+      "description": "Counties covered (fictional)",
+      "examples": ["Bayfront, Ridge"],
+      "x-translate": false
+    },
+    "lead": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Child Welfare Disaster Coordinator"],
+      "x-translate": false
+    },
+    "elements": {
+      "type": "array",
+      "description": "The plan elements and the first action for each",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Plan elements row",
+        "properties": {
+          "element": {
+            "type": "string",
+            "description": "Plan element",
+            "examples": ["Identify children in care in the area"],
+            "x-translate": false
+          },
+          "action": {
+            "type": "string",
+            "description": "First action",
+            "examples": ["Pull placement list for the two counties"],
+            "x-translate": false
+          },
+          "due": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["Nov 4, 12:00"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "element": "Identify children in care in the area",
+            "action": "Pull placement list for the two counties",
+            "due": "Nov 4, 12:00"
+          }
+        ]
+      ]
+    },
+    "reporting": {
+      "type": "string",
+      "description": "When the agency reports to the state and to federal partners",
+      "examples": ["Status to the state at 08:00 and 16:00 daily until all children are located."]
+    }
+  },
+  "additionalProperties": false
+}

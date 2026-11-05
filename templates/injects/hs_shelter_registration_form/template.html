@@ -1,0 +1,73 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Shelter registration</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.registrationId}}
+    <div>
+      <dt>Registration</dt>
+      <dd>{{fields.registrationId}}</dd>
+    </div>
+    {{/if}} {{#if fields.shelter}}
+    <div>
+      <dt>Shelter</dt>
+      <dd>{{fields.shelter}}</dd>
+    </div>
+    {{/if}} {{#if fields.registeredAt}}
+    <div>
+      <dt>Registered</dt>
+      <dd>{{fields.registeredAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.householdSize}}
+    <div>
+      <dt>Household</dt>
+      <dd>{{fields.householdSize}}</dd>
+    </div>
+    {{/if}} {{#if fields.contact}}
+    <div>
+      <dt>Contact</dt>
+      <dd>{{fields.contact}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.needsShared}}
+  <h2>Needs the household chose to share</h2>
+  <ul>
+    {{#each fields.needsShared}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.pets}}
+  <h2>Pets and service animals</h2>
+  <ul>
+    {{#each fields.pets}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.medications}}
+  <h2>Medications and supplies</h2>
+  <ul>
+    {{#each fields.medications}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.notes}}
+  <h2>Notes</h2>
+  <div class="body">{{fields.notes}}</div>
+  {{/if}} {{#if fields.consent}}
+  <div class="callout">{{fields.consent}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Shelter registration form</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

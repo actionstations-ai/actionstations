@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Crisis counseling immediate services request",
+  "description": "A state request to the federal disaster partners for crisis counseling immediate services after a presidentially declared disaster: the disaster, affected area, population, services planned, providers and duration. The immediate services program lasts up to 60 days; the regular services program up to nine months. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "areas", "providers"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["State Behavioral Health Authority (exercise)"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Disaster behavioral health"],
+      "x-translate": false
+    },
+    "state": {
+      "type": "string",
+      "description": "State agency (fictional)",
+      "examples": ["State Behavioral Health Authority (exercise)"],
+      "x-translate": false
+    },
+    "disaster": {
+      "type": "string",
+      "description": "Declared disaster, fictional",
+      "examples": ["Hurricane Lena (exercise), DR-9999"],
+      "x-translate": false
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["Nov 6, 2026"],
+      "x-translate": false
+    },
+    "program": {
+      "type": "string",
+      "description": "Immediate services program",
+      "examples": ["Immediate services program, up to 60 days"],
+      "x-translate": false
+    },
+    "areas": {
+      "type": "array",
+      "description": "Counties, population and planned services",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Area and need row",
+        "properties": {
+          "county": {
+            "type": "string",
+            "description": "County",
+            "examples": ["Bayfront"],
+            "x-translate": false
+          },
+          "population": {
+            "type": "string",
+            "description": "Affected population",
+            "examples": ["212,000"],
+            "x-translate": false
+          },
+          "services": {
+            "type": "string",
+            "description": "Planned services",
+            "examples": ["Outreach, group support, shelter mental health tables"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "county": "Bayfront",
+            "population": "212,000",
+            "services": "Outreach, group support, shelter mental health tables"
+          }
+        ]
+      ]
+    },
+    "providers": {
+      "type": "string",
+      "description": "Providers and how crisis counselors are trained and supervised",
+      "examples": [
+        "Two community mental health centers; crisis counselors trained in psychological first aid and supervised by licensed clinicians."
+      ]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Dates and duration, with the program limits",
+      "examples": [
+        "Nov 7, 2026 to Jan 5, 2027 (60 days). A regular services program application may follow, up to nine months."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FNSS support request",
+  "description": "A shelter request for functional needs support: the need, the resource requested and when. Stated in terms of what support is needed (equipment, communication access, personal assistance, supervision), not diagnoses. General population shelters integrate people with access and functional needs; the request asks for support in place, not a transfer to a separate shelter. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "needs", "requestedResource"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Request id",
+      "examples": ["FNSS-0311-07"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 20:10"],
+      "x-translate": false
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority as a word",
+      "examples": ["URGENT"],
+      "x-translate": false
+    },
+    "needs": {
+      "type": "array",
+      "description": "One row per need",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Needs row",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Equipment, communication access, personal assistance, supervision, medication or other",
+            "examples": ["Equipment"],
+            "x-translate": false
+          },
+          "need": {
+            "type": "string",
+            "description": "The support needed, no diagnosis",
+            "examples": ["Backup electricity for an oxygen concentrator"],
+            "x-translate": false
+          },
+          "resident": {
+            "type": "string",
+            "description": "Exercise reference, not a name",
+            "examples": ["R-114"],
+            "x-translate": false
+          },
+          "needBy": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["22:00"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "category": "Equipment",
+            "need": "Backup electricity for an oxygen concentrator",
+            "resident": "R-114",
+            "needBy": "22:00"
+          }
+        ]
+      ]
+    },
+    "requestedResource": {
+      "type": "string",
+      "description": "What is requested and from whom",
+      "examples": [
+        "Portable battery pack and a sign language interpreter through the county disability services office."
+      ]
+    },
+    "inPlace": {
+      "type": "string",
+      "description": "How the shelter will support the person in the general population area meanwhile",
+      "examples": [
+        "The resident stays in the main area next to an outlet on the generator circuit."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

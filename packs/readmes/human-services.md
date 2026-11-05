@@ -8,7 +8,10 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 - **Domain profile `human_services`:** roles, systems and outside parties for a crisis center, a shelter, a reunification site and a child welfare agency, and six threat families: crisis line surge, shelter operations, reunification, displaced children in care, responder and staff stress, and service degradation. No state is assumed.
 - **Toolkit `behavioral_safeguards`:** the rules for sensitive material, described below. Any domain can turn it on.
-- **Templates:** a content notice card, a facilitator wellbeing check script and a psychological first aid handout.
+- **Toolkit `crisis_line`:** daily contact report, network surge and backup notices, queue wait-time board, staffing coverage summary, supervisor escalation, de-identified contact summary and state coordinator briefing, with the 988 rerouting rules (dated March 2026).
+- **Toolkit `mass_care`:** shelter status report, open shelters list, functional needs support request, registration form, daily count, incident report, health referral, closing report and EOC mass care request, with the rule that general population shelters integrate people with access and functional needs.
+- **Toolkit `reunification_child_welfare`:** reunification plan and site layout, roster, release log, parent notification text, "where is my child" call script, unreleased student tracker, displaced children in care list, state disaster plan activation notice and crisis counseling request.
+- **Templates:** 26 products for the three toolkits, plus a content notice card, a facilitator wellbeing check script and a psychological first aid handout. Every one carries the EXERCISE marking and uses exercise references, never real names.
 
 ## Safeguards for sensitive material
 

@@ -1,0 +1,75 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Network surge notice</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.noticeId}}
+    <div>
+      <dt>Notice</dt>
+      <dd>{{fields.noticeId}}</dd>
+    </div>
+    {{/if}} {{#if fields.issuedAt}}
+    <div>
+      <dt>Issued</dt>
+      <dd>{{fields.issuedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.region}}
+    <div>
+      <dt>Region</dt>
+      <dd>{{fields.region}}</dd>
+    </div>
+    {{/if}} {{#if fields.nextUpdate}}
+    <div>
+      <dt>Next update</dt>
+      <dd>{{fields.nextUpdate}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.summary}}
+  <h2>What is happening</h2>
+  <div class="body">{{fields.summary}}</div>
+  {{/if}} {{#if fields.measures}}
+  <h2>Network measures</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Measure</th>
+        <th>Value</th>
+        <th>Trend</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.measures}}
+      <tr>
+        <td>{{this.measure}}</td>
+        <td>{{this.value}}</td>
+        <td>{{this.trend}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.requested}}
+  <h2>What centers are asked to do</h2>
+  <ul>
+    {{#each fields.requested}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.reroutingNote}}
+  <h2>Rerouting reminder</h2>
+  <div class="callout">{{fields.reroutingNote}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Network surge notice</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

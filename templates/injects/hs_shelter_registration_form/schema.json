@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter registration form",
+  "description": "An exercise registration form for a shelter resident: household size, contact, supports and needs the household chooses to share, pets, and consent notes. It uses an exercise reference, never a real name or address, and says the resident decides what to share. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "registrationId": {
+      "type": "string",
+      "description": "Exercise reference",
+      "examples": ["REG-0186"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "registeredAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 16:42"],
+      "x-translate": false
+    },
+    "householdSize": {
+      "type": "string",
+      "description": "Number of people",
+      "examples": ["3 (2 adults, 1 child)"],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Exercise contact, fictional number",
+      "examples": ["555-0166"],
+      "x-translate": false
+    },
+    "needsShared": {
+      "type": "array",
+      "description": "Supports the household asked for, in plain words",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Electricity for an oxygen concentrator", "Large-print forms"]]
+    },
+    "pets": {
+      "type": "array",
+      "description": "Pets and service animals with the household",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["One dog (pet)", "No service animals"]]
+    },
+    "medications": {
+      "type": "array",
+      "description": "Medicines or supplies they will need, generic terms",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Daily medication that needs a refrigerator"]]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Registration notes: language, mobility, anything else the household shared",
+      "examples": ["Prefers Spanish; interpreter requested."]
+    },
+    "consent": {
+      "type": "string",
+      "description": "The statement that sharing is voluntary and kept to what the shelter needs",
+      "examples": [
+        "The household decides what to share. Information is used only to run the shelter."
+      ]
+    }
+  },
+  "additionalProperties": false
+}
