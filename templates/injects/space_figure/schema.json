@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Space weather figure (chart, scale panel or board)",
+  "description": "A chart, scale panel or board for a space weather exercise, drawn by the app from data (never an image): planetary Kp bars by G level, GOES X-ray flux with flare classes and R levels, proton flux with S levels, ground magnetometer series, solar wind speed, neutral current (GIC) with operator actions, GNSS error with satellites tracked and timing holdover, the G, S and R scale panel and a status board of impacts. Each carries a text summary and a data table. Simulated data are labeled simulated.",
+  "type": "object",
+  "required": ["figures"],
+  "additionalProperties": false,
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure",
+      "examples": ["Planetary Kp"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the data come from",
+      "examples": ["Exercise data, simulated"],
+      "x-translate": false
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw as { main: { kind, data } }.",
+      "required": ["main"],
+      "additionalProperties": false,
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "space_kp_series",
+                "space_xray_flux",
+                "space_proton_flux",
+                "space_magnetometer",
+                "space_solar_wind",
+                "space_gic_series",
+                "space_gnss_error",
+                "space_scale_panel",
+                "space_impact_board"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
