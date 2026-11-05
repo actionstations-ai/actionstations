@@ -1,0 +1,821 @@
+{
+  "id": "justice",
+  "label": "Law enforcement, corrections and courts",
+  "description": "Police and sheriff’s offices, jails and prisons, and courts, exercised at the level where their hardest decisions are made: who commands and who joins unified command, what families and the public are told, whether alert criteria are met, how a jail reconciles its count and which court functions keep running. It stays at coordination and decision level and never teaches tactics. Variants: municipal police department, sheriff’s office with a jail, campus or transit police, correctional facility, and a trial court or statewide judiciary.",
+  "aliases": [
+    "police",
+    "police_department",
+    "sheriff",
+    "sheriffs_office",
+    "law_enforcement",
+    "patrol",
+    "dispatch_law_enforcement",
+    "swat",
+    "tactical",
+    "negotiators",
+    "detention",
+    "jail",
+    "prison",
+    "corrections",
+    "doc",
+    "court",
+    "courts",
+    "judiciary",
+    "clerk_of_court",
+    "court_administrator",
+    "bailiff",
+    "evidence_unit",
+    "property_room"
+  ],
+  "vocabulary": {
+    "facility": "the agency’s headquarters and field sites, the jail or correctional facility, or the courthouse and its annexes",
+    "public": "residents, families, victims, witnesses, people in custody, jurors, litigants and members of the bar",
+    "frontline": "patrol officers and deputies, dispatchers, corrections officers, health services staff, court clerks, bailiffs and court security",
+    "operationsCenter": "the incident command post, the dispatch center, the jail control room or the court’s continuity of operations team"
+  },
+  "factCategories": [
+    {
+      "id": "cad_incidents",
+      "label": "CAD incident numbers",
+      "pattern": "\\b(CAD-\\d{2}-\\d{4,7})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "housing_areas",
+      "label": "Housing areas",
+      "noun": "Housing Units?|Housing Areas?|Pods?|Dorms?|Tiers?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "courtrooms",
+      "label": "Courtrooms",
+      "noun": "Courtrooms?|Departments?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "case_numbers",
+      "label": "Fictional case numbers",
+      "pattern": "\\b(\\d{2}-(?:CR|CV|JV|TR|PO)-\\d{3,6})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "computer-aided dispatch (CAD) with unit status and incident chronology",
+      "records management system",
+      "land mobile radio with interoperability channels",
+      "next generation 911 and call handling",
+      "vehicle location, camera and license plate reader systems",
+      "mass notification",
+      "the national crime information database for missing and wanted persons",
+      "evidence and property management",
+      "jail or offender management system (population, classification, movement, medical)",
+      "inmate telephone and video visitation",
+      "court case management system, electronic filing and jury management",
+      "remote hearing platform and courtroom audio and video",
+      "court public website, records portal and payment system",
+      "statewide systems run by the administrative office of the courts"
+    ],
+    "ot": [
+      "jail control room, door control and intercom systems",
+      "camera systems and recording",
+      "power, generator and fire alarm systems at the jail and courthouse",
+      "prisoner transport and holding areas"
+    ]
+  },
+  "roles": [
+    {
+      "key": "chief",
+      "name": "Chief of Police / Sheriff",
+      "abbreviation": "CHIEF",
+      "team": "Executive",
+      "description": "Agency posture, requests for outside help, public statements and legal exposure."
+    },
+    {
+      "key": "ic",
+      "name": "Incident Commander",
+      "abbreviation": "IC",
+      "team": "Incident command",
+      "description": "Sets incident objectives, establishes the command post and forms unified command with fire, EMS and other agencies."
+    },
+    {
+      "key": "sup",
+      "name": "Patrol / Field Supervisor",
+      "abbreviation": "SUP",
+      "team": "Field",
+      "description": "First arriving command, status reports and handoff of command."
+    },
+    {
+      "key": "comms",
+      "name": "Communications Supervisor (dispatch)",
+      "abbreviation": "COMMS",
+      "team": "Dispatch",
+      "description": "Channel assignments, resource tracking, interoperability and call-taker priorities."
+    },
+    {
+      "key": "tac",
+      "name": "Tactical Commander",
+      "abbreviation": "TAC",
+      "team": "Specialized units",
+      "description": "Advises the incident commander on options. The role appears in the exercise; tactical detail does not."
+    },
+    {
+      "key": "neg",
+      "name": "Negotiation Team Leader",
+      "abbreviation": "NEG",
+      "team": "Specialized units",
+      "description": "Activates the team, briefs the incident commander and recommends direction at the decision level."
+    },
+    {
+      "key": "ops",
+      "name": "Operations / Logistics / Planning Section Chief",
+      "abbreviation": "OPS/LOG/PLAN",
+      "team": "ICS staff",
+      "description": "Staging, mutual aid, the reunification site, resource requests and shift planning."
+    },
+    {
+      "key": "inv",
+      "name": "Investigations Commander",
+      "abbreviation": "INV",
+      "team": "Investigations",
+      "description": "Scene control, evidence, witness handling and joint investigation with other agencies."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Communications",
+      "description": "Media, social media, the joint information center and family communication."
+    },
+    {
+      "key": "vsc",
+      "name": "Victim / Family Services Coordinator",
+      "abbreviation": "VSC",
+      "team": "Support",
+      "description": "Reunification, notification and the family assistance center."
+    },
+    {
+      "key": "legal",
+      "name": "Legal Advisor",
+      "abbreviation": "LEGAL",
+      "team": "Staff",
+      "description": "Authority for orders, use of mutual aid, public records and liability."
+    },
+    {
+      "key": "warden",
+      "name": "Warden / Jail Administrator",
+      "abbreviation": "WARDEN",
+      "team": "Corrections",
+      "description": "Lockdown, outside help, public statements and population management."
+    },
+    {
+      "key": "shift",
+      "name": "Shift Commander (corrections)",
+      "abbreviation": "SHIFT",
+      "team": "Corrections",
+      "description": "Facility response, counts and staffing."
+    },
+    {
+      "key": "hsa",
+      "name": "Health Services Administrator",
+      "abbreviation": "HSA",
+      "team": "Corrections",
+      "description": "Medical emergencies, transfers to hospitals and infection control."
+    },
+    {
+      "key": "judge",
+      "name": "Presiding Judge",
+      "abbreviation": "JUDGE",
+      "team": "Court",
+      "description": "Orders to close, to continue or to move hearings, and emergency orders."
+    },
+    {
+      "key": "ctadm",
+      "name": "Court Administrator / Clerk of Court",
+      "abbreviation": "CTADM",
+      "team": "Court",
+      "description": "Continuity of operations, staffing, filings, the docket and communications."
+    },
+    {
+      "key": "ctsec",
+      "name": "Court Security Commander",
+      "abbreviation": "CTSEC",
+      "team": "Court",
+      "description": "Courthouse security and evacuation (often the sheriff)."
+    },
+    {
+      "key": "ctit",
+      "name": "Court IT Director",
+      "abbreviation": "CTIT",
+      "team": "Court",
+      "description": "System recovery, backups, e-filing and remote hearings."
+    },
+    {
+      "key": "dapd",
+      "name": "Prosecutor and Public Defender leads",
+      "abbreviation": "DA/PD",
+      "team": "Outside parties",
+      "description": "Case impact, speedy trial and detention questions, and evidence."
+    }
+  ],
+  "outsideParties": [
+    "fire and EMS",
+    "the local emergency operations center",
+    "neighboring and state law enforcement agencies (mutual aid, state police)",
+    "federal partners (FBI and others)",
+    "the 911 center",
+    "hospitals",
+    "school districts and campuses",
+    "the state court administrative office",
+    "the county or state IT security office and CISA",
+    "the public defender and the bar",
+    "families and advocacy groups",
+    "news media and the public on social media",
+    "oversight bodies"
+  ],
+  "mediaChannels": [
+    "a TV news crew at the perimeter",
+    "a parent group on Facebook",
+    "a local news site live blog",
+    "the agency’s social media account",
+    "a court public information officer’s email list",
+    "a county alert text message"
+  ],
+  "sceneAnchors": {
+    "public": "a courthouse lobby: a security screening station, a line of people holding folders, a clerk at a window, daylight through tall front windows",
+    "control": "a dispatch center: rows of call-takers at multi-screen consoles, a wall display of unit status, headsets and low light",
+    "exterior": "a command post beside a police vehicle in a parking lot: folding tables, a whiteboard on an easel, people in reflective vests, overcast sky",
+    "publicScreensDark": "a courthouse lobby: a security screening station, a line of people holding folders, a clerk at a window with a dark monitor, daylight through tall front windows"
+  },
+  "injectTypes": [
+    "radio_call",
+    "911_cad_entry",
+    "field_report",
+    "simcell_script",
+    "reunification_notice",
+    "incident_alert_notification",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "press_release",
+    "tweet",
+    "facebook_post",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "sitrep",
+    "status_board",
+    "cap_alert",
+    "ransom_note",
+    "helpdesk_ticket",
+    "downtime_notice",
+    "email",
+    "memo",
+    "official_letter"
+  ],
+  "threatFamilies": [
+    "justice_active_assailant",
+    "justice_barricaded_subject",
+    "justice_missing_child",
+    "justice_civil_unrest",
+    "justice_corrections_incident",
+    "justice_evidence_integrity",
+    "justice_service_degradation",
+    "cyber"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "justice_active_assailant",
+      "label": "Active assailant response and unified command",
+      "description": "Several agencies arrive within minutes of a violence report at a site. The first hour is about who commands, who joins unified command, rescue coordination with fire and EMS, what families and the public are told, and where families go. A complex coordinated attack adds a second site that splits the same resources.",
+      "keywords": [
+        "active shooter",
+        "active assailant",
+        "active threat",
+        "mass casualty attack",
+        "complex coordinated attack",
+        "multi-agency response",
+        "unified command",
+        "family reunification",
+        "mutual aid",
+        "school shooting"
+      ],
+      "phaseArc": [
+        {
+          "title": "First reports",
+          "goal": "Dispatch takes overlapping reports and the first units decide what kind of incident this is.",
+          "beats": [
+            "Several calls give different counts and places; a first CAD chronology is incomplete",
+            "The first arriving supervisor reports on the radio and has not yet said who is in command",
+            "A text to a parent reaches social media before the agency says anything"
+          ]
+        },
+        {
+          "title": "Command and unified command",
+          "goal": "Someone names the incident commander, a command post is staffed and the agencies present agree who leads.",
+          "beats": [
+            "Units from three jurisdictions arrive and each assumes another agency is in charge",
+            "Fire and EMS ask where to stage and who to report to",
+            "A neighboring agency asks whether it should self-dispatch or wait for a request"
+          ]
+        },
+        {
+          "title": "Rescue coordination and mutual aid",
+          "goal": "The command post coordinates medical care and mutual aid through agreed channels while the incident is still active.",
+          "beats": [
+            "A request for ambulances and a landing zone competes with a request for more officers",
+            "Dispatch runs short of radio channels and a second incident draws units away",
+            "The legal advisor is asked whether mutual aid units may act outside their own jurisdiction"
+          ]
+        },
+        {
+          "title": "Public information and family reunification",
+          "goal": "Families gather before anyone has told them where to go, and one joint message must carry the same facts from every agency.",
+          "beats": [
+            "Parents crowd the perimeter and a reunification site has not been chosen",
+            "Two agencies post different casualty or status numbers",
+            "A reporter asks for the name of the person responsible; the PIO must decide what to say"
+          ]
+        },
+        {
+          "title": "Investigation, notification and review",
+          "goal": "The scene changes from rescue to investigation, families are notified in an agreed order and the first review questions start.",
+          "beats": [
+            "A request to release the scene conflicts with the investigation lead",
+            "Victim services ask who notifies families and in what order",
+            "An agency wants a hot wash the next morning while staff are still deployed"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Name the incident commander and place the command post now, or wait for the senior agency to arrive: delay leaves arriving units without direction, and a hurried choice can leave a key agency out",
+        "Ask neighboring agencies to respond, or hold them as a reserve for a second site",
+        "Open one reunification site now with partial information, or wait to confirm a safer location while families gather at the perimeter",
+        "Release a first public statement with confirmed facts only, or wait for the joint message with every agency"
+      ],
+      "clueKinds": "A conflicting count or status in a radio report or CAD chronology, a unit that has not checked in with command, a message from an agency that disagrees with the joint statement, a parent report that reaches social media first.",
+      "hurdleKinds": "Radio channel overload, an interoperability gap between agencies, a command post that is not staffed by every agency, a reunification site that cannot take the numbers arriving, a CAD or phone system slowed by call volume.",
+      "keyCoordination": "Fire and EMS at the command post, neighboring law enforcement agencies, the school district or site owner, the 911 center, the hospital system, the family reunification team and the joint information center.",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 25,
+        "NOISE": 10,
+        "MISINFORMATION": 15
+      },
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Judge the response on command, communication and coordination: time to a named commander, agencies in unified command, mutual aid requested through agreed channels, a joint information system, a reunification site. Open with a content notice when the scenario involves violence against children or at a school.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "(?:command|commander|unified|mutual aid|staging|reunification|joint information)",
+          "description": "command, unified command, mutual aid, staging, reunification or joint information"
+        }
+      }
+    },
+    {
+      "id": "justice_barricaded_subject",
+      "label": "Barricaded subject and crisis negotiation",
+      "description": "A fictional subject refuses to leave a location and talks only to a negotiation team. The exercise tests the information flow between negotiators, the incident commander and the tactical commander, welfare checks and what leadership decides when talks stall. Technique never appears.",
+      "keywords": [
+        "barricaded",
+        "crisis negotiation",
+        "negotiation team",
+        "hostage",
+        "standoff",
+        "welfare check",
+        "subject refuses to leave"
+      ],
+      "phaseArc": [
+        {
+          "title": "Activation",
+          "goal": "The incident commander decides to activate the negotiation team and sets the perimeter of responsibility at the agency level.",
+          "beats": [
+            "A call for service becomes a refusal to come out; the first supervisor asks for the team",
+            "The team leader asks what the commander needs and by when"
+          ]
+        },
+        {
+          "title": "Contact and information flow",
+          "goal": "Contact is logged at the level of times and outcomes while the commander decides on timing and resources.",
+          "beats": [
+            "The log shows contact at set times and one missed contact",
+            "The commander asks for an update on a deadline set by someone outside the team"
+          ]
+        },
+        {
+          "title": "Stall and leadership decisions",
+          "goal": "Talks stall and the commander weighs more time against pressure from the public, the family and other agencies.",
+          "beats": [
+            "A family member arrives and asks to speak to the subject",
+            "A neighboring resident posts about the incident and draws a crowd",
+            "The legal advisor is asked about authority for a decision that was not planned"
+          ]
+        },
+        {
+          "title": "Resolution and review",
+          "goal": "The incident ends and the command post turns to notification, welfare of the people involved and review.",
+          "beats": [
+            "The log is requested for the after-action review and some entries are incomplete",
+            "The PIO needs one statement that does not describe the negotiation"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Extend the time the negotiation team has, or change the approach on the commander’s own authority: each carries legal and public safety exposure",
+        "Allow a family member to take part, or keep family at the family assistance site",
+        "Brief the media now with limited facts, or wait for the joint information center"
+      ],
+      "clueKinds": "A log entry that shows a missed contact, a welfare indicator written at the level of agreed to speak, a request from the commander for an update by a set time, a message from outside the team that conflicts with the log.",
+      "hurdleKinds": "A team member unavailable, a log kept in two places that disagree, a radio channel shared with another incident, a deadline set by someone outside the team.",
+      "keyCoordination": "The negotiation team leader, the incident commander, the tactical commander (role only), the legal advisor, victim services and the PIO.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. The negotiation log contains contact times, decision requests and welfare indicators at the level of agreed to speak. It contains no technique, no scripts and no quoted dialogue, and the subject is fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "security",
+        "decisionMustMention": {
+          "pattern": "(?:negotiat|commander|activate|update|authority)",
+          "description": "the negotiation team, the commander, activation, updates or authority"
+        }
+      }
+    },
+    {
+      "id": "justice_missing_child",
+      "label": "Missing child and AMBER Alert decision",
+      "description": "A child is reported missing in circumstances that do not clearly meet the alert criteria. The commander walks the criteria, enters the child in the national crime information database, decides on the alert and handles tips and media.",
+      "keywords": [
+        "amber alert",
+        "missing child",
+        "abduction",
+        "child abduction",
+        "endangered missing",
+        "tip line"
+      ],
+      "phaseArc": [
+        {
+          "title": "Report and criteria",
+          "goal": "The first report arrives and the commander must decide whether the five recommended criteria are met.",
+          "beats": [
+            "A parent reports a child missing from a place and gives a vehicle description",
+            "The facts support some criteria and leave others unclear"
+          ]
+        },
+        {
+          "title": "Database entry and decision",
+          "goal": "The child is entered into the national crime information database with the abduction flag, and the commander decides on the alert.",
+          "beats": [
+            "The data entry has not been made and the alert request is waiting on it",
+            "A supervisor asks whether a state endangered missing advisory fits better"
+          ]
+        },
+        {
+          "title": "Alert, tips and media",
+          "goal": "The alert goes out, tips arrive faster than they can be sorted and the media ask for more than the agency will release.",
+          "beats": [
+            "The tip line takes many calls and a few seem credible",
+            "A false sighting draws units away from the main lead",
+            "A news outlet publishes a detail the agency asked it to hold"
+          ]
+        },
+        {
+          "title": "Resolution and review",
+          "goal": "The case resolves and the agency cancels the alert and reviews timing.",
+          "beats": [
+            "The alert must be canceled in every channel at once",
+            "The review asks when each criterion was decided and when the entry was made"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Issue the alert on a partial set of criteria, or hold for more facts: an alert that is wrong costs public trust, and one that is late costs time",
+        "Release a vehicle description now, or hold a detail back for investigators"
+      ],
+      "clueKinds": "A tip that matches or contradicts the vehicle description, a database entry time that follows the alert request, a witness statement that changes the criteria.",
+      "hurdleKinds": "A database terminal down, a tip line that overflows, a state alert system that needs a second approver, a jurisdiction boundary that splits the case.",
+      "keyCoordination": "The state AMBER coordinator, the 911 center, neighboring agencies, the national center for missing children, broadcasters and the PIO.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Show the five recommended criteria as a checklist with the commander’s reasoning, say that states set their own criteria, and put the database entry before the alert.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "(?:criteri|alert|database|entry|tip)",
+          "description": "the alert criteria, the alert, the database entry or the tips"
+        }
+      }
+    },
+    {
+      "id": "justice_civil_unrest",
+      "label": "Civil unrest and crowd events",
+      "description": "A large demonstration or disorder strains staffing, mutual aid and communications with organizers. The exercise is about planning, staffing, legal input and public communication, not crowd control methods.",
+      "keywords": [
+        "civil unrest",
+        "demonstration",
+        "protest",
+        "riot",
+        "curfew",
+        "crowd event",
+        "march",
+        "civil disturbance"
+      ],
+      "phaseArc": [
+        {
+          "title": "Planning and signals",
+          "goal": "The agency learns of an event and decides what it can staff and what it asks of others.",
+          "beats": [
+            "Organizers give an estimate that is lower than social media suggests",
+            "Mutual aid agreements are checked and one neighbor has no available staff"
+          ]
+        },
+        {
+          "title": "Event under way",
+          "goal": "The crowd grows and the command post sorts reports by place and agency.",
+          "beats": [
+            "A report of property damage at one block and a peaceful crowd at another",
+            "A request from organizers to meet the commander"
+          ]
+        },
+        {
+          "title": "Decisions and communication",
+          "goal": "Leadership decides on curfew, closures and statements with the legal advisor.",
+          "beats": [
+            "The mayor asks whether to declare a curfew",
+            "A local news site posts an unverified report that the agency must answer"
+          ]
+        },
+        {
+          "title": "Recovery and review",
+          "goal": "Closures lift, claims arrive and the review begins.",
+          "beats": [
+            "Businesses ask when streets reopen",
+            "A request for public records for the response"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Request mutual aid early, or hold until the crowd size is clearer",
+        "Advise the mayor on a curfew, with the legal advisor, knowing it affects people who live in the area"
+      ],
+      "clueKinds": "A crowd estimate that changes, a CAD cluster in one district, a social post that shows a gathering at another place.",
+      "hurdleKinds": "Staffing shortfall, mutual aid unavailable, radio channel crowding, a road closure that blocks emergency access.",
+      "keyCoordination": "The mayor or county executive, the legal advisor, neighboring agencies, event organizers, transit and the PIO.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Do not describe crowd control methods, formations or equipment use.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "(?:mutual aid|curfew|legal|statement|closure|command)",
+          "description": "mutual aid, curfew, the legal advisor, a statement, closures or command"
+        }
+      }
+    },
+    {
+      "id": "justice_corrections_incident",
+      "label": "Corrections disturbance or medical emergency",
+      "description": "A disturbance or a medical emergency in a jail during a shift change, with a count that does not reconcile. The exercise tests the shift commander, health services, the warden and external notification, not control techniques.",
+      "keywords": [
+        "jail",
+        "prison",
+        "detention",
+        "corrections",
+        "inmate count",
+        "housing unit",
+        "lockdown",
+        "disturbance",
+        "shift change",
+        "medical emergency in custody"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detection",
+          "goal": "The control room and a shift commander learn of a problem in one housing area during a shift change.",
+          "beats": [
+            "The control room reports an alarm in one housing area and the count is off by two",
+            "Two officers from the outgoing shift are still on post"
+          ]
+        },
+        {
+          "title": "Facility response",
+          "goal": "The shift commander declares an incident, calls in staff and decides on lockdown of an area.",
+          "beats": [
+            "A medical emergency needs transport while the area is under lockdown",
+            "Mutual aid from the sheriff’s patrol is requested"
+          ]
+        },
+        {
+          "title": "Count and control",
+          "goal": "The facility reconciles the count from the movement log and declares the area clear.",
+          "beats": [
+            "The count is short by one until a movement entry is found",
+            "Two housing areas report different counts for the same inmate group"
+          ]
+        },
+        {
+          "title": "Notification and review",
+          "goal": "Families, courts, the sheriff and oversight are told and the review begins.",
+          "beats": [
+            "Court transport must be rescheduled",
+            "A family member calls the lobby after seeing a post"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Lock down one housing area or the whole facility: the larger action protects staff and strands court transport, medical callouts and visits",
+        "Declare the count clear with one entry unresolved, or hold the facility while the movement log is checked"
+      ],
+      "clueKinds": "A movement log entry that explains a count difference, a medical call time that disagrees with the control room log, a roster that shows who was on post at shift change.",
+      "hurdleKinds": "Staffing short at shift change, a door control or radio fault, a hospital that diverts, a count method that two shifts apply differently.",
+      "keyCoordination": "The sheriff or director of corrections, the health services administrator, the hospital, the court, the PIO, neighboring agencies and oversight.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Write counts, housing areas and statuses. Never describe how detention or restraint measures work or how they could be defeated.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "(?:count|lockdown|shift commander|warden|medical|notification|reconcil)",
+          "description": "the count, a lockdown, the shift commander, the warden, medical response or notification"
+        }
+      }
+    },
+    {
+      "id": "justice_evidence_integrity",
+      "label": "Evidence and chain of custody failure",
+      "description": "An audit or a complaint shows that evidence is missing, mislabeled or out of sequence. The exercise tests how quickly the agency learns the scope, notifies prosecutors and decides what to say.",
+      "keywords": [
+        "chain of custody",
+        "property room",
+        "evidence audit",
+        "missing evidence",
+        "mislabeled evidence",
+        "evidence integrity",
+        "evidence unit"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "A routine audit or a prosecutor’s request shows a discrepancy.",
+          "beats": [
+            "An audit memo lists counts that do not match the log",
+            "A prosecutor asks for an item that the system shows as checked out"
+          ]
+        },
+        {
+          "title": "Scope",
+          "goal": "The team decides how far the problem reaches and which cases are affected.",
+          "beats": [
+            "A second shelf shows the same pattern",
+            "A detective says an item was moved for testing and not logged"
+          ]
+        },
+        {
+          "title": "Notification and message",
+          "goal": "Prosecutors and defenders are told, and the agency decides what it says in public.",
+          "beats": [
+            "The prosecutor asks for a list by the next morning",
+            "A reporter asks about a case in trial"
+          ]
+        },
+        {
+          "title": "Correction and review",
+          "goal": "The agency corrects the log, changes the process and reviews.",
+          "beats": ["An outside auditor is asked to review", "A policy change needs a date"]
+        }
+      ],
+      "decisionPointExamples": [
+        "Tell the prosecutor now with a partial list, or wait for a full audit",
+        "Suspend access to the property room, which also stops legitimate work"
+      ],
+      "clueKinds": "A log line that does not match a shelf count, a sign-out with no sign-in, an item number that appears in two cases.",
+      "hurdleKinds": "A property system with no audit trail for one month, a staff member who left, a backlog of items awaiting disposal.",
+      "keyCoordination": "The prosecutor, the public defender, the evidence unit, the crime laboratory, the chief or sheriff and the PIO.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Item numbers and case numbers are fictional and follow no real format.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "(?:prosecutor|defender|audit|notify|case|log)",
+          "description": "the prosecutor, the defender, the audit, notification, the cases or the log"
+        }
+      }
+    },
+    {
+      "id": "justice_service_degradation",
+      "label": "Justice service degradation",
+      "description": "The systems or buildings a justice agency depends on fail: court ransomware, courthouse evacuation, jail power or communications loss, dispatch failure or a staffing shortfall. The question is which functions keep running and what everyone is told.",
+      "keywords": [
+        "court ransomware",
+        "case management system",
+        "e-filing",
+        "courthouse evacuation",
+        "court closure",
+        "continuity of operations",
+        "jail power loss",
+        "dispatch failure",
+        "cad outage",
+        "paper filing"
+      ],
+      "phaseArc": [
+        {
+          "title": "Detection",
+          "goal": "Staff notice the problem and the IT director decides what is safe to leave running.",
+          "beats": [
+            "Clerks cannot open the case management system and e-filing returns errors",
+            "A message appears on a screen demanding payment; it does nothing"
+          ]
+        },
+        {
+          "title": "Shutdown decisions",
+          "goal": "The court administrator and the IT director decide what to shut down and who is told.",
+          "beats": [
+            "Shutting down the network also stops remote hearings scheduled for the afternoon",
+            "The state court administrative office asks for a status by noon"
+          ]
+        },
+        {
+          "title": "Closure and notification",
+          "goal": "The presiding judge decides which functions close, which hearings continue and how the bar and public hear.",
+          "beats": [
+            "A criminal defendant’s speedy trial date falls in the outage window",
+            "The bar association asks whether filings are accepted on paper"
+          ]
+        },
+        {
+          "title": "Fallback operations",
+          "goal": "Essential functions run on paper and by phone while the staff track a backlog.",
+          "beats": [
+            "Emergency protective order requests arrive and must be handled the same day",
+            "Jury notices were mailed with the old system’s dates"
+          ]
+        },
+        {
+          "title": "Restoration in priority order",
+          "goal": "Systems return in an order that respects their dependencies and recovery time objectives.",
+          "beats": [
+            "E-filing can return only after the case management system",
+            "The public website comes back before the clerk can answer questions"
+          ]
+        },
+        {
+          "title": "Review",
+          "goal": "The court reviews recovery time against its objectives and the notifications it made.",
+          "beats": [
+            "The continuity plan lists a cyber playbook that nobody has tested",
+            "The state office asks for lessons learned"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Close the courthouse for all functions, or keep emergency and in-custody hearings running on paper",
+        "Restore e-filing first for the public, or the case management system first for the clerks: the order changes who can work",
+        "Say publicly that systems are down now, or wait for a full statement"
+      ],
+      "clueKinds": "A system that comes back before its dependency, an essential function whose recovery time objective has passed, a notice to the bar that says something different from the public statement.",
+      "hurdleKinds": "A backup that is older than expected, a vendor that cannot reach the court, a shared state system outside local control, staff who cannot work without the case management system.",
+      "keyCoordination": "The presiding judge, the court administrator, the court IT director, the state court administrative office, the county IT security office, CISA, the prosecutor and public defender, and the bar.",
+      "promptGuidance": "Stay at the coordination level: who commands, which agencies are at the table, what families, the public and the bar are told, what keeps running. Write units, building-level locations and statuses only. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, real building layouts or security weaknesses. If the brief asks for tactical detail, write the coordination decision instead. Do not name or glorify a perpetrator. Every person and department is fictional. Ransom notes and system tickets are non-functional and contain no real addresses, payment details or malware detail. Order restoration by dependency and recovery time objective.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "(?:close|closure|paper|restore|restoration|notify|bar|hearing)",
+          "description": "closure, paper filing, restoration, notification, the bar or hearings"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine welfare check on another call",
+    "a records request unrelated to the incident",
+    "a jury summons question on the clerk’s line",
+    "a vendor invoice for radio batteries",
+    "a patrol car in the shop"
+  ],
+  "pressureExamples": [
+    "a reporter asking for the name of the person responsible",
+    "a parent demanding to enter the perimeter",
+    "a county commissioner asking why the agency has not spoken yet",
+    "a defense attorney demanding an item from the property room by morning",
+    "the bar association asking whether paper filings count"
+  ],
+  "rolePatterns": {
+    "technical": "court it|it director",
+    "security": "chief|sheriff|commander|tactical|negotiat|investigat|security",
+    "operations": "warden|shift|clerk|administrator|judge|section chief"
+  },
+  "agencyPattern": "FBI|ATF|U\\.?S\\. Marshals|state police|state patrol|highway patrol|National Center for Missing & Exploited Children|NCMEC|AMBER Alert|state court administrative office|administrative office of the courts|CISA",
+  "coreCapabilities": [
+    "operational_coordination",
+    "operational_communications",
+    "public_information_and_warning",
+    "on_scene_security_protection_and_law_enforcement",
+    "situational_assessment"
+  ],
+  "suggestedToolkits": ["justice", "dispatch", "media_environment"],
+  "frameworks": ["nist_csf_2"]
+}
