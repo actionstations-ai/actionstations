@@ -19,6 +19,8 @@ import { getSettings, updateSettings } from '../../settings/store'
 import { defineHandlers } from '../registry'
 
 export const FIRMS_SECRET = 'firms'
+export const AIRNOW_SECRET = 'airnow'
+export const AIRNOW_SIGNUP_URL = 'https://docs.airnowapi.org/account/request/'
 export const FIRMS_SIGNUP_URL = 'https://firms.modaps.eosdis.nasa.gov/api/map_key/'
 
 /** Swapped in tests: the fetch, the clock and the version. */
@@ -38,6 +40,7 @@ async function appSettings() {
   return {
     enabled: (await getSettings()).hazards.enabled,
     hasFirmsKey: await hasSecret(FIRMS_SECRET).catch(() => false),
+    hasAirnowKey: await hasSecret(AIRNOW_SECRET).catch(() => false),
     encryptionAvailable: encryptionAvailable(),
   }
 }
@@ -82,6 +85,20 @@ export default defineHandlers({
   'hazards:firms-key-remove': async () => {
     await setSecret(FIRMS_SECRET, null)
     return appSettings()
+  },
+
+  'hazards:airnow-key-set': async ({ key }) => {
+    await setSecret(AIRNOW_SECRET, key)
+    return appSettings()
+  },
+
+  'hazards:airnow-key-remove': async () => {
+    await setSecret(AIRNOW_SECRET, null)
+    return appSettings()
+  },
+
+  'hazards:airnow-signup-open': async () => {
+    await shell.openExternal(AIRNOW_SIGNUP_URL)
   },
 
   'hazards:firms-signup-open': async () => {

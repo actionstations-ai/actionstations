@@ -31,8 +31,8 @@ A replay uses the one-time fetch described in [Case data](case-data.md): you cho
 
 - **Fire perimeters (National Interagency Fire Center):** the mapped perimeters of a fire over time, from the history for 2000 to 2019, the newer perimeter layer, or the fires burning now. No account is needed.
 - **Smoke (NOAA Hazard Mapping System):** analyst-drawn smoke polygons for the days you choose. No account is needed.
-- **Hotspots (NASA FIRMS):** satellite detections for a small box. It needs the free map key you may already have saved for hazard data.
-- **Air quality (EPA AirNow):** hourly air quality for the reporting area nearest a place. It needs a free AirNow key.
+- **Hotspots (NASA FIRMS):** satellite detections for a small box. It needs the free map key you may already have saved under Settings, Hazard data.
+- **Air quality (EPA AirNow):** hourly air quality for the reporting area nearest a place. It needs a free AirNow key, saved in the same place. Keys stay in your computer's keychain.
 
 The app animates between mapped perimeters and labels those frames **interpolated**. Evacuation zones in a replay are fictional zones drawn on the real terrain, because real zone shapes and order times are held by counties.
 

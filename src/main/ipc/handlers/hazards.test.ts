@@ -174,6 +174,65 @@ describe('when turned on', () => {
     expect(await call('hazards:firms-key-remove')).toMatchObject({ hasFirmsKey: false })
   })
 
+  it('keeps the AirNow key in the same secure storage and the wildfire connectors read both keys from it', async () => {
+    const { AIRNOW_SECRET, FIRMS_SECRET } = await import('./hazards')
+    const { airnowConnector, AIRNOW_KEY_ID } =
+      await import('../../toolkits/connectors/wildfire-airnow')
+    const { firmsHotspotsConnector, FIRMS_KEY_ID } =
+      await import('../../toolkits/connectors/wildfire-firms')
+    expect(AIRNOW_SECRET).toBe(AIRNOW_KEY_ID)
+    expect(FIRMS_SECRET).toBe(FIRMS_KEY_ID)
+    const AIRKEY = 'abcdef12-3456-7890-abcd-ef1234567890'
+    expect(await call('hazards:airnow-key-set', { key: AIRKEY })).toMatchObject({
+      hasAirnowKey: true,
+      hasFirmsKey: false,
+    })
+    await call('hazards:firms-key-set', { key: KEY })
+    const asked: string[] = []
+    const ctx = {
+      get: async (u: string) => {
+        asked.push(u)
+        return {
+          status: 200,
+          data: new TextEncoder().encode(u.includes('airnow') ? '[]' : 'latitude,longitude\n'),
+        }
+      },
+    }
+    const range = { start: '2024-05-10T12:00:00Z', end: '2024-05-10T12:30:00Z' }
+    const airQuery = {
+      range,
+      area: { label: 'x', bbox: [-84.6, 39, -84.4, 39.2] as [number, number, number, number] },
+      options: {},
+    }
+    const fireQuery = {
+      range,
+      area: { label: 'x', bbox: [-122, 39, -121.5, 39.5] as [number, number, number, number] },
+      options: {},
+    }
+    await airnowConnector.fetch(airQuery, ctx)
+    await firmsHotspotsConnector.fetch(fireQuery, ctx)
+    expect(asked[0]).toContain(`API_KEY=${AIRKEY}`)
+    expect(asked[asked.length - 1]).toContain(`/csv/${KEY}/`)
+    const everything = [project, process.env.TTX_USER_DATA!].flatMap((dir) =>
+      readdirSync(dir, { recursive: true, encoding: 'utf8' }).map((f) => join(dir, f)),
+    )
+    for (const file of everything.filter((f) => /\.(json|md)$/.test(f))) {
+      const text = readFileSync(file, 'utf8')
+      expect(text, file).not.toContain(AIRKEY)
+      expect(text, file).not.toContain(KEY)
+    }
+    expect(await call('hazards:airnow-key-remove')).toMatchObject({ hasAirnowKey: false })
+    await expect(airnowConnector.fetch(airQuery, ctx)).rejects.toMatchObject({ code: 'FORBIDDEN' })
+    await call('hazards:firms-key-remove')
+  })
+
+  it('opens only the AirNow sign-up page, when asked', async () => {
+    const { AIRNOW_SIGNUP_URL } = await import('./hazards')
+    electron.shell.openExternal.mockClear()
+    await call('hazards:airnow-signup-open')
+    expect(electron.shell.openExternal).toHaveBeenCalledWith(AIRNOW_SIGNUP_URL)
+  })
+
   it('imports a layer file from disk without any request', async () => {
     const file = join(mkdtempSync(join(tmpdir(), 'ttx-layer-')), 'h.geojson')
     writeFileSync(file, JSON.stringify(fx.LAYER_GEOJSON))
