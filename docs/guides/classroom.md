@@ -40,3 +40,19 @@ between the observation and the student is kept only in the classroom records.
 
 Grades are education records held by your institution. Exporting them is your decision, and the
 export screen says so.
+
+## Learning outcomes
+
+Add the outcomes of your course: a code, the outcome text, and optionally a Bloom level and the program
+outcome it supports. Export a set as a file to reuse it next term, or import one. Pick a scenario and
+choose **Suggest mappings** to see which objectives share words with an outcome. Suggestions are
+only a starting point: nothing counts until you confirm it.
+
+## Rubrics
+
+A rubric belongs to a role, or to the whole team. Each criterion has a weight and three to six
+levels, each with a descriptor and points, and can be linked to outcomes. **Add the starter
+rubrics** gives you original rubrics for communication, decision quality, role clarity, use of plans,
+situational awareness, coordination and evaluator observation quality. Edit them freely. Rubrics
+export and import as files. Rubrics from other institutions are not included when their license
+forbids it; import them yourself if yours allows.

@@ -86,6 +86,8 @@ export const MAPPING_KINDS = ['objective', 'capability', 'task'] as const
 export const OutcomeMapping = z.object({
   outcomeId: Id,
   kind: z.enum(MAPPING_KINDS),
+  /** The scenario an objective or task id belongs to (ids repeat across scenarios). */
+  scenarioId: Id.optional(),
   /** Objective id, capability id or critical task id. */
   ref: z.string().min(1).max(200),
   /** A generator proposal stays a suggestion until the instructor confirms it. */
