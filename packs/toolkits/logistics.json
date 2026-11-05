@@ -67,7 +67,7 @@
     "logistics_temperature_chart",
     "logistics_trace_table"
   ],
-  "connectors": [],
+  "connectors": ["openfda-food-enforcement"],
   "outsideParties": [
     "suppliers at tiers one to three",
     "carriers, freight forwarders and third-party logistics providers",
@@ -100,7 +100,81 @@
     }
   ],
   "documents": [],
-  "metrics": [],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Time from recall signal to recall decision",
+      "config": {
+        "decisionKinds": ["logistics_declare_recall"],
+        "eventKinds": ["recall_signal"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 480,
+        "matchArea": false
+      },
+      "groundTruth": "logistics-trace-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from recall signal to hold",
+      "config": {
+        "decisionKinds": ["logistics_hold_or_quarantine_lot"],
+        "eventKinds": ["recall_signal"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 240,
+        "matchArea": false
+      },
+      "groundTruth": "logistics-trace-events"
+    },
+    {
+      "id": "logistics_trace_completeness",
+      "label": "Time to trace and trace completeness",
+      "config": {
+        "clockHours": 24,
+        "startFrom": "signal"
+      },
+      "groundTruth": "logistics-trace-events"
+    },
+    {
+      "id": "logistics_notification_timeliness",
+      "label": "Customers notified on time",
+      "config": {
+        "targetMin": 240
+      },
+      "groundTruth": "logistics-trace-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from supplier failure to first protective decision",
+      "config": {
+        "decisionKinds": [
+          "logistics_allocate_supply",
+          "logistics_switch_source",
+          "logistics_reroute_or_change_mode"
+        ],
+        "eventKinds": ["supplier_failed"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 2880,
+        "matchArea": false
+      },
+      "groundTruth": "logistics-events"
+    },
+    {
+      "id": "logistics_supply_protection",
+      "label": "Days of supply protected",
+      "config": {
+        "floorDays": 3
+      },
+      "series": "logistics-days-of-supply"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across supply chain, customer service and regulatory affairs",
+      "config": {
+        "numericTolerance": 0,
+        "partners": ["supply chain", "customer service", "regulatory affairs"]
+      }
+    }
+  ],
   "decisionForms": [
     {
       "id": "logistics_allocate_supply",
