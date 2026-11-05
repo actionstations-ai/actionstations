@@ -2,3 +2,4 @@
 // its generators are registered wherever case data is generated.
 import './clinical/generators'
 import './epidemiology/register-generators'
+import './ems/generators'

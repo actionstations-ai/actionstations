@@ -83,6 +83,43 @@ describe('mci_triage', () => {
   })
 })
 
+describe('structured decisions (spec 0456 FR-10)', () => {
+  const forms = TOOLKIT_IDS.flatMap(
+    (id) => ToolkitSchema.parse(readJson(`packs/toolkits/${id}.json`)).decisionForms,
+  )
+  it('cover declare an MCI, triage method, destination, hospital status, mutual aid, protective actions, PPE and entry, command transfer, mayday and public statement', () => {
+    expect(forms.map((f) => f.id).sort()).toEqual(
+      [
+        'assign_patient_destination',
+        'declare_mayday',
+        'declare_mci',
+        'issue_public_statement',
+        'request_mutual_aid',
+        'set_hospital_status',
+        'set_ppe_and_entry',
+        'set_protective_actions',
+        'set_triage_method',
+        'transfer_command',
+      ].sort(),
+    )
+  })
+  it('asks for a time on every decision and an area for protective actions', () => {
+    for (const f of forms)
+      expect(
+        f.fields.some((x) => x.kind === 'time'),
+        f.id,
+      ).toBe(true)
+    const pa = forms.find((f) => f.id === 'set_protective_actions')!
+    expect(pa.fields.some((x) => x.kind === 'area')).toBe(true)
+  })
+  it('records the from, to, time and briefing of a command transfer', () => {
+    const t = forms.find((f) => f.id === 'transfer_command')!
+    expect(t.fields.map((x) => x.id)).toEqual(
+      expect.arrayContaining(['from', 'to', 'time', 'briefing']),
+    )
+  })
+})
+
 describe('hazmat toolkit and the Emergency Response Guidebook', () => {
   const toolkit = ToolkitSchema.parse(readJson('packs/toolkits/hazmat.json'))
 
