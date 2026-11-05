@@ -1,0 +1,674 @@
+{
+  "variant": "shipment_tracker",
+  "fields": {
+    "heading": "Shipment tracker",
+    "source": "Exercise data, simulated",
+    "figures": {
+      "main": {
+        "kind": "logistics_shipment_tracker",
+        "data": {
+          "title": "Open shipments, day 30",
+          "asOf": "2026-12-01T00:00:00.000Z",
+          "rows": [
+            {
+              "shipment": "SH-0002",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Summit Intermodal",
+              "equipment": "Trailer 0002",
+              "etaPlanned": "2026-12-06T00:00:00.000Z",
+              "etaCurrent": "2027-01-03T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0003",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Redbird Trucking",
+              "equipment": "Trailer 0003",
+              "etaPlanned": "2026-12-07T00:00:00.000Z",
+              "etaCurrent": "2027-01-04T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0004",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Prairie Freight",
+              "equipment": "Trailer 0004",
+              "etaPlanned": "2026-12-08T00:00:00.000Z",
+              "etaCurrent": "2027-01-05T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0005",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Harbor Line",
+              "equipment": "Trailer 0005",
+              "etaPlanned": "2026-12-09T00:00:00.000Z",
+              "etaCurrent": "2027-01-06T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0006",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Summit Intermodal",
+              "equipment": "Trailer 0006",
+              "etaPlanned": "2026-12-10T00:00:00.000Z",
+              "etaCurrent": "2027-01-07T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0007",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Redbird Trucking",
+              "equipment": "Trailer 0007",
+              "etaPlanned": "2026-12-11T00:00:00.000Z",
+              "etaCurrent": "2027-01-08T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0008",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Prairie Freight",
+              "equipment": "Trailer 0008",
+              "etaPlanned": "2026-12-12T00:00:00.000Z",
+              "etaCurrent": "2027-01-09T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            },
+            {
+              "shipment": "SH-0009",
+              "lane": "Brightwater Motors to DC Lindgren",
+              "carrier": "Harbor Line",
+              "equipment": "Trailer 0009",
+              "etaPlanned": "2026-12-13T00:00:00.000Z",
+              "etaCurrent": "2027-01-10T00:00:00.000Z",
+              "status": "held",
+              "exception": "Supplier did not ship"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "variants": {
+    "days_of_supply": {
+      "fields": {
+        "heading": "Inventory and days of supply",
+        "source": "Exercise data, simulated",
+        "figures": {
+          "main": {
+            "kind": "logistics_days_of_supply",
+            "data": {
+              "title": "Days of supply, day 26",
+              "asOf": "2026-11-27T00:00:00.000Z",
+              "rows": [
+                {
+                  "item": "Series 7 motor kit",
+                  "site": "DC Lindgren",
+                  "unit": "units",
+                  "onHand": 1248,
+                  "inbound": 0,
+                  "dailyDemand": 104,
+                  "reorderPointDays": 16
+                },
+                {
+                  "item": "Series 7 motor kit",
+                  "site": "DC Marlow",
+                  "unit": "units",
+                  "onHand": 4704,
+                  "inbound": 0,
+                  "dailyDemand": 392,
+                  "reorderPointDays": 16
+                },
+                {
+                  "item": "Control board B12",
+                  "site": "DC Lindgren",
+                  "unit": "units",
+                  "onHand": 3348,
+                  "inbound": 0,
+                  "dailyDemand": 279,
+                  "reorderPointDays": 10
+                },
+                {
+                  "item": "Control board B12",
+                  "site": "DC Marlow",
+                  "unit": "units",
+                  "onHand": 3612,
+                  "inbound": 0,
+                  "dailyDemand": 301,
+                  "reorderPointDays": 10
+                },
+                {
+                  "item": "Gearbox housing",
+                  "site": "DC Lindgren",
+                  "unit": "units",
+                  "onHand": 3912,
+                  "inbound": 0,
+                  "dailyDemand": 326,
+                  "reorderPointDays": 10
+                },
+                {
+                  "item": "Gearbox housing",
+                  "site": "DC Marlow",
+                  "unit": "units",
+                  "onHand": 2376,
+                  "inbound": 0,
+                  "dailyDemand": 198,
+                  "reorderPointDays": 10
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "supplier_network": {
+      "fields": {
+        "heading": "Supplier network",
+        "source": "Exercise data, simulated",
+        "figures": {
+          "main": {
+            "kind": "logistics_supplier_network",
+            "data": {
+              "title": "Supplier network, day 10",
+              "nodes": [
+                {
+                  "id": "CO",
+                  "label": "Company",
+                  "tier": 0,
+                  "status": "operating"
+                },
+                {
+                  "id": "T1-1",
+                  "label": "Brightwater Motors",
+                  "tier": 1,
+                  "status": "down"
+                },
+                {
+                  "id": "T1-2",
+                  "label": "Pinecrest Controls",
+                  "tier": 1,
+                  "status": "operating"
+                },
+                {
+                  "id": "T1-3",
+                  "label": "Lindgren Castings",
+                  "tier": 1,
+                  "status": "operating"
+                },
+                {
+                  "id": "T1-4",
+                  "label": "Eastgate Cable",
+                  "tier": 1,
+                  "status": "operating"
+                },
+                {
+                  "id": "T2-1",
+                  "label": "Northfield Steel",
+                  "tier": 2,
+                  "status": "operating"
+                },
+                {
+                  "id": "T2-2",
+                  "label": "Redhill Copper",
+                  "tier": 2,
+                  "status": "operating"
+                },
+                {
+                  "id": "T2-3",
+                  "label": "Ashby Resin",
+                  "tier": 2,
+                  "status": "operating"
+                },
+                {
+                  "id": "T3-1",
+                  "label": "Quarry Ridge Ore",
+                  "tier": 3,
+                  "status": "unknown"
+                },
+                {
+                  "id": "T3-2",
+                  "label": "Sable Chemicals",
+                  "tier": 3,
+                  "status": "unknown"
+                }
+              ],
+              "edges": [
+                {
+                  "from": "T2-1",
+                  "to": "T1-1"
+                },
+                {
+                  "from": "T2-2",
+                  "to": "T1-2"
+                },
+                {
+                  "from": "T2-3",
+                  "to": "T1-3"
+                },
+                {
+                  "from": "T3-1",
+                  "to": "T2-1"
+                },
+                {
+                  "from": "T3-2",
+                  "to": "T2-2"
+                },
+                {
+                  "from": "T3-1",
+                  "to": "T2-3"
+                },
+                {
+                  "from": "T1-1",
+                  "to": "CO"
+                },
+                {
+                  "from": "T1-2",
+                  "to": "CO"
+                },
+                {
+                  "from": "T1-3",
+                  "to": "CO"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "congestion_board": {
+      "fields": {
+        "heading": "Port and lane congestion",
+        "source": "Exercise data, simulated",
+        "figures": {
+          "main": {
+            "kind": "logistics_congestion_board",
+            "data": {
+              "title": "Lane and port congestion",
+              "asOf": "2026-11-08T12:00:00Z",
+              "rows": [
+                {
+                  "location": "Port of Lindgren",
+                  "kind": "port",
+                  "waiting": 31,
+                  "dwellDays": 6.5,
+                  "trend": "rising",
+                  "state": "congested",
+                  "note": "Two berths out"
+                },
+                {
+                  "location": "Marlow rail ramp",
+                  "kind": "rail_ramp",
+                  "waiting": 4,
+                  "dwellDays": 1.2,
+                  "trend": "steady",
+                  "state": "normal",
+                  "note": ""
+                },
+                {
+                  "location": "Eastgate Channel",
+                  "kind": "canal",
+                  "waiting": 112,
+                  "dwellDays": 5.8,
+                  "trend": "rising",
+                  "state": "closed",
+                  "note": "Vessel aground"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "temperature_chart": {
+      "fields": {
+        "heading": "Cooler 4 temperature record",
+        "source": "Exercise data, simulated",
+        "figures": {
+          "main": {
+            "kind": "logistics_temperature_chart",
+            "data": {
+              "title": "Cooler 4, DC 3 Marlow",
+              "unit": "°C",
+              "low": 1,
+              "high": 5,
+              "readings": [
+                {
+                  "t": "2026-11-05T00:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T00:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T00:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T00:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T01:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T01:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T01:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T01:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T02:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T02:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T02:30:00.000Z",
+                  "v": 3.8
+                },
+                {
+                  "t": "2026-11-05T02:45:00.000Z",
+                  "v": 4.7
+                },
+                {
+                  "t": "2026-11-05T03:00:00.000Z",
+                  "v": 5.5
+                },
+                {
+                  "t": "2026-11-05T03:15:00.000Z",
+                  "v": 6.4
+                },
+                {
+                  "t": "2026-11-05T03:30:00.000Z",
+                  "v": 7.2
+                },
+                {
+                  "t": "2026-11-05T03:45:00.000Z",
+                  "v": 8
+                },
+                {
+                  "t": "2026-11-05T04:00:00.000Z",
+                  "v": 8.9
+                },
+                {
+                  "t": "2026-11-05T04:15:00.000Z",
+                  "v": 9.7
+                },
+                {
+                  "t": "2026-11-05T04:30:00.000Z",
+                  "v": 10.6
+                },
+                {
+                  "t": "2026-11-05T04:45:00.000Z",
+                  "v": 11.4
+                },
+                {
+                  "t": "2026-11-05T05:00:00.000Z",
+                  "v": 10.6
+                },
+                {
+                  "t": "2026-11-05T05:15:00.000Z",
+                  "v": 9.7
+                },
+                {
+                  "t": "2026-11-05T05:30:00.000Z",
+                  "v": 8.9
+                },
+                {
+                  "t": "2026-11-05T05:45:00.000Z",
+                  "v": 8
+                },
+                {
+                  "t": "2026-11-05T06:00:00.000Z",
+                  "v": 7.2
+                },
+                {
+                  "t": "2026-11-05T06:15:00.000Z",
+                  "v": 6.4
+                },
+                {
+                  "t": "2026-11-05T06:30:00.000Z",
+                  "v": 5.5
+                },
+                {
+                  "t": "2026-11-05T06:45:00.000Z",
+                  "v": 4.7
+                },
+                {
+                  "t": "2026-11-05T07:00:00.000Z",
+                  "v": 3.8
+                },
+                {
+                  "t": "2026-11-05T07:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T07:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T07:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T08:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T08:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T08:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T08:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T09:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T09:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T09:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T09:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T10:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T10:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T10:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T10:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T11:00:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T11:15:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T11:30:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T11:45:00.000Z",
+                  "v": 3
+                },
+                {
+                  "t": "2026-11-05T12:00:00.000Z",
+                  "v": 3
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "trace_table": {
+      "fields": {
+        "heading": "Traceability lookup",
+        "source": "Exercise data, simulated",
+        "figures": {
+          "main": {
+            "kind": "logistics_trace_table",
+            "data": {
+              "title": "Lot MLW-261104-A",
+              "lot": "MLW-261104-A",
+              "rows": [
+                {
+                  "shipTo": "DC Eastgate",
+                  "location": "from Westmarch Fresh plant",
+                  "quantity": 2400,
+                  "unit": "cases",
+                  "shipDate": "2026-11-06T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "BOL-8201",
+                  "onHand": 2400,
+                  "gap": ""
+                },
+                {
+                  "shipTo": "DC Lindgren",
+                  "location": "from Westmarch Fresh plant",
+                  "quantity": 2400,
+                  "unit": "cases",
+                  "shipDate": "2026-11-06T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "BOL-8101",
+                  "onHand": 2268,
+                  "gap": ""
+                },
+                {
+                  "shipTo": "DC Marlow",
+                  "location": "from Westmarch Fresh plant",
+                  "quantity": 2400,
+                  "unit": "cases",
+                  "shipDate": "2026-11-06T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "BOL-8001",
+                  "onHand": 2313,
+                  "gap": ""
+                },
+                {
+                  "shipTo": "Eastgate Home Stores 100",
+                  "location": "from DC Marlow",
+                  "quantity": 37,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40000",
+                  "gap": ""
+                },
+                {
+                  "shipTo": "Eastgate Home Stores 106",
+                  "location": "from DC Marlow",
+                  "quantity": 15,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "",
+                  "gap": "missing reference document"
+                },
+                {
+                  "shipTo": "Kestrel Fresh 104",
+                  "location": "from DC Lindgren",
+                  "quantity": 28,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "",
+                  "gap": "missing reference document"
+                },
+                {
+                  "shipTo": "Pinecrest Market 101",
+                  "location": "from DC Lindgren",
+                  "quantity": 54,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40001",
+                  "gap": ""
+                },
+                {
+                  "shipTo": "Pinecrest Market 107",
+                  "location": "from DC Lindgren",
+                  "quantity": 50,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40007",
+                  "gap": ""
+                },
+                {
+                  "shipTo": "Tidewater Foods 103",
+                  "location": "from DC Marlow",
+                  "quantity": 35,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40003",
+                  "gap": ""
+                },
+                {
+                  "shipTo": "Redhill Grocers 102",
+                  "location": "from DC Eastgate",
+                  "quantity": 42,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40002",
+                  "gap": "lot code RP-356-1106 is not linked to the traced lot by a transformation record; possible repack"
+                },
+                {
+                  "shipTo": "Ashby Co-op 105",
+                  "location": "from DC Eastgate",
+                  "quantity": 49,
+                  "unit": "cases",
+                  "shipDate": "2026-11-07T00:00:00.000Z",
+                  "product": "Spring mix, 5 oz clamshell",
+                  "reference": "INV-40005",
+                  "gap": "lot code RP-356-1106 is not linked to the traced lot by a transformation record; possible repack"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

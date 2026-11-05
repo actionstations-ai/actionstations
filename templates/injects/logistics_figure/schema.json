@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Supply chain figure",
+  "description": "A shipment tracker, inventory and days-of-supply table, supplier network, congestion board, temperature record or traceability lookup, drawn by the app from data (never an image). Each carries a text summary and a data table.",
+  "type": "object",
+  "required": ["figures"],
+  "additionalProperties": false,
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure",
+      "examples": ["ShakeMap"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the data come from",
+      "examples": ["Exercise data, simulated"],
+      "x-translate": false
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw as { main: { kind, data } }.",
+      "required": ["main"],
+      "additionalProperties": false,
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "logistics_shipment_tracker",
+                "logistics_days_of_supply",
+                "logistics_supplier_network",
+                "logistics_congestion_board",
+                "logistics_temperature_chart",
+                "logistics_trace_table"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

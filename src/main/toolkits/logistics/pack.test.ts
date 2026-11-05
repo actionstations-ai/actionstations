@@ -48,6 +48,21 @@ describe('logistics templates', () => {
     },
   )
 
+  it('logistics_figure has a golden for every variant and a preview that validates', () => {
+    const dir = join(ROOT, 'templates/injects/logistics_figure')
+    const meta = TemplateMeta.parse(JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8')))
+    expect(meta.variants).toHaveLength(6)
+    for (const v of meta.variants)
+      expect(existsSync(join(dir, `__golden__/${v}.png`)), v).toBe(true)
+    const schema = JSON.parse(readFileSync(join(dir, 'schema.json'), 'utf8'))
+    const preview = JSON.parse(readFileSync(join(dir, 'preview.json'), 'utf8'))
+    const validate = new Ajv2020({ strict: false, allErrors: true }).compile(schema)
+    expect(validate(preview.fields), JSON.stringify(validate.errors)).toBe(true)
+    for (const v of Object.values<{ fields: unknown }>(preview.variants))
+      expect(validate(v.fields), JSON.stringify(validate.errors)).toBe(true)
+    expect(toolkit.injectTypes).toContain('logistics_figure')
+  })
+
   it('names the lint rules the app ships', () => {
     expect([...toolkit.lintRules].sort()).toEqual([...LOGISTICS_LINT_RULES].sort())
   })

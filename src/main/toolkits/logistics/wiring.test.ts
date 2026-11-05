@@ -33,6 +33,14 @@ describe('logistics capabilities', () => {
   })
 })
 
+describe('generators', () => {
+  it('registers through the shared module list', async () => {
+    await import('../generator-modules')
+    const { generatorIds } = await import('../../case-data/generators')
+    expect(generatorIds()).toEqual(expect.arrayContaining(['logistics-network', 'logistics-trace']))
+  })
+})
+
 describe('decision forms in live play', () => {
   it('converts every form to a valid live form', () => {
     const forms = liveFormsOf([toolkit])
