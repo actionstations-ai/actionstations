@@ -7,6 +7,7 @@ import { packAppVersion } from '../../packs/app-version'
 import { requireProject } from '../../project/guard'
 import { getSettings, updateSettings } from '../../settings/store'
 import { listConnectors } from '../../toolkits/connectors/registry'
+import '../../toolkits/generator-modules'
 import { defineHandlers } from '../registry'
 
 /** Swapped in tests: the fetch and the clock. */
