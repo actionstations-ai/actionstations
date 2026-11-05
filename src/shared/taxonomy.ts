@@ -190,7 +190,7 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
   }),
   t('hl7_interface_monitor', 'HL7 interface engine monitor', 'technical', ['template'], {
     defaultDelivery: 'display_main_screen',
-    domains: ['healthcare'],
+    domains: ['healthcare', 'health_informatics'],
   }),
   t('election_results_page', 'Election night results page', 'technical', ['template'], {
     defaultDelivery: 'display_main_screen',
