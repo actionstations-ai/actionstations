@@ -18,7 +18,7 @@ import { toast } from '../../components/toast-store'
 import { call } from '../../lib/api'
 import { queryClient, useIpcQuery } from '../../lib/query'
 import { CitationChips } from '../scenarios/CitationChips'
-import { FieldMetrics } from './FieldMetrics'
+import { FieldMetricsPanel } from './FieldMetricsPanel'
 import { LiveObservations } from './live/LiveObservations'
 import { observationId } from './evaluation'
 import type { TimelineEntry } from './Timeline'
@@ -232,7 +232,13 @@ export function EvaluationTab(props: EvaluationTabProps) {
         />
       ))}
       <LiveObservations projectPath={props.projectPath} scenarioId={props.scenario.id} />
-      <FieldMetrics results={record.data?.metricResults ?? []} />
+      <FieldMetricsPanel
+        projectPath={props.projectPath}
+        scenarioId={props.scenario.id}
+        results={record.data?.metricResults ?? []}
+        keyFacts={record.data?.keyFacts ?? []}
+        statements={record.data?.factStatements ?? []}
+      />
     </div>
   )
 }

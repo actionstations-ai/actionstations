@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest'
 import type { GroundTruthEvent, MetricDecision, ModeledSeries } from '@shared/schemas/metrics'
 import { computeDecisionTiming, DecisionTimingConfig } from './decision-timing'
 import { computeMessageConsistency, MessageConsistencyConfig } from './message-consistency'
-import { runMetric } from './registry'
+import { isMetricId, metricIds, registerMetric, runMetric } from './registry'
+import { z } from 'zod'
 import { computeThresholdTiming, crossingTime, ThresholdTimingConfig } from './threshold-timing'
 
 const T0 = Date.parse('2026-09-01T12:00:00.000Z')
@@ -315,5 +316,34 @@ describe('registry', () => {
   it('rejects an unknown metric and a bad config', () => {
     expect(() => runMetric({ id: 'nope', config: {} }, {})).toThrow(/Unknown metric/)
     expect(() => runMetric({ id: 'threshold_timing', config: {} }, {})).toThrow(/could not run/)
+  })
+
+  it('lets a field register its own metric with a config schema', () => {
+    const metric = {
+      id: 'registered_probe',
+      title: 'Probe',
+      configSchema: z.object({ limit: z.number().default(3) }),
+      compute: (inputs: { count: number }, config: { limit: number }) => ({
+        metricId: 'registered_probe',
+        title: 'Probe',
+        config,
+        inputs: [{ label: 'Count', value: String(inputs.count) }],
+        summary: [{ label: 'Over limit', value: String(inputs.count > config.limit) }],
+        tables: [],
+        caveats: [],
+        data: {},
+      }),
+    }
+    registerMetric(metric, (bag) => ({ count: bag.decisions?.length ?? 0 }))
+    registerMetric(metric)
+    expect(isMetricId('registered_probe')).toBe(true)
+    expect(metricIds()).toEqual(expect.arrayContaining(['decision_timing', 'registered_probe']))
+    const r = runMetric({ id: 'registered_probe', config: { limit: 0 } }, { decisions: [] })
+    expect(r.summary).toEqual([{ label: 'Over limit', value: 'false' }])
+    expect(() => runMetric({ id: 'registered_probe', config: { limit: 'x' } }, {})).toThrow(
+      /could not run/,
+    )
+    expect(() => registerMetric({ ...metric })).toThrow(/already registered/)
+    expect(() => registerMetric({ ...metric, id: 'Bad Id' })).toThrow(/not valid/)
   })
 })

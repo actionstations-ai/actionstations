@@ -13,6 +13,7 @@ import { lintFacilityIds } from '../../generate/facility'
 import { loadFacilityFacts } from '../../generate/facility-file'
 import { contextFor, regroundScenario, type ContextSources } from '../../grounding/project'
 import { groundingWarnings } from '../../grounding/scenario'
+import { toolkitLintWarnings } from '../../toolkits/lint'
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { readHistory } from '../../scenario/history'
@@ -59,6 +60,8 @@ export async function lintOrStored(scenario: Scenario, root?: string): Promise<L
     ...fresh,
     ...lintFacilityIds(scenario, facts),
     ...(await groundingLints(root, scenario, { project, facility: facts })),
+    // Format checks the scenario's toolkits name (spec 0448): lint rule ids over its injects.
+    ...(await toolkitLintWarnings(root, scenario)),
     // SEAM_OUTDATED (#427): a picked plan seam the plan check no longer lists.
     ...(scenario.seams?.length ? lintSeamsOutdated(scenario, await loadSeamFindings(root)) : []),
   ]

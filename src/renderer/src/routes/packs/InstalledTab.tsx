@@ -19,6 +19,7 @@ import {
   sourceText,
   updateFor,
 } from './pack-format'
+import { ItemWarnings } from './ItemWarnings'
 
 const INVALIDATES = ['packs:list', 'packs:updates'] as const
 
@@ -73,6 +74,7 @@ function PackDetails({ pack }: { pack: InstalledPackView }) {
                 {i.replacesBuiltin && (
                   <Badge tone="info">{replacesText(i, KIND_LABEL[kind].one)}</Badge>
                 )}
+                <ItemWarnings warnings={i.warnings} />
               </li>
             ))}
           </ul>

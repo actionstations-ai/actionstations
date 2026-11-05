@@ -620,6 +620,8 @@ export const PackItemSummary = z.object({
   customNodes: z.array(z.string()).optional(),
   /** Workflows only: custom node classes used only when installed; it runs without (#356). */
   optionalNodes: z.array(z.string()).optional(),
+  /** Things the item names that the app cannot find (toolkit ids, inject types); it still installs. */
+  warnings: z.array(z.string()).optional(),
   /** Uncompressed bytes of the item's files. */
   size: z.number().int().nonnegative(),
 })
