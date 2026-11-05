@@ -35,6 +35,7 @@ import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerAnimalDiseaseToolkit } from './toolkits/animal_disease/register'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
 import { registerAiIncidentsToolkit } from './toolkits/ai/register'
+import { registerHospitalityToolkit } from './toolkits/hospitality/register'
 import { registerJusticeToolkit } from './toolkits/justice/register'
 import { registerLabSafetyToolkit } from './toolkits/lab_safety/register'
 import { registerPharmacyToolkit } from './toolkits/pharmacy/register'
@@ -241,6 +242,7 @@ void app.whenReady().then(async () => {
   // Code-backed parts of the bundled toolkits (generators, connectors).
   registerEpidemiologyToolkit()
   registerAiIncidentsToolkit()
+  registerHospitalityToolkit()
   registerJusticeToolkit()
   registerLabSafetyToolkit()
   registerAnimalDiseaseToolkit()
