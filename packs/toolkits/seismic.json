@@ -269,5 +269,56 @@
       "Lifelines are restored in stages, not all at once."
     ]
   },
-  "lintRules": ["magnitude_intensity_labels", "eew_timing_limits", "aftershock_probability_wording"]
+  "lintRules": [
+    "magnitude_intensity_labels",
+    "eew_timing_limits",
+    "aftershock_probability_wording"
+  ],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Give magnitude, intensity and aftershock chances as ranges and probabilities, the same in every message.",
+        "State what an early warning could and could not give people near the epicenter; do not promise warning time everywhere.",
+        "Say that a green placard is not a guarantee against aftershocks and that nobody can say aftershocks have ended."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Read the shaking map and the loss estimate as estimates; update them as observations arrive and say which version a decision used.",
+        "Separate ground failure and lifeline damage reports from the modeled picture."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Name who places building placards (the building department) and who takes the early warning automated actions, and keep both records."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Close roads and rail lines on a stated basis, tell partners the same list, and re-open only after inspection."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "infrastructure_systems",
+      "criticalTasks": [
+        "Restore lifelines in stages and report each stage; do not announce full restoration from one utility's status."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_search_and_rescue_operations",
+      "criticalTasks": [
+        "Tie search priorities to placard categories and to reports of collapse, and re-assess after each large aftershock."
+      ],
+      "mappings": []
+    }
+  ]
 }

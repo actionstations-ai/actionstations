@@ -212,5 +212,44 @@
       "Lahar evacuation is on foot to high ground, on a timeline set by travel time."
     ]
   },
-  "lintRules": ["alert_level_color_pair", "volcano_notice_syntax"]
+  "lintRules": ["alert_level_color_pair", "volcano_notice_syntax"],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Keep the volcano alert level and the aviation color code consistent across the observatory, the aviation advisory center and local officials.",
+        "Say that an alert level can rise with no eruption and fall in steps, and that nobody predicts eruption dates.",
+        "Attribute an ash advisory to the aviation advisory center, not the observatory."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Report unrest observations with their times and keep ash heights in one unit."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Change the alert level against observed unrest and eruption onset, and record who made the call."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Order lahar evacuation on foot to high ground on a timeline set by travel time; plan aviation routing from advisories, not from the alert level alone."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Open shelters outside the lahar path and the ash fall area and plan for people with limited mobility."
+      ],
+      "mappings": []
+    }
+  ]
 }
