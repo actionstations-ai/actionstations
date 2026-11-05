@@ -36,10 +36,14 @@ function markdownUnder(dir) {
   return out
 }
 
+/** Guides written for contributors, where commands and source paths are the point. */
+export const CONTRIBUTOR_GUIDES = ['docs/guides/templates.md']
+
 /** The user-facing Markdown files under a repository root. */
 export function userDocFiles(root) {
   const single = SINGLE_FILES.map((f) => join(root, f)).filter(existsSync)
-  return [...markdownUnder(join(root, 'docs/guides')), ...single]
+  const exempt = new Set(CONTRIBUTOR_GUIDES.map((f) => join(root, f)))
+  return [...markdownUnder(join(root, 'docs/guides')), ...single].filter((f) => !exempt.has(f))
 }
 
 /** Findings ({ line, name, text }) in one document, ignoring fenced code blocks. */

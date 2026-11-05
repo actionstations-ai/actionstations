@@ -78,3 +78,14 @@ describe('check-user-docs', () => {
     expect(check(resolve('.')).status).toBe(0)
   })
 })
+
+describe('contributor guides', () => {
+  it('keep their commands and decision records: the template authoring guide is not scanned', () => {
+    const dir = tree({
+      'docs/guides/templates.md':
+        '# Templates\n\nSee ADR-0008, then run `pnpm test:templates` (#123).\n',
+      'docs/guides/start.md': '# Start\n\nOpen **Projects**.\n',
+    })
+    expect(check(dir).status).toBe(0)
+  })
+})
