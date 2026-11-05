@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMBER Alert activation worksheet, alert text and tip log",
+  "description": "The commander’s worksheet for an AMBER Alert decision: the five recommended criteria each marked met, not met or unclear with the basis; the database entry with its time; the decision; the alert text; and a tip log. States set their own criteria. The child and case are fictional.",
+  "type": "object",
+  "required": ["agency", "caseRef"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "caseRef": {
+      "type": "string",
+      "description": "Fictional case reference",
+      "examples": ["MC-26-1187"],
+      "x-translate": false
+    },
+    "child": {
+      "type": "string",
+      "description": "Child (fictional)",
+      "examples": ["Fictional child, age 7"]
+    },
+    "criteria": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "The five recommended criteria",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One criterion",
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "description": "Criterion",
+            "examples": ["Law enforcement has a reasonable belief that an abduction occurred"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Met"],
+            "enum": ["Met", "Not met", "Unclear"]
+          },
+          "basis": {
+            "type": "string",
+            "description": "Basis the commander recorded",
+            "examples": [
+              "A witness saw the child taken into a vehicle by an adult the family does not know."
+            ]
+          }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Database entry",
+      "properties": {
+        "enteredAt": {
+          "type": "string",
+          "description": "Entered at",
+          "examples": ["14:12"],
+          "x-translate": false
+        },
+        "enteredBy": {
+          "type": "string",
+          "description": "Entered by",
+          "examples": ["Dispatcher T. Moreno"],
+          "x-translate": false
+        },
+        "abductionFlag": {
+          "type": "string",
+          "description": "Child Abduction flag set",
+          "examples": ["Yes"],
+          "enum": ["Yes", "No"]
+        },
+        "confirmation": {
+          "type": "string",
+          "description": "Confirmation",
+          "examples": ["Entry confirmed by the state"],
+          "x-translate": false
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Decision",
+      "properties": {
+        "decidedBy": {
+          "type": "string",
+          "description": "Decided by",
+          "examples": ["Capt. Alicia Brandt"],
+          "x-translate": false
+        },
+        "decidedAt": {
+          "type": "string",
+          "description": "Decided at",
+          "examples": ["14:20"],
+          "x-translate": false
+        },
+        "outcome": {
+          "type": "string",
+          "description": "Outcome",
+          "examples": ["Issue the alert for Marston and Harlan counties"]
+        },
+        "alertIssuedAt": {
+          "type": "string",
+          "description": "Alert issued at",
+          "examples": ["14:31"],
+          "x-translate": false
+        }
+      }
+    },
+    "stateNote": {
+      "type": "string",
+      "description": "Note on state criteria",
+      "examples": ["The criteria are DOJ recommendations. This state’s criteria govern."]
+    },
+    "alertText": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Alert text",
+      "properties": {
+        "headline": {
+          "type": "string",
+          "description": "Headline",
+          "examples": ["AMBER Alert: Marston County"]
+        },
+        "body": {
+          "type": "string",
+          "description": "Text",
+          "examples": [
+            "Child, age 7, taken from the 400 block of Mill Street. Vehicle: dark blue minivan. If you see it, call 911."
+          ]
+        },
+        "area": {
+          "type": "string",
+          "description": "Alert area",
+          "examples": ["Marston County and Harlan County"],
+          "x-translate": false
+        },
+        "contact": {
+          "type": "string",
+          "description": "Call",
+          "examples": ["911"],
+          "x-translate": false
+        }
+      }
+    },
+    "tips": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Tip log",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One tip",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:48"],
+            "x-translate": false
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "examples": ["Caller"]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Summary",
+            "examples": ["Minivan seen near the county line"]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority",
+            "examples": ["High"],
+            "enum": ["High", "Medium", "Low"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Unit sent"]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

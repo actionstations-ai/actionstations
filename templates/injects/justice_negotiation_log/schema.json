@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Negotiation log and update to the incident commander",
+  "description": "A decision-level log for a fictional barricaded subject: when contact was made, the outcome at the level of \"agreed to speak\" or \"ended contact\", welfare indicators, and the decisions the commander asked for. It contains no technique, no scripts and no quoted dialogue.",
+  "type": "object",
+  "required": ["agency", "incident", "entries"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident",
+      "examples": ["CAD-26-005102, 1200 block of Alder Street"],
+      "x-translate": false
+    },
+    "activatedAt": {
+      "type": "string",
+      "description": "Team activated",
+      "examples": ["13:42"],
+      "x-translate": false
+    },
+    "teamLeader": {
+      "type": "string",
+      "description": "Negotiation team leader",
+      "examples": ["Sgt. Priya Nand"],
+      "x-translate": false
+    },
+    "commander": {
+      "type": "string",
+      "description": "Incident commander",
+      "examples": ["Lt. Jordan Ellis"],
+      "x-translate": false
+    },
+    "status": {
+      "type": "string",
+      "description": "Status line",
+      "examples": ["Contact open; subject has agreed to speak by phone."]
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 14,
+      "description": "Contact log",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One entry",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:05"],
+            "x-translate": false
+          },
+          "event": {
+            "type": "string",
+            "description": "What happened (no technique, no dialogue)",
+            "examples": ["Phone contact attempted"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Outcome",
+            "examples": ["Subject agreed to speak"]
+          }
+        }
+      }
+    },
+    "welfare": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Welfare indicators",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One indicator",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:20"],
+            "x-translate": false
+          },
+          "indicator": {
+            "type": "string",
+            "description": "Indicator",
+            "examples": ["Subject reports no injuries"]
+          }
+        }
+      }
+    },
+    "decisionRequests": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Decisions the commander asked for or made",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One decision",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:30"],
+            "x-translate": false
+          },
+          "request": {
+            "type": "string",
+            "description": "Request or decision",
+            "examples": ["Commander asked for an update by 15:00"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Provided 14:58"]
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Team note for the commander",
+      "examples": [
+        "The log is kept by one scribe on one form. The team has two members available and asks for a third by 16:00."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

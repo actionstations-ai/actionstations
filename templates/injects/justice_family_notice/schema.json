@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Family assistance and reunification notice",
+  "description": "A plain-language notice to families during a serious incident: where to go, when it opens, what to bring, what not to do, and when the next update comes. It states facts the agencies have confirmed, never names or describes the person responsible and carries no tactical detail.",
+  "type": "object",
+  "required": ["agency", "headline", "site", "steps"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Families: go to the reunification site at Marston Community College"]
+    },
+    "intro": {
+      "type": "string",
+      "description": "What has happened, in two sentences of confirmed facts",
+      "examples": [
+        "Marston Police and other agencies are responding to an incident at Marston Central High School. Students are being moved to a safe location."
+      ]
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Site",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Site name",
+          "examples": ["Reunification site"]
+        },
+        "location": {
+          "type": "string",
+          "description": "Building-level location",
+          "examples": ["Marston Community College gymnasium, 400 College Drive"],
+          "x-translate": false
+        },
+        "opensAt": {
+          "type": "string",
+          "description": "Opens at",
+          "examples": ["3:30 p.m."],
+          "x-translate": false
+        },
+        "entrance": {
+          "type": "string",
+          "description": "Entrance",
+          "examples": ["Use the north entrance. Parking is in Lot B."]
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What to do, in order",
+      "items": {
+        "type": "string",
+        "examples": ["Bring a photo ID. Staff will match you with your student."]
+      }
+    },
+    "bring": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "What to bring",
+      "items": {
+        "type": "string",
+        "examples": ["A photo ID"]
+      }
+    },
+    "pleaseDoNot": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Please do not",
+      "items": {
+        "type": "string",
+        "examples": ["Go to the school; roads around it are closed to everyone"]
+      }
+    },
+    "hotline": {
+      "type": "string",
+      "description": "Family information line",
+      "examples": ["(555) 014-3300"],
+      "x-translate": false
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Next update",
+      "examples": ["4:00 p.m., on the district website and by text"],
+      "x-translate": false
+    },
+    "supportNote": {
+      "type": "string",
+      "description": "Support available",
+      "examples": [
+        "Counselors and victim services staff are at the site. You can ask for them at any time."
+      ]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["October 28, 2026, 2:50 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

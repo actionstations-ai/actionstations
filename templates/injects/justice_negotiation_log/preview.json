@@ -1,0 +1,101 @@
+{
+  "variant": "log",
+  "fields": {
+    "agency": "Marston Police Department",
+    "division": "Negotiation Team",
+    "incident": "CAD-26-005102, 1200 block of Alder Street",
+    "activatedAt": "13:42",
+    "teamLeader": "Sgt. Priya Nand",
+    "commander": "Lt. Jordan Ellis",
+    "status": "Contact open. The fictional subject has agreed to speak by phone.",
+    "entries": [
+      {
+        "time": "13:42",
+        "event": "Team activated by the incident commander",
+        "result": "Team leader to command post"
+      },
+      {
+        "time": "14:05",
+        "event": "Phone contact attempted",
+        "result": "Subject agreed to speak"
+      },
+      {
+        "time": "14:19",
+        "event": "Second contact",
+        "result": "Subject ended contact"
+      },
+      {
+        "time": "14:36",
+        "event": "Third contact",
+        "result": "Subject agreed to speak"
+      },
+      {
+        "time": "15:02",
+        "event": "Fourth contact",
+        "result": "Contact open"
+      }
+    ],
+    "welfare": [
+      {
+        "time": "14:20",
+        "indicator": "Subject reports no injuries"
+      },
+      {
+        "time": "15:03",
+        "indicator": "Subject asked for water; request passed to the commander"
+      }
+    ],
+    "decisionRequests": [
+      {
+        "time": "14:30",
+        "request": "Commander asked for an update by 15:00",
+        "status": "Provided 14:58"
+      },
+      {
+        "time": "15:05",
+        "request": "Family member at the assistance site asks to be present",
+        "status": "Pending, commander and legal advisor"
+      }
+    ],
+    "note": "One scribe keeps this log on one form. The team has two members available and asks for a third by 16:00."
+  },
+  "variants": {
+    "ic_update": {
+      "fields": {
+        "division": "Negotiation Team Leader",
+        "status": "Update for the incident commander at 15:10. No change in the status of the people involved. Decisions pending are listed below.",
+        "entries": [
+          {
+            "time": "14:05",
+            "event": "First contact",
+            "result": "Subject agreed to speak"
+          },
+          {
+            "time": "15:02",
+            "event": "Most recent contact",
+            "result": "Contact open"
+          }
+        ],
+        "welfare": [
+          {
+            "time": "15:03",
+            "indicator": "Subject asked for water; request passed to the commander"
+          }
+        ],
+        "decisionRequests": [
+          {
+            "time": "15:05",
+            "request": "Family member asks to be present",
+            "status": "Pending, commander and legal advisor"
+          },
+          {
+            "time": "15:08",
+            "request": "Team asks for a third member by 16:00",
+            "status": "Pending, operations section"
+          }
+        ],
+        "note": "Next update to the commander at 15:40, or sooner if the status changes."
+      }
+    }
+  }
+}

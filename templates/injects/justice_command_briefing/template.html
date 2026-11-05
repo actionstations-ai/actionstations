@@ -1,0 +1,122 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'mutual_aid')}}Mutual aid request{{else if (eq variant 'site_plan')}}Staging
+      and reunification plan{{else}}Unified command briefing{{/if}}
+    </div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <div class="meta">
+    <span><b>Incident:</b> {{fields.incident}}</span
+    ><span><b>As of:</b> <span class="mono">{{fields.asOf}}</span></span>
+  </div>
+  {{#if fields.summary}}
+  <p>{{fields.summary}}</p>
+  {{/if}} {{#if fields.commandPost}}
+  <h2>Command post</h2>
+  <div class="meta">
+    <span><b>Location:</b> {{fields.commandPost.location}}</span
+    ><span><b>Incident commander:</b> {{fields.commandPost.incidentCommander}}</span
+    ><span><b>Channel:</b> {{fields.commandPost.channel}}</span>
+  </div>
+  {{/if}} {{#if fields.agencies.length}}
+  <h2>Unified command</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 28%">Agency</th>
+        <th>Role</th>
+        <th style="width: 26%">Representative</th>
+        <th style="width: 13%">At command post</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.agencies}}
+      <tr>
+        <td>{{this.agency}}</td>
+        <td>{{this.role}}</td>
+        <td>{{this.representative}}</td>
+        <td>{{this.atCommandPost}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.objectives.length}}
+  <h2>Objectives</h2>
+  <ol>
+    {{#each fields.objectives}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.resources.length}}
+  <h2>Resources requested</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th style="width: 13%">Quantity</th>
+        <th style="width: 25%">From</th>
+        <th style="width: 11%">Needed by</th>
+        <th style="width: 14%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.resources}}
+      <tr>
+        <td>{{this.resource}}</td>
+        <td class="mono">{{this.quantity}}</td>
+        <td>{{this.from}}</td>
+        <td class="mono">{{this.neededBy}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.sites.length}}
+  <h2>Sites</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%">Site</th>
+        <th>Purpose</th>
+        <th style="width: 30%">Location</th>
+        <th style="width: 18%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.sites}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.purpose}}</td>
+        <td>{{this.location}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.decisionsNeeded.length}}
+  <div class="callout">
+    <strong>Decisions needed from command:</strong>
+    <ul>
+      {{#each fields.decisionsNeeded}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}} {{#if fields.issuedBy}}
+  <p class="contact">Prepared by {{fields.issuedBy}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.incident}} · as of {{fields.asOf}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,101 @@
+{
+  "variant": "worksheet",
+  "fields": {
+    "agency": "Marston County Sheriff’s Office",
+    "division": "Investigations",
+    "caseRef": "MC-26-1187",
+    "child": "Fictional child, age 7",
+    "criteria": [
+      {
+        "criterion": "Law enforcement has a reasonable belief that an abduction occurred",
+        "status": "Met",
+        "basis": "A witness saw the child taken into a vehicle by an adult the family does not know."
+      },
+      {
+        "criterion": "The child is in imminent danger of serious bodily injury or death",
+        "status": "Unclear",
+        "basis": "No threat is known. The commander treats the unknown adult as the basis for danger."
+      },
+      {
+        "criterion": "There is enough descriptive information to issue an alert",
+        "status": "Met",
+        "basis": "Vehicle description and direction of travel from the witness."
+      },
+      {
+        "criterion": "The child is 17 or younger",
+        "status": "Met",
+        "basis": "Age 7 from the parent."
+      },
+      {
+        "criterion": "The child’s name and critical data, including the Child Abduction flag, are entered in the national crime information database",
+        "status": "Met",
+        "basis": "Entry made 14:12 and confirmed."
+      }
+    ],
+    "database": {
+      "enteredAt": "14:12",
+      "enteredBy": "Dispatcher T. Moreno",
+      "abductionFlag": "Yes",
+      "confirmation": "Entry confirmed by the state"
+    },
+    "decision": {
+      "decidedBy": "Capt. Alicia Brandt",
+      "decidedAt": "14:20",
+      "outcome": "Issue the alert for Marston and Harlan counties",
+      "alertIssuedAt": "14:31"
+    },
+    "stateNote": "The five criteria are Justice Department recommendations. This state’s criteria govern."
+  },
+  "variants": {
+    "alert_text": {
+      "fields": {
+        "division": "Public Information Officer",
+        "criteria": [],
+        "alertText": {
+          "headline": "AMBER Alert: Marston County",
+          "body": "Child, age 7, taken from the 400 block of Mill Street at about 1:50 p.m. Last seen in a dark blue minivan heading east. If you see the vehicle, call 911. Do not approach it.",
+          "area": "Marston County and Harlan County",
+          "contact": "911"
+        },
+        "stateNote": "Alert text is sent by the state coordinator on the sheriff’s request."
+      }
+    },
+    "tip_log": {
+      "fields": {
+        "division": "Tip Line",
+        "criteria": [],
+        "tips": [
+          {
+            "time": "14:48",
+            "source": "Caller",
+            "summary": "Dark minivan seen near the county line",
+            "priority": "High",
+            "status": "Unit sent"
+          },
+          {
+            "time": "14:55",
+            "source": "Text tip",
+            "summary": "Child resembling description at a gas station, west side",
+            "priority": "High",
+            "status": "Unit sent"
+          },
+          {
+            "time": "15:02",
+            "source": "Caller",
+            "summary": "Similar van parked behind a store, owner nearby",
+            "priority": "Low",
+            "status": "Checked, not a match"
+          },
+          {
+            "time": "15:10",
+            "source": "Social media",
+            "summary": "Unverified post names a suspect; no source",
+            "priority": "Low",
+            "status": "Referred to the PIO"
+          }
+        ],
+        "stateNote": "Tips are sorted by priority. Unverified social posts go to the PIO, not to units."
+      }
+    }
+  }
+}

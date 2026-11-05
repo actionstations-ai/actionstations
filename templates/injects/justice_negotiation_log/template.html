@@ -1,0 +1,89 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'ic_update')}}Update to incident commander{{else}}Negotiation log{{/if}}
+    </div>
+  </header>
+  <div class="meta">
+    <span><b>Incident:</b> {{fields.incident}}</span
+    ><span><b>Activated:</b> <span class="mono">{{fields.activatedAt}}</span></span
+    ><span><b>Team leader:</b> {{fields.teamLeader}}</span
+    ><span><b>Commander:</b> {{fields.commander}}</span>
+  </div>
+  {{#if fields.status}}
+  <div class="callout"><strong>Status:</strong> {{fields.status}}</div>
+  {{/if}}
+  <h2>Contact</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Time</th>
+        <th>Event</th>
+        <th style="width: 34%">Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.entries}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.event}}</td>
+        <td>{{this.result}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.welfare.length}}
+  <h2>Welfare indicators</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Time</th>
+        <th>Indicator</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.welfare}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.indicator}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.decisionRequests.length}}
+  <h2>Decisions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Time</th>
+        <th>Request or decision</th>
+        <th style="width: 26%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.decisionRequests}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.request}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.note}}
+  <p class="contact"><strong>Team note:</strong> {{fields.note}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Negotiation team · {{fields.incident}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
