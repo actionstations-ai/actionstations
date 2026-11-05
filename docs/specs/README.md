@@ -90,6 +90,9 @@ Decisions for the owner, each with a recommendation.
 | [Tabletop Mini Benchmark, a screening benchmark](0445-tabletop-mini-benchmark.md)                                  | #604, #606 | 0.9.0     |
 | [Phone and tablet apps for players (iOS and Android)](0446-mobile-player-apps.md)                                  | #620       | 0.7.0     |
 | [Hosted model providers and cloud media generators](0447-hosted-and-media-providers.md)                            | #634       | 0.7.0     |
+| [Toolkits: shared field expertise any scenario can use](0448-toolkits.md)                                          | #648       | Backlog   |
+| [Meteorology: forecast and warning operations, and the weather toolkit](0449-meteorology.md)                       | #647       | Backlog   |
+| [Earth sciences: earthquakes, volcanoes, tsunamis and landslides](0450-earth-sciences.md)                          | #668       | Backlog   |
 | [Grounding labels and contradictions between plans](0423-grounding-and-plan-conflicts.md)                          | #423       | 0.7.0     |
 | [Private hot wash transcription for the AAR](0425-hotwash-transcription.md)                                        | #425       | 0.7.0     |
 | [Regulatory clocks and compliance mapping](0426-regulatory-clocks.md)                                              | #426       | 0.7.0     |
