@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hotline call notes",
+  "description": "A call-taker's note for a health department hotline: who called, what they asked, what was said, any flag for follow-up. Callers are fictional and named by initials.",
+  "type": "object",
+  "required": ["callNumber", "receivedAt", "takenBy", "question", "answerGiven"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Line",
+      "examples": ["Public hotline"],
+      "x-translate": false
+    },
+    "callNumber": {
+      "type": "string",
+      "description": "Call number",
+      "examples": ["HL-0231"],
+      "x-translate": false
+    },
+    "receivedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["October 22, 2026, 10:42 a.m."],
+      "x-translate": false
+    },
+    "takenBy": {
+      "type": "string",
+      "description": "Call-taker",
+      "examples": ["J. Whitfield"],
+      "x-translate": false
+    },
+    "callerType": {
+      "type": "string",
+      "enum": ["resident", "parent", "clinician", "employer", "school staff", "reporter", "other"],
+      "description": "Kind of caller",
+      "examples": ["parent"]
+    },
+    "caller": {
+      "type": "string",
+      "description": "Caller initials or description",
+      "examples": ["Parent, initials R.S."],
+      "x-translate": false
+    },
+    "callback": {
+      "type": "string",
+      "description": "Callback number",
+      "examples": ["(555) 010-4417"],
+      "x-translate": false
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic",
+      "examples": ["Exposure at Cedar Heights Elementary"]
+    },
+    "question": {
+      "type": "string",
+      "description": "What the caller asked",
+      "examples": ["My daughter was in school on the 17th. Does she have to stay home?"]
+    },
+    "answerGiven": {
+      "type": "string",
+      "description": "What the caller was told",
+      "examples": [
+        "Read the exposure letter. Students without two doses of MMR stay home Oct 23 to Nov 8."
+      ]
+    },
+    "flags": {
+      "type": "array",
+      "description": "Flags",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Needs epidemiologist callback", "Possible additional exposure site"]]
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["routine", "same day", "urgent"],
+      "description": "Follow-up urgency",
+      "examples": ["same day"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Case report form",
+  "description": "Confidential case report form for a reportable disease: case status tier (confirmed, probable or suspect), onset date, symptoms, laboratory results and exposures. The patient is a fictional person shown by initials and age.",
+  "type": "object",
+  "required": ["agency", "disease", "caseId", "reportedAt", "onsetDate", "caseStatus"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department receiving the report",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program or unit",
+      "examples": ["Communicable Disease Program"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Reportable condition",
+      "examples": ["Salmonellosis"]
+    },
+    "caseId": {
+      "type": "string",
+      "description": "Case or investigation number",
+      "examples": ["OB-2026-014 / Case 07"],
+      "x-translate": false
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Date and time received",
+      "examples": ["October 21, 2026, 9:40 a.m."],
+      "x-translate": false
+    },
+    "reporter": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Who reported",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Reporter",
+          "examples": ["Dr. Priya Raman"],
+          "x-translate": false
+        },
+        "facility": {
+          "type": "string",
+          "description": "Facility",
+          "examples": ["Riverbend Urgent Care"],
+          "x-translate": false
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-2290"],
+          "x-translate": false
+        }
+      }
+    },
+    "patient": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Fictional patient, identified by initials",
+      "properties": {
+        "initials": {
+          "type": "string",
+          "description": "Initials",
+          "examples": ["T.M."],
+          "x-translate": false
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["34 F"],
+          "x-translate": false
+        },
+        "county": {
+          "type": "string",
+          "description": "County of residence",
+          "examples": ["Marston County"],
+          "x-translate": false
+        },
+        "setting": {
+          "type": "string",
+          "description": "Setting or occupation",
+          "examples": ["Guest at the Harvest Hall wedding reception"]
+        }
+      }
+    },
+    "onsetDate": {
+      "type": "string",
+      "description": "Symptom onset date and time (never the report date)",
+      "examples": ["October 19, 2026, about 11 p.m."],
+      "x-translate": false
+    },
+    "caseStatus": {
+      "type": "string",
+      "enum": ["confirmed", "probable", "suspect"],
+      "description": "Case classification tier under the case definition in use",
+      "examples": ["probable"]
+    },
+    "symptoms": {
+      "type": "array",
+      "description": "Reported symptoms",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["diarrhea", "fever", "abdominal cramps"]]
+    },
+    "hospitalized": {
+      "type": "string",
+      "description": "Hospitalization",
+      "examples": ["No"],
+      "x-translate": false
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Outcome so far",
+      "examples": ["Recovering at home"]
+    },
+    "labResults": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Laboratory results",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One result",
+        "properties": {
+          "test": {
+            "type": "string",
+            "description": "Test",
+            "examples": ["Stool culture"],
+            "x-translate": false
+          },
+          "collected": {
+            "type": "string",
+            "description": "Collected",
+            "examples": ["10/20/2026"],
+            "x-translate": false
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "examples": ["Pending"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "test": "Stool culture",
+            "collected": "10/20/2026",
+            "result": "Pending"
+          }
+        ]
+      ]
+    },
+    "exposures": {
+      "type": "array",
+      "description": "Exposures in the days before onset",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Wedding reception, Oct 17, 6 p.m.", "Ate chicken salad and cake"]]
+    },
+    "vaccination": {
+      "type": "string",
+      "description": "Vaccination status where relevant",
+      "examples": ["Not applicable"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Investigator notes",
+      "examples": ["Interview scheduled for tomorrow morning."]
+    }
+  },
+  "additionalProperties": false
+}

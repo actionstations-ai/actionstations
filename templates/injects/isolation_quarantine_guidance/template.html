@@ -1,0 +1,61 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Guidance</div>
+  </header>
+  <h1 class="{{fields.kind}}">
+    {{#if (eq fields.kind "isolation")}}Isolation: stay home while you are
+    infectious{{else}}Quarantine: stay home after an exposure{{/if}}
+  </h1>
+  <table>
+    <tr>
+      <th>Disease</th>
+      <td>{{fields.disease}}</td>
+      <th>Dates</th>
+      <td class="mono">{{fields.startDate}} to {{fields.endDate}}</td>
+    </tr>
+    <tr>
+      <th>Who</th>
+      <td colspan="3">{{fields.whoThisIsFor}}</td>
+    </tr>
+    {{#if fields.basis}}
+    <tr>
+      <th>How set</th>
+      <td colspan="3">{{fields.basis}}</td>
+    </tr>
+    {{/if}}
+  </table>
+  <h2>Rules while you are home</h2>
+  <ul>
+    {{#each fields.rules}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>Symptoms to watch for</h2>
+  <ul>
+    {{#each fields.symptomsToWatch}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.ifSymptoms}}
+  <div class="callout">{{fields.ifSymptoms}}</div>
+  {{/if}} {{#if fields.support}}
+  <h2>Help available</h2>
+  <p>{{fields.support}}</p>
+  {{/if}}
+  <p class="contact">
+    Health department: <strong>{{fields.contact.phone}}</strong> · {{fields.contact.web}}
+  </p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.disease}} · {{fields.kind}} guidance</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

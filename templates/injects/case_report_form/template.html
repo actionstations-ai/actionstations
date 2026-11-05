@@ -1,0 +1,95 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Case report form</div>
+  </header>
+  <table>
+    <tr>
+      <th>Condition</th>
+      <td>{{fields.disease}}</td>
+      <th>Case ID</th>
+      <td class="mono">{{fields.caseId}}</td>
+    </tr>
+    <tr>
+      <th>Received</th>
+      <td class="mono">{{fields.reportedAt}}</td>
+      <th>Onset</th>
+      <td class="mono">{{fields.onsetDate}}</td>
+    </tr>
+    <tr>
+      <th>Patient</th>
+      <td>{{fields.patient.initials}}, {{fields.patient.ageSex}}</td>
+      <th>County</th>
+      <td>{{fields.patient.county}}</td>
+    </tr>
+    <tr>
+      <th>Setting</th>
+      <td colspan="3">{{fields.patient.setting}}</td>
+    </tr>
+    <tr>
+      <th>Reporter</th>
+      <td colspan="3">
+        {{fields.reporter.name}}, {{fields.reporter.facility}}, {{fields.reporter.phone}}
+      </td>
+    </tr>
+  </table>
+  <h2>Case classification</h2>
+  <p><span class="tier">{{fields.caseStatus}}</span></p>
+  <h2>Symptoms</h2>
+  <ul>
+    {{#each fields.symptoms}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>Clinical course</h2>
+  <p>
+    Hospitalized: {{default fields.hospitalized "Unknown"}}. Outcome: {{default fields.outcome
+    "Unknown"}}.
+  </p>
+  {{#if fields.labResults}}
+  <h2>Laboratory results</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Test</th>
+        <th>Collected</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.labResults}}
+      <tr>
+        <td>{{this.test}}</td>
+        <td class="mono">{{this.collected}}</td>
+        <td>{{this.result}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <h2>Exposures before onset</h2>
+  <ul>
+    {{#each fields.exposures}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.vaccination}}
+  <h2>Vaccination</h2>
+  <p>{{fields.vaccination}}</p>
+  {{/if}} {{#if fields.notes}}
+  <h2>Investigator notes</h2>
+  <p>{{nl2br fields.notes}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.caseId}} · Confidential public health record</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

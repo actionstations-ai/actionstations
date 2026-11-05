@@ -1,0 +1,40 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Letter</div>
+  </header>
+  <p class="date">{{fields.date}}</p>
+  <p class="to">{{fields.audience}}</p>
+  <p class="re"><strong>Re: {{fields.subject}}</strong></p>
+  <div class="body">{{nl2br fields.body}}</div>
+  <h2>What to do</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.excludeUntil}}
+  <div class="callout school-only">
+    <strong>Last day to stay home:</strong> {{fields.excludeUntil}}
+  </div>
+  {{/if}}
+  <p class="contact">
+    Questions: <strong>{{fields.contact.phone}}</strong> · {{fields.contact.web}}
+  </p>
+  <p class="sig">
+    Sincerely,<br /><strong>{{fields.signer.name}}</strong><br />{{fields.signer.title}},
+    {{fields.agency}}
+  </p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Letter from {{fields.agency}} · {{fields.date}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,48 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">{{fields.category}}</div>
+  </header>
+  <table>
+    <tr>
+      <th>Message</th>
+      <td class="mono">{{fields.alertNumber}}</td>
+      <th>Issued</th>
+      <td class="mono">{{fields.issuedAt}}</td>
+    </tr>
+    <tr>
+      <th>Subject</th>
+      <td colspan="3"><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  <h2>Summary</h2>
+  <p>{{fields.summary}}</p>
+  {{#if fields.caseDefinition}}
+  <h2>Case definition</h2>
+  <p>{{fields.caseDefinition}}</p>
+  {{/if}}
+  <h2>Recommendations for clinicians</h2>
+  <ol>
+    {{#each fields.recommendations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <h2>Reporting</h2>
+  <p>{{fields.reporting}}</p>
+  {{#if fields.distribution}}
+  <h2>Distribution</h2>
+  <p>{{fields.distribution}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.alertNumber}} · Please distribute to clinical staff</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "School or employer letter",
+  "description": "Letter from a health department to a school (sent home with students) or an employer about a communicable disease exposure: what happened, who is affected, exclusion dates stated exactly, and a contact. The numbers and dates must match the exposure notice.",
+  "type": "object",
+  "required": ["agency", "date", "subject", "body", "actions", "signer"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["Communicable Disease Program"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Letter date",
+      "examples": ["October 21, 2026"],
+      "x-translate": false
+    },
+    "audience": {
+      "type": "string",
+      "description": "Addressed to",
+      "examples": ["Parents and guardians of Cedar Heights Elementary students"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Measles exposure at Cedar Heights Elementary School"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Body text, paragraphs separated by blank lines",
+      "examples": [
+        "A person with measles was at the school on October 17 and 18. Measles is very contagious and can cause serious illness."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Actions for the reader",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Check your child's vaccination record.",
+          "Students without two doses of MMR vaccine or other proof of immunity must stay home from October 23 through November 8."
+        ]
+      ]
+    },
+    "excludeUntil": {
+      "type": "string",
+      "description": "Last day of exclusion",
+      "examples": ["November 8, 2026"],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Contact",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-2290"],
+          "x-translate": false
+        },
+        "web": {
+          "type": "string",
+          "description": "Web",
+          "examples": ["marstonhealth.example/measles"],
+          "x-translate": false
+        }
+      }
+    },
+    "signer": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Signer",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name",
+          "examples": ["Dr. Elena Vasquez"],
+          "x-translate": false
+        },
+        "title": {
+          "type": "string",
+          "description": "Title",
+          "examples": ["Health Officer"],
+          "x-translate": false
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

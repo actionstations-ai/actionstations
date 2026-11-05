@@ -1,0 +1,524 @@
+{
+  "id": "epidemiology",
+  "name": "Epidemiology and outbreak investigation",
+  "description": "Outbreak investigation, surveillance and response for exercises: the terms and sequence field epidemiologists use, the products they issue (case reports, questionnaires, exposure notices, clinician alerts, letters, guidance), the decisions they make and the clocks they are measured on. Includes epidemic curves, line lists, attack-rate tables, contact networks, laboratory and dispensing boards, wastewater series, and simulated outbreaks. Stays at public health response decisions; it carries no pathogen handling detail.",
+  "appliesTo": {
+    "keywords": [
+      "outbreak",
+      "epidemic curve",
+      "line list",
+      "case definition",
+      "contact tracing",
+      "exposure notice",
+      "measles",
+      "norovirus",
+      "salmonella",
+      "foodborne",
+      "wastewater",
+      "attack rate",
+      "isolation and quarantine",
+      "infection prevention",
+      "dispensing site",
+      "legionella",
+      "pertussis",
+      "influenza"
+    ],
+    "domains": [
+      "epidemiology",
+      "public_health",
+      "healthcare",
+      "campus",
+      "k12_schools",
+      "airport",
+      "food_agriculture",
+      "port_maritime",
+      "emergency_communications",
+      "municipal"
+    ]
+  },
+  "injectTypes": [
+    "case_report_form",
+    "outbreak_questionnaire",
+    "exposure_notice",
+    "clinician_health_alert",
+    "school_employer_letter",
+    "isolation_quarantine_guidance",
+    "hotline_call_notes",
+    "lab_result_report",
+    "sitrep",
+    "press_release",
+    "figure"
+  ],
+  "figureKinds": [
+    "epi_curve",
+    "epi_line_list",
+    "epi_attack_rates",
+    "epi_spot_map",
+    "epi_contact_network",
+    "epi_lab_board",
+    "epi_dispensing",
+    "epi_wastewater"
+  ],
+  "connectors": ["cdc-nwss", "cdc-nndss"],
+  "outsideParties": [
+    "CDC (Epi-Aid, Emergency Operations Center)",
+    "neighboring health jurisdictions",
+    "the state public health laboratory",
+    "FDA and USDA FSIS (food traceback)",
+    "school districts and child care centers",
+    "airlines and the airport authority",
+    "employers and congregate settings",
+    "hospital infection preventionists",
+    "clinicians and urgent care centers",
+    "the press"
+  ],
+  "advisorRoles": [
+    {
+      "key": "epi_advisor",
+      "name": "Field epidemiologist adviser",
+      "abbreviation": "EPI-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about case definitions, curves, attack rates and the order of investigation steps."
+    },
+    {
+      "key": "infection_preventionist_advisor",
+      "name": "Infection preventionist adviser",
+      "abbreviation": "IP-ADV",
+      "team": "Advisors",
+      "description": "Advises on isolation precautions, exposure assessment and unit decisions in a care setting."
+    },
+    {
+      "key": "lab_advisor",
+      "name": "Public health laboratory adviser",
+      "abbreviation": "LAB-ADV",
+      "team": "Advisors",
+      "description": "Advises on specimen priority, turnaround and referral."
+    }
+  ],
+  "documents": [],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Time from first report to case definition",
+      "config": {
+        "decisionKinds": "adopt_case_definition",
+        "eventKinds": "first_report",
+        "leadWindowMin": 0,
+        "graceWindowMin": 480,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from first report to outbreak declaration",
+      "config": {
+        "decisionKinds": "declare_outbreak",
+        "eventKinds": "first_report",
+        "leadWindowMin": 0,
+        "graceWindowMin": 720,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from first report to first control measure",
+      "config": {
+        "decisionKinds": "recommend_exclusion_or_closure, open_dispensing_site, issue_exposure_notice",
+        "eventKinds": "first_report",
+        "leadWindowMin": 0,
+        "graceWindowMin": 1440,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "decision_timing",
+      "label": "Time from first report to public notice",
+      "config": {
+        "decisionKinds": "issue_exposure_notice, release_data",
+        "eventKinds": "first_report",
+        "leadWindowMin": 0,
+        "graceWindowMin": 1440,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across health department, hospital and school",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "health department, hospital, school"
+      }
+    },
+    {
+      "id": "contact_reach",
+      "label": "Contacts reached within the designer's target",
+      "config": {
+        "targetHours": 24
+      }
+    },
+    {
+      "id": "dispensing_throughput",
+      "label": "Dispensing throughput against plan",
+      "config": {
+        "planPerHour": 300,
+        "openTargetMin": 120
+      }
+    },
+    {
+      "id": "curve_accuracy",
+      "label": "Epidemic curve matches the line list",
+      "config": {
+        "binHours": 24
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "adopt_case_definition",
+      "label": "Adopt or change a case definition",
+      "description": "Record the case definition in use and why it changed.",
+      "fields": [
+        {
+          "id": "tier",
+          "label": "Tier changed",
+          "kind": "choice",
+          "choices": ["Confirmed", "Probable", "Suspect", "All tiers"],
+          "required": true
+        },
+        {
+          "id": "definition",
+          "label": "Definition (person, place, time, clinical criteria)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "effective_time",
+          "label": "Effective from",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "declare_outbreak",
+      "label": "Declare an outbreak",
+      "description": "Declare that the observed cases exceed what is expected.",
+      "fields": [
+        {
+          "id": "disease",
+          "label": "Disease or syndrome",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "cases_counted",
+          "label": "Cases counted so far",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (expected count, link between cases)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "declared_at",
+          "label": "Declared at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "request_epi_aid",
+      "label": "Request CDC Epi-Aid",
+      "description": "Ask CDC for field investigation support through the state epidemiologist.",
+      "fields": [
+        {
+          "id": "reason",
+          "label": "Why local and state capacity is not enough",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "support",
+          "label": "Support requested",
+          "kind": "choice",
+          "choices": [
+            "Field team",
+            "Laboratory typing",
+            "Analytic support",
+            "Communication support"
+          ],
+          "required": true
+        },
+        {
+          "id": "requested_at",
+          "label": "Requested at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "classify_contact",
+      "label": "Classify a contact",
+      "description": "Decide whether a person is a close contact within the exposure window.",
+      "fields": [
+        {
+          "id": "contact",
+          "label": "Contact (code, not a real name)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "classification",
+          "label": "Classification",
+          "kind": "choice",
+          "choices": ["Close contact", "Not a contact", "Needs more information"],
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (place, duration, window)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "follow_up",
+          "label": "Follow-up",
+          "kind": "choice",
+          "choices": ["Monitor daily", "Quarantine", "Post-exposure prophylaxis", "None"]
+        }
+      ]
+    },
+    {
+      "id": "issue_exposure_notice",
+      "label": "Issue an exposure notice",
+      "description": "Publish who, where and when people may have been exposed.",
+      "fields": [
+        {
+          "id": "places",
+          "label": "Places named",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "window",
+          "label": "Exposure window (dates and times)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "choices": ["Public", "Clinicians", "School", "Employer", "Passengers"],
+          "required": true
+        },
+        {
+          "id": "issued_at",
+          "label": "Issued at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "recommend_exclusion_or_closure",
+      "label": "Recommend exclusion of a worker or closure of a facility or unit",
+      "description": "A recommendation to the health officer or the facility; the order itself is the health officer's.",
+      "fields": [
+        {
+          "id": "target",
+          "label": "Worker, facility or unit",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "choices": [
+            "Exclude worker",
+            "Close facility",
+            "Close unit to admissions",
+            "Limit operations"
+          ],
+          "required": true
+        },
+        {
+          "id": "until",
+          "label": "Until (condition or time)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "order_lab_priority",
+      "label": "Set laboratory test priority",
+      "fields": [
+        {
+          "id": "priority",
+          "label": "Priority group",
+          "kind": "choice",
+          "choices": ["Outbreak-linked specimens", "Hospitalized patients", "Contacts", "Routine"],
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action for lower priorities",
+          "kind": "choice",
+          "choices": ["Hold", "Refer to another laboratory", "Run with delay"]
+        },
+        {
+          "id": "set_at",
+          "label": "Effective from",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "open_dispensing_site",
+      "label": "Open or close a dispensing site",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "choices": ["Open", "Extend hours", "Close"],
+          "required": true
+        },
+        {
+          "id": "stations",
+          "label": "Stations staffed",
+          "kind": "number"
+        },
+        {
+          "id": "at",
+          "label": "Effective at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "release_data",
+      "label": "Release data publicly",
+      "fields": [
+        {
+          "id": "what",
+          "label": "What is released",
+          "kind": "choice",
+          "choices": ["Case count", "Epidemic curve", "Dashboard update", "Location of exposure"],
+          "required": true
+        },
+        {
+          "id": "caveats",
+          "label": "Caveats stated",
+          "kind": "text"
+        },
+        {
+          "id": "at",
+          "label": "Released at",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Case definition",
+        "definition": "Person, place, time and clinical or lab criteria for counting a case; tiers confirmed, probable, suspect. Broad early, tightened later."
+      },
+      {
+        "term": "Epidemic curve",
+        "definition": "Cases by onset time. Point source: one peak within one incubation period. Continuous source: plateau. Person to person: peaks one incubation apart."
+      },
+      {
+        "term": "Exposure window",
+        "definition": "Onset minus the longest and shortest incubation period; for a place, the case's presence inside the infectious period."
+      },
+      {
+        "term": "Attack rate and odds ratio",
+        "definition": "Attack rate = ill / exposed. The likely vehicle has the highest rate among those exposed and a high odds ratio (cases exposed x controls unexposed / cases unexposed x controls exposed)."
+      },
+      {
+        "term": "Isolation, quarantine",
+        "definition": "Isolation: ill or infectious people. Quarantine: exposed people who are not ill."
+      },
+      {
+        "term": "Investigation steps (CDC Field Epidemiology Manual)",
+        "definition": "Prepare; confirm diagnosis; confirm outbreak; count cases; describe by time, place, person; consider control now; test hypotheses; plan studies; control and evaluate; communicate."
+      },
+      {
+        "term": "Norovirus",
+        "definition": "Incubation 12 to 48 h; contagious until 2 days after symptoms stop; food workers excluded 48 h after (CDC, FDA Food Code)."
+      },
+      {
+        "term": "Salmonella (nontyphoidal)",
+        "definition": "Incubation 6 h to 6 d, usually 12 to 72 h; illness 4 to 7 d (CDC)."
+      },
+      {
+        "term": "Measles",
+        "definition": "Incubation 7 to 21 d to rash (about 14); infectious 4 d before to 4 d after rash; airborne up to 2 h; MMR within 72 h or IG within 6 d; exclude susceptible contacts day 5 to 21 (CDC)."
+      },
+      {
+        "term": "Influenza",
+        "definition": "Incubation 1 to 4 d; infectious about 1 d before to 5 to 7 d after onset (CDC)."
+      },
+      {
+        "term": "SARS-CoV-2",
+        "definition": "Incubation about 2 to 14 d, shorter in recent variants; guidance changes, use the current local rule and date it (CDC)."
+      },
+      {
+        "term": "Pertussis",
+        "definition": "Incubation 7 to 10 d (5 to 21); infectious to 3 weeks after cough onset, or 5 d of antibiotics (CDC)."
+      },
+      {
+        "term": "Legionella",
+        "definition": "Incubation 2 to 14 d (to 19); not person to person; source is a building water system (CDC)."
+      }
+    ],
+    "productConventions": [
+      "Counts name the tier and time: 'N confirmed, N probable as of 14:00'.",
+      "Curves use onset date (hour for a point source); mark exposure and interventions.",
+      "Exposure notice: each place, address, date and exact time window; who acts; symptoms; watch-until date.",
+      "Clinician alert: Health Alert, Health Advisory or Health Update; number, date, case definition, numbered actions, how to report.",
+      "Isolation or quarantine sheet: exact first and last day and how the dates were set.",
+      "Line lists, rosters and exports: fictional people by code; marked exercise material."
+    ],
+    "realismRules": [
+      "Never order a curve by report date.",
+      "Counts in notices, releases and letters match the line list at the stated time.",
+      "Show exposure-window arithmetic in controller notes.",
+      "Name a food vehicle only after the attack-rate table supports it.",
+      "Some contacts are unreachable; report them.",
+      "The health department recommends; the health officer orders.",
+      "Never give pathogen culture, growth, enhancement or handling detail.",
+      "Simulated series are never presented as historical."
+    ]
+  },
+  "lintRules": ["epi_exposure_window", "epi_counts_match_line_list", "epi_onset_not_report_date"]
+}
