@@ -24,6 +24,11 @@
       "id": "materiality_determined",
       "label": "Materiality determined",
       "hint": "Players (with counsel) decide the incident is material. The 4 business days start here."
+    },
+    {
+      "id": "delay_ended",
+      "label": "Attorney General delay ended",
+      "hint": "Only if the Attorney General determined that disclosure poses a substantial risk to national security or public safety. Requesting a delay does not change the duty; the four business days run from the end of the delay (staff interpretations 104B.02 and 104B.03). Confirm the reading with counsel."
     }
   ],
   "clocks": [
@@ -31,8 +36,28 @@
       "id": "form_8k",
       "label": "Form 8-K Item 1.05",
       "recipient": "SEC (EDGAR)",
-      "dueAt": [{ "from": "materiality_determined", "amount": 4, "unit": "business_days" }],
+      "dueAt": [
+        {
+          "from": "materiality_determined",
+          "amount": 4,
+          "unit": "business_days"
+        }
+      ],
       "rule": "File within four business days after determining the incident is material. Check the EDGAR filing deadline (end of day) in the rule.",
+      "injectTypes": ["regulatory_report_form", "press_release"]
+    },
+    {
+      "id": "form_8k_after_delay",
+      "label": "Form 8-K Item 1.05 after an Attorney General delay",
+      "recipient": "SEC (EDGAR)",
+      "dueAt": [
+        {
+          "from": "delay_ended",
+          "amount": 4,
+          "unit": "business_days"
+        }
+      ],
+      "rule": "Use this clock instead of the first one only when the Attorney General delayed disclosure. File within four business days after the delay ends.",
       "injectTypes": ["regulatory_report_form", "press_release"]
     }
   ],
