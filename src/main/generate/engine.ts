@@ -122,6 +122,8 @@ import { baseVars, dataSafe, rowVars } from './vars'
 import { lintHazardCurrency } from './lint-realism'
 import { getSnapshot } from '../hazards/store'
 import { hazardSummary } from '../hazards/summary'
+import { caseDataNote } from '../case-data/note'
+import { readManifest } from '../case-data/store'
 import {
   lintSeamsOutdated,
   phaseSeams,
@@ -253,6 +255,8 @@ export interface Env {
   idea?: ScenarioIdea
   /** The hazard snapshot summary for scenario_overview (#439); absent without a snapshot. */
   hazards?: string
+  /** Case data summary for the prompts (spec 0448); absent when the scenario has none. */
+  caseData?: string
   /** The snapshot itself, for the dated-values lint. */
   hazardSnapshot?: HazardSnapshot
   ctx: JobContext
@@ -372,6 +376,7 @@ const vars = (input: StepInput, extra: Record<string, unknown> = {}): Record<str
   }),
   facility: facilitySheet(input.env.facility),
   places: placeLabels(input.env.places),
+  ...(input.env.caseData ? { caseData: dataSafe(input.env.caseData) } : {}),
   ...extra,
 })
 
@@ -1555,6 +1560,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
   const hazardSnapshot = await snapshotFor(root, scenario)
   const hazards = hazardSnapshot ? hazardSummary(hazardSnapshot) : ''
   const ownerFilter = await loadOwnerFilter(root, scenario.id)
+  const caseData = caseDataNote(await readManifest(root, scenario.id).catch(() => undefined))
   return {
     root,
     deps,
@@ -1565,6 +1571,7 @@ export async function openEnv(root: string, scenario: Scenario, ctx: JobContext)
     domain,
     ...(idea ? { idea } : {}),
     ...(hazards ? { hazards } : {}),
+    ...(caseData ? { caseData } : {}),
     ...(hazardSnapshot ? { hazardSnapshot } : {}),
     ...(ownerFilter ? { ownerFilter } : {}),
     ctx,

@@ -34,6 +34,7 @@ import { brandLogoFile } from '../project/logo'
 import { loadProject, projectPaths } from '../project/store'
 import { scenarioLayout } from '../scenario/layout'
 import { saveInject } from '../scenario/store'
+import { resolveCaseForInject } from '../case-data/render-context'
 import { composeDocument } from './compose'
 import { translatedInject } from '../translate/inject'
 import { adoptPackTemplate } from './template-copies'
@@ -197,14 +198,17 @@ async function renderTemplateAssets(
   // Copy-on-use: rendering a pack template type takes the template into the project first.
   await adoptPackTemplate(root, inject.type)
   const template = loadTemplate(inject.type, root)
-  assertValidFields(root, inject)
+  // Case data references (spec 0448) are replaced by their values for this render only.
+  const caseRes = await resolveCaseForInject(root, scenarioId, inject)
+  assertValidFields(root, caseRes ? { ...inject, fields: caseRes.fields } : inject)
   const slotFiles = await resolveSlotFiles(root, slotAssets(inject.assets, template.meta))
   const variant = variantFor(template.meta, inject.variant)
   const logo = await brandLogoFile(root, opts.brand)
   const doc = composeDocument({
     type: inject.type,
     projectRoot: root,
-    fields: inject.fields,
+    fields: caseRes?.fields ?? inject.fields,
+    ...(caseRes ? { caseData: caseRes.caseData, caseLabels: caseRes.labels } : {}),
     title: inject.title,
     ...(opts.lang ? { lang: opts.lang } : {}),
     ...(opts.brand ? { brand: opts.brand } : {}),
