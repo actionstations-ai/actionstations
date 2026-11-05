@@ -326,3 +326,28 @@ export function realWorldBlocks(model: ExportModel): Block[] {
     ),
   ]
 }
+
+/** The content notice for players (Exercise Plan): what the exercise includes and how to step out. */
+export function playerSafeguardBlocks(model: ExportModel): Block[] {
+  const n = model.safeguards
+  if (!n) return []
+  return [
+    h3('Content Notice'),
+    ...n.contentNotices.map((t) => para(t)),
+    ...n.stopAndStepOut.map((t) => para(t)),
+  ]
+}
+
+/** The facilitator wellbeing check and the step-out rule (controller/evaluator handbook). */
+export function facilitatorSafeguardBlocks(model: ExportModel): Block[] {
+  const n = model.safeguards
+  if (!n) return []
+  return [
+    h3('Participant Wellbeing'),
+    ...n.contentNotices.map((t) => para(t)),
+    h4('Wellbeing Check'),
+    list(n.wellbeingCheck),
+    h4('Stop and Step Out'),
+    ...n.stopAndStepOut.map((t) => para(t)),
+  ]
+}

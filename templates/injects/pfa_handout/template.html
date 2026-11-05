@@ -1,0 +1,40 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      <div class="sub">For {{fields.audience}}</div>
+    </div>
+    <div class="doc-title">First aid for<br />distress</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  {{#if fields.intro}}
+  <p>{{fields.intro}}</p>
+  {{/if}}
+  <ol class="core">
+    {{#each fields.coreActions}}
+    <li><strong>{{this.name}}.</strong> {{this.whatToDo}}</li>
+    {{/each}}
+  </ol>
+  {{#if fields.lookAfterYourself}}
+  <h2>Look after yourself</h2>
+  <ul>
+    {{#each fields.lookAfterYourself}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.whenToGetMoreHelp}}
+  <div class="callout"><strong>When to get more help.</strong> {{fields.whenToGetMoreHelp}}</div>
+  {{/if}} {{#if fields.exerciseHelpline}}
+  <p class="line mono">{{fields.exerciseHelpline}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  {{#if fields.attribution}}
+  <p class="attr">{{fields.attribution}}</p>
+  {{/if}}
+  <div class="foot">
+    <span>Psychological first aid handout</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

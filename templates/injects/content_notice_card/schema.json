@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Content notice card",
+  "description": "A content notice handed out at the player briefing when the exercise includes suicide, self-harm, abuse or child loss material. It names topics without detail, says the material is fictional, and tells participants they can step out. It never gives method detail and never asks a player to contact a real line.",
+  "type": "object",
+  "required": ["organization", "exerciseName", "topics", "notice", "yourOptions"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Exercising organization",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "exerciseName": {
+      "type": "string",
+      "description": "Exercise name",
+      "examples": ["Surge Response Tabletop 2026"],
+      "x-translate": false
+    },
+    "topics": {
+      "type": "array",
+      "description": "Topics the exercise includes, in plain words, without detail",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Suicide and crisis line contacts", "Grief after a community tragedy"]]
+    },
+    "notice": {
+      "type": "string",
+      "description": "Why the notice is given and that the material is fictional",
+      "examples": [
+        "This exercise includes fictional scenes about people in distress and about suicide. No method detail is described and no real person is involved. You may find some of it hard to hear."
+      ]
+    },
+    "yourOptions": {
+      "type": "array",
+      "description": "What participants may do",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Step out at any time without giving a reason.",
+          "Ask the facilitator to pause the exercise.",
+          "Take a break and rejoin later or watch from the side."
+        ]
+      ]
+    },
+    "supportAtSite": {
+      "type": "string",
+      "description": "Who at the exercise can help, by role",
+      "examples": [
+        "The facilitator and the wellbeing contact, Dana Whitfield, are at the front table all day."
+      ]
+    },
+    "resourcesLine": {
+      "type": "string",
+      "description": "Where real-world support is listed (a sheet or the organization's employee support program), without a helpline number unless the card carries the EXERCISE banner",
+      "examples": ["The employee support program card is in your packet."]
+    }
+  },
+  "additionalProperties": false
+}

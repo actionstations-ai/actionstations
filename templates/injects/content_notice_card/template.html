@@ -1,0 +1,39 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      <div class="sub">{{fields.exerciseName}}</div>
+    </div>
+    <div class="doc-title">Content notice</div>
+  </header>
+  <h1>Please read before we begin</h1>
+  <p class="lead">{{fields.notice}}</p>
+  <h2>Topics in this exercise</h2>
+  <ul>
+    {{#each fields.topics}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <div class="callout">
+    <strong>You are in charge of your participation.</strong>
+    <ul>
+      {{#each fields.yourOptions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{#if fields.supportAtSite}}
+  <h2>Support at the exercise</h2>
+  <p>{{fields.supportAtSite}}</p>
+  {{/if}} {{#if fields.resourcesLine}}
+  <h2>Support outside the exercise</h2>
+  <p>{{fields.resourcesLine}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Content notice · {{fields.exerciseName}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

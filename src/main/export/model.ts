@@ -28,6 +28,8 @@ import { getSnapshot } from '../hazards/store'
 import { evaluationOf, type ExportEvaluation } from './evaluation'
 import type { DocLang } from './lang'
 import { planMediaFiles, scenarioNumber, type PlannedMedia } from './naming'
+import type { SafeguardNotice } from '@shared/toolkits'
+import { briefingWithNotice, loadSafeguards } from './safeguards'
 
 export interface ExportDocs {
   handbook: string
@@ -85,6 +87,8 @@ export interface ExportModel {
   lang?: DocLang
   /** Blank copies of the EEG packet, one per evaluator seat (#421); one when absent. */
   evaluatorCopies?: number
+  /** Content notice, wellbeing check and step-out rule when the scenario hits a toolkit's sensitive topics (spec 0464 FR-13). */
+  safeguards?: SafeguardNotice
   /** Large-print layer on (spec 0435 FR-17). */
   largePrint?: boolean
   /** Every page carries the unreviewed machine translation stamp (spec 0435 FR-11). */
@@ -126,6 +130,7 @@ export async function loadExportModel(
       read('controller_handouts'),
       read('aar'),
     ])
+  const safeguards = await loadSafeguards(scenario)
   const scenarioNo = scenarioNumber(scenario, project.scenarios)
   const media = planMediaFiles(scenarioNo, injects)
   return {
@@ -141,7 +146,7 @@ export async function loadExportModel(
     injects,
     docs: {
       handbook,
-      briefing,
+      briefing: briefingWithNotice(briefing, safeguards),
       hotwash,
       overview,
       handouts,
@@ -154,6 +159,7 @@ export async function loadExportModel(
     generatedAt: now.toISOString(),
     surveys: await loadSurveys(root, scenarioId),
     conduct: conductOf(scenario),
+    ...(safeguards ? { safeguards } : {}),
     ...optionalEvaluation(scenario),
     aar: await readAar(root, scenarioId),
     decisions: (await readFacilitatorState(root, scenarioId)).branching?.decisions ?? [],

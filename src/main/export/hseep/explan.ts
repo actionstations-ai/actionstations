@@ -12,6 +12,7 @@ import {
   objectiveText,
   objectivesTable,
   participantRoleBlocks,
+  playerSafeguardBlocks,
   participantsTable,
   realWorldBlocks,
   scheduleTable,
@@ -97,9 +98,10 @@ function postExercise(): Block[] {
   ]
 }
 
-function participantGuidance(): Block[] {
+function participantGuidance(model: ExportModel): Block[] {
   return [
     h2('Participant Information and Guidance'),
+    ...playerSafeguardBlocks(model),
     h3('Exercise Rules'),
     list([
       'Real-world emergency actions take priority over exercise actions.',
@@ -149,7 +151,7 @@ export function explanBlocks(model: ExportModel): Block[] {
     ...generalInformation(model),
     ...logistics(model),
     ...postExercise(),
-    ...participantGuidance(),
+    ...participantGuidance(model),
     ...appendices(model),
   ]
 }

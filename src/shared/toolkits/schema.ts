@@ -175,6 +175,22 @@ export const ToolkitExerciseTag = z.object({
 })
 export type ToolkitExerciseTag = z.infer<typeof ToolkitExerciseTag>
 
+/**
+ * Safeguards for sensitive content (spec 0464 FR-13). When the scenario's text contains one of
+ * the `triggers`, the briefing opens with `contentNotice`, the Exercise Plan and the handbook
+ * carry the notice, and facilitators get the `wellbeingCheck` lines and the `stopAndStepOut`
+ * rule. The text is data so a pack can improve it without a release.
+ */
+export const ToolkitSafeguards = z.object({
+  /** Lower-case words or phrases in a scenario that switch the safeguards on. */
+  triggers: z.array(Short).min(1).max(60),
+  contentNotice: z.string().min(1).max(1200),
+  /** What the facilitator says or asks, one line each. */
+  wellbeingCheck: z.array(z.string().min(1).max(400)).min(1).max(10),
+  stopAndStepOut: z.string().min(1).max(600),
+})
+export type ToolkitSafeguards = z.infer<typeof ToolkitSafeguards>
+
 export const ToolkitSchema = z.object({
   id: ToolkitId,
   name: Short,
@@ -202,6 +218,8 @@ export const ToolkitSchema = z.object({
   capabilities: z.array(ToolkitCapabilityNote).max(40).default([]),
   /** Program exercises a scenario can be tagged with (spec 0457 FR-14). */
   exerciseTags: z.array(ToolkitExerciseTag).max(40).default([]),
+  /** Content notice, wellbeing check and step-out rule for sensitive scenarios (spec 0464 FR-13). */
+  safeguards: ToolkitSafeguards.optional(),
 })
 export type Toolkit = z.infer<typeof ToolkitSchema>
 
