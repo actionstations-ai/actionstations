@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testi
 import userEvent from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
 import axe from 'axe-core'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Scenario, type LintWarning } from '@shared/schemas/scenario'
 import fixture from '../../../../../tests/fixtures/scenarios/scenario-3.json'
 import { FakeIpcError, PROJECT, mockTtx, type Handlers } from '../../routes/documents/test-utils'
@@ -18,7 +18,33 @@ const base = Scenario.parse(fixture)
 
 type Saved = { scenario: Scenario; note?: string }
 
-function setup(opts: { handlers?: Handlers; lint?: LintWarning[]; scenario?: Scenario } = {}) {
+interface SetupOptions {
+  handlers?: Handlers
+  lint?: LintWarning[]
+  scenario?: Scenario
+  /** Stop the clock for the save debounce; release it with {@link releaseDebounce}. */
+  holdDebounce?: boolean
+}
+
+/**
+ * The save debounce is a real 700 ms timer, and a long keyboard edit can take longer than that on
+ * a busy machine, so the save would fire between two edits (#999). Faking setTimeout keeps time
+ * still while keys are typed: user-event moves the fake clock by its own (zero) key delay only.
+ * Testing Library only advances fake timers it can see through a `jest` global, so give it one.
+ */
+function fakeDebounceClock() {
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  vi.stubGlobal('jest', { advanceTimersByTime: (ms: number) => vi.advanceTimersByTime(ms) })
+  return userEvent.setup({ advanceTimers: (ms) => vi.advanceTimersByTime(ms) })
+}
+
+/** Let the held debounce run out, then go back to real timers so waitFor can poll. */
+async function releaseDebounce() {
+  await act(() => vi.advanceTimersByTimeAsync(SAVE_DEBOUNCE_MS))
+  vi.useRealTimers()
+}
+
+function setup(opts: SetupOptions = {}) {
   const scenario = opts.scenario ?? base
   let n = 0
   const ttx = mockTtx({
@@ -37,7 +63,8 @@ function setup(opts: { handlers?: Handlers; lint?: LintWarning[]; scenario?: Sce
   )
   const saves = () => ttx.calls('scenarios:save') as Saved[]
   const lastSaved = () => saves().at(-1)!.scenario
-  return { ttx, saves, lastSaved, user: userEvent.setup() }
+  const user = opts.holdDebounce ? fakeDebounceClock() : userEvent.setup()
+  return { ttx, saves, lastSaved, user }
 }
 
 const grid = () => screen.getByRole('grid', { name: 'Master Scenario Events List' })
@@ -49,7 +76,11 @@ const cell = (id: string, col: string) =>
   rowWith(id).querySelector<HTMLElement>(`[data-col="${col}"]`)!
 const savedRow = (s: Scenario, id: string) => s.msel.find((r) => r.id === id)!
 
-afterEach(() => cleanup())
+afterEach(() => {
+  vi.useRealTimers()
+  vi.unstubAllGlobals()
+  cleanup()
+})
 
 describe('MselEditor', () => {
   it('renders phases with goals and every row in an ARIA grid', () => {
@@ -67,7 +98,7 @@ describe('MselEditor', () => {
   })
 
   it('edits a time and an event with the keyboard and saves once, debounced', async () => {
-    const { user, saves, lastSaved } = setup()
+    const { user, saves, lastSaved } = setup({ holdDebounce: true })
     cell('I-01', 'time').focus()
     await user.keyboard('{Enter}')
     const input = screen.getByRole('textbox', { name: 'Time for I-01' })
@@ -81,6 +112,9 @@ describe('MselEditor', () => {
     await user.clear(event)
     await user.type(event, 'Gate B4 screen says Miami.{Enter}')
     expect(within(rowWith('I-01')).getByText('Gate B4 screen says Miami.')).toBeTruthy()
+    // Both edits are in and the debounce has not run out: nothing saved yet.
+    expect(saves()).toHaveLength(0)
+    await releaseDebounce()
     await waitFor(() => expect(saves()).toHaveLength(1), { timeout: 2000 })
     expect(saves()[0]!.note).toBe('MSEL edit')
     expect(savedRow(lastSaved(), 'I-01')).toMatchObject({
@@ -339,9 +373,10 @@ describe('MselEditor save integrity', () => {
   afterEach(() => usePendingSaves.setState({ entries: {} }))
 
   it('saves a pending edit exactly once when the editor unmounts before the debounce (#193)', async () => {
-    const { user, saves } = setup()
+    const { user, saves } = setup({ holdDebounce: true })
     await editFrom(user, 'SOC')
     expect(saves()).toHaveLength(0)
+    vi.useRealTimers()
     cleanup()
     await waitFor(() => expect(saves()).toHaveLength(1))
     const req = saves()[0] as SaveReq
