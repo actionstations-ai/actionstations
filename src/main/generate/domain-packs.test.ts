@@ -230,6 +230,10 @@ const DOMAINS: {
   { id: 'public_health', roles: { technical: 'it', operations: 'ho', public: 'pio' } },
   { id: 'epidemiology', roles: { technical: 'it', operations: 'se', public: 'pio' } },
   {
+    id: 'justice',
+    roles: { technical: 'ctit', security: 'chief', operations: 'ic', public: 'pio' },
+  },
+  {
     id: 'emergency_communications',
     roles: { technical: 'tech', security: 'le', operations: 'dir', public: 'pio' },
   },

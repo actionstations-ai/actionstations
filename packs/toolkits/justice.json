@@ -1,0 +1,129 @@
+{
+  "id": "justice",
+  "name": "Law enforcement, corrections and courts",
+  "description": "Command, coordination and continuity for police and sheriff’s offices, jails and courts: unified command, communication with families, the public and the bar, AMBER Alert decisions, jail counts and court continuity. It stays at the coordination level by design and never teaches tactics.",
+  "appliesTo": {
+    "keywords": [
+      "active shooter",
+      "active assailant",
+      "active threat",
+      "unified command",
+      "mutual aid",
+      "family reunification",
+      "crisis negotiation",
+      "amber alert",
+      "missing child",
+      "civil unrest",
+      "jail",
+      "inmate count",
+      "lockdown",
+      "courthouse",
+      "court closure",
+      "court ransomware",
+      "e-filing",
+      "chain of custody",
+      "property room",
+      "sheriff",
+      "police"
+    ],
+    "domains": [
+      "justice",
+      "municipal",
+      "k12_schools",
+      "campus",
+      "emergency_communications",
+      "stadium_venue",
+      "transit",
+      "airport",
+      "healthcare",
+      "elections",
+      "port_maritime",
+      "data_center_it"
+    ]
+  },
+  "injectTypes": [],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "neighboring and state law enforcement agencies",
+    "the state AMBER Alert coordinator",
+    "the national center for missing and exploited children",
+    "the prosecutor’s office",
+    "the public defender",
+    "the bar association",
+    "the state court administrative office",
+    "the county or state IT security office and CISA",
+    "families and advocacy groups",
+    "oversight bodies"
+  ],
+  "advisorRoles": [
+    {
+      "key": "unified_command_advisor",
+      "name": "Unified command adviser",
+      "abbreviation": "UC-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about who commands, how agencies join unified command, the command post and the order of requests for mutual aid."
+    },
+    {
+      "key": "corrections_advisor",
+      "name": "Corrections operations adviser",
+      "abbreviation": "COR-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about counts, movement logs, lockdown decisions and notification at the facility level."
+    },
+    {
+      "key": "court_continuity_advisor",
+      "name": "Court continuity adviser",
+      "abbreviation": "CT-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about essential functions, recovery time objectives, paper filing and notice to the bar and public."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Unified command",
+        "definition": "Agencies with authority share one command post and one set of objectives under a named incident commander. The DOJ review of the Robb Elementary response (Jan 2024) found no one established command."
+      },
+      {
+        "term": "AMBER Alert criteria",
+        "definition": "DOJ recommends five: reasonable belief an abduction occurred; child in imminent danger of serious injury or death; enough descriptive information; child is 17 or younger; child entered in the national crime database with the Child Abduction flag. States set their own (amberalert.ojp.gov)."
+      },
+      {
+        "term": "Count",
+        "definition": "The facility tally of people in custody by housing area; a discrepancy is reconciled from the movement log."
+      },
+      {
+        "term": "Essential function",
+        "definition": "A court function that must resume, with a recovery time objective (NCSC continuity framing)."
+      },
+      {
+        "term": "Negotiation team",
+        "definition": "At least a primary negotiator, a coach and a team leader who briefs the commander (FBI guidance; agencies vary)."
+      }
+    ],
+    "productConventions": [
+      "Radio traffic and CAD entries use unit names, building-level locations, statuses and 24-hour times.",
+      "Command post paperwork uses the ICS forms; one joint statement carries the same numbers for every agency.",
+      "Court orders state the court, a fictional case number, the date, the judge and the effective period."
+    ],
+    "realismRules": [
+      "Coordination level only: who commands, who is told, what keeps running. Never write entry or breaching methods, weapon handling, tactical positioning, force options, ways to defeat security or detention measures, attack planning, building layouts or security weaknesses.",
+      "If the brief asks for tactics, write the coordination decision instead. All people, agencies and case numbers are fictional.",
+      "Public messages never name or describe the person responsible. A negotiation log has contact times, decision requests and welfare only: no technique, scripts or dialogue.",
+      "Name the incident commander and announce the command post before sending more units; list each agency in unified command.",
+      "AMBER: show each criterion as met or not with a reason; the database entry comes before the alert.",
+      "Jail counts match the movement log; court systems come back in dependency order (case management before e-filing)."
+    ]
+  },
+  "lintRules": [
+    "justice_coordination_level",
+    "justice_no_notoriety",
+    "justice_negotiation_decision_level"
+  ],
+  "capabilities": [],
+  "exerciseTags": []
+}
