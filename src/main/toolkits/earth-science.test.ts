@@ -77,14 +77,14 @@ describe('earth science toolkits', () => {
     const dirs = readdirSync(join(ROOT, 'templates', 'injects'))
     for (const type of pack.contents.templates) expect(dirs).toContain(type)
   })
-  it('point their document references at pinned, public-domain library documents', () => {
+  it('point their document references at pinned library documents', () => {
     const manifest = readJson('packs', 'documents', 'manifest.json') as unknown as {
       documents: { pack: string; slug: string; license: string; sha256: string | null }[]
     }
     const lib = manifest.documents.filter((d) => d.pack === 'geoscience-library')
     expect(lib.length).toBeGreaterThan(0)
     for (const d of lib) {
-      expect(d.license).toBe('LicenseRef-US-Government-Work')
+      expect(['LicenseRef-US-Government-Work', 'LicenseRef-Publisher-Terms']).toContain(d.license)
       expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
     }
     for (const t of toolkits())

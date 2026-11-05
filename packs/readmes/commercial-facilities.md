@@ -22,14 +22,17 @@ Facts below were checked on 2026-10-24 for the research dossier (`docs/research/
 - **Card brands**: acquirer and brand notice on contractual timelines once a compromise is suspected.
 - **CIRCIA**: final rule pending; whether commercial facilities are covered depends on the final sector criteria.
 
-## Copyrighted references (named, not bundled)
+## Other references
 
-- PCI DSS v4.0.1, PCI Security Standards Council: https://www.pcisecuritystandards.org/
-- NFPA 101 and NFPA 1, NFPA: https://www.nfpa.org/
-- ASIS workplace violence and active assailant standard, ASIS International: https://www.asisonline.org/
-- RH-ISAC reports (membership): https://rhisac.org/
-- AHLA safety and security resources: https://www.ahla.com/
-- ICSC security resources: https://www.icsc.com/
-- American Gaming Association resources: https://www.americangaming.org/
+The **Commercial facilities reference library** pack carries Nevada Gaming Commission Regulation 5.260 (cybersecurity) and the Scattered Spider advisory (AA23-320A, updated July 2025).
 
-The Nevada Gaming Control Board regulations are a state work and are linked rather than bundled: https://gaming.nv.gov/
+These could not be carried, so the pack only names them:
+
+- PCI DSS v4.0.1, PCI Security Standards Council (the download needs a registration form and a license agreement): https://www.pcisecuritystandards.org/
+- NFPA 101 and NFPA 1, NFPA (sold): https://www.nfpa.org/
+- ASIS workplace violence and active assailant standard, ASIS International (sold): https://www.asisonline.org/
+- RH-ISAC reports (members only, behind a login): https://rhisac.org/
+- AHLA safety and security resources (web pages): https://www.ahla.com/
+- ICSC security resources (web pages): https://www.icsc.com/
+- American Gaming Association resources (web pages): https://www.americangaming.org/
+- The full Nevada Gaming Control Board regulations index: https://gaming.nv.gov/

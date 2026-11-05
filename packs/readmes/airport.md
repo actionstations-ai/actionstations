@@ -19,14 +19,14 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 - **Drones:** since 1 Jul 2026 (SAFER SKIES Act interim final rule, 6 CFR and 28 CFR part 124), certified state and local law-enforcement agencies may detect and mitigate credible UAS threats, alongside DOJ and DHS. The airport itself may still only detect and report.
 - **Local plans:** the jurisdiction's EOP airport annex (FEMA CPG 101 v3.1).
 
-## Further reading (not bundled)
+## Further reading
 
-These are copyrighted or not federal works, so the pack only names them:
+The **Airport reference library** pack carries ACRP Report 140, _Guidebook on Best Practices for Airport Cybersecurity_ (National Academies), and PARAS 0007, _Quick Guide for Airport Cybersecurity_ (National Safe Skies Alliance), under their publishers' terms.
 
-- ACRP Report 140, _Guidebook on Best Practices for Airport Cybersecurity_ (National Academies): https://nap.nationalacademies.org/
-- PARAS 0007, _Quick Guide for Airport Cybersecurity_ (National Safe Skies Alliance): https://sskies.org/
-- NFPA 424, _Guide for Airport/Community Emergency Planning_: https://www.nfpa.org/
-- ICAO Doc 9137 _Airport Services Manual_, Part 7: https://store.icao.int/
-- Aviation ISAC: https://www.a-isac.com/
+These could not be carried, so the pack only names them:
+
+- NFPA 424, _Guide for Airport/Community Emergency Planning_ (sold by NFPA): https://www.nfpa.org/
+- ICAO Doc 9137 _Airport Services Manual_, Part 7 (sold through the ICAO store): https://store.icao.int/
+- Aviation ISAC (member products behind a login): https://www.a-isac.com/
 
 Facts were checked against public sources on 2026-10-24. Regulations, security directives and editions change; check before relying on a deadline.

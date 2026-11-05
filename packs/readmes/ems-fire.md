@@ -16,16 +16,16 @@ All people, agencies, hospitals and patients in the templates and examples are f
 
 The pack knows START and SALT and a free-text local method. No federal rule picks one method for the country, so a scenario names the method its players use. Check your state or regional protocol before relying on any of it.
 
-## The Emergency Response Guidebook is not bundled
+## The Emergency Response Guidebook
 
-The guide pages and the table of initial isolation and protective action distances in the Emergency Response Guidebook are not included until the publisher's terms for redistribution are confirmed. Where an exercise needs those numbers, you enter them from your own copy of the guidebook, or you use a fictional material with invented, clearly labeled exercise distances. The guidebook is free from the US Pipeline and Hazardous Materials Safety Administration: https://www.phmsa.dot.gov/hazmat/erg/emergency-response-guidebook-erg
+The **EMS, fire and hazmat reference library** pack carries the 2024 Emergency Response Guidebook as the publisher's PDF. The toolkit does not copy its guide pages or its table of initial isolation and protective action distances into exercise data: where an exercise needs those numbers, you enter them from the guidebook and name its edition, or you use a fictional material with invented, clearly labeled exercise distances. The guidebook is free from the US Pipeline and Hazardous Materials Safety Administration: https://www.phmsa.dot.gov/hazmat/erg/emergency-response-guidebook-erg
 
-## Copyrighted references (not bundled)
+## Other references (not bundled)
 
-- NFPA standards (1710, 1730, 472, 704): https://www.nfpa.org/
+- NFPA standards (1710, 1730, 472, 704; sold): https://www.nfpa.org/
 - NENA and APCO standards for dispatch: https://www.nena.org/page/standards and https://www.apcointl.org/
 - Emergency Nurses Association triage materials: https://www.ena.org/
 
 ## Reference library
 
-The separate **EMS, fire and hazmat reference library** pack carries documents whose US government status was checked: the EPA risk management program exercise and emergency response guidance, the CISA hazardous materials and emergency services tabletop packages, the NTSB report on the East Palestine derailment and the CSB report on the Arkema Crosby fire. The USFA EMS mass incident templates (written by a contractor), OSHA's HAZWOPER booklet, the Emergency Response Guidebook, the Boston Marathon after action report and the NFPA, NENA and APCO standards are linked or named and not bundled; the library README gives the reason for each.
+The separate **EMS, fire and hazmat reference library** pack carries documents whose US government status was checked: the EPA risk management program exercise and emergency response guidance, the CISA hazardous materials and emergency services tabletop packages, the NTSB report on the East Palestine derailment and the CSB report on the Arkema Crosby fire. It also carries the USFA EMS mass incident templates, the 2024 Emergency Response Guidebook and the Boston Marathon after action report under their publishers' terms. OSHA's HAZWOPER booklet and the NFPA, NENA and APCO standards are linked or named and not bundled; the library README gives the reason for each.

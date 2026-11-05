@@ -26,7 +26,7 @@ A TSA proposed rule, Enhancing Surface Cyber Risk Management (89 FR 88488, 7 Nov
 
 ## Copyrighted references (not bundled)
 
-- AAR Circular OT-55, the AAR Field Guide to Tank Car Identification and AAR cybersecurity material: https://www.aar.org/
 - GCOR and NORAC operating rules (rulebook committees). Inject templates use a neutral fictional track-warrant layout instead.
-- The 2024 Emergency Response Guidebook (ERG2024) is a joint work of four governments with reproduction conditions; link only: https://www.phmsa.dot.gov/training/hazmat/erg/erg2024-pdf-accessible-english
-- AskRail and CHEMTREC are industry services.
+- AskRail and CHEMTREC are an app and an industry service, not documents.
+
+The **Freight rail reference library** pack carries AAR Circular OT-55, the AAR Bureau of Explosives _Field Guide to Tank Cars_ (2017) and the 2024 Emergency Response Guidebook under their publishers' terms.

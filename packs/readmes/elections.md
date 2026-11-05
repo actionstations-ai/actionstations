@@ -22,8 +22,12 @@ Facts below were checked on 2026-10-24. Election law is mostly state law and var
 - Election records for federal elections must be kept for 22 months from the election (52 U.S.C. 20701); willful failure carries a fine of up to $1,000, up to one year of imprisonment, or both. Preserve them through any incident.
 - There is no federal cyber-incident reporting mandate for election offices. Many states require reporting to the Secretary of State; check yours. Federal contacts are on the EAC Election Incident Response Contacts sheet (March 2026, v2.0).
 
-## Copyrighted references (not bundled)
+## Other references
 
-- CIS Elections Handbook and EI-ISAC material: https://www.cisecurity.org/
+The **Elections reference library** pack carries the CIS _Handbook for Elections Infrastructure Security_ (2018).
+
+These name organizations rather than one document, so the pack only links them:
+
+- EI-ISAC material (members): https://www.cisecurity.org/
 - Brennan Center election security guides: https://www.brennancenter.org/
 - NASS and NASED resources: https://www.nass.org/ and https://www.nased.org/

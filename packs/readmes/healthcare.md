@@ -19,9 +19,11 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- The Joint Commission emergency management standards: https://www.jointcommission.org/
-- NFPA 99, 101 and 110: https://www.nfpa.org/
-- AHA cybersecurity resources: https://www.aha.org/cybersecurity
-- Health-ISAC: https://health-isac.org/
+- The Joint Commission emergency management standards (sold): https://www.jointcommission.org/
+- NFPA 99, 101 and 110 (sold): https://www.nfpa.org/
+- AHA cybersecurity resources (web pages): https://www.aha.org/cybersecurity
+- Health-ISAC (members only, behind a login): https://health-isac.org/
+
+The **Healthcare reference library** pack carries the HICS Guidebook (2014), the ASPR TRACIE healthcare cybersecurity readiness and lessons learned documents and the SAFER Guide on contingency planning.
 
 Facts were checked against public sources on 2026-10-24. A HIPAA Security Rule update was proposed in January 2025 and is pending; check the current rules before relying on a deadline.

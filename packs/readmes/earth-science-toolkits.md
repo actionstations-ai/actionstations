@@ -17,4 +17,4 @@ No account or key is needed, and nothing is requested until you agree to a fetch
 ## Copyrighted references (not bundled)
 
 - ICAO Annex 3 and Doc 9691 (volcanic ash provisions and manual): https://www.icao.int/
-- The USGS fact sheets on volcano alert levels and the HayWired scenario are linked from the Earth sciences reference library pack rather than bundled, because each carries third-party material.
+- The USGS fact sheets on volcano alert levels and the HayWired scenario are carried by the Earth sciences reference library pack.

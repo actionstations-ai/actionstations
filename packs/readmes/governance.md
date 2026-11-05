@@ -13,6 +13,6 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 - The crisis management plan and call tree, the disclosure controls and procedures, and the business impact analysis with recovery time objectives.
 - SEC Form 8-K Item 1.05: the materiality determination must be made without unreasonable delay, and a material incident is reported within four business days of that determination. The reporting clock is included; the determination is a decision players make and the exercise times it.
-- New York DFS Cybersecurity Regulation (23 NYCRR 500) notice and continuity testing duties, and the FFIEC business continuity booklet for banks, named as references.
+- New York DFS Cybersecurity Regulation (23 NYCRR 500) notice and continuity testing duties, and the FFIEC business continuity booklet for banks; the Governance and business continuity reference library pack carries both.
 
 The company, its people, advisers and any ticker in an exercise are fictional. Exercise aid, not legal advice: check the current rule and your counsel. Facts were checked against public sources on 2026-11-04.

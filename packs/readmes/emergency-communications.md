@@ -21,8 +21,11 @@ Facts below were checked on 2026-10-24. State 911 rules vary, so check your stat
 - The providers' own FCC NORS filings: notification within 120 minutes, initial report within 72 hours, final report within 30 days.
 - The center itself generally reports nothing to the FCC. It reports CJIS security incidents to the state CJIS Systems Agency under CJIS Security Policy, and follows state 911 board rules and state breach law.
 
-## Copyrighted references (not bundled)
+## Other references
 
-- NENA standards (i3 NG911, GIS data model, call processing, NG911 security): https://www.nena.org/page/standards
+The **Emergency communications reference library** pack carries the National Interoperability Field Operations Guide (NIFOG) v2.02 and the NENA i3 Standard for Next Generation 9-1-1 (NENA-STA-010.3f-2021).
+
+These are indexes of many standards, so the pack only links them:
+
+- Other NENA standards (GIS data model, call processing, NG911 security): https://www.nena.org/page/standards
 - APCO ANS standards (telecommunicator training, cybersecurity): https://www.apcointl.org/
-- The National Interoperability Field Operations Guide (NIFOG) v2.02 is a CISA publication but contains a third-party copyrighted figure; link only: https://www.cisa.gov/safecom/field-operations-guides

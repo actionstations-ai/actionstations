@@ -24,4 +24,5 @@ Facts below were checked on 2026-10-24. Security directives expire and rules cha
 
 - API RP 1162 (public awareness), API RP 1173 (pipeline safety management systems), API 1164 (pipeline SCADA security), API RP 1167 (alarm management): https://www.api.org
 - AGA and INGAA guidance; ONG-ISAC and DNG-ISAC products (member-only).
-- The 2024 Emergency Response Guidebook (ERG 2024) is a joint international publication; link only: https://www.phmsa.dot.gov/training/hazmat/erg/emergency-response-guidebook-erg
+
+The **Gas pipeline reference library** pack carries the 2024 Emergency Response Guidebook (ERG 2024) under its publishers' terms.

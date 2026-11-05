@@ -28,12 +28,16 @@ No single statute governs an MSP or a colocation provider. Its obligations come 
 - **CIRCIA**: 72 hours for a covered cyber incident and 24 hours after a ransom payment; the final rule was not published as of 2026-10-24, so it is not yet mandatory.
 - **State breach laws**: timelines vary by state.
 
-## Copyrighted references (named, not bundled)
+## Other references
 
-- SOC 2 / Trust Services Criteria, AICPA: https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2
-- Tier Classification System, Uptime Institute: https://uptimeinstitute.com/tiers; Annual Outage Analysis: https://uptimeinstitute.com/resources/research-and-reports
-- NFPA 75, NFPA 76, NFPA 2001 and NFPA 70E, NFPA: https://www.nfpa.org/codes-and-standards
-- ASHRAE TC 9.9 _Thermal Guidelines for Data Processing Environments_: https://www.ashrae.org/technical-resources/bookstore/datacom-series
-- ANSI/TIA-942, TIA: https://tiaonline.org/products-and-services/tia942certification/
-- ISO/IEC 27001:2022 and ISO/IEC 27035, ISO: https://www.iso.org/standard/27001
+The **Data center and IT reference library** pack carries the #StopRansomware Guide, the joint advisory on threats to managed service providers (AA22-131A) and the DOE FEMP _Best Practices Guide for Energy-Efficient Data Center Design_.
+
+These could not be carried, so the pack only names them:
+
+- SOC 2 / Trust Services Criteria, AICPA (download behind an account login): https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2
+- Tier Classification System, Uptime Institute: https://uptimeinstitute.com/tiers; Annual Outage Analysis: https://uptimeinstitute.com/resources/research-and-reports (both need registration and a login)
+- NFPA 75, NFPA 76, NFPA 2001 and NFPA 70E, NFPA (sold): https://www.nfpa.org/codes-and-standards
+- ASHRAE TC 9.9 _Thermal Guidelines for Data Processing Environments_ (sold): https://www.ashrae.org/technical-resources/bookstore/datacom-series
+- ANSI/TIA-942, TIA (sold): https://tiaonline.org/products-and-services/tia942certification/
+- ISO/IEC 27001:2022 and ISO/IEC 27035, ISO (sold): https://www.iso.org/standard/27001
 - Security Breach Notification Laws index, NCSL: https://www.ncsl.org/technology-and-communication/security-breach-notification-laws

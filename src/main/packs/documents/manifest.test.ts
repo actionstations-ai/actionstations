@@ -84,19 +84,51 @@ describe('packs/documents/manifest.json', () => {
     }
   })
 
-  it('keeps the owner’s link-only references out of the documents', () => {
-    const urls = m.documents.flatMap((d) => [d.url, ...d.mirrors])
+  it('carries the documents once linked only for a reading of their terms (#1101)', () => {
+    const carried = (pattern: RegExp) => m.documents.filter((d) => pattern.test(d.url))
     for (const pattern of [
       /asprtracie/i,
       /StopRansomware-Guide/i,
       /aa22-131a/i,
-      /joint-guid/i,
-      /\/ERG/i,
+      /\/ERG2024/i,
       /nerc\.com/i,
       /c2m2/i,
-    ])
-      expect(urls.filter((u) => pattern.test(u))).toEqual([])
-    expect(linksOf(m, 'healthcare-library').some((l) => /asprtracie/.test(l.url))).toBe(true)
+      /fema_incident-annex_power-outage/i,
+    ]) {
+      expect(carried(pattern).length, String(pattern)).toBeGreaterThan(0)
+      for (const d of carried(pattern)) expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
+    }
+    expect(linksOf(m, 'healthcare-library').some((l) => /files\.asprtracie/.test(l.url))).toBe(
+      false,
+    )
+  })
+
+  it('states a technical reason for every reference it still only links (#1101)', () => {
+    const terms =
+      /copyright|owner decision|not a federal|public.domain status|not clearly a federal|state work|redistribution rights|license not|terms not/i
+    const mine = [
+      'airport',
+      'campus',
+      'chemical',
+      'commercial-facilities',
+      'data-center-it',
+      'elections',
+      'emergency-communications',
+      'energy-utility',
+      'financial-services',
+      'food-agriculture',
+      'freight-rail',
+      'gas-pipeline',
+      'healthcare',
+      'geoscience',
+      'ai-incidents',
+      'environmental-response',
+      'ems-fire',
+      'governance',
+      'hospitality',
+    ].map((p) => `${p}-library`)
+    for (const l of m.links.filter((x) => mine.includes(x.pack)))
+      expect(terms.test(l.reason), `${l.pack}: ${l.title}: ${l.reason}`).toBe(false)
   })
 
   it('does not repeat a core document in a library', () => {

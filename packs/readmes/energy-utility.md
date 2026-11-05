@@ -15,9 +15,13 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 - **NERC EOP-004-4:** event reports by the later of 24 hours or the end of the next business day.
 - Emergency operations, system restoration and loss of the control center (NERC EOP-011, EOP-005, EOP-008), physical security of critical substations (CIP-014) and state PUC storm plans.
 
-## Further reading (not bundled)
+## Further reading
 
-- NERC Reliability Standards (CIP, EOP): https://www.nerc.com/pa/Stand/Pages/default.aspx
+The **Energy utility reference library** pack carries the NERC CIP-002 to CIP-014 and EOP-004, EOP-005, EOP-008 and EOP-011 reliability standards, DOE's C2M2 v2.1, the FEMA Power Outage Incident Annex and the FERC and NERC reports on Winter Storms Uri (2021) and Elliott (2022).
+
+Not carried:
+
 - APPA, NRECA and EEI guides (trade associations).
+- The ESCC mutual assistance playbook: no public file is posted.
 
 Facts were checked against public sources on 2026-10-24. Check the current standards before relying on a deadline.
