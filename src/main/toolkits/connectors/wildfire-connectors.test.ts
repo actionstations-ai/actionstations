@@ -147,7 +147,7 @@ describe('wfigs-perimeters', () => {
 })
 
 describe('firms-hotspots', () => {
-  const KEY = 'ABCDEF1234567890ABCDEF12'
+  const KEY = 'ABCDEF1234567890ABCDEF12' // gitleaks:allow (a made-up test key)
   const BOX: [number, number, number, number] = [-121.7, 39.7, -121.5, 39.85]
   const connector = createFirmsConnector({
     getKey: async () => KEY,
@@ -284,7 +284,7 @@ describe('hms-smoke', () => {
 })
 
 describe('airnow-observations', () => {
-  const KEY = 'abcdef12-3456-7890-abcd-ef1234567890'
+  const KEY = 'abcdef12-3456-7890-abcd-ef1234567890' // gitleaks:allow (a made-up test key)
   const BOX: [number, number, number, number] = [-121.9, 39.7, -121.7, 39.8]
   const RANGE = { start: '2018-11-09T12:00:00Z', end: '2018-11-09T13:00:00Z' }
   const connector = createAirNowConnector({ getKey: async () => KEY })
