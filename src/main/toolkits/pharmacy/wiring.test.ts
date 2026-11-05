@@ -12,6 +12,7 @@ vi.mock('electron', () => ({
 }))
 process.env.TTX_RESOURCES = resolve('.')
 
+await import('../../render/figures')
 const { ToolkitSchema } = await import('@shared/toolkits')
 const { fieldLintIssues, fieldLintRuleIds } = await import('../lint-rules')
 const { unknownCapabilityWarnings } = await import('../capabilities')

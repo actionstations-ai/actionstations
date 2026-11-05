@@ -1,0 +1,486 @@
+{
+  "variant": "pharmacy_cold_chain_chart",
+  "fields": {
+    "heading": "Refrigerator R-2 during the power loss",
+    "source": "Simulated freezer failure, fictional clinic",
+    "figures": {
+      "main": {
+        "kind": "pharmacy_cold_chain_chart",
+        "data": {
+          "title": "Refrigerator R-2: probe temperature",
+          "unit": "Refrigerator R-2",
+          "source": "Simulated probe",
+          "lowC": 2,
+          "highC": 8,
+          "xLabel": "Minutes from 22:00",
+          "probe": [
+            {
+              "x": 0,
+              "tempC": 4.2
+            },
+            {
+              "x": 20,
+              "tempC": 4.3
+            },
+            {
+              "x": 40,
+              "tempC": 4.4
+            },
+            {
+              "x": 60,
+              "tempC": 4.5
+            },
+            {
+              "x": 80,
+              "tempC": 4.6
+            },
+            {
+              "x": 100,
+              "tempC": 4.6
+            },
+            {
+              "x": 120,
+              "tempC": 4.6
+            },
+            {
+              "x": 140,
+              "tempC": 4.5
+            },
+            {
+              "x": 160,
+              "tempC": 4.4
+            },
+            {
+              "x": 180,
+              "tempC": 4.3
+            },
+            {
+              "x": 200,
+              "tempC": 4.1
+            },
+            {
+              "x": 220,
+              "tempC": 4
+            },
+            {
+              "x": 240,
+              "tempC": 3.9
+            },
+            {
+              "x": 260,
+              "tempC": 5.3
+            },
+            {
+              "x": 280,
+              "tempC": 6.2
+            },
+            {
+              "x": 300,
+              "tempC": 7.1
+            },
+            {
+              "x": 320,
+              "tempC": 8
+            },
+            {
+              "x": 340,
+              "tempC": 8.9
+            },
+            {
+              "x": 360,
+              "tempC": 9.8
+            },
+            {
+              "x": 380,
+              "tempC": 10.7
+            },
+            {
+              "x": 400,
+              "tempC": 11.6
+            },
+            {
+              "x": 420,
+              "tempC": 12.5
+            },
+            {
+              "x": 440,
+              "tempC": 10.5
+            },
+            {
+              "x": 460,
+              "tempC": 8.5
+            },
+            {
+              "x": 480,
+              "tempC": 6.5
+            }
+          ],
+          "ambient": [
+            {
+              "x": 0,
+              "tempC": 21
+            },
+            {
+              "x": 20,
+              "tempC": 21
+            },
+            {
+              "x": 40,
+              "tempC": 21
+            },
+            {
+              "x": 60,
+              "tempC": 21
+            },
+            {
+              "x": 80,
+              "tempC": 21
+            },
+            {
+              "x": 100,
+              "tempC": 21
+            },
+            {
+              "x": 120,
+              "tempC": 21
+            },
+            {
+              "x": 140,
+              "tempC": 21
+            },
+            {
+              "x": 160,
+              "tempC": 21
+            },
+            {
+              "x": 180,
+              "tempC": 21
+            },
+            {
+              "x": 200,
+              "tempC": 21
+            },
+            {
+              "x": 220,
+              "tempC": 21
+            },
+            {
+              "x": 240,
+              "tempC": 21
+            },
+            {
+              "x": 260,
+              "tempC": 21
+            },
+            {
+              "x": 280,
+              "tempC": 21
+            },
+            {
+              "x": 300,
+              "tempC": 21
+            },
+            {
+              "x": 320,
+              "tempC": 21
+            },
+            {
+              "x": 340,
+              "tempC": 21
+            },
+            {
+              "x": 360,
+              "tempC": 21
+            },
+            {
+              "x": 380,
+              "tempC": 21
+            },
+            {
+              "x": 400,
+              "tempC": 21
+            },
+            {
+              "x": 420,
+              "tempC": 21
+            },
+            {
+              "x": 440,
+              "tempC": 21
+            },
+            {
+              "x": 460,
+              "tempC": 21
+            },
+            {
+              "x": 480,
+              "tempC": 21
+            }
+          ]
+        }
+      }
+    }
+  },
+  "variants": {
+    "pharmacy_days_on_hand": {
+      "fields": {
+        "heading": "Saline 1,000 mL bags: days on hand under allocation",
+        "source": "Simulated shortage, fictional hospital",
+        "figures": {
+          "main": {
+            "kind": "pharmacy_days_on_hand",
+            "data": {
+              "title": "Sodium chloride 0.9% 1,000 mL: projected stock",
+              "drug": "Sodium chloride 0.9% injection, 1,000 mL bag",
+              "unit": "bags",
+              "onHand": 1840,
+              "usagePerDay": 460,
+              "deliveriesPerDay": 0,
+              "horizonDays": 10,
+              "scenarios": [
+                {
+                  "label": "No allocation",
+                  "allocationPercent": 100
+                },
+                {
+                  "label": "Allocation at 75%",
+                  "allocationPercent": 75
+                },
+                {
+                  "label": "Allocation at 50%",
+                  "allocationPercent": 50
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "pharmacy_queue_chart": {
+      "fields": {
+        "heading": "Verification queue during the claims outage",
+        "source": "Simulated queue, fictional pharmacy",
+        "figures": {
+          "main": {
+            "kind": "pharmacy_queue_chart",
+            "data": {
+              "title": "Verification queue: age and count",
+              "queue": "Verification",
+              "targetMinutes": 20,
+              "xLabel": "Minutes from 08:30",
+              "points": [
+                {
+                  "x": 0,
+                  "count": 8,
+                  "oldestMinutes": 10
+                },
+                {
+                  "x": 15,
+                  "count": 8,
+                  "oldestMinutes": 10
+                },
+                {
+                  "x": 30,
+                  "count": 8,
+                  "oldestMinutes": 10
+                },
+                {
+                  "x": 45,
+                  "count": 8,
+                  "oldestMinutes": 10
+                },
+                {
+                  "x": 60,
+                  "count": 8,
+                  "oldestMinutes": 10
+                },
+                {
+                  "x": 75,
+                  "count": 11,
+                  "oldestMinutes": 24
+                },
+                {
+                  "x": 90,
+                  "count": 14,
+                  "oldestMinutes": 37
+                },
+                {
+                  "x": 105,
+                  "count": 17,
+                  "oldestMinutes": 51
+                },
+                {
+                  "x": 120,
+                  "count": 20,
+                  "oldestMinutes": 64
+                },
+                {
+                  "x": 135,
+                  "count": 23,
+                  "oldestMinutes": 78
+                },
+                {
+                  "x": 150,
+                  "count": 26,
+                  "oldestMinutes": 91
+                },
+                {
+                  "x": 165,
+                  "count": 29,
+                  "oldestMinutes": 105
+                },
+                {
+                  "x": 180,
+                  "count": 32,
+                  "oldestMinutes": 118
+                },
+                {
+                  "x": 195,
+                  "count": 28,
+                  "oldestMinutes": 97
+                },
+                {
+                  "x": 210,
+                  "count": 25,
+                  "oldestMinutes": 76
+                },
+                {
+                  "x": 225,
+                  "count": 21,
+                  "oldestMinutes": 55
+                },
+                {
+                  "x": 240,
+                  "count": 17,
+                  "oldestMinutes": 34
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "pharmacy_usage_chart": {
+      "fields": {
+        "heading": "Controlled substance removals by hour",
+        "source": "Simulated cabinet data, fictional user code",
+        "figures": {
+          "main": {
+            "kind": "pharmacy_usage_chart",
+            "data": {
+              "title": "Opioid injectables: RN-4471 against peers",
+              "drugClass": "Opioid injectables",
+              "user": "RN-4471",
+              "period": "10/06 to 11/05/2026",
+              "byHour": [
+                3, 16, 18, 14, 16, 18, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6, 3, 4, 5, 6
+              ],
+              "peerMedianByHour": [
+                2, 2, 2, 2, 2, 2, 2, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 5, 6, 7, 2, 2, 2
+              ],
+              "peerMaxByHour": [
+                4, 4, 4, 4, 4, 4, 4, 10, 11, 9, 10, 11, 9, 10, 11, 9, 10, 11, 9, 10, 11, 4, 4, 4
+              ]
+            }
+          }
+        }
+      }
+    },
+    "pharmacy_recall_trace": {
+      "fields": {
+        "heading": "Recall trace for two lots",
+        "source": "Fictional lots and places",
+        "figures": {
+          "main": {
+            "kind": "pharmacy_recall_trace",
+            "data": {
+              "title": "Ondansetron injection: recall trace",
+              "product": "Ondansetron injection, 4 mg/2 mL vial",
+              "lots": [
+                {
+                  "lot": "EX-30417",
+                  "received": 600,
+                  "locations": [
+                    {
+                      "name": "Central pharmacy shelf C4",
+                      "onHand": 140,
+                      "dispensed": 0,
+                      "patients": 0
+                    },
+                    {
+                      "name": "Emergency department cabinet",
+                      "onHand": 48,
+                      "dispensed": 250,
+                      "patients": 212
+                    },
+                    {
+                      "name": "Surgical services cabinet",
+                      "onHand": 0,
+                      "dispensed": 162,
+                      "patients": 140
+                    }
+                  ]
+                },
+                {
+                  "lot": "EX-30418",
+                  "received": 400,
+                  "locations": [
+                    {
+                      "name": "Central pharmacy shelf C4",
+                      "onHand": 40,
+                      "dispensed": 0,
+                      "patients": 0
+                    },
+                    {
+                      "name": "4 West cabinet",
+                      "onHand": 0,
+                      "dispensed": 355,
+                      "patients": 301
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "pharmacy_inventory": {
+      "fields": {
+        "heading": "IV fluid inventory against par",
+        "source": "Fictional hospital",
+        "figures": {
+          "main": {
+            "kind": "pharmacy_inventory",
+            "data": {
+              "title": "IV fluids on hand against par",
+              "unit": "bags",
+              "items": [
+                {
+                  "presentation": "Saline 0.9% 1,000 mL",
+                  "onHand": 1840,
+                  "par": 3000
+                },
+                {
+                  "presentation": "Lactated Ringer 1,000 mL",
+                  "onHand": 1120,
+                  "par": 1500
+                },
+                {
+                  "presentation": "Dextrose 5% 250 mL",
+                  "onHand": 610,
+                  "par": 600
+                },
+                {
+                  "presentation": "Sterile water 1,000 mL",
+                  "onHand": 300,
+                  "par": 500
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pharmacy figure",
+  "description": "A cold chain temperature chart, a days-on-hand projection under allocation scenarios, a queue age and count chart, a controlled substance usage chart against peers, a recall tracing diagram or an inventory by presentation chart, drawn from data. Simulated or fictional, exercise content.",
+  "type": "object",
+  "required": ["figures"],
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the numbers come from, for example 'Simulated freezer failure'"
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: pharmacy_cold_chain_chart, pharmacy_days_on_hand, pharmacy_queue_chart, pharmacy_usage_chart, pharmacy_recall_trace, pharmacy_inventory.",
+      "required": ["main"],
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "pharmacy_cold_chain_chart",
+                "pharmacy_days_on_hand",
+                "pharmacy_queue_chart",
+                "pharmacy_usage_chart",
+                "pharmacy_recall_trace",
+                "pharmacy_inventory"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind (docs/guides/templates.md, Clinical figures)"
+            },
+            "options": {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
