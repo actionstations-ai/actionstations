@@ -370,7 +370,7 @@
       "clueKinds": "Radar signatures, soundings, mesoanalysis parameters, spotter and public reports, and partner questions that show what the storm is doing and whether the evidence is enough to warn.",
       "hurdleKinds": "A radar outage or a dissemination failure in the middle of the warning window; a spotter network that goes quiet; a county siren system that cannot be activated.",
       "keyCoordination": "County and municipal emergency management, the 911 center, SKYWARN spotters, broadcast partners and neighboring forecast offices.",
-      "promptGuidance": "The setup and the warnings must follow the real product sequence: outlook, then mesoscale discussion, then watch, then warnings and statements, then local storm reports and a public information statement. Use exact times and the product header conventions, never invent a watch number that contradicts the documents, and keep every product marked as an exercise.",
+      "promptGuidance": "The setup and the warnings must follow the real product sequence: outlook, then mesoscale discussion, then watch, then warnings and statements, then local storm reports and a public information statement. Use exact times and the product header conventions, never invent a watch number that contradicts the documents, and keep every product marked as an exercise. Write expected actions as checkable critical tasks, for example: Public Information and Warning (a warning carries the right hazard, polygon, duration and impact tags and reaches partners within minutes of the decision); Situational Assessment (radar, soundings and mesoanalysis are reassessed before each warning decision and the basis is recorded); Operational Communications (products are transmitted and partner chat or the 911 center confirms receipt); Planning (the office staffs and splits warning sectors ahead of the event and calls for backup before the warning load exceeds staffing).",
       "lint": {
         "clueRequired": false,
         "clueRole": "operations"
@@ -448,7 +448,7 @@
       "clueKinds": "Rainfall rate estimates, gauge trends, rescue calls and photographs of water over roads.",
       "hurdleKinds": "A gauge that stops reporting; a radar beam blocked in the hills; conflicting rainfall estimates.",
       "keyCoordination": "County emergency management, 911, the river forecast center, road and highway departments and dam or reservoir operators.",
-      "promptGuidance": "Use rainfall in inches over stated hours, gauge stage and flood stage in feet, and keep warnings for flash floods separate from river flood warnings. Reports must come from named gauges, counties and roads in the documents.",
+      "promptGuidance": "Use rainfall in inches over stated hours, gauge stage and flood stage in feet, and keep warnings for flash floods separate from river flood warnings. Reports must come from named gauges, counties and roads in the documents. Write expected actions as checkable critical tasks, for example: Public Information and Warning (the warning states the rainfall, the impact and a clear call to action); Situational Assessment (rainfall estimates, gauges and reports are compared before an emergency is considered); Operational Communications (the hydrologist, the River Forecast Center and emergency management are told what the office expects).",
       "lint": {
         "clueRequired": false,
         "clueRole": "operations"
@@ -529,7 +529,7 @@
       "clueKinds": "Advisory updates, hurricane hunter data, forecast model tracks and surge guidance that change the decision timeline.",
       "hurdleKinds": "A power failure at the emergency operations center; communication loss with the shelter; a traffic jam that slows evacuation.",
       "keyCoordination": "The National Hurricane Center, state and county emergency management, and shelter operators.",
-      "promptGuidance": "Use advisory numbers, issuance times at the standard advisory hours, wind speeds as the product states them, and the watch and warning lead times of the storm products. The decision timeline is: evacuation start equals the arrival of tropical-storm-force winds minus the clearance time.",
+      "promptGuidance": "Use advisory numbers, issuance times at the standard advisory hours, wind speeds as the product states them, and the watch and warning lead times of the storm products. The decision timeline is: evacuation start equals the arrival of tropical-storm-force winds minus the clearance time. Write expected actions as checkable critical tasks, for example: Public Information and Warning (each local statement repeats the advisory hazards for the local area and its timing); Situational Assessment (track and intensity changes are compared with the decision timeline after every advisory); Operational Coordination and Planning (evacuation orders start no later than the arrival of tropical-storm-force winds minus the zone clearance time); Operational Communications (the office, emergency management and broadcasters give the same key facts).",
       "lint": {
         "clueRequired": false,
         "clueRole": "operations"
@@ -872,7 +872,7 @@
       "clueKinds": "System alarms, product transmission logs, partner questions and gaps in the data feed.",
       "hurdleKinds": "A backup circuit that fails; a handoff that loses context; a vendor that cannot restore until morning.",
       "keyCoordination": "Neighboring forecast offices, the regional headquarters, the radar operations center and emergency management.",
-      "promptGuidance": "Describe outages by the system affected and the products that stop, not by vendor. Always state what partners can still rely on during the outage.",
+      "promptGuidance": "Describe outages by the system affected and the products that stop, not by vendor. Always state what partners can still rely on during the outage. Write expected actions as checkable critical tasks, for example: Operational Communications (partners are told within minutes which products they can still rely on); Operational Coordination (a neighboring office or backup is asked to take warning responsibility and confirms); Planning (the continuity of operations plan for radar, dissemination or office loss is followed in order).",
       "lint": {
         "clueRequired": true,
         "clueRole": "technical"

@@ -11,3 +11,7 @@ Included with Action Stations. This pack adds the `meteorology` domain profile: 
 ## Notes
 
 Products in an exercise are exercise products and are marked as such. The exercising organization, its people and its local businesses are fictional; real forecast office identifiers and real weather events can be used.
+
+## Evaluation
+
+The Public Information and Warning, Situational Assessment, Operational Communications and Planning capabilities are shown first in the evaluation guide. The writer is asked for checkable critical tasks in each hazard (a warning with the right hazard, polygon, duration and tags; a basis recorded before each decision; products transmitted and receipt confirmed; staffing and sectors planned ahead), and the guides cite your own plans and directives when you add them. The weather toolkit scores warnings with probability of detection, false alarm ratio, critical success index and lead time, and hurricane evacuation orders against the arrival of tropical-storm-force winds.
