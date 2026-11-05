@@ -40,7 +40,8 @@ describe('ems_fire domain profile', () => {
       'Healthcare coalition',
     ])
       expect(teams).toContain(t)
-    expect(profile.suggestedToolkits).toEqual(['mci_triage', 'hazmat', 'dispatch'])
+    for (const id of ['mci_triage', 'hazmat', 'dispatch', 'media_environment'])
+      expect(profile.suggestedToolkits).toContain(id)
   })
 })
 
