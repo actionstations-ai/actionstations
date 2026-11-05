@@ -1,0 +1,510 @@
+{
+  "variant": "vitals_monitor",
+  "fields": {
+    "heading": "Bedside monitor, 4 West bed 12",
+    "source": "Simulated trajectory: sepsis. Not a real patient.",
+    "figures": {
+      "main": {
+        "kind": "vitals_monitor",
+        "data": {
+          "title": "Monitor trend, last 3 hours",
+          "patient": "Marcus Delgado (simulated)",
+          "xLabel": "Minutes since 07:40",
+          "parameters": [
+            {
+              "key": "heart_rate",
+              "label": "Heart rate",
+              "unit": "/min",
+              "low": 50,
+              "high": 110,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 88
+                },
+                {
+                  "x": 30,
+                  "y": 92
+                },
+                {
+                  "x": 60,
+                  "y": 99
+                },
+                {
+                  "x": 90,
+                  "y": 108
+                },
+                {
+                  "x": 120,
+                  "y": 117
+                },
+                {
+                  "x": 150,
+                  "y": 124
+                },
+                {
+                  "x": 180,
+                  "y": 126
+                }
+              ]
+            },
+            {
+              "key": "blood_pressure",
+              "label": "Blood pressure",
+              "unit": "mmHg",
+              "low": 90,
+              "high": 160,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 124,
+                  "y2": 74
+                },
+                {
+                  "x": 30,
+                  "y": 118,
+                  "y2": 70
+                },
+                {
+                  "x": 60,
+                  "y": 110,
+                  "y2": 66
+                },
+                {
+                  "x": 90,
+                  "y": 102,
+                  "y2": 62
+                },
+                {
+                  "x": 120,
+                  "y": 94,
+                  "y2": 58
+                },
+                {
+                  "x": 150,
+                  "y": 88,
+                  "y2": 54
+                },
+                {
+                  "x": 180,
+                  "y": 82,
+                  "y2": 50
+                }
+              ]
+            },
+            {
+              "key": "respiratory_rate",
+              "label": "Respiratory rate",
+              "unit": "/min",
+              "low": 10,
+              "high": 24,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 16
+                },
+                {
+                  "x": 30,
+                  "y": 17
+                },
+                {
+                  "x": 60,
+                  "y": 18
+                },
+                {
+                  "x": 90,
+                  "y": 20
+                },
+                {
+                  "x": 120,
+                  "y": 22
+                },
+                {
+                  "x": 150,
+                  "y": 25
+                },
+                {
+                  "x": 180,
+                  "y": 26
+                }
+              ]
+            },
+            {
+              "key": "oxygen_saturation",
+              "label": "Oxygen saturation",
+              "unit": "%",
+              "low": 92,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 97
+                },
+                {
+                  "x": 30,
+                  "y": 96
+                },
+                {
+                  "x": 60,
+                  "y": 95
+                },
+                {
+                  "x": 90,
+                  "y": 94
+                },
+                {
+                  "x": 120,
+                  "y": 93
+                },
+                {
+                  "x": 150,
+                  "y": 92
+                },
+                {
+                  "x": 180,
+                  "y": 91
+                }
+              ]
+            },
+            {
+              "key": "temperature",
+              "label": "Temperature",
+              "unit": "C",
+              "low": 36,
+              "high": 38.3,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 37.2
+                },
+                {
+                  "x": 30,
+                  "y": 37.4
+                },
+                {
+                  "x": 60,
+                  "y": 37.9
+                },
+                {
+                  "x": 90,
+                  "y": 38.3
+                },
+                {
+                  "x": 120,
+                  "y": 38.6
+                },
+                {
+                  "x": 150,
+                  "y": 38.8
+                },
+                {
+                  "x": 180,
+                  "y": 38.9
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "variants": {
+    "vitals_flowsheet": {
+      "fields": {
+        "heading": "Vital signs flowsheet",
+        "source": "Simulated record, 4 West bed 12",
+        "figures": {
+          "main": {
+            "kind": "vitals_flowsheet",
+            "data": {
+              "title": "Flowsheet, 07:40 to 10:40",
+              "patient": "Marcus Delgado (simulated)",
+              "columns": [
+                {
+                  "label": "HR",
+                  "unit": "/min",
+                  "low": 50,
+                  "high": 110
+                },
+                {
+                  "label": "BP",
+                  "unit": "mmHg",
+                  "low": 90,
+                  "high": 160
+                },
+                {
+                  "label": "RR",
+                  "unit": "/min",
+                  "low": 10,
+                  "high": 24
+                },
+                {
+                  "label": "SpO2",
+                  "unit": "%",
+                  "low": 92
+                },
+                {
+                  "label": "Temp",
+                  "unit": "C",
+                  "low": 36,
+                  "high": 38.3
+                }
+              ],
+              "rows": [
+                {
+                  "time": "07:40",
+                  "values": [88, "124/74", 16, 97, 37.2]
+                },
+                {
+                  "time": "08:10",
+                  "values": [92, "118/70", 17, 96, 37.4]
+                },
+                {
+                  "time": "08:40",
+                  "values": [99, "110/66", 18, 95, 37.9]
+                },
+                {
+                  "time": "09:10",
+                  "values": [108, "102/62", 20, 94, 38.3]
+                },
+                {
+                  "time": "09:40",
+                  "values": [117, "94/58", 22, 93, 38.6]
+                },
+                {
+                  "time": "10:10",
+                  "values": [124, "88/54", 25, 92, 38.8]
+                },
+                {
+                  "time": "10:40",
+                  "values": [126, "82/50", 26, 91, 38.9]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "early_warning_score": {
+      "fields": {
+        "heading": "Early warning score at 10:40",
+        "source": "Simulated record, 4 West bed 12",
+        "figures": {
+          "main": {
+            "kind": "early_warning_score",
+            "data": {
+              "title": "Early warning score",
+              "time": "10:40",
+              "reading": {
+                "respiratory_rate": 26,
+                "oxygen_saturation": 91,
+                "systolic_bp": 82,
+                "heart_rate": 126,
+                "temperature": 38.9,
+                "consciousness": "New confusion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "lab_trend": {
+      "fields": {
+        "heading": "Lactate trend",
+        "source": "Simulated laboratory results",
+        "figures": {
+          "main": {
+            "kind": "lab_trend",
+            "data": {
+              "title": "Lactate over 12 hours",
+              "test": "Lactate",
+              "unit": "mmol/L",
+              "xLabel": "Hours since admission to unit",
+              "low": 0.5,
+              "high": 2.0,
+              "criticalHigh": 4.0,
+              "points": [
+                {
+                  "x": 0,
+                  "y": 1.1
+                },
+                {
+                  "x": 4,
+                  "y": 1.4
+                },
+                {
+                  "x": 8,
+                  "y": 1.8
+                },
+                {
+                  "x": 10,
+                  "y": 2.9
+                },
+                {
+                  "x": 11,
+                  "y": 4.8
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "staffing_vs_demand": {
+      "fields": {
+        "heading": "4 West staffing against demand",
+        "source": "Simulated staffing grid",
+        "figures": {
+          "main": {
+            "kind": "staffing_vs_demand",
+            "data": {
+              "title": "Nurses needed and on duty, day shift",
+              "unit": "4 West",
+              "xLabel": "Hour of the day",
+              "hours": [
+                {
+                  "x": 7,
+                  "needed": 4,
+                  "onDuty": 3
+                },
+                {
+                  "x": 9,
+                  "needed": 4,
+                  "onDuty": 3
+                },
+                {
+                  "x": 11,
+                  "needed": 5,
+                  "onDuty": 3
+                },
+                {
+                  "x": 13,
+                  "needed": 6,
+                  "onDuty": 4
+                },
+                {
+                  "x": 15,
+                  "needed": 6,
+                  "onDuty": 5
+                },
+                {
+                  "x": 17,
+                  "needed": 5,
+                  "onDuty": 5
+                },
+                {
+                  "x": 19,
+                  "needed": 4,
+                  "onDuty": 4
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "unit_census": {
+      "fields": {
+        "heading": "4 West bed board",
+        "source": "Simulated census",
+        "figures": {
+          "main": {
+            "kind": "unit_census",
+            "data": {
+              "title": "Bed board, 14:00",
+              "unit": "4 West",
+              "asOf": "14:00",
+              "nursesOnDuty": 3,
+              "beds": [
+                {
+                  "bed": "10",
+                  "state": "occupied",
+                  "note": "M.D.",
+                  "acuity": "Unstable"
+                },
+                {
+                  "bed": "11",
+                  "state": "occupied",
+                  "note": "A.K."
+                },
+                {
+                  "bed": "12",
+                  "state": "occupied",
+                  "note": "R.T.",
+                  "acuity": "Watch"
+                },
+                {
+                  "bed": "13",
+                  "state": "empty"
+                },
+                {
+                  "bed": "14",
+                  "state": "isolation",
+                  "note": "C. diff"
+                },
+                {
+                  "bed": "15",
+                  "state": "isolation",
+                  "note": "C. diff"
+                },
+                {
+                  "bed": "16",
+                  "state": "occupied",
+                  "note": "L.P."
+                },
+                {
+                  "bed": "17",
+                  "state": "blocked",
+                  "note": "Broken bed"
+                },
+                {
+                  "bed": "18",
+                  "state": "empty"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "evacuation_progress": {
+      "fields": {
+        "heading": "ICU evacuation progress",
+        "source": "Simulated tracking sheet",
+        "figures": {
+          "main": {
+            "kind": "evacuation_progress",
+            "data": {
+              "title": "ICU evacuation, 03:10",
+              "unit": "ICU",
+              "elapsed": "40 minutes",
+              "groups": [
+                {
+                  "label": "Ventilated patients",
+                  "total": 4,
+                  "moved": 2,
+                  "note": "Batteries checked every 15 minutes"
+                },
+                {
+                  "label": "Infusion-dependent",
+                  "total": 3,
+                  "moved": 1
+                },
+                {
+                  "label": "Walking with assistance",
+                  "total": 5,
+                  "moved": 5
+                },
+                {
+                  "label": "Cannot be moved safely",
+                  "total": 1,
+                  "moved": 0,
+                  "note": "A nurse stays"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
