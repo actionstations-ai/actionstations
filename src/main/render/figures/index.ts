@@ -4,6 +4,7 @@
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { annotatedTimelineKind } from './annotated-timeline'
+import './animal'
 import './epi'
 import './ems'
 import './hazmat'
