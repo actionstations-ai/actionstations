@@ -1,0 +1,74 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Office of the General Counsel</div>
+    </div>
+    <div class="doc-title">Ransom decision paper</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Incident</th>
+      <td>{{fields.incident}}</td>
+      <th>As of</th>
+      <td class="mono">{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>Prepared by</th>
+      <td>{{fields.preparedBy}}</td>
+      <th>Decision</th>
+      <td>{{fields.decision}}</td>
+    </tr>
+  </table>
+  {{#if fields.demand}}
+  <h2>The demand</h2>
+  <p>{{fields.demand}}</p>
+  {{/if}} {{#if fields.options.length}}
+  <h2>Options</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Consequences</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.options}}
+      <tr>
+        <td>{{this.option}}</td>
+        <td>{{this.consequences}}</td>
+        <td class="c">{{this.timeNeeded}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.sanctionsScreening}}
+  <h2>Sanctions screening</h2>
+  <p>{{fields.sanctionsScreening}}</p>
+  {{/if}} {{#if fields.insurerPosition}}
+  <h2>Insurer position</h2>
+  <p>{{fields.insurerPosition}}</p>
+  {{/if}} {{#if fields.lawEnforcement}}
+  <h2>Law enforcement</h2>
+  <p>{{fields.lawEnforcement}}</p>
+  {{/if}} {{#if fields.recommendation}}
+  <h2>Recommendation</h2>
+  <p>{{fields.recommendation}}</p>
+  {{/if}}
+  <div class="box">
+    <strong>Decision:</strong> <span class="status">{{fields.decision}}</span> {{#if
+    fields.decidedBy}}<br />By: {{fields.decidedBy}}{{/if}}{{#if fields.decidedAt}} at
+    {{fields.decidedAt}}{{/if}} {{#if fields.disclosureNote}}<br />{{fields.disclosureNote}}{{/if}}
+  </div>
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Ransom decision paper</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

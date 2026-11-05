@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Form 8-K disclosure draft",
+  "description": "A draft Form 8-K cybersecurity disclosure. Item 1.05 (material cybersecurity incidents) states the nature, scope and timing of the incident and its material impact or reasonably likely material impact. Item 8.01 (other events) describes an incident without a materiality determination and does not claim materiality. The company is fictional and no trading symbol is shown.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "item",
+    "dateOfReport",
+    "headline",
+    "nature",
+    "scope",
+    "timing",
+    "materialImpact"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "item": {
+      "type": "string",
+      "description": "8-K item",
+      "examples": ["1.05"],
+      "enum": ["1.05", "8.01"],
+      "x-translate": false
+    },
+    "commissionFile": {
+      "type": "string",
+      "description": "Commission file number (fictional)",
+      "examples": ["001-00000"],
+      "x-translate": false
+    },
+    "dateOfReport": {
+      "type": "string",
+      "description": "Date of report",
+      "examples": ["October 27, 2026"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Item heading",
+      "examples": ["Material Cybersecurity Incidents"]
+    },
+    "nature": {
+      "type": "string",
+      "description": "Nature of the incident",
+      "examples": ["Ransomware on operational and administrative systems."]
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scope of the incident",
+      "examples": ["Systems at two of five plants, and file servers."]
+    },
+    "timing": {
+      "type": "string",
+      "description": "Timing of the incident",
+      "examples": ["Discovered October 22, 2026; ongoing recovery."]
+    },
+    "materialImpact": {
+      "type": "string",
+      "description": "Material impact or reasonably likely material impact (Item 1.05) or current effect (Item 8.01)",
+      "examples": [
+        "The incident has disrupted production and is reasonably likely to materially affect financial condition and results of operations."
+      ]
+    },
+    "remediation": {
+      "type": "string",
+      "description": "Response and recovery",
+      "examples": [
+        "Engaged outside experts, notified law enforcement and restored systems in stages."
+      ]
+    },
+    "notYetDetermined": {
+      "type": "string",
+      "description": "Information not yet determined",
+      "examples": [
+        "The company is still assessing whether personal data was taken and will amend this report."
+      ]
+    },
+    "forwardLooking": {
+      "type": "string",
+      "description": "Forward-looking statement notice",
+      "examples": [
+        "This report contains forward-looking statements that involve risks and uncertainties."
+      ]
+    },
+    "signatory": {
+      "type": "string",
+      "description": "Signature block",
+      "examples": ["By: Dana Whitcomb, General Counsel"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

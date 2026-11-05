@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business impact analysis table",
+  "description": "A business impact analysis: each critical function with its owner, recovery time objective (RTO), recovery point objective (RPO), impact over time and dependencies. RTOs and RPOs are the designer's numbers, not a standard.",
+  "type": "object",
+  "required": ["exerciseAid", "company", "title", "functions"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Table title",
+      "examples": ["Business impact analysis: critical functions"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date of the analysis",
+      "examples": ["Reviewed March 2026"],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Business Continuity Manager"],
+      "x-translate": false
+    },
+    "functions": {
+      "type": "array",
+      "description": "Critical functions",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["function", "owner"],
+        "properties": {
+          "function": {
+            "type": "string",
+            "description": "Function"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "x-translate": false
+          },
+          "rto": {
+            "type": "string",
+            "description": "RTO",
+            "x-translate": false
+          },
+          "rpo": {
+            "type": "string",
+            "description": "RPO",
+            "x-translate": false
+          },
+          "impact4h": {
+            "type": "string",
+            "description": "Impact at 4 hours"
+          },
+          "impact24h": {
+            "type": "string",
+            "description": "Impact at 24 hours"
+          },
+          "impact72h": {
+            "type": "string",
+            "description": "Impact at 72 hours"
+          },
+          "dependencies": {
+            "type": "string",
+            "description": "Dependencies"
+          }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Assumptions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["RTOs assume the alternate site has power."]]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Risk and finance</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.kind "insurer_notice")}}Insurer notice{{else}}Auditor inquiry{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>To</th>
+      <td>{{fields.to}}</td>
+      <th>Date</th>
+      <td class="mono">{{fields.date}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Reference</th>
+      <td class="mono">{{fields.policy}}</td>
+    </tr>
+  </table>
+  <table class="kv">
+    <tr>
+      <th>Subject</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  {{#if fields.body}}
+  <h2>Letter</h2>
+  <p>{{fields.body}}</p>
+  {{/if}} {{#if fields.items.length}}
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.item}}</td>
+        <td>{{this.detail}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.request}}
+  <h2>Request</h2>
+  <p>{{fields.request}}</p>
+  {{/if}} {{#if fields.reservation}}
+  <h2>Limits</h2>
+  <p>{{fields.reservation}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Notice</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

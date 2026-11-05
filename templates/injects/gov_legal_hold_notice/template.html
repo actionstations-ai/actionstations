@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Legal department</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.kind "legal_hold")}}Legal hold notice{{else}}Privilege reminder{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>To</th>
+      <td>{{fields.to}}</td>
+      <th>Date</th>
+      <td class="mono">{{fields.date}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Matter</th>
+      <td>{{fields.matter}}</td>
+    </tr>
+  </table>
+  {{#if fields.summary}}
+  <h2>Why you are receiving this</h2>
+  <p>{{fields.summary}}</p>
+  {{/if}} {{#if fields.instructions.length}}
+  <h2>What you must do</h2>
+  <ol>
+    {{#each fields.instructions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.scope}}
+  <h2>Covered</h2>
+  <p>{{fields.scope}}</p>
+  {{/if}} {{#if fields.autoDelete}}
+  <h2>Automatic deletion</h2>
+  <p>{{fields.autoDelete}}</p>
+  {{/if}} {{#if fields.contact}}
+  <h2>Questions</h2>
+  <p>{{fields.contact}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Legal notice</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

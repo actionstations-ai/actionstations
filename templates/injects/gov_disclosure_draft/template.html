@@ -1,0 +1,49 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Draft for disclosure committee review</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.item "1.05")}}Form 8-K · Item 1.05{{else}}Form 8-K · Item 8.01{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Date of report</th>
+      <td class="mono">{{fields.dateOfReport}}</td>
+      <th>Commission file no.</th>
+      <td class="mono">{{fields.commissionFile}}</td>
+    </tr>
+  </table>
+  <h2>Item {{fields.item}}. {{fields.headline}}</h2>
+  <p>{{fields.nature}}</p>
+  <h2>Scope</h2>
+  <p>{{fields.scope}}</p>
+  <h2>Timing</h2>
+  <p>{{fields.timing}}</p>
+  <h2>{{#if (eq fields.item "1.05")}}Impact{{else}}Current effect{{/if}}</h2>
+  <p>{{fields.materialImpact}}</p>
+  {{#if fields.remediation}}
+  <h2>Response</h2>
+  <p>{{fields.remediation}}</p>
+  {{/if}} {{#if fields.notYetDetermined}}
+  <h2>Information not yet determined</h2>
+  <p>{{fields.notYetDetermined}}</p>
+  {{/if}} {{#if fields.forwardLooking}}
+  <h2>Forward-looking statements</h2>
+  <p>{{fields.forwardLooking}}</p>
+  {{/if}} {{#if fields.signatory}}
+  <p class="sign">{{fields.signatory}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Draft 8-K</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

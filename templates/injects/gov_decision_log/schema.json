@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision log",
+  "description": "The record of decisions made during an incident: when, what was decided, by whom, what was known at that time and the basis. A decision with no owner or basis is a documentation gap.",
+  "type": "object",
+  "required": ["exerciseAid", "company", "incident", "entries"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Plant systems ransomware"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Log printed at",
+      "examples": ["October 27, 2026, 5:00 p.m."],
+      "x-translate": false
+    },
+    "keeper": {
+      "type": "string",
+      "description": "Log keeper",
+      "examples": ["Deputy General Counsel"],
+      "x-translate": false
+    },
+    "entries": {
+      "type": "array",
+      "description": "Decisions",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "decision"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "x-translate": false
+          },
+          "decision": {
+            "type": "string",
+            "description": "Decision"
+          },
+          "decidedBy": {
+            "type": "string",
+            "description": "Decided by",
+            "x-translate": false
+          },
+          "informationKnown": {
+            "type": "string",
+            "description": "Information known then"
+          },
+          "basis": {
+            "type": "string",
+            "description": "Basis"
+          },
+          "followUp": {
+            "type": "string",
+            "description": "Follow-up"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

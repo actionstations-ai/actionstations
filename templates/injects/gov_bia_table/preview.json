@@ -1,0 +1,76 @@
+{
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE",
+    "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "company": "Ardent Ridge Manufacturing, Inc.",
+    "title": "Business impact analysis: critical functions",
+    "asOf": "Reviewed March 2026",
+    "preparedBy": "Business Continuity Manager",
+    "functions": [
+      {
+        "function": "Order entry and billing",
+        "owner": "VP Sales Operations",
+        "rto": "4 h",
+        "rpo": "1 h",
+        "impact4h": "Low",
+        "impact24h": "High",
+        "impact72h": "Severe",
+        "dependencies": "ERP; payment processor; Reno data center"
+      },
+      {
+        "function": "Plant production scheduling",
+        "owner": "COO",
+        "rto": "8 h",
+        "rpo": "4 h",
+        "impact4h": "Medium",
+        "impact24h": "High",
+        "impact72h": "Severe",
+        "dependencies": "Scheduling system; plant network; MES"
+      },
+      {
+        "function": "Payroll",
+        "owner": "CFO",
+        "rto": "48 h",
+        "rpo": "24 h",
+        "impact4h": "Low",
+        "impact24h": "Low",
+        "impact72h": "High",
+        "dependencies": "HR system; bank interface"
+      },
+      {
+        "function": "Customer support",
+        "owner": "VP Customer Care",
+        "rto": "12 h",
+        "rpo": "4 h",
+        "impact4h": "Low",
+        "impact24h": "Medium",
+        "impact72h": "High",
+        "dependencies": "Ticketing SaaS; telephony"
+      },
+      {
+        "function": "Regulatory and SEC reporting",
+        "owner": "General Counsel",
+        "rto": "24 h",
+        "rpo": "24 h",
+        "impact4h": "Low",
+        "impact24h": "Medium",
+        "impact72h": "Severe",
+        "dependencies": "Document management; EDGAR filing agent"
+      },
+      {
+        "function": "Shipping and logistics",
+        "owner": "VP Supply Chain",
+        "rto": "12 h",
+        "rpo": "4 h",
+        "impact4h": "Medium",
+        "impact24h": "High",
+        "impact72h": "Severe",
+        "dependencies": "Warehouse system; carrier portals"
+      }
+    ],
+    "assumptions": [
+      "RTOs assume the alternate site has power and network.",
+      "Impact grades: Low, Medium, High, Severe, set by function owners."
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ransom payment decision paper",
+  "description": "The decision paper for a ransom demand: the demand, options with their consequences, the sanctions screening result, the insurer position, law enforcement contact, the recommendation and the decision with who made it and when. It informs a decision; it is not advice to pay.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "incident",
+    "asOf",
+    "demand",
+    "options",
+    "sanctionsScreening",
+    "insurerPosition",
+    "recommendation",
+    "decision"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Plant systems ransomware"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the paper",
+      "examples": ["October 24, 2026, 7:30 p.m."],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["General Counsel with outside counsel"],
+      "x-translate": false
+    },
+    "demand": {
+      "type": "string",
+      "description": "The demand",
+      "examples": ["A payment in cryptocurrency within seven days; otherwise data is published."]
+    },
+    "options": {
+      "type": "array",
+      "description": "Options",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["option", "consequences"],
+        "properties": {
+          "option": {
+            "type": "string",
+            "description": "Option"
+          },
+          "consequences": {
+            "type": "string",
+            "description": "Consequences"
+          },
+          "timeNeeded": {
+            "type": "string",
+            "description": "Time needed",
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "sanctionsScreening": {
+      "type": "string",
+      "description": "Sanctions screening result",
+      "examples": [
+        "Screening by outside counsel found no match; the check is dated and will be repeated before any payment."
+      ]
+    },
+    "insurerPosition": {
+      "type": "string",
+      "description": "Insurer position",
+      "examples": [
+        "The insurer's approval is required before any payment; coverage up to $5M after the retention."
+      ]
+    },
+    "lawEnforcement": {
+      "type": "string",
+      "description": "Law enforcement contact",
+      "examples": ["FBI field office informed October 22; asked for notice before any payment."]
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Management recommendation",
+      "examples": ["Do not pay now; continue restoring from backups."]
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision",
+      "examples": ["pending"],
+      "enum": ["pending", "pay", "do not pay", "defer"]
+    },
+    "decidedBy": {
+      "type": "string",
+      "description": "Decided by",
+      "examples": ["CEO with board approval"],
+      "x-translate": false
+    },
+    "decidedAt": {
+      "type": "string",
+      "description": "When decided",
+      "examples": ["October 24, 2026, 8:15 p.m."],
+      "x-translate": false
+    },
+    "disclosureNote": {
+      "type": "string",
+      "description": "Note on disclosure",
+      "examples": ["Payment or refusal does not remove the duty to decide on materiality."]
+    }
+  },
+  "additionalProperties": false
+}
