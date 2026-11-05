@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Camp health surveillance report",
+  "description": "A weekly camp health surveillance report for an outbreak response: population, cases, deaths, attack rate and case fatality with the block breakdown. Attack rate is cases divided by population; case fatality is deaths divided by cases. Counts are simulated and fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "week",
+    "condition",
+    "population",
+    "cases",
+    "deaths",
+    "attackRate",
+    "caseFatality"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Site Health Team, Soma Valley Site 2"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Health cluster reporting"],
+      "x-translate": false
+    },
+    "week": {
+      "type": "string",
+      "description": "Reporting week",
+      "examples": ["Week 43 (19 to 25 October 2026)"],
+      "x-translate": false
+    },
+    "condition": {
+      "type": "string",
+      "description": "Condition under surveillance",
+      "examples": ["Acute watery diarrhoea, suspected cholera"]
+    },
+    "caseDefinition": {
+      "type": "string",
+      "description": "Case definition in use",
+      "examples": [
+        "Suspected case: a person aged 2 or more with acute watery diarrhoea. Confirmed case: positive culture or rapid test followed by laboratory confirmation."
+      ]
+    },
+    "population": {
+      "type": "string",
+      "description": "Site population",
+      "examples": ["18,400"],
+      "x-translate": false
+    },
+    "cases": {
+      "type": "string",
+      "description": "Cases this week",
+      "examples": ["142"],
+      "x-translate": false
+    },
+    "deaths": {
+      "type": "string",
+      "description": "Deaths this week",
+      "examples": ["3"],
+      "x-translate": false
+    },
+    "attackRate": {
+      "type": "string",
+      "description": "Attack rate (cases divided by population)",
+      "examples": ["0.77%"],
+      "x-translate": false
+    },
+    "caseFatality": {
+      "type": "string",
+      "description": "Case fatality (deaths divided by cases)",
+      "examples": ["2.1%"],
+      "x-translate": false
+    },
+    "blocks": {
+      "type": "array",
+      "description": "By block",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "block": {
+            "type": "string",
+            "description": "Block",
+            "examples": ["Block A"],
+            "x-translate": false
+          },
+          "population": {
+            "type": "string",
+            "description": "Population",
+            "examples": ["5,100"],
+            "x-translate": false
+          },
+          "cases": {
+            "type": "string",
+            "description": "Cases",
+            "examples": ["48"],
+            "x-translate": false
+          },
+          "deaths": {
+            "type": "string",
+            "description": "Deaths",
+            "examples": ["1"],
+            "x-translate": false
+          }
+        },
+        "required": ["block", "population", "cases", "deaths"]
+      },
+      "examples": [
+        [
+          {
+            "block": "Block A",
+            "population": "5,100",
+            "cases": "48",
+            "deaths": "1"
+          },
+          {
+            "block": "Block B",
+            "population": "6,200",
+            "cases": "71",
+            "deaths": "2"
+          },
+          {
+            "block": "Block C",
+            "population": "7,100",
+            "cases": "23",
+            "deaths": "0"
+          }
+        ]
+      ]
+    },
+    "response": {
+      "type": "string",
+      "description": "Response this week",
+      "examples": [
+        "Oral rehydration points opened in blocks A and B; chlorination at all water points; hygiene messages by community mobilisers."
+      ]
+    },
+    "needs": {
+      "type": "array",
+      "description": "Needs raised to the clusters",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Treatment centre beds: 20 more for block B", "Chlorine tablets for three weeks"]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

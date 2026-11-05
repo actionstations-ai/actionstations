@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Community feedback and complaint log",
+  "description": "A community feedback and complaint log for a site: each entry has a channel, a kind, a summary without names, a status and the response given. People are never named. Sites are fictional.",
+  "type": "object",
+  "required": ["organization", "period"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Camp management, Soma Valley Site 2"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "Period",
+      "examples": ["17 to 18 October 2026"],
+      "x-translate": false
+    },
+    "entries": {
+      "type": "array",
+      "description": "Entries",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Entry id",
+            "examples": ["CF-041"],
+            "x-translate": false
+          },
+          "date": {
+            "type": "string",
+            "description": "Date",
+            "examples": ["17 Oct"],
+            "x-translate": false
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel",
+            "examples": ["Suggestion box"]
+          },
+          "type": {
+            "type": "string",
+            "description": "Kind of feedback",
+            "enum": ["question", "request", "complaint", "praise"],
+            "examples": ["complaint"]
+          },
+          "summary": {
+            "type": "string",
+            "description": "What was said, without names",
+            "examples": ["Latrines in block B are far from the new arrivals and unlit at night."]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "enum": ["open", "closed"],
+            "examples": ["open"]
+          },
+          "response": {
+            "type": "string",
+            "description": "Response given",
+            "examples": ["Site team to add lights and two latrines by 21 October."]
+          }
+        },
+        "required": ["id", "date", "channel", "type", "summary", "status"]
+      },
+      "examples": [
+        [
+          {
+            "id": "CF-041",
+            "date": "17 Oct",
+            "channel": "Suggestion box",
+            "type": "complaint",
+            "summary": "Latrines in block B are far from the new arrivals and unlit at night.",
+            "status": "open",
+            "response": "Site team to add lights and two latrines by 21 October."
+          },
+          {
+            "id": "CF-042",
+            "date": "17 Oct",
+            "channel": "Community meeting",
+            "type": "question",
+            "summary": "When is the next food distribution?",
+            "status": "closed",
+            "response": "Round 3 is planned for 24 October; dates will be posted at the site office."
+          },
+          {
+            "id": "CF-043",
+            "date": "18 Oct",
+            "channel": "Hotline",
+            "type": "praise",
+            "summary": "The mobile clinic team was quick to see children.",
+            "status": "closed",
+            "response": "Passed to the health team."
+          }
+        ]
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary and what is escalated",
+      "examples": [
+        "3 entries: 1 open, 2 closed. The open complaint is raised with the WASH cluster."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

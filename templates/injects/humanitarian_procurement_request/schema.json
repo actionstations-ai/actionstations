@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Procurement request",
+  "description": "A procurement request for relief items: items, quantities, estimated cost, need-by dates, the justification and the budget line. Approval decisions are recorded by role. Organizations are fictional.",
+  "type": "object",
+  "required": ["organization", "requestId", "requester", "date", "urgency", "justification"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Logistics"],
+      "x-translate": false
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Request reference",
+      "examples": ["PR-2026-0412"],
+      "x-translate": false
+    },
+    "requester": {
+      "type": "string",
+      "description": "Requesting role",
+      "examples": ["Water, Sanitation and Hygiene Officer"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["19 October 2026"],
+      "x-translate": false
+    },
+    "urgency": {
+      "type": "string",
+      "description": "Urgency",
+      "enum": ["routine", "urgent", "emergency"],
+      "examples": ["urgent"]
+    },
+    "items": {
+      "type": "array",
+      "description": "Items requested",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Chlorine tablets (water treatment)"]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity",
+            "examples": ["40,000"],
+            "x-translate": false
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit",
+            "examples": ["tablets"],
+            "x-translate": false
+          },
+          "cost": {
+            "type": "string",
+            "description": "Estimated cost, US dollars",
+            "examples": ["3,200"],
+            "x-translate": false
+          },
+          "needBy": {
+            "type": "string",
+            "description": "Needed by",
+            "examples": ["24 Oct"],
+            "x-translate": false
+          }
+        },
+        "required": ["item", "quantity", "unit"]
+      },
+      "examples": [
+        [
+          {
+            "item": "Chlorine tablets (water treatment)",
+            "quantity": "40,000",
+            "unit": "tablets",
+            "cost": "3,200",
+            "needBy": "24 Oct"
+          },
+          {
+            "item": "Jerrycans, 20 litre",
+            "quantity": "2,000",
+            "unit": "pieces",
+            "cost": "5,600",
+            "needBy": "24 Oct"
+          }
+        ]
+      ]
+    },
+    "justification": {
+      "type": "string",
+      "description": "Why it is needed",
+      "examples": [
+        "Chlorine stock at the Soma Valley water points covers four days. Local supply is limited and a regional order takes two weeks."
+      ]
+    },
+    "budgetLine": {
+      "type": "string",
+      "description": "Budget line",
+      "examples": ["Flash appeal, water sanitation and hygiene, 2.3"],
+      "x-translate": false
+    },
+    "approver": {
+      "type": "string",
+      "description": "Approver (role)",
+      "examples": ["Country Director"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

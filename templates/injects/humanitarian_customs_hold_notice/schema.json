@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Customs hold notice",
+  "description": "A notice from a customs authority that a consignment is held: reference, goods, the reason, documents requested and a deadline. Authority and consignee are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "noticeId",
+    "issued",
+    "consignee",
+    "shipmentRef",
+    "goods",
+    "reason",
+    "deadline"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Tamsaria Customs Service"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Airport cargo terminal"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice reference",
+      "examples": ["CH-2026-007"],
+      "x-translate": false
+    },
+    "issued": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["19 October 2026, 11:30 local"],
+      "x-translate": false
+    },
+    "consignee": {
+      "type": "string",
+      "description": "Consignee",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "shipmentRef": {
+      "type": "string",
+      "description": "Shipment reference",
+      "examples": ["SHP-20431"],
+      "x-translate": false
+    },
+    "goods": {
+      "type": "string",
+      "description": "Goods held",
+      "examples": ["Four water treatment units (pallets 1 to 4)"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the hold",
+      "examples": [
+        "The import duty exemption letter on file does not list this consignment. Release depends on the disaster management authority confirming the exemption."
+      ]
+    },
+    "documentsRequested": {
+      "type": "array",
+      "description": "Documents requested",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Exemption confirmation from the disaster management authority",
+          "Packing list with serial numbers",
+          "Signed consignee statement"
+        ]
+      ]
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Deadline to respond",
+      "examples": ["21 October 2026, 17:00 local"],
+      "x-translate": false
+    },
+    "storage": {
+      "type": "string",
+      "description": "Storage terms",
+      "examples": ["Storage at the terminal is free for 5 days; charges apply afterwards."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact (fictional)",
+      "examples": ["Cargo release desk, cargo@tamsaria-customs.example"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

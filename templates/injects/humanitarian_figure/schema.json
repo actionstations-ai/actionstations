@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Humanitarian figure",
+  "type": "object",
+  "description": "A drawn humanitarian figure with its data table: 3W matrix or map, needs against coverage, pipeline projection, funding status, staff incident timeline or access constraints map. Numbers are drawn from data, never generated as pixels.",
+  "required": ["figures"],
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the numbers come from, for example '3W reports received by 12:00'"
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw as { main: { kind, data } }. Kinds: humanitarian_3w_matrix, humanitarian_3w_map, humanitarian_needs_coverage, humanitarian_pipeline, humanitarian_funding_bar, humanitarian_security_timeline, humanitarian_access_map.",
+      "required": ["main"],
+      "additionalProperties": false,
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "humanitarian_3w_matrix",
+                "humanitarian_3w_map",
+                "humanitarian_needs_coverage",
+                "humanitarian_pipeline",
+                "humanitarian_funding_bar",
+                "humanitarian_security_timeline",
+                "humanitarian_access_map"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind"
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

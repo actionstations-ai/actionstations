@@ -2,6 +2,7 @@
 // activation statements, the Saving Lives Together responsibility line, field security
 // guardrails (decision and communications level only), gap list counts and funding arithmetic.
 // Pure functions over text or structured fields; each returns problems, never throws.
+import { breakDay, daysOfStock, type PipelineShipment } from '@shared/humanitarian/pipeline'
 
 export const HUMANITARIAN_LINT_RULES = [
   'humanitarian_cluster_activation',
@@ -10,6 +11,10 @@ export const HUMANITARIAN_LINT_RULES = [
   'humanitarian_gap_list',
   'humanitarian_funding_arithmetic',
   'humanitarian_movement_decision',
+  'humanitarian_pipeline_arithmetic',
+  'humanitarian_stock_balance',
+  'humanitarian_coverage_arithmetic',
+  'humanitarian_camp_rates',
 ] as const
 
 export interface HumanitarianProblem {
@@ -118,6 +123,116 @@ export function checkGapList(gaps: readonly GapLine[], summary?: string): Humani
     if (total && Number(total[1]) !== gaps.length)
       out.push(problem(`The summary says ${total[1]} gaps but the list has ${gaps.length}.`))
   }
+  return out
+}
+
+// ---- pipeline, stock, coverage and camp rates --------------------------------------------
+
+/** Days of stock and the break day stated in a dashboard match the figure's own arithmetic. */
+export function checkPipelineStated(
+  stated: { daysOfStock?: unknown; breakDay?: unknown },
+  figure: {
+    stockOnHand: number
+    dailyConsumption: number
+    shipments: PipelineShipment[]
+    horizonDays?: number
+  },
+): HumanitarianProblem[] {
+  const out: HumanitarianProblem[] = []
+  const cover = daysOfStock(figure.stockOnHand, figure.dailyConsumption)
+  const days = num(stated.daysOfStock)
+  if (cover !== undefined && days !== undefined && Math.abs(cover - days) > 0.6)
+    out.push(
+      problem(
+        `Days of stock is stated as ${days} but stock divided by daily use is ${cover.toFixed(1)}.`,
+      ),
+    )
+  const brk = breakDay(figure, figure.horizonDays ?? 365)
+  const stated2 = num(stated.breakDay)
+  if (brk !== undefined && stated2 !== undefined && Math.abs(brk - stated2) > 0.6)
+    out.push(
+      problem(
+        `The break day is stated as ${stated2} but the shipments and use give day ${brk.toFixed(1)}.`,
+      ),
+    )
+  return out
+}
+
+/** Closing stock equals opening plus received minus issued. */
+export function checkStockBalance(
+  rows: readonly {
+    commodity?: unknown
+    opening?: unknown
+    received?: unknown
+    issued?: unknown
+    closing?: unknown
+  }[],
+): HumanitarianProblem[] {
+  const out: HumanitarianProblem[] = []
+  for (const r of rows) {
+    const [o, rc, i, c] = [r.opening, r.received, r.issued, r.closing].map(num)
+    if (o === undefined || rc === undefined || i === undefined || c === undefined) continue
+    if (Math.abs(o + rc - i - c) > 0.001)
+      out.push(
+        problem(
+          `${String(r.commodity ?? 'A commodity')}: opening ${o} plus received ${rc} minus issued ${i} is ${o + rc - i}, not closing ${c}.`,
+        ),
+      )
+  }
+  return out
+}
+
+/** Coverage is reached divided by planned, to the nearest percent. */
+export function checkCoverage(
+  rows: readonly { site?: unknown; planned?: unknown; reached?: unknown; coverage?: unknown }[],
+): HumanitarianProblem[] {
+  const out: HumanitarianProblem[] = []
+  for (const r of rows) {
+    const [p, rc, c] = [r.planned, r.reached, r.coverage].map(num)
+    if (p === undefined || rc === undefined || c === undefined || p <= 0) continue
+    if (Math.abs((rc / p) * 100 - c) > 1)
+      out.push(
+        problem(
+          `${String(r.site ?? 'A site')}: coverage is stated as ${c}% but ${rc} of ${p} is ${Math.round((rc / p) * 100)}%.`,
+        ),
+      )
+  }
+  return out
+}
+
+/** Attack rate is cases over population; case fatality is deaths over cases. */
+export function checkCampRates(f: {
+  population?: unknown
+  cases?: unknown
+  deaths?: unknown
+  attackRate?: unknown
+  caseFatality?: unknown
+}): HumanitarianProblem[] {
+  const [pop, cases, deaths, ar, cfr] = [
+    f.population,
+    f.cases,
+    f.deaths,
+    f.attackRate,
+    f.caseFatality,
+  ].map(num)
+  const out: HumanitarianProblem[] = []
+  if (pop && cases !== undefined && ar !== undefined && Math.abs((cases / pop) * 100 - ar) > 0.06)
+    out.push(
+      problem(
+        `Attack rate is stated as ${ar}% but ${cases} cases over ${pop} people is ${((cases / pop) * 100).toFixed(2)}%.`,
+      ),
+    )
+  if (
+    cases &&
+    deaths !== undefined &&
+    cfr !== undefined &&
+    Math.abs((deaths / cases) * 100 - cfr) > 0.15
+  )
+    out.push(
+      problem(
+        `Case fatality is stated as ${cfr}% but ${deaths} deaths over ${cases} cases is ${((deaths / cases) * 100).toFixed(1)}%.`,
+      ),
+    )
   return out
 }
 

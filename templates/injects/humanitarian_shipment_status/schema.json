@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shipment status table",
+  "description": "A table of shipments with status (planned, in transit, held or delivered), route in general terms and expected arrival. Held shipments name the reason or notice. References and quantities are fictional.",
+  "type": "object",
+  "required": ["organization", "asOf"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Logistics"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["20 October 2026, 16:00 local"],
+      "x-translate": false
+    },
+    "shipments": {
+      "type": "array",
+      "description": "Shipments",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Shipment or purchase order",
+            "examples": ["SHP-20418"],
+            "x-translate": false
+          },
+          "goods": {
+            "type": "string",
+            "description": "Goods",
+            "examples": ["Fortified wheat flour, 200 tonnes"]
+          },
+          "route": {
+            "type": "string",
+            "description": "From and to, in general terms",
+            "examples": ["Port of Dessa to Karun City warehouse"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "enum": ["planned", "transit", "held", "delivered"],
+            "examples": ["transit"]
+          },
+          "eta": {
+            "type": "string",
+            "description": "Expected or actual arrival",
+            "examples": ["27 Oct"],
+            "x-translate": false
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["Berth due 24 Oct"]
+          }
+        },
+        "required": ["id", "goods", "status", "eta"]
+      },
+      "examples": [
+        [
+          {
+            "id": "SHP-20418",
+            "goods": "Fortified wheat flour, 200 tonnes",
+            "route": "Port of Dessa to Karun City warehouse",
+            "status": "transit",
+            "eta": "27 Oct",
+            "note": "Berth due 24 Oct"
+          },
+          {
+            "id": "SHP-20431",
+            "goods": "Water treatment units, 4",
+            "route": "Airport to Soma Valley",
+            "status": "held",
+            "eta": "pending",
+            "note": "Customs hold, see notice CH-2026-007"
+          },
+          {
+            "id": "SHP-20440",
+            "goods": "Medical kits, 120",
+            "route": "Airport to Karun City warehouse",
+            "status": "delivered",
+            "eta": "19 Oct",
+            "note": "Received in full"
+          },
+          {
+            "id": "SHP-20455",
+            "goods": "Fortified wheat flour, 600 tonnes",
+            "route": "Port of Dessa to Karun City warehouse",
+            "status": "planned",
+            "eta": "14 Nov",
+            "note": "Booked; loading not started"
+          }
+        ]
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary line",
+      "examples": ["4 shipments: 1 in transit, 1 held, 1 delivered, 1 planned"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,463 @@
+{
+  "variant": "humanitarian_3w_matrix",
+  "fields": {
+    "heading": "3W: who does what where",
+    "source": "Exercise data. All organizations and places are fictional.",
+    "figures": {
+      "main": {
+        "kind": "humanitarian_3w_matrix",
+        "data": {
+          "title": "3W matrix: partners reporting by sector and admin area",
+          "asOf": "16 October 2026, 12:00 local",
+          "sectors": ["Health", "WASH", "Shelter", "Food security"],
+          "areas": ["Karun North", "Karun South", "Bel Ravi", "Soma Valley", "Hadar"],
+          "cells": [
+            {
+              "sector": "Health",
+              "area": "Karun North",
+              "partners": ["Tamsarian Crescent Society"]
+            },
+            {
+              "sector": "Health",
+              "area": "Karun South",
+              "partners": ["Tamsarian Crescent Society", "Kestrel Health Aid"]
+            },
+            {
+              "sector": "Health",
+              "area": "Soma Valley",
+              "partners": ["Kestrel Health Aid"]
+            },
+            {
+              "sector": "WASH",
+              "area": "Karun North",
+              "partners": ["Harbourlight Relief", "Waterline International"]
+            },
+            {
+              "sector": "WASH",
+              "area": "Soma Valley",
+              "partners": ["Waterline International"]
+            },
+            {
+              "sector": "WASH",
+              "area": "Bel Ravi",
+              "partners": ["Harbourlight Relief"]
+            },
+            {
+              "sector": "Shelter",
+              "area": "Bel Ravi",
+              "partners": ["Open Hands Alliance"]
+            },
+            {
+              "sector": "Shelter",
+              "area": "Karun South",
+              "partners": ["Open Hands Alliance"]
+            },
+            {
+              "sector": "Food security",
+              "area": "Karun North",
+              "partners": ["Open Hands Alliance"]
+            },
+            {
+              "sector": "Food security",
+              "area": "Soma Valley",
+              "partners": ["Harbourlight Relief"]
+            }
+          ],
+          "simulated": true
+        }
+      }
+    }
+  },
+  "variants": {
+    "humanitarian_3w_map": {
+      "fields": {
+        "heading": "3W map",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_3w_map",
+            "data": {
+              "title": "3W map: partners reporting by admin area",
+              "areas": [
+                {
+                  "name": "Karun North",
+                  "ring": [
+                    {
+                      "lon": 50.0,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 50.0,
+                      "lat": 41.0
+                    }
+                  ],
+                  "partners": 4
+                },
+                {
+                  "name": "Bel Ravi",
+                  "ring": [
+                    {
+                      "lon": 50.6,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 51.1,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 51.1,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 41.0
+                    }
+                  ],
+                  "partners": 2
+                },
+                {
+                  "name": "Hadar",
+                  "ring": [
+                    {
+                      "lon": 51.1,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 51.7,
+                      "lat": 41.5
+                    },
+                    {
+                      "lon": 51.7,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 51.1,
+                      "lat": 41.0
+                    }
+                  ],
+                  "partners": 0
+                },
+                {
+                  "name": "Karun South",
+                  "ring": [
+                    {
+                      "lon": 50.0,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 40.5
+                    },
+                    {
+                      "lon": 50.0,
+                      "lat": 40.5
+                    }
+                  ],
+                  "partners": 3
+                },
+                {
+                  "name": "Soma Valley",
+                  "ring": [
+                    {
+                      "lon": 50.6,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 51.1,
+                      "lat": 41.0
+                    },
+                    {
+                      "lon": 51.1,
+                      "lat": 40.5
+                    },
+                    {
+                      "lon": 50.6,
+                      "lat": 40.5
+                    }
+                  ],
+                  "partners": 3
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "humanitarian_needs_coverage": {
+      "fields": {
+        "heading": "Needs against coverage",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_needs_coverage",
+            "data": {
+              "title": "Needs against coverage by sector",
+              "asOf": "20 October 2026",
+              "sectors": [
+                {
+                  "sector": "Health",
+                  "inNeed": 410000,
+                  "targeted": 220000,
+                  "reached": 96000
+                },
+                {
+                  "sector": "Water, sanitation and hygiene",
+                  "inNeed": 380000,
+                  "targeted": 250000,
+                  "reached": 141000
+                },
+                {
+                  "sector": "Shelter",
+                  "inNeed": 300000,
+                  "targeted": 180000,
+                  "reached": 52000
+                },
+                {
+                  "sector": "Food security",
+                  "inNeed": 250000,
+                  "targeted": 200000,
+                  "reached": 118000
+                },
+                {
+                  "sector": "Protection",
+                  "inNeed": 150000,
+                  "targeted": 90000,
+                  "reached": 21000
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "humanitarian_pipeline": {
+      "fields": {
+        "heading": "Pipeline break forecast",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_pipeline",
+            "data": {
+              "title": "Fortified wheat flour pipeline",
+              "commodity": "Fortified wheat flour",
+              "unit": "tonnes",
+              "stockOnHand": 420,
+              "dailyConsumption": 28,
+              "shipments": [
+                {
+                  "day": 12,
+                  "quantity": 200,
+                  "label": "Shipment SHP-20418"
+                },
+                {
+                  "day": 30,
+                  "quantity": 600,
+                  "label": "Shipment SHP-20455"
+                }
+              ],
+              "leadTimeDays": 21,
+              "horizonDays": 45,
+              "simulated": true
+            }
+          }
+        }
+      }
+    },
+    "humanitarian_funding_bar": {
+      "fields": {
+        "heading": "Funding status",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_funding_bar",
+            "data": {
+              "title": "Funding against the flash appeal",
+              "unit": "US$ million",
+              "asOf": "20 October 2026",
+              "sectors": [
+                {
+                  "sector": "Health",
+                  "required": 14.0,
+                  "received": 6.1
+                },
+                {
+                  "sector": "Water, sanitation and hygiene",
+                  "required": 11.5,
+                  "received": 3.2
+                },
+                {
+                  "sector": "Shelter",
+                  "required": 17.0,
+                  "received": 4.0
+                },
+                {
+                  "sector": "Food security",
+                  "required": 12.5,
+                  "received": 6.8
+                },
+                {
+                  "sector": "Protection",
+                  "required": 4.0,
+                  "received": 0.9
+                },
+                {
+                  "sector": "Logistics",
+                  "required": 3.0,
+                  "received": 0.7
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "humanitarian_security_timeline": {
+      "fields": {
+        "heading": "Staff incident timeline",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_security_timeline",
+            "data": {
+              "title": "Staff incident: crisis management team timeline",
+              "events": [
+                {
+                  "time": "2026-10-17T09:10:00Z",
+                  "kind": "information",
+                  "label": "Two staff overdue for check-in"
+                },
+                {
+                  "time": "2026-10-17T09:25:00Z",
+                  "kind": "decision",
+                  "label": "Crisis management team activated"
+                },
+                {
+                  "time": "2026-10-17T09:40:00Z",
+                  "kind": "decision",
+                  "label": "Corridor movements stopped"
+                },
+                {
+                  "time": "2026-10-17T10:05:00Z",
+                  "kind": "action",
+                  "label": "Family liaison officer assigned"
+                },
+                {
+                  "time": "2026-10-17T10:30:00Z",
+                  "kind": "communication",
+                  "label": "Alert shared with other agencies"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "humanitarian_access_map": {
+      "fields": {
+        "heading": "Access constraints",
+        "source": "Exercise data. All organizations and places are fictional.",
+        "figures": {
+          "main": {
+            "kind": "humanitarian_access_map",
+            "data": {
+              "title": "Access constraints, Karun Province",
+              "routes": [
+                {
+                  "name": "Route 4",
+                  "status": "restricted",
+                  "note": "light vehicles only north of Bel Ravi",
+                  "points": [
+                    {
+                      "lon": 50.2,
+                      "lat": 40.7
+                    },
+                    {
+                      "lon": 50.5,
+                      "lat": 40.95
+                    },
+                    {
+                      "lon": 50.85,
+                      "lat": 41.2
+                    }
+                  ]
+                },
+                {
+                  "name": "Route 9",
+                  "status": "open",
+                  "note": "daylight only",
+                  "points": [
+                    {
+                      "lon": 50.2,
+                      "lat": 40.7
+                    },
+                    {
+                      "lon": 50.9,
+                      "lat": 40.75
+                    },
+                    {
+                      "lon": 51.4,
+                      "lat": 41.2
+                    }
+                  ]
+                },
+                {
+                  "name": "Route 2",
+                  "status": "closed",
+                  "note": "bridge down",
+                  "points": [
+                    {
+                      "lon": 50.5,
+                      "lat": 40.95
+                    },
+                    {
+                      "lon": 50.55,
+                      "lat": 41.35
+                    }
+                  ]
+                }
+              ],
+              "places": [
+                {
+                  "name": "Karun City",
+                  "lon": 50.2,
+                  "lat": 40.7
+                },
+                {
+                  "name": "Bel Ravi",
+                  "lon": 50.85,
+                  "lat": 41.2
+                },
+                {
+                  "name": "Hadar",
+                  "lon": 51.4,
+                  "lat": 41.2
+                }
+              ],
+              "incidents": [
+                {
+                  "name": "Checkpoint near Bel Ravi",
+                  "lon": 50.7,
+                  "lat": 41.08
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE",
+    "organization": "Harbourlight Relief",
+    "unit": "Tamsaria Country Office, Logistics",
+    "commodity": "Fortified wheat flour",
+    "asOf": "Day 0: 20 October 2026",
+    "programme": "General food distribution, Karun and Soma Valley",
+    "stockOnHand": "420 tonnes",
+    "dailyConsumption": "28 tonnes",
+    "daysOfStock": "15",
+    "breakDay": "22",
+    "leadTimeDays": "21",
+    "assessment": "Stock lasts 15 days. The shipment due on day 12 extends it to day 22, eight days before the next shipment on day 30. A reorder takes 21 days, so the latest day to order was day 1.",
+    "inTransit": [
+      {
+        "id": "SHP-20418",
+        "quantity": "200 tonnes",
+        "eta": "Day 12",
+        "note": "Vessel at anchor, berth due day 10"
+      },
+      {
+        "id": "SHP-20455",
+        "quantity": "600 tonnes",
+        "eta": "Day 30",
+        "note": "Booked; loading not started"
+      }
+    ],
+    "figures": {
+      "pipeline": {
+        "kind": "humanitarian_pipeline",
+        "data": {
+          "title": "Fortified wheat flour pipeline",
+          "commodity": "Fortified wheat flour",
+          "unit": "tonnes",
+          "stockOnHand": 420,
+          "dailyConsumption": 28,
+          "shipments": [
+            {
+              "day": 12,
+              "quantity": 200,
+              "label": "Shipment SHP-20418"
+            },
+            {
+              "day": 30,
+              "quantity": 600,
+              "label": "Shipment SHP-20455"
+            }
+          ],
+          "leadTimeDays": 21,
+          "horizonDays": 45,
+          "simulated": true
+        }
+      }
+    }
+  }
+}

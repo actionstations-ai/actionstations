@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Warehouse report",
+  "description": "A weekly warehouse report: opening stock, received, issued and closing stock per commodity. Closing stock must equal opening plus received minus issued. Quantities are fictional.",
+  "type": "object",
+  "required": ["organization", "warehouse", "period"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Logistics"],
+      "x-translate": false
+    },
+    "warehouse": {
+      "type": "string",
+      "description": "Warehouse",
+      "examples": ["Karun City central warehouse"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "Reporting period",
+      "examples": ["13 to 19 October 2026"],
+      "x-translate": false
+    },
+    "stock": {
+      "type": "array",
+      "description": "Stock movements by commodity",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "commodity": {
+            "type": "string",
+            "description": "Commodity",
+            "examples": ["Fortified wheat flour"]
+          },
+          "opening": {
+            "type": "string",
+            "description": "Opening stock",
+            "examples": ["560"],
+            "x-translate": false
+          },
+          "received": {
+            "type": "string",
+            "description": "Received",
+            "examples": ["0"],
+            "x-translate": false
+          },
+          "issued": {
+            "type": "string",
+            "description": "Issued",
+            "examples": ["140"],
+            "x-translate": false
+          },
+          "closing": {
+            "type": "string",
+            "description": "Closing stock",
+            "examples": ["420"],
+            "x-translate": false
+          },
+          "days": {
+            "type": "string",
+            "description": "Days of stock at current use",
+            "examples": ["15"],
+            "x-translate": false
+          }
+        },
+        "required": ["commodity", "opening", "received", "issued", "closing"]
+      },
+      "examples": [
+        [
+          {
+            "commodity": "Fortified wheat flour (tonnes)",
+            "opening": "560",
+            "received": "0",
+            "issued": "140",
+            "closing": "420",
+            "days": "15"
+          },
+          {
+            "commodity": "Vegetable oil (tonnes)",
+            "opening": "48",
+            "received": "10",
+            "issued": "12",
+            "closing": "46",
+            "days": "22"
+          },
+          {
+            "commodity": "Medical kits",
+            "opening": "20",
+            "received": "120",
+            "issued": "35",
+            "closing": "105",
+            "days": "n/a"
+          }
+        ]
+      ]
+    },
+    "condition": {
+      "type": "string",
+      "description": "Condition and security of the store",
+      "examples": [
+        "Roof damage repaired on 17 October. No losses reported. Fire extinguishers checked."
+      ]
+    },
+    "issues": {
+      "type": "array",
+      "description": "Issues for the logistics head",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Forklift out of service since 18 October.",
+          "Two pallets of medical kits need a cold chain."
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

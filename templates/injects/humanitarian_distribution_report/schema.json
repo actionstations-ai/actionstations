@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Distribution report",
+  "description": "A distribution report with coverage by site: households planned and reached and the percent covered. Coverage must equal reached divided by planned. Sites and quantities are fictional.",
+  "type": "object",
+  "required": ["organization", "period", "totals"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Food security programme"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "Distribution round and dates",
+      "examples": ["Round 2, 17 to 19 October 2026"],
+      "x-translate": false
+    },
+    "sites": {
+      "type": "array",
+      "description": "Coverage by site",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "site": {
+            "type": "string",
+            "description": "Site or village",
+            "examples": ["Karun North, Village 3"]
+          },
+          "planned": {
+            "type": "string",
+            "description": "Households planned",
+            "examples": ["1,200"],
+            "x-translate": false
+          },
+          "reached": {
+            "type": "string",
+            "description": "Households reached",
+            "examples": ["960"],
+            "x-translate": false
+          },
+          "coverage": {
+            "type": "string",
+            "description": "Coverage",
+            "examples": ["80%"],
+            "x-translate": false
+          },
+          "items": {
+            "type": "string",
+            "description": "What was distributed",
+            "examples": ["Food parcel, hygiene kit"]
+          }
+        },
+        "required": ["site", "planned", "reached", "coverage"]
+      },
+      "examples": [
+        [
+          {
+            "site": "Karun North, Village 3",
+            "planned": "1,200",
+            "reached": "960",
+            "coverage": "80%",
+            "items": "Food parcel, hygiene kit"
+          },
+          {
+            "site": "Bel Ravi, Site 1",
+            "planned": "800",
+            "reached": "800",
+            "coverage": "100%",
+            "items": "Food parcel"
+          },
+          {
+            "site": "Soma Valley, Site 2",
+            "planned": "1,500",
+            "reached": "600",
+            "coverage": "40%",
+            "items": "Food parcel"
+          }
+        ]
+      ]
+    },
+    "totals": {
+      "type": "string",
+      "description": "Totals",
+      "examples": ["3,500 households planned; 2,360 reached; 67% covered."]
+    },
+    "constraints": {
+      "type": "string",
+      "description": "Constraints met",
+      "examples": [
+        "Trucks could not reach Soma Valley Site 2 after a bridge closure; 900 households will be served in round 3."
+      ]
+    },
+    "feedback": {
+      "type": "string",
+      "description": "What communities said",
+      "examples": [
+        "Several households asked for the date of the next round; the camp committee asked for a public list of dates."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

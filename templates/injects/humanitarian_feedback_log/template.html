@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Feedback log</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Period</th>
+      <td>{{fields.period}}</td>
+      <th>Summary</th>
+      <td>{{fields.summary}}</td>
+    </tr>
+  </table>
+  {{#if fields.entries}}
+  <h2>Entries</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Channel</th>
+        <th>Kind</th>
+        <th>What was said</th>
+        <th>Status</th>
+        <th>Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.entries}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td class="mono">{{this.date}}</td>
+        <td>{{this.channel}}</td>
+        <td><span class="status status-{{this.type}}">{{this.type}}</span></td>
+        <td>{{this.summary}}</td>
+        <td><span class="status status-{{this.status}}">{{this.status}}</span></td>
+        <td>{{this.response}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.period}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

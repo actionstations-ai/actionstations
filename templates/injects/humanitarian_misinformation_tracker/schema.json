@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Misinformation tracker",
+  "description": "A tracker of rumours and false claims about aid at a site: the claim, where it is spreading, when first seen, a status and the response. No individuals are named. Sites are fictional.",
+  "type": "object",
+  "required": ["organization", "period"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Accountability to affected people"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["18 October 2026"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "description": "Tracked claims",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id",
+            "examples": ["R-07"],
+            "x-translate": false
+          },
+          "claim": {
+            "type": "string",
+            "description": "The rumour or false claim",
+            "examples": ["The water points were poisoned by an aid agency."]
+          },
+          "channel": {
+            "type": "string",
+            "description": "Where it is spreading",
+            "examples": ["Messaging groups and a market conversation"]
+          },
+          "firstSeen": {
+            "type": "string",
+            "description": "First seen",
+            "examples": ["17 Oct"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "enum": ["spreading", "monitoring", "contained"],
+            "examples": ["spreading"]
+          },
+          "response": {
+            "type": "string",
+            "description": "Response",
+            "examples": [
+              "Chlorination explained at the water points; the camp committee asked to share the message."
+            ]
+          }
+        },
+        "required": ["id", "claim", "channel", "status"]
+      },
+      "examples": [
+        [
+          {
+            "id": "R-07",
+            "claim": "The water points were poisoned by an aid agency.",
+            "channel": "Messaging groups and a market conversation",
+            "firstSeen": "17 Oct",
+            "status": "spreading",
+            "response": "Chlorination explained at the water points; the camp committee asked to share the message."
+          },
+          {
+            "id": "R-08",
+            "claim": "Food distribution is only for registered families from the north.",
+            "channel": "Community meeting",
+            "firstSeen": "16 Oct",
+            "status": "monitoring",
+            "response": "Eligibility posted at the site office in two languages."
+          },
+          {
+            "id": "R-09",
+            "claim": "The clinic will close on Sunday.",
+            "channel": "Word of mouth",
+            "firstSeen": "15 Oct",
+            "status": "contained",
+            "response": "Clinic hours confirmed by the health coordinator."
+          }
+        ]
+      ]
+    },
+    "note": {
+      "type": "string",
+      "description": "Note",
+      "examples": ["Claims are tracked to correct them with facts, not to identify who said them."]
+    }
+  },
+  "additionalProperties": false
+}

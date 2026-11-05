@@ -1,0 +1,63 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Warehouse</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Warehouse</th>
+      <td>{{fields.warehouse}}</td>
+      <th>Period</th>
+      <td>{{fields.period}}</td>
+    </tr>
+  </table>
+  {{#if fields.stock}}
+  <h2>Stock movements</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Commodity</th>
+        <th>Opening</th>
+        <th>Received</th>
+        <th>Issued</th>
+        <th>Closing</th>
+        <th>Days of stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.stock}}
+      <tr>
+        <td>{{this.commodity}}</td>
+        <td class="mono">{{this.opening}}</td>
+        <td class="mono">{{this.received}}</td>
+        <td class="mono">{{this.issued}}</td>
+        <td class="mono">{{this.closing}}</td>
+        <td class="mono">{{this.days}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.condition}}
+  <h2>Condition</h2>
+  <p>{{nl2br fields.condition}}</p>
+  {{/if}}{{#if fields.issues}}
+  <h2>Issues</h2>
+  <ul>
+    {{#each fields.issues}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.warehouse}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,76 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Pipeline</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Commodity</th>
+      <td>{{fields.commodity}}</td>
+      <th>Stock count</th>
+      <td>{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>On hand</th>
+      <td>{{fields.stockOnHand}}</td>
+      <th>Daily use</th>
+      <td>{{fields.dailyConsumption}}</td>
+    </tr>
+    <tr>
+      <th>Days of stock</th>
+      <td>{{fields.daysOfStock}}</td>
+      <th>Break day</th>
+      <td>{{fields.breakDay}}</td>
+    </tr>
+    <tr>
+      <th>Lead time (days)</th>
+      <td>{{fields.leadTimeDays}}</td>
+      <th>Programme</th>
+      <td>{{fields.programme}}</td>
+    </tr>
+  </table>
+  {{#if fields.assessment}}
+  <h2>Assessment</h2>
+  <p>{{nl2br fields.assessment}}</p>
+  {{/if}}{{#if figures.pipeline}}
+  <figure class="fig">
+    {{{figures.pipeline}}}
+    <figcaption class="sr-only">{{figures.pipeline.summary}}</figcaption>
+  </figure>
+  <div class="fig-data">{{{figures.pipeline.tableHtml}}}</div>
+  {{/if}}{{#if fields.inTransit}}
+  <h2>Shipments on the way</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Shipment</th>
+        <th>Quantity</th>
+        <th>Expected</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.inTransit}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td class="mono">{{this.quantity}}</td>
+        <td class="mono">{{this.eta}}</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.commodity}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
