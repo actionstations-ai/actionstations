@@ -1,0 +1,51 @@
+{
+  "fields": {
+    "org": "Riverbend Regional Medical Center",
+    "system": "Clinical record and laboratory interface",
+    "asOf": "10/22/2026 05:30",
+    "items": [
+      {
+        "item": "Servers restored from clean backup and scanned",
+        "owner": "CISO",
+        "status": "done",
+        "note": "Backup of 10/20 23:00"
+      },
+      {
+        "item": "Laboratory interface queue verified empty; sent and received counts match",
+        "owner": "Interface analyst",
+        "status": "in progress",
+        "note": "412 messages left to compare"
+      },
+      {
+        "item": "Read-only viewer data refreshed after restore",
+        "owner": "EHR analyst",
+        "status": "done",
+        "note": ""
+      },
+      {
+        "item": "Patient identity check: new downtime registrations against the master index",
+        "owner": "Registration manager",
+        "status": "blocked",
+        "note": "Waiting for duplicate list"
+      },
+      {
+        "item": "Units briefed on back-entry order and cutoff time",
+        "owner": "Downtime coordinator",
+        "status": "not started",
+        "note": ""
+      },
+      {
+        "item": "Clinical sign-off on results released since restore",
+        "owner": "CMIO",
+        "status": "not started",
+        "note": ""
+      }
+    ],
+    "decision": {
+      "result": "NO-GO",
+      "decidedBy": "CMIO and CIO",
+      "time": "10/22/2026 05:45",
+      "conditions": "Revisit at 07:00 when the interface counts are reconciled."
+    }
+  }
+}

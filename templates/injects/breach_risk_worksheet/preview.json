@@ -1,0 +1,36 @@
+{
+  "fields": {
+    "org": "Riverbend Regional Medical Center",
+    "incidentId": "PRV-2026-031",
+    "discoveredAt": "10/21/2026 09:40",
+    "summary": "An employee in registration opened the records of 14 patients with no treatment or business relationship. The audit log shows the access over three weeks.",
+    "factors": [
+      {
+        "finding": "Demographics, diagnoses and visit dates for 14 patients. Directly identifying; no financial account numbers.",
+        "rating": "high"
+      },
+      {
+        "finding": "A workforce member who is bound by the hospital's confidentiality policy and who has no known tie to the patients.",
+        "rating": "moderate"
+      },
+      {
+        "finding": "The audit log shows the records were opened and scrolled. No export or print is recorded.",
+        "rating": "high"
+      },
+      {
+        "finding": "Access removed; the employee attested in writing that nothing was copied or shared. Not independently verified.",
+        "rating": "moderate"
+      }
+    ],
+    "conclusion": "Low probability of compromise not demonstrated: treat as a breach and notify",
+    "clocks": [
+      { "label": "Individual notice (outer limit, 60 calendar days)", "due": "12/20/2026" },
+      { "label": "Internal target for letters in the mail", "due": "11/20/2026" },
+      {
+        "label": "Report to the federal regulator, fewer than 500 individuals (within 60 days after the end of the calendar year)",
+        "due": "03/01/2027"
+      }
+    ],
+    "preparedBy": "Chief Privacy Officer"
+  }
+}

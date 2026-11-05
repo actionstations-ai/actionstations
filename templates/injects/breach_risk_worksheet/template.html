@@ -1,0 +1,72 @@
+<article class="ws">
+  <p class="marking">EXERCISE · AN AID, NOT LEGAL ADVICE · THE PRIVACY OFFICER DECIDES</p>
+  <header class="head">
+    <p class="org">{{default fields.org (default brand.aliases.org "Hospital")}}</p>
+    <h1>Breach Risk Assessment Worksheet</h1>
+    <p class="ref">
+      Incident {{fields.incidentId}}{{#if fields.discoveredAt}} · Discovered
+      {{fields.discoveredAt}}{{/if}}
+    </p>
+  </header>
+
+  <section class="sum">
+    <h2>What happened</h2>
+    <p>{{fields.summary}}</p>
+  </section>
+
+  <p class="rule">
+    An impermissible use or disclosure of protected health information is presumed to be a breach
+    unless a risk assessment shows a low probability that the information was compromised (45 CFR
+    164.402, text checked 2026-11-04).
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Factor</th>
+        <th>Finding</th>
+        <th>Risk</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.factors}}
+      <tr>
+        <th scope="row">
+          {{inc @index}}. {{#if (eq @index 0)}}Nature and extent of the information, including
+          identifiers and the chance of re-identification {{else if (eq @index 1)}}The unauthorized
+          person who used the information or received it {{else if (eq @index 2)}}Whether the
+          information was actually acquired or viewed {{else}}The extent to which the risk has been
+          mitigated{{/if}}
+        </th>
+        <td>{{finding}}</td>
+        <td class="rate rate-{{rating}}">{{upper rating}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <section
+    class="concl concl-{{#if (eq fields.conclusion 'Low probability of compromise demonstrated')}}low{{else}}notify{{/if}}"
+  >
+    <h2>Conclusion</h2>
+    <p>{{fields.conclusion}}</p>
+  </section>
+
+  {{#if fields.clocks.length}}
+  <section class="clocks">
+    <h2>Notification clocks</h2>
+    <ul>
+      {{#each fields.clocks}}
+      <li><strong>{{label}}</strong> — due {{due}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  <footer class="foot">
+    <p>
+      Prepared by {{default fields.preparedBy "Privacy office"}}. Signature: ____________________
+      Date: __________
+    </p>
+  </footer>
+</article>

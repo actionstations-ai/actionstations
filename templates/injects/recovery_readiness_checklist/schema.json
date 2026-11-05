@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recovery readiness checklist and go/no-go sheet",
+  "description": "The checklist a recovery team works before a clinical system returns to use: items with an owner and a status (written in words), and a go or no-go decision with who decided and when.",
+  "type": "object",
+  "required": ["system", "asOf", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "org": { "type": "string", "examples": ["Riverbend Regional Medical Center"] },
+    "system": { "type": "string", "examples": ["Clinical record and laboratory interface"] },
+    "asOf": { "type": "string", "x-translate": false, "examples": ["10/22/2026 05:30"] },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "status"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "examples": ["Interface queues verified empty and counts reconciled"]
+          },
+          "owner": { "type": "string", "x-translate": false, "examples": ["Interface analyst"] },
+          "status": { "type": "string", "enum": ["done", "in progress", "blocked", "not started"] },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "result": { "type": "string", "enum": ["GO", "NO-GO", "PENDING"] },
+        "decidedBy": { "type": "string", "x-translate": false, "examples": ["CMIO and CIO"] },
+        "time": { "type": "string", "x-translate": false, "examples": ["10/22/2026 05:45"] },
+        "conditions": { "type": "string" }
+      }
+    }
+  }
+}

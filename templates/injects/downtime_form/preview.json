@@ -1,0 +1,64 @@
+{
+  "variant": "order_sheet",
+  "fields": {
+    "org": "Riverbend Regional Medical Center",
+    "formTitle": "Downtime Physician Order Sheet",
+    "formNumber": "DT-ORD-01 rev. 7",
+    "patient": {
+      "name": "TESTPATIENT, Alder",
+      "mrn": "00482913",
+      "dob": "03/14/1951",
+      "allergies": "Penicillin (rash)"
+    },
+    "instructions": [
+      "Write the date and time on every order. Print clearly.",
+      "Send the pink copy to pharmacy; keep the white copy on the chart.",
+      "STAT orders are also phoned to the receiving department."
+    ],
+    "columns": ["Date / time", "Order", "Priority", "Ordering provider", "Read back (RN)"],
+    "filledRows": [
+      ["10/21 07:25", "Potassium level, repeat in 2 h", "STAT", "Dr. Vance", "MO"],
+      ["10/21 07:30", "Hold potassium supplement", "Routine", "Dr. Vance", "MO"]
+    ],
+    "blankRows": 9
+  },
+  "variants": {
+    "nursing_flowsheet": {
+      "fields": {
+        "formTitle": "Downtime Nursing Flowsheet",
+        "formNumber": "DT-NRS-02 rev. 4",
+        "instructions": ["Record vitals at least every 4 hours. Note the time of each entry."],
+        "columns": ["Time", "Temp", "Pulse", "Resp", "BP", "SpO2", "Initials"],
+        "filledRows": [
+          ["08:00", "37.1", "82", "16", "128/76", "96%", "MO"],
+          ["12:00", "37.0", "88", "18", "132/80", "95%", "MO"]
+        ],
+        "blankRows": 10
+      }
+    },
+    "registration": {
+      "fields": {
+        "formTitle": "Downtime Registration Form",
+        "formNumber": "DT-REG-03 rev. 5",
+        "patient": {},
+        "instructions": [
+          "Take the next number from the reserved downtime record number block.",
+          "Check for an existing record before assigning a new number."
+        ],
+        "fields": [
+          { "label": "Last name", "value": "Testpatient" },
+          { "label": "First name", "value": "Birch" },
+          { "label": "Date of birth", "value": "06/02/1964" },
+          { "label": "Sex", "value": "F" },
+          { "label": "Downtime record number", "value": "DT-0142" },
+          { "label": "Arrival time", "value": "10/21 09:10" },
+          { "label": "Reason for visit", "value": "" },
+          { "label": "Insurance", "value": "" }
+        ],
+        "columns": [],
+        "filledRows": [],
+        "blankRows": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+<article class="form">
+  <p class="marking">EXERCISE · FICTIONAL PATIENT · DO NOT FILE IN A REAL CHART</p>
+  <header class="head">
+    <div>
+      <p class="org">{{default fields.org (default brand.aliases.org "Hospital")}}</p>
+      <h1>{{fields.formTitle}}</h1>
+      <p class="num">Form {{fields.formNumber}} · DOWNTIME USE ONLY</p>
+    </div>
+    <div class="label">
+      <p class="label-h">PATIENT LABEL</p>
+      {{#if fields.patient.name}}
+      <p class="lname">{{fields.patient.name}}</p>
+      <p>MRN {{fields.patient.mrn}} · DOB {{fields.patient.dob}}</p>
+      {{#if fields.patient.allergies}}
+      <p class="lal">Allergies: {{fields.patient.allergies}}</p>
+      {{/if}} {{else}}
+      <p class="blank">Affix label here</p>
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if fields.instructions.length}}
+  <ol class="instr">
+    {{#each fields.instructions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.fields.length}}
+  <div class="grid">
+    {{#each fields.fields}}
+    <div class="cell">
+      <span class="cl">{{label}}</span>
+      <span class="cv">{{value}}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}} {{#if fields.columns.length}}
+  <table>
+    <thead>
+      <tr>
+        {{#each fields.columns}}
+        <th>{{this}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.filledRows}}
+      <tr>
+        {{#each this}}
+        <td class="hand">{{this}}</td>
+        {{/each}}
+      </tr>
+      {{/each}} {{#times (default fields.blankRows 0)}}
+      <tr class="blank-row">
+        {{#each @root.fields.columns}}
+        <td></td>
+        {{/each}}
+      </tr>
+      {{/times}}
+    </tbody>
+  </table>
+  {{/if}}
+
+  <footer class="foot">
+    <div class="sig">Signature / role / date-time: ______________________________</div>
+    <p>
+      After recovery this form is entered into the record by the unit and kept with the downtime
+      binder.
+    </p>
+  </footer>
+</article>

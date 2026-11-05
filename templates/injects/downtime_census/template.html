@@ -1,0 +1,56 @@
+<article class="rep">
+  <p class="marking">EXERCISE · SYNTHETIC PATIENTS</p>
+  <header class="head">
+    <div>
+      <p class="org">{{default fields.org (default brand.aliases.org "Hospital")}}</p>
+      <h1>{{default fields.reportName "Unit Census — Downtime Report"}}</h1>
+      <p class="unit">{{fields.unit}}</p>
+    </div>
+    <div class="asof">
+      <p class="asof-l">DATA CURRENT AS OF</p>
+      <p class="asof-v">{{fields.asOf}}</p>
+    </div>
+  </header>
+  <p class="warn">
+    Entries made after this time are not shown. Verify against the patient and the paper record
+    before acting.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Bed</th>
+        <th>Patient</th>
+        <th>MRN</th>
+        <th>Age/Sex</th>
+        <th>Acuity</th>
+        <th>Isolation</th>
+        <th>Attending</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr class="{{#unless patient}}open{{/unless}}">
+        <td>{{bed}}</td>
+        <td>{{#if patient}}{{patient}}{{else}}(open bed){{/if}}</td>
+        <td>{{mrn}}</td>
+        <td>{{ageSex}}</td>
+        <td>{{acuity}}</td>
+        <td>{{isolation}}</td>
+        <td>{{attending}}</td>
+        <td>{{note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.totals}}
+  <p class="totals">
+    Census {{fields.totals.census}} of {{fields.totals.capacity}} · Admits pending
+    {{fields.totals.admitsPending}} · Discharges pending {{fields.totals.dischargesPending}}
+  </p>
+  {{/if}}
+  <footer class="foot">
+    <p>Printed {{#if fields.printedAt}}{{fields.printedAt}} {{/if}}by {{fields.printedBy}}.</p>
+    <p>Keep with the downtime binder. Back-enter into the record after recovery.</p>
+  </footer>
+</article>

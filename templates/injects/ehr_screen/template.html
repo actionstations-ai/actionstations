@@ -1,0 +1,81 @@
+<!-- Vendor-neutral EHR screen, 1280 px wide, height to content. The state (normal, degraded,
+     read-only) is always stated in words in the banner; colour only reinforces it. -->
+<section class="ehr state-{{fields.state}}">
+  <header class="title">
+    <svg class="mark" viewBox="0 0 28 28" aria-hidden="true">
+      <rect x="1" y="1" width="26" height="26" rx="5" fill="#1f5f8b" />
+      <path d="M12 6h4v6h6v4h-6v6h-4v-6H6v-4h6z" fill="#fff" />
+    </svg>
+    <h1>{{default fields.system "Clinical Record"}}</h1>
+    <!-- prettier-ignore -->
+    <span class="site">{{default fields.site (default brand.aliases.org "Production")}}</span>
+    <span class="spacer"></span>
+    {{#if fields.user}}<span class="user">{{fields.user}}</span>{{/if}} {{#if fields.clock}}<span
+      class="clock"
+      >{{fields.clock}}</span
+    >{{/if}}
+  </header>
+
+  <div class="banner banner-{{fields.state}}" role="status">
+    <span class="badge">
+      {{#if (eq fields.state "read_only")}}READ-ONLY{{else if (eq fields.state
+      "degraded")}}DEGRADED{{else}}NORMAL{{/if}}
+    </span>
+    <span class="msg">
+      {{#if fields.stateMessage}}{{fields.stateMessage}}{{else if (eq fields.state "normal")}}All
+      functions available.{{/if}}
+    </span>
+  </div>
+
+  {{#if fields.patient}}
+  <div class="patient">
+    <strong class="pname">{{fields.patient.name}}</strong>
+    <span>{{fields.patient.mrn}}</span>
+    {{#if fields.patient.dob}}<span>{{fields.patient.dob}}</span>{{/if}} {{#if
+    fields.patient.location}}<span>{{fields.patient.location}}</span>{{/if}} {{#if
+    fields.patient.allergies}}<span class="allergy">{{fields.patient.allergies}}</span>{{/if}} {{#if
+    fields.patient.alert}}<span class="pt-alert">{{fields.patient.alert}}</span>{{/if}}
+  </div>
+  {{/if}}
+
+  <nav class="tabs" aria-hidden="true">
+    <span class="{{#if (eq fields.view 'patient_list')}}on{{/if}}">Patient list</span>
+    <span class="{{#if (eq fields.view 'results_review')}}on{{/if}}">Results review</span>
+    <span class="{{#if (eq fields.view 'mar')}}on{{/if}}">MAR</span>
+    <span class="{{#if (eq fields.view 'order_entry')}}on{{/if}}">Orders</span>
+    <span>Documentation</span>
+  </nav>
+
+  <div class="body">
+    {{#if fields.title}}
+    <h2>{{fields.title}}</h2>
+    {{/if}}
+    <table>
+      <thead>
+        <tr>
+          {{#each fields.columns}}
+          <th scope="col">{{this}}</th>
+          {{/each}}
+          <th scope="col">Flag</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.rows}}
+        <tr class="{{#if flag}}row-{{flag}}{{/if}}">
+          {{#each cells}}
+          <td>{{this}}</td>
+          {{/each}}
+          <td class="flagcell">
+            {{#if flag}}<span class="flag flag-{{flag}}">{{upper flag}}</span>{{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  {{#if fields.footer}}
+  <footer class="foot">{{fields.footer}}</footer>
+  {{/if}}
+  <p class="exercise">EXERCISE · SYNTHETIC PATIENTS · NOT A REAL RECORD</p>
+</section>

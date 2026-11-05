@@ -1,0 +1,48 @@
+<article class="chk">
+  <p class="marking">EXERCISE · FICTIONAL ORGANIZATION</p>
+  <header class="head">
+    <p class="org">{{default fields.org (default brand.aliases.org "Hospital")}}</p>
+    <h1>Recovery Readiness Checklist</h1>
+    <p class="ref">{{fields.system}} · status as of {{fields.asOf}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{item}}</td>
+        <td>{{owner}}</td>
+        <td class="st st-{{status}}">
+          {{#if (eq status "done")}}&#10003; {{else if (eq status "blocked")}}&#10007; {{else if (eq
+          status "in progress")}}&#8230; {{else}}&#9675; {{/if}}{{upper status}}
+        </td>
+        <td>{{note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.decision}}
+  <section class="go go-{{lower fields.decision.result}}">
+    <h2>Go / no-go</h2>
+    <p class="res">{{fields.decision.result}}</p>
+    <p>
+      Decided by {{fields.decision.decidedBy}}{{#if fields.decision.time}} at
+      {{fields.decision.time}}{{/if}}
+    </p>
+    {{#if fields.decision.conditions}}
+    <p>Conditions: {{fields.decision.conditions}}</p>
+    {{/if}}
+  </section>
+  {{/if}}
+  <footer class="foot">
+    Keep with the incident record. A GO does not end downtime procedures until the return to normal
+    is declared.
+  </footer>
+</article>
