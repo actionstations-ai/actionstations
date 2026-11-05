@@ -1,0 +1,715 @@
+{
+  "id": "ai_incidents",
+  "label": "AI incidents and synthetic media",
+  "description": "Security, fraud, trust and safety, communications, legal and AI governance teams, and boards, facing two new kinds of incident: synthetic media attacks (a deepfaked executive authorizing a payment, a fake spokesperson video) and failures of AI systems (harmful output to customers, data poisoning, an AI vendor breach). Variants: an enterprise security and fraud team, an AI governance and product team, a trust and safety team on a platform, and a board.",
+  "aliases": [
+    "ai incident",
+    "ai governance",
+    "responsible ai",
+    "trust and safety",
+    "deepfake",
+    "synthetic media",
+    "voice cloning",
+    "model failure",
+    "ai risk",
+    "generative ai incident",
+    "ai vendor risk",
+    "fraud",
+    "business email compromise"
+  ],
+  "vocabulary": {
+    "facility": "the organization (its payment, communications and AI systems)",
+    "public": "customers, users, the press and the public",
+    "frontline": "treasury and accounts payable staff, fraud analysts, support agents, moderators, ML engineers and communications staff",
+    "operationsCenter": "the incident response room or the AI incident review board"
+  },
+  "factCategories": [
+    {
+      "id": "ai_systems",
+      "label": "AI systems",
+      "noun": "AI Systems?|Models?|Assistants?|Copilots?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "payments",
+      "label": "Payments and transfers",
+      "noun": "Wires?|Transfers?|Payments?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "incidents",
+      "label": "Incident records",
+      "noun": "Incidents?|Cases?|Tickets?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "video conferencing, voice calls, messaging and email",
+      "callback directories of known numbers",
+      "treasury management, wire and ACH, vendor master data, payment approvals and holds",
+      "bank portals for recall requests",
+      "customer-facing AI assistants and chatbots",
+      "internal copilots",
+      "classifiers and scoring models",
+      "retrieval systems with document stores",
+      "model registry and evaluation harness",
+      "guardrail and moderation layers",
+      "logging and monitoring of AI systems",
+      "the AI system inventory (a register of models and where they are used)",
+      "deepfake detectors that return probabilistic scores",
+      "Content Credentials (C2PA) validation",
+      "SIEM and case management",
+      "legal hold and disclosure portals"
+    ],
+    "ot": []
+  },
+  "roles": [
+    {
+      "key": "aigov",
+      "name": "AI Governance Lead / Responsible AI Lead",
+      "abbreviation": "AIGOV",
+      "team": "AI governance and product",
+      "description": "Decides whether an event is an AI incident, its severity, which review board and which regulator duties apply."
+    },
+    {
+      "key": "ciso",
+      "name": "Chief Information Security Officer",
+      "abbreviation": "CISO",
+      "team": "Security and fraud",
+      "description": "Owns containment, evidence preservation and the link to the cyber incident process."
+    },
+    {
+      "key": "fraud",
+      "name": "Fraud Investigator / Financial Crimes",
+      "abbreviation": "FRAUD",
+      "team": "Security and fraud",
+      "description": "Decides on payment holds, recall requests and reports to the bank and law enforcement."
+    },
+    {
+      "key": "treas",
+      "name": "Treasury / Accounts Payable Lead",
+      "abbreviation": "TREAS",
+      "team": "Security and fraud",
+      "description": "Decides whether to execute or hold a transfer; performs the callback on a known number."
+    },
+    {
+      "key": "tns",
+      "name": "Trust and Safety Lead",
+      "abbreviation": "T&S",
+      "team": "Trust and safety",
+      "description": "Owns takedown and labeling of synthetic content on the organization's platform and requests to other platforms."
+    },
+    {
+      "key": "mleng",
+      "name": "Model Owner / ML Engineering Lead",
+      "abbreviation": "MLENG",
+      "team": "AI governance and product",
+      "description": "Owns the kill switch, rollback to a prior model, retraining and evaluation results."
+    },
+    {
+      "key": "prod",
+      "name": "Product Owner of the AI Feature",
+      "abbreviation": "PROD",
+      "team": "AI governance and product",
+      "description": "Decides on feature pauses and customer-facing changes."
+    },
+    {
+      "key": "comms",
+      "name": "Communications / PIO",
+      "abbreviation": "COMMS",
+      "team": "Communications and legal",
+      "description": "Drafts statements and corrections; works with verification before responding."
+    },
+    {
+      "key": "legal",
+      "name": "General Counsel / Privacy Officer",
+      "abbreviation": "LEGAL",
+      "team": "Communications and legal",
+      "description": "Decides disclosure duties and clocks, regulator and customer notices, and privilege."
+    },
+    {
+      "key": "vendor",
+      "name": "Procurement / Vendor Risk Manager",
+      "abbreviation": "VENDOR",
+      "team": "Communications and legal",
+      "description": "Sends the vendor notice, reads contract rights and sets interim controls."
+    },
+    {
+      "key": "exec",
+      "name": "Executive",
+      "abbreviation": "EXEC",
+      "team": "Executive and board",
+      "description": "Decides materiality, public disclosure and resourcing."
+    },
+    {
+      "key": "board",
+      "name": "Board Member",
+      "abbreviation": "BOARD",
+      "team": "Executive and board",
+      "description": "Asks what the board decides in the first hour and what it needs to see."
+    },
+    {
+      "key": "victim",
+      "name": "Impersonated Executive",
+      "abbreviation": "VICTIM",
+      "team": "Executive and board",
+      "description": "Confirms they did not make the call or the video and supports takedown and statements."
+    },
+    {
+      "key": "mod",
+      "name": "Content Moderation Lead",
+      "abbreviation": "MOD",
+      "team": "Trust and safety",
+      "description": "Runs the moderation queue and reports volumes and detector errors."
+    }
+  ],
+  "outsideParties": [
+    "the bank and payment processor",
+    "the beneficiary bank",
+    "law enforcement (in the US, the FBI Internet Crime Complaint Center)",
+    "the EU market surveillance authority",
+    "the data protection authority",
+    "the AI vendor",
+    "platforms hosting the synthetic content",
+    "reporters",
+    "customers",
+    "the insurer"
+  ],
+  "mediaChannels": [
+    "the organization's official social accounts",
+    "video meetings and calls",
+    "email and chat",
+    "the organization's website and status page",
+    "reporters' calls and emails",
+    "platform trust and safety reporting channels",
+    "customer support tickets",
+    "community forums and private messaging groups"
+  ],
+  "sceneAnchors": {
+    "public": "a customer service floor: rows of desks with headsets and monitors turned away, a whiteboard with a blank grid, daylight from tall windows",
+    "control": "an incident response room: a long table with laptops, two wall monitors turned off, printed timelines on a whiteboard, fluorescent light",
+    "exterior": "outside an office building entrance: glass doors, a plain sidewalk, a few people with coats and lanyards, overcast sky"
+  },
+  "injectTypes": [
+    "wire_transfer_request",
+    "voicemail",
+    "phone_call",
+    "text_message",
+    "chat_transcript",
+    "email",
+    "email_header_analysis",
+    "siem_alert",
+    "breach_notification_letter",
+    "regulatory_notice",
+    "regulatory_report_form",
+    "tweet",
+    "news_article",
+    "press_release",
+    "reporter_email",
+    "service_status_page",
+    "incident_alert_notification",
+    "memo",
+    "sitrep",
+    "simcell_script",
+    "time_jump_card"
+  ],
+  "threatFamilies": [
+    "ai_synthetic_impersonation_fraud",
+    "ai_synthetic_media_about_org",
+    "ai_system_malfunction",
+    "ai_data_poisoning",
+    "ai_vendor_breach",
+    "ai_service_degradation",
+    "cyber"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "ai_synthetic_impersonation_fraud",
+      "label": "Synthetic impersonation fraud",
+      "description": "A voice or video that looks and sounds like an executive, a supplier or an employee is used to push a payment, a credential reset or an account change. The team practices verification by callback on a known number, payment holds, bank recall and the reports that follow.",
+      "keywords": [
+        "deepfake",
+        "voice clone",
+        "voice cloning",
+        "video call",
+        "impersonation",
+        "synthetic voice",
+        "urgent transfer",
+        "wire transfer",
+        "ceo fraud",
+        "business email compromise",
+        "payment recall"
+      ],
+      "phaseArc": [
+        {
+          "title": "The lure",
+          "goal": "A request arrives that looks routine and feels urgent; the first chance to verify is easy to skip.",
+          "beats": [
+            "An executive appears to join a short video meeting and asks a finance employee to keep the matter confidential",
+            "A chat message from the same account follows with the payment details in text",
+            "A treasury analyst notes the voice sounds right but the timing is odd"
+          ]
+        },
+        {
+          "title": "The instruction",
+          "goal": "The payment details arrive and the approval route is tested against the pressure.",
+          "beats": [
+            "The request splits into several smaller transfers to new beneficiary accounts",
+            "An approver is out of the office and a deputy is asked to sign off",
+            "The callback directory is a month out of date for one number"
+          ]
+        },
+        {
+          "title": "Discovery",
+          "goal": "Someone checks, or the real executive says they never asked; the clock on the recall starts.",
+          "beats": [
+            "The impersonated executive replies to a routine email and asks what the transfer was",
+            "The bank confirms two of three transfers have settled",
+            "Treasury must decide who calls the bank and the fraud desk first"
+          ]
+        },
+        {
+          "title": "Hold, recall and disclosure",
+          "goal": "Recover what can be recovered and decide what is owed to whom.",
+          "beats": [
+            "The recall request reaches the beneficiary bank after the first cutoff",
+            "Law enforcement asks for the call recording, the chat log and the payment trail",
+            "Legal asks whether any report to a regulator or the insurer is due"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "hold the remaining transfers and call the bank now, or finish verification first and risk another transfer settling",
+        "tell the executive team the video call was synthetic before the investigation confirms it, or wait",
+        "send the recall request with what is known, or wait for the full payment trail"
+      ],
+      "clueKinds": "a callback directory entry that does not match the number used, a detector score with stated uncertainty, a missing content credential, a beneficiary account opened days earlier, the timing of the request against the real executive's calendar",
+      "hurdleKinds": "the bank cutoff has passed, the callback number belongs to the person who is impersonated, the approver is on a plane, the recording was not kept",
+      "keyCoordination": "the bank's fraud desk, the beneficiary bank, law enforcement and the impersonated executive",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "TECH_HURDLE": 15
+      },
+      "promptGuidance": "A deepfake is a lure, never proof of anything. Amounts, account numbers and instructions are carried by text (the payment request, the chat message), never by audio alone. Every person, bank and company is fictional and no real executive is imitated. State what a detector score means and that a detector can be wrong.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "payment|transfer|wire|bank|callback|verify|hold|recall",
+          "description": "the decision point involves a payment, a callback, a hold or the bank"
+        }
+      }
+    },
+    {
+      "id": "ai_synthetic_media_about_org",
+      "label": "Synthetic media about the organization",
+      "description": "A fabricated video, audio clip, statement or leaked document attributed to the organization or its spokesperson spreads online; the team verifies, answers and asks platforms to act.",
+      "keywords": [
+        "fake video",
+        "fake spokesperson",
+        "synthetic video",
+        "fabricated statement",
+        "ai-generated",
+        "fake leak",
+        "manipulated media",
+        "fake audio",
+        "content credentials",
+        "provenance"
+      ],
+      "phaseArc": [
+        {
+          "title": "First sighting",
+          "goal": "A clip appears in a feed or a reporter asks about it; nobody inside has seen it.",
+          "beats": [
+            "A short video shows a spokesperson saying something the organization never said",
+            "A reporter emails the clip and asks for comment within two hours",
+            "Employees forward the clip to the communications team"
+          ]
+        },
+        {
+          "title": "Verification",
+          "goal": "The team decides what is true enough to say, using provenance and independent checks.",
+          "beats": [
+            "The clip has no content credentials, which proves nothing either way",
+            "A detector gives a score with a wide stated uncertainty",
+            "The spokesperson confirms they never recorded it and was elsewhere"
+          ]
+        },
+        {
+          "title": "Spread and response",
+          "goal": "Reach grows faster than verification.",
+          "beats": [
+            "A larger account shares the clip with a caption claiming it is real",
+            "Platform trust and safety asks for a formal request with evidence",
+            "The first statement must say what is known and not known"
+          ]
+        },
+        {
+          "title": "Takedown and correction",
+          "goal": "Remove what can be removed and correct what was believed.",
+          "beats": [
+            "The platform labels but does not remove the clip",
+            "A follow-up story repeats the fake",
+            "Legal weighs a public statement against drawing more attention"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "respond publicly before verification finishes, or hold and let the story grow",
+        "send a formal takedown request now, or wait for a platform contact",
+        "name the clip as synthetic in the first statement, or say only that it is false"
+      ],
+      "clueKinds": "missing or broken content credentials, a detector score with its uncertainty, the spokesperson's calendar, the original upload account and its age, compression artifacts that are not proof",
+      "hurdleKinds": "the platform's contact is slow, the spokesperson cannot be reached, the original file cannot be found",
+      "keyCoordination": "platform trust and safety, the press and the impersonated spokesperson",
+      "purposeMix": {
+        "MISINFORMATION": 25,
+        "CLUE": 20,
+        "PRESSURE": 20
+      },
+      "promptGuidance": "Verify before you respond. A detector is probabilistic and a missing credential proves nothing. Synthetic items in the exercise are fictional and labeled as exercise material; never imitate a real person or a public figure.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "verif|statement|takedown|platform|spokesperson|press|label",
+          "description": "the decision point involves verification, a statement, a platform or a takedown"
+        }
+      }
+    },
+    {
+      "id": "ai_system_malfunction",
+      "label": "AI system malfunction or misuse",
+      "description": "The organization's own AI system (a customer assistant, a scoring model, an internal copilot) gives harmful, false or discriminatory output, or is misused through prompt injection. The team decides whether it is an AI incident, whether to pause the feature, and which duties start.",
+      "keywords": [
+        "chatbot",
+        "assistant",
+        "harmful output",
+        "hallucination",
+        "prompt injection",
+        "discriminatory",
+        "ai incident",
+        "serious incident",
+        "model",
+        "guardrail",
+        "customer-facing ai",
+        "kill switch"
+      ],
+      "phaseArc": [
+        {
+          "title": "Complaints",
+          "goal": "Customers and staff report odd or harmful answers; the pattern is not yet clear.",
+          "beats": [
+            "Support tickets quote the assistant giving dangerous or false advice",
+            "The harmful-output rate on the evaluation dashboard has crept up for two weeks",
+            "A journalist or advocate posts screenshots"
+          ]
+        },
+        {
+          "title": "Triage and decision",
+          "goal": "Is it an AI incident, how severe, and is it a serious incident under the rules that apply to our role?",
+          "beats": [
+            "The model owner cannot say which version produced the outputs",
+            "Legal asks whether the organization is the provider or only a deployer",
+            "Evidence must be preserved before anything is changed"
+          ]
+        },
+        {
+          "title": "Containment",
+          "goal": "Pause, roll back or restrict, with evidence preserved first.",
+          "beats": [
+            "Product wants to keep the feature for most users while the fix is built",
+            "A rollback target exists but its own evaluation is two months old",
+            "Customers who were harmed must be identified"
+          ]
+        },
+        {
+          "title": "Notice and review",
+          "goal": "Tell the right people the right thing at the right time, then learn.",
+          "beats": [
+            "A regulator notice draft must state the system, date of awareness, causal link assessment, harm and status",
+            "A customer notice must be accurate and not overclaim",
+            "The incident review finds the evaluation pipeline had expired"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "pause the feature for everyone now, or restrict it and keep the benefit for others",
+        "classify the event as a serious incident now on partial facts, or wait for the causal link to be clear",
+        "preserve logs and prompts first, or roll back immediately"
+      ],
+      "clueKinds": "a rising harmful-output rate, the model and prompt version on affected sessions, an evaluation set that no longer matches use, a guardrail that logged but did not block",
+      "hurdleKinds": "logs rotated after seven days, the evaluation pipeline expired, the model owner left, the vendor model changed without notice",
+      "keyCoordination": "the AI vendor, the regulator that applies to the organization's role, affected customers and the board",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 10,
+        "PRESSURE": 20
+      },
+      "promptGuidance": "Duties differ between a provider of a high-risk AI system, a deployer and the victim of a fraud. Do not assert that a duty applies; name the question and the plan to check. Reporting clocks come from the scenario configuration. Every customer, product and company is fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "pause|rollback|roll back|kill switch|serious incident|classif|notify|regulator|customer|evidence",
+          "description": "the decision point involves pausing or rolling back the system, classifying the incident, evidence or a notice"
+        }
+      }
+    },
+    {
+      "id": "ai_data_poisoning",
+      "label": "Data poisoning and model tampering",
+      "description": "Training data, a retrieval store or a model artifact has been corrupted or backdoored; the team investigates, rolls back and decides what to disclose.",
+      "keywords": [
+        "data poisoning",
+        "poisoned",
+        "model tampering",
+        "backdoor",
+        "training data",
+        "retrieval",
+        "embedding",
+        "model artifact",
+        "fine-tuning"
+      ],
+      "phaseArc": [
+        {
+          "title": "Anomaly",
+          "goal": "Behavior changes in a narrow, odd way.",
+          "beats": [
+            "Outputs change only when a rare phrase appears",
+            "A retrieval store holds new documents from an unknown account",
+            "An evaluation score drops on one slice of cases"
+          ]
+        },
+        {
+          "title": "Investigation",
+          "goal": "Find what changed, when and who touched it.",
+          "beats": [
+            "Data lineage is incomplete for one source",
+            "A model artifact hash does not match the registry",
+            "The security team asks for a freeze on retraining"
+          ]
+        },
+        {
+          "title": "Rollback",
+          "goal": "Return to a known good version without losing evidence.",
+          "beats": [
+            "The last good model is two releases old",
+            "Retrieval content must be rebuilt from verified sources",
+            "Customers received outputs from the bad version for eleven days"
+          ]
+        },
+        {
+          "title": "Disclosure",
+          "goal": "Decide what to tell customers, partners and regulators.",
+          "beats": [
+            "Legal asks whether the event is a cyber incident with its own clocks",
+            "The vendor that supplied the data denies a breach",
+            "The review changes who may add data to the store"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "roll back to an older model now, or keep serving while the investigation finishes",
+        "tell customers the outputs may have been affected before the scope is known, or wait"
+      ],
+      "clueKinds": "a hash mismatch against the registry, an unexplained slice-specific score drop, a new document source, access logs for the model store",
+      "hurdleKinds": "missing data lineage, the registry was not enforced, the old model needs a library that is no longer supported",
+      "keyCoordination": "the security team, the data supplier and legal",
+      "purposeMix": {
+        "CLUE": 30,
+        "TECH_HURDLE": 20
+      },
+      "promptGuidance": "Describe the technical signs at the level a responder needs: what changed, what to compare and who to call. Do not give instructions for poisoning a model. Everything is fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "rollback|roll back|freeze|disclos|notify|customer|vendor|registry|retrain",
+          "description": "the decision point involves rollback, a freeze, a disclosure or the vendor"
+        }
+      }
+    },
+    {
+      "id": "ai_vendor_breach",
+      "label": "AI vendor or supply chain breach",
+      "description": "A model, data or tooling vendor is compromised or has an incident; the team finds out what it exposed, applies interim controls and meets its duties to its own customers.",
+      "keywords": [
+        "ai vendor",
+        "model provider",
+        "third party",
+        "vendor breach",
+        "api key",
+        "vendor notice",
+        "subprocessor"
+      ],
+      "phaseArc": [
+        {
+          "title": "Vendor notice",
+          "goal": "A short, vague notice arrives.",
+          "beats": [
+            "The vendor says \"a limited number of customers\" may be affected",
+            "The vendor status page says \"degraded performance\"",
+            "Procurement cannot find which contract clause covers notice"
+          ]
+        },
+        {
+          "title": "Scope check",
+          "goal": "What of ours did the vendor hold or touch?",
+          "beats": [
+            "Prompts and uploaded documents were sent to the vendor API",
+            "Keys issued to the vendor must be rotated",
+            "The AI system inventory is out of date"
+          ]
+        },
+        {
+          "title": "Interim controls",
+          "goal": "Reduce exposure while facts arrive.",
+          "beats": [
+            "Switching to a fallback model changes outputs",
+            "Customers ask whether their data was involved",
+            "The vendor questionnaire answers disagree with its notice"
+          ]
+        },
+        {
+          "title": "Duties and lessons",
+          "goal": "Meet the clocks that apply to us.",
+          "beats": [
+            "Privacy counsel asks which clock started and when",
+            "The board asks about concentration on one vendor",
+            "A contract review is opened"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "cut the vendor integration now, or keep it while scope is unclear",
+        "notify customers on the vendor's partial notice, or wait for our own scope check"
+      ],
+      "clueKinds": "a vendor notice with no scope, an inventory entry naming the vendor and data classes sent, key rotation logs",
+      "hurdleKinds": "no fallback model, a contract with no notice deadline, the vendor contact is a shared mailbox",
+      "keyCoordination": "the vendor, procurement and privacy counsel",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20
+      },
+      "promptGuidance": "Vendor and customer names are fictional. The vendor's first notice is short and incomplete, and stays so for a while.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "vendor|contract|inventory|key|customer|notice|fallback",
+          "description": "the decision point involves the vendor, the contract, the inventory, keys or a customer notice"
+        }
+      }
+    },
+    {
+      "id": "ai_service_degradation",
+      "label": "AI service degradation",
+      "description": "The controls around AI quietly stop working: a monitoring blind spot, an evaluation pipeline that expired, a deepfake detector that is down. The team notices late and decides how much to trust what happened in between.",
+      "keywords": [
+        "detector outage",
+        "monitoring blind spot",
+        "evaluation pipeline",
+        "drift",
+        "moderation queue",
+        "alert fatigue",
+        "service degradation"
+      ],
+      "phaseArc": [
+        {
+          "title": "Quiet failure",
+          "goal": "The signal that would have warned them is missing.",
+          "beats": [
+            "An evaluation job has not run for nineteen days",
+            "The moderation queue is empty because intake broke",
+            "The detector returns a default score for every item"
+          ]
+        },
+        {
+          "title": "Discovery",
+          "goal": "Someone asks why the dashboard is flat.",
+          "beats": [
+            "A manual check finds the pipeline credential expired",
+            "The team must decide what the gap hides",
+            "A customer complaint arrives that the monitor should have caught"
+          ]
+        },
+        {
+          "title": "Backfill",
+          "goal": "Reconstruct what was missed.",
+          "beats": [
+            "Backfilled evaluations show the harmful-output rate rose after day six",
+            "The moderation queue now holds a backlog",
+            "Review of the detector log shows missed items"
+          ]
+        },
+        {
+          "title": "Repair and report",
+          "goal": "Fix the control and decide who to tell.",
+          "beats": [
+            "Add a heartbeat alert to every control",
+            "Decide whether the gap changes any earlier assessment",
+            "The board asks how many other controls are unmonitored"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "assume nothing happened during the gap, or backfill and review before saying so",
+        "rerun every evaluation now, or prioritize the customer-facing system"
+      ],
+      "clueKinds": "a flat line where noise should be, a job with no recent run, a default value repeated",
+      "hurdleKinds": "the owner of the pipeline left, no heartbeat alert, the backfill needs data that was not kept",
+      "keyCoordination": "the model owner and the board",
+      "purposeMix": {
+        "CLUE": 30,
+        "NOISE": 15
+      },
+      "promptGuidance": "A degradation is an absence of signal. Make the clue the missing data, with dates, never a dramatic event.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "backfill|monitor|evaluation|detector|heartbeat|alert|review|queue",
+          "description": "the decision point involves a backfill, monitoring, an evaluation or the detector"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine vendor invoice for an unrelated service",
+    "a marketing request to use the assistant in a campaign",
+    "an employee asking how to label a legitimate AI-generated slide",
+    "a customer asking why the chat window looks different",
+    "an auditor asking for last year's model inventory"
+  ],
+  "pressureExamples": [
+    "a bank saying the recall cutoff is in forty minutes",
+    "a reporter asking whether the clip is real before a 5 p.m. deadline",
+    "a board member asking if the regulator must be told today",
+    "the product owner asking not to pause a feature that drives sign-ups",
+    "the impersonated executive asking why the company has not answered publicly"
+  ],
+  "rolePatterns": {
+    "public": "comms|tns|mod|prod",
+    "technical": "mleng|ciso|mod",
+    "security": "fraud|legal|treas",
+    "operations": "aigov|exec|board|vendor|treas"
+  },
+  "agencyPattern": "FBI|IC3|FinCEN|FCC|FTC|SEC|NIST|CISA|ENISA|Commission|AI Office",
+  "coreCapabilities": [
+    "cybersecurity",
+    "public_information_and_warning",
+    "operational_coordination",
+    "intelligence_and_information_sharing"
+  ],
+  "regulations": ["sec_8k_105"],
+  "suggestedToolkits": ["ai_incidents", "media_environment"]
+}
