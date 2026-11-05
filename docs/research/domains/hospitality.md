@@ -1,0 +1,124 @@
+# Domain dossier: `hospitality` (hotels, resorts, tourism and cruise)
+
+Research for the hospitality epic (#703, spec 0470) and the toolkit framework (#648, spec 0448). Researched 2026-11-04. **[V]** = checked this session against a primary or official source. **[U]** = not verified this session.
+
+## 1. Scope
+
+**Covers:** organizations that host guests away from home: hotels and resorts (single property and multi-property brands), cruise lines and their shoreside operations, destination and tourism boards, tour operators, and hospitality programs at colleges.
+
+**Exercise types this domain needs:**
+
+- **Outbreak at sea or in a property:** acute gastroenteritis (usually norovirus) among guests and crew; isolation, sanitation, health authority reporting, itinerary and boarding decisions.
+- **Hurricane or severe weather:** a resort or an itinerary in the path; guest evacuation or shelter-in-place; ship routing and port changes.
+- **Guest death or serious injury; missing guest or passenger overboard.**
+- **Security incident:** an armed person or threat in a lobby, a crime on board.
+- **Cyber attack on reservations, property management or keycards.**
+- **Fire or life-safety event** in a tower; evacuation and guest accounting.
+
+**Aliases:** hotel, resort, lodging, hospitality, cruise, cruise line, ship, tourism, destination, convention hotel, timeshare, vacation rental, guest services, front office, revenue management.
+
+**Boundary with existing domains:** `commercial_facilities` already has a lodging profile with hotel roles, systems (property management system, keycards), guest emergencies, a hotel cyber scenario and the `pms_outage_board` and `guest_letter` templates. `port_maritime` has the cruise terminal on the shore side. `stadium_venue` covers events. This domain adds the cruise line and tourism board as organizations, plus outbreak-at-sea and guest-emergency products. Variants: **hotel or resort**, **cruise line (ship and shore)**, **tourism board**. The hotel variant extends `commercial_facilities` lodging by reference; do not copy its roles.
+
+## 2. Organization and roles
+
+**Cruise ship and shoreside:**
+
+| Title                                   | Abbrev. | Team      | What they decide                                                                        |
+| --------------------------------------- | ------- | --------- | --------------------------------------------------------------------------------------- |
+| Master (captain)                        | MASTER  | Ship      | Safety of the ship, reports to authorities, itinerary changes, final authority on board |
+| Staff Captain / Safety Officer          | SAFETY  | Ship      | Emergency stations, muster, drills, passenger accounting                                |
+| Ship's Doctor / Medical Officer         | DOC     | Medical   | Case counts from the medical log, isolation, specimen collection, reports to CDC        |
+| Hotel Director / Chief Housekeeper      | HOTEL   | Ship      | Cleaning and disinfection, food and beverage controls, guest services                   |
+| Environmental / Public Health Officer   | EHO     | Ship      | Sanitation program, outbreak prevention and response plan                               |
+| Security Officer                        | SEC     | Ship      | Crime reports, evidence, liaison with FBI and Coast Guard                               |
+| Designated Person Ashore (DPA)          | DPA     | Shoreside | Link between ship and company (ISM Code role) **[U]**                                   |
+| Fleet / Marine Operations               | OPS     | Shoreside | Itinerary, port agents, delays, boarding of the next voyage                             |
+| Public Health / Medical Director ashore | MED     | Shoreside | Outbreak response coordination with CDC and port health                                 |
+| Guest Care / Communications             | COMMS   | Shoreside | Guest messages, media statements, family hotline, social media                          |
+| Legal / Risk                            | LEGAL   | Shoreside | Notices, claims, passenger rights                                                       |
+
+**Hotel and resort (see `commercial_facilities` for the full table):** General Manager, Rooms Division Director, Director of Security, Chief Engineer, Director of Sales, Revenue Manager, HR, IT lead, Food and Beverage Director, Executive Housekeeper.
+
+**Tourism board variant:** Destination Marketing Organization CEO, Visitor Services, Crisis communications lead, Industry partners liaison, Emergency management liaison.
+
+Outside parties: CDC (Vessel Sanitation Program and quarantine stations), port health and the port authority, US Coast Guard, FBI, flag state and port state, local health departments, emergency management, the airline and ground transport partners, consulates, families, travel agents, press and social media.
+
+## 3. Systems
+
+- **Ship:** shipboard medical log and illness surveillance, safety management system, bridge and navigation, passenger and crew manifest and **muster/accounting** system, onboard Wi-Fi and phone, public address, CCTV, property management system and folio, food safety records.
+- **Hotel and resort:** property management system, keycard locks, central reservations and channel manager, point of sale, guest Wi-Fi, fire alarm and mass notification, in-house guest list, shuttle and tour booking.
+- **Shared:** reservation and loyalty databases (guest data), payment systems, call center, social media monitoring, weather feeds.
+
+## 4. Products (what injects look like)
+
+| Product                                                                                                      | Render                              |
+| ------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| Cumulative gastroenteritis report (24-hour and 4-hour reports, counts for passengers and crew, zero reports) | template (new)                      |
+| Epidemic curve of cases by onset day, attack rate against the 2 percent and 3 percent lines                  | figure (epidemiology toolkit, #690) |
+| Outbreak response checklist (isolation, cleaning, specimens, signage, food service changes)                  | template (new)                      |
+| Passenger and crew letters (outbreak notice, cabin isolation, itinerary change, compensation offer)          | templates                           |
+| Muster and accounting board (passengers and crew mustered, missing, cabins checked)                          | figure (new)                        |
+| Itinerary and weather routing map with storm cone and port status                                            | figure (weather toolkit, spec 0449) |
+| Incident report to FBI/Coast Guard for alleged crimes; man overboard checklist                               | templates (new)                     |
+| In-house guest list and accountability board; evacuation status by floor                                     | template (existing hotel profile)   |
+| Guest hotline script, family reunification message, media holding statement, social posts                    | existing communications templates   |
+| PMS outage board, guest letter under the door                                                                | existing (`commercial_facilities`)  |
+
+## 5. Regulations, doctrine and documents
+
+**CDC Vessel Sanitation Program (VSP) and ship illness reporting** **[V: 42 CFR 71.21 text, CDC VSP pages]**
+
+- **42 CFR 71.21(a):** the master of a ship destined for a US port must report "immediately" to the quarantine station the occurrence of any death or any ill person among passengers or crew in the 15 days before expected arrival (or since leaving a US port, whichever is shorter) **[V]**.
+- **71.21(c):** for ships carrying 13 or more passengers, report the number of cases of acute gastroenteritis (AGE, including zero) 24 hours before arrival, and any later cases not less than 4 hours before arrival **[V]**.
+- **Thresholds:** VSP provides support and technical assistance when ill people reach 2 percent or more of passengers or crew; it considers 3 percent or more an outbreak and investigates, and may investigate an unusual illness pattern below 3 percent **[V: CDC monitoring and outbreak response pages]**. At 2 percent and again at 3 percent a special report is submitted online **[V: infographic text on the CDC page]**. These thresholds apply to ships under VSP jurisdiction on voyages with US and foreign ports; the posting criteria changed over time **[V for the current wording; archive pages used older criteria]**.
+- **Ship duties in an outbreak:** activate the outbreak prevention and response plan, increased cleaning and disinfection, collect stool specimens, isolate ill passengers and crew, consult CDC on cleaning and reporting, and tell passengers and crew to report illness. VSP may board, and may ask the cruise line to notify port authorities, delay boarding of the next voyage and arrange cleaning in the terminal **[V]**.
+- **Case definition for AGE** (three or more loose stools in 24 hours, or vomiting plus another symptom) **[U: from a search summary; read the VSP Operations Manual or Environmental Public Health Standards when building the template]**. The current VSP standards PDF is on cdc.gov **[U]**.
+- **Burden:** CDC's surveillance report for 2006-2019 counts 156 passenger and 16 crew outbreaks in the Maritime Illness Database and Reporting System and says about 90 percent of outbreaks with a known cause involved norovirus **[V: MMWR Surveillance Summary 70(6)]**.
+
+**Safety at sea and crime reporting** **[U]**
+
+- SOLAS Chapter III as amended from 2015: passengers newly embarked for more than 24 hours muster before or immediately on departure (before 2015 the muster was within 24 hours of embarkation); adopted after the Costa Concordia casualty. Verified only through search summaries of IMO material **[U]**.
+- Cruise Vessel Security and Safety Act (46 U.S.C. 3507): cruise lines report certain alleged crimes (homicide, suspicious death, missing US nationals, kidnapping, serious assaults, sex offenses, theft over $10,000) to the FBI as soon as possible and keep logs of all allegations; the Coast Guard and DOT publish quarterly statistics **[U: search summaries; read the statute text]**.
+
+**Hotels and resorts:** Hotel and Motel Fire Safety Act (FEMA/USFA) fire safety material, ready-to-use hurricane and active threat guidance from DHS and CISA (CISA Commercial Facilities sector CTEP situation manual, 2023, already referenced in `commercial_facilities`) **[U here; see that dossier]**. Fire and life-safety codes (NFPA 101, IFC) are copyrighted and are only named.
+
+**Other candidates** **[U]:** CDC norovirus outbreak management guidance, FDA Food Code (public), state and local health code for lodging, EPA/CDC Legionella guidance for building water systems, DHS/CISA hurricane and cyber material. Verify license and URL at pack build.
+
+## 6. Real events and lessons
+
+- **Costa Concordia, 2012** (grounding with 32 deaths): led to the muster rule change above **[U]**. A shore-ship communication and evacuation timing case.
+- **Norovirus on cruise ships:** recurring; the response is a published plan, not an invention, so the exercise tests execution and communications. Use CDC's public outbreak updates for realistic case counts and pacing **[V: CDC outbreak pages exist; a 2025 outbreak update was listed]**.
+- **Hotel and casino cyber attacks (2023):** reservations, keycards and gaming floors disrupted for days; exercises must show degraded-mode operations (paper check-in, key cutting) **[U: from commercial_facilities dossier; do not name real companies in exercises]**.
+- **Hurricane resort operations:** guest evacuation timing is driven by flight and road clearance, as in the hurricane decision timeline of spec 0449 FR-11.
+
+## 7. Data sources (free, public)
+
+| Data                                            | Source                                         | Notes                                                                                    |
+| ----------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Cruise outbreak list with case counts and dates | CDC VSP outbreak updates                       | Public; use as pacing for simulated outbreaks; fictional ships and lines in the exercise |
+| Hurricane tracks, cones, watches and warnings   | NHC archive (weather toolkit)                  | Reused by reference (spec 0449 FR-7)                                                     |
+| Ship position history                           | AIS data (NOAA/BOEM MarineCadastre, US waters) | **[U: confirm coverage and license]**                                                    |
+| Cruise crime statistics                         | DOT quarterly CVSSA reports                    | Public **[U: listed in search results, not opened]**                                     |
+| Lodging occupancy and tourism volume            | Public tourism statistics                      | **[U]**                                                                                  |
+
+Outbreak case data is simulated by the epidemiology toolkit's generator from parameters: ship size, attack rate, onset curve, isolation effect.
+
+## 8. Evaluation
+
+- **Guest safety and accounting:** time to account for every guest and crew member (muster or in-house list), number unaccounted at each point.
+- **Authority notifications:** CDC and port health reports filed on time (24-hour and 4-hour reports; special reports at 2 and 3 percent), FBI/Coast Guard crime reports, flag state, local health department.
+- **Outbreak control actions:** isolation, cleaning, specimens, boarding decision for the next voyage, documented with times.
+- **Communications:** guest, family, media and employee messages consistent and timely (spec 0448 message consistency).
+- **HSEEP core capabilities:** Public Health, Healthcare and EMS (Environmental Response/Health and Safety), Mass Care Services, Operational Communications, Public Information and Warning, On-scene Security, Protection and Law Enforcement, Fatality Management Services.
+
+## 9. Threat families and scenario arcs
+
+- **Health:** outbreak at sea or in a property (norovirus, Legionella, food-borne).
+- **Natural hazards:** hurricane, flood, wildfire, earthquake affecting a property or itinerary.
+- **Safety and security:** fire, armed threat, man overboard, serious injury, death.
+- **Cyber:** reservations, PMS, keycards, guest data.
+- Arc for outbreak at sea: first cluster in the medical log → threshold crossed (2 percent, then 3 percent) → reports to CDC and port → response plan, isolation, cleaning → guest and media communications → boarding decision for the next voyage → investigation and close-out.
+
+## 10. Reuse by other domains
+
+The outbreak-at-sea and guest-emergency products suit airlines and airports, campuses, long-term care, correctional facilities, large events and any congregate setting. Reuses the epidemiology toolkit (#690), weather toolkit, crisis communications (#691) and `commercial_facilities`, `port_maritime` and `stadium_venue` profiles by reference.
