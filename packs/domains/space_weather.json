@@ -1,0 +1,717 @@
+{
+  "id": "space_weather",
+  "label": "Space weather and satellite operations",
+  "description": "The organizations that operate through space weather: a grid control room (a reliability coordinator and a transmission operator following a geomagnetic disturbance operating plan), a satellite operations center, and a GNSS timing and network operations team. The forecasts come from the NOAA Space Weather Prediction Center: watches, warnings and alerts, the G, S and R scales, Kp, and X-ray and proton flux. Plans and standards: the grid operating plan and procedure (NERC EOP-010), transmission planning for geomagnetic disturbances (NERC TPL-007), satellite fault-protection and safe-mode procedures, and timing holdover limits. Variants: grid control room, satellite operations center, GNSS timing and network operations.",
+  "aliases": [
+    "space weather",
+    "geomagnetic storm",
+    "geomagnetic disturbance",
+    "gmd",
+    "solar storm",
+    "gnss outage",
+    "pnt",
+    "satellite operations",
+    "satellite operator",
+    "space operations",
+    "solar flare",
+    "coronal mass ejection"
+  ],
+  "vocabulary": {
+    "facility": "the control room, the high-voltage transformers and substations, the ground station and satellites, and the timing sources at the network sites",
+    "public": "customers without power or service, pilots and passengers on polar routes, farmers and surveyors who steer by GNSS, and satellite service subscribers",
+    "frontline": "system operators, reliability coordinators, protection engineers, satellite flight controllers, network timing engineers and flight dispatchers",
+    "operationsCenter": "the system operations control room (or the satellite operations center, or the network operations center)"
+  },
+  "factCategories": [
+    {
+      "id": "substations",
+      "label": "Substations and transformers",
+      "noun": "Substations?|Transformers?|Banks?",
+      "genericNoun": "Stations?",
+      "context": "GIC|geomagnetic|neutral|reactive|transformer|kV|storm|Kp",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "satellites",
+      "label": "Satellites and spacecraft",
+      "noun": "Satellites?|Spacecraft|Vehicles?",
+      "context": "orbit|drag|safe[- ]mode|telemetry|anomaly|flux|charging|ground station",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "time_sources",
+      "label": "Timing sources and clocks",
+      "noun": "Grandmaster Clocks?|Timing Sources?|Time Servers?|Primary Reference Clocks?",
+      "context": "GNSS|GPS|holdover|timing|oscillator|PTP|NTP|failover",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "observatories",
+      "label": "Magnetometers and observatories",
+      "noun": "Magnetometers?|Observatories|Observatory",
+      "context": "geomagnetic|Kp|nT|field|disturbance|storm",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "energy management system and operator logging tools",
+      "SWPC email and web subscriptions and the alerts feed",
+      "reliability coordinator hotline and notification tool",
+      "flight planning and dispatch system",
+      "satellite mission planning and customer notification tools",
+      "network management and timing alarm dashboards",
+      "email and the corporate website",
+      "social media accounts",
+      "helpdesk / ITSM"
+    ],
+    "ot": [
+      "SCADA and GIC monitors on transformer neutrals",
+      "reactive power resources (capacitor banks, static VAR compensators)",
+      "protection relays and their time synchronization",
+      "GNSS receivers and GNSS-disciplined oscillators at network sites",
+      "grandmaster clocks and time distribution networks",
+      "satellite command and telemetry links and ground station antennas",
+      "HF radio and satellite communications for oceanic and polar flights",
+      "GNSS-guided farm and survey equipment"
+    ]
+  },
+  "roles": [
+    {
+      "key": "rc",
+      "name": "Reliability Coordinator Operator",
+      "abbreviation": "RC",
+      "team": "Team A: Grid Control Room",
+      "description": "Owns the grid operating plan: passes forecast and current space weather information to the entities named in the plan and coordinates operating actions across the wide area."
+    },
+    {
+      "key": "top",
+      "name": "Transmission Operator System Operator",
+      "abbreviation": "TOP",
+      "team": "Team A: Grid Control Room",
+      "description": "Owns the operating procedure: actions at the predetermined conditions, the log, and the call to end them."
+    },
+    {
+      "key": "tp",
+      "name": "Transmission Planner / Protection Engineer",
+      "abbreviation": "TP",
+      "team": "Team B: Planning and Protection",
+      "description": "Owns the assessments, the GIC and transformer risk picture, relay misoperation checks and the post-event review."
+    },
+    {
+      "key": "gen",
+      "name": "Generation Plant Operator",
+      "abbreviation": "GEN",
+      "team": "Team C: Generation",
+      "description": "Owns reactive support, unit protection settings and availability during the disturbance."
+    },
+    {
+      "key": "satops",
+      "name": "Satellite Operations Engineer / Flight Director",
+      "abbreviation": "SATOPS",
+      "team": "Team D: Satellite Operations",
+      "description": "Owns safe-mode, attitude and drag management, anomaly response and notices to customers."
+    },
+    {
+      "key": "ssa",
+      "name": "Space Situational Awareness Analyst",
+      "abbreviation": "SSA",
+      "team": "Team D: Satellite Operations",
+      "description": "Owns tracking quality and conjunction risk when drag changes orbits."
+    },
+    {
+      "key": "time",
+      "name": "Network Timing Engineer",
+      "abbreviation": "TIME",
+      "team": "Team E: Timing and Network Operations",
+      "description": "Owns holdover limits, failover to other time sources and the timing alarms."
+    },
+    {
+      "key": "occ",
+      "name": "Airline Operations Control / Flight Dispatcher",
+      "abbreviation": "OCC",
+      "team": "Team F: Aviation",
+      "description": "Owns reroutes away from polar and high-latitude paths, altitude choices and crew communications when HF fails."
+    },
+    {
+      "key": "field",
+      "name": "Farm or Survey Operations Lead",
+      "abbreviation": "FIELD",
+      "team": "Team G: GNSS Users",
+      "description": "Owns the call to stop or switch to non-GNSS guidance, and to resume when accuracy returns."
+    },
+    {
+      "key": "em",
+      "name": "Emergency Manager / State Grid Liaison",
+      "abbreviation": "EM",
+      "team": "Team H: Emergency Management",
+      "description": "Owns pre-positioning, shelters, communications and coordination of a long or wide outage."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team I: Communications",
+      "description": "Owns messages that state impacts and actions, not solar science, and keeps them consistent with partners."
+    }
+  ],
+  "outsideParties": [
+    "the NOAA Space Weather Prediction Center (SWPC)",
+    "the NOAA satellite operations team",
+    "USGS geomagnetism observatories",
+    "NERC and the Regional Entity",
+    "the reliability coordinator and neighboring entities",
+    "the FAA and ICAO space weather centers",
+    "GNSS providers and receiver makers",
+    "satellite customers",
+    "state emergency management and FEMA",
+    "the public utility commission",
+    "transformer and receiver manufacturers",
+    "news media",
+    "amateur radio operators"
+  ],
+  "mediaChannels": [
+    "aurora photos posted on Facebook and Instagram by people far south of where they are usually seen",
+    "a farm equipment forum thread about autosteer drifting",
+    "a space weather enthusiast's post on X/Twitter quoting the alert text",
+    "the local TV station's weather segment",
+    "an amateur radio net reporting HF conditions",
+    "a trade press story on satellite operators"
+  ],
+  "sceneAnchors": {
+    "public": "on a dark rural road at night: a few people standing by parked cars with phones raised toward a faint green and red aurora, bare trees, clear sky, cold air",
+    "control": "inside a transmission system control room: a wall of one-line diagrams and trend screens, operators at consoles with headsets, a binder labeled operating procedure on a desk, dim blue light",
+    "exterior": "at a rural high-voltage substation at night: large transformers, bundled conductors on steel towers, frost on the gravel, a faint green aurora low on the horizon"
+  },
+  "injectTypes": [
+    "press_release",
+    "sitrep",
+    "emergency_declaration",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "email",
+    "scene_photo",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "memo",
+    "service_status_page"
+  ],
+  "threatFamilies": [
+    "space_geomagnetic_storm",
+    "space_radiation_storm",
+    "space_radio_blackout",
+    "space_combined_event",
+    "space_gnss_timing_loss",
+    "space_satellite_anomaly",
+    "space_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "space_geomagnetic_storm",
+      "label": "Severe geomagnetic storm",
+      "description": "A coronal mass ejection is watched for days, then warned, then arrives; Kp climbs and the grid operating procedure must be applied before onset, with GNSS and HF effects following.",
+      "keywords": [
+        "geomagnetic storm",
+        "geomagnetic disturbance",
+        "gmd",
+        "gic",
+        "geomagnetically induced current",
+        "coronal mass ejection",
+        "cme",
+        "kp index",
+        "g4",
+        "g5",
+        "severe geomagnetic storm watch"
+      ],
+      "phaseArc": [
+        {
+          "title": "Flare and CME observed, watch issued",
+          "goal": "Players see a geomagnetic storm watch with days of lead time and decide what to prepare and who to tell.",
+          "beats": [
+            "A large flare is reported and a CME is modeled toward Earth",
+            "A geomagnetic storm watch lists the highest level predicted for each day",
+            "The reliability coordinator reviews the operating plan and the entities on its list"
+          ]
+        },
+        {
+          "title": "Warning as the CME approaches",
+          "goal": "A warning narrows the time; the operating procedure's predetermined condition is near and the arrival time is uncertain by hours.",
+          "beats": [
+            "A K-index warning is issued",
+            "The solar wind monitor shows the shock approaching with a stated arrival window",
+            "Operators ask whether to apply the procedure now or wait for the condition"
+          ]
+        },
+        {
+          "title": "Arrival and onset",
+          "goal": "Kp crosses the condition; operating actions, GNSS errors and HF effects begin at once.",
+          "beats": [
+            "A sudden commencement and a K-index alert follow",
+            "GIC readings rise at transformer neutrals",
+            "GNSS errors grow and an airline loses HF on polar routes"
+          ]
+        },
+        {
+          "title": "Peak, recovery and review",
+          "goal": "Players decide when to end actions, keep GNSS-dependent work stopped, and review the record.",
+          "beats": [
+            "Kp falls below the termination condition",
+            "Scintillation lingers and guidance accuracy stays poor for days at the highest levels",
+            "A review compares the log with the procedure and the messages sent"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "apply the operating procedure at the warning and give up transfer capacity, or wait for Kp to cross the condition and risk acting after onset",
+        "end the procedure when Kp falls below the condition, or hold it through a second CME that is still inbound",
+        "tell the public to expect a long outage now on the watch, or wait for observed impacts and risk an unprepared community"
+      ],
+      "clueKinds": "a geomagnetic storm watch or warning with a stated level, a solar wind speed step at the monitor upstream of Earth, a magnetometer disturbance at an observatory, a GIC reading at a transformer neutral",
+      "hurdleKinds": "a data feed from the upstream monitor that drops out at the worst time, relays that trip on harmonics, a stale forecast on a public display, GNSS time errors in the control room's own clocks",
+      "keyCoordination": "the NOAA Space Weather Prediction Center and the reliability coordinator",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Scale levels describe potential effects, and impacts are regional: they depend on geomagnetic latitude and ground conductivity. The G scale maps to Kp: G1 is Kp 5, G2 is 6, G3 is 7, G4 is 8 (and 9-), G5 is 9. CME arrival time is uncertain by hours; state the lead time the scenario assumes. Times are UTC in NOAA products. A watch is for elevated risk with uncertain timing, a warning for an event that is occurring, imminent or likely, and an alert says a threshold has been crossed. Do not give engineering advice about protection settings.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "space_radiation_storm",
+      "label": "Solar radiation storm",
+      "description": "A proton event raises particle flux at 10 MeV and above: polar HF is lost, satellites see single-event upsets, and aircraft on polar routes are rerouted.",
+      "keywords": [
+        "solar radiation storm",
+        "proton event",
+        "s3",
+        "s4",
+        "single event upset",
+        "polar route",
+        "radiation storm",
+        "energetic particles"
+      ],
+      "phaseArc": [
+        {
+          "title": "Flare and rising proton flux",
+          "goal": "Proton flux begins to rise after a flare; players see an alert threshold crossed.",
+          "beats": [
+            "A flare is followed by a proton event alert",
+            "Flux crosses the S1 level and keeps rising",
+            "Dispatch asks about polar routes"
+          ]
+        },
+        {
+          "title": "Radiation level climbs",
+          "goal": "The scale level rises to a level that affects satellites and polar flights.",
+          "beats": [
+            "An alert reports the S3 level reached",
+            "A satellite reports a single-event upset",
+            "Polar HF communications become unreliable"
+          ]
+        },
+        {
+          "title": "Reroute and protect",
+          "goal": "Players reroute flights, put satellites in a protective mode and tell customers.",
+          "beats": [
+            "A flight is rerouted south of the polar region",
+            "A satellite is placed in safe mode ahead of the flux peak",
+            "A customer notice is drafted"
+          ]
+        },
+        {
+          "title": "Decay and return to service",
+          "goal": "Flux decays over days; players decide when routes and satellites return to service.",
+          "beats": [
+            "Flux falls below the S1 level",
+            "Satellites are brought out of safe mode in sequence",
+            "A review checks the crew and customer notices"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "reroute the polar flight now at a fuel and schedule cost, or continue and rely on a backup communications path",
+        "put the satellite in safe mode before the flux peak and interrupt service, or keep service and accept upset risk"
+      ],
+      "clueKinds": "a proton event alert with a stated level, a GOES proton flux series, a satellite upset count, a dispatcher's loss of HF contact",
+      "hurdleKinds": "an alternate route closed by weather, a satellite telemetry gap, an airline with no secondary communications on the route",
+      "keyCoordination": "the NOAA Space Weather Prediction Center and the airline operations control center",
+      "promptGuidance": "S levels are tied to the flux of particles at or above 10 MeV (S1 is 10 particle flux units, each level ten times higher). Do not give radiation dose figures for crews. Aircraft decisions are the operator's; the exercise shows who decides and on what information.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "space_radio_blackout",
+      "label": "Radio blackout from a flare",
+      "description": "An X-ray flare blacks out HF radio on the sunlit side of Earth within minutes, with little warning, affecting aviation, maritime and amateur radio.",
+      "keywords": [
+        "radio blackout",
+        "hf blackout",
+        "x-class flare",
+        "x-ray flare",
+        "r3",
+        "r4",
+        "r5",
+        "hf radio",
+        "solar flare"
+      ],
+      "phaseArc": [
+        {
+          "title": "Active region",
+          "goal": "An active region is flaring; no one has lost radio yet.",
+          "beats": [
+            "An outlook notes the chance of strong flares",
+            "A moderate flare is reported",
+            "Dispatch asks what to expect"
+          ]
+        },
+        {
+          "title": "Flare and blackout",
+          "goal": "A large flare blacks out HF on the sunlit side within minutes.",
+          "beats": [
+            "A radio blackout alert reports the R level reached",
+            "Oceanic flights lose HF contact",
+            "A maritime operator reports no HF"
+          ]
+        },
+        {
+          "title": "Backup communications",
+          "goal": "Players switch to other means and handle repeated flares.",
+          "beats": [
+            "Satellite voice is used for position reports",
+            "A second flare follows an hour later",
+            "Controllers ask about separation"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "HF returns in tens of minutes to hours; players review the communications plan.",
+          "beats": [
+            "HF contact returns on the lower bands first",
+            "A summary lists the flares of the day",
+            "A review finds a route without a backup"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "hold flights at the oceanic boundary until contact returns, or continue on satellite voice and accept the workload"
+      ],
+      "clueKinds": "a radio blackout alert with the R level and flare class, a GOES X-ray flux series, an HF contact loss report",
+      "hurdleKinds": "no satellite voice on the aircraft, a ground station down, a second flare before the first has recovered",
+      "keyCoordination": "the NOAA Space Weather Prediction Center and air traffic services",
+      "promptGuidance": "R levels are tied to the peak GOES X-ray class: R1 is M1, R2 is M5, R3 is X1, R4 is X10, R5 is X20. The effect is on the sunlit side and lasts from minutes to hours; a flare gives no lead time.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "space_combined_event",
+      "label": "Combined flare, radiation and CME event",
+      "description": "One active region produces a flare, a radiation storm and then a CME: radio blackout, S-level radiation and a geomagnetic storm arrive in sequence and demands overlap.",
+      "keywords": [
+        "combined event",
+        "flare and cme",
+        "radiation and geomagnetic storm",
+        "multi-hazard space weather",
+        "extreme space weather"
+      ],
+      "phaseArc": [
+        {
+          "title": "Flare and blackout",
+          "goal": "The flare comes first and with no warning.",
+          "beats": [
+            "A radio blackout alert",
+            "A CME is seen in coronagraph images",
+            "Dispatch loses HF on a polar route"
+          ]
+        },
+        {
+          "title": "Radiation arrives",
+          "goal": "A radiation storm begins while the CME is in transit.",
+          "beats": [
+            "A proton event alert",
+            "A satellite upset",
+            "A storm watch is issued for the days ahead"
+          ]
+        },
+        {
+          "title": "Geomagnetic storm",
+          "goal": "The CME arrives; the grid and GNSS effects stack on communications losses already in progress.",
+          "beats": [
+            "A warning and then an alert for a high G level",
+            "GIC readings rise",
+            "GNSS error grows for farm and survey users"
+          ]
+        },
+        {
+          "title": "Days of recovery",
+          "goal": "Several hazards decay on different clocks and players must sequence the return to service.",
+          "beats": [
+            "HF returns, then flux falls, then Kp falls",
+            "GNSS accuracy stays poor for days",
+            "A joint review of the messages sent"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "send one public message that covers radio, radiation and power now, or three separate messages and risk conflicting guidance"
+      ],
+      "clueKinds": "a string of alerts with different codes in the order the hazards arrived, a coronagraph-based arrival forecast, reports from several sectors at once",
+      "hurdleKinds": "staff stretched between hazards, a data feed gap during the peak, conflicting statements from partners",
+      "keyCoordination": "the NOAA Space Weather Prediction Center and state emergency management",
+      "promptGuidance": "Keep the clocks separate: a flare gives minutes of effect, a radiation storm hours to days, a geomagnetic storm hours to a day or more, and GNSS scintillation can last days after the peak. Messages across sectors should state the same severity and duration.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "space_gnss_timing_loss",
+      "label": "GNSS degradation and timing loss",
+      "description": "Ionospheric disturbance degrades satellite navigation for hours to days: positions drift, fewer satellites are tracked, and timing receivers enter holdover until it expires.",
+      "keywords": [
+        "gnss",
+        "gps outage",
+        "timing holdover",
+        "holdover",
+        "scintillation",
+        "ionospheric disturbance",
+        "pnt",
+        "timing alarm",
+        "autosteer",
+        "guidance accuracy"
+      ],
+      "phaseArc": [
+        {
+          "title": "Early errors",
+          "goal": "Errors rise slightly; alarms are few and ambiguous.",
+          "beats": [
+            "A timing engineer sees a few satellites lost",
+            "A farm customer reports guidance drifting",
+            "A storm warning is in effect"
+          ]
+        },
+        {
+          "title": "Holdover",
+          "goal": "Receivers lose lock and enter holdover; the clock is running down.",
+          "beats": [
+            "Timing alarms on several sites",
+            "Holdover remaining is below a few hours at the weakest site",
+            "The failover source is untested at one site"
+          ]
+        },
+        {
+          "title": "Failover or loss",
+          "goal": "Players switch time sources before holdover expires or accept the consequences.",
+          "beats": [
+            "A site passes its holdover limit",
+            "A network alarm storm hides the real fault",
+            "A dispatcher asks about GNSS approaches"
+          ]
+        },
+        {
+          "title": "Days of poor accuracy",
+          "goal": "Scintillation lingers; users decide when to resume GNSS-guided work.",
+          "beats": [
+            "Accuracy improves and worsens through the night",
+            "A farm cooperative asks when to resume planting",
+            "A review of time source diversity"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "fail over to the alternate time source now and lose the primary's accuracy, or hold the GNSS source until holdover is nearly spent",
+        "resume GNSS-guided field work on a good reading, or wait for a stable day because errors return after dusk"
+      ],
+      "clueKinds": "a timing alarm with satellites tracked, a horizontal error series, a receiver status report, a customer report of drift",
+      "hurdleKinds": "a failover source with its own GNSS dependency, a site with a short holdover oscillator, an alarm storm",
+      "keyCoordination": "the network timing team and the GNSS equipment vendor",
+      "promptGuidance": "Receiver classes differ: single-frequency, multi-frequency and a GNSS-disciplined oscillator with holdover stated in hours. State the class and the holdover. Errors are worst at night and near the equator and the poles. The exercise model is an illustration, not a prediction of real receiver performance.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "space_satellite_anomaly",
+      "label": "Satellite anomaly or loss",
+      "description": "Drag, charging or single-event upsets cause an anomaly: a safe-mode event, tracking uncertainty after an orbit change, or a lost satellite and an outage for customers.",
+      "keywords": [
+        "satellite anomaly",
+        "safe mode",
+        "orbit decay",
+        "atmospheric drag",
+        "surface charging",
+        "satellite loss",
+        "tracking uncertainty",
+        "conjunction",
+        "satellite outage"
+      ],
+      "phaseArc": [
+        {
+          "title": "Elevated environment",
+          "goal": "The space environment is disturbed and the operator is on watch.",
+          "beats": [
+            "A storm warning raises drag expectations",
+            "Telemetry shows a rise in memory errors",
+            "The flight director sets a heightened watch"
+          ]
+        },
+        {
+          "title": "Anomaly",
+          "goal": "A satellite enters safe mode or its orbit changes faster than predicted.",
+          "beats": [
+            "A safe-mode event on one satellite",
+            "Tracking data no longer match the predicted position",
+            "Customers report loss of service"
+          ]
+        },
+        {
+          "title": "Recovery and notices",
+          "goal": "Players decide on commanded recovery, customer notices and conjunction screening.",
+          "beats": [
+            "A recovery command sequence is reviewed",
+            "A conjunction warning cannot be assessed with stale tracking",
+            "A customer outage notice goes out"
+          ]
+        },
+        {
+          "title": "Lessons",
+          "goal": "The operator reviews fault protection settings and notice timing.",
+          "beats": [
+            "The satellite returns to service or is declared lost",
+            "A customer asks for a credit",
+            "A review of the safe-mode decision time"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "command the satellite out of safe mode on a partial diagnosis, or wait and extend the customer outage",
+        "maneuver to avoid a conjunction with uncertain tracking, or hold and accept the risk"
+      ],
+      "clueKinds": "a telemetry alarm, a tracking residual, a drag-driven altitude loss rate, a customer ticket",
+      "hurdleKinds": "a ground station outage during the pass, stale tracking data, a command sequence that needs a second approval",
+      "keyCoordination": "the space situational awareness provider and the satellite's customers",
+      "promptGuidance": "Keep operating detail at the level of decisions and notices, not commanding or fault-protection settings. Effects are probabilistic: say what was observed, not that the storm caused it, until the operator concludes so.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "space_service_degradation",
+      "label": "Space weather information service degradation",
+      "description": "The information needed to act fails or conflicts during the event: a data feed from a monitoring satellite drops out, a forecast office and a partner give different levels, or the notification chain does not reach an entity.",
+      "keywords": [
+        "data feed loss",
+        "monitor outage",
+        "satellite data gap",
+        "conflicting messages",
+        "message inconsistency",
+        "notification failure",
+        "alert delay",
+        "missed notification"
+      ],
+      "phaseArc": [
+        {
+          "title": "Normal watch",
+          "goal": "Space weather information flows normally to the control room.",
+          "beats": [
+            "A watch is in effect",
+            "The upstream solar wind data are current",
+            "A routine call between the coordinator and the operators"
+          ]
+        },
+        {
+          "title": "Loss of data",
+          "goal": "A key data feed drops while conditions change.",
+          "beats": [
+            "The solar wind monitor stops reporting",
+            "A Kp estimate lags the magnetometer",
+            "Staff debate what the missing data mean"
+          ]
+        },
+        {
+          "title": "Conflicting information",
+          "goal": "Players decide on incomplete or conflicting levels from different sources.",
+          "beats": [
+            "A partner message states a different level",
+            "A social media post quotes an old alert",
+            "An entity on the dissemination list did not receive the notice"
+          ]
+        },
+        {
+          "title": "Restore and review",
+          "goal": "Data return with a gap; players compare their decisions with the record.",
+          "beats": [
+            "The feed returns with a gap in the record",
+            "The log is checked against the plan's list of entities",
+            "A review of message consistency"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "apply the procedure on the conservative reading of two conflicting sources, or wait for the official product"
+      ],
+      "clueKinds": "a flat-lined data feed, a mismatch between two sources, a dissemination log with a missing recipient",
+      "hurdleKinds": "an email subscription that failed silently, a stale display, a phone tree with an unreachable entity",
+      "keyCoordination": "the NOAA Space Weather Prediction Center and the reliability coordinator",
+      "promptGuidance": "Missing data is not zero and not calm. The exercise should show how players tell a failed feed from a quiet Sun, and who must be told what.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine request to move a maintenance outage date",
+    "an invoice for a software license renewal",
+    "a customer asking about a billing error",
+    "a vendor offering a webinar on transformer monitoring",
+    "a news story about a rocket launch schedule"
+  ],
+  "pressureExamples": [
+    "a reporter asking whether the lights will go out tonight",
+    "an aurora photo from a state far south of where it is usually seen, posted with a wrong claim of damage",
+    "a farm cooperative demanding to know when guidance will be accurate again",
+    "a commissioner asking why the operating procedure was applied when no outage followed",
+    "a satellite customer threatening to leave over an unannounced outage",
+    "a partner's message that states a higher storm level than the forecast office's"
+  ],
+  "rolePatterns": {
+    "technical": "operator|protection|timing|satellite|space situational|engineer|flight director",
+    "security": "law enforcement|security",
+    "operations": "reliability coordinator|dispatch|emergency manager|farm|survey"
+  },
+  "agencyPattern": "NOAA|Space Weather Prediction Center|SWPC|NERC|FERC|FAA|ICAO|USGS|NASA|FEMA|state emergency management",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "situational_assessment",
+    "operational_communications",
+    "operational_coordination",
+    "infrastructure_systems",
+    "planning"
+  ],
+  "suggestedToolkits": ["space_weather", "weather", "media_environment"]
+}
