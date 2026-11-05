@@ -32,6 +32,7 @@ import { registerClinicalToolkit } from './toolkits/clinical/register'
 import { registerMediaToolkit } from './toolkits/media'
 import { registerWeatherToolkit } from './toolkits/weather'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
+import { registerAnimalDiseaseToolkit } from './toolkits/animal_disease/register'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
 import { registerAiIncidentsToolkit } from './toolkits/ai/register'
 import { registerJusticeToolkit } from './toolkits/justice/register'
@@ -234,6 +235,7 @@ void app.whenReady().then(async () => {
   registerAiIncidentsToolkit()
   registerJusticeToolkit()
   registerLabSafetyToolkit()
+  registerAnimalDiseaseToolkit()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)

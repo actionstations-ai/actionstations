@@ -4,6 +4,10 @@
 // pass as a record of a real outbreak or a forecast.
 import { z } from 'zod'
 import type { GeneratedDataset, SimulatedGenerator } from '../../../case-data/generators'
+import { FMD_SAMPLING } from '@shared/animal-disease/plan-rules'
+import { makeRng } from '../../epidemiology/simulate/rng'
+import { designateOnDay } from '../figure-data'
+import { computeZones } from '../zones'
 import { PremisesParams, generatePremises } from './premises'
 import { SpreadParams, presumptiveMs, runSpread } from './spread'
 import { DepopMethod, DisposalSite, runDepopulation } from './capacity'
@@ -51,6 +55,55 @@ const SpreadGeneratorParams = z.object({
   spread: SpreadForGenerator.default(() => SpreadForGenerator.parse({})),
 })
 
+/**
+ * Scoring events for the first detection: a sample due for each at-risk and contact premises in
+ * the control area (intervals from the FMD table, a guideline), and permit requests from some
+ * premises that are not infected. The designer replaces them with the scenario's own plan.
+ */
+function responseEvents(
+  premises: ReturnType<typeof generatePremises>,
+  run: ReturnType<typeof runSpread>,
+  seed: number,
+) {
+  const first = [...run.infections].sort((a, b) => a.detectedDay - b.detectedDay)[0]
+  if (!first) return []
+  const placed = premises.map((p) => ({ id: p.id, lat: p.lat, lon: p.lon }))
+  const ip = placed.filter((p) => p.id === first.premisesId)
+  const zones = computeZones({ plan: 'hpai', infected: ip, premises: placed })
+  const day = first.detectedDay
+  const t0 = Date.parse(run.params.startDate)
+  const rng = makeRng(seed + 101)
+  const out: ReturnType<typeof eventEntry>[] = []
+  for (const p of designateOnDay(premises, run, day, zones)) {
+    if (p.designation === 'contact' || p.designation === 'at-risk') {
+      const days = FMD_SAMPLING.find((r) => r.designation === p.designation)!.intervalDays
+      out.push(
+        eventEntry(iso(t0 + (day + days) * DAY_MS), `sample-due-${p.id}`, 'sampling_due', {
+          premises: p.id,
+          designation: p.designation,
+          intervalDays: days,
+        }),
+      )
+    }
+    const inArea = zones.placements.find((z) => z.id === p.id)?.zone
+    if (
+      p.designation !== 'infected' &&
+      (inArea === 'infected zone' || inArea === 'buffer zone') &&
+      p.head > 100 &&
+      rng.chance(0.35)
+    )
+      out.push(
+        eventEntry(
+          iso(t0 + day * DAY_MS + (6 + rng.int(36)) * HOUR_MS),
+          `permit-request-${p.id}`,
+          'permit_request',
+          { premises: p.id, species: p.species, unaffected: true },
+        ),
+      )
+  }
+  return out
+}
+
 function spreadFor(p: z.output<typeof SpreadGeneratorParams>) {
   const premises = generatePremises(p.premises)
   const index = p.index.length ? p.index : [premises[0]!.id]
@@ -66,6 +119,7 @@ const spreadGenerator: SimulatedGenerator<z.output<typeof SpreadGeneratorParams>
     const t0 = Date.parse(run.params.startDate)
     const range = { start: iso(t0), end: iso(t0 + run.params.days * DAY_MS) }
     const byId = new Map(premises.map((q) => [q.id, q]))
+    const response = responseEvents(premises, run, p.spread.seed ?? 11)
     const events = run.infections.flatMap((i) => {
       const q = byId.get(i.premisesId)!
       const at = iso(presumptiveMs(run.params.startDate, i))
@@ -101,10 +155,10 @@ const spreadGenerator: SimulatedGenerator<z.output<typeof SpreadGeneratorParams>
       },
       {
         id: 'animal-events',
-        label: 'Simulated presumptive positives (for scoring)',
+        label: 'Simulated presumptive positives, samples due and permit requests (for scoring)',
         kind: 'reports',
         range,
-        data: events,
+        data: [...events, ...response].sort((a, b) => a.t.localeCompare(b.t)),
       },
       {
         id: 'animal-confirmed-curve',
@@ -180,6 +234,7 @@ const depopGenerator: SimulatedGenerator<z.output<typeof DepopGeneratorParams>> 
         data: depop.results.map((r) =>
           eventEntry(iso(r.completeMs), `depop-${r.id}`, 'depop_complete', {
             premises: r.id,
+            head: byId.get(r.id)?.head ?? 0,
             hoursFromPresumptive: r.hoursFromPresumptive,
             withinGoal: r.withinGoal,
           }),

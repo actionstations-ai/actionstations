@@ -218,7 +218,7 @@ describe('generators', () => {
     const sets = gen('animal-premises-spread').generate(p as never)
     const events = sets.find((d) => d.id === 'animal-events')!.data as { text: string }[]
     expect(events.length).toBeGreaterThan(1)
-    expect(JSON.parse(events[0]!.text).kind).toBe('presumptive_positive')
+    expect(events.some((e) => JSON.parse(e.text).kind === 'presumptive_positive')).toBe(true)
     const features = sets.find((d) => d.id === 'animal-premises')!.data as { features: unknown[] }
     expect(features.features).toHaveLength(premises.length)
     const depop = gen('animal-depop-capacity').generate(
