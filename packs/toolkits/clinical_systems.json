@@ -83,7 +83,28 @@
       "description": "Speaks for the legal record: what paper must be kept, how back-entry is indexed and what a merge or unmerge does to the record."
     }
   ],
-  "documents": [],
+  "documents": [
+    {
+      "packId": "ai.actionstations.healthcare-library",
+      "documentId": "hicp-main",
+      "title": "Health Industry Cybersecurity Practices (HICP), main document"
+    },
+    {
+      "packId": "ai.actionstations.healthcare-library",
+      "documentId": "cms-som-appendix-z",
+      "title": "CMS State Operations Manual Appendix Z: Emergency Preparedness"
+    },
+    {
+      "packId": "ai.actionstations.healthcare-library",
+      "documentId": "hhs-ocr-ransomware-hipaa",
+      "title": "Fact Sheet: Ransomware and HIPAA"
+    },
+    {
+      "packId": "ai.actionstations.healthcare-library",
+      "documentId": "ctep-healthcare-public-health",
+      "title": "CISA Tabletop Exercise Package: Healthcare and Public Health Sector"
+    }
+  ],
   "metrics": [
     {
       "id": "time_to_downtime_procedures",
@@ -421,6 +442,7 @@
       "Mark exercise products as exercises; all patients and record numbers are fictional."
     ],
     "realismRules": [
+      "Past incidents are history: cite them dated and attributed, never as current events.",
       "Never use a real person's data; follow the record number format in the scenario facts.",
       "A downtime report cannot show anything newer than its as-of time.",
       "An interface queue grows at arrival rate minus drain rate.",

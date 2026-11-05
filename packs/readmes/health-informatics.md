@@ -20,6 +20,15 @@ The exercise record this profile produces is an aid. The hospital's compliance o
 
 `ehr_downtime`, `interface_failure`, `identity_overlay`, `clinical_alert_fault`, `device_network_loss` and `clinical_third_party_failure`, each with a phase arc. The built-in cyber, insider and infrastructure failure families are reused.
 
+## Scenario seeds from past incidents
+
+Facts only, dated and attributed, checked 2026-11-04. They are history, not feeds, and no exercising organization takes a real organization's name.
+
+- **Ascension, May 2024.** The company reported unusual activity on its network systems on 2024-05-08 and said care teams started established downtime procedures. Its statements put EHR access as restored across the system by mid-to-late June 2024 (its filings give mid-June in one place and "by June 30, 2024" in another). Seed: weeks of downtime, with the restore sequence and reconciliation as the main problem.
+- **Change Healthcare, February 2024.** A clearinghouse outage disrupted claims, eligibility and pharmacy processing (HHS Office for Civil Rights FAQ). Seed: a third-party failure with no workaround of your own.
+- **CrowdStrike endpoint update, 2024-07-19.** The American Hospital Association advised that hospitals canceled some elective services and used downtime procedures. Seed: a non-malicious endpoint failure.
+- **Scripps Health, May 2021, and its neighbors.** Dameff et al., JAMA Network Open 2023;6(5):e2312270, reported more emergency department volume and stroke code activations at hospitals next to a health system under a month-long ransomware attack. Seed: the neighbor's exercise. Check the paper for exact figures before quoting any.
+
 ## Not bundled
 
 - Joint Commission standards: https://www.jointcommission.org/
