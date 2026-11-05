@@ -1,0 +1,43 @@
+{
+  "variant": "hl7v2",
+  "fields": {
+    "format": "hl7v2",
+    "title": "Message detail — ORU^R01 from the laboratory feed",
+    "source": "LIS_ORU_IN · error queue · attempt 3 of 3",
+    "capturedAt": "2026-10-21 13:45:02",
+    "raw": "MSH|^~\\&|LIS|RIVERBEND|EHR|RIVERBEND|20261021134500||ORU^R01|MSG00019421|P|2.5.1\nPID|1||00482913^^^RIVERBEND^MR||TESTPATIENT^Alder||19510314|M\nOBR|1|ORD55120|LAB77031|2823-3^Potassium^LN|||20261021133900\nOBX|1|NM|2823-3^Potassium^LN||6.3|mmol/L|3.5-5.1|HH|||F",
+    "decoded": [
+      { "field": "MSH-3", "meaning": "Sending application", "value": "LIS" },
+      { "field": "MSH-7", "meaning": "Message time", "value": "20261021134500" },
+      { "field": "MSH-9", "meaning": "Message type", "value": "ORU^R01" },
+      { "field": "MSH-10", "meaning": "Message control id", "value": "MSG00019421" },
+      { "field": "PID-3", "meaning": "Patient identifier", "value": "00482913^^^RIVERBEND^MR" },
+      { "field": "PID-5", "meaning": "Patient name", "value": "TESTPATIENT^Alder" },
+      { "field": "OBX-5", "meaning": "Observation value", "value": "6.3" },
+      { "field": "OBX-6", "meaning": "Units", "value": "mmol/L" },
+      { "field": "OBX-8", "meaning": "Abnormal flag", "value": "HH" }
+    ],
+    "note": "Critical result (HH). The laboratory phones critical results; the message is the record."
+  },
+  "variants": {
+    "fhir": {
+      "fields": {
+        "format": "fhir",
+        "title": "Resource detail — Observation from the laboratory feed",
+        "source": "FHIR facade · resource 1 of 1",
+        "raw": "{\n  \"resourceType\": \"Observation\",\n  \"id\": \"obs-77031\",\n  \"status\": \"final\",\n  \"code\": { \"text\": \"Potassium\" },\n  \"subject\": { \"reference\": \"Patient/pt-00482913\" },\n  \"effectiveDateTime\": \"2026-10-21T13:39:00\",\n  \"valueQuantity\": { \"value\": 6.3, \"unit\": \"mmol/L\" }\n}",
+        "decoded": [
+          { "field": "resourceType", "meaning": "Resource type", "value": "Observation" },
+          { "field": "id", "meaning": "Logical id", "value": "obs-77031" },
+          { "field": "status", "meaning": "Result status", "value": "final" },
+          { "field": "code.text", "meaning": "Test", "value": "Potassium" },
+          { "field": "subject.reference", "meaning": "Patient", "value": "Patient/pt-00482913" },
+          { "field": "effectiveDateTime", "meaning": "Collected", "value": "2026-10-21T13:39:00" },
+          { "field": "valueQuantity.value", "meaning": "Value", "value": "6.3" },
+          { "field": "valueQuantity.unit", "meaning": "Units", "value": "mmol/L" }
+        ],
+        "note": ""
+      }
+    }
+  }
+}

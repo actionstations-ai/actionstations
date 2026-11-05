@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HL7 v2 or FHIR message view",
+  "description": "An interface analyst's view of one message: the raw text (HL7 v2 segments or a FHIR JSON resource) and a decoded table of the fields that matter. The raw text must be syntactically valid and each decoded value must equal the value in the raw text. Patients are synthetic.",
+  "type": "object",
+  "required": ["format", "raw", "decoded"],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "type": "string",
+      "enum": ["hl7v2", "fhir"],
+      "description": "hl7v2: pipe-delimited segments, one per line (MSH first). fhir: one FHIR resource as JSON."
+    },
+    "title": {
+      "type": "string",
+      "examples": ["Message detail — ORU^R01 from the laboratory feed"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the message was captured (feed name and queue state).",
+      "examples": ["LIS_ORU_IN · error queue · attempt 3 of 3"]
+    },
+    "capturedAt": { "type": "string", "x-translate": false, "examples": ["2026-10-21 13:45:02"] },
+    "raw": {
+      "type": "string",
+      "description": "The message exactly as transmitted. HL7 v2: segments separated by newlines, starting MSH|^~\\&|. FHIR: pretty-printed JSON with resourceType and id.",
+      "x-translate": false
+    },
+    "decoded": {
+      "type": "array",
+      "description": "Decoded fields (up to 14). For HL7 v2 use SEG-n (PID-5); for FHIR use a dotted path (subject.reference). Each value equals the raw value.",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "meaning", "value"],
+        "properties": {
+          "field": { "type": "string", "x-translate": false },
+          "meaning": { "type": "string" },
+          "value": { "type": "string", "x-translate": false }
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "An analyst's note under the table, such as why the message was rejected.",
+      "examples": ["Rejected: receiving system has no patient with this identifier."]
+    }
+  }
+}

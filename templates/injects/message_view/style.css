@@ -1,0 +1,104 @@
+/* HL7 v2 / FHIR message view, 960 px wide. */
+.mv {
+  width: 960px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #17212b;
+  background: #fff;
+}
+.bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: #1f3a52;
+  color: #fff;
+}
+h1 {
+  margin: 0;
+  font-size: 17px;
+}
+.fmt {
+  padding: 2px 10px;
+  border: 1.5px solid #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.meta {
+  margin: 0;
+  padding: 7px 18px;
+  background: #f1f4f7;
+  border-bottom: 1px solid #c6ced6;
+  font-size: 13px;
+}
+.cols {
+  display: flex;
+  gap: 18px;
+  padding: 14px 18px;
+}
+.rawcol {
+  flex: 1 1 52%;
+  min-width: 0;
+}
+.deccol {
+  flex: 1 1 48%;
+  min-width: 0;
+}
+h2 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.raw {
+  margin: 0;
+  padding: 10px 12px;
+  background: #101820;
+  color: #e8eef4;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  padding: 5px 7px;
+  text-align: left;
+  background: #e2e8ee;
+  border-bottom: 2px solid #8794a1;
+  font-size: 11.5px;
+  text-transform: uppercase;
+}
+td {
+  padding: 5px 7px;
+  border-bottom: 1px solid #d3dae1;
+  vertical-align: top;
+}
+.f,
+.v {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  word-break: break-all;
+}
+.note {
+  margin: 0;
+  padding: 8px 18px 12px;
+  font-weight: 600;
+}
+.exercise {
+  margin: 0;
+  padding: 6px;
+  background: #17212b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
