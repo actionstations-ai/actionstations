@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clinical lab results panel",
+  "description": "A patient's laboratory results with units, reference ranges and flags (H high, L low, CRIT critical). The flag must agree with the value and the range shown. Critical values record who was called and when. Synthetic patient.",
+  "required": ["facility", "patient", "results"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital laboratory name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The synthetic patient banner",
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Synthetic patient name",
+          "examples": ["Marcus Delgado"]
+        },
+        "mrn": {
+          "type": "string",
+          "description": "Simulated record number, marked SIM",
+          "examples": ["SIM-004217"]
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["67 M"]
+        },
+        "unitBed": {
+          "type": "string",
+          "description": "Unit and bed",
+          "examples": ["4 West, bed 12"]
+        },
+        "allergies": {
+          "type": "string",
+          "description": "Allergies, or 'No known allergies'",
+          "examples": ["Penicillin (rash)"]
+        },
+        "codeStatus": {
+          "type": "string",
+          "description": "Code status",
+          "examples": ["Full code"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "collectedAt": {
+      "type": "string",
+      "description": "Date and time collected",
+      "examples": ["11/04/2026 06:10"]
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Date and time reported",
+      "examples": ["11/04/2026 07:02"]
+    },
+    "panel": {
+      "type": "string",
+      "description": "Panel name",
+      "examples": ["Basic metabolic panel and lactate"]
+    },
+    "results": {
+      "type": "array",
+      "description": "One row per test (1-12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "properties": {
+          "test": {
+            "type": "string",
+            "description": "Test name",
+            "examples": ["Lactate"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Result as reported",
+            "examples": ["4.1"]
+          },
+          "units": {
+            "type": "string",
+            "description": "Units",
+            "examples": ["mmol/L"]
+          },
+          "range": {
+            "type": "string",
+            "description": "Reference range",
+            "examples": ["0.5-2.0"]
+          },
+          "flag": {
+            "type": "string",
+            "description": "H, L, CRIT or empty; must agree with the value and range",
+            "enum": ["", "H", "L", "CRIT"]
+          },
+          "previous": {
+            "type": "string",
+            "description": "Previous result with time, if any",
+            "examples": ["1.8 (11/03 18:00)"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["test", "value", "units", "range"]
+      },
+      "minItems": 1
+    },
+    "criticalCall": {
+      "type": "string",
+      "description": "Critical value call: who was called, when and the read-back",
+      "examples": [
+        "CRIT lactate called to J. Rivera RN 06:48 by lab tech; read back and confirmed."
+      ]
+    },
+    "comments": {
+      "type": "string",
+      "description": "Lab comments",
+      "examples": ["Specimen hemolysis: none. Results are simulated."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

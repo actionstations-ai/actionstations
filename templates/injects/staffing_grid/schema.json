@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Staffing grid and assignment sheet",
+  "description": "A unit's nurses needed, scheduled, called in and agency by shift with the resulting patients per nurse, and optionally the nurse-to-patient assignments. Numbers must add up.",
+  "required": ["facility", "unit", "shifts"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit",
+      "examples": ["4 West medical-surgical"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/04/2026"]
+    },
+    "census": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Patients on the unit",
+      "examples": [32]
+    },
+    "targetRatio": {
+      "type": "string",
+      "description": "Target patients per nurse from the plan",
+      "examples": ["1:5"]
+    },
+    "shifts": {
+      "type": "array",
+      "description": "One row per shift (1-6)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "shift": {
+            "type": "string",
+            "description": "Shift",
+            "examples": ["Day 07:00-19:00"]
+          },
+          "needed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Nurses needed"
+          },
+          "scheduled": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Nurses scheduled"
+          },
+          "calledOut": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Called out sick"
+          },
+          "calledIn": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Called in or floated"
+          },
+          "agency": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Agency nurses"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["shift", "needed", "scheduled"]
+      },
+      "minItems": 1
+    },
+    "assignments": {
+      "type": "array",
+      "description": "Nurse assignments (0-10)",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "properties": {
+          "nurse": {
+            "type": "string",
+            "description": "Nurse (name or role)",
+            "examples": ["J. Rivera RN"]
+          },
+          "beds": {
+            "type": "string",
+            "description": "Beds assigned",
+            "examples": ["10-14"]
+          },
+          "patients": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Patients assigned"
+          },
+          "acuity": {
+            "type": "string",
+            "description": "Acuity note",
+            "examples": ["One unstable patient (bed 12)"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "note": {
+      "type": "string",
+      "description": "Note about the shortfall",
+      "examples": ["Two call-outs; house supervisor asked for a float nurse."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

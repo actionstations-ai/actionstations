@@ -1,0 +1,68 @@
+{
+  "fields": {
+    "facility": "Cedar Hollow Medical Center (fictional)",
+    "patient": {
+      "name": "Marcus Delgado",
+      "mrn": "SIM-004217",
+      "ageSex": "67 M",
+      "unitBed": "4 West, bed 12",
+      "allergies": "Penicillin (rash)",
+      "codeStatus": "Full code"
+    },
+    "collectedAt": "11/04/2026 06:10",
+    "reportedAt": "11/04/2026 06:45",
+    "panel": "Basic metabolic panel and lactate",
+    "results": [
+      {
+        "test": "Sodium",
+        "value": "136",
+        "units": "mmol/L",
+        "range": "135-145",
+        "flag": "",
+        "previous": "138 (11/03 18:00)"
+      },
+      {
+        "test": "Potassium",
+        "value": "5.4",
+        "units": "mmol/L",
+        "range": "3.5-5.0",
+        "flag": "H",
+        "previous": "4.6 (11/03 18:00)"
+      },
+      {
+        "test": "Creatinine",
+        "value": "1.9",
+        "units": "mg/dL",
+        "range": "0.7-1.3",
+        "flag": "H",
+        "previous": "1.2 (11/03 18:00)"
+      },
+      {
+        "test": "Glucose",
+        "value": "142",
+        "units": "mg/dL",
+        "range": "70-140",
+        "flag": "H",
+        "previous": "118 (11/03 18:00)"
+      },
+      {
+        "test": "Bicarbonate",
+        "value": "17",
+        "units": "mmol/L",
+        "range": "22-29",
+        "flag": "L",
+        "previous": "24 (11/03 18:00)"
+      },
+      {
+        "test": "Lactate",
+        "value": "4.8",
+        "units": "mmol/L",
+        "range": "0.5-2.0",
+        "flag": "CRIT",
+        "previous": "1.8 (11/03 18:00)"
+      }
+    ],
+    "criticalCall": "CRIT lactate called to J. Rivera RN at 06:48 by the lab; read back and confirmed.",
+    "comments": "Flags compare each result with the range printed beside it. Results are simulated."
+  }
+}

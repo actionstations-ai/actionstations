@@ -1,0 +1,79 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Medication administration record</h1>
+    </div>
+    <div class="sub">{{fields.shift}}</div>
+  </header>
+  <table class="patient">
+    <tr>
+      <th scope="row">Patient</th>
+      <td>{{fields.patient.name}}</td>
+      <th scope="row">MRN</th>
+      <td class="mono">{{fields.patient.mrn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age / sex</th>
+      <td>{{fields.patient.ageSex}}</td>
+      <th scope="row">Unit / bed</th>
+      <td>{{fields.patient.unitBed}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Allergies</th>
+      <td>{{fields.patient.allergies}}</td>
+      <th scope="row">Code status</th>
+      <td>{{fields.patient.codeStatus}}</td>
+    </tr>
+  </table>
+  <h2>Scheduled medications</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Time</th>
+        <th scope="col">Drug</th>
+        <th scope="col">Dose</th>
+        <th scope="col">Route</th>
+        <th scope="col">Frequency</th>
+        <th scope="col">Status</th>
+        <th scope="col">Given / reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.medications}}
+      <tr>
+        <td class="mono">{{this.scheduled}}</td>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.drug}}
+        </th>
+        <td>{{this.dose}}</td>
+        <td>{{this.route}}</td>
+        <td>{{this.frequency}}</td>
+        <td
+          class="flag {{#if (or (eq this.status 'Late') (eq this.status 'Refused'))}}flag-high{{/if}}"
+        >
+          {{upper this.status}}
+        </td>
+        <td>
+          {{#if this.givenAt}}<span class="mono">{{this.givenAt}}</span> {{/if}}{{this.reason}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.notes}}
+  <p class="note">{{fields.notes}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span
+      >Status: DUE not yet given, GIVEN, HELD by decision, LATE past the window, REFUSED by the
+      patient.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

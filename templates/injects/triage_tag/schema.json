@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Triage tag",
+  "description": "A mass casualty triage tag: category (Immediate, Delayed, Minor, Expectant, Deceased) with the findings that produced it and the method (START or SALT). The category must agree with the findings under the stated method. Synthetic patient.",
+  "required": ["tagNumber", "category", "method"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "tagNumber": {
+      "type": "string",
+      "description": "Tag number",
+      "examples": ["T-0417"]
+    },
+    "category": {
+      "type": "string",
+      "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+      "description": "Triage category"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["START", "SALT"],
+      "description": "Triage method used"
+    },
+    "patient": {
+      "type": "string",
+      "description": "Description or synthetic name",
+      "examples": ["Adult male, about 40"]
+    },
+    "walking": {
+      "type": "boolean",
+      "description": "Able to walk"
+    },
+    "breathing": {
+      "type": "string",
+      "description": "Breathing: rate per minute, or 'none after airway opened'",
+      "examples": ["34 per minute"]
+    },
+    "perfusion": {
+      "type": "string",
+      "description": "Perfusion: radial pulse or capillary refill",
+      "examples": ["No radial pulse"]
+    },
+    "mentalStatus": {
+      "type": "string",
+      "description": "Mental status: follows commands or not",
+      "examples": ["Follows commands"]
+    },
+    "injuries": {
+      "type": "string",
+      "description": "Injuries and treatment given",
+      "examples": ["Open leg fracture; tourniquet placed 14:20"]
+    },
+    "time": {
+      "type": "string",
+      "description": "Time triaged",
+      "examples": ["14:22"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where triaged",
+      "examples": ["Unit 4 West hallway"]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

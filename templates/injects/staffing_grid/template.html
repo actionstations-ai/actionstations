@@ -1,0 +1,85 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Staffing grid</h1>
+    </div>
+    <div class="sub">
+      {{fields.unit}}<br />{{fields.date}}<br />Census <span class="mono">{{fields.census}}</span> ·
+      target {{fields.targetRatio}}
+    </div>
+  </header>
+  <h2>Nurses by shift</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Shift</th>
+        <th scope="col">Needed</th>
+        <th scope="col">Scheduled</th>
+        <th scope="col">Called out</th>
+        <th scope="col">Called in</th>
+        <th scope="col">Agency</th>
+        <th scope="col">On duty</th>
+        <th scope="col">Short by</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each derived.shifts}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.shift}}
+        </th>
+        <td>{{this.needed}}</td>
+        <td>{{this.scheduled}}</td>
+        <td>{{this.calledOut}}</td>
+        <td>{{this.calledIn}}</td>
+        <td>{{this.agency}}</td>
+        <td class="mono">{{this.onDuty}}</td>
+        <td class="mono {{#if this.shortBy}}flag-high{{/if}}">{{this.shortBy}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.assignments.length}}
+  <h2>Assignments</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Nurse</th>
+        <th scope="col">Beds</th>
+        <th scope="col">Patients</th>
+        <th scope="col">Acuity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.assignments}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.nurse}}
+        </th>
+        <td class="mono">{{this.beds}}</td>
+        <td class="mono">{{this.patients}}</td>
+        <td>{{this.acuity}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span
+      >On duty = scheduled - called out + called in + agency. Short by = needed - on duty (0 when
+      staffed).</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

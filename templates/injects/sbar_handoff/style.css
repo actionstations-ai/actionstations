@@ -1,0 +1,136 @@
+/* Clinical care form, one US Letter page (816 x 1056). Exercise content, simulated patient. */
+.page {
+  height: 1056px;
+  padding: 28px 48px 26px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #1a1a1a;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #1f4e79;
+}
+.org {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f4e79;
+}
+.title {
+  margin: 0;
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.sub {
+  font-size: 11px;
+  color: #444;
+}
+.patient {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.patient th,
+.patient td,
+.grid th,
+.grid td {
+  border: 1px solid #98a8b8;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.patient th {
+  width: 100px;
+  background: #eaf0f6;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1f3a55;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+h2 {
+  margin: 14px 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1f4e79;
+}
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+.grid th {
+  background: #1f4e79;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-color: #1f4e79;
+}
+.grid tbody tr:nth-child(even) td {
+  background: #f5f8fb;
+}
+.flag {
+  font-weight: 700;
+}
+.flag-critical {
+  background: #b3261e !important;
+  color: #fff;
+  font-weight: 700;
+}
+.flag-high,
+.flag-low {
+  background: #fde7d3 !important;
+  font-weight: 700;
+}
+.note {
+  margin: 6px 0 0;
+  padding: 6px 9px;
+  border-left: 4px solid #1f4e79;
+  background: #eef3f8;
+}
+.foot {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #98a8b8;
+  font-size: 10.5px;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sbar p {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid #98a8b8;
+  min-height: 54px;
+  font-size: 13px;
+}
+.sbar h2 {
+  margin-top: 10px;
+}
+.missing {
+  font-weight: 700;
+  color: #9b1c14;
+}

@@ -37,6 +37,19 @@
       "commercial_facilities"
     ]
   },
+  "injectTypes": [
+    "clinical_lab_panel",
+    "debrief_guide",
+    "evacuation_priority_list",
+    "isolation_cohort_board",
+    "learner_feedback_form",
+    "medication_administration_record",
+    "patient_event_report",
+    "rapid_response_record",
+    "sbar_handoff",
+    "staffing_grid",
+    "triage_tag"
+  ],
   "outsideParties": [
     "Attending physician or covering provider",
     "Pharmacist on call",
@@ -99,9 +112,22 @@
           "kind": "text",
           "required": true
         },
-        { "id": "nurse", "label": "Nurse (role or name)", "kind": "text", "required": true },
-        { "id": "ratio", "label": "Resulting patients per nurse", "kind": "number" },
-        { "id": "reason", "label": "Reason", "kind": "text" }
+        {
+          "id": "nurse",
+          "label": "Nurse (role or name)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "ratio",
+          "label": "Resulting patients per nurse",
+          "kind": "number"
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text"
+        }
       ]
     },
     {
@@ -127,7 +153,12 @@
             "Other"
           ]
         },
-        { "id": "time", "label": "Time of call", "kind": "time", "required": true },
+        {
+          "id": "time",
+          "label": "Time of call",
+          "kind": "time",
+          "required": true
+        },
         {
           "id": "sbar_done",
           "label": "SBAR used",
@@ -154,9 +185,22 @@
           ],
           "required": true
         },
-        { "id": "shortfall", "label": "Nurses short", "kind": "number", "required": true },
-        { "id": "time", "label": "Time", "kind": "time" },
-        { "id": "ask", "label": "What is asked for", "kind": "text" }
+        {
+          "id": "shortfall",
+          "label": "Nurses short",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time"
+        },
+        {
+          "id": "ask",
+          "label": "What is asked for",
+          "kind": "text"
+        }
       ]
     },
     {
@@ -170,14 +214,23 @@
           "kind": "text",
           "required": true
         },
-        { "id": "reasons", "label": "Reasons for the order", "kind": "text", "required": true },
+        {
+          "id": "reasons",
+          "label": "Reasons for the order",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "movement",
           "label": "Movement",
           "kind": "choice",
           "choices": ["Horizontal (same floor)", "Vertical (stairs or elevator)", "Both"]
         },
-        { "id": "start", "label": "Start time", "kind": "time" }
+        {
+          "id": "start",
+          "label": "Start time",
+          "kind": "time"
+        }
       ]
     },
     {
@@ -210,7 +263,11 @@
           "kind": "choice",
           "choices": ["START", "SALT", "Other"]
         },
-        { "id": "findings", "label": "Findings", "kind": "text" }
+        {
+          "id": "findings",
+          "label": "Findings",
+          "kind": "text"
+        }
       ]
     },
     {
@@ -218,7 +275,12 @@
       "label": "Isolate or cohort",
       "description": "Isolate a patient or group patients with the same infection.",
       "fields": [
-        { "id": "patients", "label": "Patients (rooms or beds)", "kind": "text", "required": true },
+        {
+          "id": "patients",
+          "label": "Patients (rooms or beds)",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "action",
           "label": "Action",
@@ -237,7 +299,11 @@
           "kind": "choice",
           "choices": ["Standard", "Contact", "Droplet", "Airborne", "Contact plus"]
         },
-        { "id": "area", "label": "Area", "kind": "area" }
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area"
+        }
       ]
     },
     {
@@ -251,14 +317,23 @@
           "kind": "text",
           "required": true
         },
-        { "id": "destination", "label": "Destination", "kind": "text", "required": true },
+        {
+          "id": "destination",
+          "label": "Destination",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "level",
           "label": "Level of care needed",
           "kind": "choice",
           "choices": ["Intensive care", "Step-down", "Medical-surgical", "Long-term care", "Other"]
         },
-        { "id": "time", "label": "Time requested", "kind": "time" }
+        {
+          "id": "time",
+          "label": "Time requested",
+          "kind": "time"
+        }
       ]
     },
     {
@@ -266,15 +341,29 @@
       "label": "Disclose event",
       "description": "Plan and record the disclosure of a harm event to a patient or family.",
       "fields": [
-        { "id": "who_discloses", "label": "Disclosure lead", "kind": "text", "required": true },
+        {
+          "id": "who_discloses",
+          "label": "Disclosure lead",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "to_whom",
           "label": "To whom (patient or family member)",
           "kind": "text",
           "required": true
         },
-        { "id": "time", "label": "Time of the conversation", "kind": "time", "required": true },
-        { "id": "content", "label": "What is said", "kind": "text" }
+        {
+          "id": "time",
+          "label": "Time of the conversation",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "content",
+          "label": "What is said",
+          "kind": "text"
+        }
       ]
     },
     {
@@ -282,9 +371,24 @@
       "label": "Notify",
       "description": "Notify a person or agency of an event.",
       "fields": [
-        { "id": "who", "label": "Who is notified", "kind": "text", "required": true },
-        { "id": "what", "label": "What is said", "kind": "text", "required": true },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "who",
+          "label": "Who is notified",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "what",
+          "label": "What is said",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     }
   ],
@@ -370,7 +474,10 @@
         "term": "Disclosure",
         "definition": "Telling a patient or family about a harm event promptly and plainly, with a named lead, what is known, what is not and what happens next."
       },
-      { "term": "Hot wash", "definition": "A short debrief immediately after an exercise." }
+      {
+        "term": "Hot wash",
+        "definition": "A short debrief immediately after an exercise."
+      }
     ],
     "productConventions": [
       "Every patient is synthetic and labeled as exercise content; names are fictional and never those of real people.",
@@ -401,5 +508,13 @@
       "Do not reproduce NCLEX items or any licensed exam content; write original prompts.",
       "The score and recommendation text on a chart cite their source; a named published score is used only when its terms are confirmed."
     ]
-  }
+  },
+  "lintRules": [
+    "clinical_lab_flags",
+    "sbar_complete",
+    "dose_plausibility",
+    "triage_consistency",
+    "staffing_math",
+    "evacuation_list"
+  ]
 }

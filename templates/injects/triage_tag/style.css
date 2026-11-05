@@ -1,0 +1,213 @@
+/* Clinical care form, one US Letter page (816 x 1056). Exercise content, simulated patient. */
+.page {
+  height: 1056px;
+  padding: 28px 48px 26px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #1a1a1a;
+}
+.marking {
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #1f4e79;
+}
+.org {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f4e79;
+}
+.title {
+  margin: 0;
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.sub {
+  font-size: 11px;
+  color: #444;
+}
+.patient {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.patient th,
+.patient td,
+.grid th,
+.grid td {
+  border: 1px solid #98a8b8;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.patient th {
+  width: 100px;
+  background: #eaf0f6;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1f3a55;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+h2 {
+  margin: 14px 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1f4e79;
+}
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+.grid th {
+  background: #1f4e79;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-color: #1f4e79;
+}
+.grid tbody tr:nth-child(even) td {
+  background: #f5f8fb;
+}
+.flag {
+  font-weight: 700;
+}
+.flag-critical {
+  background: #b3261e !important;
+  color: #fff;
+  font-weight: 700;
+}
+.flag-high,
+.flag-low {
+  background: #fde7d3 !important;
+  font-weight: 700;
+}
+.note {
+  margin: 6px 0 0;
+  padding: 6px 9px;
+  border-left: 4px solid #1f4e79;
+  background: #eef3f8;
+}
+.foot {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #98a8b8;
+  font-size: 10.5px;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.tag {
+  height: 820px;
+  padding: 20px 28px;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  background: #fff;
+  border: 6px solid #333;
+  color: #111;
+}
+.band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  margin-top: 12px;
+  color: #fff;
+  background: #333;
+}
+.catname {
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.tagno {
+  font-size: 20px;
+}
+.cat-immediate {
+  border-color: #b3261e;
+}
+.cat-immediate .band {
+  background: #b3261e;
+}
+.cat-delayed {
+  border-color: #9a6b00;
+}
+.cat-delayed .band {
+  background: #8a5d00;
+}
+.cat-minor {
+  border-color: #1e6b34;
+}
+.cat-minor .band {
+  background: #1e6b34;
+}
+.cat-expectant {
+  border-color: #555;
+}
+.cat-expectant .band {
+  background: #555;
+}
+.cat-deceased {
+  border-color: #000;
+}
+.cat-deceased .band {
+  background: #000;
+}
+.method {
+  margin: 10px 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.who {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+.finds {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.finds th,
+.finds td {
+  border: 1px solid #888;
+  padding: 6px 8px;
+  text-align: left;
+}
+.finds th {
+  width: 130px;
+  background: #eee;
+}
+.inj {
+  margin: 0;
+  padding: 8px;
+  border: 1px solid #888;
+  min-height: 90px;
+  font-size: 15px;
+}
+.legend {
+  font-size: 11px;
+  color: #444;
+}

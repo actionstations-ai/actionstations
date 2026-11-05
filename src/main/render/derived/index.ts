@@ -6,6 +6,7 @@
 import { deriveCap } from './cap'
 import { deriveNotam } from './notam-q'
 import { deriveEas } from './same'
+import { deriveStaffing } from './staffing'
 import { deriveNws } from './vtec'
 
 type Deriver = (fields: Record<string, unknown>) => Record<string, unknown>
@@ -15,6 +16,7 @@ const DERIVERS: Record<string, Deriver> = {
   eas_broadcast: deriveEas,
   nws_weather_warning: deriveNws,
   notam: deriveNotam,
+  staffing_grid: deriveStaffing,
 }
 
 /** Derived values for an inject; {} for a type without any, and when derivation fails. */
