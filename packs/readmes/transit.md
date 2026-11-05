@@ -18,7 +18,9 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- APTA cybersecurity, security and emergency management standards: https://www.apta.com/research-technical-resources/standards/
-- TCRP reports (National Academies): https://www.trb.org/
+- APTA security and emergency management standards (catalog): https://www.apta.com/research-technical-resources/standards/
+- Other TCRP reports (National Academies): https://www.trb.org/
+
+The separate **Transit reference library** pack carries the APTA control and communications system security practices (SS-CCS-RP-001-10, SS-CCS-RP-002-13, SS-ECS-RP-001-14, under APTA's terms), TCRP Report 86 volumes 7 (emergency mobilization and operations) and 10 (hazard and security plan workshop), the full FTA cybersecurity resilience assessment report, the NIST transit community profile draft and the NTI transit employee preparedness guide, with the TSA directive, FTA references and CFR parts; its README lists every document and link.
 
 Facts were checked against public sources on 2026-10-24. Security directives expire and are reissued; check the current edition before relying on a deadline.

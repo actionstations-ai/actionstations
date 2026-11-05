@@ -167,14 +167,15 @@ describe('reuse by other domains', () => {
 })
 
 describe('library documents', () => {
-  it('names a document that the manifest pins with a verified licence', () => {
+  it('names a document that the manifest pins, with its license and basis', () => {
     const manifest = read('packs/documents/manifest.json')
     for (const ref of toolkits.flatMap((t) => t.documents)) {
       const doc = manifest.documents.find((d: { slug: string }) => d.slug === ref.documentId)
       expect(doc, ref.documentId).toBeDefined()
       expect(doc.pack).toBe('human-services-library')
       expect(doc.sha256).toMatch(/^[0-9a-f]{64}$/)
-      expect(doc.license).toBe('LicenseRef-US-Government-Work')
+      expect(['LicenseRef-US-Government-Work', 'LicenseRef-Publisher-Terms']).toContain(doc.license)
+      expect(doc.basis.length).toBeGreaterThan(20)
     }
   })
 })

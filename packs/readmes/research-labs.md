@@ -23,3 +23,5 @@ Exercises are about what an organization decides and whom it tells: classificati
 - Federal Select Agent Program: https://www.selectagents.gov/
 - eCFR, 42 CFR part 73: https://www.ecfr.gov/current/title-42/chapter-I/subchapter-F/part-73
 - NIH Office of Science Policy, biosafety: https://osp.od.nih.gov/biotechnology/
+
+The separate **Research laboratories reference library** pack carries the select agent regulations (42 CFR part 73), the select agent incident response plan guidance, the BMBL 6th edition and the NIH Guidelines for Research Involving Recombinant or Synthetic Nucleic Acid Molecules; APHIS/CDC Form 3 is a web form and stays a link.

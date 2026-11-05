@@ -21,10 +21,10 @@ There is no single federal mandate for a school emergency plan. Requirements com
 - **Student data breach**: notice to parents, the attorney general or the state education agency on state timelines, which vary by state.
 - **CIRCIA (not in force)**: the April 2024 proposed rule named LEAs, ESAs and SEAs with 1,000 or more students as covered entities, with 72 hours for a covered cyber incident and 24 hours after a ransom payment. The final rule was not published as of 2026-10-24.
 
-## Copyrighted references (named, not bundled)
+## Further reading (not bundled)
 
-- Standard Response Protocol (Hold / Secure / Lockdown / Evacuate / Shelter), "I Love U Guys" Foundation: https://iloveuguys.org/
-- NFPA 101 _Life Safety Code_ and NFPA 3000, NFPA: https://www.nfpa.org/
-- PREPaRE school crisis curriculum, National Association of School Psychologists: https://www.nasponline.org/
-- K12 SIX essential protections and threat reports: https://www.k12six.org/
-- MS-ISAC resources, Center for Internet Security: https://www.cisecurity.org/ms-isac
+- NFPA 101 _Life Safety Code_ and NFPA 3000 (free to read online after a login, no download): https://www.nfpa.org/
+- PREPaRE school crisis curriculum, sold with NASP training: https://www.nasponline.org/
+- MS-ISAC resources, Center for Internet Security (members): https://www.cisecurity.org/ms-isac
+
+The separate **K-12 schools reference library** pack carries the Standard Response Protocol K12 operational guidance ("I Love U Guys" Foundation, Hold / Secure / Lockdown / Evacuate / Shelter) and the K12 SIX Essential Cybersecurity Protections for 2023-2024 (the 2026 edition sits behind a sign-up form), with the school EOP guide, CISA guides and school CTEPs; its README lists every document and link.

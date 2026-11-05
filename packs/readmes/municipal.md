@@ -17,8 +17,11 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- MS-ISAC resources (Center for Internet Security): https://www.cisecurity.org/ms-isac
+- MS-ISAC resources (Center for Internet Security, members): https://www.cisecurity.org/ms-isac
+- CIS Controls and Benchmarks (download after a registration form): https://www.cisecurity.org/
 - NACo, NLC and ICMA cyber guides: https://www.naco.org/ , https://www.nlc.org/ , https://icma.org/
-- GFOA best practices on payment controls: https://www.gfoa.org/
+- GFOA best practices on payment controls (web pages): https://www.gfoa.org/
+
+The separate **Municipal government reference library** pack carries the #StopRansomware Guide (CISA, MS-ISAC, NSA, FBI) with the FEMA guides for local officials and the local government CTEP; its README lists every document and link.
 
 Facts were checked against public sources on 2026-10-24. Check the current rules before relying on a deadline.

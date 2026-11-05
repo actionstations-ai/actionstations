@@ -40,7 +40,7 @@ The evaluation measures compare them with the clocks: the operating procedure ap
 
 ## Reference library
 
-The **Space weather reference library** pack (installed from the catalog) carries the NOAA Space Weather Scales and a USGS fact sheet on geomagnetic monitoring, both US government works. Other useful material could not be carried and is listed with links and the reason in the pack's README: the national strategy, action plan and benchmarks reports (their graphics are reserved to other holders), two further USGS fact sheets, the DHS Resilient PNT framework, the 2024 exercise report summary, and the NERC and ICAO documents, which are copyrighted.
+The **Space weather reference library** pack (installed from the catalog) carries the NOAA Space Weather Scales, the National Space Weather Strategy and Action Plan (2015), the Phase 1 Benchmarks report, three USGS fact sheets on geomagnetic hazards, the DHS Resilient PNT Conformance Framework, the report on the 2024 national space weather tabletop exercise, and the NERC geomagnetic disturbance standards EOP-010-1 and TPL-007-4. The NERC standards and the exercise report carry their publishers' terms, which each entry states. The ICAO space weather documents are sold, so they are linked in the pack's README.
 
 ## Limits
 

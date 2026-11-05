@@ -19,7 +19,8 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- ANSI/AWWA J100 (RAMCAP), AWWA G430 and G440: https://www.awwa.org
-- WaterISAC 15 Security Fundamentals: https://www.waterisac.org
+- ANSI/AWWA J100 (RAMCAP), AWWA G430 and G440 (sold): https://www.awwa.org
+
+The separate **Water utility reference library** pack carries the WaterISAC 12 Cybersecurity Fundamentals (which replaced the 15 fundamentals) and the IRGC PLC advisory AA23-335A, with the EPA AWIA response plan template, incident action checklists and the water CTEP; its README lists every document and link.
 
 Facts were checked against public sources on 2026-10-24. Check the current rules before relying on a deadline.

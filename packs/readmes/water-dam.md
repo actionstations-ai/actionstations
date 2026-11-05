@@ -16,6 +16,8 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- ASDSO Dam Safety Toolbox: https://damtoolbox.org
+- ASDSO Dam Safety Toolbox (a wiki): https://damtoolbox.org
+
+The separate **Dams reference library** pack carries USACE ER 1110-2-1156 (Safety of Dams), the Dams Sector C2M2 implementation guide and _Living with Dams: Know Your Risks_ (FEMA P-956), with the FEMA and FERC emergency action planning guides, the CISA dams handbooks and the dams CTEPs; its README lists every document and link.
 
 Facts were checked against public sources on 2026-10-24. Check the current regulations before relying on a deadline.

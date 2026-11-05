@@ -18,7 +18,9 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- BIMCO/ICS _Guidelines on Cyber Security Onboard Ships_; IMO MSC-FAL.1/Circ.3.
-- AAPA emergency management and security resources: https://www.aapa-ports.org/
+- AAPA emergency management and security resources (members): https://www.aapa-ports.org/
+- MTS-ISAC (members): https://www.mtsisac.org/
+
+The separate **Port and maritime reference library** pack carries the BIMCO _Guidelines on Cyber Security Onboard Ships_ (version 5), the IMO guidelines on maritime cyber risk management (MSC-FAL.1/Circ.3/Rev.4) and the Coast Guard Cyber Command special edition on ship-to-shore cranes, with the NVICs, the MTS cybersecurity rule and the 33 CFR parts; its README lists every document and link.
 
 Facts were checked against public sources on 2026-10-24. Parts of the cyber rule phase in through 2027; check the current dates before relying on them.

@@ -56,8 +56,13 @@ describe('reference library', () => {
     expect(manifest.libraries['research-labs-library']!.domain).toBe('research_labs')
   })
 
-  it('bundles only public-domain documents, pinned by hash, with the reason', () => {
-    expect(docs.map((d) => d.slug)).toEqual(['cfr-42-part-73'])
+  it('bundles the regulations, the BMBL, the NIH Guidelines and the incident response guidance, pinned by hash, with the reason', () => {
+    expect(docs.map((d) => d.slug)).toEqual([
+      'cfr-42-part-73',
+      'cdc-nih-bmbl-6',
+      'nih-guidelines-recombinant-synthetic',
+      'fsap-incident-response-plan-guidance',
+    ])
     for (const d of docs) {
       expect(d.license).toBe('LicenseRef-US-Government-Work')
       expect(d.sha256).toMatch(/^[0-9a-f]{64}$/)
@@ -66,11 +71,9 @@ describe('reference library', () => {
     }
   })
 
-  it('links, rather than copies, the documents whose license was not verified', () => {
+  it('links, rather than copies, the draft policy and the select agent web form', () => {
     const links = manifest.links.filter((l) => l.pack === 'research-labs-library')
-    expect(links.map((l) => l.title).join('|')).toMatch(
-      /BMBL.*NIH Guidelines.*NOT-OD-26-112.*Select Agent Program/,
-    )
+    expect(links.map((l) => l.title).join('|')).toMatch(/NOT-OD-26-112.*Form 3/)
     for (const l of links) expect(l.reason.length).toBeGreaterThan(20)
   })
 

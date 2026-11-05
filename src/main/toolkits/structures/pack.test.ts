@@ -151,7 +151,7 @@ describe('structures reference library', () => {
     expect(manifest.libraries['structures-library']?.domain).toBe('construction')
   })
 
-  it('pins every document the toolkit names, each a verified public-domain work', () => {
+  it('pins every document the toolkit names, each with its license and basis', () => {
     expect(toolkit.documents.length).toBeGreaterThan(0)
     for (const d of toolkit.documents) {
       expect(d.packId).toBe('ai.actionstations.structures-library')
@@ -160,18 +160,22 @@ describe('structures reference library', () => {
       )
       expect(doc, d.documentId).toBeDefined()
       expect(doc!.sha256, d.documentId).toMatch(/^[0-9a-f]{64}$/)
-      expect(doc!.license).toBe('LicenseRef-US-Government-Work')
+      expect(
+        d.documentId.endsWith('code-of-ethics')
+          ? 'LicenseRef-Publisher-Terms'
+          : 'LicenseRef-US-Government-Work',
+      ).toBe(doc!.license)
       expect(doc!.basis.length).toBeGreaterThan(20)
     }
   })
 
-  it('links, and does not bundle, the placard forms and the codes of ethics', () => {
+  it('bundles the codes of ethics and links the sold placard forms', () => {
     const titles = manifest.links.filter((l) => l.pack === 'structures-library').map((l) => l.title)
     expect(titles.join(' ')).toMatch(/ATC-20/)
-    expect(titles.join(' ')).toMatch(/Codes of Ethics/)
     const bundled = manifest.documents
       .filter((d) => d.pack === 'structures-library')
       .map((d) => d.slug)
-    expect(bundled.join(' ')).not.toMatch(/atc|ethics/)
+    expect(bundled).toEqual(expect.arrayContaining(['nspe-code-of-ethics', 'asce-code-of-ethics']))
+    expect(bundled.join(' ')).not.toMatch(/atc/)
   })
 })

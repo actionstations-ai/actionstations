@@ -41,10 +41,12 @@ describe('wildfire library', () => {
     expect(manifest.libraries['wildfire-library']).toMatchObject({ domain: 'wildfire' })
     expect(manifest.libraries['wildfire-library']!.version).toMatch(/^\d+\.\d+\.\d+$/)
   })
-  it('bundles only US government works, each pinned by sha256 with the reason it is public domain', () => {
-    expect(docs.length).toBeGreaterThanOrEqual(5)
+  it('bundles pinned documents, each with its license and the basis for it', () => {
+    expect(docs.length).toBeGreaterThanOrEqual(9)
     for (const d of docs) {
-      expect(d.license, d.slug).toBe('LicenseRef-US-Government-Work')
+      expect(['LicenseRef-US-Government-Work', 'LicenseRef-Publisher-Terms'], d.slug).toContain(
+        d.license,
+      )
       expect(d.basis.length, d.slug).toBeGreaterThan(30)
       expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
       expect(d.size, d.slug).toBeGreaterThan(10_000)
@@ -58,16 +60,20 @@ describe('wildfire library', () => {
     for (const part of ['nwsi-10-401', 'epa-aqi-technical-assistance', 'nwcg-incident-response'])
       expect(slugs).toContain(part)
   })
+  it('carries the smoke guide, the Marshall Fire report, the CPUC decision and Ready, Set, Go!', () => {
+    const slugs = docs.map((d) => d.slug)
+    expect(slugs).toEqual(
+      expect.arrayContaining([
+        'epa-wildfire-smoke-guide-2026',
+        'marshall-fire-after-action-report',
+        'cpuc-d-19-05-042-psps-phase-1',
+        'iafc-ready-set-go-action-guide',
+      ]),
+    )
+  })
   it('links what it does not bundle, each with a reason', () => {
     const titles = links.map((l) => l.title).join(' | ')
-    for (const part of [
-      'Glossary of Wildland Fire',
-      'Wildfire Smoke Guide',
-      'Lahaina',
-      'Marshall Fire',
-      'D.19-05-042',
-    ].map((p) => p.replace('D.19-05-042', '19-05-042')))
-      expect(titles).toContain(part)
+    for (const part of ['Glossary of Wildland Fire', 'Lahaina']) expect(titles).toContain(part)
     for (const l of links) {
       expect(l.reason.length, l.title).toBeGreaterThan(30)
       expect(l.url, l.title).toMatch(/^https:\/\//)

@@ -106,28 +106,7 @@ describe('packs/documents/manifest.json', () => {
   it('states a technical reason for every reference it still only links (#1101)', () => {
     const terms =
       /copyright|owner decision|not a federal|public.domain status|not clearly a federal|state work|redistribution rights|license not|terms not/i
-    const mine = [
-      'airport',
-      'campus',
-      'chemical',
-      'commercial-facilities',
-      'data-center-it',
-      'elections',
-      'emergency-communications',
-      'energy-utility',
-      'financial-services',
-      'food-agriculture',
-      'freight-rail',
-      'gas-pipeline',
-      'healthcare',
-      'geoscience',
-      'ai-incidents',
-      'environmental-response',
-      'ems-fire',
-      'governance',
-      'hospitality',
-    ].map((p) => `${p}-library`)
-    for (const l of m.links.filter((x) => mine.includes(x.pack)))
+    for (const l of m.links)
       expect(terms.test(l.reason), `${l.pack}: ${l.title}: ${l.reason}`).toBe(false)
   })
 

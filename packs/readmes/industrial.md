@@ -18,9 +18,11 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Further reading (not bundled)
 
-- ISA/IEC 62443 series, ISA-18.2, ISA-84 / IEC 61511: https://www.isa.org/
-- AIChE CCPS process safety guidelines: https://www.aiche.org/ccps
-- NFPA 600, 1600 and 704: https://www.nfpa.org
-- API RP 754: https://www.api.org
+- ISA/IEC 62443 series, ISA-18.2, ISA-84 / IEC 61511 (sold by ISA and IEC): https://www.isa.org/
+- AIChE CCPS process safety guidelines (sold): https://www.aiche.org/ccps
+- NFPA 600, 1600 and 704 (free to read online after a login, no download): https://www.nfpa.org
+- API RP 754 (free to read online after a login, no download): https://www.api.org
+
+The separate **Industrial and manufacturing reference library** pack carries NIST SP 800-82, the ICS recommended practices, OSHA and EPA references, the manufacturing CTEPs and the joint OT guides (asset inventory, pro-Russia hacktivist activity, Secure by Demand for OT); its README lists every document and every link with the reason it is not in the pack.
 
 Facts were checked against public sources on 2026-10-24. EPA proposed changes to the RMP rule in February 2026; check the current rules before relying on a date.
