@@ -90,7 +90,7 @@ const networkGenerator: SimulatedGenerator<z.output<typeof NetworkParams>> = {
     const out: GeneratedDataset[] = [
       {
         id: 'logistics-days-of-supply',
-        label: 'Days of supply by item and center, simulated',
+        label: 'Days of supply on hand by item and center, simulated',
         kind: 'series',
         shape: 'modeled-series',
         range,
@@ -102,7 +102,8 @@ const networkGenerator: SimulatedGenerator<z.output<typeof NetworkParams>> = {
             .filter((d) => zoneName(d.item, d.center) === zone)
             .map((d) => ({
               time: dayIso(n, d.day),
-              value: d.days === null ? 0 : Math.round(d.days * 100) / 100,
+              // On hand only: stock that has not arrived does not protect against a stock-out.
+              value: d.demand > 0 ? Math.round((d.onHand / d.demand) * 100) / 100 : 0,
             })),
         })),
       },
