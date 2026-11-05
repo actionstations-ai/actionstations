@@ -4,7 +4,7 @@ import Handlebars from 'handlebars'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import type { Brand } from '@shared/schemas'
+import type { Brand, ResolvedCase } from '@shared/schemas'
 import { AppError } from '../lib/errors'
 import { safeJoin } from '../lib/fs'
 import { loadTemplate, sharedDir, type LoadedTemplate } from './templates'
@@ -27,6 +27,10 @@ export interface ComposeInput {
   lang?: string
   /** The document's title (an accessible PDF needs one); the inject's title. */
   title?: string
+  /** Resolved case data by field name (spec 0448); templates read it as `caseData`. */
+  caseData?: Record<string, ResolvedCase>
+  /** Origin labels printed on the document wherever case data appears. */
+  caseLabels?: string[]
 }
 
 /** "Karen Smith" → "KS"; skips words that start with punctuation ("Kyle (Summer Intern – Ops)" → "KS"). */
@@ -203,6 +207,13 @@ export const RENDER_CSP =
 const boundFiles = (paths: (string | undefined)[]): string[] =>
   paths.filter((p): p is string => !!p && !p.startsWith('data:'))
 
+/** The strip that says where case data came from: historical or simulated, on the document itself. */
+function caseLabelHtml(labels: string[] | undefined): string {
+  if (!labels?.length) return ''
+  const text = labels.map((l) => hb.escapeExpression(l)).join(' · ')
+  return `<p class="case-data-label" style="position:absolute;left:0;right:0;bottom:0;margin:0;padding:3px 8px;font:600 11px/1.3 sans-serif;color:#222;background:#f2f2f2;border-top:1px solid #999">${text}</p>`
+}
+
 export function composeDocument(
   input: ComposeInput,
   opts: { previewAssets?: boolean } = {},
@@ -213,6 +224,7 @@ export function composeDocument(
     fields: input.fields,
     derived: deriveFields(input.type, input.fields),
     figures: computeFigures(input.fields),
+    caseData: input.caseData ?? {},
     brand: {
       ...(input.brand ?? { aliases: {} }),
       ...(input.logo ? { logo: fileUrl(input.logo) } : {}),
@@ -228,13 +240,14 @@ export function composeDocument(
     `url('${pathToFileURL(join(shared, 'fonts')).toString()}/`,
   )
   const baseCss = readFileSync(join(shared, 'base.css'), 'utf8')
+  const labels = caseLabelHtml(input.caseLabels)
   const height = t.meta.height ? `height:${t.meta.height}px;` : ''
   const lang = input.lang && LANG_CODE.test(input.lang) ? input.lang : 'en'
   const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8">
 <title>${hb.escapeExpression(input.title ?? t.meta.label)}</title>
 <meta http-equiv="Content-Security-Policy" content="${RENDER_CSP}">
 <style>${fontsCss}\n${baseCss}\nhtml,body{background:${t.meta.background}}\n${t.css}</style></head>
-<body class="variant-${variant}"><main lang="${lang}" class="inject-root inject-${t.meta.type}" style="width:${t.meta.width}px;${height}">${body}</main></body></html>`
+<body class="variant-${variant}"><main lang="${lang}" class="inject-root inject-${t.meta.type}" style="width:${t.meta.width}px;${height}${labels ? 'position:relative;' : ''}">${body}${labels}</main></body></html>`
   const readRoots = [
     t.dir,
     shared,

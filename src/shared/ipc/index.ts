@@ -42,6 +42,7 @@ import { simcellChannels, simcellEvents } from './simcell'
 import { mapsChannels } from './maps'
 import { hazardChannels } from './hazards'
 import { toolkitChannels } from './toolkits'
+import { caseDataChannels } from './case-data'
 import { mediaConfirmChannels, MediaConfirmNeededEvent } from './media-confirm'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -192,6 +193,7 @@ export const channels = mergeChannels(
   mapsChannels,
   hazardChannels,
   toolkitChannels,
+  caseDataChannels,
   mediaConfirmChannels,
 )
 

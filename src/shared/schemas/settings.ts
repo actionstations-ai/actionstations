@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { HttpUrl, IsoDateTime } from './common'
 import { HazardSettings } from './hazards'
+import { CaseDataSettings } from './case-data'
 import { Fingerprint } from './live'
 import { CapabilityResult } from './persona'
 import { MapsSettings } from './maps'
@@ -203,5 +204,7 @@ export const AppSettings = z.object({
   media: MediaSettings.default(() => ({ skipPaidConfirmation: [] })),
   /** Optional public hazard data (#439); off until the user turns it on. */
   hazards: HazardSettings.default(() => ({ enabled: false })),
+  /** Case data limits (spec 0448 NFR-4). */
+  caseData: CaseDataSettings.default(() => CaseDataSettings.parse({})),
 })
 export type AppSettings = z.infer<typeof AppSettings>

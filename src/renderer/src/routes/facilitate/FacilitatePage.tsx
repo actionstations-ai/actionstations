@@ -42,6 +42,7 @@ import { availability, pathFor } from './branching'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { fireRowTriggers } from './compliance'
 import { ExerciseClock } from './ExerciseClock'
+import { CaseClock } from './CaseClock'
 import { RegulatoryClocks } from './RegulatoryClocks'
 import {
   NoMsel,
@@ -542,6 +543,7 @@ function FacilitateView(props: ViewProps) {
         onRate={clock.setRate}
         onJump={clock.jump}
       />
+      <CaseClock projectPath={props.projectPath} scenarioId={scenario.id} minutes={f.minutes} />
       <RewindDialog
         move={clock.pendingMove}
         onResolve={clock.resolveMove}
