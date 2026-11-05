@@ -39,6 +39,28 @@ describe('isRemoteProvider', () => {
     ).toBe(true)
   })
 
+  it('treats Replicate as remote, whatever the base URL or option says', () => {
+    expect(isRemoteProvider(cfg({ kind: 'replicate' }))).toBe(true)
+    expect(providerHost(cfg({ kind: 'replicate' }))).toBe('api.replicate.com')
+    expect(
+      isRemoteProvider(
+        cfg({ kind: 'replicate', baseUrl: 'http://127.0.0.1:9', options: { network: 'local' } }),
+      ),
+    ).toBe(true)
+    expect(canTreatAsLocal(cfg({ kind: 'replicate', baseUrl: 'http://192.168.1.20' }))).toBe(false)
+  })
+
+  it('treats Replicate as remote, whatever the base URL or option says', () => {
+    expect(isRemoteProvider(cfg({ kind: 'replicate' }))).toBe(true)
+    expect(providerHost(cfg({ kind: 'replicate' }))).toBe('api.replicate.com')
+    expect(
+      isRemoteProvider(
+        cfg({ kind: 'replicate', baseUrl: 'http://127.0.0.1:9', options: { network: 'local' } }),
+      ),
+    ).toBe(true)
+    expect(canTreatAsLocal(cfg({ kind: 'replicate', baseUrl: 'http://192.168.1.20' }))).toBe(false)
+  })
+
   it('treats fal.ai as remote, whatever the base URL or option says', () => {
     expect(isRemoteProvider(cfg({ kind: 'fal' }))).toBe(true)
     expect(providerHost(cfg({ kind: 'fal' }))).toBe('queue.fal.run')

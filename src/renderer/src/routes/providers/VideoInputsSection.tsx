@@ -1,8 +1,8 @@
-// "Video model inputs" (fal.ai, later Replicate): the input names a cloud video model uses for the
+// "Video model inputs" (fal.ai and Replicate): the input names a cloud video model uses for the
 // app's prompt, duration and starting image. Prefilled for the models the app knows; edit them
 // for any other model. Everything is optional: a model left alone uses the table.
 import { useId, useState } from 'react'
-import { suggestedModels } from '@shared/cloud-video-inputs'
+import { suggestedModels, type CloudService } from '@shared/cloud-video-inputs'
 import { Field } from '../../components/ui'
 import { ModelInput } from './ModelInput'
 import {
@@ -50,13 +50,17 @@ export function VideoInputsSection(props: {
   savedOptions: Record<string, unknown>
   /** The model typed in the Default model field, offered first. */
   defaultModel: string
+  /** Whose model suggestions to offer. */
+  service: CloudService
   value: InputDrafts
   /** Shown when the form cannot be saved because of a mapping. */
   error?: string | undefined
   onChange: (next: InputDrafts) => void
 }) {
   const saved = savedModels(props.savedOptions)
-  const suggestions = [...new Set([...saved, ...suggestedModels('video').map((m) => m.id)])]
+  const suggestions = [
+    ...new Set([...saved, ...suggestedModels('video', props.service).map((m) => m.id)]),
+  ]
   const [open, setOpen] = useState(() => saved.length > 0)
   const [model, setModel] = useState(() => props.defaultModel.trim() || saved[0] || '')
   const panelId = useId()

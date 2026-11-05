@@ -284,6 +284,28 @@ describe('ProvidersPage', () => {
     })
   })
 
+  it('adds Replicate with a token and prefills a known Replicate model', async () => {
+    const ttx = setup()
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Add provider' }))
+    const dialog = await screen.findByRole('dialog', { name: 'Add provider' })
+    await user.selectOptions(within(dialog).getByLabelText('Type'), 'replicate')
+    expect(within(dialog).getByLabelText('Base URL')).toHaveProperty('readOnly', true)
+    await user.type(within(dialog).getByLabelText('API key'), 'r8_token-0000:abcdef')
+    await user.click(within(dialog).getByRole('button', { name: 'Video model inputs' }))
+    await user.type(within(dialog).getByLabelText('Model'), 'kwaivgi/kling-v2.5-turbo-pro')
+    expect(within(dialog).getByLabelText('Starting image input')).toHaveProperty(
+      'value',
+      'start_image',
+    )
+    await user.click(within(dialog).getByRole('button', { name: 'Add provider' }))
+    await waitFor(() => expect(ttx.calls('providers:upsert')).toHaveLength(1))
+    expect(ttx.calls('providers:upsert')[0]).toMatchObject({
+      apiKey: 'r8_token-0000:abcdef',
+      config: { kind: 'replicate', baseUrl: 'https://api.replicate.com' },
+    })
+  })
+
   it('prefills a known fal.ai model and refuses an input name that is not a plain name', async () => {
     const ttx = setup()
     const user = userEvent.setup()
