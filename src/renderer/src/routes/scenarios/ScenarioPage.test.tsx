@@ -27,6 +27,7 @@ const scenario: Scenario = {
       model: 'qwen3-30b-a3b-2507',
       inputTokens: 3200,
       outputTokens: 800,
+      costUsd: 0,
       status: 'ok',
       repairAttempts: 0,
     },
