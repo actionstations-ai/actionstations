@@ -18,6 +18,16 @@ Templates for the Space Weather Prediction Center message (watch, warning, alert
 
 Charts, drawn from data and never from AI images, each with a text summary and a data table: Kp bars colored by G level (with the level words), X-ray flux with flare classes and R levels, proton flux with S levels, ground magnetometer, solar wind speed, neutral current at a transformer with operator actions, GNSS error with satellites tracked and holdover remaining, the G, S and R scale panel and an impact board. Levels are always words and numbers, never color alone.
 
+## Replay a real storm
+
+A replay uses the one-time fetch described in [Case data](case-data.md): you pick the storm and a place, you see the size of the download and the services first, and nothing is fetched until you agree. No account or key is needed.
+
+- **The recent past (Space Weather Prediction Center data service):** planetary Kp, X-ray and proton flux, the satellite magnetometer, solar wind speed, and the alerts, watches and warnings list. These feeds hold about the last week.
+- **Older storms (NOAA NCEI archive):** the daily planetary Kp by three-hour interval, flare counts and the daily geomagnetic forecast text, for any day from 2011. A day with no archived file is listed and never filled in.
+- **Ground magnetometer (USGS observatory):** one-minute or hourly values of H, D, Z and F from the observatory nearest your place.
+
+A short list of well-known storms (the May 2024 storm, the October 2024 storm and the March 2023 storm) points to dates; no data ships with the app. The finder can also search a period for storms by peak level. Real messages are kept as written, with their code and serial number, and are labeled historical.
+
 ## Simulate a storm
 
 Give the time and class of a flare, the peak G and S levels and the speed of the CME. The simulation makes a flare, a proton event, a solar wind step at arrival, a Kp trajectory that peaks at the level you chose, a magnetometer disturbance, a neutral current from one stated relation and your ground conductivity factor, and the Space Weather Prediction Center messages in order: watch, warning, alert, summary. Add receivers (single-frequency, multi-frequency, or a GNSS-disciplined oscillator with its holdover in hours) to see GNSS error, satellites tracked, timing alarms and holdover remaining. Everything is labeled simulated. It is an illustration for exercises, not a prediction of any real transformer or receiver.
