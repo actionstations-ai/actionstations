@@ -49,9 +49,13 @@ Players record decisions in live play, or the facilitator records them in Facili
 - **Protective timing**: how early the first allocate, switch-source or reroute decision came against the first item falling below the floor you set.
 - **Message consistency** across supply chain, customer service and regulatory affairs.
 
-## Past recalls as a starting point
+## Real data as a starting point
 
-The app can fetch past FDA food recall records (class, reason, product, quantity and distribution) through the open FDA service to make a recall scenario realistic. You choose the period and class, the app shows what it would fetch and how large it is, and only after you agree does it contact the service. No account or key is needed, and nothing about your plans is sent. Firm names and addresses are left out so your exercise organizations stay fictional.
+Three public sources can make a scenario realistic. For each, you choose what to fetch, the app shows what it would fetch and how large it is, and only after you agree does it contact the service. No account or key is needed, and nothing about your plans is sent.
+
+- **Past food recalls** from the FDA, through the open FDA service: class, reason, product, quantity and distribution. You choose the period and class. Firm names and addresses are left out so your exercise organizations stay fictional.
+- **Freight and supply chain indicators** from the Bureau of Transportation Statistics, for a period you choose: containerships waiting for a berth by port, containerships anchored offshore, containership capacity calling at U.S. ports, loaded import containers by port, the Shanghai to Los Angeles container rate, Class I rail intermodal units, carloads, terminal dwell and train speed by railroad, grain barge rates, truck speed around the Port of Los Angeles-Long Beach, the retail diesel price and the Freight Transportation Services Index. Each comes in as a series you can chart, for example the 2021 port backlog as the background to a lane disruption. The latest week is often an estimate that BTS revises later.
+- **Freight flows to and from a state** from the Freight Analysis Framework (FHWA and BTS): tons and value shipped to each partner state, received from each, and moved within the state, by mode and by commodity, for a year from 2018 to 2024, plus a yearly series of tons. Use it to size a lane disruption, for example how much of a state's freight moves by truck to one neighbor. FAF publishes only one large file, so the app downloads about 91 MB and keeps a small summary; the estimate shows the download size. Tons are thousands of tons, values are millions of 2017 dollars, and the figures are FAF estimates, not counts.
 
 ## Regulations
 
