@@ -1,0 +1,74 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Risk assessment</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Area</th>
+      <td>{{fields.area}}</td>
+      <th>Assessed</th>
+      <td>{{fields.assessedOn}}</td>
+    </tr>
+    <tr>
+      <th>Assessor</th>
+      <td>{{fields.assessor}}</td>
+      <th>Review</th>
+      <td>{{fields.reviewDate}}</td>
+    </tr>
+  </table>
+  {{#if fields.context}}
+  <h2>Context</h2>
+  <p>{{nl2br fields.context}}</p>
+  {{/if}}{{#if fields.threats}}
+  <h2>Threats</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Threat</th>
+        <th>Likelihood</th>
+        <th>Impact</th>
+        <th>Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.threats}}
+      <tr>
+        <td>{{this.threat}}</td>
+        <td><span class="status status-{{this.likelihood}}">{{this.likelihood}}</span></td>
+        <td><span class="status status-{{this.impact}}">{{this.impact}}</span></td>
+        <td><span class="status status-{{this.level}}">{{this.level}}</span></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.mitigations}}
+  <h2>Mitigations</h2>
+  <ul>
+    {{#each fields.mitigations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <table class="meta">
+    <tr>
+      <th>Residual risk</th>
+      <td colspan="3">{{fields.residualRisk}}</td>
+    </tr>
+  </table>
+  {{#if fields.recommendation}}
+  <div class="callout"><strong>Recommendation.</strong> {{nl2br fields.recommendation}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.area}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

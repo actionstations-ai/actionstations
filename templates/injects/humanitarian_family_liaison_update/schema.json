@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Family liaison update",
+  "description": "A written update from a family liaison officer to the family of a staff member during an incident: what is known, what the organization is doing, what it asks of the family and when the next contact will be. Plain language, no speculation. People and organizations are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "updateRef",
+    "sentAt",
+    "staffMember",
+    "officer",
+    "known",
+    "doing",
+    "nextContact"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief headquarters"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Family liaison"],
+      "x-translate": false
+    },
+    "updateRef": {
+      "type": "string",
+      "description": "Update reference",
+      "examples": ["FLU-2026-044-02"],
+      "x-translate": false
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Date and time sent",
+      "examples": ["17 October 2026, 12:00 UTC"],
+      "x-translate": false
+    },
+    "staffMember": {
+      "type": "string",
+      "description": "Staff member (initials and role)",
+      "examples": ["T.R., logistics officer"],
+      "x-translate": false
+    },
+    "officer": {
+      "type": "string",
+      "description": "Family liaison officer (fictional)",
+      "examples": ["Family Liaison Officer"],
+      "x-translate": false
+    },
+    "known": {
+      "type": "string",
+      "description": "What we know",
+      "examples": [
+        "T. was last in contact at 07:45 local time on Saturday. The vehicle has not been located. We have no reason to think T. has been hurt, and we will tell you if that changes."
+      ]
+    },
+    "doing": {
+      "type": "string",
+      "description": "What we are doing",
+      "examples": [
+        "Our crisis management team meets every two hours. We are in contact with the authorities and with other organizations in the area."
+      ]
+    },
+    "askOfYou": {
+      "type": "string",
+      "description": "What we ask of you",
+      "examples": [
+        "Please speak to us before you speak to the media or post online. If anyone else contacts you about T., please tell us."
+      ]
+    },
+    "support": {
+      "type": "array",
+      "description": "Support available to the family",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "A named contact available around the clock",
+          "Help with travel and accommodation",
+          "Counselling, if you would like it"
+        ]
+      ]
+    },
+    "nextContact": {
+      "type": "string",
+      "description": "Next contact",
+      "examples": ["17 October 2026, 18:00 UTC, or sooner if there is news"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

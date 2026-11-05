@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Security incident report",
+  "description": "A field security incident report written by a security manager: what happened, where in general terms, who was affected (roles and initials only), actions taken, who was informed and next steps. Decision and communications level only, with no tactical detail. People are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "reportId",
+    "reportedAt",
+    "reportedBy",
+    "incidentTime",
+    "location",
+    "incidentType",
+    "summary",
+    "status"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Security"],
+      "x-translate": false
+    },
+    "reportId": {
+      "type": "string",
+      "description": "Report reference",
+      "examples": ["SIR-2026-031"],
+      "x-translate": false
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Date and time of report",
+      "examples": ["15 October 2026, 14:20 local"],
+      "x-translate": false
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reporting role",
+      "examples": ["Security Manager"],
+      "x-translate": false
+    },
+    "incidentTime": {
+      "type": "string",
+      "description": "Date and time of incident",
+      "examples": ["15 October 2026, 10:05 to 13:10 local"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "General location",
+      "examples": ["Route 4 north of Bel Ravi, Karun Province"]
+    },
+    "incidentType": {
+      "type": "string",
+      "description": "Kind of incident",
+      "enum": ["accident", "checkpoint", "detention", "assault", "theft", "threat", "other"],
+      "examples": ["detention"]
+    },
+    "staffAffected": {
+      "type": "string",
+      "description": "Staff affected, by initials and role",
+      "examples": ["T.R. (logistics officer) and M.D. (driver)"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened, in facts only",
+      "examples": [
+        "A Harbourlight Relief vehicle carrying two staff was stopped at an unofficial checkpoint. The staff were held for about three hours and then released without injury. The vehicle and the relief items were returned. The staff report that no reason was given."
+      ]
+    },
+    "injuries": {
+      "type": "string",
+      "description": "Injuries and welfare",
+      "examples": [
+        "No injuries. Both staff were met by a colleague and are resting at the country office."
+      ]
+    },
+    "actionsTaken": {
+      "type": "array",
+      "description": "Actions taken",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Movements on Route 4 north of Bel Ravi stopped pending review.",
+          "Staff welfare check completed.",
+          "Provincial authority informed."
+        ]
+      ]
+    },
+    "informed": {
+      "type": "array",
+      "description": "Who has been informed",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Country Director",
+          "Headquarters duty officer",
+          "Security focal points of other agencies (alert SA-2026-017)"
+        ]
+      ]
+    },
+    "nextSteps": {
+      "type": "array",
+      "description": "Next steps",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Review the corridor risk assessment on 16 October.",
+          "Debrief both staff with a staff care adviser."
+        ]
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "enum": ["open", "monitoring", "closed"],
+      "examples": ["monitoring"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cluster meeting minutes",
+  "description": "Minutes of a cluster coordination meeting: who attended, what was discussed and decided by agenda item, actions with owners and dates, and gaps raised. Organizations and people are fictional.",
+  "type": "object",
+  "required": ["organization", "meetingTitle", "meetingDate"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Health Cluster, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Coordination team"],
+      "x-translate": false
+    },
+    "meetingTitle": {
+      "type": "string",
+      "description": "Meeting title",
+      "examples": ["Health Cluster coordination meeting No. 4"]
+    },
+    "meetingDate": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["16 October 2026, 09:00 local"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Place or channel",
+      "examples": ["Karun City sub-office and video link"],
+      "x-translate": false
+    },
+    "chair": {
+      "type": "string",
+      "description": "Chair",
+      "examples": ["Health Cluster Coordinator"],
+      "x-translate": false
+    },
+    "attendees": {
+      "type": "array",
+      "description": "Organizations attending",
+      "maxItems": 14,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Kestrel Health Aid",
+          "Harbourlight Relief",
+          "Tamsarian Crescent Society",
+          "Provincial health directorate",
+          "Open Hands Alliance"
+        ]
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "Agenda items and what was agreed",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "Agenda item",
+            "examples": ["Hadar coverage"]
+          },
+          "discussion": {
+            "type": "string",
+            "description": "What was said and decided",
+            "examples": [
+              "No health partner has reported in Hadar. Two partners said they could cover it only with new funding. Agreed to escalate to the Humanitarian Country Team."
+            ]
+          }
+        },
+        "required": ["topic"]
+      },
+      "examples": [
+        [
+          {
+            "topic": "Hadar coverage",
+            "discussion": "No health partner has reported in Hadar. Two partners said they could cover it only with new funding. Agreed to escalate to the Humanitarian Country Team."
+          },
+          {
+            "topic": "Trauma surgery in Soma Valley",
+            "discussion": "Need is about 40 operations a day; capacity is about 15. Kestrel Health Aid offered one team from 17 October."
+          },
+          {
+            "topic": "Cold chain",
+            "discussion": "Two district stores lost power. The logistics cluster will report on generators by 16 October."
+          }
+        ]
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Actions",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Kestrel Health Aid to confirm a trauma team for Soma Valley"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Kestrel Health Aid"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due",
+            "examples": ["17 Oct"],
+            "x-translate": false
+          }
+        },
+        "required": ["action"]
+      },
+      "examples": [
+        [
+          {
+            "action": "Kestrel Health Aid to confirm a trauma team for Soma Valley",
+            "owner": "Kestrel Health Aid",
+            "due": "17 Oct"
+          },
+          {
+            "action": "Cluster coordinator to ask the Humanitarian Country Team for a partner in Hadar",
+            "owner": "Cluster coordinator",
+            "due": "16 Oct"
+          },
+          {
+            "action": "Information management officer to add Karun East to the 3W reporting form",
+            "owner": "IMO",
+            "due": "16 Oct"
+          }
+        ]
+      ]
+    },
+    "gapsRaised": {
+      "type": "array",
+      "description": "Gaps raised for the gap list",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Hadar: primary health care", "Soma Valley: trauma surgery"]]
+    },
+    "nextMeeting": {
+      "type": "string",
+      "description": "Next meeting",
+      "examples": ["17 October 2026, 09:00 local"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

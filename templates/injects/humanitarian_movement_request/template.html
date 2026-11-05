@@ -1,0 +1,66 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Movement request</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Request</th>
+      <td>{{fields.requestId}}</td>
+      <th>Requested by</th>
+      <td>{{fields.requester}}</td>
+    </tr>
+    <tr>
+      <th>Departure</th>
+      <td>{{fields.departure}}</td>
+      <th>Return by</th>
+      <td>{{fields.returnBy}}</td>
+    </tr>
+    <tr>
+      <th>People</th>
+      <td>{{fields.passengers}}</td>
+      <th>Decision</th>
+      <td>{{fields.decision}}</td>
+    </tr>
+  </table>
+  {{#if fields.purpose}}
+  <h2>Purpose</h2>
+  <p>{{nl2br fields.purpose}}</p>
+  {{/if}}{{#if fields.route}}
+  <h2>Route</h2>
+  <p>{{nl2br fields.route}}</p>
+  {{/if}}{{#if fields.vehicles}}
+  <h2>Vehicles</h2>
+  <p>{{nl2br fields.vehicles}}</p>
+  {{/if}}{{#if fields.checkIn}}
+  <h2>Check-in</h2>
+  <p>{{nl2br fields.checkIn}}</p>
+  {{/if}}{{#if fields.conditions}}
+  <h2>Conditions</h2>
+  <ul>
+    {{#each fields.conditions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <table class="meta">
+    <tr>
+      <th>Decided by</th>
+      <td>{{fields.decidedBy}}</td>
+      <th>Decided at</th>
+      <td>{{fields.decidedAt}}</td>
+    </tr>
+  </table>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.requestId}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
