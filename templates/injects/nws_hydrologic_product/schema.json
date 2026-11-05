@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NWS hydrologic outlook or flood advisory (text product)",
+  "description": "A National Weather Service water resources text product as shown on weather.gov: the Hydrologic Outlook (Ready tier, days ahead) or the Flood Advisory (minor flooding that is a nuisance, not a warning). Monospace bulletin with WMO header, AWIPS id, headline, areas, a discussion, a forecast-point table (observed stage, flood stage, forecast) and impacts. For a flood watch, warning or statement use the NWS warning template. Stage is in feet and times are local with the gauge time zone. The office is a real NWS office; counties, rivers and places come from the scenario.",
+  "type": "object",
+  "required": ["office", "product", "issued", "headline", "areas", "discussion"],
+  "additionalProperties": false,
+  "properties": {
+    "office": {
+      "type": "string",
+      "description": "Issuing office as printed (real NWS office).",
+      "examples": ["National Weather Service St. Louis MO"]
+    },
+    "officeCity": {
+      "type": "string",
+      "description": "Office city.",
+      "examples": ["St. Louis"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Product name.",
+      "examples": ["Hydrologic Outlook"],
+      "enum": ["Hydrologic Outlook", "Flood Advisory"]
+    },
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading.",
+      "examples": ["FGUS63 KLSX 051430"]
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id.",
+      "examples": ["ESFLSX"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance time in local time with zone.",
+      "examples": ["830 AM CST Thu Nov 5 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline in capitals, as printed after the product name.",
+      "examples": ["...RIVER FLOOD POTENTIAL THROUGH THE WEEKEND..."]
+    },
+    "areas": {
+      "type": "array",
+      "description": "Counties or river reaches covered.",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "description": "One area.",
+        "examples": ["Haldane County"]
+      }
+    },
+    "discussion": {
+      "type": "array",
+      "description": "Discussion paragraphs (up to 4), each a few sentences.",
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "description": "One paragraph.",
+        "examples": [
+          "Heavy rain of 2 to 4 inches is expected across the basin Friday night into Saturday. Soils are wet and rivers are running above normal. Minor flooding is possible along the Cedar River by early next week."
+        ]
+      }
+    },
+    "forecastPoints": {
+      "type": "array",
+      "description": "Forecast points with the point own flood stage (a point may have no minor, moderate or major category).",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["point", "floodStage"],
+        "properties": {
+          "point": {
+            "type": "string",
+            "description": "River and location.",
+            "examples": ["Cedar River at Riverbend"]
+          },
+          "gauge": {
+            "type": "string",
+            "description": "NWS location id.",
+            "examples": ["RBDM7"]
+          },
+          "observed": {
+            "type": "string",
+            "description": "Latest observed stage with time.",
+            "examples": ["9.8 ft at 800 AM CST"]
+          },
+          "floodStage": {
+            "type": "string",
+            "description": "Flood stage in feet.",
+            "examples": ["14.0 ft"]
+          },
+          "forecast": {
+            "type": "string",
+            "description": "Forecast summary.",
+            "examples": ["Rise to near 13.5 ft by Monday"]
+          }
+        }
+      }
+    },
+    "impacts": {
+      "type": "string",
+      "description": "Impacts expected, tied to a stage when known.",
+      "examples": ["At 14 feet, water covers Mill Road at the low-water crossing."]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next product is expected.",
+      "examples": ["The next hydrologic outlook will be issued Friday morning."]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster name as printed at the end.",
+      "examples": ["Okafor"]
+    }
+  }
+}

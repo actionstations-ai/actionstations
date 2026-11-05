@@ -1,0 +1,44 @@
+<article class="doc">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.jurisdiction}}</p>
+    <h1>Damage assessment summary</h1>
+    <p class="ev">{{fields.event}}</p>
+    <p class="ev">Counts as of {{fields.asOf}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Area</th>
+        <th scope="col">Destroyed</th>
+        <th scope="col">Major</th>
+        <th scope="col">Minor</th>
+        <th scope="col">Affected</th>
+        <th scope="col">Not reachable</th>
+        <th scope="col">Estimated loss</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.areas}}
+      <tr>
+        <th scope="row">{{area}}</th>
+        <td>{{default destroyed "0"}}</td>
+        <td>{{default major "0"}}</td>
+        <td>{{default minor "0"}}</td>
+        <td>{{default affected "0"}}</td>
+        <td>{{default inaccessible "0"}}</td>
+        <td>{{default estimatedLoss "n/a"}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.totalLoss}}
+  <p class="tot">Total estimated loss: <strong>{{fields.totalLoss}}</strong></p>
+  {{/if}} {{#if fields.method}}
+  <h2>How the counts were collected</h2>
+  <p>{{fields.method}}</p>
+  {{/if}} {{#if fields.notes}}
+  <h2>Caveats</h2>
+  <p>{{fields.notes}}</p>
+  {{/if}}
+</article>

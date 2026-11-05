@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Flood forecast discussion",
+  "description": "A hydrologic forecast discussion: how the river forecast was made and what changed since the last issuance, in plain prose sections (rainfall, current river conditions, forecast reasoning, uncertainty, next issuance). Written by a service hydrologist or river forecast center. Shows the previous and current forecast crest so a change of category is plain. Stage in feet with the gauge datum; times local with zone.",
+  "type": "object",
+  "required": ["office", "issued", "title", "sections"],
+  "additionalProperties": false,
+  "properties": {
+    "office": {
+      "type": "string",
+      "description": "Issuing office or River Forecast Center.",
+      "examples": ["National Weather Service River Forecast Center, Fort Worth"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance time local with zone.",
+      "examples": ["415 PM CST Fri Nov 6 2026"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title line.",
+      "examples": ["Cedar River forecast discussion for Riverbend (RBDM7)"]
+    },
+    "change": {
+      "type": "object",
+      "description": "The crest before and after this issuance.",
+      "additionalProperties": false,
+      "required": ["previousCrest", "currentCrest"],
+      "properties": {
+        "previousCrest": {
+          "type": "string",
+          "description": "Previous forecast crest with time.",
+          "examples": ["15.2 ft (minor) Monday 600 AM"]
+        },
+        "currentCrest": {
+          "type": "string",
+          "description": "Current forecast crest with time.",
+          "examples": ["17.8 ft (moderate) Monday 1200 PM"]
+        },
+        "floodStage": {
+          "type": "string",
+          "description": "Flood stage for the point.",
+          "examples": ["14.0 ft"]
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "Discussion sections with a heading and prose.",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading.",
+            "examples": ["Rainfall"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text, a short paragraph.",
+            "examples": [
+              "Radar-estimated rainfall of 3.1 to 4.6 inches fell over the upper basin since Friday morning, more than the 2 to 3 inches forecast."
+            ]
+          }
+        }
+      }
+    },
+    "nextIssuance": {
+      "type": "string",
+      "description": "When the next forecast is expected.",
+      "examples": ["The next forecast will be issued by 1000 PM CST tonight."]
+    }
+  }
+}

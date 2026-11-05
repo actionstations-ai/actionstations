@@ -1,0 +1,137 @@
+{
+  "id": "flooding",
+  "name": "Flooding and hydrology",
+  "description": "River gauges and forecast hydrographs, National Weather Service flood categories, flash flood warnings with damage tags, road closure and sandbag logistics, and decisions scored against the stage thresholds that matter. For any organization that has to act on a river forecast or a flash flood warning: counties, utilities, farms, schools, camps, transit and more.",
+  "appliesTo": {
+    "keywords": [
+      "flood",
+      "flooding",
+      "flash flood",
+      "river flood",
+      "flood stage",
+      "crest",
+      "hydrograph",
+      "levee",
+      "sandbag",
+      "inundation",
+      "low-water crossing",
+      "overtopping",
+      "stream gauge",
+      "flood warning",
+      "burn scar",
+      "ice jam"
+    ],
+    "domains": [
+      "flooding",
+      "municipal",
+      "water_utility",
+      "water_dam",
+      "energy_utility",
+      "food_agriculture",
+      "transit",
+      "freight_rail",
+      "airport",
+      "port_maritime",
+      "healthcare",
+      "k12_schools",
+      "campus",
+      "stadium_venue",
+      "telecom",
+      "gas_pipeline",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "nws_hydrologic_product",
+    "flood_forecast_discussion",
+    "road_closure_notice",
+    "sandbag_pump_request",
+    "substantial_damage_letter",
+    "damage_assessment_summary"
+  ],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "the National Weather Service forecast office",
+    "the NWS River Forecast Center",
+    "the USGS Water Science Center",
+    "the US Army Corps of Engineers district",
+    "the levee or drainage district",
+    "the state department of transportation",
+    "downstream communities"
+  ],
+  "advisorRoles": [
+    {
+      "key": "service_hydrologist",
+      "name": "Service hydrologist (NWS liaison)",
+      "abbreviation": "HYDRO",
+      "team": "Advisors",
+      "description": "Explains the forecast, what changed between issuances and what the forecast does not cover."
+    },
+    {
+      "key": "floodplain_manager",
+      "name": "Floodplain manager",
+      "abbreviation": "FPM",
+      "team": "Advisors",
+      "description": "Knows the flood maps, which buildings and roads sit at which stage, and the post-event damage rules."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Stage",
+        "definition": "River height in feet above the gauge datum, which is not elevation above sea level."
+      },
+      {
+        "term": "Action stage",
+        "definition": "The stage at which agencies begin to prepare or act; below flood stage."
+      },
+      {
+        "term": "Flood stage",
+        "definition": "The stage at which flooding begins to cause damage or a threat; it is set per gauge and is not the same as bankfull."
+      },
+      {
+        "term": "Flood categories",
+        "definition": "Minor, moderate and major flooding, set per forecast point from local impacts; a point may have no minor, moderate or major category (a leveed point may first see impacts at moderate)."
+      },
+      {
+        "term": "Crest",
+        "definition": "The highest stage of a flood at a point, with a time; the forecast crest is revised with each forecast."
+      },
+      {
+        "term": "Hydrologic outlook, flood watch, flood warning",
+        "definition": "The Ready, Set, Go tiers of NWS water resources products: outlook days ahead, watch when flooding is possible, warning when it is occurring or imminent."
+      },
+      {
+        "term": "Flash flood warning tags",
+        "definition": "Base (no tag), CONSIDERABLE for urgent action, CATASTROPHIC only with flash flood emergency language; Wireless Emergency Alerts go out only for CONSIDERABLE and CATASTROPHIC."
+      },
+      {
+        "term": "cfs",
+        "definition": "Cubic feet per second, the unit of flow; kcfs is thousands of cfs."
+      }
+    ],
+    "productConventions": [
+      "Stage is in feet with the gauge location named; flow is in cfs or kcfs; times are local with the gauge's time zone.",
+      "A forecast has an issuance time and a forecast crest with a time; revised forecasts say what changed since the last issuance.",
+      "Products come in order: outlook, watch, warning, statements while the warning continues.",
+      "A flood warning names the river point, the category, the forecast crest and the impacts at that stage.",
+      "A closure notice names the road, the status, the stage at which it floods and the time of the status.",
+      "Use field_report for a levee patrol report and ics_213_general_message for a flood fight request."
+    ],
+    "realismRules": [
+      "Never claim a stage is minor, moderate or major unless the point's own category table says so; the same crest is moderate on one river and minor on another.",
+      "Do not use flood stage and bankfull as the same thing.",
+      "A CATASTROPHIC tag appears only with flash flood emergency language, and a WEA is not sent for a base-tag warning.",
+      "River forecasts change; a decision should name the forecast issuance it rests on, and a stale forecast is a common injection.",
+      "Flash floods rise in minutes to hours; river floods rise over days and give time to sandbag, close roads and evacuate.",
+      "Tie each closure, evacuation and sandbag action to a stage or a clearance time, not to the clock alone.",
+      "A gauge can fail, ice up or be washed out during the event; missing data is not zero.",
+      "Real past events are historical and dated; fictional events use invented gauges and places, never a real person or private business."
+    ]
+  },
+  "lintRules": ["flood_categories", "flash_flood_tags", "flood_product_order", "stage_units"]
+}

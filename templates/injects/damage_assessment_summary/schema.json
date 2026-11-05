@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Flood damage assessment summary",
+  "description": "A county damage assessment summary after a flood: counts of structures by damage level (destroyed, major, minor, affected, inaccessible) for each area, with totals, the estimated dollar loss, how the counts were collected and the date. Used by emergency managers, floodplain administrators and for requests to the state.",
+  "type": "object",
+  "required": ["jurisdiction", "event", "asOf", "areas"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Jurisdiction (fictional).",
+      "examples": ["Haldane County Emergency Management"]
+    },
+    "event": {
+      "type": "string",
+      "description": "The flood event.",
+      "examples": ["Cedar River flood, November 6 to 11, 2026"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time of the counts.",
+      "examples": ["November 14, 2026 5:00 PM"]
+    },
+    "areas": {
+      "type": "array",
+      "description": "Rows by area.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["area"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Area, neighborhood or reach.",
+            "examples": ["Riverbend east of Highway 9"]
+          },
+          "destroyed": {
+            "type": "string",
+            "description": "Count destroyed.",
+            "examples": ["4"]
+          },
+          "major": {
+            "type": "string",
+            "description": "Count major damage.",
+            "examples": ["18"]
+          },
+          "minor": {
+            "type": "string",
+            "description": "Count minor damage.",
+            "examples": ["37"]
+          },
+          "affected": {
+            "type": "string",
+            "description": "Count affected.",
+            "examples": ["52"]
+          },
+          "inaccessible": {
+            "type": "string",
+            "description": "Count not yet reachable.",
+            "examples": ["3"]
+          },
+          "estimatedLoss": {
+            "type": "string",
+            "description": "Estimated loss.",
+            "examples": ["$4.2 million"]
+          }
+        }
+      }
+    },
+    "totalLoss": {
+      "type": "string",
+      "description": "Total estimated loss.",
+      "examples": ["$7.9 million"]
+    },
+    "method": {
+      "type": "string",
+      "description": "How the counts were collected.",
+      "examples": [
+        "Windshield survey by two teams on November 12 and 13; residential and commercial structures only; infrastructure is counted separately."
+      ]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Caveats and what is next.",
+      "examples": [
+        "Counts will change as the water recedes from the south reach and as inspections finish."
+      ]
+    }
+  }
+}

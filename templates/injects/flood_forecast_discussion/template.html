@@ -1,0 +1,39 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">{{fields.office}}</div>
+    </div>
+  </header>
+  <div class="crumb">Hydrologic Products › Forecast Discussion</div>
+  <div class="page">
+    <h1>{{fields.title}}</h1>
+    <p class="meta">Issued {{fields.issued}}</p>
+    {{#if fields.change}}
+    <table class="chg">
+      <caption>
+        Forecast crest change
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Previous forecast</th>
+          <th scope="col">Current forecast</th>
+          <th scope="col">Flood stage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{fields.change.previousCrest}}</td>
+          <td><strong>{{fields.change.currentCrest}}</strong></td>
+          <td>{{default fields.change.floodStage "not stated"}}</td>
+        </tr>
+      </tbody>
+    </table>
+    {{/if}} {{#each fields.sections}}
+    <h2>{{heading}}</h2>
+    <p>{{text}}</p>
+    {{/each}} {{#if fields.nextIssuance}}
+    <p class="next">{{fields.nextIssuance}}</p>
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,672 @@
+{
+  "id": "flooding",
+  "label": "Flood response and floodplain management",
+  "description": "The organizations whose job is flood response: a county flood program (emergency management with floodplain administration and public works), a levee or drainage district, or a regional flood warning program. Plans and products: the county emergency operations plan and flood annex, the National Weather Service river forecast and Ready, Set, Go water resources products (NWS Instruction 10-922), flood categories per forecast point (NWS Manual 10-950), the levee district's flood fight plan, and the community's National Flood Insurance Program floodplain ordinance. Variants: a county flood program (emergency manager, floodplain administrator, public works), a levee or drainage district (operator, patrols, pumps) and a regional flood warning program (gauge network, warning dissemination).",
+  "aliases": [
+    "flood",
+    "river flood",
+    "flash flood",
+    "floodplain management",
+    "hydrology",
+    "hydrologic services",
+    "flood warning program",
+    "flood fight",
+    "levee district",
+    "drainage district",
+    "stormwater",
+    "inundation"
+  ],
+  "vocabulary": {
+    "facility": "the river reach, the levee system and the county's roads, crossings, pump stations and critical facilities",
+    "public": "residents and businesses in the floodplain, motorists, campers and farm families",
+    "frontline": "road crews, levee patrol staff, pump operators, 911 dispatchers, deputies, volunteer fire and rescue",
+    "operationsCenter": "the county emergency operations center (EOC)"
+  },
+  "factCategories": [
+    {
+      "id": "gauges",
+      "label": "River gauges",
+      "noun": "Gauges?|Gages?|Forecast Points?|River Gauges?",
+      "genericNoun": "Stations?",
+      "context": "river|creek|stage|crest|flood stage|\\bcfs\\b|hydrograph|forecast|USGS|gauge|gage",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "crossings",
+      "label": "Roads and low-water crossings",
+      "noun": "Low[- ]Water Crossings?|Crossings?|Bridges?",
+      "genericNoun": "Roads?",
+      "context": "flood|stage|closure|closed|barricade|inundat|water over|crossing|creek",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "pump_stations",
+      "label": "Pump stations",
+      "noun": "Pump Stations?|Lift Stations?|Pumps?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "levee_segments",
+      "label": "Levee segments and gates",
+      "noun": "Levee Units?|Levee Segments?|Closure Structures?|Floodgates?|Flood Gates?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "shelters",
+      "label": "Shelters",
+      "noun": "Shelters?|Reception Centers?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "zones",
+      "label": "Evacuation zones",
+      "noun": "Evacuation Zones?|Flood Zones?",
+      "genericNoun": "Zones?",
+      "context": "evacuat|flood|inundat|shelter|warning|reentry",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "EOC software and the incident log",
+      "county GIS with parcels, critical facilities and floodplain layers",
+      "mass notification system and Wireless Emergency Alert access",
+      "911 CAD and the PSAP",
+      "road closure status board and 511 feed",
+      "National Water Prediction Service gauge pages and USGS gauge data",
+      "damage assessment and substantial-damage apps",
+      "email and the county website",
+      "social media accounts",
+      "helpdesk / ITSM"
+    ],
+    "ot": [
+      "gauge telemetry (radio, cellular, satellite) and local rain gauges",
+      "pump station SCADA and power",
+      "floodgate and closure structure controls",
+      "warning sirens (where installed)",
+      "variable message signs and road closure signs",
+      "NOAA Weather Radio and radio systems",
+      "backup generators at pump stations and shelters",
+      "levee piezometers and seepage instruments"
+    ]
+  },
+  "roles": [
+    {
+      "key": "em",
+      "name": "County Emergency Manager (Incident Commander)",
+      "abbreviation": "EM",
+      "team": "Team A: EOC Command",
+      "description": "Owns activation, evacuation orders, shelters, requests to the state and the public warning."
+    },
+    {
+      "key": "fpa",
+      "name": "Floodplain Administrator",
+      "abbreviation": "FPA",
+      "team": "Team B: Planning and Floodplain",
+      "description": "Owns the flood maps, permits, community flood program and the substantial-damage estimates after the event."
+    },
+    {
+      "key": "pw",
+      "name": "Public Works Director / Road Superintendent",
+      "abbreviation": "PW",
+      "team": "Team C: Operations",
+      "description": "Owns road and bridge closures, barricades, pumps, debris removal and pump stations."
+    },
+    {
+      "key": "lev",
+      "name": "Levee or Drainage District Operator",
+      "abbreviation": "LEV",
+      "team": "Team D: Levee and Drainage",
+      "description": "Owns the flood fight: patrols, sandbagging, boils and seepage, closure structures and pumps."
+    },
+    {
+      "key": "gauge",
+      "name": "Flood Warning Program Coordinator (Gauge Network)",
+      "abbreviation": "FWP",
+      "team": "Team E: Flood Warning",
+      "description": "Owns the local gauge network, the readings the EOC sees and the dissemination of warnings."
+    },
+    {
+      "key": "log",
+      "name": "Logistics Section Chief",
+      "abbreviation": "Log",
+      "team": "Team F: Logistics",
+      "description": "Owns sandbag and pump requests, deliveries, shelters supplies and mutual aid."
+    },
+    {
+      "key": "sar",
+      "name": "Fire and Rescue Chief (Swift Water)",
+      "abbreviation": "SAR",
+      "team": "Team G: Fire and Rescue",
+      "description": "Owns swift water rescue teams, boats and the rescue priorities."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team H: Public Information",
+      "description": "Owns messages that match the forecast category and the actions asked of residents."
+    }
+  ],
+  "outsideParties": [
+    "the National Weather Service forecast office",
+    "the NWS River Forecast Center",
+    "the National Water Center",
+    "the USGS Water Science Center",
+    "state emergency management and the National Guard",
+    "the US Army Corps of Engineers district",
+    "Red Cross and shelter operators",
+    "the state department of transportation",
+    "railroads",
+    "power utilities",
+    "news media",
+    "neighboring counties and downstream communities",
+    "volunteer organizations for muck-out and boats",
+    "amateur radio operators",
+    "FEMA (declarations and assistance)"
+  ],
+  "mediaChannels": [
+    "residents' photos of water over a road on Facebook and Nextdoor",
+    "a storm chaser's post on X/Twitter",
+    "the regional TV station's river-level graphic",
+    "the county emergency management Facebook page",
+    "a farm and ranch group chat",
+    "a camp or school parent text thread"
+  ],
+  "sceneAnchors": {
+    "public": "on a county road at a low-water crossing: brown water rising over the pavement, a road-closed barricade, wet grass, gray sky, daylight",
+    "control": "inside a county emergency operations center: a wall map of the river with colored zones, laptops, a whiteboard of road closures, staff with radios and coffee, fluorescent light",
+    "exterior": "on a river levee crest at dusk: a gravel patrol road, stacked sandbags, a pump with a discharge hose, a swollen river beside farm fields"
+  },
+  "injectTypes": [
+    "nws_weather_warning",
+    "cap_alert",
+    "eas_broadcast",
+    "emergency_declaration",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "scene_photo",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "sitrep",
+    "memo",
+    "official_letter"
+  ],
+  "threatFamilies": [
+    "flood_river",
+    "flood_flash",
+    "flood_levee_breach",
+    "flood_urban",
+    "flood_ice_jam",
+    "flood_post_wildfire",
+    "flood_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "flood_river",
+      "label": "River flood",
+      "description": "A river rises over days toward a forecast crest that changes with each forecast; closures, sandbagging, a levee fight and evacuations follow the stage.",
+      "keywords": [
+        "river flood",
+        "flood stage",
+        "crest",
+        "forecast crest",
+        "flood warning",
+        "rising river",
+        "river stage",
+        "hydrograph",
+        "major flooding",
+        "moderate flooding"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outlook and watch (Ready, Set)",
+          "goal": "Players see a hydrologic outlook and a flood watch and decide what to prepare before the river is high.",
+          "beats": [
+            "A hydrologic outlook names the river and the expected rain",
+            "The river is rising but still below action stage",
+            "A flood watch is issued for the reach"
+          ]
+        },
+        {
+          "title": "Action and flood stage",
+          "goal": "The river passes action stage and then flood stage; the first closures and the first sandbag requests test the stage-driven plan.",
+          "beats": [
+            "The gauge passes action stage and the first crossing goes under",
+            "A flood warning is issued with a forecast crest",
+            "Sandbag and pump requests arrive from the district and farms"
+          ]
+        },
+        {
+          "title": "Forecast changes category",
+          "goal": "A revised forecast raises the crest into a higher category and forces evacuation and flood fight decisions on the latest forecast, not the stale one.",
+          "beats": [
+            "The forecast crest is revised up one category",
+            "The levee patrol reports seepage",
+            "An evacuation order for a reach is weighed against clearance time and shelter space"
+          ]
+        },
+        {
+          "title": "Crest, recession and re-entry",
+          "goal": "The river crests and falls slowly; re-entry, damage assessment and recovery decisions begin.",
+          "beats": [
+            "The crest passes and the stage begins to fall",
+            "Residents ask when they can return",
+            "Substantial-damage estimates and muck-out requests begin"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "order the evacuation of the east reach now on the revised crest, or wait for the next forecast and risk the clearance time",
+        "close the Mill Road crossing at action stage or keep it open for the hospital shift change",
+        "commit the last sandbag crews to the levee reach with seepage or to the water plant"
+      ],
+      "clueKinds": "a gauge reading ahead of the forecast, a revised forecast issuance time, a seepage or boil report from a levee patrol, an upstream gauge already above flood stage",
+      "hurdleKinds": "a road under water that cuts the sandbag supply route, a gauge that stops reporting at the worst time, a pump with no fuel, a shelter that fills early",
+      "keyCoordination": "the NWS forecast office and River Forecast Center, and the levee or drainage district",
+      "purposeMix": { "CLUE": 25, "PRESSURE": 20, "DECISION_POINT": 15, "NOISE": 10 },
+      "promptGuidance": "Use the point's own flood category stages; flood stage is not bankfull, and minor, moderate and major categories may not all exist at a point. Show the forecast crest changing with an issuance time. Stage is in feet with the gauge's datum, flow in cfs, times in local time with the gauge's time zone. Closures and evacuations should be tied to a stage, not to the clock alone.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_flash",
+      "label": "Flash flood",
+      "description": "Heavy rain over a small basin; water rises in minutes to hours at crossings, creeks, campgrounds and underpasses, often at night, and warnings carry damage threat tags.",
+      "keywords": [
+        "flash flood",
+        "flash flood warning",
+        "flash flood emergency",
+        "low-water crossing",
+        "swift water",
+        "creek rising",
+        "stalled storm",
+        "training thunderstorms",
+        "camp"
+      ],
+      "phaseArc": [
+        {
+          "title": "Rain over the basin",
+          "goal": "Heavy rain is reported and a flash flood watch is in effect; players decide whether to pre-position.",
+          "beats": [
+            "A flash flood watch covers the county",
+            "Rain gauges report inches per hour",
+            "A school or camp asks whether to shelter in place or move"
+          ]
+        },
+        {
+          "title": "Warning and rapid rise",
+          "goal": "A flash flood warning is issued, possibly tagged; the warning must reach people who are asleep or off the grid.",
+          "beats": [
+            "A flash flood warning is issued with a damage threat tag",
+            "A creek rises several feet in an hour",
+            "911 receives calls from a low-water crossing"
+          ]
+        },
+        {
+          "title": "Rescues and flash flood emergency",
+          "goal": "Multiple swift water rescues stretch resources; a flash flood emergency raises the threat.",
+          "beats": [
+            "Swift water teams are committed at two sites",
+            "A flash flood emergency is declared for a downstream area",
+            "Cell service fails at the camp"
+          ]
+        },
+        {
+          "title": "Recession, search and reunification",
+          "goal": "Water falls; search, accountability and family reunification dominate.",
+          "beats": [
+            "The creek recedes and roads stay closed",
+            "A head count at the camp does not match the roster",
+            "A reunification point is opened"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "evacuate the low camp to higher ground in the dark now, or hold until the creek is seen to rise",
+        "send the only boat team to the crossing or hold it for the downstream camp",
+        "send a Wireless Emergency Alert for the whole county or only the warned polygon"
+      ],
+      "clueKinds": "a rain gauge total, a 911 call about water over a road, a gauge on a small creek jumping, the warning polygon and its tag",
+      "hurdleKinds": "no sirens in the county, no cell coverage, a bridge washed out, rescue teams already committed",
+      "keyCoordination": "the NWS forecast office and 911 dispatch",
+      "purposeMix": { "CLUE": 25, "PRESSURE": 20, "DECISION_POINT": 15 },
+      "promptGuidance": "Flash flood warning tags are base, CONSIDERABLE and CATASTROPHIC; Wireless Emergency Alerts go out only for CONSIDERABLE and CATASTROPHIC, and CATASTROPHIC is used only with flash flood emergency language. Time between rain and rising water is minutes to hours. A night case must show how the warning reaches sleeping people.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_levee_breach",
+      "label": "Levee or dam breach",
+      "description": "A levee overtops or fails, or high pool and a dam problem force releases and downstream warning; the flood side is warning, evacuation and inundation timing.",
+      "keywords": [
+        "levee breach",
+        "levee failure",
+        "levee overtopping",
+        "overtopping",
+        "boil",
+        "seepage",
+        "sand boil",
+        "dam breach",
+        "dam failure",
+        "high pool"
+      ],
+      "phaseArc": [
+        {
+          "title": "High water against the levee",
+          "goal": "Patrols watch a levee under sustained high water.",
+          "beats": [
+            "Patrols report seepage",
+            "A sand boil appears behind a reach",
+            "The forecast stage nears the levee crest"
+          ]
+        },
+        {
+          "title": "Flood fight",
+          "goal": "Sandbag rings and ring levees compete for crews and material.",
+          "beats": [
+            "A boil is ringed with sandbags",
+            "A second boil appears",
+            "Material runs short"
+          ]
+        },
+        {
+          "title": "Breach or overtopping",
+          "goal": "Water breaches or overtops; warning and evacuation of the protected area must beat the water.",
+          "beats": [
+            "A breach is reported at a reach",
+            "The area behind the levee begins to flood",
+            "Evacuation routes flood in sequence"
+          ]
+        },
+        {
+          "title": "Rescue and recovery",
+          "goal": "Rescue, shelter and damage assessment follow; the breach is sealed or the pool is lowered.",
+          "beats": [
+            "Boats work the flooded neighborhood",
+            "The district starts closing the gap",
+            "Substantial-damage assessment begins"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "evacuate the whole protected area on a seepage report now, or hold crews at the boil and risk a breach without warning",
+        "deliberately cut a lesser levee to relieve pressure and flood farmland, or hold and risk the town"
+      ],
+      "clueKinds": "a patrol report of seepage or a boil, a piezometer reading, a gauge near the levee crest, a call from a dam operator about releases",
+      "hurdleKinds": "a haul road under water, no sand on hand, crews at the limit of shifts",
+      "keyCoordination": "the levee or drainage district and the US Army Corps of Engineers district",
+      "promptGuidance": "A dam owner's emergency action plan stays with the dam; the flood response side is downstream warning, evacuation and inundation timing. Leveed points may show impacts only at moderate or major categories.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_urban",
+      "label": "Urban and stormwater flooding",
+      "description": "Intense rain overwhelms drains: flooded underpasses, transit, basements, combined sewer overflow and pump station failure.",
+      "keywords": [
+        "urban flooding",
+        "stormwater",
+        "underpass",
+        "storm drain",
+        "combined sewer",
+        "sewer overflow",
+        "basement flooding",
+        "pump station failure",
+        "street flooding"
+      ],
+      "phaseArc": [
+        {
+          "title": "Heavy rain",
+          "goal": "Rain exceeds drain capacity.",
+          "beats": [
+            "Streets pond",
+            "An underpass is reported flooding",
+            "A transit line reports delays"
+          ]
+        },
+        {
+          "title": "Closures and rescues",
+          "goal": "Vehicles are trapped and closures cascade.",
+          "beats": [
+            "A vehicle is stuck in an underpass",
+            "A pump station loses power",
+            "A hospital access road closes"
+          ]
+        },
+        {
+          "title": "Overflow and service loss",
+          "goal": "Sewer overflow, power and transit losses affect the public.",
+          "beats": [
+            "A combined sewer overflow starts",
+            "A substation is threatened",
+            "A boil or contact notice is considered"
+          ]
+        },
+        {
+          "title": "Pump-out and recovery",
+          "goal": "Pumping, cleanup and damage reports.",
+          "beats": [
+            "Pumps are brought in",
+            "Underpasses reopen in sequence",
+            "Residents report basement damage"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the underpass and reroute the buses now, or keep service running through the peak",
+        "divert the overflow to the river and accept a discharge violation, or let streets flood"
+      ],
+      "clueKinds": "a camera on an underpass, a rain gauge total, a pump station alarm, a 311 surge",
+      "hurdleKinds": "a pump station without power, a barricade shortage, traffic that blocks pump trucks",
+      "keyCoordination": "public works and the transit agency",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_ice_jam",
+      "label": "Ice jam flooding",
+      "description": "Ice jams back water up a river in winter or at breakup; the stage rises quickly and can fall as quickly when the jam releases.",
+      "keywords": ["ice jam", "ice breakup", "frozen river", "ice flood"],
+      "phaseArc": [
+        {
+          "title": "Breakup begins",
+          "goal": "Ice begins to move.",
+          "beats": ["Warm rain on snow", "Ice moves at a bend", "The gauge rises abruptly"]
+        },
+        {
+          "title": "Jam and backwater",
+          "goal": "A jam forms and water rises upstream of it.",
+          "beats": [
+            "Water backs up into a neighborhood",
+            "A road floods with ice blocks",
+            "A warning is issued"
+          ]
+        },
+        {
+          "title": "Release",
+          "goal": "The jam releases and a surge moves downstream.",
+          "beats": [
+            "The jam fails",
+            "A downstream gauge jumps",
+            "Residents downstream have minutes"
+          ]
+        },
+        {
+          "title": "Aftermath",
+          "goal": "Ice and debris damage and cleanup.",
+          "beats": ["Ice debris on roads", "A bridge is inspected", "Cleanup requests begin"]
+        }
+      ],
+      "decisionPointExamples": [
+        "evacuate the backwater neighborhood now, or wait for the jam to release and risk a surge downstream"
+      ],
+      "clueKinds": "a gauge that rises without rain, a ranger report of an ice dam, a river camera",
+      "hurdleKinds": "a gauge frozen or iced, roads with ice debris, cold-weather shelter needs",
+      "keyCoordination": "the NWS forecast office and the downstream community",
+      "promptGuidance": "Stage at an ice-affected gauge can be unreliable; the exercise should say when a reading is estimated.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_post_wildfire",
+      "label": "Flood after wildfire",
+      "description": "Rain on a recent burn scar sends flash floods and debris flows down slopes with little warning.",
+      "keywords": [
+        "burn scar",
+        "post-fire flooding",
+        "debris flow",
+        "flood after wildfire",
+        "burned area"
+      ],
+      "phaseArc": [
+        {
+          "title": "Burn scar and forecast rain",
+          "goal": "A burn scar sits upstream of a community and rain is forecast.",
+          "beats": [
+            "A burn scar assessment names a risk",
+            "A flash flood watch with a burn scar tag",
+            "Pre-positioning is debated"
+          ]
+        },
+        {
+          "title": "Short-fuse warning",
+          "goal": "A warning and evacuation order are issued in minutes.",
+          "beats": [
+            "A flash flood warning with an expected rainfall rate on a burn scar",
+            "A debris flow blocks a road",
+            "A bridge is threatened"
+          ]
+        },
+        {
+          "title": "Debris flow and rescues",
+          "goal": "Debris flows damage homes; rescues are slow.",
+          "beats": ["A debris flow reaches homes", "A road is cut by debris", "A shelter opens"]
+        },
+        {
+          "title": "Recovery and next storm",
+          "goal": "Cleanup while another storm is forecast.",
+          "beats": [
+            "Another storm is forecast",
+            "Debris basins are full",
+            "Re-entry rules are debated"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "order evacuation of the canyon community ahead of a forecast storm, with the costs of repeated evacuations, or wait for rainfall rates to confirm"
+      ],
+      "clueKinds": "a rain gauge rate above the burn scar threshold, a debris basin level, a ranger report",
+      "hurdleKinds": "a road blocked by debris, an evacuation route through the burn scar",
+      "keyCoordination": "the NWS forecast office and the land management agency that holds the burned area",
+      "promptGuidance": "The earth sciences toolkit holds the debris flow hazard material; this family covers the flood response and warning side.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "flood_service_degradation",
+      "label": "Flood warning service degradation",
+      "description": "The tools that warn about floods fail during a flood: a gauge or telemetry is lost, a forecast or dissemination system is out, a pump station loses power, or a warning is missing or wrong.",
+      "keywords": [
+        "gauge outage",
+        "telemetry loss",
+        "gauge washed out",
+        "warning outage",
+        "siren failure",
+        "missed warning",
+        "false warning",
+        "pump station power loss",
+        "forecast outage"
+      ],
+      "phaseArc": [
+        {
+          "title": "Normal watch",
+          "goal": "A normal river watch begins.",
+          "beats": [
+            "The gauge reports normally",
+            "Rain is forecast",
+            "A routine call with the forecast office"
+          ]
+        },
+        {
+          "title": "Loss of data",
+          "goal": "A key gauge stops reporting while the river rises.",
+          "beats": [
+            "The gauge stops reporting",
+            "Another gauge shows a rise",
+            "Staff debate what the missing reading means"
+          ]
+        },
+        {
+          "title": "Decide without the number",
+          "goal": "Players decide closures and evacuation without the gauge, using upstream gauges, cameras and patrols.",
+          "beats": [
+            "A patrol reports water on a road",
+            "The forecast office issues a statement that its forecast for the point is suspended",
+            "A false social media post gives a stage"
+          ]
+        },
+        {
+          "title": "Restore and review",
+          "goal": "The gauge is restored and the team compares decisions with the record.",
+          "beats": [
+            "Telemetry returns with a gap in the record",
+            "The crest is higher than the team believed",
+            "A review of the warning chain begins"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the crossings on an upstream gauge and a patrol report, or wait for a verified reading"
+      ],
+      "clueKinds": "a flat-lined gauge, a mismatch between two gauges, a camera image, a patrol report",
+      "hurdleKinds": "no sirens, radio coverage gaps, a stale forecast still on a public display",
+      "keyCoordination": "the NWS forecast office and the USGS Water Science Center",
+      "promptGuidance": "Missing data is not zero. The exercise should show how players tell a failed gauge from a falling river.",
+      "lint": { "clueRequired": true, "clueRole": "technical" }
+    }
+  ],
+  "noiseExamples": [
+    "a dispatcher's question about a routine parking complaint",
+    "a request for a permit inspection that day",
+    "an expired barricade rental invoice",
+    "a call about a mosquito spraying schedule",
+    "a vendor asking about pump parts pricing"
+  ],
+  "pressureExamples": [
+    "a resident posting a photo of water over a road with a wrong stage",
+    "a county commissioner asking whether to evacuate before the next forecast",
+    "a local TV station showing a different crest than the forecast",
+    "a farm owner demanding the levee district save his fields first",
+    "a nursing home asking for transport before a closure",
+    "a camp director calling about a creek at night"
+  ],
+  "rolePatterns": {
+    "technical": "gauge|flood warning|telemetry|scada",
+    "security": "sheriff|law enforcement",
+    "operations": "public works|levee|drainage|emergency manager"
+  },
+  "agencyPattern": "National Weather Service|NWS|River Forecast Center|National Water Center|USGS|Army Corps of Engineers|USACE|FEMA|NFIP|state emergency management",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "situational_assessment",
+    "operational_coordination",
+    "critical_transportation",
+    "mass_care_services",
+    "infrastructure_systems",
+    "logistics_and_supply_chain_management"
+  ],
+  "suggestedToolkits": ["flooding", "weather"]
+}

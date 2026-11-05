@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sandbag and pump request",
+  "description": "A one-page resource request form for a flood fight: what is needed (sandbags, sand, pumps, hoses, fuel, barriers, crews), how many, where, by when, and the stated basis (the gauge stage or forecast crest that makes it necessary), with a status block for ordered, in transit and delivered. Used by a levee or drainage district, a utility, a farm cooperative or a county EOC.",
+  "type": "object",
+  "required": ["requestNo", "requestedBy", "requestedAt", "items", "basis"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization at the top of the form.",
+      "examples": ["Haldane County Emergency Operations Center"]
+    },
+    "requestNo": {
+      "type": "string",
+      "description": "Request number.",
+      "examples": ["RR-0214"]
+    },
+    "requestedBy": {
+      "type": "string",
+      "description": "Requester name, title and organization.",
+      "examples": ["M. Alvarez, Operator, Cedar River Levee District"]
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date and time of the request.",
+      "examples": ["11/7/2026 3:20 PM"]
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority.",
+      "examples": ["Urgent"],
+      "enum": ["Routine", "Urgent", "Immediate"]
+    },
+    "items": {
+      "type": "array",
+      "description": "Resources requested.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["resource", "quantity", "deliverTo", "needBy"],
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Resource.",
+            "examples": ["Sandbags, filled"]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity with unit.",
+            "examples": ["5,000"]
+          },
+          "deliverTo": {
+            "type": "string",
+            "description": "Delivery location.",
+            "examples": ["Levee unit 3, River Road mile 4 staging area"]
+          },
+          "needBy": {
+            "type": "string",
+            "description": "Time needed by.",
+            "examples": ["11/7 9:00 PM"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "examples": ["In transit"],
+            "enum": ["Requested", "Ordered", "In transit", "Delivered", "Unable to fill"]
+          }
+        }
+      }
+    },
+    "basis": {
+      "type": "string",
+      "description": "Why it is needed: the gauge reading or forecast and the stage it ties to.",
+      "examples": [
+        "Cedar River at Riverbend is 14.6 ft against a forecast crest of 17.8 ft. Levee unit 3 has seepage at 16 ft and crests at 19 ft."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact for the delivery.",
+      "examples": ["Levee district radio channel 2 · 555-0177"]
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Approver name and title.",
+      "examples": ["J. Whitfield, Logistics Section Chief"]
+    }
+  }
+}

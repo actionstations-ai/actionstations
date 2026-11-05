@@ -1,0 +1,70 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">
+        {{#if fields.officeCity}}{{fields.officeCity}} Weather Forecast
+        Office{{else}}{{fields.office}}{{/if}}
+      </div>
+    </div>
+  </header>
+  <div class="crumb">Text Products › {{default fields.awipsId "Product"}} › {{fields.product}}</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div>{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div>{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div>{{fields.product}}</div>
+    <div>{{fields.office}}</div>
+    <div>{{fields.issued}}</div>
+    <div class="gap"></div>
+    <div>{{fields.headline}}</div>
+    <div class="gap"></div>
+    <div class="hang">* AREAS...</div>
+    {{#each fields.areas}}
+    <div class="i">{{this}}</div>
+    {{/each}} {{#each fields.discussion}}
+    <div class="gap"></div>
+    <div>{{this}}</div>
+    {{/each}} {{#if fields.forecastPoints}}
+    <div class="gap"></div>
+    <div>FORECAST POINTS...</div>
+    <table class="fp">
+      <thead>
+        <tr>
+          <th scope="col">Point</th>
+          <th scope="col">Id</th>
+          <th scope="col">Observed</th>
+          <th scope="col">Flood stage</th>
+          <th scope="col">Forecast</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.forecastPoints}}
+        <tr>
+          <th scope="row">{{point}}</th>
+          <td>{{gauge}}</td>
+          <td>{{observed}}</td>
+          <td>{{floodStage}}</td>
+          <td>{{forecast}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if fields.impacts}}
+    <div class="gap"></div>
+    <div class="hang">IMPACTS...{{fields.impacts}}</div>
+    {{/if}} {{#if fields.nextUpdate}}
+    <div class="gap"></div>
+    <div>{{fields.nextUpdate}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div>$$</div>
+    {{#if fields.forecaster}}
+    <div class="gap"></div>
+    <div>{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>
