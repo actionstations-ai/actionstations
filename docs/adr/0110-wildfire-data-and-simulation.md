@@ -20,4 +20,4 @@ The wildfire toolkit needs fires to draw and replay, evacuation zones whose stat
 
 - A spread illustration looks like a fire but is not one; the controller handbook and the figure say so. Teams that want realism replay a real fire.
 - FIRMS and AirNow fixtures are written from the services' documentation because both need a key; the opt-in live tests check them.
-- There is no place in Settings to enter the AirNow key yet; until there is, the connector reports that it needs a key.
+- Both keys live in the keychain store hazard data already uses (`firms` and `airnow`), are entered under Settings, Hazard data, and are read by the connectors from there. Without a key a connector reports that it needs one.

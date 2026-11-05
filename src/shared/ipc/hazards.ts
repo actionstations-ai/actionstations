@@ -20,6 +20,8 @@ export type HazardFetchOptions = z.infer<typeof HazardFetchOptions>
 export const HazardAppSettings = z.object({
   enabled: z.boolean(),
   hasFirmsKey: z.boolean(),
+  /** The AirNow key the wildfire air quality connector uses (OS keychain, never a file). */
+  hasAirnowKey: z.boolean(),
   encryptionAvailable: z.boolean(),
 })
 export type HazardAppSettings = z.infer<typeof HazardAppSettings>
@@ -60,6 +62,14 @@ export const hazardChannels = {
     HazardAppSettings,
   ),
   'hazards:firms-key-remove': channel(z.void(), HazardAppSettings),
+  /** Save the AirNow key in the OS keychain (refused when none is available). */
+  'hazards:airnow-key-set': channel(
+    z.object({ key: z.string().trim().min(1).max(200) }),
+    HazardAppSettings,
+  ),
+  'hazards:airnow-key-remove': channel(z.void(), HazardAppSettings),
+  /** Open the AirNow API sign-up page in the browser (main knows the address). */
+  'hazards:airnow-signup-open': channel(z.void(), z.void()),
   /** Open the FIRMS map key sign-up page in the browser (main knows the address). */
   'hazards:firms-signup-open': channel(z.void(), z.void()),
   'hazards:gazetteer-search': channel(

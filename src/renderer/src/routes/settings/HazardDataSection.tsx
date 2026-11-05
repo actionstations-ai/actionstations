@@ -1,4 +1,4 @@
-// Settings → Hazard data (#439): the opt-in switch, what is sent where, and the FIRMS map key.
+// Settings → Hazard data (#439): the opt-in switch, what is sent where, and the FIRMS map key and the AirNow key.
 // The key goes to the OS keychain through main; this screen never shows it again.
 import { useState, type FormEvent } from 'react'
 import { Button, Field } from '../../components/ui'
@@ -9,35 +9,56 @@ import { HAZARD_HOSTS_TEXT, NOT_OPERATIONAL, WHAT_IS_SENT_HAZARDS } from '../haz
 
 const INVALIDATES = ['hazards:settings', 'hazards:plan'] as const
 
-function FirmsKey(props: { hasKey: boolean; canStore: boolean }) {
+interface KeyCopy {
+  /** Group label and the field's name, e.g. "NASA FIRMS map key". */
+  label: string
+  /** Accessible name of the whole form or group. */
+  group: string
+  hint: string
+  /** Short noun used in messages, e.g. "map key". */
+  noun: string
+  signup: string
+}
+
+interface Done {
+  onSuccess: () => void
+  onError: (e: unknown) => void
+}
+
+interface KeyOps {
+  save: (key: string, done: Done) => void
+  remove: (done: Done) => void
+  openSignup: () => void
+}
+
+const cap = (s: string): string => `${s[0]!.toUpperCase()}${s.slice(1)}`
+
+/** One API key kept in the OS keychain: saved, replaced or removed; never shown again. */
+function ApiKey(props: { hasKey: boolean; canStore: boolean; copy: KeyCopy; ops: KeyOps }) {
+  const { copy, ops } = props
   const [key, setKey] = useState('')
   const [replacing, setReplacing] = useState(false)
-  const setSecret = useIpcMutation('hazards:firms-key-set', { invalidates: [...INVALIDATES] })
-  const remove = useIpcMutation('hazards:firms-key-remove', { invalidates: [...INVALIDATES] })
   const save = (e: FormEvent) => {
     e.preventDefault()
-    setSecret.mutate(
-      { key: key.trim() },
-      {
-        onSuccess: () => {
-          setKey('')
-          setReplacing(false)
-          toast.success('Map key saved')
-        },
-        onError: (err) => toast.error('Could not save the map key', err),
+    ops.save(key.trim(), {
+      onSuccess: () => {
+        setKey('')
+        setReplacing(false)
+        toast.success(`${cap(copy.noun)} saved`)
       },
-    )
+      onError: (err) => toast.error(`Could not save the ${copy.noun}`, err),
+    })
   }
   if (props.hasKey && !replacing)
     return (
-      <div className="row" role="group" aria-label="FIRMS map key">
-        <span>Map key saved</span>
+      <div className="row" role="group" aria-label={copy.group}>
+        <span>{cap(copy.noun)} saved</span>
         <Button onClick={() => setReplacing(true)}>Replace</Button>
         <Button
           onClick={() =>
-            remove.mutate(undefined, {
-              onSuccess: () => toast.success('Map key removed'),
-              onError: (err) => toast.error('Could not remove the map key', err),
+            ops.remove({
+              onSuccess: () => toast.success(`${cap(copy.noun)} removed`),
+              onError: (err) => toast.error(`Could not remove the ${copy.noun}`, err),
             })
           }
         >
@@ -46,11 +67,8 @@ function FirmsKey(props: { hasKey: boolean; canStore: boolean }) {
       </div>
     )
   return (
-    <form className="stack" onSubmit={save} aria-label="FIRMS map key">
-      <Field
-        label="NASA FIRMS map key"
-        hint="Optional. A free key from NASA turns on fire detections. It is stored in your computer's keychain and sent only to firms.modaps.eosdis.nasa.gov."
-      >
+    <form className="stack" onSubmit={save} aria-label={copy.group}>
+      <Field label={copy.label} hint={copy.hint}>
         {({ id, describedBy }) => (
           <input
             id={id}
@@ -66,17 +84,67 @@ function FirmsKey(props: { hasKey: boolean; canStore: boolean }) {
       </Field>
       {!props.canStore && (
         <p className="field__error" role="alert">
-          This computer has no secure storage (keychain), so a map key cannot be saved.
+          This computer has no secure storage (keychain), so a {copy.noun} cannot be saved.
         </p>
       )}
       <div className="row">
         <Button type="submit" variant="primary" disabled={!key.trim() || !props.canStore}>
-          Save map key
+          Save {copy.noun}
         </Button>
         {replacing && <Button onClick={() => setReplacing(false)}>Cancel</Button>}
-        <Button onClick={() => void call('hazards:firms-signup-open')}>Get a free map key</Button>
+        <Button onClick={ops.openSignup}>{copy.signup}</Button>
       </div>
     </form>
+  )
+}
+
+const FIRMS_COPY: KeyCopy = {
+  label: 'NASA FIRMS map key',
+  group: 'FIRMS map key',
+  hint: "Optional. A free key from NASA turns on fire detections. It is stored in your computer's keychain and sent only to firms.modaps.eosdis.nasa.gov.",
+  noun: 'map key',
+  signup: 'Get a free map key',
+}
+
+const AIRNOW_COPY: KeyCopy = {
+  label: 'EPA AirNow key',
+  group: 'AirNow key',
+  hint: "Optional. A free key from EPA turns on air quality readings for wildfire smoke exercises. It is stored in your computer's keychain and sent only to www.airnowapi.org.",
+  noun: 'AirNow key',
+  signup: 'Get a free AirNow key',
+}
+
+function FirmsKey(props: { hasKey: boolean; canStore: boolean }) {
+  const set = useIpcMutation('hazards:firms-key-set', { invalidates: [...INVALIDATES] })
+  const remove = useIpcMutation('hazards:firms-key-remove', { invalidates: [...INVALIDATES] })
+  return (
+    <ApiKey
+      hasKey={props.hasKey}
+      canStore={props.canStore}
+      copy={FIRMS_COPY}
+      ops={{
+        save: (key, done) => set.mutate({ key }, done),
+        remove: (done) => remove.mutate(undefined, done),
+        openSignup: () => void call('hazards:firms-signup-open'),
+      }}
+    />
+  )
+}
+
+function AirnowKey(props: { hasKey: boolean; canStore: boolean }) {
+  const set = useIpcMutation('hazards:airnow-key-set', { invalidates: [...INVALIDATES] })
+  const remove = useIpcMutation('hazards:airnow-key-remove', { invalidates: [...INVALIDATES] })
+  return (
+    <ApiKey
+      hasKey={props.hasKey}
+      canStore={props.canStore}
+      copy={AIRNOW_COPY}
+      ops={{
+        save: (key, done) => set.mutate({ key }, done),
+        remove: (done) => remove.mutate(undefined, done),
+        openSignup: () => void call('hazards:airnow-signup-open'),
+      }}
+    />
   )
 }
 
@@ -120,7 +188,10 @@ export function HazardDataSection() {
             <p>{NOT_OPERATIONAL}</p>
           </div>
           {data.enabled && (
-            <FirmsKey hasKey={data.hasFirmsKey} canStore={data.encryptionAvailable} />
+            <>
+              <FirmsKey hasKey={data.hasFirmsKey} canStore={data.encryptionAvailable} />
+              <AirnowKey hasKey={data.hasAirnowKey} canStore={data.encryptionAvailable} />
+            </>
           )}
         </>
       )}

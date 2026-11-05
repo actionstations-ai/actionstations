@@ -39,6 +39,13 @@ and paste it there. The key is stored in your computer's keychain (the same plac
 go). It is never written to the project, settings, logs, snapshots or error messages. If your
 computer has no secure storage, the key cannot be saved and fire detections stay off.
 
+### The AirNow key
+
+The wildfire exercises can replay air quality readings from EPA AirNow, which needs a free key.
+Get one from the link in Settings, Hazard data, and paste it there. It is kept in your computer's
+keychain exactly like the map key, sent only to www.airnowapi.org, and never written to the
+project, settings, logs or error messages.
+
 ## Snapshots
 
 A fetch saves a **snapshot** in the project (`hazards/<id>.json`): when it was fetched, the

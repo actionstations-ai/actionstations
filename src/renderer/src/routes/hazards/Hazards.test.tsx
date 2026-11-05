@@ -87,7 +87,12 @@ const plan = (enabled = true, hasLocation = true): HazardPlan => ({
 
 function page(over: Record<string, unknown> = {}) {
   const ttx = mockTtx({
-    'hazards:settings': () => ({ enabled: true, hasFirmsKey: false, encryptionAvailable: true }),
+    'hazards:settings': () => ({
+      enabled: true,
+      hasFirmsKey: false,
+      hasAirnowKey: false,
+      encryptionAvailable: true,
+    }),
     'hazards:plan': () => plan(),
     'hazards:list': () => ({
       active: 'snap1',
@@ -104,7 +109,12 @@ function page(over: Record<string, unknown> = {}) {
 describe('Hazard context screen', () => {
   it('offers no fetch while the feature is off, and requests nothing', async () => {
     const ttx = page({
-      'hazards:settings': () => ({ enabled: false, hasFirmsKey: false, encryptionAvailable: true }),
+      'hazards:settings': () => ({
+        enabled: false,
+        hasFirmsKey: false,
+        hasAirnowKey: false,
+        encryptionAvailable: true,
+      }),
       'hazards:plan': () => plan(false, true),
     })
     await screen.findByText('Hazard data is off')
@@ -166,17 +176,26 @@ describe('Settings → Hazard data', () => {
       'hazards:settings': () => ({
         enabled: false,
         hasFirmsKey: false,
+        hasAirnowKey: false,
         encryptionAvailable: true,
         ...settings,
       }),
       'hazards:settings-save': () => ({
         enabled: true,
         hasFirmsKey: false,
+        hasAirnowKey: false,
+        encryptionAvailable: true,
+      }),
+      'hazards:airnow-key-set': () => ({
+        enabled: true,
+        hasFirmsKey: false,
+        hasAirnowKey: true,
         encryptionAvailable: true,
       }),
       'hazards:firms-key-set': () => ({
         enabled: true,
         hasFirmsKey: true,
+        hasAirnowKey: false,
         encryptionAvailable: true,
       }),
     })
@@ -226,16 +245,32 @@ describe('Settings → Hazard data', () => {
   })
 
   it('says "Map key saved" with Replace and Remove when a key exists', async () => {
-    section({ enabled: true, hasFirmsKey: true })
+    section({ enabled: true, hasFirmsKey: true, hasAirnowKey: false })
     await screen.findByText('Map key saved')
     expect(screen.getByRole('button', { name: 'Replace' })).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Remove' })).toBeTruthy()
     expect(document.body.textContent).not.toContain('firmskeyfortests0001')
   })
 
+  it('sends the AirNow key once, as a password field, and never shows a saved key again', async () => {
+    const ttx = section({ enabled: true })
+    const input = (await screen.findByLabelText('EPA AirNow key')) as HTMLInputElement
+    expect(input.type).toBe('password')
+    fireEvent.change(input, { target: { value: 'abcdef12-3456-7890-abcd-ef1234567890' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save AirNow key' }))
+    await waitFor(() => expect(ttx.calls('hazards:airnow-key-set')).toHaveLength(1))
+    expect(await violations()).toEqual([])
+  })
+
+  it('says "AirNow key saved" when one exists and keeps it out of the page', async () => {
+    section({ enabled: true, hasAirnowKey: true })
+    await screen.findByText('AirNow key saved')
+    expect(document.body.textContent).not.toContain('abcdef12-3456')
+  })
+
   it('refuses a key when there is no secure storage', async () => {
     section({ enabled: true, encryptionAvailable: false })
-    await screen.findByText(/no secure storage/)
+    expect(await screen.findAllByText(/no secure storage/)).toHaveLength(2)
     expect((screen.getByLabelText('NASA FIRMS map key') as HTMLInputElement).disabled).toBe(true)
   })
 })
