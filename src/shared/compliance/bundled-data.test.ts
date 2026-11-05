@@ -36,6 +36,8 @@ describe('bundled regulations', () => {
       'circia',
       'dora_art19',
       'eu_ai_act_art73',
+      'fda_recall_reporting',
+      'fsma_204_records',
       'gdpr_art33',
       'hipaa_breach',
       'lab_institution_deadlines',
