@@ -1,0 +1,54 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>{{fields.headline}}</h1>
+    <p class="meta">{{fields.incidentName}} · Issued {{fields.issuedAt}}</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Point</th>
+        <th scope="col">Location</th>
+        <th scope="col">Status</th>
+        <th scope="col">Since</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.points}}
+      <tr>
+        <th scope="row">{{id}}</th>
+        <td>{{location}}</td>
+        <td
+          class="st {{#if (eq status 'Closed')}}st-order{{else if (eq status 'Open')}}st-clear{{else if (eq status 'Contraflow')}}st-shelter{{else}}st-warning{{/if}}"
+        >
+          <span aria-hidden="true"
+            >{{#if (eq status 'Closed')}}■{{else if (eq status 'Open')}}●{{else if (eq status
+            'Contraflow')}}◆{{else}}▲{{/if}}</span
+          >
+          {{status}}
+        </td>
+        <td>{{since}}</td>
+        <td>{{notes}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.contraflow.route}}
+  <h2>Contraflow</h2>
+  <p class="band">
+    {{fields.contraflow.route}}. From {{fields.contraflow.start}}: {{fields.contraflow.end}}.
+    {{fields.contraflow.note}}
+  </p>
+  {{/if}} {{#if fields.detours}}
+  <h2>Detours</h2>
+  <p>{{fields.detours}}</p>
+  {{/if}}
+  <footer>
+    <p>{{fields.contact}}</p>
+    {{#if fields.nextUpdate}}
+    <p>{{fields.nextUpdate}}</p>
+    {{/if}}
+  </footer>
+</article>

@@ -1,0 +1,69 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>
+      {{fields.incidentName}} {{#if (eq variant 'update')}}incident update{{else}}incident
+      summary{{/if}}
+    </h1>
+    <p class="meta">{{fields.updateNumber}} · Issued {{fields.issuedAt}}</p>
+    <p class="meta">{{fields.location}}</p>
+  </header>
+  <div class="stats">
+    <p class="stat"><span>Size</span><strong>{{fields.sizeAcres}} acres</strong></p>
+    <p class="stat"><span>Containment</span><strong>{{fields.containmentPct}}%</strong></p>
+    <p class="stat">
+      <span>Structures threatened</span><strong>{{fields.structures.threatened}}</strong>
+    </p>
+  </div>
+  {{#if fields.sizeNote}}
+  <p class="meta">{{fields.sizeNote}}</p>
+  {{/if}} {{#if (eq variant 'update')}}{{#if fields.changes}}
+  <h2>Changes since the last update</h2>
+  <ul>
+    {{#each fields.changes}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}{{/if}}
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Started</th>
+        <td>{{fields.started}}</td>
+        <th scope="row">Cause</th>
+        <td>{{fields.cause}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Structures</th>
+        <td colspan="3">
+          {{fields.structures.threatened}} threatened · {{fields.structures.damaged}} damaged ·
+          {{fields.structures.destroyed}} destroyed
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Resources</th>
+        <td colspan="3">
+          {{fields.resources.engines}} engines · {{fields.resources.crews}} hand crews{{#if
+          fields.resources.dozers}} · {{fields.resources.dozers}} dozers{{/if}}{{#if
+          fields.resources.helicopters}} · {{fields.resources.helicopters}} helicopters{{/if}} ·
+          {{fields.resources.personnel}} personnel
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Fire behavior and weather</h2>
+  <p>{{fields.activity}}</p>
+  <h2>Evacuations</h2>
+  <p>{{fields.evacuations}}</p>
+  <h2>Roads</h2>
+  <p>{{fields.closures}}</p>
+  <h2>Outlook</h2>
+  <p>{{fields.outlook}}</p>
+  <footer>
+    <p>{{fields.contact}}</p>
+    {{#if fields.nextUpdate}}
+    <p>{{fields.nextUpdate}}</p>
+    {{/if}}
+  </footer>
+</article>

@@ -1,0 +1,139 @@
+{
+  "id": "wildfire",
+  "name": "Wildfire",
+  "description": "Wildfire, power shutoff and smoke for exercises: the terms and sequence fire agencies, sheriffs, emergency managers and utilities use, the products they issue (incident summaries, zone-based evacuation notices, road and shelter boards, shutoff notices, smoke advisories), the decisions they make and the clocks they are measured on. Includes perimeter and spread maps with evacuation zone status, circuit and customer boards, AQI series, and simulated fires. Red flag warnings and fire weather come from the weather toolkit; floods after a fire from the flooding toolkit. Stays at coordination level: it carries no fireline tactics.",
+  "appliesTo": {
+    "keywords": [
+      "wildfire",
+      "wildland fire",
+      "brush fire",
+      "grass fire",
+      "red flag",
+      "evacuation zone",
+      "evacuation order",
+      "evacuation warning",
+      "wildland-urban interface",
+      "wui",
+      "psps",
+      "public safety power shutoff",
+      "power shutoff",
+      "de-energize",
+      "medical baseline",
+      "smoke",
+      "air quality",
+      "aqi",
+      "fire weather",
+      "spot fire",
+      "containment"
+    ],
+    "domains": [
+      "wildfire",
+      "healthcare",
+      "k12_schools",
+      "campus",
+      "energy_utility",
+      "water_utility",
+      "water_dam",
+      "telecom",
+      "transit",
+      "freight_rail",
+      "airport",
+      "stadium_venue",
+      "food_agriculture",
+      "municipal",
+      "emergency_communications",
+      "public_health"
+    ]
+  },
+  "injectTypes": [
+    "wildfire_incident_summary",
+    "wildfire_ics_209",
+    "wildfire_evacuation_notice",
+    "wildfire_road_status",
+    "wildfire_shelter_notice"
+  ],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "the National Weather Service forecast office and its fire weather desk",
+    "the interagency dispatch or coordination center",
+    "the state fire agency",
+    "the county sheriff",
+    "the air quality agency",
+    "the electric utility's public safety partner liaison",
+    "Red Cross and shelter operators",
+    "the state department of transportation"
+  ],
+  "advisorRoles": [
+    {
+      "key": "fire_behavior_analyst",
+      "name": "Fire behavior analyst (planning section)",
+      "abbreviation": "FBAN",
+      "team": "Advisors",
+      "description": "Explains the projected arrival at each zone, what the projection assumes and how it changes with the wind."
+    },
+    {
+      "key": "wildfire_mitigation_lead",
+      "name": "Utility wildfire mitigation lead",
+      "abbreviation": "WML",
+      "team": "Advisors",
+      "description": "Knows the circuits, the shutoff criteria, the notification windows and the customers who rely on power."
+    },
+    {
+      "key": "smoke_advisor",
+      "name": "Smoke and air quality advisor (public health)",
+      "abbreviation": "SMOKE",
+      "team": "Advisors",
+      "description": "Explains the AQI categories, clean-air shelters and what schools and events usually decide."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Evacuation order, warning, shelter in place",
+        "definition": "Local officials issue them and the words vary by place, so use the project's own definitions. A common pattern: order means leave now, warning means be ready to leave."
+      },
+      {
+        "term": "Perimeter",
+        "definition": "A mapped polygon at one time; between maps the edge is not known, so never present minute-by-minute truth."
+      },
+      {
+        "term": "Containment",
+        "definition": "Percent of the perimeter with a control line expected to hold. It is not size and it can fall."
+      },
+      {
+        "term": "PSPS",
+        "definition": "A utility turns off power on circuits in high wind and dry fuels to avoid starting a fire. Medical baseline customers rely on power and get extra notice."
+      },
+      {
+        "term": "AQI (PM2.5, since 6 May 2024, ug/m3)",
+        "definition": "Good 0.0-9.0; Moderate 9.1-35.4; Unhealthy for Sensitive Groups 35.5-55.4; Unhealthy 55.5-125.4; Very Unhealthy 125.5-225.4; Hazardous 225.5+."
+      },
+      {
+        "term": "National preparedness level",
+        "definition": "1 to 5; at 5 resources are below drawdown levels for multiple resource types."
+      }
+    ],
+    "productConventions": [
+      "Zone ids and status words (evacuation order, evacuation warning, shelter in place, none) are the same on the map, in the zone table and in every message; each message names the zones it addresses.",
+      "Alerts reuse cap_alert, eas_broadcast and incident_alert_notification; red flag and fire weather products come from the weather toolkit.",
+      "Size is acres with the time it was mapped; containment is a percent; times are local with a time zone.",
+      "Shutoff notice windows (an example rule, edit per project): partners 48-72 hours ahead, customers 24-48 hours, 1-4 hours if possible, and at de-energization.",
+      "Name shelters and sites by building (a school gym), never a real street address."
+    ],
+    "realismRules": [
+      "Sheriffs and police issue evacuation orders; the fire agency requests them.",
+      "An order should go out before the fire's arrival at the zone less its clearance time; the arrival is the scenario's projection, not a prediction.",
+      "A wind shift changes which zones are threatened first.",
+      "Count attempts and contacts to medical baseline customers separately; only a confirmed contact is a reached customer.",
+      "School and event AQI thresholds are local plans, not federal rules.",
+      "Agencies, people, circuits and customers are fictional; a real fire appears only as dated history."
+    ]
+  },
+  "lintRules": ["wildfire.zone_status", "wildfire.containment"],
+  "capabilities": [],
+  "exerciseTags": []
+}

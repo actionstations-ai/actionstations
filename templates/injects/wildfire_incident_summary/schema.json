@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire incident summary and update",
+  "description": "A fire agency's public incident summary or update: name, location, size in acres and how it was measured, percent contained, cause, structures threatened, damaged and destroyed, resources, fire behavior and weather, evacuations by zone, road closures and the next update. Size is an estimate of a mapped perimeter at a time; containment is the share of the perimeter with a control line expected to hold.",
+  "type": "object",
+  "required": [
+    "agency",
+    "incidentName",
+    "issuedAt",
+    "location",
+    "sizeAcres",
+    "containmentPct",
+    "structures",
+    "resources",
+    "evacuations",
+    "nextUpdate"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing fire agency or incident management team (fictional).",
+      "examples": ["Juniper Ridge Fire District"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name, as the fire is named after its place of origin.",
+      "examples": ["Cinder Creek Fire"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time, local, with the time zone.",
+      "examples": ["5:30 PM PDT Sat Sep 12, 2026"]
+    },
+    "updateNumber": {
+      "type": "string",
+      "description": "Update number or 'Initial' for the first summary.",
+      "examples": ["Update 3"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the fire is, in words (a canyon, a road, a distance and direction from a named place).",
+      "examples": ["North side of Cinder Canyon, 4 miles northeast of Calloway Falls"]
+    },
+    "sizeAcres": {
+      "type": "integer",
+      "description": "Estimated size in acres from the latest mapping flight or satellite pass.",
+      "examples": [3200],
+      "minimum": 0
+    },
+    "sizeNote": {
+      "type": "string",
+      "description": "How the size was measured and when, since a size is an estimate of a mapped perimeter.",
+      "examples": ["Mapped at 4:10 PM; up from 1,950 acres at 1:00 PM"]
+    },
+    "containmentPct": {
+      "type": "integer",
+      "description": "Percent of the perimeter with a control line expected to hold (0 to 100).",
+      "examples": [5],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "cause": {
+      "type": "string",
+      "description": "Cause, or 'Under investigation'.",
+      "examples": ["Under investigation"]
+    },
+    "started": {
+      "type": "string",
+      "description": "When the fire started, local.",
+      "examples": ["11:42 AM Sat Sep 12"]
+    },
+    "structures": {
+      "type": "object",
+      "description": "Counts of structures, as of the issue time.",
+      "additionalProperties": false,
+      "required": ["threatened", "damaged", "destroyed"],
+      "properties": {
+        "threatened": {
+          "type": "integer",
+          "description": "Structures threatened.",
+          "examples": [410],
+          "minimum": 0
+        },
+        "damaged": {
+          "type": "integer",
+          "description": "Structures damaged.",
+          "examples": [0],
+          "minimum": 0
+        },
+        "destroyed": {
+          "type": "integer",
+          "description": "Structures destroyed.",
+          "examples": [0],
+          "minimum": 0
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "description": "Resources assigned.",
+      "additionalProperties": false,
+      "required": ["engines", "crews", "personnel"],
+      "properties": {
+        "engines": {
+          "type": "integer",
+          "description": "Engines.",
+          "examples": [38],
+          "minimum": 0
+        },
+        "crews": {
+          "type": "integer",
+          "description": "Hand crews.",
+          "examples": [6],
+          "minimum": 0
+        },
+        "dozers": {
+          "type": "integer",
+          "description": "Dozers.",
+          "examples": [4],
+          "minimum": 0
+        },
+        "helicopters": {
+          "type": "integer",
+          "description": "Helicopters.",
+          "examples": [3],
+          "minimum": 0
+        },
+        "personnel": {
+          "type": "integer",
+          "description": "Total personnel.",
+          "examples": [312],
+          "minimum": 0
+        }
+      }
+    },
+    "activity": {
+      "type": "string",
+      "description": "Current fire behavior and weather affecting it, in plain words.",
+      "examples": [
+        "Wind-driven runs to the southwest with spotting up to a half mile. Gusts to 35 mph from the northeast until 9 PM; humidity 9 percent."
+      ]
+    },
+    "evacuations": {
+      "type": "string",
+      "description": "Evacuation orders and warnings by zone, copied from the evacuation notice.",
+      "examples": [
+        "Evacuation orders: Zones C-1, C-2 and C-3. Evacuation warnings: Zones C-4 and C-5."
+      ]
+    },
+    "closures": {
+      "type": "string",
+      "description": "Road closures and traffic control points that matter to the public.",
+      "examples": [
+        "County Road 12 closed at Mill Bridge; Canyon Road closed above the fire station."
+      ]
+    },
+    "changes": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What changed since the last update (for an update).",
+      "items": {
+        "type": "string",
+        "description": "One change.",
+        "examples": ["Zone C-3 moved from warning to order at 4:55 PM."]
+      }
+    },
+    "outlook": {
+      "type": "string",
+      "description": "Next operational period plan and projected activity, without predicting beyond the case data.",
+      "examples": [
+        "Crews will hold the west flank tonight; growth to the southwest is expected until the wind falls after 9 PM."
+      ]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update is expected.",
+      "examples": ["Next update 8:00 PM or sooner"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Public information phone or website (fictional, 555 numbers).",
+      "examples": ["Joint Information Center 555-0188 · juniperridgefd.example/cindercreek"]
+    }
+  }
+}

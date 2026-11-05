@@ -1,0 +1,67 @@
+<article class="wf">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="agency">{{fields.agency}}</p>
+    <h1>
+      {{#if (eq variant 'order')}}Evacuation order{{else if (eq variant 'warning')}}Evacuation
+      warning{{else if (eq variant 'shelter_in_place')}}Shelter in place{{else if (eq variant
+      'all_clear')}}All clear{{else}}Re-entry{{/if}}: {{fields.incidentName}}
+    </h1>
+    <p class="meta">Issued {{fields.issuedAt}}</p>
+  </header>
+  <p class="band"><strong>{{fields.headline}}</strong></p>
+  <p class="callout">{{fields.action}}</p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Zone</th>
+        <th scope="col">Status</th>
+        <th scope="col">Area</th>
+        <th scope="col">Since</th>
+        <th scope="col">Residents</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.zones}}
+      <tr>
+        <th scope="row">{{zone}}</th>
+        <td
+          class="st {{#if (eq status 'Evacuation order')}}st-order{{else if (eq status 'Evacuation warning')}}st-warning{{else if (eq status 'Shelter in place')}}st-shelter{{else}}st-clear{{/if}}"
+        >
+          <span aria-hidden="true"
+            >{{#if (eq status 'Evacuation order')}}■{{else if (eq status 'Evacuation
+            warning')}}▲{{else if (eq status 'Shelter in place')}}◆{{else}}●{{/if}}</span
+          >
+          {{status}}
+        </td>
+        <td>{{area}}</td>
+        <td>{{since}}</td>
+        <td>{{residents}}</td>
+        <td>{{notes}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.routes}}
+  <h2>Routes</h2>
+  <p>{{fields.routes}}</p>
+  {{/if}} {{#if fields.shelters}}
+  <h2>Shelters</h2>
+  <p>{{fields.shelters}}</p>
+  {{/if}} {{#if fields.accessNeeds}}
+  <h2>Help to leave</h2>
+  <p>{{fields.accessNeeds}}</p>
+  {{/if}} {{#if fields.reentryRules}}
+  <h2>Return rules</h2>
+  <p>{{fields.reentryRules}}</p>
+  {{/if}} {{#if fields.definitions}}
+  <p class="exercise">{{fields.definitions}}</p>
+  {{/if}}
+  <footer>
+    <p>{{fields.contact}}</p>
+    {{#if fields.nextUpdate}}
+    <p>{{fields.nextUpdate}}</p>
+    {{/if}}
+  </footer>
+</article>

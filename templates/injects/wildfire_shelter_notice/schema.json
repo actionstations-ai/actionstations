@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildfire shelter and animal shelter notice",
+  "description": "A notice of evacuation shelters and animal shelters: each site with who it is for (people, small animals or large animals), its status (Open, Opening, Full or Closed), the count against capacity, services and what to bring, with rules for pets and service animals and how to get a ride.",
+  "type": "object",
+  "required": ["agency", "incidentName", "issuedAt", "headline", "shelters"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency (county emergency management or Red Cross chapter; fictional).",
+      "examples": ["Calloway County Emergency Management"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Fire name.",
+      "examples": ["Cinder Creek Fire"]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issue time.",
+      "examples": ["6:00 PM PDT Sat Sep 12, 2026"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["Shelters open for the Cinder Creek Fire"]
+    },
+    "shelters": {
+      "type": "array",
+      "description": "Shelters. Name sites by building (a school gym, a fairgrounds hall), not by street address.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind", "status"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Shelter name.",
+            "examples": ["Calloway High School gym"]
+          },
+          "kind": {
+            "type": "string",
+            "description": "People or animals.",
+            "examples": ["People"],
+            "enum": ["People", "Small animals", "Large animals"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status.",
+            "examples": ["Open"],
+            "enum": ["Open", "Opening", "Full", "Closed"]
+          },
+          "capacity": {
+            "type": "integer",
+            "description": "Capacity.",
+            "examples": [300],
+            "minimum": 0
+          },
+          "occupancy": {
+            "type": "integer",
+            "description": "Current count.",
+            "examples": [118],
+            "minimum": 0
+          },
+          "services": {
+            "type": "string",
+            "description": "What it offers and what to bring.",
+            "examples": ["Cots, meals, medical screening; bring medications and ID."]
+          }
+        }
+      }
+    },
+    "pets": {
+      "type": "string",
+      "description": "Rules for pets and service animals.",
+      "examples": [
+        "Service animals stay with their owners. Pets go to the fairgrounds pet area; bring a carrier."
+      ]
+    },
+    "transport": {
+      "type": "string",
+      "description": "How people without a ride can get to a shelter.",
+      "examples": ["Call 555-0170 for a ride."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Information line.",
+      "examples": ["Calloway County information line 555-0140"]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Next update.",
+      "examples": ["Next update 9:00 PM"]
+    }
+  }
+}
