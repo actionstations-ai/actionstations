@@ -19,10 +19,14 @@ process.env.TTX_RESOURCES = resolve('.')
 const { ToolkitSchema } = await import('@shared/toolkits')
 const { unknownCapabilityWarnings } = await import('../capabilities')
 const { fieldLintIssues } = await import('../lint-rules')
+const { registerWildfireToolkit } = await import('./register')
 
 const toolkit = ToolkitSchema.parse(
   JSON.parse(readFileSync(resolve('packs/toolkits/wildfire.json'), 'utf8')),
 )
+
+registerWildfireToolkit()
+registerWildfireToolkit()
 
 describe('capabilities', () => {
   it('has code behind every figure kind, connector, metric and lint rule the toolkit names', () => {

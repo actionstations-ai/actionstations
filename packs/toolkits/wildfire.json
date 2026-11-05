@@ -68,7 +68,7 @@
     "wildfire_aqi_series",
     "wildfire_smoke_map"
   ],
-  "connectors": [],
+  "connectors": ["wfigs-perimeters", "firms-hotspots", "hms-smoke", "airnow-observations"],
   "outsideParties": [
     "the National Weather Service forecast office and its fire weather desk",
     "the interagency dispatch or coordination center",
@@ -103,8 +103,545 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "threshold_timing",
+      "label": "Evacuation order before the latest time to give it (arrival less clearance time; series in minutes past that time)",
+      "config": {
+        "actionKind": "wildfire_evacuation_order",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "sim-fire-order-deadline"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "De-energization decision before gusts reach the circuit threshold (series in mph above the threshold)",
+      "config": {
+        "actionKind": "wildfire_deenergize",
+        "threshold": 0,
+        "clearanceMin": 0
+      },
+      "series": "sim-psps-gust-margin"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "School or facility action when the AQI crosses 150 (a local plan threshold; edit per project)",
+      "config": {
+        "actionKind": "wildfire_close_school_or_facility",
+        "threshold": 150,
+        "clearanceMin": 0
+      },
+      "series": "sim-fire-aqi-zones"
+    },
+    {
+      "id": "wildfire_notification_windows",
+      "label": "Shutoff notices inside their windows",
+      "config": {
+        "graceMin": 0
+      },
+      "groundTruth": "sim-psps-windows"
+    },
+    {
+      "id": "wildfire_customer_reach",
+      "label": "Medical baseline customers reached and critical facilities notified",
+      "config": {
+        "targetShare": 0
+      },
+      "groundTruth": "sim-psps-circuits"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Zone status and shutoff messages agree across partners",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "Fire agency,Sheriff,County emergency management,Utility,School district,Hospital"
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "wildfire_evacuation_order",
+      "label": "Issue an evacuation order",
+      "description": "Leave now, for a zone picked from the list or drawn on the map. The scenario scores the order against the fire's projected arrival less the zone's clearance time.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Zone",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "clearance_minutes",
+          "label": "Clearance time in minutes",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Projected fire arrival",
+            "Incident commander request",
+            "Field or sweep report",
+            "Public or media report",
+            "Utility or partner notice",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_evacuation_warning",
+      "label": "Issue an evacuation warning",
+      "description": "Be ready to leave, for a zone picked from the list or drawn on the map.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Zone",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Projected fire arrival",
+            "Incident commander request",
+            "Field or sweep report",
+            "Public or media report",
+            "Utility or partner notice",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_shelter_in_place",
+      "label": "Order shelter in place",
+      "description": "Stay inside, for a zone or a facility.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Zone",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Evacuation would be more dangerous",
+            "Smoke",
+            "Road blocked",
+            "Facility cannot move patients",
+            "Other"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_open_shelter",
+      "label": "Open a shelter",
+      "description": "A shelter for people or animals.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "kind",
+          "label": "For",
+          "kind": "choice",
+          "required": true,
+          "choices": ["People", "Small animals", "Large animals", "Clean-air shelter"]
+        },
+        {
+          "id": "capacity",
+          "label": "Capacity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_close_road",
+      "label": "Close or control a road",
+      "description": "A closure, a traffic control point or contraflow.",
+      "fields": [
+        {
+          "id": "road",
+          "label": "Road and location",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Close", "Control (residents out, responders in)", "Contraflow", "Reopen"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_request_resources",
+      "label": "Request resources or mutual aid",
+      "description": "Engines, crews, aircraft or other help.",
+      "fields": [
+        {
+          "id": "resource",
+          "label": "Resource",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Engines",
+            "Strike team",
+            "Hand crews",
+            "Helicopter",
+            "Air tanker",
+            "Law enforcement",
+            "Buses and ambulances",
+            "Mutual aid"
+          ]
+        },
+        {
+          "id": "quantity",
+          "label": "Quantity",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "need_by",
+          "label": "Needed by",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_deenergize",
+      "label": "De-energize or re-energize a circuit",
+      "description": "The shutoff decision for a circuit, scored against the wind event window.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Circuit",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["De-energize", "Re-energize", "Hold"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Wind forecast",
+            "Station gust reading",
+            "Fuel dryness",
+            "Red flag warning",
+            "Patrol report",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_send_shutoff_notice",
+      "label": "Send a shutoff notification",
+      "description": "A notice to partners or customers, scored against the notification windows.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Public safety partners",
+            "Customers",
+            "Medical baseline customers",
+            "Critical facilities"
+          ]
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Call", "Text", "Email", "Door visit", "Partner call"]
+        },
+        {
+          "id": "area",
+          "label": "Circuit",
+          "kind": "area",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_contact_medical_baseline",
+      "label": "Record contact with medical baseline customers",
+      "description": "Attempts and confirmed contacts for a circuit, entered by the facilitator.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Circuit",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "attempts",
+          "label": "Contact attempts",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "contacts",
+          "label": "Confirmed contacts",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_notify_critical_facility",
+      "label": "Notify a critical facility",
+      "description": "A hospital, care home, water pump or cell site.",
+      "fields": [
+        {
+          "id": "facility",
+          "label": "Facility",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "area",
+          "label": "Circuit",
+          "kind": "area",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_activate_resource_center",
+      "label": "Activate a community resource center",
+      "description": "A site that offers charging, water and information during a shutoff.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "hours",
+          "label": "Hours",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "wildfire_close_school_or_facility",
+      "label": "Close a school or move a facility",
+      "description": "A school, hospital, care home or venue acting on smoke or fire. Scored against the AQI threshold crossing.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Place",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Close",
+            "Early release",
+            "Move activities indoors",
+            "Cancel event",
+            "Evacuate",
+            "Shelter in place"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "AQI reading",
+            "AQI forecast",
+            "Fire status",
+            "Health officer advice",
+            "Local air quality plan",
+            "Other"
+          ]
+        },
+        {
+          "id": "basis_detail",
+          "label": "Which projection, report or notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "wildfire_issue_smoke_advisory",
+      "label": "Issue a smoke advisory",
+      "description": "A public health advisory for the affected areas.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "category",
+          "label": "Highest AQI category",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Moderate",
+            "Unhealthy for Sensitive Groups",
+            "Unhealthy",
+            "Very Unhealthy",
+            "Hazardous"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -155,6 +692,72 @@
     "wildfire.psps_windows",
     "wildfire.psps_counts"
   ],
-  "capabilities": [],
+  "capabilities": [
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Give evacuation orders and warnings before the fire reaches a zone less its clearance time.",
+        "Use the same zone ids and status words on the map, the table and every message.",
+        "Send each shutoff notice inside its window and say what customers should do.",
+        "Issue smoke advisories with the AQI category name and local guidance."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Reach zones through more than one channel and use sweeps where alerts cannot reach.",
+        "Correct a wrong or missed zone message on every channel at once."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Share the zone map and projected arrival between fire, sheriff and emergency management.",
+        "Coordinate the utility's shutoff with the county and the fire district before it starts."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "critical_transportation",
+      "criticalTasks": [
+        "Control roads, run contraflow and keep a route open for responders.",
+        "Move people who cannot move themselves before the order's latest time."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Open shelters for people and animals and size them for access and functional needs.",
+        "Open community resource centers and clean-air shelters when they are needed."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "infrastructure_systems",
+      "criticalTasks": [
+        "Decide to de-energize and re-energize circuits against the wind event window.",
+        "Protect critical facilities on circuits that lose power and track generator fuel."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Treat a perimeter as a mapped polygon at a time and date every projection.",
+        "Track size, containment and structures with their definitions and times."
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "fire_management_and_suppression",
+      "criticalTasks": [
+        "State resource orders by number and status and prioritize structures when resources are short."
+      ],
+      "mappings": []
+    }
+  ],
   "exerciseTags": []
 }
