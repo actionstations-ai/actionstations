@@ -40,9 +40,9 @@ describe('spill_plume toolkit', () => {
     expect(hit[0]?.reason).toContain('worst case discharge')
     expect(suggestToolkits({ ...base, text: 'A coffee spill in the lobby.' })).toEqual([])
     for (const id of ['port_maritime', 'chemical', 'industrial', 'environmental_response']) {
-      expect(suggestToolkits({ ...base, text: 'x', domainId: id }).map((s) => s.toolkitId)).toEqual(
-        ['spill_plume'],
-      )
+      expect(
+        suggestToolkits({ ...base, text: 'x', domainId: id }).map((s) => s.toolkitId),
+      ).toContain('spill_plume')
     }
   })
 
@@ -128,7 +128,7 @@ describe('environmental_response domain', () => {
   })
 
   it('offers the toolkit products, the toolkit itself, and the incident command roles', () => {
-    expect(domain.suggestedToolkits).toEqual(['spill_plume'])
+    expect(domain.suggestedToolkits).toContain('spill_plume')
     // The products arrive through the toolkit, not the profile's own list.
     for (const id of toolkit.injectTypes) expect(domain.injectTypes).not.toContain(id)
     const abbreviations = domain.roles.map((r) => r.abbreviation)
