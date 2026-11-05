@@ -52,9 +52,10 @@ describe('generators', () => {
 })
 
 describe('registration', () => {
-  it('registers the connector once, however many times it is called', () => {
-    expect(connectorIds()).toContain('openfda-food-enforcement')
-    expect(toolkit.connectors).toEqual(['openfda-food-enforcement'])
+  it('registers the connectors once, however many times it is called', () => {
+    const ids = ['openfda-food-enforcement', 'bts-freight-indicators', 'bts-faf-state-flows']
+    expect(connectorIds()).toEqual(expect.arrayContaining(ids))
+    expect(toolkit.connectors).toEqual(ids)
   })
 })
 
