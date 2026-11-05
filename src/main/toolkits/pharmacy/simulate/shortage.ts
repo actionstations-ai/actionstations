@@ -34,6 +34,10 @@ export interface ShortageDay {
   allocationPercent: number
   served: number
   unmet: number
+  /** Demand held back by the allocation while stock lasted. */
+  restricted: number
+  /** Allocated doses that could not be served because the stock was empty. */
+  shortOfStock: number
   daysOnHand: number | undefined
   /** Projected stockout day (from day 0) if nothing changes from this day on. */
   projectedStockoutDay: number | undefined
@@ -85,6 +89,8 @@ export function runShortage(p: ShortageParams): ShortageRun {
       allocationPercent: percent,
       served: Math.round(served * 10) / 10,
       unmet: Math.round(unmet * 10) / 10,
+      restricted: Math.round((p.usagePerDay - wanted) * 10) / 10,
+      shortOfStock: Math.round((wanted - served) * 10) / 10,
       daysOnHand: dOH === undefined ? undefined : Math.round(dOH * 10) / 10,
       projectedStockoutDay:
         projection.stockoutDay === undefined

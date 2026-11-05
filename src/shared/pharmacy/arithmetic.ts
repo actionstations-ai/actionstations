@@ -90,3 +90,19 @@ export function excursionSpans(
   }
   return spans
 }
+
+// ---- controlled substance notice dates -------------------------------------------------------
+
+const DAY_MS = 86_400_000
+const isoDay = (ms: number): string => new Date(ms).toISOString().slice(0, 10)
+const parseDay = (s: string): number => Date.parse(`${s}T00:00:00Z`)
+
+/** The next weekday after `day` (YYYY-MM-DD); weekends are skipped, federal holidays are not known here. */
+export function nextBusinessDay(day: string): string {
+  let ms = parseDay(day) + DAY_MS
+  while ([0, 6].includes(new Date(ms).getUTCDay())) ms += DAY_MS
+  return isoDay(ms)
+}
+
+export const addCalendarDays = (day: string, days: number): string =>
+  isoDay(parseDay(day) + days * DAY_MS)

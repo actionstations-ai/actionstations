@@ -4,6 +4,10 @@
 // Pure functions over structured inputs; each returns problems and never throws. The rules that
 // wrap them are in register-lint.ts. Exercise content, not clinical or legal guidance.
 
+import { addCalendarDays, nextBusinessDay } from '../../../shared/pharmacy/arithmetic'
+
+export { addCalendarDays, nextBusinessDay }
+
 export const PHARMACY_LINT_RULES = [
   'pharmacy_ndc_format',
   'pharmacy_temperature_pair',
@@ -295,20 +299,6 @@ export function checkLotBalance(lots: readonly LotRow[]): PharmacyProblem[] {
 
 // ---- controlled substance notice timing ---------------------------------------------------
 
-const DAY_MS = 86_400_000
-const isoDay = (ms: number): string => new Date(ms).toISOString().slice(0, 10)
-const parseDay = (s: string): number => Date.parse(`${s}T00:00:00Z`)
-
-/** The next weekday after `day` (weekends skipped; federal holidays are not known here). */
-export function nextBusinessDay(day: string): string {
-  let ms = parseDay(day) + DAY_MS
-  while ([0, 6].includes(new Date(ms).getUTCDay())) ms += DAY_MS
-  return isoDay(ms)
-}
-
-export const addCalendarDays = (day: string, days: number): string =>
-  isoDay(parseDay(day) + days * DAY_MS)
-
 /** The Field Division notice is due one business day after discovery and Form 106 45 days after. */
 export function checkLossDates(i: {
   discoveredOn: string
@@ -316,7 +306,7 @@ export function checkLossDates(i: {
   form106DueBy: string
 }): PharmacyProblem[] {
   const out: PharmacyProblem[] = []
-  if (Number.isNaN(parseDay(i.discoveredOn))) return out
+  if (Number.isNaN(Date.parse(`${i.discoveredOn}T00:00:00Z`))) return out
   const notice = nextBusinessDay(i.discoveredOn)
   if (i.noticeDueBy !== notice)
     out.push(
