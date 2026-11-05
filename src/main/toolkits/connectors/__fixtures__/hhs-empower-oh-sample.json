@@ -1,0 +1,85 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": { "name": "OBJECTID", "isSystemMaintained": true },
+  "globalIdFieldName": "",
+  "geometryType": "esriGeometryPolygon",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "fields": [
+    {
+      "name": "NAME",
+      "type": "esriFieldTypeString",
+      "alias": "NAME",
+      "sqlType": "sqlTypeOther",
+      "length": 100,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "State",
+      "type": "esriFieldTypeString",
+      "alias": "State",
+      "sqlType": "sqlTypeOther",
+      "length": 2,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "County_FIPS_Code",
+      "type": "esriFieldTypeString",
+      "alias": "County_FIPS_Code",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Medicare_Benes",
+      "type": "esriFieldTypeInteger",
+      "alias": "Medicare_Benes",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Power_Dependent_Devices_DME",
+      "type": "esriFieldTypeInteger",
+      "alias": "Power_Dependent_Devices_DME",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "NAME": "Adams",
+        "State": "OH",
+        "County_FIPS_Code": "001",
+        "Medicare_Benes": 8035,
+        "Power_Dependent_Devices_DME": 610
+      },
+      "centroid": { "x": -83.472148249191775, "y": 38.845774942593223 }
+    },
+    {
+      "attributes": {
+        "NAME": "Allen",
+        "State": "OH",
+        "County_FIPS_Code": "003",
+        "Medicare_Benes": 25229,
+        "Power_Dependent_Devices_DME": 1554
+      },
+      "centroid": { "x": -84.105763613116792, "y": 40.771625907485316 }
+    },
+    {
+      "attributes": {
+        "NAME": "Ashland",
+        "State": "OH",
+        "County_FIPS_Code": "005",
+        "Medicare_Benes": 12496,
+        "Power_Dependent_Devices_DME": 750
+      },
+      "centroid": { "x": -82.2707165934837, "y": 40.846412585033676 }
+    }
+  ],
+  "exceededTransferLimit": true
+}

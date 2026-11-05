@@ -1,0 +1,57 @@
+# Behavioral health and human services
+
+The human services pack gives an exercise the work of the people who help others on the worst days: crisis line centers (such as 988 centers), shelter teams, family reunification teams, and child welfare and social service agencies. It has a domain for those organizations and four toolkits that any domain can use.
+
+Turn the toolkits on in the scenario's **Toolkits** tab (see [Toolkits](toolkits.md)). The app proposes them when the brief mentions a crisis line, a shelter, reunification, children in care or a content topic such as suicide. The domain suggests all four.
+
+| Toolkit                         | Use it for                                                                                               |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Behavioral health safeguards    | Anything that touches suicide, self-harm, abuse or the loss of a child. Turn it on with the other three. |
+| Crisis line operations          | A surge of contacts at a crisis center, with backup, staffing and a state coordinator briefing.          |
+| Mass care and shelter           | Opening and running a general population shelter, with functional needs support.                         |
+| Reunification and child welfare | A school or venue reunification, children in care displaced by a disaster, a crisis counseling request.  |
+
+This is an exercise aid. It is not clinical guidance, it records no real caller, resident or child, and it has not been reviewed by a clinician; have a crisis line director and a mass care lead read your exercise before you run it.
+
+## Safeguards for sensitive material
+
+- **Safe messaging.** Generated injects are checked for method or means detail next to a suicide reference, for suicide presented as a solution, and for language safe messaging avoids. A flagged inject goes back to the model with the problem named. The checks catch common failures; they do not replace a person reading the material.
+- **Exercise banner.** A public message or handout that shows a real helpline number must carry the word EXERCISE. Exercise materials never tell a player to call a real line; they use a fictional 555 number.
+- **Content notice.** When the exercise touches these topics, the player briefing opens with a content notice, the Exercise Plan repeats it, and the controller handbook gives facilitators a wellbeing check and a "stop and step out" rule: anyone may leave at any time without giving a reason, and the facilitator pauses when asked or when two or more people leave.
+- **Psychological first aid.** The eight core actions are in the writing guidance and in a handout, written in plain language as an original summary.
+
+## What it adds
+
+- **Documents** for each part of the field: for a crisis line, the daily contact report, network surge and backup notices, queue board, staffing summary, supervisor escalation, de-identified contact summary and state coordinator briefing; for a shelter, the status report, open shelters list, functional needs support request, registration form, daily count, incident report, health referral, closing report and EOC request; for reunification and child welfare, the plan and site layout, roster, release log, parent text, call script, unreleased student tracker, displaced children list, state plan activation and crisis counseling request.
+- **Charts** drawn from data: contact volume and answer rate by contact type with target lines, queue board, staffing against demand, shelter dashboard, shelter map with an optional overlay of electricity-dependent residents, reunification flow and displaced children tracker. Each has a text summary and a data table.
+- **Decisions** for players to record: activate the surge plan, request backup, issue a public statement, open or close a shelter, report doors open, assign functional needs support, activate a reunification site, release a student, locate a displaced child, request crisis counseling.
+- **Measures**: service level (answer rate, abandonment, wait), time to completion (doors open, every student released, every child located) and needs coverage. See [Evaluation metrics](evaluation-metrics.md).
+- **Writing guidance** with dates and sources. For example, 988 rerouting follows the values in a federal report as of March 2026 (calls about two minutes, texts and chats about five, Spanish-language contacts cannot be rerouted), so check the current rules before you rely on a number.
+
+## Simulated surges, shelters and reunifications
+
+The app can generate data to draw from. Every set is labeled **simulated** and repeats exactly with the same seed.
+
+| You want                                          | Use                | What you set                                                                                    |
+| ------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------- |
+| A crisis line surge with a queue that builds      | Contact surge      | Baseline contacts, surge size and decay, counselors, call-outs, rerouting timers, patience      |
+| A shelter that fills and needs support            | Shelter population | Shelters and capacities, evacuees, peak hour, hazard arrival, share of residents with each need |
+| Guardians who arrive faster than staff can verify | Reunification flow | Students, arrival timing, check-in leads, verification time, share unverifiable, no guardian    |
+| Children in care to locate after a flood          | Displaced children | Children, placement mix, how fast each placement type can be located, share never located       |
+
+These are teaching models, not calibrated to any center, shelter or district. Set the numbers to your own plans.
+
+## Real data
+
+- **Open shelters.** A snapshot of the shelters open now from the federal shelter service. The service keeps no history, so a replay of a past event needs a snapshot you took at the time. Street addresses are left out.
+- **Electricity-dependent residents.** De-identified counts of Medicare beneficiaries who use electricity-dependent equipment, by county, from the public emPOWER service.
+
+Both are fetched once, after you agree and see the size, and then used offline. Nothing about your plans is sent.
+
+## Reference documents
+
+The pack's library holds the federal crisis counseling program application instructions. The shelter field guide, the functional needs support guidance, the psychological first aid field guide, the school reunification publication and child welfare disaster planning pages are linked, not bundled, because their terms are not confirmed or they are copyrighted. The Standard Reunification Method and Red Cross shelter training are named and linked, never copied.
+
+## What it does not do
+
+It makes no real-time connection to a crisis platform, a shelter database or a student information system. Its exercise records are fictional and de-identified, and no caller, resident or child detail should be entered into it.
