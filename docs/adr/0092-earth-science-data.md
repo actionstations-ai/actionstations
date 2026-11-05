@@ -16,6 +16,7 @@ The earth science toolkits replay real past events from free public services and
 - **The volcano notice archive is reachable by GET only for the past year** (VONAs). Older notices need a search request the connector layer does not make; the user pastes them in by hand.
 - **Shapefile-only products are linked, not parsed.** Post-fire hazard polygons are shapefiles on ScienceBase; the connector brings the summary, the median rainfall thresholds (a small CSV) and the item address.
 - **Simulated events use simple published relations** (see `toolkits/geo/simulate`): a ground-motion relation for intensity, an Omori-Utsu aftershock sequence matched to its forecast, a unrest sequence, arrival times from distance and speed, and debris flows from a rainfall scenario. All are labeled simulated by the framework.
+- **Timing measures read simulated events through the same files.** The case-data pipeline checks a `reports` dataset as text entries (`t`, `title`, `text`), so ground-truth events and modeled series are written as such entries that also carry the keys the metric readers want (an event's `id`, `time`, `kind`, `area`, `attrs`; a series' `zone`, `quantity`, `points`); the extra keys stay in the file. The simulated earthquake, tsunami, lahar, unrest and debris-flow generators write `sim-*-events` and `sim-*-series` datasets, and each toolkit names them as the `groundTruth` and `series` of its measures; a test checks the names against what the generators produce.
 
 ## Consequences
 

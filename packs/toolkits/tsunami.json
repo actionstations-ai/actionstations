@@ -61,16 +61,20 @@
         "actionKind": "order_evacuation",
         "threshold": 1,
         "clearanceMin": 15
-      }
+      },
+      "series": "sim-tsunami-wave-series"
     },
     {
       "id": "decision_timing",
       "label": "Message upgrade or cancellation against observed waves",
       "config": {
+        "decisionKinds": ["issue_tsunami_message"],
+        "eventKinds": ["first_wave_observed"],
         "leadWindowMin": 120,
         "graceWindowMin": 10,
         "matchArea": true
-      }
+      },
+      "groundTruth": "sim-tsunami-events"
     },
     {
       "id": "message_consistency",

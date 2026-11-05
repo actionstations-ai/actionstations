@@ -73,16 +73,20 @@
         "actionKind": "order_evacuation",
         "threshold": 1,
         "clearanceMin": 20
-      }
+      },
+      "series": "sim-lahar-series"
     },
     {
       "id": "decision_timing",
       "label": "Alert level change against eruption onset",
       "config": {
+        "decisionKinds": ["change_alert_level"],
+        "eventKinds": ["eruption_onset"],
         "leadWindowMin": 360,
         "graceWindowMin": 0,
         "matchArea": false
-      }
+      },
+      "groundTruth": "sim-unrest-events"
     },
     {
       "id": "message_consistency",

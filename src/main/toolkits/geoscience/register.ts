@@ -1,6 +1,7 @@
 // Registers the earth science toolkits' code-backed parts: the replay connectors and the simulated
 // generators. Idempotent, so startup and tests may both call it.
 import { generatorIds, registerGenerator } from '../../case-data/generators'
+import { GEO_GENERATORS } from '../geo/simulate/generators'
 import { comcat } from '../connectors/geo/comcat'
 import { fdsnWaveforms } from '../connectors/geo/fdsn'
 import { landslideAssessments, quaternaryFaults } from '../connectors/geo/hazard-layers'
@@ -22,10 +23,8 @@ export const GEO_CONNECTORS = [
   landslideAssessments,
 ]
 
-export function registerGeoscienceToolkits(
-  generators: Parameters<typeof registerGenerator>[0][] = [],
-): void {
+export function registerGeoscienceToolkits(): void {
   const have = new Set(generatorIds())
-  for (const g of generators) if (!have.has(g.id)) registerGenerator(g)
+  for (const g of GEO_GENERATORS) if (!have.has(g.id)) registerGenerator(g)
   for (const c of GEO_CONNECTORS) if (!hasConnector(c.id)) registerConnector(c)
 }
