@@ -1,0 +1,106 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.provider.name}}</div>
+      {{#if fields.provider.contact}}
+      <div class="sub">{{fields.provider.contact}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Serious incident notification</div>
+  </header>
+  <p class="callout" style="margin-top: 8px">
+    <strong>DRAFT for the exercise.</strong> Not a filing. Addressed to {{fields.authority}}.
+    {{fields.reportType}}.
+  </p>
+  <h2>System</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.system.name}}
+      <tr>
+        <th>System</th>
+        <td>{{fields.system.name}}</td>
+      </tr>
+      {{/if}} {{#if fields.system.version}}
+      <tr>
+        <th>Version</th>
+        <td>{{fields.system.version}}</td>
+      </tr>
+      {{/if}} {{#if fields.system.intendedPurpose}}
+      <tr>
+        <th>Intended purpose</th>
+        <td>{{fields.system.intendedPurpose}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  <h2>Incident</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.incidentDate}}
+      <tr>
+        <th>Date of incident</th>
+        <td>{{fields.incidentDate}}</td>
+      </tr>
+      {{/if}} {{#if fields.awarenessDate}}
+      <tr>
+        <th>Date of awareness</th>
+        <td>{{fields.awarenessDate}}</td>
+      </tr>
+      {{/if}} {{#if fields.description}}
+      <tr>
+        <th>Description</th>
+        <td>{{fields.description}}</td>
+      </tr>
+      {{/if}} {{#if fields.harm}}
+      <tr>
+        <th>Harm</th>
+        <td>{{fields.harm}}</td>
+      </tr>
+      {{/if}} {{#if fields.category}}
+      <tr>
+        <th>Category</th>
+        <td>{{fields.category}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  <h2>Causal link assessment</h2>
+  <p><span class="tier">{{fields.causalLink.assessment}}</span> {{fields.causalLink.basis}}</p>
+  <h2>Status</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.status}}
+      <tr>
+        <th>Status</th>
+        <td>{{fields.status}}</td>
+      </tr>
+      {{/if}} {{#if fields.parallelReports}}
+      <tr>
+        <th>Parallel sectoral reports</th>
+        <td>{{fields.parallelReports}}</td>
+      </tr>
+      {{/if}} {{#if fields.clockStated}}
+      <tr>
+        <th>Deadline stated</th>
+        <td>{{fields.clockStated}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.correctiveActions}}
+  <h2>Corrective actions</h2>
+  <ul>
+    {{#each fields.correctiveActions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span
+      >Draft serious incident notification{{#if fields.contact}} · {{fields.contact}}{{/if}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

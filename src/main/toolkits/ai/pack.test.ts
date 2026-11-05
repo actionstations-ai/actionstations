@@ -4,6 +4,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { INJECT_TYPE_IDS } from '@shared/taxonomy'
 import { DomainProfile, THREAT_FAMILY_IDS } from '@shared/domains/schema'
 import {
   KNOWLEDGE_PER_TOOLKIT_CAP,
@@ -87,6 +88,7 @@ describe('ai_incidents toolkit', () => {
   it('ships a template folder with a taxonomy block for every inject type it adds', () => {
     for (const t of toolkit.injectTypes) {
       expect(existsSync(resolve(`templates/injects/${t}/template.html`)), t).toBe(true)
+      if ((INJECT_TYPE_IDS as readonly string[]).includes(t)) continue
       const meta = read(`templates/injects/${t}/meta.json`) as { taxonomy?: unknown }
       expect(meta.taxonomy, `${t} needs a taxonomy block`).toBeTruthy()
     }

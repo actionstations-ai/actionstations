@@ -1,0 +1,69 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.from.organization}}</div>
+      {{#if fields.from.contact}}
+      <div class="sub">{{fields.from.contact}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Takedown request</div>
+  </header>
+  <h1>Request to {{fields.platform}}</h1>
+  <p>
+    Requested action: <span class="tier">{{fields.requestedAction}}</span>{{#if fields.caseRef}} ·
+    Our reference {{fields.caseRef}}{{/if}}
+  </p>
+  <h2>The content</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.content.location}}
+      <tr>
+        <th>Location</th>
+        <td>{{fields.content.location}}</td>
+      </tr>
+      {{/if}} {{#if fields.content.description}}
+      <tr>
+        <th>What it shows</th>
+        <td>{{fields.content.description}}</td>
+      </tr>
+      {{/if}} {{#if fields.content.postedBy}}
+      <tr>
+        <th>Posted by</th>
+        <td>{{fields.content.postedBy}}</td>
+      </tr>
+      {{/if}} {{#if fields.content.reach}}
+      <tr>
+        <th>Reach so far</th>
+        <td>{{fields.content.reach}}</td>
+      </tr>
+      {{/if}} {{#if fields.impersonated}}
+      <tr>
+        <th>Impersonated</th>
+        <td>{{fields.impersonated}}</td>
+      </tr>
+      {{/if}} {{#if fields.policyBasis}}
+      <tr>
+        <th>Policy basis</th>
+        <td>{{fields.policyBasis}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.evidence}}
+  <h2>Why we say it is synthetic</h2>
+  <ul>
+    {{#each fields.evidence}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.urgency}}
+  <div class="callout"><strong>Why it is urgent:</strong> {{fields.urgency}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Sent {{fields.sentAt}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

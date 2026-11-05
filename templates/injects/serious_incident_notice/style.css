@@ -1,0 +1,123 @@
+/* Serious incident notification (draft), US Letter (816 x 1056). Printed paper: black on white with one indigo rule. */
+.page {
+  height: 1056px;
+  padding: 28px 56px 24px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #111;
+  background: #fff;
+}
+p {
+  margin: 0;
+}
+.marking {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 10px;
+  padding-bottom: 8px;
+  border-bottom: 4px solid #2f2a73;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+.org {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2f2a73;
+}
+.sub {
+  font-size: 11px;
+  color: #444;
+}
+.doc-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+}
+h1 {
+  margin: 14px 0 6px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 28px;
+  line-height: 1.1;
+}
+h2 {
+  margin: 14px 0 4px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2f2a73;
+}
+ul,
+ol {
+  margin: 0;
+  padding-left: 20px;
+}
+li {
+  margin: 3px 0;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-top: 6px;
+}
+th,
+td {
+  border: 1px solid #7d7b95;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #ecebf6;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1c1850;
+}
+.kv th {
+  width: 28%;
+}
+.spacer {
+  flex: 1;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #777;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: #444;
+}
+.callout {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 2px solid #111;
+  border-left: 8px solid #9b1c14;
+}
+.tier {
+  display: inline-block;
+  padding: 1px 9px;
+  border: 2px solid #111;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11.5px;
+}

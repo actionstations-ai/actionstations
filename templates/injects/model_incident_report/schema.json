@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model incident report",
+  "description": "Internal report on an AI system incident: what happened, which system and version, the impact, the timeline, containment, the evidence kept and whether the team classed it as a serious incident, with the basis. Fictional organization and system.",
+  "type": "object",
+  "required": ["organization", "reportId", "title", "system", "status", "summary", "timeline"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Reporting organization",
+      "examples": ["Harborline Credit Union"],
+      "x-translate": false
+    },
+    "reportId": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["AIR-2026-0007"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title",
+      "examples": ["Customer assistant gives unsafe account advice"]
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The AI system involved",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "System name",
+          "examples": ["Harbor Assist"],
+          "x-translate": false
+        },
+        "version": {
+          "type": "string",
+          "description": "Model and prompt version",
+          "examples": ["model 4.2 / prompt 18"],
+          "x-translate": false
+        },
+        "owner": {
+          "type": "string",
+          "description": "Owning team",
+          "examples": ["Digital Products"],
+          "x-translate": false
+        }
+      },
+      "required": ["name"]
+    },
+    "detectedAt": {
+      "type": "string",
+      "description": "When the team became aware",
+      "examples": ["November 3, 2026, 9:40 a.m."],
+      "x-translate": false
+    },
+    "severity": {
+      "type": "string",
+      "description": "Severity",
+      "examples": ["High"],
+      "enum": ["Low", "Medium", "High", "Critical"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "examples": ["Contained, under review"],
+      "enum": ["Open", "Contained, under review", "Closed"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "Over six days the assistant told some customers they could skip a required payment verification. Eleven customers followed the advice."
+      ]
+    },
+    "impact": {
+      "type": "string",
+      "description": "Impact",
+      "examples": [
+        "Eleven customers delayed a required step; no funds were lost. Two complaints reached the regulator hotline."
+      ]
+    },
+    "timeline": {
+      "type": "array",
+      "description": "Timeline",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Timeline entry",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["Nov 3, 9:40 a.m."],
+            "x-translate": false
+          },
+          "event": {
+            "type": "string",
+            "description": "Event",
+            "examples": ["Support lead escalates three similar tickets"]
+          }
+        },
+        "required": ["time", "event"]
+      },
+      "examples": [
+        [
+          {
+            "time": "Oct 28",
+            "event": "Model 4.2 deployed"
+          },
+          {
+            "time": "Nov 3, 9:40 a.m.",
+            "event": "Support lead escalates three similar tickets"
+          }
+        ]
+      ]
+    },
+    "containment": {
+      "type": "array",
+      "description": "Containment steps",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Feature restricted to read-only answers at 11:05 a.m.",
+          "Logs and prompt versions copied to the case folder before any change"
+        ]
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Evidence preserved",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Session logs Oct 28 to Nov 3", "Prompt version history", "Evaluation results from Oct 21"]
+      ]
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Whether the event is a serious incident",
+      "properties": {
+        "decision": {
+          "type": "string",
+          "description": "Decision",
+          "examples": ["Undecided"],
+          "enum": ["Yes", "No", "Undecided"]
+        },
+        "basis": {
+          "type": "string",
+          "description": "Basis, with the question still open if undecided",
+          "examples": [
+            "Harm to customers was financial delay only; the role question (provider or deployer) is with counsel."
+          ]
+        }
+      },
+      "required": ["decision", "basis"]
+    },
+    "nextSteps": {
+      "type": "array",
+      "description": "Next steps",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Counsel confirms which duties apply to our role",
+          "Re-run the evaluation set before re-enabling advice answers"
+        ]
+      ]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Model owner: Ines Calder"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

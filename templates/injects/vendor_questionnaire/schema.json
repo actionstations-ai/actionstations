@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI vendor questionnaire",
+  "description": "A security and AI governance questionnaire a customer sends an AI vendor after an incident: questions grouped by topic, the vendor answer and whether it is complete. Fictional customer and vendor.",
+  "type": "object",
+  "required": ["customer", "vendor", "sections", "sentAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "customer": {
+      "type": "string",
+      "description": "Customer (fictional)",
+      "examples": ["Harborline Credit Union"],
+      "x-translate": false
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Vendor (fictional)",
+      "examples": ["Northgate Models"],
+      "x-translate": false
+    },
+    "reference": {
+      "type": "string",
+      "description": "Questionnaire reference",
+      "examples": ["VQ-2026-009"],
+      "x-translate": false
+    },
+    "dueAt": {
+      "type": "string",
+      "description": "Answers due",
+      "examples": ["November 6, 2026"],
+      "x-translate": false
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Section",
+        "required": ["heading", "questions"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Heading",
+            "examples": ["Incident scope"]
+          },
+          "questions": {
+            "type": "array",
+            "description": "Questions",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Questions entry",
+              "properties": {
+                "question": {
+                  "type": "string",
+                  "description": "Question",
+                  "examples": ["Which customers and which data are affected?"]
+                },
+                "answer": {
+                  "type": "string",
+                  "description": "Vendor answer",
+                  "examples": ["Under investigation."]
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Status",
+                  "examples": ["Incomplete"],
+                  "enum": ["Answered", "Incomplete", "Not answered"]
+                }
+              },
+              "required": ["question"]
+            },
+            "examples": [
+              [
+                {
+                  "question": "Which customers and which data are affected?",
+                  "answer": "Under investigation.",
+                  "status": "Incomplete"
+                }
+              ]
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "Incident scope",
+            "questions": [
+              {
+                "question": "Which customers and which data are affected?",
+                "answer": "Under investigation.",
+                "status": "Incomplete"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "Sent",
+      "examples": ["November 4, 2026, 9:00 a.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

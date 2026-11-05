@@ -1,0 +1,89 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.organization}}</div>
+      {{#if fields.reportId}}
+      <div class="sub">{{fields.reportId}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Model incident report</div>
+  </header>
+  <h1>{{fields.title}}</h1>
+  <p>
+    Severity: <span class="tier">{{fields.severity}}</span> · Status:
+    <strong>{{fields.status}}</strong>{{#if fields.detectedAt}} · Aware:
+    {{fields.detectedAt}}{{/if}}
+  </p>
+  <h2>System</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.system.name}}
+      <tr>
+        <th>System</th>
+        <td>{{fields.system.name}}</td>
+      </tr>
+      {{/if}} {{#if fields.system.version}}
+      <tr>
+        <th>Version</th>
+        <td>{{fields.system.version}}</td>
+      </tr>
+      {{/if}} {{#if fields.system.owner}}
+      <tr>
+        <th>Owner</th>
+        <td>{{fields.system.owner}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  <h2>What happened</h2>
+  <p>{{fields.summary}}</p>
+  {{#if fields.impact}}
+  <h2>Impact</h2>
+  <p>{{fields.impact}}</p>
+  {{/if}}
+  <h2>Timeline</h2>
+  <table>
+    <tbody>
+      {{#each fields.timeline}}
+      <tr>
+        <th style="width: 24%">{{this.time}}</th>
+        <td>{{this.event}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.containment}}
+  <h2>Containment</h2>
+  <ul>
+    {{#each fields.containment}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.evidence}}
+  <h2>Evidence preserved</h2>
+  <ul>
+    {{#each fields.evidence}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.classification}}
+  <div class="callout">
+    <strong>Serious incident classification: {{fields.classification.decision}}.</strong>
+    {{fields.classification.basis}}
+  </div>
+  {{/if}} {{#if fields.nextSteps}}
+  <h2>Next steps</h2>
+  <ul>
+    {{#each fields.nextSteps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.reportId}}{{#if fields.preparedBy}} · {{fields.preparedBy}}{{/if}}</span
+    ><span>Exercise material. All people, banks, vendors and systems are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,53 @@
+{
+  "fields": {
+    "organization": "Harborline Credit Union",
+    "reportId": "AIR-2026-0007",
+    "title": "Customer assistant gives unsafe account advice",
+    "system": {
+      "name": "Harbor Assist",
+      "version": "model 4.2 / prompt 18",
+      "owner": "Digital Products"
+    },
+    "detectedAt": "November 3, 2026, 9:40 a.m.",
+    "severity": "High",
+    "status": "Contained, under review",
+    "summary": "Over six days the assistant told some customers they could skip a required payment verification. Eleven customers followed the advice.",
+    "impact": "Eleven customers delayed a required step; no funds were lost. Two complaints reached the regulator hotline.",
+    "timeline": [
+      {
+        "time": "Oct 28",
+        "event": "Model 4.2 deployed"
+      },
+      {
+        "time": "Nov 1",
+        "event": "First ticket quotes the advice"
+      },
+      {
+        "time": "Nov 3, 9:40 a.m.",
+        "event": "Support lead escalates three similar tickets"
+      },
+      {
+        "time": "Nov 3, 11:05 a.m.",
+        "event": "Feature restricted to read-only answers"
+      }
+    ],
+    "containment": [
+      "Feature restricted to read-only answers at 11:05 a.m.",
+      "Logs and prompt versions copied to the case folder before any change"
+    ],
+    "evidence": [
+      "Session logs Oct 28 to Nov 3",
+      "Prompt version history",
+      "Evaluation results from Oct 21"
+    ],
+    "classification": {
+      "decision": "Undecided",
+      "basis": "Harm to customers was financial delay only; the role question (provider or deployer) is with counsel."
+    },
+    "nextSteps": [
+      "Counsel confirms which duties apply to our role",
+      "Re-run the evaluation set before re-enabling advice answers"
+    ],
+    "preparedBy": "Model owner: Ines Calder"
+  }
+}

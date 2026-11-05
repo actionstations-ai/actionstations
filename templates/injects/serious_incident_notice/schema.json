@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Serious incident notification (draft)",
+  "description": "Draft notification of a serious incident of an AI system to a market surveillance authority, with the fields the draft EU template names: the system, the date of awareness, the causal link assessment, the harm and the status, and a field for parallel sectoral reports. A draft for the exercise, not a filing. The clock stated must match the scenario configuration.",
+  "type": "object",
+  "required": [
+    "authority",
+    "reportType",
+    "provider",
+    "system",
+    "awarenessDate",
+    "description",
+    "harm",
+    "causalLink",
+    "status"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "authority": {
+      "type": "string",
+      "description": "Authority addressed (fictional)",
+      "examples": ["Market Surveillance Authority of Northmark"],
+      "x-translate": false
+    },
+    "reportType": {
+      "type": "string",
+      "description": "Report type",
+      "examples": ["Initial report (incomplete)"],
+      "enum": ["Initial report (incomplete)", "Intermediate report", "Final report"]
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Provider",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name",
+          "examples": ["Northgate Models Ltd (fictional)"],
+          "x-translate": false
+        },
+        "contact": {
+          "type": "string",
+          "description": "Contact",
+          "examples": ["compliance@northgate.example"],
+          "x-translate": false
+        }
+      },
+      "required": ["name"]
+    },
+    "system": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "System",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name",
+          "examples": ["Harbor Assist"],
+          "x-translate": false
+        },
+        "version": {
+          "type": "string",
+          "description": "Version",
+          "examples": ["model 4.2"],
+          "x-translate": false
+        },
+        "intendedPurpose": {
+          "type": "string",
+          "description": "Intended purpose",
+          "examples": ["Customer assistant for banking questions"]
+        }
+      },
+      "required": ["name"]
+    },
+    "incidentDate": {
+      "type": "string",
+      "description": "Date of the incident",
+      "examples": ["October 28 to November 3, 2026"],
+      "x-translate": false
+    },
+    "awarenessDate": {
+      "type": "string",
+      "description": "Date the provider became aware",
+      "examples": ["November 3, 2026"],
+      "x-translate": false
+    },
+    "description": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "The assistant gave unsafe advice about skipping a payment verification to customers over six days."
+      ]
+    },
+    "harm": {
+      "type": "string",
+      "description": "Harm",
+      "examples": [
+        "Eleven customers delayed a required verification; no loss of life or health harm; possible infringement of consumer protection obligations is under assessment."
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of serious incident",
+      "examples": ["Under assessment"],
+      "enum": [
+        "Death",
+        "Serious harm to health",
+        "Critical infrastructure disruption",
+        "Infringement of fundamental rights obligations",
+        "Serious harm to property or the environment",
+        "Widespread infringement",
+        "Under assessment"
+      ]
+    },
+    "causalLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Causal link assessment",
+      "properties": {
+        "assessment": {
+          "type": "string",
+          "description": "Assessment",
+          "examples": ["Reasonably likely"],
+          "enum": ["Established", "Reasonably likely", "Not established", "Under investigation"]
+        },
+        "basis": {
+          "type": "string",
+          "description": "Basis",
+          "examples": [
+            "Logs show the advice in each affected session; the prompt change on October 28 is the only change in the period."
+          ]
+        }
+      },
+      "required": ["assessment", "basis"]
+    },
+    "parallelReports": {
+      "type": "string",
+      "description": "Parallel sectoral reports",
+      "examples": ["Financial supervisor informed on November 4 under sector rules."]
+    },
+    "correctiveActions": {
+      "type": "array",
+      "description": "Corrective actions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Advice answers disabled on November 3",
+          "Evaluation set extended with payment verification cases"
+        ]
+      ]
+    },
+    "clockStated": {
+      "type": "string",
+      "description": "Deadline stated, from the scenario configuration",
+      "examples": ["15 days after awareness (scenario clock: EU AI Act Article 73)"],
+      "x-translate": false
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the investigation",
+      "examples": ["Investigation open; report will be updated"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["Compliance officer: Mara Venn, +00 555 0100"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

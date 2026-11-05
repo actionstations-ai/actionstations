@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI incident customer notice",
+  "description": "Plain-language notice to customers about an AI system incident: what happened, who is affected, what the organization is doing, what customers can do, and how to reach help. States only what is known. Fictional organization.",
+  "type": "object",
+  "required": [
+    "organization",
+    "headline",
+    "whatHappened",
+    "whatWeAreDoing",
+    "whatYouCanDo",
+    "issuedAt"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization",
+      "examples": ["Harborline Credit Union"],
+      "x-translate": false
+    },
+    "reference": {
+      "type": "string",
+      "description": "Notice reference",
+      "examples": ["CN-2026-11"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Our virtual assistant gave incorrect advice about payment verification"]
+    },
+    "whatHappened": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "Between October 28 and November 3, Harbor Assist told some customers they did not need to complete a payment verification. That advice was wrong."
+      ]
+    },
+    "whoIsAffected": {
+      "type": "string",
+      "description": "Who is affected",
+      "examples": [
+        "Customers who asked the assistant about payment verification in that period. We are contacting them directly."
+      ]
+    },
+    "whatWeAreDoing": {
+      "type": "array",
+      "description": "What we are doing",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "We turned off advice answers on November 3.",
+          "We are reviewing every affected conversation.",
+          "We are checking which reporting duties apply to us."
+        ]
+      ]
+    },
+    "whatYouCanDo": {
+      "type": "array",
+      "description": "What you can do",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "If you skipped a verification, complete it in the app or call us.",
+          "You will not be charged a fee for the delay."
+        ]
+      ]
+    },
+    "whatWeDoNotKnow": {
+      "type": "string",
+      "description": "What we do not know yet",
+      "examples": [
+        "We have not yet confirmed whether any customer lost money. We will update this notice by November 6."
+      ]
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Contact",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-0188"],
+          "x-translate": false
+        },
+        "web": {
+          "type": "string",
+          "description": "Web",
+          "examples": ["harborline.example/notice"],
+          "x-translate": false
+        }
+      }
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["November 4, 2026, 4:00 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
