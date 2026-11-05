@@ -1,0 +1,708 @@
+{
+  "id": "geoscience",
+  "label": "Earth science / geologic hazards",
+  "description": "The teams that monitor, forecast and warn for earthquakes, volcanoes, tsunamis and landslides, and the partners who act on their warnings. Four variants share one profile: a volcano observatory (alert levels, aviation color codes, notices to emergency management and aviation), a seismic network with earthquake early warning operations (event solutions, ShakeMap and PAGER, alerts and delivery partners), a tsunami warning center (messages, upgrades and cancellations) and a geological survey (debris-flow and ground failure hazard assessments, post-fire rainfall thresholds). Products carry the numbers a specialist checks: moment magnitude and MMI intensity are never interchanged, an alert level always travels with its aviation color code, and early warning can arrive after shaking near the epicenter.",
+  "aliases": [
+    "volcano observatory",
+    "seismic network",
+    "earthquake early warning",
+    "tsunami warning center",
+    "geological survey",
+    "geologic hazards",
+    "earth science"
+  ],
+  "vocabulary": {
+    "facility": "the observatory, network operations center or warning center and its monitoring networks",
+    "public": "residents in shaking, ashfall, lahar and tsunami hazard zones, school children, visitors and the aviation public",
+    "frontline": "duty seismologists, volcano monitoring scientists, early warning operators, tsunami duty scientists, field geologists",
+    "operationsCenter": "the observatory or network operations room and the partner emergency operations center"
+  },
+  "factCategories": [
+    {
+      "id": "stations",
+      "label": "Monitoring stations and instruments",
+      "noun": "Seismic Stations?|Seismometers?|Accelerometers?|GPS Stations?|GNSS Stations?|Tiltmeters?|Tide Gauges?|DART Buoys?|Stations?",
+      "context": "seismic|seismometer|accelerometer|gps|gnss|tilt|tide|dart|buoy|telemetry|network|waveform|instrument|monitoring",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "sirens",
+      "label": "Lahar sirens and detection sites",
+      "noun": "Sirens?|Lahar Detection Sites?|Lahar Sirens?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "zones",
+      "label": "Evacuation and hazard zones",
+      "noun": "Tsunami Zones?|Evacuation Zones?|Lahar Zones?|Inundation Zones?|Burn Scars?",
+      "genericNoun": "Zones?",
+      "context": "tsunami|lahar|inundat|evacuat|debris|flow|siren|wave|shelter",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "volcanoes",
+      "label": "Volcanoes",
+      "pattern": "\\b(?:Mount|Mt\\.?|Volcano) ([A-Z][a-z]+(?: [A-Z][a-z]+)?)",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    },
+    {
+      "id": "faults",
+      "label": "Faults and subduction zones",
+      "pattern": "\\b([A-Z][a-z]+(?: [A-Z][a-z]+)? (?:Fault|Subduction Zone))",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "event processing and location software",
+      "earthquake early warning processing system",
+      "alert delivery partner interfaces (Wireless Emergency Alerts, apps, operating systems)",
+      "volcano and earthquake notification service",
+      "tsunami message dissemination (NWS, EAS, NOAA Weather Radio, internet)",
+      "website and social media accounts",
+      "GIS with hazard zone and inundation layers",
+      "email and mailing lists",
+      "ShakeMap, PAGER and aftershock forecast production",
+      "helpdesk / ITSM"
+    ],
+    "ot": [
+      "seismic and strong-motion networks (seismometers, accelerometers)",
+      "GPS / GNSS and tiltmeter deformation networks",
+      "volcanic gas monitoring",
+      "webcams and satellite thermal and deformation data",
+      "telemetry links (radio, satellite, cellular, microwave) and repeaters",
+      "tsunami detection (DART buoys, tide gauges)",
+      "lahar detection systems and sirens",
+      "station power (solar and batteries) and dataloggers",
+      "time sources (GPS clocks)",
+      "automated action controllers (train slowdown, elevator, door and valve controls)"
+    ]
+  },
+  "roles": [
+    {
+      "key": "sic",
+      "name": "Scientist-in-Charge (volcano observatory)",
+      "abbreviation": "SIC",
+      "team": "Team A: Observatory Leadership",
+      "description": "Volcano observatory variant. Owns the volcano alert level and aviation color code, statements and partner calls."
+    },
+    {
+      "key": "mon",
+      "name": "Volcano Monitoring Scientist (deformation, gas, seismic)",
+      "abbreviation": "MON",
+      "team": "Team B: Volcano Monitoring",
+      "description": "Volcano observatory variant. Interprets unrest data and recommends alert changes."
+    },
+    {
+      "key": "seis",
+      "name": "Duty Seismologist",
+      "abbreviation": "SEIS",
+      "team": "Team C: Seismic Network",
+      "description": "Seismic network variant. Owns event locations and magnitudes, reviews automatic solutions and felt reports."
+    },
+    {
+      "key": "eew",
+      "name": "Early Warning Operations Lead",
+      "abbreviation": "EEW",
+      "team": "Team D: Early Warning Operations",
+      "description": "Early warning variant. Owns system health, alert review after events and the false alert response."
+    },
+    {
+      "key": "tsu",
+      "name": "Tsunami Warning Duty Scientist",
+      "abbreviation": "TSU",
+      "team": "Team E: Tsunami Warning Center",
+      "description": "Tsunami warning center variant. Owns message type and areas, upgrades and cancellation."
+    },
+    {
+      "key": "geo",
+      "name": "Landslide / Geologic Hazards Geologist",
+      "abbreviation": "GEO",
+      "team": "Team F: Geologic Hazards Assessment",
+      "description": "Geological survey variant. Owns debris-flow hazard maps, rainfall thresholds and post-event reconnaissance."
+    },
+    {
+      "key": "net",
+      "name": "Network and Telemetry Engineer",
+      "abbreviation": "NET",
+      "team": "Team G: Network Engineering",
+      "description": "All variants. Owns station uptime, telemetry links, time sources and data latency."
+    },
+    {
+      "key": "pio",
+      "name": "Hazard Communication / Public Affairs Officer",
+      "abbreviation": "PIO",
+      "team": "Team H: Partners and Public Information",
+      "description": "All variants. Owns public statements, media, social posts and partner briefings."
+    },
+    {
+      "key": "eml",
+      "name": "Emergency Management Liaison",
+      "abbreviation": "EML",
+      "team": "Team H: Partners and Public Information",
+      "description": "All variants. Joins emergency operations center calls and translates the science into decisions."
+    },
+    {
+      "key": "insp",
+      "name": "Post-Earthquake Building Inspector Lead",
+      "abbreviation": "INSP",
+      "team": "Team I: Response Partners",
+      "description": "Seismic variant. Owns safety placards (inspected, restricted use, unsafe) and re-entry."
+    }
+  ],
+  "outsideParties": [
+    "USGS national centers (earthquake information, volcano hazards)",
+    "NOAA tsunami warning centers",
+    "Volcanic Ash Advisory Centers",
+    "the National Weather Service (rainfall forecasts, tsunami dissemination)",
+    "the FAA and airlines",
+    "state and county emergency management",
+    "utilities and pipeline operators",
+    "state and county transportation departments",
+    "rail and transit operators",
+    "school districts",
+    "hospitals",
+    "ports and the Coast Guard",
+    "building departments",
+    "early warning app and phone delivery partners",
+    "the media and the public"
+  ],
+  "mediaChannels": [
+    "a resident's post on Facebook or Nextdoor saying the shaking was felt",
+    "a post on X/Twitter with a fake tsunami video",
+    "the regional TV station's breaking news banner",
+    "a county commissioner's office",
+    "a local amateur radio net",
+    "a messaging group of parents at a school"
+  ],
+  "sceneAnchors": {
+    "public": "on a coastal boardwalk with beachgoers looking at their phones, a tsunami evacuation route sign on a pole, calm sea beyond, daylight",
+    "control": "inside a seismic network operations room: wall of waveform displays and map screens, two duty scientists at desks with headsets, fluorescent light",
+    "exterior": "on a volcanic hillside near a monitoring station: a solar panel and antenna mast on a rocky slope, a hard-hat geologist with a laptop, snow-capped peak in the distance, daylight"
+  },
+  "injectTypes": [
+    "cap_alert",
+    "eas_broadcast",
+    "nws_weather_warning",
+    "figure",
+    "map_annotation",
+    "radio_call",
+    "phone_call",
+    "field_report",
+    "text_message",
+    "tweet",
+    "facebook_post",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "press_release",
+    "sitrep",
+    "memo",
+    "email",
+    "pa_announcement",
+    "scene_photo",
+    "service_status_page",
+    "system_log",
+    "alarm_summary",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "official_letter",
+    "emergency_declaration"
+  ],
+  "threatFamilies": [
+    "earthquake",
+    "volcanic_unrest",
+    "tsunami",
+    "debris_flow",
+    "ground_failure",
+    "geo_service_degradation"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "earthquake",
+      "label": "Earthquake",
+      "description": "A damaging earthquake: the first automatic solution, the ShakeMap and PAGER estimates, lifeline and building damage, an aftershock sequence with its forecast, and re-entry decisions. Includes early warning that reaches phones seconds before the shaking, or fails to.",
+      "keywords": [
+        "earthquake",
+        "quake",
+        "seismic",
+        "shaking",
+        "aftershock",
+        "magnitude",
+        "shakemap",
+        "pager",
+        "early warning",
+        "shakealert",
+        "cascadia",
+        "fault",
+        "subduction"
+      ],
+      "phaseArc": [
+        {
+          "title": "Shaking and First Information",
+          "goal": "Seconds to minutes: an alert that arrives early, late or not at all, and first information that is incomplete and revised.",
+          "beats": [
+            "An early warning alert (or the lack of one) on phones and an automated action log (trains slow, elevators stop)",
+            "The first automatic solution, with a magnitude that is revised within minutes, and the first felt reports",
+            "A noise item unrelated to the event (a non-seismic vibration report)",
+            "The ShakeMap and PAGER estimate appear, with a color level and an uncertain loss range"
+          ]
+        },
+        {
+          "title": "Damage and Lifelines",
+          "goal": "The first hours: damage reports arrive unevenly and communications are strained.",
+          "beats": [
+            "Time jump: field reports of damaged buildings, a collapsed overpass or a gas leak",
+            "A red herring: a report from a place the ShakeMap shows lightly shaken",
+            "Lifeline status (power, water, gas, roads, rail) reported by partners",
+            "A reporter wants to know whether this was the big one",
+            "A partner asks the scientists for a statement about aftershocks"
+          ]
+        },
+        {
+          "title": "Aftershocks and Forecast",
+          "goal": "Days: the aftershock sequence continues and the forecast has to be explained without false comfort or false alarm.",
+          "beats": [
+            "The aftershock forecast with probabilities for the next day, week and month",
+            "A large aftershock rattles damaged buildings; a rumor that a larger quake is coming",
+            "The decision point: re-occupy or keep closed damaged buildings and facilities while aftershocks continue",
+            "Building inspectors apply safety placards at a pace the demand outruns"
+          ]
+        },
+        {
+          "title": "Re-entry and Recovery",
+          "goal": "Inspections, repairs and the return to service.",
+          "beats": [
+            "Placard disputes and a facility that wants to re-open",
+            "A lifeline restored in stages; a hurdle that delays the last piece",
+            "After-action questions about warning timing and public messaging, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "re-occupy a damaged hospital wing or school now, or keep it closed while aftershocks continue",
+        "issue a statement that a larger earthquake is unlikely (probabilities are low but not zero) or stay silent while rumors spread",
+        "take an automated action on an early warning alert that may be a false alarm (stop trains, open doors) or wait for confirmation that arrives after the shaking",
+        "shut the gas line to a neighborhood for inspection or keep service on and accept the leak risk"
+      ],
+      "clueKinds": "a revised magnitude, a ShakeMap intensity value at a named place, a PAGER color level, a station outage, a felt-report cluster, a lifeline status line",
+      "hurdleKinds": "a damaged road that blocks inspectors, power loss at a monitoring station, a delivery partner that did not receive the alert, a building the placard system cannot cover in time",
+      "keyCoordination": "the state or county emergency manager and the seismic network or USGS earthquake information center",
+      "purposeMix": {
+        "CLUE": 25,
+        "CORE_NARRATIVE": 25,
+        "PRESSURE": 15,
+        "NOISE": 10,
+        "MISINFORMATION": 10,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "Magnitude is moment magnitude (Mw) and intensity is the Modified Mercalli scale (MMI, Roman numerals I to X); never swap or mix them. The first magnitude is revised, usually within minutes. A forecast of aftershock probability is a probability, never a prediction of a date.",
+      "lint": { "clueRequired": true, "clueRole": "technical" }
+    },
+    {
+      "id": "volcanic_unrest",
+      "label": "Volcanic unrest and eruption",
+      "description": "A volcano moves from background to unrest, perhaps to eruption: rising seismicity, deformation and gas, alert level changes with aviation color codes, ash for aviation, lahars and flows, and the return to background.",
+      "keywords": [
+        "volcano",
+        "volcanic",
+        "eruption",
+        "ash cloud",
+        "ashfall",
+        "lahar",
+        "alert level",
+        "color code",
+        "unrest",
+        "magma",
+        "vona",
+        "pyroclastic",
+        "mount rainier",
+        "observatory"
+      ],
+      "phaseArc": [
+        {
+          "title": "Background and Unrest",
+          "goal": "Ambiguity: monitoring data change slowly and nobody wants to say eruption is possible.",
+          "beats": [
+            "A small increase in earthquake rate flagged by the monitoring scientist",
+            "A tourist reports a sulfur smell; a noise item unrelated to the volcano",
+            "A deformation or gas reading that is above background but within past ranges"
+          ]
+        },
+        {
+          "title": "Alert Level Changes",
+          "goal": "The decision to raise the alert level and the aviation color code, and to coordinate the statement with emergency management and aviation.",
+          "beats": [
+            "Time jump: swarm intensity increases and deformation accelerates",
+            "A red herring: a webcam image of steam that is weather cloud",
+            "The decision point: raise the alert level and color code now or wait for another data point",
+            "A Volcano Observatory Notice for Aviation and a notice to emergency management",
+            "A school district asks whether to cancel classes"
+          ]
+        },
+        {
+          "title": "Eruption, Ash and Lahars",
+          "goal": "An eruption sends ash into airspace and flows down valleys; evacuation is timed by travel times.",
+          "beats": [
+            "Eruption onset confirmed by seismic and infrasound data and a pilot report",
+            "A volcanic ash advisory and an aviation SIGMET; airport closures",
+            "A lahar warning and siren activation with a travel time to downstream communities",
+            "Misinformation about ash toxicity and drinking water"
+          ]
+        },
+        {
+          "title": "Waning and Re-entry",
+          "goal": "Activity declines; returning to lower levels without false comfort.",
+          "beats": [
+            "Activity wanes and the alert level is lowered in steps",
+            "Ash cleanup and water system questions",
+            "Re-entry of evacuated areas, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "raise the volcano alert level and aviation color code now, with the cost of a false alarm, or wait and risk being late",
+        "recommend evacuation of the lahar hazard zone on unrest alone or wait for eruption onset with only the travel time left",
+        "lower the alert level after activity wanes, or hold it to avoid a second round of confusion"
+      ],
+      "clueKinds": "a seismicity rate, a tilt or GPS deformation reading, a gas flux measurement, a webcam image, a pilot report, an infrasound detection",
+      "hurdleKinds": "a telemetry link lost to snow or ash, a station buried, a flight route that cannot be re-planned, a siren that does not sound",
+      "keyCoordination": "the county emergency manager, aviation weather and the Volcanic Ash Advisory Center",
+      "purposeMix": {
+        "CLUE": 30,
+        "CORE_NARRATIVE": 20,
+        "PRESSURE": 15,
+        "NOISE": 10,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "A volcano alert level (Normal, Advisory, Watch, Warning) always travels with its aviation color code (Green, Yellow, Orange, Red). Alert levels can go up without an eruption. A lahar can reach communities hours after an eruption, or with no eruption at all.",
+      "lint": { "clueRequired": true, "clueRole": "technical" }
+    },
+    {
+      "id": "tsunami",
+      "label": "Tsunami",
+      "description": "A tsunami from a local source (minutes to the first wave) or a distant source (hours): the first message, upgrades or cancellation, waves and inundation, evacuation and the all clear.",
+      "keywords": [
+        "tsunami",
+        "tidal wave",
+        "inundation zone",
+        "tsunami warning",
+        "tsunami watch",
+        "tsunami advisory",
+        "dart",
+        "tide gauge",
+        "coastal evacuation",
+        "wave arrival"
+      ],
+      "phaseArc": [
+        {
+          "title": "Source Event",
+          "goal": "A trigger that the warning center must interpret quickly with little data.",
+          "beats": [
+            "A strong earthquake felt along the coast, or a distant event reported by the warning center",
+            "The first tsunami message with a threat level and an uncertain estimate",
+            "A noise item unrelated to the event"
+          ]
+        },
+        {
+          "title": "Messages and Decisions",
+          "goal": "Message levels, upgrades and the decision to order evacuation while arrival times count down.",
+          "beats": [
+            "Time jump: more data arrive; the message level is upgraded or downgraded",
+            "A fake video of a wave circulates before any real wave",
+            "The decision point: order the evacuation of a zone now for a local source, with minutes left",
+            "Ports, harbors and ferries decide to move vessels or hold them"
+          ]
+        },
+        {
+          "title": "Waves and Inundation",
+          "goal": "The first waves arrive; observations arrive from tide gauges and buoys.",
+          "beats": [
+            "First wave arrival time at a tide gauge, with an amplitude lower or higher than modeled",
+            "Later waves larger than the first; a person goes back to the shore to look",
+            "A road to high ground is blocked",
+            "Cancellation timing pressure from business and residents"
+          ]
+        },
+        {
+          "title": "All Clear and Recovery",
+          "goal": "Cancellation is a decision, then damage assessment.",
+          "beats": [
+            "The warning is cancelled or downgraded; the local all clear is the local authority's decision",
+            "Damage assessment of harbors and waterfront",
+            "Re-entry of evacuated zones, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "order evacuation of the inundation zone immediately for a local source, or wait for confirmation that costs minutes",
+        "upgrade an advisory to a warning when the first gauge reading arrives, or hold the level",
+        "cancel the warning when waves decline, or hold it because later waves can be larger"
+      ],
+      "clueKinds": "a tide gauge record, a buoy reading, a travel time estimate, a first wave observation, a warning center message",
+      "hurdleKinds": "a siren that does not sound, an evacuation route cut by earthquake damage, a message that does not reach a dissemination partner, a harbor with vessels that cannot leave",
+      "keyCoordination": "the NOAA tsunami warning center and the county emergency manager",
+      "purposeMix": {
+        "CLUE": 25,
+        "CORE_NARRATIVE": 25,
+        "PRESSURE": 15,
+        "MISINFORMATION": 15,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "Local sources give minutes, not hours; the first message may come before the first wave and the warning center cannot know the amplitude yet. A watch is not sent as a Wireless Emergency Alert. The local all clear belongs to local officials, not the warning center.",
+      "lint": { "clueRequired": true, "clueRole": "technical" }
+    },
+    {
+      "id": "debris_flow",
+      "label": "Post-fire debris flow",
+      "description": "Rain on a burn scar produces debris flows with little warning: the hazard assessment, a rainfall threshold, a forecast storm, closures and evacuations, the flow and the clearing.",
+      "keywords": [
+        "debris flow",
+        "burn scar",
+        "post-fire",
+        "mudslide",
+        "mudflow",
+        "rainfall threshold",
+        "flash flood burn",
+        "landslide hazard"
+      ],
+      "phaseArc": [
+        {
+          "title": "Fire and Hazard Assessment",
+          "goal": "The fire is out; the hazard is not.",
+          "beats": [
+            "A hazard assessment summary with probabilities and volumes for design storms",
+            "A question from a county about which roads are at risk",
+            "A noise item unrelated to the burn area"
+          ]
+        },
+        {
+          "title": "Forecast Storm",
+          "goal": "A rain forecast crosses the threshold and officials must decide on closures and evacuations before it arrives.",
+          "beats": [
+            "Time jump: a forecast with rainfall rates near the threshold",
+            "A red herring: a forecast that moves away and then back",
+            "The decision point: close the highway and order evacuations before the storm or wait for more certainty",
+            "The transportation department and the sheriff coordinate closures"
+          ]
+        },
+        {
+          "title": "Flows",
+          "goal": "Debris flows start in minutes after intense rain; communications and rescue.",
+          "beats": [
+            "A rain gauge in the burn area reports intensity above the threshold",
+            "A debris flow reported across a road; vehicles caught",
+            "A bridge or culvert blocked; stream rise downstream",
+            "Social media pictures with misattributed locations"
+          ]
+        },
+        {
+          "title": "Clearing and Re-opening",
+          "goal": "Clearing debris, re-opening, and the next storm.",
+          "beats": [
+            "Debris clearing priorities",
+            "The decision to reopen a road before the next storm",
+            "After-action review, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close a highway and order evacuations before a forecast storm that may fizzle, or keep the highway open and accept the risk",
+        "re-open a cleared road before the next storm or keep it closed another day"
+      ],
+      "clueKinds": "a rain gauge reading in the burn area, a rainfall forecast, a hazard map class, a field report of flow",
+      "hurdleKinds": "a closed road that blocks equipment, a gauge that fails, a culvert filled by debris, a notice that does not reach residents",
+      "keyCoordination": "the National Weather Service forecast office and the county emergency manager",
+      "purposeMix": {
+        "CLUE": 25,
+        "CORE_NARRATIVE": 25,
+        "PRESSURE": 15,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Debris flows are triggered by short, intense rainfall (rates over 15 minutes or an hour) on recent burns, not by total rainfall. Assessments give probability, volume and combined hazard for named storm intensities. Hazard maps are guidance for planning, not a forecast of a flow on a given day.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "ground_failure",
+      "label": "Ground failure after an earthquake",
+      "description": "Liquefaction and earthquake-triggered landslides: the likelihood summaries, reports of lateral spreading, slides on roads and rail, and what the models cannot say about a single site.",
+      "keywords": [
+        "liquefaction",
+        "lateral spreading",
+        "landslide",
+        "rockfall",
+        "ground failure",
+        "slope failure",
+        "sand boil"
+      ],
+      "phaseArc": [
+        {
+          "title": "Shaking and Model Output",
+          "goal": "Ground failure models give likelihood areas before any report arrives.",
+          "beats": [
+            "A ground failure summary with landslide and liquefaction likelihood classes",
+            "A first report of a road slide that matches the model",
+            "A noise item unrelated to ground failure"
+          ]
+        },
+        {
+          "title": "Reports and Closures",
+          "goal": "Field reports contradict or confirm the model; routes close.",
+          "beats": [
+            "Time jump: a rail line and a highway have slides; a report of sand boils at a port",
+            "A red herring: a report from a low-likelihood area",
+            "The decision point: close a route that the model puts in a low class but the field says is failing",
+            "Utilities report pipe breaks in liquefaction areas"
+          ]
+        },
+        {
+          "title": "Assessment and Response",
+          "goal": "Geologists assess; agencies prioritize.",
+          "beats": [
+            "A geologist visits a slope and advises on an evacuation below it",
+            "A school or hospital sits in a liquefaction area",
+            "Public questions about whether their home site is safe"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Stabilization and re-opening.",
+          "beats": [
+            "Slope stabilization and monitoring",
+            "Re-opening of routes with restrictions, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close a route the model rates low but a field report says is failing, or keep it open",
+        "evacuate the homes below an unstable slope tonight, or wait for a geologist who cannot arrive until morning"
+      ],
+      "clueKinds": "a ground failure likelihood class, a field report of a crack or slide, an inclinometer or monitoring reading",
+      "hurdleKinds": "a slope too unstable for a survey crew, an access road buried, a monitoring instrument destroyed",
+      "keyCoordination": "the state geological survey and the transportation department",
+      "purposeMix": {
+        "CLUE": 30,
+        "CORE_NARRATIVE": 25,
+        "PRESSURE": 10,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Ground failure model output is regional likelihood, not a statement about one site; say so whenever a summary is shown.",
+      "lint": { "clueRequired": true, "clueRole": "operations" }
+    },
+    {
+      "id": "geo_service_degradation",
+      "label": "Monitoring or alerting degradation",
+      "description": "The monitoring and warning systems themselves fail or err: a network or telemetry outage during unrest, a false early warning alert, a missed alert, a delayed or wrong tsunami message.",
+      "keywords": [
+        "telemetry outage",
+        "network outage",
+        "false alert",
+        "false alarm",
+        "missed alert",
+        "late alert",
+        "wrong message",
+        "station outage",
+        "data latency",
+        "alert delivery"
+      ],
+      "phaseArc": [
+        {
+          "title": "Something Is Off",
+          "goal": "A symptom: stations drop out or an alert appears that no one expected.",
+          "beats": [
+            "A set of stations goes quiet, or an alert appears for an earthquake nobody felt",
+            "An unrelated noise item",
+            "A first system status note that is ambiguous"
+          ]
+        },
+        {
+          "title": "Scope and Decision",
+          "goal": "How bad is the loss of data and who must be told?",
+          "beats": [
+            "Time jump: more stations fail; unrest at a volcano is now monitored by fewer instruments",
+            "A red herring: a second alert from a test message",
+            "The decision point: send a correction and retract the alert now or wait to confirm it was false",
+            "Partners ask whether automated actions fired"
+          ]
+        },
+        {
+          "title": "Impact and Messaging",
+          "goal": "Consequences of the false or missed alert reach the public.",
+          "beats": [
+            "Trains stopped by a false alert; a hospital activates its plan",
+            "Media and officials demand an explanation with a deadline",
+            "Misinformation that the system is unreliable and should be turned off"
+          ]
+        },
+        {
+          "title": "Recovery and Trust",
+          "goal": "Restore data and explain.",
+          "beats": [
+            "Repair crews restore telemetry",
+            "A review of the cause and a public statement",
+            "Partner agreements to re-enable automated actions, then ENDEX"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "retract a possibly false alert immediately, or wait to confirm and let it stand",
+        "keep the volcano alert level where it is despite losing half the monitoring stations, or raise it because the data are incomplete"
+      ],
+      "clueKinds": "a station health log line, a telemetry latency graph, an alert delivery receipt, a partner report of an action taken",
+      "hurdleKinds": "a link repair that needs a helicopter, a vendor with a long response time, a delivery partner that cannot confirm what was sent",
+      "keyCoordination": "the alert delivery partners and the emergency managers who depend on the alerts",
+      "purposeMix": {
+        "CLUE": 30,
+        "CORE_NARRATIVE": 20,
+        "PRESSURE": 15,
+        "TECH_HURDLE": 15,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "A false alert and a missed alert have different harms. Corrections go out through the same channels and as fast as the original. Alerts near the epicenter can arrive after the shaking starts; this is a limit of the physics, not a failure.",
+      "lint": { "clueRequired": true, "clueRole": "technical" }
+    }
+  ],
+  "noiseExamples": [
+    "a quarry blast reported as an earthquake",
+    "a request for the school's earthquake drill certificate",
+    "a hiker asking whether the volcano trail is open",
+    "an expired software license on a field laptop",
+    "a student asking for a classroom visit",
+    "a mislabeled ShakeMap download link"
+  ],
+  "pressureExamples": [
+    "a county commissioner asking whether to cancel a festival",
+    "a reporter asking the observatory whether the volcano is about to erupt",
+    "an airline operations center asking for the ash height now",
+    "a port director asking for the all clear",
+    "a school superintendent asking whether to evacuate students",
+    "a utility asking whether it must shut off gas in the whole city"
+  ],
+  "rolePatterns": {
+    "technical": "net|telemetry|eew|early warning|mon\\b|seis",
+    "operations": "tsu|sic|geo|insp|inspector|scientist",
+    "public": "pio|public|communication"
+  },
+  "agencyPattern": "USGS|NOAA|FEMA|FAA|NWS|National Weather Service|Tsunami Warning Center|Volcano Observatory|Geological Survey|Cal OES|ShakeAlert",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "situational_assessment",
+    "operational_coordination",
+    "mass_care_services",
+    "critical_transportation",
+    "infrastructure_systems",
+    "mass_search_and_rescue_operations"
+  ],
+  "suggestedToolkits": ["seismic", "volcanic", "tsunami", "debris_flow", "media_environment"]
+}
