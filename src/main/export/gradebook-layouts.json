@@ -1,0 +1,19 @@
+{
+  "layouts": [
+    {
+      "id": "generic",
+      "name": "Generic CSV",
+      "note": "One row per student with the identifier as imported. Column names are plain; map them in your gradebook's import screen.",
+      "columns": {
+        "identifier": "Student ID",
+        "name": "Student",
+        "email": "Email",
+        "assignment": "{title} (points)",
+        "total": "Total points",
+        "outcome": "Outcome {code} (%)",
+        "criterion": "{rubric} - {criterion} (points)",
+        "comment": "{title} comment"
+      }
+    }
+  ]
+}

@@ -1,7 +1,10 @@
 // Classroom (#686, spec 0453): run any exercise as a class session. Student records stay in this
 // project folder (ADR-0090). Later sections (outcomes, rubrics, scoring, dashboard) join below.
 import { PageHeader } from '../../components/ui'
+import { AccommodationsPanel } from './AccommodationsPanel'
 import { CoursePanel } from './CoursePanel'
+import { DashboardPanel } from './DashboardPanel'
+import { GradebookPanel } from './GradebookPanel'
 import { ModeCard } from './ModeCard'
 import { OutcomesPanel } from './OutcomesPanel'
 import { RotationPanel } from './RotationPanel'
@@ -34,6 +37,9 @@ export default function ClassroomPage() {
           <RubricsPanel projectPath={projectPath} state={data} />
           <RotationPanel projectPath={projectPath} state={data} />
           <ScoringPanel projectPath={projectPath} state={data} />
+          <GradebookPanel projectPath={projectPath} state={data} />
+          <DashboardPanel projectPath={projectPath} />
+          <AccommodationsPanel projectPath={projectPath} state={data} />
         </>
       )}
     </div>

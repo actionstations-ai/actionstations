@@ -157,6 +157,8 @@ export const Evidence = z.object({
     .regex(/^\d{1,2}:[0-5]\d$/)
     .optional(),
   injectRef: z.string().max(64).optional(),
+  /** Free label of the evaluator, e.g. "Evaluator 2"; pairs ratings for the reliability figures. */
+  evaluator: z.string().max(60).optional(),
   /** The anonymous observation in evaluation.json this entry links to. */
   observationId: z.string().max(64).optional(),
   /** Hot wash tally: contributions counted by the one-tap control. */
