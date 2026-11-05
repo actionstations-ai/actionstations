@@ -36,6 +36,7 @@ export async function observeForStudent(
       studentId,
       criterionId: observation.criterionId,
       observationId: observation.id,
+      evaluator: observation.evaluator,
       note: observation.note,
       exerciseTime: observation.exerciseTime,
       injectRef: observation.rowId,

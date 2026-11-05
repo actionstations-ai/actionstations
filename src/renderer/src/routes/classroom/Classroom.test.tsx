@@ -11,7 +11,10 @@ import ClassroomPage from './ClassroomPage'
 afterEach(cleanup)
 
 const AXE = { rules: { 'color-contrast': { enabled: false }, region: { enabled: false } } }
-const violations = async () => (await axe.run(document.body, AXE)).violations.map((v) => v.id)
+const violations = async () =>
+  (await axe.run(document.body, AXE)).violations.map(
+    (v) => v.id + v.nodes.map((n) => n.html.slice(0, 80)).join('|'),
+  )
 
 const state = (over: Partial<ClassroomState> = {}): ClassroomState => ({
   enabled: false,
@@ -67,7 +70,7 @@ describe('ClassroomPage', () => {
         }),
     })
     open()
-    expect(await screen.findByText('Ada Lovelace')).toBeTruthy()
+    expect(await screen.findByRole('rowheader', { name: 'Ada Lovelace' })).toBeTruthy()
     expect(
       screen.getByRole('button', { name: 'Delete Ada Lovelace and all their records' }),
     ).toBeTruthy()
@@ -182,6 +185,76 @@ describe('ClassroomPage', () => {
     expect(await screen.findByText(/Suggested: L1/)).toBeTruthy()
     expect(screen.getByText(/2 of 3 pieces/)).toBeTruthy()
     expect(screen.getByLabelText('Level for Ada, Communication')).toBeTruthy()
+    expect(await violations()).toEqual([])
+  })
+
+  it('shows the dashboard tables, the gradebook preview and accommodations without violations', async () => {
+    const table = (id: string, title: string) => ({
+      id,
+      title,
+      header: ['Outcome', 'Students assessed'],
+      rows: [['LO1', '2']],
+      csv: 'x',
+    })
+    mockTtx({
+      'classroom:get': () =>
+        state({
+          enabled: true,
+          course: {
+            ...state().course,
+            sections: [{ id: 'a', name: 'A' }],
+            students: [{ id: 's1', sectionId: 'a', name: 'Ada' }],
+          },
+        }),
+      'scenarios:list': () => [],
+      'classroom:accommodations': () => [],
+      'classroom:dashboard': () => ({
+        threshold: 0.6,
+        sections: [
+          {
+            sectionId: 'a',
+            name: 'A',
+            students: 1,
+            gradedRuns: 1,
+            practiceRuns: 0,
+            accommodations: 0,
+            noScore: [],
+            missingEvidence: 0,
+            participation: {
+              rows: [{ name: 'Ada', count: 3, share: 1, ratio: 1, belowHalf: false }],
+              belowHalfCount: 0,
+              caveat: 'Fewer than 10 contributions: shares are unstable.',
+            },
+            tables: [table('attainment-a', 'Outcome attainment')],
+          },
+        ],
+        reliability: {
+          raters: 0,
+          pairs: 0,
+          exact: null,
+          withinOne: null,
+          kappa: null,
+          icc: null,
+          caveat: null,
+          lowest: [],
+          table: table('reliability', 'Rubric reliability between evaluators'),
+        },
+      }),
+      'classroom:gradebook': () => ({
+        header: ['Student ID', 'Student'],
+        rows: [['1', 'Ada']],
+        csv: 'x',
+        fileName: 'g.csv',
+        warnings: [{ kind: 'missing-id', student: 'Bo' }],
+        layouts: [],
+      }),
+    })
+    open()
+    expect(await screen.findByRole('heading', { name: 'Outcome attainment' })).toBeTruthy()
+    fireEvent.click(await screen.findByRole('button', { name: 'Preview' }))
+    expect(await screen.findByText(/Bo has no student id/)).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Save the CSV file' })).toBeTruthy()
+    expect(screen.getByText(/Grades are education records/)).toBeTruthy()
     expect(await violations()).toEqual([])
   })
 })

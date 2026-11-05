@@ -74,3 +74,36 @@ you; they are never attributed from the recording.
 Give the roles and the number of sessions and choose **Plan the rotation**. Each session covers
 every role, and a student does not repeat a role until they have played them all. If the roster is
 too small to cover the roles, the plan says so.
+
+## Exporting grades
+
+Under **Gradebook export**, choose a section and choose **Preview**. The preview lists what the file
+will hold and warns about students without a score, students without a student id, and practice
+runs, which are always left out. You can add a column per outcome (percent), per rubric criterion
+(points) and a short comment. Points are weighted rubric points. **Save the CSV file** keeps it on
+your computer; nothing is sent anywhere. Cells that a spreadsheet could read as a formula are made
+safe. Upload the file through your gradebook's import screen and map the columns there. Automatic
+grade passback from the learning management system is not available.
+
+Grades are education records held by your institution, so exporting them is your decision.
+
+## Dashboard
+
+The dashboard shows, for each section: how many students reached your attainment threshold for
+each outcome, the spread of scores, which students have no score yet, which roles in the rotation a
+student has not played, and how many graded and practice runs there were. Practice runs never count
+toward attainment or distributions. Every figure is also a table you can download as a CSV.
+
+When two or more evaluators rated the same student on the same criterion, the dashboard shows how
+often they agreed exactly and within one level, a weighted kappa for two evaluators or an intraclass
+correlation for three or more, and the criteria with the lowest agreement. Participation shows each
+student's share of decisions and hot wash contributions against an even share. It is an aid for you,
+not a grade. With few ratings these numbers are unstable, and the screen says so.
+
+## Accommodations
+
+Record adjustments for a student: a time multiplier for that student's timed responses and prompts
+(the shared clock does not change), written or spoken responses, a screen-reader or large-print
+packet, breaks, and an observer or evaluator role with an equivalent rubric. They record
+adjustments, not diagnoses. They are private to you: they are left out of shared files, the After
+Action Report and the dashboard, which shows only a count.
