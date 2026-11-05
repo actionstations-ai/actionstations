@@ -1,0 +1,47 @@
+<!-- Joint Information Center claims line notice, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>JOINT INFORMATION CENTER NOTICE: CLAIMS</h1>
+      <span class="id">JIC</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Issued</span><span class="v">{{fields.issued}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Claims line</span><span class="v">{{fields.claimsLine}}</span>
+      </div>
+      <div class="cell w2">
+        <span class="label">Responsible party</span
+        ><span class="v">{{fields.responsibleParty}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">What this is</span>
+      <div class="v body">{{nl2br fields.summary}}</div>
+    </div>
+    <div class="block">
+      <span class="label">How to file</span>
+      <ol class="v">
+        {{#each fields.howTo}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </div>
+    <div class="block">
+      <span class="label">If your claim is not paid</span>
+      <div class="v body">{{nl2br fields.nextStep}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. Fictional responsible party and numbers. Under the Oil Pollution Act a claim
+      goes to the responsible party first.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

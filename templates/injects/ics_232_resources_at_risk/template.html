@@ -1,0 +1,63 @@
+<!-- ICS 232 Resources at Risk Summary, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>RESOURCES AT RISK SUMMARY</h1>
+      <span class="id">ICS 232</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">1. Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">2. Operational period</span
+        ><span class="v">{{fields.operationalPeriod}}</span>
+      </div>
+      <div class="cell w2">
+        <span class="label">3. Forecast used</span><span class="v">{{fields.forecastBasis}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">4. First landfall (predicted)</span
+        ><span class="v">{{fields.landfall}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">5. Resources at risk, in priority order</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 6%">Pri.</th>
+            <th style="width: 22%">Resource at risk</th>
+            <th style="width: 16%">Location</th>
+            <th style="width: 12%">Predicted contact</th>
+            <th style="width: 22%">Special considerations</th>
+            <th style="width: 22%">Protection strategy</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.resources}}
+          <tr>
+            <td><span class="v">{{this.priority}}</span></td>
+            <td><span class="v">{{this.resource}}</span></td>
+            <td><span class="v">{{this.location}}</span></td>
+            <td><span class="v">{{this.arrival}}</span></td>
+            <td><span class="v">{{this.consideration}}</span></td>
+            <td><span class="v">{{this.strategy}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">6. Prepared by (Environmental Unit Leader) and date/time</span>
+      <div class="v body">{{nl2br fields.preparedBy}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product modeled on the structure of the public ICS form. Not the official form: use
+      the current Coast Guard or EPA version for a real incident.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

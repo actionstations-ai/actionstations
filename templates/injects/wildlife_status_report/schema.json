@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wildlife status report",
+  "description": "Wildlife Branch counts of oiled and hazed animals and the status of capture, stabilization and rehabilitation, with permits and needs. Up to 7 species group rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "reportTime": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["11/05/2026 1600"]
+    },
+    "director": {
+      "type": "string",
+      "description": "Wildlife Branch Director",
+      "examples": ["Dr. A. Banerjee"]
+    },
+    "permits": {
+      "type": "string",
+      "description": "Permits",
+      "examples": ["State rehabilitation permit and federal migratory bird permit in effect"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Stabilization facility",
+      "examples": ["Fairhope field station; 40-bird capacity"]
+    },
+    "counts": {
+      "type": "array",
+      "description": "Counts",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "group": {
+            "type": "string",
+            "description": "Species group",
+            "examples": ["Brown pelican"]
+          },
+          "captured": {
+            "type": "string",
+            "description": "Oiled, live, captured",
+            "examples": ["6"]
+          },
+          "dead": {
+            "type": "string",
+            "description": "Oiled, dead",
+            "examples": ["2"]
+          },
+          "hazed": {
+            "type": "string",
+            "description": "Hazed",
+            "examples": ["40"]
+          },
+          "rehab": {
+            "type": "string",
+            "description": "In rehabilitation",
+            "examples": ["5"]
+          },
+          "released": {
+            "type": "string",
+            "description": "Released",
+            "examples": ["0"]
+          }
+        }
+      }
+    },
+    "activities": {
+      "type": "string",
+      "description": "Activities in the period",
+      "examples": [
+        "Hazing at the Heron Bay marsh mouth from 0700. Two capture teams on the bar. Search along the shoreline segments HB-01 to HB-03."
+      ]
+    },
+    "needs": {
+      "type": "string",
+      "description": "Needs and issues",
+      "examples": [
+        "Need a second stabilization trailer by 2000. Request approval from the state agency to extend hazing to the east bar."
+      ]
+    }
+  }
+}

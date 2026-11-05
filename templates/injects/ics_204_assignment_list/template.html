@@ -1,0 +1,75 @@
+<!-- ICS 204 Assignment List, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>ASSIGNMENT LIST</h1>
+      <span class="id">ICS 204</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">1. Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">2. Operational period</span
+        ><span class="v">{{fields.operationalPeriod}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">3. Branch</span><span class="v">{{fields.branch}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">4. Division / group</span><span class="v">{{fields.division}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">5. Staging area</span><span class="v">{{fields.staging}}</span>
+      </div>
+      <div class="cell w1">
+        <span class="label">6. Operations personnel</span
+        ><span class="v">{{fields.operationsPersonnel}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">7. Resources assigned</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 28%">Resource</th>
+            <th style="width: 20%">Leader</th>
+            <th style="width: 12%">No. of persons</th>
+            <th style="width: 20%">Transportation needed</th>
+            <th style="width: 20%">Contact / pick-up time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.resources}}
+          <tr>
+            <td><span class="v">{{this.resource}}</span></td>
+            <td><span class="v">{{this.leader}}</span></td>
+            <td><span class="v">{{this.persons}}</span></td>
+            <td><span class="v">{{this.transport}}</span></td>
+            <td><span class="v">{{this.pickup}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">8. Work assignments</span>
+      <div class="v body">{{nl2br fields.workAssignments}}</div>
+    </div>
+    <div class="block">
+      <span class="label">9. Special instructions</span>
+      <div class="v body">{{nl2br fields.specialInstructions}}</div>
+    </div>
+    <div class="block">
+      <span class="label">10. Communications</span>
+      <div class="v body">{{nl2br fields.communications}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product modeled on the structure of the public ICS form. Not the official form: use
+      the current Coast Guard or EPA version for a real incident.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

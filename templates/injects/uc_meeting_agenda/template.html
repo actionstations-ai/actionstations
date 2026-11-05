@@ -1,0 +1,68 @@
+<!-- Unified Command meeting agenda, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>UNIFIED COMMAND MEETING AGENDA</h1>
+      <span class="id">Planning P</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Meeting</span><span class="v">{{fields.meeting}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Date and time</span><span class="v">{{fields.dateTime}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Location</span><span class="v">{{fields.location}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Chair</span><span class="v">{{fields.chair}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Attendees</span>
+      <ol class="v">
+        {{#each fields.attendees}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </div>
+    <div class="block">
+      <span class="label">Agenda</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 9%">Time</th>
+            <th style="width: 34%">Topic</th>
+            <th style="width: 22%">Lead</th>
+            <th style="width: 35%">Needed from the meeting</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.items}}
+          <tr>
+            <td><span class="v">{{this.time}}</span></td>
+            <td><span class="v">{{this.topic}}</span></td>
+            <td><span class="v">{{this.lead}}</span></td>
+            <td><span class="v">{{this.output}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">Pre-reads</span>
+      <div class="v body">{{nl2br fields.preReads}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. The meeting sequence follows the Planning P: objectives meeting, strategy
+      meeting, planning meeting, operations briefing.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

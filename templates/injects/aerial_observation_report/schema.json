@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aerial observation report",
+  "description": "An observer's report from an overflight: platform, conditions, and what was seen with position, extent and appearance. Appearance uses the common silver sheen to continuous true color scale. Up to 6 observations fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "flightDate": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["11/04/2026"]
+    },
+    "observer": {
+      "type": "string",
+      "description": "Observer",
+      "examples": ["D. Marchetti, Environmental Unit"]
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform",
+      "examples": ["Fixed wing, call sign Survey 7"]
+    },
+    "flightWindow": {
+      "type": "string",
+      "description": "Takeoff / landing",
+      "examples": ["0710 / 0905"]
+    },
+    "conditions": {
+      "type": "string",
+      "description": "Conditions",
+      "examples": ["Visibility 8 mi; sea state 2; wind SE 12 kt; overcast, no glare"]
+    },
+    "observations": {
+      "type": "array",
+      "description": "Observations",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["0724"]
+          },
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "examples": ["30.28 N, 88.07 W"]
+          },
+          "appearance": {
+            "type": "string",
+            "description": "Appearance",
+            "examples": ["Rainbow sheen with dark patches"]
+          },
+          "extent": {
+            "type": "string",
+            "description": "Extent",
+            "examples": ["Band 2.1 mi long, up to 300 ft wide"]
+          },
+          "movement": {
+            "type": "string",
+            "description": "Direction / notes",
+            "examples": ["Moving NW toward the marsh mouth"]
+          }
+        }
+      }
+    },
+    "wildlife": {
+      "type": "string",
+      "description": "Wildlife and other resources seen",
+      "examples": [
+        "About 40 brown pelicans resting on the northeast bar; no visibly oiled birds. Two fishing boats inside the oiled area; no sign of response vessels there."
+      ]
+    },
+    "recommendations": {
+      "type": "string",
+      "description": "Recommendations",
+      "examples": [
+        "Reposition one skimmer to the east end of the slip. Place a second observer on the 1100 flight to check the marsh mouth."
+      ]
+    }
+  }
+}

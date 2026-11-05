@@ -1,0 +1,71 @@
+<!-- National Response Center report record, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>NRC REPORT RECORD AND NOTIFICATION LOG</h1>
+      <span class="id">Notifications</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">NRC report number</span><span class="v">{{fields.reportNumber}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Discovered</span><span class="v">{{fields.discovered}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Reported to NRC</span><span class="v">{{fields.reportedAt}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Caller</span><span class="v">{{fields.caller}}</span>
+      </div>
+      <div class="cell w2">
+        <span class="label">Material and amount</span><span class="v">{{fields.product}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Water body</span><span class="v">{{fields.waterbody}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Cause (initial)</span><span class="v">{{fields.cause}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Notifications</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 26%">Who</th>
+            <th style="width: 10%">Time</th>
+            <th style="width: 20%">By</th>
+            <th style="width: 12%">How</th>
+            <th style="width: 32%">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.notifications}}
+          <tr>
+            <td><span class="v">{{this.who}}</span></td>
+            <td><span class="v">{{this.time}}</span></td>
+            <td><span class="v">{{this.by}}</span></td>
+            <td><span class="v">{{this.how}}</span></td>
+            <td><span class="v">{{this.remarks}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">Remarks</span>
+      <div class="v body">{{nl2br fields.remarks}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. In the exercise no real call is made to the National Response Center; the
+      report number is fictional.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

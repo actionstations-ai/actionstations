@@ -59,7 +59,7 @@ describe('DomainProfilePicker', () => {
     const combo = screen.getByRole('combobox', { name: 'Domain' })
     await user.type(combo, 'water')
     const options = screen.getAllByRole('option').map((o) => o.getAttribute('data-profile'))
-    expect(options).toEqual(['water_dam', 'water_utility', 'flooding'])
+    expect(options).toEqual(['water_dam', 'water_utility', 'environmental_response', 'flooding'])
     await user.keyboard('{ArrowDown}')
     expect(screen.getByTestId('value').textContent).toBe('water_dam')
     await user.keyboard('{ArrowDown}')

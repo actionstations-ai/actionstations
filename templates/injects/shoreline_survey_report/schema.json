@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shoreline survey report",
+  "description": "A shoreline assessment team's report for one or more segments: shoreline type, oiling category, length and width oiled, and a recommended treatment with constraints. Up to 7 segment rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "surveyDate": {
+      "type": "string",
+      "description": "Survey date and tide",
+      "examples": ["11/05/2026; low tide 0912"]
+    },
+    "team": {
+      "type": "string",
+      "description": "Team",
+      "examples": ["SCAT Team 2: M. Ito (lead), Dr. A. Banerjee (wildlife), state observer"]
+    },
+    "method": {
+      "type": "string",
+      "description": "Method",
+      "examples": ["Walking survey from skiff; photos tagged to segment"]
+    },
+    "weather": {
+      "type": "string",
+      "description": "Weather",
+      "examples": ["Clear, wind SE 8 kt"]
+    },
+    "segments": {
+      "type": "array",
+      "description": "Segments",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "segment": {
+            "type": "string",
+            "description": "Segment",
+            "examples": ["HB-03"]
+          },
+          "shoreline": {
+            "type": "string",
+            "description": "Shoreline type",
+            "examples": ["Salt marsh (10A)"]
+          },
+          "length": {
+            "type": "string",
+            "description": "Length",
+            "examples": ["420 ft"]
+          },
+          "oiling": {
+            "type": "string",
+            "description": "Oiling",
+            "examples": ["Light"]
+          },
+          "width": {
+            "type": "string",
+            "description": "Width oiled",
+            "examples": ["10 ft"]
+          },
+          "treatment": {
+            "type": "string",
+            "description": "Recommended treatment",
+            "examples": ["Natural recovery; sorbent boom at the fringe"]
+          },
+          "constraints": {
+            "type": "string",
+            "description": "Constraints",
+            "examples": ["Nesting; foot traffic prohibited"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes and photo log",
+      "examples": [
+        "Photos 114 to 139 cover HB-01 through HB-03. Tar balls 1 to 3 inches along the HB-01 wrack line. No oiled wildlife found in these segments."
+      ]
+    }
+  }
+}

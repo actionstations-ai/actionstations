@@ -1,0 +1,64 @@
+<!-- Shoreline survey report, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>SHORELINE SURVEY REPORT</h1>
+      <span class="id">SCAT</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Survey date and tide</span><span class="v">{{fields.surveyDate}}</span>
+      </div>
+      <div class="cell"><span class="label">Team</span><span class="v">{{fields.team}}</span></div>
+      <div class="cell w2">
+        <span class="label">Method</span><span class="v">{{fields.method}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Weather</span><span class="v">{{fields.weather}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Segments</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 9%">Segment</th>
+            <th style="width: 17%">Shoreline type</th>
+            <th style="width: 9%">Length</th>
+            <th style="width: 9%">Oiling</th>
+            <th style="width: 10%">Width oiled</th>
+            <th style="width: 26%">Recommended treatment</th>
+            <th style="width: 20%">Constraints</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.segments}}
+          <tr>
+            <td><span class="v">{{this.segment}}</span></td>
+            <td><span class="v">{{this.shoreline}}</span></td>
+            <td><span class="v">{{this.length}}</span></td>
+            <td><span class="v">{{this.oiling}}</span></td>
+            <td><span class="v">{{this.width}}</span></td>
+            <td><span class="v">{{this.treatment}}</span></td>
+            <td><span class="v">{{this.constraints}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">Notes and photo log</span>
+      <div class="v body">{{nl2br fields.notes}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. Segment IDs, shoreline types and oiling categories follow the survey method
+      the Area Contingency Plan names; use the local forms for a real survey.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

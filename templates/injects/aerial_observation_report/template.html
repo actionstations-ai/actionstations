@@ -1,0 +1,69 @@
+<!-- Aerial observation report, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>AERIAL OBSERVATION REPORT</h1>
+      <span class="id">Overflight</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Date</span><span class="v">{{fields.flightDate}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Observer</span><span class="v">{{fields.observer}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Platform</span><span class="v">{{fields.platform}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Takeoff / landing</span><span class="v">{{fields.flightWindow}}</span>
+      </div>
+      <div class="cell w1">
+        <span class="label">Conditions</span><span class="v">{{fields.conditions}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Observations</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 8%">Time</th>
+            <th style="width: 17%">Position</th>
+            <th style="width: 24%">Appearance</th>
+            <th style="width: 20%">Extent</th>
+            <th style="width: 31%">Direction / notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.observations}}
+          <tr>
+            <td><span class="v">{{this.time}}</span></td>
+            <td><span class="v">{{this.position}}</span></td>
+            <td><span class="v">{{this.appearance}}</span></td>
+            <td><span class="v">{{this.extent}}</span></td>
+            <td><span class="v">{{this.movement}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">Wildlife and other resources seen</span>
+      <div class="v body">{{nl2br fields.wildlife}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Recommendations</span>
+      <div class="v body">{{nl2br fields.recommendations}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. Observer estimates of thickness and coverage are approximate: say so, and
+      report what was seen, not what was expected.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

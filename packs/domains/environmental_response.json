@@ -1,0 +1,859 @@
+{
+  "id": "environmental_response",
+  "label": "Environmental response (oil and hazardous releases)",
+  "description": "The people who manage a release of oil or a hazardous substance: a responsible party's incident management team (the older plans call it the spill management team), its qualified individual and response contractors, the Coast Guard or EPA On-Scene Coordinator and the Area Committee in a unified command, the state agencies, and the water utilities and wildlife agencies downstream.",
+  "aliases": [
+    "environmental_response",
+    "oil_spill",
+    "oil_spill_response",
+    "spill_response",
+    "spill_management_team",
+    "smt",
+    "incident_management_team",
+    "imt",
+    "osro",
+    "oil_spill_removal_organization",
+    "unified_command",
+    "area_committee",
+    "area_contingency_plan",
+    "acp",
+    "facility_response_plan",
+    "frp",
+    "vessel_response_plan",
+    "vrp",
+    "worst_case_discharge",
+    "wcd",
+    "prep",
+    "environmental_unit",
+    "fosc",
+    "osc",
+    "responsible_party"
+  ],
+  "vocabulary": {
+    "facility": "the source of the release (a vessel, terminal, tank farm, pipeline or platform) and the response organization built around it",
+    "public": "shoreline communities, fishers, boaters, water customers and the people near the plume",
+    "frontline": "OSRO crews, boom and skimmer operators, wildlife responders, shoreline survey teams, vessel masters, terminal operators, field engineers",
+    "operationsCenter": "the Incident Command Post and the unified command, with the Joint Information Center"
+  },
+  "factCategories": [
+    {
+      "id": "facilities",
+      "label": "Facilities and tanks",
+      "pattern": "\\b((?:Tank|TK)[- ]?\\d{1,4}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "segments",
+      "label": "Shoreline segments",
+      "pattern": "\\b([A-Z]{1,3}-\\d{1,3}[A-Z]?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "divisions",
+      "label": "Divisions and groups",
+      "noun": "Divisions?|Groups?|Zones?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "boom_sites",
+      "label": "Boom sites and staging areas",
+      "noun": "Boom Sites?|Staging Areas?|Landings?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "sensitive_areas",
+      "label": "Sensitive areas",
+      "noun": "Sensitive Areas?|Priority Areas?|ESI Segments?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "the Incident Command Post network and the unified command board (WebEOC style)",
+      "ERMA or a similar common operational picture",
+      "the trajectory model and the oil weathering model run by the Scientific Support Coordinator",
+      "ICS forms and the incident action plan",
+      "resource tracking for boom, skimmers, boats and aircraft",
+      "GPS-tagged field reports and photos",
+      "waste manifests and storage tracking",
+      "email, a claims system and the Joint Information Center website"
+    ],
+    "ot": [
+      "pipeline SCADA with leak detection and remote valves (at the source)",
+      "tank gauging and transfer system shutdown",
+      "vessel tracking (AIS) and vessel traffic service",
+      "tide, current and wind sensors and buoys",
+      "drones and aircraft for surveillance",
+      "fixed and portable air monitors",
+      "intake and treatment SCADA at a downstream water utility"
+    ]
+  },
+  "roles": [
+    {
+      "key": "qi",
+      "name": "Qualified Individual",
+      "abbreviation": "QI",
+      "team": "Responsible party",
+      "description": "Has full authority to activate the plan and contract resources; makes the first notifications and activates the OSRO."
+    },
+    {
+      "key": "fosc",
+      "name": "Federal On-Scene Coordinator",
+      "abbreviation": "FOSC",
+      "team": "Unified command",
+      "description": "Coast Guard or EPA; directs the federal response and decides on countermeasures with the Regional Response Team."
+    },
+    {
+      "key": "sosc",
+      "name": "State On-Scene Coordinator",
+      "abbreviation": "SOSC",
+      "team": "Unified command",
+      "description": "Sets state priorities, wildlife and fishery closures in state waters."
+    },
+    {
+      "key": "rpic",
+      "name": "Responsible Party Incident Commander",
+      "abbreviation": "RP IC",
+      "team": "Unified command",
+      "description": "Commits company resources and cost; proposes strategies to the unified command."
+    },
+    {
+      "key": "ops",
+      "name": "Operations Section Chief",
+      "abbreviation": "OSC",
+      "team": "Operations",
+      "description": "Owns the tactical plan: source control, containment, recovery, shoreline cleanup, wildlife, burning and dispersant operations."
+    },
+    {
+      "key": "plan",
+      "name": "Planning Section Chief",
+      "abbreviation": "PSC",
+      "team": "Planning",
+      "description": "Owns the incident action plan, the situation picture, the trajectory forecasts and the next operational period's plan."
+    },
+    {
+      "key": "envl",
+      "name": "Environmental Unit Leader",
+      "abbreviation": "ENVL",
+      "team": "Planning",
+      "description": "Ranks sensitive areas and resources at risk, tracks permits and consultations, waste plan and sampling."
+    },
+    {
+      "key": "ssc",
+      "name": "Scientific Support Coordinator",
+      "abbreviation": "SSC",
+      "team": "Federal advisor",
+      "description": "NOAA advisor to the FOSC for trajectories, weathering, resources at risk and the trade-offs of countermeasures."
+    },
+    {
+      "key": "log",
+      "name": "Logistics Section Chief",
+      "abbreviation": "LSC",
+      "team": "Logistics",
+      "description": "Supplies boom, boats, aircraft, staging, vessels of opportunity, personnel and lodging."
+    },
+    {
+      "key": "fin",
+      "name": "Finance/Administration Section Chief",
+      "abbreviation": "FSC",
+      "team": "Finance",
+      "description": "Tracks cost and claims and the interface with the Oil Spill Liability Trust Fund."
+    },
+    {
+      "key": "safety",
+      "name": "Safety Officer",
+      "abbreviation": "SO",
+      "team": "Command staff",
+      "description": "Owns the site safety plan, air monitoring, heat stress, vessel and aircraft safety."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer (Joint Information Center)",
+      "abbreviation": "PIO",
+      "team": "Command staff",
+      "description": "Joint Information Center messages, community meetings, the claims line, fishing and recreation advisories."
+    },
+    {
+      "key": "wild",
+      "name": "Wildlife Branch Director",
+      "abbreviation": "WLD",
+      "team": "Operations",
+      "description": "Hazing, capture, stabilization and rehabilitation of wildlife with the permits of the state and the Fish and Wildlife Service."
+    },
+    {
+      "key": "osro",
+      "name": "OSRO Duty Manager",
+      "abbreviation": "OSRO",
+      "team": "Operations",
+      "description": "The response contractor's duty manager: equipment, crews, skimmers and boom named in the plan."
+    }
+  ],
+  "outsideParties": [
+    "the National Response Center",
+    "the Coast Guard Sector and Captain of the Port",
+    "the EPA regional office",
+    "the Regional Response Team",
+    "NOAA Office of Response and Restoration",
+    "the US Fish and Wildlife Service",
+    "the state fish and wildlife agency",
+    "tribal governments",
+    "natural resource trustees",
+    "fishing and marine industry associations",
+    "the port authority",
+    "a downstream water utility",
+    "local emergency management and fire",
+    "the pipeline or terminal regulator",
+    "an oil spill removal organization",
+    "the media and affected communities"
+  ],
+  "mediaChannels": [
+    "local TV with aerial footage of the slick",
+    "photos of oiled birds and shorelines on social media",
+    "a fishers' association statement",
+    "an environmental group's press conference",
+    "a community Facebook group",
+    "national outlets for a large release"
+  ],
+  "sceneAnchors": {
+    "public": "a coastal town waterfront with a boat ramp and fishing boats, residents at a rope barrier watching, a hazy sky",
+    "control": "an incident command post in a conference room: a wall map of a bay with boom positions, section chiefs at laptops, an ICS organization chart on a whiteboard",
+    "exterior": "a marsh shoreline with orange boom in the water, a work boat and responders in coveralls and life vests, overcast sky"
+  },
+  "injectTypes": [
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "email",
+    "memo",
+    "press_release",
+    "official_letter",
+    "news_chyron_still",
+    "tweet",
+    "facebook_post",
+    "text_message",
+    "status_board",
+    "sitrep",
+    "map_annotation",
+    "scene_photo",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "regulatory_notice"
+  ],
+  "threatFamilies": [
+    "vessel_cargo_release",
+    "tank_facility_release",
+    "pipeline_river_release",
+    "offshore_well_release",
+    "spill_toxic_plume",
+    "marine_firefight_salvage",
+    "water_intake_threat",
+    "wildlife_shoreline_impact",
+    "infrastructure_failure",
+    "natural_hazard"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "vessel_cargo_release",
+      "label": "Vessel casualty with cargo or fuel release",
+      "description": "A grounding, collision or hull failure releases cargo or bunker fuel into a waterway; the vessel owner's qualified individual, the salvors and the Coast Guard form a unified command.",
+      "keywords": [
+        "vessel casualty",
+        "grounding",
+        "allision",
+        "collision",
+        "bunker",
+        "tanker",
+        "barge",
+        "cargo release",
+        "hull breach",
+        "oil spill",
+        "spill"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "Notice reaches the right people in the right order: the vessel reports, the qualified individual activates the plan, the National Response Center is called.",
+          "beats": [
+            "The master reports a grounding and a sheen to the Coast Guard Sector",
+            "The qualified individual finds the vessel response plan and the salvage and OSRO contract numbers",
+            "A first overflight finds more sheen than the vessel reported"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "A unified command forms from three agencies with different priorities; the casualty and the spill compete for resources.",
+          "beats": [
+            "The Coast Guard asks for a command post and an Incident Commander from the owner",
+            "Salvage wants to refloat; the FOSC wants a stability assessment first",
+            "The OSRO reports only half the plan's equipment is within the response time"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "The trajectory forecast and the sensitive-area ranking drive where the first boom goes; the clock is landfall.",
+          "beats": [
+            "The Scientific Support Coordinator delivers a 24 and 48 hour trajectory with an uncertainty envelope",
+            "Two sensitive areas cannot both be protected with the boom on hand",
+            "Wind shifts and the forecast moves landfall earlier",
+            "A countermeasure request must be decided before the weather closes the window"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Recovery, shoreline cleanup and claims run into the next operational periods and the Hot Wash.",
+          "beats": [
+            "Lightering reduces the remaining cargo risk",
+            "Shoreline assessment teams report oiling and the cleanup endpoint is argued",
+            "A fishing closure and a claims line are announced"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "commit the limited boom to the marsh or to the water intake",
+        "ask for dispersant now or wait for the next forecast",
+        "lighten the vessel before the weather turns or hold to avoid a larger release",
+        "close a shipping channel and accept the port delay"
+      ],
+      "clueKinds": "a pilot report, an overflight sheen, a tank sounding, a stability calculation, a vessel tracking position, a sample result",
+      "hurdleKinds": "boom or boats not where the plan says, weather closing the window, a salvage plan that conflicts with the recovery plan, a vessel of opportunity not cleared for oil work",
+      "keyCoordination": "the Coast Guard Captain of the Port as Federal On-Scene Coordinator, the state, and the salvage master",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "Worst case discharge for a vessel means its entire cargo in adverse weather; do not use the facility sense. Quantities in barrels or gallons, never mixed in one document.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "tank_facility_release",
+      "label": "Facility or tank release",
+      "description": "A tank, pipe or transfer failure at a terminal or plant releases oil or a hazardous liquid that reaches secondary containment, a drain or the water.",
+      "keywords": [
+        "tank release",
+        "tank failure",
+        "tank farm",
+        "terminal release",
+        "dike",
+        "secondary containment",
+        "overfill",
+        "transfer spill",
+        "facility response plan"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "The release is found and reported inside the facility's own clock; the qualified individual decides what is reportable.",
+          "beats": [
+            "An operator finds product in the dike and the sump alarm is inhibited",
+            "The qualified individual and the OSRO are called before the volume is known",
+            "The first volume estimate is revised upward"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "The facility's incident management team stands up and the federal and state coordinators join.",
+          "beats": [
+            "The facility response plan names the team and the equipment",
+            "An outside responder asks who has authority to commit contractors",
+            "The fire department and the environmental team disagree on foam use"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "Containment inside the facility fails or holds; the sensitive area downstream sets the priority.",
+          "beats": [
+            "A drain valve left open let product reach a ditch",
+            "Rain threatens to overflow the containment",
+            "The facility asks to use a chemical agent or burn"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Cleanup, waste handling and the plan review follow.",
+          "beats": [
+            "Waste manifests and storage for recovered product",
+            "The regulator asks for the exercise and drill records",
+            "The plan's worst case discharge volume is questioned"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "divert product to a second tank or accept the risk of overflowing the dike",
+        "let the fire burn or cool the tank and spread foam runoff",
+        "open the dike to the ditch to protect the tank farm",
+        "shut down the neighboring unit"
+      ],
+      "clueKinds": "a gauge reading, a sump alarm, a dike inspection, a drain valve line-up, an operator log entry",
+      "hurdleKinds": "a transfer pump that will not start, a vacuum truck stuck in the mud, a drain valve that cannot be closed, waste storage full",
+      "keyCoordination": "the state environmental agency and the Coast Guard or EPA On-Scene Coordinator",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "A facility's worst case discharge is the volume stated in its plan, not the largest conceivable; compare the exercise volume with the plan volume.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "pipeline_river_release",
+      "label": "Pipeline release to a river or wetland",
+      "description": "A hazardous liquid pipeline releases crude or product into a creek or river; the oil travels downstream faster than the response forms.",
+      "keywords": [
+        "pipeline release",
+        "pipeline rupture",
+        "pipeline spill",
+        "crude release",
+        "river spill",
+        "creek",
+        "wetland",
+        "hazardous liquid pipeline",
+        "leak detection"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "A leak is recognized late; the control room, field crew and a member of the public each hold a piece.",
+          "beats": [
+            "A pressure drop and a landowner call arrive minutes apart",
+            "The control room restarts the line after an alarm",
+            "The first caller to the National Response Center is a neighbor, not the operator"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "The operator isolates the line, activates the plan and joins a unified command with the state.",
+          "beats": [
+            "Valve closure is confirmed in the field",
+            "The estimated volume is argued: the model, the meter and the field disagree",
+            "Local responders ask what is in the product"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "Travel time to the downstream intake and the nearest wetland sets the clock; upstream and downstream teams split.",
+          "beats": [
+            "The river gauge shows a rise that speeds the oil",
+            "The water utility asks for a time and a concentration",
+            "Boom held by a bridge or a dam changes the plan",
+            "A town 20 miles down asks to be told"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Recovery in a river, sampling, waste, restoration and the investigation.",
+          "beats": [
+            "Sunken or submerged oil complicates recovery",
+            "The regulator opens an investigation of leak detection",
+            "The operator's response plan is reviewed within 30 days of a change in the worst case discharge"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "restart the line to find out whether the leak is real",
+        "close the downstream intake early and lose supply, or wait for more certainty",
+        "open a dam gate to flush the river or hold the oil behind it",
+        "ask to burn oil on the river"
+      ],
+      "clueKinds": "a pressure trend, a pump trip, a landowner call, a smell report, a gauge rise, a field valve status",
+      "hurdleKinds": "a closed road to the valve site, boom that cannot be set in current above a set speed, ice, a landowner who denies access",
+      "keyCoordination": "the downstream water utility, the state, and the pipeline regulator",
+      "purposeMix": {
+        "CLUE": 30,
+        "PRESSURE": 20,
+        "DECISION_POINT": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "Leak recognition belongs in the pipeline control room exercise; the spill response starts when someone calls. Gauge readings and arrival estimates carry uncertainty.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "technical"
+      }
+    },
+    {
+      "id": "offshore_well_release",
+      "label": "Offshore release",
+      "description": "A platform, pipeline or well releases oil offshore; response depends on aircraft, vessels and source control more than shore teams.",
+      "keywords": [
+        "offshore release",
+        "platform",
+        "well control",
+        "blowout",
+        "subsea",
+        "offshore spill",
+        "lease"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "The operator and the regulator get word through different channels; volume is uncertain.",
+          "beats": [
+            "A sheen reported by a supply boat captain",
+            "The source control team asks for the well plan",
+            "The first estimate of flow rate is a range, not a number"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "The operator's team, the Coast Guard, the offshore regulator and the state form a unified command; source control is the top objective.",
+          "beats": [
+            "The operator wants to focus on the well, the state on the shore",
+            "Aircraft and vessels for dispersant application are queued behind other uses"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "Offshore recovery and dispersants against a shoreline clock; the forecast is a cone, not a line.",
+          "beats": [
+            "Winds hold the slick offshore for a day, then turn",
+            "Subsea dispersant use requires a decision with limited data",
+            "Fishers ask for compensation before closure"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Long operations; the demobilization question: when is it done?",
+          "beats": [
+            "Shoreline assessment endpoints",
+            "A natural resource trustee asks to join sampling"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "approve a countermeasure with incomplete monitoring data",
+        "move equipment from one coast to another",
+        "pull vessels off station in a storm",
+        "declare a closure of the whole fishing area"
+      ],
+      "clueKinds": "a platform status report, a flow estimate, a satellite sheen detection, a pressure reading",
+      "hurdleKinds": "distance and weather that stop boats, aircraft in short supply, a tool that fails in the well",
+      "keyCoordination": "the offshore regulator and the Coast Guard, with the state for the shore",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 25,
+        "DECISION_POINT": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "Offshore volumes are large and uncertain; state ranges. Operator, regulator and Coast Guard each own different decisions.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "spill_toxic_plume",
+      "label": "Chemical release with a toxic plume",
+      "description": "A chemical release produces a vapor cloud as well as a liquid spill; air monitoring and protective action decisions run alongside the water response.",
+      "keywords": [
+        "toxic plume",
+        "vapor cloud",
+        "chlorine release",
+        "ammonia release",
+        "toxic release",
+        "hazmat release",
+        "shelter in place",
+        "protective action",
+        "plume"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "A release is reported with an unknown product; the plant, 911 and a driver each name it differently.",
+          "beats": [
+            "The shipping paper and the placard disagree",
+            "The plant reports an off-site odor"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "Incident command and the response organization share a unified command; air monitoring starts.",
+          "beats": [
+            "The fire department hazmat team asks for the product data sheet",
+            "Spill and plume responsibilities blur"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "The plume footprint and the wind drive the shelter or evacuate decision; the spill drains to a creek.",
+          "beats": [
+            "Concentration readings at the fence line disagree with the model",
+            "A school sits inside the yellow zone",
+            "The wind shifts toward a nursing home"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "All clear, re-entry and the water-side cleanup.",
+          "beats": ["Clearance sampling", "A community meeting demands answers"]
+        }
+      ],
+      "decisionPointExamples": [
+        "shelter in place or evacuate a neighborhood",
+        "close a road and a rail line for how long",
+        "open the spill to the creek or hold it on site",
+        "tell the downstream intake now or after sampling"
+      ],
+      "clueKinds": "a monitor reading, a shipping paper, a placard, an odor complaint, a wind shift on the site met tower",
+      "hurdleKinds": "a monitor that fails, a wind forecast that changes, a product name that is wrong on the paper",
+      "keyCoordination": "the fire department hazmat team and county emergency management",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 30,
+        "NOISE": 10
+      },
+      "promptGuidance": "Footprints are zones by concentration level for a stated product, wind and time; label every figure as an exercise model, not a forecast.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "marine_firefight_salvage",
+      "label": "Marine firefighting and salvage",
+      "description": "A vessel fire or casualty with cargo at risk: firefighting, stability, lightering and the spill that may follow.",
+      "keywords": [
+        "vessel fire",
+        "marine firefighting",
+        "salvage",
+        "lightering",
+        "stability",
+        "listing",
+        "capsize",
+        "ship fire"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "The fire and the potential spill are reported together; responders cannot yet tell which comes first.",
+          "beats": [
+            "The vessel reports fire in an engine room",
+            "The port requests a firefighting vessel"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "Command is shared among the fire service, the Coast Guard, the owner and the salvor.",
+          "beats": [
+            "Water used to fight the fire affects stability",
+            "A salvage plan needs agency approval"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "Trade-offs between the fire, stability and the oil; the sensitive area is a wetland near the berth.",
+          "beats": [
+            "The vessel lists after firefighting water",
+            "Boom is placed before the fire is out"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Removal of the vessel, lightering and cleanup.",
+          "beats": ["The salvage master and the FOSC disagree on the tow route"]
+        }
+      ],
+      "decisionPointExamples": [
+        "keep fighting the fire and risk stability or hold and risk the cargo",
+        "tow into the port or anchor outside",
+        "sacrifice a berth or a channel",
+        "burn off or lighter the cargo"
+      ],
+      "clueKinds": "a stability calculation, a draft reading, a thermal image, a firefighter report",
+      "hurdleKinds": "firefighting vessels busy elsewhere, a berth not available, weather that stops lightering",
+      "keyCoordination": "the port authority, the pilots, the fire service and the salvor",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "Fire, stability and spill decisions are made by different people at once; show the dependencies.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "water_intake_threat",
+      "label": "Drinking water intake threatened",
+      "description": "A release upstream or along a coast threatens a drinking water intake; the utility, the response organization and the health agency each own part of the decision.",
+      "keywords": [
+        "water intake",
+        "drinking water",
+        "raw water",
+        "intake closure",
+        "upstream release",
+        "downstream intake",
+        "alternate supply"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "The utility learns of the release by phone from a third party; time to arrival is the first number needed.",
+          "beats": [
+            "A regional news alert reaches the utility before the operator's call",
+            "The utility asks for the product and a time"
+          ]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "The utility joins the unified command through a liaison; the health agency is brought in.",
+          "beats": [
+            "The utility's plan lists a closure trigger",
+            "The state drinking water program and the response organization disagree on the trigger"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "The closure decision against the arrival estimate and the storage on hand.",
+          "beats": [
+            "Storage covers 36 hours at normal demand",
+            "The model gives arrival between 2200 and 0200",
+            "An exclusion boom is placed at the intake"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Reopening depends on sampling; the public asks when the water is safe.",
+          "beats": ["Sample results arrive in batches", "The state sets the reopening criteria"]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the intake on the early arrival estimate or on the sample",
+        "issue a do-not-drink advisory or only a conservation request",
+        "switch to an alternate source that costs more and is lower quality",
+        "reopen on a clean sample or wait for three"
+      ],
+      "clueKinds": "a gauge, a trajectory run, a sample result, a hotline call, a boom position report",
+      "hurdleKinds": "a valve that will not close, an alternate source with a different chemistry, a lab backlog",
+      "keyCoordination": "the water utility, the state drinking water program and the unified command",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 30,
+        "NOISE": 10
+      },
+      "promptGuidance": "The utility decides to close its intake; the response organization advises with a time and a confidence. Use arrival windows, not a single time.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildlife_shoreline_impact",
+      "label": "Wildlife and sensitive shoreline impact",
+      "description": "Oil reaches a nesting area, a marsh or a recreational beach; wildlife, shoreline cleanup and public pressure dominate.",
+      "keywords": [
+        "oiled wildlife",
+        "wildlife",
+        "nesting",
+        "marsh",
+        "shoreline cleanup",
+        "oiled shoreline",
+        "beach closure",
+        "sensitive area",
+        "bird"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery and Notification",
+          "goal": "First oiled animals or oil on the shore are reported by the public before the response knows.",
+          "beats": ["A beachgoer posts a photo of an oiled bird", "The wildlife hotline overloads"]
+        },
+        {
+          "title": "Activation and Unified Command",
+          "goal": "Wildlife and shoreline branches are set up with permits; volunteers arrive.",
+          "beats": [
+            "Untrained volunteers handle oiled animals",
+            "A state agency asks to stop the hazing"
+          ]
+        },
+        {
+          "title": "Trajectory and Protection",
+          "goal": "Protecting the marsh or the beach, and the trade-off of cleanup damage.",
+          "beats": [
+            "Heavy cleanup in a marsh would harm the nesting birds",
+            "The tide and the wind move the oil"
+          ]
+        },
+        {
+          "title": "Recovery and Demobilization",
+          "goal": "Endpoints, restoration and trustees.",
+          "beats": [
+            "The cleanup endpoint is negotiated",
+            "A natural resource trustee begins an assessment"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "clean now and damage the habitat, or leave the oil to weather",
+        "haze birds from the area or leave them",
+        "close a beach during a holiday weekend",
+        "accept volunteers or turn them away"
+      ],
+      "clueKinds": "a SCAT survey, a wildlife count, an overflight observation, a photo from the public",
+      "hurdleKinds": "permits not in place, a rehabilitation facility full, a tide that blocks access",
+      "keyCoordination": "the state wildlife agency, the Fish and Wildlife Service and the natural resource trustees",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 35,
+        "DECISION_POINT": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "Only permitted responders handle wildlife; keep volunteers at the registration step. Cleanup can do more harm than the oil in some habitats.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a boater asking whether the bay is open",
+    "a contractor asking for a vessel of opportunity rate",
+    "a reporter asking for a tour of the staging area",
+    "a volunteer offering a boat without a safety course",
+    "a vendor offering a new sorbent product"
+  ],
+  "pressureExamples": [
+    "a fisher's video of black water at the dock with thousands of shares",
+    "a county commissioner demanding the volume figure now",
+    "a wildlife group saying responders are late",
+    "a utility manager asking for a firm arrival time the model cannot give",
+    "a state official asking for a different strategy than the federal coordinator"
+  ],
+  "rolePatterns": {
+    "technical": "ssc\\b|scientific support|situation unit|environmental unit",
+    "operations": "incident commander|operations|qi\\b|osro|fosc"
+  },
+  "agencyPattern": "NOAA|NRC|National Response Center|Coast Guard|Captain of the Port|Regional Response Team|RRT|Fish and Wildlife|PHMSA|BSEE|EPA",
+  "coreCapabilities": [
+    "environmental_response_health_and_safety",
+    "operational_coordination",
+    "public_information_and_warning",
+    "situational_assessment",
+    "logistics_and_supply_chain_management",
+    "planning"
+  ],
+  "suggestedToolkits": ["spill_plume", "media_environment"]
+}
