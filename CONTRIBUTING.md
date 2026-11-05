@@ -170,19 +170,20 @@ Adapter contract tests run on every `pnpm test` against recorded fixtures under 
 
 ## Design documents
 
-| Doc                                                                  | Purpose                                                 |
-| -------------------------------------------------------------------- | ------------------------------------------------------- |
-| [`docs/01-PRD.md`](docs/01-PRD.md)                                   | Product requirements                                    |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                 | Processes, storage, providers, rendering, export        |
-| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)           | Supported inject types, fields and render targets       |
-| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md) | HSEEP-style exercise structure the generator reproduces |
-| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                     | Project / Scenario / Inject / Asset schema              |
-| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)           | Issues, labels, milestones, branching, local CI         |
-| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                           | Milestones M0 to M6 of the first release                |
-| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)         | How handlers, routes, adapters and templates are wired  |
-| [`docs/packs-format.md`](docs/packs-format.md)                       | The `.aspack` format, `pack.json` and catalogs          |
-| [`docs/RELEASING.md`](docs/RELEASING.md)                             | Building installers and cutting a release               |
-| [`docs/research/domains/`](docs/research/domains/README.md)          | Research notes behind each domain profile and pack      |
+| Doc                                                                      | Purpose                                                   |
+| ------------------------------------------------------------------------ | --------------------------------------------------------- |
+| [`docs/01-PRD.md`](docs/01-PRD.md)                                       | Product requirements                                      |
+| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md)                     | Processes, storage, providers, rendering, export          |
+| [`docs/03-INJECT-TAXONOMY.md`](docs/03-INJECT-TAXONOMY.md)               | Supported inject types, fields and render targets         |
+| [`docs/04-TABLETOP-METHODOLOGY.md`](docs/04-TABLETOP-METHODOLOGY.md)     | HSEEP-style exercise structure the generator reproduces   |
+| [`docs/05-DATA-MODEL.md`](docs/05-DATA-MODEL.md)                         | Project / Scenario / Inject / Asset schema                |
+| [`docs/06-GITHUB-WORKFLOW.md`](docs/06-GITHUB-WORKFLOW.md)               | Issues, labels, milestones, branching, local CI           |
+| [`docs/08-ROADMAP.md`](docs/08-ROADMAP.md)                               | Milestones M0 to M6 of the first release                  |
+| [`docs/09-CODE-CONVENTIONS.md`](docs/09-CODE-CONVENTIONS.md)             | How handlers, routes, adapters and templates are wired    |
+| [`docs/packs-format.md`](docs/packs-format.md)                           | The `.aspack` format, `pack.json` and catalogs            |
+| [`docs/RELEASING.md`](docs/RELEASING.md)                                 | Building installers and cutting a release                 |
+| [`docs/developers/adding-a-field.md`](docs/developers/adding-a-field.md) | Adding a professional field: domain, toolkit, code, tests |
+| [`docs/research/domains/`](docs/research/domains/README.md)              | Research notes behind each domain profile and pack        |
 
 ### Architecture decision records
 
