@@ -19,5 +19,13 @@ Every patient, organization, drug record, lot and registration number in an exer
 - ASHP guidelines on managing drug product shortages: https://www.ashp.org/
 - USP general chapters on compounding (797 and 800): https://www.usp.org/
 - FDA drug shortages: https://www.fda.gov/drugs/drug-safety-and-availability/drug-shortages
-- CDC Vaccine Storage and Handling Toolkit: https://www.cdc.gov/vaccines/hcp/admin/storage/toolkit/
+- CDC Vaccine Storage and Handling Toolkit: https://www.cdc.gov/vaccines/hcp/storage-handling/index.html
 - DEA Diversion Control Division: https://www.deadiversion.usdoj.gov/
+
+## Reference library
+
+The separate **Pharmacy reference library** pack carries documents whose public-domain status was checked: the CFR text of 42 CFR 482.25 (hospital pharmaceutical services) and 21 CFR 1301.76 (theft or loss of controlled substances), CMS Appendix Z and the FEMA guidance on healthcare facilities and power outages. The CDC Vaccine Storage and Handling Toolkit is linked, not bundled: cdc.gov refuses scripted downloads, so the file could not be pinned by hash. FDA pages, ASPR TRACIE documents, ASHP guidelines, USP chapters and Joint Commission standards are linked or named and not bundled; the library README lists each with the reason.
+
+## Replaying FDA shortage records
+
+The connector **FDA drug shortage records (openFDA)** fetches the records for one drug name or class on request, after you see an estimate and agree. Each record is shown as the FDA published it, with the retrieval date, and the FDA's statement not to use the data for medical decisions travels with it. The database holds the current state of each record, so a fetch is a dated snapshot, not the state of supply on a past day.

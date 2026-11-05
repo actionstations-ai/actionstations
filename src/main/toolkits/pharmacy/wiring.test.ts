@@ -16,6 +16,11 @@ await import('../../render/figures')
 const { ToolkitSchema } = await import('@shared/toolkits')
 const { fieldLintIssues, fieldLintRuleIds } = await import('../lint-rules')
 const { unknownCapabilityWarnings } = await import('../capabilities')
+const { registerPharmacyToolkit } = await import('./register')
+const { connectorIds } = await import('../connectors/registry')
+
+registerPharmacyToolkit()
+registerPharmacyToolkit()
 
 const toolkit = ToolkitSchema.parse(
   JSON.parse(readFileSync(resolve('packs/toolkits/pharmacy.json'), 'utf8')),
@@ -32,6 +37,7 @@ const messages = (type: string, fields: Record<string, unknown>) =>
 describe('code the toolkit names exists', () => {
   it('has no figure kind, connector, metric or lint rule the app lacks', () => {
     expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(toolkit.lintRules))
+    expect(connectorIds()).toEqual(expect.arrayContaining(toolkit.connectors))
     expect(unknownCapabilityWarnings(toolkit)).toEqual([])
   })
 })

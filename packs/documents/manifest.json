@@ -199,6 +199,12 @@
       "summary": "The HPAI and FMD response plans (Red Books) and FAD PReP manuals from USDA APHIS.",
       "domain": "animal_health",
       "version": "1.0.0"
+    },
+    "pharmacy-library": {
+      "name": "Pharmacy reference library",
+      "summary": "The CFR text for hospital pharmaceutical services and for theft or loss of controlled substances, with CMS Appendix Z and the FEMA healthcare power outage guidance.",
+      "domain": "pharmacy",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -2833,7 +2839,7 @@
     },
     {
       "pack": "healthcare-library",
-      "alsoIn": ["nursing-library"],
+      "alsoIn": ["nursing-library", "pharmacy-library"],
       "slug": "cms-som-appendix-z",
       "file": "cms-som-appendix-z.pdf",
       "title": "State Operations Manual Appendix Z: Emergency Preparedness for All Provider and Certified Supplier Types, Interpretive Guidance",
@@ -2862,7 +2868,7 @@
     },
     {
       "pack": "healthcare-library",
-      "alsoIn": ["nursing-library"],
+      "alsoIn": ["nursing-library", "pharmacy-library"],
       "slug": "fema-healthcare-power-outages",
       "file": "fema-healthcare-power-outages.pdf",
       "title": "Healthcare Facilities and Power Outages: Guidance for State, Local, Tribal, Territorial, and Private Sector Partners",
@@ -5366,6 +5372,34 @@
       "size": 1501124,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): USDA APHIS Veterinary Services plan; the cover and text show no third-party copyright notice. The cover calls this a draft, last updated February 2017.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "pharmacy-library",
+      "slug": "cfr-42-482-25",
+      "file": "cfr-42-482-25.pdf",
+      "title": "42 CFR 482.25, Condition of participation: Pharmaceutical services",
+      "publisher": "Office of the Federal Register / GPO",
+      "edition": "CFR edition 1 October 2025",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title42-vol5/pdf/CFR-2025-title42-vol5-sec482-25.pdf",
+      "sha256": "381a95d009fa540cab956f3a1da327dd862ca89811718edd59a5923ba7faa197",
+      "size": 199367,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "pharmacy-library",
+      "slug": "cfr-21-1301-76",
+      "file": "cfr-21-1301-76.pdf",
+      "title": "21 CFR 1301.76, Other security controls for practitioners (theft or loss of controlled substances)",
+      "publisher": "Office of the Federal Register / GPO",
+      "edition": "CFR edition 1 October 2025",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2025-title21-vol9/pdf/CFR-2025-title21-vol9-sec1301-76.pdf",
+      "sha256": "f92410102a69eb4c32c98456f3eb1dada74b91b07d8867b1fe1e574816525998",
+      "size": 199596,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): regulation text, Office of the Federal Register / GPO",
       "pinned": "2026-11-05"
     }
   ],
@@ -7966,6 +8000,55 @@
       "publisher": "USDA APHIS Veterinary Services",
       "url": "https://www.aphis.usda.gov/node/1353",
       "reason": "About 17 MB; open it from the APHIS FAD PReP page and check the edition date there"
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "Vaccine Storage and Handling Toolkit",
+      "publisher": "CDC",
+      "url": "https://www.cdc.gov/vaccines/hcp/storage-handling/index.html",
+      "reason": "A U.S. government publication, but cdc.gov refuses scripted downloads (HTTP 403), so the file could not be pinned by hash; download it in a browser."
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "Drug shortages",
+      "publisher": "FDA",
+      "url": "https://www.fda.gov/drugs/drug-safety-and-availability/drug-shortages",
+      "reason": "Web pages and a live database, not a fixed document; the app's openFDA connector replays records with their dates."
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "Drug recalls and enforcement reports",
+      "publisher": "FDA",
+      "url": "https://www.fda.gov/drugs/drug-safety-and-availability/drug-recalls",
+      "reason": "Web pages; the enforcement endpoint was not verified for replay."
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "Drug shortage resources for hospitals and health systems",
+      "publisher": "ASPR TRACIE",
+      "url": "https://asprtracie.hhs.gov/",
+      "reason": "ASPR TRACIE documents are link-only"
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "ASHP guidelines on managing drug product shortages",
+      "publisher": "ASHP",
+      "url": "https://www.ashp.org/drug-shortages",
+      "reason": "Copyrighted; cited, not bundled."
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "USP general chapters 797 and 800 (compounding and hazardous drugs)",
+      "publisher": "USP",
+      "url": "https://www.usp.org/compounding",
+      "reason": "Copyrighted; cited, not bundled."
+    },
+    {
+      "pack": "pharmacy-library",
+      "title": "Emergency management standards for hospitals",
+      "publisher": "The Joint Commission",
+      "url": "https://www.jointcommission.org/",
+      "reason": "Copyrighted; named, not bundled."
     }
   ]
 }
