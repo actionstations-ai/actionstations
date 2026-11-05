@@ -18,6 +18,7 @@ import { statusBoardKind } from './status-board'
 import { tableKind } from './table'
 import { timeSeriesKind } from './time-series'
 import './clinical_care'
+import './spill'
 
 registerFigureKind(timeSeriesKind)
 registerFigureKind(barKind)
