@@ -247,6 +247,12 @@
       "summary": "OSHA excavation, crane and reporting rules (29 CFR 1926 Subparts P and CC, 1904.39) and an OSHA scaffold guide.",
       "domain": "construction",
       "version": "1.0.0"
+    },
+    "wildfire-library": {
+      "name": "Wildfire and smoke reference library",
+      "summary": "NWS fire weather products, EPA air quality index guidance and the NWCG incident response pocket guide; after-action reports, the smoke guide and the power shutoff decision are linked.",
+      "domain": "wildfire",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -5777,6 +5783,81 @@
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): OSHA; the booklet states that its material is in the public domain and may be reproduced without permission, and credits no photograph or figure to a non-federal source",
       "pinned": "2026-11-05"
+    },
+    {
+      "pack": "wildfire-library",
+      "slug": "nwsi-10-401-fire-weather-services-product-specification",
+      "file": "nwsi-10-401-fire-weather-services-product-specification.pdf",
+      "title": "NWSI 10-401, Fire Weather Services Product Specification (red flag warnings, fire weather watches, spot forecasts)",
+      "publisher": "NOAA National Weather Service",
+      "edition": "August 25, 2025",
+      "url": "https://www.weather.gov/media/directives/010_pdfs/pd01004001curr.pdf",
+      "landing": "https://www.weather.gov/directives/",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): National Weather Service directive",
+      "sha256": "820d60f68fc9b57afd6dcbd0dcfb021fe61dfa17bdbebef575a28fcfc0812e47",
+      "size": 951621,
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "wildfire-library",
+      "slug": "nwsi-10-403-fire-weather-services-coordination-and-outreach",
+      "file": "nwsi-10-403-fire-weather-services-coordination-and-outreach.pdf",
+      "title": "NWSI 10-403, Fire Weather Services Coordination and Outreach",
+      "publisher": "NOAA National Weather Service",
+      "edition": "October 19, 2023",
+      "url": "https://www.weather.gov/media/directives/010_pdfs/pd01004003curr.pdf",
+      "landing": "https://www.weather.gov/directives/",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): National Weather Service directive",
+      "sha256": "d2ceb0f09972ad1fe89d26e8d757f449cec5ae6cab4838a06225d51babe54e32",
+      "size": 223054,
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "wildfire-library",
+      "slug": "epa-aqi-technical-assistance-document",
+      "file": "epa-aqi-technical-assistance-document.pdf",
+      "title": "Technical Assistance Document for the Reporting of Daily Air Quality: the Air Quality Index (AQI), EPA-403/B-26-003",
+      "publisher": "US Environmental Protection Agency",
+      "edition": "May 2026",
+      "url": "https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf",
+      "landing": "https://www.airnow.gov/publications/air-quality-index/technical-assistance-document-for-reporting-the-daily-aqi/",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): EPA Office of Air Quality Planning and Standards; no third-party copyright notice found in the text",
+      "sha256": "b69de26a0f3d4603572595fc8b49be8fd157fd0faaaab023410bb13b4b6e5e0c",
+      "size": 1029442,
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "wildfire-library",
+      "slug": "epa-air-quality-guide-for-particle-pollution",
+      "file": "epa-air-quality-guide-for-particle-pollution.pdf",
+      "title": "Air Quality Guide for Particle Pollution (AQI categories and who needs to be concerned)",
+      "publisher": "US Environmental Protection Agency (AirNow)",
+      "edition": "February 2023",
+      "url": "https://document.airnow.gov/air-quality-guide-for-particle-pollution.pdf",
+      "landing": "https://www.airnow.gov/publications/air-quality-index/air-quality-guide-for-particle-pollution/",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): EPA AirNow two-page chart; no third-party copyright notice found in the text",
+      "sha256": "9b47c466eec9cd73d6b8b9ea6079e46ec71d334ca172f013f3adbfc34a961d42",
+      "size": 288319,
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "wildfire-library",
+      "slug": "nwcg-incident-response-pocket-guide-pms-461",
+      "file": "nwcg-incident-response-pocket-guide-pms-461.pdf",
+      "title": "NWCG Incident Response Pocket Guide (IRPG), PMS 461",
+      "publisher": "National Wildfire Coordinating Group",
+      "edition": "January 2025",
+      "url": "https://fs-prod-nwcg.s3.us-gov-west-1.amazonaws.com/s3fs-public/publication/pms461.pdf",
+      "landing": "https://www.nwcg.gov/publications/pms461",
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "NWCG states that publications and training materials it produces are in the public domain (nwcg.gov/notices#copyrights, read 2026-11-05); an interagency federal body, no third-party notice found in the text",
+      "sha256": "fe37094a3a7ceb8722cfe49f340757951a76d1122a316892608da2de74f3a92a",
+      "size": 3045707,
+      "pinned": "2026-11-05"
     }
   ],
   "links": [
@@ -8726,6 +8807,48 @@
       "publisher": "National Society of Professional Engineers; American Society of Civil Engineers",
       "url": "https://www.nspe.org/resources/ethics/code-ethics",
       "reason": "Copyrighted by the societies; linked, not bundled"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "NWCG Glossary of Wildland Fire, PMS 205",
+      "publisher": "National Wildfire Coordinating Group",
+      "url": "https://www.nwcg.gov/publications/pms205",
+      "reason": "The glossary is a searchable web page with no downloadable file to pin; the NWCG states its publications are public domain, so the page is the reference"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "Wildfire Smoke Guide for Public Health Officials (EPA-452/B-26-001, June 2026)",
+      "publisher": "US EPA with state and federal partners",
+      "url": "https://www.epa.gov/wildfires/wildfire-smoke-guide-public-health-officials",
+      "reason": "Written with state agencies and others (CARB and California OEHHA among them) and carries credited photographs of individuals, so it is not shown to be wholly a US government work; read it on EPA's site"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "Lahaina Fire Incident Analysis Report, Phase 2 (September 2024)",
+      "publisher": "Fire Safety Research Institute, UL Research Institutes",
+      "url": "https://fsri.org/research/maui-wildfires-analysis",
+      "reason": "Copyright held by the institute; redistribution terms not confirmed"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "Marshall Fire Operational After-Action Report (December 2022)",
+      "publisher": "Boulder County Office of Emergency Management and partner agencies (page of the Mountain View Fire Protection District)",
+      "url": "https://mvfpd.specialdistrict.org/marshall-fire-aar-report-2022",
+      "reason": "Produced by local governments; redistribution terms not stated, and the hosting pages have moved files before, so a district page that lists it is linked"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "CPUC Decision 19-05-042, Phase 1 power shutoff guidelines (May 30, 2019)",
+      "publisher": "California Public Utilities Commission",
+      "url": "https://www.cpuc.ca.gov/-/media/cpuc-website/divisions/safety-and-enforcement-division/documents/psps-docs-unsorted/d1905042phase1.pdf",
+      "reason": "A state decision; reuse terms not established. The notification timeline (page 86 and Appendix A page A8) is cited as an example rule from one state, and later decisions (D.21-06-034) updated the guidelines"
+    },
+    {
+      "pack": "wildfire-library",
+      "title": "Ready, Set, Go! wildland fire action guide",
+      "publisher": "International Association of Fire Chiefs",
+      "url": "https://www.iafc.org/topics-and-tools/wildland/ready-set-go",
+      "reason": "Program materials of a private association; terms not confirmed, not bundled"
     }
   ]
 }
