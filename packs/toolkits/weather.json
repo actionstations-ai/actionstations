@@ -1,0 +1,122 @@
+{
+  "id": "weather",
+  "name": "Weather",
+  "description": "Real weather for any exercise: forecast and warning products (outlooks, watches, warnings, advisories, METARs and TAFs), instrument figures (radar, satellite, soundings, model guidance), replay of a past event from public archives or a simulated one, and warning verification. Used by a forecast office exercising its warnings, and by an airport, a utility, a venue or a school district that needs a storm to happen to it.",
+  "appliesTo": {
+    "keywords": [
+      "tornado",
+      "severe thunderstorm",
+      "thunderstorm",
+      "severe weather",
+      "hurricane",
+      "tropical storm",
+      "storm surge",
+      "flash flood",
+      "winter storm",
+      "blizzard",
+      "ice storm",
+      "heat wave",
+      "extreme heat",
+      "red flag",
+      "derecho",
+      "hail",
+      "lightning",
+      "high wind",
+      "weather warning",
+      "weather forecast",
+      "radar",
+      "ground stop"
+    ],
+    "domains": [
+      "meteorology",
+      "airport",
+      "energy_utility",
+      "food_agriculture",
+      "stadium_venue",
+      "k12_schools",
+      "transit",
+      "freight_rail",
+      "port_maritime",
+      "public_health",
+      "municipal",
+      "emergency_communications"
+    ]
+  },
+  "outsideParties": [
+    "the local National Weather Service forecast office",
+    "Storm Prediction Center",
+    "National Hurricane Center",
+    "Weather Prediction Center",
+    "the River Forecast Center",
+    "SKYWARN spotters",
+    "the center weather service unit (aviation)"
+  ],
+  "advisorRoles": [
+    {
+      "key": "meteorologist_liaison",
+      "name": "Meteorologist Liaison",
+      "abbreviation": "WX",
+      "team": "Advisors",
+      "description": "Explains what the forecast and the warnings mean for the organization's decisions and answers weather questions during the exercise."
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Watch",
+        "definition": "Conditions are favorable for the hazard; issued ahead of time. A warning means it is happening or imminent."
+      },
+      {
+        "term": "SPC",
+        "definition": "Storm Prediction Center: convective outlooks (Day 1-3), mesoscale discussions, tornado and severe thunderstorm watches."
+      },
+      {
+        "term": "Categorical risk",
+        "definition": "SPC outlook levels: TSTM, MRGL (1), SLGT (2), ENH (3), MDT (4), HIGH (5)."
+      },
+      {
+        "term": "WFO",
+        "definition": "NWS forecast office: warnings, statements, forecasts, local storm reports, damage surveys."
+      },
+      {
+        "term": "VTEC",
+        "definition": "Code in warnings: /O.NEW.KILN.TO.W.0012.261104T1830Z-261104T1915Z/ (action, office, phenomenon, significance, event number, UTC begin-end)."
+      },
+      {
+        "term": "UGC",
+        "definition": "County or zone line, e.g. OHC035-093-042115- (state, C county or Z zone, codes, expiry DDHHMM UTC)."
+      },
+      {
+        "term": "LSR",
+        "definition": "Local storm report: a spotter or official report of hail, wind damage, tornado or flooding."
+      },
+      {
+        "term": "IDSS",
+        "definition": "Impact-based decision support: briefing partners on what the weather means for their decisions."
+      },
+      {
+        "term": "Damage threat tag",
+        "definition": "Impact tags on warnings, e.g. CONSIDERABLE or CATASTROPHIC/DESTRUCTIVE, with the source (radar indicated or observed)."
+      },
+      {
+        "term": "TS-force winds",
+        "definition": "Tropical-storm-force winds, 34 knots or more; evacuations must finish before they arrive."
+      }
+    ],
+    "productConventions": [
+      "Text products are monospace, upper case in headers, with a WMO line, an AWIPS id, UGC and VTEC lines, then the issuance time in local time (e.g. 214 PM EDT Wed Oct 21 2026) and a $$ end line.",
+      "Warnings read '* At 213 PM EDT, ...' with the evidence and movement, then HAZARD, SOURCE and IMPACT, then locations, actions and a LAT...LON polygon in hundredths of degrees (west longitude positive).",
+      "The usual order is outlook, mesoscale discussion, watch, warnings and statements, local storm reports, then a public information statement. A statement follows a warning; a watch comes before warnings in its area.",
+      "METAR and TAF use UTC and fixed groups: KILN 211853Z 24012G22KT 3SM +TSRA BKN025CB 24/22 A2992; a TAF has valid periods, FM, TEMPO, PROB30 groups.",
+      "Hurricane advisories are numbered and issued at 5 AM, 11 AM, 5 PM and 11 PM EDT (09, 15, 21, 03 UTC); a watch is about 48 hours and a warning about 36 hours before TS-force winds."
+    ],
+    "realismRules": [
+      "Use only real NWS office ids, products and codes; invent the exercising organization, people and local businesses, never the weather service's own staff.",
+      "Every product is marked as an exercise or test. Never produce text that could pass for a live alert on an actual channel.",
+      "Times are consistent: a warning cannot precede its watch in the same area, a statement cannot precede its warning, issuance and expiry fit the VTEC and UGC lines.",
+      "Radar, satellite, sounding and model figures come from case data (historical or simulated), never from an image generator; say when data is simulated.",
+      "A real past event keeps its real dates and places; do not mix its storm reports with invented ones without saying so.",
+      "Warnings have limited lead time and false alarms; do not give a perfect forecast. Include a missed or late warning when the objectives call for it."
+    ]
+  }
+}
