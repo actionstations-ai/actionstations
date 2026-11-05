@@ -2,6 +2,7 @@
 // this project uses. The domain profile suggests some; any from installed packs can be added.
 // Each regulation shows its status, sources and when its values were last checked; a proposed
 // rule says so. Switches save at once (project.json `compliance`).
+import { isStale } from '@shared/compliance/freshness'
 import type { ComplianceSource, ListedFramework, ListedRegulation } from '@shared/ipc'
 import {
   NOT_LEGAL_ADVICE,
@@ -62,6 +63,15 @@ function RegulationItem(props: {
           {sourceText(source)}
         </p>
         {r.statusNote && <p>{r.statusNote}</p>}
+        {r.dates.length > 0 && (
+          <p>{r.dates.map((d) => `${d.label}: ${formatDay(d.date)}`).join(' · ')}</p>
+        )}
+        {isStale(r.verifiedOn) && (
+          <p>
+            This rule was last checked more than twelve months ago. Check the sources below before
+            you rely on it.
+          </p>
+        )}
       </div>
       <ul className="compliance-item__sources">
         {r.sources.map((s) => (

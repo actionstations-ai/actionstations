@@ -33,6 +33,7 @@ import { registerMediaToolkit } from './toolkits/media'
 import { registerWeatherToolkit } from './toolkits/weather'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { registerEpidemiologyToolkit } from './toolkits/epidemiology/register'
+import { registerAiIncidentsToolkit } from './toolkits/ai/register'
 import { registerSpillConnectors } from './toolkits/connectors/spill'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
@@ -228,6 +229,7 @@ void app.whenReady().then(async () => {
   installToolkitDecisionForms()
   // Code-backed parts of the bundled toolkits (generators, connectors).
   registerEpidemiologyToolkit()
+  registerAiIncidentsToolkit()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)

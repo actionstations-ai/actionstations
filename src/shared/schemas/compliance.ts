@@ -74,6 +74,17 @@ export const RegulationShape = z.object({
   calendar: BusinessCalendar.default('none'),
   triggers: z.array(RegulationTrigger).min(1).max(8),
   clocks: z.array(RegulationClock).min(1).max(8),
+  /** Dates the rule starts to apply or changes (the AI Act's application dates moved in 2026), with what was checked. */
+  dates: z
+    .array(
+      z.object({
+        label: z.string().min(1).max(200),
+        date: IsoDate,
+        note: z.string().max(400).default(''),
+      }),
+    )
+    .max(10)
+    .default([]),
   /** Framework controls a met clock is evidence for: "nist_csf_2:RS.CO-03". */
   controls: z.array(z.string().max(120)).max(50).default([]),
   appliesTo: z

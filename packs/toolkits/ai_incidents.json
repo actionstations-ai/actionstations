@@ -98,7 +98,42 @@
     }
   ],
   "documents": [],
-  "metrics": [],
+  "metrics": [
+    {
+      "id": "ai_time_to_detect",
+      "label": "Time to detect synthetic media",
+      "config": {
+        "targetMin": 60
+      },
+      "groundTruth": "ai-fraud-events"
+    },
+    {
+      "id": "ai_payments_stopped",
+      "label": "Payments stopped",
+      "config": {
+        "currency": "USD"
+      },
+      "groundTruth": "ai-fraud-events"
+    },
+    {
+      "id": "ai_disclosures_on_time",
+      "label": "Disclosures on time",
+      "config": {},
+      "groundTruth": "ai-incident-events"
+    },
+    {
+      "id": "ai_containment",
+      "label": "Containment of an AI system incident",
+      "config": {},
+      "groundTruth": "ai-incident-events"
+    },
+    {
+      "id": "verification",
+      "label": "Verification before response",
+      "config": {},
+      "groundTruth": "media-ground-truth"
+    }
+  ],
   "decisionForms": [
     {
       "id": "ai_hold_release_payment",
@@ -574,7 +609,45 @@
       "Do not give steps for making synthetic media or poisoning a model. Every person, bank, vendor and company is fictional, and no real person is imitated."
     ]
   },
-  "lintRules": [],
-  "capabilities": [],
+  "lintRules": ["ai.serious_incident_fields", "ai.clock_stated", "ai.test_identifiers"],
+  "capabilities": [
+    {
+      "coreCapability": "cybersecurity",
+      "criticalTasks": [
+        "Preserve model, prompt and session logs before changing the system",
+        "Contain the AI system with a kill switch, restriction or rollback and record the version rolled back to",
+        "Check the integrity of model artifacts and data stores against the registry",
+        "Rotate keys issued to an AI vendor after a vendor incident"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Verify a media item before responding, and say what is known and not known",
+        "Request a takedown or label from the platform with the evidence",
+        "Issue a customer notice that states only what is known"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Verify a payment instruction by a callback on an independently held number",
+        "Decide whether to hold a payment, and call the bank fraud desk and law enforcement",
+        "Decide whether the event meets the serious incident definition for the organization role and record the basis"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "intelligence_and_information_sharing",
+      "criticalTasks": [
+        "Share the indicators (account, beneficiary, caller details) with the bank and law enforcement",
+        "Report to a regulator on the clock that applies to the role, with an initial incomplete report where allowed",
+        "Give the vendor and customers the facts needed for their own duties"
+      ],
+      "mappings": []
+    }
+  ],
   "exerciseTags": []
 }
