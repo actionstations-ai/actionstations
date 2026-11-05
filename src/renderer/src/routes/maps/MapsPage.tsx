@@ -14,6 +14,7 @@ import { errorText } from '../../lib/errors'
 import { useIpcQuery } from '../../lib/query'
 import { newMapId, useProjectMaps } from '../../state/maps'
 import { fromProjectKey } from '../../state/project'
+import { overlayLayersFor, placeAreasPercent } from '@shared/maps/overlays/place-areas'
 import { AddGeoMapDialog } from './AddGeoMapDialog'
 import { FactsPanel } from './FactsPanel'
 import { PositionFields } from './PositionFields'
@@ -252,6 +253,8 @@ function MapEditor(props: { projectPath: string; maps: ProjectMaps; save: Save; 
         selectedMarkerId={selectedId}
         onSelectMarker={setSelectedId}
         onPick={pick}
+        overlays={overlayLayersFor(maps, layer.id)}
+        areas={placeAreasPercent(maps.places, layer.id)}
       />
       <PlacesPanel
         maps={maps}

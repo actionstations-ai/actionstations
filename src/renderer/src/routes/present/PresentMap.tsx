@@ -6,6 +6,7 @@ import { useParams } from 'react-router'
 import { pinsFor } from '@shared/maps/pins'
 import { MapView } from '../../components/map/MapView'
 import { markerFromPin } from '../../components/map/marker-model'
+import { overlayLayersFor, placeAreasPercent } from '@shared/maps/overlays/place-areas'
 import { call } from '../../lib/api'
 import { useIpcQuery } from '../../lib/query'
 import { useProjectMaps } from '../../state/maps'
@@ -69,6 +70,8 @@ export default function PresentMap() {
             pins.flatMap((p) => p.rows.map((r) => [r.rowId, r.status])),
           )}
           showLegend
+          overlays={overlayLayersFor(maps.data.maps, layer.id)}
+          areas={placeAreasPercent(maps.data.maps.places, layer.id)}
         />
       </div>
     </div>

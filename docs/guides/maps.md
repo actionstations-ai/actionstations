@@ -48,6 +48,47 @@ the phone. See [Live play](live-play.md).
 Every download is started by you, checked against its checksum, and can be cancelled in the jobs
 tray. Files are stored once per computer under the app's data folder and shared by projects.
 
+## Overlays
+
+A geographic map can carry overlays: the information that sits on top of the map during an exercise.
+An overlay layer is one of:
+
+- **Areas**, such as warning areas, watch boxes, outlook areas and flood extents.
+- **Lines and tracks**, such as a storm track, a road closure or a river reach. A track shows a dot at
+  each point along it.
+- **Cones and swaths**, such as a forecast cone with its centre line.
+- **Points**, such as storm reports, gauges and assets, with a reading when there is one.
+- **Grids**, such as radar or a model field, drawn with a colour scale. A grid is placed by the
+  longitude and latitude of its edges.
+
+Below the map you get:
+
+- **Map layers**: a checkbox for each layer. Tab moves between layers and Space turns one on or off.
+- **A time slider**, when any overlay has a time. Each feature can have a start and an end; the map shows
+  what is in force at the time you choose. The Earlier and Later buttons and the arrow keys step through
+  the times, and the time is written out beside the slider (always in UTC). **Show all times** draws
+  every overlay at once. A grid with several frames shows the frame in force.
+- **An overlay legend**: one entry for each layer. Every item has a name, and the swatches differ by
+  line pattern and fill hatch as well as colour, so the map still reads in grey or with colour
+  blindness. A grid's legend lists the values of its colour scale with their unit.
+- **Overlay data**: the same information as a table (layer, item, kind, time, where or value), for anyone
+  who cannot see the map.
+
+The outline of a place (an area drawn for a place on a map) is drawn too: on a geographic map it is an
+overlay layer called Place areas, and on a site plan it is a dashed outline over the picture.
+
+Overlays come from data in the project, such as the case data of a toolkit, which turns its GeoJSON
+datasets and grids into layers. Features that cannot be drawn (no shape, or coordinates off the globe)
+are left out, and the rest are drawn.
+
+### Overlays in pictures and exports
+
+**Show map on screen** shows the overlays with the same controls. The snapshot of a geographic map is a
+picture of the overlays at the time you choose (or all of them) on a plain frame with the numbered
+places and the legend. The MSEL and handbook **Locations** pages draw the overlays in the same way, with
+the numbered places inside the drawing, the legend, a one-line summary and the data table. A page
+shows every overlay at once; each feature's times are in the table. The pictures have no street map.
+
 ## Attribution and licence
 
 Attribution is always shown on the map. Map data from OpenStreetMap is licensed ODbL: a project that
@@ -72,7 +113,8 @@ more font ranges are bundled.
 
 The MSEL and handbook exports add a Locations page for each geographic map the MSEL uses. Places
 are numbered and plotted by latitude and longitude on a plain frame, with the coordinates in the
-legend. The page has no street map; print the map from the Maps page if you need one.
+legend. The page has no street map; print the map from the Maps page if you need one. A map with
+overlays also gets a page when no place is used (see Overlays above).
 
 ## Not yet
 

@@ -235,3 +235,75 @@
     transition: none;
   }
 }
+
+/* Overlays (#652): layer list, legend, time slider and data table. Tokens only. */
+.overlay-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+.overlay-layers {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.overlay-layers legend {
+  padding: 0;
+  font-weight: var(--weight-semibold);
+}
+.overlay-layers ul,
+.overlay-legend,
+.overlay-legend ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.overlay-layers ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+.overlay-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+}
+.overlay-legend li li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.overlay-legend__ramp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+.overlay-swatch {
+  flex: none;
+}
+.overlay-time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.overlay-time input[type='range'] {
+  flex: 1 1 12rem;
+  min-width: 8rem;
+}
+.overlay-time__text {
+  min-width: 11rem;
+  font-weight: var(--weight-semibold);
+}
+.overlay-data summary {
+  cursor: pointer;
+  font-weight: var(--weight-semibold);
+}
+.map-areas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

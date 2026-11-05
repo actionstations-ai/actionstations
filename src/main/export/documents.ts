@@ -58,6 +58,15 @@ function locationPagesFor(model: ExportModel, prefix: string, mode: RenderMode) 
   return locationPages(model.maps, model.scenario, prefix).map((p) => ({
     ...p,
     src: p.image ? assetSrc(model, p.image, mode) : '',
+    ...(p.overlay
+      ? {
+          overlay: {
+            ...p.overlay,
+            svg: trusted(p.overlay.svg),
+            legend: trusted(p.overlay.legend),
+          },
+        }
+      : {}),
   }))
 }
 

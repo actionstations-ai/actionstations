@@ -3,6 +3,7 @@
 import { z } from 'zod'
 import { HttpUrl, Id, IsoDateTime, RelPath, SafeId } from './common'
 import { Sha256Hex } from './pack'
+import { MAX_OVERLAY_SETS, MapOverlaySet } from './map-overlays'
 
 export const PercentPoint = z.object({
   x: z.number().min(0).max(100),
@@ -98,6 +99,8 @@ export const ProjectMaps = z.looseObject({
   defaultMapId: SafeId.optional(),
   maps: z.array(MapLayer).max(MAX_MAPS).default([]),
   places: z.array(Place).max(MAX_PLACES).default([]),
+  /** Overlays drawn on a map: warning areas, tracks, rasters. */
+  overlays: z.array(MapOverlaySet).max(MAX_OVERLAY_SETS).optional(),
 })
 export type ProjectMaps = z.infer<typeof ProjectMaps>
 

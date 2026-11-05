@@ -3,7 +3,7 @@
 // refresh, maps:download-state, maps:check-updates and maps:area-download, each started by the user.
 import { z } from 'zod'
 import { channel } from './define'
-import { HttpUrl, SafeId } from '../schemas/common'
+import { HttpUrl, IsoDateTime, SafeId } from '../schemas/common'
 import {
   Bbox,
   CatalogId,
@@ -193,13 +193,15 @@ export const mapsChannels = {
   ),
   /**
    * A PNG of a site plan with numbered markers for the places the audience may see (spec 0436 §5),
-   * written under `.cache/maps/`. Geographic maps are refused until they can be drawn.
+   * written under `.cache/maps/`. A geographic map is drawn on a plain frame (no street map) with
+   * its overlays and a legend; `at` picks the moment to show, and absent shows every overlay.
    */
   'maps:snapshot': channel(
     P.extend({
       scenarioId: SafeId,
       mapId: SafeId,
       audience: z.enum(['facilitator', 'room', 'device']),
+      at: IsoDateTime.optional(),
     }),
     z.object({ path: z.string() }),
   ),

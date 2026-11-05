@@ -230,8 +230,8 @@ export default defineHandlers({
     return (await ensurePyramid(root, layer, electronImaging)) ?? null
   },
 
-  'maps:snapshot': async ({ projectPath, scenarioId, mapId, audience }) =>
-    snapshotMap(await requireProject(projectPath), { scenarioId, mapId, audience }),
+  'maps:snapshot': async ({ projectPath, scenarioId, mapId, audience, at }) =>
+    snapshotMap(await requireProject(projectPath), { scenarioId, mapId, audience, at }),
 
   'maps:locate': async ({ projectPath, mapId, filePath }) => {
     const root = await requireProject(projectPath)
