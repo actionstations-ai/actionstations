@@ -13,9 +13,35 @@ import {
 import { AppError } from '../../lib/errors'
 import { safeJoin } from '../../lib/fs'
 
+/**
+ * Events carried as text entries (the case data `reports` shape, so every reader of case data
+ * still reads the file): the entry's time is the event time and its text is JSON with the event's
+ * `id`, `kind`, optional `area` and `attrs`. An entry that does not parse is left out.
+ */
+const EventsAsText = z
+  .array(z.object({ t: z.string(), title: z.string().optional(), text: z.string() }))
+  .transform((entries) =>
+    entries.flatMap((e, i) => {
+      try {
+        const o = JSON.parse(e.text) as Record<string, unknown>
+        const parsed = GroundTruthEvent.safeParse({
+          id: o.id ?? e.title ?? `event-${i + 1}`,
+          time: e.t,
+          kind: o.kind,
+          ...(typeof o.area === 'string' ? { area: o.area } : {}),
+          attrs: o.attrs ?? {},
+        })
+        return parsed.success ? [parsed.data] : []
+      } catch {
+        return []
+      }
+    }),
+  )
+
 const EventFile = z.union([
   z.array(GroundTruthEvent),
   z.object({ events: z.array(GroundTruthEvent) }).transform((o) => o.events),
+  EventsAsText,
 ])
 
 /** Read ground-truth events from a dataset file inside `caseDir` (never outside it). */

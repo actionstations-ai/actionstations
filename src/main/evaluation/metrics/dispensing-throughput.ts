@@ -3,6 +3,7 @@
 // counts the controller recorded (people served at a time); throughput is people served divided
 // by the hours between opening and the last count, and the peak is the best 60 minutes.
 import { z } from 'zod'
+import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import { minutesText, ms, NOT_AVAILABLE, ratioText, type Metric, type MetricOutput } from './types'
 
 export const DispensingThroughputConfig = z.object({
@@ -127,3 +128,34 @@ export const dispensingThroughput: Metric<DispensingThroughputConfig, Dispensing
     configSchema: DispensingThroughputConfig,
     compute: computeDispensingThroughput,
   }
+
+/**
+ * Sites from the scenario's `mcm_activation` events (the moment dispensing was called for, with
+ * `attrs.site` naming the site), the team's `open_dispensing_site` decisions with action "open"
+ * (the first one is when the site opened) and its `record_dispensing_count` decisions (people
+ * served, at the decision's time).
+ */
+export function sitesFromBag(
+  events: readonly GroundTruthEvent[],
+  decisions: readonly MetricDecision[],
+): DispensingSite[] {
+  const sorted = [...decisions].sort((a, b) => ms(a.time) - ms(b.time))
+  const same = (d: MetricDecision, site: string) => String(d.fields.site ?? '').trim() === site
+  return events
+    .filter((e) => e.kind === 'mcm_activation')
+    .map((e) => {
+      const id = typeof e.attrs.site === 'string' ? e.attrs.site : e.id
+      const opened = sorted.find(
+        (d) => d.kind === 'open_dispensing_site' && same(d, id) && d.fields.action === 'open',
+      )
+      return {
+        id,
+        decidedAt: e.time,
+        openedAt: opened?.time ?? null,
+        served: sorted
+          .filter((d) => d.kind === 'record_dispensing_count' && same(d, id))
+          .map((d) => ({ time: d.time, count: Number(d.fields.served) }))
+          .filter((p) => Number.isFinite(p.count) && p.count >= 0),
+      }
+    })
+}

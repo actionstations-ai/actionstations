@@ -3,6 +3,7 @@
 // counts are compared bin by bin; a drawn curve that equals the report-date histogram and not
 // the onset histogram is named as drawn by report date.
 import { z } from 'zod'
+import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import { histogram } from '../../toolkits/epidemiology/lint'
 import { ms, ratio, ratioText, type Metric, type MetricOutput } from './types'
 
@@ -117,4 +118,39 @@ export const curveAccuracy: Metric<CurveAccuracyConfig, CurveAccuracyInputs> = {
   title: 'Epidemic curve accuracy',
   configSchema: CurveAccuracyConfig,
   compute: computeCurveAccuracy,
+}
+
+/**
+ * The line list from `case_onset` events (the event time is the onset, `attrs.reportedAt` the
+ * report time when the list has one) and the curves teams submitted as `submit_epi_curve`
+ * decisions: `start` is the first bin's start (an ISO date or time) and `counts` the counts per
+ * bin written as numbers separated by commas. A submission that does not parse is left out.
+ */
+export function curvesFromBag(
+  events: readonly GroundTruthEvent[],
+  decisions: readonly MetricDecision[],
+): CurveAccuracyInputs {
+  const lineList = events
+    .filter((e) => e.kind === 'case_onset')
+    .map((e) => ({
+      onset: e.time,
+      ...(typeof e.attrs.reportedAt === 'string' ? { reported: e.attrs.reportedAt } : {}),
+    }))
+  const drawn = decisions
+    .filter((d) => d.kind === 'submit_epi_curve')
+    .flatMap((d) => {
+      const start = String(d.fields.start ?? '')
+      const counts = String(d.fields.counts ?? '')
+        .split(/[,\s]+/)
+        .filter(Boolean)
+        .map(Number)
+      if (
+        Number.isNaN(Date.parse(start)) ||
+        !counts.length ||
+        counts.some((c) => !Number.isFinite(c))
+      )
+        return []
+      return [{ label: String(d.fields.team ?? d.id), start, counts }]
+    })
+  return { lineList, drawn }
 }

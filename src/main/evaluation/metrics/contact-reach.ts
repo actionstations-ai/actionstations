@@ -3,6 +3,7 @@
 // and how many are still open. The target is set by the exercise designer; no national target is
 // assumed. Contacts are exercise data (fictional people), listed by code.
 import { z } from 'zod'
+import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
 import {
   mean,
   minutesText,
@@ -128,4 +129,33 @@ export const contactReach: Metric<ContactReachConfig, ContactReachInputs> = {
   title: 'Contact reach',
   configSchema: ContactReachConfig,
   compute: computeContactReach,
+}
+
+/**
+ * The contacts of an investigation from what the scenario listed and what the team recorded: a
+ * `contact_listed` event starts the clock for one contact (`attrs.contact` is its code and
+ * `attrs.close` says whether it is a close contact); the latest `record_contact_outcome`
+ * decision for that code says it was reached (the decision's time) or could not be.
+ */
+export function contactsFromBag(
+  events: readonly GroundTruthEvent[],
+  decisions: readonly MetricDecision[],
+): ContactRecord[] {
+  const outcomes = decisions
+    .filter((d) => d.kind === 'record_contact_outcome')
+    .sort((a, b) => ms(a.time) - ms(b.time))
+  return events
+    .filter((e) => e.kind === 'contact_listed')
+    .map((e) => {
+      const code = typeof e.attrs.contact === 'string' ? e.attrs.contact : e.id
+      const last = outcomes.filter((d) => String(d.fields.contact ?? '').trim() === code).at(-1)
+      const outcome = String(last?.fields.outcome ?? '')
+      return {
+        id: code,
+        close: e.attrs.close !== false,
+        listedAt: e.time,
+        ...(last && outcome === 'reached' ? { reachedAt: last.time } : {}),
+        ...(last && outcome === 'unreachable' ? { unreachable: true } : {}),
+      }
+    })
 }

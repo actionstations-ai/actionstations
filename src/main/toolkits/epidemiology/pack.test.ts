@@ -6,7 +6,8 @@ import Ajv2020 from 'ajv/dist/2020.js'
 import { describe, expect, it } from 'vitest'
 import { toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 import { TemplateMeta } from '../../render/templates'
-import { metricRefFromToolkit, runMetric } from '../../evaluation/metrics/registry'
+import { runMetric } from '../../evaluation/metrics/registry'
+import { registerEpidemiologyMetrics } from './register'
 import { EPI_LINT_RULES } from './lint'
 
 const ROOT = join(__dirname, '../../../..')
@@ -50,13 +51,17 @@ describe('epidemiology toolkit file', () => {
       'order_lab_priority',
       'open_dispensing_site',
       'release_data',
+      'record_contact_outcome',
+      'record_dispensing_count',
+      'submit_epi_curve',
     ])
   })
 
   it('names metrics the app runs, with configs that validate', () => {
+    registerEpidemiologyMetrics()
     expect(toolkit.metrics.length).toBeGreaterThanOrEqual(8)
     for (const m of toolkit.metrics) {
-      const result = runMetric(metricRefFromToolkit(m), {})
+      const result = runMetric({ id: m.id, config: m.config }, {})
       expect(result.metricId, m.label).toBe(m.id)
     }
   })

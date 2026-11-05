@@ -64,6 +64,18 @@
             "description": "Date and exact time window",
             "examples": ["Oct 16, 2:00 p.m. to 6:30 p.m."],
             "x-translate": false
+          },
+          "startsAt": {
+            "type": "string",
+            "description": "Start of the window as an ISO date-time. Not printed; the printed window stays in `window`.",
+            "examples": ["2026-10-16T14:00:00Z"],
+            "x-translate": false
+          },
+          "endsAt": {
+            "type": "string",
+            "description": "End of the window as an ISO date-time. Not printed.",
+            "examples": ["2026-10-16T20:30:00Z"],
+            "x-translate": false
           }
         }
       },
@@ -139,6 +151,26 @@
       "description": "Date and time issued",
       "examples": ["October 21, 2026, 3:00 p.m."],
       "x-translate": false
+    },
+    "caseOnset": {
+      "type": "string",
+      "description": "Symptom or rash onset of the case as an ISO date-time; with pathogenId and the exposures startsAt and endsAt it lets the window check run. Not printed.",
+      "examples": ["2026-10-19T08:00:00Z"],
+      "x-translate": false
+    },
+    "pathogenId": {
+      "type": "string",
+      "enum": [
+        "norovirus",
+        "salmonella",
+        "measles",
+        "influenza",
+        "sars_cov_2",
+        "pertussis",
+        "legionella"
+      ],
+      "description": "The pathogen whose infectious period the windows are checked against. Not printed.",
+      "examples": ["measles"]
     }
   },
   "additionalProperties": false

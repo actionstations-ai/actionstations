@@ -7,7 +7,12 @@ import {
   DispensingThroughputConfig,
   peakHourServed,
 } from './dispensing-throughput'
-import { metricRefFromToolkit, runMetric } from './registry'
+import { registerEpidemiologyMetrics } from '../../toolkits/epidemiology/register'
+import type { GroundTruthEvent, MetricDecision } from '@shared/schemas/metrics'
+import { contactsFromBag } from './contact-reach'
+import { curvesFromBag } from './curve-accuracy'
+import { sitesFromBag } from './dispensing-throughput'
+import { runMetric } from './registry'
 
 const T0 = Date.parse('2026-10-22T08:00:00Z')
 const at = (min: number): string => new Date(T0 + min * 60_000).toISOString()
@@ -163,10 +168,99 @@ describe('curve accuracy', () => {
   })
 })
 
-describe('registry and toolkit config', () => {
-  it('runs the three new metrics by id and rejects a bad config', () => {
-    const r = runMetric({ id: 'contact_reach', config: { targetHours: 12 } }, { contacts: [] })
-    expect(r.metricId).toBe('contact_reach')
+const event = (
+  id: string,
+  min: number,
+  kind: string,
+  attrs: Record<string, unknown> = {},
+): GroundTruthEvent => ({
+  id,
+  time: at(min),
+  kind,
+  attrs,
+})
+const decision = (
+  id: string,
+  min: number,
+  kind: string,
+  fields: Record<string, unknown>,
+): MetricDecision => ({
+  id,
+  time: at(min),
+  kind,
+  fields,
+})
+
+describe('inputs from events and decisions', () => {
+  it("reads contacts from listing events and the team's recorded outcomes", () => {
+    const events = [
+      event('c1', 0, 'contact_listed', { contact: 'K001', close: true }),
+      event('c2', 0, 'contact_listed', { contact: 'K002', close: true }),
+      event('c3', 0, 'contact_listed', { contact: 'K003', close: false }),
+      event('x', 0, 'something_else'),
+    ]
+    const decisions = [
+      decision('d1', 90, 'record_contact_outcome', { contact: 'K001', outcome: 'reached' }),
+      decision('d2', 120, 'record_contact_outcome', { contact: 'K002', outcome: 'unreachable' }),
+    ]
+    const c = contactsFromBag(events, decisions)
+    expect(c).toHaveLength(3)
+    expect(c[0]).toMatchObject({ id: 'K001', close: true, reachedAt: at(90) })
+    expect(c[1]).toMatchObject({ id: 'K002', unreachable: true })
+    expect(c[1]!.reachedAt).toBeUndefined()
+    expect(c[2]).toMatchObject({ id: 'K003', close: false })
+  })
+
+  it('reads a site from its activation, its opening decision and its counts', () => {
+    const events = [event('a', 0, 'mcm_activation', { site: 'POD 1' })]
+    const decisions = [
+      decision('o', 100, 'open_dispensing_site', { site: 'POD 1', action: 'open' }),
+      decision('n1', 160, 'record_dispensing_count', { site: 'POD 1', served: 150 }),
+      decision('n2', 220, 'record_dispensing_count', { site: 'POD 1', served: 160 }),
+      decision('n3', 220, 'record_dispensing_count', { site: 'POD 2', served: 99 }),
+    ]
+    const [site] = sitesFromBag(events, decisions)
+    expect(site).toMatchObject({ id: 'POD 1', decidedAt: at(0), openedAt: at(100) })
+    expect(site!.served).toEqual([
+      { time: at(160), count: 150 },
+      { time: at(220), count: 160 },
+    ])
+  })
+
+  it('reads the line list from onset events and curves from submissions, dropping bad ones', () => {
+    const events = [
+      event('o1', 0, 'case_onset', { reportedAt: at(600) }),
+      event('o2', 30, 'case_onset'),
+    ]
+    const decisions = [
+      decision('s1', 1, 'submit_epi_curve', {
+        team: 'Team A',
+        start: '2026-10-22',
+        counts: '2, 0, 1',
+      }),
+      decision('s2', 1, 'submit_epi_curve', { team: 'Team B', start: 'nope', counts: '1' }),
+      decision('s3', 1, 'submit_epi_curve', {
+        team: 'Team C',
+        start: '2026-10-22',
+        counts: 'a, b',
+      }),
+    ]
+    const c = curvesFromBag(events, decisions)
+    expect(c.lineList).toEqual([{ onset: at(0), reported: at(600) }, { onset: at(30) }])
+    expect(c.drawn).toEqual([{ label: 'Team A', start: '2026-10-22', counts: [2, 0, 1] }])
+  })
+})
+
+describe('registry (metrics go through registerMetric)', () => {
+  registerEpidemiologyMetrics()
+
+  it('runs each new metric by id from the shared bag and rejects a bad config', () => {
+    const events = [event('c1', 0, 'contact_listed', { contact: 'K001' })]
+    const decisions = [
+      decision('d1', 60, 'record_contact_outcome', { contact: 'K001', outcome: 'reached' }),
+    ]
+    const r = runMetric({ id: 'contact_reach', config: { targetHours: 2 } }, { events, decisions })
+    expect(r.data).toMatchObject({ counted: 1, onTime: 1 })
     expect(() => runMetric({ id: 'contact_reach', config: { targetHours: -1 } }, {})).toThrow()
     expect(runMetric({ id: 'curve_accuracy', config: {} }, {}).metricId).toBe('curve_accuracy')
     expect(runMetric({ id: 'dispensing_throughput', config: {} }, {}).metricId).toBe(
@@ -174,15 +268,7 @@ describe('registry and toolkit config', () => {
     )
   })
 
-  it('turns comma-separated toolkit settings into the lists a metric expects', () => {
-    const ref = metricRefFromToolkit({
-      id: 'decision_timing',
-      config: { decisionKinds: 'a, b ,c', eventKinds: 'first_report', leadWindowMin: 0 },
-    })
-    expect(ref.config).toEqual({
-      decisionKinds: ['a', 'b', 'c'],
-      eventKinds: ['first_report'],
-      leadWindowMin: 0,
-    })
+  it('is safe to register twice', () => {
+    expect(() => registerEpidemiologyMetrics()).not.toThrow()
   })
 })

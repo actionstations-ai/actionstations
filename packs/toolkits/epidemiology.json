@@ -101,52 +101,60 @@
       "id": "decision_timing",
       "label": "Time from first report to case definition",
       "config": {
-        "decisionKinds": "adopt_case_definition",
-        "eventKinds": "first_report",
+        "decisionKinds": ["adopt_case_definition"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 480,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to outbreak declaration",
       "config": {
-        "decisionKinds": "declare_outbreak",
-        "eventKinds": "first_report",
+        "decisionKinds": ["declare_outbreak"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 720,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to first control measure",
       "config": {
-        "decisionKinds": "recommend_exclusion_or_closure, open_dispensing_site, issue_exposure_notice",
-        "eventKinds": "first_report",
+        "decisionKinds": [
+          "recommend_exclusion_or_closure",
+          "open_dispensing_site",
+          "issue_exposure_notice"
+        ],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 1440,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "decision_timing",
       "label": "Time from first report to public notice",
       "config": {
-        "decisionKinds": "issue_exposure_notice, release_data",
-        "eventKinds": "first_report",
+        "decisionKinds": ["issue_exposure_notice", "release_data"],
+        "eventKinds": ["first_report"],
         "leadWindowMin": 0,
         "graceWindowMin": 1440,
         "matchArea": false
-      }
+      },
+      "groundTruth": "epi-case-events"
     },
     {
       "id": "message_consistency",
       "label": "Message consistency across health department, hospital and school",
       "config": {
         "numericTolerance": 0,
-        "partners": "health department, hospital, school"
+        "partners": ["health department", "hospital", "school"]
       }
     },
     {
@@ -154,7 +162,8 @@
       "label": "Contacts reached within the designer's target",
       "config": {
         "targetHours": 24
-      }
+      },
+      "groundTruth": "epi-contact-events"
     },
     {
       "id": "dispensing_throughput",
@@ -162,14 +171,16 @@
       "config": {
         "planPerHour": 300,
         "openTargetMin": 120
-      }
+      },
+      "groundTruth": "epi-dispensing-events"
     },
     {
       "id": "curve_accuracy",
       "label": "Epidemic curve matches the line list",
       "config": {
         "binHours": 24
-      }
+      },
+      "groundTruth": "epi-case-events"
     }
   ],
   "decisionForms": [
@@ -441,6 +452,68 @@
           "id": "at",
           "label": "Released at",
           "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "record_contact_outcome",
+      "label": "Record the outcome of reaching a contact",
+      "description": "Record that a listed contact was reached, or that the team could not reach them. The time is the time of the decision.",
+      "fields": [
+        {
+          "id": "contact",
+          "label": "Contact code (never a real name)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "outcome",
+          "label": "Outcome",
+          "kind": "choice",
+          "choices": ["Reached", "Unreachable"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "record_dispensing_count",
+      "label": "Record people served at a dispensing site",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "served",
+          "label": "People served since the last count",
+          "kind": "number",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "submit_epi_curve",
+      "label": "Submit the epidemic curve a team drew",
+      "description": "Counts per bin by onset date, for checking against the line list.",
+      "fields": [
+        {
+          "id": "team",
+          "label": "Team",
+          "kind": "text"
+        },
+        {
+          "id": "start",
+          "label": "Start of the first bin (date, YYYY-MM-DD)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "counts",
+          "label": "Cases per bin, separated by commas",
+          "kind": "text",
           "required": true
         }
       ]

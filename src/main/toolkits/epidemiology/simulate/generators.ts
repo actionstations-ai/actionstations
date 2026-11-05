@@ -19,6 +19,18 @@ const MARKING = 'EXERCISE ONLY. Fictional person.'
 const START = z.object({ startDate: z.iso.datetime().default('2026-10-01T00:00:00Z') })
 const iso = (ms: number): string => new Date(ms).toISOString()
 
+/** A ground-truth event as a text entry: the case data reports shape (see readGroundTruth). */
+const eventEntry = (
+  at: string,
+  id: string,
+  kind: string,
+  attrs: Record<string, unknown> = {},
+): { t: string; title: string; text: string } => ({
+  t: at,
+  title: id,
+  text: JSON.stringify({ id, kind, attrs }),
+})
+
 const compartmentParams = z.intersection(CompartmentParams, START)
 const compartmentGenerator: SimulatedGenerator<z.output<typeof compartmentParams>> = {
   id: 'epi-compartment',
@@ -90,7 +102,23 @@ const commonSourceGenerator: SimulatedGenerator<z.output<typeof commonSourcePara
       title: a.food,
       text: `${MARKING}\nill and ate ${a.a}; well and ate ${a.b}; ill and did not eat ${a.c}; well and did not eat ${a.d}\nodds ratio ${a.oddsRatio === null ? 'n/a' : a.oddsRatio.toFixed(1)}`,
     }))
+    const reported = out.cases.map((c) => c.reportedMs!).sort((a, b) => a - b)
+    const events = [
+      ...(reported.length ? [eventEntry(iso(reported[0]!), 'first-report', 'first_report')] : []),
+      ...out.cases.map((c) =>
+        eventEntry(iso(c.onsetMs!), `onset-${c.code}`, 'case_onset', {
+          reportedAt: iso(c.reportedMs!),
+        }),
+      ),
+    ]
     return [
+      {
+        id: 'epi-case-events',
+        label: 'Simulated case events: first report and each onset (for scoring)',
+        kind: 'reports',
+        range,
+        data: events,
+      },
       {
         id: 'epi-line-list',
         label: 'Simulated line list (fictional people)',
@@ -118,6 +146,15 @@ const contactGenerator: SimulatedGenerator<z.output<typeof contactParams>> = {
     const net = generateContactNetwork(p)
     const t = p.notificationAt
     return [
+      {
+        id: 'epi-contact-events',
+        label: 'Simulated contact listing events (for scoring)',
+        kind: 'reports',
+        range: { start: t, end: iso(Date.parse(t) + 21 * DAY_MS) },
+        data: net.contacts.map((c) =>
+          eventEntry(t, `contact-${c.code}`, 'contact_listed', { contact: c.code, close: c.close }),
+        ),
+      },
       {
         id: 'epi-contact-roster',
         label: 'Simulated contact roster (fictional people)',
@@ -163,7 +200,10 @@ const wastewaterGenerator: SimulatedGenerator<z.output<typeof wastewaterParams>>
 
 const dispensingParams = z.intersection(
   DispensingParams,
-  z.object({ openAt: z.iso.datetime().default('2026-10-22T14:00:00Z') }),
+  z.object({
+    openAt: z.iso.datetime().default('2026-10-22T14:00:00Z'),
+    site: z.string().min(1).max(40).default('POD 1'),
+  }),
 )
 const dispensingGenerator: SimulatedGenerator<z.output<typeof dispensingParams>> = {
   id: 'epi-dispensing',
@@ -173,6 +213,13 @@ const dispensingGenerator: SimulatedGenerator<z.output<typeof dispensingParams>>
     const run = runDispensing(p)
     const t0 = Date.parse(p.openAt)
     return [
+      {
+        id: 'epi-dispensing-events',
+        label: 'Simulated dispensing activation (for scoring)',
+        kind: 'reports',
+        range: { start: p.openAt, end: p.openAt },
+        data: [eventEntry(p.openAt, `activation-${p.site}`, 'mcm_activation', { site: p.site })],
+      },
       {
         id: 'epi-dispensing-flow',
         label: 'Simulated dispensing site flow',
