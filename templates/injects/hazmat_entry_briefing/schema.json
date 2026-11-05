@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hazmat entry team briefing",
+  "description": "Briefing for a hazardous materials entry team before it goes into the hot zone: objective, material and hazards as known, the level of protection, the monitoring plan, time limits, communications, abort criteria and the backup team. Decision level only; no entry techniques.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["groupSupervisor", "team"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "groupSupervisor": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Hazmat 1 / Captain Vega"],
+      "x-translate": false
+    },
+    "safetyOfficer": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Battalion 2 / Chief Pruitt"],
+      "x-translate": false
+    },
+    "briefedAt": {
+      "type": "string",
+      "description": "Time, 24-hour.",
+      "examples": ["11:08"],
+      "x-translate": false
+    },
+    "ppeLevel": {
+      "type": "string",
+      "description": "Protective ensemble level chosen.",
+      "enum": ["Level A", "Level B", "Level C", "Level D"],
+      "examples": ["Level B"]
+    },
+    "team": {
+      "type": "array",
+      "description": "Entry team members and backup.",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Entry, backup, decon.",
+            "enum": ["Entry", "Entry (second)", "Backup", "Decontamination"],
+            "examples": ["Entry"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Fictional name and unit.",
+            "examples": ["Hazmat 1 / Reyes"],
+            "x-translate": false
+          },
+          "level": {
+            "type": "string",
+            "description": "Training level.",
+            "enum": ["Technician", "Specialist", "Operations"],
+            "examples": ["Technician"]
+          },
+          "airTime": {
+            "type": "string",
+            "description": "Planned working time.",
+            "examples": ["20 min"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "objective": {
+      "type": "string",
+      "description": "What the team is to accomplish.",
+      "examples": ["Confirm the valve position at the dome and close it if safe, then report."]
+    },
+    "hazards": {
+      "type": "string",
+      "description": "What is known and unknown about the material.",
+      "examples": [
+        "Corrosive liquid and vapor; shipping paper gives the product name. Container pressure unknown."
+      ]
+    },
+    "monitoring": {
+      "type": "string",
+      "description": "Readings or events that end the entry.",
+      "examples": [
+        "Abort on a monitor reading above the agreed action level, a wind shift toward the team, loss of radio contact, or one team member at half air."
+      ]
+    }
+  }
+}

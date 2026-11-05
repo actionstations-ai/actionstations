@@ -1,0 +1,72 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Radio Traffic Log</h1>
+      <p class="sub">Transcript by channel. Emergency traffic is marked in words.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 3">
+    <div>
+      <dt>Logged by</dt>
+      <dd>{{fields.preparedBy}}</dd>
+    </div>
+    <div>
+      <dt>From</dt>
+      <dd>{{fields.from}}</dd>
+    </div>
+    <div>
+      <dt>To</dt>
+      <dd>{{fields.to}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Traffic</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Channel</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Flag</th>
+            <th scope="col">Traffic</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.traffic}}
+          <tr>
+            <td class="num">{{this.time}}</td>
+            <td>{{this.channel}}</td>
+            <td>{{this.from}}</td>
+            <td>{{this.to}}</td>
+            <td class="st" data-s="{{this.flag}}"><span>{{this.flag}}</span></td>
+            <td>{{this.message}}</td>
+          </tr>
+          {{/each}} {{#times 2}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Notes</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

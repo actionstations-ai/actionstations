@@ -1450,19 +1450,33 @@
     {
       "id": "ai.actionstations.ems-fire",
       "name": "EMS, fire and hazardous materials",
-      "summary": "EMS, fire, hazmat and dispatch domain with the mass casualty and triage toolkit: triage tags, patient lists, Medical Branch worksheets, the transportation log and hospital calls.",
+      "summary": "EMS, fire, hazmat and dispatch domain with three toolkits: mass casualty and triage, hazardous materials, and dispatch and command traffic.",
       "tags": ["ems", "fire", "hazmat", "mass-casualty", "triage"],
       "domains": ["ems_fire"],
       "contents": {
         "domains": ["ems_fire"],
-        "toolkits": ["mci_triage"],
+        "toolkits": ["mci_triage", "hazmat", "dispatch"],
         "templates": [
           "mci_triage_tag",
           "mci_patient_list",
           "medical_branch_worksheet",
           "treatment_area_assignments",
           "patient_transport_log",
-          "medcom_hospital_call"
+          "medcom_hospital_call",
+          "hazmat_placard",
+          "hazmat_shipping_paper",
+          "hazmat_entry_briefing",
+          "air_monitoring_log",
+          "decon_corridor_layout",
+          "chemtrec_call_record",
+          "protective_action_order",
+          "protective_action_recommendation",
+          "cad_incident_detail",
+          "unit_status_board",
+          "pending_calls_queue",
+          "cad_radio_traffic",
+          "station_alert_text",
+          "mutual_aid_request"
         ]
       }
     }

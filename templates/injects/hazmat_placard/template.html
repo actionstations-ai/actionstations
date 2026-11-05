@@ -1,0 +1,37 @@
+<figure class="wrap">
+  <svg
+    class="placard"
+    viewBox="0 0 400 400"
+    role="img"
+    aria-label="Placard class {{fields.hazardClass}} {{fields.hazardWord}} UN {{fields.unNumber}}"
+    data-c="{{fields.hazardClass}}"
+  >
+    <defs>
+      <pattern id="stripes41" width="24" height="24" patternUnits="userSpaceOnUse">
+        <rect width="24" height="24" fill="#ffffff" />
+        <rect width="12" height="24" fill="#d3202b" />
+      </pattern>
+      <pattern id="stripes9" width="24" height="24" patternUnits="userSpaceOnUse">
+        <rect width="24" height="24" fill="#ffffff" />
+        <rect width="12" height="24" fill="#111111" />
+      </pattern>
+      <clipPath id="lowerHalf"><rect x="0" y="200" width="400" height="200" /></clipPath>
+      <clipPath id="upperHalf"><rect x="0" y="0" width="400" height="200" /></clipPath>
+    </defs>
+    <polygon class="face" points="200,6 394,200 200,394 6,200" />
+    <polygon class="lower" clip-path="url(#lowerHalf)" points="200,6 394,200 200,394 6,200" />
+    <polygon class="upper" clip-path="url(#upperHalf)" points="200,6 394,200 200,394 6,200" />
+    <polygon class="inner" points="200,26 374,200 200,374 26,200" />
+    <text class="word" x="200" y="150" text-anchor="middle">{{fields.hazardWord}}</text>
+    <rect class="panel" x="120" y="172" width="160" height="56" />
+    <text class="un" x="200" y="213" text-anchor="middle">{{fields.unNumber}}</text>
+    <text class="cls" x="200" y="330" text-anchor="middle">{{fields.hazardClass}}</text>
+  </svg>
+  <figcaption>
+    {{#if fields.caption}}
+    <p class="cap">{{fields.caption}}</p>
+    {{/if}}
+    <p class="read">Class {{fields.hazardClass}}, {{fields.hazardWord}}, UN {{fields.unNumber}}</p>
+    <p class="mark">{{default fields.marking "EXERCISE - NOT A REGULATORY PLACARD"}}</p>
+  </figcaption>
+</figure>

@@ -1,0 +1,87 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Shipping Paper</h1>
+      <p class="sub">Bill of lading with the hazardous materials description.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div class="wide">
+      <dt>Shipper</dt>
+      <dd>{{fields.shipper}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Carrier</dt>
+      <dd>{{fields.carrier}}</dd>
+    </div>
+    <div>
+      <dt>Document number</dt>
+      <dd>{{fields.documentNumber}}</dd>
+    </div>
+    <div>
+      <dt>Ship date</dt>
+      <dd>{{fields.shipDate}}</dd>
+    </div>
+    <div class="wide">
+      <dt>24-hour emergency response phone</dt>
+      <dd>{{fields.emergencyPhone}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Paper carried in</dt>
+      <dd>{{fields.carriedIn}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Hazardous materials description</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">UN / NA</th>
+            <th scope="col">Proper shipping name</th>
+            <th scope="col">Class</th>
+            <th scope="col">PG</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Guide (optional)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.lines}}
+          <tr>
+            <td>{{this.unNumber}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.hazardClass}}</td>
+            <td>{{this.packingGroup}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.guide}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Remarks</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span
+      >Exercise material. Fictional carrier and shipper. Not hazmat guidance for a real
+      incident.</span
+    >
+  </footer>
+</article>

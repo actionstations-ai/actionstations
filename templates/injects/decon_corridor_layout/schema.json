@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decontamination corridor layout",
+  "description": "Layout of a decontamination corridor as a list of stations in order, with the zone, the purpose, the crew and the supplies at each, and where patients are handed to medical care. No technique detail.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decontLeader", "stations"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "decontLeader": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Engine 6 / Lt. Brandt"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Where it is set up and its relation to the wind.",
+      "examples": ["Uphill and upwind of the spur, east side of Harlan Road"]
+    },
+    "setUpAt": {
+      "type": "string",
+      "description": "Time the corridor was ready, 24-hour.",
+      "examples": ["11:05"],
+      "x-translate": false
+    },
+    "stations": {
+      "type": "array",
+      "description": "Stations from the hot zone side to the cold zone side.",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step", "zone", "station"],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Station number.",
+            "examples": [1],
+            "x-translate": false
+          },
+          "zone": {
+            "type": "string",
+            "description": "Hot, warm or cold zone.",
+            "enum": ["Hot", "Warm", "Cold"],
+            "examples": ["Warm"]
+          },
+          "station": {
+            "type": "string",
+            "description": "Name of the station.",
+            "examples": ["Triage and gross decontamination"]
+          },
+          "crew": {
+            "type": "string",
+            "description": "Unit or crew.",
+            "examples": ["Engine 6"],
+            "x-translate": false
+          },
+          "supplies": {
+            "type": "string",
+            "description": "What the station needs.",
+            "examples": ["Water supply, privacy screens"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Where decontaminated patients are handed to medical care and what is done with runoff.",
+      "examples": [
+        "Patients move to the Medical Group after step 4 with their tag. Runoff is directed to the containment berm."
+      ]
+    }
+  }
+}

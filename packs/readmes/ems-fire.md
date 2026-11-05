@@ -6,9 +6,11 @@ All people, agencies, hospitals and patients in the templates and examples are f
 
 ## Toolkits
 
-| Toolkit                  | What it brings                                                                                                                                                                  |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mass casualty and triage | Triage tags, MCI patient list, Medical Branch worksheet, treatment area assignments, patient transportation log, hospital call record, and the decisions a Medical Group makes. |
+| Toolkit                      | What it brings                                                                                                                                                                                                  |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hazardous materials          | Placard, shipping paper, entry team briefing, air monitoring log, decontamination corridor, chemical emergency call record, protective action order and recommendation, and the decisions of a hazmat response. |
+| Dispatch and command traffic | CAD incident detail, unit status board, pending calls queue, multi-channel radio traffic log, station alert text, mutual aid request, and the mutual aid, command transfer and mayday decisions.                |
+| Mass casualty and triage     | Triage tags, MCI patient list, Medical Branch worksheet, treatment area assignments, patient transportation log, hospital call record, and the decisions a Medical Group makes.                                 |
 
 ## Triage methods
 

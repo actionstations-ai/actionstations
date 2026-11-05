@@ -1,0 +1,73 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Entry Team Briefing</h1>
+      <p class="sub">Objective, level of protection, limits and abort criteria.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Hazmat Group Supervisor</dt>
+      <dd>{{fields.groupSupervisor}}</dd>
+    </div>
+    <div>
+      <dt>Safety Officer</dt>
+      <dd>{{fields.safetyOfficer}}</dd>
+    </div>
+    <div>
+      <dt>Briefed at</dt>
+      <dd>{{fields.briefedAt}}</dd>
+    </div>
+    <div>
+      <dt>Level of protection</dt>
+      <dd>{{fields.ppeLevel}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Entry team</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Role</th>
+            <th scope="col">Name / unit</th>
+            <th scope="col">Responder level</th>
+            <th scope="col">Air / time limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.team}}
+          <tr>
+            <td>{{this.role}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.level}}</td>
+            <td>{{this.airTime}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.objective}}
+    <section class="note">
+      <h2>Objective</h2>
+      <p>{{nl2br fields.objective}}</p>
+    </section>
+    {{/if}} {{#if fields.hazards}}
+    <section class="note">
+      <h2>Material and hazards as known</h2>
+      <p>{{nl2br fields.hazards}}</p>
+    </section>
+    {{/if}} {{#if fields.monitoring}}
+    <section class="note">
+      <h2>Monitoring and abort criteria</h2>
+      <p>{{nl2br fields.monitoring}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

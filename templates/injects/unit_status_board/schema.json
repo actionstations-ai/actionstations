@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unit status board",
+  "description": "A dispatch unit status board: each unit with its status (Available, Dispatched, En route, On scene, Patient contact, Transporting, At hospital, Committed or Out of service), its assignment and the time of the last change. Status is a word, not only a color.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["asOf", "units"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Dispatch"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:52"],
+      "x-translate": false
+    },
+    "available": {
+      "type": "integer",
+      "description": "Number of units available.",
+      "examples": [2]
+    },
+    "committed": {
+      "type": "integer",
+      "description": "Number of units committed.",
+      "examples": [9]
+    },
+    "district": {
+      "type": "string",
+      "description": "Area the board covers.",
+      "examples": ["County-wide"]
+    },
+    "units": {
+      "type": "array",
+      "description": "One row per unit.",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit", "status"],
+        "properties": {
+          "unit": {
+            "type": "string",
+            "description": "Unit name.",
+            "examples": ["Engine 7"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Unit status.",
+            "enum": [
+              "Available",
+              "Dispatched",
+              "En route",
+              "On scene",
+              "Patient contact",
+              "Transporting",
+              "At hospital",
+              "Committed",
+              "Out of service"
+            ],
+            "examples": ["On scene"]
+          },
+          "assignment": {
+            "type": "string",
+            "description": "Incident or location.",
+            "examples": ["CAD 26-104417 Route 9 MCI"]
+          },
+          "since": {
+            "type": "string",
+            "description": "Time of last change, 24-hour.",
+            "examples": ["10:18"],
+            "x-translate": false
+          },
+          "station": {
+            "type": "string",
+            "description": "Station.",
+            "examples": ["Sta 7"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Coverage gaps or moves in progress.",
+      "examples": [
+        "Northwest district covered by one ALS unit. Mutual aid requested from Lakeshore County for two ambulances."
+      ]
+    }
+  }
+}

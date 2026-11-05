@@ -1,0 +1,61 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Decontamination Corridor</h1>
+      <p class="sub">Stations in the order a patient or responder passes through them.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Decontamination Unit Leader</dt>
+      <dd>{{fields.decontLeader}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Corridor location</dt>
+      <dd>{{fields.location}}</dd>
+    </div>
+    <div>
+      <dt>Ready at</dt>
+      <dd>{{fields.setUpAt}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Stations in order</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Step</th>
+            <th scope="col">Zone</th>
+            <th scope="col">Station</th>
+            <th scope="col">Crew</th>
+            <th scope="col">Supplies</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.stations}}
+          <tr>
+            <td class="num">{{this.step}}</td>
+            <td>{{this.zone}}</td>
+            <td>{{this.station}}</td>
+            <td>{{this.crew}}</td>
+            <td>{{this.supplies}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Handoff and wastewater</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

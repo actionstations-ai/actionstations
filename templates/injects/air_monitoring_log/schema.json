@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Air monitoring log",
+  "description": "Log of air monitoring readings taken during a hazardous materials response: time, place, instrument, reading, action level and what command did about it. Readings are fictional exercise values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["monitoringLead", "readings"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "monitoringLead": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Hazmat 1 / Osei"],
+      "x-translate": false
+    },
+    "material": {
+      "type": "string",
+      "description": "Material being monitored.",
+      "examples": ["Exercise material X-17 (fictional)"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the last entry, 24-hour.",
+      "examples": ["11:26"],
+      "x-translate": false
+    },
+    "readings": {
+      "type": "array",
+      "description": "One row per reading, in time order.",
+      "minItems": 1,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "place"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "24-hour time.",
+            "examples": ["11:14"],
+            "x-translate": false
+          },
+          "place": {
+            "type": "string",
+            "description": "Where the reading was taken.",
+            "examples": ["Fence line, downwind, 300 ft"]
+          },
+          "instrument": {
+            "type": "string",
+            "description": "Instrument used.",
+            "examples": ["Multi-gas meter"]
+          },
+          "reading": {
+            "type": "string",
+            "description": "Reading with units.",
+            "examples": ["4 ppm"],
+            "x-translate": false
+          },
+          "actionLevel": {
+            "type": "string",
+            "description": "Action level the team set for this place.",
+            "examples": ["5 ppm"],
+            "x-translate": false
+          },
+          "result": {
+            "type": "string",
+            "description": "What was done.",
+            "examples": ["Below action level; recheck in 10 min"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Calibration, wind at the time, or anything that limits the readings.",
+      "examples": [
+        "Wind from the southwest at about 8 mph, shifting west at 11:20. Readings are invented exercise values."
+      ]
+    }
+  }
+}

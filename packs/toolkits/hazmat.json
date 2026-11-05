@@ -1,0 +1,191 @@
+{
+  "id": "hazmat",
+  "name": "Hazardous materials response",
+  "description": "Placards, shipping papers, entry briefings, air monitoring, decontamination corridors, protective action orders and the structured decisions of a hazmat response. The pack does not include the text or the distance tables of the Emergency Response Guidebook: distances are typed by the facilitator from their own copy, or invented for a fictional material and labeled as exercise values. Stays at the coordination and decision level; not hazmat guidance for a real incident.",
+  "appliesTo": {
+    "keywords": [
+      "hazmat",
+      "hazardous materials",
+      "chemical release",
+      "tank car",
+      "tanker truck",
+      "placard",
+      "shipping paper",
+      "shelter in place",
+      "isolation zone",
+      "protective action",
+      "decontamination",
+      "toxic gas",
+      "chemical spill"
+    ],
+    "domains": [
+      "ems_fire",
+      "chemical",
+      "industrial",
+      "gas_pipeline",
+      "energy_utility",
+      "freight_rail",
+      "transit",
+      "port_maritime",
+      "stadium_venue",
+      "campus",
+      "airport",
+      "healthcare",
+      "k12_schools",
+      "municipal",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "hazmat_placard",
+    "hazmat_shipping_paper",
+    "hazmat_entry_briefing",
+    "air_monitoring_log",
+    "decon_corridor_layout",
+    "chemtrec_call_record",
+    "protective_action_order",
+    "protective_action_recommendation",
+    "sds_excerpt"
+  ],
+  "outsideParties": [
+    "the shipper or carrier",
+    "the 24-hour chemical emergency information line (fictional in the exercise)",
+    "the chemical facility and its emergency coordinator",
+    "county emergency management",
+    "the state environmental agency and the National Response Center",
+    "the poison control center",
+    "the receiving hospitals"
+  ],
+  "advisorRoles": [
+    {
+      "key": "decon_leader",
+      "name": "Decontamination Unit Leader",
+      "abbreviation": "DECON",
+      "team": "Hazmat",
+      "description": "Sets up the corridor, controls who goes through it and hands decontaminated patients to the Medical Group."
+    },
+    {
+      "key": "entry_leader",
+      "name": "Entry Team Leader",
+      "abbreviation": "ENTRY",
+      "team": "Hazmat",
+      "description": "Leads the entry team at the technician level, reports readings and keeps to the abort criteria."
+    },
+    {
+      "key": "facility_coordinator",
+      "name": "Facility Emergency Coordinator",
+      "abbreviation": "FEC",
+      "team": "Outside party",
+      "description": "Speaks for the chemical facility: what the material is, how much, and what the facility's own plan says."
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "set_protective_actions",
+      "label": "Set isolation and protective actions",
+      "description": "Choose the isolation zone and the downwind protective action, with the source of the distances.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Protective action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Shelter in place", "Evacuate", "Isolate only"]
+        },
+        { "id": "area", "label": "Area (drawn on the map)", "kind": "area", "required": true },
+        { "id": "isolation_distance", "label": "Initial isolation distance", "kind": "number" },
+        {
+          "id": "protective_distance",
+          "label": "Protective action distance (downwind)",
+          "kind": "number"
+        },
+        {
+          "id": "unit",
+          "label": "Distance unit",
+          "kind": "choice",
+          "choices": ["feet", "meters", "miles", "kilometers"]
+        },
+        {
+          "id": "distance_source",
+          "label": "Source of the distances",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Entered from the facilitator's own guidebook edition",
+            "Invented exercise values for a fictional material",
+            "Set by command's judgment"
+          ]
+        },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    },
+    {
+      "id": "set_ppe_and_entry",
+      "label": "Set PPE level and authorize entry",
+      "description": "The hazmat group chooses the protective level and sends an entry team with an objective and abort criteria.",
+      "fields": [
+        {
+          "id": "ppe_level",
+          "label": "Level of protection",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Level A", "Level B", "Level C", "Level D"]
+        },
+        {
+          "id": "team_level",
+          "label": "Team's responder level",
+          "kind": "choice",
+          "choices": ["Operations", "Technician", "Specialist"]
+        },
+        { "id": "objective", "label": "Objective", "kind": "text", "required": true },
+        { "id": "abort_criteria", "label": "Abort criteria", "kind": "text" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Responder levels",
+        "definition": "OSHA's emergency response levels: awareness, operations, technician, specialist and incident commander. Players act at their level; an operations-level crew does not enter the hot zone to stop a leak."
+      },
+      {
+        "term": "Zones",
+        "definition": "Hot zone (the release area), warm zone (decontamination), cold zone (command and support)."
+      },
+      {
+        "term": "Isolation zone",
+        "definition": "The initial isolation zone is a circle around the release. The protective action zone is a square downwind whose side is the protective action distance."
+      },
+      {
+        "term": "Shelter in place / evacuate",
+        "definition": "Two protective actions for people downwind; the choice depends on the material, the time available, the route and the people."
+      },
+      {
+        "term": "UN number",
+        "definition": "Four-digit identification number on the placard or orange panel and on the shipping paper."
+      },
+      {
+        "term": "Shipping paper",
+        "definition": "Names the material (UN number, proper shipping name, class, packing group), the quantity and a 24-hour emergency phone; kept in the cab or with the crew."
+      }
+    ],
+    "productConventions": [
+      "A placard shows the class number, a hazard word and the UN number; products print the word, never color alone.",
+      "A protective action order or recommendation always states the source of its distances.",
+      "The air monitoring log has time, place, instrument, reading, action level and result. Readings are invented exercise values.",
+      "Times are 24-hour."
+    ],
+    "realismRules": [
+      "Never ship or invent Emergency Response Guidebook text or distance tables. Distances come from the facilitator's own guidebook, or belong to a fictional material and are labeled as invented exercise values.",
+      "Never pair a real UN number with distances the author made up; use a fictional material for invented distances.",
+      "Players use their own guidebook for decisions; the exercise is not a source of real hazmat guidance.",
+      "Responders act at their trained level and wait for the technician team when they are only operations level.",
+      "The wind is stated with its source and time, and a wind shift forces the protective action to be revisited.",
+      "Decontamination comes before patients reach the ambulances; the hospital is told what the material is.",
+      "Identification comes from the placard, the shipping paper and the facility, and may disagree at first.",
+      "Stay at who decides what; no entry techniques or neutralization steps."
+    ]
+  },
+  "lintRules": []
+}

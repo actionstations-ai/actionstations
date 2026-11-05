@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter in place or evacuation order",
+  "description": "An order or public instruction to shelter in place or evacuate an area during a hazardous materials release: the action, the area in words, the time, the reason and the source of the distances. The distances must be entered by the author from their own guidebook or be invented values for a fictional material, and the source field says which.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issuedBy", "issuedAt", "action"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Fire Department, Hazmat 1"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Tank car leak at Harlan Spur"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Name and title of who issued the order.",
+      "examples": ["Chief Pruitt, Rook County Fire Department"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["11:12"],
+      "x-translate": false
+    },
+    "action": {
+      "type": "string",
+      "description": "The protective action.",
+      "enum": ["Shelter in place", "Evacuate", "Isolate the area"],
+      "examples": ["Shelter in place"]
+    },
+    "material": {
+      "type": "string",
+      "description": "Material, or fictional exercise material.",
+      "examples": ["Exercise material X-17 (fictional)"]
+    },
+    "isolationDistance": {
+      "type": "string",
+      "description": "Distance with units, entered by the author.",
+      "examples": ["300 ft (invented)"],
+      "x-translate": false
+    },
+    "protectiveDistance": {
+      "type": "string",
+      "description": "Distance with units, entered by the author.",
+      "examples": ["0.4 mi downwind (invented)"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "The area in words: streets, buildings, facilities.",
+      "examples": [
+        "Everyone within 0.4 miles northeast of Harlan Spur, including Elm Street Elementary and the Harlan Road homes."
+      ]
+    },
+    "instructions": {
+      "type": "string",
+      "description": "Short plain instructions, at the decision level.",
+      "examples": [
+        "Go inside, close windows and doors, turn off ventilation, and stay until told otherwise. Do not drive toward the spur."
+      ]
+    },
+    "distanceSource": {
+      "type": "string",
+      "description": "Where the distances came from: the author's own guidebook edition, or \"invented exercise values for a fictional material\".",
+      "examples": [
+        "Invented exercise distance for a fictional material. Players use their own guidebook for real decisions."
+      ]
+    }
+  }
+}

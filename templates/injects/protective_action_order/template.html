@@ -1,0 +1,58 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Protective Action Order</h1>
+      <p class="sub">Shelter in place or evacuate, for the area named.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div class="wide">
+      <dt>Issued by</dt>
+      <dd>{{fields.issuedBy}}</dd>
+    </div>
+    <div>
+      <dt>Issued at</dt>
+      <dd>{{fields.issuedAt}}</dd>
+    </div>
+    <div>
+      <dt>Action</dt>
+      <dd>{{fields.action}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Material</dt>
+      <dd>{{fields.material}}</dd>
+    </div>
+    <div>
+      <dt>Initial isolation distance</dt>
+      <dd>{{fields.isolationDistance}}</dd>
+    </div>
+    <div>
+      <dt>Protective action distance (downwind)</dt>
+      <dd>{{fields.protectiveDistance}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    {{#if fields.area}}
+    <section class="note">
+      <h2>Area affected</h2>
+      <p>{{nl2br fields.area}}</p>
+    </section>
+    {{/if}} {{#if fields.instructions}}
+    <section class="note">
+      <h2>Instructions to the public</h2>
+      <p>{{nl2br fields.instructions}}</p>
+    </section>
+    {{/if}} {{#if fields.distanceSource}}
+    <section class="note">
+      <h2>Source of the distances</h2>
+      <p>{{nl2br fields.distanceSource}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

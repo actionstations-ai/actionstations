@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pending calls queue",
+  "description": "A dispatch pending-calls queue during a surge: calls without a unit assigned, with priority, how long each has waited and what dispatch has done about it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["asOf", "calls"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Dispatch"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:52"],
+      "x-translate": false
+    },
+    "pending": {
+      "type": "integer",
+      "description": "Number of calls waiting.",
+      "examples": [5]
+    },
+    "oldest": {
+      "type": "string",
+      "description": "Longest wait with units.",
+      "examples": ["11 min"],
+      "x-translate": false
+    },
+    "calls": {
+      "type": "array",
+      "description": "One row per pending call.",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["incident"],
+        "properties": {
+          "incident": {
+            "type": "string",
+            "description": "CAD number.",
+            "examples": ["CAD 26-104433"],
+            "x-translate": false
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority.",
+            "examples": ["P1"],
+            "x-translate": false
+          },
+          "type": {
+            "type": "string",
+            "description": "Call type.",
+            "examples": ["Chest pain"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Address.",
+            "examples": ["41 Birch Lane"]
+          },
+          "waiting": {
+            "type": "string",
+            "description": "Minutes waiting.",
+            "examples": ["11 min"],
+            "x-translate": false
+          },
+          "action": {
+            "type": "string",
+            "description": "What dispatch has done.",
+            "examples": ["Mutual aid ALS requested"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Moves between districts or deferred calls.",
+      "examples": [
+        "All ALS units are committed to the Route 9 incident. Engine 3 moved up to Station 4."
+      ]
+    }
+  }
+}

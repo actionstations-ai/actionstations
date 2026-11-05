@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CAD incident detail",
+  "description": "A computer-aided dispatch incident detail as responders see it: call type, address, priority, the units assigned with the time of each status change, and the dispatcher remarks. All times 24-hour.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["incidentNumber", "callType", "units"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County Dispatch"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "incidentNumber": {
+      "type": "string",
+      "description": "CAD incident number.",
+      "examples": ["CAD 26-104417"],
+      "x-translate": false
+    },
+    "callType": {
+      "type": "string",
+      "description": "Call type as coded.",
+      "examples": ["MVC with entrapment"]
+    },
+    "priority": {
+      "type": "string",
+      "description": "Response priority.",
+      "examples": ["P1"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Address or intersection.",
+      "examples": ["Route 9 at Harlan Road"]
+    },
+    "received": {
+      "type": "string",
+      "description": "24-hour time.",
+      "examples": ["10:11"],
+      "x-translate": false
+    },
+    "units": {
+      "type": "array",
+      "description": "Units assigned with the time of each status change; leave blank what has not happened.",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit"],
+        "properties": {
+          "unit": {
+            "type": "string",
+            "description": "Unit name.",
+            "examples": ["Engine 7"],
+            "x-translate": false
+          },
+          "dispatched": {
+            "type": "string",
+            "description": "Dispatched time.",
+            "examples": ["10:12"],
+            "x-translate": false
+          },
+          "enRoute": {
+            "type": "string",
+            "description": "En route time.",
+            "examples": ["10:13"],
+            "x-translate": false
+          },
+          "onScene": {
+            "type": "string",
+            "description": "On scene time.",
+            "examples": ["10:18"],
+            "x-translate": false
+          },
+          "patientContact": {
+            "type": "string",
+            "description": "Patient contact time.",
+            "examples": [""],
+            "x-translate": false
+          },
+          "transporting": {
+            "type": "string",
+            "description": "Transporting time.",
+            "examples": [""],
+            "x-translate": false
+          },
+          "atHospital": {
+            "type": "string",
+            "description": "At hospital time.",
+            "examples": [""],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Dispatcher remarks in time order, one per line.",
+      "examples": [
+        "10:11 Caller reports school bus on its side, children visible.\n10:19 Engine 7 on scene: 30 to 40 patients, requesting MCI response.\n10:20 MCI declared by Battalion 2."
+      ]
+    }
+  }
+}
