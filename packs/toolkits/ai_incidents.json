@@ -99,7 +99,436 @@
   ],
   "documents": [],
   "metrics": [],
-  "decisionForms": [],
+  "decisionForms": [
+    {
+      "id": "ai_hold_release_payment",
+      "label": "Hold or release a payment",
+      "description": "Decide whether a requested transfer is held or released.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Hold", "Release"]
+        },
+        {
+          "id": "amount",
+          "label": "Amount (whole currency units)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Callback not completed",
+            "Callback failed",
+            "Request matches a known fraud pattern",
+            "Approver confirmed in person",
+            "Other"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "detail",
+          "label": "What was decided and why",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ai_verify_callback",
+      "label": "Verify by callback on a known number",
+      "description": "Record who was called, on which number source, and the result.",
+      "fields": [
+        {
+          "id": "who",
+          "label": "Who was called",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "number_source",
+          "label": "Where the number came from",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Company directory", "Independently found", "The number in the request"]
+        },
+        {
+          "id": "result",
+          "label": "Result",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Confirmed genuine", "Not genuine", "Could not reach"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_declare_incident",
+      "label": "Declare an AI or synthetic media incident",
+      "description": "Declare the incident and its type and severity.",
+      "fields": [
+        {
+          "id": "incident_type",
+          "label": "Type",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Synthetic impersonation fraud",
+            "Synthetic media about the organization",
+            "AI system malfunction or misuse",
+            "Data poisoning or model tampering",
+            "AI vendor breach",
+            "Service degradation"
+          ]
+        },
+        {
+          "id": "severity",
+          "label": "Severity",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Low", "Medium", "High", "Critical"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "detail",
+          "label": "Basis",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ai_classify_serious_incident",
+      "label": "Classify as a serious incident",
+      "description": "Decide whether the event meets the serious incident definition that applies to the organization role, and record the basis.",
+      "fields": [
+        {
+          "id": "classification",
+          "label": "Serious incident?",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No", "Undecided"]
+        },
+        {
+          "id": "role",
+          "label": "Role the decision assumes",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Provider", "Deployer", "Victim of fraud", "Not yet determined"]
+        },
+        {
+          "id": "basis",
+          "label": "Basis",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_pause_feature",
+      "label": "Pause or disable a feature or model",
+      "description": "Use the kill switch or roll back.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Pause for everyone",
+            "Restrict to a safe mode",
+            "Roll back to an earlier version",
+            "Keep running"
+          ]
+        },
+        {
+          "id": "target",
+          "label": "Feature or model",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "version",
+          "label": "Version rolled back to",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "evidence_first",
+          "label": "Evidence preserved before the change",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_preserve_evidence",
+      "label": "Preserve evidence",
+      "description": "Record what was preserved and when, before any change.",
+      "fields": [
+        {
+          "id": "what",
+          "label": "What was preserved",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Logs",
+            "Model version",
+            "Prompts",
+            "Data snapshot",
+            "Call recording and chat",
+            "All of these"
+          ]
+        },
+        {
+          "id": "where",
+          "label": "Where it is kept",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_notify_regulator",
+      "label": "Notify a regulator",
+      "description": "Record a notice to a regulator or market surveillance authority.",
+      "fields": [
+        {
+          "id": "authority",
+          "label": "Authority",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Market surveillance authority",
+            "Data protection authority",
+            "Financial supervisor",
+            "Securities regulator",
+            "Other"
+          ]
+        },
+        {
+          "id": "report_type",
+          "label": "Report type",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Initial (incomplete)", "Intermediate", "Final"]
+        },
+        {
+          "id": "clock",
+          "label": "Clock this answers",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_notify_customers",
+      "label": "Notify customers",
+      "description": "Record a notice to customers or users.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Affected customers", "All customers", "Staff"]
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Email", "In-app message", "Website notice", "Letter"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "detail",
+          "label": "Summary of the notice",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ai_notify_bank_law_enforcement",
+      "label": "Notify the bank and law enforcement",
+      "description": "Record the call to the bank fraud desk and the report to law enforcement.",
+      "fields": [
+        {
+          "id": "recipient",
+          "label": "Recipient",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Originating bank", "Beneficiary bank", "Law enforcement", "Insurer"]
+        },
+        {
+          "id": "request",
+          "label": "Request",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Hold funds",
+            "Recall request",
+            "Freeze beneficiary account",
+            "Criminal report"
+          ]
+        },
+        {
+          "id": "amount",
+          "label": "Amount covered",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_issue_statement",
+      "label": "Issue a statement",
+      "description": "Record a public statement or correction about the incident.",
+      "fields": [
+        {
+          "id": "kind",
+          "label": "Kind",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Holding statement", "Correction", "Full statement", "No comment"]
+        },
+        {
+          "id": "verified_first",
+          "label": "Verified before responding",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "detail",
+          "label": "Summary of the statement",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "ai_request_takedown",
+      "label": "Request a takedown",
+      "description": "Ask a platform to remove or label synthetic content.",
+      "fields": [
+        {
+          "id": "platform",
+          "label": "Platform",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Requested action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Remove", "Label as manipulated", "Restrict reach", "Preserve evidence only"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "ai_notify_vendor",
+      "label": "Notify the vendor",
+      "description": "Record a notice or questionnaire sent to an AI vendor.",
+      "fields": [
+        {
+          "id": "vendor",
+          "label": "Vendor",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Incident notice",
+            "Questionnaire sent",
+            "Key rotation requested",
+            "Integration cut"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -141,6 +570,7 @@
       "Never call media fake because a detector said so; give the score, its uncertainty and that detectors err.",
       "The callback uses the directory number, never the number in the request.",
       "Clocks come from the regulation the scenario configures; never invent a deadline or say a duty applies without naming the role question.",
+      "A synthetic voice, face or scene is fictional, labeled exercise material, flagged synthetic on the inject and described in a transcript; never name or imitate a real person.",
       "Do not give steps for making synthetic media or poisoning a model. Every person, bank, vendor and company is fictional, and no real person is imitated."
     ]
   },

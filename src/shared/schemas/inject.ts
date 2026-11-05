@@ -94,6 +94,8 @@ export const Inject = z.looseObject({
   engagement: EngagementPlan.optional(),
   citations: z.array(Citation).default([]),
   mediaBrief: MediaBrief.optional(),
+  /** The inject's generated voice, video or image is synthetic exercise media (spec 0467 FR-6). */
+  syntheticMedia: z.boolean().optional(),
   assets: z.array(MediaAsset).default([]),
   versions: z.array(InjectVersion).default([]),
   /** Player-language translations (spec 0435); English stays in the fields above. */

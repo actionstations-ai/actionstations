@@ -2,6 +2,7 @@
 // video, each with its provenance (provider, model, seed, prompt).
 import type { MediaAsset } from '@shared/schemas/media'
 import { mediaUrl } from '@shared/media-url'
+import { SYNTHETIC_LABEL } from '@shared/synthetic-media'
 import { Badge } from '../../components/ui'
 import { slotOfAsset } from './media-utils'
 
@@ -78,6 +79,7 @@ export function MediaPanel(props: { projectPath: string; assets: MediaAsset[]; t
           <li key={a.id} className="asset card">
             <div className="asset__head">
               <Badge tone={a.role === 'generated' ? 'info' : 'neutral'}>{ROLE_LABEL[a.role]}</Badge>
+              {a.synthetic && <Badge tone="warn">{SYNTHETIC_LABEL}</Badge>}
               <span className="muted">
                 {a.kind}
                 {a.width && a.height ? ` · ${a.width}×${a.height}` : ''}

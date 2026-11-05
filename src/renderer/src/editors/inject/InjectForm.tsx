@@ -231,6 +231,17 @@ function BasicsSection(props: FormProps & { onType: (type: string) => void }) {
         />
         <span>Include a page for this inject in the Master Inject Deck</span>
       </label>
+      <label className="ie-checkbox">
+        <input
+          type="checkbox"
+          checked={draft.syntheticMedia === true}
+          onChange={(e) => onChange({ ...draft, syntheticMedia: e.target.checked })}
+        />
+        <span>
+          Synthetic media: a generated voice, face or scene (marked as exercise material, always
+          fictional, never a real person, kept out of pack exports)
+        </span>
+      </label>
     </fieldset>
   )
 }

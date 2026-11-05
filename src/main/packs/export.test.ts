@@ -328,6 +328,24 @@ describe('example export', () => {
     })
   })
 
+  it('refuses synthetic exercise media: it stays in the project (spec 0467 FR-6c)', async () => {
+    const media = 'scenarios/01JSCN0000000000000000001/media/i1/a1.wav'
+    write(join(root, media), 'RIFF')
+    write(
+      join(root, 'scenarios', '01JSCN0000000000000000001', 'injects', 'i1.json'),
+      JSON.stringify({
+        id: '01JINJ0000000000000000001',
+        syntheticMedia: true,
+        assets: [{ id: 'a1', kind: 'audio', path: media, synthetic: true }],
+      }),
+    )
+    const r = await buildPackExport(exampleOnly(), { appVersion: APP })
+    expect(r.ok).toBe(false)
+    if (r.ok) return
+    const hit = r.problems.find((p) => p.path === media)
+    expect(hit?.message).toMatch(/synthetic exercise media/)
+  })
+
   it('blocks a file that still looks like it holds a secret', async () => {
     write(join(root, 'notes.md'), 'Key for the lab: sk-abcdefghijklmnop\n')
     const r = await buildPackExport(exampleOnly(), { appVersion: APP })

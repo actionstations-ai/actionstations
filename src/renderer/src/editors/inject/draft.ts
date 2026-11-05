@@ -15,6 +15,8 @@ export interface InjectDraft {
   instructorNote: string
   citations: Inject['citations']
   includeInDeck: boolean
+  /** Generated voice, face or scene is synthetic exercise media (spec 0467 FR-6). */
+  syntheticMedia?: boolean
   mediaBrief: Inject['mediaBrief']
   /** Simulated likes and replies for a social post (spec 0428). */
   engagement: Inject['engagement']
@@ -30,6 +32,7 @@ export function draftOf(inject: Inject): InjectDraft {
     instructorNote: inject.instructorNote ?? '',
     citations: inject.citations,
     includeInDeck: inject.includeInDeck,
+    ...(inject.syntheticMedia ? { syntheticMedia: true } : {}),
     mediaBrief: inject.mediaBrief,
     engagement: inject.engagement,
   }
@@ -66,6 +69,8 @@ export function applyDraft(latest: Inject, draft: InjectDraft): Inject {
     citations: draft.citations,
     includeInDeck: draft.includeInDeck,
   }
+  if (draft.syntheticMedia) next.syntheticMedia = true
+  else delete next.syntheticMedia
   if (draft.variant) next.variant = draft.variant
   else delete next.variant
   if (draft.instructorNote.trim()) next.instructorNote = draft.instructorNote
