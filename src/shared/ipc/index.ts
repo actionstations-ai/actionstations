@@ -47,6 +47,7 @@ import { caseDataChannels } from './case-data'
 import { classroomChannels } from './classroom'
 import { classroomScoringChannels } from './classroom-scoring'
 import { classroomDashboardChannels } from './classroom-dashboard'
+import { caseStudyChannels } from './case-study'
 import { mediaConfirmChannels, MediaConfirmNeededEvent } from './media-confirm'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
@@ -202,6 +203,7 @@ export const channels = mergeChannels(
   classroomChannels,
   classroomScoringChannels,
   classroomDashboardChannels,
+  caseStudyChannels,
   mediaConfirmChannels,
 )
 
@@ -278,6 +280,8 @@ export const events = {
       'drills',
       /** micro-drills/ or micro-drill-runs/ changed (#437). */
       'micro-drills',
+      /** case-studies/ or case-study-runs/ changed (spec 0452). */
+      'case-studies',
     ]),
     scenarioId: z.string().optional(),
   }),
