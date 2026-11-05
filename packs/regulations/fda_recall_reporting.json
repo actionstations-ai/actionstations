@@ -1,0 +1,51 @@
+{
+  "id": "fda_recall_reporting",
+  "label": "FDA recall notices and status reports",
+  "jurisdiction": "US",
+  "authority": "U.S. Food and Drug Administration",
+  "citation": "21 CFR 7.42, 7.46, 7.49, 7.53",
+  "sources": [
+    {
+      "title": "21 CFR part 7, subpart C: Recalls (eCFR)",
+      "url": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-7/subpart-C"
+    },
+    {
+      "title": "FDA: Recalls Background and Definitions",
+      "url": "https://www.fda.gov/safety/industry-guidance-recalls/recalls-background-and-definitions"
+    }
+  ],
+  "status": "guidance",
+  "statusNote": "Part 7 subpart C is guidance, not a requirement: it states FDA policy on recalls. A firm may start a recall on its own and need not wait for FDA (7.46). Recall status report timing is set by FDA for each recall, generally between 2 and 4 weeks (7.53). Checked on eCFR 2026-11-05.",
+  "verifiedOn": "2026-11-05",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "recall_decision",
+      "label": "Recall decision",
+      "hint": "The time the firm decides to recall or FDA requests a recall."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "consignee_notice",
+      "label": "Notify each direct account",
+      "recipient": "Direct accounts (consignees)",
+      "dueAt": [{ "from": "recall_decision", "amount": 24, "unit": "hours" }],
+      "rule": "Notify each affected direct account promptly (21 CFR 7.49). For Class I and Class II recalls mark the communication urgent; identify the product and lot numbers, the reason, the hazard and the instructions. The 24 hour term is this exercise's planning target, not a number in the regulation.",
+      "injectTypes": ["recall_consignee_letter", "product_recall_notice"]
+    },
+    {
+      "id": "status_report",
+      "label": "First recall status report",
+      "recipient": "FDA",
+      "dueAt": [{ "from": "clock:consignee_notice", "amount": 14, "unit": "calendar_days" }],
+      "rule": "Status reports at intervals FDA sets for each recall, generally between 2 and 4 weeks (21 CFR 7.53). The 14 day term is the short end of that range, used as a planning default.",
+      "injectTypes": ["recall_status_report", "regulatory_report_form"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["product_recall"],
+    "note": "Firms recalling FDA-regulated food. USDA FSIS recalls of meat, poultry and egg products follow FSIS directives."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "fsma_204_records",
+  "label": "FSMA Section 204 food traceability: records request",
+  "jurisdiction": "US",
+  "authority": "U.S. Food and Drug Administration",
+  "citation": "21 CFR 1.1455(c); 21 CFR part 1, subpart S",
+  "sources": [
+    {
+      "title": "FDA: FSMA Final Rule on Requirements for Additional Traceability Records for Certain Foods",
+      "url": "https://www.fda.gov/food/food-safety-modernization-act-fsma/fsma-final-rule-requirements-additional-traceability-records-certain-foods"
+    },
+    {
+      "title": "21 CFR 1.1455 (eCFR)",
+      "url": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-1/subpart-S/subject-group-ECFR3d6d1b3b3f5f1e2/section-1.1455"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "The original compliance date was 2026-01-20. FDA's rule page says Congress directed FDA not to enforce the rule before 2028-07-20 and that FDA intends to comply, and that FDA proposed to extend the compliance date by 30 months to that date. A final extension rule was not found on 2026-11-05. The same page still shows the original date in one place. Re-check at each release.",
+  "verifiedOn": "2026-11-05",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "fda_request_received",
+      "label": "FDA request for records received",
+      "hint": "The time FDA's request reaches the firm. The clock counts from the request being made."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "records_available",
+      "label": "Records available to FDA",
+      "recipient": "FDA",
+      "dueAt": [{ "from": "fda_request_received", "amount": 24, "unit": "hours" }],
+      "rule": "All required records and any information needed to understand them must be available within 24 hours after a request, or within some reasonable time to which FDA has agreed. When needed during an outbreak, recall or other threat, an electronic sortable spreadsheet of the relevant traceability information must be provided unless the firm is exempt.",
+      "injectTypes": ["fda_records_request_letter", "regulatory_report_form"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["product_recall"],
+    "note": "Firms that manufacture, process, pack or hold foods on the Food Traceability List, unless exempt. Records are kept for 2 years (21 CFR 1.1455(d))."
+  }
+}
