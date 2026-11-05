@@ -33,6 +33,15 @@ describe('checkTemplateFiles', () => {
     ).toEqual([])
   })
 
+  it('accepts unescaped figure output in element text, and nothing else unescaped (spec 0448)', () => {
+    expect(
+      check(
+        '<figure>{{{figures.radar}}}<figcaption>{{figures.radar.summary}}</figcaption></figure>' +
+          '<section>{{{figures.radar.tableHtml}}}</section>',
+      ),
+    ).toEqual([])
+  })
+
   it.each([
     ['<script>x()</script>', /<script> is not allowed/],
     ['<SCRIPT src="a.js"></SCRIPT>', /<script> is not allowed/],
@@ -59,6 +68,9 @@ describe('checkTemplateFiles', () => {
     ['<style>@import "x.css";</style>', /@import is not allowed/],
     ['<style>.a{width:expression(alert(1))}</style>', /expression\(\) is not allowed/],
     ['<p>{{{raw}}}</p>', /triple-stash/],
+    ['<p>{{{figures.a.svg}}}</p>', /triple-stash/],
+    ['<p>{{{default figures.a "x"}}}</p>', /triple-stash/],
+    ['<p title="{{{figures.a}}}">x</p>', /only allowed in element text/],
     ['{{> header}}', /partials/],
     ['{{#> layout}}x{{/layout}}', /partials/],
     ['<svg><set attributeName="href" to="javascript:x()"/></svg>', /attributeName/],

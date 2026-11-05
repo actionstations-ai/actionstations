@@ -71,6 +71,21 @@ type Report = (message: string) => void
 interface Marker {
   /** Block number for {{#…}} / {{else}} / {{/…}} markers. */
   block?: number
+  /** An unescaped figure expression ({{{figures.name}}}): allowed in element text only. */
+  figure?: boolean
+}
+
+/** The only unescaped output a template may use: figures the app drew (spec 0448, ADR-0075). */
+const FIGURE_PATH = /^figures\.[A-Za-z][A-Za-z0-9_]*(\.tableHtml)?$/
+
+function isFigureOutput(m: hbs.AST.MustacheStatement): boolean {
+  const path = m.path as hbs.AST.PathExpression
+  return (
+    path.type === 'PathExpression' &&
+    FIGURE_PATH.test(path.original) &&
+    m.params.length === 0 &&
+    !m.hash
+  )
 }
 
 // ---- 1. Handlebars → skeleton -----------------------------------------------------------------
@@ -88,13 +103,13 @@ class Skeleton {
     this.tail = (this.tail + value).slice(-4)
   }
 
-  mark(block?: number): void {
+  mark(block?: number, figure = false): void {
     if (/(?:<|<\/|<!-?|<\?)$/.test(this.tail))
       this.report(
         'a Handlebars expression right after "<" is not allowed (its output could form a tag)',
       )
     const id = this.markers.length
-    this.markers.push(block === undefined ? {} : { block })
+    this.markers.push({ ...(block === undefined ? {} : { block }), ...(figure ? { figure } : {}) })
     this.text += `${id}`
   }
 
@@ -107,8 +122,12 @@ class Skeleton {
       case 'ContentStatement':
         return this.content((s as hbs.AST.ContentStatement).value)
       case 'MustacheStatement':
-        if (!(s as hbs.AST.MustacheStatement).escaped)
-          this.report('Handlebars unescaped output ({{{ }}} or {{& }}) is not allowed')
+        if (!(s as hbs.AST.MustacheStatement).escaped) {
+          if (isFigureOutput(s as hbs.AST.MustacheStatement)) return this.mark(undefined, true)
+          this.report(
+            'Handlebars triple-stash {{{ }}} (unescaped output, {{& }}) is not allowed; only {{{figures.name}}} and {{{figures.name.tableHtml}}} may be unescaped',
+          )
+        }
         return this.mark()
       case 'CommentStatement':
         return this.mark()
@@ -135,8 +154,6 @@ class Skeleton {
 }
 
 function buildSkeleton(html: string, report: Report): Skeleton | undefined {
-  if (html.includes('{{{'))
-    report('Handlebars triple-stash {{{ }}} (unescaped output) is not allowed')
   let ast: hbs.AST.Program
   try {
     ast = Handlebars.parse(html)
@@ -296,6 +313,10 @@ function checkPlacement(sk: Skeleton, seen: Map<number, Set<string>>, report: Re
     const set = blockContexts.get(m.block) ?? new Set<string>()
     for (const c of contexts) set.add(c)
     blockContexts.set(m.block, set)
+  })
+  sk.markers.forEach((m, id) => {
+    if (m.figure && [...(seen.get(id) ?? [])].some((c) => c.startsWith('a')))
+      report('an unescaped figure expression is only allowed in element text, not in an attribute')
   })
   const unplaced = sk.markers.some((_, id) => !seen.has(id))
   if (unplaced)

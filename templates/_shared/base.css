@@ -26,3 +26,43 @@ img {
   display: block;
   overflow: hidden;
 }
+
+/* Screen-reader-only text (figure summaries, spec 0448 FR-5): in the accessibility tree, not on the page. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Data table beside a figure (render/figures). */
+.fig-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.fig-table caption {
+  text-align: left;
+  font-weight: 700;
+  padding-bottom: 6px;
+}
+.fig-table th,
+.fig-table td {
+  border-bottom: 1px solid #d8c79e;
+  padding: 5px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.fig-table thead th {
+  background: #14100c;
+  color: #ffffff;
+}
+.fig-table tbody th {
+  font-weight: 600;
+}

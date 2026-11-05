@@ -10,6 +10,7 @@ import { safeJoin } from '../lib/fs'
 import { loadTemplate, sharedDir, type LoadedTemplate } from './templates'
 import { paginate, rowGroups, type RowGroup } from './paginate'
 import { deriveFields } from './derived'
+import { computeFigures } from './figures'
 
 export interface ComposeInput {
   type: string
@@ -211,6 +212,7 @@ export function composeDocument(
   const body = compile(t)({
     fields: input.fields,
     derived: deriveFields(input.type, input.fields),
+    figures: computeFigures(input.fields),
     brand: {
       ...(input.brand ?? { aliases: {} }),
       ...(input.logo ? { logo: fileUrl(input.logo) } : {}),

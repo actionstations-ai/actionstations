@@ -110,6 +110,7 @@ Each type = fields + default render (template vs. AI vs. audio) + export behavio
 | `ics_201_prefill` | incidentName, situationSummary, objectives, orgChart | T (PDF, FEMA layout) | Blank version for players |
 | `ics_203_prefill` | assignments | T (PDF) | |
 | `status_board` | resources[{name,status,notes}] | T | Player briefing resource table |
+| `figure` | heading, source, hideTable, figures{main{kind,data,options}} | T (PNG, PDF) | A chart, gauge, status board, table or timeline drawn from data; text summary and data table accompany it |
 | `sitrep` | number, time, summary, actions | T | |
 | `field_report` | organization, reportNo, date, location, inspector, reportType, summary, findings[{item,condition,notes}], actionsTaken[], recommendations[] | T (PDF) | Field / inspection / patrol report |
 | `ics_213_general_message` | incidentName, to, from, subject, date, time, message, approvedBy, reply | T (PDF, FEMA layout) | Blank version for players |

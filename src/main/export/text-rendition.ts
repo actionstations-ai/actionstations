@@ -3,6 +3,7 @@
 // deck images. Types with a renderer below read like the message they imitate; every other
 // type falls back to a "Label: value" list built from the template schema's titles and order.
 import { deriveFields } from '../render/derived'
+import { computeFigures } from '../render/figures'
 
 export interface RenditionSource {
   type: string
@@ -176,6 +177,21 @@ function ics213(f: Fields): string {
   )
 }
 
+/** A figure inject reads as its heading and the text summary of each figure (spec 0448 FR-5). */
+function figureInject(f: Fields): string {
+  let figures: ReturnType<typeof computeFigures>
+  try {
+    figures = computeFigures(f)
+  } catch {
+    return lines(str(f.heading), labeled('Source', str(f.source)))
+  }
+  return lines(
+    str(f.heading),
+    labeled('Source', str(f.source)),
+    ...Object.values(figures).map((fig) => fig.summary),
+  )
+}
+
 const RENDERERS: Record<string, (f: Fields) => string> = {
   email,
   email_forward: email,
@@ -191,6 +207,7 @@ const RENDERERS: Record<string, (f: Fields) => string> = {
   notam,
   nws_weather_warning: nwsWarning,
   ics_213_general_message: ics213,
+  figure: figureInject,
 }
 
 /** "Label: value" for every field the schema lists, in schema order; nested values flattened. */

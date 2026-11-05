@@ -251,6 +251,9 @@ export const INJECT_TYPES: readonly InjectTypeInfo[] = [
     paper: true,
     domains: ['freight_rail'],
   }),
+  t('figure', 'Figure (chart, gauge, board, table, timeline)', 'operational', ['template'], {
+    paper: true,
+  }),
   // Documents & forms
   t('official_letter', 'Official letter', 'documents', ['template'], { paper: true }),
   t('regulatory_notice', 'Regulatory notice', 'documents', ['template'], { paper: true }),

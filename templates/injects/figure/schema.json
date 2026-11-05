@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Figure",
+  "type": "object",
+  "required": ["figures"],
+  "properties": {
+    "heading": { "type": "string", "description": "Heading above the figure" },
+    "source": {
+      "type": "string",
+      "description": "Where the numbers come from, for example 'Plant historian, 14:00 to 16:00'"
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline.",
+      "required": ["main"],
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "time_series",
+                "bar",
+                "stacked_bar",
+                "gauge",
+                "status_board",
+                "table",
+                "annotated_timeline"
+              ]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind (docs/guides/templates.md, Figures)"
+            },
+            "options": {
+              "type": "object",
+              "properties": {
+                "width": { "type": "number" },
+                "height": { "type": "number" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
