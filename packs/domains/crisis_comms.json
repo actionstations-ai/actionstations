@@ -1,0 +1,687 @@
+{
+  "id": "crisis_comms",
+  "label": "Crisis communications and journalism",
+  "description": "The people who tell the public what is happening and the people who decide what is true enough to print: an organization's communications team, a joint information center, a press office and a newsroom. Four variants share one profile and differ in roles: the organizational communications team (holding statement, legal and executive clearance, reporters), the joint information center (several agencies, one message), the press office (hostile questions, press conference) and the newsroom (tips, user-generated video, verify, hold or publish, correct). Plans and doctrine: the organization's crisis communications plan, the NIMS Joint Information System, CDC Crisis and Emergency Risk Communication principles, and a newsroom's standards and corrections policy. All outlets, handles, reporters and spokespeople in an exercise are fictional.",
+  "aliases": [
+    "communications",
+    "comms",
+    "public affairs",
+    "public information",
+    "PIO",
+    "JIC",
+    "JIS",
+    "media relations",
+    "press office",
+    "spokesperson",
+    "newsroom",
+    "news desk",
+    "journalism",
+    "reporter",
+    "editor",
+    "social media team",
+    "crisis communications",
+    "risk communication"
+  ],
+  "vocabulary": {
+    "facility": "the organization (its spokespeople, channels and newsroom)",
+    "public": "the public, customers and the press",
+    "frontline": "spokespeople, media relations staff, social media managers, writers, assignment editors, reporters and producers",
+    "operationsCenter": "the communications cell, the Joint Information Center (JIC) or the news desk"
+  },
+  "factCategories": [
+    {
+      "id": "releases",
+      "label": "Releases and updates",
+      "noun": "News Releases?|Updates?|Advisories?|Bulletins?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "briefings",
+      "label": "Press briefings",
+      "noun": "Briefings?|Press Conferences?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "outlets",
+      "label": "Outlets and desks",
+      "noun": "Desks?|Bureaus?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "social platforms and the organization's official accounts",
+      "social listening and media monitoring tools",
+      "wire service feeds",
+      "news website and content management system",
+      "newsroom rundown and broadcast graphics system",
+      "mass notification and alerting (WEA, EAS, campus alerts)",
+      "email and SMS lists",
+      "status page",
+      "call center scripts and ticketing",
+      "press briefing room livestream",
+      "approval workflow for statements",
+      "verification tools (reverse image search, metadata inspection, Content Credentials checks)"
+    ],
+    "ot": []
+  },
+  "roles": [
+    {
+      "key": "comms",
+      "name": "Communications / Public Affairs Director",
+      "abbreviation": "COMMS",
+      "team": "Communications team",
+      "description": "Owns strategy, the approval route for statements, who speaks and when to hold a press conference."
+    },
+    {
+      "key": "spokes",
+      "name": "Spokesperson",
+      "abbreviation": "SPOKES",
+      "team": "Communications team",
+      "description": "Delivers statements and answers questions; says what is known, what is not known and what is being done."
+    },
+    {
+      "key": "media",
+      "name": "Media Relations Lead",
+      "abbreviation": "MEDIA",
+      "team": "Communications team",
+      "description": "Returns reporter calls and emails, tracks deadlines, decides on the record, background or decline."
+    },
+    {
+      "key": "social",
+      "name": "Social Media Manager",
+      "abbreviation": "SOCIAL",
+      "team": "Communications team",
+      "description": "Posts and replies, monitors sentiment and false claims, requests platform takedowns and labels."
+    },
+    {
+      "key": "writer",
+      "name": "Content Writer",
+      "abbreviation": "WRITER",
+      "team": "Communications team",
+      "description": "Drafts holding statements, Q&A, news releases and internal notes for approval."
+    },
+    {
+      "key": "legal",
+      "name": "Legal Counsel",
+      "abbreviation": "LEGAL",
+      "team": "Legal and executive",
+      "description": "Reviews statements for liability and disclosure duties and may ask to delay."
+    },
+    {
+      "key": "exec",
+      "name": "Executive / Incident Commander (release authority)",
+      "abbreviation": "EXEC",
+      "team": "Legal and executive",
+      "description": "Approves release; PIOs do not release incident information on their own authority."
+    },
+    {
+      "key": "cs",
+      "name": "Customer Service Lead",
+      "abbreviation": "CS",
+      "team": "Legal and executive",
+      "description": "Owns call center scripts, escalation and the inbound public line."
+    },
+    {
+      "key": "leadpio",
+      "name": "Lead Public Information Officer",
+      "abbreviation": "LEAD PIO",
+      "team": "Joint information center",
+      "description": "Runs the Joint Information Center, the PIO cycle (gather, verify, coordinate, disseminate) and consistency across agencies."
+    },
+    {
+      "key": "agencypio",
+      "name": "Agency PIO",
+      "abbreviation": "PIO",
+      "team": "Joint information center",
+      "description": "Speaks for one agency and clears messages with the Lead PIO before release."
+    },
+    {
+      "key": "rumor",
+      "name": "Rumor Control Lead",
+      "abbreviation": "RUMOR",
+      "team": "Joint information center",
+      "description": "Tracks rumors and false claims, proposes corrections and publishes the rumor control page."
+    },
+    {
+      "key": "briefing",
+      "name": "Media Briefing Coordinator",
+      "abbreviation": "BRIEF",
+      "team": "Joint information center",
+      "description": "Schedules briefings, prepares speakers and keeps the briefing schedule."
+    },
+    {
+      "key": "ed",
+      "name": "News Director / Executive Editor",
+      "abbreviation": "ED",
+      "team": "Newsroom",
+      "description": "Decides what runs, the standard for publishing unverified information, and corrections."
+    },
+    {
+      "key": "desk",
+      "name": "Assignment / Desk Editor",
+      "abbreviation": "DESK",
+      "team": "Newsroom",
+      "description": "Dispatches reporters and triages incoming tips and user-generated content."
+    },
+    {
+      "key": "rep",
+      "name": "Reporter",
+      "abbreviation": "REP",
+      "team": "Newsroom",
+      "description": "Gathers facts, calls sources and files copy."
+    },
+    {
+      "key": "verif",
+      "name": "Social / Verification Editor",
+      "abbreviation": "VERIF",
+      "team": "Newsroom",
+      "description": "Checks the provenance of photos, video and accounts and records a verdict and confidence."
+    },
+    {
+      "key": "prod",
+      "name": "Broadcast Producer",
+      "abbreviation": "PROD",
+      "team": "Newsroom",
+      "description": "Owns the rundown, live shots, graphics and what goes to air."
+    },
+    {
+      "key": "digi",
+      "name": "Digital Producer",
+      "abbreviation": "DIGI",
+      "team": "Newsroom",
+      "description": "Owns web updates, the live blog and push alerts."
+    },
+    {
+      "key": "std",
+      "name": "Standards Editor / Ombudsman",
+      "abbreviation": "STD",
+      "team": "Newsroom",
+      "description": "Owns corrections, retractions and ethics questions."
+    }
+  ],
+  "outsideParties": [
+    "reporters from other outlets",
+    "the wire service",
+    "the local TV station",
+    "fact-checking organizations",
+    "platform trust and safety teams",
+    "elected officials and their press offices",
+    "regulators",
+    "customers and employees",
+    "partner agencies' PIOs",
+    "the public",
+    "the organization's lawyers and insurer"
+  ],
+  "mediaChannels": [
+    "the organization's official social accounts",
+    "reporters' calls and emails",
+    "the wire service",
+    "local TV and radio",
+    "the organization's website and status page",
+    "press conferences and livestreams",
+    "mass notification and alerts",
+    "community groups and neighborhood forums",
+    "private messaging groups where rumors travel"
+  ],
+  "sceneAnchors": {
+    "public": "a press briefing room: a podium with a blank backdrop, rows of folding chairs, reporters holding phones and notebooks, camera tripods at the back, daylight from tall windows",
+    "control": "a communications cell: a long table with laptops, two wall monitors showing blank feeds, printed statement drafts, sticky notes on a whiteboard, fluorescent light",
+    "exterior": "outside a building entrance: a small crowd of reporters and a TV camera on a tripod, a van with a mast folded down, a plain sidewalk, overcast sky"
+  },
+  "injectTypes": [
+    "press_release",
+    "reporter_email",
+    "media_inquiry_phone_slip",
+    "voicemail",
+    "phone_call",
+    "email",
+    "text_message",
+    "chat_transcript",
+    "tweet",
+    "facebook_post",
+    "instagram_post",
+    "reddit_post",
+    "tiktok_video_card",
+    "news_article",
+    "news_chyron_still",
+    "screenshot_generic",
+    "service_status_page",
+    "cap_alert",
+    "eas_broadcast",
+    "pa_announcement",
+    "sitrep",
+    "status_board",
+    "memo",
+    "simcell_script",
+    "time_jump_card"
+  ],
+  "threatFamilies": [
+    "organizational_crisis",
+    "disaster_public_information",
+    "information_disorder",
+    "newsroom_breaking_news",
+    "comms_service_degradation",
+    "cyber"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "organizational_crisis",
+      "label": "Organizational crisis",
+      "description": "A breach, product recall, accident, executive misconduct or labor action puts the organization in the news; the communications team writes the holding statement, clears messages with legal and executives, answers reporters and corrects errors.",
+      "keywords": [
+        "holding statement",
+        "data breach",
+        "recall",
+        "executive misconduct",
+        "reputation",
+        "press conference",
+        "spokesperson",
+        "reporters",
+        "labor action",
+        "crisis communications"
+      ],
+      "phaseArc": [
+        {
+          "title": "First signal",
+          "goal": "Something public or nearly public appears; the team must decide whether it is real before anyone has all the facts.",
+          "beats": [
+            "A reporter's email or a social post asks about something the team has not heard of",
+            "Internal confirmation is partial and a leader wants to wait until everything is known",
+            "An unrelated routine media request the team must triage down"
+          ]
+        },
+        {
+          "title": "Holding statement",
+          "goal": "The first public words: fast enough to be credible, accurate enough to stand, cleared by people who disagree.",
+          "beats": [
+            "Legal asks to delay or soften; the clock on the holding statement keeps running",
+            "Several reporters call with deadlines and different versions of the story",
+            "Employees and customers ask the same question the press does, in different words",
+            "Time jump: the first stories publish with what the organization did or did not say"
+          ]
+        },
+        {
+          "title": "Press questions",
+          "goal": "Hostile and off-topic questions test whether the answers agree with the fact sheet and with each other.",
+          "beats": [
+            "A rumor spreads that goes beyond the facts, and the team must decide whether to answer it",
+            "A spokesperson says something not on the fact sheet",
+            "A regulatory or disclosure obligation collides with a message already released"
+          ]
+        },
+        {
+          "title": "Updates and corrections",
+          "goal": "The story changes; the team updates, corrects what was wrong and begins to rebuild trust.",
+          "beats": [
+            "A fact in an earlier statement turns out to be wrong and must be corrected through the channel it spread on",
+            "A follow-up story reacts to what the organization said, or failed to say",
+            "A final statement and an internal debrief of what to change in the plan"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "issue a holding statement now with what is known, or wait for legal's review and risk the story being written without you",
+        "correct an earlier figure publicly and admit the error, or let the next update quietly replace it",
+        "answer a reporter on the record, offer background, or decline and accept the framing"
+      ],
+      "clueKinds": "a fact sheet detail, an internal timeline entry, a reporter's question that reveals what they already know",
+      "hurdleKinds": "an approver who cannot be reached, a spokesperson on a plane, the statement tool locked, legal asking for another review round",
+      "keyCoordination": "legal counsel, the executive who approves release, and the reporters on deadline",
+      "purposeMix": {
+        "PRESSURE": 30,
+        "CLUE": 20,
+        "NOISE": 10
+      },
+      "promptGuidance": "Reporters work to deadlines and call more than once. Every outlet, handle, reporter and spokesperson is fictional. A holding statement says what is known, what is not known and what is being done. Statements never contradict the fact sheet unless that is the point of the inject.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "statement|spokesperson|reporter|press|legal|release|media|communications",
+          "description": "the decision point involves a statement, a spokesperson, the press or legal clearance"
+        }
+      }
+    },
+    {
+      "id": "disaster_public_information",
+      "label": "Disaster public information",
+      "description": "A disaster activates a Joint Information Center: several agencies' PIOs must give the same message, run rumor control and brief the press while the incident changes.",
+      "keywords": [
+        "joint information center",
+        "jic",
+        "joint information system",
+        "public information officer",
+        "pio",
+        "rumor control",
+        "evacuation message",
+        "shelter information",
+        "press briefing"
+      ],
+      "phaseArc": [
+        {
+          "title": "Event and activation",
+          "goal": "The event happens, the JIC activates and the first facts are thin.",
+          "beats": [
+            "The incident commander's first facts arrive late and incomplete",
+            "Two agencies post different information about the same road or shelter",
+            "A call from an elected official's office asking for talking points"
+          ]
+        },
+        {
+          "title": "First release",
+          "goal": "The first coordinated release goes out; the Lead PIO clears it with every agency.",
+          "beats": [
+            "An agency PIO wants to release before the others have cleared",
+            "A time jump: the first release is out and the public has questions it did not answer",
+            "A reporter has a number from an agency that is not the number in the release"
+          ]
+        },
+        {
+          "title": "Rumor control",
+          "goal": "A false rumor spreads and the team decides how, where and how fast to correct it.",
+          "beats": [
+            "A rumor about a closed road or a contaminated water supply spreads in community groups",
+            "A well-meaning official repeats the rumor",
+            "A correction must go out on the channel the rumor traveled"
+          ]
+        },
+        {
+          "title": "Briefings and recovery",
+          "goal": "Scheduled briefings, consistent numbers and messages shift toward recovery.",
+          "beats": [
+            "A briefing schedule that does not match the facts on the ground",
+            "A recovery message that contradicts an earlier safety message",
+            "A hot wash on message consistency"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "release the evacuation numbers now from one agency, or wait for the other agencies to clear",
+        "correct a rumor in the briefing, or on the page where it spread",
+        "hold a press conference with incomplete facts, or issue a written update first"
+      ],
+      "clueKinds": "an agency's own release, a rumor-control log entry, a briefing sign-in sheet, a number in a reporter's question",
+      "hurdleKinds": "a JIC without internet, an agency PIO who is unreachable, a social account locked out, a translation that is late",
+      "keyCoordination": "the incident commander, the other agencies' PIOs and the emergency operations center",
+      "purposeMix": {
+        "PRESSURE": 25,
+        "CLUE": 25,
+        "NOISE": 10
+      },
+      "promptGuidance": "Messages from different agencies should be close but not identical so that the inconsistency can be found. The PIO cycle is gather, verify, coordinate, disseminate. Fictional agencies and a fictional county only.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "PIO|JIC|Joint Information|release|briefing|message|rumor|agenc",
+          "description": "the decision point involves a release, a briefing, a message or coordination between agencies"
+        }
+      }
+    },
+    {
+      "id": "information_disorder",
+      "label": "Information disorder",
+      "description": "A false or misleading claim spreads: viral misinformation, an impersonating account, a hacked official account, or manipulated media. The team decides whether, when and how to respond, and how much of the belief survives the correction.",
+      "keywords": [
+        "misinformation",
+        "disinformation",
+        "rumor",
+        "viral",
+        "fake account",
+        "impersonation",
+        "hacked account",
+        "manipulated media",
+        "doctored",
+        "false claim",
+        "hoax",
+        "fact check"
+      ],
+      "phaseArc": [
+        {
+          "title": "Appears",
+          "goal": "A false claim or a suspicious piece of media appears where the organization is not looking.",
+          "beats": [
+            "A post with a screenshot or video that looks official but is not",
+            "An employee forwards it and asks whether it is true",
+            "The first reporter asks about it"
+          ]
+        },
+        {
+          "title": "Spreads",
+          "goal": "The claim grows; the team sees reach, sentiment and the narratives around it.",
+          "beats": [
+            "The social listening report shows the claim climbing",
+            "A well-known account reposts it with a joke, then a hostile quote",
+            "A fact-checking organization asks for comment"
+          ]
+        },
+        {
+          "title": "Decision to respond",
+          "goal": "Whether to respond, when, on what channel, and with how much, under the risk of amplifying it.",
+          "beats": [
+            "Legal asks that the team not engage",
+            "A timely correction would help more than a late one; the team debates",
+            "A request to the platform for a takedown or a label"
+          ]
+        },
+        {
+          "title": "Correction and residual belief",
+          "goal": "The correction goes out and some people still believe the claim.",
+          "beats": [
+            "The correction reaches a fraction of the audience of the original",
+            "A new version of the claim appears",
+            "A debrief on what verification and pre-bunking would have changed"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "correct the false claim now and risk amplifying it, or wait for a clearer picture and accept more spread",
+        "request a platform takedown, or answer in the thread where the claim lives",
+        "hold a statement until the video is verified, or say what is not yet known"
+      ],
+      "clueKinds": "a provenance clue (reverse image result, file metadata, account history, first appearance), a Content Credentials check result",
+      "hurdleKinds": "a platform that does not respond, a verification tool that is down, the original source who cannot be reached",
+      "keyCoordination": "the platform's trust and safety team, a fact-checking organization and the original source",
+      "purposeMix": {
+        "MISINFORMATION": 30,
+        "CLUE": 25,
+        "PRESSURE": 15
+      },
+      "promptGuidance": "Misinformation injects are clearly exercise material. The false claim is about a fictional organization, fictional people and a fictional event, never a real person, a real organization or a real ongoing event. Absence of a Content Credentials manifest proves nothing; a valid one says who signed, not that the content is true.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "correct|respond|statement|takedown|label|verify|hold|platform|fact",
+          "description": "the decision point involves a correction, a response, a takedown, a verification or a hold"
+        }
+      }
+    },
+    {
+      "id": "newsroom_breaking_news",
+      "label": "Newsroom breaking news",
+      "description": "A tip or a viral video reaches a newsroom under deadline; editors triage, verify, hold or publish, update, and correct.",
+      "keywords": [
+        "breaking news",
+        "newsroom",
+        "news desk",
+        "viral video",
+        "user-generated",
+        "verification",
+        "deadline",
+        "corrections",
+        "retraction",
+        "unverified report"
+      ],
+      "phaseArc": [
+        {
+          "title": "Tip or video",
+          "goal": "Something arrives: a tip, a clip, a screenshot, a competitor's alert.",
+          "beats": [
+            "A video of uncertain origin arrives in the tip line",
+            "A rival outlet pushes an alert on the same event",
+            "A source says one thing and the wire says another"
+          ]
+        },
+        {
+          "title": "Triage and verification",
+          "goal": "The desk decides what to check first and spends limited time on provenance clues.",
+          "beats": [
+            "A reverse image search returns an older, similar photo",
+            "The account that posted the video has a short history",
+            "The producer wants it on air at the top of the hour"
+          ]
+        },
+        {
+          "title": "Publish or hold",
+          "goal": "A deadline forces a verdict with a confidence, and a choice between holding and publishing with a caveat.",
+          "beats": [
+            "The editor asks for a second source",
+            "A push alert is drafted before the verdict is in",
+            "A competitor publishes the same clip"
+          ]
+        },
+        {
+          "title": "Updates and correction",
+          "goal": "New facts change the story; the newsroom updates and corrects what it got wrong, naming what was wrong and what is right.",
+          "beats": [
+            "The video is shown to be misattributed",
+            "A correction is drafted and a decision is made on where it runs",
+            "A standards review of what the desk would do differently"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "publish now with a caveat, or hold until a second source confirms",
+        "pull the clip from the broadcast, or run it with a note that it is unverified",
+        "correct on the web and the next broadcast, or run a retraction on every platform"
+      ],
+      "clueKinds": "a provenance clue the desk requests at a cost in minutes: reverse image result, metadata, geolocation, account history, first-appearance timeline, original-source contact, credential check",
+      "hurdleKinds": "a source who will not call back, a metadata field stripped by the platform, a producer who wants the clip on air",
+      "keyCoordination": "the original source, a second source and the standards editor",
+      "purposeMix": {
+        "CLUE": 30,
+        "PRESSURE": 25,
+        "MISINFORMATION": 15
+      },
+      "promptGuidance": "Write news items in AP style with attribution for every claim. Provenance clues are plain text; never include a working link to a real site, a real person's image or voice. All outlets and reporters are fictional.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "publish|hold|verify|verification|run|air|correct|retract|second source",
+          "description": "the decision point involves publishing, holding, verifying or correcting"
+        }
+      }
+    },
+    {
+      "id": "comms_service_degradation",
+      "label": "Communications service degradation",
+      "description": "The communications function itself degrades: a compromised social account, an alert system outage, an unavailable spokesperson or a disrupted press conference.",
+      "keywords": [
+        "social account compromised",
+        "account takeover",
+        "alert system outage",
+        "unavailable spokesperson",
+        "press conference disrupted",
+        "locked out",
+        "notification outage"
+      ],
+      "phaseArc": [
+        {
+          "title": "The channel fails",
+          "goal": "A communications channel stops working or is taken over.",
+          "beats": [
+            "The official account posts something nobody on the team wrote",
+            "The mass notification tool returns an error",
+            "The spokesperson cannot be reached"
+          ]
+        },
+        {
+          "title": "Work around",
+          "goal": "The team moves to other channels and decides who can speak.",
+          "beats": [
+            "A deputy has no approval to speak",
+            "The website is the only channel left",
+            "A reporter asks why the official account posted a falsehood"
+          ]
+        },
+        {
+          "title": "Take back the channel",
+          "goal": "Recover the account or the alert path while keeping the public informed.",
+          "beats": [
+            "The platform's support asks for proof of ownership",
+            "A pre-approved correction path exists but nobody has tested it",
+            "Time jump: the false post has been shared widely"
+          ]
+        },
+        {
+          "title": "Correction and review",
+          "goal": "Correct through the channel the falsehood used and the alternative channels, then fix the procedure.",
+          "beats": [
+            "The correction goes out by every channel, with times",
+            "A review of who may issue a correction without the executive",
+            "Updated procedure and a test of it"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "issue a correction on other channels now, or wait until the account is recovered",
+        "let the deputy speak without full clearance, or hold for the executive"
+      ],
+      "clueKinds": "a platform security email, a login history entry, an error from the alert tool, a screenshot of the post",
+      "hurdleKinds": "a platform that takes hours to respond, an approver offline, a backup account with no one logged in",
+      "keyCoordination": "the platform's support team, the IT security team and the executive who approves release",
+      "purposeMix": {
+        "TECH_HURDLE": 30,
+        "PRESSURE": 25,
+        "CLUE": 20
+      },
+      "promptGuidance": "Model the Hawaii false alert lesson: a cancellation does not equal a correction, and the correction must go through the channel the error used. Fictional systems and agencies only.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical",
+        "decisionMustMention": {
+          "pattern": "correct|channel|account|alert|statement|approval|spokesperson|release",
+          "description": "the decision point involves a correction, a channel, an account, an alert or release authority"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine interview request about an unrelated program",
+    "a reporter asking for a headshot of an executive",
+    "a customer's complaint about an unrelated delay",
+    "a newsletter subscriber asking to unsubscribe",
+    "a student asking for a tour for a class project"
+  ],
+  "pressureExamples": [
+    "a reporter calling for the third time before a 5 p.m. deadline",
+    "a local TV truck parked outside the front entrance",
+    "an executive asking why the statement is not out yet",
+    "legal asking that nothing be said until the review is done",
+    "a viral post that is false and getting reposted by a well-known account",
+    "an elected official asking for talking points within the hour"
+  ],
+  "rolePatterns": {
+    "public": "spokes|media|social|pio|writer|rumor",
+    "technical": "verif|digi",
+    "security": "legal",
+    "operations": "comms|lead|ed|desk|prod"
+  },
+  "agencyPattern": "FEMA|CDC|NIMS|JIC|JIS|FCC|SEC",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "operational_communications",
+    "situational_assessment"
+  ],
+  "regulations": ["sec_8k_105"],
+  "suggestedToolkits": ["media_environment"]
+}

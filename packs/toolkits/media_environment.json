@@ -1,0 +1,460 @@
+{
+  "id": "media_environment",
+  "name": "Media environment",
+  "description": "The news cycle and social feeds around an incident: wire alerts, articles and broadcast segments, social posts whose reach and sentiment change over time, reporter calls and press conference questions, and verification tasks with provenance clues. Simulated spread and sentiment are teaching models, not predictions. All outlets, handles and people are fictional.",
+  "appliesTo": {
+    "keywords": [
+      "media",
+      "press",
+      "reporter",
+      "reporters",
+      "journalist",
+      "news coverage",
+      "news cycle",
+      "headline",
+      "social media",
+      "viral",
+      "going viral",
+      "rumor",
+      "rumour",
+      "misinformation",
+      "disinformation",
+      "fake account",
+      "deepfake",
+      "holding statement",
+      "press conference",
+      "spokesperson",
+      "newsroom",
+      "fact check"
+    ],
+    "domains": [
+      "airport",
+      "campus",
+      "chemical",
+      "commercial_facilities",
+      "crisis_comms",
+      "data_center_it",
+      "elections",
+      "emergency_communications",
+      "energy_utility",
+      "federal_continuity",
+      "financial_services",
+      "food_agriculture",
+      "freight_rail",
+      "gas_pipeline",
+      "healthcare",
+      "industrial",
+      "k12_schools",
+      "municipal",
+      "port_maritime",
+      "public_health",
+      "stadium_venue",
+      "telecom",
+      "transit",
+      "unmanned_systems",
+      "water_dam",
+      "water_utility"
+    ]
+  },
+  "injectTypes": [
+    "tweet",
+    "facebook_post",
+    "instagram_post",
+    "reddit_post",
+    "tiktok_video_card",
+    "news_article",
+    "news_chyron_still",
+    "press_release",
+    "reporter_email",
+    "media_inquiry_phone_slip",
+    "voicemail",
+    "service_status_page",
+    "cap_alert",
+    "eas_broadcast",
+    "sitrep"
+  ],
+  "figureKinds": ["media.spread", "media.sentiment", "media.narratives", "media.coverage_timeline"],
+  "connectors": ["gdelt"],
+  "outsideParties": [
+    "Reporters from regional and national outlets",
+    "The wire service desk",
+    "The local TV news desk",
+    "Fact-checking organization",
+    "Platform trust and safety team",
+    "The public on social media",
+    "Community group administrators"
+  ],
+  "advisorRoles": [
+    {
+      "key": "media_liaison",
+      "name": "Media relations liaison",
+      "abbreviation": "MEDIA",
+      "team": "Advisors",
+      "description": "Tracks reporters' questions and deadlines, drafts the holding statement and keeps the message consistent with the fact sheet."
+    },
+    {
+      "key": "social_monitor",
+      "name": "Social media monitor",
+      "abbreviation": "SOCIAL",
+      "team": "Advisors",
+      "description": "Watches the simulated feeds, reports volume, sentiment and false claims, and requests labels or takedowns."
+    }
+  ],
+  "metrics": [
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across statements"
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "issue_holding_statement",
+      "label": "Issue a holding statement",
+      "description": "The first public words: what is known, what is not known and what is being done.",
+      "fields": [
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Website",
+            "Social media",
+            "Email to stakeholders",
+            "Press release",
+            "Spokesperson at microphone"
+          ]
+        },
+        {
+          "id": "approver",
+          "label": "Approved by",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time issued",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "text",
+          "label": "Statement text",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "approve_release",
+      "label": "Approve a release",
+      "description": "Record who approved a statement or release before it went out.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "What was approved",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "approver",
+          "label": "Approved by",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time approved",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "respond_to_reporter",
+      "label": "Respond to a reporter",
+      "description": "Answer a call or email: on the record, on background, declined or no comment.",
+      "fields": [
+        {
+          "id": "inquiry",
+          "label": "The call or email answered",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "response_mode",
+          "label": "Response",
+          "kind": "choice",
+          "required": true,
+          "choices": ["On the record", "Background", "Decline", "No comment"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "text",
+          "label": "What was said",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "issue_correction",
+      "label": "Issue a correction",
+      "description": "Correct an error: name what was wrong, what is right and the channel.",
+      "fields": [
+        {
+          "id": "what_was_wrong",
+          "label": "What was wrong",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "what_is_right",
+          "label": "What is right",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Website",
+            "Social media",
+            "Email to stakeholders",
+            "Press release",
+            "Broadcast",
+            "Alert system"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time issued",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "schedule_press_conference",
+      "label": "Schedule a press conference",
+      "description": "Set a time, a speaker and the topics.",
+      "fields": [
+        {
+          "id": "time",
+          "label": "Start time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "speaker",
+          "label": "Speaker",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "topics",
+          "label": "Topics",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "escalate",
+      "label": "Escalate to legal or the executive",
+      "description": "Ask legal counsel or the executive for a decision before release.",
+      "fields": [
+        {
+          "id": "to",
+          "label": "Escalated to",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Legal counsel", "Executive", "Incident commander"]
+        },
+        {
+          "id": "question",
+          "label": "The question",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "request_platform_action",
+      "label": "Request a platform takedown or label",
+      "description": "Ask a platform to remove or label a false or impersonating post.",
+      "fields": [
+        {
+          "id": "post",
+          "label": "The post or account",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "request",
+          "label": "Request",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Takedown", "Label", "Account recovery", "Impersonation report"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "hold_or_publish",
+      "label": "Hold or publish",
+      "description": "Newsroom decision on an item: publish, publish with a caveat, or hold.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "The item",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "verdict",
+          "label": "Verdict",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Verified", "False", "Unverified", "Hold"]
+        },
+        {
+          "id": "confidence",
+          "label": "Confidence",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Publish", "Publish with caveat", "Hold"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "request_second_source",
+      "label": "Request a second source",
+      "description": "Ask for a second, independent source before publishing.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "The item",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "source",
+          "label": "Source requested",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Holding statement",
+        "definition": "A short first public statement issued before all facts are known. It says what is known, what is not known and what is being done, and when the next update is expected."
+      },
+      {
+        "term": "Message map",
+        "definition": "A one-page plan of the three or so key messages, with supporting facts and the hard questions and answers for a spokesperson."
+      },
+      {
+        "term": "Media advisory",
+        "definition": "A short notice inviting reporters to an event such as a press conference: who, what, when, where and who will speak."
+      },
+      {
+        "term": "Flash, bulletin, update (wire)",
+        "definition": "Wire service alert levels: a flash is the first one-line alert of a major event; a bulletin follows with a few lines; an update carries new details. Each carries a time, a slug and a fictional wire service name."
+      },
+      {
+        "term": "On the record, on background, off the record",
+        "definition": "On the record: quotable and attributed. On background: usable but not attributed by name. Off the record: not to be published. A spokesperson states the terms before answering."
+      },
+      {
+        "term": "Correction",
+        "definition": "A published notice that names what was wrong and what is right, and where and when the error appeared. A retraction withdraws the story."
+      },
+      {
+        "term": "JIC, JIS and the PIO cycle",
+        "definition": "The Joint Information Center is where agencies' public information officers coordinate one message; the Joint Information System is the NIMS structure; the PIO cycle is gather, verify, coordinate, disseminate."
+      },
+      {
+        "term": "CERC principles",
+        "definition": "CDC Crisis and Emergency Risk Communication: be first, be right, be credible, express empathy, promote action, show respect."
+      },
+      {
+        "term": "Provenance",
+        "definition": "Where a photo, video or claim came from: first appearance, original uploader, location and time, and any change on the way."
+      },
+      {
+        "term": "Content Credentials (C2PA)",
+        "definition": "Signed provenance data attached to a file. A valid credential says who signed and that the file was not changed since; it does not prove the content is true. A missing credential proves nothing."
+      },
+      {
+        "term": "Social listening report",
+        "definition": "A summary of volume, sentiment mix and top narratives for a topic over a period."
+      }
+    ],
+    "productConventions": [
+      "News writing follows AP style: short paragraphs, an inverted pyramid, dates and times with a time zone, and attribution for every claim (\"said\", \"according to\").",
+      "A wire alert has a slug, a level (flash, bulletin or update), a dateline, a time stamp and a fictional wire service name; a flash is one line.",
+      "A holding statement is short (under 150 words) and has three parts: what is known, what is not known and what is being done, plus when the next update comes and a contact.",
+      "A correction names the original error, the correct information, where and when the error ran, and does not repeat the false claim as a headline.",
+      "Reporters give a deadline in their message; calls come at plausible times (late morning, mid-afternoon, 30 minutes before a broadcast).",
+      "Social posts show handle, time and counters (views, reposts, replies, likes); counters grow over exercise time and never fall. Replies mix supportive, skeptical, hostile, false-claim and joke.",
+      "Every outlet, handle, reporter and spokesperson is fictional; do not imitate a real outlet's name, logo or style guide, or a real person.",
+      "Exercise material is marked as such in every export, and simulated spread and sentiment are labeled simulated."
+    ],
+    "realismRules": [
+      "The first public signal is rarely the first internal signal; a reporter or a post often arrives before the facts are confirmed.",
+      "Public information officers do not release incident information on their own authority; the incident commander or executive approves.",
+      "A cancellation of an alert is not a correction; a correction goes through the channel the error spread on.",
+      "A news item that quotes a claim names its source; an unnamed source is described by role.",
+      "Dates and times in injects agree with the exercise clock; an update never predates the item it updates.",
+      "Verification clues cost time; a clue that comes back with no result is a result, not an error.",
+      "Absence of a Content Credentials manifest proves nothing; a valid credential says who signed, not that the content is true.",
+      "Simulated spread and sentiment are teaching models, not predictions of real behavior.",
+      "Misinformation in injects is about a fictional organization and event, never a real person, organization or ongoing event."
+    ]
+  },
+  "lintRules": [
+    "media.attribution",
+    "media.clock",
+    "media.correction",
+    "media.holding_statement",
+    "media.fictional_names"
+  ]
+}
