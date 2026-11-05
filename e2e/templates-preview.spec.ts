@@ -179,8 +179,8 @@ test('render:inject writes PNG + PDF into the project and records the assets', a
 })
 
 test('Templates gallery shows rendered previews and a detail view', async () => {
-  // The gallery renders every template's preview; with all field packs that takes a while.
-  test.setTimeout(180_000)
+  // Previews render as their cards come into view (#1070), so the default timeouts hold however
+  // many field packs are installed.
   const { app, page } = await launch()
   try {
     await page.setViewportSize({ width: 1280, height: 900 })
@@ -189,12 +189,18 @@ test('Templates gallery shows rendered previews and a detail view', async () => 
       .getByRole('link', { name: 'Templates' })
       .click()
     await expect(page.getByRole('heading', { name: 'Templates', level: 1 })).toBeVisible()
+    const cards = page.locator('.tpl-grid > li')
+    await expect(cards.first().locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/)
+    // A card far down the list waits, as a placeholder, until it is scrolled to.
     const card = page.getByRole('button', { name: /Time jump card/ })
-    await expect(card.locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/, {
-      timeout: 120_000,
-    })
+    expect(await cards.count()).toBeGreaterThan(40)
+    await expect(card.locator('.tpl-preview--loading')).toHaveCount(1)
+    await card.scrollIntoViewIfNeeded()
+    await expect(card.locator('img')).toHaveAttribute('src', /^data:image\/png;base64,/)
     await page.screenshot({ path: '.tmp/gallery-grid.png' })
-    await card.click()
+    // Keyboard: the card is a button; Enter opens the detail view.
+    await card.focus()
+    await page.keyboard.press('Enter')
     const detail = page.getByRole('region', { name: 'Time jump card' })
     await expect(detail.getByRole('rowheader', { name: /newTime/ })).toBeVisible()
     await expect(detail.getByRole('img', { name: /preview \(default\)/ })).toBeVisible()
