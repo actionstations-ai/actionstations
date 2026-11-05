@@ -56,3 +56,21 @@ rubrics** gives you original rubrics for communication, decision quality, role c
 situational awareness, coordination and evaluator observation quality. Edit them freely. Rubrics
 export and import as files. Rubrics from other institutions are not included when their license
 forbids it; import them yourself if yours allows.
+
+## Evidence and scoring
+
+Pick a scenario under **Scoring**. For each student you see every criterion of the rubrics the
+session uses, the evidence recorded for that student and criterion, and a suggested level. The
+suggestion follows one fixed rule: the highest level at least two pieces of evidence support (or the
+only piece, if there is just one), and the basis is printed beside it. Nothing is graded until you
+choose a level. Team rubrics give every team member the team score unless you set a student apart.
+A weighted total and a score per outcome are worked out from your choices.
+
+Use **+ Hot wash contribution** to count a contribution with one tap. Contributions are counted by
+you; they are never attributed from the recording.
+
+## Role rotation
+
+Give the roles and the number of sessions and choose **Plan the rotation**. Each session covers
+every role, and a student does not repeat a role until they have played them all. If the roster is
+too small to cover the roles, the plan says so.

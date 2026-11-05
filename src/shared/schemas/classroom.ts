@@ -229,6 +229,12 @@ export const Accommodation = z.object({
 })
 export type Accommodation = z.infer<typeof Accommodation>
 
+export const DEFAULT_REFLECTION_PROMPTS = [
+  'What decision would you change, and why?',
+  'What did your role depend on from others?',
+  'How does this exercise connect to a course outcome?',
+] as const
+
 /** classroom/course.json */
 export const ClassroomCourseFile = z.looseObject({
   formatVersion: z.number().int().default(CLASSROOM_FORMAT_VERSION),
@@ -240,6 +246,12 @@ export const ClassroomCourseFile = z.looseObject({
   rubrics: z.array(ClassroomRubric).max(CLASSROOM_LIMITS.rubrics).default([]),
   sessions: z.array(ClassroomSession).max(CLASSROOM_LIMITS.sessions).default([]),
   rotations: z.array(RotationPlan).max(CLASSROOM_LIMITS.sections).default([]),
+  /** Reflection questions asked after the hot wash (FR-6); instructor-editable. */
+  reflectionPrompts: z
+    .array(z.string().trim().min(1).max(CLASSROOM_LIMITS.text))
+    .min(2)
+    .max(5)
+    .default(() => [...DEFAULT_REFLECTION_PROMPTS]),
   /** Share of a criterion's top points at or above which an outcome counts as attained. */
   attainmentThreshold: z.number().min(0).max(1).default(0.6),
   updatedAt: IsoDateTime,
