@@ -106,8 +106,708 @@
     }
   ],
   "documents": [],
-  "metrics": [],
-  "decisionForms": [],
+  "metrics": [
+    {
+      "id": "humanitarian_gap_closure",
+      "label": "Coordination gaps: time to assign and to cover, and the share open at the end",
+      "config": {
+        "assignTargetHours": 12,
+        "coveredTargetHours": 48
+      },
+      "groundTruth": "hum-gap-events"
+    },
+    {
+      "id": "humanitarian_needs_coverage",
+      "label": "People reached against the response plan target by sector and site",
+      "config": {
+        "minimumPercent": 0
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Movements stopped after the first sign of a threat (threat level 1)",
+      "config": {
+        "actionKind": "humanitarian_stop_movements",
+        "threshold": 1,
+        "clearanceMin": 0
+      },
+      "series": "hum-threat-level"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Security alert shared after the first sign of a threat",
+      "config": {
+        "actionKind": "humanitarian_share_security_alert",
+        "threshold": 1,
+        "clearanceMin": 0
+      },
+      "series": "hum-threat-level"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Family notified after the first sign of a threat",
+      "config": {
+        "actionKind": "humanitarian_notify_family",
+        "threshold": 1,
+        "clearanceMin": 0
+      },
+      "series": "hum-threat-level"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Hibernation or relocation ordered by a serious threat (level 3)",
+      "config": {
+        "actionKind": "humanitarian_hibernate_or_relocate",
+        "threshold": 3,
+        "clearanceMin": 0
+      },
+      "series": "hum-threat-level"
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Evacuation ordered by a serious threat (level 3)",
+      "config": {
+        "actionKind": "humanitarian_evacuate_staff",
+        "threshold": 3,
+        "clearanceMin": 0
+      },
+      "series": "hum-threat-level"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Pipeline: a reroute or customs waiver ahead of the break (lead window 30 days)",
+      "config": {
+        "decisionKinds": ["humanitarian_reroute_shipment", "humanitarian_request_customs_waiver"],
+        "eventKinds": ["pipeline_break"],
+        "leadWindowMin": 43200,
+        "graceWindowMin": 0,
+        "matchArea": false
+      },
+      "groundTruth": "hum-pipeline-events"
+    },
+    {
+      "id": "decision_timing",
+      "label": "Outbreak: response declared after the case threshold (within 24 hours)",
+      "config": {
+        "decisionKinds": ["humanitarian_declare_outbreak_response"],
+        "eventKinds": ["declaration_threshold"],
+        "leadWindowMin": 0,
+        "graceWindowMin": 1440,
+        "matchArea": false
+      },
+      "groundTruth": "hum-outbreak-events"
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across the NGO country office, headquarters, the Humanitarian Country Team and donors",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "NGO country office, Headquarters, Humanitarian Country Team, Donor"
+      }
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "humanitarian_request_cluster_activation",
+      "label": "Request cluster activation",
+      "description": "The Humanitarian Coordinator asks the Emergency Relief Coordinator to activate clusters. Not used in refugee settings.",
+      "fields": [
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Health",
+            "Water, sanitation and hygiene",
+            "Shelter",
+            "Food security",
+            "Protection",
+            "Logistics",
+            "Nutrition",
+            "Camp coordination and management",
+            "Education",
+            "Early recovery"
+          ]
+        },
+        {
+          "id": "lead",
+          "label": "Proposed lead agency",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_activate_cluster",
+      "label": "Activate cluster",
+      "description": "Recorded when the Emergency Relief Coordinator decides, with the IASC Principals' endorsement.",
+      "fields": [
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Health",
+            "Water, sanitation and hygiene",
+            "Shelter",
+            "Food security",
+            "Protection",
+            "Logistics",
+            "Nutrition",
+            "Camp coordination and management",
+            "Education",
+            "Early recovery"
+          ]
+        },
+        {
+          "id": "lead",
+          "label": "Lead agency",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_assign_gap",
+      "label": "Assign a gap to a partner",
+      "description": "Name the gap as it appears on the gap list.",
+      "fields": [
+        {
+          "id": "gap",
+          "label": "Gap (sector / area)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "partner",
+          "label": "Partner",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "due",
+          "label": "Date and time by which it should be covered",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_confirm_gap_covered",
+      "label": "Confirm a gap covered",
+      "description": "Record that a partner reports the gap covered.",
+      "fields": [
+        {
+          "id": "gap",
+          "label": "Gap (sector / area)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_escalate_gap_hct",
+      "label": "Escalate a gap to the Humanitarian Country Team",
+      "description": "For a gap the cluster could not assign.",
+      "fields": [
+        {
+          "id": "gap",
+          "label": "Gap (sector / area)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Why the cluster could not close it",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_launch_appeal",
+      "label": "Launch or revise an appeal",
+      "description": "Amount in US dollars; sectors as a list.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Launch", "Revise"]
+        },
+        {
+          "id": "amount",
+          "label": "Amount, US dollars",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "sectors",
+          "label": "Sectors covered",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_stop_movements",
+      "label": "Stop movements",
+      "description": "For an area drawn or picked.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "hours",
+          "label": "Duration in hours",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_hibernate_or_relocate",
+      "label": "Hibernate or relocate staff",
+      "description": "Hibernation keeps staff in a secure place; relocation moves them within the country.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Hibernate", "Relocate"]
+        },
+        {
+          "id": "area",
+          "label": "Site",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_evacuate_staff",
+      "label": "Evacuate staff",
+      "description": "Leaving the country or the area; the scope matters.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Site",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "scope",
+          "label": "Who is evacuated",
+          "kind": "choice",
+          "required": false,
+          "choices": ["All international staff", "Non-essential staff", "All staff and dependants"]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_notify_family",
+      "label": "Notify the family",
+      "description": "Who tells the family and what they were told; names are never recorded here.",
+      "fields": [
+        {
+          "id": "by",
+          "label": "Notified by (role)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "content",
+          "label": "What the family was told",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_activate_crisis_management_team",
+      "label": "Activate the crisis management team",
+      "description": "Headquarters team for a staff incident.",
+      "fields": [
+        {
+          "id": "lead",
+          "label": "Team lead (role)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "cadence",
+          "label": "Meeting cadence",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_share_security_alert",
+      "label": "Share a security alert",
+      "description": "At the level of the inter-agency security collaboration framework.",
+      "fields": [
+        {
+          "id": "to",
+          "label": "Shared with",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Inter-agency security channel",
+            "UN security focal point only",
+            "NGO partners only",
+            "Donor"
+          ]
+        },
+        {
+          "id": "summary",
+          "label": "What is shared",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_reroute_shipment",
+      "label": "Reroute a shipment",
+      "description": "Route, cost and delay.",
+      "fields": [
+        {
+          "id": "shipment",
+          "label": "Shipment reference",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "route",
+          "label": "New route",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "cost",
+          "label": "Extra cost, US dollars",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "delay",
+          "label": "Delay in days",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_request_customs_waiver",
+      "label": "Request a customs waiver",
+      "description": "For a consignment on hold.",
+      "fields": [
+        {
+          "id": "shipment",
+          "label": "Shipment reference",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "authority",
+          "label": "Authority asked",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_declare_outbreak_response",
+      "label": "Declare an outbreak response",
+      "description": "For an outbreak in a site.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "sectors",
+          "label": "Sectors involved",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_public_statement",
+      "label": "Issue a public statement",
+      "description": "Audience and what it says; checked with the message consistency measure.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Media", "Donors", "Partners", "Affected communities", "Staff families"]
+        },
+        {
+          "id": "summary",
+          "label": "What it says",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "humanitarian_record_coverage",
+      "label": "Record coverage against a target",
+      "description": "People reached by sector and site against the response plan target the facilitator enters.",
+      "fields": [
+        {
+          "id": "sector",
+          "label": "Sector",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "target",
+          "label": "People targeted",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "reached",
+          "label": "People reached",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision (report, assessment or message)",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
   "knowledge": {
     "glossary": [
       {
@@ -154,6 +854,103 @@
     "humanitarian_coverage_arithmetic",
     "humanitarian_camp_rates"
   ],
-  "capabilities": [],
+  "capabilities": [
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Request cluster activation through the Humanitarian Coordinator and use the refugee coordination model in refugee settings.",
+        "Keep a gap list with owners and escalate unassigned gaps to the Humanitarian Country Team.",
+        "Activate the crisis management team and keep its decision log for a staff incident."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["coordination", "security and duty of care"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "situational_assessment",
+      "criticalTasks": [
+        "Build a 3W picture from partner reports and name the areas with no report.",
+        "State which figures are confirmed and which are estimates in each update.",
+        "Run a rapid assessment and state its limits."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["assessment and information management"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "logistics_and_supply_chain_management",
+      "criticalTasks": [
+        "Compute days of stock and the forecast break day from stock and consumption.",
+        "Decide on a reroute or a customs waiver before the break, inside the reorder lead time."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["logistics"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Cover water, sanitation, shelter and food gaps by site against the response plan target.",
+        "Run registration and a community feedback channel at a site."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["sector response"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "public_health_healthcare_and_emergency_medical_services",
+      "criticalTasks": [
+        "Run camp health surveillance with a case definition, attack rate and case fatality.",
+        "Declare an outbreak response on a stated basis and scale treatment, water and sanitation together."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["sector response"]
+        }
+      ]
+    },
+    {
+      "coreCapability": "operational_communications",
+      "criticalTasks": [
+        "Keep communications working or fall back on radio and paper with check-in rules.",
+        "Share security alerts through the inter-agency channel."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": [
+            "security and duty of care",
+            "communications and accountability to affected communities"
+          ]
+        }
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Keep messages to donors, the media, partners and families consistent with the facts.",
+        "Correct misinformation at a site with facts and track it."
+      ],
+      "mappings": [
+        {
+          "framework": "Humanitarian capability area",
+          "ids": ["communications and accountability to affected communities"]
+        }
+      ]
+    }
+  ],
   "exerciseTags": []
 }

@@ -29,8 +29,7 @@ describe('code the toolkit names exists', () => {
   it('has no figure kind, connector, metric or lint rule the app lacks', () => {
     expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(toolkit.lintRules))
     expect(connectorIds()).toEqual(expect.arrayContaining(toolkit.connectors))
-    const missing = unknownCapabilityWarnings(toolkit).filter((w) => !/metric/i.test(w))
-    expect(missing).toEqual([])
+    expect(unknownCapabilityWarnings(toolkit)).toEqual([])
   })
 })
 
