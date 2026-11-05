@@ -92,6 +92,12 @@ export const CaseDataset = z.object({
   file: CaseFileName.optional(),
   frames: z.array(CaseRasterFrame).max(2000).optional(),
   unit: text(40).optional(),
+  /**
+   * A dataset made for scoring rather than for injects: `modeled-series` is a list of zone series
+   * (a modeled quantity by area over time) and `ground-truth` a list of events, the shapes the
+   * field metrics read. Injects do not reference these.
+   */
+  shape: z.enum(['modeled-series', 'ground-truth']).optional(),
   bytes: z.number().int().nonnegative().default(0),
 })
 export type CaseDataset = z.infer<typeof CaseDataset>

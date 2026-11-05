@@ -2,7 +2,8 @@
 // consistent datasets with simple parametric code (no numerical models). The framework, not the
 // generator, writes the provenance: origin is always `simulated`, the generator's id is
 // recorded, and there is never a retrieval date, so simulated data cannot pass as historical.
-import type { z } from 'zod'
+import { z } from 'zod'
+import { GroundTruthEvent, ModeledSeries } from '@shared/schemas/metrics'
 import {
   CaseDataset,
   SeriesFile,
@@ -24,6 +25,8 @@ export interface GeneratedDataset {
   range?: CaseTimeRange
   area?: CaseArea
   unit?: string
+  /** Set for data made for scoring (see CaseDataset.shape); its `data` has that shape. */
+  shape?: 'modeled-series' | 'ground-truth'
 }
 
 export interface SimulatedGenerator<P = unknown> {
@@ -53,7 +56,18 @@ export const listGenerators = (): { id: string; label: string }[] =>
 /** Test hook. */
 export const clearGenerators = (): void => registry.clear()
 
+const ModeledSeriesFile = z.array(ModeledSeries).max(500)
+const GroundTruthFile = z.array(GroundTruthEvent).max(5000)
+
 function validateData(d: GeneratedDataset): void {
+  if (d.shape) {
+    const ok = (d.shape === 'modeled-series' ? ModeledSeriesFile : GroundTruthFile).safeParse(
+      d.data,
+    )
+    if (!ok.success)
+      throw new AppError('VALIDATION', `Generated dataset ${d.id} is not valid ${d.shape} data`)
+    return
+  }
   const schema = d.kind === 'series' ? SeriesFile : d.kind === 'features' ? null : TextFile
   const result = schema?.safeParse(d.data)
   if (result && !result.success)
@@ -98,6 +112,7 @@ export async function runGenerator(
       ...(d.range ? { range: d.range } : {}),
       ...(d.area ? { area: d.area } : {}),
       ...(d.unit ? { unit: d.unit } : {}),
+      ...(d.shape ? { shape: d.shape } : {}),
       provenance: {
         origin: 'simulated',
         source: g.label,

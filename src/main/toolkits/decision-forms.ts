@@ -5,7 +5,8 @@
 // request, so a change to the scenario's toolkits shows up the next time the forms are read.
 import { DECISION_LIMITS, type DecisionForm as LiveForm } from '@shared/schemas/decisions'
 import type { DecisionField, DecisionForm, Toolkit } from '@shared/toolkits'
-import { readManifest } from '../case-data/store'
+import { caseDir, readManifest } from '../case-data/store'
+import { readModeledSeries } from '../evaluation/metrics/inputs'
 import { provideDecisionForms, type DecisionFormContext } from '../live/decision-forms'
 import { getScenario } from '../scenario/store'
 import { resolveToolkits } from './registry'
@@ -34,7 +35,7 @@ function named(labels: readonly string[], limit: number): { id: string; label: s
 
 type LiveField = LiveForm['fields'][number]
 
-function convertField(f: DecisionField, defaultArea: string): LiveField {
+function convertField(f: DecisionField, defaultAreas: readonly string[]): LiveField {
   const base = { id: f.id, label: f.label.slice(0, 120), required: f.required }
   switch (f.kind) {
     case 'choice':
@@ -43,7 +44,7 @@ function convertField(f: DecisionField, defaultArea: string): LiveField {
       return {
         ...base,
         type: 'area',
-        areas: named(f.areas.length ? f.areas : [defaultArea], DECISION_LIMITS.areas),
+        areas: named(f.areas.length ? f.areas : defaultAreas, DECISION_LIMITS.areas),
         draw: f.draw,
       }
     case 'number':
@@ -56,24 +57,42 @@ function convertField(f: DecisionField, defaultArea: string): LiveField {
 }
 
 /** One toolkit form as the live schema; the form id doubles as its kind for the metrics. */
-export function toLiveForm(form: DecisionForm, defaultArea = DEFAULT_AREA): unknown {
+export function toLiveForm(
+  form: DecisionForm,
+  defaultArea: string | readonly string[] = DEFAULT_AREA,
+): unknown {
+  const defaultAreas = typeof defaultArea === 'string' ? [defaultArea] : defaultArea
   return {
     id: form.id,
     title: form.label.slice(0, 120),
     ...(form.description ? { description: form.description.slice(0, 300) } : {}),
     // A form with no fields cannot be filled in; the live schema's own check skips it.
-    fields: form.fields.slice(0, DECISION_LIMITS.fields).map((f) => convertField(f, defaultArea)),
+    fields: form.fields.slice(0, DECISION_LIMITS.fields).map((f) => convertField(f, defaultAreas)),
   }
 }
 
 /** The forms of these toolkits, in toolkit order, as unchecked live-form data. */
-export function liveFormsOf(toolkits: readonly Toolkit[], defaultArea = DEFAULT_AREA): unknown[] {
+export function liveFormsOf(
+  toolkits: readonly Toolkit[],
+  defaultArea: string | readonly string[] = DEFAULT_AREA,
+): unknown[] {
   return toolkits.flatMap((t) => t.decisionForms.map((f) => toLiveForm(f, defaultArea)))
 }
 
-async function caseAreaLabel(root: string, scenarioId: string): Promise<string> {
+/**
+ * The places a form's area field offers when the toolkit lists none: the zones of the scenario's
+ * modeled series (the sensitive areas an oil spill reaches), else the case data's area label.
+ */
+async function caseAreaNames(root: string, scenarioId: string): Promise<string[]> {
   const manifest = await readManifest(root, scenarioId).catch(() => undefined)
-  return manifest?.datasets.find((d) => d.area?.label)?.area?.label || DEFAULT_AREA
+  const zones = new Set<string>()
+  for (const d of manifest?.datasets ?? []) {
+    if (d.shape !== 'modeled-series' || !d.file) continue
+    const series = await readModeledSeries(caseDir(root, scenarioId), d.file).catch(() => [])
+    for (const s of series) zones.add(s.zone)
+  }
+  if (zones.size) return [...zones]
+  return [manifest?.datasets.find((d) => d.area?.label)?.area?.label || DEFAULT_AREA]
 }
 
 /** The provider: the decision forms of the toolkits the scenario has on. */
@@ -82,7 +101,7 @@ export async function toolkitDecisionForms(ctx: DecisionFormContext): Promise<un
   if (!scenario.toolkits.length) return []
   const toolkits = await resolveToolkits(scenario.toolkits)
   if (!toolkits.some((t) => t.decisionForms.length)) return []
-  return liveFormsOf(toolkits, await caseAreaLabel(ctx.root, ctx.scenarioId))
+  return liveFormsOf(toolkits, await caseAreaNames(ctx.root, ctx.scenarioId))
 }
 
 /** Make toolkit forms the source of decision forms (once, at startup). */

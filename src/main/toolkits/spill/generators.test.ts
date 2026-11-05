@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { SeriesFile, TextFile } from '@shared/schemas/case-data'
+import { GroundTruthEvent, ModeledSeries } from '@shared/schemas/metrics'
 
 vi.mock('electron', () => ({
   app: { getVersion: () => '0.0.1', getPath: () => tmpdir() },
@@ -250,16 +251,22 @@ describe('simulated spill and plume generators', () => {
         ],
       },
     ],
+    notifications: [
+      { who: 'National Response Center', minutes: 30 },
+      { who: 'State environmental agency', minutes: 60 },
+    ],
   })
 
   it('writes a trajectory, a mass balance series and landfall notes, all valid case data', () => {
     expect(spill.map((d) => d.id)).toEqual([
       'spill-trajectory',
       'spill-mass-balance',
+      'spill-arrival',
+      'notification-deadlines',
       'spill-landfall',
     ])
     expect(SeriesFile.safeParse(spill[1]!.data).success).toBe(true)
-    expect(TextFile.safeParse(spill[2]!.data).success).toBe(true)
+    expect(TextFile.safeParse(spill[4]!.data).success).toBe(true)
     expect(spill[1]!.unit).toBe('bbl')
   })
 
@@ -274,7 +281,7 @@ describe('simulated spill and plume generators', () => {
   })
 
   it('names the shoreline and the earliest contact in case time', () => {
-    const notes = spill[2]!.data as { t: string; title: string; text: string }[]
+    const notes = spill[4]!.data as { t: string; title: string; text: string }[]
     expect(notes[0]!.title).toBe('Oil may reach Heron Bay marsh (ESI 10A)')
     expect(Date.parse(notes[0]!.t)).toBeGreaterThan(Date.parse('2026-11-04T12:00:00Z'))
     expect(notes[0]!.text).toContain('Simulated for the exercise')
@@ -305,8 +312,31 @@ describe('simulated spill and plume generators', () => {
           ],
         },
       ],
+      notifications: [],
     })
-    expect(none.map((d) => d.id)).toEqual(['spill-trajectory', 'spill-mass-balance'])
+    expect(none.map((d) => d.id)).toEqual([
+      'spill-trajectory',
+      'spill-mass-balance',
+      'spill-arrival',
+    ])
+  })
+
+  it('writes the scoring inputs the metrics read: arrival by shoreline and notification due times', () => {
+    const arrival = ModeledSeries.array().parse(spill[2]!.data)
+    expect(arrival).toHaveLength(1)
+    expect(arrival[0]).toMatchObject({ zone: 'Heron Bay marsh', quantity: 'oil_presence' })
+    const values = arrival[0]!.points.map((q) => q.value)
+    expect(values[0]).toBe(0)
+    expect(values.at(-1)).toBe(1)
+    expect([...values].sort()).toEqual(values) // never goes back to zero
+    expect(spill[2]).toMatchObject({ shape: 'modeled-series' })
+    const due = GroundTruthEvent.array().parse(spill[3]!.data)
+    expect(due.map((e) => e.time)).toEqual(['2026-11-04T12:30:00.000Z', '2026-11-04T13:00:00.000Z'])
+    expect(due[0]).toMatchObject({
+      kind: 'notification_due',
+      attrs: { who: 'National Response Center' },
+    })
+    expect(spill[3]).toMatchObject({ shape: 'ground-truth' })
   })
 
   it('draws threat zones around the source that shrink with the level', () => {
