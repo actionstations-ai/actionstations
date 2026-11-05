@@ -36,6 +36,8 @@ import './flood'
 import './ai'
 import './justice'
 import './lab'
+// Field kinds register themselves when imported (pharmacy).
+import './pharmacy'
 
 export {
   FigureOutput,

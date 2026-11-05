@@ -18,3 +18,9 @@ Drug shortages and pharmacy system outages reach patients, and pharmacy is part 
 
 - The toolkit's figure kinds, connector, decision forms and metrics are added by later changes under the same toolkit id; the wiring test asserts that nothing the toolkit names lacks code.
 - Clinical content is exercise content. Knowledge and prompt guidance tell the generator never to invent doses or interactions.
+
+## Amendment (#901): figures
+
+- Six figure kinds live in `src/main/render/figures/pharmacy/` (`pharmacy_cold_chain_chart`, `pharmacy_days_on_hand`, `pharmacy_queue_chart`, `pharmacy_usage_chart`, `pharmacy_recall_trace`, `pharmacy_inventory`) and are shown through the pack template `pharmacy_figure`, one golden per kind. The recall trace has a stable id so it can move to a supply chain toolkit without a change to stored data.
+- The arithmetic they and the later simulation share (days on hand, stock projection under an allocation percentage, minutes outside a temperature range with crossings found by straight lines between readings) is pure code in `src/shared/pharmacy/arithmetic.ts`, so the figure, the model and the metrics cannot disagree.
+- The usage chart states that a pattern in data is not proof of diversion; every figure says simulated or fictional.

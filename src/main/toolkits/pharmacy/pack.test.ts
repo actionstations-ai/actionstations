@@ -59,13 +59,17 @@ describe('pharmacy domain and toolkit agree', () => {
 
 describe('pharmacy templates', () => {
   it('has a folder, a taxonomy block and a valid preview for every inject type', () => {
-    expect(toolkit.injectTypes).toHaveLength(13)
+    expect(toolkit.injectTypes).toHaveLength(14)
     for (const type of toolkit.injectTypes) {
       const dir = `templates/injects/${type}`
       for (const f of ['meta.json', 'schema.json', 'preview.json', 'template.html', 'style.css'])
         expect(existsSync(join(ROOT, dir, f)), `${dir}/${f}`).toBe(true)
-      expect(existsSync(join(ROOT, dir, '__golden__', 'default.png')), `${type} golden`).toBe(true)
       const meta = TemplateMeta.parse(read(`${dir}/meta.json`))
+      for (const variant of meta.variants.length ? meta.variants : ['default'])
+        expect(
+          existsSync(join(ROOT, dir, '__golden__', `${variant}.png`)),
+          `${type} ${variant} golden`,
+        ).toBe(true)
       expect(meta.type).toBe(type)
       expect(meta.taxonomy, `${type} taxonomy`).toBeTruthy()
       const validate = new Ajv2020({ strict: false }).compile(read(`${dir}/schema.json`) as object)
