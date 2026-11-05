@@ -46,3 +46,12 @@ The weather toolkit names five connectors, each with a fixed public host, a pure
 - `nhc-hurdat2` (a storm's best track from the latest HURDAT2 file).
 
 A figure inject points at a frames dataset (`{ dataset }` as the figure's data); the render picks the frame active at the inject's case time (`computeFigures` reads the resolved case data). Model guidance (HRRR GRIB2), satellite (GOES NetCDF) and gauges (USGS, owned by the flooding toolkit) are not fetched yet; the simulated generators (#662) cover those figures until decoders exist. Connector responses are recorded in `tests/fixtures/weather`; `LIVE=1` runs the same fetches against the real archives.
+
+## Simulated events (#662)
+
+Two generators register through the case data framework, so everything they write is labeled simulated:
+
+- `weather-convective`: a storm of one mode (supercell, line, multicell) moving in a straight line past a radar. It writes radar frames (reflectivity, velocity and correlation coefficient on the radar's own 8-bit codes), storm reports along the track (also as ground-truth events), the warning a simulated office issues a set number of minutes before the tornado begins (a polygon along the storm's track), a sounding whose CAPE and shear fit the mode, hourly mesoanalysis and model-temperature grids that move with the storm, and a station's observations as it passes.
+- `weather-tropical-cyclone`: a straight track with an intensity history and a wind profile that is linear inside the radius of maximum wind and decays outside it. It writes the track as best-track-like fixes, the sustained wind over time at named places, and the hour tropical-storm-force winds first reach each place, as the ground truth for the hurricane decision timeline.
+
+There is no numerical model: cells are Gaussian shapes with a hook echo, a bowed arc or three cores, a Rankine vortex gives the rotation, and a small disk of low correlation coefficient marks the debris while the tornado is on the ground. Simulated counties are a 25 km grid named by column and row. Radar sites in simulated data are named KSIM unless the author gives another id.
