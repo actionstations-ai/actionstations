@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Port health notification",
+  "description": "Notice from a vessel or cruise line to the CDC quarantine station and the port health authority ahead of arrival: reportable illness counts, the response in progress, and what the ship asks of the port (boarding, cleaning of the terminal, medical transport). Counts match the cumulative report sent to the Vessel Sanitation Program.",
+  "type": "object",
+  "required": ["from", "to", "vessel", "sentAt", "arrival", "summary", "requests"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender and role (fictional)",
+      "examples": ["Dr. Paulo Reyes, Medical Director, Calloway Cruise Line"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipients",
+      "examples": ["CDC Miami Quarantine Station; Port Canaveral port health liaison"],
+      "x-translate": false
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Vessel (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "sentAt": {
+      "type": "string",
+      "description": "When sent, local time",
+      "examples": ["Nov 6, 2026, 08:15"],
+      "x-translate": false
+    },
+    "arrival": {
+      "type": "string",
+      "description": "Expected arrival and berth",
+      "examples": ["Nov 7, 2026, 06:30, Cruise Terminal 3"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Where the illness counts stand, in words, with the counts",
+      "examples": [
+        "As of 06:00 the cumulative reportable cases are 61 of 2,410 passengers (2.5 percent) and 14 of 980 crew (1.4 percent)."
+      ]
+    },
+    "countsTable": {
+      "type": "array",
+      "maxItems": 2,
+      "description": "Counts",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "group": {
+            "type": "string",
+            "description": "Passengers or crew",
+            "examples": ["Passengers"],
+            "x-translate": false
+          },
+          "onBoard": {
+            "type": "number",
+            "description": "On board",
+            "examples": [2410],
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "cases": {
+            "type": "number",
+            "description": "Cumulative reportable cases",
+            "examples": [61],
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "percent": {
+            "type": "string",
+            "description": "Percent",
+            "examples": ["2.5%"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "group": "Passengers",
+            "onBoard": 2410,
+            "cases": 61,
+            "percent": "2.5%"
+          }
+        ]
+      ]
+    },
+    "responseInProgress": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Response actions under way",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Ill passengers isolated in cabins", "Cleaning plan running"]]
+    },
+    "requests": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What the ship asks of the port or the quarantine station",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Confirm the time of the Vessel Sanitation Program boarding",
+          "Advise on cleaning of the terminal before embarkation"
+        ]
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact aboard and ashore",
+      "examples": [
+        "Ship medical center, bridge line 7-1204; Shoreside operations center, (555) 010-4400"
+      ],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,72 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">Calloway Cruise Line</div>
+      <div class="sub">Shoreside operations center</div>
+    </div>
+    <div class="doc-title">Port health notification</div>
+  </header>
+  <table>
+    <tr>
+      <th>To</th>
+      <td>{{fields.to}}</td>
+      <th>Sent</th>
+      <td class="mono">{{fields.sentAt}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Vessel</th>
+      <td>{{fields.vessel}}</td>
+    </tr>
+    <tr>
+      <th>Arrival</th>
+      <td colspan="3">{{fields.arrival}}</td>
+    </tr>
+  </table>
+  <h2>Illness counts</h2>
+  <p>{{fields.summary}}</p>
+  {{#if fields.countsTable}}
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th class="num">On board</th>
+        <th class="num">Cases</th>
+        <th class="num">Percent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.countsTable}}
+      <tr>
+        <th>{{this.group}}</th>
+        <td class="num">{{this.onBoard}}</td>
+        <td class="num">{{this.cases}}</td>
+        <td class="num">{{this.percent}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.responseInProgress}}
+  <h2>Response in progress</h2>
+  <ul>
+    {{#each fields.responseInProgress}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <h2>What we ask</h2>
+  <ol>
+    {{#each fields.requests}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <p class="para">Contacts: {{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Port health notification</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -74,6 +74,7 @@ describe('built-in domain profiles', () => {
       'health_informatics',
       'crisis_comms',
       'flooding',
+      'hospitality',
       'ems_fire',
       'environmental_response',
       'geoscience',

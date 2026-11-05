@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Outbreak response checklist",
+  "description": "Checklist a ship or property works through when gastroenteritis cases rise: isolation, cleaning and disinfection, specimens, signage, food service changes and notifications. Each line has an owner, a due time and a status. Steps follow the cited guidance and carry no medical advice beyond it.",
+  "type": "object",
+  "required": ["vessel", "trigger", "items"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Ship or property (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "line": {
+      "type": "string",
+      "description": "Operator (fictional)",
+      "examples": ["Calloway Cruise Line"],
+      "x-translate": false
+    },
+    "trigger": {
+      "type": "string",
+      "description": "What started the checklist",
+      "examples": ["Cumulative passenger cases reached 2 percent at 14:20 on Nov 5."]
+    },
+    "startedAt": {
+      "type": "string",
+      "description": "When the checklist was opened",
+      "examples": ["Nov 5, 2026, 14:30"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 24,
+      "description": "Response actions",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Group",
+            "examples": ["Isolation"],
+            "enum": [
+              "Reporting",
+              "Isolation",
+              "Cleaning and disinfection",
+              "Specimens",
+              "Food and beverage",
+              "Signage and guest information",
+              "Crew"
+            ]
+          },
+          "action": {
+            "type": "string",
+            "description": "The step",
+            "examples": [
+              "Advise ill passengers to stay in their cabins for 24 hours after symptoms end."
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Role responsible",
+            "examples": ["Ship's Doctor"],
+            "x-translate": false
+          },
+          "due": {
+            "type": "string",
+            "description": "Due time or interval",
+            "examples": ["Now"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done 14:45"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "category": "Isolation",
+            "action": "Advise ill passengers to stay in their cabins for 24 hours after symptoms end.",
+            "owner": "Ship's Doctor",
+            "due": "Now",
+            "status": "Done 14:45"
+          }
+        ]
+      ]
+    },
+    "sources": {
+      "type": "string",
+      "description": "Guidance the checklist follows",
+      "examples": [
+        "CDC Vessel Sanitation Program 2025 Environmental Public Health Standards, sections 4.2 to 4.4"
+      ],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

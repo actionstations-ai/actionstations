@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Boarding decision memo",
+  "description": "Memo that records the decision on boarding the next voyage after an outbreak: proceed on time, delay, or proceed with conditions. It states the decision, the reasons, the conditions with owners and times, the criteria that would change the decision, and who approved it. The Vessel Sanitation Program may ask a line to delay boarding; the memo records what was asked and what the line decided.",
+  "type": "object",
+  "required": ["decision", "vessel", "issuedAt", "rationale", "approvals"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "decision": {
+      "type": "string",
+      "description": "The decision",
+      "examples": ["Proceed with conditions"],
+      "enum": ["Proceed on time", "Delay boarding", "Proceed with conditions"]
+    },
+    "vessel": {
+      "type": "string",
+      "description": "Vessel (fictional)",
+      "examples": ["MV Harbor Lantern"],
+      "x-translate": false
+    },
+    "nextVoyage": {
+      "type": "string",
+      "description": "Next voyage and scheduled embarkation",
+      "examples": ["7-night Western Caribbean, embarkation opens Nov 7, 2026, 11:00"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "When issued",
+      "examples": ["Nov 7, 2026, 03:40"],
+      "x-translate": false
+    },
+    "rationale": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Reasons, with the counts and the time they were read",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Counts at 02:00: 66 of 2,410 passengers and 15 of 980 crew; daily new cases fell from 22 to 9 over two days."
+        ]
+      ]
+    },
+    "authorityRequests": {
+      "type": "string",
+      "description": "What CDC or the port asked of the line, if anything",
+      "examples": [
+        "The Vessel Sanitation Program asked the line to arrange cleaning and disinfection in the terminal before boarding."
+      ]
+    },
+    "conditions": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Conditions that must be met before boarding opens",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "condition": {
+            "type": "string",
+            "description": "Condition",
+            "examples": ["Terminal cleaning and disinfection complete and signed off"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Port Operations Manager"],
+            "x-translate": false
+          },
+          "by": {
+            "type": "string",
+            "description": "By when",
+            "examples": ["Nov 7, 10:00"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "condition": "Terminal cleaning and disinfection complete",
+            "owner": "Port Operations Manager",
+            "by": "Nov 7, 10:00"
+          }
+        ]
+      ]
+    },
+    "reconsiderIf": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "What would change the decision",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Any new case in a food employee after 06:00",
+          "A request from the Vessel Sanitation Program to delay"
+        ]
+      ]
+    },
+    "approvals": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Who approved",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name (fictional)",
+            "examples": ["Dr. Paulo Reyes"],
+            "x-translate": false
+          },
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "examples": ["Medical Director"],
+            "x-translate": false
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["03:35"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "name": "Dr. Paulo Reyes",
+            "role": "Medical Director",
+            "time": "03:35"
+          }
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

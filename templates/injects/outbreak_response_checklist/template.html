@@ -1,0 +1,40 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.line}}</div>
+      <div class="sub">{{fields.vessel}}</div>
+    </div>
+    <div class="doc-title">Outbreak response checklist</div>
+  </header>
+  <div class="callout"><strong>Opened {{fields.startedAt}}.</strong> {{fields.trigger}}</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 15%">Group</th>
+        <th>Action</th>
+        <th style="width: 17%">Owner</th>
+        <th style="width: 12%">Due</th>
+        <th style="width: 13%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.category}}</td>
+        <td>{{this.action}}</td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.due}}</td>
+        <td class="mono">{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="para">Guidance followed: {{fields.sources}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Outbreak response checklist</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
