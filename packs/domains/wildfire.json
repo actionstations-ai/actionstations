@@ -1,0 +1,728 @@
+{
+  "id": "wildfire",
+  "label": "Wildfire and power shutoff response",
+  "description": "The organizations whose job is wildfire in the wildland-urban interface: a fire district or agency, a county wildfire and evacuation program (emergency management with the sheriff), or an electric utility's wildfire and public safety power shutoff program. Plans and products: the community wildfire protection plan, evacuation zone maps and the county alert and warning plan, incident status summaries, the utility wildfire mitigation plan with its shutoff notification schedule, and smoke guidance from public health. Variants: a fire district or agency (incident command, dispatch, planning), a county wildfire and evacuation program (emergency manager, sheriff, public information) and a utility wildfire and power shutoff program (shutoff incident commander, meteorology, customer care). Red flag warnings and fire weather products come from the weather toolkit; the flooding toolkit supplies the flood side of burn scar floods.",
+  "aliases": [
+    "wildfire",
+    "wildland fire",
+    "wui",
+    "wildland-urban interface",
+    "red flag",
+    "psps",
+    "public safety power shutoff",
+    "de-energization",
+    "fire weather",
+    "evacuation zones",
+    "forestry",
+    "burn scar",
+    "wildfire mitigation",
+    "wildland urban interface"
+  ],
+  "vocabulary": {
+    "facility": "the fire district or the county's evacuation zones and roads, or the utility's circuits, substations and community resource centers",
+    "public": "residents in the wildland-urban interface, medical baseline customers, campers, school families and care home residents",
+    "frontline": "engine and crew bosses, dispatchers, deputies running zone sweeps, line crews and patrol staff, utility customer care agents",
+    "operationsCenter": "the incident command post, the county emergency operations center (EOC) or the utility's emergency operations center"
+  },
+  "factCategories": [
+    {
+      "id": "zones",
+      "label": "Evacuation zones",
+      "noun": "Evacuation Zones?|Zones?",
+      "genericNoun": "Areas?",
+      "context": "evacuat|order|warning|shelter in place|sweep|clearance|fire|perimeter",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "circuits",
+      "label": "Circuits and feeders",
+      "noun": "Circuits?|Feeders?",
+      "context": "shutoff|de-energi|energi|customers|patrol|restor|wind|psps",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "shelters",
+      "label": "Shelters",
+      "noun": "Shelters?|Reception Centers?|Clean[- ]Air Shelters?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "traffic_control_points",
+      "label": "Traffic control points",
+      "noun": "Traffic Control Points?|TCPs?|Road Closures?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "resource_centers",
+      "label": "Community resource centers",
+      "noun": "Community Resource Centers?|CRCs?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "stations",
+      "label": "Fire stations",
+      "noun": "Fire Stations?|Stations?",
+      "context": "fire|engine|crew|district|dispatch",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "incident command post software and the incident log",
+      "county mapping system with evacuation zones, parcels and critical facilities",
+      "alert and warning platform with Wireless Emergency Alert access",
+      "911 CAD and the dispatch center",
+      "evacuation zone map for the public",
+      "utility outage management and customer information system",
+      "customer notification system for calls, texts and email",
+      "weather station network and fire potential models",
+      "email and the county or district website",
+      "social media accounts"
+    ],
+    "ot": [
+      "utility SCADA and the distribution management system",
+      "substation and recloser controls",
+      "dispatch consoles and radio repeaters",
+      "cell sites with battery backup",
+      "warning sirens where installed",
+      "hospital and cell site generators",
+      "water system pumps and tank levels",
+      "variable message signs and road closure gates"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ic",
+      "name": "Fire Incident Commander",
+      "abbreviation": "IC",
+      "team": "Team A: Incident Command",
+      "description": "Owns strategy, tactics, resource orders and the request for evacuation."
+    },
+    {
+      "key": "fban",
+      "name": "Planning Section Chief / Fire Behavior Analyst",
+      "abbreviation": "FBAN",
+      "team": "Team B: Planning",
+      "description": "Owns spread projections, perimeters and the timing of the threat to each zone."
+    },
+    {
+      "key": "disp",
+      "name": "Dispatch / Coordination Center Manager",
+      "abbreviation": "DISP",
+      "team": "Team C: Dispatch and Support",
+      "description": "Owns resource orders, mutual aid and the effects of the national preparedness level."
+    },
+    {
+      "key": "le",
+      "name": "Sheriff or Police Incident Commander",
+      "abbreviation": "LE",
+      "team": "Team D: Evacuation",
+      "description": "Owns evacuation orders and warnings, zone sweeps, road control and contraflow."
+    },
+    {
+      "key": "em",
+      "name": "County Emergency Manager",
+      "abbreviation": "EM",
+      "team": "Team E: EOC",
+      "description": "Owns alert and warning, shelters, animal and access and functional needs support and requests to the state."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team F: Public Information",
+      "description": "Owns messages that match the status of each zone, rumor control and coordination with the utility."
+    },
+    {
+      "key": "pspsic",
+      "name": "Utility Wildfire / Power Shutoff Incident Commander",
+      "abbreviation": "PSPS-IC",
+      "team": "Team G: Utility EOC",
+      "description": "Owns the decision to de-energize and re-energize, the circuits, the customers and the notifications."
+    },
+    {
+      "key": "umet",
+      "name": "Utility Meteorologist / Fire Potential Analyst",
+      "abbreviation": "UMET",
+      "team": "Team G: Utility EOC",
+      "description": "Owns fuel and wind forecasts, circuit-level risk and the timing of the event window."
+    },
+    {
+      "key": "liaison",
+      "name": "Utility Customer Care and Community Liaison",
+      "abbreviation": "LIAISON",
+      "team": "Team G: Utility EOC",
+      "description": "Owns notices to customers and public safety partners, medical baseline outreach and community resource centers."
+    },
+    {
+      "key": "pho",
+      "name": "Public Health Officer",
+      "abbreviation": "PHO",
+      "team": "Team H: Health",
+      "description": "Owns smoke advisories, clean-air shelters and guidance for schools and events."
+    }
+  ],
+  "outsideParties": [
+    "the National Weather Service forecast office and its fire weather desk",
+    "the geographic area coordination center and the National Interagency Coordination Center",
+    "state emergency management and the state fire agency",
+    "Red Cross and shelter operators",
+    "the state department of transportation and highway patrol",
+    "FEMA (Fire Management Assistance Grants)",
+    "airports and the FAA (temporary flight restrictions)",
+    "the air quality agency (EPA and the state district)",
+    "news media",
+    "volunteer organizations active in disaster and animal rescue groups",
+    "tribal governments",
+    "neighboring counties",
+    "the electric utility's public safety partner liaison"
+  ],
+  "mediaChannels": [
+    "a resident's video of flames on a ridge posted to Facebook and Nextdoor",
+    "a post on X/Twitter naming zones that are not under order",
+    "the regional TV station's fire map",
+    "the county emergency management Facebook page",
+    "a neighborhood group text thread",
+    "a school parent text thread"
+  ],
+  "sceneAnchors": {
+    "public": "on a suburban street at dusk: an orange sky, ash falling, cars loaded with belongings, a deputy waving traffic, a brush-covered hillside beyond the fences",
+    "control": "inside a county emergency operations center: a wall map with colored evacuation zones, laptops, a whiteboard of road closures and shelters, staff with radios, fluorescent light",
+    "exterior": "on a hillside road: a fire engine with lights on, hose lines, a smoke column above a ridge, dry grass and oak brush, a utility pole with a line crew truck"
+  },
+  "injectTypes": [
+    "cap_alert",
+    "eas_broadcast",
+    "incident_alert_notification",
+    "ics_201_prefill",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "emergency_declaration",
+    "field_report",
+    "radio_call",
+    "phone_call",
+    "scene_photo",
+    "tweet",
+    "facebook_post",
+    "media_inquiry_phone_slip",
+    "sitrep",
+    "status_board",
+    "memo"
+  ],
+  "threatFamilies": [
+    "wildfire_wui",
+    "wildfire_red_flag_psps",
+    "wildfire_smoke",
+    "wildfire_resource_shortage",
+    "wildfire_flood_after_fire",
+    "wildfire_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "wildfire_wui",
+      "label": "Wildland-urban interface fire",
+      "description": "A fast wind-driven fire reaches homes in pre-defined evacuation zones; orders and warnings must go out before the fire arrives less the zone's clearance time, and every partner's message must match the same zone map.",
+      "keywords": [
+        "wildfire",
+        "wildland fire",
+        "wui",
+        "wildland-urban interface",
+        "evacuation zone",
+        "evacuation order",
+        "evacuation warning",
+        "red flag",
+        "spot fire",
+        "containment",
+        "structures threatened",
+        "perimeter",
+        "contraflow",
+        "fire district"
+      ],
+      "phaseArc": [
+        {
+          "title": "Red flag forecast and ignition",
+          "goal": "Players see a red flag warning and a first report of smoke, and decide how early to stage resources and pre-alert zones.",
+          "beats": [
+            "A red flag warning is in effect with gusts forecast above the usual",
+            "A caller reports smoke on a ridge above a subdivision",
+            "Initial attack engines are dispatched and the first size-up is radioed"
+          ]
+        },
+        {
+          "title": "Extended attack and rapid growth",
+          "goal": "The fire outruns initial attack; the projected arrival at the first zones is shorter than the clearance time, so the call on warnings and orders is time critical.",
+          "beats": [
+            "The incident commander reports spotting ahead of the head of the fire",
+            "The planning section projects arrival at Zone 3 in about 90 minutes",
+            "The sheriff asks whether to order Zone 3 now or warn first"
+          ]
+        },
+        {
+          "title": "Orders, evacuation and road constraints",
+          "goal": "Orders reach zones through several channels while a canyon road, a care home and large animals complicate the movement.",
+          "beats": [
+            "A zone order goes out by alert platform, text and door-to-door sweeps",
+            "A single-lane road backs up and contraflow is weighed",
+            "A care home needs transport and a school bus route crosses the fire zone"
+          ]
+        },
+        {
+          "title": "Shelters, containment and re-entry",
+          "goal": "Shelters, animal shelters and re-entry rules are managed while partners repeat the right zone status and a burn scar flood watch follows.",
+          "beats": [
+            "Shelters near capacity and an animal shelter opens",
+            "Containment rises and zones step down from order to warning",
+            "Residents ask when they can return and rumors list the wrong zones"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "order Zone 3 now on the projected arrival, or warn first and risk an order that comes too late",
+        "open contraflow on the canyon road and lose the engine access, or keep one lane for responders",
+        "move the care home before the order, or shelter in place with a generator that has four hours of fuel"
+      ],
+      "clueKinds": "a spot fire ahead of the head, a wind shift forecast, an engine boss's size-up that differs from the planning section's projection, a zone map that the alert platform shows differently",
+      "hurdleKinds": "a canyon road that backs up, a zone with no cell coverage, a siren that does not reach the drainage, an alert platform that rejects the zone polygon, a hydrant system that loses pressure",
+      "keyCoordination": "the sheriff or police incident commander (who issues orders) and the fire incident commander (who projects arrival)",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Use zone ids exactly as listed in the project's facts and the same status words on the map, the table and every message (evacuation order, evacuation warning, shelter in place, none). A perimeter is a mapped polygon at a time, not continuous truth. Acreage and containment percent have fixed meanings. Times are local with a time zone. Do not predict fire behavior beyond the case data; the projected arrival comes from the scenario's case data.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildfire_red_flag_psps",
+      "label": "Red flag wind event and power shutoff",
+      "description": "High wind and dry fuels lead a utility to consider a public safety power shutoff; partners and customers must be notified inside their windows and the people who depend on power must be reached.",
+      "keywords": [
+        "psps",
+        "public safety power shutoff",
+        "power shutoff",
+        "de-energize",
+        "de-energization",
+        "de-energized",
+        "red flag warning",
+        "high wind",
+        "medical baseline",
+        "community resource center",
+        "circuit",
+        "wildfire mitigation plan",
+        "fire potential index",
+        "restoration patrol"
+      ],
+      "phaseArc": [
+        {
+          "title": "Forecast and watch",
+          "goal": "The utility sees a wind and fuel forecast and decides whether to call a watch and notify public safety partners 48 to 72 hours ahead.",
+          "beats": [
+            "The utility meteorologist flags a wind event above the circuit thresholds",
+            "The fire potential index reaches the top class on several circuits",
+            "The watch call is held and partners ask for the circuit list"
+          ]
+        },
+        {
+          "title": "Notification windows",
+          "goal": "Partner and customer notices must go out inside their windows; medical baseline and critical facility customers need extra contact.",
+          "beats": [
+            "The partner notice goes to the county and the fire district",
+            "Customer notices begin 24 to 48 hours ahead",
+            "A hospital and a water pump station ask for the schedule and a generator plan"
+          ]
+        },
+        {
+          "title": "De-energization",
+          "goal": "The decision to de-energize is made against the event window; the 1 to 4 hour and power-off notices go out and the community resource center opens.",
+          "beats": [
+            "Gusts cross the threshold on three circuits",
+            "The decision to de-energize is called and the 1 to 4 hour notices go out",
+            "Residents on well pumps and oxygen concentrators call the utility"
+          ]
+        },
+        {
+          "title": "Restoration and report",
+          "goal": "Patrols clear circuits for restoration in sequence; restoration times, complaints and notification records feed the post-event report.",
+          "beats": [
+            "Winds fall below the threshold and patrols begin",
+            "Restoration is sequenced and some circuits wait for patrol results",
+            "The post-event report lists customers, durations and notification times"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "call the shutoff on circuits 12 and 14 now, or wait for the next forecast and shorten the 1 to 4 hour notice",
+        "re-energize a circuit before patrol finishes because a hospital is on generator power",
+        "send the partner notice at 40 hours when the decision is uncertain, or at 60 hours when the forecast is firmer"
+      ],
+      "clueKinds": "a forecast update with higher gusts, a station reading ahead of the forecast, a medical baseline list that differs from the customer list, a patrol report of a downed conductor",
+      "hurdleKinds": "a notification system that fails to send a batch, a call center that cannot reach customers without a number, a hospital whose generator will not start, a cell site on battery power",
+      "keyCoordination": "the county emergency management and the fire district (public safety partners), and critical facility customers",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 25,
+        "DECISION_POINT": 15,
+        "TECH_HURDLE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Notification windows are 48 to 72 hours for public safety partners, 24 to 48 hours for customers, 1 to 4 hours before if possible, and at de-energization; the project may change them (they are California's example rule, not a national requirement). All customers, circuits and facilities are fictional. Counts must add up across circuits, classes and the medical baseline list.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildfire_smoke",
+      "label": "Smoke and air quality episode",
+      "description": "Wildfire smoke raises the Air Quality Index at hospitals, schools and events; facilities decide on shelter, filtration, closure and cancellation against thresholds that are local plans.",
+      "keywords": [
+        "wildfire smoke",
+        "smoke",
+        "air quality",
+        "aqi",
+        "pm2.5",
+        "smoke advisory",
+        "clean air shelter",
+        "school closure",
+        "indoor air",
+        "unhealthy for sensitive groups",
+        "hazardous air",
+        "outdoor event cancellation"
+      ],
+      "phaseArc": [
+        {
+          "title": "Haze and first readings",
+          "goal": "A smoke plume moves toward town and readings begin to rise; facilities check their plans.",
+          "beats": [
+            "A smoke advisory is issued for the county",
+            "The AQI reaches Moderate then Unhealthy for Sensitive Groups",
+            "A school asks whether to hold recess indoors"
+          ]
+        },
+        {
+          "title": "Thresholds crossed",
+          "goal": "The AQI crosses the thresholds that the local plans name; decisions on filtration, closures and events fall due.",
+          "beats": [
+            "The AQI crosses 150 and a district threshold for early release",
+            "A hospital sees more respiratory visits",
+            "An outdoor event organizer asks for a decision"
+          ]
+        },
+        {
+          "title": "Peak and shelter decisions",
+          "goal": "Smoke peaks; clean-air shelters open and messages must agree across health, schools and the county.",
+          "beats": [
+            "The AQI reaches Very Unhealthy for several hours",
+            "A clean-air shelter opens in a library",
+            "Messages disagree about which schools are closed"
+          ]
+        },
+        {
+          "title": "Clearing and recovery",
+          "goal": "The air clears slowly; reopening and communication end the episode.",
+          "beats": [
+            "The AQI falls into Moderate overnight",
+            "Schools plan reopening and make-up days",
+            "The health officer reviews the advisory"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close schools at 150 or wait for the afternoon forecast",
+        "cancel the outdoor festival on a forecast, or hold it with masks and a clean-air tent",
+        "move elective procedures at the hospital or keep the schedule with filtration"
+      ],
+      "clueKinds": "an AQI forecast update, a sensor that reads higher than the reporting area, a smoke polygon that shifts, a hospital emergency department visit count",
+      "hurdleKinds": "a school air handling system that cannot take a higher filter, a shelter with no staff, a sensor outage, a bus route through the smoke",
+      "keyCoordination": "the public health officer and the school district or hospital",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Use the EPA PM2.5 Air Quality Index categories and breakpoints in effect since 6 May 2024 and always give the category name beside the number. Thresholds for schools and events are local plans, not federal rules.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildfire_resource_shortage",
+      "label": "Wildfire resource shortage",
+      "description": "Many fires burn at once; engines, crews and aircraft are committed elsewhere, mutual aid is slow and the incident must decide what to protect with what it has.",
+      "keywords": [
+        "resource shortage",
+        "preparedness level",
+        "mutual aid",
+        "resource order",
+        "engines unavailable",
+        "drawdown",
+        "competing incidents",
+        "national preparedness level",
+        "strike team",
+        "type 3",
+        "crews committed"
+      ],
+      "phaseArc": [
+        {
+          "title": "Competing incidents",
+          "goal": "The coordination center reports many fires and a rising preparedness level.",
+          "beats": [
+            "The preparedness level rises to 4",
+            "A resource order is filled in part",
+            "A neighboring county commits its engines"
+          ]
+        },
+        {
+          "title": "Orders go unfilled",
+          "goal": "Orders sit unfilled and the incident must prioritize structures.",
+          "beats": [
+            "Requested strike teams are not available",
+            "The incident commander asks for a priority list",
+            "Structure triage moves to the north side"
+          ]
+        },
+        {
+          "title": "Prioritization and public messages",
+          "goal": "Players decide what to protect first and the public message must be truthful about resources.",
+          "beats": [
+            "The sheriff asks about earlier warnings for zones that lose protection",
+            "A reporter asks why engines left",
+            "Mutual aid arrives from far away"
+          ]
+        },
+        {
+          "title": "Recovery of capacity",
+          "goal": "Resources are released and the system reconstitutes.",
+          "beats": [
+            "Fires elsewhere are contained and resources are released",
+            "The preparedness level falls",
+            "Staff fatigue and rest rules apply"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "move the last two engines to the north subdivision or hold them at the school",
+        "warn the east zones earlier because no engines can protect them",
+        "accept a partly filled order now or hold for a complete strike team"
+      ],
+      "clueKinds": "a coordination center resource status, an unfilled order number, a preparedness level change, a crew rest requirement",
+      "hurdleKinds": "an order that is canceled, an engine out of service, a fuel truck delay, a helicopter grounded by smoke",
+      "keyCoordination": "the interagency dispatch or coordination center and the state fire agency",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "National preparedness levels run from 1 to 5; at level 5 resources are below drawdown levels for multiple resource types. State resource orders by number and status (filled, partly filled, unable to fill).",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildfire_flood_after_fire",
+      "label": "Flood and debris flow after a fire",
+      "description": "A burn scar sheds water and debris at rainfall rates far below normal; the evacuation zones of the fire become flash flood and debris flow zones and the same agencies must switch from fire to flood language.",
+      "keywords": [
+        "burn scar",
+        "post-fire flood",
+        "debris flow",
+        "flash flood",
+        "burn area",
+        "rainfall threshold",
+        "post-wildfire",
+        "mudslide",
+        "runoff",
+        "flood after fire"
+      ],
+      "phaseArc": [
+        {
+          "title": "Burn scar and first rain forecast",
+          "goal": "The fire is contained, and a forecast of rain over the burn scar starts the flood and debris flow planning.",
+          "beats": [
+            "The weather service forecasts thunderstorms over the burn scar",
+            "The county reviews its burn scar flood plan and the zones below the scar",
+            "A school below the scar asks about bus routes"
+          ]
+        },
+        {
+          "title": "Watch and pre-positioning",
+          "goal": "A flash flood watch with a burn scar tag sets the clock for road closures and notices.",
+          "beats": [
+            "A flash flood watch names the burn scar",
+            "Public works stages barricades and a loader",
+            "Residents in former fire zones ask what applies to them"
+          ]
+        },
+        {
+          "title": "Warning and debris flows",
+          "goal": "A warning with a considerable or catastrophic damage tag is issued and the thresholds are crossed within minutes.",
+          "beats": [
+            "Rainfall rates cross the debris flow threshold",
+            "A flash flood warning with a burn scar tag is issued",
+            "A road below the scar is covered by debris"
+          ]
+        },
+        {
+          "title": "Closures, recovery and reopening",
+          "goal": "Roads, power and water are restored and the zones are reopened in steps.",
+          "beats": [
+            "A canyon road stays closed for days",
+            "Residents ask when they can return home",
+            "The next storm forecast is issued"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the canyon road at the rainfall threshold or at the warning",
+        "order the zones below the scar to leave on a forecast, or wait for the warning and risk the clearance time",
+        "reopen the road after the storm or wait for the debris assessment"
+      ],
+      "clueKinds": "a rain gauge reading above the threshold, a debris assessment map, a radar rainfall rate over the scar",
+      "hurdleKinds": "a gauge that burned in the fire, a road with a washed out culvert, a cell site on a burned pole",
+      "keyCoordination": "the National Weather Service forecast office and the county public works department",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Use the flooding and debris flow toolkits for rainfall thresholds and warning tags; do not invent thresholds. The same zone ids from the fire may be reused for the flood and the zone status words are those of the project.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wildfire_service_degradation",
+      "label": "Wildfire alerting and communications degradation",
+      "description": "The tools that warn and coordinate fail or mislead during a fire: an alerting platform outage, a dispatch or radio failure, cell and power loss in a canyon, a wrong or missed zone message, a utility notification failure or misinformation about orders.",
+      "keywords": [
+        "alerting outage",
+        "alert platform",
+        "dispatch outage",
+        "radio failure",
+        "cell tower",
+        "wrong zone",
+        "missed zone",
+        "notification failure",
+        "siren",
+        "misinformation",
+        "wireless emergency alert",
+        "wea"
+      ],
+      "phaseArc": [
+        {
+          "title": "First signs of failure",
+          "goal": "A first message or tool behaves wrongly while the fire grows.",
+          "beats": [
+            "The alert platform shows a delivery delay",
+            "A resident posts that they received no message",
+            "A dispatcher reports radio dead spots in a canyon"
+          ]
+        },
+        {
+          "title": "Wrong or missing messages",
+          "goal": "A zone message goes to the wrong zone or not at all and the partners disagree.",
+          "beats": [
+            "An order reaches the wrong zone",
+            "The county and the sheriff repeat different zone lists",
+            "A utility notice goes out an hour late"
+          ]
+        },
+        {
+          "title": "Workarounds",
+          "goal": "Players use sweeps, sirens, radio and social media to reach people.",
+          "beats": [
+            "Door-to-door sweeps replace text alerts in one zone",
+            "A social media rumor names zones that are not under order",
+            "The utility calls medical baseline customers by hand"
+          ]
+        },
+        {
+          "title": "Correction and review",
+          "goal": "A correction goes out and the failure is documented.",
+          "beats": [
+            "A correction message is sent through all channels",
+            "The platform is restored",
+            "The after-action list of gaps is started"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "send a correction now through every channel, or confirm the cause first",
+        "use a sweep in the zone with no cell coverage, or wait for the platform to return",
+        "tell the public the system failed, or describe only what to do"
+      ],
+      "clueKinds": "a delivery report with a zone count lower than expected, a resident's screenshot, a log time stamp that disagrees with the sent time",
+      "hurdleKinds": "a vendor support line that is closed, an incorrect polygon in the platform, a battery site that fails, a call center without a list",
+      "keyCoordination": "the alert platform vendor, the dispatch center and the telecom provider",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "TECH_HURDLE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Describe failures by their effect on who was reached and when. Keep zone ids and status words identical in every channel and say which zone each message addressed.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a dispatcher's question about a routine burn permit",
+    "a campground reservation inquiry",
+    "a vendor asking about hose replacement pricing",
+    "a notice of a training class schedule",
+    "a question about a fireworks ordinance"
+  ],
+  "pressureExamples": [
+    "a resident posting the wrong evacuation zone on a neighborhood app",
+    "a county commissioner asking whether to evacuate before the fire is closer",
+    "a TV station showing a perimeter that differs from the incident map",
+    "a homeowner demanding an engine for a house outside the priority list",
+    "a care home asking for transport before an order",
+    "a hospital asking the utility to keep power on a circuit that is scheduled for shutoff",
+    "an elected official criticizing the shutoff decision"
+  ],
+  "rolePatterns": {
+    "technical": "mapping|alert and warning|dispatch|scada|notification system|meteorolog",
+    "security": "sheriff|police|law enforcement",
+    "operations": "incident commander|emergency manager|fire|planning|shutoff|public works|customer care"
+  },
+  "agencyPattern": "National Weather Service|NWS|National Interagency Fire Center|NIFC|NICC|Forest Service|USFS|Bureau of Land Management|BLM|CAL FIRE|state forestry|FEMA|Red Cross|EPA|AirNow|FAA|public utilities commission",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "operational_communications",
+    "operational_coordination",
+    "critical_transportation",
+    "mass_care_services",
+    "infrastructure_systems",
+    "situational_assessment",
+    "fire_management_and_suppression"
+  ],
+  "suggestedToolkits": ["wildfire", "weather", "flooding", "debris_flow", "media_environment"]
+}
