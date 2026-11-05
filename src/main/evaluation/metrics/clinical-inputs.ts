@@ -14,6 +14,7 @@ import type {
   SafeCareInputs,
 } from './clinical'
 import { listOf } from './clinical'
+import { progressFromDecisions } from '@shared/clinical/reconciliation'
 import type { MetricInputBag } from './registry'
 import { ms } from './types'
 
@@ -70,11 +71,21 @@ export function pickReconciliation(b: MetricInputBag): ReconciliationInputs {
       done: attrNum(e.attrs.done),
       remaining: attrNum(e.attrs.remaining),
     })
+  // Progress the units reported through the "Report reconciliation progress" decision form
+  // replaces the case data's count for the same unit.
+  const reports = progressFromDecisions(b.decisions ?? [])
+  for (const u of reports) latest.set(u.unit, { done: u.done, remaining: u.remaining })
+  const starts = [all[0]?.time, ...decisions(b, 'reconcile_unit').map((d) => d.time)].filter(
+    (t): t is string => !!t,
+  )
+  const startedAt = starts.sort((x, y) => ms(x) - ms(y))[0]
   const closed =
-    events(b, 'reconciliation_closed')[0]?.time ?? decisions(b, 'return_to_normal')[0]?.time
+    decisions(b, 'close_reconciliation')[0]?.time ??
+    events(b, 'reconciliation_closed')[0]?.time ??
+    decisions(b, 'return_to_normal')[0]?.time
   return {
     units: [...latest].map(([unit, v]) => ({ unit, ...v })),
-    ...(all[0] ? { startedAt: all[0].time } : {}),
+    ...(startedAt ? { startedAt } : {}),
     ...(closed ? { completedAt: closed } : {}),
   }
 }

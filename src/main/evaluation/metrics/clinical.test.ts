@@ -120,6 +120,23 @@ describe('critical_result_communication', () => {
   })
 })
 
+describe('reconciliation_progress from the decision forms', () => {
+  it('reads unit reports and the close decision', () => {
+    const r = runMetric(
+      { id: 'reconciliation_progress', config: {} },
+      {
+        decisions: [
+          dec('reconcile_unit', at('10:00'), { unit: 'ED', done: 40, remaining: 60 }),
+          dec('reconcile_unit', at('12:00'), { unit: 'ED', done: 100, remaining: 0 }),
+          dec('close_reconciliation', at('12:30')),
+        ],
+      },
+    )
+    expect(get(r, 'Percent complete')).toBe('100%')
+    expect(get(r, 'Time to close')).toBe('150 min')
+  })
+})
+
 describe('reconciliation_progress', () => {
   it('uses the latest count per unit and the closing decision for the time', () => {
     const r = runMetric(
