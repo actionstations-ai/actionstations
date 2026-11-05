@@ -85,6 +85,7 @@ describe('built-in domain profiles', () => {
       'space_weather',
       'governance',
       'human_services',
+      'wildfire',
       'generic',
     ])
     for (const p of DOMAIN_PROFILES) expect(() => DomainProfile.parse(p)).not.toThrow()
