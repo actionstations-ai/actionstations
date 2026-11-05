@@ -112,8 +112,31 @@
   ],
   "metrics": [
     {
+      "id": "holding_statement_time",
+      "label": "Time to holding statement",
+      "config": {
+        "windowMin": 60
+      }
+    },
+    {
       "id": "message_consistency",
       "label": "Message consistency across statements"
+    },
+    {
+      "id": "statement_accuracy",
+      "label": "Statement accuracy against the fact sheet"
+    },
+    {
+      "id": "corrections",
+      "label": "Corrections"
+    },
+    {
+      "id": "reporter_handling",
+      "label": "Reporter handling"
+    },
+    {
+      "id": "verification",
+      "label": "Verification before publication"
     }
   ],
   "decisionForms": [
@@ -152,6 +175,11 @@
           "label": "Statement text",
           "kind": "text",
           "required": true
+        },
+        {
+          "id": "inject",
+          "label": "The inject this answers (if any)",
+          "kind": "text"
         }
       ]
     },
@@ -247,6 +275,11 @@
           "label": "Time issued",
           "kind": "time",
           "required": true
+        },
+        {
+          "id": "error",
+          "label": "Error id from the exercise (if listed)",
+          "kind": "text"
         }
       ]
     },
@@ -389,6 +422,40 @@
           "required": true
         }
       ]
+    },
+    {
+      "id": "request_clue",
+      "label": "Request a provenance check",
+      "description": "Ask for one check on an item; each check costs exercise time.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "The item (inject id)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "clue_kind",
+          "label": "Check",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Reverse image result",
+            "Metadata and file properties",
+            "Geolocation clues",
+            "Account history",
+            "First-appearance timeline",
+            "Original-source contact",
+            "Credential check (Content Credentials)"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time requested",
+          "kind": "time",
+          "required": true
+        }
+      ]
     }
   ],
   "knowledge": {
@@ -446,7 +513,8 @@
       "Reporters give a deadline in their message; calls come at plausible times (late morning, mid-afternoon, 30 minutes before a broadcast).",
       "Social posts show handle, time and counters (views, reposts, replies, likes); counters grow over exercise time and never fall. Replies mix supportive, skeptical, hostile, false-claim and joke.",
       "Every outlet, handle, reporter and spokesperson is fictional; do not imitate a real outlet's name, logo or style guide, or a real person.",
-      "Exercise material is marked as such in every export, and simulated spread and sentiment are labeled simulated."
+      "Exercise material is marked as such in every export, and simulated spread and sentiment are labeled simulated.",
+      "Evaluation guide critical tasks for communications (Public Information and Warning, Operational Communications, Situational Assessment): issue a holding statement within the time in the communications plan; coordinate messages across agencies before release; correct a false statement through the channel it spread on; answer reporters before their stated deadline; record a verification step before publishing user-generated content. Cite the organization's own communications plan when it is in the project."
     ],
     "realismRules": [
       "The first public signal is rarely the first internal signal; a reporter or a post often arrives before the facts are confirmed.",

@@ -23,6 +23,7 @@ describe('media_environment toolkit', () => {
       'request_platform_action',
       'hold_or_publish',
       'request_second_source',
+      'request_clue',
     ])
   })
 
