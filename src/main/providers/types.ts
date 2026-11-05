@@ -152,6 +152,16 @@ export interface MediaProvider {
   capabilities(): Set<MediaCapability>
   health(signal?: AbortSignal): Promise<ProviderHealth>
   generate(job: MediaJob, onProgress?: (p: MediaProgress) => void): Promise<MediaOutput[]>
+  /** Models this provider can run for its media kinds (ElevenLabs: the speech models). */
+  listModels?(signal?: AbortSignal): Promise<ModelInfo[]>
+  /** Voices a speaker can be given (ElevenLabs account voices, OpenAI's fixed presets). */
+  listVoices?(signal?: AbortSignal): Promise<VoiceInfo[]>
+}
+
+export interface VoiceInfo {
+  id: string
+  label: string
+  description?: string
 }
 
 export interface TranscribeJob {

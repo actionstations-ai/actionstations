@@ -56,6 +56,8 @@ export const MediaBrief = z.object({
     .array(z.object({ speaker: z.string(), voiceStyle: z.string().default(''), text: z.string() }))
     .optional(),
   postFx: z.array(z.enum(['radio', 'phone', 'pa', 'terminal_ambience'])).optional(),
+  /** Ambience or effect to lay under the voice ("crowd murmur, PA chime"). Used only by a provider with sound effects switched on. */
+  soundNote: z.string().optional(),
 })
 export type MediaBrief = z.infer<typeof MediaBrief>
 

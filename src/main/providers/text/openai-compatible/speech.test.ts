@@ -105,3 +105,27 @@ describe('OpenAiCompatibleSpeechProvider on a hosted service', () => {
     expect(body).not.toHaveProperty('instruct')
   })
 })
+
+describe('OpenAiCompatibleSpeechProvider voices', () => {
+  it("lists OpenAI's fixed presets for the hosted service only", async () => {
+    const hosted = { ...config, baseUrl: 'https://api.openai.com/v1' } as ProviderConfig
+    const voices = await new OpenAiCompatibleSpeechProvider(hosted, 'sk-test').listVoices()
+    expect(voices.map((v) => v.id)).toEqual([
+      'alloy',
+      'ash',
+      'ballad',
+      'coral',
+      'echo',
+      'fable',
+      'nova',
+      'onyx',
+      'sage',
+      'shimmer',
+      'verse',
+      'marin',
+      'cedar',
+    ])
+    expect(voices.find((v) => v.id === 'marin')).toMatchObject({ label: 'Marin' })
+    expect(await new OpenAiCompatibleSpeechProvider(config, undefined).listVoices()).toEqual([])
+  })
+})

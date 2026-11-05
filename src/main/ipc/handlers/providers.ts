@@ -142,8 +142,19 @@ async function checkHealth(config: ProviderConfig): Promise<ProviderHealth> {
   }
 }
 
+/** A media-only provider is tested with its free account call, never a paid generation. */
+async function runMediaTest(config: ProviderConfig) {
+  const health = await checkHealth(config)
+  const latencyMs = health.latencyMs ?? 0
+  if (health.ok)
+    return { ok: true, sample: `Key accepted. ${health.message ?? ''}`.trim(), latencyMs }
+  return { ok: false, latencyMs, error: health.message ?? 'No reply.' }
+}
+
 async function runTest(config: ProviderConfig, model: string | undefined) {
   const started = Date.now()
+  if (!adapterFor(config.kind).createText && adapterFor(config.kind).createMedia)
+    return runMediaTest(config)
   try {
     const provider = await connectionTestTextProvider(config)
     const signal = AbortSignal.timeout(TEST_TIMEOUT_MS)
@@ -331,13 +342,27 @@ export default defineHandlers({
 
   'providers:models': async ({ id }) => {
     const config = await configFor(id)
-    if (!adapterFor(config.kind).createText) return []
-    const provider = await textProviderFor(config)
+    const adapter = adapterFor(config.kind)
+    if (!adapter.createText && !adapter.createMedia) return []
     try {
-      return await provider.listModels(AbortSignal.timeout(HEALTH_TIMEOUT_MS))
+      const signal = AbortSignal.timeout(HEALTH_TIMEOUT_MS)
+      if (adapter.createText) return await (await textProviderFor(config)).listModels(signal)
+      return (await (await mediaProviderFor(config)).listModels?.(signal)) ?? []
     } catch (e) {
       const secret = await getSecret(id).catch(() => undefined)
       throw new AppError('PROVIDER', `Could not list models: ${redact(errorMessage(e), secret)}`)
+    }
+  },
+
+  'providers:list-voices': async ({ id }) => {
+    const config = await configFor(id)
+    if (!adapterFor(config.kind).createMedia) return []
+    try {
+      const provider = await mediaProviderFor(config)
+      return (await provider.listVoices?.(AbortSignal.timeout(HEALTH_TIMEOUT_MS))) ?? []
+    } catch (e) {
+      const secret = await getSecret(id).catch(() => undefined)
+      throw new AppError('PROVIDER', `Could not list voices: ${redact(errorMessage(e), secret)}`)
     }
   },
 

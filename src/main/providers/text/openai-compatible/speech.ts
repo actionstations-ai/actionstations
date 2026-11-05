@@ -12,6 +12,7 @@
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import type { ProviderConfig, ProviderHealth } from '@shared/schemas'
+import { providerHost } from '@shared/provider-network'
 import { AppError } from '../../../lib/errors'
 import { joinUrl, request, requestJson } from '../../http'
 import type {
@@ -20,6 +21,7 @@ import type {
   MediaOutput,
   MediaProgress,
   MediaProvider,
+  VoiceInfo,
 } from '../../types'
 import { elapsed, numberOption, stringOption } from '../common'
 import { VENDOR, apiBaseOf, authHeaders } from './chat'
@@ -30,6 +32,23 @@ const NEUTRAL_VOICE = 'A clear, neutral adult voice'
 const isVoiceDesign = (model: string): boolean => /voicedesign/i.test(model)
 /** Models that clone from `ref_audio` + `ref_text` without a description. */
 const isCloneCapable = (model: string): boolean => /voxcpm/i.test(model)
+
+/** The built-in voices of OpenAI's speech endpoint (its text-to-speech guide). */
+const OPENAI_VOICES = [
+  'alloy',
+  'ash',
+  'ballad',
+  'coral',
+  'echo',
+  'fable',
+  'nova',
+  'onyx',
+  'sage',
+  'shimmer',
+  'verse',
+  'marin',
+  'cedar',
+]
 
 interface VoiceLine {
   speaker: string
@@ -63,6 +82,16 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
     if (!m)
       throw new AppError('VALIDATION', `Provider "${this.config.label}" has no TTS model selected`)
     return m
+  }
+
+  /** OpenAI's fixed presets; a local server has no list to offer. */
+  async listVoices(): Promise<VoiceInfo[]> {
+    if (providerHost(this.config) !== 'api.openai.com') return []
+    return OPENAI_VOICES.map((id) => ({
+      id,
+      label: id[0]!.toUpperCase() + id.slice(1),
+      ...(id === 'marin' || id === 'cedar' ? { description: 'Best quality' } : {}),
+    }))
   }
 
   async health(signal?: AbortSignal): Promise<ProviderHealth> {

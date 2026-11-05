@@ -21,6 +21,7 @@ const { resetSettingsCache, updateSettings } = await import('../../settings/stor
 const { resetSecretsQueue, setSecret } = await import('../../secrets')
 const resolve = await import('../resolve')
 const { isGuarded } = await import('./gate')
+const { isRemoteProvider } = await import('@shared/provider-network')
 
 function config(kind: ProviderKind, remote: boolean): ProviderConfig {
   const id = `${kind}-${remote ? 'remote' : 'local'}`
@@ -42,7 +43,8 @@ async function route(task: ProviderTask, c: ProviderConfig): Promise<void> {
     s.providers = [c]
     s.defaultRouting = { [task]: { providerId: c.id } }
   })
-  if (c.kind === 'anthropic' || c.kind === 'fal') await setSecret(c.id, 'sk-test-key')
+  if (c.kind === 'anthropic' || c.kind === 'fal' || c.kind === 'elevenlabs')
+    await setSecret(c.id, 'sk-test-key')
 }
 
 async function resolved(task: GatedTask): Promise<unknown> {
@@ -100,14 +102,30 @@ describe('provider resolution and the outbound gate', () => {
     },
   )
 
-  // Anthropic and fal.ai are cloud services whatever the address; Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
-  it.each(cases.filter(([, kind]) => kind !== 'anthropic' && kind !== 'fal' && kind !== 'ollama'))(
+  // Anthropic, fal.ai and ElevenLabs are cloud services whatever the address; Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
+  it.each(cases.filter(([, kind]) => !['anthropic', 'fal', 'elevenlabs', 'ollama'].includes(kind)))(
     '%s via %s: a local config is never gated',
     async (task, kind) => {
       await route(task, config(kind, false))
       expect(isGuarded(await resolved(task as GatedTask))).toBe(false)
     },
   )
+
+  it('treats ElevenLabs as a cloud provider even when its address says loopback', async () => {
+    const c: ProviderConfig = { ...config('elevenlabs', false), baseUrl: 'http://127.0.0.1:9/v1' }
+    expect(isRemoteProvider(c)).toBe(true)
+    await route('audio', c)
+    expect(isGuarded(await resolved('audio'))).toBe(true)
+  })
+
+  it('refuses an ElevenLabs provider that has no key', async () => {
+    const c = config('elevenlabs', true)
+    await updateSettings((s) => {
+      s.providers = [c]
+      s.defaultRouting = { audio: { providerId: c.id } }
+    })
+    await expect(resolve.resolveMediaProvider('audio')).rejects.toThrow(/needs an API key/)
+  })
 
   it('leaves the connection-test providers ungated (fixed sample text only)', async () => {
     const c = config('anthropic', true)

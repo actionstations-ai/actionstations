@@ -38,6 +38,11 @@ export const providerChannels = {
   'providers:remove': channel(z.object({ id: SafeId }), z.void()),
   'providers:health': channel(z.object({ id: SafeId }), ProviderHealth),
   'providers:models': channel(z.object({ id: SafeId }), z.array(ModelInfo)),
+  /** Voices a speaker can be given (ElevenLabs account voices, OpenAI presets, system voices). */
+  'providers:list-voices': channel(
+    z.object({ id: SafeId }),
+    z.array(z.object({ id: z.string(), label: z.string(), description: z.string().optional() })),
+  ),
   'providers:test': channel(
     z.object({ id: SafeId, model: z.string().optional() }),
     z.object({

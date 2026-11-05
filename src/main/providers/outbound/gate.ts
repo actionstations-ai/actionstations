@@ -497,6 +497,7 @@ function redactBrief(
   } else if (job.kind === 'video') {
     brief.videoPrompt = field('Video prompt', b.videoPrompt)
   }
+  if (job.kind === 'audio') brief.soundNote = field('Sound note', b.soundNote)
   if (b.voiceLines)
     brief.voiceLines = b.voiceLines.map((l, i) => ({
       ...l,
@@ -553,6 +554,14 @@ class GuardedMediaProvider implements MediaProvider {
 
   health(signal?: AbortSignal) {
     return this.inner.health(signal)
+  }
+
+  listModels(signal?: AbortSignal) {
+    return this.inner.listModels ? this.inner.listModels(signal) : Promise.resolve([])
+  }
+
+  listVoices(signal?: AbortSignal) {
+    return this.inner.listVoices ? this.inner.listVoices(signal) : Promise.resolve([])
   }
 
   private async prepare(job: MediaJob, at: Where): Promise<Prepared<Omit<MediaJob, 'signal'>>> {
