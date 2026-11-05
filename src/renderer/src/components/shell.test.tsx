@@ -168,6 +168,7 @@ describe('app shell', () => {
         'Drills',
         'Micro-drills',
         'Regional',
+        'Classroom',
         'Maps',
         'Hazard context',
         'Provider routing',
