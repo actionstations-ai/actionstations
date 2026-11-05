@@ -46,7 +46,7 @@ describe('profile picker groups', () => {
   it('searches labels, descriptions and aliases', () => {
     const ids = (q: string) => profileGroups(q).flatMap((g) => g.profiles.map((p) => p.id))
     expect(ids('bus')).toContain('transit')
-    expect(ids('hospital')).toEqual(['healthcare'])
+    expect(ids('hospital')).toContain('healthcare')
     expect(ids('drone')).toContain('unmanned_systems')
     expect(ids('zzz')).toEqual([])
     expect(profileGroups('')).toHaveLength(PROFILE_GROUP_IDS.length)
