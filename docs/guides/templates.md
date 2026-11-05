@@ -144,15 +144,19 @@ A figure is an image the app draws from data: a chart, an instrument display, a 
 
 Generic kinds, with the `data` each takes (zod schemas sit beside each kind and reject bad data with the path):
 
-| Kind                 | Data                                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `time_series`        | `series[{name, points[{x, y}]}]` (up to 6), `thresholds[{value, label}]`, `annotations[{x, label}]`, `unit`, `xLabel`, `yLabel` |
-| `bar`                | `bars[{label, value}]`, `unit`, `yLabel`                                                                                        |
-| `stacked_bar`        | `categories[]`, `series[{name, values[]}]`, `unit`, `yLabel`                                                                    |
-| `gauge`              | `label`, `value`, `min`, `max`, `unit`, `bands[{from, to, label, state}]` (`state`: `ok`, `degraded`, `down`, `unknown`)        |
-| `status_board`       | `rows[{name, state, detail, updated}]`, `asOf`                                                                                  |
-| `table`              | `columns[]`, `rows[][]` of text, numbers or null, `caption`                                                                     |
-| `annotated_timeline` | `lanes[]`, `events[{x, label, detail, lane}]`, `spans[{from, to, label, lane}]`, `xLabel`                                       |
+| Kind                  | Data                                                                                                                                                                                                                                    |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time_series`         | `series[{name, points[{x, y}]}]` (up to 6), `thresholds[{value, label}]`, `annotations[{x, label}]`, `unit`, `xLabel`, `yLabel`                                                                                                         |
+| `bar`                 | `bars[{label, value}]`, `unit`, `yLabel`                                                                                                                                                                                                |
+| `stacked_bar`         | `categories[]`, `series[{name, values[]}]`, `unit`, `yLabel`                                                                                                                                                                            |
+| `gauge`               | `label`, `value`, `min`, `max`, `unit`, `bands[{from, to, label, state}]` (`state`: `ok`, `degraded`, `down`, `unknown`)                                                                                                                |
+| `status_board`        | `rows[{name, state, detail, updated}]`, `asOf`                                                                                                                                                                                          |
+| `table`               | `columns[]`, `rows[][]` of text, numbers or null, `caption`                                                                                                                                                                             |
+| `annotated_timeline`  | `lanes[]`, `events[{x, label, detail, lane}]`, `spans[{from, to, label, lane}]`, `xLabel`                                                                                                                                               |
+| `hydrograph`          | `gauge{name,id,datum,timeZone,unit}`, `observed[{time,value}]`, `forecast[]`, `previousForecast[]`, `issuedAt`, `categories{action,flood,minor,moderate,major}`, `historicCrests[]` (flooding toolkit; the weather toolkit uses it too) |
+| `flood_gauge_summary` | `gauge`, `current{time,value}`, `previous`, `flowCfs`, `categories`, `forecastCrest`, `historicCrests[]`                                                                                                                                |
+| `river_profile`       | `river`, `asOf`, `gauges[{name,mile,stage,crest,categories}]`                                                                                                                                                                           |
+| `rain_stage`          | `gauge`, `rain[{time,inches}]`, `stage[{time,value}]`, `floodStage`                                                                                                                                                                     |
 
 Every kind also takes `title`. `x` is a number (minutes from STARTEX, hours) or an ISO 8601 date-time string, never a mix. `options` can set `width` and `height` in CSS pixels (200 to 2000); kinds that size to their content (`status_board`, `table`, `annotated_timeline`, `gauge`) use the width and work out the height.
 
