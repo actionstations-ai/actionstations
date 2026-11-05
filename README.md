@@ -105,8 +105,6 @@ You can install a pack from a file, a URL or a catalog. No catalog is set up by 
 - API keys are encrypted with your operating system's keychain (Electron `safeStorage`) and stored as ciphertext in `secrets.json` in the settings folder. They never go into project files, `settings.json` or logs. If the operating system cannot encrypt them (for example Linux without a keyring), the app refuses to store keys.
 - Settings live in `~/Library/Application Support/Action Stations` (macOS), `%APPDATA%\Action Stations` (Windows) or `~/.config/Action Stations` (Linux).
 
-The app was called Tabletop Generator before version 0.2.0. The first launch after updating moves the old settings and projects folders to the new names, and projects named `<name>.ttxproj` keep opening as they are.
-
 ## Docs and guides
 
 | Guide                                                                         | What it covers                                                                                                                                                                                                                                                                                                   |
