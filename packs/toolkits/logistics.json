@@ -1,0 +1,510 @@
+{
+  "id": "logistics",
+  "name": "Supply chain and logistics",
+  "description": "Supply, shipment and recall expertise for exercises: the terms and records buyers, planners, logistics managers and recall teams use, the decisions they make (allocate, switch source, reroute, hold, recall, notify) and the clocks they are measured on. Works for any organization that depends on goods: a hospital's materials office, a utility's spare parts, a retailer, a school's food service, a manufacturer. Stays at coordination level: lots, quantities, dates, ship-to lists, notices. Every company, carrier and customer is fictional.",
+  "appliesTo": {
+    "keywords": [
+      "supply chain",
+      "logistics",
+      "supplier",
+      "single source",
+      "shipment",
+      "container",
+      "port congestion",
+      "canal",
+      "cold chain",
+      "temperature excursion",
+      "recall",
+      "lot trace",
+      "traceability",
+      "days of supply",
+      "stock-out",
+      "shortage",
+      "allocation",
+      "distribution center",
+      "warehouse",
+      "3pl",
+      "fsma 204"
+    ],
+    "domains": [
+      "supply_chain",
+      "food_agriculture",
+      "commercial_facilities",
+      "port_maritime",
+      "freight_rail",
+      "healthcare",
+      "public_health",
+      "k12_schools",
+      "energy_utility",
+      "campus",
+      "municipal",
+      "airport",
+      "industrial",
+      "chemical",
+      "nursing"
+    ]
+  },
+  "injectTypes": [],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "suppliers at tiers one to three",
+    "carriers, freight forwarders and third-party logistics providers",
+    "customs brokers, ports and terminals",
+    "customers (retail, food service, hospital accounts)",
+    "the FDA or USDA FSIS and the state health department",
+    "the insurer and the trade press"
+  ],
+  "advisorRoles": [
+    {
+      "key": "supply_chain_advisor",
+      "name": "Supply chain adviser",
+      "abbreviation": "SC-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about days of supply, allocation rules, lead times and alternate sources."
+    },
+    {
+      "key": "recall_advisor",
+      "name": "Recall and traceability adviser",
+      "abbreviation": "RC-ADV",
+      "team": "Advisors",
+      "description": "Advises on recall class, depth, effectiveness checks and the records the traceability rule names."
+    },
+    {
+      "key": "freight_advisor",
+      "name": "Freight and port adviser",
+      "abbreviation": "FRT-ADV",
+      "team": "Advisors",
+      "description": "Advises on lane, mode and port choices, dwell, detention and demurrage."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [
+    {
+      "id": "logistics_allocate_supply",
+      "label": "Allocate supply",
+      "description": "State the rule and the quantities when supply is short.",
+      "fields": [
+        {
+          "id": "item",
+          "label": "Item",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "rule",
+          "label": "Allocation rule",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Contract priority",
+            "Historical share",
+            "Critical need first",
+            "Pro rata",
+            "Other"
+          ]
+        },
+        {
+          "id": "customers",
+          "label": "Customers receiving product and quantities",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "held_back",
+          "label": "Quantity held back (safety stock)",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "logistics_switch_source",
+      "label": "Switch source",
+      "description": "Move volume to another supplier.",
+      "fields": [
+        {
+          "id": "supplier",
+          "label": "Supplier",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "qualification",
+          "label": "Qualification status",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Qualified",
+            "Conditionally approved",
+            "Not qualified, accepted risk",
+            "Audit pending"
+          ]
+        },
+        {
+          "id": "lead_time_days",
+          "label": "Lead time (days)",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "share_pct",
+          "label": "Share of volume moved (percent)",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_reroute_or_change_mode",
+      "label": "Reroute or change mode",
+      "description": "Change the lane, carrier or mode for shipments.",
+      "fields": [
+        {
+          "id": "lane",
+          "label": "Lane or shipments affected",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "mode",
+          "label": "New mode",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Ocean", "Air", "Truck", "Rail", "Intermodal", "Hold in place"]
+        },
+        {
+          "id": "extra_cost",
+          "label": "Added cost",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "new_eta",
+          "label": "New estimated arrival",
+          "kind": "time",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_hold_or_quarantine_lot",
+      "label": "Hold or quarantine product",
+      "description": "Stop product from moving while the facts are checked.",
+      "fields": [
+        {
+          "id": "lot",
+          "label": "Lot code(s)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "location",
+          "label": "Location(s)",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Test result",
+            "Customer complaint",
+            "Temperature excursion",
+            "Supplier notice",
+            "Regulator request",
+            "Other"
+          ]
+        },
+        {
+          "id": "quantity",
+          "label": "Quantity held",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_declare_recall",
+      "label": "Recall decision",
+      "description": "Set the strategy for a recall.",
+      "fields": [
+        {
+          "id": "recall_class",
+          "label": "Class",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Class I", "Class II", "Class III", "Market withdrawal", "No recall"]
+        },
+        {
+          "id": "depth",
+          "label": "Depth",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Consumer level", "Retail level", "Wholesale level"]
+        },
+        {
+          "id": "public_warning",
+          "label": "Public warning",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Yes", "No"]
+        },
+        {
+          "id": "effectiveness",
+          "label": "Effectiveness check level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Level A", "Level B", "Level C", "Level D", "Level E"]
+        },
+        {
+          "id": "lots",
+          "label": "Lot code(s) covered",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_notify_customers",
+      "label": "Notify customers",
+      "description": "Record which customers were told, in what order and how.",
+      "fields": [
+        {
+          "id": "customers",
+          "label": "Customers notified",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "order",
+          "label": "Order of notice",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Most exposed first",
+            "Largest first",
+            "All at once",
+            "Regulator first, then customers"
+          ]
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Phone call", "Email", "Letter marked urgent", "Portal notice", "Other"]
+        },
+        {
+          "id": "message",
+          "label": "Message sent",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time sent",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_escalate_to_executive",
+      "label": "Escalate to the executive team",
+      "description": "Raise the incident to the CEO or board.",
+      "fields": [
+        {
+          "id": "issue",
+          "label": "Issue",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "ask",
+          "label": "What is asked of the executives",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Approve spend",
+            "Approve a recall",
+            "Approve customer priority",
+            "Approve a public statement",
+            "Informational"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time of the decision",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "logistics_submit_trace_result",
+      "label": "Submit a trace result",
+      "description": "Record the ship-to list the team produced for a lot.",
+      "fields": [
+        {
+          "id": "lot",
+          "label": "Lot code",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "consignees_found",
+          "label": "Consignees found",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "gaps",
+          "label": "Gaps in the records",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "id": "time",
+          "label": "Time completed",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Days of supply",
+        "definition": "On-hand plus confirmed inbound, divided by average daily demand. Stock-out date = today + days of supply."
+      },
+      {
+        "term": "Reorder point",
+        "definition": "The stock level at which a new order is placed: demand over lead time plus safety stock."
+      },
+      {
+        "term": "Tier 1/2/3 supplier",
+        "definition": "Tier 1 sells to the company; tier 2 sells to tier 1; tier 3 to tier 2. Hidden tier-2 dependencies are the usual surprise."
+      },
+      {
+        "term": "Force majeure",
+        "definition": "A contract clause excusing a supplier after an event outside its control; a letter claiming it starts a negotiation, not an answer."
+      },
+      {
+        "term": "Demurrage and detention",
+        "definition": "Fees when a container stays at a terminal past free time (demurrage) or leaves it and is returned late (detention)."
+      },
+      {
+        "term": "Traceability lot code",
+        "definition": "The identifier a firm assigns to a lot at its critical tracking events; shipping records carry it with quantity and unit, product, location, ship date and reference document (21 CFR 1.1340)."
+      },
+      {
+        "term": "Recall class",
+        "definition": "FDA: Class I serious harm or death is reasonably probable; Class II temporary or reversible harm; Class III unlikely to cause harm. Market withdrawal for minor violations."
+      },
+      {
+        "term": "Recall depth",
+        "definition": "How far down the chain the recall reaches: consumer, retail or wholesale level (21 CFR 7.42)."
+      },
+      {
+        "term": "Effectiveness check levels",
+        "definition": "A: 100 percent of consignees; B: more than 10 and less than 100 percent; C: 10 percent; D: 2 percent; E: none (21 CFR 7.42(b)(3))."
+      },
+      {
+        "term": "Consignee",
+        "definition": "A direct account that received the product. Notify each promptly; mark the letter urgent for Class I and II (21 CFR 7.49)."
+      }
+    ],
+    "productConventions": [
+      "A recall letter names the product, lot codes, reason, hazard, instructions and a way to reply; Class I and II letters are marked URGENT.",
+      "Shipment tables show lane, carrier, vessel or trailer, ETA, status and the exception reason.",
+      "A records request under FSMA 204 gives 24 hours or a reasonable time FDA agrees to; the output is an electronic sortable spreadsheet."
+    ],
+    "realismRules": [
+      "Shipped quantity equals received plus in transit, and lot codes keep one format across a scenario's records.",
+      "Never state an FSMA 204 enforcement date as settled: the compliance date is subject to enforcement discretion until at least 2028-07-20.",
+      "Recall status reports go to the regulator every two to four weeks; the company may recall without waiting for FDA (21 CFR 7.46).",
+      "Use fictional companies, carriers and customers; no real brand names."
+    ]
+  },
+  "lintRules": [],
+  "capabilities": [
+    {
+      "coreCapability": "supply_chain_integrity_and_security",
+      "criticalTasks": [
+        "Identify tier-2 and tier-3 dependencies for the affected item.",
+        "Assess supplier status and decide on an alternate source with its qualification status stated.",
+        "Keep records that let a lot be traced to every consignee."
+      ]
+    },
+    {
+      "coreCapability": "logistics_and_supply_chain_management",
+      "criticalTasks": [
+        "State days of supply by item and site and the projected stock-out date.",
+        "Choose and state an allocation rule and apply it the same way to every customer.",
+        "Reroute or change mode with the cost and the new ETA stated."
+      ]
+    },
+    {
+      "coreCapability": "operational_coordination",
+      "criticalTasks": [
+        "Assign who contacts each supplier, carrier, customer and regulator.",
+        "Keep one list of consignees and one status for each shipment."
+      ]
+    },
+    {
+      "coreCapability": "public_information_and_warning",
+      "criticalTasks": [
+        "Notify direct accounts in a stated order and mark Class I and II recall letters urgent.",
+        "Decide on a public warning on the health hazard and state the basis."
+      ]
+    },
+    {
+      "coreCapability": "economic_recovery",
+      "criticalTasks": [
+        "Sequence the return to normal supply and lift allocation on a stated rule.",
+        "Record cost of expedite and lost sales for the after-action review."
+      ]
+    }
+  ]
+}
