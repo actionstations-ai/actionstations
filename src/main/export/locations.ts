@@ -5,6 +5,7 @@
 // and longitude on a plain frame (schematic), with their coordinates in the legend.
 import { MAX_MARKERS_PER_PAGE, rowsByPlace } from '@shared/maps/locations'
 import { formatLatLon, schematicPoints } from '@shared/maps/schematic'
+import { legendHtml, mapFigure, overlayLayersFor } from '@shared/maps/overlays'
 import type { Place, PlacePosition, ProjectMaps, Scenario } from '@shared/schemas'
 
 export interface LocationMarkerView {
@@ -27,6 +28,17 @@ export interface LocationPageView {
   schematic: boolean
   alt: string
   markers: LocationMarkerView[]
+  /**
+   * A geographic map with overlays (#652): the drawing with its numbered places inside it, the
+   * legend, a summary and a data table. The page draws these in place of the plain frame.
+   */
+  overlay?: {
+    svg: string
+    legend: string
+    summary: string
+    columns: string[]
+    rows: string[][]
+  }
 }
 
 const KIND: Record<Place['kind'], LocationMarkerView['kind']> = {
@@ -92,6 +104,40 @@ function geoMarkers(
 
 const countText = (n: number): string => `${n} numbered location${n === 1 ? '' : 's'}`
 
+type GeoMarker = LocationMarkerView & { lat: number; lon: number }
+
+/** The overlay drawing for one page of a geographic map, with this page's places numbered in it. */
+function overlayFor(
+  title: string,
+  id: string,
+  maps: ProjectMaps,
+  mapId: string,
+  slice: GeoMarker[],
+): LocationPageView['overlay'] | undefined {
+  const layers = overlayLayersFor(maps, mapId)
+  if (!layers.length) return undefined
+  const fig = mapFigure({
+    title,
+    layers,
+    markers: slice.map((m, j) => ({
+      n: j + 1,
+      lat: m.lat,
+      lon: m.lon,
+      label: m.label,
+      kind: m.kind,
+    })),
+    idPrefix: id,
+    width: 700,
+  })
+  return {
+    svg: fig.svg,
+    legend: legendHtml(fig.legend),
+    summary: fig.summary,
+    columns: fig.table.columns,
+    rows: fig.table.rows,
+  }
+}
+
 /** The pages for every map that has a place the MSEL uses, markers numbered from 1 per page. */
 export function locationPages(
   maps: ProjectMaps | undefined,
@@ -106,14 +152,20 @@ export function locationPages(
     const markers = geo
       ? geoMarkers(maps.places, used, layer.id)
       : planMarkers(maps.places, used, layer.id)
-    const chunks = Math.ceil(markers.length / MAX_MARKERS_PER_PAGE)
+    const overlaid = geo && overlayLayersFor(maps, layer.id).length > 0
+    const chunks = Math.max(Math.ceil(markers.length / MAX_MARKERS_PER_PAGE), overlaid ? 1 : 0)
     for (let i = 0; i < chunks; i++) {
       const slice = markers.slice(i * MAX_MARKERS_PER_PAGE, (i + 1) * MAX_MARKERS_PER_PAGE)
       const spots = geo ? schematicPoints(slice as unknown as { lat: number; lon: number }[]) : []
       const part = chunks > 1 ? ` (${i + 1} of ${chunks})` : ''
+      const id = `${prefix}loc-${layer.id}-${i + 1}`
+      const heading = `Locations: ${layer.title}${part}`
+      const overlay = geo
+        ? overlayFor(heading, id, maps, layer.id, slice as GeoMarker[])
+        : undefined
       pages.push({
-        id: `${prefix}loc-${layer.id}-${i + 1}`,
-        heading: `Locations: ${layer.title}${part}`,
+        id,
+        heading,
         image: layer.kind === 'site_plan' ? layer.image : '',
         schematic: geo,
         alt: geo
@@ -128,6 +180,7 @@ export function locationPages(
           rows: m.rows,
           ...(m.coords ? { coords: m.coords } : {}),
         })),
+        ...(overlay ? { overlay } : {}),
       })
     }
   }

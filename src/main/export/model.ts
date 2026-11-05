@@ -163,13 +163,14 @@ export async function loadExportModel(
   }
 }
 
-/** The project's maps when the MSEL uses a place; a plan image missing on disk is left out. */
+/** The project's maps when the MSEL uses a place or a map has overlays; a missing plan image is left out. */
 async function optionalMaps(root: string, scenario: Scenario): Promise<{ maps?: ProjectMaps }> {
-  if (!scenario.msel.some((r) => r.placeIds?.length)) return {}
+  const usesPlaces = scenario.msel.some((r) => r.placeIds?.length)
   try {
     const { maps } = await readProjectMaps(root)
+    if (!usesPlaces && !maps.overlays?.length) return {}
     const shown = maps.maps.filter((m) => m.kind !== 'site_plan' || insideProject(root, m.image))
-    return maps.places.length ? { maps: { ...maps, maps: shown } } : {}
+    return maps.places.length || maps.overlays?.length ? { maps: { ...maps, maps: shown } } : {}
   } catch (e) {
     console.error('[export] maps not read:', (e as Error).message)
     return {}

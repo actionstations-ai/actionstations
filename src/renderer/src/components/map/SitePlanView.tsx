@@ -4,7 +4,9 @@
 // (PlaneImage); small ones are one image.
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
-import type { MapLayer } from '@shared/schemas'
+import type { MapLayer, OverlayLayer } from '@shared/schemas'
+import type { PercentArea } from '@shared/maps/overlays/place-areas'
+import { TOKEN_STYLE } from '@shared/maps/overlays/style'
 import { isPercentPosition, type PinStatus } from '@shared/maps/pins'
 import { Button } from '../ui'
 import { PlaneImage } from './PlaneImage'
@@ -31,6 +33,49 @@ export interface MapEngineProps {
   onActivate: (m: MapMarker) => void
   /** Editor: a click on empty map. Plans give percent, geographic maps give lat/lon. */
   onPick?: ((p: { x: number; y: number } | { lat: number; lon: number }) => void) | undefined
+  /** Geographic maps: the overlay layers to draw (already cut to the time shown). */
+  overlays?: readonly OverlayLayer[] | undefined
+  /** Site plans: outlines of places, in percent of the picture. */
+  areas?: readonly PercentArea[] | undefined
+}
+
+const AREA_TOKEN = {
+  incident: 'critical',
+  staging: 'info',
+  command: 'ok',
+  asset: 'neutral',
+  public: 'water',
+  other: 'neutral',
+} as const
+
+/** Place outlines on a plan: percent points over the picture, dashed by kind as well as coloured. */
+function PlanAreas({ areas }: { areas: readonly PercentArea[] }) {
+  if (!areas.length) return null
+  return (
+    <svg
+      className="map-areas"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+      data-testid="plan-areas"
+    >
+      {areas.map((a, i) => {
+        const st = TOKEN_STYLE[AREA_TOKEN[a.kind]]
+        return (
+          <polygon
+            key={`${a.placeId}-${i}`}
+            points={a.points.map((p) => `${p.x},${p.y}`).join(' ')}
+            fill={st.fill}
+            fillOpacity={0.25}
+            stroke={st.color}
+            strokeWidth={2}
+            strokeDasharray={st.dash.map((d) => d * 2).join(' ') || undefined}
+            vectorEffect="non-scaling-stroke"
+          />
+        )
+      })}
+    </svg>
+  )
 }
 
 const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v))
@@ -180,6 +225,7 @@ export function SitePlanView(props: MapEngineProps & { layer: Plan }) {
           }}
         >
           <PlaneImage projectPath={props.projectPath} layer={layer} frame={frameSize} view={view} />
+          <PlanAreas areas={props.areas ?? []} />
           {placed.map((m) => (
             <MarkerButton
               key={m.id}

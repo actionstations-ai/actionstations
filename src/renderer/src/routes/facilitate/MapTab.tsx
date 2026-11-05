@@ -11,6 +11,7 @@ import { call } from '../../lib/api'
 import { errorText } from '../../lib/errors'
 import { MapView } from '../../components/map/MapView'
 import { markerFromPin } from '../../components/map/marker-model'
+import { overlayLayersFor, placeAreasPercent } from '@shared/maps/overlays/place-areas'
 import { useProjectMaps } from '../../state/maps'
 import { projectKey } from '../../state/project'
 import { MapOnDevices } from './MapOnDevices'
@@ -113,6 +114,8 @@ export function MapTab(props: {
         selectedRowId={props.selectedRowId}
         onSelectRow={props.onSelectRow}
         showLegend
+        overlays={overlayLayersFor(data.maps, layer.id)}
+        areas={placeAreasPercent(data.maps.places, layer.id)}
       />
     </div>
   )

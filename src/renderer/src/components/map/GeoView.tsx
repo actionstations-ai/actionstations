@@ -15,6 +15,7 @@ import { markerName, type MapMarker } from './marker-model'
 import { MarkerButton } from './markers'
 import type { MapEngineProps } from './SitePlanView'
 import { planFor, reducedMotion, webglAvailable } from './geo/plan'
+import { applyOverlays } from './geo/overlay-layers'
 import { registerAsmap } from './geo/protocol'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -100,6 +101,24 @@ function GeoCanvas(props: MapEngineProps & { layer: Geo; basemap: BasemapView })
     // The style changes only with the basemap; markers move without rebuilding the map.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [styleKey, layer.id])
+
+  // Overlays are drawn on top of the basemap, and again whenever they or the map change.
+  const overlays = props.overlays
+  useEffect(() => {
+    if (!map || !overlays) return
+    const apply = () => {
+      try {
+        applyOverlays(map, overlays)
+      } catch {
+        // The style is still loading; try again when it has data.
+        map.once('styledata', apply)
+      }
+    }
+    apply()
+    return () => {
+      map.off('styledata', apply)
+    }
+  }, [map, overlays])
 
   const zoom = (d: number) =>
     map?.easeTo({ zoom: map.getZoom() + d, duration: reducedMotion() ? 0 : 200 })

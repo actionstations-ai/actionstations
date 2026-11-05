@@ -1,10 +1,13 @@
 // One map with its legend and a Locations list (#436, FR-7, NFR-3). The list mirrors the markers
 // for keyboard and screen reader users, who can work from it without the map.
-import type { MapLayer } from '@shared/schemas'
+import type { MapLayer, OverlayLayer } from '@shared/schemas'
+import type { PercentArea } from '@shared/maps/overlays/place-areas'
 import type { PinStatus } from '@shared/maps/pins'
 import { GeoView } from './GeoView'
 import { STATUS_TEXT, type MapMarker } from './marker-model'
 import { Legend } from './markers'
+import { OverlayControls } from './OverlayControls'
+import { useOverlayState } from './overlay-state'
 import { SitePlanView } from './SitePlanView'
 import './map.css'
 
@@ -20,7 +23,13 @@ export interface MapViewProps {
   onPick?: ((p: { x: number; y: number } | { lat: number; lon: number }) => void) | undefined
   /** The legend explains row states; the Places editor has no rows. */
   showLegend?: boolean
+  /** Overlay layers for a geographic map: warning areas, tracks, rasters, place outlines. */
+  overlays?: readonly OverlayLayer[] | undefined
+  /** Outlines of places on a site plan, in percent of the picture. */
+  areas?: readonly PercentArea[] | undefined
 }
+
+const NO_LAYERS: readonly OverlayLayer[] = []
 
 export function MapView(props: MapViewProps) {
   const { layer, markers } = props
@@ -30,6 +39,7 @@ export function MapView(props: MapViewProps) {
     const at = props.selectedRowId ? m.rowIds.indexOf(props.selectedRowId) : -1
     props.onSelectRow?.(m.rowIds[(at + 1) % m.rowIds.length]!)
   }
+  const overlay = useOverlayState(layer.kind === 'geo' ? (props.overlays ?? NO_LAYERS) : NO_LAYERS)
   const engine = {
     projectPath: props.projectPath,
     markers,
@@ -38,6 +48,8 @@ export function MapView(props: MapViewProps) {
     selectedMarkerId: props.selectedMarkerId,
     onActivate: activate,
     onPick: props.onPick,
+    overlays: overlay.shown,
+    areas: props.areas,
   }
   return (
     <div className="map-view">
@@ -46,6 +58,7 @@ export function MapView(props: MapViewProps) {
       ) : (
         <GeoView {...engine} layer={layer} />
       )}
+      <OverlayControls state={overlay} title={layer.title} />
       {props.showLegend && <Legend />}
       <LocationsList {...props} rowStatus={rowStatus} onActivate={activate} />
     </div>

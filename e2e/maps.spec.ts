@@ -281,6 +281,68 @@ test('maps follow-ups: PDF site plan, row places picker, snapshot, map on the pr
     expect(snap.path).toMatch(/^\.cache\/maps\/[0-9a-f]{24}\.png$/)
     expect(readFileSync(join(projectPath, snap.path)).subarray(1, 4).toString()).toBe('PNG')
 
+    // A geographic map with overlays is drawn on a plain frame with its legend: the same map at
+    // two times is two different pictures, and both are PNGs.
+    const current = await invoke<Maps>('maps:get', { projectPath })
+    const t = (hour: number) => `2026-06-12T${String(hour).padStart(2, '0')}:00:00Z`
+    const ring = [
+      [-84.6, 39.0],
+      [-84.2, 39.0],
+      [-84.2, 39.3],
+    ]
+    await invoke('maps:save', {
+      projectPath,
+      revision: current.revision,
+      maps: {
+        ...current.maps,
+        maps: [
+          ...current.maps.maps,
+          {
+            kind: 'geo',
+            id: 'storm',
+            title: 'Storm area',
+            basemap: { kind: 'online', provider: 'openfreemap' },
+            style: 'light',
+          },
+        ],
+        overlays: [
+          {
+            mapId: 'storm',
+            layers: [
+              {
+                kind: 'polygon',
+                id: 'warn',
+                title: 'Warning areas',
+                legend: { label: 'Warnings' },
+                features: [
+                  {
+                    id: 'a',
+                    label: 'Warning A',
+                    style: 'critical',
+                    rings: [ring],
+                    time: { start: t(18), end: t(19) },
+                  },
+                  {
+                    id: 'b',
+                    label: 'Warning B',
+                    style: 'watch',
+                    rings: [ring],
+                    time: { start: t(20), end: t(21) },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    })
+    const geo = { ...request, mapId: 'storm', audience: 'facilitator' }
+    const early = await invoke<{ path: string }>('maps:snapshot', { ...geo, at: t(18) })
+    const late = await invoke<{ path: string }>('maps:snapshot', { ...geo, at: t(20) })
+    expect(early.path).not.toBe(late.path)
+    for (const s of [early, late])
+      expect(readFileSync(join(projectPath, s.path)).subarray(1, 4).toString()).toBe('PNG')
+
     // The presentation window opens on the map and closes cleanly.
     await invoke('facilitator:present-map', request)
     expect(await invoke<{ open: boolean }>('facilitator:present-status', undefined)).toEqual({
