@@ -72,4 +72,47 @@ describe('ClassroomPage', () => {
     ).toBeTruthy()
     expect(await violations()).toEqual([])
   })
+
+  it('lists rubrics and outcomes without violations and offers the starter rubrics', async () => {
+    const level = (n: number) => ({ label: `L${n}`, descriptor: `Level ${n}`, points: n })
+    mockTtx({
+      'classroom:get': () =>
+        state({
+          enabled: true,
+          course: {
+            ...state().course,
+            outcomes: [{ id: 'o1', code: 'LO1', text: 'Communicate', bloom: 'apply' }],
+            rubrics: [
+              {
+                formatVersion: 1,
+                id: 'r1',
+                name: 'Team',
+                role: 'team',
+                source: '',
+                criteria: [
+                  {
+                    id: 'c1',
+                    name: 'Coordination',
+                    description: '',
+                    weight: 1,
+                    levels: [level(0), level(1), level(2)],
+                    outcomeIds: [],
+                    taskIds: [],
+                  },
+                ],
+              },
+            ],
+          },
+        }),
+      'scenarios:list': () => [],
+    })
+    open()
+    fireEvent.click(await screen.findByRole('button', { name: 'Edit Team' }))
+    expect(await screen.findByLabelText('Coordination level 1 label')).toBeTruthy()
+    expect(await violations()).toEqual([])
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.getByRole('button', { name: 'Add the starter rubrics' })).toBeTruthy()
+    expect(screen.getByLabelText('Outcome 1 code')).toBeTruthy()
+    expect(await violations()).toEqual([])
+  })
 })

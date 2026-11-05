@@ -29,3 +29,18 @@
   border-bottom: 1px solid var(--color-border-strong);
   vertical-align: top;
 }
+.classroom-outcome {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 6rem 1fr 9rem 9rem auto;
+  align-items: center;
+}
+@media (max-width: 48rem) {
+  .classroom-outcome {
+    grid-template-columns: 1fr;
+  }
+}
+.classroom-criterion {
+  border: 1px solid var(--color-border-strong);
+  padding: var(--space-3);
+}

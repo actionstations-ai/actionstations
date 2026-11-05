@@ -5,7 +5,10 @@ import { channel } from './define'
 import { SafeId } from '../schemas/common'
 import {
   ClassroomCourseFile,
+  ClassroomRubric,
   ClassroomSession,
+  Outcome,
+  OutcomeMapping,
   Student,
   CLASSROOM_LIMITS,
 } from '../schemas/classroom'
@@ -38,6 +41,19 @@ const SectionInput = z.object({
   id: SafeId.optional(),
   name: z.string().trim().min(1).max(CLASSROOM_LIMITS.name),
 })
+
+const OutcomeInput = Outcome.extend({ id: SafeId.optional() })
+const JsonText = z.string().max(600_000)
+const FileText = z.object({ json: z.string(), fileName: z.string() })
+
+export const MappingSuggestionView = z.object({
+  outcomeId: SafeId,
+  objectiveId: z.string(),
+  objectiveName: z.string(),
+  shared: z.array(z.string()),
+  score: z.number(),
+})
+export type MappingSuggestionView = z.infer<typeof MappingSuggestionView>
 
 export const classroomChannels = {
   'classroom:get': channel(P, ClassroomState),
@@ -79,4 +95,33 @@ export const classroomChannels = {
   'classroom:delete-term': channel(P, ClassroomState),
   /** Which section ran a scenario, who sat where, and whether the run counts. */
   'classroom:set-session': channel(P.extend({ session: ClassroomSession }), ClassroomState),
+
+  /** Replace the course's outcomes. Mappings and rubric links to a removed outcome are dropped. */
+  'classroom:set-outcomes': channel(
+    P.extend({ outcomes: z.array(OutcomeInput).max(CLASSROOM_LIMITS.outcomes) }),
+    ClassroomState,
+  ),
+  'classroom:import-outcomes': channel(
+    P.extend({ json: JsonText, mode: z.enum(['replace', 'add']) }),
+    ClassroomState,
+  ),
+  'classroom:export-outcomes': channel(P, FileText),
+  /** Word-overlap proposals for one scenario's objectives; nothing is saved. */
+  'classroom:suggest-mappings': channel(
+    P.extend({ scenarioId: SafeId }),
+    z.array(MappingSuggestionView),
+  ),
+  /** Replace the mappings that belong to one scenario. */
+  'classroom:set-mappings': channel(
+    P.extend({
+      scenarioId: SafeId,
+      mappings: z.array(OutcomeMapping).max(CLASSROOM_LIMITS.mappings),
+    }),
+    ClassroomState,
+  ),
+  'classroom:save-rubric': channel(P.extend({ rubric: ClassroomRubric }), ClassroomState),
+  'classroom:delete-rubric': channel(P.extend({ rubricId: SafeId }), ClassroomState),
+  'classroom:add-starter-rubrics': channel(P, ClassroomState),
+  'classroom:import-rubrics': channel(P.extend({ json: JsonText }), ClassroomState),
+  'classroom:export-rubric': channel(P.extend({ rubricId: SafeId }), FileText),
 }
