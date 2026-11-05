@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fixed equipment and nonstructural hazard checklist",
+  "description": "A new exercise checklist for fixed equipment and nonstructural hazards found while evaluating a building (water heaters, fire sprinkler lines, elevators, rooftop equipment, ceilings, gas piping, electrical gear): the item, where, what was seen and whether it is secure. Hazards here support the placard but do not decide it alone. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["jurisdiction", "buildingId", "address", "evaluator", "evaluatedAt", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["City of Westport post-earthquake evaluation program"]
+    },
+    "buildingId": {
+      "type": "string",
+      "description": "Building id",
+      "examples": ["B-0188"],
+      "x-translate": false
+    },
+    "address": {
+      "type": "string",
+      "description": "Address",
+      "examples": ["40 Quay Street, Westport"],
+      "x-translate": false
+    },
+    "evaluator": {
+      "type": "string",
+      "description": "Evaluator",
+      "examples": ["K. Osei"],
+      "x-translate": false
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "description": "Evaluated",
+      "examples": ["2026-11-06 15:05"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "description": "Equipment and hazards",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["equipment", "location", "observed", "status"],
+        "properties": {
+          "equipment": {
+            "type": "string",
+            "description": "Equipment",
+            "examples": ["Gas water heater"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Location",
+            "examples": ["Basement"]
+          },
+          "observed": {
+            "type": "string",
+            "description": "Observed",
+            "examples": ["Moved off its base, strap broken"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Not secure"],
+            "enum": ["Secure", "Not secure", "Leaking or damaged", "Not checked"]
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "string",
+      "description": "Action taken",
+      "examples": [
+        "Gas valve at the heater closed by the building engineer. Utility and building official told. Sprinkler main valved off."
+      ]
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Utility strike report</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Strike'}}</dt>
+    <dd>{{fields.struckAt}}</dd>
+    <dt>{{t 'Location'}}</dt>
+    <dd>{{fields.location}}</dd>
+    <dt>{{t 'Utility struck'}}</dt>
+    <dd>{{fields.utility}}</dd>
+    {{#if fields.ticket}}
+    <dt>{{t 'One-call ticket'}}</dt>
+    <dd>{{fields.ticket}}</dd>
+    {{/if}} {{#if fields.markedPosition}}
+    <dt>{{t 'Marked position'}}</dt>
+    <dd>{{fields.markedPosition}}</dd>
+    {{/if}} {{#if fields.injuries}}
+    <dt>{{t 'People hurt'}}</dt>
+    <dd>{{fields.injuries}}</dd>
+    {{/if}} {{#if fields.utilityNotifiedAt}}
+    <dt>{{t 'Utility told'}}</dt>
+    <dd>{{fields.utilityNotifiedAt}}</dd>
+    {{/if}} {{#if fields.shutoffAt}}
+    <dt>{{t 'Line shut off'}}</dt>
+    <dd>{{fields.shutoffAt}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'What happened'}}</h2>
+    <p>{{nl2br fields.whatHappened}}</p>
+  </section>
+  {{#if fields.actions}}
+  <section>
+    <h2>{{t 'Actions'}}</h2>
+    <p>{{nl2br fields.actions}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

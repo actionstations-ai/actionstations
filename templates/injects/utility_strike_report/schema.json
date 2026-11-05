@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Utility strike report",
+  "description": "The contractor's report of an excavation that struck an underground utility: which line, where, the one-call ticket, what leaked or failed, who was hurt, how fast the utility was told and what it did. Distances are stated in feet and times are exact. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["org", "project", "struckAt", "location", "utility", "whatHappened"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Contractor",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Marlow Street Sewer Replacement"]
+    },
+    "struckAt": {
+      "type": "string",
+      "description": "Strike",
+      "examples": ["2026-11-09 10:12"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Location",
+      "examples": ["Trench T-4, Marlow St at 4th Ave"]
+    },
+    "utility": {
+      "type": "string",
+      "description": "Utility struck",
+      "examples": ["Natural gas distribution main, 4 in plastic"]
+    },
+    "ticket": {
+      "type": "string",
+      "description": "One-call ticket",
+      "examples": ["2611-0412"],
+      "x-translate": false
+    },
+    "markedPosition": {
+      "type": "string",
+      "description": "Marked position",
+      "examples": ["Marks 3 ft west of the line as found"]
+    },
+    "injuries": {
+      "type": "string",
+      "description": "People hurt",
+      "examples": ["None"]
+    },
+    "utilityNotifiedAt": {
+      "type": "string",
+      "description": "Utility told",
+      "examples": ["10:14"],
+      "x-translate": false
+    },
+    "shutoffAt": {
+      "type": "string",
+      "description": "Line shut off",
+      "examples": ["10:51"],
+      "x-translate": false
+    },
+    "whatHappened": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "The excavator bucket cut the main while the crew exposed a sewer lateral. Gas escaped; the crew left the trench and the street was cleared 300 ft."
+      ]
+    },
+    "actions": {
+      "type": "string",
+      "description": "Actions",
+      "examples": [
+        "911 called at 10:13. Engines and the utility crew on scene. Work stopped on the whole project until the utility releases the area."
+      ]
+    }
+  }
+}

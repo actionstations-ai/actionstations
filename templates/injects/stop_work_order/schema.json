@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stop-work order",
+  "description": "An order stopping work, issued by someone with the authority to do so (the competent person, the superintendent, the safety director or the building official): what is stopped, why, who is told, and what must be true before work resumes. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "banner",
+    "org",
+    "project",
+    "issuedBy",
+    "authority",
+    "issuedAt",
+    "scope",
+    "reason",
+    "conditionsToResume"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "banner": {
+      "type": "string",
+      "description": "The words of the banner",
+      "examples": ["STOP WORK"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Issued by (organization)",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Pier Street Mid-rise"]
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Issued by",
+      "examples": ["J. Whitaker, site superintendent"],
+      "x-translate": false
+    },
+    "authority": {
+      "type": "string",
+      "description": "Authority",
+      "examples": ["Superintendent"],
+      "enum": [
+        "Competent person",
+        "Superintendent",
+        "Safety director",
+        "Engineer of record",
+        "Building official"
+      ]
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["2026-11-09 08:56"],
+      "x-translate": false
+    },
+    "scope": {
+      "type": "string",
+      "description": "Work stopped",
+      "examples": ["All work on levels 8 to 10 and all lifting by tower crane TC-2"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason",
+      "examples": ["A load fell during a pick and a worker was hurt. The cause is not known."]
+    },
+    "conditionsToResume": {
+      "type": "string",
+      "description": "Before work resumes",
+      "examples": [
+        "The cause is found, the rigging is inspected, the safety director and the engineer of record agree in writing, and the owner is told."
+      ]
+    },
+    "distribution": {
+      "type": "string",
+      "description": "Distribution",
+      "examples": ["All subcontractors, owner's representative, safety director, project executive"]
+    }
+  }
+}

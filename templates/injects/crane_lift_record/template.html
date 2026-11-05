@@ -1,0 +1,66 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Crane inspection, lift plan and wind log</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Crane'}}</dt>
+    <dd>{{fields.crane}}</dd>
+    {{#if fields.operator}}
+    <dt>{{t 'Operator'}}</dt>
+    <dd>{{fields.operator}}</dd>
+    {{/if}}
+    <dt>{{t 'Lift director'}}</dt>
+    <dd>{{fields.liftDirector}}</dd>
+    {{#if fields.inspection}}
+    <dt>{{t 'Daily inspection'}}</dt>
+    <dd>{{fields.inspection}}</dd>
+    {{/if}}
+    <dt>{{t 'Load'}}</dt>
+    <dd>{{fields.load}}</dd>
+    <dt>{{t 'Load with rigging (lb)'}}</dt>
+    <dd>{{fields.loadWeightLb}}</dd>
+    {{#if fields.radiusFt}}
+    <dt>{{t 'Radius (ft)'}}</dt>
+    <dd>{{fields.radiusFt}}</dd>
+    {{/if}} {{#if fields.capacityLb}}
+    <dt>{{t 'Chart capacity at radius (lb)'}}</dt>
+    <dd>{{fields.capacityLb}}</dd>
+    {{/if}}
+    <dt>{{t 'Wind limit for the pick (mph)'}}</dt>
+    <dd>{{fields.windLimitMph}}</dd>
+  </dl>
+  <section>
+    <h2>{{t 'Wind log'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Time'}}</th>
+          <th scope="col">{{t 'Average (mph)'}}</th>
+          <th scope="col">{{t 'Gust (mph)'}}</th>
+          <th scope="col">{{t 'Action'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.windLog}}
+        <tr>
+          <td>{{time}}</td>
+          <td>{{avgMph}}</td>
+          <td>{{gustMph}}</td>
+          <td>{{action}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{#if fields.decision}}
+  <section>
+    <h2>{{t 'Decision'}}</h2>
+    <p>{{nl2br fields.decision}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

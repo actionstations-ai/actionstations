@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Construction incident or near-miss report",
+  "description": "A first report of an incident or near miss on a construction project: what happened, when, who was hurt, what was done immediately, whether work was stopped and who has been told. Facts only; causes are left to the investigation. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["org", "reportType", "project", "occurredAt", "location", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Contractor",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "reportType": {
+      "type": "string",
+      "description": "Report type",
+      "examples": ["Incident"],
+      "enum": ["Incident", "Near miss"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Pier Street Mid-rise"]
+    },
+    "occurredAt": {
+      "type": "string",
+      "description": "Occurred",
+      "examples": ["2026-11-09 08:52"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Location",
+      "examples": ["Level 9, east bay, below the tower crane hook"]
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by",
+      "examples": ["R. Delgado, foreman"],
+      "x-translate": false
+    },
+    "injuries": {
+      "type": "string",
+      "description": "People hurt",
+      "examples": ["One worker to hospital; two others examined on site"]
+    },
+    "workStopped": {
+      "type": "string",
+      "description": "Work stopped",
+      "examples": ["Yes: all work on levels 8 to 10 and under the swing radius"],
+      "enum": [
+        "Yes: all work on levels 8 to 10 and under the swing radius",
+        "Yes: affected area only",
+        "No"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "A curtain wall unit slipped from its sling during the pick and landed on the level 8 deck. A worker on the deck was struck by a fragment."
+      ]
+    },
+    "immediateActions": {
+      "type": "string",
+      "description": "Immediate actions",
+      "examples": [
+        "Pick stopped, area cleared, 911 called at 08:54, first aid given, headcount started."
+      ]
+    },
+    "notifications": {
+      "type": "string",
+      "description": "Who has been told",
+      "examples": [
+        "Safety director, project executive. Owner and insurer not yet told. OSHA decision pending."
+      ]
+    }
+  }
+}

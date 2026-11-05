@@ -1982,7 +1982,30 @@
       "summary": "Construction and building safety domain: contractor, owner and design team, building department and post-disaster evaluation program, with six threat families.",
       "tags": ["construction", "engineering", "building-safety"],
       "domains": ["construction"],
-      "contents": { "domains": ["construction"] }
+      "contents": { "domains": ["construction"], "regulations": ["osha_1904_39"] }
+    },
+    {
+      "id": "ai.actionstations.toolkit-structures",
+      "name": "Toolkit: structures and building safety",
+      "summary": "Structures toolkit: excavation and crane records, incident, stop-work and OSHA records, evaluation forms, assignment log and utility strike report.",
+      "tags": ["toolkit", "construction", "building-safety"],
+      "contents": {
+        "templates": [
+          "construction_change_request",
+          "construction_incident_report",
+          "crane_lift_record",
+          "detailed_evaluation_form",
+          "excavation_inspection_record",
+          "fixed_equipment_checklist",
+          "inspection_assignment_log",
+          "osha_report_record",
+          "rapid_evaluation_form",
+          "stop_work_order",
+          "unsafe_building_order",
+          "utility_strike_report"
+        ],
+        "toolkits": ["structures"]
+      }
     }
   ]
 }

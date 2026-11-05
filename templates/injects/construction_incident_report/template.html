@@ -1,0 +1,43 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Incident / near-miss report</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Report type'}}</dt>
+    <dd>{{fields.reportType}}</dd>
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Occurred'}}</dt>
+    <dd>{{fields.occurredAt}}</dd>
+    <dt>{{t 'Location'}}</dt>
+    <dd>{{fields.location}}</dd>
+    {{#if fields.reportedBy}}
+    <dt>{{t 'Reported by'}}</dt>
+    <dd>{{fields.reportedBy}}</dd>
+    {{/if}} {{#if fields.injuries}}
+    <dt>{{t 'People hurt'}}</dt>
+    <dd>{{fields.injuries}}</dd>
+    {{/if}} {{#if fields.workStopped}}
+    <dt>{{t 'Work stopped'}}</dt>
+    <dd>{{fields.workStopped}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'What happened'}}</h2>
+    <p>{{nl2br fields.description}}</p>
+  </section>
+  {{#if fields.immediateActions}}
+  <section>
+    <h2>{{t 'Immediate actions'}}</h2>
+    <p>{{nl2br fields.immediateActions}}</p>
+  </section>
+  {{/if}} {{#if fields.notifications}}
+  <section>
+    <h2>{{t 'Who has been told'}}</h2>
+    <p>{{nl2br fields.notifications}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

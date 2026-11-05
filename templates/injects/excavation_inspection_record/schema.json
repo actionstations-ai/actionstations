@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daily excavation inspection record",
+  "description": "The competent person's daily record for an excavation or trench (daily, before work starts, and after rain or another hazard-increasing event): location, depth, soil, protective system, each item checked with a result, and what was done about any deficiency. Workers are removed from the hazard until precautions are taken. States no depth rule for engineered systems. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "org",
+    "project",
+    "location",
+    "inspectedAt",
+    "trigger",
+    "competentPerson",
+    "checks",
+    "actions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Contractor",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Marlow Street Sewer Replacement"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Excavation",
+      "examples": ["Trench T-4, Marlow St between 3rd and 4th Ave"]
+    },
+    "inspectedAt": {
+      "type": "string",
+      "description": "Inspected",
+      "examples": ["2026-11-09 06:45 (before work)"],
+      "x-translate": false
+    },
+    "trigger": {
+      "type": "string",
+      "description": "Inspection type",
+      "examples": ["Daily"],
+      "enum": ["Daily", "After rain", "After hazard-increasing event", "As needed"]
+    },
+    "competentPerson": {
+      "type": "string",
+      "description": "Competent person",
+      "examples": ["D. Okafor"],
+      "x-translate": false
+    },
+    "depthFt": {
+      "type": "string",
+      "description": "Depth (ft)",
+      "examples": ["9"],
+      "x-translate": false
+    },
+    "soilType": {
+      "type": "string",
+      "description": "Soil as classified",
+      "examples": ["Type C, wet clay with seepage"]
+    },
+    "protectiveSystem": {
+      "type": "string",
+      "description": "Protective system",
+      "examples": ["Aluminum hydraulic shoring, manufacturer tabulated data on site"]
+    },
+    "weather": {
+      "type": "string",
+      "description": "Weather and last rain",
+      "examples": ["Light rain overnight, 0.4 in since 18:00"]
+    },
+    "checks": {
+      "type": "array",
+      "description": "Items checked",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "result"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Spoil pile at least 2 ft from the edge"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Result",
+            "examples": ["OK"],
+            "enum": ["OK", "Deficient", "Not applicable"]
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["-"]
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "string",
+      "description": "Action taken",
+      "examples": [
+        "Crew held out of the trench. Tension crack reported to the engineer; surcharge load moved. No entry until the competent person re-inspects."
+      ]
+    }
+  }
+}

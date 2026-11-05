@@ -1,0 +1,137 @@
+{
+  "id": "structures",
+  "name": "Structures and building safety",
+  "description": "Site inspection records, incident and stop-work orders, OSHA report records, structural monitoring and post-disaster building evaluation: rapid and detailed evaluation forms, assignment logs and the INSPECTED, RESTRICTED USE and UNSAFE placards. For contractors, engineers, building departments and every organization that has a building, a trench or a crane in a hazard.",
+  "appliesTo": {
+    "keywords": [
+      "crane collapse",
+      "trench",
+      "cave-in",
+      "excavation",
+      "stop work",
+      "competent person",
+      "scaffold",
+      "structural collapse",
+      "partial collapse",
+      "placard",
+      "unsafe building",
+      "building inspection",
+      "rapid evaluation",
+      "damage assessment",
+      "engineer of record",
+      "building official",
+      "construction site",
+      "shoring",
+      "utility strike"
+    ],
+    "domains": [
+      "construction",
+      "geoscience",
+      "industrial",
+      "commercial_facilities",
+      "municipal",
+      "energy_utility",
+      "water_utility",
+      "water_dam",
+      "transit",
+      "freight_rail",
+      "airport",
+      "stadium_venue",
+      "campus",
+      "k12_schools",
+      "healthcare"
+    ]
+  },
+  "injectTypes": [
+    "excavation_inspection_record",
+    "crane_lift_record",
+    "construction_incident_report",
+    "stop_work_order",
+    "osha_report_record",
+    "construction_change_request",
+    "unsafe_building_order",
+    "rapid_evaluation_form",
+    "detailed_evaluation_form",
+    "fixed_equipment_checklist",
+    "inspection_assignment_log",
+    "utility_strike_report",
+    "building_placard"
+  ],
+  "outsideParties": [
+    "the OSHA area office or the state occupational safety plan",
+    "the fire department's technical rescue team or the state urban search and rescue task force",
+    "the city or county building department",
+    "the utility and the one-call center",
+    "the owner and the insurer"
+  ],
+  "advisorRoles": [
+    {
+      "key": "structural_advisor",
+      "name": "Structural engineer (advisor)",
+      "abbreviation": "STRUCT",
+      "team": "Advisors",
+      "description": "Explains what a monitoring series, a crack or a lean means, and what an evaluation can and cannot say about a structure."
+    },
+    {
+      "key": "safety_advisor",
+      "name": "Construction safety director (advisor)",
+      "abbreviation": "CSD",
+      "team": "Advisors",
+      "description": "Explains stop-work authority, the competent person's duties and the OSHA reporting clocks."
+    },
+    {
+      "key": "evaluator_advisor",
+      "name": "Building safety evaluator (advisor)",
+      "abbreviation": "EVAL",
+      "team": "Advisors",
+      "description": "Explains how a rapid evaluation is done, how a placard is chosen and what makes two teams disagree."
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Competent person",
+        "definition": "Identifies hazards at the work area and is authorized to take prompt corrective action; inspects excavations daily."
+      },
+      {
+        "term": "Engineer of record",
+        "definition": "The design engineer who decides structural adequacy, repair and shoring."
+      },
+      {
+        "term": "Building official",
+        "definition": "Declares a building unsafe, authorizes placards and decides re-entry."
+      },
+      {
+        "term": "Placard",
+        "definition": "INSPECTED (green), RESTRICTED USE (yellow) or UNSAFE (red); the building at the time it was evaluated."
+      },
+      {
+        "term": "Rapid evaluation",
+        "definition": "A short look at one building to recommend a placard; not a structural analysis."
+      },
+      {
+        "term": "Lift director",
+        "definition": "Runs a critical crane pick against the lift plan and the load chart."
+      }
+    ],
+    "productConventions": [
+      "Placards and categories are written as words (INSPECTED, RESTRICTED USE, UNSAFE), never as a color alone.",
+      "Monitoring thresholds have an alarm and an action level; state the unit, the sensor and the time.",
+      "Every product is marked as an exercise and is not a safety evaluation of any real structure."
+    ],
+    "realismRules": [
+      "The competent person, superintendent or safety director stops work; the engineer of record decides structural adequacy; only the building official declares a building unsafe.",
+      "A work-related fatality is reported to OSHA within 8 hours; an in-patient hospitalization, amputation or loss of an eye within 24 hours.",
+      "Excavations need a protective system unless in stable rock or under 5 feet with no sign of a cave-in; inspect daily and after rain; a trench 4 feet or deeper needs an exit within 25 feet; workers leave the hazard until precautions are taken.",
+      "Do not state a depth rule for engineered trench systems.",
+      "Rescue is run by the fire department; the contractor supplies drawings, equipment and a structural opinion."
+    ]
+  },
+  "lintRules": [
+    "structures.placard_words",
+    "structures.osha_clock",
+    "structures.excavation_rules",
+    "structures.authority",
+    "structures.crane_wind"
+  ]
+}

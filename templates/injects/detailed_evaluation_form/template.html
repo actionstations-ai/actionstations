@@ -1,0 +1,57 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.jurisdiction}}</p>
+    <h1>Detailed evaluation</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Building id'}}</dt>
+    <dd>{{fields.buildingId}}</dd>
+    <dt>{{t 'Address'}}</dt>
+    <dd>{{fields.address}}</dd>
+    <dt>{{t 'Evaluating engineer'}}</dt>
+    <dd>{{fields.engineer}}</dd>
+    <dt>{{t 'Evaluated'}}</dt>
+    <dd>{{fields.evaluatedAt}}</dd>
+    <dt>{{t 'Placard before this evaluation'}}</dt>
+    <dd>{{fields.priorPlacard}}</dd>
+    <dt>{{t 'Recommended placard'}}</dt>
+    <dd>{{fields.placard}}</dd>
+  </dl>
+  <section>
+    <h2>{{t 'Structural elements examined'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Element'}}</th>
+          <th scope="col">{{t 'Damage found'}}</th>
+          <th scope="col">{{t 'Remaining capacity'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.elements}}
+        <tr>
+          <td>{{element}}</td>
+          <td>{{damage}}</td>
+          <td>{{capacity}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h2>{{t 'Findings'}}</h2>
+    <p>{{nl2br fields.findings}}</p>
+  </section>
+  <section>
+    <h2>{{t 'Restrictions'}}</h2>
+    <p>{{nl2br fields.restrictions}}</p>
+  </section>
+  {{#if fields.recommendation}}
+  <section>
+    <h2>{{t 'Recommendation'}}</h2>
+    <p>{{nl2br fields.recommendation}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

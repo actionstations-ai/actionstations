@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OSHA fatality or hospitalization report record",
+  "description": "The employer's record of a report to OSHA under 29 CFR 1904.39: the event type and the clock that applies (8 hours for a work-related fatality; 24 hours for an in-patient hospitalization, amputation or loss of an eye), when the event occurred, when it was reported, and how. A summary, not legal advice. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["org", "project", "eventType", "clockHours", "occurredAt", "dueBy", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Employer",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Pier Street Mid-rise"]
+    },
+    "eventType": {
+      "type": "string",
+      "description": "Event",
+      "examples": ["In-patient hospitalization"],
+      "enum": [
+        "Work-related fatality",
+        "In-patient hospitalization",
+        "Amputation",
+        "Loss of an eye"
+      ]
+    },
+    "clockHours": {
+      "type": "string",
+      "description": "Reporting clock (hours)",
+      "examples": ["24"],
+      "enum": ["8", "24"]
+    },
+    "occurredAt": {
+      "type": "string",
+      "description": "Event learned of",
+      "examples": ["2026-11-09 09:30"],
+      "x-translate": false
+    },
+    "dueBy": {
+      "type": "string",
+      "description": "Report due by",
+      "examples": ["2026-11-10 09:30"],
+      "x-translate": false
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Reported",
+      "examples": ["2026-11-09 13:10"],
+      "x-translate": false
+    },
+    "method": {
+      "type": "string",
+      "description": "Method",
+      "examples": ["Telephone to the area office"],
+      "enum": ["Telephone to the area office", "OSHA 24-hour hotline", "Online form"]
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by",
+      "examples": ["A. Moretti, safety director"],
+      "x-translate": false
+    },
+    "referenceNumber": {
+      "type": "string",
+      "description": "Reference number",
+      "examples": ["Exercise 2611-0007"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary given",
+      "examples": [
+        "One worker struck by a falling curtain wall fragment, admitted to Westport General for observation and surgery. Work stopped on levels 8 to 10."
+      ]
+    }
+  }
+}

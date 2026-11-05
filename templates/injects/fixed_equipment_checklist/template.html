@@ -1,0 +1,47 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.jurisdiction}}</p>
+    <h1>Fixed equipment checklist</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Building id'}}</dt>
+    <dd>{{fields.buildingId}}</dd>
+    <dt>{{t 'Address'}}</dt>
+    <dd>{{fields.address}}</dd>
+    <dt>{{t 'Evaluator'}}</dt>
+    <dd>{{fields.evaluator}}</dd>
+    <dt>{{t 'Evaluated'}}</dt>
+    <dd>{{fields.evaluatedAt}}</dd>
+  </dl>
+  <section>
+    <h2>{{t 'Equipment and hazards'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Equipment'}}</th>
+          <th scope="col">{{t 'Location'}}</th>
+          <th scope="col">{{t 'Observed'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.items}}
+        <tr>
+          <td>{{equipment}}</td>
+          <td>{{location}}</td>
+          <td>{{observed}}</td>
+          <td>{{status}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{#if fields.actions}}
+  <section>
+    <h2>{{t 'Action taken'}}</h2>
+    <p>{{nl2br fields.actions}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>
