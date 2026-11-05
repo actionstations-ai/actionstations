@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Facilitator summary",
+  "description": "A summary for the instructor of a case study run by a class: runs, mean score by step of clinical judgment, the questions that were hardest and each learner's overall score (visible to the instructor; learners are told). Not NCLEX scores.",
+  "required": ["title", "steps"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 FACILITATOR GUIDE"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Case title",
+      "examples": ["Sepsis after surgery"]
+    },
+    "runs": {
+      "type": "integer",
+      "description": "Finished runs counted"
+    },
+    "groups": {
+      "type": "integer",
+      "description": "How many were group runs"
+    },
+    "overall": {
+      "type": ["integer", "null"],
+      "description": "Overall percent, or null"
+    },
+    "steps": {
+      "type": "array",
+      "description": "The six steps (1-6)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Step",
+            "examples": ["Recognize cues"]
+          },
+          "answers": {
+            "type": "integer",
+            "description": "Answers"
+          },
+          "percent": {
+            "type": "string",
+            "description": "Mean percent or n/a",
+            "examples": ["82%"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["label", "percent"]
+      },
+      "minItems": 1
+    },
+    "hardest": {
+      "type": "array",
+      "description": "The hardest questions (0-5)",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string",
+            "description": "Step",
+            "examples": ["Take action"]
+          },
+          "question": {
+            "type": "string",
+            "description": "Question",
+            "examples": ["What do you do now?"]
+          },
+          "percent": {
+            "type": "integer",
+            "description": "Mean percent"
+          },
+          "answers": {
+            "type": "integer",
+            "description": "Answers"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "learners": {
+      "type": "array",
+      "description": "One row per run (0-60)",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Label",
+            "examples": ["Group A"]
+          },
+          "mode": {
+            "type": "string",
+            "description": "Individual or group",
+            "examples": ["Group"]
+          },
+          "percent": {
+            "type": "integer",
+            "description": "Overall percent"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scoreNote": {
+      "type": "string",
+      "description": "Scale note",
+      "examples": ["Scores use this app's own scale."]
+    },
+    "privacyNote": {
+      "type": "string",
+      "description": "Who sees what",
+      "examples": ["Individual results are visible to the instructor."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

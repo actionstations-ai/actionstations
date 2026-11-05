@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Simulation program record",
+  "description": "A record a nursing program can attach to its own documentation: each simulation session with its hours and whether prebriefing, facilitation, professional integrity and debriefing were done and by whom, with total hours. Hours are counted for the program's use; whether simulation counts toward clinical requirements is set by the program and its state board.",
+  "required": ["program", "sessions", "totalHours"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Marking",
+      "examples": ["PROGRAM RECORD"]
+    },
+    "program": {
+      "type": "string",
+      "description": "Program or organization name",
+      "examples": ["Cedar Hollow School of Nursing (fictional)"]
+    },
+    "sessions": {
+      "type": "array",
+      "description": "Sessions in date order (1-30)",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date",
+            "examples": ["2026-11-04"]
+          },
+          "title": {
+            "type": "string",
+            "description": "Session title",
+            "examples": ["Sepsis after surgery"]
+          },
+          "hours": {
+            "type": "number",
+            "description": "Simulation hours"
+          },
+          "facilitator": {
+            "type": "string",
+            "description": "Facilitator",
+            "examples": ["A. Brooks"]
+          },
+          "participants": {
+            "type": "integer",
+            "description": "Participants"
+          },
+          "prebrief": {
+            "type": "string",
+            "description": "Prebriefing status",
+            "examples": ["Done, A. Brooks 2026-11-04"]
+          },
+          "facilitation": {
+            "type": "string",
+            "description": "Facilitation status",
+            "examples": ["Done, A. Brooks 2026-11-04"]
+          },
+          "integrity": {
+            "type": "string",
+            "description": "Professional integrity status",
+            "examples": ["Done, A. Brooks 2026-11-04"]
+          },
+          "debrief": {
+            "type": "string",
+            "description": "Debriefing status",
+            "examples": ["Done, A. Brooks 2026-11-04"]
+          },
+          "checkIn": {
+            "type": "string",
+            "description": "Debrief check-in held",
+            "examples": ["Yes"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["date", "title", "hours"]
+      },
+      "minItems": 1
+    },
+    "totalHours": {
+      "type": "number",
+      "description": "Total simulation hours"
+    },
+    "hoursNote": {
+      "type": "string",
+      "description": "The note on hours",
+      "examples": ["Hours are counted for the program's own use."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

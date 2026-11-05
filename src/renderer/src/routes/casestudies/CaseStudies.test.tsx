@@ -9,6 +9,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { PlayView } from '@shared/ipc'
 import { mockTtx, renderAt, PROJECT } from '../documents/test-utils'
 import CaseStudiesPage from './CaseStudiesPage'
+import { EducationPanel } from './EducationPanel'
 import { PlayerView } from './PlayerView'
 
 afterEach(cleanup)
@@ -291,13 +292,60 @@ describe('the library', () => {
       ],
     })
     renderAt('/x', '/x', CaseStudiesPage as never)
-    await screen.findByText('Reviewed case')
+    await screen.findByRole('heading', { name: 'Reviewed case' })
     expect(screen.getByText('Reviewed')).toBeTruthy()
     expect(screen.getByText('Draft')).toBeTruthy()
     expect(screen.getByText(/Includes a death/)).toBeTruthy()
     const plays = screen.getAllByRole('button', { name: 'Play' }) as HTMLButtonElement[]
     expect(plays.map((b) => b.disabled)).toEqual([false, true])
     expect(screen.getByRole('button', { name: 'Preview as the author' })).toBeTruthy()
+    expect(await violations()).toEqual([])
+  })
+})
+
+describe('the education record', () => {
+  const record = {
+    id: 'r1',
+    title: 'Sepsis after surgery',
+    date: '2026-11-04',
+    hours: 3,
+    facilitator: 'A. Brooks',
+    participants: 12,
+    objectives: [],
+    cornerstones: {
+      prebrief: { done: true, by: 'A. Brooks', at: '2026-11-04T09:00:00.000Z' },
+      facilitation: { done: false },
+      professional_integrity: { done: false },
+      debrief: { done: false },
+    },
+    debriefCheckIn: false,
+    contentNoticeShown: false,
+    createdAt: '2026-11-04T08:00:00.000Z',
+    updatedAt: '2026-11-04T08:00:00.000Z',
+  }
+
+  it('says who did what, needs a name to mark a cornerstone, shows the hours note and has no axe violations', async () => {
+    const ttx = mockTtx({
+      'education:list': () => [record] as never,
+      'education:cornerstone': () => record as never,
+    })
+    renderAt('/x', '/x', () => <EducationPanel projectPath={PROJECT} cases={[]} />)
+    await screen.findByText('Sepsis after surgery')
+    expect(screen.getByText(/state board of nursing; this app does not decide it/)).toBeTruthy()
+    expect(screen.getByText('3 not recorded')).toBeTruthy()
+    const mark = screen.getAllByRole('button', { name: 'Mark done' })[0] as HTMLButtonElement
+    expect(mark.disabled).toBe(true)
+    fireEvent.change(screen.getByLabelText('Who did facilitation'), {
+      target: { value: 'A. Brooks' },
+    })
+    expect(mark.disabled).toBe(false)
+    fireEvent.click(mark)
+    await waitFor(() => expect(ttx.calls('education:cornerstone')).toHaveLength(1))
+    expect(ttx.calls('education:cornerstone')[0]).toMatchObject({
+      cornerstone: 'facilitation',
+      done: true,
+      by: 'A. Brooks',
+    })
     expect(await violations()).toEqual([])
   })
 })

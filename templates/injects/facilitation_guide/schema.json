@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Facilitation guide with cue cards",
+  "description": "A facilitator's guide for a case study or simulation: how to hold the room and one cue card per stage with what to watch for, the cue to give in the patient's voice, what to ask if the group is stuck and when to move on.",
+  "required": ["title", "cueCards"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 FACILITATOR GUIDE"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Case or scenario title",
+      "examples": ["Sepsis after surgery"]
+    },
+    "roleNote": {
+      "type": "string",
+      "description": "How to facilitate",
+      "examples": ["Stay out of the way until the group has answered."]
+    },
+    "cueCards": {
+      "type": "array",
+      "description": "One card per stage (1-12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string",
+            "description": "Stage title and time",
+            "examples": ["First assessment (08:10)"]
+          },
+          "watchFor": {
+            "type": "array",
+            "maxItems": 6,
+            "description": "What to watch for",
+            "items": {
+              "type": "string",
+              "description": "What to watch for",
+              "examples": ["Recognize cues: which observations matter?"]
+            }
+          },
+          "cue": {
+            "type": "string",
+            "description": "The cue to give",
+            "examples": ["Patient: 'I just feel a bit off today.'"]
+          },
+          "ifStuck": {
+            "type": "string",
+            "description": "What to ask if the group is stuck",
+            "examples": ["Which numbers moved?"]
+          },
+          "moveOn": {
+            "type": "string",
+            "description": "When to move on",
+            "examples": ["When every question is answered."]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["stage"]
+      },
+      "minItems": 1
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

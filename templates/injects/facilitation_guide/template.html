@@ -1,0 +1,36 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · FACILITATOR GUIDE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">Facilitation guide</div>
+      <h1 class="title">{{fields.title}}</h1>
+    </div>
+  </header>
+  {{#if fields.roleNote}}
+  <p class="note">{{fields.roleNote}}</p>
+  {{/if}} {{#each fields.cueCards}}
+  <h2>{{inc @index}}. {{this.stage}}</h2>
+  <table class="patient">
+    <tr>
+      <th scope="row">Watch for</th>
+      <td>{{#each this.watchFor}}{{#unless @first}}<br />{{/unless}}{{this}}{{/each}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Cue</th>
+      <td>{{this.cue}}</td>
+    </tr>
+    <tr>
+      <th scope="row">If stuck</th>
+      <td>{{this.ifStuck}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Move on</th>
+      <td>{{this.moveOn}}</td>
+    </tr>
+  </table>
+  {{/each}}
+  <footer class="foot">
+    <span>Facilitated by: ____________________ Date: ____________</span
+    ><span>Exercise content</span>
+  </footer>
+</section>
