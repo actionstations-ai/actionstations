@@ -1,0 +1,44 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{fields.jic}}</div>
+    <div class="kind">{{t 'Briefing schedule'}}</div>
+  </header>
+  <div class="issued">{{fields.period}}</div>
+  <h1 class="headline">{{fields.incident}}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{{t 'Time'}}</th>
+        <th scope="col">{{t 'Event'}}</th>
+        <th scope="col">{{t 'Who'}}</th>
+        <th scope="col">{{t 'Channel'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr>
+        <th scope="row" class="tm">{{this.time}}</th>
+        <td>{{this.event}}</td>
+        <td>{{this.who}}</td>
+        <td>{{this.channel}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.notes}}
+  <section class="block notes">
+    <h2>{{t 'Notes'}}</h2>
+    <p>{{fields.notes}}</p>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>{{fields.leadPio}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

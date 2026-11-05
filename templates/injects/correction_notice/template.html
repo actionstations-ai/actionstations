@@ -1,0 +1,42 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{fields.publisher}}</div>
+    <div class="kind">
+      {{#if (eq variant 'retraction')}}{{t 'Retraction'}}{{else}}{{t 'Correction'}}{{/if}}
+    </div>
+  </header>
+  {{#if fields.issuedAt}}
+  <div class="issued">{{fields.issuedAt}}</div>
+  {{/if}} {{#if fields.headline}}
+  <h1 class="headline">{{fields.headline}}</h1>
+  {{/if}} {{#if fields.original}}
+  <section class="block">
+    <h2>{{t 'Where it ran'}}</h2>
+    <p>{{fields.original}}</p>
+  </section>
+  {{/if}}
+  <section class="block wrong">
+    <h2>{{t 'What was wrong'}}</h2>
+    <p>{{fields.wasWrong}}</p>
+  </section>
+  <section class="block right">
+    <h2>{{t 'What is right'}}</h2>
+    <p>{{fields.isRight}}</p>
+  </section>
+  {{#if fields.actionTaken}}
+  <section class="block">
+    <h2>{{t 'What we did'}}</h2>
+    <p>{{fields.actionTaken}}</p>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>{{fields.editor}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

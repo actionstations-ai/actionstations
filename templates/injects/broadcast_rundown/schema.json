@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Broadcast rundown",
+  "description": "A newscast rundown with slots, segment titles, talent, sources, run time and status, plus an optional segment script. Station and people are fictional.",
+  "type": "object",
+  "required": ["station", "show", "airTime", "rows"],
+  "properties": {
+    "station": {
+      "type": "string",
+      "description": "Fictional station name",
+      "examples": ["Harborview 7 News"],
+      "x-translate": false
+    },
+    "show": {
+      "type": "string",
+      "description": "Newscast name",
+      "examples": ["6 PM Newscast"]
+    },
+    "airTime": {
+      "type": "string",
+      "description": "Air time with date",
+      "examples": ["November 4, 2026 · 6:00 PM ET"],
+      "x-translate": false
+    },
+    "rows": {
+      "type": "array",
+      "description": "Rundown rows in order",
+      "items": {
+        "type": "object",
+        "required": ["slot", "segment"],
+        "properties": {
+          "slot": {
+            "type": "string",
+            "description": "Slot id",
+            "examples": ["A1"],
+            "x-translate": false
+          },
+          "segment": {
+            "type": "string",
+            "description": "Segment title",
+            "examples": ["Plant fire video"]
+          },
+          "talent": {
+            "type": "string",
+            "description": "Anchor or reporter",
+            "examples": ["Mia Okafor"],
+            "x-translate": false
+          },
+          "source": {
+            "type": "string",
+            "description": "Source of the material",
+            "examples": ["Viewer video (UNVERIFIED)"]
+          },
+          "runtime": {
+            "type": "string",
+            "description": "Run time",
+            "examples": ["1:30"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["HOLD pending verification"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "script": {
+      "type": "string",
+      "description": "Optional script for the key segment, read by the anchor",
+      "examples": [
+        "Tonight: a video appears to show a fire at a Lakeshore plant. We are checking it."
+      ]
+    },
+    "producer": {
+      "type": "string",
+      "description": "Producer",
+      "examples": ["Producer: Sam Delgado"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

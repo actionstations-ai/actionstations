@@ -1,0 +1,66 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{fields.org}}</div>
+    <div class="kind">{{t 'Message map'}}</div>
+  </header>
+  {{#if fields.issuedAt}}
+  <div class="issued">{{fields.issuedAt}}{{#if fields.audience}} · {{fields.audience}}{{/if}}</div>
+  {{/if}}
+  <h1 class="headline">{{fields.title}}</h1>
+  <section class="block">
+    <h2>{{t 'Key messages'}}</h2>
+    <ol>
+      {{#each fields.keyMessages}}
+      <li>
+        <b>{{this.message}}</b> {{#if this.proofPoints}}
+        <ul>
+          {{#each this.proofPoints}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+        {{/if}}
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{#if fields.hardQuestions}}
+  <section class="block">
+    <h2>{{t 'Hard questions'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Question'}}</th>
+          <th scope="col">{{t 'Answer'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.hardQuestions}}
+        <tr>
+          <td>{{this.question}}</td>
+          <td>{{this.answer}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{/if}} {{#if fields.doNotSay}}
+  <section class="block">
+    <h2>{{t 'Do not say'}}</h2>
+    <ul>
+      {{#each fields.doNotSay}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>{{fields.approvedBy}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Verification note",
+  "description": "What a verification desk checked on an item, in order, what each check found, the verdict (Verified, False, Unverified or Hold) and a confidence (Low, Medium or High). Never include a working link to a real site or a real person's image. Names are fictional.",
+  "type": "object",
+  "required": ["item", "checks", "verdict", "confidence"],
+  "properties": {
+    "desk": {
+      "type": "string",
+      "description": "Desk or outlet (fictional)",
+      "examples": ["Harborview 7 News verification desk"],
+      "x-translate": false
+    },
+    "item": {
+      "type": "string",
+      "description": "What was checked",
+      "examples": ["Viewer video of a fire at a Lakeshore plant"]
+    },
+    "receivedAt": {
+      "type": "string",
+      "description": "When the item was received",
+      "examples": ["November 4, 2026 · 5:31 PM ET"],
+      "x-translate": false
+    },
+    "checkedBy": {
+      "type": "string",
+      "description": "Who checked it",
+      "examples": ["Verification editor: Noor Haddad"],
+      "x-translate": false
+    },
+    "checks": {
+      "type": "array",
+      "description": "Checks in the order done",
+      "items": {
+        "type": "object",
+        "required": ["check", "result"],
+        "properties": {
+          "check": {
+            "type": "string",
+            "description": "The check",
+            "examples": ["Reverse image search"]
+          },
+          "result": {
+            "type": "string",
+            "description": "What it found",
+            "examples": ["An earlier copy of the video appears in a 2022 post."]
+          },
+          "minutes": {
+            "type": "string",
+            "description": "Minutes spent",
+            "examples": ["6"],
+            "x-translate": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["Verified", "False", "Unverified", "Hold"],
+      "description": "Verdict"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["Low", "Medium", "High"],
+      "description": "Confidence in the verdict"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Why, in two or three sentences",
+      "examples": ["The video predates the event by two years, so it cannot show Tuesday's events."]
+    },
+    "nextStep": {
+      "type": "string",
+      "description": "What to do next",
+      "examples": ["Hold the segment; ask the company and the fire department for comment."]
+    }
+  },
+  "additionalProperties": false
+}

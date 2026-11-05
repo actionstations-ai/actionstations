@@ -1,0 +1,18 @@
+<article class="blog">
+  <header class="mast"><span class="outlet">{{fields.outlet}}</span></header>
+  <h1><span class="live">{{default fields.status "LIVE"}}</span> {{fields.title}}</h1>
+  <ol class="feed">
+    {{#each fields.updates}}
+    <li>
+      <div class="when">
+        <b>{{this.time}}</b>{{#if this.label}} <span class="tag">{{this.label}}</span>{{/if}}
+      </div>
+      <p>{{this.text}}</p>
+      {{#if this.byline}}
+      <div class="by">{{this.byline}}</div>
+      {{/if}}
+    </li>
+    {{/each}}
+  </ol>
+  <footer class="sim">{{t 'EXERCISE MATERIAL: fictional outlet'}}</footer>
+</article>

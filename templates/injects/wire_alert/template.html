@@ -1,0 +1,18 @@
+<article class="wire level-{{variant}}">
+  <header class="bar">
+    <span class="name">{{fields.wireName}}</span>
+    <span class="level"
+      >{{#if (eq variant 'flash')}}{{t 'FLASH'}}{{else if (eq variant 'bulletin')}}{{t
+      'BULLETIN'}}{{else}}{{t 'UPDATE'}}{{/if}}</span
+    >
+  </header>
+  <div class="meta">
+    {{#if fields.priority}}<b>{{fields.priority}}</b> · {{/if}}<span>{{fields.slug}}</span> ·
+    <span>{{fields.time}}</span>
+  </div>
+  <p class="text">{{#if fields.dateline}}<b>{{fields.dateline}} — </b>{{/if}}{{fields.text}}</p>
+  {{#if fields.editorsNote}}
+  <p class="note"><b>{{t 'Editors note:'}}</b> {{fields.editorsNote}}</p>
+  {{/if}}
+  <footer class="sim">{{t 'EXERCISE MATERIAL: fictional wire service'}}</footer>
+</article>

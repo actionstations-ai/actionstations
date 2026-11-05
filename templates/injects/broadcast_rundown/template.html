@@ -1,0 +1,48 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{fields.station}}</div>
+    <div class="kind">{{t 'Rundown'}}</div>
+  </header>
+  <div class="issued">{{fields.airTime}}</div>
+  <h1 class="headline">{{fields.show}}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{{t 'Slot'}}</th>
+        <th scope="col">{{t 'Segment'}}</th>
+        <th scope="col">{{t 'Talent'}}</th>
+        <th scope="col">{{t 'Source'}}</th>
+        <th scope="col">{{t 'Run'}}</th>
+        <th scope="col">{{t 'Status'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rows}}
+      <tr>
+        <th scope="row" class="slot">{{this.slot}}</th>
+        <td>{{this.segment}}</td>
+        <td>{{this.talent}}</td>
+        <td>{{this.source}}</td>
+        <td>{{this.runtime}}</td>
+        <td class="st">{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.script}}
+  <section class="block script">
+    <h2>{{t 'Segment script'}}</h2>
+    <p>{{fields.script}}</p>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>{{fields.producer}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

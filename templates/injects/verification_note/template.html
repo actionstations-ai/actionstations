@@ -1,0 +1,51 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div class="org">{{default fields.desk "Verification desk"}}</div>
+    <div class="kind">{{t 'Verification note'}}</div>
+  </header>
+  <div class="issued">{{#if fields.receivedAt}}{{t 'Received'}} {{fields.receivedAt}}{{/if}}</div>
+  <h1 class="headline">{{fields.item}}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{{t 'Check'}}</th>
+        <th scope="col">{{t 'Result'}}</th>
+        <th scope="col">{{t 'Min'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.checks}}
+      <tr>
+        <th scope="row" class="ck">{{this.check}}</th>
+        <td>{{this.result}}</td>
+        <td>{{this.minutes}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <section class="verdict v-{{lower fields.verdict}}">
+    <span class="vlabel">{{t 'Verdict'}}</span> <b>{{fields.verdict}}</b>
+    <span class="vlabel">{{t 'Confidence'}}</span> <b>{{fields.confidence}}</b>
+  </section>
+  {{#if fields.reasoning}}
+  <section class="block">
+    <h2>{{t 'Reasoning'}}</h2>
+    <p>{{fields.reasoning}}</p>
+  </section>
+  {{/if}} {{#if fields.nextStep}}
+  <section class="block">
+    <h2>{{t 'Next step'}}</h2>
+    <p>{{fields.nextStep}}</p>
+  </section>
+  {{/if}}
+  <footer class="foot">
+    <span>{{fields.checkedBy}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

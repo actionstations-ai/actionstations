@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Wire alert",
+  "description": "A wire service alert in a fictional wire service style: a slug, a level (flash, bulletin or update), a dateline, a time stamp and short text. A flash is one line. Use only fictional wire service names; never imitate a real wire service.",
+  "type": "object",
+  "required": ["wireName", "slug", "time", "text"],
+  "properties": {
+    "wireName": {
+      "type": "string",
+      "description": "Fictional wire service name",
+      "examples": ["Meridian Wire"],
+      "x-translate": false
+    },
+    "slug": {
+      "type": "string",
+      "description": "Slug in capitals",
+      "examples": ["PLANT-FIRE-VIDEO"],
+      "x-translate": false
+    },
+    "dateline": {
+      "type": "string",
+      "description": "Dateline in capitals",
+      "examples": ["LAKESHORE, Ohio"],
+      "x-translate": false
+    },
+    "time": {
+      "type": "string",
+      "description": "Time stamp with zone, consistent with the exercise clock",
+      "examples": ["Nov 4 · 5:46 PM ET"],
+      "x-translate": false
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority line",
+      "examples": ["URGENT"],
+      "x-translate": false
+    },
+    "text": {
+      "type": "string",
+      "description": "Alert text. Flash: one line. Bulletin: two to four lines. Update: new details with attribution.",
+      "examples": ["Video said to show fire at Halyard plant; company says no fire reported."]
+    },
+    "editorsNote": {
+      "type": "string",
+      "description": "Optional editors note",
+      "examples": ["Meridian Wire has not verified the video."]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,67 @@
+<div class="page" style="--accent: {{default brand.primaryColor '#1f3a5f'}}">
+  <header class="lh">
+    {{#if brand.logo}}<img class="logo" src="{{brand.logo}}" alt="" />{{else}}
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <path d="M12 30V18l12-6 12 6v12l-12 6z" />
+    </svg>
+    {{/if}}
+    <div>
+      <div class="org">{{fields.org}}</div>
+      {{#if fields.orgAddress}}
+      <div class="addr">{{fields.orgAddress}}</div>
+      {{/if}}
+    </div>
+    <div class="kind">
+      {{#if fields.kindLabel}}{{fields.kindLabel}}{{else if (eq variant 'full')}}{{t
+      'Statement'}}{{else}}{{t 'Holding statement'}}{{/if}}
+    </div>
+  </header>
+
+  <div class="issued">{{fields.issuedAt}}</div>
+  <h1 class="headline">{{fields.headline}}</h1>
+
+  {{#if (eq variant 'full')}}
+  <div class="body">{{nl2br fields.body}}</div>
+  {{else}} {{#if fields.known}}
+  <section class="block">
+    <h2>{{t 'What we know'}}</h2>
+    <ul>
+      {{#each fields.known}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}} {{#if fields.notKnown}}
+  <section class="block">
+    <h2>{{t 'What we do not yet know'}}</h2>
+    <ul>
+      {{#each fields.notKnown}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}} {{#if fields.beingDone}}
+  <section class="block">
+    <h2>{{t 'What we are doing'}}</h2>
+    <ul>
+      {{#each fields.beingDone}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}} {{/if}} {{#if fields.quote}}
+  <blockquote class="quote">
+    “{{fields.quote}}” {{#if fields.speakerName}}<cite>{{fields.speakerName}}</cite>{{/if}}
+  </blockquote>
+  {{/if}} {{#if fields.nextUpdate}}
+  <p class="next">{{fields.nextUpdate}}</p>
+  {{/if}} {{#if fields.mediaContact}}
+  <p class="contact">{{fields.mediaContact}}</p>
+  {{/if}}
+
+  <footer class="foot">
+    <span>{{#if fields.approvedBy}}{{fields.approvedBy}}{{/if}}</span>
+    <span>{{t 'EXERCISE MATERIAL: fictional organization and people'}}</span>
+  </footer>
+</div>

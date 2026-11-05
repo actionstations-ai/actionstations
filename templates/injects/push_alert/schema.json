@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "News push alert",
+  "description": "A phone notification from a news app: outlet name, time, one or two sentences. Outlet is fictional.",
+  "type": "object",
+  "required": ["outlet", "time", "text"],
+  "properties": {
+    "outlet": {
+      "type": "string",
+      "description": "Fictional outlet app name",
+      "examples": ["Lakeshore Courier"],
+      "x-translate": false
+    },
+    "time": {
+      "type": "string",
+      "description": "Time shown",
+      "examples": ["5:44 PM"],
+      "x-translate": false
+    },
+    "label": {
+      "type": "string",
+      "description": "Short label",
+      "examples": ["BREAKING"],
+      "x-translate": false
+    },
+    "text": {
+      "type": "string",
+      "description": "One or two sentences, attributed",
+      "examples": ["Video said to show fire at Halyard plant. The Courier has not verified it."]
+    }
+  },
+  "additionalProperties": false
+}

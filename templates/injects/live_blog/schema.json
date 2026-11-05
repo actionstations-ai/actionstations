@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Live blog",
+  "description": "A news website live blog: an outlet, a title with a LIVE label, and timestamped updates, newest first, each attributed. Update entries that correct earlier ones say so. Outlet and people are fictional.",
+  "type": "object",
+  "required": ["outlet", "title", "updates"],
+  "properties": {
+    "outlet": {
+      "type": "string",
+      "description": "Fictional outlet",
+      "examples": ["The Lakeshore Courier"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Live blog title",
+      "examples": ["Live updates: video of plant fire spreads online"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status label",
+      "examples": ["LIVE"],
+      "x-translate": false
+    },
+    "updates": {
+      "type": "array",
+      "description": "Updates, newest first",
+      "items": {
+        "type": "object",
+        "required": ["time", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time with zone",
+            "examples": ["7:12 PM ET"],
+            "x-translate": false
+          },
+          "label": {
+            "type": "string",
+            "description": "Label such as UPDATE or CORRECTION",
+            "examples": ["CORRECTION"],
+            "x-translate": false
+          },
+          "text": {
+            "type": "string",
+            "description": "Update text with attribution"
+          },
+          "byline": {
+            "type": "string",
+            "description": "Reporter",
+            "examples": ["Alicia Romero"],
+            "x-translate": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
