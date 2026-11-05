@@ -411,6 +411,7 @@ async function stepOverview(input: StepInput): Promise<StageRun> {
 async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
   const r = await call<ObjectivesRolesOutput>(input, vars(input))
   applyObjectivesRoles(input.scenario, r.output)
+  holdFixedObjectives(input.scenario)
   capToAudience(input)
   await writeDoc(
     input.env,
@@ -420,6 +421,15 @@ async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
     'objectives_roles',
   )
   return r.run
+}
+
+/**
+ * A classroom make-up version keeps the original's objectives exactly (same ids and words), so
+ * the instructor's outcome mapping and rubrics carry over. The model still writes the roles.
+ */
+export function holdFixedObjectives(s: Scenario): void {
+  const fixed = s.brief.fixedObjectives
+  if (fixed?.length) s.objectives = structuredClone(fixed)
 }
 
 /** No more player roles than the brief's audience list has entries (#174). */

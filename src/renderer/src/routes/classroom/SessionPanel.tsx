@@ -76,6 +76,16 @@ export function SessionPanel({ projectPath, state }: Props) {
       'Open it from the Surveys panel during the live session.',
     )
   }
+  const makeup = async () => {
+    const ok = await change('Could not start the make-up version', () =>
+      call('classroom:create-makeup', { projectPath, scenarioId }),
+    )
+    if (ok)
+      toast.success(
+        'Make-up version started',
+        'It keeps the objectives, outcomes and rubrics. Find it in Scenarios when generation finishes.',
+      )
+  }
   if (sections.length === 0 || !scenarioId)
     return <EmptyState title="No session to set up" body="Add a section and a scenario first." />
   return (
@@ -169,6 +179,9 @@ export function SessionPanel({ projectPath, state }: Props) {
         </Button>
         <Button disabled={!saved} onClick={() => void reflection()}>
           Save the reflection survey
+        </Button>
+        <Button disabled={!saved} onClick={() => void makeup()}>
+          Create a make-up version
         </Button>
         <Button
           disabled={!current.sectionId}

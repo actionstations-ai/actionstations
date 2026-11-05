@@ -111,6 +111,11 @@ export const classroomScoringChannels = {
    * the live Surveys panel: its answers are linked to the student, for the instructor only.
    */
   'classroom:reflection-survey': channel(S, z.object({ surveyId: SafeId })),
+  /**
+   * Start a make-up version of a scenario: a new scenario with the same objectives, mapped
+   * outcomes and rubrics, and different facts, generated through the normal stages.
+   */
+  'classroom:create-makeup': channel(S, z.object({ scenarioId: SafeId, jobId: SafeId })),
   /** Plan roles for a section across sessions, keeping hand-locked assignments, and save it. */
   'classroom:rotation-plan': channel(
     P.extend({
