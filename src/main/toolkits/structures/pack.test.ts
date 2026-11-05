@@ -30,8 +30,8 @@ const readJson = (...parts: string[]): unknown =>
 
 const toolkit = ToolkitSchema.parse(readJson('packs', 'toolkits', 'structures.json'))
 const domain = DomainProfile.parse(readJson('packs', 'domains', 'construction.json'))
-/** The placard template belongs to the earthquake toolkit; this toolkit offers it by id. */
-const OWN = toolkit.injectTypes.filter((t) => t !== 'building_placard')
+/** The placard template belongs to the earthquake toolkit, which the construction domain suggests. */
+const OWN = toolkit.injectTypes
 
 describe('structures toolkit', () => {
   it('is named by its file and carries the field vocabulary', () => {
@@ -49,9 +49,11 @@ describe('structures toolkit', () => {
   })
 
   it('reuses the earthquake toolkit placard instead of duplicating it', () => {
-    expect(toolkit.injectTypes).toContain('building_placard')
+    // A pack lists only its own templates and built-in types, so the placard comes with the
+    // earthquake toolkit, which the construction domain suggests beside this one.
     const seismic = ToolkitSchema.parse(readJson('packs', 'toolkits', 'seismic.json'))
     expect(seismic.injectTypes).toContain('building_placard')
+    expect(domain.suggestedToolkits).toContain('seismic')
     expect(OWN).not.toContain('building_placard')
     expect(OWN.length).toBeGreaterThanOrEqual(12)
   })

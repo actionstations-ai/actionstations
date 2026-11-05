@@ -90,7 +90,8 @@ function packUserData(types: string[]): string {
 }
 
 test('every template × variant matches its golden PNG and renders deterministically', async () => {
-  test.setTimeout(180_000)
+  // Two renders per template variant, in sequence: the time grows with every field pack.
+  test.setTimeout(600_000)
   rmSync(DIFF_DIR, { recursive: true, force: true })
   const types = PACK ? packTypes() : []
   if (PACK) expect(types.length, `no templates in ${TEMPLATES}`).toBeGreaterThan(0)

@@ -182,7 +182,7 @@ describe('when turned on', () => {
       await import('../../toolkits/connectors/wildfire-firms')
     expect(AIRNOW_SECRET).toBe(AIRNOW_KEY_ID)
     expect(FIRMS_SECRET).toBe(FIRMS_KEY_ID)
-    const AIRKEY = 'abcdef12-3456-7890-abcd-ef1234567890'
+    const AIRKEY = 'abcdef12-3456-7890-abcd-ef1234567890' // gitleaks:allow (a made-up test key)
     expect(await call('hazards:airnow-key-set', { key: AIRKEY })).toMatchObject({
       hasAirnowKey: true,
       hasFirmsKey: false,
