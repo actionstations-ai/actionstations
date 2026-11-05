@@ -10,6 +10,7 @@ import { Empty, ItemActions, StringList, TextField } from './inputs'
 import { moveItem, replaceAt } from './list-utils'
 import { PartFrame, type PartEditorProps } from './PartFrame'
 import { ProgramTagFields } from './ProgramTagFields'
+import { PrepFields } from './PrepFields'
 import { useScenarioPart, type PartSpec } from './use-scenario-part'
 
 type Update = (fn: (c: ConductDetails) => ConductDetails) => void
@@ -299,6 +300,12 @@ export function ConductDetailsEditor(props: PartEditorProps) {
       <DirectorFields c={c} update={update} />
       <SiteFields c={c} update={update} />
       <ProgramTagFields projectPath={props.projectPath} c={c} update={update} />
+      <PrepFields
+        c={c}
+        update={update}
+        projectPath={props.projectPath}
+        scenarioId={props.scenario.id}
+      />
       <CommunicationsFields c={c} update={update} />
       <AcronymFields c={c} update={update} seed={seed} />
     </PartFrame>

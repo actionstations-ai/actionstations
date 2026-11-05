@@ -42,6 +42,7 @@ import { simcellChannels, simcellEvents } from './simcell'
 import { mapsChannels } from './maps'
 import { hazardChannels } from './hazards'
 import { toolkitChannels } from './toolkits'
+import { prepChannels } from './prep'
 import { caseDataChannels } from './case-data'
 import { classroomChannels } from './classroom'
 import { classroomScoringChannels } from './classroom-scoring'
@@ -196,6 +197,7 @@ export const channels = mergeChannels(
   mapsChannels,
   hazardChannels,
   toolkitChannels,
+  prepChannels,
   caseDataChannels,
   classroomChannels,
   classroomScoringChannels,
