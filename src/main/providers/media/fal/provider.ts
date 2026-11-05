@@ -1,8 +1,6 @@
 // fal.ai media provider: images and short video through fal's queue API. A job is submitted to
 // queue.fal.run/{model}, followed through the status link in fal's answer until it completes,
 // and the finished file is downloaded at once (fal's output links expire).
-import { promises as fs } from 'node:fs'
-import { extname, join } from 'node:path'
 import type { ProviderConfig, ProviderHealth } from '@shared/schemas'
 import { AppError } from '../../../lib/errors'
 import { joinUrl, request, requestJson } from '../../http'
@@ -14,7 +12,6 @@ import type {
   MediaProgress,
   MediaProvider,
 } from '../../types'
-import { pngSize } from '../comfyui/provider'
 import {
   buildInputs,
   effectiveInputs,
@@ -22,19 +19,15 @@ import {
   requestedDuration,
   type ModelInputs,
 } from '../cloud-video/inputs'
-import { downloadMedia, type Downloaded } from '../cloud-video/download'
+import { downloadMedia } from '../cloud-video/download'
+import { saveDownloaded } from '../cloud-video/files'
+import { fitStartingImage, IMAGE_BUDGET } from '../cloud-video/image-fit'
 import { pollUntil, type PollStep } from '../cloud-video/poll'
 
 export const FAL_BASE_URL = 'https://queue.fal.run'
 const VENDOR = 'fal.ai'
 const TIMEOUT_MS = { image: 3 * 60_000, video: 15 * 60_000 } as const
 const MODEL_ID = /^[A-Za-z0-9][A-Za-z0-9._-]*(\/[A-Za-z0-9][A-Za-z0-9._-]*)+$/
-const IMAGE_MIME: Record<string, string> = {
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-}
 
 interface Submitted {
   request_id?: string
@@ -166,7 +159,10 @@ export class FalMediaProvider implements MediaProvider {
         : job.brief.imagePrompt
     )?.trim()
     if (!prompt) throw new AppError('VALIDATION', `The media brief has no ${job.kind} prompt`)
-    const imageUri = map.image && job.inputImagePath ? await dataUri(job.inputImagePath) : undefined
+    const imageUri =
+      map.image && job.inputImagePath
+        ? await fitStartingImage(job.inputImagePath, IMAGE_BUDGET.fal)
+        : undefined
     if (job.kind === 'video' && map.imageRequired && !imageUri)
       throw new AppError(
         'VALIDATION',
@@ -212,7 +208,20 @@ export class FalMediaProvider implements MediaProvider {
       providerHost: new URL(this.base).hostname,
       ...(job.signal ? { signal: job.signal } : {}),
     })
-    const out = await this.save(job, kind, downloaded, file, map, model, body)
+    const out = await saveDownloaded(
+      job,
+      kind,
+      downloaded,
+      {
+        width: file.width,
+        height: file.height,
+        durationSec:
+          kind === 'video' ? (file.duration ?? requestedDuration(map, job.brief)) : undefined,
+        model,
+        prompt: String(body[map.prompt] ?? ''),
+      },
+      this.id,
+    )
     onProgress?.({ progress: 1, message: 'Media ready' })
     return [out]
   }
@@ -294,43 +303,6 @@ export class FalMediaProvider implements MediaProvider {
       // The job may already be done or gone; nothing more to do.
     }
   }
-
-  private async save(
-    job: MediaJob,
-    kind: 'image' | 'video',
-    file: Downloaded,
-    meta: FalFile,
-    map: ModelInputs,
-    model: string,
-    body: Record<string, unknown>,
-  ): Promise<MediaOutput> {
-    await fs.mkdir(job.outDir, { recursive: true })
-    const stamp = Date.now()
-    const filePath = join(job.outDir, `${job.injectId}-${kind}-${stamp}-1${file.extension}`)
-    await fs.writeFile(filePath, file.bytes)
-    const size = file.mimeType === 'image/png' ? pngSize(file.bytes) : undefined
-    const width = meta.width ?? size?.width
-    const height = meta.height ?? size?.height
-    const duration =
-      kind === 'video' ? (meta.duration ?? requestedDuration(map, job.brief)) : undefined
-    const poster = kind === 'video' ? await copyPoster(job, stamp) : undefined
-    return {
-      kind,
-      filePath,
-      mimeType: file.mimeType,
-      ...(width ? { width } : {}),
-      ...(height ? { height } : {}),
-      ...(duration ? { durationSec: duration } : {}),
-      ...(poster ? { posterPath: poster } : {}),
-      provenance: {
-        provider: this.id,
-        model,
-        prompt: String(body[map.prompt] ?? ''),
-        ...(job.brief.negativePrompt ? { negativePrompt: job.brief.negativePrompt } : {}),
-        ...(job.seed !== undefined ? { seed: job.seed } : {}),
-      },
-    }
-  }
 }
 
 /** Queue position while waiting; a slowly rising estimate once a runner has the job. */
@@ -355,21 +327,4 @@ export function pickFile(result: unknown, kind: 'image' | 'video'): FalFile | un
   const list = kind === 'image' ? result.images : result.videos
   if (Array.isArray(list) && isRecord(list[0])) return list[0] as FalFile
   return undefined
-}
-
-async function dataUri(path: string): Promise<string> {
-  const mime = IMAGE_MIME[extname(path).toLowerCase()] ?? 'image/png'
-  const bytes = await fs.readFile(path)
-  return `data:${mime};base64,${bytes.toString('base64')}`
-}
-
-/** The starting image doubles as the clip's poster frame, as in the ComfyUI path. */
-async function copyPoster(job: MediaJob, stamp: number): Promise<string | undefined> {
-  if (!job.inputImagePath) return undefined
-  const target = join(
-    job.outDir,
-    `${job.injectId}-poster-${stamp}${extname(job.inputImagePath).toLowerCase() || '.png'}`,
-  )
-  await fs.copyFile(job.inputImagePath, target)
-  return target
 }

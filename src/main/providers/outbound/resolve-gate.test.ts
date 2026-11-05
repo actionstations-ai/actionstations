@@ -43,7 +43,12 @@ async function route(task: ProviderTask, c: ProviderConfig): Promise<void> {
     s.providers = [c]
     s.defaultRouting = { [task]: { providerId: c.id } }
   })
-  if (c.kind === 'anthropic' || c.kind === 'fal' || c.kind === 'elevenlabs')
+  if (
+    c.kind === 'anthropic' ||
+    c.kind === 'fal' ||
+    c.kind === 'replicate' ||
+    c.kind === 'elevenlabs'
+  )
     await setSecret(c.id, 'sk-test-key')
 }
 
@@ -102,14 +107,15 @@ describe('provider resolution and the outbound gate', () => {
     },
   )
 
-  // Anthropic, fal.ai and ElevenLabs are cloud services whatever the address; Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
-  it.each(cases.filter(([, kind]) => !['anthropic', 'fal', 'elevenlabs', 'ollama'].includes(kind)))(
-    '%s via %s: a local config is never gated',
-    async (task, kind) => {
-      await route(task, config(kind, false))
-      expect(isGuarded(await resolved(task as GatedTask))).toBe(false)
-    },
-  )
+  // Anthropic, fal.ai, Replicate and ElevenLabs are cloud services whatever the address; Ollama keeps a pass-through wrapper: its `-cloud` models leave the computer (see below).
+  it.each(
+    cases.filter(
+      ([, kind]) => !['anthropic', 'fal', 'replicate', 'elevenlabs', 'ollama'].includes(kind),
+    ),
+  )('%s via %s: a local config is never gated', async (task, kind) => {
+    await route(task, config(kind, false))
+    expect(isGuarded(await resolved(task as GatedTask))).toBe(false)
+  })
 
   it('treats ElevenLabs as a cloud provider even when its address says loopback', async () => {
     const c: ProviderConfig = { ...config('elevenlabs', false), baseUrl: 'http://127.0.0.1:9/v1' }

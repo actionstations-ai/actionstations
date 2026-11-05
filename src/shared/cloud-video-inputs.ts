@@ -1,4 +1,4 @@
-// Which input names each cloud media model takes (fal.ai now, Replicate later). Shared so the
+// Which input names each cloud media model takes (fal.ai and Replicate). Shared so the
 // provider form can show and edit the same table the adapters use. The app has one
 // brief (prompt, negative prompt, duration, aspect ratio, starting image); every model names
 // those inputs differently, and sending a field a model does not know can fail the request. So
@@ -6,11 +6,16 @@
 // checked against each model's published input schema.
 import type { MediaBrief } from '@shared/schemas'
 
-/** A model's duration input: the values it accepts, always sent as text ("5"). */
+/** A model's duration input: the values it accepts, sent as text ("5") unless `numeric`. */
 export interface DurationInput {
   field: string
   allowed: number[]
+  /** Send a number (5) rather than text; most Replicate models take integers. */
+  numeric?: boolean
 }
+
+/** Which service a table entry belongs to; entries without one are fal.ai's. */
+export type CloudService = 'fal' | 'replicate'
 
 export interface ModelInputs {
   kind: 'image' | 'video'
@@ -26,6 +31,7 @@ export interface ModelInputs {
   imageSize?: string
   seed?: string
   label?: string
+  service?: CloudService
 }
 
 const range = (from: number, to: number, step = 1): number[] => {
@@ -40,6 +46,9 @@ const FAL_IMAGE: Omit<ModelInputs, 'label'> = {
   imageSize: 'image_size',
   seed: 'seed',
 }
+
+/** Ratios both FLUX models on Replicate accept (flux-1.1-pro also has "custom", unused here). */
+const REPLICATE_IMAGE_RATIOS = ['1:1', '16:9', '3:2', '2:3', '4:5', '5:4', '9:16', '3:4', '4:3']
 
 /** Known models, keyed by the id the service uses. */
 export const KNOWN_MODELS: Record<string, ModelInputs> = {
@@ -94,6 +103,91 @@ export const KNOWN_MODELS: Record<string, ModelInputs> = {
     image: 'image_url',
     imageRequired: true,
   },
+  'kwaivgi/kling-v2.5-turbo-pro': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'Kling 2.5 Turbo Pro',
+    prompt: 'prompt',
+    negativePrompt: 'negative_prompt',
+    duration: { field: 'duration', allowed: [5, 10], numeric: true },
+    aspectRatio: { field: 'aspect_ratio', allowed: ['16:9', '9:16', '1:1'], skipWithImage: true },
+    image: 'start_image',
+  },
+  'bytedance/seedance-1-pro-fast': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'Seedance 1 Pro Fast',
+    prompt: 'prompt',
+    duration: { field: 'duration', allowed: range(2, 12), numeric: true },
+    aspectRatio: {
+      field: 'aspect_ratio',
+      allowed: ['16:9', '4:3', '1:1', '3:4', '9:16', '21:9', '9:21'],
+      skipWithImage: true,
+    },
+    image: 'image',
+    seed: 'seed',
+  },
+  'minimax/hailuo-02': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'MiniMax Hailuo 02 (6 seconds)',
+    prompt: 'prompt',
+    duration: { field: 'duration', allowed: [6], numeric: true },
+    image: 'first_frame_image',
+  },
+  'wan-video/wan-2.5-i2v-fast': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'Wan 2.5 Fast (image to video)',
+    prompt: 'prompt',
+    negativePrompt: 'negative_prompt',
+    duration: { field: 'duration', allowed: [5, 10], numeric: true },
+    image: 'image',
+    imageRequired: true,
+    seed: 'seed',
+  },
+  'google/veo-3.1-fast': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'Veo 3.1 Fast',
+    prompt: 'prompt',
+    negativePrompt: 'negative_prompt',
+    duration: { field: 'duration', allowed: [4, 6, 8], numeric: true },
+    aspectRatio: { field: 'aspect_ratio', allowed: ['16:9', '9:16'] },
+    image: 'image',
+    seed: 'seed',
+  },
+  'lightricks/ltx-2-fast': {
+    service: 'replicate',
+    kind: 'video',
+    label: 'LTX 2 Fast',
+    prompt: 'prompt',
+    duration: { field: 'duration', allowed: range(6, 20, 2), numeric: true },
+    image: 'image',
+  },
+  'black-forest-labs/flux-schnell': {
+    service: 'replicate',
+    kind: 'image',
+    label: 'FLUX.1 schnell (fast, low cost)',
+    prompt: 'prompt',
+    aspectRatio: { field: 'aspect_ratio', allowed: REPLICATE_IMAGE_RATIOS },
+    seed: 'seed',
+  },
+  'black-forest-labs/flux-1.1-pro': {
+    service: 'replicate',
+    kind: 'image',
+    label: 'FLUX 1.1 pro',
+    prompt: 'prompt',
+    aspectRatio: { field: 'aspect_ratio', allowed: REPLICATE_IMAGE_RATIOS },
+    seed: 'seed',
+  },
+  'google/imagen-4-fast': {
+    service: 'replicate',
+    kind: 'image',
+    label: 'Imagen 4 Fast',
+    prompt: 'prompt',
+    aspectRatio: { field: 'aspect_ratio', allowed: ['1:1', '9:16', '16:9', '3:4', '4:3'] },
+  },
   'fal-ai/flux/schnell': { ...FAL_IMAGE, label: 'FLUX.1 schnell (fast, low cost)' },
   'fal-ai/flux-pro/v1.1': { ...FAL_IMAGE, label: 'FLUX 1.1 pro' },
   'fal-ai/flux-2': { ...FAL_IMAGE, label: 'FLUX.2' },
@@ -110,9 +204,12 @@ export function knownModel(model: string): ModelInputs | undefined {
 }
 
 /** Known models of one kind, for the suggestion list. */
-export function suggestedModels(kind: ModelInputs['kind']): { id: string; label: string }[] {
+export function suggestedModels(
+  kind: ModelInputs['kind'],
+  service: CloudService = 'fal',
+): { id: string; label: string }[] {
   return Object.entries(KNOWN_MODELS)
-    .filter(([, m]) => m.kind === kind)
+    .filter(([, m]) => m.kind === kind && (m.service ?? 'fal') === service)
     .map(([id, m]) => ({ id, label: m.label ?? id }))
 }
 
@@ -181,6 +278,7 @@ export function effectiveInputs(
     out.duration = {
       field: override.duration,
       allowed: override.durationAllowed ?? base.duration?.allowed ?? [],
+      ...(base.duration?.numeric ? { numeric: true } : {}),
     }
   else if (out.duration && override.durationAllowed)
     out.duration = { ...out.duration, allowed: override.durationAllowed }
@@ -201,6 +299,8 @@ export interface InputContext {
   width?: number
   height?: number
   seed?: number
+  /** Send a mapped duration as a number unless the table says otherwise (Replicate). */
+  numericDuration?: boolean
 }
 
 /** Nearest accepted whole-second value; any whole second when the model lists none. */
@@ -255,7 +355,8 @@ export function buildInputs(map: ModelInputs, ctx: InputContext): Record<string,
   if (map.image && ctx.imageUri) body[map.image] = ctx.imageUri
   if (map.duration) {
     const sec = clampDuration(ctx.brief.durationSec, map.duration.allowed)
-    if (sec !== undefined) body[map.duration.field] = String(sec)
+    const numeric = map.duration.numeric ?? ctx.numericDuration ?? false
+    if (sec !== undefined) body[map.duration.field] = numeric ? sec : String(sec)
   }
   if (map.aspectRatio && !(map.aspectRatio.skipWithImage && ctx.imageUri)) {
     const aspect = nearestAspect(map.aspectRatio.allowed, ctx.width, ctx.height)

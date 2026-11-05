@@ -24,6 +24,12 @@ export interface DownloadOptions {
   /** Time allowed for the whole transfer. Default 5 min. */
   timeoutMs?: number
   vendor: string
+  /**
+   * Authorization header value for services whose result links need the key (Replicate). Sent
+   * only to hosts `authHost` accepts, and so never on a redirect to anywhere else.
+   */
+  authorization?: string
+  authHost?: (host: string) => boolean
 }
 
 export interface Downloaded {
@@ -64,7 +70,7 @@ function checkUrl(raw: string, opts: DownloadOptions): URL {
   return url
 }
 
-/** Fetch the file. No Authorization header is sent: result links are public signed links. */
+/** Fetch the file. No Authorization header is sent unless the options name one for this host. */
 export async function downloadMedia(rawUrl: string, opts: DownloadOptions): Promise<Downloaded> {
   const timer = new AbortController()
   const t = setTimeout(() => timer.abort(), opts.timeoutMs ?? 300_000)
@@ -82,6 +88,11 @@ export async function downloadMedia(rawUrl: string, opts: DownloadOptions): Prom
   }
 }
 
+function authFor(url: URL, opts: DownloadOptions): Record<string, string> {
+  const host = url.hostname.replace(/^\[|\]$/g, '')
+  return opts.authorization && opts.authHost?.(host) ? { authorization: opts.authorization } : {}
+}
+
 async function fetchChecked(
   rawUrl: string,
   opts: DownloadOptions,
@@ -89,7 +100,11 @@ async function fetchChecked(
 ): Promise<Response> {
   let current = checkUrl(rawUrl, opts)
   for (let hop = 0; hop <= MAX_HOPS; hop++) {
-    const res = await fetch(current, { redirect: 'manual', signal })
+    const res = await fetch(current, {
+      redirect: 'manual',
+      signal,
+      headers: authFor(current, opts),
+    })
     const location = res.status >= 300 && res.status < 400 ? res.headers.get('location') : null
     if (!location) {
       if (!res.ok)

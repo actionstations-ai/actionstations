@@ -78,6 +78,7 @@ export const KIND_LABELS: Record<ProviderKind, string> = {
   comfyui: 'ComfyUI',
   fal: 'fal.ai',
   elevenlabs: 'ElevenLabs',
+  replicate: 'Replicate',
   'system-tts': 'System voice',
   template: 'Template',
   'local-whisper': 'Built-in Whisper',
@@ -188,6 +189,17 @@ export const PRESETS: Preset[] = [
     hint: 'Cloud voices. The text of each voice line is sent to ElevenLabs and billed to your account.',
   },
   {
+    id: 'replicate',
+    label: 'Replicate',
+    kind: 'replicate',
+    baseUrl: 'https://api.replicate.com',
+    usesKey: true,
+    keyRequired: true,
+    baseUrlEditable: false,
+    hint: 'Cloud images and short video clips. The scene prompt and the generated still are sent to Replicate, and each call is billed to your Replicate account.',
+    modelPlaceholder: 'e.g. black-forest-labs/flux-schnell',
+  },
+  {
     id: 'system-tts',
     label: 'System voice',
     kind: 'system-tts',
@@ -205,10 +217,14 @@ export const kindUsesBaseUrl = (kind: ProviderKind): boolean =>
 
 /** Whether an existing provider of this kind shows the key field. */
 export const kindUsesKey = (kind: ProviderKind): boolean =>
-  kind === 'anthropic' || kind === 'openai-compatible' || kind === 'fal' || kind === 'elevenlabs'
+  kind === 'anthropic' ||
+  kind === 'openai-compatible' ||
+  kind === 'fal' ||
+  kind === 'replicate' ||
+  kind === 'elevenlabs'
 
 export const kindRequiresKey = (kind: ProviderKind): boolean =>
-  kind === 'anthropic' || kind === 'fal' || kind === 'elevenlabs'
+  kind === 'anthropic' || kind === 'fal' || kind === 'replicate' || kind === 'elevenlabs'
 
 /** Default model for a detected service: never an embedding model while a chat model exists. */
 export function pickDefaultModel(s: {

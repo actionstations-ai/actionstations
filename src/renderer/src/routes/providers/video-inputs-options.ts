@@ -1,4 +1,4 @@
-// Values and rules for the "Video model inputs" section of the provider form (fal.ai, later
+// Values and rules for the "Video model inputs" section of the provider form (fal.ai and
 // Replicate): which input name each model uses for the prompt, duration and so on. Stored in the
 // provider's options.inputMap, keyed by model id; models left as the table has them are not stored.
 import {

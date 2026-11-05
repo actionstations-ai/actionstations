@@ -1,6 +1,7 @@
 // Add / edit a provider. Presets fill kind + base URL; the key is write-only.
 import { useState, type FormEvent } from 'react'
 import type { ProviderKind } from '@shared/schemas'
+import type { CloudService } from '@shared/cloud-video-inputs'
 import { canTreatAsLocal, grantedLocalHost, providerHost } from '@shared/provider-network'
 import { Button, Dialog, Field } from '../../components/ui'
 import { toast } from '../../components/toast-store'
@@ -38,7 +39,7 @@ interface Draft {
   /** Options a preset starts with (cloud marker, model-profile off, auth style…). */
   baseOptions: Record<string, unknown>
   advanced: AdvancedDraft
-  /** Video model input mappings edited in this form (fal.ai), by model id. */
+  /** Video model input mappings edited in this form (fal.ai, Replicate), by model id. */
   inputDrafts: InputDrafts
   modelPlaceholder: string | undefined
   /** Speaker → voice id and the voice for any other speaker (ElevenLabs, OpenAI speech). */
@@ -129,12 +130,15 @@ function validate(d: Draft, hasKey: boolean) {
   const advanced = advancedErrors(d.advanced)
   if (Object.keys(advanced).length) errors.advanced = advanced
   if (
-    d.kind === 'fal' &&
+    isCloudMedia(d.kind) &&
     Object.values(d.inputDrafts).some((f) => Object.keys(inputErrors(f)).length)
   )
     errors.inputs = 'Fix the video model inputs before saving.'
   return errors
 }
+
+/** fal.ai and Replicate: cloud image and video services that share the model input table. */
+const isCloudMedia = (kind: string): kind is CloudService => kind === 'fal' || kind === 'replicate'
 
 type Errors = ReturnType<typeof validate>
 type SetDraft = (patch: Partial<Draft>) => void
@@ -176,7 +180,7 @@ function optionsFor(draft: Draft): Record<string, unknown> {
   const baseUrl = parsedBaseUrl(draft.baseUrl)
   const config = { kind: draft.kind, ...(baseUrl ? { baseUrl } : {}) }
   const withAdvanced = (o: Record<string, unknown>) => {
-    if (draft.kind === 'fal')
+    if (isCloudMedia(draft.kind))
       return applyInputDrafts(applyAdvanced(o, draft.advanced), 'video', draft.inputDrafts)
     return draft.kind === 'openai-compatible' ? applyAdvanced(o, draft.advanced) : o
   }
@@ -448,9 +452,10 @@ function ProviderForm(props: { existing?: ProviderViewT; onDone: () => void }) {
           }
         />
       )}
-      {draft.kind === 'fal' && (
+      {isCloudMedia(draft.kind) && (
         <>
           <VideoInputsSection
+            service={draft.kind}
             savedOptions={draft.baseOptions}
             defaultModel={draft.defaultModel}
             value={draft.inputDrafts}
