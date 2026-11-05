@@ -345,6 +345,7 @@ function checkDraft(
     storyTexts: storyTexts(scenario.msel, row, priorInjects),
     knownText: knownNames(env.project, scenario),
     orgNames: orgNamesOf(env.project, scenario, env.facility),
+    lintRules: env.domain.toolkits?.flatMap((t) => t.lintRules),
   })
   return { issues, content, repairs }
 }

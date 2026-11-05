@@ -304,10 +304,14 @@ describe('field lint rules in contentIssues', () => {
     storyTexts: [],
   }
 
-  it('runs the field lint rules for the inject type', () => {
-    const issues = contentIssues(base)
+  it("runs the field lint rules the scenario's toolkits name", () => {
+    const issues = contentIssues({ ...base, lintRules: ['latlon_polygon'] })
     expect(issues).toEqual([
       expect.objectContaining({ path: 'fields.latLon', message: expect.stringMatching(/Polygon/) }),
     ])
+  })
+
+  it('runs no field lint rule when no toolkit names one', () => {
+    expect(contentIssues(base)).toEqual([])
   })
 })

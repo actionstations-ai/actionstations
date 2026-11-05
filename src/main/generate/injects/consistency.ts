@@ -275,11 +275,14 @@ export interface ContentCheckInput {
   knownText?: string
   /** The organization's names, for the name-drift check (#221). */
   orgNames?: OrgNames
+  /** Field lint rule ids the scenario's toolkits name; none run without them. */
+  lintRules?: readonly string[]
 }
 
 /** Every content issue for one inject, in a stable order. */
 export function contentIssues(input: ContentCheckInput): ContentIssue[] {
   const { type, fields, schema, row, facility, storyTexts, knownText = '', orgNames } = input
+  const lintRules = input.lintRules ?? []
   const rowText = `${row.from}\n${row.event}\n${row.expectedAction}`
   // An example that the story already uses (an AODB host the MSEL named) is not a leak.
   const known = [rowText, knownText, ...storyTexts].join('\n')
@@ -288,6 +291,6 @@ export function contentIssues(input: ContentCheckInput): ContentIssue[] {
     ...technicalIssues(type, fields, hostIpPairings([rowText, ...storyTexts])),
     ...facilityFieldIssues(fields, facility, row),
     ...(orgNames ? orgNameIssues(fields, orgNames) : []),
-    ...fieldLintIssues(type, fields),
+    ...(lintRules.length ? fieldLintIssues(type, fields, lintRules) : []),
   ]
 }
