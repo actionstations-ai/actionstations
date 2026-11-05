@@ -1,0 +1,51 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.property}}</div>
+      <div class="sub">List printed <span class="mono">{{fields.listPrintedAt}}</span></div>
+    </div>
+    <div class="doc-title">Floor status</div>
+  </header>
+  <div class="callout">
+    <strong>{{fields.event}}</strong><br />Status as of <span class="mono">{{fields.asOf}}</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Floor</th>
+        <th class="num">Registered</th>
+        <th class="num">Accounted for</th>
+        <th class="num">Not accounted for</th>
+        <th class="num">Need help</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.floors}}
+      <tr>
+        <th>{{this.floor}}</th>
+        <td class="num">{{this.registered}}</td>
+        <td class="num">{{this.accounted}}</td>
+        <td class="num">{{this.unaccounted}}</td>
+        <td class="num">{{this.assistance}}</td>
+        <td>{{this.state}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.notes}}
+  <h2>Notes</h2>
+  <ul>
+    {{#each fields.notes}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Floor evacuation status</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

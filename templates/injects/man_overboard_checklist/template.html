@@ -1,0 +1,61 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.line}}</div>
+      <div class="sub">{{fields.vessel}}</div>
+    </div>
+    <div class="doc-title">Man overboard</div>
+  </header>
+  <div class="callout">
+    <strong>Reported {{fields.reportedAt}}.</strong> Last seen: {{fields.lastSeen}}
+  </div>
+  {{#if fields.position}}
+  <p class="para">Position: <span class="mono">{{fields.position}}</span></p>
+  {{/if}} {{#if fields.searchPlan}}
+  <h2>Search plan</h2>
+  <p>{{fields.searchPlan}}</p>
+  {{/if}}
+  <h2>Actions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th style="width: 20%">Owner</th>
+        <th style="width: 10%">Time</th>
+        <th style="width: 13%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.action}}</td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.time}}</td>
+        <td class="mono">{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.notified}}
+  <h2>Notified</h2>
+  <ul>
+    {{#each fields.notified}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.evidence}}
+  <h2>Secured</h2>
+  <ul>
+    {{#each fields.evidence}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Man overboard checklist</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

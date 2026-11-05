@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hotline script",
+  "description": "Script for staff who answer a guest or family hotline during an incident: the opening line, what may be said, what must not be said, questions to ask, and when to hand off. Facts in the script match the latest approved statement.",
+  "type": "object",
+  "required": ["hotline", "incident", "opening", "maySay", "doNotSay"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "hotline": {
+      "type": "string",
+      "description": "Hotline name and number (fictional)",
+      "examples": ["Calloway Guest Care line, (555) 010-4500"],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident in a few words",
+      "examples": ["Illness on MV Harbor Lantern"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Script version and approval time",
+      "examples": ["Version 3, approved 17:40 by Guest Care and Legal"],
+      "x-translate": false
+    },
+    "opening": {
+      "type": "string",
+      "description": "Opening line the agent says",
+      "examples": [
+        "Thank you for calling Calloway Guest Care. I am sorry you are worried. I will tell you what we know and take your details."
+      ]
+    },
+    "maySay": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Facts the agent may state",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Some guests and crew have had stomach illness; we reported it to the CDC.",
+          "Medical care is available on board at no charge to guests."
+        ]
+      ]
+    },
+    "doNotSay": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "What the agent must not say",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Do not give the number of cases; refer to the latest statement.",
+          "Do not give medical advice."
+        ]
+      ]
+    },
+    "ask": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "What the agent asks the caller",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "The guest name and cabin, and the caller phone number",
+          "Whether the caller needs a message passed to the guest"
+        ]
+      ]
+    },
+    "handoff": {
+      "type": "string",
+      "description": "When and to whom the agent hands off",
+      "examples": [
+        "Hand off to the duty manager for any media caller, lawyer, or caller who says a guest has died."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

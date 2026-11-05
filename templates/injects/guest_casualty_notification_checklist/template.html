@@ -1,0 +1,47 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.property}}</div>
+      <div class="sub">Opened {{fields.openedAt}}</div>
+    </div>
+    <div class="doc-title">Notification checklist</div>
+  </header>
+  <div class="callout">{{fields.event}}</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Who</th>
+        <th style="width: 22%">How</th>
+        <th style="width: 15%">Owner</th>
+        <th style="width: 15%">Time</th>
+        <th style="width: 11%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.who}}</td>
+        <td>{{this.how}}</td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.time}}</td>
+        <td class="mono">{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.notes}}
+  <h2>Care and communication</h2>
+  <ul>
+    {{#each fields.notes}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Guest notification checklist</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

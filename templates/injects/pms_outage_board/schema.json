@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PMS outage board",
+  "description": "Front-desk board during an outage of the property management system, reservations or keycards: each function with its state, the degraded-mode procedure in use, and the time it was last checked. States are words as well as marks.",
+  "type": "object",
+  "required": ["property", "asOf", "functions"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "property": {
+      "type": "string",
+      "description": "Property (fictional)",
+      "examples": ["Palmetto Bay Resort"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the board",
+      "examples": ["Saturday 4:15 p.m."],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "One line for the desk",
+      "examples": ["Reservations and keycard encoding are down. Paper check-in is in use."]
+    },
+    "functions": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Functions",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Row",
+        "properties": {
+          "function": {
+            "type": "string",
+            "description": "Function",
+            "examples": ["Keycard encoding"],
+            "x-translate": false
+          },
+          "state": {
+            "type": "string",
+            "description": "State",
+            "examples": ["Down"],
+            "x-translate": false,
+            "enum": ["Up", "Degraded", "Down"]
+          },
+          "procedure": {
+            "type": "string",
+            "description": "Procedure in use",
+            "examples": ["Cut mechanical keys from the master key log; escort to room"]
+          },
+          "lastChecked": {
+            "type": "string",
+            "description": "Last checked",
+            "examples": ["4:10 p.m."],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "function": "Keycard encoding",
+            "state": "Down",
+            "procedure": "Cut mechanical keys",
+            "lastChecked": "4:10 p.m."
+          }
+        ]
+      ]
+    },
+    "queue": {
+      "type": "number",
+      "description": "Guests waiting at the desk",
+      "examples": [38],
+      "minimum": 0,
+      "maximum": 2000
+    }
+  },
+  "additionalProperties": false
+}

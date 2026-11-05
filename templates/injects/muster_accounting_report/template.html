@@ -1,0 +1,56 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.line}}</div>
+      <div class="sub">{{fields.vessel}}</div>
+    </div>
+    <div class="doc-title">Muster and accounting</div>
+  </header>
+  <div class="callout">
+    <strong>{{fields.event}}</strong><br />Count as of <span class="mono">{{fields.asOf}}</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Group</th>
+        <th class="num">Expected</th>
+        <th class="num">Mustered</th>
+        <th class="num">Not accounted for</th>
+        <th class="num">Cabins checked</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.groups}}
+      <tr>
+        <th>{{this.group}}</th>
+        <td class="num">{{this.expected}}</td>
+        <td class="num">{{this.mustered}}</td>
+        <td class="num">{{this.unaccounted}}</td>
+        <td class="num">{{this.cabinsChecked}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Not yet accounted for</h2>
+  <ul>
+    {{#each fields.unaccountedNotes}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.actions}}
+  <h2>Actions</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <p class="sign">Reported by <strong>{{fields.reportedBy}}</strong></p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Muster and accounting report</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,47 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.property}}</div>
+      <div class="sub">{{fields.storm}}</div>
+    </div>
+    <div class="doc-title">Guest departure plan</div>
+  </header>
+  <div class="callout"><strong>As of {{fields.asOf}}:</strong> {{fields.advisory}}</div>
+  <h2>Departure windows</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th class="num" style="width: 11%">Guests</th>
+        <th>Last safe departure and what sets it</th>
+        <th style="width: 15%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.windows}}
+      <tr>
+        <td>{{this.method}}</td>
+        <td class="num">{{this.guests}}</td>
+        <td>{{this.lastDeparture}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="para">Guests expected to remain: <strong>{{fields.remaining}}</strong></p>
+  <h2>Shelter in place</h2>
+  <p>{{fields.shelterDecision}}</p>
+  <h2>Actions</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Hurricane guest departure plan</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

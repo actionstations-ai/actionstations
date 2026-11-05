@@ -9,6 +9,7 @@ import { DomainProfile } from '@shared/domains/schema'
 import { toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 import { TemplateMeta } from '../../render/templates'
 import { fieldLintRuleIds } from '../lint-rules'
+import { GUEST_LINT_RULES } from './guest-lint'
 import { OUTBREAK_LINT_RULES } from './lint'
 
 const ROOT = join(__dirname, '../../../..')
@@ -104,22 +105,59 @@ describe('outbreak_at_sea toolkit file', () => {
   })
 })
 
+const guest = ToolkitSchema.parse(json('packs/toolkits/guest_emergency.json'))
+const GUEST_TEMPLATES = [
+  'alleged_crime_report',
+  'floor_evacuation_status',
+  'guest_casualty_notification_checklist',
+  'guest_hotline_script',
+  'hurricane_guest_departure_plan',
+  'man_overboard_checklist',
+  'muster_accounting_report',
+  'pms_outage_board',
+]
+
+describe('guest_emergency toolkit file', () => {
+  it('fits the knowledge cap and carries the crime reporting rule', () => {
+    const out = toolkitKnowledge([guest])
+    expect(out.truncated).toEqual([])
+    expect(out.text).toContain('as soon as possible')
+  })
+
+  it('names the lint rules the app ships', () => {
+    expect([...guest.lintRules].sort()).toEqual([...GUEST_LINT_RULES].sort())
+    expect(fieldLintRuleIds()).toEqual(expect.arrayContaining(guest.lintRules))
+  })
+
+  it('is suggested by the domains it suits', () => {
+    for (const id of ['hospitality', 'commercial_facilities', 'port_maritime', 'stadium_venue']) {
+      expect(guest.appliesTo.domains, id).toContain(id)
+      const d = DomainProfile.parse(json(`packs/domains/${id}.json`))
+      expect(d.suggestedToolkits, id).toContain('guest_emergency')
+    }
+  })
+})
+
 describe('hospitality templates', () => {
   it('are exactly the toolkit inject types', () => {
     expect([...toolkit.injectTypes].sort()).toEqual([...OWN_TEMPLATES].sort())
+    expect([...guest.injectTypes].sort()).toEqual([...GUEST_TEMPLATES].sort())
   })
 
-  it.each(OWN_TEMPLATES)('%s has a valid meta, a preview its schema accepts and a golden', (id) => {
-    const dir = join(ROOT, 'templates/injects', id)
-    for (const f of ['template.html', 'style.css', 'schema.json', 'preview.json', 'meta.json'])
-      expect(existsSync(join(dir, f)), `${id}/${f}`).toBe(true)
-    const meta = TemplateMeta.parse(JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8')))
-    expect(meta.type).toBe(id)
-    expect(meta.taxonomy).toBeDefined()
-    expect(readdirSync(join(dir, '__golden__')).length).toBeGreaterThan(0)
-    const schema = JSON.parse(readFileSync(join(dir, 'schema.json'), 'utf8'))
-    const preview = JSON.parse(readFileSync(join(dir, 'preview.json'), 'utf8'))
-    const validate = new Ajv2020({ strict: false, allErrors: true }).compile(schema)
-    expect(validate(preview.fields), JSON.stringify(validate.errors)).toBe(true)
-  })
+  it.each([...OWN_TEMPLATES, ...GUEST_TEMPLATES])(
+    '%s has a valid meta, a preview its schema accepts and a golden',
+    (id) => {
+      const dir = join(ROOT, 'templates/injects', id)
+      for (const f of ['template.html', 'style.css', 'schema.json', 'preview.json', 'meta.json'])
+        expect(existsSync(join(dir, f)), `${id}/${f}`).toBe(true)
+      const meta = TemplateMeta.parse(JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8')))
+      expect(meta.type).toBe(id)
+      expect(meta.taxonomy).toBeDefined()
+      expect(readdirSync(join(dir, '__golden__')).length).toBeGreaterThan(0)
+      const schema = JSON.parse(readFileSync(join(dir, 'schema.json'), 'utf8'))
+      const preview = JSON.parse(readFileSync(join(dir, 'preview.json'), 'utf8'))
+      const validate = new Ajv2020({ strict: false, allErrors: true }).compile(schema)
+      expect(validate(preview.fields), JSON.stringify(validate.errors)).toBe(true)
+    },
+  )
 })

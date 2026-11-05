@@ -1,0 +1,51 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.line}}</div>
+      <div class="sub">{{fields.vessel}} · Security</div>
+    </div>
+    <div class="doc-title">Alleged crime report</div>
+  </header>
+  <table>
+    <tr>
+      <th>Category</th>
+      <td colspan="3"><strong>{{fields.category}}</strong></td>
+    </tr>
+    <tr>
+      <th>FBI telephoned</th>
+      <td colspan="3" class="mono">{{fields.reportedAt}}</td>
+    </tr>
+    <tr>
+      <th>Incident</th>
+      <td class="mono">{{fields.incidentAt}}</td>
+      <th>Location</th>
+      <td class="mono">{{fields.location}}</td>
+    </tr>
+  </table>
+  <h2>What is known</h2>
+  <p>{{fields.summary}}</p>
+  <h2>Steps taken</h2>
+  <ul>
+    {{#each fields.steps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <table>
+    <tr>
+      <th>Log entry</th>
+      <td class="mono">{{fields.logEntry}}</td>
+    </tr>
+    <tr>
+      <th>Written report</th>
+      <td>{{fields.dotFiling}}</td>
+    </tr>
+  </table>
+  <p class="para">Contact: {{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Alleged crime report</span
+    ><span>Exercise material. All people, ships and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
