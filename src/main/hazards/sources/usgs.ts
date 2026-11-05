@@ -16,7 +16,9 @@ const RECENT_DAYS = 30
 const RECENT_LIMIT = 100
 const HISTORICAL_LIMIT = 50
 const HISTORICAL_START = '1975-01-01'
-const BASE = 'https://earthquake.usgs.gov/fdsnws/event/1/query'
+/** The FDSN event service the hazard data and the ComCat replay connector both query. */
+export const USGS_EVENT_QUERY = 'https://earthquake.usgs.gov/fdsnws/event/1/query'
+const BASE = USGS_EVENT_QUERY
 
 /** Radius is kept within 10-500 km and magnitude within 0-9 whatever the caller sent. */
 export function clampQuery(q: QuakeQuery): QuakeQuery {
