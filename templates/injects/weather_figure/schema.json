@@ -23,7 +23,7 @@
     },
     "figures": {
       "type": "object",
-      "description": "The figure to draw, as { main: { kind, data } }. Kinds: radar.",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: radar, skew_t, hodograph, satellite, model_panel, mesoanalysis, meteogram, ensemble_plume.",
       "required": ["main"],
       "properties": {
         "main": {
@@ -32,7 +32,16 @@
           "properties": {
             "kind": {
               "type": "string",
-              "enum": ["radar"]
+              "enum": [
+                "radar",
+                "skew_t",
+                "hodograph",
+                "satellite",
+                "model_panel",
+                "mesoanalysis",
+                "meteogram",
+                "ensemble_plume"
+              ]
             },
             "data": {
               "type": "object",
