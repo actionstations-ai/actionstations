@@ -8,6 +8,12 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-11-05
+
+### Fixed
+
+- The self-hosted server's Docker image builds again: the image build now includes the dependency patches the app uses, so `ghcr.io/actionstations-ai/actionstations-relay` is published for this release (#682).
+
 ## [0.7.0] - 2026-11-05
 
 ### Added

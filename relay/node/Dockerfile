@@ -11,6 +11,8 @@ FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /repo
 RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
+# pnpm applies patchedDependencies (package.json) at install, so the patches must be present.
+COPY patches ./patches
 COPY relay/core ./relay/core
 COPY relay/node ./relay/node
 COPY src/shared ./src/shared
