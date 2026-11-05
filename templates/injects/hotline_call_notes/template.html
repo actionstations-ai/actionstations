@@ -1,0 +1,54 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Hotline call notes</div>
+  </header>
+  <table>
+    <tr>
+      <th>Call</th>
+      <td class="mono">{{fields.callNumber}}</td>
+      <th>Received</th>
+      <td class="mono">{{fields.receivedAt}}</td>
+    </tr>
+    <tr>
+      <th>Taken by</th>
+      <td>{{fields.takenBy}}</td>
+      <th>Urgency</th>
+      <td><span class="tier">{{default fields.urgency "routine"}}</span></td>
+    </tr>
+    <tr>
+      <th>Caller</th>
+      <td>{{fields.caller}} ({{fields.callerType}})</td>
+      <th>Callback</th>
+      <td class="mono">{{fields.callback}}</td>
+    </tr>
+    <tr>
+      <th>Topic</th>
+      <td colspan="3">{{fields.topic}}</td>
+    </tr>
+  </table>
+  <h2>Caller asked</h2>
+  <p>{{fields.question}}</p>
+  <h2>Caller was told</h2>
+  <p>{{fields.answerGiven}}</p>
+  {{#if fields.flags}}
+  <h2>Flags for follow-up</h2>
+  <ul>
+    {{#each fields.flags}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.callNumber}} · Internal hotline record</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

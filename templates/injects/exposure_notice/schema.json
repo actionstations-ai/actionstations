@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public exposure notice",
+  "description": "Public exposure notice for a communicable disease: each place and time window where people may have been exposed, who should act, symptoms to watch for until a stated date, and what to do. Windows are stated as exact dates and times computed from the case's onset and the disease's infectious period.",
+  "type": "object",
+  "required": ["agency", "headline", "disease", "exposures", "whatToDo", "issuedAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["Communicable Disease Program"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Possible measles exposure at three Marston County locations"]
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease named in the notice",
+      "examples": ["Measles"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "A resident with measles visited the places below while infectious. Measles spreads through the air and can remain in a room for up to two hours after an infected person leaves."
+      ]
+    },
+    "exposures": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Places and windows",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One exposure",
+        "properties": {
+          "place": {
+            "type": "string",
+            "description": "Place",
+            "examples": ["Riverbend Urgent Care waiting room"]
+          },
+          "address": {
+            "type": "string",
+            "description": "Address",
+            "examples": ["212 Mill Street"],
+            "x-translate": false
+          },
+          "window": {
+            "type": "string",
+            "description": "Date and exact time window",
+            "examples": ["Oct 16, 2:00 p.m. to 6:30 p.m."],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "place": "Riverbend Urgent Care waiting room",
+            "address": "212 Mill Street",
+            "window": "Oct 16, 2:00 p.m. to 6:30 p.m."
+          }
+        ]
+      ]
+    },
+    "whoShouldAct": {
+      "type": "string",
+      "description": "Who should act",
+      "examples": [
+        "Anyone who was in these places during these times and is not fully vaccinated or has not had measles."
+      ]
+    },
+    "symptoms": {
+      "type": "array",
+      "description": "Symptoms to watch for",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["fever", "cough, runny nose, red eyes", "rash starting on the face"]]
+    },
+    "watchUntil": {
+      "type": "string",
+      "description": "Watch for symptoms until",
+      "examples": ["November 6, 2026"],
+      "x-translate": false
+    },
+    "whatToDo": {
+      "type": "array",
+      "description": "What to do",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Check your vaccination records.",
+          "Call before visiting a clinic so staff can protect others."
+        ]
+      ]
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Contact",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Hotline",
+          "examples": ["(555) 014-2290"],
+          "x-translate": false
+        },
+        "web": {
+          "type": "string",
+          "description": "Web",
+          "examples": ["marstonhealth.example/measles"],
+          "x-translate": false
+        }
+      }
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["October 21, 2026, 3:00 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

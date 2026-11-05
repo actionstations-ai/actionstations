@@ -1,0 +1,54 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Outbreak questionnaire</div>
+  </header>
+  <p class="lead"><strong>{{fields.title}}</strong></p>
+  <table>
+    <tr>
+      <th>Investigation</th>
+      <td class="mono">{{fields.outbreakId}}</td>
+      <th>Respondent</th>
+      <td>{{default fields.respondent "________"}}</td>
+    </tr>
+    <tr>
+      <th>Interviewer</th>
+      <td>{{default fields.interviewer "________"}}</td>
+      <th>Interviewed</th>
+      <td class="mono">{{default fields.interviewedAt "________"}}</td>
+    </tr>
+  </table>
+  {{#if fields.intro}}
+  <p class="intro">{{fields.intro}}</p>
+  {{/if}} {{#each fields.sections}}
+  <h2>{{this.heading}}</h2>
+  <table class="q">
+    <tbody>
+      {{#each this.items}}
+      <tr>
+        <td class="qt">{{this.text}}</td>
+        <td class="qa">
+          {{#if this.answer}}<strong class="ans">{{this.answer}}</strong>{{/if}}<span
+            class="bx{{#if this.answer}} has{{/if}}"
+            ><span class="box"></span>Yes<span class="box"></span>No<span class="box"></span
+            >Unknown</span
+          >
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/each}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.outbreakId}} · Confidential interview record</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

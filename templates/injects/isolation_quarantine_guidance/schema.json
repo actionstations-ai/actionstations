@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Isolation and quarantine guidance",
+  "description": "One-page guidance sheet given to a person told to isolate (ill or infectious) or quarantine (exposed, not ill). The pathogen's incubation and infectious periods come from the toolkit's reviewed fact fragments; start and end dates are exact. The kind field sets the headline.",
+  "type": "object",
+  "required": ["agency", "disease", "kind", "startDate", "endDate", "rules"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["Communicable Disease Program"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease",
+      "examples": ["Measles"]
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["isolation", "quarantine"],
+      "description": "Isolation separates people who are sick; quarantine separates people who were exposed and may become sick. Matches the variant.",
+      "examples": ["quarantine"]
+    },
+    "whoThisIsFor": {
+      "type": "string",
+      "description": "Who this is for",
+      "examples": ["People who were exposed to a person with measles and cannot show immunity."]
+    },
+    "startDate": {
+      "type": "string",
+      "description": "First day",
+      "examples": ["October 23, 2026"],
+      "x-translate": false
+    },
+    "endDate": {
+      "type": "string",
+      "description": "Last day",
+      "examples": ["November 8, 2026"],
+      "x-translate": false
+    },
+    "basis": {
+      "type": "string",
+      "description": "How the dates were set",
+      "examples": ["Day 5 through day 21 after the last exposure on October 18."]
+    },
+    "rules": {
+      "type": "array",
+      "description": "Rules while at home",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Stay home. Do not go to school, work, child care or public places.",
+          "Do not have visitors who are not immune."
+        ]
+      ]
+    },
+    "symptomsToWatch": {
+      "type": "array",
+      "description": "Symptoms to watch for",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["fever", "cough, runny nose, red eyes", "rash"]]
+    },
+    "ifSymptoms": {
+      "type": "string",
+      "description": "If symptoms start",
+      "examples": [
+        "Call the health department first. Do not walk into a clinic or emergency room without calling."
+      ]
+    },
+    "support": {
+      "type": "string",
+      "description": "Help available",
+      "examples": [
+        "Food delivery and a letter for your employer or school are available through the hotline."
+      ]
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Contact",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Phone",
+          "examples": ["(555) 014-2290"],
+          "x-translate": false
+        },
+        "web": {
+          "type": "string",
+          "description": "Web",
+          "examples": ["marstonhealth.example/measles"],
+          "x-translate": false
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

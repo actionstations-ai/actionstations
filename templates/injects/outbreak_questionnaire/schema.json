@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Outbreak questionnaire",
+  "description": "Case interview questionnaire for an outbreak investigation. Variant 'completed' prints the interviewee's recorded answers; 'blank' prints Yes / No / Unknown boxes for each question. Respondents are fictional.",
+  "type": "object",
+  "required": ["agency", "title", "outbreakId", "sections"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program or unit",
+      "examples": ["Communicable Disease Program"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Questionnaire title",
+      "examples": ["Harvest Hall reception illness: food history"]
+    },
+    "outbreakId": {
+      "type": "string",
+      "description": "Investigation number",
+      "examples": ["OB-2026-014"],
+      "x-translate": false
+    },
+    "respondent": {
+      "type": "string",
+      "description": "Respondent by initials and age",
+      "examples": ["T.M., 34"],
+      "x-translate": false
+    },
+    "interviewer": {
+      "type": "string",
+      "description": "Interviewer",
+      "examples": ["A. Okafor, disease investigator"],
+      "x-translate": false
+    },
+    "interviewedAt": {
+      "type": "string",
+      "description": "Date and time of interview",
+      "examples": ["October 22, 2026, 10:15 a.m."],
+      "x-translate": false
+    },
+    "intro": {
+      "type": "string",
+      "description": "Opening script",
+      "examples": [
+        "We are asking everyone who attended the reception about what they ate and how they felt. Your answers help us find the cause."
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Question sections",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One section",
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading",
+            "examples": ["Foods at the reception"]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 12,
+            "description": "Questions",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "One question",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "Question",
+                  "examples": ["Did you eat the chicken salad?"]
+                },
+                "answer": {
+                  "type": "string",
+                  "description": "Recorded answer (completed variant)",
+                  "examples": ["Yes"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "Foods at the reception",
+            "items": [
+              {
+                "text": "Did you eat the chicken salad?",
+                "answer": "Yes"
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,57 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Public exposure notice</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  {{#if fields.summary}}
+  <p class="summary">{{fields.summary}}</p>
+  {{/if}}
+  <h2>Where and when</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Place</th>
+        <th>Address</th>
+        <th>Date and time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.exposures}}
+      <tr>
+        <td>{{this.place}}</td>
+        <td>{{this.address}}</td>
+        <td class="mono">{{this.window}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div class="callout"><strong>Who should act:</strong> {{fields.whoShouldAct}}</div>
+  <h2>Symptoms to watch for{{#if fields.watchUntil}} until {{fields.watchUntil}}{{/if}}</h2>
+  <ul>
+    {{#each fields.symptoms}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>What to do</h2>
+  <ul>
+    {{#each fields.whatToDo}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <p class="contact">
+    Questions: <strong>{{fields.contact.phone}}</strong> · {{fields.contact.web}}
+  </p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.disease}} exposure notice · issued {{fields.issuedAt}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

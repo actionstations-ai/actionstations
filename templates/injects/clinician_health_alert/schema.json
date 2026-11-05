@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clinician health alert",
+  "description": "Health alert to clinicians in the form of a Health Alert Network message: category (alert, advisory or update), subject, summary, the case definition in use, numbered recommendations for clinicians, reporting instructions and contact. The category word is part of the format and is not changed.",
+  "type": "object",
+  "required": ["agency", "category", "subject", "summary", "recommendations", "issuedAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing health department",
+      "examples": ["Marston County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["Office of the Health Officer"],
+      "x-translate": false
+    },
+    "category": {
+      "type": "string",
+      "enum": ["Health Alert", "Health Advisory", "Health Update"],
+      "description": "Message category",
+      "examples": ["Health Advisory"]
+    },
+    "alertNumber": {
+      "type": "string",
+      "description": "Message number",
+      "examples": ["MCHD-2026-017"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["October 21, 2026, 3:00 p.m."],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["Measles case in Marston County: clinician actions"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary",
+      "examples": [
+        "One confirmed measles case has been identified in a county resident. Clinicians should consider measles in patients with fever and rash."
+      ]
+    },
+    "caseDefinition": {
+      "type": "string",
+      "description": "Case definition in use",
+      "examples": [
+        "Confirmed: acute febrile rash with laboratory confirmation. Probable: meets the clinical description with an epidemiologic link."
+      ]
+    },
+    "recommendations": {
+      "type": "array",
+      "description": "Recommendations for clinicians",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Isolate patients with suspected measles immediately.",
+          "Report suspected cases to the health department by phone the same day."
+        ]
+      ]
+    },
+    "reporting": {
+      "type": "string",
+      "description": "How to report",
+      "examples": ["Call the Communicable Disease Program at (555) 014-2290 (24 hours)."]
+    },
+    "distribution": {
+      "type": "string",
+      "description": "Distribution",
+      "examples": ["Hospitals, urgent care centers, pediatric and family practices, school nurses"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
