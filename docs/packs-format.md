@@ -355,19 +355,19 @@ A **toolkit** is shared field expertise any scenario can use, separate from the 
 
 **Toolkit** (`toolkits/<id>.json`): `id` equals the file name, the file is at most 512 KB, and every list is capped. Fields (only `id`, `name` and `description` are required):
 
-| Field            | Meaning                                                                                                                                                           |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `appliesTo`      | `keywords`: hazard and threat words that make the app propose the toolkit when a brief mentions them; `domains`: domain ids it suits                              |
-| `injectTypes`    | inject type ids it adds. Each is a built-in type or a template in the same pack                                                                                   |
-| `figureKinds`    | ids of built-in chart and display kinds it uses                                                                                                                   |
-| `connectors`     | ids of built-in public data sources it uses                                                                                                                       |
-| `outsideParties` | parties the facilitator plays that this field brings in                                                                                                           |
-| `advisorRoles`   | roles a domain can add (`key`, `name`, `abbreviation`, `team`, `description`)                                                                                     |
-| `documents`      | reference documents in library packs (`packId`, `documentId`, `title`)                                                                                            |
-| `metrics`        | built-in evaluation measures with their settings (`id`, `label`, `config` of strings, numbers and booleans)                                                       |
-| `decisionForms`  | structured decisions (`id`, `label`, `description`, `fields` of kind `text`, `number`, `choice`, `time` or `area`; a `choice` field lists at least two `choices`) |
-| `knowledge`      | what the writer needs: `glossary` (term and definition), `productConventions`, `realismRules`                                                                     |
-| `lintRules`      | ids of built-in format checks                                                                                                                                     |
+| Field            | Meaning                                                                                                                                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `appliesTo`      | `keywords`: hazard and threat words that make the app propose the toolkit when a brief mentions them; `domains`: domain ids it suits                                                                                    |
+| `injectTypes`    | inject type ids it adds. Each is a built-in type or a template in the same pack                                                                                                                                         |
+| `figureKinds`    | ids of built-in chart and display kinds it uses                                                                                                                                                                         |
+| `connectors`     | ids of built-in public data sources it uses                                                                                                                                                                             |
+| `outsideParties` | parties the facilitator plays that this field brings in                                                                                                                                                                 |
+| `advisorRoles`   | roles a domain can add (`key`, `name`, `abbreviation`, `team`, `description`)                                                                                                                                           |
+| `documents`      | reference documents in library packs (`packId`, `documentId`, `title`)                                                                                                                                                  |
+| `metrics`        | built-in evaluation measures with their settings (`id`, `label`, `config` of strings, numbers, booleans and lists of strings; `groundTruth` and `series` name case datasets the measure reads)                          |
+| `decisionForms`  | structured decisions (`id`, `label`, `description`, `fields` of kind `text`, `number`, `choice`, `time` or `area`; a `choice` field lists at least two `choices`; an `area` field lists its `areas` and may set `draw`) |
+| `knowledge`      | what the writer needs: `glossary` (term and definition), `productConventions`, `realismRules`                                                                                                                           |
+| `lintRules`      | ids of built-in format checks (see below)                                                                                                                                                                               |
 
 <!-- example:toolkit -->
 
@@ -401,6 +401,17 @@ A **toolkit** is shared field expertise any scenario can use, separate from the 
 ```
 
 **In the app.** A project and each scenario carry a list of toolkit ids; a new scenario starts with the project's list and keeps its own afterwards. A domain profile may list `suggestedToolkits`. For a scenario, the app proposes toolkits whose `appliesTo.keywords` appear in the brief and the domain's suggested ones, each with a one-line reason; nothing turns on until the person confirms. A scenario's toolkits add their knowledge (capped like other context), outside parties and inject types to every generation stage, and the controller handbook lists the toolkits used and their data sources. A toolkit whose pack is removed or disabled is skipped. Toolkits resolve from enabled installed packs first, then enabled bundled packs, the first pack to provide an id winning.
+
+**What a scenario's toolkits switch on.**
+
+- _Decision forms_: the `decisionForms` of every toolkit the scenario has on are offered to players in live play and to the facilitator in Facilitate, in toolkit order, up to 20 forms per session. A choice's options and an area field's places come from the toolkit; an `area` field with no `areas` offers the place name of the scenario's case data, or "Exercise area". Turning a toolkit on or off changes the forms the next time they are read. Each decision is logged with its form id as its kind, which is what a metric's `decisionKinds` match.
+- _Metrics_: on the Evaluation tab, **Compute field metrics** runs the `metrics` of the scenario's toolkits (the first toolkit to name a metric id wins) over the newest live session. Decisions come from the session log. A metric's `groundTruth` is the id of a case dataset holding a list of events (`{ id, time, kind, area?, attrs? }`, or an object with an `events` list); `series` is the id of a dataset holding modeled series. Message consistency reads the key facts and what each partner stated, which the evaluator enters on the same tab. Results are stored with the evaluation and appear in the after-action report under **Field Metrics**. A metric that cannot run (unknown id, dataset not in the scenario, settings that do not fit) is listed and the others still run.
+- _Lint rules_: a toolkit lists the ids of format checks it relies on. A check reads the fields of the inject types it names; the findings of every registered check for an inject's type are added to the writer's repair round while injects are written, and, when a scenario has a toolkit that lists `lintRules`, to the scenario's checks as `TOOLKIT_LINT` warnings on the inject. A scenario without toolkits is checked exactly as before.
+- _Domain profiles_: a profile's `injectTypes` may name types a toolkit provides as well as built-in types. A type that nothing provides is left out when the writer chooses types.
+
+**Capabilities the app provides.** Packs cannot add code, so a toolkit's `figureKinds`, `connectors`, `metrics` and `lintRules` must name capabilities the app has. An id the app does not know is a warning, not an error: the pack still installs, the pack details list "Names things this app lacks" with each unknown id, and the id does nothing. The same warning covers a domain's `injectTypes` that no installed pack, toolkit or built-in type provides. A newer app may know ids an older one does not, which is why these are not refused.
+
+For developers adding a field, the app has three registries, each keyed by id: metrics (an id, a settings schema and a function from the inputs to a result with the inputs shown), figure kinds, and lint rules (an id, the inject types it reads and a function from an inject's fields to findings with a field path and a message). A field registers its own entries in code once; toolkits then name them. Metric ids are lower-case letters, digits and underscores; registering a different metric under a taken id is an error.
 
 **Older apps.** An app that knows only format 2 refuses a version-3 pack with "This pack needs a newer version of the app (pack format 3)". Packs without toolkits keep their older format number.
 

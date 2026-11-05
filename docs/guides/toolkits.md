@@ -31,6 +31,24 @@ For a scenario with toolkits on:
 
 A toolkit whose pack you remove or turn off is skipped. The scenario keeps its list, and the toolkit works again when the pack is back.
 
+## Decisions, measures and format checks
+
+Toolkits also connect to the rest of the app once they are on for a scenario.
+
+**Decisions.** The decisions a toolkit defines, such as "Issue a bulletin" or "Order an evacuation", appear for players in live play and for you in Facilitate, next to the decisions you already have. Each one is a small form (choices, a number, a time, a place). Everything entered goes into the session log. If you turn a toolkit off, its decisions are no longer offered.
+
+**Field metrics.** Open the scenario's Evaluation tab. When a toolkit brings measures, such as how long before an event a decision was made, **Compute field metrics** reads the newest live session and the scenario's case data and shows each result with the inputs it used and its caveats. Press **Refresh field metrics** to recompute after a new session. The same results appear in the after-action report under **Field Metrics**. A measure that cannot be computed is listed with the reason (for example, the dataset it compares against is not in the scenario), and the others still run.
+
+For **message consistency**, add the key facts partners should agree on, then add what each partner stated for them, and press **Save key facts**. The measure compares only what you entered.
+
+**Format checks.** A toolkit can bring format checks for its products. They run on the injects as they are written, and again when you check the scenario; findings appear as warnings on the inject.
+
+A scenario without toolkits behaves as it always did.
+
+## When a pack names something this app does not have
+
+A toolkit can only use charts, data sources, measures and format checks built into the app. If a pack names one your version of the app does not have, the pack still installs. Its details list the unknown names under **Names things this app lacks**, and those parts are ignored. Updating the app usually resolves it. The same notice appears for a domain that prefers an inject type nothing installed provides.
+
 ## Add your own
 
 A toolkit is a small JSON file in a pack. The format, with an example, is in the [pack format reference](../packs-format.md#toolkits-format-3). Anything that needs a program (a chart kind, a public data source, an evaluation measure, a format check) is built into the app; a toolkit names it and sets it up, and cannot add new code.

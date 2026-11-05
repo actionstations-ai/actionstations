@@ -130,12 +130,27 @@ export const Observation = z.object({
 })
 export type Observation = z.infer<typeof Observation>
 
+/** A fact partners' messages should agree on, entered by the evaluator (message consistency). */
+export const KeyFact = z.object({ id: Id, label: z.string().min(1).max(200) })
+export type KeyFact = z.infer<typeof KeyFact>
+
+/** The value one partner states for a key fact, as the evaluator read it. */
+export const FactStatement = z.object({
+  factId: Id,
+  partner: z.string().min(1).max(120),
+  value: z.string().max(500),
+})
+export type FactStatement = z.infer<typeof FactStatement>
+
 /** scenarios/<id>/evaluation.json. Loose so a newer build's fields survive a save (ADR-0016). */
 export const EvaluationRecord = z.looseObject({
   formatVersion: z.number().int().default(1),
   observations: z.array(Observation).max(EVALUATION_LIMITS.observations).default([]),
   /** Field metric results (spec 0448 FR-12): the latest per metric and session. */
   metricResults: z.array(MetricResult).max(200).optional(),
+  /** Inputs the evaluator enters for message consistency (spec 0448 FR-12). */
+  keyFacts: z.array(KeyFact).max(100).optional(),
+  factStatements: z.array(FactStatement).max(1000).optional(),
   updatedAt: IsoDateTime,
 })
 export type EvaluationRecord = z.infer<typeof EvaluationRecord>

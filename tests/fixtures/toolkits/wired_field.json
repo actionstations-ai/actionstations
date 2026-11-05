@@ -1,0 +1,43 @@
+{
+  "id": "wired_field",
+  "name": "Wired field",
+  "description": "A made-up field used by the wiring tests: one decision form, two metrics and one lint rule.",
+  "appliesTo": { "keywords": [], "domains": [] },
+  "injectTypes": ["wired_bulletin"],
+  "figureKinds": ["time_series", "no_such_figure"],
+  "connectors": ["no_such_connector"],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Bulletin lead time",
+      "groundTruth": "truth",
+      "config": {
+        "decisionKinds": ["issue_bulletin"],
+        "eventKinds": ["storm"],
+        "leadWindowMin": 60,
+        "matchArea": false
+      }
+    },
+    { "id": "message_consistency", "config": {} },
+    { "id": "no_such_metric", "config": {} }
+  ],
+  "decisionForms": [
+    {
+      "id": "issue_bulletin",
+      "label": "Issue a bulletin",
+      "description": "Publish a bulletin for the harbor.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Advisory", "Warning"]
+        },
+        { "id": "area", "label": "Area", "kind": "area" },
+        { "id": "time", "label": "Time", "kind": "time", "required": true }
+      ]
+    }
+  ],
+  "lintRules": ["wired_rule", "no_such_rule"]
+}

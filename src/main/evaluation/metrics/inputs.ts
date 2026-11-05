@@ -65,7 +65,11 @@ export interface LogEntryLike {
 
 const Structured = z.object({
   kind: z.string().min(1),
-  area: z.string().optional(),
+  /** A name, or the recorded area of a decision (`{ id?, name, polygon? }`): its name is used. */
+  area: z
+    .union([z.string(), z.object({ name: z.string() })])
+    .transform((a) => (typeof a === 'string' ? a : a.name))
+    .optional(),
   fields: z.record(z.string(), z.unknown()).default({}),
   /** When the decision took effect, if the form recorded a time other than the entry's. */
   time: z.string().optional(),

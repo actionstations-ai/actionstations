@@ -22,7 +22,7 @@ import {
   type PackManifest,
   type PackProblem,
 } from '@shared/schemas/pack'
-import { INJECT_TYPE_IDS } from '@shared/taxonomy'
+import { INJECT_TYPE_IDS, isInjectTypeId } from '@shared/taxonomy'
 import { ToolkitSchema } from '@shared/toolkits'
 import { WorkflowSidecar } from '../comfy/sidecar'
 import { optionalNodes, parseApiWorkflow, requiredNodes } from '../comfy/workflow'
@@ -30,6 +30,7 @@ import { toAppError } from '../lib/errors'
 import { parsePromptRaw, type PromptIssue } from '../prompts/format'
 import { TemplateMeta, TemplatePreview } from '../render/templates'
 import type { PackBuiltins } from './builtins'
+import { unknownCapabilityWarnings } from '../toolkits/capabilities'
 import { customNodeClasses } from './comfy-core-nodes'
 import { schemaRegexProblems } from './schema-regex'
 import { checkTemplateFiles } from './template-check'
@@ -51,6 +52,8 @@ interface ItemResult {
   license?: string
   customNodes?: string[]
   optionalNodes?: string[]
+  /** Things the pack names that the app cannot find; the pack still installs. */
+  warnings?: string[]
 }
 
 // Same options as the template field validator (src/main/render/templates.ts).
@@ -170,7 +173,44 @@ function checkDomain(ctx: Ctx, id: string): ItemResult {
   // Its regexes run in the main process over every document and generated row (#351).
   for (const p of domainProfileRegexProblems(profile))
     ctx.problems.push({ path, message: `${p.path}: ${p.message}` })
-  return { title: profile.label, replacesBuiltin: false }
+  const warnings = unknownInjectTypeWarnings(ctx, profile.injectTypes)
+  return {
+    title: profile.label,
+    replacesBuiltin: false,
+    ...(warnings.length ? { warnings } : {}),
+  }
+}
+
+/**
+ * Preferred inject types a domain lists that are neither built in, a template of this pack, a
+ * type a toolkit of this pack adds, nor a type already registered (installed templates and
+ * toolkit types). A warning only: the generator leaves out a type that is not installed.
+ */
+function unknownInjectTypeWarnings(ctx: Ctx, types: readonly string[]): string[] {
+  const provided = new Set<string>([
+    ...INJECT_TYPE_IDS,
+    ...ctx.manifest.contents.templates,
+    ...ctx.manifest.contents.toolkits.flatMap(
+      (id) => parseToolkitQuietly(ctx, id)?.injectTypes ?? [],
+    ),
+  ])
+  return types
+    .filter((t) => !provided.has(t) && !isInjectTypeId(t))
+    .map(
+      (t) =>
+        `The inject type "${t}" is not provided by the app, this pack or an installed toolkit.`,
+    )
+}
+
+function parseToolkitQuietly(ctx: Ctx, id: string): z.infer<typeof ToolkitSchema> | undefined {
+  const raw = text(ctx, `toolkits/${id}.json`)
+  if (raw === undefined) return undefined
+  try {
+    const parsed = ToolkitSchema.safeParse(JSON.parse(raw))
+    return parsed.success ? parsed.data : undefined
+  } catch {
+    return undefined
+  }
 }
 
 function checkWorkflow(ctx: Ctx, id: string): ItemResult {
@@ -291,7 +331,12 @@ function checkToolkit(ctx: Ctx, id: string): ItemResult {
         path,
         message: `injectTypes: "${type}" is neither a built-in inject type nor a template of this pack`,
       })
-  return { title: toolkit.name, replacesBuiltin: false }
+  const warnings = unknownCapabilityWarnings(toolkit)
+  return {
+    title: toolkit.name,
+    replacesBuiltin: false,
+    ...(warnings.length ? { warnings } : {}),
+  }
 }
 
 const CHECKS: Record<PackKind, (ctx: Ctx, id: string) => ItemResult> = {
@@ -343,6 +388,7 @@ export function checkPackContent(
         license: r.license || manifest.license,
         ...(r.customNodes ? { customNodes: r.customNodes } : {}),
         ...(r.optionalNodes ? { optionalNodes: r.optionalNodes } : {}),
+        ...(r.warnings ? { warnings: r.warnings } : {}),
         size,
       })
     }

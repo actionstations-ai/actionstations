@@ -65,6 +65,36 @@ describe('decisions from the session log', () => {
   })
 })
 
+describe('decisions as the live session logs them', () => {
+  it('reads a recorded area by its name', () => {
+    const out = decisionsFromLog([
+      {
+        i: 4,
+        at: '2026-09-01T11:50:00.000Z',
+        kind: 'decision.submitted',
+        data: {
+          structured: {
+            id: 'dec-1',
+            time: '2026-09-01T11:45:00.000Z',
+            kind: 'issue_bulletin',
+            area: { id: 'harbor', name: 'Harbor' },
+            fields: { level: 'warning' },
+          },
+        },
+      },
+    ])
+    expect(out).toEqual([
+      {
+        id: 'log:4',
+        time: '2026-09-01T11:45:00.000Z',
+        kind: 'issue_bulletin',
+        area: 'Harbor',
+        fields: { level: 'warning' },
+      },
+    ])
+  })
+})
+
 describe('suggested statements', () => {
   const facts = [{ id: 'eta', label: 'Landfall time' }]
   const messages = [

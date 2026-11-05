@@ -50,8 +50,15 @@ export const ToolkitMetric = z.object({
   id: CapabilityId,
   label: Short.optional(),
   config: z
-    .record(z.string().max(64), z.union([z.string().max(500), z.number(), z.boolean()]))
+    .record(
+      z.string().max(64),
+      z.union([z.string().max(500), z.number(), z.boolean(), z.array(z.string().max(200)).max(50)]),
+    )
     .default({}),
+  /** Case dataset id (events) the metric compares decisions against; ground truth. */
+  groundTruth: z.string().max(64).optional(),
+  /** Case dataset id (modeled series) a threshold metric reads. */
+  series: z.string().max(64).optional(),
 })
 export type ToolkitMetric = z.infer<typeof ToolkitMetric>
 
@@ -66,6 +73,10 @@ export const DecisionField = z
     required: z.boolean().default(false),
     /** The options of a `choice` field. */
     choices: z.array(Short).max(50).default([]),
+    /** The named places of an `area` field; the scenario's case area is offered when empty. */
+    areas: z.array(Short).max(40).default([]),
+    /** An `area` field may also be drawn on a map where the screen has one. */
+    draw: z.boolean().default(false),
   })
   .refine((f) => f.kind !== 'choice' || f.choices.length >= 2, {
     message: 'a choice field needs at least two choices',

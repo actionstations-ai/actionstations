@@ -27,6 +27,7 @@ import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { registerMediaToolkit } from './toolkits/media'
+import { installToolkitDecisionForms } from './toolkits/decision-forms'
 import { toolProcesses } from './setup/processes'
 import { checkMapCatalogAtStartup } from './maps/auto-check'
 import { scheduleStartupCheck } from './updates/check'
@@ -212,6 +213,8 @@ void app.whenReady().then(async () => {
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
   registerMediaToolkit()
+  // Decision forms for live play and Facilitate come from the scenario's toolkits (spec 0448).
+  installToolkitDecisionForms()
   const devIcon = app.isPackaged ? undefined : devIconPath()
   if (devIcon && process.platform === 'darwin') app.dock?.setIcon(devIcon)
   if (!app.isPackaged) console.log(`[providers] adapters: ${listAdapterKinds().join(', ')}`)

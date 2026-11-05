@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { INJECT_TYPE_IDS } from '@shared/taxonomy'
 import { buildPack, validPackTree, type Manifest } from '../../../tests/fixtures/packs/build'
 
 vi.mock('electron', () => ({
@@ -115,5 +116,50 @@ describe('pack format 3: toolkits', () => {
       (m) => (m.formatVersion = 3),
     )
     expect(problems(r)).toMatch(/at most 512 KB/)
+  })
+})
+
+describe('pack warnings for ids the app has no code for', () => {
+  const warningsOf = (r: Awaited<ReturnType<typeof read>>, kind: string): string[] =>
+    r.ok ? r.pack.items.filter((i) => i.kind === kind).flatMap((i) => i.warnings ?? []) : []
+
+  it('warns, without refusing, about toolkit connector and lint rule ids the app lacks', async () => {
+    const r = await read(
+      { 'toolkits/test_field.json': { ...toolkit(), injectTypes: [] } },
+      (m) => (m.formatVersion = 3),
+    )
+    expect(problems(r)).toBe('')
+    expect(warningsOf(r, 'toolkits')).toEqual([
+      'The app has no data connector "test_archive"; it is ignored.',
+      'The app has no lint rule "bulletin_syntax"; it is ignored.',
+    ])
+  })
+
+  it('gives no warning when the ids are known', async () => {
+    const known = {
+      ...toolkit(),
+      injectTypes: [],
+      connectors: [],
+      lintRules: [],
+      metrics: [{ id: 'threshold_timing', config: {} }],
+    }
+    const r = await read({ 'toolkits/test_field.json': known }, (m) => (m.formatVersion = 3))
+    expect(problems(r)).toBe('')
+    expect(warningsOf(r, 'toolkits')).toEqual([])
+  })
+
+  it('warns about a domain inject type that nothing provides, and not about a built-in one', async () => {
+    const tree = validPackTree()
+    const domain = JSON.parse(tree['domains/heritage_rail.json'] as string) as {
+      injectTypes: string[]
+    }
+    domain.injectTypes = [INJECT_TYPE_IDS[0]!, 'no_such_type']
+    tree['domains/heritage_rail.json'] = JSON.stringify(domain)
+    const buffer = await buildPack(tree)
+    const r = await readPack({ buffer }, { appVersion: APP, builtins })
+    expect(problems(r)).toBe('')
+    expect(warningsOf(r, 'domains')).toEqual([
+      'The inject type "no_such_type" is not provided by the app, this pack or an installed toolkit.',
+    ])
   })
 })

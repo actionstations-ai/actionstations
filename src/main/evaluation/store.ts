@@ -2,7 +2,13 @@
 // Facilitate screen, or paper EEGs typed up afterwards, stored beside the scenario as
 // scenarios/<id>/evaluation.json. Live-play observations (#416) arrive in the session log; the
 // AAR (#419) reads both through one record builder.
-import { EvaluationRecord, type MetricResult, type Observation } from '@shared/schemas'
+import {
+  EvaluationRecord,
+  type FactStatement,
+  type KeyFact,
+  type MetricResult,
+  type Observation,
+} from '@shared/schemas'
 import { nowIso } from '../lib/ids'
 import { readJsonOr, safeJoin, writeJsonAtomic } from '../lib/fs'
 import { requireScenarioDir } from '../scenario/store'
@@ -93,4 +99,21 @@ export function saveMetricResults(
     const kept = (record.metricResults ?? []).filter((old) => !results.some((r) => same(old, r)))
     return { ...record, metricResults: [...kept, ...results] }
   })
+}
+
+/**
+ * Replace the key facts and what each partner states for them (message consistency). A
+ * statement about a fact that is not listed is dropped.
+ */
+export function saveMetricInputs(
+  root: string,
+  scenarioId: string,
+  inputs: { keyFacts: KeyFact[]; factStatements: FactStatement[] },
+): Promise<EvaluationRecord> {
+  const ids = new Set(inputs.keyFacts.map((f) => f.id))
+  return updateEvaluation(root, scenarioId, (record) => ({
+    ...record,
+    keyFacts: inputs.keyFacts,
+    factStatements: inputs.factStatements.filter((s) => ids.has(s.factId)),
+  }))
 }

@@ -1,6 +1,7 @@
-// The built-in metric registry (spec 0448 FR-12). A toolkit names metrics by id with a config;
+// The metric registry (spec 0448 FR-12). A toolkit names metrics by id with a config;
 // `runMetric` validates the config, hands the metric the inputs it reads and stamps the result.
-// Packs configure metrics; they cannot add one (metrics are app code).
+// Packs configure metrics; they cannot add one (metrics are app code). The three generic metrics
+// are registered here; a field adds its own with `registerMetric` (id, config schema, compute).
 import type {
   GroundTruthEvent,
   MetricDecision,
@@ -16,6 +17,7 @@ import { messageConsistency, type FactStatement, type KeyFact } from './message-
 import { reporterHandling } from './reporter-handling'
 import { statementAccuracy, type StatementCheck } from './statement-accuracy'
 import { thresholdTiming } from './threshold-timing'
+import type { Metric } from './types'
 import { verification } from './verification'
 
 /** Everything any metric may read; a metric uses the part it needs. */
@@ -27,9 +29,11 @@ export interface MetricInputBag {
   statements?: FactStatement[]
   /** Statement claims checked against the fact sheet (media environment). */
   checks?: StatementCheck[]
+  /** Datasets a field metric reads that the generic ones do not, by dataset id. */
+  datasets?: Record<string, unknown>
 }
 
-export const METRIC_IDS = [
+export const BUILTIN_METRIC_IDS = [
   'decision_timing',
   'threshold_timing',
   'message_consistency',
@@ -39,67 +43,64 @@ export const METRIC_IDS = [
   'reporter_handling',
   'verification',
 ] as const
-export type MetricId = (typeof METRIC_IDS)[number]
 
-export const isMetricId = (id: string): id is MetricId =>
-  (METRIC_IDS as readonly string[]).includes(id)
+interface Entry {
+  metric: Metric<unknown, unknown>
+  pick: (bag: MetricInputBag) => unknown
+}
+
+const entries = new Map<string, Entry>()
+
+const METRIC_ID = /^[a-z][a-z0-9_]{0,63}$/
+
+/**
+ * Add a metric. `pick` chooses the part of the input bag the metric reads (the whole bag when
+ * omitted). The same metric twice is a no-op; a different one under a taken id throws.
+ */
+export function registerMetric<Config, Inputs>(
+  metric: Metric<Config, Inputs>,
+  pick: (bag: MetricInputBag) => Inputs = (bag) => bag as unknown as Inputs,
+): void {
+  if (!METRIC_ID.test(metric.id)) throw new Error(`Metric id "${metric.id}" is not valid`)
+  const existing = entries.get(metric.id)
+  if (existing && existing.metric !== (metric as unknown as Metric<unknown, unknown>))
+    throw new Error(`Metric "${metric.id}" is already registered`)
+  entries.set(metric.id, { metric: metric as unknown as Metric<unknown, unknown>, pick })
+}
+
+registerMetric(decisionTiming, (b) => ({ events: b.events ?? [], decisions: b.decisions ?? [] }))
+registerMetric(thresholdTiming, (b) => ({ series: b.series ?? [], decisions: b.decisions ?? [] }))
+registerMetric(messageConsistency, (b) => ({
+  facts: b.facts ?? [],
+  statements: b.statements ?? [],
+}))
+// The media environment's metrics (events and decisions, except accuracy: checked claims).
+const eventsAndDecisions = (b: MetricInputBag) => ({
+  events: b.events ?? [],
+  decisions: b.decisions ?? [],
+})
+registerMetric(holdingStatementTime, eventsAndDecisions)
+registerMetric(statementAccuracy, (b) => ({ checks: b.checks ?? [] }))
+registerMetric(corrections, eventsAndDecisions)
+registerMetric(reporterHandling, eventsAndDecisions)
+registerMetric(verification, eventsAndDecisions)
+
+export const metricIds = (): string[] => [...entries.keys()].sort()
+export const isMetricId = (id: string): boolean => entries.has(id)
+export const metricTitle = (id: string): string | undefined => entries.get(id)?.metric.title
 
 export interface RunContext {
   sessionId?: string
   now?: () => Date
 }
 
-function compute(ref: MetricRef & { id: MetricId }, bag: MetricInputBag) {
-  switch (ref.id) {
-    case 'decision_timing':
-      return decisionTiming.compute(
-        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
-        decisionTiming.configSchema.parse(ref.config),
-      )
-    case 'threshold_timing':
-      return thresholdTiming.compute(
-        { series: bag.series ?? [], decisions: bag.decisions ?? [] },
-        thresholdTiming.configSchema.parse(ref.config),
-      )
-    case 'message_consistency':
-      return messageConsistency.compute(
-        { facts: bag.facts ?? [], statements: bag.statements ?? [] },
-        messageConsistency.configSchema.parse(ref.config),
-      )
-    case 'holding_statement_time':
-      return holdingStatementTime.compute(
-        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
-        holdingStatementTime.configSchema.parse(ref.config),
-      )
-    case 'statement_accuracy':
-      return statementAccuracy.compute(
-        { checks: bag.checks ?? [] },
-        statementAccuracy.configSchema.parse(ref.config),
-      )
-    case 'corrections':
-      return corrections.compute(
-        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
-        corrections.configSchema.parse(ref.config),
-      )
-    case 'reporter_handling':
-      return reporterHandling.compute(
-        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
-        reporterHandling.configSchema.parse(ref.config),
-      )
-    case 'verification':
-      return verification.compute(
-        { events: bag.events ?? [], decisions: bag.decisions ?? [] },
-        verification.configSchema.parse(ref.config),
-      )
-  }
-}
-
 /** Run one named metric. An unknown id or a config that does not fit is a validation error. */
 export function runMetric(ref: MetricRef, bag: MetricInputBag, ctx: RunContext = {}): MetricResult {
-  if (!isMetricId(ref.id)) throw new AppError('VALIDATION', `Unknown metric: ${ref.id}`)
+  const entry = entries.get(ref.id)
+  if (!entry) throw new AppError('VALIDATION', `Unknown metric: ${ref.id}`)
   let out
   try {
-    out = compute({ ...ref, id: ref.id }, bag)
+    out = entry.metric.compute(entry.pick(bag), entry.metric.configSchema.parse(ref.config))
   } catch (e) {
     if (e instanceof AppError) throw e
     throw new AppError('VALIDATION', `Metric ${ref.id} could not run: ${(e as Error).message}`)

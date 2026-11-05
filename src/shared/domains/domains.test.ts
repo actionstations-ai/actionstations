@@ -1,3 +1,5 @@
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
   builtinProfile,
@@ -21,6 +23,21 @@ import { INJECT_TYPE_IDS, injectTypeInfo, injectTypesForDomain } from '../taxono
 
 // The bundled profiles (packs/domains/*.json, ADR-0020) as tests/setup registers them.
 const DOMAIN_PROFILES = bundledProfiles()
+
+// Inject types the bundled toolkits add (packs/toolkits/*.json): a profile may prefer them
+// too, besides the built-in types.
+const TOOLKIT_DIR = join(process.cwd(), 'packs', 'toolkits')
+const TOOLKIT_TYPE_IDS: string[] = existsSync(TOOLKIT_DIR)
+  ? readdirSync(TOOLKIT_DIR)
+      .filter((f) => f.endsWith('.json'))
+      .flatMap((f) => {
+        const toolkit = JSON.parse(readFileSync(join(TOOLKIT_DIR, f), 'utf8')) as {
+          injectTypes?: string[]
+        }
+        return toolkit.injectTypes ?? []
+      })
+  : []
+const KNOWN_TYPE_IDS = [...INJECT_TYPE_IDS, ...TOOLKIT_TYPE_IDS]
 
 describe('built-in domain profiles', () => {
   it('ships the profiles the brief asks for, each valid against the schema', () => {
@@ -64,7 +81,7 @@ describe('built-in domain profiles', () => {
 
   it('references only inject types and threat families that exist', () => {
     for (const p of DOMAIN_PROFILES) {
-      for (const t of p.injectTypes) expect(INJECT_TYPE_IDS, `${p.id} → ${t}`).toContain(t)
+      for (const t of p.injectTypes) expect(KNOWN_TYPE_IDS, `${p.id} → ${t}`).toContain(t)
       for (const f of p.threatFamilies)
         expect([...THREAT_FAMILY_IDS, ...(p.addedThreatFamilies ?? []).map((t) => t.id)]).toContain(
           f,
@@ -81,7 +98,7 @@ describe('built-in domain profiles', () => {
     // A profile never prefers a type tagged for another domain.
     for (const p of DOMAIN_PROFILES) {
       const allowed = new Set(injectTypesForDomain(p.id).map((t) => t.id))
-      const foreign = p.injectTypes.filter((t) => !allowed.has(t))
+      const foreign = p.injectTypes.filter((t) => !allowed.has(t) && !TOOLKIT_TYPE_IDS.includes(t))
       expect(foreign, `${p.id} prefers ${foreign.join(', ')}`).toEqual([])
     }
   })

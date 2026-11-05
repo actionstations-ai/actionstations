@@ -19,6 +19,7 @@ import {
   replacesText,
   sourceText,
 } from './pack-format'
+import { ItemWarnings } from './ItemWarnings'
 
 const INVALIDATES = ['packs:list', 'packs:updates'] as const
 
@@ -103,6 +104,7 @@ function Contents({ r }: { r: PackReview }) {
                 {i.optionalNodes && i.optionalNodes.length > 0 && (
                   <Badge tone="info">Uses optional custom nodes</Badge>
                 )}
+                <ItemWarnings warnings={i.warnings} />
               </li>
             ))}
           </ul>
