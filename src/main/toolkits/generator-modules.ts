@@ -4,6 +4,7 @@
 import './ai/register-generators'
 import './animal_disease/register-generators'
 import './epidemiology/register-generators'
+import './governance/register-generators'
 import './ems/generators'
 import './justice/register-generators'
 import './lab_safety/register-generators'

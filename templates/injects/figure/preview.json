@@ -2346,6 +2346,176 @@
           }
         }
       }
+    },
+    "gov_bia_table": {
+      "fields": {
+        "heading": "Business impact analysis, Ardent Ridge Manufacturing (fictional)",
+        "source": "Business continuity program, reviewed March 2026",
+        "figures": {
+          "main": {
+            "kind": "gov_bia_table",
+            "data": {
+              "title": "Business impact analysis: critical functions",
+              "asOf": "Reviewed March 2026",
+              "functions": [
+                {
+                  "name": "Order entry and billing",
+                  "owner": "VP Sales Operations",
+                  "rtoHours": 4,
+                  "rpoHours": 1,
+                  "impact": {
+                    "h4": "Low",
+                    "h24": "High",
+                    "h72": "Severe"
+                  },
+                  "dependencies": ["ERP", "Payment processor"]
+                },
+                {
+                  "name": "Plant production scheduling",
+                  "owner": "COO",
+                  "rtoHours": 8,
+                  "rpoHours": 4,
+                  "impact": {
+                    "h4": "Medium",
+                    "h24": "High",
+                    "h72": "Severe"
+                  },
+                  "dependencies": ["Scheduling system", "Plant network"]
+                },
+                {
+                  "name": "Payroll",
+                  "owner": "CFO",
+                  "rtoHours": 48,
+                  "rpoHours": 24,
+                  "impact": {
+                    "h4": "Low",
+                    "h24": "Low",
+                    "h72": "High"
+                  },
+                  "dependencies": ["HR system", "Bank interface"]
+                },
+                {
+                  "name": "Regulatory and SEC reporting",
+                  "owner": "General Counsel",
+                  "rtoHours": 24,
+                  "rpoHours": 24,
+                  "impact": {
+                    "h4": "Low",
+                    "h24": "Medium",
+                    "h72": "Severe"
+                  },
+                  "dependencies": ["Document management", "EDGAR filing agent"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "gov_recovery_tracker": {
+      "fields": {
+        "heading": "Recovery status at hour 14, plant systems incident (simulated)",
+        "source": "Business continuity manager",
+        "figures": {
+          "main": {
+            "kind": "gov_recovery_tracker",
+            "data": {
+              "title": "Recovery against recovery time objectives",
+              "elapsedHours": 14,
+              "horizonHours": 48,
+              "functions": [
+                {
+                  "name": "Network and identity",
+                  "rtoHours": 4,
+                  "startHour": 1,
+                  "recoveredHour": 3.5
+                },
+                {
+                  "name": "ERP and billing",
+                  "rtoHours": 8,
+                  "startHour": 3.5,
+                  "recoveredHour": 7.5
+                },
+                {
+                  "name": "Plant scheduling",
+                  "rtoHours": 12,
+                  "startHour": 3.5
+                },
+                {
+                  "name": "Order entry",
+                  "rtoHours": 8,
+                  "startHour": 7.5,
+                  "recoveredHour": 9
+                },
+                {
+                  "name": "Shipping and logistics",
+                  "rtoHours": 24
+                },
+                {
+                  "name": "Payroll",
+                  "rtoHours": 48,
+                  "startHour": 7.5
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "gov_decision_timeline": {
+      "fields": {
+        "heading": "Decision timeline, plant systems incident (simulated)",
+        "source": "Disclosure committee",
+        "figures": {
+          "main": {
+            "kind": "gov_decision_timeline",
+            "data": {
+              "title": "Discovery, determination and filing",
+              "events": [
+                {
+                  "hour": 0,
+                  "kind": "discovery"
+                },
+                {
+                  "hour": 5,
+                  "kind": "board_notice",
+                  "label": "Audit chair informed"
+                },
+                {
+                  "hour": 22.8,
+                  "kind": "determination"
+                },
+                {
+                  "hour": 30,
+                  "kind": "board_notice",
+                  "label": "Full board briefed"
+                },
+                {
+                  "hour": 40,
+                  "kind": "insurer_notice"
+                },
+                {
+                  "hour": 110,
+                  "kind": "filing",
+                  "label": "Item 1.05 8-K filed"
+                }
+              ],
+              "clocks": [
+                {
+                  "label": "Form 8-K: four business days",
+                  "fromHour": 22.8,
+                  "toHour": 118.8
+                },
+                {
+                  "label": "Determine without delay",
+                  "fromHour": 0,
+                  "toHour": 22.8
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }
