@@ -2,7 +2,12 @@
 // this module registers them. The framework labels everything they produce as simulated.
 import { registerGenerator, type GeneratedDataset } from '../../case-data/generators'
 import { CallLoadParams, generateCallLoad } from './call-load'
-import { CasualtyParams, generateCasualties, type SimPatient } from './casualties'
+import {
+  CasualtyParams,
+  generateCasualties,
+  type CasualtyResult,
+  type SimPatient,
+} from './casualties'
 import { ReleaseParams, exposures, windSegments, zoneFeatures } from './release'
 
 const range = (times: string[]): { start: string; end: string } => {
@@ -14,6 +19,74 @@ const patientLine = (x: SimPatient): string =>
   `${x.ageYears} ${x.sex}. ${x.injuries}. ${Math.round(x.findings.respirationsPerMinute)} breaths a minute, ` +
   `refill ${x.findings.capillaryRefillSeconds} s, ${x.findings.obeysCommands ? 'obeys commands' : 'does not obey commands'}. ` +
   `${x.priority}. Best destination: ${x.bestDestination}.`
+
+interface TruthEvent {
+  id: string
+  time: string
+  kind: string
+  attrs: Record<string, unknown>
+}
+
+/**
+ * Ground-truth events for the metrics, in a file the dataset reader accepts: an `events` list
+ * beside an empty GeoJSON collection, so map overlays draw nothing from it.
+ */
+const groundTruth = (events: TruthEvent[]) => ({ type: 'FeatureCollection', features: [], events })
+
+function mciEvents(p: CasualtyParams, r: CasualtyResult): TruthEvent[] {
+  const first = new Date(Date.parse(p.startTime) + p.firstUnitMinutes * 60_000).toISOString()
+  return [
+    { id: 'first-unit', time: first, kind: 'first_unit_on_scene', attrs: {} },
+    { id: 'triage-complete', time: r.triageCompleteAt, kind: 'triage_complete', attrs: {} },
+    ...r.patients.map((x) => ({
+      id: x.id,
+      time: x.triagedAt,
+      kind: 'patient',
+      attrs: {
+        tag: x.id,
+        priority: x.priority,
+        appropriate: x.appropriateHospitals,
+        best: x.bestDestination,
+        shortfall: x.capacityShortfall,
+      },
+    })),
+    ...p.hospitals.map((h) => ({
+      id: h.name,
+      time: p.startTime,
+      kind: 'hospital',
+      attrs: { name: h.name, limit: h.receiveLimit },
+    })),
+  ]
+}
+
+function releaseEvents(p: ReleaseParams, at: (m: number) => string): TruthEvent[] {
+  return [
+    {
+      id: 'zone',
+      time: at(0),
+      kind: 'release_zone',
+      attrs: {
+        isolationDistance: p.isolationDistance,
+        protectiveDistance: p.protectiveDistance,
+        unit: p.unit,
+        distanceSource:
+          p.distanceSource === 'fictional' ? 'invented exercise values' : `guidebook ${p.edition}`,
+      },
+    },
+    ...exposures(p).flatMap((e) =>
+      e.arrivesAtMinutes === null
+        ? []
+        : [
+            {
+              id: `${e.place}-${e.segment}`,
+              time: at(e.arrivesAtMinutes),
+              kind: 'plume_arrival',
+              attrs: { place: e.place, zone: e.zone },
+            },
+          ],
+    ),
+  ]
+}
 
 function casualtyDatasets(raw: unknown): GeneratedDataset[] {
   const p = CasualtyParams.parse(raw)
@@ -67,6 +140,13 @@ function casualtyDatasets(raw: unknown): GeneratedDataset[] {
       range: r2,
       data: load,
     },
+    {
+      id: 'mci-ground-truth',
+      label: `Ground truth for scoring, ${p.incident}`,
+      kind: 'features',
+      range: r2,
+      data: groundTruth(mciEvents(p, r)),
+    },
   ]
 }
 
@@ -107,6 +187,13 @@ function releaseDatasets(raw: unknown): GeneratedDataset[] {
       data: arrivals.length
         ? arrivals.sort((a, b) => a.t.localeCompare(b.t))
         : [{ t: at(0), title: 'No place in a zone', text: 'No listed place is inside a zone.' }],
+    },
+    {
+      id: 'release-ground-truth',
+      label: `Ground truth for scoring, ${p.incident}`,
+      kind: 'features',
+      range: { start: at(0), end: at(p.durationMinutes) },
+      data: groundTruth(releaseEvents(p, at)),
     },
   ]
 }

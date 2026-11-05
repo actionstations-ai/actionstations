@@ -68,11 +68,35 @@
       "label": "Call for mutual aid or state resources",
       "description": "Ask another agency or the state for units, with what, how many and where they report.",
       "fields": [
-        { "id": "requested_from", "label": "Requested from", "kind": "text", "required": true },
-        { "id": "resource", "label": "Resource", "kind": "text", "required": true },
-        { "id": "quantity", "label": "Quantity", "kind": "number", "required": true },
-        { "id": "report_to", "label": "Report to", "kind": "text" },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "requested_from",
+          "label": "Requested from",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "resource",
+          "label": "Resource",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "quantity",
+          "label": "Quantity",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "report_to",
+          "label": "Report to",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -80,10 +104,30 @@
       "label": "Transfer command",
       "description": "Command passes from one officer to another with a briefing, and the change is announced.",
       "fields": [
-        { "id": "from", "label": "Giving command", "kind": "text", "required": true },
-        { "id": "to", "label": "Taking command", "kind": "text", "required": true },
-        { "id": "time", "label": "Time", "kind": "time", "required": true },
-        { "id": "briefing", "label": "Briefing given", "kind": "text", "required": true },
+        {
+          "id": "from",
+          "label": "Giving command",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "to",
+          "label": "Taking command",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "briefing",
+          "label": "Briefing given",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "announced",
           "label": "Announced on",
@@ -97,10 +141,29 @@
       "label": "Declare a mayday",
       "description": "A responder calls for help; command clears the channel and starts the rescue and accountability.",
       "fields": [
-        { "id": "unit", "label": "Unit in trouble", "kind": "text", "required": true },
-        { "id": "location", "label": "Location", "kind": "text" },
-        { "id": "time", "label": "Time called", "kind": "time", "required": true },
-        { "id": "action", "label": "First action", "kind": "text", "required": true },
+        {
+          "id": "unit",
+          "label": "Unit in trouble",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time called",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "action",
+          "label": "First action",
+          "kind": "text",
+          "required": true
+        },
         {
           "id": "par",
           "label": "Accountability report ordered",
@@ -152,5 +215,14 @@
       "This toolkit shows the responders' view; the 911 center's own CAD failure belongs to the emergency communications domain."
     ]
   },
-  "lintRules": []
+  "lintRules": [],
+  "metrics": [
+    {
+      "id": "accountability",
+      "label": "Command and accountability",
+      "config": {
+        "maydayActionMin": 2
+      }
+    }
+  ]
 }

@@ -18,4 +18,4 @@ A hazmat exercise needs isolation and protective action distances. The Emergency
 
 - Handbooks can state the source of every distance because the figure and the decision form carry it.
 - Adding a table later is a data file and a registration, not a change to the figure.
-- The rule is a pure function today; it applies to generated text once the toolkit lint registry consumes `lintRules`.
+- The rule is registered with the field lint rules, so it runs on the injects of the hazmat types and the common report types.

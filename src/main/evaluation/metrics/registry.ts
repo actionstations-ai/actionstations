@@ -26,13 +26,17 @@ import {
   pickRestoreOrder,
   pickSafeCare,
 } from './clinical-inputs'
+import { accountability } from './accountability'
 import { corrections } from './corrections'
 import { decisionTiming } from './decision-timing'
+import { destinationFit } from './destination-fit'
 import { holdingStatementTime } from './holding-statement-time'
 import { messageConsistency, type FactStatement, type KeyFact } from './message-consistency'
+import { protectiveActionDistance } from './protective-action-distance'
 import { reporterHandling } from './reporter-handling'
 import { statementAccuracy, type StatementCheck } from './statement-accuracy'
 import { thresholdTiming } from './threshold-timing'
+import { triageCompletion } from './triage-completion'
 import type { Metric } from './types'
 import { verification } from './verification'
 
@@ -58,6 +62,10 @@ export const BUILTIN_METRIC_IDS = [
   'corrections',
   'reporter_handling',
   'verification',
+  'triage_completion',
+  'destination_fit',
+  'protective_action_distance',
+  'accountability',
 ] as const
 
 interface Entry {
@@ -107,6 +115,11 @@ registerMetric(criticalResultCommunication, pickCriticalResults)
 registerMetric(reconciliationProgress, pickReconciliation)
 registerMetric(duplicateRecordsCreated, pickDuplicates)
 registerMetric(restoreOrderScore, pickRestoreOrder)
+// EMS, fire and hazmat metrics (events from the simulated incident, decisions of the toolkit forms).
+registerMetric(triageCompletion, eventsAndDecisions)
+registerMetric(destinationFit, eventsAndDecisions)
+registerMetric(protectiveActionDistance, eventsAndDecisions)
+registerMetric(accountability, eventsAndDecisions)
 
 export const metricIds = (): string[] => [...entries.keys()].sort()
 export const isMetricId = (id: string): boolean => entries.has(id)
