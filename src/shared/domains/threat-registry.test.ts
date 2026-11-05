@@ -1,6 +1,6 @@
 // The threat family registry (#655, FR-15): built-ins unchanged, families added by any pack
 // content type through one function, validation, and profiles that carry their own families.
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   AddedThreatFamilies,
   THREAT_FAMILIES,
@@ -35,6 +35,14 @@ function flood(over: Partial<ThreatFamily> = {}): ThreatFamily {
     ...over,
   }
 }
+
+// The test setup registers the bundled domains, some of which add families; these tests start
+// from the built-ins alone.
+beforeEach(() => {
+  setThreatFamilySource('bundled-domains', [])
+  setThreatFamilySource('toolkits', [])
+  registerPackProfiles([])
+})
 
 afterEach(() => {
   setThreatFamilySource('toolkits', [])

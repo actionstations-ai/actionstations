@@ -1,0 +1,1024 @@
+{
+  "id": "nursing",
+  "label": "Nursing and clinical care",
+  "description": "The unit and the classroom view of a hospital: charge nurses, nurse managers, rapid response nurses and nurse educators deciding about patients in beds. It builds on the healthcare profile (everything a hospital exercise inherits is repeated here, so a project can run on either) and adds three variants as role sets: a hospital nursing unit, a long-term care facility and a nursing program simulation lab. Plans and references: the CMS emergency preparedness program (42 CFR 482.15 for hospitals, 483.73 for long-term care), the hospital's evacuation and downtime plans, the NCSBN Clinical Judgment Measurement Model for case studies and the INACSL simulation standards for prebriefing and debriefing. Clinical content is exercise content, never clinical guidance; every patient is synthetic.",
+  "aliases": [
+    "nurse",
+    "nurses",
+    "charge nurse",
+    "nurse manager",
+    "rapid response",
+    "RRT",
+    "med-surg",
+    "ICU nursing",
+    "NICU",
+    "nurse educator",
+    "nursing school",
+    "nursing program",
+    "simulation lab",
+    "clinical simulation",
+    "unfolding case study",
+    "long-term care",
+    "long-term care nursing",
+    "nursing home",
+    "skilled nursing facility",
+    "patient care unit"
+  ],
+  "vocabulary": {
+    "facility": "the nursing unit (or the long-term care facility, or the simulation lab) and the hospital around it",
+    "public": "patients, residents, families and visitors",
+    "frontline": "staff nurses, charge nurses, nursing assistants, unit clerks, respiratory therapists, rapid response nurses",
+    "operationsCenter": "the unit's charge nurse desk, backed by the house supervisor and the Hospital Command Center"
+  },
+  "factCategories": [
+    {
+      "id": "units",
+      "label": "Units / wards",
+      "noun": "Wards?|Nursing Units?|Care Units?",
+      "genericNoun": "Units?",
+      "context": "patient|nurs|\\bbeds?\\b|ward|clinical|census|\\bICU\\b|\\bNICU\\b|med-?surg|telemetry|admission|discharge|resident",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "patient_rooms",
+      "label": "Patient rooms and beds",
+      "noun": "Rooms?|Beds?",
+      "context": "patient|nurs|resident|isolation|census|admit|transfer",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "floors_wings",
+      "label": "Floors / wings",
+      "noun": "Floors?|Wings?|Halls?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "electronic health record (EHR) and the nursing flowsheets",
+      "barcode medication administration (BCMA) and the medication administration record (MAR)",
+      "bedside monitors and the central telemetry station",
+      "laboratory information system and critical value call-backs",
+      "automated dispensing cabinets",
+      "nurse call and the patient-room intercom",
+      "secure messaging and paging",
+      "staffing and scheduling system",
+      "bed management and patient flow board",
+      "the paper downtime forms binder and the downtime computer",
+      "learning management system and the simulation recording system (simulation lab)"
+    ],
+    "ot": [
+      "medical gas and suction",
+      "emergency power and the red outlets",
+      "infusion pumps and ventilators",
+      "bed alarms and fall-risk alarms",
+      "elevators and the evacuation sleds",
+      "HVAC and room temperature in the long-term care wing",
+      "door access, infant security and duress buttons",
+      "fire alarm panels and smoke compartments",
+      "high-fidelity manikins and the control room (simulation lab)"
+    ]
+  },
+  "roles": [
+    {
+      "key": "cno",
+      "name": "Chief Nursing Officer (Operations Section Chief)",
+      "abbreviation": "CNO",
+      "team": "Hospital unit: Nursing leadership",
+      "description": "Owns hospital-wide nursing staffing, paper workflows, transfers and bed capacity."
+    },
+    {
+      "key": "nurse_manager",
+      "name": "Nurse manager / unit director",
+      "abbreviation": "NM",
+      "team": "Hospital unit: Nursing leadership",
+      "description": "Owns unit staffing, calling in staff, reassigning nurses and the evacuation order of the unit's patients."
+    },
+    {
+      "key": "charge_nurse",
+      "name": "Charge nurse",
+      "abbreviation": "CN",
+      "team": "Hospital unit: Unit",
+      "description": "Owns the shift's assignments, bed moves, triage on a surge and escalation to the house supervisor."
+    },
+    {
+      "key": "house_supervisor",
+      "name": "House supervisor (nursing supervisor)",
+      "abbreviation": "HS",
+      "team": "Hospital unit: Nursing leadership",
+      "description": "Owns cross-unit resource moves, diversion input and the first call at night."
+    },
+    {
+      "key": "staff_nurse",
+      "name": "Staff nurse (RN)",
+      "abbreviation": "RN",
+      "team": "Hospital unit: Unit",
+      "description": "Owns assessment, medication administration, escalation, handoff and documentation under downtime."
+    },
+    {
+      "key": "assistant",
+      "name": "Licensed practical nurse and nursing assistant",
+      "abbreviation": "LPN/CNA",
+      "team": "Hospital unit: Unit",
+      "description": "Owns delegated tasks, vital signs and resident care."
+    },
+    {
+      "key": "rrt_nurse",
+      "name": "Rapid response / resuscitation team nurse",
+      "abbreviation": "RRT",
+      "team": "Hospital unit: Response team",
+      "description": "Owns the bedside assessment on a call and the transfer to a higher level of care."
+    },
+    {
+      "key": "infection_prevention",
+      "name": "Infection prevention nurse",
+      "abbreviation": "IP",
+      "team": "Hospital unit: Quality",
+      "description": "Owns isolation, cohorting and the notification of public health about an outbreak."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer (hospital liaison)",
+      "abbreviation": "PIO",
+      "team": "Hospital unit: Public information",
+      "description": "Owns family messaging, social media and the press when a unit event becomes public."
+    },
+    {
+      "key": "cnio",
+      "name": "Nurse informaticist (CNIO)",
+      "abbreviation": "CNIO",
+      "team": "Hospital unit: Clinical IT",
+      "description": "Owns downtime workflows and the return to the electronic record."
+    },
+    {
+      "key": "ltc_administrator",
+      "name": "Long-term care administrator",
+      "abbreviation": "LTC-A",
+      "team": "Long-term care: Leadership",
+      "description": "Owns the facility emergency plan, the call to the health department and family communication."
+    },
+    {
+      "key": "ltc_director_nursing",
+      "name": "Director of Nursing (long-term care)",
+      "abbreviation": "DON",
+      "team": "Long-term care: Leadership",
+      "description": "Owns resident checks, staffing, heat and power loss response and evacuation or shelter-in-place decisions."
+    },
+    {
+      "key": "ltc_charge_nurse",
+      "name": "Charge nurse (long-term care wing)",
+      "abbreviation": "LTC-CN",
+      "team": "Long-term care: Wing",
+      "description": "Owns resident checks on the wing, medication and fluid rounds, and the resident roster."
+    },
+    {
+      "key": "ltc_maintenance",
+      "name": "Maintenance director (long-term care)",
+      "abbreviation": "Maint",
+      "team": "Long-term care: Facility",
+      "description": "Owns the generator, cooling, fuel and the call to the utility."
+    },
+    {
+      "key": "lab_instructor",
+      "name": "Clinical instructor / nurse educator (facilitator)",
+      "abbreviation": "EDU",
+      "team": "Simulation lab: Faculty",
+      "description": "Owns the prebrief, the facilitation, the debrief and the learner assessment."
+    },
+    {
+      "key": "lab_operator",
+      "name": "Simulation operator",
+      "abbreviation": "SimOp",
+      "team": "Simulation lab: Faculty",
+      "description": "Owns the manikin or standardized patient responses and the pace of the case."
+    },
+    {
+      "key": "lab_learner_lead",
+      "name": "Learner team lead",
+      "abbreviation": "Lead",
+      "team": "Simulation lab: Learners",
+      "description": "Speaks for the learner group in the decisions of a case study."
+    },
+    {
+      "key": "lab_program_director",
+      "name": "Program director / simulation coordinator",
+      "abbreviation": "PD",
+      "team": "Simulation lab: Program",
+      "description": "Owns the program record: objectives, hours of simulation and the accreditation file."
+    },
+    {
+      "key": "lab_placement_coordinator",
+      "name": "Clinical placement coordinator",
+      "abbreviation": "CPC",
+      "team": "Simulation lab: Program",
+      "description": "Owns the students' clinical sites and what happens to a placement when the host unit is in crisis."
+    }
+  ],
+  "outsideParties": [
+    "CMS and the state department of health",
+    "HHS / ASPR and the healthcare coalition",
+    "the Joint Commission",
+    "local EMS and the regional trauma system",
+    "local police and fire",
+    "neighboring hospitals (diversion and transfer)",
+    "local media",
+    "Health-ISAC",
+    "physicians and advanced practice providers",
+    "pharmacy",
+    "respiratory therapy",
+    "the laboratory",
+    "security",
+    "staffing agencies",
+    "the nurses' union",
+    "the state board of nursing",
+    "accreditors",
+    "public health and the local health officer",
+    "patients' families",
+    "nursing school clinical placement coordinators",
+    "the local utility (power and cooling)"
+  ],
+  "mediaChannels": [
+    "a family member's Facebook post about a delayed response",
+    "a nurse's anonymous Reddit post about staffing",
+    "the local TV assignment desk",
+    "a health reporter's email",
+    "a student's group chat about the simulation",
+    "a union newsletter"
+  ],
+  "sceneAnchors": {
+    "public": "inside a hospital corridor outside patient rooms: handrails along pale walls, a medication cart, a nurses' station with computers and a whiteboard, bright even lighting",
+    "control": "inside a hospital nursing station: a counter with two computers on wheels, a paper assignment board on the wall, a phone and a stack of paper forms, staff in scrubs and lanyards",
+    "exterior": "a hospital ambulance bay: two ambulances with doors open, sliding glass doors, staff in scrubs with a stretcher, overcast daylight"
+  },
+  "injectTypes": [
+    "phone_call",
+    "radio_call",
+    "text_message",
+    "pa_announcement",
+    "memo",
+    "email",
+    "status_board",
+    "sitrep",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "ics_213_general_message",
+    "downtime_notice",
+    "lab_result_report",
+    "facebook_post",
+    "tweet",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "official_letter",
+    "regulatory_notice",
+    "field_report",
+    "figure"
+  ],
+  "threatFamilies": [
+    "unit_surge",
+    "unit_evacuation",
+    "unit_outbreak",
+    "medication_error",
+    "staffing_crisis",
+    "unit_active_threat",
+    "downtime_care",
+    "ltc_heat_power_loss",
+    "clinical_event",
+    "infrastructure_failure",
+    "natural_hazard",
+    "mass_gathering"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "unit_surge",
+      "label": "Unit surge and mass casualty",
+      "description": "Casualties or an overflow of patients arrive at a nursing unit faster than its beds, nurses and supplies can absorb; the charge nurse triages, assigns and escalates.",
+      "keywords": [
+        "surge",
+        "mass casualty",
+        "casualties",
+        "triage",
+        "overflow",
+        "boarding",
+        "diversion",
+        "influx",
+        "bus crash",
+        "multiple arrivals",
+        "census"
+      ],
+      "phaseArc": [
+        {
+          "title": "Notification",
+          "goal": "The unit learns that patients are coming, with incomplete numbers.",
+          "beats": [
+            "A call from the house supervisor or ED with a number that will change",
+            "A first conflicting estimate of arrivals and their injuries",
+            "A bed that is not actually available"
+          ]
+        },
+        {
+          "title": "Unit readiness",
+          "goal": "Staff, beds and supplies are found or not found before the first arrival.",
+          "beats": [
+            "Discharges to make beds, and a nurse who cannot stay",
+            "A supply cart or equipment shortage",
+            "A family at the desk asking about their own patient"
+          ]
+        },
+        {
+          "title": "Arrivals and triage",
+          "goal": "Patients arrive faster than the plan; the charge nurse triages and assigns under uncertainty.",
+          "beats": [
+            "The first arrivals with a mix of START or SALT categories",
+            "A patient whose findings do not match the tag",
+            "A nurse-to-patient ratio that is now unsafe",
+            "A call to escalate the shortage and a decision about who goes first"
+          ]
+        },
+        {
+          "title": "Sustained care",
+          "goal": "Care continues for hours with shrinking resources and tired staff.",
+          "beats": [
+            "A patient deteriorating while attention is elsewhere",
+            "A relief request that cannot be filled",
+            "Media or social posts about the surge"
+          ]
+        },
+        {
+          "title": "Decompression and recovery",
+          "goal": "The unit stands down, restocks and learns.",
+          "beats": [
+            "Transfers and discharges that free beds",
+            "A documentation backlog and a missed medication",
+            "ENDEX and a hot wash"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "assign the two experienced nurses to the sickest patients and leave new arrivals with one float nurse, or spread them evenly and accept slower care for the sickest",
+        "move a stable patient to a hallway bed to open a room, or hold the room and delay the next arrival",
+        "declare that the unit cannot take more patients and tell the house supervisor, or absorb two more and exceed safe ratios"
+      ],
+      "clueKinds": "a vital sign trend that has quietly worsened, a tag whose findings do not match its color, a census board that disagrees with the count at the door",
+      "hurdleKinds": "a missing bed, an empty supply cart, a nurse called away, a monitor that will not pair",
+      "keyCoordination": "the house supervisor and the emergency department charge nurse",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "CLUE": 15,
+        "PRESSURE": 15,
+        "NOISE": 10,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "Write for a charge nurse's desk. Numbers of arrivals and beds change between injects and never add up the first time. Triage categories follow START or SALT findings; never give a patient a category that contradicts the findings unless the inject is meant to show a mistriage. All patients are synthetic."
+    },
+    {
+      "id": "unit_evacuation",
+      "label": "Unit evacuation (horizontal and vertical)",
+      "description": "A unit must move its patients out of a threatened area, horizontally behind fire doors or vertically by stairs and elevators, with equipment, medications and records.",
+      "keywords": [
+        "evacuation",
+        "evacuate",
+        "vertical evacuation",
+        "horizontal evacuation",
+        "relocate patients",
+        "fire alarm",
+        "smoke",
+        "flood",
+        "hurricane",
+        "elevator outage",
+        "NICU evacuation",
+        "move the patients"
+      ],
+      "phaseArc": [
+        {
+          "title": "Warning and decision",
+          "goal": "Leadership decides whether and when to evacuate with partial information.",
+          "beats": [
+            "A threat report that is not yet confirmed",
+            "A decision to shelter in place or to begin moving the most dependent patients",
+            "A call to the receiving hospitals and transport"
+          ]
+        },
+        {
+          "title": "Patient priority and preparation",
+          "goal": "The unit ranks patients, gathers equipment and prepares the transfer information.",
+          "beats": [
+            "A ranked list that disagrees with the charge nurse's judgment",
+            "Ventilator or infusion batteries with limited time left",
+            "A patient who cannot be moved safely"
+          ]
+        },
+        {
+          "title": "Movement",
+          "goal": "Patients are moved and tracked as the situation changes.",
+          "beats": [
+            "An elevator that stops, forcing carries and sleds",
+            "Two patients with the same name on the tracking sheet",
+            "Staff running out of hands for the most dependent patients"
+          ]
+        },
+        {
+          "title": "Accounting and handoff",
+          "goal": "Every patient is accounted for and handed off with the right information.",
+          "beats": [
+            "A patient missing from the destination list",
+            "Handoffs with medications and allergies missing",
+            "Families calling about a loved one's whereabouts"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "evacuate the neonatal intensive care unit first because it is the most dependent, or hold until transport for incubators arrives and risk the water rising",
+        "carry the ventilated patients down the stairs now, or wait for one working elevator and accept a delay",
+        "leave one patient who cannot be moved safely with a nurse, or order everyone out"
+      ],
+      "clueKinds": "a battery run-time on a transport ventilator, a tracking sheet that does not match the count, a staircase blocked by smoke",
+      "hurdleKinds": "an elevator that has stopped, a transport vehicle that has not come, a missing set of medications, a destination hospital that has changed its mind",
+      "keyCoordination": "the hospital command center, local EMS and the receiving hospitals",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "DECISION_POINT": 15,
+        "CLUE": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Horizontal movement is normally considered before vertical movement. Dependent patients (ventilated, infants, bariatric) take more staff and time. The evacuation order is a ranked list with reasons, not a formula. Keep patient tracking exact: names, bed numbers and destinations must stay consistent between injects."
+    },
+    {
+      "id": "unit_outbreak",
+      "label": "Outbreak on a unit",
+      "description": "An infection spreads through a unit (C. difficile, norovirus, a respiratory virus); the unit isolates, cohorts, staffs and notifies.",
+      "keywords": [
+        "outbreak",
+        "c. diff",
+        "clostridioides",
+        "norovirus",
+        "isolation",
+        "cohort",
+        "cohorting",
+        "infection control",
+        "contact precautions",
+        "droplet precautions",
+        "gastroenteritis",
+        "influenza"
+      ],
+      "phaseArc": [
+        {
+          "title": "Cluster",
+          "goal": "A few similar cases appear; nobody is sure it is an outbreak.",
+          "beats": [
+            "Two patients with the same symptoms reported at shift change",
+            "A lab result that is positive but not yet reported",
+            "A visitor who was sick"
+          ]
+        },
+        {
+          "title": "Recognition and isolation",
+          "goal": "Infection prevention declares an outbreak and the unit isolates patients.",
+          "beats": [
+            "A precaution sign nobody remembers whether it was posted",
+            "Not enough single rooms, and a decision to cohort",
+            "A shortage of gowns or the right cleaning product"
+          ]
+        },
+        {
+          "title": "Staffing and spread",
+          "goal": "Staff fall ill or must be reassigned, and the outbreak reaches a second unit.",
+          "beats": [
+            "Staff calling out sick",
+            "A float nurse moving between cohorts",
+            "Visitor restrictions and unhappy families"
+          ]
+        },
+        {
+          "title": "Notification and recovery",
+          "goal": "Public health is notified and the unit returns to normal.",
+          "beats": [
+            "A call from the health department",
+            "A terminal cleaning and clearance decision",
+            "A press inquiry and a hot wash"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close the unit to admissions, or keep admitting and cohort within it",
+        "assign dedicated staff to the isolation cohort and leave the rest short, or float staff between cohorts and risk spread",
+        "notify public health now with incomplete data, or wait for the confirming lab result"
+      ],
+      "clueKinds": "a lab result listing the organism, a pattern of room numbers, a shared piece of equipment or meal",
+      "hurdleKinds": "isolation supplies running out, a lab backlog, a unit with no single rooms",
+      "keyCoordination": "infection prevention and the local health department",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "CLUE": 20,
+        "OPERATIONAL_FRICTION": 20,
+        "PRESSURE": 15,
+        "NOISE": 10,
+        "DECISION_POINT": 10
+      },
+      "promptGuidance": "Precautions are specific to the organism (for example contact precautions with soap and water for C. difficile, since alcohol hand rub does not kill spores). Do not invent attack rates or outbreak definitions; use the plan and documents the project supplies."
+    },
+    {
+      "id": "medication_error",
+      "label": "Medication error and disclosure",
+      "description": "A medication error reaches a patient; the unit responds clinically, reports it and discloses it to the patient and family.",
+      "keywords": [
+        "medication error",
+        "wrong dose",
+        "wrong patient",
+        "wrong drug",
+        "adverse drug event",
+        "disclosure",
+        "near miss",
+        "overdose",
+        "missed dose",
+        "reportable event",
+        "never event"
+      ],
+      "phaseArc": [
+        {
+          "title": "Discovery",
+          "goal": "Someone notices that something is wrong with a medication.",
+          "beats": [
+            "A second nurse notices a discrepancy at a double check",
+            "A patient who looks different after a dose",
+            "A pharmacy call about a dispensing record"
+          ]
+        },
+        {
+          "title": "Clinical response",
+          "goal": "The patient is assessed and cared for first.",
+          "beats": [
+            "A rapid response call or a call to the provider",
+            "An antidote or monitoring plan",
+            "Pressure from the unit to keep moving"
+          ]
+        },
+        {
+          "title": "Report and disclosure",
+          "goal": "The event is reported and the disclosure conversation is planned and held.",
+          "beats": [
+            "The event report and who files it",
+            "A disclosure lead assigned and the first conversation within the target time",
+            "A family member's hard questions"
+          ]
+        },
+        {
+          "title": "Learning",
+          "goal": "The system, not only the individual, is examined.",
+          "beats": [
+            "A look at the process, device and staffing causes",
+            "Support for the nurse involved",
+            "A decision about reporting outside the hospital"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "disclose to the family now with what is known and say more will follow, or wait for the review to finish",
+        "send the nurse home after the event, or keep them on with a buddy and risk another error"
+      ],
+      "clueKinds": "a barcode scan log, a pharmacy dispensing record, a look-alike label",
+      "hurdleKinds": "a downtime period with no barcode scanning, a shortage that forced a substitution, an interrupted double check",
+      "keyCoordination": "the provider, pharmacy and the risk manager",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "OPERATIONAL_FRICTION": 10,
+        "NOISE": 5
+      },
+      "promptGuidance": "Keep a just-culture tone: the system and the process are examined, not only the individual. Doses and routes must be plausible for the named drug; do not present the exercise as a drug reference. The disclosure conversation has a lead, a target time and a plan for what is said."
+    },
+    {
+      "id": "staffing_crisis",
+      "label": "Staffing crisis and agency nurses",
+      "description": "Call-outs, a sudden census rise or a strike leave a unit short of nurses; the manager fills gaps with agency and float staff and manages safety and morale.",
+      "keywords": [
+        "staffing",
+        "call-out",
+        "call out",
+        "short-staffed",
+        "agency nurses",
+        "float pool",
+        "nurse-to-patient ratio",
+        "strike",
+        "mandatory overtime",
+        "flu season",
+        "burnout"
+      ],
+      "phaseArc": [
+        {
+          "title": "The gap appears",
+          "goal": "The shift starts short and the number is worse than expected.",
+          "beats": [
+            "Call-outs before the shift",
+            "A census higher than predicted",
+            "A first ratio exceedance"
+          ]
+        },
+        {
+          "title": "Filling the gap",
+          "goal": "The manager and house supervisor try to staff the shift.",
+          "beats": [
+            "Agency nurses who are unfamiliar with the unit",
+            "A float nurse who is not competent for the unit",
+            "A request for mandatory overtime"
+          ]
+        },
+        {
+          "title": "Safety under strain",
+          "goal": "The unit prioritizes care and watches for harm.",
+          "beats": [
+            "A patient who waits too long",
+            "A missed medication or assessment",
+            "A nurse who says the assignment is unsafe"
+          ]
+        },
+        {
+          "title": "Escalation and recovery",
+          "goal": "The shortage is escalated and the unit stabilizes.",
+          "beats": [
+            "A call to the CNO and a closure decision",
+            "A union or board of nursing question",
+            "A debrief on what to change"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "close beds and hold admissions to keep ratios safe, or accept patients and stretch the team",
+        "use an agency nurse without unit orientation on a high-acuity assignment, or leave the assignment short"
+      ],
+      "clueKinds": "a staffing grid showing needed versus scheduled, an acuity score trend, a ratio count on the board",
+      "hurdleKinds": "an agency that cannot supply a nurse, a badge that does not work for a new nurse, an overtime limit",
+      "keyCoordination": "the house supervisor and the staffing office",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "PRESSURE": 20,
+        "CLUE": 10,
+        "DECISION_POINT": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "State required ratios only as the plan or documents give them; ratio law varies by state. Use a staffing grid with needed, scheduled, called-in and agency counts that add up."
+    },
+    {
+      "id": "unit_active_threat",
+      "label": "Active threat or violence on a unit",
+      "description": "A violent person or an armed threat reaches a nursing unit; staff protect patients, lock down and call for help.",
+      "keywords": [
+        "active shooter",
+        "active threat",
+        "violence on the unit",
+        "workplace violence",
+        "combative patient",
+        "armed visitor",
+        "lockdown",
+        "code silver",
+        "hostage",
+        "assault on a nurse"
+      ],
+      "phaseArc": [
+        {
+          "title": "Warning signs",
+          "goal": "Behavior escalates and the unit notices.",
+          "beats": [
+            "A visitor or patient with escalating threats",
+            "A call to security that arrives late",
+            "A nurse who hesitates to call"
+          ]
+        },
+        {
+          "title": "The event",
+          "goal": "The threat becomes violence or a weapon, and staff act.",
+          "beats": [
+            "A duress button, a code announcement",
+            "Patients who cannot move",
+            "Doors that need to be locked and some that cannot"
+          ]
+        },
+        {
+          "title": "Protect and respond",
+          "goal": "Staff protect patients while law enforcement arrives.",
+          "beats": [
+            "A nurse hurt and a patient in need",
+            "Law enforcement who need a unit map",
+            "Families calling and social media posts"
+          ]
+        },
+        {
+          "title": "Aftermath",
+          "goal": "Care resumes and staff are supported.",
+          "beats": [
+            "Accountability for patients and staff",
+            "Support for staff",
+            "A media statement and an event report"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "lock the unit and keep patients in rooms, or begin moving the patients nearest the threat",
+        "confront the person to protect a patient, or retreat and call for help"
+      ],
+      "clueKinds": "a prior behavior alert in the chart, a duress call log, a visitor badge record",
+      "hurdleKinds": "a door that does not lock, a duress button that did not reach security, patients who cannot be moved",
+      "keyCoordination": "hospital security and local law enforcement",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "security|police|law enforcement|lockdown|lock down|duress|code silver",
+          "description": "the decision should involve security or law enforcement"
+        }
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "DECISION_POINT": 15,
+        "OPERATIONAL_FRICTION": 20,
+        "PRESSURE": 15,
+        "CLUE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Do not describe weapon details or tactics beyond what is needed for decisions. Patients who cannot move are a central problem. Include a content notice for the facilitator."
+    },
+    {
+      "id": "downtime_care",
+      "label": "Downtime care with paper charts",
+      "description": "The electronic record, the medication system or the monitors are unavailable, and the unit gives care on paper.",
+      "keywords": [
+        "downtime",
+        "paper charts",
+        "EHR outage",
+        "system outage",
+        "paper MAR",
+        "monitor failure",
+        "telemetry down",
+        "nurse call down",
+        "ransomware",
+        "network outage"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outage",
+          "goal": "Systems go down and the unit decides it is a downtime.",
+          "beats": [
+            "A screen freezes in the middle of a medication pass",
+            "A conflicting message about how long it will last",
+            "The downtime binder is in a locked cabinet"
+          ]
+        },
+        {
+          "title": "Paper workflows",
+          "goal": "The unit switches to paper for orders, medications and results.",
+          "beats": [
+            "A paper MAR that is missing a recent order",
+            "A lab result that must be called",
+            "A handoff on paper that loses a detail"
+          ]
+        },
+        {
+          "title": "Sustained downtime",
+          "goal": "Fatigue and workarounds appear.",
+          "beats": [
+            "A late medication and a duplicated dose risk",
+            "An unlabeled specimen",
+            "Staffing stretched by runners"
+          ]
+        },
+        {
+          "title": "Recovery and back-entry",
+          "goal": "Systems return and paper is entered without losing information.",
+          "beats": [
+            "Back-entry backlog",
+            "Discrepancies between paper and the record",
+            "A debrief on what worked"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "hold non-urgent medications until the system returns, or give from the paper MAR with extra checks",
+        "divert new arrivals, or admit and accept the risk of incomplete records"
+      ],
+      "clueKinds": "a discrepancy between paper and verbal orders, a result that arrived only by phone, a medication due time that passed",
+      "hurdleKinds": "printers that are out of paper, the downtime computer that is not updated, a runner shortage",
+      "keyCoordination": "the nurse informaticist and the hospital IT command",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 30,
+        "TECH_HURDLE": 15,
+        "CLUE": 10,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Use the downtime forms of the clinical systems toolkit where it is on (downtime MAR, order forms). Show what is lost on paper: timing, allergies, previous doses."
+    },
+    {
+      "id": "ltc_heat_power_loss",
+      "label": "Heat and power loss in long-term care",
+      "description": "A power failure takes cooling or heat from a long-term care facility; staff check frail residents, manage fluids and decide whether to shelter in place or move residents.",
+      "keywords": [
+        "heat wave",
+        "power outage",
+        "air conditioning",
+        "generator failure",
+        "nursing home",
+        "long-term care",
+        "residents",
+        "heat stroke",
+        "hurricane",
+        "ice storm",
+        "extreme heat",
+        "loss of cooling"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outage begins",
+          "goal": "Power or cooling is lost and the first estimate is optimistic.",
+          "beats": [
+            "A utility estimate that keeps changing",
+            "A generator that powers only some of the building",
+            "A temperature that is rising"
+          ]
+        },
+        {
+          "title": "Resident checks",
+          "goal": "Staff check frail residents and the room temperatures.",
+          "beats": [
+            "A resident with a fever and dry mouth",
+            "Residents on oxygen concentrators and powered beds",
+            "A fan and fluid plan that exhausts the staff"
+          ]
+        },
+        {
+          "title": "Shelter or move",
+          "goal": "The director decides whether to move residents.",
+          "beats": [
+            "A neighboring facility that is also affected",
+            "A transport shortage",
+            "Families arriving to take residents home"
+          ]
+        },
+        {
+          "title": "Outcomes and notification",
+          "goal": "Residents are accounted for and authorities are notified.",
+          "beats": [
+            "Hospital transfers and a resident who dies",
+            "A call to the health department that came late",
+            "Press at the door"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "transfer the most frail residents to the hospital now, or keep them and check them every 30 minutes",
+        "call the health department and the state now with an incomplete picture, or wait until the facility knows more"
+      ],
+      "clueKinds": "an indoor temperature log, a resident check sheet, a fuel gauge on the generator",
+      "hurdleKinds": "a generator that runs out of fuel, an elevator that is down, a shortage of staff who cannot reach the facility",
+      "keyCoordination": "the county emergency manager, the health department and the utility",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "OPERATIONAL_FRICTION": 25,
+        "PRESSURE": 15,
+        "CLUE": 15,
+        "DECISION_POINT": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Residents are frail and many cannot tell staff they are in trouble. Check frequency, fluids and room temperature are the key facts. Residents and the facility are fictional. Include a content notice for the facilitator when deaths are part of the scenario."
+    },
+    {
+      "id": "clinical_event",
+      "label": "Clinical event (case study)",
+      "description": "A single patient's story unfolds: a deteriorating patient, a fall or workplace violence. Each stage is a decision point aligned to the Clinical Judgment Measurement Model.",
+      "keywords": [
+        "deteriorating patient",
+        "deterioration",
+        "rapid response",
+        "sepsis",
+        "hemorrhage",
+        "respiratory failure",
+        "case study",
+        "unfolding case",
+        "change in condition",
+        "patient fall",
+        "post-operative",
+        "hypoglycemia"
+      ],
+      "phaseArc": [
+        {
+          "title": "Presentation",
+          "goal": "The patient and their baseline: who they are, what brought them here, what is normal for them.",
+          "beats": [
+            "History, medications and allergies",
+            "A first set of vital signs and labs",
+            "A concern from the patient or family"
+          ]
+        },
+        {
+          "title": "First assessment",
+          "goal": "Subtle cues that matter appear among many that do not.",
+          "beats": [
+            "A trend rather than a single abnormal value",
+            "A distracting finding",
+            "A request to the learner to select relevant cues"
+          ]
+        },
+        {
+          "title": "Change in condition",
+          "goal": "The patient changes and the learner must analyze and prioritize.",
+          "beats": [
+            "New vital signs that cross a trigger",
+            "A new lab or finding",
+            "Competing explanations to rank"
+          ]
+        },
+        {
+          "title": "Escalation",
+          "goal": "The learner acts and communicates.",
+          "beats": [
+            "A call to the provider or a rapid response with a structured message (SBAR)",
+            "A delayed or partial response",
+            "A family question"
+          ]
+        },
+        {
+          "title": "Treatment and reassessment",
+          "goal": "The learner evaluates whether the action worked.",
+          "beats": [
+            "New values after an intervention",
+            "A decision to continue, change or escalate",
+            "A second problem"
+          ]
+        },
+        {
+          "title": "Handoff and debrief",
+          "goal": "The learner hands off the patient and reflects.",
+          "beats": [
+            "A handoff to the receiving unit or team",
+            "A read-back with an omission",
+            "A debrief with a check-in"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "call the provider now with a concerning trend, or recheck vital signs in 15 minutes",
+        "start the treatment within the nurse's scope while waiting for the team, or wait for the order and lose time"
+      ],
+      "clueKinds": "a vital sign trend, a lab value against its reference range, a change in mental status, an early warning score that crossed a trigger",
+      "hurdleKinds": "a provider who does not call back, a monitor with a loose lead, a missing order",
+      "keyCoordination": "the provider and the rapid response team",
+      "lint": { "clueRequired": false, "clueRole": "operations" },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "CLUE": 25,
+        "DECISION_POINT": 20,
+        "OPERATIONAL_FRICTION": 10,
+        "PRESSURE": 10,
+        "NOISE": 5
+      },
+      "promptGuidance": "Write one coherent synthetic patient: age, history, medications and allergies stay the same in every stage, and vital signs and labs follow one trajectory. Name the clinical judgment step each prompt tests (recognize cues, analyze cues, prioritize hypotheses, generate solutions, take action, evaluate outcomes). Do not copy examination items. Exercise content, not clinical guidance."
+    }
+  ],
+  "noiseExamples": [
+    "a visitor asking where the cafeteria is",
+    "a call bell from a room with a patient who wants the television changed",
+    "a supply cart restock that arrives on the wrong floor",
+    "a badge reader at the staff entrance that stops working",
+    "a pharmacy delivery that is for another unit"
+  ],
+  "pressureExamples": [
+    "a family member's Facebook post saying nobody has been to the room in an hour",
+    "a physician asking why the patient's medication is late",
+    "the house supervisor asking for two nurses for another unit",
+    "a nurse telling the manager the assignment is unsafe",
+    "a reporter asking whether the unit is short of nurses",
+    "the health department asking for a line list within the hour"
+  ],
+  "rolePatterns": {
+    "technical": "cnio|informatic|biomed|maint",
+    "operations": "charge|nurse manager|unit director|house supervisor|cno|don|nursing"
+  },
+  "agencyPattern": "CMS|HHS|ASPR|Joint Commission|state board of nursing|state department of health|NCSBN|OSHA",
+  "coreCapabilities": [
+    "mass_care_services",
+    "public_health_healthcare_and_emergency_medical_services",
+    "operational_coordination",
+    "operational_communications",
+    "situational_assessment"
+  ],
+  "regulations": ["hipaa_breach"],
+  "suggestedToolkits": ["clinical_care"]
+}
