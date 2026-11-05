@@ -144,3 +144,31 @@ describe('weather product templates', () => {
     for (const id of toolkit.lintRules) expect(fieldLintRuleIds(), id).toContain(id)
   })
 })
+
+describe('reuse by other domains', () => {
+  const reuse = [
+    'airport',
+    'energy_utility',
+    'food_agriculture',
+    'stadium_venue',
+    'k12_schools',
+    'transit',
+    'freight_rail',
+    'port_maritime',
+    'public_health',
+    'municipal',
+    'emergency_communications',
+  ]
+
+  it.each(reuse)('%s suggests the weather toolkit, which names it back', (id) => {
+    expect(builtinProfile(id).suggestedToolkits, id).toContain('weather')
+    expect(toolkit.appliesTo.domains).toContain(id)
+  })
+
+  it('adds the CAP and EAS templates to emergency communications and municipal profiles', () => {
+    for (const id of ['emergency_communications', 'municipal'])
+      expect(builtinProfile(id).injectTypes).toEqual(
+        expect.arrayContaining(['cap_alert', 'eas_broadcast']),
+      )
+  })
+})

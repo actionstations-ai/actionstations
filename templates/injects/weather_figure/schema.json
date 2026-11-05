@@ -23,7 +23,7 @@
     },
     "figures": {
       "type": "object",
-      "description": "The figure to draw, as { main: { kind, data } }. Kinds: radar, skew_t, hodograph, satellite, model_panel, mesoanalysis, meteogram, ensemble_plume.",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: radar, skew_t, hodograph, satellite, model_panel, mesoanalysis, meteogram, ensemble_plume, decision_timeline.",
       "required": ["main"],
       "properties": {
         "main": {
@@ -40,7 +40,8 @@
                 "model_panel",
                 "mesoanalysis",
                 "meteogram",
-                "ensemble_plume"
+                "ensemble_plume",
+                "decision_timeline"
               ]
             },
             "data": {

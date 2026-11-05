@@ -2,7 +2,7 @@
 
 A **toolkit** gives an exercise the expertise of one field: its terms, the formats of its products, the outside parties it brings in, the inject types it adds, the decisions players make, and the realism rules a specialist would check. A toolkit is separate from the **domain** that describes the organization you are exercising. An airport exercise and a farming exercise can both use a weather toolkit, and a new field you add later becomes available to every kind of organization.
 
-Toolkits come in [packs](packs.md). Install a pack that carries toolkits (or use one included with the app), and its toolkits appear in every scenario.
+For a worked example, see [Weather exercises](weather.md). Toolkits come in [packs](packs.md). Install a pack that carries toolkits (or use one included with the app), and its toolkits appear in every scenario.
 
 ## Turn toolkits on for a scenario
 
