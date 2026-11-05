@@ -858,6 +858,208 @@
           }
         }
       }
+    },
+    "triage_counts": {
+      "fields": {
+        "heading": "Patients tagged, Route 9 school bus collision",
+        "source": "Medical Group worksheet, 10:50",
+        "figures": {
+          "main": {
+            "kind": "triage_counts",
+            "data": {
+              "title": "Patients tagged by priority",
+              "method": "START",
+              "triageCompleteAt": "10:46",
+              "points": [
+                {
+                  "time": "10:25",
+                  "immediate": 2,
+                  "delayed": 3,
+                  "minor": 4,
+                  "expectant": 0
+                },
+                {
+                  "time": "10:30",
+                  "immediate": 3,
+                  "delayed": 6,
+                  "minor": 9,
+                  "expectant": 1
+                },
+                {
+                  "time": "10:40",
+                  "immediate": 4,
+                  "delayed": 9,
+                  "minor": 12,
+                  "expectant": 2
+                },
+                {
+                  "time": "10:46",
+                  "immediate": 4,
+                  "delayed": 9,
+                  "minor": 12,
+                  "expectant": 3
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "patient_tracking_board": {
+      "fields": {
+        "heading": "Patient tracking, Route 9 school bus collision",
+        "source": "Transportation log, 10:50",
+        "figures": {
+          "main": {
+            "kind": "patient_tracking_board",
+            "data": {
+              "title": "Patients on scene and transported",
+              "asOf": "10:50",
+              "patients": [
+                {
+                  "id": "T-001",
+                  "priority": "Immediate",
+                  "location": "Red area",
+                  "transportTime": "10:31",
+                  "destination": "Rook County Trauma Center"
+                },
+                {
+                  "id": "T-002",
+                  "priority": "Immediate",
+                  "location": "Red area",
+                  "transportTime": "10:36",
+                  "destination": "Lakeshore Children's Hospital"
+                },
+                {
+                  "id": "T-003",
+                  "priority": "Delayed",
+                  "location": "Yellow area",
+                  "transportTime": "10:39",
+                  "destination": "Mercy Community Hospital"
+                },
+                {
+                  "id": "T-004",
+                  "priority": "Delayed",
+                  "location": "Yellow area",
+                  "transportTime": "",
+                  "destination": ""
+                },
+                {
+                  "id": "T-005",
+                  "priority": "Minor",
+                  "location": "Green area",
+                  "transportTime": "",
+                  "destination": ""
+                },
+                {
+                  "id": "T-007",
+                  "priority": "Expectant",
+                  "location": "Black area",
+                  "transportTime": "",
+                  "destination": ""
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "hospital_capacity_board": {
+      "fields": {
+        "heading": "Hospital capacity, Route 9 school bus collision",
+        "source": "Medical communications, 10:50",
+        "figures": {
+          "main": {
+            "kind": "hospital_capacity_board",
+            "data": {
+              "title": "Receiving hospitals",
+              "asOf": "10:50",
+              "hospitals": [
+                {
+                  "name": "Rook County Trauma Center",
+                  "status": "Limited intake",
+                  "edBeds": 2,
+                  "traumaBays": 1,
+                  "burnBeds": 0,
+                  "pediatricBeds": 0,
+                  "received": 3,
+                  "receiveLimit": 3
+                },
+                {
+                  "name": "Mercy Community Hospital",
+                  "status": "Open",
+                  "edBeds": 6,
+                  "traumaBays": 0,
+                  "received": 2,
+                  "receiveLimit": 6
+                },
+                {
+                  "name": "Lakeshore Children's Hospital",
+                  "status": "Open",
+                  "edBeds": 4,
+                  "traumaBays": 1,
+                  "pediatricBeds": 3,
+                  "received": 1,
+                  "receiveLimit": 4
+                },
+                {
+                  "name": "St. Anselm Medical Center",
+                  "status": "Diversion",
+                  "edBeds": 0,
+                  "received": 4,
+                  "receiveLimit": 3
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "protective_action_zone": {
+      "fields": {
+        "heading": "Isolation and protective action zones, Harlan Spur",
+        "source": "Hazmat group, 11:20",
+        "figures": {
+          "main": {
+            "kind": "protective_action_zone",
+            "data": {
+              "title": "Isolation and protective action zones",
+              "material": "Exercise material X-17 (fictional)",
+              "incident": {
+                "label": "Tank car at Harlan Spur"
+              },
+              "wind": {
+                "fromDeg": 225,
+                "speed": 8,
+                "unit": "mph",
+                "source": "command post sensor",
+                "asOf": "11:20"
+              },
+              "isolationDistance": 300,
+              "protectiveDistance": 1500,
+              "unit": "ft",
+              "distanceSource": "fictional",
+              "places": [
+                {
+                  "name": "Elm Street Elementary",
+                  "bearingDeg": 40,
+                  "distance": 1100
+                },
+                {
+                  "name": "Harlan Road homes",
+                  "bearingDeg": 90,
+                  "distance": 700
+                },
+                {
+                  "name": "Mill Street clinic",
+                  "bearingDeg": 300,
+                  "distance": 900
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }

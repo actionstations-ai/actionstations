@@ -41,6 +41,10 @@ const KINDS = [
   'status_board',
   'table',
   'annotated_timeline',
+  'triage_counts',
+  'patient_tracking_board',
+  'hospital_capacity_board',
+  'protective_action_zone',
 ]
 
 describe('registry', () => {

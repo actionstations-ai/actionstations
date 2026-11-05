@@ -92,8 +92,17 @@
           "required": true,
           "choices": ["Shelter in place", "Evacuate", "Isolate only"]
         },
-        { "id": "area", "label": "Area (drawn on the map)", "kind": "area", "required": true },
-        { "id": "isolation_distance", "label": "Initial isolation distance", "kind": "number" },
+        {
+          "id": "area",
+          "label": "Area (drawn on the map)",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "isolation_distance",
+          "label": "Initial isolation distance",
+          "kind": "number"
+        },
         {
           "id": "protective_distance",
           "label": "Protective action distance (downwind)",
@@ -116,7 +125,12 @@
             "Set by command's judgment"
           ]
         },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     },
     {
@@ -137,9 +151,23 @@
           "kind": "choice",
           "choices": ["Operations", "Technician", "Specialist"]
         },
-        { "id": "objective", "label": "Objective", "kind": "text", "required": true },
-        { "id": "abort_criteria", "label": "Abort criteria", "kind": "text" },
-        { "id": "time", "label": "Time", "kind": "time", "required": true }
+        {
+          "id": "objective",
+          "label": "Objective",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "abort_criteria",
+          "label": "Abort criteria",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
       ]
     }
   ],
@@ -187,5 +215,6 @@
       "Stay at who decides what; no entry techniques or neutralization steps."
     ]
   },
-  "lintRules": []
+  "lintRules": ["erg_distance_untabled"],
+  "figureKinds": ["protective_action_zone"]
 }

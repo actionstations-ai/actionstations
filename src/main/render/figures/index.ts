@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { annotatedTimelineKind } from './annotated-timeline'
 import './epi'
+import './ems'
+import './hazmat'
 import { barKind, stackedBarKind } from './bar'
 // Field kinds register themselves on import (one line per field).
 import './clinical'
