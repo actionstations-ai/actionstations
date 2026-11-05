@@ -1,0 +1,51 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.jurisdiction}}</p>
+    <h1>Assignment log and team report</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Team'}}</dt>
+    <dd>{{fields.team}}</dd>
+    {{#if fields.members}}
+    <dt>{{t 'Members'}}</dt>
+    <dd>{{fields.members}}</dd>
+    {{/if}}
+    <dt>{{t 'Assignment area'}}</dt>
+    <dd>{{fields.area}}</dd>
+    <dt>{{t 'Shift'}}</dt>
+    <dd>{{fields.shift}}</dd>
+  </dl>
+  <section>
+    <h2>{{t 'Buildings'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Building'}}</th>
+          <th scope="col">{{t 'Priority'}}</th>
+          <th scope="col">{{t 'Status'}}</th>
+          <th scope="col">{{t 'Placard'}}</th>
+          <th scope="col">{{t 'Time'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.buildings}}
+        <tr>
+          <td>{{building}}</td>
+          <td>{{priority}}</td>
+          <td>{{status}}</td>
+          <td>{{placard}}</td>
+          <td>{{time}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  {{#if fields.summary}}
+  <section>
+    <h2>{{t 'Team summary'}}</h2>
+    <p>{{nl2br fields.summary}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

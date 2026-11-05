@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Inspection assignment log and team report",
+  "description": "A team leader's log for one team and shift in a post-disaster evaluation program: the assignment area, each building in priority order with its status and the placard posted and when, and the team's counts. Placards are written as words. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["jurisdiction", "team", "area", "shift", "buildings"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["City of Westport post-earthquake evaluation program"]
+    },
+    "team": {
+      "type": "string",
+      "description": "Team",
+      "examples": ["Team 3"],
+      "x-translate": false
+    },
+    "members": {
+      "type": "string",
+      "description": "Members",
+      "examples": ["R. Alvarez, K. Osei"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Assignment area",
+      "examples": ["Harbor District blocks 2 to 5"]
+    },
+    "shift": {
+      "type": "string",
+      "description": "Shift",
+      "examples": ["2026-11-06 08:00 to 16:00"],
+      "x-translate": false
+    },
+    "buildings": {
+      "type": "array",
+      "description": "Buildings",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["building", "priority", "status", "placard", "time"],
+        "properties": {
+          "building": {
+            "type": "string",
+            "description": "Building",
+            "examples": ["B-0212"]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority",
+            "examples": ["Other residential"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done"],
+            "enum": ["Assigned", "In progress", "Done", "Could not access"]
+          },
+          "placard": {
+            "type": "string",
+            "description": "Placard",
+            "examples": ["UNSAFE"],
+            "enum": ["INSPECTED", "RESTRICTED USE", "UNSAFE", "None yet"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["10:40"]
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Team summary",
+      "examples": [
+        "3 evaluated: 1 INSPECTED, 1 RESTRICTED USE, 1 UNSAFE. 1 could not be accessed. 1 in progress."
+      ]
+    }
+  }
+}

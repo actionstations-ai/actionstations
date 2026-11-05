@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Detailed building safety evaluation form",
+  "description": "A new exercise form for the engineer's detailed evaluation that follows a rapid evaluation: the structural elements examined, the damage found as a share of the element, what was learned, and a recommendation on the placard category and on repair or shoring. The engineer of record, not the evaluator, decides structural adequacy of the repair. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "jurisdiction",
+    "buildingId",
+    "address",
+    "engineer",
+    "evaluatedAt",
+    "priorPlacard",
+    "placard",
+    "elements",
+    "findings",
+    "restrictions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["City of Westport post-earthquake evaluation program"]
+    },
+    "buildingId": {
+      "type": "string",
+      "description": "Building id",
+      "examples": ["B-0212"],
+      "x-translate": false
+    },
+    "address": {
+      "type": "string",
+      "description": "Address",
+      "examples": ["212 Harbor Street, Westport"],
+      "x-translate": false
+    },
+    "engineer": {
+      "type": "string",
+      "description": "Evaluating engineer",
+      "examples": ["S. Kapoor, licensed structural engineer"]
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "description": "Evaluated",
+      "examples": ["2026-11-07 13:15"],
+      "x-translate": false
+    },
+    "priorPlacard": {
+      "type": "string",
+      "description": "Placard before this evaluation",
+      "examples": ["UNSAFE"],
+      "enum": ["None", "INSPECTED", "RESTRICTED USE", "UNSAFE"]
+    },
+    "placard": {
+      "type": "string",
+      "description": "Recommended placard",
+      "examples": ["RESTRICTED USE"],
+      "enum": ["INSPECTED", "RESTRICTED USE", "UNSAFE"]
+    },
+    "elements": {
+      "type": "array",
+      "description": "Structural elements examined",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["element", "damage", "capacity"],
+        "properties": {
+          "element": {
+            "type": "string",
+            "description": "Element",
+            "examples": ["Second-floor bearing wall"]
+          },
+          "damage": {
+            "type": "string",
+            "description": "Damage found",
+            "examples": ["Shear cracks across about 40 percent of the wall"]
+          },
+          "capacity": {
+            "type": "string",
+            "description": "Remaining capacity",
+            "examples": ["Reduced"]
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "string",
+      "description": "Findings",
+      "examples": [
+        "The stair wall can be shored and repaired. The rest of the building shows light damage."
+      ]
+    },
+    "restrictions": {
+      "type": "string",
+      "description": "Restrictions",
+      "examples": [
+        "Ground floor and floors 2 and 3 away from the stair bay may be occupied after shoring is installed and checked. The stair bay stays closed."
+      ]
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Recommendation",
+      "examples": [
+        "Install shoring at the stair wall, then reinspect. The repair design is by the engineer of record."
+      ]
+    }
+  }
+}

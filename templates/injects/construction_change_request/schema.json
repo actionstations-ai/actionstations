@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RFI, change order or schedule recovery request",
+  "description": "A request-for-information, change order request or schedule recovery request on a project, with the schedule and cost effect and what response is required by when. Used for the schedule-pressure injects of a professional dilemma. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": ["org", "requestType", "number", "project", "to", "subject", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "From (organization)",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "requestType": {
+      "type": "string",
+      "description": "Type",
+      "examples": ["Schedule recovery request"],
+      "enum": ["RFI", "Change order request", "Schedule recovery request"]
+    },
+    "number": {
+      "type": "string",
+      "description": "Number",
+      "examples": ["SRR-014"],
+      "x-translate": false
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Pier Street Mid-rise"]
+    },
+    "to": {
+      "type": "string",
+      "description": "To",
+      "examples": ["Owner's representative and architect"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["2026-11-10"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Recovery of 6 working days after the level 9 stop"]
+    },
+    "scheduleImpactDays": {
+      "type": "string",
+      "description": "Schedule effect (working days)",
+      "examples": ["6"],
+      "x-translate": false
+    },
+    "costImpact": {
+      "type": "string",
+      "description": "Cost effect",
+      "examples": ["$84,000 for overtime and added crane time"],
+      "x-translate": false
+    },
+    "responseRequiredBy": {
+      "type": "string",
+      "description": "Response required by",
+      "examples": ["2026-11-12 17:00"],
+      "x-translate": false
+    },
+    "description": {
+      "type": "string",
+      "description": "Request",
+      "examples": [
+        "We ask approval to work Saturdays on levels 6 to 9 and to resume the pour on level 10 on 11 November. The engineer's review of the shoring is not complete."
+      ]
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Crane daily inspection, lift plan and wind log",
+  "description": "A crane's daily inspection result with the plan for one critical pick (load, weight, radius, capacity at that radius, wind limit from the load chart) and a wind log with the action taken at each reading. A pick stops when the reading reaches the stated limit. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "org",
+    "project",
+    "crane",
+    "liftDirector",
+    "load",
+    "loadWeightLb",
+    "windLimitMph",
+    "windLog"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "org": {
+      "type": "string",
+      "description": "Contractor",
+      "examples": ["Harlan & Pryce Construction"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project",
+      "examples": ["Pier Street Mid-rise"]
+    },
+    "crane": {
+      "type": "string",
+      "description": "Crane",
+      "examples": ["Tower crane TC-2, 12-ton"]
+    },
+    "operator": {
+      "type": "string",
+      "description": "Operator",
+      "examples": ["M. Reyes"],
+      "x-translate": false
+    },
+    "liftDirector": {
+      "type": "string",
+      "description": "Lift director",
+      "examples": ["P. Tran"],
+      "x-translate": false
+    },
+    "inspection": {
+      "type": "string",
+      "description": "Daily inspection",
+      "examples": ["Passed, no deficiency"],
+      "enum": ["Passed, no deficiency", "Passed with note", "Failed, out of service"]
+    },
+    "load": {
+      "type": "string",
+      "description": "Load",
+      "examples": ["Curtain wall unit, level 9, 6 units on the rack"]
+    },
+    "loadWeightLb": {
+      "type": "string",
+      "description": "Load with rigging (lb)",
+      "examples": ["9,400"],
+      "x-translate": false
+    },
+    "radiusFt": {
+      "type": "string",
+      "description": "Radius (ft)",
+      "examples": ["118"],
+      "x-translate": false
+    },
+    "capacityLb": {
+      "type": "string",
+      "description": "Chart capacity at radius (lb)",
+      "examples": ["13,100"],
+      "x-translate": false
+    },
+    "windLimitMph": {
+      "type": "string",
+      "description": "Wind limit for the pick (mph)",
+      "examples": ["20 sustained"],
+      "x-translate": false
+    },
+    "windLog": {
+      "type": "array",
+      "description": "Wind log",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "avgMph", "gustMph", "action"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["08:10"]
+          },
+          "avgMph": {
+            "type": "string",
+            "description": "Average (mph)",
+            "examples": ["12"]
+          },
+          "gustMph": {
+            "type": "string",
+            "description": "Gust (mph)",
+            "examples": ["17"]
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Pick continues"]
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision",
+      "examples": ["Lift director stopped the pick at 08:40 and cleared the swing radius."]
+    }
+  }
+}

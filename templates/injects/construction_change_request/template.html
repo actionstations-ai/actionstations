@@ -1,0 +1,38 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Project request</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Type'}}</dt>
+    <dd>{{fields.requestType}}</dd>
+    <dt>{{t 'Number'}}</dt>
+    <dd>{{fields.number}}</dd>
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'To'}}</dt>
+    <dd>{{fields.to}}</dd>
+    {{#if fields.date}}
+    <dt>{{t 'Date'}}</dt>
+    <dd>{{fields.date}}</dd>
+    {{/if}}
+    <dt>{{t 'Subject'}}</dt>
+    <dd>{{fields.subject}}</dd>
+    {{#if fields.scheduleImpactDays}}
+    <dt>{{t 'Schedule effect (working days)'}}</dt>
+    <dd>{{fields.scheduleImpactDays}}</dd>
+    {{/if}} {{#if fields.costImpact}}
+    <dt>{{t 'Cost effect'}}</dt>
+    <dd>{{fields.costImpact}}</dd>
+    {{/if}} {{#if fields.responseRequiredBy}}
+    <dt>{{t 'Response required by'}}</dt>
+    <dd>{{fields.responseRequiredBy}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'Request'}}</h2>
+    <p>{{nl2br fields.description}}</p>
+  </section>
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

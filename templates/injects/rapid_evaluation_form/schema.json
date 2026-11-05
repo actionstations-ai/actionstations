@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rapid building safety evaluation form",
+  "description": "A new exercise form, modeled on the structure of public rapid evaluation methods, for a quick exterior and interior look at a building after an earthquake or storm: building description, observed conditions with a severity for each, adjacent and geotechnical hazards, the recommended placard category (INSPECTED, RESTRICTED USE or UNSAFE) and restrictions. The placard describes the building at the time it was evaluated. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "jurisdiction",
+    "buildingId",
+    "address",
+    "occupancy",
+    "team",
+    "evaluatedAt",
+    "placard",
+    "conditions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["City of Westport post-earthquake evaluation program"]
+    },
+    "buildingId": {
+      "type": "string",
+      "description": "Building id",
+      "examples": ["B-0212"],
+      "x-translate": false
+    },
+    "address": {
+      "type": "string",
+      "description": "Address",
+      "examples": ["212 Harbor Street, Westport"],
+      "x-translate": false
+    },
+    "occupancy": {
+      "type": "string",
+      "description": "Occupancy",
+      "examples": ["Three-story apartments, 18 units"]
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority class",
+      "examples": ["Other residential"],
+      "enum": [
+        "Hospital or critical facility",
+        "Shelter",
+        "School",
+        "Other residential",
+        "Other commercial"
+      ]
+    },
+    "structureType": {
+      "type": "string",
+      "description": "Structure",
+      "examples": ["Wood frame over a concrete podium"]
+    },
+    "team": {
+      "type": "string",
+      "description": "Team and evaluators",
+      "examples": ["Team 3: R. Alvarez, K. Osei"],
+      "x-translate": false
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "description": "Evaluated",
+      "examples": ["2026-11-06 10:40"],
+      "x-translate": false
+    },
+    "placard": {
+      "type": "string",
+      "description": "Recommended placard",
+      "examples": ["UNSAFE"],
+      "enum": ["INSPECTED", "RESTRICTED USE", "UNSAFE"]
+    },
+    "conditions": {
+      "type": "array",
+      "description": "Observed conditions",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "severity"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Condition",
+            "examples": ["Collapse or partial collapse"]
+          },
+          "severity": {
+            "type": "string",
+            "description": "Severity",
+            "examples": ["None"],
+            "enum": ["None", "Minor", "Moderate", "Severe"]
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["-"]
+          }
+        }
+      }
+    },
+    "restrictions": {
+      "type": "string",
+      "description": "Restrictions or hazard",
+      "examples": ["Do not enter. Keep the sidewalk side of Harbor Street closed."]
+    },
+    "furtherEvaluation": {
+      "type": "string",
+      "description": "Further evaluation",
+      "examples": ["Detailed evaluation by a structural engineer requested."]
+    }
+  }
+}

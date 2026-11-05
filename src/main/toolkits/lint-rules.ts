@@ -18,6 +18,7 @@ import './media/register-lint'
 import './pharmacy/register-lint'
 import './space_weather/register-lint'
 import './spill/lint'
+import './structures/register-lint'
 import './weather/lint'
 import './wildfire/register-lint'
 

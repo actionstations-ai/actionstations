@@ -1,0 +1,35 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Stop-work order</h1>
+    <p class="banner">{{fields.banner}}</p>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Issued by'}}</dt>
+    <dd>{{fields.issuedBy}}</dd>
+    <dt>{{t 'Authority'}}</dt>
+    <dd>{{fields.authority}}</dd>
+    <dt>{{t 'Issued'}}</dt>
+    <dd>{{fields.issuedAt}}</dd>
+    <dt>{{t 'Work stopped'}}</dt>
+    <dd>{{fields.scope}}</dd>
+  </dl>
+  <section>
+    <h2>{{t 'Reason'}}</h2>
+    <p>{{nl2br fields.reason}}</p>
+  </section>
+  <section>
+    <h2>{{t 'Before work resumes'}}</h2>
+    <p>{{nl2br fields.conditionsToResume}}</p>
+  </section>
+  {{#if fields.distribution}}
+  <section>
+    <h2>{{t 'Distribution'}}</h2>
+    <p>{{nl2br fields.distribution}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

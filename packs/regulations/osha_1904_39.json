@@ -1,0 +1,52 @@
+{
+  "id": "osha_1904_39",
+  "label": "OSHA reporting of fatalities, hospitalizations, amputations and eye loss",
+  "jurisdiction": "US",
+  "authority": "Occupational Safety and Health Administration (OSHA)",
+  "citation": "29 CFR 1904.39",
+  "sources": [
+    {
+      "title": "29 CFR 1904.39 (eCFR)",
+      "url": "https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1904/subpart-E/section-1904.39"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "A summary for exercises, not legal advice. State occupational safety plans may add duties. Check the current text for what counts as work-related and for the time limits on a death after the incident.",
+  "verifiedOn": "2026-11-05",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "fatality_learned",
+      "label": "Work-related fatality learned of",
+      "hint": "The employer learns that an employee died from a work-related incident."
+    },
+    {
+      "id": "injury_learned",
+      "label": "In-patient hospitalization, amputation or loss of an eye learned of",
+      "hint": "The employer learns of an in-patient hospitalization of one or more employees, an amputation or the loss of an eye from a work-related incident."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "fatality",
+      "label": "Report a work-related fatality",
+      "recipient": "OSHA area office or the OSHA 24-hour hotline",
+      "dueAt": [{ "from": "fatality_learned", "amount": 8, "unit": "hours" }],
+      "rule": "Report a work-related fatality within 8 hours.",
+      "injectTypes": ["osha_report_record", "regulatory_report_form"]
+    },
+    {
+      "id": "injury",
+      "label": "Report an in-patient hospitalization, amputation or loss of an eye",
+      "recipient": "OSHA area office, the OSHA 24-hour hotline or the online form",
+      "dueAt": [{ "from": "injury_learned", "amount": 24, "unit": "hours" }],
+      "rule": "Report an in-patient hospitalization, an amputation or the loss of an eye within 24 hours.",
+      "injectTypes": ["osha_report_record", "regulatory_report_form"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["construction_site_emergency", "structural_collapse_rescue"],
+    "note": "Employers covered by the OSHA Act, including contractors and subcontractors on construction sites."
+  }
+}

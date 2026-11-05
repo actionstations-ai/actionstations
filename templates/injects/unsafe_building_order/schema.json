@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unsafe building order and notice to vacate",
+  "description": "An order by the building official declaring a building unsafe to occupy, with the condition that led to it, who must vacate and by when, what an owner may do (engineer's report, repair, reinspection) and how to appeal. Only the building official declares a building unsafe; the placard describes the building when it was evaluated. The product carries an exercise mark and is not a safety evaluation of any real structure.",
+  "type": "object",
+  "required": [
+    "banner",
+    "jurisdiction",
+    "address",
+    "issuedAt",
+    "buildingOfficial",
+    "basis",
+    "order"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line.",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "banner": {
+      "type": "string",
+      "description": "The words of the banner",
+      "examples": ["UNSAFE: DO NOT OCCUPY"]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "description": "Issued by",
+      "examples": ["City of Westport Building Department"]
+    },
+    "address": {
+      "type": "string",
+      "description": "Building",
+      "examples": ["212 Harbor Street, Westport"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["2026-11-06 14:20"],
+      "x-translate": false
+    },
+    "buildingOfficial": {
+      "type": "string",
+      "description": "Building official",
+      "examples": ["L. Brandt"],
+      "x-translate": false
+    },
+    "basis": {
+      "type": "string",
+      "description": "Basis",
+      "examples": [
+        "Rapid evaluation by team 3 at 10:40 found a failed second-floor bearing wall and a leaning parapet"
+      ]
+    },
+    "vacateBy": {
+      "type": "string",
+      "description": "Vacate by",
+      "examples": ["2026-11-06 18:00"],
+      "x-translate": false
+    },
+    "reentry": {
+      "type": "string",
+      "description": "Re-entry",
+      "examples": [
+        "Only with the building official's written permission, for life safety or to retrieve essentials with an escort"
+      ]
+    },
+    "order": {
+      "type": "string",
+      "description": "Order",
+      "examples": [
+        "All occupants shall vacate. The owner shall secure the building, keep the public away from the sidewalk side and retain a structural engineer."
+      ]
+    },
+    "howToResolve": {
+      "type": "string",
+      "description": "How to have the order lifted",
+      "examples": [
+        "Submit an engineer's evaluation and repair plan; request reinspection after the work."
+      ]
+    },
+    "appeal": {
+      "type": "string",
+      "description": "Appeal",
+      "examples": ["Written appeal to the board of appeals within 10 days of this order."]
+    }
+  }
+}

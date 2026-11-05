@@ -1,0 +1,41 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.jurisdiction}}</p>
+    <h1>Unsafe building order</h1>
+    <p class="banner">{{fields.banner}}</p>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Building'}}</dt>
+    <dd>{{fields.address}}</dd>
+    <dt>{{t 'Issued'}}</dt>
+    <dd>{{fields.issuedAt}}</dd>
+    <dt>{{t 'Building official'}}</dt>
+    <dd>{{fields.buildingOfficial}}</dd>
+    <dt>{{t 'Basis'}}</dt>
+    <dd>{{fields.basis}}</dd>
+    {{#if fields.vacateBy}}
+    <dt>{{t 'Vacate by'}}</dt>
+    <dd>{{fields.vacateBy}}</dd>
+    {{/if}} {{#if fields.reentry}}
+    <dt>{{t 'Re-entry'}}</dt>
+    <dd>{{fields.reentry}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'Order'}}</h2>
+    <p>{{nl2br fields.order}}</p>
+  </section>
+  {{#if fields.howToResolve}}
+  <section>
+    <h2>{{t 'How to have the order lifted'}}</h2>
+    <p>{{nl2br fields.howToResolve}}</p>
+  </section>
+  {{/if}} {{#if fields.appeal}}
+  <section>
+    <h2>{{t 'Appeal'}}</h2>
+    <p>{{nl2br fields.appeal}}</p>
+  </section>
+  {{/if}}
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

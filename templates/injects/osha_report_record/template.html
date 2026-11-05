@@ -1,0 +1,37 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>OSHA report record</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Event'}}</dt>
+    <dd>{{fields.eventType}}</dd>
+    <dt>{{t 'Reporting clock (hours)'}}</dt>
+    <dd>{{fields.clockHours}}</dd>
+    <dt>{{t 'Event learned of'}}</dt>
+    <dd>{{fields.occurredAt}}</dd>
+    <dt>{{t 'Report due by'}}</dt>
+    <dd>{{fields.dueBy}}</dd>
+    {{#if fields.reportedAt}}
+    <dt>{{t 'Reported'}}</dt>
+    <dd>{{fields.reportedAt}}</dd>
+    {{/if}} {{#if fields.method}}
+    <dt>{{t 'Method'}}</dt>
+    <dd>{{fields.method}}</dd>
+    {{/if}} {{#if fields.reportedBy}}
+    <dt>{{t 'Reported by'}}</dt>
+    <dd>{{fields.reportedBy}}</dd>
+    {{/if}} {{#if fields.referenceNumber}}
+    <dt>{{t 'Reference number'}}</dt>
+    <dd>{{fields.referenceNumber}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'Summary given'}}</h2>
+    <p>{{nl2br fields.summary}}</p>
+  </section>
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>

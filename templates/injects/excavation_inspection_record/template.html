@@ -1,0 +1,58 @@
+<article class="cs">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header>
+    <p class="org">{{fields.org}}</p>
+    <h1>Daily excavation inspection</h1>
+  </header>
+  <dl class="kv">
+    <dt>{{t 'Project'}}</dt>
+    <dd>{{fields.project}}</dd>
+    <dt>{{t 'Excavation'}}</dt>
+    <dd>{{fields.location}}</dd>
+    <dt>{{t 'Inspected'}}</dt>
+    <dd>{{fields.inspectedAt}}</dd>
+    <dt>{{t 'Inspection type'}}</dt>
+    <dd>{{fields.trigger}}</dd>
+    <dt>{{t 'Competent person'}}</dt>
+    <dd>{{fields.competentPerson}}</dd>
+    {{#if fields.depthFt}}
+    <dt>{{t 'Depth (ft)'}}</dt>
+    <dd>{{fields.depthFt}}</dd>
+    {{/if}} {{#if fields.soilType}}
+    <dt>{{t 'Soil as classified'}}</dt>
+    <dd>{{fields.soilType}}</dd>
+    {{/if}} {{#if fields.protectiveSystem}}
+    <dt>{{t 'Protective system'}}</dt>
+    <dd>{{fields.protectiveSystem}}</dd>
+    {{/if}} {{#if fields.weather}}
+    <dt>{{t 'Weather and last rain'}}</dt>
+    <dd>{{fields.weather}}</dd>
+    {{/if}}
+  </dl>
+  <section>
+    <h2>{{t 'Items checked'}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Item'}}</th>
+          <th scope="col">{{t 'Result'}}</th>
+          <th scope="col">{{t 'Note'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.checks}}
+        <tr>
+          <td>{{item}}</td>
+          <td>{{result}}</td>
+          <td>{{note}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h2>{{t 'Action taken'}}</h2>
+    <p>{{nl2br fields.actions}}</p>
+  </section>
+  <footer>{{t 'Exercise product. Not a safety evaluation of any real structure.'}}</footer>
+</article>
