@@ -1,0 +1,32 @@
+<section class="tag cat-{{lower fields.category}}">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <div class="band">
+    <span class="catname">{{upper fields.category}}</span
+    ><span class="tagno mono">{{fields.tagNumber}}</span>
+  </div>
+  <p class="method">{{fields.method}} triage · {{fields.time}} · {{fields.location}}</p>
+  <p class="who">{{fields.patient}}</p>
+  <table class="finds">
+    <tr>
+      <th scope="row">Walking</th>
+      <td>{{#if fields.walking}}Yes{{else}}No{{/if}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Breathing</th>
+      <td>{{fields.breathing}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Perfusion</th>
+      <td>{{fields.perfusion}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Mental status</th>
+      <td>{{fields.mentalStatus}}</td>
+    </tr>
+  </table>
+  <h2>Injuries and treatment</h2>
+  <p class="inj">{{fields.injuries}}</p>
+  <p class="legend">Category is written as a word so it does not depend on color.</p>
+</section>

@@ -1,0 +1,80 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Rapid response record</h1>
+    </div>
+    <div class="sub">
+      Call <span class="mono">{{fields.callTime}}</span> · Arrival
+      <span class="mono">{{fields.arrivalTime}}</span><br />Called by {{fields.calledBy}}
+    </div>
+  </header>
+  <table class="patient">
+    <tr>
+      <th scope="row">Patient</th>
+      <td>{{fields.patient.name}}</td>
+      <th scope="row">MRN</th>
+      <td class="mono">{{fields.patient.mrn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age / sex</th>
+      <td>{{fields.patient.ageSex}}</td>
+      <th scope="row">Unit / bed</th>
+      <td>{{fields.patient.unitBed}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Allergies</th>
+      <td>{{fields.patient.allergies}}</td>
+      <th scope="row">Code status</th>
+      <td>{{fields.patient.codeStatus}}</td>
+    </tr>
+  </table>
+  <h2>Trigger</h2>
+  <p class="note">{{fields.trigger}}</p>
+  <h2>Vital signs at the call</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Heart rate</th>
+        <th scope="col">Blood pressure</th>
+        <th scope="col">Respiratory rate</th>
+        <th scope="col">Oxygen saturation</th>
+        <th scope="col">Temperature</th>
+        <th scope="col">Consciousness</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">{{fields.vitals.heartRate}}</td>
+        <td class="mono">{{fields.vitals.bloodPressure}}</td>
+        <td class="mono">{{fields.vitals.respiratoryRate}}</td>
+        <td class="mono">{{fields.vitals.oxygenSaturation}}</td>
+        <td class="mono">{{fields.vitals.temperature}}</td>
+        <td>{{fields.vitals.consciousness}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>Responders</h2>
+  <p>{{#each fields.responders}}{{#unless @first}} · {{/unless}}{{this}}{{/each}}</p>
+  <h2>Interventions</h2>
+  <ol>
+    {{#each fields.interventions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <h2>Outcome</h2>
+  <p class="note">
+    <strong>{{fields.outcome}}</strong>{{#if fields.outcomeTime}} at
+    <span class="mono">{{fields.outcomeTime}}</span>{{/if}}
+  </p>
+  {{#if fields.notes}}
+  <p>{{fields.notes}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Rapid response is for a deteriorating patient; a code is called for arrest.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

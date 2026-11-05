@@ -1,0 +1,33 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · FACILITATOR GUIDE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">Debriefing guide</div>
+      <h1 class="title">{{fields.title}}</h1>
+    </div>
+    <div class="sub">Facilitator: {{fields.facilitator}}<br />{{fields.duration}}</div>
+  </header>
+  {{#if fields.contentNotice}}
+  <p class="note"><strong>Content notice:</strong> {{fields.contentNotice}}</p>
+  {{/if}} {{#if fields.objectives.length}}
+  <h2>Objectives</h2>
+  <ul>
+    {{#each fields.objectives}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#each fields.phases}}
+  <h2>{{inc @index}}. {{this.name}}{{#if this.minutes}} ({{this.minutes}} min){{/if}}</h2>
+  <ul>
+    {{#each this.questions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/each}}
+  <h2>Check-in</h2>
+  <p class="note">{{fields.checkIn}}</p>
+  <footer class="foot">
+    <span>Debrief done by: ____________________ Date: ____________</span
+    ><span>Exercise content</span>
+  </footer>
+</section>

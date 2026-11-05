@@ -18,3 +18,10 @@ Nurses play in every hospital exercise, and nursing programs teach with unfoldin
 
 - The bundled domains now add threat families, so tests that assume a registry of built-ins alone clear the `bundled-domains` source first.
 - Clinical content is exercise content. The toolkit's rules tell the generator to keep patients synthetic, doses plausible and never to reproduce licensed exam items.
+
+## Amendment (#887): templates and field lint
+
+- The eleven clinical products are templates in the nursing pack (`clinical_lab_panel`, `medication_administration_record`, `sbar_handoff`, `triage_tag`, `staffing_grid`, `rapid_response_record`, `patient_event_report` with report and disclosure variants, `isolation_cohort_board`, `evacuation_priority_list`, `debrief_guide`, `learner_feedback_form`). Their types come from `taxonomy` blocks in `meta.json`; the built-in taxonomy is unchanged.
+- `lintRules` names **field lint rules**, a registry in `src/main/toolkits/field-lint.ts` whose issues join the content issues of the inject text stage (one repair round, then a warning). Rules read one inject type's fields; the clinical rules live in `src/main/toolkits/clinical/lint.ts` and the pure arithmetic in `src/shared/clinical/`. A field adds its module to `lint-rules.ts`.
+- Arithmetic a template cannot do (on-duty counts and shortfall in the staffing grid) is a derived value (ADR-0046).
+- The dose check lists a few common drugs with a generous single-dose ceiling and their routes; it is a guard against invented doses, not a drug reference. START is the rule for triage tags; SALT is checked for contradictions only.

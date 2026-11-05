@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SBAR handoff and read-back",
+  "description": "A structured handoff or call: Situation, Background, Assessment, Recommendation, and the receiver's read-back. An element that is deliberately missing is shown as 'Not stated'. Synthetic patient.",
+  "required": ["facility", "patient", "situation"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The synthetic patient banner",
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Synthetic patient name",
+          "examples": ["Marcus Delgado"]
+        },
+        "mrn": {
+          "type": "string",
+          "description": "Simulated record number, marked SIM",
+          "examples": ["SIM-004217"]
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["67 M"]
+        },
+        "unitBed": {
+          "type": "string",
+          "description": "Unit and bed",
+          "examples": ["4 West, bed 12"]
+        },
+        "allergies": {
+          "type": "string",
+          "description": "Allergies, or 'No known allergies'",
+          "examples": ["Penicillin (rash)"]
+        },
+        "codeStatus": {
+          "type": "string",
+          "description": "Code status",
+          "examples": ["Full code"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Who is giving the report (role and name)",
+      "examples": ["J. Rivera RN, 4 West"]
+    },
+    "to": {
+      "type": "string",
+      "description": "Who is receiving the report",
+      "examples": ["Dr. A. Okafor, covering provider"]
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["Phone call", "In person", "Secure message", "Radio"],
+      "description": "How the report was given"
+    },
+    "time": {
+      "type": "string",
+      "description": "Time of the report",
+      "examples": ["10:42"]
+    },
+    "situation": {
+      "type": "string",
+      "description": "Situation: the patient, the problem now",
+      "examples": [
+        "Mr. Delgado in 4 West bed 12 has become hypotensive and confused in the last hour."
+      ]
+    },
+    "background": {
+      "type": "string",
+      "description": "Background: reason for admission, history, medications, allergies, recent results. Empty if not stated",
+      "examples": [
+        "Admitted two days ago after bowel surgery; on piperacillin-tazobactam; creatinine 1.9, lactate 4.8."
+      ]
+    },
+    "assessment": {
+      "type": "string",
+      "description": "Assessment: the nurse's reading of severity. Empty if not stated",
+      "examples": [
+        "BP 82/50, HR 124, RR 26, SpO2 91 percent on 2 L, temperature 38.9 C. I think he is septic and getting worse."
+      ]
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Recommendation or request. Empty if not stated",
+      "examples": [
+        "Please come to the bedside within 15 minutes; I am calling rapid response now and request fluids and cultures."
+      ]
+    },
+    "readBack": {
+      "type": "string",
+      "description": "The receiver's read-back, or empty if none",
+      "examples": [
+        "Hypotensive, confused, lactate 4.8; I will come now and order a fluid bolus and cultures."
+      ]
+    },
+    "readBackDone": {
+      "type": "boolean",
+      "description": "Whether a read-back took place"
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

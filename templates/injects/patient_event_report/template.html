@@ -1,0 +1,86 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">
+        {{#if (eq variant 'disclosure')}}Disclosure conversation notes{{else}}Patient event
+        report{{/if}}
+      </h1>
+    </div>
+    <div class="sub">
+      {{fields.eventType}}<br />Event <span class="mono">{{fields.eventTime}}</span>
+    </div>
+  </header>
+  <table class="patient">
+    <tr>
+      <th scope="row">Patient</th>
+      <td>{{fields.patient.name}}</td>
+      <th scope="row">MRN</th>
+      <td class="mono">{{fields.patient.mrn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age / sex</th>
+      <td>{{fields.patient.ageSex}}</td>
+      <th scope="row">Unit / bed</th>
+      <td>{{fields.patient.unitBed}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Allergies</th>
+      <td>{{fields.patient.allergies}}</td>
+      <th scope="row">Code status</th>
+      <td>{{fields.patient.codeStatus}}</td>
+    </tr>
+  </table>
+  {{#if (eq variant 'disclosure')}}
+  <h2>Conversation</h2>
+  <table class="patient">
+    <tr>
+      <th scope="row">Lead</th>
+      <td>{{fields.disclosureLead}}</td>
+      <th scope="row">Time</th>
+      <td class="mono">{{fields.disclosureTime}}</td>
+    </tr>
+    <tr>
+      <th scope="row">With</th>
+      <td colspan="3">{{fields.disclosedTo}}</td>
+    </tr>
+  </table>
+  <h2>What was said</h2>
+  <ul>
+    {{#each fields.disclosureSaid}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>What happens next</h2>
+  <p class="note">{{fields.nextSteps}}</p>
+  {{else}}
+  <h2>What happened</h2>
+  <p class="note">{{nl2br fields.description}}</p>
+  <h2>Harm and immediate actions</h2>
+  <p class="note">{{fields.harm}}</p>
+  <h2>Notified</h2>
+  <ul>
+    {{#each fields.notified}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <h2>Contributing factors</h2>
+  <ul>
+    {{#each fields.factors}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  <p>
+    Discovered <span class="mono">{{fields.discoveredTime}}</span> · Reported by
+    {{fields.reportedBy}}
+  </p>
+  {{/if}}
+  <footer class="foot">
+    <span
+      >Factual and without blame. A disclosure has a named lead and a plan for what is said.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

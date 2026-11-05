@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rapid response call record",
+  "description": "The record of a rapid response call: trigger, vital signs at the call, who responded, interventions and the outcome. Times in 24-hour format. Synthetic patient.",
+  "required": ["facility", "patient", "callTime", "trigger"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The synthetic patient banner",
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Synthetic patient name",
+          "examples": ["Marcus Delgado"]
+        },
+        "mrn": {
+          "type": "string",
+          "description": "Simulated record number, marked SIM",
+          "examples": ["SIM-004217"]
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["67 M"]
+        },
+        "unitBed": {
+          "type": "string",
+          "description": "Unit and bed",
+          "examples": ["4 West, bed 12"]
+        },
+        "allergies": {
+          "type": "string",
+          "description": "Allergies, or 'No known allergies'",
+          "examples": ["Penicillin (rash)"]
+        },
+        "codeStatus": {
+          "type": "string",
+          "description": "Code status",
+          "examples": ["Full code"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "callTime": {
+      "type": "string",
+      "description": "Time of the call",
+      "examples": ["10:44"]
+    },
+    "arrivalTime": {
+      "type": "string",
+      "description": "Time the team arrived",
+      "examples": ["10:49"]
+    },
+    "trigger": {
+      "type": "string",
+      "description": "Why the call was made",
+      "examples": ["Early warning score 9; staff concern"]
+    },
+    "calledBy": {
+      "type": "string",
+      "description": "Who called",
+      "examples": ["J. Rivera RN"]
+    },
+    "vitals": {
+      "type": "object",
+      "description": "Vital signs at the call",
+      "additionalProperties": false,
+      "properties": {
+        "heartRate": {
+          "type": "string",
+          "description": "Heart rate per minute",
+          "examples": ["124"]
+        },
+        "bloodPressure": {
+          "type": "string",
+          "description": "Blood pressure mmHg",
+          "examples": ["82/50"]
+        },
+        "respiratoryRate": {
+          "type": "string",
+          "description": "Respiratory rate per minute",
+          "examples": ["26"]
+        },
+        "oxygenSaturation": {
+          "type": "string",
+          "description": "Oxygen saturation and support",
+          "examples": ["91% on 2 L"]
+        },
+        "temperature": {
+          "type": "string",
+          "description": "Temperature with units",
+          "examples": ["38.9 C"]
+        },
+        "consciousness": {
+          "type": "string",
+          "description": "Level of consciousness",
+          "examples": ["New confusion"]
+        }
+      }
+    },
+    "responders": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Who responded",
+      "items": {
+        "type": "string",
+        "description": "Responder role",
+        "examples": ["RRT nurse"]
+      }
+    },
+    "interventions": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Interventions in order",
+      "items": {
+        "type": "string",
+        "description": "Intervention with time",
+        "examples": ["10:52 oxygen increased to 6 L by mask"]
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "Stayed on unit",
+        "Transferred to intensive care",
+        "Transferred to step-down",
+        "Code called",
+        "Other"
+      ],
+      "description": "Outcome of the call"
+    },
+    "outcomeTime": {
+      "type": "string",
+      "description": "Time of the outcome",
+      "examples": ["11:20"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes",
+      "examples": ["Family at bedside and informed."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

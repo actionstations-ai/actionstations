@@ -1,0 +1,54 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Isolation and cohort board</h1>
+    </div>
+    <div class="sub">{{fields.unit}}<br />As of <span class="mono">{{fields.asOf}}</span></div>
+  </header>
+  <h2>Rooms on precautions</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Room</th>
+        <th scope="col">Patient</th>
+        <th scope="col">Condition</th>
+        <th scope="col">Precautions</th>
+        <th scope="col">Status</th>
+        <th scope="col">Cohort</th>
+        <th scope="col">Dedicated staff</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.rooms}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.room}}
+        </th>
+        <td>{{this.patient}}</td>
+        <td>{{this.condition}}</td>
+        <td class="flag">{{upper this.precautions}}</td>
+        <td>{{upper this.status}}</td>
+        <td>{{this.cohort}}</td>
+        <td>{{this.staff}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.supplies}}
+  <h2>Supplies</h2>
+  <p class="note">{{fields.supplies}}</p>
+  {{/if}} {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Status is written as a word; precautions follow the organism.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

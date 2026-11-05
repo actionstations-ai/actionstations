@@ -1,0 +1,81 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Laboratory results</h1>
+    </div>
+    <div class="sub">
+      {{fields.panel}}<br />Collected <span class="mono">{{fields.collectedAt}}</span><br />Reported
+      <span class="mono">{{fields.reportedAt}}</span>
+    </div>
+  </header>
+  <table class="patient">
+    <tr>
+      <th scope="row">Patient</th>
+      <td>{{fields.patient.name}}</td>
+      <th scope="row">MRN</th>
+      <td class="mono">{{fields.patient.mrn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age / sex</th>
+      <td>{{fields.patient.ageSex}}</td>
+      <th scope="row">Unit / bed</th>
+      <td>{{fields.patient.unitBed}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Allergies</th>
+      <td>{{fields.patient.allergies}}</td>
+      <th scope="row">Code status</th>
+      <td>{{fields.patient.codeStatus}}</td>
+    </tr>
+  </table>
+  <h2>Results</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Test</th>
+        <th scope="col">Result</th>
+        <th scope="col">Flag</th>
+        <th scope="col">Units</th>
+        <th scope="col">Reference range</th>
+        <th scope="col">Previous</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.results}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.test}}
+        </th>
+        <td
+          class="mono {{#if (eq this.flag 'CRIT')}}flag-critical{{/if}}{{#if (eq this.flag 'H')}}flag-high{{/if}}{{#if (eq this.flag 'L')}}flag-low{{/if}}"
+        >
+          {{this.value}}
+        </td>
+        <td class="flag">
+          {{#if (eq this.flag 'CRIT')}}CRITICAL{{/if}}{{#if (eq this.flag 'H')}}HIGH{{/if}}{{#if (eq
+          this.flag 'L')}}LOW{{/if}}
+        </td>
+        <td>{{this.units}}</td>
+        <td class="mono">{{this.range}}</td>
+        <td class="mono">{{this.previous}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.criticalCall}}
+  <p class="note"><strong>Critical value call:</strong> {{fields.criticalCall}}</p>
+  {{/if}} {{#if fields.comments}}
+  <p class="note">{{fields.comments}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Flags: HIGH above range, LOW below range, CRITICAL needs an immediate call.</span
+    ><span>Simulated results</span>
+  </footer>
+</section>

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Simulation debriefing guide",
+  "description": "A facilitator's guide for the structured debrief after a simulation or case study: phases (reactions, description, analysis, application and summary) with timed questions, a check-in prompt and a record of who facilitated. It follows the structure of recognized simulation standards without reproducing their text.",
+  "required": ["title", "phases"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 FACILITATOR GUIDE"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Case or scenario title",
+      "examples": ["Deteriorating post-operative patient"]
+    },
+    "facilitator": {
+      "type": "string",
+      "description": "Facilitator",
+      "examples": ["Clinical instructor"]
+    },
+    "duration": {
+      "type": "string",
+      "description": "Debrief length",
+      "examples": ["30 minutes"]
+    },
+    "objectives": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Learning objectives",
+      "items": {
+        "type": "string",
+        "description": "Objective",
+        "examples": ["Recognize early signs of sepsis"]
+      }
+    },
+    "phases": {
+      "type": "array",
+      "description": "Debrief phases in order (3-6)",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Phase name",
+            "examples": ["Reactions"]
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Minutes"
+          },
+          "questions": {
+            "type": "array",
+            "maxItems": 6,
+            "description": "Questions to ask",
+            "items": {
+              "type": "string",
+              "description": "Question",
+              "examples": ["How are you feeling about what just happened?"]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "questions"]
+      },
+      "minItems": 3
+    },
+    "checkIn": {
+      "type": "string",
+      "description": "Check-in prompt for psychological safety",
+      "examples": [
+        "Before we leave, how is everyone doing? Anyone who wants to talk privately can stay."
+      ]
+    },
+    "contentNotice": {
+      "type": "string",
+      "description": "Content notice, if the case involves death, violence or harm to children",
+      "examples": ["This case includes the death of a patient."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">Evacuation priority list</h1>
+    </div>
+    <div class="sub">
+      {{fields.unit}}<br />{{fields.movement}}<br />As of <span class="mono">{{fields.asOf}}</span>
+    </div>
+  </header>
+  <h2>Patients in order of movement</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Bed</th>
+        <th scope="col">Patient</th>
+        <th scope="col">Acuity</th>
+        <th scope="col">Dependency and equipment</th>
+        <th scope="col">Staff</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Out</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.patients}}
+      <tr>
+        <td class="mono">{{this.rank}}</td>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this.bed}}
+        </th>
+        <td>{{this.name}}</td>
+        <td>{{this.acuity}}</td>
+        <td>{{this.dependency}}<br /><em>{{this.reason}}</em></td>
+        <td class="mono">{{this.staff}}</td>
+        <td>{{#if this.destination}}{{this.destination}}{{else}}&nbsp;{{/if}}</td>
+        <td class="mono">{{#if this.timeOut}}{{this.timeOut}}{{else}}&nbsp;{{/if}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <footer class="foot">
+    <span>Blank destination and time out are filled in as patients leave.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

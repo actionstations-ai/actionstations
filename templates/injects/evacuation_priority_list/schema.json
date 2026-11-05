@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evacuation priority list and tracking sheet",
+  "description": "A ranked list of patients to move: bed, synthetic name, acuity, dependency (ventilator, infusion, infant, bariatric), equipment, destination and time out. Blank destination and time out make it a tracking sheet to fill in. One row per patient, no duplicate names.",
+  "required": ["facility", "unit", "patients"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit",
+      "examples": ["Intensive care unit, 3rd floor"]
+    },
+    "movement": {
+      "type": "string",
+      "description": "Movement",
+      "examples": ["Vertical evacuation by stairs and one elevator"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of time",
+      "examples": ["11/04/2026 02:30"]
+    },
+    "patients": {
+      "type": "array",
+      "description": "Patients in priority order (1-20)",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Priority rank, 1 moves first"
+          },
+          "bed": {
+            "type": "string",
+            "description": "Bed",
+            "examples": ["ICU 3"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Synthetic patient name",
+            "examples": ["Elena Marsh"]
+          },
+          "acuity": {
+            "type": "string",
+            "description": "Acuity",
+            "examples": ["Critical"]
+          },
+          "dependency": {
+            "type": "string",
+            "description": "Dependency and equipment",
+            "examples": ["Ventilator, two infusion pumps, 90 minutes of battery"]
+          },
+          "staff": {
+            "type": "string",
+            "description": "Staff needed to move",
+            "examples": ["4"]
+          },
+          "destination": {
+            "type": "string",
+            "description": "Destination or empty",
+            "examples": ["Harbor Point Hospital, ICU"]
+          },
+          "timeOut": {
+            "type": "string",
+            "description": "Time out or empty",
+            "examples": ["02:55"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for the rank",
+            "examples": ["Most dependent; battery is limited"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["rank", "bed", "name"]
+      },
+      "minItems": 1
+    },
+    "note": {
+      "type": "string",
+      "description": "Note",
+      "examples": ["Patient in ICU 7 cannot be moved safely; a nurse stays with the patient."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

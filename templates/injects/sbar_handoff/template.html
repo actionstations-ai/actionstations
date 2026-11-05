@@ -1,0 +1,79 @@
+<section class="page">
+  <p class="marking">
+    {{default fields.marking "EXERCISE · SIMULATED PATIENT · NOT FOR CLINICAL USE"}}
+  </p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.facility}}</div>
+      <h1 class="title">SBAR handoff</h1>
+    </div>
+    <div class="sub">
+      {{fields.mode}} · <span class="mono">{{fields.time}}</span><br />From {{fields.from}}<br />To
+      {{fields.to}}
+    </div>
+  </header>
+  <table class="patient">
+    <tr>
+      <th scope="row">Patient</th>
+      <td>{{fields.patient.name}}</td>
+      <th scope="row">MRN</th>
+      <td class="mono">{{fields.patient.mrn}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Age / sex</th>
+      <td>{{fields.patient.ageSex}}</td>
+      <th scope="row">Unit / bed</th>
+      <td>{{fields.patient.unitBed}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Allergies</th>
+      <td>{{fields.patient.allergies}}</td>
+      <th scope="row">Code status</th>
+      <td>{{fields.patient.codeStatus}}</td>
+    </tr>
+  </table>
+  <div class="sbar">
+    <h2>S · Situation</h2>
+    <p>
+      {{#if fields.situation}}{{nl2br fields.situation}}{{else}}<span class="missing"
+        >Not stated</span
+      >{{/if}}
+    </p>
+  </div>
+  <div class="sbar">
+    <h2>B · Background</h2>
+    <p>
+      {{#if fields.background}}{{nl2br fields.background}}{{else}}<span class="missing"
+        >Not stated</span
+      >{{/if}}
+    </p>
+  </div>
+  <div class="sbar">
+    <h2>A · Assessment</h2>
+    <p>
+      {{#if fields.assessment}}{{nl2br fields.assessment}}{{else}}<span class="missing"
+        >Not stated</span
+      >{{/if}}
+    </p>
+  </div>
+  <div class="sbar">
+    <h2>R · Recommendation</h2>
+    <p>
+      {{#if fields.recommendation}}{{nl2br fields.recommendation}}{{else}}<span class="missing"
+        >Not stated</span
+      >{{/if}}
+    </p>
+  </div>
+  <h2>Read-back</h2>
+  <p class="note">
+    {{#if fields.readBackDone}}{{nl2br fields.readBack}}{{else}}<span class="missing"
+      >No read-back recorded</span
+    >{{/if}}
+  </p>
+  <footer class="foot">
+    <span
+      >SBAR: Situation, Background, Assessment, Recommendation. Read-back confirms the receiver
+      heard the report.</span
+    ><span>Simulated record</span>
+  </footer>
+</section>

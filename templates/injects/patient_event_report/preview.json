@@ -1,0 +1,32 @@
+{
+  "fields": {
+    "facility": "Cedar Hollow Medical Center (fictional)",
+    "patient": {
+      "name": "Marcus Delgado",
+      "mrn": "SIM-004217",
+      "ageSex": "67 M",
+      "unitBed": "4 West, bed 12",
+      "allergies": "Penicillin (rash)",
+      "codeStatus": "Full code"
+    },
+    "eventType": "Medication error: wrong dose",
+    "eventTime": "11/04/2026 09:10",
+    "discoveredTime": "11/04/2026 09:40",
+    "description": "A dose of insulin was drawn at 10 units instead of the ordered 4 units; the second nurse check found the difference after the dose.",
+    "harm": "Blood glucose 54 mg/dL at 09:55; treated per protocol; recovered to 96 mg/dL by 10:30.",
+    "reportedBy": "J. Rivera RN",
+    "notified": ["Covering provider 09:45", "Pharmacy 09:50", "Nurse manager 09:52"],
+    "factors": ["Syringe markings hard to read", "Interrupted during the double check"],
+    "disclosureLead": "Nurse manager A. Brooks",
+    "disclosureTime": "11/04/2026 10:30",
+    "disclosedTo": "Patient and daughter",
+    "disclosureSaid": [
+      "What happened and what is known so far",
+      "That the low glucose was treated and he is stable",
+      "What we are doing to find out why",
+      "Who to call with questions"
+    ],
+    "nextSteps": "Review of the process; follow-up call within 24 hours."
+  },
+  "variant": "report"
+}

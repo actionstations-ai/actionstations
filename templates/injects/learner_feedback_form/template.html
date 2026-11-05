@@ -1,0 +1,47 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · LEARNER FEEDBACK"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">Learner feedback</div>
+      <h1 class="title">{{fields.title}}</h1>
+    </div>
+    <div class="sub">Name (optional): ______________<br />Date: ____________</div>
+  </header>
+  <p class="note">{{fields.privacy}}</p>
+  <h2>Rate each statement</h2>
+  <p class="sub">{{fields.scale}}</p>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th scope="col">Statement</th>
+        <th scope="col">1</th>
+        <th scope="col">2</th>
+        <th scope="col">3</th>
+        <th scope="col">4</th>
+        <th scope="col">5</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <th
+          scope="row"
+          style="text-align: left; background: none; color: #1a1a1a; border-color: #98a8b8"
+        >
+          {{this}}
+        </th>
+        <td>&#9633;</td>
+        <td>&#9633;</td>
+        <td>&#9633;</td>
+        <td>&#9633;</td>
+        <td>&#9633;</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#each fields.openQuestions}}
+  <h2>{{this}}</h2>
+  <div class="lines"></div>
+  {{/each}}
+  <footer class="foot"><span>Thank you.</span><span>Exercise content</span></footer>
+</section>

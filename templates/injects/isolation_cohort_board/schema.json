@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Isolation and cohort board",
+  "description": "A unit board of patients on transmission-based precautions: room, organism or syndrome, precautions, cohort, dedicated staff and the supplies check. Synthetic patients.",
+  "required": ["facility", "unit", "rooms"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit",
+      "examples": ["4 West"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As-of date and time",
+      "examples": ["11/04/2026 14:00"]
+    },
+    "rooms": {
+      "type": "array",
+      "description": "One row per room (1-16)",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "properties": {
+          "room": {
+            "type": "string",
+            "description": "Room",
+            "examples": ["412"]
+          },
+          "patient": {
+            "type": "string",
+            "description": "Synthetic patient initials or description",
+            "examples": ["A.B., 71 F"]
+          },
+          "condition": {
+            "type": "string",
+            "description": "Organism or syndrome",
+            "examples": ["Clostridioides difficile"]
+          },
+          "precautions": {
+            "type": "string",
+            "enum": ["Standard", "Contact", "Contact plus", "Droplet", "Airborne"],
+            "description": "Precautions"
+          },
+          "cohort": {
+            "type": "string",
+            "description": "Cohort name or empty",
+            "examples": ["Cohort A"]
+          },
+          "staff": {
+            "type": "string",
+            "description": "Dedicated staff, or empty",
+            "examples": ["T. Nguyen RN"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Suspected", "Confirmed", "Cleared"],
+            "description": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["room", "condition", "precautions", "status"]
+      },
+      "minItems": 1
+    },
+    "supplies": {
+      "type": "string",
+      "description": "Supplies check",
+      "examples": ["Gowns: 40 left (about 6 hours). Sporicidal wipes: 12 containers."]
+    },
+    "note": {
+      "type": "string",
+      "description": "Note",
+      "examples": [
+        "Soap and water for hand hygiene in cohort A; alcohol rub does not kill the spores."
+      ]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

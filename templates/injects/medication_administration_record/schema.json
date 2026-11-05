@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Medication administration record",
+  "description": "A patient's medications for a shift: drug, dose, route, frequency, scheduled time and status (given, held, late, due). Doses and routes must be plausible for the drug. Synthetic patient.",
+  "required": ["facility", "patient", "medications"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The synthetic patient banner",
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Synthetic patient name",
+          "examples": ["Marcus Delgado"]
+        },
+        "mrn": {
+          "type": "string",
+          "description": "Simulated record number, marked SIM",
+          "examples": ["SIM-004217"]
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["67 M"]
+        },
+        "unitBed": {
+          "type": "string",
+          "description": "Unit and bed",
+          "examples": ["4 West, bed 12"]
+        },
+        "allergies": {
+          "type": "string",
+          "description": "Allergies, or 'No known allergies'",
+          "examples": ["Penicillin (rash)"]
+        },
+        "codeStatus": {
+          "type": "string",
+          "description": "Code status",
+          "examples": ["Full code"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "shift": {
+      "type": "string",
+      "description": "Date and shift",
+      "examples": ["11/04/2026 day shift, 07:00-19:00"]
+    },
+    "medications": {
+      "type": "array",
+      "description": "One row per scheduled dose (1-12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "properties": {
+          "drug": {
+            "type": "string",
+            "description": "Drug name",
+            "examples": ["Vancomycin"]
+          },
+          "dose": {
+            "type": "string",
+            "description": "Dose with units",
+            "examples": ["1,250 mg"]
+          },
+          "route": {
+            "type": "string",
+            "description": "Route",
+            "examples": ["IV"]
+          },
+          "frequency": {
+            "type": "string",
+            "description": "Frequency",
+            "examples": ["every 12 hours"]
+          },
+          "scheduled": {
+            "type": "string",
+            "description": "Scheduled time (24-hour)",
+            "examples": ["09:00"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Due", "Given", "Held", "Late", "Refused"],
+            "description": "Status of this dose"
+          },
+          "givenAt": {
+            "type": "string",
+            "description": "Time given and initials, or empty",
+            "examples": ["09:20 JR"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for hold, late or refusal",
+            "examples": ["Awaiting trough level"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["drug", "dose", "route", "scheduled", "status"]
+      },
+      "minItems": 1
+    },
+    "notes": {
+      "type": "string",
+      "description": "Nursing note about the record",
+      "examples": ["Barcode scanner down; verified against the paper downtime MAR."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

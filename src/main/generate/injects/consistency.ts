@@ -4,6 +4,7 @@
 // different address than the story established) and facility identifiers the documents do not
 // have (#84). What survives the repair becomes an INJECT_CONTENT_ISSUE warning.
 import type { MselRow } from '@shared/schemas'
+import { fieldLintIssues } from '../../toolkits/lint-rules'
 import {
   FAKE_FRAMING,
   describeUnknownId,
@@ -287,5 +288,6 @@ export function contentIssues(input: ContentCheckInput): ContentIssue[] {
     ...technicalIssues(type, fields, hostIpPairings([rowText, ...storyTexts])),
     ...facilityFieldIssues(fields, facility, row),
     ...(orgNames ? orgNameIssues(fields, orgNames) : []),
+    ...fieldLintIssues(type, fields),
   ]
 }

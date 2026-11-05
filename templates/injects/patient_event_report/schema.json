@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Patient event report and disclosure notes",
+  "description": "The report of a patient safety event (medication error, fall) or, in the disclosure variant, the notes of the disclosure conversation with the patient or family. Factual, no blame, no speculation. Synthetic patient.",
+  "required": ["facility", "patient", "eventType", "eventTime", "description"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed above the form",
+      "examples": ["EXERCISE \u00b7 SIMULATED PATIENT \u00b7 NOT FOR CLINICAL USE"]
+    },
+    "facility": {
+      "type": "string",
+      "description": "Hospital name (fictional)",
+      "examples": ["Cedar Hollow Medical Center (fictional)"]
+    },
+    "patient": {
+      "type": "object",
+      "description": "The synthetic patient banner",
+      "required": ["name", "mrn"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Synthetic patient name",
+          "examples": ["Marcus Delgado"]
+        },
+        "mrn": {
+          "type": "string",
+          "description": "Simulated record number, marked SIM",
+          "examples": ["SIM-004217"]
+        },
+        "ageSex": {
+          "type": "string",
+          "description": "Age and sex",
+          "examples": ["67 M"]
+        },
+        "unitBed": {
+          "type": "string",
+          "description": "Unit and bed",
+          "examples": ["4 West, bed 12"]
+        },
+        "allergies": {
+          "type": "string",
+          "description": "Allergies, or 'No known allergies'",
+          "examples": ["Penicillin (rash)"]
+        },
+        "codeStatus": {
+          "type": "string",
+          "description": "Code status",
+          "examples": ["Full code"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "eventType": {
+      "type": "string",
+      "description": "Event type",
+      "examples": ["Medication error: wrong dose"]
+    },
+    "eventTime": {
+      "type": "string",
+      "description": "Date and time of the event",
+      "examples": ["11/04/2026 09:10"]
+    },
+    "discoveredTime": {
+      "type": "string",
+      "description": "When it was discovered",
+      "examples": ["11/04/2026 09:40"]
+    },
+    "description": {
+      "type": "string",
+      "description": "What happened, factually",
+      "examples": [
+        "A dose of insulin was drawn at 10 units instead of the ordered 4 units; the second nurse check found the difference after the dose."
+      ]
+    },
+    "harm": {
+      "type": "string",
+      "description": "Harm to the patient and immediate actions",
+      "examples": [
+        "Blood glucose 54 mg/dL at 09:55; treated per protocol; recovered to 96 mg/dL by 10:30."
+      ]
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by",
+      "examples": ["J. Rivera RN"]
+    },
+    "notified": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Who was notified, with times",
+      "items": {
+        "type": "string",
+        "description": "Notified person and time",
+        "examples": ["Covering provider 09:45"]
+      }
+    },
+    "factors": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Contributing factors (system, not blame)",
+      "items": {
+        "type": "string",
+        "description": "Factor",
+        "examples": ["Syringe markings hard to read"]
+      }
+    },
+    "disclosureLead": {
+      "type": "string",
+      "description": "Disclosure lead",
+      "examples": ["Nurse manager A. Brooks"]
+    },
+    "disclosureTime": {
+      "type": "string",
+      "description": "Time of the disclosure conversation",
+      "examples": ["11/04/2026 10:30"]
+    },
+    "disclosedTo": {
+      "type": "string",
+      "description": "To whom",
+      "examples": ["Patient and daughter"]
+    },
+    "disclosureSaid": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "What was said in the conversation",
+      "items": {
+        "type": "string",
+        "description": "Statement",
+        "examples": ["What happened and what is known so far"]
+      }
+    },
+    "nextSteps": {
+      "type": "string",
+      "description": "What happens next",
+      "examples": ["Review of the process; follow-up call within 24 hours."]
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}
