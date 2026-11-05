@@ -14,6 +14,8 @@ import {
   tallyHotwash,
 } from '../../classroom/scoring'
 import { saveReflectionSurvey } from '../../classroom/reflection'
+import { continueJob } from '../../generate/scenario-jobs'
+import { createMakeup } from '../../classroom/makeup'
 import { defineHandlers } from '../registry'
 
 export default defineHandlers({
@@ -55,6 +57,12 @@ export default defineHandlers({
 
   'classroom:reflection-survey': async ({ projectPath, scenarioId }) =>
     saveReflectionSurvey(await classroomRoot(projectPath), scenarioId),
+
+  'classroom:create-makeup': async ({ projectPath, scenarioId }) => {
+    const root = await classroomRoot(projectPath)
+    const made = await createMakeup(root, scenarioId)
+    return { scenarioId: made, jobId: continueJob(root, made).id }
+  },
 
   'classroom:rotation-plan': async ({ projectPath, ...input }) =>
     saveRotation(await classroomRoot(projectPath), input),

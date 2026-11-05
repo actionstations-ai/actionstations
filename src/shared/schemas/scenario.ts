@@ -47,6 +47,23 @@ export const ScenarioBrief = z.object({
   hazardSnapshotId: Id.optional(),
   /** Set when the scenario is a regression drill built from another scenario (#431). */
   drillOf: z.object({ drillId: Id, sourceScenarioId: Id }).optional(),
+  /**
+   * Classroom make-up version (spec 0453 FR-7): the scenario this one replaces for a student
+   * who missed the original, and the objectives to keep. The objectives stage restores them
+   * exactly, so the mapped outcomes and rubrics still apply.
+   */
+  makeupOf: Id.optional(),
+  fixedObjectives: z
+    .array(
+      z.object({
+        id: Id,
+        name: z.string().default(''),
+        text: z.string(),
+        metricRef: z.string().optional(),
+      }),
+    )
+    .max(20)
+    .optional(),
 })
 export type ScenarioBrief = z.infer<typeof ScenarioBrief>
 
