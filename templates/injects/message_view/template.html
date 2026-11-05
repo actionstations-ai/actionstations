@@ -1,0 +1,44 @@
+<section class="mv">
+  <header class="bar">
+    <h1>{{default fields.title "Message detail"}}</h1>
+    <span class="fmt"
+      >{{#if (eq fields.format "fhir")}}FHIR resource{{else}}HL7 v2 message{{/if}}</span
+    >
+  </header>
+  {{#if fields.source}}
+  <p class="meta">
+    {{fields.source}}{{#if fields.capturedAt}} · captured {{fields.capturedAt}}{{/if}}
+  </p>
+  {{/if}}
+  <div class="cols">
+    <div class="rawcol">
+      <h2>Raw</h2>
+      <pre class="raw">{{fields.raw}}</pre>
+    </div>
+    <div class="deccol">
+      <h2>Decoded</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Meaning</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.decoded}}
+          <tr>
+            <td class="f">{{field}}</td>
+            <td>{{meaning}}</td>
+            <td class="v">{{value}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{#if fields.note}}
+  <p class="note">{{fields.note}}</p>
+  {{/if}}
+  <p class="exercise">EXERCISE · SYNTHETIC PATIENT · NOT A REAL MESSAGE</p>
+</section>
