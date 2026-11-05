@@ -1,0 +1,89 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Official order</div>
+  </header>
+  <h1>{{upper fields.orderType}} {{fields.orderNumber}}</h1>
+  <p class="body">
+    {{fields.disease}} · {{fields.plan}}{{#if fields.authority}} · {{fields.authority}}{{/if}}
+  </p>
+  <h2>Premises</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Code</th>
+        <th>Premises</th>
+        <th style="width: 16%">Designation</th>
+        <th style="width: 16%">Species</th>
+        <th style="width: 12%">Head</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.premises}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.designation}}</td>
+        <td>{{this.species}}</td>
+        <td class="mono">{{this.head}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Zones and areas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 24%">Zone or area</th>
+        <th style="width: 14%">Distance (km)</th>
+        <th>Where</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.zones}}
+      <tr>
+        <td>{{this.kind}}</td>
+        <td class="mono">{{this.extentKm}}</td>
+        <td>{{this.description}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.restrictions}}
+  <h2>Restrictions</h2>
+  <ul>
+    {{#each fields.restrictions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.exceptions}}
+  <h2>Exceptions</h2>
+  <ul>
+    {{#each fields.exceptions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.releaseConditions}}
+  <h2>Conditions for release</h2>
+  <ul>
+    {{#each fields.releaseConditions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.effectiveAt}}
+  <div class="callout"><strong>Effective:</strong> {{fields.effectiveAt}}</div>
+  {{/if}}
+  <p class="body">{{#if fields.issuedBy}}Signed: {{fields.issuedBy}}. {{/if}}{{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.orderType}} {{fields.orderNumber}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

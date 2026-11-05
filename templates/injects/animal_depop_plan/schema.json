@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Depopulation and disposal plan",
+  "description": "Depopulation and disposal plan page for an infected premises: the presumptive positive time that starts the plan clock, the planned completion, houses in order with head, method and crew, the disposal site and capacity, worker safety, and what follows. The planned completion is compared with the response plan goal of 24 hours from the presumptive positive.",
+  "type": "object",
+  "required": ["agency", "planNumber", "premises", "houses", "disposal"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "planNumber": {
+      "type": "string",
+      "description": "Plan number",
+      "examples": ["DP-2026-003"],
+      "x-translate": false
+    },
+    "premises": {
+      "type": "string",
+      "description": "Premises code and fictional farm",
+      "examples": ["IP-001, Birchwood Turkey Complex"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease",
+      "examples": ["Highly pathogenic avian influenza"]
+    },
+    "presumptiveAt": {
+      "type": "string",
+      "description": "Presumptive positive at",
+      "examples": ["October 21, 2026, 3:05 p.m."],
+      "x-translate": false
+    },
+    "presumptiveAtIso": {
+      "type": "string",
+      "description": "Presumptive positive as an ISO date-time; not printed.",
+      "examples": ["2026-10-21T15:05:00Z"],
+      "x-translate": false
+    },
+    "targetCompleteAtIso": {
+      "type": "string",
+      "description": "Planned completion as an ISO date-time; not printed.",
+      "examples": ["2026-10-22T14:00:00Z"],
+      "x-translate": false
+    },
+    "targetCompleteAt": {
+      "type": "string",
+      "description": "Planned completion",
+      "examples": ["October 22, 2026, 2:00 p.m."],
+      "x-translate": false
+    },
+    "delayReason": {
+      "type": "string",
+      "description": "Reason the goal cannot be met, when it cannot",
+      "examples": ["Disposal site opens at 6:00 a.m."]
+    },
+    "houses": {
+      "type": "array",
+      "description": "Houses to depopulate in order",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "house": {
+            "type": "string",
+            "description": "House",
+            "examples": ["House 1"],
+            "x-translate": false
+          },
+          "head": {
+            "type": "number",
+            "description": "Head",
+            "examples": [14000]
+          },
+          "method": {
+            "type": "string",
+            "description": "Method (approved method named by the plan)",
+            "examples": ["Water-based foam"]
+          },
+          "crew": {
+            "type": "number",
+            "description": "Crew size",
+            "examples": [12]
+          },
+          "order": {
+            "type": "number",
+            "description": "Order",
+            "examples": [1]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "house": "House 1",
+            "head": 14000,
+            "method": "Water-based foam",
+            "crew": 12,
+            "order": 1
+          }
+        ]
+      ]
+    },
+    "disposal": {
+      "type": "string",
+      "description": "Disposal site and method",
+      "examples": ["Disposal Site 2: on-site composting, 11 km by road"],
+      "x-translate": false
+    },
+    "disposalCapacity": {
+      "type": "string",
+      "description": "Disposal capacity per day",
+      "examples": ["42,000 birds per day (exercise figure)"]
+    },
+    "safety": {
+      "type": "array",
+      "description": "Worker safety and welfare",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Protective equipment fitted for every crew member.",
+          "Rest and hydration stations; crews rotate every 2 hours."
+        ]
+      ]
+    },
+    "afterwards": {
+      "type": "array",
+      "description": "After depopulation",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Cleaning and disinfection plan filed.",
+          "Premises status recorded as depopulated in the case-management system."
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

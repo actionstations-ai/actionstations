@@ -1,0 +1,115 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Premises form</div>
+  </header>
+  <h1>Premises investigation {{fields.investigationNumber}}</h1>
+  <h2>Premises</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.premises}}
+      <tr>
+        <th>Premises</th>
+        <td>{{fields.premises}}</td>
+      </tr>
+      {{/if}} {{#if fields.plan}}
+      <tr>
+        <th>Plan</th>
+        <td>{{fields.plan}}</td>
+      </tr>
+      {{/if}} {{#if fields.designation}}
+      <tr>
+        <th>Designation now</th>
+        <td>{{fields.designation}}</td>
+      </tr>
+      {{/if}} {{#if fields.previousDesignation}}
+      <tr>
+        <th>Designation before</th>
+        <td>{{fields.previousDesignation}}</td>
+      </tr>
+      {{/if}} {{#if fields.samplingIntervalDays}}
+      <tr>
+        <th>Days between samples</th>
+        <td class="mono">{{fields.samplingIntervalDays}}</td>
+      </tr>
+      {{/if}} {{#if fields.visitedAt}}
+      <tr>
+        <th>Visit</th>
+        <td class="mono">{{fields.visitedAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.investigator}}
+      <tr>
+        <th>Investigator</th>
+        <td>{{fields.investigator}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  <h2>Animals</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Species</th>
+        <th style="width: 16%">Head</th>
+        <th style="width: 22%">Sick or dead, 7 days</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.species}}
+      <tr>
+        <td>{{this.species}}</td>
+        <td class="mono">{{this.head}}</td>
+        <td class="mono">{{this.sick}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.clinicalSigns}}
+  <h2>Clinical signs</h2>
+  <p class="body">{{fields.clinicalSigns}}</p>
+  {{/if}} {{#if fields.biosecurity}}
+  <h2>Biosecurity observed</h2>
+  <ul>
+    {{#each fields.biosecurity}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <h2>Movements, last 14 days</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%">Date</th>
+        <th style="width: 30%">What moved</th>
+        <th>To or from</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.movements}}
+      <tr>
+        <td class="mono">{{this.date}}</td>
+        <td>{{this.what}}</td>
+        <td>{{this.withPremises}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.samples}}
+  <h2>Samples</h2>
+  <p class="body">{{fields.samples}}</p>
+  {{/if}} {{#if fields.assessment}}
+  <div class="callout"><strong>Assessment:</strong> {{fields.assessment}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Investigation {{fields.investigationNumber}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

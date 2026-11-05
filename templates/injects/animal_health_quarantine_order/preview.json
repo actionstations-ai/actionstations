@@ -1,0 +1,71 @@
+{
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE",
+    "agency": "State Animal Health Office",
+    "division": "Emergency Programs",
+    "orderType": "control area notice",
+    "orderNumber": "QO-2026-014",
+    "disease": "Highly pathogenic avian influenza",
+    "plan": "HPAI Red Book (May 2017)",
+    "authority": "State animal disease control authority (exercise)",
+    "premises": [
+      {
+        "id": "IP-001",
+        "name": "Birchwood Turkey Complex",
+        "designation": "infected",
+        "species": "turkeys",
+        "head": 42000
+      },
+      {
+        "id": "CP-002",
+        "name": "Alder Run Growers",
+        "designation": "contact",
+        "species": "turkeys",
+        "head": 18000
+      },
+      {
+        "id": "ARP-003",
+        "name": "Fenwick Layer Farm",
+        "designation": "at-risk",
+        "species": "layers",
+        "head": 96000
+      }
+    ],
+    "zones": [
+      {
+        "kind": "infected zone",
+        "extentKm": 3,
+        "description": "Within 3 km of IP-001, north to Mill Creek Road"
+      },
+      {
+        "kind": "buffer zone",
+        "extentKm": 7,
+        "description": "From 3 km to 10 km of IP-001"
+      },
+      {
+        "kind": "control area",
+        "extentKm": 10,
+        "description": "Infected zone and buffer zone together: 10 km from IP-001"
+      },
+      {
+        "kind": "surveillance zone",
+        "extentKm": 10,
+        "description": "A band 10 km wide outside the control area"
+      }
+    ],
+    "restrictions": [
+      "No poultry, eggs, litter, manure or used equipment leaves a premises in the control area without a permit.",
+      "Vehicles entering a poultry premises are cleaned and disinfected at the farm gate."
+    ],
+    "exceptions": [
+      "Movement under a permit issued by the State Animal Health Office, with testing as the permit states."
+    ],
+    "releaseConditions": [
+      "Cleaning and disinfection approved on every infected premises.",
+      "Sampling complete and negative on monitored premises."
+    ],
+    "effectiveAt": "October 21, 2026, 4:30 p.m.",
+    "issuedBy": "State Veterinarian",
+    "contact": "Permit desk (555) 014-3300"
+  }
+}

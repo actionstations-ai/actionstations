@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Worker health monitoring log",
+  "description": "Worker health monitoring log for people exposed to infected animals: premises, exposure dates, the end of the monitoring period and one row per worker by code (never a name) with role, protective equipment, symptoms at the last check and action.",
+  "type": "object",
+  "required": ["agency", "logNumber", "premises", "workers"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Health department",
+      "examples": ["Tamarack County Health Department"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "logNumber": {
+      "type": "string",
+      "description": "Log number",
+      "examples": ["WH-2026-004"],
+      "x-translate": false
+    },
+    "premises": {
+      "type": "string",
+      "description": "Premises code",
+      "examples": ["IP-001"],
+      "x-translate": false
+    },
+    "exposureDates": {
+      "type": "string",
+      "description": "Exposure dates",
+      "examples": ["October 21 to 22, 2026"],
+      "x-translate": false
+    },
+    "monitoredUntil": {
+      "type": "string",
+      "description": "Monitoring ends",
+      "examples": ["November 1, 2026"],
+      "x-translate": false
+    },
+    "workers": {
+      "type": "array",
+      "description": "Workers (codes only, no names)",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Worker code",
+            "examples": ["W-01"],
+            "x-translate": false
+          },
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "examples": ["Depopulation crew"]
+          },
+          "ppe": {
+            "type": "string",
+            "description": "Protective equipment worn",
+            "examples": ["Respirator, coverall, goggles, gloves"]
+          },
+          "symptoms": {
+            "type": "string",
+            "description": "Symptoms at last check",
+            "examples": ["None"]
+          },
+          "lastCheck": {
+            "type": "string",
+            "description": "Last check",
+            "examples": ["Oct 25"],
+            "x-translate": false
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Continue monitoring"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "code": "W-01",
+            "role": "Depopulation crew",
+            "ppe": "Respirator, coverall, goggles, gloves",
+            "symptoms": "None",
+            "lastCheck": "Oct 25",
+            "action": "Continue monitoring"
+          }
+        ]
+      ]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes",
+      "examples": [
+        "Workers with symptoms are tested and offered antiviral treatment through the occupational health clinic."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

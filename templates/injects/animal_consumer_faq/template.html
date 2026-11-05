@@ -1,0 +1,28 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Public Q and A</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <p class="body mono">Updated {{fields.updatedAt}}</p>
+  {{#if fields.intro}}
+
+  <p class="body">{{fields.intro}}</p>
+  {{/if}} {{#each fields.items}}
+  <p class="q">{{this.q}}</p>
+  <p class="body">{{this.a}}</p>
+  {{/each}}
+  <p class="body" style="margin-top: 12px">{{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Updated {{fields.updatedAt}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

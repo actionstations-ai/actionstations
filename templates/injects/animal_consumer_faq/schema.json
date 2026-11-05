@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Consumer questions and answers",
+  "description": "Consumer questions and answers for an animal disease detection: safety of food, risk to the public, pets, backyard birds, where to report sick birds. Counts, dates and distances match the control area notice and the press release.",
+  "type": "object",
+  "required": ["agency", "headline", "items"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Bird flu in the county: questions and answers"]
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "Updated",
+      "examples": ["October 22, 2026, 6:00 p.m."],
+      "x-translate": false
+    },
+    "intro": {
+      "type": "string",
+      "description": "Introduction",
+      "examples": [
+        "Avian influenza was confirmed in one commercial flock. The risk to the public is low. These answers follow federal food safety and public health guidance."
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "Questions and answers",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Question",
+            "examples": ["Is it safe to eat eggs and poultry?"]
+          },
+          "a": {
+            "type": "string",
+            "description": "Answer",
+            "examples": [
+              "Yes. Cooking poultry and eggs to the recommended temperature kills the virus. Products from the affected flock do not enter the food supply."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "q": "Is it safe to eat eggs and poultry?",
+            "a": "Yes."
+          }
+        ]
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "More information",
+      "examples": ["Producer and public hotline (555) 014-3301"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

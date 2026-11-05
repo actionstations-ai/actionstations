@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Presumptive positive notice and confirmation",
+  "description": "Notice that a laboratory result changes a premises status. Stage presumptive: a network laboratory reports a presumptive positive and the sample ships to the national reference laboratory. Stage confirmed: the national reference laboratory reports the confirmation. The clock note states the response plan goal that starts from the presumptive result.",
+  "type": "object",
+  "required": [
+    "agency",
+    "stage",
+    "reportNumber",
+    "disease",
+    "premises",
+    "laboratory",
+    "test",
+    "classification"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "stage": {
+      "type": "string",
+      "description": "Stage",
+      "examples": ["presumptive"],
+      "enum": ["presumptive", "confirmed"]
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["PP-2026-006"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease",
+      "examples": ["Highly pathogenic avian influenza"]
+    },
+    "premises": {
+      "type": "string",
+      "description": "Premises (code and fictional farm)",
+      "examples": ["IP-001, Birchwood Turkey Complex"],
+      "x-translate": false
+    },
+    "species": {
+      "type": "string",
+      "description": "Species and number affected",
+      "examples": ["Turkeys, 42,000 on the premises"]
+    },
+    "sampleId": {
+      "type": "string",
+      "description": "Sample identifier",
+      "examples": ["S-26-1187"],
+      "x-translate": false
+    },
+    "collectedAt": {
+      "type": "string",
+      "description": "Collected",
+      "examples": ["October 20, 2026, 2:15 p.m."],
+      "x-translate": false
+    },
+    "laboratory": {
+      "type": "string",
+      "description": "Laboratory that reports",
+      "examples": ["State veterinary diagnostic laboratory (network laboratory)"],
+      "x-translate": false
+    },
+    "test": {
+      "type": "string",
+      "description": "Test and result",
+      "examples": ["Influenza A matrix PCR positive; H5 PCR positive"]
+    },
+    "resultAt": {
+      "type": "string",
+      "description": "Result reported",
+      "examples": ["October 21, 2026, 3:05 p.m."],
+      "x-translate": false
+    },
+    "classification": {
+      "type": "string",
+      "description": "Classification",
+      "examples": ["presumptive positive"],
+      "enum": ["presumptive positive", "confirmed positive"]
+    },
+    "nextSteps": {
+      "type": "array",
+      "description": "Next steps",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Sample shipped overnight to the national reference laboratory for confirmation.",
+          "Quarantine of the premises in effect from 4:30 p.m."
+        ]
+      ]
+    },
+    "notified": {
+      "type": "array",
+      "description": "Notified",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Federal Area Veterinarian in Charge",
+          "County emergency manager",
+          "Integrator biosecurity manager"
+        ]
+      ]
+    },
+    "clockNote": {
+      "type": "string",
+      "description": "Plan clock",
+      "examples": [
+        "The plan goal is depopulation within 24 hours of the presumptive positive: by October 22, 2026, 3:05 p.m."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

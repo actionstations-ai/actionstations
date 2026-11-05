@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fair or show cancellation notice",
+  "description": "Notice that a county fair or livestock show event is cancelled, postponed or held with conditions because of an animal disease investigation: what happened, which events, what exhibitors should do, refunds and contact. Plain language for exhibitors and families.",
+  "type": "object",
+  "required": ["agency", "headline", "status", "summary", "issuedAt"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Tamarack County Fair Board"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Program",
+      "examples": ["In cooperation with the State Animal Health Office and county extension"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Swine and poultry shows cancelled at the Tamarack County Fair"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "examples": ["cancelled"],
+      "enum": ["cancelled", "postponed", "held with conditions"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened",
+      "examples": [
+        "A disease investigation is under way in the county. To protect animals, the swine and poultry shows are cancelled."
+      ]
+    },
+    "affected": {
+      "type": "array",
+      "description": "Events affected",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "Event",
+            "examples": ["Open class swine show"]
+          },
+          "date": {
+            "type": "string",
+            "description": "Date",
+            "examples": ["Oct 24"],
+            "x-translate": false
+          },
+          "outcome": {
+            "type": "string",
+            "description": "Outcome",
+            "examples": ["Cancelled"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "event": "Open class swine show",
+            "date": "Oct 24",
+            "outcome": "Cancelled"
+          }
+        ]
+      ]
+    },
+    "exhibitors": {
+      "type": "array",
+      "description": "What exhibitors should do",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Keep animals at home and do not bring them to the fairgrounds.",
+          "Watch animals for illness and call your veterinarian."
+        ]
+      ]
+    },
+    "refunds": {
+      "type": "string",
+      "description": "Entry fees and refunds",
+      "examples": ["Entry fees are refunded by mail within 30 days."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Questions",
+      "examples": ["Fair office (555) 014-3322"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["October 22, 2026, 5:00 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

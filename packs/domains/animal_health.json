@@ -1,0 +1,992 @@
+{
+  "id": "animal_health",
+  "label": "Animal health, veterinary and animal agriculture",
+  "description": "The people who respond to animal disease and animal emergencies: state animal health officials and their staff, the federal veterinary service as an outside party, practicing veterinarians, diagnostic laboratories, producers and integrators, extension, veterinary schools, county fairs and animal shelters. They work an outbreak of highly pathogenic avian influenza, African swine fever, foot-and-mouth disease or another foreign animal disease from suspicion to release, with premises, zones, permits, sampling schedules and depopulation and disposal trackers, and the continuity of business of unaffected producers. Extends food and agriculture (processors, recalls, food defense) and public health (zoonoses) by reference.",
+  "aliases": [
+    "state_veterinarian",
+    "state_animal_health",
+    "animal_health_agency",
+    "department_of_agriculture",
+    "livestock",
+    "poultry_health",
+    "bird_flu",
+    "avian_influenza",
+    "hpai",
+    "asf",
+    "fmd",
+    "screwworm",
+    "foreign_animal_disease",
+    "fad",
+    "animal_disease",
+    "aphis",
+    "vet_school",
+    "veterinary_school",
+    "veterinary_medicine",
+    "extension",
+    "livestock_show",
+    "county_fair",
+    "fair",
+    "animal_shelter",
+    "animal_services"
+  ],
+  "vocabulary": {
+    "facility": "the state animal health office and its emergency operations area (the incident command post, the laboratory, the permit and checkpoint desks) and the premises under quarantine",
+    "public": "producers and their workers, backyard flock owners, fair exhibitors, consumers and the surrounding rural community",
+    "frontline": "field veterinarians, animal health technicians, laboratory scientists, checkpoint staff, depopulation and disposal crews, extension specialists, shelter staff",
+    "operationsCenter": "the incident command post or the state emergency operations center, with the permit and tracing desks"
+  },
+  "factCategories": [
+    {
+      "id": "premises_ids",
+      "label": "Premises identifiers",
+      "pattern": "\\b((?:IP|CP|SP|ARP|MP|FP|VP)-\\d{2,4})\\b",
+      "idShape": "token",
+      "lint": true,
+      "complete": false
+    },
+    {
+      "id": "permits",
+      "label": "Movement permits",
+      "pattern": "\\b((?:MP|PERMIT)-\\d{4}-\\d{3,5})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "control_areas",
+      "label": "Control areas and zones",
+      "noun": "Control Areas?|Surveillance Zones?|Infected Zones?|Buffer Zones?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "disposal_sites",
+      "label": "Disposal sites",
+      "noun": "Disposal Sites?|Landfills?|Compost Sites?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "checkpoints",
+      "label": "Movement checkpoints",
+      "noun": "Checkpoints?",
+      "idShape": "alnum",
+      "lint": true,
+      "complete": true
+    }
+  ],
+  "systems": {
+    "it": [
+      "emergency management response system for premises, tracing and situation reports",
+      "laboratory information management systems at the state and national laboratories",
+      "premises identification and animal disease traceability records",
+      "movement permit and certificate of veterinary inspection systems",
+      "GIS for premises, zones and road checkpoints",
+      "state emergency operations center tools and ICS forms",
+      "hotline and call center software for producers",
+      "email lists and text alerts to producers and veterinarians"
+    ],
+    "ot": [
+      "barn ventilation and alarm controllers",
+      "milk tank cooling and automatic milking systems",
+      "feed mill dosing and delivery scheduling",
+      "cold chain storage for vaccine",
+      "incinerator, composting and rendering plant controls",
+      "truck wash and disinfection stations"
+    ]
+  },
+  "roles": [
+    {
+      "key": "sah",
+      "name": "State Veterinarian / State Animal Health Official",
+      "abbreviation": "SAHO",
+      "team": "Team A: State Animal Health Agency",
+      "description": "Orders quarantine, sets control area boundaries with the federal service, decides permits and requests a state emergency declaration."
+    },
+    {
+      "key": "ic",
+      "name": "Incident Commander / Unified Command",
+      "abbreviation": "IC",
+      "team": "Team A: State Animal Health Agency",
+      "description": "Sets objectives and operational periods; the state and the federal service run a unified command."
+    },
+    {
+      "key": "avic",
+      "name": "Federal Area Veterinarian in Charge (outside party)",
+      "abbreviation": "AVIC",
+      "team": "Team B: Federal and Partners",
+      "description": "Classifies cases, authorizes indemnity and resources, and supports the incident management team."
+    },
+    {
+      "key": "epi",
+      "name": "Epidemiology Section Chief",
+      "abbreviation": "EPI",
+      "team": "Team C: Planning and Epidemiology",
+      "description": "Leads tracing, premises designations, zone changes and the surveillance plan."
+    },
+    {
+      "key": "move",
+      "name": "Operations: Quarantine and Movement Control",
+      "abbreviation": "MOVE",
+      "team": "Team D: Operations",
+      "description": "Runs checkpoints, permits and movement exceptions."
+    },
+    {
+      "key": "depop",
+      "name": "Operations: Depopulation and Disposal",
+      "abbreviation": "DEPOP",
+      "team": "Team D: Operations",
+      "description": "Chooses method and sequence, protects personnel, picks the disposal site and plans cleaning and disinfection."
+    },
+    {
+      "key": "lab",
+      "name": "Veterinary Diagnostic Laboratory Director",
+      "abbreviation": "LAB",
+      "team": "Team E: Veterinary Diagnostic Laboratory",
+      "description": "Prioritizes samples, reports presumptive results and ships to the national reference laboratory."
+    },
+    {
+      "key": "prod",
+      "name": "Producer / Complex Manager / Integrator Biosecurity Manager",
+      "abbreviation": "PROD",
+      "team": "Team F: Producer or Integrator",
+      "description": "Owns biosecurity, access for depopulation, continuity of business, employee health and contracts."
+    },
+    {
+      "key": "ext",
+      "name": "Extension Specialist / Fair Manager",
+      "abbreviation": "EXT",
+      "team": "Team G: Extension and Fairs",
+      "description": "Reaches backyard owners and exhibitors, cancels or holds shows and answers producer questions."
+    },
+    {
+      "key": "phv",
+      "name": "Public Health Veterinarian / Epidemiologist",
+      "abbreviation": "PHV",
+      "team": "Team H: Public Health",
+      "description": "Follows up exposed workers, arranges prophylaxis and reports human cases."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Team I: Communications",
+      "description": "Issues consumer messages, producer notices and rumor control."
+    },
+    {
+      "key": "em",
+      "name": "County Emergency Manager",
+      "abbreviation": "EM",
+      "team": "Team J: Local Government",
+      "description": "Supports checkpoints, disposal sites and sheltering of animals."
+    },
+    {
+      "key": "asd",
+      "name": "Animal Shelter Director / Animal Services",
+      "abbreviation": "ASD",
+      "team": "Team K: Disaster Animal Care",
+      "description": "Directs evacuation, pet-friendly shelter, intake and reunification."
+    }
+  ],
+  "outsideParties": [
+    "the federal veterinary service (APHIS Veterinary Services, the national reference laboratory, field operations)",
+    "CDC and the state health department (zoonoses and worker health)",
+    "FDA and USDA FSIS (food safety messages)",
+    "state emergency management and law enforcement (checkpoints)",
+    "trading partners and export certifying offices",
+    "commodity groups, cooperatives and auction markets",
+    "haulers, rendering and landfill operators",
+    "wildlife agencies (wild bird and feral swine)",
+    "tribal governments",
+    "the media"
+  ],
+  "mediaChannels": [
+    "a local farm radio call-in show",
+    "a producer group text thread",
+    "an extension newsletter",
+    "a Facebook group for backyard chickens",
+    "a county fair board notice",
+    "a TV news story about egg prices"
+  ],
+  "sceneAnchors": {
+    "public": "a county fair livestock barn: wooden pens of pigs and steers, exhibitors in white show clothes, hay bales and sawdust, a handwritten sign on a gate, daylight through open barn doors",
+    "control": "an animal disease incident command room: staff at folding tables with laptops, a wall map with colored pins and circles around a county, printed permit forms and whiteboards, fluorescent lighting",
+    "exterior": "a rural road checkpoint at a farm lane: an orange traffic cone, a truck with a livestock trailer stopped on gravel, a worker in coveralls and boots at a wash station, flat farmland under overcast sky"
+  },
+  "injectTypes": [
+    "lab_result_report",
+    "sitrep",
+    "ics_201_prefill",
+    "press_release",
+    "status_board",
+    "map_annotation",
+    "field_report",
+    "email",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "facebook_post",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "regulatory_notice",
+    "official_letter"
+  ],
+  "threatFamilies": [
+    "hpai_poultry",
+    "hpai_dairy",
+    "asf_introduction",
+    "fmd_movement_control",
+    "screwworm_incursion",
+    "vnd_poultry",
+    "animal_zoonotic_spillover",
+    "disaster_animal_care",
+    "animal_health_service_degradation"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "hpai_poultry",
+      "label": "HPAI in commercial poultry",
+      "description": "Highly pathogenic avian influenza is presumed positive on a commercial poultry premises; the team works from the first mortality report through zones, permits, depopulation and release.",
+      "keywords": [
+        "hpai",
+        "avian influenza",
+        "bird flu",
+        "poultry",
+        "turkey",
+        "layer",
+        "broiler",
+        "flock",
+        "presumptive positive",
+        "control area",
+        "depopulation"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A grower reports a jump in mortality in one house and a drop in water use",
+            "A routine pullorum-typhoid sample from an unrelated flock must be set aside",
+            "An accredited veterinarian calls the state animal health office about a sample"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": [
+            "The state laboratory reports a presumptive positive on a swab; the sample ships to the national reference laboratory",
+            "The integrator asks whether trucks may leave the complex before confirmation"
+          ]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": [
+            "A draft control area that must reach at least 10 km beyond the infected premises",
+            "Contract growers of the same integrator sit inside the zone",
+            "A permit request to move birds already loaded for processing"
+          ]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "A feed truck route that visited two premises in the last three days",
+            "The case-management system lags and designations disagree between teams"
+          ]
+        },
+        {
+          "title": "Depopulation and disposal",
+          "goal": "Animals on infected premises are depopulated and disposed of against the plan goal, with crews, methods and sites as the limit.",
+          "beats": [
+            "The plan goal is depopulation within 24 hours of the presumptive positive and the crew has half the capacity needed",
+            "The chosen disposal site is full or too far for the trucks available"
+          ]
+        },
+        {
+          "title": "Cleaning and release",
+          "goal": "Premises are cleaned and disinfected, tested and released on stated conditions; the control area shrinks as evidence allows.",
+          "beats": [
+            "Cleaning and disinfection sign-off on the first premises",
+            "Surveillance zone premises still due for sampling"
+          ]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": [
+            "A trading partner asks for the zone map and dates",
+            "A hot wash disagreement over who set the control area boundary"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "issue a permit to move product from a monitored premises now, or hold it a day for another round of negative tests",
+        "depopulate the larger infected house first or the one nearer a road with more traffic",
+        "widen the control area to include a contract grower, or hold the minimum and risk a later change"
+      ],
+      "clueKinds": "a mortality log, a laboratory result sheet, a feed or crew visit record, a premises on a map near the zone edge, a permit request with a destination in the zone",
+      "hurdleKinds": "the case-management system is slow, a disposal site is full, crews are short, a road checkpoint is understaffed, the laboratory has a backlog",
+      "keyCoordination": "the state animal health office, the federal veterinary service, the integrator, the laboratory network and the county emergency manager",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "quarantine|control area|zone|permit|depopulat|disposal|designat",
+          "description": "a control decision (quarantine, zone, permit, depopulation or disposal)"
+        }
+      }
+    },
+    {
+      "id": "hpai_dairy",
+      "label": "HPAI in dairy cattle",
+      "description": "A positive milk sample or herd report sets off herd-level testing and movement decisions for a state; the structure follows the national milk testing strategy and the designer confirms current state rules.",
+      "keywords": [
+        "dairy",
+        "milk",
+        "silo",
+        "herd",
+        "bulk tank",
+        "lactating",
+        "milk testing",
+        "cattle",
+        "cooperative"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A processing plant reports a positive silo sample that traces to several farms",
+            "A veterinarian reports a herd with reduced milk and appetite"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": [
+            "A herd-level test is positive on one farm and pending on two",
+            "The cooperative asks whether milk may go to the plant"
+          ]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": [
+            "A quarantine of the affected herd and a movement hold on lactating cattle leaving the state",
+            "A producer asks what testing a pre-movement certificate needs"
+          ]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "Herd lists that share a trucking route and a milk hauler",
+            "Worker health monitoring for farm staff who handled milk"
+          ]
+        },
+        {
+          "title": "Cleaning and release",
+          "goal": "Premises are cleaned and disinfected, tested and released on stated conditions; the control area shrinks as evidence allows.",
+          "beats": [
+            "Herd-level testing is repeated before the state status changes",
+            "A processor wants a written statement for its customers"
+          ]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": [
+            "The state status is reviewed against herd-level results, not silo results alone",
+            "The hot wash records which rule the designer had to confirm"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "allow milk to move to the plant under a permit with testing, or hold it at the farm and lose the day",
+        "test every herd on the route now, or sample the highest-risk herds first",
+        "announce a state status change, or wait for one more round of herd-level results"
+      ],
+      "clueKinds": "a silo result that traces to farms, a hauler route, a herd test sheet, a worker symptom log, a cooperative notice",
+      "hurdleKinds": "the current movement rule differs between sources, a laboratory turnaround, hauler schedules, staff shortages at the testing team",
+      "keyCoordination": "the state animal health office, the federal veterinary service, the cooperative, the processor, the public health veterinarian",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs. Dairy movement and testing rules changed during 2025 and 2026; generate from the structure of the national milk testing strategy and tell the designer to confirm current state rules.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "permit|movement|test|quarantine|status|milk|herd",
+          "description": "a movement, testing or status decision"
+        }
+      }
+    },
+    {
+      "id": "asf_introduction",
+      "label": "African swine fever introduction",
+      "description": "African swine fever is suspected on a swine premises; no vaccine exists in the United States, so the exercise turns on movement control, tracing and trade.",
+      "keywords": [
+        "african swine fever",
+        "asf",
+        "swine",
+        "pig",
+        "hog",
+        "sow",
+        "feral swine",
+        "pork"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A sow farm reports sudden deaths and fever in several pens",
+            "A packer reports a load with unexplained deaths"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": [
+            "A presumptive result and a standstill request",
+            "Export certificates are held at the border"
+          ]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": [
+            "A swine movement standstill across several counties",
+            "A county fair swine show is two weeks away"
+          ]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "Pig movements by truck and semen deliveries",
+            "Feeding of food waste at a small premises"
+          ]
+        },
+        {
+          "title": "Depopulation and disposal",
+          "goal": "Animals on infected premises are depopulated and disposed of against the plan goal, with crews, methods and sites as the limit.",
+          "beats": ["Humane depopulation of a large breeding herd", "Carcass disposal near water"]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": [
+            "Trading partners ask for proof of freedom",
+            "Producers ask for indemnity timing"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "extend the standstill to the whole state, or hold it to the control area and accept more risk",
+        "cancel the county fair swine show now, or wait for another round of tracing",
+        "depopulate a contact premises on suspicion, or test first and wait"
+      ],
+      "clueKinds": "movement records, a laboratory result sheet, a truck wash log, a fair entry list, an export certificate hold",
+      "hurdleKinds": "a long list of movements to trace, rendering plant limits, a disposal site near a creek, public confusion about pork safety",
+      "keyCoordination": "the state animal health office, the federal veterinary service, packers, the fair board, trade officials",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "standstill|movement|quarantine|zone|permit|depopulat|fair",
+          "description": "a movement or control decision"
+        }
+      }
+    },
+    {
+      "id": "fmd_movement_control",
+      "label": "Foot-and-mouth disease with movement controls",
+      "description": "Foot-and-mouth disease is presumed positive in cattle or swine; the exercise covers a movement standstill, zones, and, where policy allows, vaccination logistics.",
+      "keywords": [
+        "foot-and-mouth",
+        "foot and mouth",
+        "fmd",
+        "standstill",
+        "vaccination zone",
+        "cloven",
+        "vesicular"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A veterinarian reports blisters and drooling in a group of cattle",
+            "A livestock market asks to open as usual"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": [
+            "A presumptive result from the network laboratory",
+            "A national movement standstill order is considered"
+          ]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": [
+            "A containment vaccination zone inside the control area is proposed",
+            "Permits for essential movements: milk collection, feed delivery"
+          ]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "Contact premises sampled every five days for 14 days",
+            "At-risk and monitored premises on a 10 day schedule"
+          ]
+        },
+        {
+          "title": "Depopulation and disposal",
+          "goal": "Animals on infected premises are depopulated and disposed of against the plan goal, with crews, methods and sites as the limit.",
+          "beats": [
+            "Vaccination teams, cold chain and chain of custody checkpoints",
+            "Disposal sites for large animals"
+          ]
+        },
+        {
+          "title": "Cleaning and release",
+          "goal": "Premises are cleaned and disinfected, tested and released on stated conditions; the control area shrinks as evidence allows.",
+          "beats": [
+            "Surveillance zone premises sampled every 21 days until 56 days after the last detected case"
+          ]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": ["Trade partners and regaining status", "Vaccinated animals and their marking"]
+        }
+      ],
+      "decisionPointExamples": [
+        "vaccinate in a containment zone now, or stamp out only and keep the zone small",
+        "allow milk tankers through the zone under a permit, or stop collection and dump milk",
+        "close the livestock markets statewide, or only in the control area"
+      ],
+      "clueKinds": "a sampling schedule table, a vaccine inventory sheet, a milk collection route, a market sale list, a vaccination team roster",
+      "hurdleKinds": "cold chain failure, a short vaccination team, a checkpoint staffing shortfall, a data entry backlog",
+      "keyCoordination": "the state animal health office, the federal veterinary service, dairy cooperatives, markets, trading partners",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "standstill|zone|vaccinat|permit|sampling|movement",
+          "description": "a standstill, zone, vaccination or permit decision"
+        }
+      }
+    },
+    {
+      "id": "screwworm_incursion",
+      "label": "New World screwworm incursion",
+      "description": "New World screwworm is found on an animal in a state without it; the work is detection, treatment and movement inspection coordination between the state and the federal service.",
+      "keywords": ["screwworm", "new world screwworm", "nws", "fly larvae", "wound", "sterile fly"],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A veterinarian finds larvae in a wound on an imported animal",
+            "A rancher reports a wound that will not heal"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": ["The reference laboratory confirms the species of larvae"]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": [
+            "An inspection and treatment requirement for animal movement out of the county",
+            "Sterile fly release planning"
+          ]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "Animals moved from the origin premises in the last 30 days",
+            "Pet and wildlife reports"
+          ]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": ["Surveillance traps and a stated period before the area is released"]
+        }
+      ],
+      "decisionPointExamples": [
+        "require inspection and treatment for all animals leaving the county, or only for livestock",
+        "close a livestock sale for a week, or hold it with inspection at the gate",
+        "ask the federal service for more inspectors, or run the first week with state staff"
+      ],
+      "clueKinds": "an inspection record, a wound photo description, a movement list, a trap catch count",
+      "hurdleKinds": "too few inspectors, a delay in laboratory identification, public worry about pets",
+      "keyCoordination": "the state animal health office, the federal veterinary service, ranchers, the livestock market, veterinarians",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "inspect|treat|movement|permit|zone|surveillance",
+          "description": "an inspection, treatment or movement decision"
+        }
+      }
+    },
+    {
+      "id": "vnd_poultry",
+      "label": "Virulent Newcastle disease",
+      "description": "Virulent Newcastle disease is presumed positive in backyard and commercial birds; the exercise has many small premises and a public that moves birds.",
+      "keywords": [
+        "newcastle",
+        "virulent newcastle",
+        "vnd",
+        "backyard flock",
+        "game bird",
+        "cockfight",
+        "backyard poultry"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": ["Several backyard owners report sick birds after a swap meet"]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": ["A presumptive result from a game bird premises"]
+        },
+        {
+          "title": "Quarantine and zones",
+          "goal": "The premises is quarantined and the control area and surveillance zone are drawn from the plan minimums and local epidemiology.",
+          "beats": ["A quarantine area and an order to keep birds indoors"]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": ["Dozens of small premises traced through a swap meet list"]
+        },
+        {
+          "title": "Depopulation and disposal",
+          "goal": "Animals on infected premises are depopulated and disposed of against the plan goal, with crews, methods and sites as the limit.",
+          "beats": ["Depopulation of many small flocks with few crews"]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": ["A public message for backyard owners and 4-H exhibitors"]
+        }
+      ],
+      "decisionPointExamples": [
+        "quarantine the whole county for backyard birds, or only the premises traced to the swap meet",
+        "cancel the county poultry show, or hold it with testing at the gate",
+        "send crews to many small flocks, or to the largest commercial exposure first"
+      ],
+      "clueKinds": "a swap meet vendor list, a call log from owners, a flock count table, a show entry list",
+      "hurdleKinds": "many small premises, unreachable owners, a social post spreading a wrong zone",
+      "keyCoordination": "the state animal health office, the federal veterinary service, extension, 4-H leaders, the fair board",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "quarantine|zone|show|permit|depopulat|trace",
+          "description": "a quarantine, show, tracing or depopulation decision"
+        }
+      }
+    },
+    {
+      "id": "animal_zoonotic_spillover",
+      "label": "Zoonotic spillover to workers",
+      "description": "A disease in animals exposes workers; the animal health and public health teams share decisions on monitoring, prophylaxis and public messages.",
+      "keywords": [
+        "zoonotic",
+        "spillover",
+        "worker exposure",
+        "conjunctivitis",
+        "worker health",
+        "antiviral",
+        "culling crew",
+        "human case"
+      ],
+      "phaseArc": [
+        {
+          "title": "Suspicion",
+          "goal": "An ordinary report that might be a foreign animal disease and might be nothing.",
+          "beats": [
+            "A worker on a dairy reports red eyes after a shift",
+            "A cull crew member reports a cough"
+          ]
+        },
+        {
+          "title": "Presumptive positive",
+          "goal": "A network laboratory result changes the status of the premises; the clock for the plan goals starts.",
+          "beats": ["A worker sample is positive at the public health laboratory"]
+        },
+        {
+          "title": "Tracing and surveillance",
+          "goal": "Contact and at-risk premises are identified, designated and put on a sampling schedule; permits keep unaffected producers working.",
+          "beats": [
+            "Contacts of the worker and the crew rosters",
+            "Monitoring log for workers over ten days"
+          ]
+        },
+        {
+          "title": "Protection and communication",
+          "goal": "Protective equipment, prophylaxis and messages reach workers who do not read English and fear lost work.",
+          "beats": [
+            "A farm owner refuses entry to the health team",
+            "A union and a grower group give different advice"
+          ]
+        },
+        {
+          "title": "Recovery and trade",
+          "goal": "Producers restock, trading partners are told, and the hot wash records what the clocks showed.",
+          "beats": ["A joint statement from the state veterinarian and the health officer"]
+        }
+      ],
+      "decisionPointExamples": [
+        "offer antiviral prophylaxis to the whole crew, or only to those with documented exposure",
+        "tell the public the risk is low now, or wait for the second worker result",
+        "stop the depopulation crew rotation to protect workers, or finish within the plan goal"
+      ],
+      "clueKinds": "a worker monitoring log, a health department case report, a crew roster, a PPE stock count",
+      "hurdleKinds": "language barriers, fear of lost wages, mixed messages, a PPE shortage",
+      "keyCoordination": "the public health veterinarian, the health department, the producer, workers, the occupational health clinic",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "monitor|prophylaxis|worker|crew|PPE|message|statement",
+          "description": "a worker protection or communication decision"
+        }
+      }
+    },
+    {
+      "id": "disaster_animal_care",
+      "label": "Disaster animal care",
+      "description": "A flood, fire or storm strands livestock, floods a shelter or forces an animal evacuation; the county, the animal services and producers coordinate.",
+      "keywords": [
+        "animal shelter",
+        "shelter evacuation",
+        "livestock rescue",
+        "barn fire",
+        "flooded farm",
+        "stranded livestock",
+        "pet friendly",
+        "animal evacuation",
+        "heat stress",
+        "feed shortage"
+      ],
+      "phaseArc": [
+        {
+          "title": "Warning",
+          "goal": "A forecast or alert reaches animal owners unevenly.",
+          "beats": [
+            "A river forecast puts a livestock farm below the expected crest",
+            "A shelter director asks for transport to move 60 animals"
+          ]
+        },
+        {
+          "title": "Evacuation",
+          "goal": "Animals must move with limited trailers, drivers and a place to go.",
+          "beats": [
+            "Roads close behind the first trailer",
+            "A pet-friendly shelter reaches capacity"
+          ]
+        },
+        {
+          "title": "Rescue and care",
+          "goal": "Stranded animals need boats, feed, water and a vet.",
+          "beats": ["Cattle on a levee with rising water", "A barn fire with animals inside"]
+        },
+        {
+          "title": "Reunification and recovery",
+          "goal": "Owners find animals, carcass disposal is arranged and the shelter closes.",
+          "beats": [
+            "A claim for lost animals with no tags",
+            "A disposal site is needed for flood-killed animals"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "evacuate the shelter now with the trailers available, or wait for more and risk the road",
+        "send a rescue boat to the cattle or to the flooded shelter first",
+        "open a second pet-friendly shelter, or hold intake at the first"
+      ],
+      "clueKinds": "a shelter census, a trailer roster, a road closure list, a farm inundation overlay, a feed inventory",
+      "hurdleKinds": "roads closed, trailers short, no power for barn ventilation, animals without identification",
+      "keyCoordination": "county emergency management, animal services, producers, the sheriff, the state animal health office",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "evacuat|shelter|rescue|transport|reunif|disposal",
+          "description": "an evacuation, shelter, rescue or disposal decision"
+        }
+      }
+    },
+    {
+      "id": "animal_health_service_degradation",
+      "label": "Animal health service degradation",
+      "description": "A case-management system outage, a laboratory backlog or a checkpoint staffing shortfall makes the response slower than the plan assumes.",
+      "keywords": [
+        "case management outage",
+        "emrs",
+        "laboratory backlog",
+        "checkpoint staffing",
+        "sample backlog",
+        "permit system down"
+      ],
+      "phaseArc": [
+        {
+          "title": "Degradation",
+          "goal": "A system or staff shortfall appears quietly and counts stop matching.",
+          "beats": [
+            "The case-management system stops syncing premises records",
+            "A laboratory courier is a day late"
+          ]
+        },
+        {
+          "title": "Impact",
+          "goal": "Designations, permits and tracing disagree between teams; decisions rest on stale numbers.",
+          "beats": [
+            "Two teams hold different designations for one premises",
+            "A permit decision is delayed past the service target"
+          ]
+        },
+        {
+          "title": "Workaround",
+          "goal": "The team falls back to paper and calls, and accepts a slower clock.",
+          "beats": ["A manual tracker replaces the system", "A checkpoint runs with half its staff"]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Records are reconciled and the lost time is stated in the hot wash.",
+          "beats": ["Records entered twice", "A corrective action for the backup procedure"]
+        }
+      ],
+      "decisionPointExamples": [
+        "issue permits on paper now, or wait for the system and delay unaffected producers",
+        "prioritize the highest-risk samples, or run in arrival order",
+        "move staff from surveillance to the checkpoint, or hold both at a lower level"
+      ],
+      "clueKinds": "a system alert, a premises record that does not match, a courier log, a staffing roster",
+      "hurdleKinds": "no backup procedure, paper forms not at hand, conflicting records",
+      "keyCoordination": "the state animal health office, the federal veterinary service, the laboratory, the county sheriff",
+      "purposeMix": {
+        "CLUE": 25,
+        "DECISION_POINT": 15,
+        "PRESSURE": 10,
+        "NOISE": 10
+      },
+      "promptGuidance": "Stay at the level of animal health response decisions: designations, zones, permits, sampling, depopulation and disposal logistics, messages. Use only fictional premises, farms, owners and people; place premises as fictional points, never at a real farm. Give no pathogen culture, growth or biosecurity-bypass detail. Cite the response plan edition when a rule or distance is stated, and say the state plan governs.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "paper|workaround|manual|backup|priorit|permit",
+          "description": "a workaround, priority or staffing decision"
+        }
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a routine rabies bite report",
+    "a feed salesman asking about a delivery schedule",
+    "a question from a 4-H leader about vaccination records for a show",
+    "a pet owner asking about a vaccine clinic",
+    "a county road crew asking which road is closed for a bridge repair"
+  ],
+  "pressureExamples": [
+    "an integrator asking the state not to name its complexes",
+    "a producer group demanding permits for all unaffected farms today",
+    "a reporter asking whether the state is hiding detections",
+    "a fair board president saying the show must go on",
+    "a trading partner threatening to close a market"
+  ],
+  "rolePatterns": {
+    "technical": "laboratory|informatics",
+    "operations": "incident commander|state veterinarian|movement|depopulation|epidemiology"
+  },
+  "agencyPattern": "APHIS|Veterinary Services|NVSL|NAHLN|USDA|state department of agriculture|state animal health|CDC|FDA|FSIS|county emergency management",
+  "coreCapabilities": [
+    "operational_coordination",
+    "public_information_and_warning",
+    "situational_assessment",
+    "supply_chain_integrity_and_security",
+    "environmental_response_health_and_safety",
+    "mass_care_services"
+  ],
+  "suggestedToolkits": [
+    "animal_disease",
+    "epidemiology",
+    "weather",
+    "flooding",
+    "media_environment"
+  ]
+}

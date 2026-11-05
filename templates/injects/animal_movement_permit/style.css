@@ -1,0 +1,128 @@
+/* Animal health paper product, US Letter (816 x 1056). Black on white with one agency rule. */
+.page {
+  height: 1056px;
+  padding: 28px 56px 24px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #111;
+  background: #fff;
+}
+p {
+  margin: 0;
+}
+.marking {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #9b1c14;
+}
+.head {
+  margin-top: 10px;
+  padding-bottom: 8px;
+  border-bottom: 4px solid #2c5a3a;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+.agency {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2c5a3a;
+}
+.sub {
+  font-size: 11px;
+  color: #444;
+}
+.doc-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+}
+h1 {
+  margin: 12px 0 4px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 26px;
+  line-height: 1.12;
+}
+h2 {
+  margin: 12px 0 4px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2c5a3a;
+}
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+li {
+  margin: 3px 0;
+}
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+th,
+td {
+  border: 1px solid #7d8b95;
+  padding: 4px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: #e9f1ea;
+  font-size: 11px;
+  font-weight: 600;
+  color: #12261a;
+}
+table.kv th {
+  width: 26%;
+}
+.spacer {
+  flex: 1;
+}
+.foot {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #777;
+  padding-top: 4px;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: #444;
+}
+.callout {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 2px solid #111;
+  border-left: 8px solid #b3170f;
+}
+.body {
+  margin-bottom: 4px;
+}
+.tier {
+  display: inline-block;
+  padding: 1px 9px;
+  border: 2px solid #111;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11.5px;
+}
+.q {
+  margin: 10px 0 2px;
+  font-weight: 700;
+}

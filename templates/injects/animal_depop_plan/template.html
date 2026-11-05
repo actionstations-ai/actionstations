@@ -1,0 +1,102 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Depopulation plan</div>
+  </header>
+  <h1>Depopulation and disposal plan {{fields.planNumber}}</h1>
+  <h2>Premises</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.premises}}
+      <tr>
+        <th>Premises</th>
+        <td>{{fields.premises}}</td>
+      </tr>
+      {{/if}} {{#if fields.disease}}
+      <tr>
+        <th>Disease</th>
+        <td>{{fields.disease}}</td>
+      </tr>
+      {{/if}} {{#if fields.presumptiveAt}}
+      <tr>
+        <th>Presumptive positive</th>
+        <td class="mono">{{fields.presumptiveAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.targetCompleteAt}}
+      <tr>
+        <th>Planned completion</th>
+        <td class="mono">{{fields.targetCompleteAt}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.delayReason}}
+  <div class="callout"><strong>Why the goal is not met:</strong> {{fields.delayReason}}</div>
+  {{/if}}
+  <h2>Houses, in order</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 6%">#</th>
+        <th style="width: 16%">House</th>
+        <th style="width: 14%">Head</th>
+        <th>Method</th>
+        <th style="width: 10%">Crew</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.houses}}
+      <tr>
+        <td class="mono">{{this.order}}</td>
+        <td>{{this.house}}</td>
+        <td class="mono">{{this.head}}</td>
+        <td>{{this.method}}</td>
+        <td class="mono">{{this.crew}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Disposal</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.disposal}}
+      <tr>
+        <th>Site and method</th>
+        <td>{{fields.disposal}}</td>
+      </tr>
+      {{/if}} {{#if fields.disposalCapacity}}
+      <tr>
+        <th>Capacity per day</th>
+        <td>{{fields.disposalCapacity}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.safety}}
+  <h2>Worker safety and welfare</h2>
+  <ul>
+    {{#each fields.safety}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.afterwards}}
+  <h2>After depopulation</h2>
+  <ul>
+    {{#each fields.afterwards}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Plan {{fields.planNumber}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

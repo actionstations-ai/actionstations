@@ -1,0 +1,33 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Producer letter</div>
+  </header>
+  <p class="body" style="margin-top: 12px">{{fields.date}}</p>
+  <p class="body">{{fields.salutation}}</p>
+  <h1>{{fields.subject}}</h1>
+  {{#each fields.body}}
+  <p class="body">{{this}}</p>
+  {{/each}} {{#if fields.actions}}
+  <h2>What to do now</h2>
+  <ul>
+    {{#each fields.actions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <p class="body" style="margin-top: 12px">{{fields.contact}}</p>
+  <p class="body">{{fields.signature}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Producer letter · {{fields.date}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

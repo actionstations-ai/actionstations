@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Quarantine, hold order or control area notice",
+  "description": "Quarantine order, hold order or control area notice for an animal disease response: the premises, the zones with distances in kilometers, what is restricted, exceptions by permit, and the conditions for release. Zone distances follow the response plan named in `plan`; designations use the plan words.",
+  "type": "object",
+  "required": [
+    "agency",
+    "orderType",
+    "orderNumber",
+    "disease",
+    "plan",
+    "zones",
+    "restrictions",
+    "effectiveAt"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "orderType": {
+      "type": "string",
+      "description": "Kind of order",
+      "examples": ["quarantine"],
+      "enum": ["quarantine", "hold order", "control area notice"]
+    },
+    "orderNumber": {
+      "type": "string",
+      "description": "Order number",
+      "examples": ["QO-2026-014"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease",
+      "examples": ["Highly pathogenic avian influenza"]
+    },
+    "plan": {
+      "type": "string",
+      "description": "Response plan the zones follow",
+      "examples": ["HPAI Red Book (May 2017)"],
+      "enum": ["HPAI Red Book (May 2017)", "FMD Red Book (October 2020)", "State plan"]
+    },
+    "authority": {
+      "type": "string",
+      "description": "Authority the order cites (exercise wording, no real statute)",
+      "examples": ["State animal disease control authority (exercise)"]
+    },
+    "premises": {
+      "type": "array",
+      "description": "Premises under the order",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Premises code",
+            "examples": ["IP-001"],
+            "x-translate": false
+          },
+          "name": {
+            "type": "string",
+            "description": "Fictional farm name",
+            "examples": ["Birchwood Turkey Complex"],
+            "x-translate": false
+          },
+          "designation": {
+            "type": "string",
+            "description": "Designation",
+            "examples": ["infected"],
+            "enum": ["infected", "contact", "suspect", "at-risk", "monitored", "free", "vaccinated"]
+          },
+          "species": {
+            "type": "string",
+            "description": "Species",
+            "examples": ["turkeys"]
+          },
+          "head": {
+            "type": "number",
+            "description": "Head count",
+            "examples": [42000]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "IP-001",
+            "name": "Birchwood Turkey Complex",
+            "designation": "infected",
+            "species": "turkeys",
+            "head": 42000
+          }
+        ]
+      ]
+    },
+    "zones": {
+      "type": "array",
+      "description": "Zones and areas, with the distance each reaches",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Zone or area",
+            "examples": ["infected zone"],
+            "enum": [
+              "infected zone",
+              "buffer zone",
+              "control area",
+              "surveillance zone",
+              "free area",
+              "containment vaccination zone",
+              "protection vaccination zone"
+            ]
+          },
+          "extentKm": {
+            "type": "number",
+            "description": "Distance in kilometers: radius beyond the infected premises (infected zone and control area), width beyond the infected zone (buffer zone) or width (surveillance zone)",
+            "examples": [3]
+          },
+          "description": {
+            "type": "string",
+            "description": "Where it lies",
+            "examples": ["Within 3 km of IP-001, east of County Road 12"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "kind": "infected zone",
+            "extentKm": 3,
+            "description": "Within 3 km of IP-001"
+          }
+        ]
+      ]
+    },
+    "restrictions": {
+      "type": "array",
+      "description": "What is restricted",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "No poultry, eggs, litter or used equipment may leave a premises in the control area without a permit."
+        ]
+      ]
+    },
+    "exceptions": {
+      "type": "array",
+      "description": "Exceptions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Movement under a permit issued by the State Animal Health Office."]]
+    },
+    "releaseConditions": {
+      "type": "array",
+      "description": "Conditions for release",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Cleaning and disinfection approved on infected premises.",
+          "Surveillance zone sampling complete and negative."
+        ]
+      ]
+    },
+    "effectiveAt": {
+      "type": "string",
+      "description": "Effective date and time",
+      "examples": ["October 21, 2026, 4:30 p.m."],
+      "x-translate": false
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Signed by",
+      "examples": ["State Veterinarian"],
+      "x-translate": false
+    },
+    "contact": {
+      "type": "string",
+      "description": "Permit desk",
+      "examples": ["Permit desk (555) 014-3300"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
