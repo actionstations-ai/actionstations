@@ -1715,6 +1715,37 @@
           "select_agent_73_19"
         ]
       }
+    },
+    {
+      "id": "ai.actionstations.toolkit-animal-disease",
+      "name": "Animal disease toolkit",
+      "summary": "Animal disease response expertise for any domain: orders, permits, notices, premises investigation, depopulation and indemnity templates, with plan rules tagged by edition.",
+      "tags": ["toolkit", "animal-health", "livestock", "poultry"],
+      "contents": {
+        "templates": [
+          "animal_consumer_faq",
+          "animal_depop_plan",
+          "animal_event_cancellation",
+          "animal_health_quarantine_order",
+          "animal_indemnity_worksheet",
+          "animal_movement_permit",
+          "animal_premises_investigation",
+          "animal_presumptive_notice",
+          "animal_producer_letter",
+          "animal_worker_health_log"
+        ],
+        "toolkits": ["animal_disease"]
+      }
+    },
+    {
+      "id": "ai.actionstations.animal-health",
+      "name": "Animal health, veterinary and agriculture",
+      "summary": "Animal health agency, producer, laboratory, extension and disaster animal care domain: roles and animal disease threat families with phase arcs.",
+      "tags": ["animal-health", "veterinary", "agriculture", "livestock"],
+      "domains": ["animal_health"],
+      "contents": {
+        "domains": ["animal_health"]
+      }
     }
   ]
 }

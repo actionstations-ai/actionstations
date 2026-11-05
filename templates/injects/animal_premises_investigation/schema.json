@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Premises investigation form",
+  "description": "Premises investigation form for an at-risk, contact or suspect premises: designation now and before, sampling interval, animals, clinical signs, biosecurity, movements in the last 14 days with premises codes, samples and an assessment. Only an at-risk premises can become a monitored premises.",
+  "type": "object",
+  "required": ["agency", "investigationNumber", "premises", "designation"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "investigationNumber": {
+      "type": "string",
+      "description": "Investigation number",
+      "examples": ["INV-2026-031"],
+      "x-translate": false
+    },
+    "premises": {
+      "type": "string",
+      "description": "Premises code and fictional farm",
+      "examples": ["ARP-003, Fenwick Layer Farm"],
+      "x-translate": false
+    },
+    "plan": {
+      "type": "string",
+      "description": "Response plan",
+      "examples": ["HPAI Red Book (May 2017)"],
+      "enum": ["HPAI Red Book (May 2017)", "FMD Red Book (October 2020)", "State plan"]
+    },
+    "designation": {
+      "type": "string",
+      "description": "Designation now",
+      "examples": ["at-risk"],
+      "enum": ["infected", "contact", "suspect", "at-risk", "monitored", "free", "vaccinated"]
+    },
+    "previousDesignation": {
+      "type": "string",
+      "description": "Designation before",
+      "examples": ["free"],
+      "enum": ["infected", "contact", "suspect", "at-risk", "monitored", "free", "vaccinated"]
+    },
+    "samplingIntervalDays": {
+      "type": "number",
+      "description": "Days between samples for this designation",
+      "examples": [10]
+    },
+    "species": {
+      "type": "array",
+      "description": "Animals on the premises",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "species": {
+            "type": "string",
+            "description": "Species",
+            "examples": ["layers"]
+          },
+          "head": {
+            "type": "number",
+            "description": "Head count",
+            "examples": [96000]
+          },
+          "sick": {
+            "type": "number",
+            "description": "Sick or dead in the last 7 days",
+            "examples": [14]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "species": "layers",
+            "head": 96000,
+            "sick": 14
+          }
+        ]
+      ]
+    },
+    "clinicalSigns": {
+      "type": "string",
+      "description": "Clinical signs seen",
+      "examples": [
+        "Normal egg production; two dead birds per house per day, within the usual range."
+      ]
+    },
+    "biosecurity": {
+      "type": "array",
+      "description": "Biosecurity observed",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Gate and visitor log in use.", "Boot change at each house."]]
+    },
+    "movements": {
+      "type": "array",
+      "description": "Movements on and off in the last 14 days",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date",
+            "examples": ["Oct 16"],
+            "x-translate": false
+          },
+          "what": {
+            "type": "string",
+            "description": "What moved",
+            "examples": ["Feed truck"]
+          },
+          "withPremises": {
+            "type": "string",
+            "description": "To or from",
+            "examples": ["Birchwood Turkey Complex (IP-001)"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "date": "Oct 16",
+            "what": "Feed truck",
+            "withPremises": "Birchwood Turkey Complex (IP-001)"
+          }
+        ]
+      ]
+    },
+    "samples": {
+      "type": "string",
+      "description": "Samples taken",
+      "examples": ["Swabs from 11 dead birds; results due October 24."]
+    },
+    "assessment": {
+      "type": "string",
+      "description": "Assessment",
+      "examples": ["At-risk: shared feed truck within the control area. Sample again in 10 days."]
+    },
+    "investigator": {
+      "type": "string",
+      "description": "Investigator",
+      "examples": ["Field veterinarian (fictional)"],
+      "x-translate": false
+    },
+    "visitedAt": {
+      "type": "string",
+      "description": "Visit",
+      "examples": ["October 22, 2026, 9:30 a.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

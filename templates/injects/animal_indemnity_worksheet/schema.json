@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Indemnity claim worksheet",
+  "description": "Indemnity claim worksheet for a depopulated premises: owner, premises, animals with appraised value per head and line totals, other items, claim total and status. Amounts are exercise figures, not real rates.",
+  "type": "object",
+  "required": ["agency", "claimNumber", "owner", "premises", "lines"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "claimNumber": {
+      "type": "string",
+      "description": "Claim number",
+      "examples": ["IC-2026-009"],
+      "x-translate": false
+    },
+    "owner": {
+      "type": "string",
+      "description": "Owner (fictional business)",
+      "examples": ["Birchwood Turkey Complex LLC"],
+      "x-translate": false
+    },
+    "premises": {
+      "type": "string",
+      "description": "Premises code",
+      "examples": ["IP-001"],
+      "x-translate": false
+    },
+    "disease": {
+      "type": "string",
+      "description": "Disease",
+      "examples": ["Highly pathogenic avian influenza"]
+    },
+    "depopulatedOn": {
+      "type": "string",
+      "description": "Depopulated on",
+      "examples": ["October 22, 2026"],
+      "x-translate": false
+    },
+    "lines": {
+      "type": "array",
+      "description": "Animals and appraised value",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Category",
+            "examples": ["Turkeys, market weight"]
+          },
+          "head": {
+            "type": "number",
+            "description": "Head",
+            "examples": [42000]
+          },
+          "valuePerHead": {
+            "type": "number",
+            "description": "Appraised value per head in dollars (exercise value)",
+            "examples": [16.5]
+          },
+          "total": {
+            "type": "number",
+            "description": "Line total in dollars",
+            "examples": [693000]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "category": "Turkeys, market weight",
+            "head": 42000,
+            "valuePerHead": 16.5,
+            "total": 693000
+          }
+        ]
+      ]
+    },
+    "otherCosts": {
+      "type": "array",
+      "description": "Other items claimed (each with a stated amount)",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Eggs destroyed: $0", "Feed destroyed: $18,400"]]
+    },
+    "claimTotal": {
+      "type": "string",
+      "description": "Claim total",
+      "examples": ["$711,400 (exercise figure)"],
+      "x-translate": false
+    },
+    "status": {
+      "type": "string",
+      "description": "Status",
+      "examples": ["awaiting appraisal review"],
+      "enum": ["draft", "awaiting appraisal review", "approved", "returned"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes",
+      "examples": [
+        "Values are exercise figures. The designer confirms current indemnity rules before use."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

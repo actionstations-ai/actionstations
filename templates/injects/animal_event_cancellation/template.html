@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Public notice</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <p class="body"><span class="tier">{{fields.status}}</span></p>
+  {{#if fields.summary}}
+
+  <p class="body">{{fields.summary}}</p>
+  {{/if}}
+  <h2>Events affected</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th style="width: 16%">Date</th>
+        <th style="width: 24%">Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.affected}}
+      <tr>
+        <td>{{this.event}}</td>
+        <td class="mono">{{this.date}}</td>
+        <td>{{this.outcome}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if fields.exhibitors}}
+  <h2>What exhibitors should do</h2>
+  <ul>
+    {{#each fields.exhibitors}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.refunds}}
+  <h2>Entry fees and refunds</h2>
+  <p class="body">{{fields.refunds}}</p>
+  {{/if}}
+  <p class="body" style="margin-top: 12px">Questions: {{fields.contact}}</p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Issued {{fields.issuedAt}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Movement permit request and decision",
+  "description": "Movement permit request and decision for animals or product moving out of or within a control area. The request variant states the premises, destination, species, reason and testing; the decision variant adds the decision, conditions, who decided and when, and the period it is valid. The origin premises designation uses the response plan words.",
+  "type": "object",
+  "required": [
+    "agency",
+    "permitNumber",
+    "applicant",
+    "origin",
+    "destination",
+    "commodity",
+    "requestedAt"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "permitNumber": {
+      "type": "string",
+      "description": "Permit number",
+      "examples": ["MP-2026-0142"],
+      "x-translate": false
+    },
+    "applicant": {
+      "type": "string",
+      "description": "Applicant (fictional business)",
+      "examples": ["Harbor Valley Poultry Cooperative"],
+      "x-translate": false
+    },
+    "origin": {
+      "type": "string",
+      "description": "Origin premises (code and fictional farm)",
+      "examples": ["MP-004, Alder Run Growers"],
+      "x-translate": false
+    },
+    "originDesignation": {
+      "type": "string",
+      "description": "Designation of the origin premises",
+      "examples": ["monitored"],
+      "enum": ["infected", "contact", "suspect", "at-risk", "monitored", "free", "vaccinated"]
+    },
+    "destination": {
+      "type": "string",
+      "description": "Destination",
+      "examples": ["Calloway Processing Plant, outside the control area"],
+      "x-translate": false
+    },
+    "commodity": {
+      "type": "string",
+      "description": "Species or product and amount",
+      "examples": ["18,000 turkeys for slaughter"]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for movement",
+      "examples": ["Birds are market weight and the house is needed for the next flock."]
+    },
+    "testing": {
+      "type": "string",
+      "description": "Testing and inspection done",
+      "examples": ["Negative PCR on 11 of 11 pooled samples taken within 24 hours of loading."]
+    },
+    "route": {
+      "type": "string",
+      "description": "Route",
+      "examples": ["County Road 12 to State Route 9, no stops"],
+      "x-translate": false
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Requested",
+      "examples": ["October 23, 2026, 8:10 a.m."],
+      "x-translate": false
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision",
+      "examples": ["approved with conditions"],
+      "enum": ["approved", "approved with conditions", "denied"]
+    },
+    "conditions": {
+      "type": "array",
+      "description": "Conditions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Trucks sealed at the farm and unsealed at the plant.",
+          "Cleaning and disinfection of trucks at the plant gate."
+        ]
+      ]
+    },
+    "decidedBy": {
+      "type": "string",
+      "description": "Decided by",
+      "examples": ["Permit desk lead, Movement Control"],
+      "x-translate": false
+    },
+    "decidedAt": {
+      "type": "string",
+      "description": "Decided",
+      "examples": ["October 23, 2026, 11:40 a.m."],
+      "x-translate": false
+    },
+    "validUntil": {
+      "type": "string",
+      "description": "Valid until",
+      "examples": ["October 24, 2026, 6:00 p.m."],
+      "x-translate": false
+    },
+    "reasonDenied": {
+      "type": "string",
+      "description": "Reason for denial or conditions",
+      "examples": ["Pending a second negative result for the next load."]
+    }
+  },
+  "additionalProperties": false
+}

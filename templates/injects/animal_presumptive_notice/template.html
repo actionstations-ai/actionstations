@@ -1,0 +1,81 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Laboratory notice</div>
+  </header>
+  <h1>
+    {{#if (eq variant "confirmed")}}Confirmation{{else}}Presumptive positive{{/if}} ·
+    {{fields.reportNumber}}
+  </h1>
+  <p class="body"><span class="tier">{{fields.classification}}</span> · {{fields.disease}}</p>
+  <h2>Result</h2>
+  <table class="kv">
+    <tbody>
+      {{#if fields.premises}}
+      <tr>
+        <th>Premises</th>
+        <td>{{fields.premises}}</td>
+      </tr>
+      {{/if}} {{#if fields.species}}
+      <tr>
+        <th>Species</th>
+        <td>{{fields.species}}</td>
+      </tr>
+      {{/if}} {{#if fields.sampleId}}
+      <tr>
+        <th>Sample</th>
+        <td class="mono">{{fields.sampleId}}</td>
+      </tr>
+      {{/if}} {{#if fields.collectedAt}}
+      <tr>
+        <th>Collected</th>
+        <td class="mono">{{fields.collectedAt}}</td>
+      </tr>
+      {{/if}} {{#if fields.laboratory}}
+      <tr>
+        <th>Laboratory</th>
+        <td>{{fields.laboratory}}</td>
+      </tr>
+      {{/if}} {{#if fields.test}}
+      <tr>
+        <th>Test and result</th>
+        <td>{{fields.test}}</td>
+      </tr>
+      {{/if}} {{#if fields.resultAt}}
+      <tr>
+        <th>Reported</th>
+        <td class="mono">{{fields.resultAt}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.clockNote}}
+  <div class="callout"><strong>Plan clock:</strong> {{fields.clockNote}}</div>
+  {{/if}} {{#if fields.nextSteps}}
+  <h2>Next steps</h2>
+  <ul>
+    {{#each fields.nextSteps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.notified}}
+  <h2>Notified</h2>
+  <ul>
+    {{#each fields.notified}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.reportNumber}} · {{fields.classification}}</span
+    ><span>Exercise material. All people, farms and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,141 @@
+{
+  "id": "animal_disease",
+  "name": "Animal disease response",
+  "description": "Foreign animal disease response for exercises: premises designations and the zones they sit in, movement permits, sampling schedules, depopulation and disposal, indemnity, and the notices producers, exhibitors and consumers receive. Rules are tagged with the response plan edition they come from. Disease dynamics, epidemic curves and tracing come from the epidemiology toolkit. Stays at coordination level: no pathogen handling detail, fictional premises only.",
+  "appliesTo": {
+    "keywords": [
+      "animal disease",
+      "avian influenza",
+      "hpai",
+      "bird flu",
+      "foot-and-mouth",
+      "african swine fever",
+      "screwworm",
+      "newcastle disease",
+      "control area",
+      "surveillance zone",
+      "infected premises",
+      "depopulation",
+      "movement permit",
+      "state veterinarian",
+      "livestock",
+      "poultry",
+      "dairy herd",
+      "county fair",
+      "animal shelter"
+    ],
+    "domains": [
+      "animal_health",
+      "food_agriculture",
+      "public_health",
+      "municipal",
+      "campus",
+      "emergency_communications",
+      "k12_schools"
+    ]
+  },
+  "injectTypes": [
+    "animal_health_quarantine_order",
+    "animal_movement_permit",
+    "animal_presumptive_notice",
+    "animal_premises_investigation",
+    "animal_indemnity_worksheet",
+    "animal_depop_plan",
+    "animal_producer_letter",
+    "animal_event_cancellation",
+    "animal_consumer_faq",
+    "animal_worker_health_log",
+    "lab_result_report",
+    "sitrep",
+    "press_release"
+  ],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "USDA APHIS Veterinary Services (area veterinarian in charge, national reference laboratory)",
+    "the state animal health office and state veterinarian",
+    "the integrator or cooperative and its contract growers",
+    "the veterinary diagnostic laboratory network",
+    "county emergency management and the sheriff (checkpoints)",
+    "the state or county health department (worker health)",
+    "commodity groups and auction markets",
+    "trading partners and export certifiers",
+    "haulers, rendering and disposal site operators",
+    "the county fair board and extension"
+  ],
+  "advisorRoles": [
+    {
+      "key": "state_vet_advisor",
+      "name": "State veterinarian adviser",
+      "abbreviation": "SV-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about designations, zones, permits and the order of response steps in the plan."
+    },
+    {
+      "key": "depop_advisor",
+      "name": "Depopulation and disposal adviser",
+      "abbreviation": "DD-ADV",
+      "team": "Advisors",
+      "description": "Advises on crew capacity, method priority, disposal site choice and the 24 hour goal."
+    },
+    {
+      "key": "continuity_advisor",
+      "name": "Continuity of business adviser",
+      "abbreviation": "COB-ADV",
+      "team": "Advisors",
+      "description": "Advises on permits for unaffected producers, monitored premises and secure supply plans."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Premises designations",
+        "definition": "Infected (IP), contact (CP), suspect (SP), at-risk (ARP), monitored (MP), free (FP); vaccinated (VP) is secondary. Only an at-risk premises can become monitored."
+      },
+      {
+        "term": "Zones",
+        "definition": "Infected zone around an infected premises; buffer zone beyond it; both are the control area. The surveillance zone lies outside it, in the free area. Vaccination zones are containment (inside) or protection (outside)."
+      },
+      {
+        "term": "HPAI sizes (Red Book, May 2017)",
+        "definition": "Infected zone 3 km; buffer zone 7 km beyond; control area at least 10 km from the closest infected premises; surveillance zone at least 10 km wide. Epidemiology may widen them."
+      },
+      {
+        "term": "Presumptive positive",
+        "definition": "A network laboratory result; the national reference laboratory confirms. Plan clocks start at the presumptive result."
+      },
+      {
+        "term": "Stamping out (HPAI)",
+        "definition": "Goal: depopulation within 24 hours of the presumptive positive; with limited crews, the premises with the most potential for spread go first."
+      },
+      {
+        "term": "FMD sampling (Red Book, October 2020)",
+        "definition": "Contact premises every 5 days for 14 days; at-risk and monitored every 10 days, and surveillance zone premises every 21 days, until 56 days after the last case."
+      }
+    ],
+    "productConventions": [
+      "Premises are a code and a fictional farm name; never a real farm, owner or address.",
+      "State the plan and edition beside any distance or interval, and say the state plan governs.",
+      "Counts, distances and times match across the order, permit, letter and press release."
+    ],
+    "realismRules": [
+      "Do not move a premises to monitored unless it was at-risk.",
+      "A presumptive result comes from a network laboratory before the reference laboratory confirms.",
+      "Unaffected producers keep working under permit; do not close a whole sector without a stated reason.",
+      "Dairy movement rules changed in 2025 and 2026; the designer confirms current state rules."
+    ]
+  },
+  "lintRules": [
+    "animal_designation_terms",
+    "animal_designation_change",
+    "animal_zone_sizes",
+    "animal_depop_window",
+    "animal_sampling_interval",
+    "animal_lab_sequence"
+  ],
+  "capabilities": [],
+  "exerciseTags": []
+}

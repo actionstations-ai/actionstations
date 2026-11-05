@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Producer letter",
+  "description": "Letter from the state animal health office to producers in or near a control area: what is in effect, what producers can still do, what they must do now and whom to call. Keep numbers and distances the same as the control area notice.",
+  "type": "object",
+  "required": ["agency", "date", "subject", "body"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency",
+      "examples": ["State Animal Health Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Division or program",
+      "examples": ["Emergency Programs"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["October 22, 2026"],
+      "x-translate": false
+    },
+    "salutation": {
+      "type": "string",
+      "description": "Salutation",
+      "examples": ["To poultry producers in Tamarack County and the control area"]
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Control area in effect: what you can and cannot move"]
+    },
+    "body": {
+      "type": "array",
+      "description": "Paragraphs of the letter",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "A highly pathogenic avian influenza detection has been confirmed on a commercial premises in the county. A control area is now in effect.",
+          "You may keep operating. Movement of birds, eggs, litter and equipment off your premises needs a permit."
+        ]
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "What to do now",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Call the permit desk before moving anything.",
+          "Keep a log of every vehicle entering your premises."
+        ]
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["Permit desk (555) 014-3300; producer hotline (555) 014-3301"],
+      "x-translate": false
+    },
+    "signature": {
+      "type": "string",
+      "description": "Signed",
+      "examples": ["State Veterinarian"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}
