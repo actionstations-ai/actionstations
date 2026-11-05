@@ -11,6 +11,10 @@ export const RATING_TEXT: Record<Rating, { word: string; icon: string }> = {
 export const EVAL = {
   heading: 'Evaluate',
   rule: 'Observations are about roles and procedures. Do not write names.',
+  ruleClassroom:
+    'Choose the student an observation is about. Write about what they did, not about who they are.',
+  student: 'Observing',
+  wholeTeam: 'Whole team (no student)',
   watching: (label: string, watch: string) => (watch ? `${label} · watching ${watch}` : label),
   everything: 'everything',
   waiting: 'Waiting for your tasks from the facilitator.',

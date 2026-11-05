@@ -277,4 +277,43 @@ describe('EndedObservations', () => {
     expect(screen.getByText('Late')).toBeTruthy()
     expect(screen.getByText(/Not met/)).toBeTruthy()
   })
+
+  it('offers a student picker only when the assignment names students, and sends the id', async () => {
+    const { saved } = setup({
+      assignment: {
+        ...ASSIGNMENT,
+        watch: { roleIds: [], capabilities: [] },
+        students: [
+          { id: 's1', name: 'Ada Lovelace' },
+          { id: 's2', name: 'Bo Peep' },
+        ],
+      },
+    })
+    expect(
+      screen.queryByText('Observations are about roles and procedures. Do not write names.'),
+    ).toBeNull()
+    fireEvent.change(screen.getByLabelText('Observing'), { target: { value: 's2' } })
+    fireEvent.click(
+      within(screen.getByRole('group', { name: 'Rating for Task T-01 text' })).getByRole('radio', {
+        name: /Met/,
+      }),
+    )
+    await waitFor(() => expect(saved).toHaveLength(1))
+    expect(saved[0]).toMatchObject({ taskId: 'T-01', rating: 'met', studentId: 's2' })
+    // The same task for another student is a separate observation.
+    fireEvent.change(screen.getByLabelText('Observing'), { target: { value: 's1' } })
+    fireEvent.click(
+      within(screen.getByRole('group', { name: 'Rating for Task T-01 text' })).getByRole('radio', {
+        name: /Not met/,
+      }),
+    )
+    await waitFor(() => expect(saved).toHaveLength(2))
+    expect(saved[1]).toMatchObject({ studentId: 's1', revision: 1 })
+    expect(saved[1]!.observationId).not.toBe(saved[0]!.observationId)
+  })
+
+  it('has no picker without students', () => {
+    setup()
+    expect(screen.queryByLabelText('Observing')).toBeNull()
+  })
 })

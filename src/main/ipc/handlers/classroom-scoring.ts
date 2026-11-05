@@ -13,6 +13,7 @@ import {
   setScore,
   tallyHotwash,
 } from '../../classroom/scoring'
+import { saveReflectionSurvey } from '../../classroom/reflection'
 import { defineHandlers } from '../registry'
 
 export default defineHandlers({
@@ -51,6 +52,9 @@ export default defineHandlers({
     await setReflectionPrompts(root, prompts)
     return classroomState(root)
   },
+
+  'classroom:reflection-survey': async ({ projectPath, scenarioId }) =>
+    saveReflectionSurvey(await classroomRoot(projectPath), scenarioId),
 
   'classroom:rotation-plan': async ({ projectPath, ...input }) =>
     saveRotation(await classroomRoot(projectPath), input),

@@ -81,14 +81,18 @@ function Form({
   const [filter, setFilter] = useState<TaskFilter>('mine')
   const [limit, setLimit] = useState(false)
   const [editing, setEditing] = useState<string>()
+  /** Classroom mode: the student the next observations are about. */
+  const [studentId, setStudentId] = useState<string>()
+  const students = assignment?.students
 
   const roleName = (id: string) => info?.seats.find((s) => s.id === id)?.name ?? id
   const tasks = useMemo(() => assignment?.tasks ?? [], [assignment])
   const byTask = useMemo(() => {
     const m = new Map<string, LocalObservation>()
-    for (const o of observations) if (o.kind === 'task' && o.taskId) m.set(o.taskId, o)
+    for (const o of observations)
+      if (o.kind === 'task' && o.taskId && o.studentId === studentId) m.set(o.taskId, o)
     return m
-  }, [observations])
+  }, [observations, studentId])
   const rated = useMemo(
     () => new Set([...byTask].filter(([, o]) => o.rating).map(([id]) => id)),
     [byTask],
@@ -109,7 +113,9 @@ function Form({
   )
 
   const save = (input: ObservationInput) => {
-    void feature.save(input).then((r) => setLimit(!r.ok && r.reason === 'limit'))
+    void feature
+      .save({ ...input, ...(studentId ? { studentId } : {}) })
+      .then((r) => setLimit(!r.ok && r.reason === 'limit'))
   }
   const jump = (taskId: string) => {
     setFilter('all')
@@ -134,7 +140,27 @@ function Form({
           ? EVAL.watching(assignment.label, watchText(assignment, roleName) || EVAL.everything)
           : ''}
       </p>
-      <p className="evaluate__rule">{EVAL.rule}</p>
+      <p className="evaluate__rule">{students?.length ? EVAL.ruleClassroom : EVAL.rule}</p>
+      {students?.length ? (
+        <div className="field">
+          <label className="field__label" htmlFor="eval-student">
+            {EVAL.student}
+          </label>
+          <select
+            id="eval-student"
+            className="input"
+            value={studentId ?? ''}
+            onChange={(e) => setStudentId(e.target.value || undefined)}
+          >
+            <option value="">{EVAL.wholeTeam}</option>
+            {students.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
       {ended ? <p className="join__attribution">{EVAL.ended}</p> : null}
       {limit ? (
         <p className="join__error" role="alert">
@@ -189,7 +215,7 @@ function Form({
                       </h2>
                       {g.tasks.map((t) => (
                         <TaskCard
-                          key={t.id}
+                          key={`${t.id}:${studentId ?? ''}`}
                           task={t}
                           roleName={roleName}
                           observation={byTask.get(t.id)}

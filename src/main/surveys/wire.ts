@@ -51,7 +51,7 @@ export const WireSurveyOpen = z.strictObject({
   title: z.string().max(200),
   intro: z.string().max(WIRE_LIMITS.intro).optional(),
   questions: z.array(WireSurveyQuestion).max(WIRE_LIMITS.questions),
-  anonymous: z.literal(true),
+  anonymous: z.boolean(),
 })
 export type WireSurveyOpen = z.infer<typeof WireSurveyOpen>
 
@@ -103,7 +103,8 @@ export function toWireSurvey(survey: Survey, deliveryId: string): WireSurveyOpen
     title: survey.title,
     ...(survey.introMd.trim() ? { intro: cut(survey.introMd, WIRE_LIMITS.intro) } : {}),
     questions,
-    anonymous: true,
+    // A classroom reflection is attributed to the student for the instructor (ADR-0090).
+    anonymous: !survey.classroomReflection,
   })
 }
 

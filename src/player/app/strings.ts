@@ -332,6 +332,7 @@ export const STRINGS = {
     queued: 'Your answers will be sent when you are back online.',
     canChange: 'You can change your answers until the survey closes.',
     anonymous: 'This survey is anonymous. Nothing you answer is tied to you or your device.',
+    named: 'This is a course reflection. Your answers go to your instructor with your name.',
     notForYou: 'This survey is not for your seat.',
     closedNote: 'This survey is closed.',
     closedUnanswered: 'This survey closed before you answered.',

@@ -396,6 +396,14 @@ export const EvalAssignPayload = z.strictObject({
     capabilities: z.array(SafeId).max(32),
   }),
   showExpected: z.boolean(),
+  /**
+   * Classroom mode only (ADR-0090): the students an evaluator may attach an observation to.
+   * Sent to evaluator devices alone, under the staff key; absent otherwise.
+   */
+  students: z
+    .array(z.strictObject({ id: SafeId, name: Text(80) }))
+    .max(300)
+    .optional(),
   tasks: z
     .array(
       z.strictObject({
@@ -430,6 +438,8 @@ export const EvalObservationPayload = z
     observedAt: EpochMs,
     injectId: SafeId.optional(),
     mselRowId: SafeId.optional(),
+    /** Classroom mode only: the student this observation is about (a roster id from eval.assign). */
+    studentId: SafeId.optional(),
   })
   .refine((o) => o.kind === 'note' || (o.taskId !== undefined && o.rating !== undefined), {
     message: 'a task observation needs taskId and rating',

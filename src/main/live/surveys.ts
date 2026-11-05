@@ -21,6 +21,14 @@ export interface SurveySeat extends DeliverySeat {
   online: boolean
 }
 
+/** Classroom hooks (ADR-0090). Both are absent outside Classroom mode. */
+export interface SurveyClassroom {
+  /** Time multiplier for one seat's timed responses (1 when none). */
+  multiplier: (seat: SurveySeat) => Promise<number>
+  /** A reflection survey was answered by this seat. */
+  reflection: (seat: SurveySeat, survey: Survey, response: SurveyResponse) => Promise<unknown>
+}
+
 export interface SurveyDeps {
   send: (
     type: 'survey.open' | 'survey.close',
@@ -33,6 +41,7 @@ export interface SurveyDeps {
   store: (response: SurveyResponse) => Promise<number>
   seats: () => SurveySeat[]
   channel: Extract<SurveyChannel, 'live' | 'qr'>
+  classroom?: SurveyClassroom
   now: () => number
   changed: () => void
   timers?: {
@@ -64,6 +73,10 @@ interface Delivery {
   status: 'open' | 'closed'
   /** Device id to its response id. Memory only; never logged or stored. */
   answered: Map<string, string>
+  /** Devices with extra time (an accommodation) and the moment theirs ends. Memory only. */
+  extended: Map<string, number>
+  /** The shared time has passed; only devices in `extended` may still answer. */
+  sharedClosed?: boolean
   timer?: unknown
 }
 
@@ -142,14 +155,18 @@ export class LiveSurveys {
       ...(opts.durationSec ? { closesAt: now + opts.durationSec * 1000 } : {}),
       status: 'open',
       answered: new Map(),
+      extended: new Map(),
     }
     const wire = toWireSurvey(survey, d.deliveryId)
     const payload = { ...wire, targets, ...(d.closesAt ? { closesAt: d.closesAt } : {}) }
     for (const to of targets) await this.deps.send('survey.open', to as Destination, payload)
     this.deliveries.push(d)
     if (d.closesAt) {
-      const close = () => void this.close(d.deliveryId).catch(() => undefined)
-      d.timer = this.timers.set(close, d.closesAt - now)
+      await this.extendTime(d, wire, now)
+      d.timer = this.timers.set(
+        () => void this.sharedEnd(d).catch(() => undefined),
+        d.closesAt - now,
+      )
     }
     await this.deps.log.append({
       kind: 'survey.open',
@@ -159,6 +176,48 @@ export class LiveSurveys {
     })
     this.deps.changed()
     return this.view(d)
+  }
+
+  /**
+   * Accommodations: a device with a time multiplier gets its own, later `closesAt` (the same
+   * survey id, so its answers are kept). The shared clock and every other device are unchanged.
+   */
+  private async extendTime(d: Delivery, wire: Record<string, unknown>, now: number): Promise<void> {
+    const classroom = this.deps.classroom
+    if (!classroom || !d.closesAt) return
+    for (const seat of this.deps.seats().filter((s) => s.online && inScope(s, d.targets))) {
+      const m = await classroom.multiplier(seat)
+      if (m <= 1) continue
+      const until = Math.round(now + (d.closesAt - now) * m)
+      d.extended.set(seat.clientId, until)
+      await this.deps.send('survey.open', `client:${seat.clientId}`, {
+        ...wire,
+        targets: d.targets,
+        closesAt: until,
+      })
+    }
+  }
+
+  /**
+   * The shared time is up. Without extended devices this is an ordinary close. With them, tell
+   * everyone else now and the extended devices when their own time ends.
+   */
+  private async sharedEnd(d: Delivery): Promise<void> {
+    if (d.status === 'closed') return
+    if (d.extended.size === 0) {
+      await this.close(d.deliveryId)
+      return
+    }
+    d.sharedClosed = true
+    for (const seat of this.deps.seats().filter((s) => inScope(s, d.targets)))
+      if (!d.extended.has(seat.clientId))
+        await this.deps.send('survey.close', `client:${seat.clientId}`, { surveyId: d.deliveryId })
+    const last = Math.max(...d.extended.values())
+    d.timer = this.timers.set(
+      () => void this.close(d.deliveryId).catch(() => undefined),
+      Math.max(0, last - this.deps.now()),
+    )
+    this.deps.changed()
   }
 
   /** Stop taking answers and tell devices. Closing a closed survey changes nothing. */
@@ -188,6 +247,8 @@ export class LiveSurveys {
     const d = this.deliveries.find((x) => x.deliveryId === id)
     const seat = this.deps.seats().find((s) => s.clientId === from)
     if (!d || d.status !== 'open' || !seat || !inScope(seat, d.targets)) return this.drop()
+    const until = d.extended.get(from)
+    if (d.sharedClosed && (until === undefined || this.deps.now() > until)) return this.drop()
     const responseId = d.answered.get(from) ?? `lr-${newId(9)}`
     if (!d.answered.has(from) && d.answered.size >= MAX_RESPONSES) return this.drop()
     const response = fromWireResponse(d.survey, payload, {
@@ -205,6 +266,8 @@ export class LiveSurveys {
       data: { responseId, answers: response.answers },
     })
     await this.deps.store(response)
+    if (d.survey.classroomReflection)
+      await this.deps.classroom?.reflection(seat, d.survey, response)
     this.deps.changed()
   }
 
