@@ -24,6 +24,7 @@ registerFigureKind(gaugeKind)
 registerFigureKind(statusBoardKind)
 registerFigureKind(tableKind)
 registerFigureKind(annotatedTimelineKind)
+import './flood'
 
 export {
   FigureOutput,

@@ -15,7 +15,7 @@
     },
     "figures": {
       "type": "object",
-      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline.",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: time_series, bar, stacked_bar, gauge, status_board, table, annotated_timeline, hydrograph, flood_gauge_summary, river_profile, rain_stage.",
       "required": ["main"],
       "properties": {
         "main": {
@@ -31,7 +31,11 @@
                 "gauge",
                 "status_board",
                 "table",
-                "annotated_timeline"
+                "annotated_timeline",
+                "hydrograph",
+                "flood_gauge_summary",
+                "river_profile",
+                "rain_stage"
               ]
             },
             "data": {
