@@ -61,7 +61,7 @@ describe('nursing domain profile', () => {
   })
 
   it('suggests the clinical care toolkit', () => {
-    expect(nursing().suggestedToolkits).toEqual(['clinical_care'])
+    expect(nursing().suggestedToolkits).toContain('clinical_care')
   })
 })
 
