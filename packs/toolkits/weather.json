@@ -154,7 +154,8 @@
     "mesoanalysis",
     "meteogram",
     "ensemble_plume",
-    "hydrograph"
+    "hydrograph",
+    "decision_timeline"
   ],
   "connectors": [
     "nexrad-level2",
@@ -187,7 +188,8 @@
       "id": "message_consistency",
       "label": "Integrated warning team consistency",
       "config": {
-        "numericTolerance": 0
+        "numericTolerance": 0,
+        "partners": "Forecast office,County emergency management,Broadcast team"
       }
     }
   ],
@@ -271,6 +273,193 @@
       "packId": "ai.actionstations.weather-library",
       "documentId": "tri-state-iwt-after-action-report",
       "title": "Tri-State Integrated Warning Team Tabletop Exercise, After-Action Report and Improvement Plan"
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "issue_warning",
+      "label": "Issue a warning",
+      "description": "A tornado, severe thunderstorm, flash flood or marine warning: what, where, for how long and why.",
+      "fields": [
+        {
+          "id": "product",
+          "label": "Warning",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Tornado Warning",
+            "Severe Thunderstorm Warning",
+            "Flash Flood Warning",
+            "Special Marine Warning"
+          ]
+        },
+        {
+          "id": "area",
+          "label": "Area (draw it on the map or pick the county)",
+          "kind": "area",
+          "required": true,
+          "draw": true
+        },
+        {
+          "id": "duration",
+          "label": "Valid for (minutes)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "source",
+          "label": "Source of the detection",
+          "kind": "choice",
+          "required": false,
+          "choices": ["Radar indicated", "Observed"]
+        },
+        {
+          "id": "impact",
+          "label": "Impact tag",
+          "kind": "choice",
+          "required": false,
+          "choices": ["No tag", "Considerable", "Destructive or catastrophic"]
+        },
+        {
+          "id": "basis",
+          "label": "Basis for the decision",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time issued",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "issue_statement",
+      "label": "Issue a statement",
+      "description": "A follow-up to a warning or a public information statement: what changed and what people should do.",
+      "fields": [
+        {
+          "id": "product",
+          "label": "Statement",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Severe Weather Statement",
+            "Flash Flood Statement",
+            "Public Information Statement",
+            "Special Weather Statement"
+          ]
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": false,
+          "draw": true
+        },
+        {
+          "id": "text",
+          "label": "What changed and what to do",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time issued",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "cancel_warning",
+      "label": "Cancel or let a warning expire",
+      "description": "Record the end of a warning and the reason.",
+      "fields": [
+        {
+          "id": "action",
+          "label": "Action",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Cancel early", "Let it expire", "Replace with a new warning"]
+        },
+        {
+          "id": "warning",
+          "label": "Which warning",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "brief_partner",
+      "label": "Brief a partner",
+      "description": "A decision support briefing or call: who was briefed, the key message and when.",
+      "fields": [
+        {
+          "id": "who",
+          "label": "Who",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "County emergency management",
+            "Broadcast partners",
+            "911 center",
+            "Neighboring forecast office",
+            "Utility or other partner"
+          ]
+        },
+        {
+          "id": "message",
+          "label": "Key message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "order_evacuation",
+      "label": "Order an evacuation",
+      "description": "Hurricane decision support: the zone, when the order was given and why.",
+      "fields": [
+        {
+          "id": "zone",
+          "label": "Evacuation zone",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time ordered",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "basis",
+          "label": "Basis (forecast, clearance time)",
+          "kind": "text",
+          "required": false
+        }
+      ]
     }
   ]
 }
