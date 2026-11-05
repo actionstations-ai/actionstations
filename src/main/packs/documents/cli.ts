@@ -65,7 +65,12 @@ async function saveManifest(root: string, m: DocumentsManifest): Promise<void> {
   // Keep the input shape (no defaults written back) so the file stays small and reviewable.
   const strip = <T extends Record<string, unknown>>(o: T): T =>
     Object.fromEntries(
-      Object.entries(o).filter(([, v]) => !(Array.isArray(v) && v.length === 0) && v !== undefined),
+      Object.entries(o).filter(
+        ([k, v]) =>
+          !(Array.isArray(v) && v.length === 0) &&
+          v !== undefined &&
+          !(k === 'supply' && v === 'bundled'),
+      ),
     ) as T
   const out = { ...m, documents: m.documents.map(strip), links: m.links.map(strip) }
   const path = join(root, ...MANIFEST_PATH)
@@ -132,7 +137,14 @@ export async function runFetchCli(
     io.err('These need attention (download by hand into the cache, then run again):')
     for (const l of manual) io.err(`  ${l}`)
   }
-  return results.every((r) => ['cached', 'fetched', 'pinned', 'inbox'].includes(r.status)) ? 0 : 1
+  const users = results.filter((r) => r.status === 'user').length
+  if (users)
+    io.out(
+      `fetch-documents: ${users} user-supplied document${users === 1 ? '' : 's'} skipped (each user adds their own copy in the app)`,
+    )
+  return results.every((r) => ['cached', 'fetched', 'pinned', 'inbox', 'user'].includes(r.status))
+    ? 0
+    : 1
 }
 
 const BUILD_FLAGS = ['--only', '--out', '--cache', '--url']

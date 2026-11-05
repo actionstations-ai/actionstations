@@ -162,6 +162,47 @@ describe('fetchDocuments', () => {
   })
 })
 
+describe('user-supplied documents (#1101)', () => {
+  const user = (path: string) =>
+    entry('u', path, {
+      supply: 'user',
+      landing: server.url('/library'),
+      getIt: 'Accept the agreement and download the PDF.',
+      license: 'LicenseRef-Publisher-Terms',
+    })
+
+  it('never downloads one, and skips it without failing', async () => {
+    const dir = cache()
+    let hits = 0
+    server.route('/user.pdf', (_req, res) => {
+      hits++
+      res.writeHead(200).end(PDF)
+    })
+    const [r] = await fetchDocuments(manifestOf([user('/user.pdf')]), { cacheDir: dir, ...quick })
+    expect(r?.status).toBe('user')
+    expect(hits).toBe(0)
+    expect(existsSync(join(dir, 'u', 'u.pdf'))).toBe(false)
+    expect(manualDownloadLines(manifestOf([user('/user.pdf')]), [r!], dir)).toEqual([])
+  })
+
+  it('takes one from the inbox and reports it cached afterwards', async () => {
+    const dir = cache()
+    mkdirSync(join(dir, 'inbox'), { recursive: true })
+    writeFileSync(join(dir, 'inbox', 'PCI-DSS.pdf'), PDF)
+    const m = manifestOf([user('/missing.pdf')])
+    expect((await fetchDocuments(m, { cacheDir: dir }))[0]?.status).toBe('inbox')
+    expect((await fetchDocuments(m, { cacheDir: dir }))[0]?.status).toBe('cached')
+  })
+
+  it('does not fail the run for a cached copy with another hash', async () => {
+    const dir = cache()
+    mkdirSync(join(dir, 'u'), { recursive: true })
+    writeFileSync(join(dir, 'u', 'u.pdf'), NEW_EDITION)
+    const [r] = await fetchDocuments(manifestOf([user('/missing.pdf')]), { cacheDir: dir })
+    expect(r?.status).toBe('user')
+  })
+})
+
 describe('sniffProblem', () => {
   it('tells documents from error pages', () => {
     expect(sniffProblem('a.pdf', PDF)).toBeUndefined()

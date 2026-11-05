@@ -17,7 +17,9 @@ Included with Action Stations and enabled by default. Turn it off on the Packs s
 
 ## Reference library
 
-The separate **Stadium and venue reference library** pack carries the CISA venue security guides, special events job aids, mass attack research, the venue CTEPs and PCI DSS v4.0.1, which carries the PCI Security Standards Council's own terms.
+The separate **Stadium and venue reference library** pack carries the CISA venue security guides, special events job aids, mass attack research and the venue CTEPs.
+
+**Add your own copy:** PCI DSS v4.0.1, PCI Security Standards Council. Its license agreement does not allow the standard to be passed on, so the library lists the exact file without it; download it from https://www.pcisecuritystandards.org/document_library/ after accepting the agreement, then add it in Action Stations (Documents, Add from pack, Add the file…), which checks it is the listed edition.
 
 ## Further reading (not bundled)
 

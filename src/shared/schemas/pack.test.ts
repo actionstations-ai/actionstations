@@ -352,6 +352,46 @@ describe('PackManifest: documents need a title and a license', () => {
   })
 })
 
+describe('PackManifest: user-supplied documents (#1101)', () => {
+  const user = (over: Record<string, unknown> = {}) => ({
+    path: 'documents/card-standard/card-standard.pdf',
+    title: 'Card data security standard',
+    license: 'LicenseRef-Publisher-Terms',
+    landing: 'https://example.org/library',
+    getIt: 'Accept the agreement and download the PDF.',
+    sha256: SHA,
+    size: 4_458_346,
+    ...over,
+  })
+  const withUser = (...docs: Record<string, unknown>[]) => ({ ...manifest(), userDocuments: docs })
+
+  it('accepts one listed by hash without a file, and defaults to none', () => {
+    expect(PackManifest.parse(manifest()).userDocuments).toEqual([])
+    const m = PackManifest.parse(withUser(user()))
+    expect(m.userDocuments[0]).toMatchObject({ getIt: expect.any(String), size: 4_458_346 })
+    expect(m.files.some((f) => f.path.includes('card-standard'))).toBe(false)
+  })
+
+  it('needs the landing page, getIt, sha256 and size', () => {
+    for (const key of ['landing', 'getIt', 'sha256', 'size']) {
+      const d = user()
+      delete (d as Record<string, unknown>)[key]
+      expect(PackManifest.safeParse(withUser(d)).success, key).toBe(false)
+    }
+    expect(PackManifest.safeParse(withUser(user({ landing: 'ftp://x.org/' }))).success).toBe(false)
+  })
+
+  it('refuses a path that is a file of the pack, listed twice, or outside documents/', () => {
+    const inPack = user({ path: 'documents/rail-emergency-plan/emergency-response-plan.pdf' })
+    expect(issues(PackManifest.safeParse(withUser(inPack)))).toMatch(/not in the pack/)
+    expect(issues(PackManifest.safeParse(withUser(user(), user())))).toMatch(/listed twice/)
+    expect(PackManifest.safeParse(withUser(user({ path: 'prompts/x.md' }))).success).toBe(false)
+    expect(
+      PackManifest.safeParse(withUser(user({ path: 'documents/card-standard/x.exe' }))).success,
+    ).toBe(false)
+  })
+})
+
 describe('classifyPackPath', () => {
   it('maps paths to kind and item', () => {
     expect(classifyPackPath('workflows/yard-cctv-still.bindings.json')).toEqual({

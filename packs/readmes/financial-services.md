@@ -30,7 +30,9 @@ Facts below were checked on 2026-10-24 against eCFR (point-in-time 2026-10-01) f
 
 ## Other references
 
-The **Financial services reference library** pack carries the Federal Reserve Banks' Operating Circulars 4 (ACH), 5 (general provisions and electronic access), 6 (Fedwire Funds) and 8 (FedNow), the Nacha _Cybersecurity Tabletop Exercise Leader's Guide_, SIFMA's Quantum Dawn VII public after-action report and PCI DSS v4.0.1, which carries the PCI Security Standards Council's own terms.
+The **Financial services reference library** pack carries the Federal Reserve Banks' Operating Circulars 4 (ACH), 5 (general provisions and electronic access), 6 (Fedwire Funds) and 8 (FedNow), the Nacha _Cybersecurity Tabletop Exercise Leader's Guide_ and SIFMA's Quantum Dawn VII public after-action report.
+
+**Add your own copy:** PCI DSS v4.0.1, PCI Security Standards Council. Its license agreement does not allow the standard to be passed on, so the library lists the exact file without it; download it from https://www.pcisecuritystandards.org/document_library/ after accepting the agreement, then add it in Action Stations (Documents, Add from pack, Add the file…), which checks it is the listed edition.
 
 These could not be carried, so the pack only names them:
 

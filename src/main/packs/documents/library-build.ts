@@ -9,6 +9,11 @@
 // Every cached file is checked against its pinned sha256 before use. The archives are written
 // with the export path's deterministic zip (archive.ts zipTree) and validated with readPack,
 // the reader the app installs with, before anything is written.
+//
+// A user-supplied document (`supply: 'user'`, #1101) is never put in a pack, even when it is in
+// the cache: pack.json lists it under userDocuments (title, publisher, landing page, sha256,
+// size and how to get it), the README names it, and the pack license leaves it out. Each user
+// downloads their own copy and adds it in the app.
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
@@ -19,6 +24,7 @@ import {
   packArchiveName,
   type PackCatalogEntry,
   type PackDocument,
+  type PackUserDocument,
 } from '@shared/schemas/pack'
 import { BUNDLED_DOCUMENTS_MAX_BYTES, BUNDLED_MAP, CORE_PACK_ID } from '../bundled-map'
 import { catalogEntry } from '../cli'
@@ -28,6 +34,7 @@ import {
   cachePath,
   documentPackId,
   documentsOf,
+  isUserSupplied,
   libraryPacks,
   linksOf,
   type DocumentPackName,
@@ -107,12 +114,25 @@ function linkRows(links: readonly ManifestLink[]): string[] {
   return rows
 }
 
+function userRows(docs: readonly ManifestDocument[]): string[] {
+  const rows = ['| Document | Publisher | Edition | Where to get it |', '| --- | --- | --- | --- |']
+  for (const d of docs)
+    rows.push(
+      `| ${mdEscape(d.title)} | ${mdEscape(d.publisher)} | ${mdEscape(d.edition)} | <${d.landing ?? d.url}> ${mdEscape(d.getIt ?? '')} |`,
+    )
+  return rows
+}
+
+const USER_NOTE =
+  "Their publishers' terms do not allow them to be passed on, so the pack lists them without the file. Download your own copy from the publisher, then add it in Action Stations (Documents, Add from pack, Add the file…): the app checks it against the pinned sha256 and size and keeps it on this computer only."
+
 /** The pack README: every document with publisher, date and source, then the links. */
 export function libraryReadme(
   title: string,
   summary: string,
   loaded: readonly Loaded[],
   links: readonly ManifestLink[],
+  users: readonly ManifestDocument[] = [],
 ): string {
   const notes = loaded.flatMap((l) => [
     ...l.notes.filter((n) => n.startsWith('cover photo')).map((n) => `${l.doc.title}: ${n}.`),
@@ -131,6 +151,9 @@ export function libraryReadme(
     ...documentRows(loaded),
     '',
     ...(notes.length ? ['### Notes', '', ...notes.map((n) => `- ${n}`), ''] : []),
+    ...(users.length
+      ? [`## Add your own copy (${users.length})`, '', USER_NOTE, '', ...userRows(users), '']
+      : []),
     `## Related references (links only, ${links.length})`,
     '',
     'Not in the pack: each reference states why (no fixed file to download, a web page, tool, database or service, sold or behind a login, or too large). Follow the link for the current version.',
@@ -161,6 +184,22 @@ function packDocuments(loaded: readonly Loaded[]): {
   return { entries, docs }
 }
 
+/** pack.json userDocuments[]: listed by hash, the file is not in the pack. */
+const userDocuments = (docs: readonly ManifestDocument[]): PackUserDocument[] =>
+  docs
+    .map((d) => ({
+      path: `documents/${d.slug}/${d.file}`,
+      title: d.title.slice(0, 300),
+      source: `${d.publisher}, ${d.landing ?? d.url}`.slice(0, 500),
+      license: d.license,
+      description: describe(d).slice(0, 2000),
+      landing: d.landing ?? d.url,
+      getIt: d.getIt!,
+      sha256: d.sha256!,
+      size: d.size!,
+    }))
+    .sort((a, b) => byPath(a.path, b.path))
+
 const describe = (d: ManifestDocument): string =>
   [`Edition: ${d.edition}.`, d.basis.endsWith('.') ? d.basis : `${d.basis}.`, d.note ?? '']
     .filter(Boolean)
@@ -180,6 +219,8 @@ export interface BuiltLibrary {
   version: string
   file: string
   documents: number
+  /** Slugs of the user-supplied documents listed without their file. */
+  userSupplied: string[]
   missing: string[]
   files: number
   bytes: number
@@ -195,6 +236,7 @@ export interface LibraryBuildResult {
 interface Assembled {
   pack: DocumentPackName
   loaded: Loaded[]
+  users: ManifestDocument[]
   missing: { doc: ManifestDocument; why: string }[]
   problems: string[]
 }
@@ -204,8 +246,12 @@ async function assemble(
   pack: DocumentPackName,
   cacheDir: string,
 ): Promise<Assembled> {
-  const out: Assembled = { pack, loaded: [], missing: [], problems: [] }
+  const out: Assembled = { pack, loaded: [], users: [], missing: [], problems: [] }
   for (const doc of documentsOf(m, pack)) {
+    if (isUserSupplied(doc)) {
+      out.users.push(doc)
+      continue
+    }
     const r = await loadDocument(doc, cacheDir)
     if ('ok' in r) out.loaded.push(r.ok)
     else if ('missing' in r) out.missing.push({ doc, why: r.missing })
@@ -219,6 +265,7 @@ function libraryManifest(
   m: DocumentsManifest,
   pack: DocumentPackName,
   docs: PackDocument[],
+  users: readonly ManifestDocument[],
   files: ReadonlyMap<string, Buffer>,
   appVersion: string,
 ): Buffer {
@@ -230,7 +277,7 @@ function libraryManifest(
     name: info.name,
     version: info.version,
     summary: info.summary,
-    description: `${allFederal(loadedDocs) ? 'Public-domain reference documents (US federal works)' : "Reference documents (US federal works and documents under their publishers' terms)"} for this domain, pinned by sha256. Catalog-only: not included with the app. The README lists every document with its publisher, date and source, and the related references that are links only.`,
+    description: `${allFederal(loadedDocs) ? 'Public-domain reference documents (US federal works)' : "Reference documents (US federal works and documents under their publishers' terms)"} for this domain, pinned by sha256. Catalog-only: not included with the app. The README lists every document with its publisher, date and source, and the related references that are links only.${users.length ? ' Documents whose publishers do not allow passing them on are listed without their file: each user downloads their own copy and adds it in the app, which checks it against the pinned sha256.' : ''}`,
     author: BUNDLED_MAP.author,
     license: libraryLicense(loadedDocs),
     ...(BUNDLED_MAP.homepage ? { homepage: BUNDLED_MAP.homepage } : {}),
@@ -241,6 +288,7 @@ function libraryManifest(
       documents: [...new Set(docs.map((d) => d.path.split('/')[1]!))].sort(byPath),
     }),
     documents: [...docs].sort((a, b) => byPath(a.path, b.path)),
+    ...(users.length ? { userDocuments: userDocuments(users) } : {}),
     files: [...files.keys()].sort(byPath).map((path) => {
       const b = files.get(path)!
       return { path, sha256: sha256(b), size: b.length }
@@ -270,9 +318,12 @@ async function buildOne(
     ...linksOf(m, a.pack),
   ]
   const { entries, docs } = packDocuments(a.loaded)
-  entries.set('README.md', Buffer.from(libraryReadme(info.name, info.summary, a.loaded, links)))
+  entries.set(
+    'README.md',
+    Buffer.from(libraryReadme(info.name, info.summary, a.loaded, links, a.users)),
+  )
   const files = new Map(entries)
-  entries.set(PACK_MANIFEST_FILE, libraryManifest(m, a.pack, docs, files, opts.appVersion))
+  entries.set(PACK_MANIFEST_FILE, libraryManifest(m, a.pack, docs, a.users, files, opts.appVersion))
   const buffer = await zipTree(entries)
   const read = await readPack(
     { buffer },
@@ -303,6 +354,7 @@ async function buildOne(
       version: info.version,
       file: packArchiveName(id, info.version),
       documents: a.loaded.length,
+      userSupplied: a.users.map((d) => d.slug),
       missing: a.missing.map((x) => x.doc.slug),
       files: files.size,
       bytes: [...files.values()].reduce((n, b) => n + b.length, 0),

@@ -417,6 +417,25 @@
   color: var(--color-text-muted);
   overflow-wrap: anywhere;
 }
+/* A document the user adds their own copy of (#1101). */
+.pack-doc__supply {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pack-doc__getit,
+.pack-doc__refused {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.pack-doc__refused {
+  color: var(--color-danger);
+}
+.pack-doc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
 
 /* Plan conflicts (#423): run controls, findings with two passages side by side. */
 .plan-conflicts {
