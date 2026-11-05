@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Weather figure",
+  "description": "One weather figure drawn by the app from case data (historical or simulated), never an image model: a radar display, satellite image, sounding, meteogram, model panel, ensemble plume or mesoanalysis map. The figure carries its own data; the writer gives a heading and the source line, and the app draws the figure and prints its text summary and data table.",
+  "type": "object",
+  "required": ["figures"],
+  "additionalProperties": false,
+  "properties": {
+    "heading": {
+      "type": "string",
+      "description": "Heading above the figure",
+      "examples": ["Radar, 8:03 PM"],
+      "maxLength": 120
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the data come from, for example \"NEXRAD Level II, KILN, historical\"",
+      "maxLength": 200
+    },
+    "hideTable": {
+      "type": "boolean",
+      "description": "Leave out the data table beside the figure"
+    },
+    "figures": {
+      "type": "object",
+      "description": "The figure to draw, as { main: { kind, data } }. Kinds: radar.",
+      "required": ["main"],
+      "properties": {
+        "main": {
+          "type": "object",
+          "required": ["kind", "data"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["radar"]
+            },
+            "data": {
+              "type": "object",
+              "description": "Data for the kind (docs/guides/templates.md, Figures)"
+            },
+            "options": {
+              "type": "object",
+              "description": "Optional width and height in pixels",
+              "properties": {
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

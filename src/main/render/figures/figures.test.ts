@@ -63,8 +63,8 @@ describe('registry', () => {
     expect(() => registerFigureKind({ ...kind })).toThrow(/already registered/)
   })
   it('names the unknown kind and the known ones', () => {
-    expect(() => renderFigure({ kind: 'radar', data: {} })).toThrow(
-      /Unknown figure kind "radar".*gauge/,
+    expect(() => renderFigure({ kind: 'sonar', data: {} })).toThrow(
+      /Unknown figure kind "sonar".*gauge/,
     )
   })
   it('reports where the data is wrong', () => {
