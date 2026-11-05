@@ -25,3 +25,7 @@ The guide pages and the table of initial isolation and protective action distanc
 - NFPA standards (1710, 1730, 472, 704): https://www.nfpa.org/
 - NENA and APCO standards for dispatch: https://www.nena.org/page/standards and https://www.apcointl.org/
 - Emergency Nurses Association triage materials: https://www.ena.org/
+
+## Reference library
+
+The separate **EMS, fire and hazmat reference library** pack carries documents whose US government status was checked: the EPA risk management program exercise and emergency response guidance, the CISA hazardous materials and emergency services tabletop packages, the NTSB report on the East Palestine derailment and the CSB report on the Arkema Crosby fire. The USFA EMS mass incident templates (written by a contractor), OSHA's HAZWOPER booklet, the Emergency Response Guidebook, the Boston Marathon after action report and the NFPA, NENA and APCO standards are linked or named and not bundled; the library README gives the reason for each.
