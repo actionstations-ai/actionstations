@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hospital exercise record",
+  "description": "A one-page record of a hospital tabletop exercise in the shape the CMS emergency preparedness rule and Joint Commission exercise standard describe: exercise type, scenario basis, analysis of the response grouped under the six critical areas, revisions to the plan and committee review. It carries a fixed line saying it is an aid and that the hospital's compliance office decides what it satisfies.",
+  "type": "object",
+  "required": ["exerciseTitle", "date", "exerciseType", "scenarioBasis", "areas"],
+  "additionalProperties": false,
+  "properties": {
+    "org": { "type": "string", "examples": ["Riverbend Regional Medical Center"] },
+    "exerciseTitle": { "type": "string", "examples": ["Unplanned EHR downtime, 24-hour tabletop"] },
+    "date": { "type": "string", "x-translate": false, "examples": ["2026-10-21"] },
+    "exerciseType": {
+      "type": "string",
+      "enum": [
+        "Facilitator-led tabletop",
+        "Functional exercise",
+        "Full-scale exercise",
+        "Mock disaster drill"
+      ]
+    },
+    "scenarioBasis": {
+      "type": "string",
+      "description": "The clinically relevant emergency the scenario narrates and why it was chosen (for example the hazard vulnerability analysis).",
+      "examples": [
+        "A ransomware event removes the EHR for 24 hours; chosen from the top cyber risk in the hazard vulnerability analysis."
+      ]
+    },
+    "participants": {
+      "type": "string",
+      "examples": [
+        "CIO, CMIO, CNIO, nursing supervisors, laboratory, pharmacy, HIM, security, privacy"
+      ]
+    },
+    "areas": {
+      "type": "array",
+      "description": "Analysis of the response under the six critical areas, in this order: communications; staffing; patient care and clinical support; safety and security; resources and assets; utilities.",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding"],
+        "properties": {
+          "finding": { "type": "string" },
+          "action": { "type": "string", "description": "Improvement action, owner and due date." }
+        }
+      }
+    },
+    "planRevisions": {
+      "type": "array",
+      "maxItems": 6,
+      "items": { "type": "string" }
+    },
+    "committeeReview": {
+      "type": "string",
+      "examples": ["Emergency management committee, 2026-11-12"]
+    }
+  }
+}

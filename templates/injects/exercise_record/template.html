@@ -1,0 +1,66 @@
+<article class="rec">
+  <p class="marking">EXERCISE RECORD · FICTIONAL ORGANIZATION</p>
+  <header class="head">
+    <p class="org">{{default fields.org (default brand.aliases.org "Hospital")}}</p>
+    <h1>{{fields.exerciseTitle}}</h1>
+    <p class="ref">{{fields.exerciseType}} · {{fields.date}}</p>
+  </header>
+
+  <section>
+    <h2>Scenario basis</h2>
+    <p>{{fields.scenarioBasis}}</p>
+    {{#if fields.participants}}
+    <p class="part"><strong>Participants:</strong> {{fields.participants}}</p>
+    {{/if}}
+  </section>
+
+  <section>
+    <h2>Analysis of the response</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Critical area</th>
+          <th>Finding</th>
+          <th>Improvement action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.areas}}
+        <tr>
+          <th scope="row">
+            {{#if (eq @index 0)}}Communications{{else if (eq @index 1)}}Staffing{{else if (eq @index
+            2)}}Patient care and clinical support{{else if (eq @index 3)}}Safety and security{{else
+            if (eq @index 4)}}Resources and assets{{else}}Utilities{{/if}}
+          </th>
+          <td>{{finding}}</td>
+          <td>{{action}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+
+  {{#if fields.planRevisions.length}}
+  <section>
+    <h2>Revisions to the emergency plan</h2>
+    <ul>
+      {{#each fields.planRevisions}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}} {{#if fields.committeeReview}}
+  <section>
+    <h2>Committee review</h2>
+    <p>{{fields.committeeReview}}</p>
+  </section>
+  {{/if}}
+
+  <footer class="foot">
+    <p>
+      This record is an aid. It may support the hospital's annual exercise documentation (42 CFR
+      482.15(d); Joint Commission EM.16.01.01). The hospital's compliance office decides whether an
+      exercise satisfies a requirement.
+    </p>
+  </footer>
+</article>

@@ -10,6 +10,22 @@ import type {
   ModeledSeries,
 } from '@shared/schemas/metrics'
 import { AppError } from '../../lib/errors'
+import {
+  criticalResultCommunication,
+  duplicateRecordsCreated,
+  reconciliationProgress,
+  restoreOrderScore,
+  safeCareLosses,
+  timeToDowntimeProcedures,
+} from './clinical'
+import {
+  pickCriticalResults,
+  pickDowntime,
+  pickDuplicates,
+  pickReconciliation,
+  pickRestoreOrder,
+  pickSafeCare,
+} from './clinical-inputs'
 import { corrections } from './corrections'
 import { decisionTiming } from './decision-timing'
 import { holdingStatementTime } from './holding-statement-time'
@@ -84,6 +100,13 @@ registerMetric(statementAccuracy, (b) => ({ checks: b.checks ?? [] }))
 registerMetric(corrections, eventsAndDecisions)
 registerMetric(reporterHandling, eventsAndDecisions)
 registerMetric(verification, eventsAndDecisions)
+// The clinical systems metrics (health informatics, spec 0451).
+registerMetric(timeToDowntimeProcedures, pickDowntime)
+registerMetric(safeCareLosses, pickSafeCare)
+registerMetric(criticalResultCommunication, pickCriticalResults)
+registerMetric(reconciliationProgress, pickReconciliation)
+registerMetric(duplicateRecordsCreated, pickDuplicates)
+registerMetric(restoreOrderScore, pickRestoreOrder)
 
 export const metricIds = (): string[] => [...entries.keys()].sort()
 export const isMetricId = (id: string): boolean => entries.has(id)

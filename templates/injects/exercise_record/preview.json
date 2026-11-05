@@ -1,0 +1,41 @@
+{
+  "fields": {
+    "org": "Riverbend Regional Medical Center",
+    "exerciseTitle": "Unplanned EHR downtime, 24-hour tabletop",
+    "date": "2026-10-21",
+    "exerciseType": "Facilitator-led tabletop",
+    "scenarioBasis": "A ransomware event removes the EHR for 24 hours. Chosen because cyber disruption ranks highest in the hazard vulnerability analysis and the plan has not been tested for clinical systems.",
+    "participants": "CIO, CMIO, CNIO, nursing supervisors, laboratory, pharmacy, HIM, security, privacy",
+    "areas": [
+      {
+        "finding": "The downtime declaration reached units by overhead page but not by email; two units learned it 40 minutes late.",
+        "action": "Add the downtime page to the paging script. Owner: IT operations. Due 12/15."
+      },
+      {
+        "finding": "Back-entry staffing was not planned; units pulled nurses from the bedside.",
+        "action": "Name back-entry teams in the downtime plan. Owner: CNIO. Due 01/15."
+      },
+      {
+        "finding": "Players could not say which results to trust after the interface returned.",
+        "action": "Write a result validation rule for recovery. Owner: CMIO. Due 12/15."
+      },
+      {
+        "finding": "Badge access to the downtime command post was not tested.",
+        "action": "Test access at the next drill. Owner: Security. Due 12/01."
+      },
+      {
+        "finding": "Label stock for downtime registration lasts about 6 hours.",
+        "action": "Raise par level on each unit. Owner: Materials. Due 11/30."
+      },
+      {
+        "finding": "Generator coverage for the downtime printers was not confirmed.",
+        "action": "Confirm and label emergency outlets. Owner: Facilities. Due 12/01."
+      }
+    ],
+    "planRevisions": [
+      "Emergency operations plan, section on clinical system downtime: add restore order and validation rule.",
+      "Communications plan: add the downtime page."
+    ],
+    "committeeReview": "Emergency management committee, 2026-11-12"
+  }
+}

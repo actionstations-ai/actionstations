@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { DomainProfile } from '../domains/schema'
+import { toolkitKnowledge } from './compose'
 import { ToolkitSchema } from './schema'
 
 const packs = join(__dirname, '..', '..', '..', 'packs')
@@ -58,6 +59,13 @@ describe('clinical_systems toolkit', () => {
     const rules = toolkit.knowledge.realismRules.join(' ')
     expect(rules).toMatch(/real person's data/)
     expect(rules).toMatch(/not a clinical reference/)
+  })
+
+  it('fits the per-toolkit knowledge cap, so no rule is cut and others can stack on it', () => {
+    const { text, truncated } = toolkitKnowledge([toolkit])
+    expect(truncated).toEqual([])
+    expect(text).toMatch(/Name no real hospital/)
+    expect(text.length).toBeLessThan(2800)
   })
 
   it('suits the clinical domains', () => {
