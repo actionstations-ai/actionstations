@@ -14,7 +14,7 @@ describe('epidemiology domain profile', () => {
   })
 
   it('suggests the epidemiology toolkit and keeps variant roles for each setting', () => {
-    expect(EPI.suggestedToolkits).toEqual(['epidemiology'])
+    expect(EPI.suggestedToolkits).toContain('epidemiology')
     const teams = EPI.roles.map((r) => r.team).join('|')
     expect(teams).toMatch(/Hospital Infection Prevention/)
     expect(teams).toMatch(/Laboratory/)

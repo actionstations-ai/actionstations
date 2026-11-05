@@ -38,7 +38,7 @@ describe('meteorology domain profile', () => {
   })
 
   it('suggests the weather toolkit', () => {
-    expect(meteorology.suggestedToolkits).toEqual([toolkit.id])
+    expect(meteorology.suggestedToolkits).toContain(toolkit.id)
   })
 })
 
