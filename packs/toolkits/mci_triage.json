@@ -1,0 +1,307 @@
+{
+  "id": "mci_triage",
+  "name": "Mass casualty and triage",
+  "description": "Triage tags, patient lists, Medical Branch worksheets, treatment areas, the transportation log and hospital calls for a mass casualty incident, with the structured decisions a Medical Group makes: declare an MCI, name the triage method, assign a destination and close a hospital to arrivals. Stays at the coordination and decision level; it is not a patient simulator and not clinical guidance for a real incident.",
+  "appliesTo": {
+    "keywords": [
+      "mass casualty",
+      "mci",
+      "triage",
+      "triage tag",
+      "bus crash",
+      "multiple patients",
+      "casualty collection",
+      "treatment area",
+      "hospital diversion",
+      "patients",
+      "ambulances"
+    ],
+    "domains": [
+      "ems_fire",
+      "healthcare",
+      "transit",
+      "stadium_venue",
+      "campus",
+      "airport",
+      "k12_schools",
+      "municipal",
+      "freight_rail",
+      "chemical",
+      "industrial",
+      "port_maritime",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "mci_triage_tag",
+    "mci_patient_list",
+    "medical_branch_worksheet",
+    "treatment_area_assignments",
+    "patient_transport_log",
+    "medcom_hospital_call"
+  ],
+  "outsideParties": [
+    "the receiving hospitals and the regional healthcare coalition",
+    "the medical examiner or coroner",
+    "the family reunification center",
+    "the American Red Cross",
+    "the air medical service",
+    "the EMS medical director"
+  ],
+  "advisorRoles": [
+    {
+      "key": "triage_leader",
+      "name": "Triage Unit Leader",
+      "abbreviation": "TRIAGE",
+      "team": "Medical",
+      "description": "Applies the triage method, keeps the tag count, and sends patients on to treatment areas by priority."
+    },
+    {
+      "key": "treatment_leader",
+      "name": "Treatment Unit Leader",
+      "abbreviation": "TX",
+      "team": "Medical",
+      "description": "Runs the treatment areas by priority (Immediate, Delayed, Minor), the morgue or holding area, and the supplies and staff the areas need."
+    },
+    {
+      "key": "medcom",
+      "name": "Medical Communications Coordinator",
+      "abbreviation": "MEDCOM",
+      "team": "Medical",
+      "description": "Calls the hospitals for capability and capacity, relays destination decisions and keeps the hospital status board."
+    },
+    {
+      "key": "air_coordinator",
+      "name": "Air Ambulance Coordinator",
+      "abbreviation": "AIR",
+      "team": "Medical",
+      "description": "Owns landing zones, air medical requests and the destinations air units can reach."
+    }
+  ],
+  "decisionForms": [
+    {
+      "id": "declare_mci",
+      "label": "Declare a mass casualty incident",
+      "description": "The incident commander or the first Medical Group Supervisor declares an MCI, which starts the regional plan.",
+      "fields": [
+        {
+          "id": "declared_by",
+          "label": "Declared by",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time declared",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "estimated_patients",
+          "label": "Estimated patients",
+          "kind": "number"
+        },
+        {
+          "id": "plan_level",
+          "label": "Plan level",
+          "kind": "choice",
+          "choices": ["Local MCI plan", "Regional plan", "State resources requested"]
+        }
+      ]
+    },
+    {
+      "id": "set_triage_method",
+      "label": "Set the triage method",
+      "description": "The Medical Group names the method every crew uses, so tags mean the same thing.",
+      "fields": [
+        {
+          "id": "method",
+          "label": "Method",
+          "kind": "choice",
+          "required": true,
+          "choices": ["START", "SALT", "Local method"]
+        },
+        {
+          "id": "pediatric_method",
+          "label": "Pediatric method (if different)",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "assign_patient_destination",
+      "label": "Assign a patient to a destination",
+      "description": "Send a tagged patient to a hospital by a stated mode, with the reason.",
+      "fields": [
+        {
+          "id": "tag_number",
+          "label": "Tag number",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Immediate", "Delayed", "Minor", "Expectant"]
+        },
+        {
+          "id": "hospital",
+          "label": "Hospital",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "mode",
+          "label": "Mode",
+          "kind": "choice",
+          "choices": ["Ground ambulance", "Air ambulance", "Bus", "Other"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason for this destination",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "set_hospital_status",
+      "label": "Open or close a hospital to arrivals",
+      "description": "Record a hospital's status change as the Medical Communications Coordinator learns it, or a decision to stop sending patients there.",
+      "fields": [
+        {
+          "id": "hospital",
+          "label": "Hospital",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Open", "Limited intake", "Diversion", "Closed"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "issue_public_statement",
+      "label": "Issue a public statement",
+      "description": "The PIO releases a casualty count, a hospital notice or a reunification instruction.",
+      "fields": [
+        {
+          "id": "speaker",
+          "label": "Speaker",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "channel",
+          "label": "Channel",
+          "kind": "choice",
+          "choices": [
+            "Press briefing",
+            "Social media",
+            "Reunification center notice",
+            "Hospital information line"
+          ]
+        },
+        {
+          "id": "casualty_count",
+          "label": "Casualty count stated",
+          "kind": "number"
+        },
+        {
+          "id": "message",
+          "label": "Message",
+          "kind": "text",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "MCI",
+        "definition": "Mass casualty incident: more patients than the first resources can treat and transport, so the Medical Group runs patient flow."
+      },
+      {
+        "term": "START",
+        "definition": "Walkers are Minor. Breathing over 30 a minute, capillary refill over 2 seconds (or no radial pulse) or not following commands make a patient Immediate; no breathing after the airway is opened is Expectant or Deceased; the rest are Delayed."
+      },
+      {
+        "term": "SALT",
+        "definition": "Sort, Assess, Lifesaving interventions, Treatment and/or transport. A global sort, then individual assessment with quick lifesaving interventions; categories include Expectant and Dead."
+      },
+      {
+        "term": "JumpSTART",
+        "definition": "Pediatric version of START; child vital signs differ from an adult's."
+      },
+      {
+        "term": "Priority words",
+        "definition": "Immediate (red), Delayed (yellow), Minor (green), Expectant (black). Always print the word, never color alone."
+      },
+      {
+        "term": "Expectant",
+        "definition": "Survival unlikely with the resources available. Still comforted and reassessed, not abandoned."
+      },
+      {
+        "term": "Medical Group",
+        "definition": "Runs triage, treatment, transportation and medical communications; titles (Branch or Group, Director or Supervisor) vary by jurisdiction."
+      },
+      {
+        "term": "Diversion",
+        "definition": "A hospital asks ambulances to go elsewhere because it cannot take more patients of a kind."
+      }
+    ],
+    "productConventions": [
+      "Triage tag: unique number, priority word, the vitals the named method uses, injuries in plain words, time and who triaged. Patients are fictional and unnamed: age and sex only.",
+      "Patient list: one row per tag. Transport log: time, tag, priority, unit, ground or air, destination, why. Counts agree across every product.",
+      "Hospital call record: hospital status (Open, Limited intake, Diversion, Closed), beds by category, patients assigned. An offer is a promise the transport log respects.",
+      "Times are 24-hour. Reunification notices reuse reunification_notice and press_release."
+    ],
+    "realismRules": [
+      "Say which triage method the players use (START, SALT or the local method); no federal rule picks one.",
+      "Patients are fictional; never use real names or a real incident's patient list.",
+      "Immediate patients leave first, to a hospital that can treat the injury (trauma, burn, pediatric), not only the nearest.",
+      "Expectant patients are reassessed and comforted, never left without a person.",
+      "Children get a pediatric method and a hospital with pediatric capability.",
+      "No hospital gets more than it said it could take; capacity changes during the incident and the log shows it.",
+      "Tag count, patient list, transport log and the PIO's number agree unless an inject says why not.",
+      "MCI is declared before treatment areas open; no transport leaves without a tag; ambulances arrive in a trickle.",
+      "Stay at who decides what; no clinical procedures, doses or treatment steps."
+    ]
+  },
+  "lintRules": []
+}

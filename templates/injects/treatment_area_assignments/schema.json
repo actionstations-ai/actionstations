@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Treatment area assignments",
+  "description": "Which treatment areas are set up at a mass casualty incident, by priority, with the location, the leader, the staff, the number of patients held and what the area still needs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["leader", "areas"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County EMS"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "leader": {
+      "type": "string",
+      "description": "Name and unit of the person in charge of treatment.",
+      "examples": ["Engine 7 / Brandt"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this update, 24-hour.",
+      "examples": ["10:48"],
+      "x-translate": false
+    },
+    "morgueLocation": {
+      "type": "string",
+      "description": "Where deceased patients are held, as agreed with the medical examiner.",
+      "examples": ["Fellowship hall, north entrance (agreed with the medical examiner)"]
+    },
+    "totalHeld": {
+      "type": "integer",
+      "description": "Number of patients across all areas.",
+      "examples": [21]
+    },
+    "areas": {
+      "type": "array",
+      "description": "One row per treatment area.",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["area", "priority"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Name of the area.",
+            "examples": ["Red treatment area"]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Triage priority of the patients in this area.",
+            "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+            "examples": ["Immediate"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Where the area is.",
+            "examples": ["Church lot, shaded side"]
+          },
+          "staff": {
+            "type": "string",
+            "description": "Unit or crew running the area.",
+            "examples": ["Engine 7, Medic 12"],
+            "x-translate": false
+          },
+          "held": {
+            "type": "integer",
+            "description": "Patients now in the area.",
+            "examples": [2],
+            "x-translate": false
+          },
+          "needs": {
+            "type": "string",
+            "description": "What the area needs next.",
+            "examples": ["Two ALS providers, oxygen"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Moves between areas, hazards or reassessment times.",
+      "examples": [
+        "Re-triage of the yellow area every 15 minutes. T-004 moved to red at 10:44 after a drop in blood pressure."
+      ]
+    }
+  }
+}

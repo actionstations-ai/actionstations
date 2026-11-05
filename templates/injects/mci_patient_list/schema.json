@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MCI patient list",
+  "description": "Running list of patients at a mass casualty incident, one row per triage tag number, kept by the Medical Branch. Use tag numbers and ages only; no names.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["preparedBy", "patients"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County EMS"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Who keeps the list.",
+      "examples": ["Medical Group Supervisor Okafor"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time the list was last updated, 24-hour.",
+      "examples": ["10:50"],
+      "x-translate": false
+    },
+    "triageMethod": {
+      "type": "string",
+      "description": "The method the players use.",
+      "enum": ["START", "SALT", "Local method"],
+      "examples": ["START"]
+    },
+    "totalTagged": {
+      "type": "integer",
+      "description": "Number of tags issued so far.",
+      "examples": [12]
+    },
+    "patients": {
+      "type": "array",
+      "description": "One row per patient tag, in tag-number order.",
+      "minItems": 1,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tagNumber", "priority"],
+        "properties": {
+          "tagNumber": {
+            "type": "string",
+            "description": "Triage tag number.",
+            "examples": ["T-001"],
+            "x-translate": false
+          },
+          "priority": {
+            "type": "string",
+            "description": "Triage priority.",
+            "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+            "examples": ["Immediate"]
+          },
+          "ageSex": {
+            "type": "string",
+            "description": "Approximate age and sex.",
+            "examples": ["41 M"],
+            "x-translate": false
+          },
+          "injuries": {
+            "type": "string",
+            "description": "Short injury description in plain words.",
+            "examples": ["Chest trauma, rapid breathing"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Where the patient is now.",
+            "examples": ["Red area"]
+          },
+          "destination": {
+            "type": "string",
+            "description": "Hospital the patient was sent to, if transported.",
+            "examples": ["Rook County Trauma Center"]
+          },
+          "transportTime": {
+            "type": "string",
+            "description": "Time the transporting unit left, 24-hour.",
+            "examples": ["10:31"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Counts that changed, patients without tags, or tags that were lost.",
+      "examples": [
+        "Tag T-008 through T-012 issued by the second ambulance; list entries pending. Bus driver counted as T-001."
+      ]
+    }
+  }
+}

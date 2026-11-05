@@ -1,0 +1,78 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Treatment Area Assignments</h1>
+      <p class="sub">Areas by priority, where they are, who runs them and what they hold.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Treatment Unit Leader</dt>
+      <dd>{{fields.leader}}</dd>
+    </div>
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    <div>
+      <dt>Morgue / holding area</dt>
+      <dd>{{fields.morgueLocation}}</dd>
+    </div>
+    <div>
+      <dt>Patients held</dt>
+      <dd>{{fields.totalHeld}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Areas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Area</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Location</th>
+            <th scope="col">Staff</th>
+            <th scope="col">Held</th>
+            <th scope="col">Needs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.areas}}
+          <tr>
+            <td>{{this.area}}</td>
+            <td class="pri" data-p="{{this.priority}}">
+              <span class="pw">{{this.priority}}</span>
+            </td>
+            <td>{{this.location}}</td>
+            <td>{{this.staff}}</td>
+            <td class="num">{{this.held}}</td>
+            <td>{{this.needs}}</td>
+          </tr>
+          {{/each}} {{#times 2}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Notes</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

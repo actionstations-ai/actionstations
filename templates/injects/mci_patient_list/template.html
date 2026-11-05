@@ -1,0 +1,83 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>MCI Patient List</h1>
+      <p class="sub">
+        One row per tag. Colors always carry the word. Fictional patients: no names.
+      </p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Prepared by</dt>
+      <dd>{{fields.preparedBy}}</dd>
+    </div>
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    <div>
+      <dt>Triage method</dt>
+      <dd>{{fields.triageMethod}}</dd>
+    </div>
+    <div>
+      <dt>Total tagged</dt>
+      <dd>{{fields.totalTagged}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Patients</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Tag</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Age / sex</th>
+            <th scope="col">Injuries</th>
+            <th scope="col">Location</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Left scene</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.patients}}
+          <tr>
+            <td>{{this.tagNumber}}</td>
+            <td class="pri" data-p="{{this.priority}}">
+              <span class="pw">{{this.priority}}</span>
+            </td>
+            <td>{{this.ageSex}}</td>
+            <td>{{this.injuries}}</td>
+            <td>{{this.location}}</td>
+            <td>{{this.destination}}</td>
+            <td class="num">{{this.transportTime}}</td>
+          </tr>
+          {{/each}} {{#times 3}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Notes</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

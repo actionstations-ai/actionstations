@@ -1,0 +1,125 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Medical Branch Worksheet</h1>
+      <p class="sub">Groups, counts by priority and resources. Titles vary by jurisdiction.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div>
+      <dt>Medical Group Supervisor</dt>
+      <dd>{{fields.supervisor}}</dd>
+    </div>
+    <div>
+      <dt>MCI declared</dt>
+      <dd>{{fields.mciDeclaredAt}}</dd>
+    </div>
+    <div>
+      <dt>Triage method</dt>
+      <dd>{{fields.triageMethod}}</dd>
+    </div>
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>Groups</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Group</th>
+            <th scope="col">Leader</th>
+            <th scope="col">Location</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.groups}}
+          <tr>
+            <td>{{this.group}}</td>
+            <td>{{this.leader}}</td>
+            <td>{{this.location}}</td>
+            <td>{{this.status}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    <section class="tbl">
+      <h2>Counts by priority</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Priority</th>
+            <th scope="col">Triaged</th>
+            <th scope="col">In treatment</th>
+            <th scope="col">Transported</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.counts}}
+          <tr>
+            <td class="pri" data-p="{{this.priority}}">
+              <span class="pw">{{this.priority}}</span>
+            </td>
+            <td class="num">{{this.triaged}}</td>
+            <td class="num">{{this.inTreatment}}</td>
+            <td class="num">{{this.transported}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </section>
+    <section class="tbl">
+      <h2>Resources</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Resource</th>
+            <th scope="col">Requested</th>
+            <th scope="col">On scene</th>
+            <th scope="col">Next ETA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.resources}}
+          <tr>
+            <td>{{this.resource}}</td>
+            <td class="num">{{this.requested}}</td>
+            <td class="num">{{this.onScene}}</td>
+            <td>{{this.eta}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.concerns}}
+    <section class="note">
+      <h2>Concerns</h2>
+      <p>{{nl2br fields.concerns}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

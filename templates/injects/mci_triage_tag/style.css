@@ -1,0 +1,130 @@
+/* Triage tag, 420 x 760. The priority is printed as a word and carries a pattern, never color alone. */
+p,
+dl,
+dd,
+dt,
+ol {
+  margin: 0;
+  padding: 0;
+}
+.tag {
+  width: 420px;
+  height: 780px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  color: #111;
+  background: #fff;
+  border: 3px solid #111;
+}
+.band {
+  padding: 14px 18px 12px;
+  color: #fff;
+  background: #b3261e;
+  position: relative;
+}
+.agency {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.word {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 62px;
+  line-height: 1;
+  font-weight: 700;
+  margin-top: 34px;
+  letter-spacing: 0.02em;
+}
+.num {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  text-align: right;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.num span {
+  display: block;
+  font-size: 11px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.tag[data-p='Delayed'] .band {
+  background: repeating-linear-gradient(135deg, #f6d32d 0 10px, #e8c20f 10px 20px);
+  color: #111;
+}
+.tag[data-p='Minor'] .band {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.35) 2px, transparent 2.4px) 0 0 / 12px 12px,
+    #1f6f35;
+}
+.tag[data-p='Expectant'] .band {
+  background: repeating-linear-gradient(0deg, #111 0 8px, #3a3a3a 8px 11px);
+}
+.tag[data-p='Deceased'] .band {
+  background: #fff;
+  color: #111;
+  border-bottom: 4px solid #111;
+}
+.rows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.rows div {
+  display: flex;
+  gap: 10px;
+  padding: 7px 18px;
+  border-bottom: 1px solid #999;
+  min-height: 40px;
+  align-items: baseline;
+}
+.rows dt {
+  flex: 0 0 132px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #444;
+}
+.rows dd {
+  font-size: 15px;
+  font-weight: 500;
+}
+.rows .tall {
+  min-height: 110px;
+}
+.scale {
+  display: flex;
+  list-style: none;
+  border-top: 3px solid #111;
+}
+.scale li {
+  flex: 1;
+  text-align: center;
+  padding: 9px 2px;
+  font-size: 12px;
+  font-weight: 700;
+  border-right: 1px solid #111;
+  color: #555;
+}
+.scale li:last-child {
+  border-right: 0;
+}
+.scale li.on {
+  color: #fff;
+  background: #111;
+  outline: 3px solid #111;
+}
+.foot {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #9b1c14;
+  padding: 8px 0 10px;
+}

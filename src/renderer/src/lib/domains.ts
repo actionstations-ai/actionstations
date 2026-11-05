@@ -65,6 +65,7 @@ export const PROFILE_GROUP_IDS: readonly { label: string; ids: readonly string[]
       'federal_continuity',
       'meteorology',
       'flooding',
+      'ems_fire',
     ],
   },
   {
