@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unified Command meeting agenda",
+  "description": "Agenda for a Unified Command or objectives meeting: who attends, what is decided and the pre-reads. Up to 8 agenda items fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "meeting": {
+      "type": "string",
+      "description": "Meeting",
+      "examples": ["Objectives meeting, operational period 2"]
+    },
+    "dateTime": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["11/04/2026 1730"]
+    },
+    "location": {
+      "type": "string",
+      "description": "Location",
+      "examples": ["Command Post, Pelican Point Terminal admin building"]
+    },
+    "chair": {
+      "type": "string",
+      "description": "Chair",
+      "examples": ["Unified Command (FOSC, State OSC, RP IC)"]
+    },
+    "attendees": {
+      "type": "array",
+      "description": "Attendees",
+      "items": {
+        "type": "string",
+        "examples": ["Federal On-Scene Coordinator and Scientific Support Coordinator"]
+      },
+      "maxItems": 10
+    },
+    "items": {
+      "type": "array",
+      "description": "Agenda",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["1730"]
+          },
+          "topic": {
+            "type": "string",
+            "description": "Topic",
+            "examples": ["Situation and trajectory update"]
+          },
+          "lead": {
+            "type": "string",
+            "description": "Lead",
+            "examples": ["Situation Unit / SSC"]
+          },
+          "output": {
+            "type": "string",
+            "description": "Needed from the meeting",
+            "examples": ["Agreement on landfall estimate"]
+          }
+        }
+      }
+    },
+    "preReads": {
+      "type": "string",
+      "description": "Pre-reads",
+      "examples": [
+        "Trajectory run 1500 (48 h); ESI map excerpt with ICS 232; countermeasure request and ACP dispersant zone map; wildlife status report 1600."
+      ]
+    }
+  }
+}

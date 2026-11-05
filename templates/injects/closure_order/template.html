@@ -1,0 +1,53 @@
+<!-- Closure order (fishing, shoreline or water intake), one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>CLOSURE ORDER</h1>
+      <span class="id">Order</span>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <span class="label">Order number</span><span class="v">{{fields.orderNumber}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Type</span><span class="v">{{fields.closureType}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Issued by</span><span class="v">{{fields.issuedBy}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Effective</span><span class="v">{{fields.effective}}</span>
+      </div>
+      <div class="cell w2">
+        <span class="label">Area</span><span class="v">{{fields.area}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Reason</span>
+      <div class="v body">{{nl2br fields.reason}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Restrictions</span>
+      <ol class="v">
+        {{#each fields.restrictions}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </div>
+    <div class="block">
+      <span class="label">Conditions for reopening</span>
+      <div class="v body">{{nl2br fields.lifting}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Questions</span>
+      <div class="v body">{{nl2br fields.contact}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. The issuing authority is a state agency, a local authority or a utility, not
+      the responsible party. Real closures follow the authority's own order format.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "National Response Center report record",
+  "description": "The responsible party's record of the report to the National Response Center and the other notifications that followed, with the time of each. The NRC call is a report, not a request for resources. Up to 7 notification rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "NRC report number",
+      "examples": ["EXERCISE-1148823"]
+    },
+    "discovered": {
+      "type": "string",
+      "description": "Discovered",
+      "examples": ["11/03/2026 2318"]
+    },
+    "reportedAt": {
+      "type": "string",
+      "description": "Reported to NRC",
+      "examples": ["11/03/2026 2342"]
+    },
+    "caller": {
+      "type": "string",
+      "description": "Caller",
+      "examples": ["M. Okonkwo, terminal operations supervisor"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Material and amount",
+      "examples": ["Diesel fuel, estimated 4,200 barrels (176,400 gallons)"]
+    },
+    "waterbody": {
+      "type": "string",
+      "description": "Water body",
+      "examples": ["Heron Bay, tributary of Mobile Bay"]
+    },
+    "cause": {
+      "type": "string",
+      "description": "Cause (initial)",
+      "examples": ["Tank 14 shell failure; under investigation"]
+    },
+    "notifications": {
+      "type": "array",
+      "description": "Notifications",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "who": {
+            "type": "string",
+            "description": "Who",
+            "examples": ["Qualified Individual"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["2331"]
+          },
+          "by": {
+            "type": "string",
+            "description": "By",
+            "examples": ["M. Okonkwo"]
+          },
+          "how": {
+            "type": "string",
+            "description": "How",
+            "examples": ["Phone"]
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Remarks",
+            "examples": ["Plan activated"]
+          }
+        }
+      }
+    },
+    "remarks": {
+      "type": "string",
+      "description": "Remarks",
+      "examples": [
+        "Source isolated at 2335 by closing the tank outlet valve. Dike held about half of the release; the rest reached the slip through a failed drain valve."
+      ]
+    }
+  }
+}

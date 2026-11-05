@@ -1,0 +1,52 @@
+<!-- Countermeasure request and decision, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>COUNTERMEASURE REQUEST AND DECISION</h1>
+      <span class="id">FOSC / RRT</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Requested</span><span class="v">{{fields.requestedAt}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Requested by</span><span class="v">{{fields.requestedBy}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Countermeasure</span><span class="v">{{fields.countermeasure}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Product</span><span class="v">{{fields.product}}</span>
+      </div>
+      <div class="cell w1">
+        <span class="label">Location / zone</span><span class="v">{{fields.zone}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Release and conditions</span>
+      <div class="v body">{{nl2br fields.situation}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Net environmental benefit and justification</span>
+      <div class="v body">{{nl2br fields.justification}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Monitoring and safety plan</span>
+      <div class="v body">{{nl2br fields.monitoring}}</div>
+    </div>
+    <div class="block">
+      <span class="label">FOSC decision, conditions and time</span>
+      <div class="v body">{{nl2br fields.decision}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. Approval paths and preauthorization zones differ by region: the Area
+      Contingency Plan and the Regional Response Team agreements govern a real request.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

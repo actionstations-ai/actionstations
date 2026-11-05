@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 232 Resources at Risk Summary",
+  "description": "Environmental Unit summary of the resources threatened by a release, ranked by protection priority, with the strategy and the contact for each. Built from the ESI map and the trajectory forecast. Up to 9 rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Block 1. Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "Block 2. Operational period",
+      "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
+    },
+    "forecastBasis": {
+      "type": "string",
+      "description": "Which trajectory forecast the ranking follows",
+      "examples": ["Trajectory run 04 Nov 0600, 48 h, best estimate"]
+    },
+    "landfall": {
+      "type": "string",
+      "description": "Earliest predicted contact with a listed resource",
+      "examples": ["1420 on 04 Nov, Heron Bay marsh mouth"]
+    },
+    "resources": {
+      "type": "array",
+      "description": "Resources ranked for protection (priority 1 is protected first)",
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "priority": {
+            "type": "string",
+            "description": "Pri.",
+            "examples": ["1"]
+          },
+          "resource": {
+            "type": "string",
+            "description": "Resource at risk",
+            "examples": ["Heron Bay marsh (ESI 10A)"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Location",
+            "examples": ["Lat 30.31 N, Lon 88.10 W"]
+          },
+          "arrival": {
+            "type": "string",
+            "description": "Predicted contact",
+            "examples": ["1420 04 Nov"]
+          },
+          "consideration": {
+            "type": "string",
+            "description": "Special considerations",
+            "examples": ["Nesting colony; April to August closed to boats"]
+          },
+          "strategy": {
+            "type": "string",
+            "description": "Protection strategy",
+            "examples": ["Deflection boom, 600 ft, anchor at mouth"]
+          }
+        }
+      }
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "6. Prepared by (Environmental Unit Leader) and date/time",
+      "examples": ["Marisol Tran, Environmental Unit Leader, 11/04/2026 0930"]
+    }
+  }
+}

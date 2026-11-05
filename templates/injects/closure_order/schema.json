@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closure order (fishing, shoreline or water intake)",
+  "description": "An order closing a fishery, a shoreline or beach, or a water intake because of a release: who issues it, the area, the effective time, the reason, the restrictions and what will lift it.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "orderNumber": {
+      "type": "string",
+      "description": "Order number",
+      "examples": ["EX-2026-114"]
+    },
+    "closureType": {
+      "type": "string",
+      "description": "Type",
+      "examples": ["Commercial and recreational fishing closure"]
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Issued by",
+      "examples": ["State Department of Marine Resources (exercise)"]
+    },
+    "effective": {
+      "type": "string",
+      "description": "Effective",
+      "examples": ["11/04/2026 1800"]
+    },
+    "area": {
+      "type": "string",
+      "description": "Area",
+      "examples": [
+        "Waters of Heron Bay from the Causeway to Bayou Sara Point, including tributaries up to the head of tide"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason",
+      "examples": [
+        "A release of about 4,200 barrels of diesel at Pelican Point Terminal may contaminate seafood. The closure is precautionary until sampling shows the catch is safe."
+      ]
+    },
+    "restrictions": {
+      "type": "array",
+      "description": "Restrictions",
+      "items": {
+        "type": "string",
+        "examples": [
+          "No commercial or recreational harvest of finfish, shrimp, crab or oysters in the area."
+        ]
+      },
+      "maxItems": 8
+    },
+    "lifting": {
+      "type": "string",
+      "description": "Conditions for reopening",
+      "examples": [
+        "Reopening follows the sampling plan: the closure ends when tissue samples from three consecutive collections are below the state action level, by a new order."
+      ]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Questions",
+      "examples": ["Joint Information Center, 555-0177, 0700 to 2000 daily."]
+    }
+  }
+}

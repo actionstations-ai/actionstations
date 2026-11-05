@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Countermeasure request and decision",
+  "description": "The responsible party's request to use a dispersant, chemical agent or in-situ burn, with the conditions and the decision of the Federal On-Scene Coordinator. The decision block is left empty until the decision is made.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Requested",
+      "examples": ["11/04/2026 0940"]
+    },
+    "requestedBy": {
+      "type": "string",
+      "description": "Requested by",
+      "examples": ["J. Whitfield, RP Incident Commander"]
+    },
+    "countermeasure": {
+      "type": "string",
+      "description": "Countermeasure",
+      "examples": ["Dispersant application (aerial)"]
+    },
+    "product": {
+      "type": "string",
+      "description": "Product",
+      "examples": ["Listed dispersant, 1,500 gal; product on the NCP Product Schedule"]
+    },
+    "zone": {
+      "type": "string",
+      "description": "Location / zone",
+      "examples": ["Zone B, 3 to 7 mi offshore (preauthorization map B-2)"]
+    },
+    "situation": {
+      "type": "string",
+      "description": "Release and conditions",
+      "examples": [
+        "Diesel, 4,200 bbl released, weathering for 10 hours. Wind SE 12 kt, sea state 2 to 3 ft, water depth 40 ft. Slick is 1.8 mi from the marsh mouth and closing at 0.4 kt."
+      ]
+    },
+    "justification": {
+      "type": "string",
+      "description": "Net environmental benefit and justification",
+      "examples": [
+        "Mechanical recovery has reached about 12 percent of the volume. Dispersant on the offshore leading edge reduces the oil volume reaching the marsh. Dilution depth and distance from shore are within the plan criteria."
+      ]
+    },
+    "monitoring": {
+      "type": "string",
+      "description": "Monitoring and safety plan",
+      "examples": [
+        "Special Monitoring of Applied Dispersants and Efficacy (SMART) Tier 1 team on station before the first sortie. Stop on any wildlife concentration in the zone. Aircraft crews briefed by the Safety Officer."
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "description": "FOSC decision, conditions and time",
+      "examples": [
+        "Approved with conditions 1115: limit to Zone B; stop if monitoring shows no efficacy after two sorties; State OSC concurs. RRT notified 1102. Signed: FOSC Lt. Cmdr. R. Alvarez."
+      ]
+    }
+  }
+}

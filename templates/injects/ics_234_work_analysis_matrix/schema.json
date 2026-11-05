@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 234 Work Analysis Matrix",
+  "description": "Planning worksheet that ties each objective to the work assignments, resources and responsible position needed to meet it. Up to 8 rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "1. Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "2. Operational period",
+      "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
+    },
+    "rows": {
+      "type": "array",
+      "description": "One row per work assignment",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "objective": {
+            "type": "string",
+            "description": "Objective",
+            "examples": ["Protect the raw water intake before 2310"]
+          },
+          "assignment": {
+            "type": "string",
+            "description": "Work assignment",
+            "examples": ["Install exclusion boom across the intake channel"]
+          },
+          "resources": {
+            "type": "string",
+            "description": "Resources needed",
+            "examples": ["1,200 ft boom; 2 boats; 6 crew"]
+          },
+          "responsible": {
+            "type": "string",
+            "description": "Responsible",
+            "examples": ["Operations Section Chief / OSRO Branch"]
+          },
+          "start": {
+            "type": "string",
+            "description": "Start",
+            "examples": ["04 Nov 1030"]
+          },
+          "complete": {
+            "type": "string",
+            "description": "Complete",
+            "examples": ["04 Nov 1900"]
+          }
+        }
+      }
+    }
+  }
+}

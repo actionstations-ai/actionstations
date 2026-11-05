@@ -1,0 +1,171 @@
+{
+  "id": "spill_plume",
+  "name": "Spill and plume",
+  "description": "Oil and hazardous release response: notifications, unified command, trajectory and sensitive-area decisions, booming and countermeasures, with the ICS forms and field reports a spill management team uses, and support for the PREP exercise record.",
+  "appliesTo": {
+    "keywords": [
+      "oil spill",
+      "chemical spill",
+      "fuel spill",
+      "oil release",
+      "worst case discharge",
+      "oil sheen",
+      "oil slick",
+      "protective booming",
+      "containment boom",
+      "skimmer",
+      "dispersant",
+      "in-situ burn",
+      "pipeline release",
+      "tank release",
+      "vessel casualty",
+      "oil tanker",
+      "bunker fuel",
+      "crude oil release",
+      "diesel release",
+      "shoreline oiling",
+      "oiled wildlife",
+      "water intake",
+      "toxic plume",
+      "unified command",
+      "area contingency plan",
+      "osro",
+      "spill management team"
+    ],
+    "domains": [
+      "environmental_response",
+      "port_maritime",
+      "chemical",
+      "industrial",
+      "gas_pipeline",
+      "energy_utility",
+      "water_utility",
+      "water_dam",
+      "freight_rail",
+      "transit",
+      "food_agriculture",
+      "municipal",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "ics_232_resources_at_risk",
+    "ics_233_open_action_tracker",
+    "ics_234_work_analysis_matrix",
+    "ics_202_incident_objectives",
+    "ics_204_assignment_list",
+    "uc_meeting_agenda",
+    "aerial_observation_report",
+    "shoreline_survey_report",
+    "countermeasure_request",
+    "wildlife_status_report",
+    "closure_order",
+    "claims_line_notice",
+    "nrc_report_record"
+  ],
+  "outsideParties": [
+    "National Response Center duty officer",
+    "Coast Guard Sector duty officer and Captain of the Port",
+    "Federal On-Scene Coordinator (Coast Guard or EPA)",
+    "Regional Response Team",
+    "NOAA Scientific Support Coordinator",
+    "state environmental agency and state On-Scene Coordinator",
+    "state fish and wildlife agency",
+    "US Fish and Wildlife Service",
+    "natural resource trustee representative",
+    "oil spill removal organization duty manager",
+    "downstream water utility operator",
+    "fishers' association",
+    "port authority harbor master",
+    "Joint Information Center (media and public)"
+  ],
+  "advisorRoles": [
+    {
+      "key": "ssc_advisor",
+      "name": "Scientific Support Coordinator",
+      "abbreviation": "SSC",
+      "team": "Advisors",
+      "description": "Explains the trajectory, its uncertainty, weathering and the trade-offs of each countermeasure; never decides."
+    },
+    {
+      "key": "wildlife_advisor",
+      "name": "Wildlife Branch Director",
+      "abbreviation": "WLD",
+      "team": "Advisors",
+      "description": "Reports animal counts and permit status; explains what hazing and capture can and cannot do."
+    },
+    {
+      "key": "envl_advisor",
+      "name": "Environmental Unit Leader",
+      "abbreviation": "ENVL",
+      "team": "Advisors",
+      "description": "Ranks sensitive areas and resources at risk from the area plan and the ESI maps."
+    },
+    {
+      "key": "osro_advisor",
+      "name": "OSRO Duty Manager",
+      "abbreviation": "OSRO",
+      "team": "Advisors",
+      "description": "Says what equipment and crews can reach which site and when."
+    }
+  ],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "QI",
+        "definition": "Qualified Individual: the person with authority to activate the plan and commit resources."
+      },
+      {
+        "term": "IMT/SMT",
+        "definition": "Incident (older: spill) Management Team: the responsible party's trained response team."
+      },
+      {
+        "term": "FOSC",
+        "definition": "Federal On-Scene Coordinator (Coast Guard or EPA); decides countermeasures with the Regional Response Team."
+      },
+      {
+        "term": "Unified command",
+        "definition": "Federal, state and responsible party commanders deciding objectives together."
+      },
+      {
+        "term": "WCD",
+        "definition": "Worst case discharge: a vessel's entire cargo in adverse weather; a facility's or pipeline segment's plan volume."
+      },
+      {
+        "term": "ACP",
+        "definition": "Area Contingency Plan: sensitive areas, strategies and preauthorizations for one area."
+      },
+      {
+        "term": "ESI",
+        "definition": "Environmental Sensitivity Index: shoreline types and resources ranked by sensitivity."
+      },
+      {
+        "term": "SCAT",
+        "definition": "Shoreline Cleanup Assessment Technique: segment surveys of oiling and treatment."
+      },
+      {
+        "term": "NRC",
+        "definition": "National Response Center: the 24-hour reporting point. A call to it is a report, not a request."
+      }
+    ],
+    "productConventions": [
+      "Notification order: finder, then the Qualified Individual, then the responsible party reports to the NRC and the state, and activates the OSRO.",
+      "Use one volume unit per document (barrels, gallons or cubic meters); show estimates with their basis.",
+      "A trajectory gives a time window per site with the model run time, not one time.",
+      "A countermeasure is a request, then a decision by the FOSC with conditions and time.",
+      "Boom plans give site, length, type, anchoring, who deploys and when.",
+      "Wildlife counts: oiled live, oiled dead, hazed, in rehabilitation, released."
+    ],
+    "realismRules": [
+      "The responsible party calls the NRC; the NRC sends no responders and approves nothing.",
+      "Only the FOSC approves dispersant, a chemical agent or a burn.",
+      "A state agency or local authority closes a fishery or beach; a utility closes its intake; the responsible party does not.",
+      "Never mix barrels, gallons and cubic meters in one document.",
+      "Call a release a worst case discharge only if the plan's scenario says so.",
+      "Boom fails in currents above about 1 knot across it or in steep waves.",
+      "Dispersant and burn need weathering, wind and distance-from-shore criteria; state them.",
+      "Use a fictional responsible party and 555-01xx phone numbers; real geography is fine."
+    ]
+  },
+  "lintRules": []
+}

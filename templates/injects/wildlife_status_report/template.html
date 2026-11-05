@@ -1,0 +1,69 @@
+<!-- Wildlife status report, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>WILDLIFE BRANCH STATUS REPORT</h1>
+      <span class="id">Wildlife</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">As of</span><span class="v">{{fields.reportTime}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Wildlife Branch Director</span
+        ><span class="v">{{fields.director}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Permits</span><span class="v">{{fields.permits}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">Stabilization facility</span><span class="v">{{fields.facility}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">Counts</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 22%">Species group</th>
+            <th style="width: 16%">Oiled, live, captured</th>
+            <th style="width: 12%">Oiled, dead</th>
+            <th style="width: 12%">Hazed</th>
+            <th style="width: 16%">In rehabilitation</th>
+            <th style="width: 22%">Released</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.counts}}
+          <tr>
+            <td><span class="v">{{this.group}}</span></td>
+            <td><span class="v">{{this.captured}}</span></td>
+            <td><span class="v">{{this.dead}}</span></td>
+            <td><span class="v">{{this.hazed}}</span></td>
+            <td><span class="v">{{this.rehab}}</span></td>
+            <td><span class="v">{{this.released}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <span class="label">Activities in the period</span>
+      <div class="v body">{{nl2br fields.activities}}</div>
+    </div>
+    <div class="block">
+      <span class="label">Needs and issues</span>
+      <div class="v body">{{nl2br fields.needs}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product. Only permitted, trained responders handle wildlife; counts are as of the
+      report time.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Joint Information Center claims line notice",
+  "description": "Notice from the Joint Information Center explaining how people affected by a release file a claim: the responsible party's claims line, hours, what to bring and the next step if a claim is not resolved.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["11/05/2026 1000"]
+    },
+    "claimsLine": {
+      "type": "string",
+      "description": "Claims line",
+      "examples": ["555-0166, daily 0800 to 2000"]
+    },
+    "responsibleParty": {
+      "type": "string",
+      "description": "Responsible party",
+      "examples": ["Pelican Point Terminals LLC (fictional)"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What this is",
+      "examples": [
+        "Pelican Point Terminals LLC accepts claims for losses caused by the diesel release, including lost income from the fishing closure, property damage and loss of use of the public boat ramp. Filing a claim costs nothing."
+      ]
+    },
+    "howTo": {
+      "type": "array",
+      "description": "How to file",
+      "items": {
+        "type": "string",
+        "examples": [
+          "Call the claims line or visit the claims center at 40 Causeway Road, open 0900 to 1700."
+        ]
+      },
+      "maxItems": 8
+    },
+    "nextStep": {
+      "type": "string",
+      "description": "If your claim is not paid",
+      "examples": [
+        "A claim is first presented to the responsible party. If it is denied or not settled within 90 days, you may present it to the federal Oil Spill Liability Trust Fund through the National Pollution Funds Center."
+      ]
+    }
+  }
+}

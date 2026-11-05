@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 204 Assignment List",
+  "description": "Operations assignment for one branch, division or group: personnel, resources, the work and the special instructions. Up to 6 resource rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "1. Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "2. Operational period",
+      "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
+    },
+    "branch": {
+      "type": "string",
+      "description": "3. Branch",
+      "examples": ["Protection Branch"]
+    },
+    "division": {
+      "type": "string",
+      "description": "4. Division / group",
+      "examples": ["Group B: Heron Bay"]
+    },
+    "staging": {
+      "type": "string",
+      "description": "5. Staging area",
+      "examples": ["Bayou Sara Landing"]
+    },
+    "operationsPersonnel": {
+      "type": "string",
+      "description": "6. Operations personnel",
+      "examples": ["OSC: T. Reyes. Branch Director: S. Mills. Group Supervisor: L. Chen"]
+    },
+    "resources": {
+      "type": "array",
+      "description": "7. Resources assigned",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Resource",
+            "examples": ["Work boat 22 with boom crew"]
+          },
+          "leader": {
+            "type": "string",
+            "description": "Leader",
+            "examples": ["P. Delacroix"]
+          },
+          "persons": {
+            "type": "string",
+            "description": "No. of persons",
+            "examples": ["4"]
+          },
+          "transport": {
+            "type": "string",
+            "description": "Transportation needed",
+            "examples": ["Trailer to Landing"]
+          },
+          "pickup": {
+            "type": "string",
+            "description": "Contact / pick-up time",
+            "examples": ["Ch. 12; 1900"]
+          }
+        }
+      }
+    },
+    "workAssignments": {
+      "type": "string",
+      "description": "8. Work assignments",
+      "examples": [
+        "Deploy 600 ft of deflection boom at the Heron Bay creek mouth in a J configuration, open side down-current. Anchor every 100 ft. Inspect and tend boom at slack tide. Report boom position to the Situation Unit every two hours."
+      ]
+    },
+    "specialInstructions": {
+      "type": "string",
+      "description": "9. Special instructions",
+      "examples": [
+        "Do not enter the nesting area without a wildlife team escort. Wear PFDs on all boats. Stop work and return on any lightning within 10 miles. Collect oily waste in labeled bags and carry it out."
+      ]
+    },
+    "communications": {
+      "type": "string",
+      "description": "10. Communications",
+      "examples": [
+        "Tactical: Channel 12. Wildlife: Channel 14. Branch Director cell: 555-0142. Command: Channel 10."
+      ]
+    }
+  }
+}

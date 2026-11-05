@@ -1479,6 +1479,38 @@
           "mutual_aid_request"
         ]
       }
+    },
+    {
+      "id": "ai.actionstations.environmental-response",
+      "name": "Environmental response",
+      "summary": "Oil and hazardous release response domain: profile for the incident management team, unified command, OSRO and downstream stakeholders, with eight spill threat families.",
+      "tags": ["environmental", "oil-spill", "response"],
+      "domains": ["environmental_response"],
+      "contents": { "domains": ["environmental_response"] }
+    },
+    {
+      "id": "ai.actionstations.toolkit-spill-plume",
+      "name": "Toolkit: spill and plume",
+      "summary": "Spill and plume toolkit: ICS 202, 204, 232, 233 and 234, observation and survey reports, countermeasure request, closure order, claims notice and the NRC record.",
+      "tags": ["toolkit", "oil-spill", "environmental"],
+      "contents": {
+        "templates": [
+          "aerial_observation_report",
+          "claims_line_notice",
+          "closure_order",
+          "countermeasure_request",
+          "ics_202_incident_objectives",
+          "ics_204_assignment_list",
+          "ics_232_resources_at_risk",
+          "ics_233_open_action_tracker",
+          "ics_234_work_analysis_matrix",
+          "nrc_report_record",
+          "shoreline_survey_report",
+          "uc_meeting_agenda",
+          "wildlife_status_report"
+        ],
+        "toolkits": ["spill_plume"]
+      }
     }
   ]
 }

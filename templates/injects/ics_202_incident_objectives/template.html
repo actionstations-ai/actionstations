@@ -1,0 +1,54 @@
+<!-- ICS 202 Incident Objectives, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>INCIDENT OBJECTIVES</h1>
+      <span class="id">ICS 202</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">1. Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">2. Operational period</span
+        ><span class="v">{{fields.operationalPeriod}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">3. Objectives (include alternatives)</span>
+      <ol class="v">
+        {{#each fields.objectives}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </div>
+    <div class="block">
+      <span class="label">4. Operational period command emphasis</span>
+      <div class="v body">{{nl2br fields.commandEmphasis}}</div>
+    </div>
+    <div class="block">
+      <span class="label">5. General situational awareness</span>
+      <div class="v body">{{nl2br fields.situationalAwareness}}</div>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">6. Site safety plan required</span
+        ><span class="v">{{fields.safetyPlan}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">7. Attachments</span><span class="v">{{fields.attachments}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">8. Prepared by / 9. Approved by (Unified Command)</span>
+      <div class="v body">{{nl2br fields.preparedBy}}</div>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product modeled on the structure of the public ICS form. Not the official form: use
+      the current Coast Guard or EPA version for a real incident.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 202 Incident Objectives",
+  "description": "Unified Command statement of the objectives, command emphasis, situational awareness and attachments for one operational period.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "1. Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "2. Operational period",
+      "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
+    },
+    "objectives": {
+      "type": "array",
+      "description": "3. Objectives (include alternatives)",
+      "items": {
+        "type": "string",
+        "examples": ["Ensure the safety of the public and responders."]
+      },
+      "maxItems": 10
+    },
+    "commandEmphasis": {
+      "type": "string",
+      "description": "4. Operational period command emphasis",
+      "examples": [
+        "Landfall at the marsh is predicted for 1420. Boom at the creek mouth is the first priority. No dispersant use until the FOSC and Regional Response Team decide."
+      ]
+    },
+    "situationalAwareness": {
+      "type": "string",
+      "description": "5. General situational awareness",
+      "examples": [
+        "Estimated release 4,200 barrels of diesel; wind from the southeast at 12 knots, gusting to 20; ebb tide until 1330. Sea state 2 to 3 ft."
+      ]
+    },
+    "safetyPlan": {
+      "type": "string",
+      "description": "6. Site safety plan required",
+      "examples": ["Yes. Located at the Command Post."]
+    },
+    "attachments": {
+      "type": "string",
+      "description": "7. Attachments",
+      "examples": ["ICS 203, 204, 232; weather and trajectory brief"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "8. Prepared by / 9. Approved by (Unified Command)",
+      "examples": [
+        "Prepared: Planning Section Chief D. Okafor, 0830. Approved: FOSC Lt. Cmdr. R. Alvarez; State OSC K. Brandt; RP Incident Commander J. Whitfield."
+      ]
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<!-- ICS 233 Open Action Tracker, one US Letter page. Exercise product; layout modeled on the public form, not the official file. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <div class="form">
+    <div class="title">
+      <h1>OPEN ACTION TRACKER</h1>
+      <span class="id">ICS 233</span>
+    </div>
+    <div class="grid">
+      <div class="cell w2">
+        <span class="label">1. Incident name</span><span class="v">{{fields.incidentName}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">2. Operational period</span
+        ><span class="v">{{fields.operationalPeriod}}</span>
+      </div>
+    </div>
+    <div class="block">
+      <span class="label">3. Open actions</span>
+      <table class="t">
+        <thead>
+          <tr>
+            <th style="width: 6%">No.</th>
+            <th style="width: 32%">Action</th>
+            <th style="width: 18%">Assigned to</th>
+            <th style="width: 11%">Opened</th>
+            <th style="width: 11%">Due</th>
+            <th style="width: 22%">Status / notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.actions}}
+          <tr>
+            <td><span class="v">{{this.number}}</span></td>
+            <td><span class="v">{{this.action}}</span></td>
+            <td><span class="v">{{this.assignedTo}}</span></td>
+            <td><span class="v">{{this.opened}}</span></td>
+            <td><span class="v">{{this.due}}</span></td>
+            <td><span class="v">{{this.status}}</span></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="fill"></div>
+    <div class="note">
+      Exercise product modeled on the structure of the public ICS form. Not the official form: use
+      the current Coast Guard or EPA version for a real incident.
+    </div>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

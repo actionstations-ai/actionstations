@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICS 233 Open Action Tracker",
+  "description": "Planning Section log of open actions: what is owed, by whom and by when, and the status. Up to 12 rows fit on the page.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line shown above and below the form (defaults to EXERCISE · EXERCISE · EXERCISE)",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "1. Incident name",
+      "examples": ["Pelican Point Terminal Tank 14 Release"]
+    },
+    "operationalPeriod": {
+      "type": "string",
+      "description": "2. Operational period",
+      "examples": ["11/04/2026 0700 to 11/04/2026 1900"]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Open actions",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "No.",
+            "examples": ["7"]
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Confirm wildlife permit coverage for hazing at Heron Bay"]
+          },
+          "assignedTo": {
+            "type": "string",
+            "description": "Assigned to",
+            "examples": ["Wildlife Branch Director"]
+          },
+          "opened": {
+            "type": "string",
+            "description": "Opened",
+            "examples": ["04 Nov 0815"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due",
+            "examples": ["04 Nov 1200"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status / notes",
+            "examples": ["Open; state agency call-back pending"]
+          }
+        }
+      }
+    }
+  }
+}
