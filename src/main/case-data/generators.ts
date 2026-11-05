@@ -58,6 +58,8 @@ export const clearGenerators = (): void => registry.clear()
 
 const ModeledSeriesFile = z.array(ModeledSeries).max(500)
 const GroundTruthFile = z.array(GroundTruthEvent).max(5000)
+/** A `reports` dataset is either written reports or the ground-truth events metrics compare decisions with. */
+const ReportsFile = z.union([TextFile, GroundTruthFile])
 
 function validateData(d: GeneratedDataset): void {
   if (d.shape) {
@@ -68,7 +70,14 @@ function validateData(d: GeneratedDataset): void {
       throw new AppError('VALIDATION', `Generated dataset ${d.id} is not valid ${d.shape} data`)
     return
   }
-  const schema = d.kind === 'series' ? SeriesFile : d.kind === 'features' ? null : TextFile
+  const schema =
+    d.kind === 'series'
+      ? SeriesFile
+      : d.kind === 'features'
+        ? null
+        : d.kind === 'reports'
+          ? ReportsFile
+          : TextFile
   const result = schema?.safeParse(d.data)
   if (result && !result.success)
     throw new AppError('VALIDATION', `Generated dataset ${d.id} is not valid ${d.kind} data`)

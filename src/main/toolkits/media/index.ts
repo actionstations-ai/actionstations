@@ -100,6 +100,115 @@ function generateNews(p: z.output<typeof NewsGeneratorParams>): GeneratedDataset
   ]
 }
 
+/** What the media metrics compare decisions with (spec 0458 FR-9). */
+export const MEDIA_GROUND_TRUTH_ID = 'media-ground-truth'
+
+const ErrorSpec = z.object({
+  id: z.string().regex(/^[a-z0-9][a-z0-9_-]{0,40}$/),
+  atMin: z.number().min(0),
+  /** The channel the error spread on (a correction should go out on the same one). */
+  channel: z.string().max(60).default('Website'),
+  label: z.string().max(200).default('An error in coverage or in a statement'),
+})
+const ItemSpec = z.object({
+  id: z.string().regex(/^[a-z0-9][a-z0-9_-]{0,40}$/),
+  atMin: z.number().min(0),
+  truth: z.enum([
+    'authentic',
+    'misattributed',
+    'manipulated',
+    'synthetic',
+    'satire',
+    'unverifiable',
+  ]),
+  label: z.string().max(200).default('An item to verify'),
+})
+
+const GroundTruthGeneratorParams = z.object({
+  startAt: z.string().datetime(),
+  news: NewsCycleInput,
+  /** Errors found during the exercise; one on the first web article when omitted. */
+  errors: z.array(ErrorSpec).max(20).optional(),
+  /** Items to verify; one false and one authentic video when omitted. */
+  items: z.array(ItemSpec).max(20).optional(),
+})
+
+/**
+ * The simulated ground truth the media metrics read: the first public signal, the reporter
+ * queries (with their deadlines) from the news cycle schedule, errors found, and verification
+ * items with their hidden truth. Players reference a query, error or item by its id.
+ */
+export function generateMediaGroundTruth(
+  p: z.output<typeof GroundTruthGeneratorParams>,
+): GeneratedDataset[] {
+  const schedule = newsCycleSchedule(p.news)
+  const t = p.news.triggerAtMin
+  const web = schedule.find((i) => i.kind === 'web_article')
+  const errors = p.errors ?? [
+    {
+      id: 'error-1',
+      atMin: (web?.atMin ?? t + 30) + 30,
+      channel: 'Website',
+      label: `A claim in the ${web?.outlet ?? 'web'} article does not match the fact sheet`,
+    },
+  ]
+  const items = p.items ?? [
+    {
+      id: 'item-1',
+      atMin: t + 25,
+      truth: 'misattributed' as const,
+      label: 'Viewer video said to show the incident',
+    },
+    {
+      id: 'item-2',
+      atMin: t + 40,
+      truth: 'authentic' as const,
+      label: 'Photo from an employee on site',
+    },
+  ]
+  const events = [
+    {
+      id: 'signal-1',
+      time: iso(p.startAt, t),
+      kind: 'first_public_signal',
+      attrs: { label: 'First public signal' },
+    },
+    ...schedule
+      .filter((i) => i.kind === 'reporter_call' || i.kind === 'reporter_email')
+      .map((i) => ({
+        id: i.id,
+        time: iso(p.startAt, i.atMin),
+        kind: 'reporter_query',
+        attrs: {
+          outlet: i.outlet,
+          label: i.brief,
+          ...(i.deadlineMin !== undefined ? { deadline: iso(p.startAt, i.deadlineMin) } : {}),
+        },
+      })),
+    ...errors.map((e) => ({
+      id: e.id,
+      time: iso(p.startAt, e.atMin),
+      kind: 'error_found',
+      attrs: { channel: e.channel, label: e.label },
+    })),
+    ...items.map((i) => ({
+      id: i.id,
+      time: iso(p.startAt, i.atMin),
+      kind: 'verification_item',
+      attrs: { truth: i.truth, label: i.label },
+    })),
+  ].sort((a, b) => Date.parse(a.time) - Date.parse(b.time) || a.id.localeCompare(b.id))
+  return [
+    {
+      id: MEDIA_GROUND_TRUTH_ID,
+      label: 'Simulated media ground truth',
+      kind: 'reports',
+      range: { start: p.startAt, end: iso(p.startAt, t + 360) },
+      data: events,
+    },
+  ]
+}
+
 /** Register the media generators once; the app calls this at startup. */
 export function registerMediaToolkit(): void {
   registerGdeltConnector()
@@ -110,6 +219,13 @@ export function registerMediaToolkit(): void {
       label: 'Media environment: simulated social spread and sentiment',
       params: SpreadGeneratorParams,
       generate: generateSpread,
+    })
+  if (!have.has('media-ground-truth'))
+    registerGenerator({
+      id: 'media-ground-truth',
+      label: 'Media environment: simulated ground truth for the communications metrics',
+      params: GroundTruthGeneratorParams,
+      generate: generateMediaGroundTruth,
     })
   if (!have.has('media-news-cycle'))
     registerGenerator({
