@@ -1,0 +1,52 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.exerciseName}}</div>
+      <div class="sub">For: {{default fields.facilitator "Facilitator"}}</div>
+    </div>
+    <div class="doc-title">Wellbeing check</div>
+  </header>
+  <h2>Say before the exercise starts</h2>
+  <ol>
+    {{#each fields.beforeStart}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <h2>Ask at breaks and at the hot wash</h2>
+  <ul>
+    {{#each fields.checkInQuestions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{#if fields.signsToWatch}}
+  <h2>Signs someone may need support</h2>
+  <ul>
+    {{#each fields.signsToWatch}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="callout"><strong>Stop and step out.</strong> {{fields.stopAndStepOut}}</div>
+  {{#if fields.ifSomeoneIsDistressed}}
+  <h2>If someone is distressed</h2>
+  <ol>
+    {{#each fields.ifSomeoneIsDistressed}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.afterExercise}}
+  <h2>Closing</h2>
+  <ul>
+    {{#each fields.afterExercise}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Wellbeing check · {{fields.exerciseName}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

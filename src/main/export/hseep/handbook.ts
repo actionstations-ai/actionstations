@@ -14,6 +14,7 @@ import {
   communicationsTable,
   exerciseOverviewFacts,
   exerciseStructureBlocks,
+  facilitatorSafeguardBlocks,
   realWorldBlocks,
   scheduleTable,
 } from './common'
@@ -93,6 +94,7 @@ function seamBlocks(s: Scenario, parts: HandbookParts): Block[] {
 function controllerInstructions(model: ExportModel, parts: HandbookParts): Block[] {
   return [
     h2('Controller Instructions'),
+    ...facilitatorSafeguardBlocks(model),
     h3('Before the Exercise'),
     list([
       'Read this handbook, the MSEL and the Master Inject Deck in full.',

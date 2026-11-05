@@ -1,0 +1,116 @@
+{
+  "id": "behavioral_safeguards",
+  "name": "Behavioral health safeguards",
+  "description": "Rules and handouts for exercises that touch suicide, self-harm, abuse or the loss of a child: safe messaging for generated content, an EXERCISE banner on anything that shows a real helpline number, a content notice at the briefing, a facilitator wellbeing check with a stop-and-step-out rule, and psychological first aid. It runs under the crisis line, mass care and reunification toolkits and any other domain that needs it. It is an exercise aid, not clinical guidance.",
+  "appliesTo": {
+    "keywords": [
+      "suicide",
+      "self-harm",
+      "crisis line",
+      "988",
+      "lifeline",
+      "psychological first aid",
+      "grief",
+      "child abuse",
+      "missing child",
+      "mass casualty",
+      "active shooter",
+      "school shooting",
+      "responder stress",
+      "behavioral health"
+    ],
+    "domains": [
+      "human_services",
+      "k12_schools",
+      "campus",
+      "healthcare",
+      "nursing",
+      "public_health",
+      "emergency_communications",
+      "municipal",
+      "stadium_venue",
+      "crisis_comms",
+      "classroom",
+      "ems_fire"
+    ]
+  },
+  "injectTypes": ["content_notice_card", "facilitator_wellbeing_check", "pfa_handout"],
+  "outsideParties": [
+    "the disaster behavioral health team",
+    "the organization's employee support program"
+  ],
+  "advisorRoles": [
+    {
+      "key": "wellbeing_contact",
+      "name": "Wellbeing contact",
+      "abbreviation": "WBC",
+      "team": "Advisors",
+      "description": "A named person who checks in with participants and facilitators during sensitive material and can take someone out of the room."
+    }
+  ],
+  "lintRules": ["hs_safe_messaging", "hs_exercise_helpline", "hs_no_real_line_for_players"],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Safe messaging",
+        "definition": "Published practice for talking about suicide so that coverage does not raise risk: no method or location detail, no single cause, no glamour, say \"died by suicide\", include help and hope. Sources: Recommendations for Reporting on Suicide (SAVE with partner organizations, 2024); AFSP ethical reporting guidelines."
+      },
+      {
+        "term": "Psychological first aid (PFA)",
+        "definition": "Eight core actions: contact and engagement, safety and comfort, stabilization, information gathering, practical assistance, connection with social supports, information on coping, linkage with collaborative services (NCTSN and National Center for PTSD field guide, 2nd ed., 2006)."
+      }
+    ],
+    "productConventions": [
+      "Any public message, handout or post that shows a real helpline number carries the word EXERCISE in its marking or text; exercise players are never told to call a real line, so give a fictional 555 number.",
+      "A contact summary is fictional, de-identified and marked as such; it states the contact type and the supervisor action, not the person's story."
+    ],
+    "realismRules": [
+      "Never describe a method, means, place or timing of self-harm, and never present suicide as a solution or relief.",
+      "Say \"died by suicide\", not \"committed\", \"successful\" or \"failed\"; do not give one cause for a death.",
+      "Abuse and child loss are named by category only, with no detail of harm.",
+      "Keep the tone calm and practical; responders notice, rotate and support people, they do not diagnose."
+    ]
+  },
+  "safeguards": {
+    "triggers": [
+      "suicide",
+      "suicidal",
+      "self-harm",
+      "self harm",
+      "988",
+      "crisis line",
+      "lifeline",
+      "overdose",
+      "abuse",
+      "neglect",
+      "child loss",
+      "died by suicide",
+      "missing child",
+      "death of a child",
+      "student death",
+      "active shooter",
+      "school shooting",
+      "mass casualty",
+      "grief"
+    ],
+    "contentNotice": "This exercise includes fictional material about people in distress, which may include suicide, self-harm, abuse or the death of a child. No method detail is described and no real person is involved. It can be hard to hear, especially if you have lost someone or work with people in crisis every day.",
+    "wellbeingCheck": [
+      "Before the start: tell the room the material is fictional, that it includes sensitive topics, and that anyone may step out at any time without explanation.",
+      "At each break: ask how people are doing with the material and whether anyone needs a longer break or a quieter room.",
+      "Watch for sudden silence, visible distress or a personal story that goes beyond the scenario, and check in privately.",
+      "At the hot wash: ask each person to name one thing that helped them stay steady, and point to the employee support program for follow-up."
+    ],
+    "stopAndStepOut": "Anyone may say \"step out\" and leave at any time without giving a reason; the facilitator pauses the exercise when asked or when two or more people leave, and restarts only when the room is ready."
+  },
+  "capabilities": [
+    {
+      "coreCapability": "health_and_social_services",
+      "criticalTasks": [
+        "Offer psychological first aid to affected people and staff using the eight core actions",
+        "Refer people who need more than first aid to the shelter or program mental health lead",
+        "Rotate and support staff during a long activation"
+      ],
+      "mappings": []
+    }
+  ]
+}

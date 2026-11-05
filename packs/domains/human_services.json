@@ -1,0 +1,730 @@
+{
+  "id": "human_services",
+  "label": "Behavioral health and human services",
+  "description": "Organizations that serve people in distress when a community is stressed: crisis line centers and state coordinators, mass care and shelter teams, reunification teams, and child welfare and social service agencies. Variants are the role teams: crisis line, mass care, reunification and child welfare. No state is assumed.",
+  "aliases": [
+    "988 center",
+    "crisis center",
+    "crisis line",
+    "lifeline",
+    "hotline",
+    "behavioral health",
+    "mental health authority",
+    "mobile crisis",
+    "mass care",
+    "shelter operations",
+    "congregate care",
+    "reception center",
+    "reunification",
+    "family assistance",
+    "child welfare",
+    "children and family services",
+    "human services department",
+    "social services",
+    "social work"
+  ],
+  "vocabulary": {
+    "facility": "the crisis center, shelter, reunification site or agency office",
+    "public": "callers and texters, shelter residents, students and families, and children and families served",
+    "frontline": "crisis counselors, supervisors, shelter staff and volunteers, check-in and release staff, caseworkers",
+    "operationsCenter": "the crisis center floor, the shelter command post or the county emergency operations center (EOC)"
+  },
+  "factCategories": [
+    {
+      "id": "shelters",
+      "label": "Shelters",
+      "noun": "Shelters?|Shelter Sites?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false,
+      "context": "shelter|evacuee|resident|capacity|registration"
+    },
+    {
+      "id": "relocation_sites",
+      "label": "Reunification and relocation sites",
+      "noun": "Reunification Sites?|Relocation Sites?|Family Reunification Centers?",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false,
+      "context": "reunif|relocat|release|guardian|student"
+    }
+  ],
+  "systems": {
+    "it": [
+      "crisis contact routing platform (calls, texts and chats from the national network)",
+      "contact record and case system",
+      "queue and wait-time dashboard",
+      "shift schedule and call-in list",
+      "mobile crisis dispatch link",
+      "state routing console",
+      "shelter registration and daily count reporting",
+      "county GIS and EOC incident software",
+      "student information system and roster export",
+      "text notification system for parents",
+      "statewide child welfare information system and hotline intake"
+    ],
+    "ot": [
+      "generators and fuel for shelters",
+      "power for electricity-dependent residents (oxygen, mobility, refrigerated medication)",
+      "building access control at relocation sites",
+      "sheltering facility HVAC",
+      "food service equipment"
+    ]
+  },
+  "roles": [
+    {
+      "key": "dir",
+      "name": "Crisis Center Director",
+      "abbreviation": "DIR",
+      "team": "Crisis line",
+      "description": "Activates the surge plan, arranges overflow and backup, approves public statements and escalates to the state."
+    },
+    {
+      "key": "sup",
+      "name": "Shift / Clinical Supervisor",
+      "abbreviation": "SUP",
+      "team": "Crisis line",
+      "description": "Sets queue priorities across calls, texts and chats, rotates breaks, takes consults on high-risk contacts and watches staff wellbeing."
+    },
+    {
+      "key": "ops",
+      "name": "Workforce / Operations Manager",
+      "abbreviation": "OPS",
+      "team": "Crisis line",
+      "description": "Owns staffing, call-in lists and schedules, and publishes the queue and wait-time report."
+    },
+    {
+      "key": "it",
+      "name": "Telephony / IT Lead",
+      "abbreviation": "IT",
+      "team": "Crisis line",
+      "description": "Handles platform outages, routing changes and failover."
+    },
+    {
+      "key": "cc",
+      "name": "Crisis Counselor",
+      "abbreviation": "CC",
+      "team": "Crisis line",
+      "description": "Handles contacts and flags capacity and wellbeing problems to the supervisor."
+    },
+    {
+      "key": "mct",
+      "name": "Mobile Crisis Team Lead",
+      "abbreviation": "MCT",
+      "team": "Field",
+      "description": "Sets dispatch priorities for mobile crisis teams and coordinates with 911 and law enforcement."
+    },
+    {
+      "key": "s988",
+      "name": "State 988 Coordinator",
+      "abbreviation": "S988",
+      "team": "State",
+      "description": "Manages statewide funding, routing and backup arrangements and talks to the national network administrator."
+    },
+    {
+      "key": "sm",
+      "name": "Shelter Manager",
+      "abbreviation": "SM",
+      "team": "Mass care",
+      "description": "Opens the shelter, sets capacity and rules, staffs it and reports to the EOC."
+    },
+    {
+      "key": "hsl",
+      "name": "Shelter Health Services Lead",
+      "abbreviation": "HSL",
+      "team": "Mass care",
+      "description": "Supports medical and functional needs, makes referrals and runs infection control."
+    },
+    {
+      "key": "smh",
+      "name": "Shelter Mental Health Lead",
+      "abbreviation": "SMH",
+      "team": "Mass care",
+      "description": "Provides psychological first aid, supports staff and makes referrals."
+    },
+    {
+      "key": "fnss",
+      "name": "Disability Integration / FNSS Advisor",
+      "abbreviation": "FNSS",
+      "team": "Mass care",
+      "description": "Advises on accessible space, communication access, durable medical equipment, personal assistance and supervision needs."
+    },
+    {
+      "key": "reg",
+      "name": "Registration and Reporting Lead",
+      "abbreviation": "REG",
+      "team": "Mass care",
+      "description": "Keeps the resident registry and daily shelter counts and sends data to the shelter database."
+    },
+    {
+      "key": "mcb",
+      "name": "Mass Care Branch Director (EOC)",
+      "abbreviation": "MCB",
+      "team": "Local EOC",
+      "description": "Chooses sites, opens and closes shelters, places resource requests and plans sheltering for pets."
+    },
+    {
+      "key": "rsc",
+      "name": "Reunification Site Commander",
+      "abbreviation": "RSC",
+      "team": "Reunification",
+      "description": "Activates the site, controls flow, holds release authority and handles unaccompanied or unreleased students."
+    },
+    {
+      "key": "chk",
+      "name": "Parent Check-in / Release Lead",
+      "abbreviation": "CHK/REL",
+      "team": "Reunification",
+      "description": "Verifies identity, retrieves students and keeps the release log."
+    },
+    {
+      "key": "cwd",
+      "name": "Child Welfare Director / Disaster Coordinator",
+      "abbreviation": "CWD",
+      "team": "Child welfare",
+      "description": "Locates displaced children in care, keeps hotline intake running, manages staffing and reports to the state."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Communications",
+      "description": "Issues public messages and rumor control through the joint information system."
+    }
+  ],
+  "outsideParties": [
+    "the national 988 network administrator and the federal behavioral health agency",
+    "backup crisis centers in other states",
+    "911 centers",
+    "the local EOC and emergency manager",
+    "the Red Cross and other voluntary organizations",
+    "county public health",
+    "hospitals",
+    "school districts",
+    "law enforcement",
+    "state emergency management and human services agencies",
+    "FEMA and the federal behavioral health agency (crisis counseling program)",
+    "the national missing and exploited children center",
+    "courts and juvenile justice",
+    "media",
+    "the public on social media"
+  ],
+  "mediaChannels": [
+    "the center's official website and status page",
+    "local TV and radio",
+    "the county emergency alert system",
+    "the voluntary organization's shelter map",
+    "school district text and email notices",
+    "parents' group chats",
+    "community groups and neighborhood forums",
+    "social media posts that carry wrong numbers or closures"
+  ],
+  "sceneAnchors": {
+    "public": "a gymnasium turned shelter: rows of cots with folded blankets, a registration table by the door with clipboards, hand-lettered signs, volunteers in vests, a pet area behind a rope",
+    "control": "a crisis center floor: rows of headsets and monitors on shared desks, a wall display with blank queues, a whiteboard with a staffing grid, a supervisor standing between rows",
+    "exterior": "a school parking lot with a line of cars and parents standing behind a folding table with signs, volunteers in vests, a bus at the curb, overcast sky"
+  },
+  "injectTypes": [
+    "reunification_notice",
+    "sitrep",
+    "memo",
+    "press_release",
+    "facebook_post",
+    "tweet",
+    "news_article",
+    "media_inquiry_phone_slip",
+    "radio_call",
+    "phone_call",
+    "field_report",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "ics_201_prefill",
+    "email",
+    "official_letter",
+    "chat_transcript",
+    "emergency_declaration"
+  ],
+  "threatFamilies": [
+    "hs_crisis_surge",
+    "hs_shelter_operations",
+    "hs_reunification",
+    "hs_displaced_children",
+    "hs_responder_stress",
+    "hs_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure",
+    "mass_gathering"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "hs_crisis_surge",
+      "label": "Crisis line surge",
+      "description": "A community tragedy, viral media event or anniversary multiplies contacts at a crisis center while staff are short; leadership decides on overflow, rerouting, scripts and staffing.",
+      "keywords": [
+        "988",
+        "crisis line",
+        "crisis center",
+        "lifeline",
+        "contact surge",
+        "call volume",
+        "answer rate",
+        "wait time",
+        "backup center",
+        "overflow",
+        "text and chat"
+      ],
+      "phaseArc": [
+        {
+          "title": "Trigger and first hour",
+          "goal": "Contacts rise within the hour and the queue starts to build; supervisors see it before the dashboard says so.",
+          "beats": [
+            "A community tragedy dominates local news",
+            "Calls and texts double against the same hour last week",
+            "Two counselors call out for the evening shift"
+          ]
+        },
+        {
+          "title": "Overflow and backup",
+          "goal": "Wait times pass the rerouting timers and leadership decides what to switch on.",
+          "beats": [
+            "Unanswered calls begin to reroute to backup centers",
+            "Texts and chats queue longer than calls",
+            "Spanish-language contacts cannot be rerouted and wait longest"
+          ]
+        },
+        {
+          "title": "Sustained demand and staff wellbeing",
+          "goal": "Demand stays high for days; staffing, breaks and counselor wellbeing become the constraint.",
+          "beats": [
+            "Counselors on their third long shift ask for relief",
+            "A reporter asks for numbers the center has not approved",
+            "The state coordinator asks for a briefing"
+          ]
+        },
+        {
+          "title": "Recovery and debrief",
+          "goal": "Volumes fall; the center restores normal staffing and reviews what held and what did not.",
+          "beats": [
+            "Queue returns to baseline",
+            "Overtime and wellbeing check-ins are scheduled",
+            "Hot wash covers rerouting timers, scripts and the staffing call-in list"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "activate the surge plan now, pulling outbound work and callbacks, or hold it and risk a longer queue",
+        "request backup support from other centers for texts and chats, or keep contacts local to protect the local answer share",
+        "approve a public statement about wait times, or stay quiet while rumors spread"
+      ],
+      "clueKinds": "a rising offered count against the same hour last week, a text queue longer than the call queue, a supervisor note about a counselor who needs a break, a dashboard that lags the floor",
+      "hurdleKinds": "a telephony route that fails over late, a callout the schedule did not plan for, a backup center that is also in surge, a script change that needs sign-off",
+      "keyCoordination": "the state 988 coordinator and the national network administrator",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Counts are offered, answered and abandoned by contact type (calls, texts, chats). Routing and rerouting follow the toolkit's dated notes. Contact summaries are fictional and de-identified. Content stays fictional and de-identified; never describe methods or means and never present suicide as a solution; refer only to exercise numbers, never to a real line.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "hs_shelter_operations",
+      "label": "Shelter operations",
+      "description": "A general population shelter opens for a hurricane, wildfire, flood or heat and power emergency; residents arrive with oxygen, wheelchairs, medications, pets and service animals and the team must meet needs without a separate tier.",
+      "keywords": [
+        "shelter",
+        "general population shelter",
+        "mass care",
+        "access and functional needs",
+        "fnss",
+        "congregate care",
+        "registration",
+        "evacuees",
+        "reception center",
+        "pet sheltering",
+        "service animal"
+      ],
+      "phaseArc": [
+        {
+          "title": "Decision to open",
+          "goal": "The branch director weighs sites, capacity and staffing against the hazard arrival time.",
+          "beats": [
+            "A site list with capacity and backup power status",
+            "Staff and supplies are promised but not yet on site",
+            "The first evacuees ask where to go"
+          ]
+        },
+        {
+          "title": "Setup and registration",
+          "goal": "Doors open; registration, space layout and the first needs requests set the pace.",
+          "beats": [
+            "Registration backs up at the door",
+            "A resident needs electricity for oxygen",
+            "A service animal and an allergy share a room"
+          ]
+        },
+        {
+          "title": "First night and needs",
+          "goal": "Needs outgrow what was planned: medical, communication access, medications, mental health and supervision.",
+          "beats": [
+            "A resident without a caregiver needs personal assistance",
+            "Generator fuel runs lower than planned",
+            "An incident report involves a dispute between residents"
+          ]
+        },
+        {
+          "title": "Long stay and closing",
+          "goal": "Residents stay longer than planned; the team consolidates or closes and plans transition.",
+          "beats": [
+            "A decision to consolidate two shelters",
+            "Residents with no home to return to need housing referrals",
+            "The closing report is due to the EOC"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "open the second shelter now or fill the first beyond its stated capacity",
+        "assign the limited personal assistance staff to one resident with high need or spread them across several",
+        "consolidate two shelters to save staff, moving residents who have just settled"
+      ],
+      "clueKinds": "a registration count that differs from the head count, an oxygen supplier's late delivery, a resident's unrecorded need found on a walk-through, a generator fuel gauge",
+      "hurdleKinds": "a site without accessible restrooms, a supply truck stuck behind a closure, a staff shortage on the overnight shift, a registry system that is down",
+      "keyCoordination": "the county EOC mass care branch and the voluntary organizations that staff and supply the shelter",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "General population shelters integrate people with access and functional needs; do not invent a separate tier. Residents are fictional, with no real names, addresses or medical record detail. Counts reconcile between the registration list and the daily count.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "hs_reunification",
+      "label": "Family reunification",
+      "description": "After a school incident, evacuation or venue emergency, children or patients move from a relocation site back to families while parents arrive faster than staff can verify identity.",
+      "keywords": [
+        "reunification",
+        "reunify",
+        "parent release",
+        "student release",
+        "relocation site",
+        "unaccompanied",
+        "where is my child",
+        "release log",
+        "guardian",
+        "check-in"
+      ],
+      "phaseArc": [
+        {
+          "title": "Incident and site activation",
+          "goal": "The commander picks a site and roles while parents gather and social media runs ahead of facts.",
+          "beats": [
+            "Students move to a relocation site",
+            "Parents arrive at the school before the site is announced",
+            "A rumor names the wrong location"
+          ]
+        },
+        {
+          "title": "Check-in and release",
+          "goal": "Check-in, retrieval and release run; the queue of parents outpaces verification.",
+          "beats": [
+            "Photo identification is missing for some guardians",
+            "A guardian is not on the card but is named by the parent",
+            "A student has no one coming"
+          ]
+        },
+        {
+          "title": "Exceptions and unreleased students",
+          "goal": "Cases that do not fit the flow need decisions by the commander.",
+          "beats": [
+            "Two adults claim the same student",
+            "A court order is mentioned but not on file",
+            "A student asks to stay with a friend's family"
+          ]
+        },
+        {
+          "title": "Close and support",
+          "goal": "The site closes with every student accounted for; support for students, families and staff continues.",
+          "beats": [
+            "The last student is released",
+            "Counselors are offered to families",
+            "The district plans a statement and a return to school"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "release a student to an adult who cannot show identification but is named by a parent on the phone, or hold the student and risk a distressed family",
+        "keep parents at the site waiting for verification or send them away and notify by text",
+        "close the site with one student unreleased"
+      ],
+      "clueKinds": "a roster that differs from the headcount at the site, a name on the release card that does not match the identification, a social media post naming the wrong site, a late bus manifest",
+      "hurdleKinds": "a text notification system that is slow, a site too small for the line, a roster export that is out of date, a lost release log page",
+      "keyCoordination": "the school district office, law enforcement and the families' contacts",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 25,
+        "DECISION_POINT": 15,
+        "NOISE": 5
+      },
+      "promptGuidance": "Roles are check-in, retrieval, release and exceptions. Release authority is verified by identity, not by assertion. Students and parents are fictional. Do not use trademarked method names as if licensed.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "hs_displaced_children",
+      "label": "Displaced children in care",
+      "description": "A flood, fire or storm displaces foster families and caseworkers; the agency must identify and locate every child, keep the hotline and investigations running and report to the state.",
+      "keywords": [
+        "child welfare",
+        "foster",
+        "children in care",
+        "displaced children",
+        "placement",
+        "caseworker",
+        "hotline intake",
+        "locate children",
+        "kinship",
+        "state disaster plan"
+      ],
+      "phaseArc": [
+        {
+          "title": "Impact and first accounting",
+          "goal": "The agency starts its plan to identify and locate children in the affected area.",
+          "beats": [
+            "A list of children in care in the affected counties",
+            "Caseworkers are displaced too",
+            "The hotline gets calls from shelters"
+          ]
+        },
+        {
+          "title": "Locating and contact",
+          "goal": "Work through the list by method: caseworker contact, provider calls, shelters and schools.",
+          "beats": [
+            "A provider does not answer",
+            "A child is found in a shelter with a relative",
+            "A placement is lost and needs a new one"
+          ]
+        },
+        {
+          "title": "Continuity and new cases",
+          "goal": "Keep services and respond to new reports in affected areas.",
+          "beats": [
+            "New reports arrive from a shelter",
+            "Court dates and visits are disrupted",
+            "Staff stay in contact from temporary locations"
+          ]
+        },
+        {
+          "title": "Reporting and recovery",
+          "goal": "Report to the state, close gaps and plan recovery.",
+          "beats": [
+            "A child remains unknown after the plan target",
+            "The state asks for a status",
+            "Recovery plans for placements are drafted"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "count a child as located on a provider's word or keep trying for direct confirmation",
+        "use scarce staff to find the last unknown children or to answer new hotline reports",
+        "activate the state disaster plan now or wait for the damage assessment"
+      ],
+      "clueKinds": "a list entry with no recent contact, a shelter registry entry that matches a child, a provider's message that a home is flooded, a caseworker unreachable since the storm",
+      "hurdleKinds": "a records system that is offline, a caseworker evacuated without a laptop, a phone tree with out-of-date numbers, a court hearing that cannot be moved",
+      "keyCoordination": "the state child welfare agency and the shelters' registration teams",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 15,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "The plan elements are identify, locate and continue services. Children and families are fictional and identified only by exercise codes. No abuse detail is described; refer to a report category only.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "hs_responder_stress",
+      "label": "Responder and staff stress",
+      "description": "A long activation wears down shelter workers, crisis counselors and responders; leaders must notice, support and rotate people while the mission continues.",
+      "keywords": [
+        "responder stress",
+        "staff wellbeing",
+        "psychological first aid",
+        "burnout",
+        "long activation",
+        "rotation",
+        "vicarious",
+        "fatigue",
+        "hot wash",
+        "peer support"
+      ],
+      "phaseArc": [
+        {
+          "title": "Early signs",
+          "goal": "Fatigue and irritability appear in the first days.",
+          "beats": [
+            "A supervisor notes a short temper at shift change",
+            "A volunteer skips meals",
+            "A counselor asks for a different assignment"
+          ]
+        },
+        {
+          "title": "Rising load",
+          "goal": "Demand and exposure keep rising; breaks slip.",
+          "beats": [
+            "A staff member shows signs of distress",
+            "Two shifts overlap with no relief",
+            "A manager hesitates to rotate a strong performer"
+          ]
+        },
+        {
+          "title": "Intervention",
+          "goal": "Leaders apply support actions and rebalance duties.",
+          "beats": [
+            "Psychological first aid is offered by a peer team",
+            "A rest area is set up",
+            "A rotation schedule is posted"
+          ]
+        },
+        {
+          "title": "Debrief and follow-up",
+          "goal": "The hot wash covers wellbeing; follow-up is scheduled.",
+          "beats": [
+            "Staff share what helped",
+            "Referrals to services are made",
+            "Leaders review rotation and relief rules"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "rotate a high performer out now or keep them on shift through the peak",
+        "offer a peer support session during the shift or after it",
+        "pull a volunteer who is clearly distressed from a visible role"
+      ],
+      "clueKinds": "a change in a person's behavior at handoff, missed breaks in the log, a peer's quiet comment, a supervisor note about repeated errors",
+      "hurdleKinds": "a shortage of relief staff, a rest area used for storage, a policy that blocks rotation, a manager who does not see the signs",
+      "keyCoordination": "the organization's own employee support program and the disaster behavioral health team",
+      "purposeMix": {
+        "CLUE": 20,
+        "PRESSURE": 15,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Use the eight core actions of psychological first aid. Show supportive, practical actions; do not diagnose. Everyone in the scenario is fictional. Content stays fictional and de-identified; never describe methods or means and never present suicide as a solution; refer only to exercise numbers, never to a real line.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "hs_service_degradation",
+      "label": "Service degradation",
+      "description": "A telephony or text outage, a staffing shortfall, a cyber incident or misinformation degrades a human services operation that cannot stop.",
+      "keywords": [
+        "service degradation",
+        "telephony outage",
+        "platform outage",
+        "text outage",
+        "staffing shortfall",
+        "wrong number",
+        "fake closure",
+        "misinformation",
+        "cyber incident",
+        "failover"
+      ],
+      "phaseArc": [
+        {
+          "title": "First signs",
+          "goal": "The operation notices a drop in contacts, a wrong message or a failed route.",
+          "beats": [
+            "A routing failure sends contacts nowhere",
+            "A fake closure notice spreads",
+            "Staff cannot log in"
+          ]
+        },
+        {
+          "title": "Work-around",
+          "goal": "Staff improvise while IT and leaders decide what to switch.",
+          "beats": [
+            "Manual logging replaces the system",
+            "A backup line is activated",
+            "Messages are corrected through official channels"
+          ]
+        },
+        {
+          "title": "Sustained impact",
+          "goal": "The degradation lasts; services and trust erode.",
+          "beats": ["Backlog builds", "A partner asks for status", "Staff fatigue grows"]
+        },
+        {
+          "title": "Restore and review",
+          "goal": "Services return; the team reconciles records and debriefs.",
+          "beats": [
+            "Records are reconciled",
+            "Outage timeline is built",
+            "Lessons update the continuity plan"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "fail over to the backup route now at the cost of some lost contacts, or wait for the vendor's estimate",
+        "publish a correction about the false closure from the official account or message partners directly first",
+        "move staff from other work to manual logging"
+      ],
+      "clueKinds": "a drop in offered contacts that matches a route change, a partner who reports a wrong number on a flyer, a log-in failure that spreads, a vendor status notice",
+      "hurdleKinds": "a vendor with a long restore estimate, backup phones without the call scripts, a manual log with no template, a misinformation post that outruns the correction",
+      "keyCoordination": "the platform vendor, the state coordinator and the partners that reference the service",
+      "purposeMix": {
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "DECISION_POINT": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "Keep numbers, route names and times consistent between the vendor notice and the floor. Misinformation uses a fictional or placeholder number, never a real helpline number. Content stays fictional and de-identified; never describe methods or means and never present suicide as a solution; refer only to exercise numbers, never to a real line.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a donor offering unrelated items the shelter cannot store",
+    "a vendor asking about a software renewal",
+    "a student asking about a volunteer service-hours form",
+    "a reporter asking about last year's budget",
+    "a call from a neighbor about a barking dog"
+  ],
+  "pressureExamples": [
+    "a county official demanding a shelter stay open past its capacity",
+    "a parent shouting at the reunification table",
+    "a reporter asking for wait times the center has not released",
+    "a legislator's aide asking for numbers by the end of the hour"
+  ],
+  "rolePatterns": {
+    "technical": "telephony|\\bIT\\b|platform|systems?",
+    "operations": "director|supervisor|manager|commander|branch",
+    "security": "law enforcement|sheriff|police"
+  },
+  "agencyPattern": "FEMA|SAMHSA|ACF|Children's Bureau|American Red Cross|Red Cross|National VOAD|NCMEC|CDC|state emergency management|988 network administrator|emPOWER",
+  "coreCapabilities": [
+    "mass_care_services",
+    "public_information_and_warning",
+    "operational_communications",
+    "operational_coordination",
+    "situational_assessment",
+    "health_and_social_services"
+  ],
+  "suggestedToolkits": ["behavioral_safeguards", "media_environment"]
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Facilitator wellbeing check script",
+  "description": "A script for the facilitator on sensitive exercises: what to say before the start, check-in questions, signs to watch, the stop and step out rule and follow-up. Wellbeing support is by role and through the organization's own program; the script never directs a player to a real helpline during play.",
+  "type": "object",
+  "required": ["exerciseName", "beforeStart", "checkInQuestions", "stopAndStepOut"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "exerciseName": {
+      "type": "string",
+      "description": "Exercise name",
+      "examples": ["Surge Response Tabletop 2026"],
+      "x-translate": false
+    },
+    "facilitator": {
+      "type": "string",
+      "description": "Facilitator or wellbeing contact (role or fictional name)",
+      "examples": ["Lead facilitator"],
+      "x-translate": false
+    },
+    "beforeStart": {
+      "type": "array",
+      "description": "Lines to say before the exercise starts",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Some of today's material is about suicide and people in distress. All of it is fictional.",
+          "You may step out at any time, for any reason, and you do not need to explain."
+        ]
+      ]
+    },
+    "checkInQuestions": {
+      "type": "array",
+      "description": "Questions to ask at breaks and at the hot wash",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "How are you doing with the material so far?",
+          "Does anyone need a longer break or a quieter room?",
+          "Is there anything the group should know before we continue?"
+        ]
+      ]
+    },
+    "signsToWatch": {
+      "type": "array",
+      "description": "Signs a participant may need support",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Sudden silence or leaving the room",
+          "Visible distress or tears",
+          "A personal story that goes beyond the scenario"
+        ]
+      ]
+    },
+    "stopAndStepOut": {
+      "type": "string",
+      "description": "The stop and step out rule, in the facilitator's words",
+      "examples": [
+        "Any person may say \"step out\" and leave. The facilitator pauses the clock if two or more people leave or if anyone asks."
+      ]
+    },
+    "ifSomeoneIsDistressed": {
+      "type": "array",
+      "description": "What the facilitator does, in order",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Pause the exercise and thank the person.",
+          "Offer a quiet space and a colleague to sit with them.",
+          "Use the organization's employee support program for follow-up."
+        ]
+      ]
+    },
+    "afterExercise": {
+      "type": "array",
+      "description": "Closing lines and follow-up",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Name one thing that helped you stay steady today.",
+          "The support program card is in your packet."
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Psychological first aid handout",
+  "description": "A one-page psychological first aid handout for shelter staff, responders or parents in an exercise, listing the eight core actions in plain language. It is an original summary, not a copy of the field guide. Any support line it shows is a fictional exercise number.",
+  "type": "object",
+  "required": ["organization", "audience", "headline", "coreActions"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbor County Disaster Behavioral Health Team"],
+      "x-translate": false
+    },
+    "audience": {
+      "type": "string",
+      "description": "Who the handout is for",
+      "examples": ["Shelter staff and volunteers"]
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Helping people who are upset: eight core actions"]
+    },
+    "intro": {
+      "type": "string",
+      "description": "Short introduction in plain language",
+      "examples": [
+        "Psychological first aid is a calm, practical way to support people in the first hours and days after a frightening event. It is not counseling and you do not need to be a clinician."
+      ]
+    },
+    "coreActions": {
+      "type": "array",
+      "description": "The eight core actions of psychological first aid, in this order: contact and engagement; safety and comfort; stabilization; information gathering; practical assistance; connection with social supports; information on coping; linkage with collaborative services",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One core action",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Core action name",
+            "examples": ["Contact and engagement"]
+          },
+          "whatToDo": {
+            "type": "string",
+            "description": "Plain-language description of what to do",
+            "examples": [
+              "Introduce yourself, ask how you can help and respect the person's wishes."
+            ]
+          }
+        },
+        "required": ["name", "whatToDo"]
+      },
+      "examples": [[]]
+    },
+    "lookAfterYourself": {
+      "type": "array",
+      "description": "Self-care lines for the helper",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Take your breaks and eat.", "Talk with a peer or supervisor after a hard shift."]
+      ]
+    },
+    "whenToGetMoreHelp": {
+      "type": "string",
+      "description": "When to bring in a clinician or the shelter mental health lead, without clinical detail",
+      "examples": [
+        "If someone talks about harming themselves or others, or you are worried they are not safe, stay with them and tell the shelter mental health lead right away."
+      ]
+    },
+    "exerciseHelpline": {
+      "type": "string",
+      "description": "A fictional exercise line for the scenario, never a real number",
+      "examples": ["Exercise support line (fictional): 555-0142"],
+      "x-translate": false
+    },
+    "attribution": {
+      "type": "string",
+      "description": "Source and note that this is an original summary",
+      "examples": [
+        "Based on the eight core actions in the Psychological First Aid Field Operations Guide (NCTSN and National Center for PTSD, 2nd edition, 2006); this handout is an original summary for the exercise."
+      ]
+    }
+  },
+  "additionalProperties": false
+}
