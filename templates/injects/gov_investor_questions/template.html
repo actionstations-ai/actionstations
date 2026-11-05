@@ -1,0 +1,70 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Investor relations</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.kind "question_list")}}Investor questions{{else}}Call talking points{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Event</th>
+      <td>{{fields.event}}</td>
+      <th>As of</th>
+      <td class="mono">{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>Prepared by</th>
+      <td>{{fields.preparedBy}}</td>
+      <th>Approved</th>
+      <td>{{fields.approvedBy}}</td>
+    </tr>
+  </table>
+  {{#if fields.questions.length}}
+  <h2>Likely questions</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Agreed answer</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.questions}}
+      <tr>
+        <td>{{this.question}}</td>
+        <td>{{this.answer}}</td>
+        <td>{{this.source}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.points.length}}
+  <h2>Talking points</h2>
+  <ul>
+    {{#each fields.points}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.doNotSay.length}}
+  <h2>Do not say</h2>
+  <ul>
+    {{#each fields.doNotSay}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Investor relations</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

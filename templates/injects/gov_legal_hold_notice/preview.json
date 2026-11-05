@@ -1,0 +1,40 @@
+{
+  "fields": {
+    "marking": "EXERCISE · EXERCISE · EXERCISE",
+    "exerciseAid": "Exercise aid, not legal advice. Check the current rule and your counsel.",
+    "company": "Ardent Ridge Manufacturing, Inc.",
+    "kind": "legal_hold",
+    "from": "Dana Whitcomb, General Counsel",
+    "to": "Incident response team; IT; Finance; Communications; Plant managers",
+    "date": "October 22, 2026",
+    "matter": "Plant systems incident",
+    "summary": "The company may face regulatory, insurance and civil inquiries about the incident of October 22. The law requires that relevant documents be kept.",
+    "instructions": [
+      "Do not delete, edit or discard any document, message or file about the incident.",
+      "Keep it even if a retention schedule would normally remove it.",
+      "Do not forward this notice outside the company.",
+      "Tell the legal department about any other person who has relevant material."
+    ],
+    "scope": "Email, chat, tickets, logs, notes and files from September 1, 2026 forward, on company and personal devices used for work.",
+    "autoDelete": "IT will suspend automatic deletion for email, chat and ticket systems today and confirm in writing.",
+    "contact": "Legal department hotline, extension 4400"
+  },
+  "variant": "legal_hold",
+  "variants": {
+    "privilege_reminder": {
+      "fields": {
+        "kind": "privilege_reminder",
+        "to": "Incident response team; Executive team",
+        "summary": "Outside counsel has engaged the forensic firm. Work done at counsel's direction is more likely to stay privileged if it is kept within the response team.",
+        "instructions": [
+          "Send forensic questions and findings through the legal department or outside counsel only.",
+          "Do not write conclusions about cause or fault in email or chat.",
+          "Mark requests for legal advice 'Request for legal advice'.",
+          "Do not share the forensic report outside the response team."
+        ],
+        "scope": "This reminder covers the response team and anyone who receives forensic material.",
+        "autoDelete": ""
+      }
+    }
+  }
+}

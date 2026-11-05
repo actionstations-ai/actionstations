@@ -1,0 +1,69 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Business continuity program</div>
+    </div>
+    <div class="doc-title">Business impact analysis</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Analysis</th>
+      <td>{{fields.title}}</td>
+      <th>As of</th>
+      <td class="mono">{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>Prepared by</th>
+      <td>{{fields.preparedBy}}</td>
+      <td colspan="2"></td>
+    </tr>
+  </table>
+  {{#if fields.functions.length}}
+  <h2>Critical functions</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Function</th>
+        <th>Owner</th>
+        <th>RTO</th>
+        <th>RPO</th>
+        <th>4 h</th>
+        <th>24 h</th>
+        <th>72 h</th>
+        <th>Dependencies</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.functions}}
+      <tr>
+        <td>{{this.function}}</td>
+        <td>{{this.owner}}</td>
+        <td class="c">{{this.rto}}</td>
+        <td class="c">{{this.rpo}}</td>
+        <td class="c">{{this.impact4h}}</td>
+        <td class="c">{{this.impact24h}}</td>
+        <td class="c">{{this.impact72h}}</td>
+        <td>{{this.dependencies}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.assumptions.length}}
+  <h2>Assumptions</h2>
+  <ul>
+    {{#each fields.assumptions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>BIA</span><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

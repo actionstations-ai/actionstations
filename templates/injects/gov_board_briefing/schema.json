@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Board briefing memo",
+  "description": "One-page briefing to the board or a committee during an incident: what is known, what is not known, what management has done and the decisions the board is asked to make. The exercise-aid line is part of the format.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "to",
+    "from",
+    "date",
+    "subject",
+    "situation",
+    "known",
+    "unknown",
+    "decisionsNeeded"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipients",
+      "examples": ["Board of Directors; Audit Committee Chair"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender",
+      "examples": ["Dana Whitcomb, General Counsel"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Thursday, October 22, 2026, 6:40 p.m."],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject line",
+      "examples": ["Cybersecurity incident: status and decisions requested"]
+    },
+    "handling": {
+      "type": "string",
+      "description": "Handling line",
+      "examples": ["Confidential. Prepared with the advice of counsel."]
+    },
+    "situation": {
+      "type": "string",
+      "description": "Situation in two or three sentences",
+      "examples": ["At 11:15 a.m. management found ransomware on systems in two plants."]
+    },
+    "known": {
+      "type": "array",
+      "description": "What is known now",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Production scheduling is down at two plants."]]
+    },
+    "unknown": {
+      "type": "array",
+      "description": "What is not known",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Whether personal data left the network."]]
+    },
+    "actionsTaken": {
+      "type": "array",
+      "description": "What management has done",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Outside counsel engaged to direct the forensic firm."]]
+    },
+    "decisionsNeeded": {
+      "type": "array",
+      "description": "Decisions or approvals asked of the board",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Authorize management to engage negotiators."]]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "When the next update comes",
+      "examples": ["Friday, October 23, 8:00 a.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

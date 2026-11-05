@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Insurer notice and auditor inquiry",
+  "description": "Either the company's notice of an incident to its cyber insurer, or the external auditor's inquiry to management about an incident and its effect on the financial statements. Facts are stated as known at the time.",
+  "type": "object",
+  "required": ["exerciseAid", "company", "kind", "from", "to", "date", "subject", "body"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Document kind",
+      "examples": ["insurer_notice"],
+      "enum": ["insurer_notice", "auditor_inquiry"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender",
+      "examples": ["Sam Okafor, Risk Manager"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipient",
+      "examples": ["Claims Department, Lakeshore Mutual Insurance (fictional)"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["October 22, 2026"],
+      "x-translate": false
+    },
+    "policy": {
+      "type": "string",
+      "description": "Policy or engagement reference",
+      "examples": ["Policy CY-558210"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Notice of circumstances: ransomware incident"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Body of the letter",
+      "examples": ["The company gives notice of a ransomware incident discovered on October 22."]
+    },
+    "items": {
+      "type": "array",
+      "description": "Facts stated or questions asked",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item", "detail"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item"
+          },
+          "detail": {
+            "type": "string",
+            "description": "Detail"
+          }
+        }
+      }
+    },
+    "request": {
+      "type": "string",
+      "description": "What is asked of the recipient",
+      "examples": ["Please confirm coverage steps and the panel vendors to use."]
+    },
+    "reservation": {
+      "type": "string",
+      "description": "Reservation of rights or limits",
+      "examples": ["This notice is given on facts known now and will be updated."]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,99 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Disclosure committee</div>
+    </div>
+    <div class="doc-title">Materiality worksheet</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Incident</th>
+      <td>{{fields.incident}}</td>
+      <th>Discovered</th>
+      <td class="mono">{{fields.discoveredAt}}</td>
+    </tr>
+    <tr>
+      <th>Version</th>
+      <td class="mono">{{fields.asOf}}</td>
+      <th>Prepared by</th>
+      <td>{{fields.preparedBy}}</td>
+    </tr>
+  </table>
+  {{#if fields.factsKnown.length}}
+  <h2>Facts known</h2>
+  <ul>
+    {{#each fields.factsKnown}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.factsUnknown.length}}
+  <h2>Facts not yet known</h2>
+  <ul>
+    {{#each fields.factsUnknown}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.quantitative.length}}
+  <h2>Quantitative factors</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Factor</th>
+        <th>Estimate</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.quantitative}}
+      <tr>
+        <td>{{this.factor}}</td>
+        <td class="c">{{this.estimate}}</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.qualitative.length}}
+  <h2>Qualitative factors</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Factor</th>
+        <th>Assessment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.qualitative}}
+      <tr>
+        <td>{{this.factor}}</td>
+        <td>{{this.assessment}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.openQuestions.length}}
+  <h2>Open questions</h2>
+  <ul>
+    {{#each fields.openQuestions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="box">
+    <strong>Determination:</strong> <span class="status">{{fields.determination}}</span> {{#if
+    fields.determinedBy}}<br />By: {{fields.determinedBy}}{{/if}}{{#if fields.determinedAt}} at
+    {{fields.determinedAt}}{{/if}} {{#if fields.basis}}<br />Basis: {{fields.basis}}{{/if}} {{#if
+    fields.continuedInvestigation}}<br />{{fields.continuedInvestigation}}{{/if}}
+  </div>
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Materiality worksheet</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

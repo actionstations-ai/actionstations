@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Investor questions and talking points",
+  "description": "Either the list of questions investors and analysts are likely to ask after a disclosure, with the agreed answer and its source, or the talking points for an analyst call. Every answer must agree with the filing.",
+  "type": "object",
+  "required": ["exerciseAid", "company", "kind", "event"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Document kind",
+      "examples": ["question_list"],
+      "enum": ["question_list", "talking_points"],
+      "x-translate": false
+    },
+    "event": {
+      "type": "string",
+      "description": "Event",
+      "examples": ["Analyst call after the Form 8-K of October 27"]
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Investor Relations with the General Counsel"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["October 27, 2026, 3:00 p.m."],
+      "x-translate": false
+    },
+    "questions": {
+      "type": "array",
+      "description": "Questions and agreed answers",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question", "answer"],
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Question"
+          },
+          "answer": {
+            "type": "string",
+            "description": "Agreed answer"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source",
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "points": {
+      "type": "array",
+      "description": "Talking points",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["We filed an Item 1.05 report on October 27."]]
+    },
+    "doNotSay": {
+      "type": "array",
+      "description": "What not to say",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Do not estimate the final cost beyond the filed range."]]
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Approved by",
+      "examples": ["General Counsel and CFO"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

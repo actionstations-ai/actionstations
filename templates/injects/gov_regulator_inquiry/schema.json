@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Regulator inquiry or subpoena summary",
+  "description": "A regulator's inquiry letter to the company, or the legal department's one-page summary of a subpoena: who asks, what they ask for, the response date and the first steps. The regulator and its staff are fictional.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "kind",
+    "authority",
+    "received",
+    "respondBy",
+    "subject",
+    "summary",
+    "requests"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Document kind",
+      "examples": ["inquiry_letter"],
+      "enum": ["inquiry_letter", "subpoena_summary"],
+      "x-translate": false
+    },
+    "authority": {
+      "type": "string",
+      "description": "Regulator (fictional)",
+      "examples": ["Midland State Division of Securities Enforcement"],
+      "x-translate": false
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference number",
+      "examples": ["ME-2026-0481"],
+      "x-translate": false
+    },
+    "received": {
+      "type": "string",
+      "description": "Date received",
+      "examples": ["October 28, 2026"],
+      "x-translate": false
+    },
+    "respondBy": {
+      "type": "string",
+      "description": "Respond by",
+      "examples": ["November 11, 2026"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Inquiry into the company's October 2026 cybersecurity incident"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What the regulator says it is doing",
+      "examples": ["The division is reviewing the timing of the company's disclosure."]
+    },
+    "requests": {
+      "type": "array",
+      "description": "What is requested",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Documents showing when the incident was discovered."]]
+    },
+    "handling": {
+      "type": "string",
+      "description": "How the company will handle it",
+      "examples": ["Legal hold in place; outside counsel will propose a rolling production."]
+    },
+    "firstSteps": {
+      "type": "array",
+      "description": "First steps and owners",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["GC to acknowledge receipt within two business days."]]
+    }
+  },
+  "additionalProperties": false
+}

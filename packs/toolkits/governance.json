@@ -1,0 +1,141 @@
+{
+  "id": "governance",
+  "name": "Governance decisions",
+  "description": "The corporate decision layer for any exercise: board briefings, a materiality worksheet, Form 8-K disclosure drafts, a business impact analysis, a ransom decision paper, legal hold and privilege notices, regulator inquiries, insurer and auditor notices, investor questions, a decision log and succession documents. Stays at the level of governance decisions and their records; it is an exercise aid, not legal advice, and every company, person and adviser in it is fictional.",
+  "appliesTo": {
+    "keywords": [
+      "board of directors",
+      "audit committee",
+      "materiality",
+      "material cybersecurity incident",
+      "form 8-k",
+      "item 1.05",
+      "disclosure committee",
+      "ransom payment",
+      "business continuity",
+      "business impact analysis",
+      "recovery time objective",
+      "legal hold",
+      "privilege",
+      "subpoena",
+      "executive succession",
+      "delegation of authority",
+      "investor relations"
+    ],
+    "domains": [
+      "governance",
+      "financial_services",
+      "healthcare",
+      "energy_utility",
+      "data_center_it",
+      "campus",
+      "commercial_facilities",
+      "industrial"
+    ]
+  },
+  "injectTypes": [
+    "gov_board_briefing",
+    "gov_materiality_worksheet",
+    "gov_disclosure_draft",
+    "gov_bia_table",
+    "gov_ransom_decision_paper",
+    "gov_legal_hold_notice",
+    "gov_regulator_inquiry",
+    "gov_insurer_notice",
+    "gov_investor_questions",
+    "gov_decision_log",
+    "gov_succession_notice",
+    "press_release",
+    "regulatory_report_form"
+  ],
+  "figureKinds": [],
+  "connectors": [],
+  "outsideParties": [
+    "The SEC and the EDGAR filing agent",
+    "State financial and insurance regulators",
+    "The cyber insurer and broker",
+    "The external auditor",
+    "Outside counsel and the forensic firm",
+    "Law enforcement (FBI, CISA, Secret Service)",
+    "Key customers and suppliers",
+    "Analysts and institutional investors",
+    "The company bank"
+  ],
+  "advisorRoles": [
+    {
+      "key": "gov_counsel_advisor",
+      "name": "Securities counsel adviser",
+      "abbreviation": "SEC-ADV",
+      "team": "Advisors",
+      "description": "Answers questions about materiality factors, Form 8-K items and the order of disclosure steps. Exercise aid, not legal advice."
+    },
+    {
+      "key": "gov_bcm_advisor",
+      "name": "Business continuity adviser",
+      "abbreviation": "BC-ADV",
+      "team": "Advisors",
+      "description": "Advises on the business impact analysis, recovery time objectives and recovery order."
+    },
+    {
+      "key": "gov_director_advisor",
+      "name": "Experienced director adviser",
+      "abbreviation": "DIR-ADV",
+      "team": "Advisors",
+      "description": "Advises on what a board should ask for, what it should approve and what it should record."
+    }
+  ],
+  "documents": [],
+  "metrics": [],
+  "decisionForms": [],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Materiality (SEC)",
+        "definition": "Information is material if there is a substantial likelihood a reasonable shareholder would consider it important, or that it would significantly alter the total mix of information. Quantitative and qualitative factors both count."
+      },
+      {
+        "term": "Form 8-K Item 1.05",
+        "definition": "Report of a material cybersecurity incident: nature, scope and timing, and the material impact or reasonably likely material impact. Due four business days after the company determines the incident is material."
+      },
+      {
+        "term": "Form 8-K Item 8.01",
+        "definition": "Other events. An incident not yet judged material may be reported here; the text does not claim materiality."
+      },
+      {
+        "term": "Attorney General delay",
+        "definition": "The Attorney General may delay disclosure for national security or public safety; asking for a delay does not change the duty, and the four business days run from the end of the delay."
+      },
+      {
+        "term": "BIA, RTO, RPO",
+        "definition": "Business impact analysis; recovery time objective (how soon a function must be back); recovery point objective (how much data loss is tolerable)."
+      },
+      {
+        "term": "Legal hold and privilege",
+        "definition": "A hold tells people to preserve documents. Work done at counsel's direction is more likely to stay privileged; conclusions about fault do not belong in chat or email."
+      }
+    ],
+    "productConventions": [
+      "Every document carries the line 'Exercise aid, not legal advice. Check the current rule and your counsel.'",
+      "Name the company as fictional; show no stock ticker and no real company name.",
+      "A decision record states who decided, when, what was known at that time and the basis.",
+      "Item 1.05 drafts state nature, scope, timing and material impact; Item 8.01 drafts do not claim materiality.",
+      "Dates and times are written out with the time zone when the clock matters."
+    ],
+    "realismRules": [
+      "The materiality determination follows discovery without unreasonable delay; it cannot be put off by delaying a meeting.",
+      "The investigation need not finish before the determination; facts arrive late and change.",
+      "Paying or refusing a ransom does not remove the duty to decide on materiality.",
+      "The board, filing, press release and employee message must agree on the facts.",
+      "A recovery claim is checked against the RTO and elapsed time, not against the plan's hope."
+    ]
+  },
+  "lintRules": [
+    "gov_exercise_aid",
+    "gov_fictional_company",
+    "gov_item_105_content",
+    "gov_item_801_no_materiality",
+    "gov_decisions_documented"
+  ],
+  "capabilities": [],
+  "exerciseTags": []
+}

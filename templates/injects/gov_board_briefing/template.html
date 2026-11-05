@@ -1,0 +1,74 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Office of the General Counsel</div>
+    </div>
+    <div class="doc-title">Board briefing</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>To</th>
+      <td>{{fields.to}}</td>
+      <th>Date</th>
+      <td class="mono">{{fields.date}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Handling</th>
+      <td>{{fields.handling}}</td>
+    </tr>
+  </table>
+  <table class="kv">
+    <tr>
+      <th>Subject</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  {{#if fields.situation}}
+  <h2>Situation</h2>
+  <p>{{fields.situation}}</p>
+  {{/if}} {{#if fields.known.length}}
+  <h2>What we know</h2>
+  <ul>
+    {{#each fields.known}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.unknown.length}}
+  <h2>What we do not know</h2>
+  <ul>
+    {{#each fields.unknown}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.actionsTaken.length}}
+  <h2>What management has done</h2>
+  <ul>
+    {{#each fields.actionsTaken}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.decisionsNeeded.length}}
+  <h2>Decisions requested of the board</h2>
+  <ol>
+    {{#each fields.decisionsNeeded}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.nextUpdate}}
+  <h2>Next update</h2>
+  <p>{{fields.nextUpdate}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Board briefing</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

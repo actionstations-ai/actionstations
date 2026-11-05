@@ -1,0 +1,59 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Office of the General Counsel</div>
+    </div>
+    <div class="doc-title">Decision log</div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Incident</th>
+      <td>{{fields.incident}}</td>
+      <th>Printed</th>
+      <td class="mono">{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>Log keeper</th>
+      <td>{{fields.keeper}}</td>
+      <td colspan="2"></td>
+    </tr>
+  </table>
+  {{#if fields.entries.length}}
+  <h2>Decisions</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Decision</th>
+        <th>By</th>
+        <th>Known then</th>
+        <th>Basis</th>
+        <th>Follow-up</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.entries}}
+      <tr>
+        <td class="c">{{this.time}}</td>
+        <td>{{this.decision}}</td>
+        <td>{{this.decidedBy}}</td>
+        <td>{{this.informationKnown}}</td>
+        <td>{{this.basis}}</td>
+        <td>{{this.followUp}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Decision log</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

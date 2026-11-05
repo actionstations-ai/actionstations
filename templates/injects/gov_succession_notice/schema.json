@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Executive succession notice and authority matrix",
+  "description": "Either the notice that an executive is unavailable and who acts in the role, or the delegation of authority matrix that says who may sign, approve and speak while the role is vacant. No medical details are given.",
+  "type": "object",
+  "required": ["exerciseAid", "company", "kind", "date", "from", "subject", "body"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Document kind",
+      "examples": ["notice"],
+      "enum": ["notice", "authority_matrix"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["October 25, 2026"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Issued by",
+      "examples": ["Chair of the Board"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Distribution",
+      "examples": ["All officers; Board of Directors"],
+      "x-translate": false
+    },
+    "subject": {
+      "type": "string",
+      "description": "Subject",
+      "examples": ["Interim arrangements for the office of the Chief Executive Officer"]
+    },
+    "body": {
+      "type": "string",
+      "description": "Notice text",
+      "examples": ["The Chief Executive Officer is unavailable for an indefinite period."]
+    },
+    "interimHolder": {
+      "type": "string",
+      "description": "Who acts",
+      "examples": [
+        "Priya Nandakumar, Lead Independent Director, as interim Chief Executive Officer"
+      ],
+      "x-translate": false
+    },
+    "matrix": {
+      "type": "array",
+      "description": "Authority matrix rows",
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["authority", "normalHolder"],
+        "properties": {
+          "authority": {
+            "type": "string",
+            "description": "Authority"
+          },
+          "normalHolder": {
+            "type": "string",
+            "description": "Normally held by",
+            "x-translate": false
+          },
+          "interimHolder": {
+            "type": "string",
+            "description": "Held now by",
+            "x-translate": false
+          },
+          "limit": {
+            "type": "string",
+            "description": "Limit or approval needed"
+          }
+        }
+      }
+    },
+    "effective": {
+      "type": "string",
+      "description": "Effective from",
+      "examples": ["Immediately, until the board decides otherwise"]
+    }
+  },
+  "additionalProperties": false
+}

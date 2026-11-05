@@ -1,0 +1,62 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Legal and compliance</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.kind "inquiry_letter")}}Regulator inquiry{{else}}Subpoena summary{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Regulator</th>
+      <td>{{fields.authority}}</td>
+      <th>Reference</th>
+      <td class="mono">{{fields.reference}}</td>
+    </tr>
+    <tr>
+      <th>Received</th>
+      <td class="mono">{{fields.received}}</td>
+      <th>Respond by</th>
+      <td class="mono">{{fields.respondBy}}</td>
+    </tr>
+  </table>
+  <table class="kv">
+    <tr>
+      <th>Subject</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  {{#if fields.summary}}
+  <h2>Summary</h2>
+  <p>{{fields.summary}}</p>
+  {{/if}} {{#if fields.requests.length}}
+  <h2>Requested</h2>
+  <ol>
+    {{#each fields.requests}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{/if}} {{#if fields.handling}}
+  <h2>Handling</h2>
+  <p>{{fields.handling}}</p>
+  {{/if}} {{#if fields.firstSteps.length}}
+  <h2>First steps</h2>
+  <ul>
+    {{#each fields.firstSteps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Regulator inquiry</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

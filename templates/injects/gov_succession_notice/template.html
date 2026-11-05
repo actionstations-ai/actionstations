@@ -1,0 +1,70 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="org">{{fields.company}}</div>
+      <div class="sub">Office of the Board Chair</div>
+    </div>
+    <div class="doc-title">
+      {{#if (eq fields.kind "notice")}}Succession notice{{else}}Authority matrix{{/if}}
+    </div>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>To</th>
+      <td>{{fields.to}}</td>
+      <th>Date</th>
+      <td class="mono">{{fields.date}}</td>
+    </tr>
+    <tr>
+      <th>From</th>
+      <td>{{fields.from}}</td>
+      <th>Effective</th>
+      <td>{{fields.effective}}</td>
+    </tr>
+  </table>
+  <table class="kv">
+    <tr>
+      <th>Subject</th>
+      <td><strong>{{fields.subject}}</strong></td>
+    </tr>
+  </table>
+  {{#if fields.body}}
+  <h2>Notice</h2>
+  <p>{{fields.body}}</p>
+  {{/if}} {{#if fields.interimHolder}}
+  <h2>Acting in the role</h2>
+  <p>{{fields.interimHolder}}</p>
+  {{/if}} {{#if fields.matrix.length}}
+  <h2>Authority matrix</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th>Authority</th>
+        <th>Normally</th>
+        <th>Now</th>
+        <th>Limit or approval</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.matrix}}
+      <tr>
+        <td>{{this.authority}}</td>
+        <td>{{this.normalHolder}}</td>
+        <td>{{this.interimHolder}}</td>
+        <td>{{this.limit}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <div class="spacer"></div>
+  <p class="aid">
+    {{default fields.exerciseAid "Exercise aid, not legal advice. Check the current rule and your
+    counsel."}}
+  </p>
+  <div class="foot">
+    <span>Succession</span
+    ><span>Exercise material. All people, companies and places are fictional.</span>
+  </div>
+</section>

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Legal hold and privilege notice",
+  "description": "A notice from the legal department: either a legal hold telling named people and systems to preserve documents, or a privilege reminder telling the response team how to keep work product privileged. It never contains privileged analysis itself.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "kind",
+    "from",
+    "to",
+    "date",
+    "matter",
+    "summary",
+    "instructions"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Notice kind",
+      "examples": ["legal_hold"],
+      "enum": ["legal_hold", "privilege_reminder"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Sender",
+      "examples": ["Dana Whitcomb, General Counsel"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "Recipients",
+      "examples": ["Incident response team; IT; Finance; Communications"],
+      "x-translate": false
+    },
+    "date": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["October 22, 2026"],
+      "x-translate": false
+    },
+    "matter": {
+      "type": "string",
+      "description": "Matter",
+      "examples": ["Plant systems incident"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Why this notice is sent",
+      "examples": ["The company may face regulatory and civil inquiries about the incident."]
+    },
+    "instructions": {
+      "type": "array",
+      "description": "What recipients must do or not do",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Do not delete or alter any document about the incident."]]
+    },
+    "scope": {
+      "type": "string",
+      "description": "What and who is covered",
+      "examples": ["Email, chat, tickets, logs and files from September 1, 2026."]
+    },
+    "autoDelete": {
+      "type": "string",
+      "description": "Automatic deletion",
+      "examples": ["IT will suspend automatic deletion for the covered systems today."]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Questions go to",
+      "examples": ["Legal department hotline, extension 4400"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

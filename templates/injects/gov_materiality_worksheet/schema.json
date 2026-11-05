@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Materiality worksheet",
+  "description": "The disclosure committee's worksheet for a cyber incident: facts known and not known, quantitative and qualitative factors, open questions and the determination (material, not material or not yet determined) with who made it, when and on what basis. The determination is a record of a decision players make; it is not computed.",
+  "type": "object",
+  "required": [
+    "exerciseAid",
+    "company",
+    "incident",
+    "discoveredAt",
+    "asOf",
+    "factsKnown",
+    "quantitative",
+    "qualitative",
+    "determination",
+    "basis"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "exerciseAid": {
+      "type": "string",
+      "description": "Exercise-aid line printed on every governance document",
+      "examples": ["Exercise aid, not legal advice. Check the current rule and your counsel."]
+    },
+    "company": {
+      "type": "string",
+      "description": "Fictional company",
+      "examples": ["Ardent Ridge Manufacturing, Inc."],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident name",
+      "examples": ["Plant systems ransomware"]
+    },
+    "discoveredAt": {
+      "type": "string",
+      "description": "When the company discovered the incident",
+      "examples": ["October 22, 2026, 11:15 a.m."],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this version of the worksheet",
+      "examples": ["October 23, 2026, 9:10 a.m."],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Disclosure committee, with outside counsel"],
+      "x-translate": false
+    },
+    "factsKnown": {
+      "type": "array",
+      "description": "Facts known at this time",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Two plants lost production scheduling."]]
+    },
+    "factsUnknown": {
+      "type": "array",
+      "description": "Facts not yet known",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Whether personal data was taken."]]
+    },
+    "quantitative": {
+      "type": "array",
+      "description": "Quantitative factors",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["factor", "estimate"],
+        "properties": {
+          "factor": {
+            "type": "string",
+            "description": "Factor"
+          },
+          "estimate": {
+            "type": "string",
+            "description": "Estimate or range",
+            "x-translate": false
+          },
+          "note": {
+            "type": "string",
+            "description": "Note"
+          }
+        }
+      }
+    },
+    "qualitative": {
+      "type": "array",
+      "description": "Qualitative factors",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["factor", "assessment"],
+        "properties": {
+          "factor": {
+            "type": "string",
+            "description": "Factor"
+          },
+          "assessment": {
+            "type": "string",
+            "description": "Assessment"
+          }
+        }
+      }
+    },
+    "openQuestions": {
+      "type": "array",
+      "description": "Open questions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Do the customer contracts require notice?"]]
+    },
+    "determination": {
+      "type": "string",
+      "description": "Determination",
+      "examples": ["material"],
+      "enum": ["material", "not material", "not yet determined"]
+    },
+    "determinedBy": {
+      "type": "string",
+      "description": "Who made the determination",
+      "examples": ["Disclosure committee: GC, CFO, CISO (chair: Priya Nandakumar)"],
+      "x-translate": false
+    },
+    "determinedAt": {
+      "type": "string",
+      "description": "When the determination was made",
+      "examples": ["October 23, 2026, 10:05 a.m."],
+      "x-translate": false
+    },
+    "basis": {
+      "type": "string",
+      "description": "Basis for the determination",
+      "examples": [
+        "Production loss and the cost range together are reasonably likely to affect results."
+      ]
+    },
+    "continuedInvestigation": {
+      "type": "string",
+      "description": "Note on the continuing investigation",
+      "examples": ["The investigation continues; the determination does not wait for it to finish."]
+    }
+  },
+  "additionalProperties": false
+}
