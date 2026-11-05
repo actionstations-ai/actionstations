@@ -60,7 +60,7 @@ describe('pharmacy domain profile', () => {
       'community pharmacy',
       'sterile compounding',
       'drug shortage',
-      'cold chain',
+      'vaccine cold chain',
     ])
       expect(builtinProfile(alias).id, alias).toBe('pharmacy')
     expect(builtinProfile('hospital').id).toBe('healthcare')
