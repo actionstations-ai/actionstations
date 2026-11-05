@@ -192,6 +192,12 @@ export const ToolkitExerciseTag = z.object({
   frequency: Short.optional(),
   /** Program capabilities the exercise touches, as labels ("Capability 8: ..."). */
   capabilities: z.array(Short).max(15).default([]),
+  /**
+   * The framework name the toolkits' capability `mappings` use for these capabilities ("CDC PHEP
+   * capabilities (2018)"). With it, the AAR maps each program capability to the Core Capabilities
+   * the exercise evaluated.
+   */
+  capabilityFramework: Short.optional(),
   /** Cross-cutting program priorities the exercise must include. */
   priorities: z.array(Short).max(10).default([]),
   /** Days after the exercise by which the program asks for improvement plan data. */

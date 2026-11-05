@@ -66,6 +66,33 @@ describe('program exercise tags in the exercise details (#842)', () => {
     expect(saved.conduct?.exerciseTags).toEqual(['phep_biological_incident_100'])
   })
 
+  it('adds the suggested objectives to the scenario once, saved against the latest scenario', async () => {
+    const { ttx, user } = setup(true)
+    await user.click(await screen.findByRole('checkbox', { name: 'PHEP Biological Incident 100' }))
+    await user.click(screen.getByRole('button', { name: 'Add to scenario objectives' }))
+    expect(await screen.findByText('Added 1 objective to the scenario.')).toBeTruthy()
+    const saved = ttx.calls('scenarios:save').at(-1) as { scenario: Scenario; note: string }
+    expect(saved.note).toBe('Added objectives from PHEP Biological Incident 100')
+    const added = saved.scenario.objectives.at(-1)!
+    expect(added).toMatchObject({ name: 'Medical countermeasures', text: 'Discuss throughput.' })
+    expect(saved.scenario.objectives.slice(0, -1)).toEqual(SCENARIO.objectives)
+  })
+
+  it('says so when the scenario already has the objectives', async () => {
+    const withObjective: Scenario = {
+      ...SCENARIO,
+      objectives: [
+        ...SCENARIO.objectives,
+        { id: 'obj-x', name: 'Medical countermeasures', text: 'Discuss throughput.' },
+      ],
+    }
+    const { ttx, user } = setup(true, withObjective)
+    await user.click(await screen.findByRole('checkbox', { name: 'PHEP Biological Incident 100' }))
+    await user.click(screen.getByRole('button', { name: 'Add to scenario objectives' }))
+    expect(await screen.findByText('The scenario already has these objectives.')).toBeTruthy()
+    expect(ttx.calls('scenarios:save')).toHaveLength(0)
+  })
+
   it('shows nothing when no toolkit offers a tag', async () => {
     setup(false)
     await screen.findByRole('textbox', { name: 'Sponsor organization' })

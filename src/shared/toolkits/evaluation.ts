@@ -1,7 +1,9 @@
 // What a toolkit adds to evaluation (spec 0457 FR-13, FR-14): critical tasks and framework
 // mappings per Core Capability, and the program exercise tags a scenario can carry. Pure
 // functions over parsed toolkits, shared by main and the renderer.
+import { capabilityName } from '../core-capabilities'
 import { drillRecordMarkdown, type DrillContext } from './drill-record'
+import type { TagCapabilityRow } from './program-tags'
 import type { Toolkit, ToolkitCapabilityNote, ToolkitExerciseTag } from './schema'
 
 /** The notes for one Core Capability from every toolkit, tasks and mappings merged, no repeats. */
@@ -111,16 +113,56 @@ const table = (cols: readonly string[], rows: readonly string[][]): string =>
     ...rows.map((r) => `| ${r.map(cell).join(' | ')} |`),
   ].join('\n')
 
+/** A tag as the AAR receives it: with its program capabilities mapped to Core Capabilities. */
+export type ProgramTag = ToolkitExerciseTag & { capabilityMap?: readonly TagCapabilityRow[] }
+
+/** What the AAR passes besides the rows: the drill record's context and the confirmed ratings. */
+export interface ProgramTagContext extends DrillContext {
+  /** Core Capability id → its rating as printed ("Performed with Some Challenges (S)", "Rating pending"). */
+  ratings?: Readonly<Record<string, string>>
+}
+
+export const TAG_CAPABILITY_COLUMNS = ['Program capability', 'Core Capability', 'Rating'] as const
+
+/** One row per program capability and Core Capability it maps to, with the AAR's rating. */
+export function tagCapabilityTable(
+  map: readonly TagCapabilityRow[],
+  ratings: Readonly<Record<string, string>> = {},
+): string[][] {
+  return map.flatMap((r) =>
+    r.coreCapabilities.length
+      ? r.coreCapabilities.map((c) => [
+          r.label,
+          capabilityName(c),
+          ratings[c] ?? 'Not evaluated in this exercise',
+        ])
+      : [[r.label, 'No Core Capability mapped', '']],
+  )
+}
+
+function capabilityMapMarkdown(tag: ProgramTag, ctx?: ProgramTagContext): string[] {
+  if (!tag.capabilityMap?.length) return []
+  return [
+    `#### Program capabilities: ${tag.label}`,
+    '',
+    `The ${tag.capabilityFramework ?? 'program'} capabilities this exercise addresses, with the Core Capabilities they map to and the rating each received in this report.`,
+    '',
+    table(TAG_CAPABILITY_COLUMNS, tagCapabilityTable(tag.capabilityMap, ctx?.ratings)),
+    '',
+  ]
+}
+
 /**
  * The Markdown the AAR adds under the improvement plan for each tag: the exercise, the program
- * text's date, the due date for improvement plan data and the rows. The app submits nothing:
- * the heading says the data is for the person to enter in the program's own system.
+ * text's date, the due date for improvement plan data and the rows, then the program
+ * capabilities mapped to the rated Core Capabilities. The app submits nothing: the heading says
+ * the data is for the person to enter in the program's own system.
  */
 export function programTagMarkdown(
-  tags: readonly ToolkitExerciseTag[],
+  tags: readonly ProgramTag[],
   rows: readonly ImprovementRow[],
   exerciseDate?: string,
-  drill?: DrillContext,
+  drill?: ProgramTagContext,
 ): string {
   const out: string[] = []
   for (const tag of tags) {
@@ -137,6 +179,7 @@ export function programTagMarkdown(
         ? table(TAG_IP_COLUMNS, tagImprovementRows(tag, rows))
         : '_No corrective actions yet._',
       '',
+      ...capabilityMapMarkdown(tag, drill),
     )
     if (tag.drillRecord) out.push(drillRecordMarkdown(tag, rows, exerciseDate, drill), '')
   }

@@ -12,6 +12,7 @@ import {
 } from './placeholder-warnings'
 import { isPartnerRow, loadOwnerFilter, restorePartnerRows, type OwnerFilter } from './owner-filter'
 import { orderedCapabilities } from '@shared/core-capabilities'
+import { fieldTaskGroups } from '@shared/toolkits'
 import {
   exerciseMinutes,
   type BriefingOutput,
@@ -119,6 +120,7 @@ import {
 } from './regulation-triggers'
 import { enabledTriggers } from './regulation-triggers-load'
 import { baseVars, dataSafe, rowVars } from './vars'
+import { addProgramObjectives, objectiveTagsOf, programObjectiveVars } from './program-objectives'
 import { lintHazardCurrency } from './lint-realism'
 import { getSnapshot } from '../hazards/store'
 import { hazardSummary } from '../hazards/summary'
@@ -409,9 +411,21 @@ async function stepOverview(input: StepInput): Promise<StageRun> {
 }
 
 async function stepObjectivesRoles(input: StepInput): Promise<StageRun> {
-  const r = await call<ObjectivesRolesOutput>(input, vars(input))
+  const tags = await objectiveTagsOf(input.scenario)
+  const programObjectives = programObjectiveVars(tags)
+  const r = await call<ObjectivesRolesOutput>(
+    input,
+    vars(input, programObjectives ? { programObjectives } : {}),
+  )
   applyObjectivesRoles(input.scenario, r.output)
   holdFixedObjectives(input.scenario)
+  const added = addProgramObjectives(input.scenario, tags)
+  if (added)
+    input.env.ctx.log(
+      `objectives_roles: added ${added} objective(s) from the program exercise`,
+      'info',
+      { stage: 'objectives_roles' },
+    )
   capToAudience(input)
   await writeDoc(
     input.env,
@@ -904,10 +918,17 @@ async function writeMissingGuides(
 
 async function stepEeg(input: StepInput): Promise<StageRun> {
   const { scenario: s, env } = input
-  const capabilities = orderedCapabilities(env.domain.profile.coreCapabilities)
+  const fieldTasks = fieldTaskGroups(env.domain.toolkits ?? [])
+  // The toolkits' capabilities follow the profile's in the list; with no profile hints the
+  // defaults lead, as before.
+  const hints = env.domain.profile.coreCapabilities
+  const capabilities = orderedCapabilities(
+    hints?.length ? [...hints, ...fieldTasks.map((g) => g.capability)] : hints,
+  )
   const eegVars = vars(input, {
     capabilities,
     objectives: s.objectives.map((o) => ({ name: o.name, text: o.text })),
+    ...(fieldTasks.length ? { fieldTasks: dataSafe(fieldTasks) } : {}),
   })
   const r = await call<EegOutput>(
     input,
