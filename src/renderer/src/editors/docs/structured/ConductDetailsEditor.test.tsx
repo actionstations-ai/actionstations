@@ -60,6 +60,39 @@ describe('ConductDetailsEditor (#420)', () => {
     expect(saved(ttx).conduct?.acronyms.map((a) => a.term)).toContain('MSEL')
   })
 
+  it('sets up a PREP exercise with its objectives and saves the results (#782)', async () => {
+    const { ttx, user } = setup('conduct')
+    expect(screen.queryByRole('combobox', { name: 'Plan type' })).toBeNull()
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'PREP exercise type' }),
+      'imt_tabletop',
+    )
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Plan type' }), 'pipeline')
+    await user.click(
+      screen.getByRole('checkbox', {
+        name: 'This exercise simulates a worst case discharge scenario',
+      }),
+    )
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'B. Proper notifications' }),
+      'met',
+    )
+    await user.click(
+      screen.getByRole('checkbox', {
+        name: 'A.9 Disposal: also exercised in discussion',
+      }),
+    )
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    await waitFor(() => expect(ttx.calls('scenarios:save').length).toBeGreaterThan(0))
+    expect(saved(ttx).conduct?.prep).toMatchObject({
+      exerciseKind: 'imt_tabletop',
+      planType: 'pipeline',
+      worstCaseDischarge: true,
+      objectiveResults: { B: 'met' },
+      alsoExercised: ['disposal'],
+    })
+  })
+
   it('says the details are never sent to a model', () => {
     setup('conduct')
     expect(screen.getByText(/never sent to a model/)).toBeTruthy()

@@ -1,4 +1,5 @@
 import { ToolkitId } from '../toolkits/schema'
+import { PrepSettings } from '../prep'
 import { z } from 'zod'
 import { ThreatFamilyId } from '../domains/schema'
 import { Citation, ExerciseTime, Id, IsoDateTime, RelPath, SafeId, WallClock } from './common'
@@ -327,6 +328,8 @@ export const ConductDetails = z.object({
   acronyms: z.array(z.object({ term: z.string(), meaning: z.string() })).default([]),
   /** Program exercise tags (toolkit `exerciseTags`, spec 0457 FR-14): ids; the AAR adds each program's improvement plan table. */
   exerciseTags: z.array(z.string().max(64)).max(10).default([]),
+  /** PREP exercise settings (spec 0455, #782); absent for an exercise that is not a PREP exercise. */
+  prep: PrepSettings.optional(),
 })
 export type ConductDetails = z.infer<typeof ConductDetails>
 

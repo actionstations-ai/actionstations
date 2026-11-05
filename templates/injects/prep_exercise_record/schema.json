@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PREP exercise record",
+  "description": "Written record of an oil spill response plan exercise: type, date, description, objectives and results, the 15 Appendix A core components and lessons learned, with a self-certification block for the plan holder's authorized representative. Page 1 holds identification, description, worst case discharge and countermeasures, participants (up to 8) and objectives (up to 11); page 2 holds the 15 core components, the evaluation, up to 5 lessons and the certification.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking line",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "planHolder": {
+      "type": "string",
+      "description": "The plan holder (fictional in an exercise)",
+      "examples": ["Corbin Valley Pipeline Company"]
+    },
+    "planType": {
+      "type": "string",
+      "description": "Kind of response plan exercised",
+      "examples": ["Onshore pipeline response plan"]
+    },
+    "exerciseType": {
+      "type": "string",
+      "description": "PREP exercise type",
+      "examples": ["Incident Management Team tabletop exercise (annual)"]
+    },
+    "exerciseName": {
+      "type": "string",
+      "description": "Exercise name",
+      "examples": ["River Crossing 2026"]
+    },
+    "exerciseDate": {
+      "type": "string",
+      "description": "Date and time of the exercise",
+      "examples": ["11/04/2026, 0900 to 1330"]
+    },
+    "site": {
+      "type": "string",
+      "description": "Where the exercise took place",
+      "examples": ["Corbin Valley operations center, Conference Room B"]
+    },
+    "cyclePosition": {
+      "type": "string",
+      "description": "Where the exercise falls in the exercise cycle",
+      "examples": ["Year 2 of the 3-year cycle that began 01/01/2025 (ends 12/31/2027)"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the scenario and how the exercise ran",
+      "examples": [
+        "A release from Line 4 into Harlan Creek, 20 miles above a municipal water intake."
+      ]
+    },
+    "worstCaseDischarge": {
+      "type": "string",
+      "description": "Whether the exercise simulated a worst case discharge scenario, and which",
+      "examples": [
+        "Yes: the plan's worst case discharge for the river crossing segment (2,800 barrels)."
+      ]
+    },
+    "countermeasures": {
+      "type": "array",
+      "description": "Countermeasures named in the plan and whether this exercise covered each",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Countermeasure in the plan",
+            "examples": ["In-situ burning"]
+          },
+          "exercised": {
+            "type": "string",
+            "description": "Yes or No",
+            "examples": ["Yes"]
+          }
+        }
+      }
+    },
+    "participants": {
+      "type": "array",
+      "description": "Participants",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "description": "Name", "examples": ["R. Hollis"] },
+          "organization": {
+            "type": "string",
+            "description": "Organization",
+            "examples": ["Corbin Valley Pipeline Company"]
+          },
+          "role": {
+            "type": "string",
+            "description": "Role in the exercise",
+            "examples": ["Qualified Individual"]
+          }
+        }
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "description": "Objectives from the guidelines for this exercise type and the result of each",
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "description": "Objective reference", "examples": ["B"] },
+          "text": {
+            "type": "string",
+            "description": "Objective",
+            "examples": ["Proper notifications"]
+          },
+          "result": {
+            "type": "string",
+            "description": "Met, Partially met, Not met or Not evaluated",
+            "examples": ["Met"]
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "description": "The 15 Appendix A core components",
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": { "type": "string", "description": "Appendix A reference", "examples": ["A.1"] },
+          "name": {
+            "type": "string",
+            "description": "Core component",
+            "examples": ["Notifications"]
+          },
+          "exercised": {
+            "type": "string",
+            "description": "Yes, No or Not applicable to the plan",
+            "examples": ["Yes"]
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Which injects or decisions exercised it",
+            "examples": ["NRC report record; notification decision at 0912"]
+          }
+        }
+      }
+    },
+    "evaluation": {
+      "type": "string",
+      "description": "Self-evaluation: whether objectives were met and how that was judged",
+      "examples": [
+        "Facilitated review by the exercise design team; objectives A to I met except F."
+      ]
+    },
+    "lessons": {
+      "type": "array",
+      "description": "Lessons learned",
+      "maxItems": 5,
+      "items": { "type": "string", "examples": ["The after-hours call list was out of date."] }
+    },
+    "certificationStatement": {
+      "type": "string",
+      "description": "Self-certification statement",
+      "examples": [
+        "I certify that this exercise was conducted as described, that its objectives were evaluated, and that this record is accurate."
+      ]
+    },
+    "certifierName": {
+      "type": "string",
+      "description": "Authorized representative: name and title (leave blank to sign by hand)",
+      "examples": ["D. Alvarez, Director of Emergency Response"]
+    },
+    "certifierDate": {
+      "type": "string",
+      "description": "Date of certification",
+      "examples": ["11/18/2026"]
+    },
+    "retention": {
+      "type": "string",
+      "description": "Records retention reminder",
+      "examples": [
+        "Keep this record and the exercise materials for three years at the location named in the plan."
+      ]
+    },
+    "edition": {
+      "type": "string",
+      "description": "Edition of the guidelines the objectives follow",
+      "examples": ["Objectives follow the 2016 PREP Guidelines, version 2016.1"]
+    }
+  }
+}

@@ -1,0 +1,140 @@
+<!-- PREP exercise record, two US Letter pages: identification, objectives, then the Appendix A
+     core components exercised, evaluation, lessons learned and the self-certification block.
+     Generic exercise documentation, not legal advice and not an agency form. -->
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <h1>Exercise record</h1>
+    <p class="sub">Oil spill response plan exercise under the PREP Guidelines</p>
+  </header>
+  <table class="kv">
+    <tr>
+      <th>Plan holder</th>
+      <td>{{fields.planHolder}}</td>
+      <th>Plan type</th>
+      <td>{{fields.planType}}</td>
+    </tr>
+    <tr>
+      <th>Exercise type</th>
+      <td>{{fields.exerciseType}}</td>
+      <th>Date and time</th>
+      <td>{{fields.exerciseDate}}</td>
+    </tr>
+    <tr>
+      <th>Exercise name</th>
+      <td>{{fields.exerciseName}}</td>
+      <th>Location</th>
+      <td>{{fields.site}}</td>
+    </tr>
+    <tr>
+      <th>Cycle position</th>
+      <td colspan="3">{{fields.cyclePosition}}</td>
+    </tr>
+  </table>
+  <h2>Description</h2>
+  <p class="body">{{nl2br fields.description}}</p>
+  <h2>Worst case discharge and countermeasures</h2>
+  <table class="kv">
+    <tr>
+      <th>Worst case discharge scenario</th>
+      <td colspan="3">{{fields.worstCaseDischarge}}</td>
+    </tr>
+    {{#each fields.countermeasures}}
+    <tr>
+      <th>Countermeasure in plan</th>
+      <td>{{this.name}}</td>
+      <th>Exercised</th>
+      <td>{{this.exercised}}</td>
+    </tr>
+    {{/each}}
+  </table>
+  <h2>Participants</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th style="width: 34%">Name</th>
+        <th style="width: 36%">Organization</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.participants}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.organization}}</td>
+        <td>{{this.role}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Objectives</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th style="width: 7%">Ref.</th>
+        <th>Objective</th>
+        <th style="width: 15%">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.objectives}}
+      <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.text}}</td>
+        <td>{{this.result}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p class="foot">Page 1 of 2 · {{fields.edition}}</p>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <h2>Core components exercised (PREP Appendix A)</h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th style="width: 7%">Ref.</th>
+        <th style="width: 31%">Core component</th>
+        <th style="width: 13%">Exercised</th>
+        <th>Where it was exercised</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.components}}
+      <tr>
+        <td>{{this.ref}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.exercised}}</td>
+        <td>{{this.evidence}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h2>Evaluation</h2>
+  <p class="body">{{nl2br fields.evaluation}}</p>
+  <h2>Lessons learned</h2>
+  <ol class="lessons">
+    {{#each fields.lessons}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  <h2>Self-certification</h2>
+  <p class="body">{{fields.certificationStatement}}</p>
+  <table class="kv sign">
+    <tr>
+      <th>Name and title</th>
+      <td>{{fields.certifierName}}</td>
+      <th>Date</th>
+      <td>{{fields.certifierDate}}</td>
+    </tr>
+    <tr>
+      <th>Signature</th>
+      <td colspan="3" class="line">&nbsp;</td>
+    </tr>
+  </table>
+  <p class="body small">{{fields.retention}}</p>
+  <p class="foot">Page 2 of 2 · {{fields.edition}}</p>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
