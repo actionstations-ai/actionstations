@@ -94,3 +94,29 @@ describe('pharmacy templates', () => {
     }
   })
 })
+
+describe('pharmacy reference library', () => {
+  const manifest = read('packs/documents/manifest.json') as {
+    libraries: Record<string, { domain: string }>
+    documents: {
+      pack: string
+      alsoIn?: string[]
+      slug: string
+      sha256: string | null
+      license: string
+    }[]
+  }
+
+  it('lists each document the toolkit names, pinned and public domain', () => {
+    expect(manifest.libraries['pharmacy-library']?.domain).toBe('pharmacy')
+    expect(toolkit.documents.length).toBeGreaterThanOrEqual(4)
+    for (const ref of toolkit.documents) {
+      expect(ref.packId).toBe('ai.actionstations.pharmacy-library')
+      const doc = manifest.documents.find((d) => d.slug === ref.documentId)
+      expect(doc, ref.documentId).toBeDefined()
+      expect([doc!.pack, ...(doc!.alsoIn ?? [])], ref.documentId).toContain('pharmacy-library')
+      expect(doc!.sha256, ref.documentId).toMatch(/^[0-9a-f]{64}$/)
+      expect(doc!.license).toBe('LicenseRef-US-Government-Work')
+    }
+  })
+})

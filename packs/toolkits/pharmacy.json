@@ -61,7 +61,7 @@
     "pharmacy_recall_trace",
     "pharmacy_inventory"
   ],
-  "connectors": [],
+  "connectors": ["openfda-shortages"],
   "outsideParties": [
     "Wholesaler allocation desk",
     "Manufacturer customer service",
@@ -113,7 +113,28 @@
       "description": "Answers outage calls with a status that changes: investigating, identified, monitoring."
     }
   ],
-  "documents": [],
+  "documents": [
+    {
+      "packId": "ai.actionstations.pharmacy-library",
+      "documentId": "cfr-42-482-25",
+      "title": "42 CFR 482.25, Pharmaceutical services (hospital condition of participation)"
+    },
+    {
+      "packId": "ai.actionstations.pharmacy-library",
+      "documentId": "cfr-21-1301-76",
+      "title": "21 CFR 1301.76, theft or loss of controlled substances"
+    },
+    {
+      "packId": "ai.actionstations.pharmacy-library",
+      "documentId": "fema-healthcare-power-outages",
+      "title": "Healthcare Facilities and Power Outages (FEMA)"
+    },
+    {
+      "packId": "ai.actionstations.pharmacy-library",
+      "documentId": "cms-som-appendix-z",
+      "title": "State Operations Manual Appendix Z: Emergency Preparedness (CMS)"
+    }
+  ],
   "metrics": [],
   "decisionForms": [],
   "knowledge": {
