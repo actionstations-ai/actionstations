@@ -167,6 +167,7 @@ describe('app shell', () => {
         'Redlines',
         'Drills',
         'Micro-drills',
+        'Case studies',
         'Regional',
         'Maps',
         'Classroom',
