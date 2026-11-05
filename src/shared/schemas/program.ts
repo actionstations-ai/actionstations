@@ -7,6 +7,7 @@ import { CoreCapabilityId } from '../core-capabilities'
 import { CapabilityElement } from './aar'
 import { Citation, Id, IsoDateTime } from './common'
 import { MicroDrillSummary } from './micro-drill'
+import { SnapshotPrep } from '../prep/program'
 import { DocumentKind } from './project'
 
 export const PROGRAM_FORMAT_VERSION = 1
@@ -283,6 +284,8 @@ export const SnapshotScenario = z.object({
     })
     .optional(),
   aarPresent: z.boolean(),
+  /** Set when the scenario is a PREP exercise (#782): feeds the program's PREP cycles. */
+  prep: SnapshotPrep.optional(),
   /** Drill runs for this scenario (#431), when the project has them. */
   drillRuns: z
     .array(

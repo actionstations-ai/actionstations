@@ -25,6 +25,10 @@ The injects in your scenario mark the components they exercise. An NRC report re
 
 Choose **Check coverage of the cycle** to see how many of the applicable components the project's PREP exercises have covered in the cycle, and which are still missing. Coverage counts only the exercises that fall inside the cycle you entered.
 
+## In the exercise program
+
+If the project is linked to an exercise program, the program's **Overview** shows a **PREP exercise cycles** card once a linked project has a PREP exercise. Exercises of the same plan holder and plan type are grouped into one cycle. For each cycle the card shows where the cycle stands, how many of the applicable core components the exercises have covered and which are still missing, whether a worst case discharge scenario was exercised, which countermeasures in the plan are still unexercised, and a table of the components with the number of exercises and the first date for each. Exercises dated outside the cycle are left out and counted. The card reads the program's project snapshots, so refresh them from the **Linked projects** card after you change an exercise.
+
 ## The exercise record
 
 Choose **Create exercise record (PDF)**. The record is saved in the project's exports folder. It follows what the guidelines say proper documentation should include: the exercise type, the date and time, a description, the objectives met, the core components exercised and lessons learned, with a block for the signature of an authorized representative of the plan holder. It also shows the plan holder, the participants' roles, where the exercise falls in the cycle, whether a worst case discharge was simulated, the countermeasures covered, the self-evaluation, and a reminder of how long to keep the record and where.

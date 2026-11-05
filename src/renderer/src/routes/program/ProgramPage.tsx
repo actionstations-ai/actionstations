@@ -9,6 +9,7 @@ import { useIpcQuery } from '../../lib/query'
 import { refreshProgramQueries } from '../../state/program'
 import { countActions, todayIso } from './action-table'
 import { ProgramFrame, type ProgramContext } from './ProgramFrame'
+import { PrepCard } from './PrepCard'
 import { ProjectsCard } from './ProjectsCard'
 import { ProposalCard } from './ProposalCard'
 
@@ -180,6 +181,7 @@ export default function ProgramPage() {
           </p>
           <Counts ctx={ctx} />
           <ProjectsCard ctx={ctx} />
+          <PrepCard ctx={ctx} />
           <ProposalCard ctx={ctx} />
           <SettingsDialog
             key={ctx.summary.program.updatedAt}
