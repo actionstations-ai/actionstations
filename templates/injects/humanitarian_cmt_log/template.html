@@ -1,0 +1,62 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">CMT log</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Incident</th>
+      <td>{{fields.incidentRef}}</td>
+      <th>Team lead</th>
+      <td>{{fields.teamLead}}</td>
+    </tr>
+    <tr>
+      <th>Opened</th>
+      <td>{{fields.opened}}</td>
+      <th>Next meeting</th>
+      <td>{{fields.nextMeeting}}</td>
+    </tr>
+  </table>
+  {{#if fields.entries}}
+  <h2>Log</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Kind</th>
+        <th>Entry</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.entries}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td><span class="status status-{{this.kind}}">{{this.kind}}</span></td>
+        <td>{{this.entry}}</td>
+        <td>{{this.owner}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.openDecisions}}
+  <h2>Open decisions</h2>
+  <ul>
+    {{#each fields.openDecisions}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.incidentRef}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

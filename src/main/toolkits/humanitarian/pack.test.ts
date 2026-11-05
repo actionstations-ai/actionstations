@@ -1,10 +1,14 @@
 // The humanitarian domain and toolkit content (spec 0469): valid against the schemas,
 // consistent with each other, reused by the domains the spec names, and within the generator's
 // knowledge budget.
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import Ajv2020 from 'ajv/dist/2020.js'
 import { describe, expect, it } from 'vitest'
 import { DomainProfile } from '@shared/domains/schema'
+import { TemplateMeta } from '../../render/templates'
+import { fieldLintIssues } from '../lint-rules'
+import { HUMANITARIAN_LINT_RULES } from './lint'
 import { suggestToolkits, toolkitKnowledge, ToolkitSchema } from '@shared/toolkits'
 
 const read = (p: string): unknown => JSON.parse(readFileSync(resolve(p), 'utf8'))
@@ -72,4 +76,30 @@ describe('humanitarian domain and toolkit agree', () => {
     expect(media.appliesTo.domains).toContain('humanitarian')
     expect(domain.suggestedToolkits).toContain('media_environment')
   })
+})
+
+describe('humanitarian templates', () => {
+  it('names the lint rules the app ships', () => {
+    expect([...toolkit.lintRules].sort()).toEqual([...HUMANITARIAN_LINT_RULES].sort())
+  })
+
+  it.each(toolkit.injectTypes)(
+    '%s has a valid meta, a schema its preview satisfies, and a preview that lints clean',
+    (id) => {
+      const dir = resolve('templates/injects', id)
+      for (const f of ['template.html', 'style.css', 'schema.json', 'preview.json', 'meta.json'])
+        expect(existsSync(resolve(dir, f)), `${id}/${f}`).toBe(true)
+      const meta = TemplateMeta.parse(read(`templates/injects/${id}/meta.json`))
+      expect(meta.type).toBe(id)
+      expect(meta.taxonomy).toBeDefined()
+      const preview = read(`templates/injects/${id}/preview.json`) as {
+        fields: Record<string, unknown>
+      }
+      const validate = new Ajv2020({ strict: false, allErrors: true }).compile(
+        read(`templates/injects/${id}/schema.json`) as object,
+      )
+      expect(validate(preview.fields), JSON.stringify(validate.errors)).toBe(true)
+      expect(fieldLintIssues(id, preview.fields)).toEqual([])
+    },
+  )
 })

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "3W (who does what where) table",
+  "description": "A who-does-what-where table of partner activities by sector and admin area, with the areas where nobody has reported. A blank area is a gap or a reporting failure, not proof of no work. Organizations are fictional.",
+  "type": "object",
+  "required": ["organization", "title", "asOf"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Humanitarian Coordination Office, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Information Management"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Table title",
+      "examples": ["3W: partner activities, Karun Province earthquake"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Data as of",
+      "examples": ["16 October 2026, 12:00 local"],
+      "x-translate": false
+    },
+    "reportRef": {
+      "type": "string",
+      "description": "Report or dashboard reference",
+      "examples": ["3W-KP-2026-03"],
+      "x-translate": false
+    },
+    "activities": {
+      "type": "array",
+      "description": "One row per organization, activity and admin area",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "organization": {
+            "type": "string",
+            "description": "Reporting organization",
+            "examples": ["Harbourlight Relief"]
+          },
+          "sector": {
+            "type": "string",
+            "description": "Sector or cluster",
+            "examples": ["WASH"]
+          },
+          "activity": {
+            "type": "string",
+            "description": "Activity",
+            "examples": ["Water trucking and chlorination"]
+          },
+          "area": {
+            "type": "string",
+            "description": "Admin area",
+            "examples": ["Karun North"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the activity",
+            "enum": ["planned", "ongoing", "completed"],
+            "examples": ["ongoing"]
+          },
+          "reached": {
+            "type": "string",
+            "description": "People reached so far",
+            "examples": ["12,400"],
+            "x-translate": false
+          }
+        },
+        "required": ["organization", "sector", "area"]
+      },
+      "examples": [
+        [
+          {
+            "organization": "Harbourlight Relief",
+            "sector": "WASH",
+            "activity": "Water trucking and chlorination",
+            "area": "Karun North",
+            "status": "ongoing",
+            "reached": "12,400"
+          },
+          {
+            "organization": "Waterline International",
+            "sector": "WASH",
+            "activity": "Emergency latrines",
+            "area": "Soma Valley",
+            "status": "ongoing",
+            "reached": "6,100"
+          },
+          {
+            "organization": "Kestrel Health Aid",
+            "sector": "Health",
+            "activity": "Mobile clinics",
+            "area": "Soma Valley",
+            "status": "ongoing",
+            "reached": "3,250"
+          },
+          {
+            "organization": "Open Hands Alliance",
+            "sector": "Shelter",
+            "activity": "Tents and tarpaulins",
+            "area": "Bel Ravi",
+            "status": "ongoing",
+            "reached": "4,800"
+          },
+          {
+            "organization": "Tamsarian Crescent Society",
+            "sector": "Health",
+            "activity": "First aid and ambulance",
+            "area": "Karun South",
+            "status": "ongoing",
+            "reached": "2,900"
+          },
+          {
+            "organization": "Open Hands Alliance",
+            "sector": "Shelter",
+            "activity": "Shelter kits",
+            "area": "Karun South",
+            "status": "planned",
+            "reached": "0"
+          }
+        ]
+      ]
+    },
+    "areasWithoutReports": {
+      "type": "array",
+      "description": "Admin areas with no reported activity",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Hadar", "Karun East"]]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Reporting notes, such as the number of partners reporting and data quality",
+      "examples": [
+        "Eleven partners have reported; two have not yet sent updates. Reached figures are cumulative and not yet de-duplicated."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

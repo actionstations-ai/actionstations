@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Humanitarian Country Team agenda and decision record",
+  "description": "Agenda and decision record of a Humanitarian Country Team meeting: attendance, agenda, numbered decisions with owners and dates, items escalated by clusters and the next meeting. Organizations and people are fictional.",
+  "type": "object",
+  "required": ["organization", "meetingTitle", "meetingDate"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Humanitarian Country Team, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Secretariat"],
+      "x-translate": false
+    },
+    "meetingTitle": {
+      "type": "string",
+      "description": "Meeting title",
+      "examples": ["Humanitarian Country Team meeting No. 2"]
+    },
+    "meetingDate": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["16 October 2026, 14:00 local"],
+      "x-translate": false
+    },
+    "chair": {
+      "type": "string",
+      "description": "Chair",
+      "examples": ["Humanitarian Coordinator"],
+      "x-translate": false
+    },
+    "attendees": {
+      "type": "array",
+      "description": "Members and observers attending",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "UN agencies (6)",
+          "International NGOs (5)",
+          "Tamsarian Crescent Society",
+          "Donor representatives (2, observers)"
+        ]
+      ]
+    },
+    "agenda": {
+      "type": "array",
+      "description": "Agenda",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Situation update",
+          "Request for cluster activation",
+          "Flash appeal",
+          "Escalated cluster gaps",
+          "Access and security"
+        ]
+      ]
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Decisions",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Decision id",
+            "examples": ["D-1"],
+            "x-translate": false
+          },
+          "decision": {
+            "type": "string",
+            "description": "Decision",
+            "examples": [
+              "The Humanitarian Coordinator will submit a request to the Emergency Relief Coordinator to activate the health, water sanitation and hygiene, shelter, food security, protection and logistics clusters."
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Humanitarian Coordinator"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due",
+            "examples": ["16 Oct"],
+            "x-translate": false
+          }
+        },
+        "required": ["id", "decision"]
+      },
+      "examples": [
+        [
+          {
+            "id": "D-1",
+            "decision": "The Humanitarian Coordinator will submit a request to the Emergency Relief Coordinator to activate clusters for health, water sanitation and hygiene, shelter, food security, protection and logistics.",
+            "owner": "Humanitarian Coordinator",
+            "due": "16 Oct"
+          },
+          {
+            "id": "D-2",
+            "decision": "A flash appeal of US$ 62.0 million is launched on the basis of the rapid assessment.",
+            "owner": "Coordination office",
+            "due": "17 Oct"
+          },
+          {
+            "id": "D-3",
+            "decision": "Unassigned health gaps G-01 (Hadar) and G-04 (Bel Ravi) are taken to member organizations for volunteers.",
+            "owner": "Health Cluster Coordinator",
+            "due": "17 Oct"
+          }
+        ]
+      ]
+    },
+    "escalations": {
+      "type": "array",
+      "description": "Items escalated by clusters",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Health: no partner in Hadar (G-01)",
+          "Health: no psychosocial support partner in Bel Ravi (G-04)"
+        ]
+      ]
+    },
+    "securityNote": {
+      "type": "string",
+      "description": "Security and access points agreed",
+      "examples": [
+        "Members agreed to share incident reports and alerts through the inter-agency security channel. Participation does not make the UN responsible for any organization's staff security."
+      ]
+    },
+    "nextMeeting": {
+      "type": "string",
+      "description": "Next meeting",
+      "examples": ["19 October 2026, 14:00 local"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

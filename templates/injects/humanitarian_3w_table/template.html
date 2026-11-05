@@ -1,0 +1,63 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">3W table</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>As of</th>
+      <td>{{fields.asOf}}</td>
+      <th>Reference</th>
+      <td>{{fields.reportRef}}</td>
+    </tr>
+  </table>
+  {{#if fields.activities}}
+  <h2>Activities</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Organization</th>
+        <th>Sector</th>
+        <th>Activity</th>
+        <th>Admin area</th>
+        <th>Status</th>
+        <th>Reached</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.activities}}
+      <tr>
+        <td>{{this.organization}}</td>
+        <td>{{this.sector}}</td>
+        <td>{{this.activity}}</td>
+        <td class="mono">{{this.area}}</td>
+        <td><span class="status status-{{this.status}}">{{this.status}}</span></td>
+        <td class="mono">{{this.reached}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.areasWithoutReports}}
+  <h2>Admin areas with no reported activity</h2>
+  <ul>
+    {{#each fields.areasWithoutReports}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}{{#if fields.notes}}
+  <h2>Notes</h2>
+  <p>{{nl2br fields.notes}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.reportRef}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

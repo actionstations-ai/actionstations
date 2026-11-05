@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Humanitarian funding status",
+  "description": "Funding against a response plan or appeal: required, received, gap and percent funded in total and by sector, with the largest donors. The percentages must follow from the amounts. Donors and amounts are fictional.",
+  "type": "object",
+  "required": ["organization", "planTitle", "asOf", "required", "received", "gap", "percentFunded"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Humanitarian Coordination Office, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Resource mobilization"],
+      "x-translate": false
+    },
+    "planTitle": {
+      "type": "string",
+      "description": "Plan",
+      "examples": ["Tamsaria Earthquake Flash Appeal"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["20 October 2026"],
+      "x-translate": false
+    },
+    "required": {
+      "type": "string",
+      "description": "Total required, US$ million",
+      "examples": ["62.0"],
+      "x-translate": false
+    },
+    "received": {
+      "type": "string",
+      "description": "Total received, US$ million",
+      "examples": ["21.7"],
+      "x-translate": false
+    },
+    "gap": {
+      "type": "string",
+      "description": "Funding gap, US$ million",
+      "examples": ["40.3"],
+      "x-translate": false
+    },
+    "percentFunded": {
+      "type": "string",
+      "description": "Percent funded",
+      "examples": ["35%"],
+      "x-translate": false
+    },
+    "sectors": {
+      "type": "array",
+      "description": "Funding by sector",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "sector": {
+            "type": "string",
+            "description": "Sector",
+            "examples": ["Health"]
+          },
+          "required": {
+            "type": "string",
+            "description": "Required, US$ million",
+            "examples": ["14.0"],
+            "x-translate": false
+          },
+          "received": {
+            "type": "string",
+            "description": "Received, US$ million",
+            "examples": ["6.1"],
+            "x-translate": false
+          },
+          "percent": {
+            "type": "string",
+            "description": "Percent funded",
+            "examples": ["44%"],
+            "x-translate": false
+          }
+        },
+        "required": ["sector", "required", "received", "percent"]
+      },
+      "examples": [
+        [
+          {
+            "sector": "Health",
+            "required": "14.0",
+            "received": "6.1",
+            "percent": "44%"
+          },
+          {
+            "sector": "Water, sanitation and hygiene",
+            "required": "11.5",
+            "received": "3.2",
+            "percent": "28%"
+          },
+          {
+            "sector": "Shelter",
+            "required": "17.0",
+            "received": "4.0",
+            "percent": "24%"
+          },
+          {
+            "sector": "Food security",
+            "required": "12.5",
+            "received": "6.8",
+            "percent": "54%"
+          },
+          {
+            "sector": "Protection",
+            "required": "4.0",
+            "received": "0.9",
+            "percent": "23%"
+          },
+          {
+            "sector": "Logistics",
+            "required": "3.0",
+            "received": "0.7",
+            "percent": "23%"
+          }
+        ]
+      ]
+    },
+    "donors": {
+      "type": "array",
+      "description": "Contributions by donor",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "donor": {
+            "type": "string",
+            "description": "Donor",
+            "examples": ["Northgate Development Agency"]
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount, US$ million",
+            "examples": ["8.0"],
+            "x-translate": false
+          }
+        },
+        "required": ["donor", "amount"]
+      },
+      "examples": [
+        [
+          {
+            "donor": "Northgate Development Agency",
+            "amount": "8.0"
+          },
+          {
+            "donor": "Lakeshore Humanitarian Fund",
+            "amount": "6.2"
+          },
+          {
+            "donor": "Crown Harbour Cooperation",
+            "amount": "4.0"
+          },
+          {
+            "donor": "Other donors",
+            "amount": "3.5"
+          }
+        ]
+      ]
+    },
+    "note": {
+      "type": "string",
+      "description": "Note on what the figures include",
+      "examples": [
+        "Figures include contributions reported by donors and pledges confirmed in writing. Pledges not yet confirmed are excluded."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Crisis management team log and decision record",
+  "description": "A crisis management team's time-ordered log of information, decisions, actions and communications during a staff incident, with open decisions and the next meeting. Decision and communications level only. People and organizations are fictional.",
+  "type": "object",
+  "required": ["organization", "incidentRef", "teamLead", "opened"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief headquarters"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Crisis management team"],
+      "x-translate": false
+    },
+    "incidentRef": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["SIR-2026-044"],
+      "x-translate": false
+    },
+    "teamLead": {
+      "type": "string",
+      "description": "Team lead (role)",
+      "examples": ["Crisis Management Team Lead"],
+      "x-translate": false
+    },
+    "opened": {
+      "type": "string",
+      "description": "Log opened",
+      "examples": ["17 October 2026, 09:25 UTC"],
+      "x-translate": false
+    },
+    "entries": {
+      "type": "array",
+      "description": "Log entries in time order",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["09:10"],
+            "x-translate": false
+          },
+          "kind": {
+            "type": "string",
+            "description": "Kind of entry",
+            "enum": ["information", "decision", "action", "communication"],
+            "examples": ["information"]
+          },
+          "entry": {
+            "type": "string",
+            "description": "What was received, decided, done or said",
+            "examples": ["Country office reports that two staff have not checked in since 07:45."]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Country Director"]
+          }
+        },
+        "required": ["time", "kind", "entry"]
+      },
+      "examples": [
+        [
+          {
+            "time": "09:10",
+            "kind": "information",
+            "entry": "Country office reports two staff have not checked in since 07:45 on the Karun to Hadar road.",
+            "owner": "Security Manager"
+          },
+          {
+            "time": "09:25",
+            "kind": "decision",
+            "entry": "Crisis management team activated; team lead chairs; meeting every two hours.",
+            "owner": "Crisis Management Team Lead"
+          },
+          {
+            "time": "09:40",
+            "kind": "decision",
+            "entry": "All movements on the corridor stopped pending review.",
+            "owner": "Country Director"
+          },
+          {
+            "time": "10:05",
+            "kind": "action",
+            "entry": "Family liaison officer assigned; families are contacted only by that officer.",
+            "owner": "Family Liaison Officer"
+          },
+          {
+            "time": "10:30",
+            "kind": "communication",
+            "entry": "Alert shared with other agencies' security focal points; legal advises the media line states only that contact has been lost.",
+            "owner": "Headquarters Media Lead"
+          }
+        ]
+      ]
+    },
+    "openDecisions": {
+      "type": "array",
+      "description": "Decisions still open",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Whether to relocate non-essential staff from the Hadar base.",
+          "Wording of the first public statement."
+        ]
+      ]
+    },
+    "nextMeeting": {
+      "type": "string",
+      "description": "Next team meeting",
+      "examples": ["17 October 2026, 11:30 UTC"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

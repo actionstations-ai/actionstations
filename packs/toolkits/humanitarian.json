@@ -37,7 +37,21 @@
       "emergency_communications"
     ]
   },
-  "injectTypes": [],
+  "injectTypes": [
+    "humanitarian_flash_update",
+    "humanitarian_3w_table",
+    "humanitarian_cluster_minutes",
+    "humanitarian_gap_list",
+    "humanitarian_needs_response_summary",
+    "humanitarian_funding_status",
+    "humanitarian_hct_record",
+    "humanitarian_security_incident_report",
+    "humanitarian_security_risk_assessment",
+    "humanitarian_movement_request",
+    "humanitarian_security_alert",
+    "humanitarian_cmt_log",
+    "humanitarian_family_liaison_update"
+  ],
   "figureKinds": [],
   "connectors": [],
   "outsideParties": [
@@ -108,7 +122,14 @@
       "Keep staff security and kidnapping content to decisions and communications: no negotiation tactics, ransom mechanics or detention-resistance technique."
     ]
   },
-  "lintRules": [],
+  "lintRules": [
+    "humanitarian_cluster_activation",
+    "humanitarian_slt_responsibility",
+    "humanitarian_security_guardrail",
+    "humanitarian_gap_list",
+    "humanitarian_funding_arithmetic",
+    "humanitarian_movement_decision"
+  ],
   "capabilities": [],
   "exerciseTags": []
 }

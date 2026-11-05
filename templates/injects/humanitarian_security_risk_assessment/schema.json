@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Security risk assessment summary",
+  "description": "A summary of a security risk assessment for an area or corridor: context, threats with likelihood, impact and level, mitigations at the level of programme and movement management, residual risk and a recommendation. No tactical detail. Organizations are fictional.",
+  "type": "object",
+  "required": ["organization", "area", "assessedOn", "context", "residualRisk", "recommendation"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Security"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Area or corridor assessed",
+      "examples": ["Karun to Hadar corridor (Routes 4 and 9)"]
+    },
+    "assessedOn": {
+      "type": "string",
+      "description": "Date of assessment",
+      "examples": ["16 October 2026"],
+      "x-translate": false
+    },
+    "assessor": {
+      "type": "string",
+      "description": "Assessor role",
+      "examples": ["Security Manager"],
+      "x-translate": false
+    },
+    "context": {
+      "type": "string",
+      "description": "Context in a few sentences",
+      "examples": [
+        "The earthquake has cut Route 4 north of Bel Ravi to light vehicles. Informal checkpoints have been reported on both routes. Police presence is reduced because stations were damaged."
+      ]
+    },
+    "threats": {
+      "type": "array",
+      "description": "Threats and risk levels",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "threat": {
+            "type": "string",
+            "description": "Threat",
+            "examples": ["Unofficial checkpoints and informal roadblocks"]
+          },
+          "likelihood": {
+            "type": "string",
+            "description": "Likelihood",
+            "enum": ["low", "medium", "high"],
+            "examples": ["high"]
+          },
+          "impact": {
+            "type": "string",
+            "description": "Impact",
+            "enum": ["low", "medium", "high"],
+            "examples": ["medium"]
+          },
+          "level": {
+            "type": "string",
+            "description": "Risk level",
+            "enum": ["low", "medium", "high", "extreme"],
+            "examples": ["high"]
+          }
+        },
+        "required": ["threat", "likelihood", "impact", "level"]
+      },
+      "examples": [
+        [
+          {
+            "threat": "Unofficial checkpoints and informal roadblocks",
+            "likelihood": "high",
+            "impact": "medium",
+            "level": "high"
+          },
+          {
+            "threat": "Road closure from landslide or aftershock",
+            "likelihood": "high",
+            "impact": "high",
+            "level": "extreme"
+          },
+          {
+            "threat": "Opportunistic theft of relief items",
+            "likelihood": "medium",
+            "impact": "medium",
+            "level": "medium"
+          },
+          {
+            "threat": "Loss of communications on the corridor",
+            "likelihood": "high",
+            "impact": "medium",
+            "level": "high"
+          }
+        ]
+      ]
+    },
+    "mitigations": {
+      "type": "array",
+      "description": "Mitigations (programme and movement management)",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Movements need approval from the Security Manager.",
+          "Daylight movements only, with hourly check-ins.",
+          "Share alerts with other agencies' security focal points."
+        ]
+      ]
+    },
+    "residualRisk": {
+      "type": "string",
+      "description": "Residual risk after mitigations",
+      "enum": ["low", "medium", "high", "extreme"],
+      "examples": ["high"]
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Recommendation to the Country Director",
+      "examples": [
+        "Continue essential programme movements on Route 9 under approval and daylight rules; suspend non-essential travel on Route 4 until the road and checkpoint reports are clearer."
+      ]
+    },
+    "reviewDate": {
+      "type": "string",
+      "description": "Review date",
+      "examples": ["19 October 2026"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

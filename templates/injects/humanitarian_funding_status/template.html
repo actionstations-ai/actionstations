@@ -1,0 +1,82 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Funding status</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Plan</th>
+      <td>{{fields.planTitle}}</td>
+      <th>As of</th>
+      <td>{{fields.asOf}}</td>
+    </tr>
+    <tr>
+      <th>Required (US$ m)</th>
+      <td>{{fields.required}}</td>
+      <th>Received (US$ m)</th>
+      <td>{{fields.received}}</td>
+    </tr>
+    <tr>
+      <th>Gap (US$ m)</th>
+      <td>{{fields.gap}}</td>
+      <th>Funded</th>
+      <td>{{fields.percentFunded}}</td>
+    </tr>
+  </table>
+  {{#if fields.sectors}}
+  <h2>By sector</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sector</th>
+        <th>Required (US$ m)</th>
+        <th>Received (US$ m)</th>
+        <th>Funded</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.sectors}}
+      <tr>
+        <td>{{this.sector}}</td>
+        <td class="mono">{{this.required}}</td>
+        <td class="mono">{{this.received}}</td>
+        <td class="mono">{{this.percent}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.donors}}
+  <h2>By donor</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Donor</th>
+        <th>Amount (US$ m)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.donors}}
+      <tr>
+        <td>{{this.donor}}</td>
+        <td class="mono">{{this.amount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.note}}
+  <h2>Note</h2>
+  <p>{{nl2br fields.note}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.planTitle}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

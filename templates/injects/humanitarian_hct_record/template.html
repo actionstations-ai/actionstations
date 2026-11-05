@@ -1,0 +1,79 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">HCT record</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>Meeting</th>
+      <td>{{fields.meetingTitle}}</td>
+      <th>Date</th>
+      <td>{{fields.meetingDate}}</td>
+    </tr>
+    <tr>
+      <th>Chair</th>
+      <td>{{fields.chair}}</td>
+      <th>Next meeting</th>
+      <td>{{fields.nextMeeting}}</td>
+    </tr>
+  </table>
+  {{#if fields.attendees}}
+  <h2>Attendance</h2>
+  <ul>
+    {{#each fields.attendees}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}{{#if fields.agenda}}
+  <h2>Agenda</h2>
+  <ul>
+    {{#each fields.agenda}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}{{#if fields.decisions}}
+  <h2>Decisions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Decision</th>
+        <th>Owner</th>
+        <th>Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.decisions}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td>{{this.decision}}</td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.due}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.escalations}}
+  <h2>Escalated by clusters</h2>
+  <ul>
+    {{#each fields.escalations}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}{{#if fields.securityNote}}
+  <h2>Security and access</h2>
+  <p>{{nl2br fields.securityNote}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.meetingTitle}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.unit}}
+      <div class="sub">{{fields.unit}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Gap list</div>
+  </header>
+  <table class="meta">
+    <tr>
+      <th>As of</th>
+      <td>{{fields.asOf}}</td>
+      <th>Summary</th>
+      <td>{{fields.summary}}</td>
+    </tr>
+  </table>
+  {{#if fields.gaps}}
+  <h2>Gaps</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Area</th>
+        <th>Unmet need</th>
+        <th>Status</th>
+        <th>Partner</th>
+        <th>By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.gaps}}
+      <tr>
+        <td class="mono">{{this.id}}</td>
+        <td class="mono">{{this.area}}</td>
+        <td>{{this.need}}</td>
+        <td><span class="status status-{{this.status}}">{{this.status}}</span></td>
+        <td>{{this.owner}}</td>
+        <td class="mono">{{this.due}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}{{#if fields.escalation}}
+  <div class="callout"><strong>Escalation.</strong> {{nl2br fields.escalation}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.title}}</span
+    ><span>Exercise material. All organizations, people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Movement request and approval",
+  "description": "A request to move staff and vehicles, with the security manager's decision: approved, approved with conditions, refused or pending, with conditions, who approved and when. A decision other than pending must name who decided. Organizations and people are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "requestId",
+    "requester",
+    "purpose",
+    "route",
+    "departure",
+    "decision"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Harbourlight Relief"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Tamsaria Country Office, Security"],
+      "x-translate": false
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Request reference",
+      "examples": ["MR-2026-118"],
+      "x-translate": false
+    },
+    "requester": {
+      "type": "string",
+      "description": "Requesting role",
+      "examples": ["Head of Logistics"],
+      "x-translate": false
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose of the movement",
+      "examples": ["Deliver four water treatment units to Soma Valley."]
+    },
+    "route": {
+      "type": "string",
+      "description": "Route, in general terms",
+      "examples": ["Karun City to Soma Valley via Route 9"]
+    },
+    "departure": {
+      "type": "string",
+      "description": "Planned departure",
+      "examples": ["16 October 2026, 06:30 local"],
+      "x-translate": false
+    },
+    "returnBy": {
+      "type": "string",
+      "description": "Return or arrival by",
+      "examples": ["16 October 2026, 16:00 local"],
+      "x-translate": false
+    },
+    "vehicles": {
+      "type": "string",
+      "description": "Vehicles",
+      "examples": ["Two four-wheel-drive vehicles with organization markings"]
+    },
+    "passengers": {
+      "type": "string",
+      "description": "People travelling",
+      "examples": ["5"],
+      "x-translate": false
+    },
+    "checkIn": {
+      "type": "string",
+      "description": "Check-in schedule",
+      "examples": ["Every 60 minutes by radio; satellite phone as backup"]
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision",
+      "enum": ["pending", "approved", "conditional", "refused"],
+      "examples": ["conditional"]
+    },
+    "conditions": {
+      "type": "array",
+      "description": "Conditions",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Depart no later than 06:30 and be at the destination before 15:00.",
+          "Turn back and report if a checkpoint cannot be passed with the standard documents.",
+          "Check in by radio every 60 minutes."
+        ]
+      ]
+    },
+    "decidedBy": {
+      "type": "string",
+      "description": "Decided by (role)",
+      "examples": ["Security Manager"],
+      "x-translate": false
+    },
+    "decidedAt": {
+      "type": "string",
+      "description": "Decided at",
+      "examples": ["15 October 2026, 18:40 local"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

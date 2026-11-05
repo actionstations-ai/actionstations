@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cluster gap list",
+  "description": "A cluster's list of coverage gaps: each line names the area, the need, a status (unassigned, assigned or covered), the partner when assigned and a date. The summary counts must match the lines. Organizations are fictional.",
+  "type": "object",
+  "required": ["organization", "title", "asOf", "summary"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Health Cluster, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Coordination team"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Title",
+      "examples": ["Health Cluster gap list, Karun Province earthquake"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "As of",
+      "examples": ["16 October 2026, 10:00 local"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Counts by status, matching the lines",
+      "examples": ["5 gaps: 2 unassigned, 2 assigned, 1 covered"]
+    },
+    "gaps": {
+      "type": "array",
+      "description": "Gap lines",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gap id",
+            "examples": ["G-01"],
+            "x-translate": false
+          },
+          "area": {
+            "type": "string",
+            "description": "Admin area",
+            "examples": ["Hadar"],
+            "x-translate": false
+          },
+          "need": {
+            "type": "string",
+            "description": "The unmet need",
+            "examples": ["Primary health care for an estimated 38,000 people"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "enum": ["unassigned", "assigned", "covered"],
+            "examples": ["unassigned"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Partner assigned; empty when unassigned",
+            "examples": [""]
+          },
+          "due": {
+            "type": "string",
+            "description": "Date by which it should be covered",
+            "examples": ["17 Oct"],
+            "x-translate": false
+          }
+        },
+        "required": ["id", "area", "need", "status"]
+      },
+      "examples": [
+        [
+          {
+            "id": "G-01",
+            "area": "Hadar",
+            "need": "Primary health care for an estimated 38,000 people",
+            "status": "unassigned",
+            "owner": "",
+            "due": "16 Oct"
+          },
+          {
+            "id": "G-02",
+            "area": "Soma Valley",
+            "need": "Trauma surgery: about 40 operations a day needed, 15 available",
+            "status": "assigned",
+            "owner": "Kestrel Health Aid",
+            "due": "17 Oct"
+          },
+          {
+            "id": "G-03",
+            "area": "Karun South",
+            "need": "Vaccine cold chain at two district stores",
+            "status": "assigned",
+            "owner": "Tamsarian Crescent Society",
+            "due": "17 Oct"
+          },
+          {
+            "id": "G-04",
+            "area": "Bel Ravi",
+            "need": "Mental health and psychosocial support",
+            "status": "unassigned",
+            "owner": "",
+            "due": "18 Oct"
+          },
+          {
+            "id": "G-05",
+            "area": "Karun North",
+            "need": "Medicines for chronic disease",
+            "status": "covered",
+            "owner": "Harbourlight Relief",
+            "due": "15 Oct"
+          }
+        ]
+      ]
+    },
+    "escalation": {
+      "type": "string",
+      "description": "What goes to the Humanitarian Country Team",
+      "examples": [
+        "G-01 and G-04 are unassigned after two cluster meetings and are escalated to the Humanitarian Country Team on 16 October."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

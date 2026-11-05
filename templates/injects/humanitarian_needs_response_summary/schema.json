@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Needs overview and response plan summary",
+  "description": "A short summary of a humanitarian needs overview and the response plan or flash appeal built on it: people in need and targeted, requirement by sector, priorities and caveats. Figures come from the facilitator and must agree across the pack. Organizations are fictional.",
+  "type": "object",
+  "required": [
+    "organization",
+    "planTitle",
+    "period",
+    "peopleInNeed",
+    "peopleTargeted",
+    "requirement"
+  ],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Humanitarian Coordination Office, Republic of Tamsaria"],
+      "x-translate": false
+    },
+    "unit": {
+      "type": "string",
+      "description": "Office, unit or team",
+      "examples": ["Humanitarian Country Team"],
+      "x-translate": false
+    },
+    "planTitle": {
+      "type": "string",
+      "description": "Plan title",
+      "examples": ["Tamsaria Earthquake Flash Appeal"]
+    },
+    "period": {
+      "type": "string",
+      "description": "Planning period",
+      "examples": ["October 2026 to January 2027"],
+      "x-translate": false
+    },
+    "peopleInNeed": {
+      "type": "string",
+      "description": "People in need, total",
+      "examples": ["410,000"],
+      "x-translate": false
+    },
+    "peopleTargeted": {
+      "type": "string",
+      "description": "People targeted, total",
+      "examples": ["280,000"],
+      "x-translate": false
+    },
+    "requirement": {
+      "type": "string",
+      "description": "Total requirement in US dollars",
+      "examples": ["62.0 million"],
+      "x-translate": false
+    },
+    "keyFindings": {
+      "type": "array",
+      "description": "Key findings from the needs overview",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "410,000 people are affected; 38,000 households are displaced.",
+          "17 of 64 assessed health facilities are damaged.",
+          "Hadar has had the least assessment because of access."
+        ]
+      ]
+    },
+    "sectors": {
+      "type": "array",
+      "description": "Requirement by sector",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "sector": {
+            "type": "string",
+            "description": "Sector",
+            "examples": ["Health"]
+          },
+          "inNeed": {
+            "type": "string",
+            "description": "People in need",
+            "examples": ["410,000"],
+            "x-translate": false
+          },
+          "targeted": {
+            "type": "string",
+            "description": "People targeted",
+            "examples": ["220,000"],
+            "x-translate": false
+          },
+          "requirement": {
+            "type": "string",
+            "description": "Funding requirement, US dollars",
+            "examples": ["14.0 million"],
+            "x-translate": false
+          }
+        },
+        "required": ["sector"]
+      },
+      "examples": [
+        [
+          {
+            "sector": "Health",
+            "inNeed": "410,000",
+            "targeted": "220,000",
+            "requirement": "14.0 million"
+          },
+          {
+            "sector": "Water, sanitation and hygiene",
+            "inNeed": "380,000",
+            "targeted": "250,000",
+            "requirement": "11.5 million"
+          },
+          {
+            "sector": "Shelter",
+            "inNeed": "300,000",
+            "targeted": "180,000",
+            "requirement": "17.0 million"
+          },
+          {
+            "sector": "Food security",
+            "inNeed": "250,000",
+            "targeted": "200,000",
+            "requirement": "12.5 million"
+          },
+          {
+            "sector": "Protection",
+            "inNeed": "150,000",
+            "targeted": "90,000",
+            "requirement": "4.0 million"
+          },
+          {
+            "sector": "Logistics",
+            "inNeed": "n/a",
+            "targeted": "n/a",
+            "requirement": "3.0 million"
+          }
+        ]
+      ]
+    },
+    "priorities": {
+      "type": "array",
+      "description": "Response priorities",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Save lives: trauma care, clean water and emergency shelter in the first 30 days.",
+          "Reach Hadar with a health partner."
+        ]
+      ]
+    },
+    "caveats": {
+      "type": "string",
+      "description": "What the figures do not cover",
+      "examples": [
+        "Figures are from rapid assessments. People targeted is not people reached. Sphere indicators are referenced for site design and are not copied here."
+      ]
+    }
+  },
+  "additionalProperties": false
+}
