@@ -143,6 +143,17 @@ export const DEFAULT_CASE_LIMIT_MB = 500
 export const CaseDataSettings = z.object({
   /** Most megabytes of case data one scenario may hold. */
   maxMbPerScenario: z.number().int().min(1).max(10_000).default(DEFAULT_CASE_LIMIT_MB),
+  /**
+   * The user's own contact email, sent in the User-Agent to archives whose fair-access rules ask
+   * for one (SEC EDGAR). Empty until the user sets it; never filled in by the app.
+   */
+  contactEmail: z
+    .string()
+    .max(200)
+    .refine((v) => v === '' || /^[^\s@<>()]+@[^\s@<>()]+\.[^\s@<>()]+$/.test(v), {
+      message: 'Enter an email address, or leave it empty',
+    })
+    .default(''),
 })
 export type CaseDataSettings = z.infer<typeof CaseDataSettings>
 

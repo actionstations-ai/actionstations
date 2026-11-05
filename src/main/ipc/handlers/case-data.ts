@@ -46,6 +46,7 @@ export default defineHandlers({
     return runFetch(root, scenarioId, estimateId, consent, {
       maxMbPerScenario: await limitMb(),
       version: packAppVersion(),
+      contact: (await getSettings()).caseData.contactEmail,
       now: caseDeps.now,
       ...(caseDeps.fetchImpl ? { fetchImpl: caseDeps.fetchImpl } : {}),
     })

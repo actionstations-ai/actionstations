@@ -9,8 +9,11 @@ import type { FetchContext } from '../toolkits/connectors/registry'
 export const MAX_CASE_REDIRECTS = 3
 export const CASE_TIMEOUT_MS = 60_000
 
-export const caseUserAgent = (version: string): string =>
-  `ActionStations/${version} (+https://actionstations.ai)`
+/** The User-Agent; an archive that requires a contact (SEC EDGAR) gets the user's own in it. */
+export const caseUserAgent = (version: string, contact?: string): string =>
+  contact
+    ? `ActionStations/${version} (${contact})`
+    : `ActionStations/${version} (+https://actionstations.ai)`
 
 export interface CaseHttpOptions {
   hosts: readonly string[]
@@ -22,6 +25,13 @@ export interface CaseHttpOptions {
   fetchImpl?: typeof fetch
   signal?: AbortSignal
   timeoutMs?: number
+  /** The user's contact for archives that require one; sent in the User-Agent. */
+  contact?: string
+  /** Least milliseconds between two requests (an archive's fair-access rate). */
+  minIntervalMs?: number
+  /** Test hooks for the pacing. */
+  sleep?: (ms: number) => Promise<void>
+  clock?: () => number
 }
 
 /** Throws unless `url` is https on one of `hosts`, with no credentials in it. */
@@ -47,19 +57,32 @@ async function readBody(res: Response, url: string, max: number, touch: () => vo
 
 export function createCaseGet(opts: CaseHttpOptions): FetchContext['get'] {
   const fetchImpl = opts.fetchImpl ?? fetch
+  const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)))
+  const clock = opts.clock ?? Date.now
+  const interval = opts.minIntervalMs ?? 0
+  let nextAt = 0
+  /** Keep requests at least `interval` apart, in the order they were asked for. */
+  const pace = async (): Promise<void> => {
+    if (interval <= 0) return
+    const now = clock()
+    const start = Math.max(now, nextAt)
+    nextAt = start + interval
+    if (start > now) await sleep(start - now)
+  }
   return async (url, init) => {
     const idle = idleAbort(opts.timeoutMs ?? CASE_TIMEOUT_MS, opts.signal)
     const first = assertConnectorUrl(url, opts.hosts)
     let current = first
     try {
       for (let hop = 0; ; hop++) {
+        await pace()
         const res = await fetchImpl(current.href, {
           method: 'GET',
           redirect: 'manual',
           signal: idle.signal,
           credentials: 'omit',
           headers: {
-            'user-agent': caseUserAgent(opts.version),
+            'user-agent': caseUserAgent(opts.version, opts.contact),
             ...(init?.range ? { range: `bytes=${init.range[0]}-${init.range[1]}` } : {}),
           },
         })

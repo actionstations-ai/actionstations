@@ -52,6 +52,11 @@ export interface AcquireDeps {
   now?: () => Date
   fetchImpl?: typeof fetch
   signal?: AbortSignal
+  /** The user's contact from Settings, for archives that require one. */
+  contact?: string
+  /** Test hooks for request pacing. */
+  sleep?: (ms: number) => Promise<void>
+  clock?: () => number
 }
 
 const totalOf = (e: ConnectorEstimate): number => e.items.reduce((n, i) => n + i.bytes, 0)
@@ -146,8 +151,14 @@ export async function runFetch(
   const now = (deps.now ?? (() => new Date()))()
   if (!plan || plan.expires < now.getTime() || plan.root !== root || plan.scenarioId !== scenarioId)
     throw new AppError('CONFLICT', 'Show the size estimate again before fetching')
-  pending.delete(estimateId)
   const connector = getConnector(plan.connectorId)
+  const contact = deps.contact?.trim()
+  if (connector.contact === 'required' && !contact)
+    throw new AppError(
+      'VALIDATION',
+      `${connector.source} asks every user to identify themselves. Add your contact email under Settings, Case data, then fetch again.`,
+    )
+  pending.delete(estimateId)
   const room = await roomLeft(root, scenarioId, deps.maxMbPerScenario)
   if (plan.totalBytes > room)
     throw new AppError(
@@ -163,6 +174,10 @@ export async function runFetch(
   }
   const get = createCaseGet({
     hosts: connector.hosts,
+    ...(connector.contact === 'required' && contact ? { contact } : {}),
+    ...(connector.minIntervalMs ? { minIntervalMs: connector.minIntervalMs } : {}),
+    ...(deps.sleep ? { sleep: deps.sleep } : {}),
+    ...(deps.clock ? { clock: deps.clock } : {}),
     version: deps.version,
     maxBytes: () => room - received,
     onResponse: (info) => {
