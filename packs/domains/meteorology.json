@@ -1,0 +1,911 @@
+{
+  "id": "meteorology",
+  "label": "Meteorology (forecast and warning operations)",
+  "description": "A weather forecast and warning team: a forecast office, a broadcast weather team or a meteorologist embedded with emergency management or a utility. They watch radar, satellite, soundings and model guidance, issue watches, warnings and decision-support briefings, and work with emergency managers, broadcasters and the public. Plans and doctrine: NWS directives for warning products, the integrated warning team practice and, for hurricanes, the hurricane evacuation studies and decision timeline. Products here are exercise products, never operational ones.",
+  "aliases": [
+    "weather service",
+    "forecast office",
+    "wfo",
+    "nws office",
+    "weather team",
+    "broadcast meteorology",
+    "tv weather",
+    "storm team",
+    "meteorology department",
+    "weather desk",
+    "operational meteorology",
+    "decision support meteorologist"
+  ],
+  "vocabulary": {
+    "facility": "the forecast office and its warning operations floor",
+    "public": "residents, spotters, emergency managers and broadcast viewers",
+    "frontline": "warning forecasters, mesoanalysts, decision support meteorologists, on-air meteorologists",
+    "operationsCenter": "the warning operations floor of the forecast office"
+  },
+  "factCategories": [
+    {
+      "id": "forecast_offices",
+      "label": "Forecast offices",
+      "pattern": "\\bWFO ([A-Z]{3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "watches",
+      "label": "Watches",
+      "noun": "(?:Tornado |Severe Thunderstorm )?Watch(?:es)?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "mesoscale_discussions",
+      "label": "Mesoscale discussions",
+      "noun": "Mesoscale Discussions?|MDs?",
+      "idShape": "number",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "forecast_zones",
+      "label": "Forecast zones (UGC)",
+      "pattern": "\\b([A-Z]{2}[CZ]\\d{3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "named_storms",
+      "label": "Named storms",
+      "pattern": "\\b(?:Hurricane|Tropical Storm|Tropical Depression) ([A-Z][a-z]+)\\b",
+      "idShape": "alnum",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "AWIPS forecast workstations",
+      "warning generation software",
+      "partner chat",
+      "office email and phone system",
+      "public website and social media accounts",
+      "product dissemination and the NOAA Weather Radio transmitters",
+      "graphics and briefing software",
+      "office network and data feeds",
+      "broadcast graphics and automation (broadcast team)",
+      "the station's weather app and push alerts (broadcast team)"
+    ],
+    "ot": [
+      "WSR-88D radar (dual polarization) sites and their communications",
+      "GOES satellite feeds",
+      "upper-air sounding launch equipment",
+      "surface observing stations (ASOS and mesonets)",
+      "lightning detection network",
+      "model guidance (HRRR, NAM, GFS and ensembles)",
+      "IPAWS, WEA and EAS dissemination",
+      "backup power and generator at the office and radar sites"
+    ]
+  },
+  "roles": [
+    {
+      "key": "lead",
+      "name": "Lead Forecaster / Shift Supervisor",
+      "abbreviation": "LEAD",
+      "team": "Forecast office: Operations",
+      "description": "Owns staffing and sectorization, who warns which counties, when to call in help and service backup."
+    },
+    {
+      "key": "warn",
+      "name": "Warning Forecaster (radar sector)",
+      "abbreviation": "WARN",
+      "team": "Forecast office: Warning",
+      "description": "Issues and updates tornado, severe thunderstorm and flash flood warnings and statements."
+    },
+    {
+      "key": "meso",
+      "name": "Mesoanalyst",
+      "abbreviation": "MESO",
+      "team": "Forecast office: Warning",
+      "description": "Watches the environment (surface, upper air, satellite, mesoanalysis) and advises the warning forecasters."
+    },
+    {
+      "key": "dss",
+      "name": "Decision Support (IDSS) Meteorologist",
+      "abbreviation": "DSS",
+      "team": "Forecast office: Partners",
+      "description": "Briefs emergency managers and partners, answers their questions and joins their calls."
+    },
+    {
+      "key": "wcm",
+      "name": "Warning Coordination Meteorologist",
+      "abbreviation": "WCM",
+      "team": "Forecast office: Partners",
+      "description": "Owns partner and media relations, the social media presence and the decision support program."
+    },
+    {
+      "key": "hydro",
+      "name": "Hydrologist",
+      "abbreviation": "HYDRO",
+      "team": "Forecast office: Hydrology",
+      "description": "Owns river and flash flood forecasts with the River Forecast Center."
+    },
+    {
+      "key": "soo",
+      "name": "Science and Operations Officer",
+      "abbreviation": "SOO",
+      "team": "Forecast office: Leadership",
+      "description": "Owns science, training and the post-event review."
+    },
+    {
+      "key": "mic",
+      "name": "Meteorologist in Charge",
+      "abbreviation": "MIC",
+      "team": "Forecast office: Leadership",
+      "description": "Owns office decisions, continuity and external escalation."
+    },
+    {
+      "key": "comms",
+      "name": "Communications / Social Media Forecaster",
+      "abbreviation": "COMMS",
+      "team": "Forecast office: Partners",
+      "description": "Owns graphics, posts, partner chat and spotter coordination."
+    },
+    {
+      "key": "chief_met",
+      "name": "Chief Meteorologist",
+      "abbreviation": "CHIEF",
+      "team": "Broadcast weather team",
+      "description": "Owns the on-air forecast, the station's severe weather coverage and what the team says is certain."
+    },
+    {
+      "key": "on_air",
+      "name": "On-Air Meteorologist",
+      "abbreviation": "AIR",
+      "team": "Broadcast weather team",
+      "description": "Presents the forecast and warnings live and interprets radar for viewers."
+    },
+    {
+      "key": "wx_producer",
+      "name": "Weather Producer",
+      "abbreviation": "PROD",
+      "team": "Broadcast weather team",
+      "description": "Owns the weather show rundown, graphics and the link between the weather desk and the newsroom."
+    },
+    {
+      "key": "digital",
+      "name": "Digital and Social Producer",
+      "abbreviation": "DIG",
+      "team": "Broadcast weather team",
+      "description": "Owns the app alerts, the website and social posts, and corrects rumors."
+    },
+    {
+      "key": "news_dir",
+      "name": "News Director",
+      "abbreviation": "NEWS",
+      "team": "Broadcast newsroom",
+      "description": "Decides wall-to-wall coverage, cut-ins and staffing outside the weather team."
+    },
+    {
+      "key": "embedded",
+      "name": "Embedded Meteorologist (emergency management or utility)",
+      "abbreviation": "EMBED",
+      "team": "Embedded meteorology",
+      "description": "Briefs the emergency manager or the utility's operations leaders on what the weather will do to their decisions."
+    },
+    {
+      "key": "ema",
+      "name": "County Emergency Manager",
+      "abbreviation": "EMA",
+      "team": "Partners: Emergency management",
+      "description": "Decides sirens, shelters, evacuations and the county's own messages from the forecast office's products."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Partners: Public information",
+      "description": "Owns the public message so it matches the warning products."
+    }
+  ],
+  "outsideParties": [
+    "Storm Prediction Center",
+    "National Hurricane Center",
+    "Weather Prediction Center",
+    "the River Forecast Center",
+    "neighboring forecast offices",
+    "county and state emergency management",
+    "911 centers",
+    "SKYWARN spotters and amateur radio operators",
+    "broadcast and print media partners",
+    "the public on social media",
+    "FAA and airport operations",
+    "electric and gas utilities",
+    "school districts",
+    "large event venues and venue operators"
+  ],
+  "mediaChannels": [
+    "a TV station's weather segment",
+    "the forecast office's social media accounts",
+    "partner chat",
+    "NOAA Weather Radio",
+    "a local radio station",
+    "a viral post with a photo of a funnel cloud",
+    "a weather app push alert",
+    "a county emergency management Facebook page"
+  ],
+  "sceneAnchors": {
+    "public": "on a suburban street under a dark green-gray sky, neighbors looking up with phones in hand, wind moving the trees, daylight",
+    "control": "inside a forecast office warning operations floor: several forecasters at multi-monitor workstations showing radar and satellite imagery, a supervisor standing behind them, fluorescent light",
+    "exterior": "outdoors at a county road intersection with a storm wall cloud on the horizon, a county pickup truck, an emergency siren on a pole, rolling farmland"
+  },
+  "injectTypes": [
+    "nws_weather_warning",
+    "cap_alert",
+    "eas_broadcast",
+    "radio_call",
+    "phone_call",
+    "text_message",
+    "chat_transcript",
+    "email",
+    "email_forward",
+    "memo",
+    "sitrep",
+    "field_report",
+    "tweet",
+    "facebook_post",
+    "news_article",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "status_board",
+    "map_annotation",
+    "downtime_notice",
+    "system_log",
+    "incident_alert_notification",
+    "pa_announcement",
+    "scene_photo",
+    "911_cad_entry",
+    "ics_213_general_message",
+    "service_status_page"
+  ],
+  "threatFamilies": [
+    "wx_convective_outbreak",
+    "wx_flash_flood",
+    "wx_tropical_cyclone",
+    "wx_winter_storm",
+    "wx_extreme_heat",
+    "wx_fire_weather",
+    "wx_aviation_weather",
+    "wx_service_degradation",
+    "natural_hazard",
+    "infrastructure_failure",
+    "cyber"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "wx_convective_outbreak",
+      "label": "Convective outbreak (severe thunderstorms and tornadoes)",
+      "description": "A day of organized severe thunderstorms worked from the morning outlook through watches, warnings, reports and the storm survey.",
+      "keywords": [
+        "tornado",
+        "severe thunderstorm",
+        "supercell",
+        "derecho",
+        "squall line",
+        "hail",
+        "damaging wind",
+        "convective outlook",
+        "mesoscale discussion",
+        "tornado watch",
+        "tornado warning",
+        "outbreak",
+        "storm reports",
+        "bow echo"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outlook",
+          "goal": "The team sees the setup coming and must decide how loudly to say so.",
+          "beats": [
+            "A convective outlook raises the risk category for the area",
+            "A model run disagrees with the previous one on storm mode",
+            "A partner asks whether to staff up for tomorrow"
+          ]
+        },
+        {
+          "title": "Environment",
+          "goal": "Assess whether the atmosphere will support storms: instability, shear, capping, and where storms will form first.",
+          "beats": [
+            "A morning sounding shows a strong cap and rich low-level moisture",
+            "A mesoanalysis shows a boundary lifting north",
+            "A mesoscale discussion says a watch is likely soon"
+          ]
+        },
+        {
+          "title": "Watch",
+          "goal": "A watch is out. Partners decide posture before anything has formed.",
+          "beats": [
+            "A tornado watch is issued for the area",
+            "Emergency managers ask what the watch changes for them",
+            "The first storm initiates on the boundary and the radar shows it organizing"
+          ]
+        },
+        {
+          "title": "Warnings",
+          "goal": "Warning decisions under time pressure with incomplete radar evidence, balancing lead time against false alarms.",
+          "beats": [
+            "A rotating storm approaches a town and the warning forecaster must choose the polygon and the damage threat tag",
+            "Two storms need warnings at once and one forecaster is covering both",
+            "A spotter report conflicts with radar",
+            "A partner asks for a conference call mid-warning"
+          ]
+        },
+        {
+          "title": "Reports and verification",
+          "goal": "Reports arrive and the team separates confirmed damage from rumor, updating products and partners.",
+          "beats": [
+            "Local storm reports and a damage photo arrive",
+            "A viral photo of a funnel cloud is from another year",
+            "A county emergency manager asks for an impact statement"
+          ]
+        },
+        {
+          "title": "Survey and recovery",
+          "goal": "Damage survey, public information statement and the review of how the warnings did.",
+          "beats": [
+            "A damage survey team is dispatched and the rating process begins",
+            "A resident criticizes a late siren",
+            "The office compares warning times with the first reports"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to call in extra staff before the first storm forms",
+        "Whether to issue a tornado warning on a radar-indicated circulation with no spotter confirmation",
+        "Whether to add the highest damage threat tag, with the cost of warning fatigue if it is wrong",
+        "How to split warning responsibility when two storms need warnings at once",
+        "Whether to join a partner call during a warning"
+      ],
+      "clueKinds": "Radar signatures, soundings, mesoanalysis parameters, spotter and public reports, and partner questions that show what the storm is doing and whether the evidence is enough to warn.",
+      "hurdleKinds": "A radar outage or a dissemination failure in the middle of the warning window; a spotter network that goes quiet; a county siren system that cannot be activated.",
+      "keyCoordination": "County and municipal emergency management, the 911 center, SKYWARN spotters, broadcast partners and neighboring forecast offices.",
+      "promptGuidance": "The setup and the warnings must follow the real product sequence: outlook, then mesoscale discussion, then watch, then warnings and statements, then local storm reports and a public information statement. Use exact times and the product header conventions, never invent a watch number that contradicts the documents, and keep every product marked as an exercise.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_flash_flood",
+      "label": "Flash flood (heavy rain)",
+      "description": "Heavy rain on saturated or urban ground that floods fast, worked as rainfall forecasts, gauge and radar rainfall estimates, warnings and rescues.",
+      "keywords": [
+        "flash flood",
+        "excessive rainfall",
+        "heavy rain",
+        "flash flood warning",
+        "flash flood emergency",
+        "training storms",
+        "rainfall rate",
+        "stream gauge",
+        "urban flooding",
+        "low water crossing"
+      ],
+      "phaseArc": [
+        {
+          "title": "Outlook",
+          "goal": "The excessive rainfall outlook and the river forecast frame the risk before the rain starts.",
+          "beats": [
+            "An excessive rainfall outlook shows a Slight or Moderate risk",
+            "The river forecast center and the office disagree on soil moisture",
+            "A partner asks about road closure planning"
+          ]
+        },
+        {
+          "title": "Heavy rain begins",
+          "goal": "Rain rates climb and the first gauges respond.",
+          "beats": [
+            "Radar estimates show rain rates over two inches an hour",
+            "A stream gauge begins rising",
+            "A flood watch is already in effect"
+          ]
+        },
+        {
+          "title": "Warnings",
+          "goal": "The flash flood warning decision with reports of water on roads.",
+          "beats": [
+            "Storms train over the same area",
+            "A flash flood warning is issued with an impact tag",
+            "A 911 center reports a water rescue"
+          ]
+        },
+        {
+          "title": "Emergency",
+          "goal": "Flooding is severe enough that the highest level of flash flood warning is considered.",
+          "beats": [
+            "A report of homes and vehicles flooded and people trapped",
+            "The office debates a flash flood emergency",
+            "A reservoir or levee concern is raised"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Reports, river crests, road closures and the review.",
+          "beats": [
+            "Gauges crest and fall",
+            "A public information statement summarizes rainfall and flooding",
+            "Residents ask why the warning came after the water"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to issue a flash flood emergency, with the cost of lost credibility if the impact is smaller",
+        "Whether to extend a warning in time or let it expire and reissue",
+        "How to word the call to action for drivers",
+        "Whether to ask the emergency manager to close a low-water crossing"
+      ],
+      "clueKinds": "Rainfall rate estimates, gauge trends, rescue calls and photographs of water over roads.",
+      "hurdleKinds": "A gauge that stops reporting; a radar beam blocked in the hills; conflicting rainfall estimates.",
+      "keyCoordination": "County emergency management, 911, the river forecast center, road and highway departments and dam or reservoir operators.",
+      "promptGuidance": "Use rainfall in inches over stated hours, gauge stage and flood stage in feet, and keep warnings for flash floods separate from river flood warnings. Reports must come from named gauges, counties and roads in the documents.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_tropical_cyclone",
+      "label": "Tropical cyclone (hurricane)",
+      "description": "A tropical storm or hurricane approaching a coast, worked as advisories, watches and warnings, surge, evacuation decisions and landfall.",
+      "keywords": [
+        "hurricane",
+        "tropical storm",
+        "tropical cyclone",
+        "storm surge",
+        "hurricane watch",
+        "hurricane warning",
+        "landfall",
+        "evacuation order",
+        "national hurricane center",
+        "forecast cone",
+        "tropical depression",
+        "hurricane hunter",
+        "rapid intensification"
+      ],
+      "phaseArc": [
+        {
+          "title": "Formation and outlook",
+          "goal": "A disturbance becomes a named storm and the first advisories raise questions for the coast.",
+          "beats": [
+            "The National Hurricane Center issues its first advisory",
+            "A forecast cone includes the county",
+            "Emergency management asks for a decision timeline"
+          ]
+        },
+        {
+          "title": "Watches",
+          "goal": "Hurricane and storm surge watches begin the clock for evacuations.",
+          "beats": [
+            "A hurricane watch is issued about 48 hours before tropical-storm-force winds are expected",
+            "The county compares evacuation clearance times with the wind arrival time",
+            "Models disagree on the track"
+          ]
+        },
+        {
+          "title": "Warnings and evacuation",
+          "goal": "Warnings begin; decisions about evacuation, shelters and closures have to be made before the winds arrive.",
+          "beats": [
+            "A hurricane warning is issued about 36 hours before tropical-storm-force winds",
+            "The emergency manager must decide on evacuation zones",
+            "The storm intensifies faster than forecast"
+          ]
+        },
+        {
+          "title": "Landfall",
+          "goal": "Winds, surge and rain arrive and the team shifts to current conditions and rescue support.",
+          "beats": [
+            "Tropical-storm-force winds arrive",
+            "Surge flooding is reported earlier than expected",
+            "Power and communications fail in parts of the area"
+          ]
+        },
+        {
+          "title": "Aftermath",
+          "goal": "Damage assessment, public information and the review of the forecast.",
+          "beats": [
+            "Reports of surge height and wind damage arrive",
+            "Residents who stayed ask for help",
+            "The office and the county review the decision timeline"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "When to order evacuation of each zone given its clearance time and the forecast arrival of tropical-storm-force winds",
+        "Whether to keep a shelter open as the track shifts",
+        "Whether to close a bridge before sustained winds reach the closure threshold",
+        "Whether to staff the office around the clock and cancel leave"
+      ],
+      "clueKinds": "Advisory updates, hurricane hunter data, forecast model tracks and surge guidance that change the decision timeline.",
+      "hurdleKinds": "A power failure at the emergency operations center; communication loss with the shelter; a traffic jam that slows evacuation.",
+      "keyCoordination": "The National Hurricane Center, state and county emergency management, and shelter operators.",
+      "promptGuidance": "Use advisory numbers, issuance times at the standard advisory hours, wind speeds as the product states them, and the watch and warning lead times of the storm products. The decision timeline is: evacuation start equals the arrival of tropical-storm-force winds minus the clearance time.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_winter_storm",
+      "label": "Winter storm",
+      "description": "Snow, ice or blizzard conditions that affect roads, power and operations, worked as forecast discussions, warnings and impact briefings.",
+      "keywords": [
+        "winter storm",
+        "blizzard",
+        "ice storm",
+        "freezing rain",
+        "snowfall",
+        "winter weather advisory",
+        "wind chill",
+        "whiteout",
+        "sleet",
+        "snow squall"
+      ],
+      "phaseArc": [
+        {
+          "title": "Forecast",
+          "goal": "Uncertain snow and ice amounts must be communicated before the storm.",
+          "beats": [
+            "A winter storm watch is issued",
+            "Models disagree on the rain-snow line",
+            "Road agencies ask for the likeliest and the worst case"
+          ]
+        },
+        {
+          "title": "Onset",
+          "goal": "The first impacts appear and the forecast is tested against observations.",
+          "beats": [
+            "Temperatures stay above freezing longer than forecast",
+            "A winter storm warning is issued",
+            "The first crashes are reported"
+          ]
+        },
+        {
+          "title": "Peak",
+          "goal": "Snow rates, ice accumulation or wind peak and operations are disrupted.",
+          "beats": [
+            "Freezing rain brings down trees and lines",
+            "Blizzard conditions close a highway",
+            "Power outages rise"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Amounts are verified and the next phase of cold is handled.",
+          "beats": [
+            "Snowfall reports arrive",
+            "Wind chills drop overnight",
+            "The public asks why the forecast amount was off"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to upgrade a watch to a warning given forecast uncertainty",
+        "Whether to recommend closing schools or delaying a shift",
+        "How to describe the ice accumulation range to the power utility"
+      ],
+      "clueKinds": "Observed temperatures, precipitation types and amounts, webcam and road reports.",
+      "hurdleKinds": "A road weather sensor outage; a power outage at a spotter site; a forecast graphic posted with the wrong amounts.",
+      "keyCoordination": "Road and highway agencies, utilities, school districts and emergency management.",
+      "promptGuidance": "Use inches of snow and hundredths of an inch of ice, product names and times in local time, and keep advisory, warning and watch language separate.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_extreme_heat",
+      "label": "Extreme heat",
+      "description": "A multi-day heat wave that stresses people and power, worked as forecasts, heat products and public health coordination.",
+      "keywords": [
+        "heat wave",
+        "extreme heat",
+        "heat advisory",
+        "excessive heat",
+        "heat index",
+        "heat risk",
+        "cooling center",
+        "heat stroke",
+        "record high"
+      ],
+      "phaseArc": [
+        {
+          "title": "Forecast",
+          "goal": "The heat is forecast several days out and partners plan.",
+          "beats": [
+            "An extreme heat watch is issued",
+            "The power utility asks for peak temperatures",
+            "A health department asks about cooling centers"
+          ]
+        },
+        {
+          "title": "Onset",
+          "goal": "The first hot days begin and the first illnesses are reported.",
+          "beats": [
+            "A heat advisory is issued",
+            "Hospital visits begin to rise",
+            "An outdoor event asks about continuing"
+          ]
+        },
+        {
+          "title": "Peak",
+          "goal": "Heat and humidity peak with warm nights and strained infrastructure.",
+          "beats": [
+            "Overnight lows stay high",
+            "The grid operator warns of tight supply",
+            "A cooling center runs out of space"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Heat ends and the review begins.",
+          "beats": [
+            "Temperatures fall",
+            "The health department counts cases",
+            "The office reviews its messaging"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to upgrade a heat advisory to a warning for a vulnerable population",
+        "Whether to recommend canceling an outdoor event",
+        "Whether to ask partners to open cooling centers overnight"
+      ],
+      "clueKinds": "Temperature and heat index observations, overnight lows, hospital and cooling center counts.",
+      "hurdleKinds": "A sensor reading too high from a bad exposure; a power outage at a cooling center.",
+      "keyCoordination": "Public health, the electric utility and grid operator, school districts and event organizers.",
+      "promptGuidance": "Use heat index and temperature in degrees Fahrenheit with the stated thresholds of the local office, and mention warm overnight lows.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_fire_weather",
+      "label": "Fire weather",
+      "description": "Dry, windy conditions that raise fire danger, worked as fire weather forecasts, red flag warnings and spot forecasts for an active fire.",
+      "keywords": [
+        "red flag",
+        "fire weather",
+        "spot forecast",
+        "critical fire weather",
+        "wildfire weather",
+        "dry thunderstorm",
+        "santa ana",
+        "downslope wind",
+        "low humidity"
+      ],
+      "phaseArc": [
+        {
+          "title": "Forecast",
+          "goal": "The fire weather forecast shows critical conditions coming.",
+          "beats": [
+            "A fire weather watch is issued",
+            "Fuel moisture is below average",
+            "Land managers ask about burn permits"
+          ]
+        },
+        {
+          "title": "Red flag",
+          "goal": "Warnings are in effect and a fire starts.",
+          "beats": [
+            "A red flag warning is issued",
+            "Wind gusts exceed the criteria",
+            "A fire starts and a spot forecast is requested"
+          ]
+        },
+        {
+          "title": "Active fire",
+          "goal": "Weather drives the fire's behavior and decisions.",
+          "beats": [
+            "A wind shift is forecast for the afternoon",
+            "Dry thunderstorms bring new starts",
+            "Smoke affects aviation and air quality"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Weather eases and the review begins.",
+          "beats": [
+            "Humidity rises overnight",
+            "Fire officials ask for a spot forecast update",
+            "The review compares the forecast with observed winds"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to issue a red flag warning for an area where fuel conditions are borderline",
+        "How to word a spot forecast for a wind shift that affects firefighter safety",
+        "Whether to brief the incident commander in person"
+      ],
+      "clueKinds": "Observed winds, humidity and temperature at nearby stations, smoke reports and fire behavior reports.",
+      "hurdleKinds": "A weather station down near the fire; a data outage for the spot forecast request form.",
+      "keyCoordination": "Fire agencies, land managers, incident management teams and utilities.",
+      "promptGuidance": "Use sustained winds and gusts in miles per hour, relative humidity in percent and the criteria of the local fire weather plan.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_aviation_weather",
+      "label": "Aviation weather",
+      "description": "Thunderstorms, low ceilings, wind shear or ice that disrupts flights, worked as METARs, TAFs, advisories and traffic management decisions.",
+      "keywords": [
+        "metar",
+        "taf",
+        "sigmet",
+        "airmet",
+        "ground stop",
+        "low ceiling",
+        "crosswind",
+        "wind shear",
+        "thunderstorm at the airport",
+        "ground delay",
+        "convective sigmet",
+        "center weather advisory",
+        "lightning at the ramp"
+      ],
+      "phaseArc": [
+        {
+          "title": "Forecast",
+          "goal": "The terminal forecast shows storms or low ceilings.",
+          "beats": [
+            "A TAF forecasts thunderstorms with a probability group",
+            "Airlines ask about the timing",
+            "A convective advisory is issued for the area"
+          ]
+        },
+        {
+          "title": "Onset",
+          "goal": "Conditions begin to degrade at the airport.",
+          "beats": [
+            "A METAR shows reduced visibility and a thunderstorm",
+            "Ramp operations stop for lightning",
+            "A ground stop is considered"
+          ]
+        },
+        {
+          "title": "Disruption",
+          "goal": "Operations are limited and decisions about the TAF are needed.",
+          "beats": [
+            "The TAF needs an amendment",
+            "A ground stop is issued",
+            "Crosswinds exceed limits on the main runway"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Weather improves and the backlog clears.",
+          "beats": [
+            "Visibility improves",
+            "Departures resume",
+            "The airport reviews its lightning procedures"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to amend a TAF now or wait for confirmation",
+        "Whether to recommend a ground stop to traffic management",
+        "Whether to stop ramp operations for lightning within the stated radius"
+      ],
+      "clueKinds": "Surface observations, radar lightning and echo tops, pilot reports.",
+      "hurdleKinds": "An automated observation system fault; a missing observation in the TAF period.",
+      "keyCoordination": "Air traffic control, airlines and airport operations, and the center weather service unit.",
+      "promptGuidance": "Use the METAR and TAF formats exactly, with valid times in UTC, standard weather codes and cloud heights in hundreds of feet.",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations"
+      }
+    },
+    {
+      "id": "wx_service_degradation",
+      "label": "Weather service degradation",
+      "description": "The forecasting or warning service itself is impaired: radar outage, data or dissemination failure, office evacuation and backup, staffing shortfall or misinformation.",
+      "keywords": [
+        "radar outage",
+        "dissemination failure",
+        "office evacuation",
+        "service backup",
+        "staffing shortfall",
+        "awips",
+        "noaa weather radio outage",
+        "fake warning",
+        "misinformation",
+        "data outage",
+        "backup office"
+      ],
+      "phaseArc": [
+        {
+          "title": "Degradation",
+          "goal": "A system or staffing problem is noticed while weather is a concern.",
+          "beats": [
+            "The radar site stops updating",
+            "Staffing falls below the planned level for the shift",
+            "A product transmission fails"
+          ]
+        },
+        {
+          "title": "Workaround",
+          "goal": "The team must invoke backup procedures and tell partners.",
+          "beats": [
+            "A neighboring office is asked to provide service backup",
+            "Partners are told what products they can expect",
+            "The team chooses between two radars farther away"
+          ]
+        },
+        {
+          "title": "Decision",
+          "goal": "The weather worsens while the problem persists.",
+          "beats": [
+            "A tornado-producing storm approaches the gap in coverage",
+            "A decision is needed whether to issue warnings from partial data",
+            "A false warning spreads on social media"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Service is restored and the team reviews.",
+          "beats": [
+            "The system returns with a data gap",
+            "The backup office hands back",
+            "The review lists what partners experienced"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "Whether to ask a neighboring office to take over warning responsibility",
+        "Whether to warn on partial radar data",
+        "Whether to publicly state that radar coverage is limited",
+        "Whether to evacuate the office and where to relocate"
+      ],
+      "clueKinds": "System alarms, product transmission logs, partner questions and gaps in the data feed.",
+      "hurdleKinds": "A backup circuit that fails; a handoff that loses context; a vendor that cannot restore until morning.",
+      "keyCoordination": "Neighboring forecast offices, the regional headquarters, the radar operations center and emergency management.",
+      "promptGuidance": "Describe outages by the system affected and the products that stop, not by vendor. Always state what partners can still rely on during the outage.",
+      "lint": {
+        "clueRequired": true,
+        "clueRole": "technical"
+      }
+    }
+  ],
+  "noiseExamples": [
+    "a viewer emailing about last week's forecast",
+    "a spotter whose radio check is garbled",
+    "a vendor asking about a software license",
+    "a request for a school speaking visit",
+    "a routine balloon launch delay"
+  ],
+  "pressureExamples": [
+    "a county emergency manager asking whether to sound the sirens now",
+    "a TV station asking for a live interview during a warning",
+    "a viral post claiming a tornado has touched down in a town the storm has not reached",
+    "a county commissioner demanding to know why the warning came late",
+    "a utility asking for the likeliest time of damaging winds",
+    "an airport asking whether to keep the ramp open"
+  ],
+  "rolePatterns": {
+    "public": "pio|dig|comms|wcm|producer",
+    "technical": "meso|warn|hydro|soo|embed",
+    "operations": "lead|mic|chief|news|ema"
+  },
+  "agencyPattern": "NWS|National Weather Service|SPC|Storm Prediction Center|NHC|National Hurricane Center|WPC|NOAA|FEMA|USGS|FAA|IPAWS|AWIPS|River Forecast Center|NWSChat|SKYWARN",
+  "coreCapabilities": [
+    "public_information_and_warning",
+    "situational_assessment",
+    "operational_communications",
+    "planning",
+    "operational_coordination"
+  ],
+  "suggestedToolkits": ["weather"]
+}
