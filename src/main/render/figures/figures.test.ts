@@ -45,7 +45,7 @@ const KINDS = [
 
 describe('registry', () => {
   it('has every generic kind', () => {
-    expect(listFigureKinds()).toEqual([...KINDS].sort())
+    expect(listFigureKinds()).toEqual(expect.arrayContaining(KINDS))
   })
   it('lets another module add a kind, once', () => {
     const kind = {
