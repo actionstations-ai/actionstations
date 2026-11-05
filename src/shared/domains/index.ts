@@ -12,11 +12,24 @@ import {
   type ThreatFamilyId,
 } from './schema'
 import { snapshotMatches } from './snapshot'
-import { inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
+import { findThreatFamily, inferThreatFamily, threatFamily } from './threat-registry'
 
 export * from './schema'
 export * from './regex-check'
-export { THREAT_FAMILIES, inferThreatFamily, isThreatFamilyId, threatFamily } from './threats'
+export { THREAT_FAMILIES } from './threats'
+export {
+  allThreatFamilies,
+  findThreatFamily,
+  inferThreatFamily,
+  isThreatFamilyId,
+  mergeThreatFamilies,
+  setThreatFamilySource,
+  subscribeThreatFamilies,
+  threatFamily,
+  threatFamilyLabel,
+  threatFamilyRevision,
+  type PackThreatFamilies,
+} from './threat-registry'
 export { GENERIC_PROFILE, domainKey } from './builtins'
 export {
   builtinByKey,
@@ -86,13 +99,33 @@ export function resolveProfile(
   return DomainProfile.parse({ ...base, ...defined, id: base.id, aliases: base.aliases })
 }
 
-/** The threat family a scenario exercises: the brief's, else the profile's default. */
+/**
+ * The family an id names for this profile: one the profile itself adds (so a project whose
+ * pack was removed keeps its families through the snapshot), else a registered family.
+ */
+export function profileThreatFamily(profile: DomainProfile, id: string): ThreatFamily | undefined {
+  return profile.addedThreatFamilies?.find((f) => f.id === id) ?? findThreatFamily(id)
+}
+
+/** The profile's threat families in its order (then any it adds that it does not list), skipping ids nothing provides any more. */
+export function profileThreatFamilies(profile: DomainProfile): ThreatFamily[] {
+  const added = (profile.addedThreatFamilies ?? []).map((f) => f.id)
+  return [...new Set([...profile.threatFamilies, ...added])].flatMap((id) => {
+    const family = profileThreatFamily(profile, id)
+    return family ? [family] : []
+  })
+}
+
+/**
+ * The threat family a scenario exercises: the brief's, else the profile's default (the first
+ * of its families that still resolves; the first built-in when none does).
+ */
 export function resolveThreat(
   profile: DomainProfile,
   threatFamilyId: string | undefined,
 ): ThreatFamily {
-  if (isThreatFamilyId(threatFamilyId)) return threatFamily(threatFamilyId)
-  return threatFamily(profile.threatFamilies[0]!)
+  const chosen = threatFamilyId ? profileThreatFamily(profile, threatFamilyId) : undefined
+  return chosen ?? profileThreatFamilies(profile)[0] ?? threatFamily('cyber')
 }
 
 /**
@@ -100,5 +133,7 @@ export function resolveThreat(
  * the profile supports; the profile's default when the text names none.
  */
 export function chooseThreatFamily(profile: DomainProfile, text: string): ThreatFamilyId {
-  return inferThreatFamily(text, profile.threatFamilies, profile.threatFamilies[0]!)
+  const families = profileThreatFamilies(profile)
+  const ids = families.map((f) => f.id)
+  return inferThreatFamily(text, ids, ids[0] ?? 'cyber', profile.addedThreatFamilies)
 }

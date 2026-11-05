@@ -1,7 +1,6 @@
 // Renderer helpers for domain profiles and threat families (ADR-0014, #169): picker groups and
 // search, how a stored orgType resolves, and the threat family a brief would get and why.
 import {
-  THREAT_FAMILIES,
   baseProfile,
   builtinProfile,
   bundledProfileEntries,
@@ -10,7 +9,10 @@ import {
   domainKey,
   packProfileEntries,
   snapshotStatus,
-  threatFamily,
+  findThreatFamily,
+  profileThreatFamilies,
+  profileThreatFamily,
+  threatFamilyLabel,
   type DomainProfile,
   type DomainProfileSnapshot,
   type ThreatFamily,
@@ -193,17 +195,21 @@ export const profileLabel = (id: string): string => builtinProfile(id).label
 // ---- threat families ----------------------------------------------------------------------
 
 export const threatFamiliesFor = (profile: DomainProfile): ThreatFamily[] =>
-  profile.threatFamilies.map((id) => threatFamily(id))
+  profileThreatFamilies(profile)
 
-export const threatLabel = (id: ThreatFamilyId): string =>
-  THREAT_FAMILIES.find((t) => t.id === id)?.label ?? id
+export const threatLabel = (id: ThreatFamilyId): string => threatFamilyLabel(id)
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /** The family's keywords that appear as whole words in `text` (same rule as the pipeline). */
-export function matchedKeywords(id: ThreatFamilyId, text: string): string[] {
+export function matchedKeywords(
+  id: ThreatFamilyId,
+  text: string,
+  profile?: DomainProfile,
+): string[] {
   const t = text.toLowerCase().replace(/\s+/g, ' ')
-  return threatFamily(id).keywords.filter((k) => new RegExp(`\\b${escapeRe(k.trim())}\\b`).test(t))
+  const family = (profile && profileThreatFamily(profile, id)) || findThreatFamily(id)
+  return (family?.keywords ?? []).filter((k) => new RegExp(`\\b${escapeRe(k.trim())}\\b`).test(t))
 }
 
 export type SuggestionReason =
@@ -233,7 +239,7 @@ export function suggestThreat(
   brief: BriefText,
   idea?: ScenarioIdea | null,
 ): ThreatSuggestion {
-  if (idea?.threatFamily && profile.threatFamilies.includes(idea.threatFamily))
+  if (idea?.threatFamily && profileThreatFamilies(profile).some((f) => f.id === idea.threatFamily))
     return { id: idea.threatFamily, reason: { kind: 'idea' } }
   const text = [
     idea ? ideaText(idea) : '',
@@ -242,7 +248,7 @@ export function suggestThreat(
     ...brief.constraints,
   ].join('\n')
   const id = chooseThreatFamily(profile, text)
-  const words = matchedKeywords(id, text)
+  const words = matchedKeywords(id, text, profile)
   return { id, reason: words.length ? { kind: 'keywords', words } : { kind: 'default' } }
 }
 
