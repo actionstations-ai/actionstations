@@ -96,7 +96,7 @@ export function saveMetricResults(
 ): Promise<EvaluationRecord> {
   return updateEvaluation(root, scenarioId, (record) => {
     const same = (a: MetricResult, b: MetricResult) =>
-      a.metricId === b.metricId && a.sessionId === b.sessionId
+      a.metricId === b.metricId && a.sessionId === b.sessionId && a.title === b.title
     const kept = (record.metricResults ?? []).filter((old) => !results.some((r) => same(old, r)))
     return { ...record, metricResults: [...kept, ...results] }
   })

@@ -116,7 +116,8 @@
         "actionKind": "close_road",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-road"
     },
     {
       "id": "threshold_timing",
@@ -125,7 +126,8 @@
         "actionKind": "order_evacuation",
         "threshold": 0,
         "clearanceMin": 120
-      }
+      },
+      "series": "zones-population"
     },
     {
       "id": "threshold_timing",
@@ -134,7 +136,8 @@
         "actionKind": "order_resources",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-action"
     },
     {
       "id": "threshold_timing",
@@ -143,7 +146,8 @@
         "actionKind": "move_assets",
         "threshold": 0,
         "clearanceMin": 0
-      }
+      },
+      "series": "zones-facility"
     },
     {
       "id": "decision_timing",
@@ -152,7 +156,8 @@
         "leadWindowMin": 120,
         "graceWindowMin": 0,
         "matchArea": true
-      }
+      },
+      "groundTruth": "flash-flood-events"
     },
     {
       "id": "message_consistency",
@@ -219,7 +224,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": true
+          "required": true,
+          "draw": true
         },
         {
           "id": "clearance_minutes",
@@ -270,7 +276,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "floods_at_stage_ft",
@@ -432,7 +439,8 @@
           "id": "from",
           "label": "From (place)",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "floods_at_stage_ft",
@@ -557,7 +565,8 @@
           "id": "area",
           "label": "Area",
           "kind": "area",
-          "required": false
+          "required": false,
+          "draw": true
         },
         {
           "id": "text",
@@ -641,5 +650,5 @@
       "Real past events are historical and dated; fictional events use invented gauges and places, never a real person or private business."
     ]
   },
-  "lintRules": ["flood_categories", "flash_flood_tags", "flood_product_order", "stage_units"]
+  "lintRules": ["flood.flash_tags", "flood.stage_units"]
 }
