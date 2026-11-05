@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Precision agriculture guidance notice",
+  "description": "A notice from an equipment dealer, manufacturer or farm cooperative that GNSS-guided equipment (autosteer, planters, sprayers, surveying rovers) is less accurate because of a geomagnetic storm: what is observed (position error in feet or meters), which equipment is affected, what operators are advised to do, how long it may last and when the next update comes. Errors can come and go for days after the storm.",
+  "type": "object",
+  "required": ["sender", "issueTime", "headline", "observed", "advice"],
+  "additionalProperties": false,
+  "properties": {
+    "sender": {
+      "type": "string",
+      "description": "Dealer, manufacturer or cooperative.",
+      "examples": ["Prairie Valley Cooperative, equipment services"]
+    },
+    "issueTime": {
+      "type": "string",
+      "description": "Issue time local with zone.",
+      "examples": ["9:15 AM CST, Nov 7, 2026"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline.",
+      "examples": ["GPS guidance accuracy reduced: stop precision work until further notice"]
+    },
+    "observed": {
+      "type": "string",
+      "description": "What members and the dealer have observed, with numbers.",
+      "examples": [
+        "Members report guidance drifting by 8 to 12 feet on RTK-corrected systems since late last night. Correction signals show fewer satellites and frequent loss of fixed solution."
+      ]
+    },
+    "affected": {
+      "type": "array",
+      "description": "Equipment affected.",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "examples": ["Autosteer tractors and planters"]
+      }
+    },
+    "advice": {
+      "type": "array",
+      "description": "Advice to operators.",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "examples": ["Stop planting and spraying that depends on GNSS guidance."]
+      }
+    },
+    "duration": {
+      "type": "string",
+      "description": "How long the effect may last, stated as uncertain.",
+      "examples": ["Disturbances can continue for one to several days and may be worse after dark."]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Next update.",
+      "examples": ["We will update at noon and again at 6 PM."],
+      "x-translate": false
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Exercise notice. The cooperative is fictional."]
+    }
+  }
+}

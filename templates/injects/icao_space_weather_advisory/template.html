@@ -1,0 +1,21 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{t 'International air navigation'}}</div>
+    <h1>SWX ADVISORY</h1>
+    <div class="sw-sub">{{fields.swxc}}</div>
+  </header>
+  <div class="sw-body">
+    <pre class="sw-mono">
+{{#if fields.status}}STATUS: {{fields.status}}
+{{/if}}DTG: {{fields.dtg}}
+SWXC: {{fields.swxc}}
+ADVISORY NR: {{fields.advisoryNumber}}
+SWX EFFECT: {{fields.effect}}
+OBS SWX: {{fields.obs}}
+{{#each fields.forecasts}}FCST SWX {{hours}}: {{text}}
+{{/each}}RMK: {{fields.rmk}}
+NXT ADVISORY: {{fields.nextAdvisory}}</pre>
+  </div>
+  <div class="sw-foot">{{default fields.footer "Exercise product. Not an official advisory."}}</div>
+</div>

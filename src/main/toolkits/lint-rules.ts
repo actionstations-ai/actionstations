@@ -13,6 +13,7 @@ import './lab_safety/register-lint'
 import './logistics/register-lint'
 import './media/register-lint'
 import './pharmacy/register-lint'
+import './space_weather/register-lint'
 import './spill/lint'
 import './weather/lint'
 

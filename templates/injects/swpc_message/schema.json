@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Space Weather Prediction Center message",
+  "description": "A NOAA Space Weather Prediction Center text product in the layout of the live messages: space weather message code, serial number and UTC issue time, then the product kind (watch, warning, alert or summary), the headline, the level by day or the threshold details, the NOAA scale and the potential impacts. Covers geomagnetic storm (K-index), X-ray flux and proton event messages. Codes and times are exact; an exercise product is marked as one.",
+  "type": "object",
+  "required": ["messageCode", "serialNumber", "issueTime", "productKind", "headline"],
+  "additionalProperties": false,
+  "properties": {
+    "messageCode": {
+      "type": "string",
+      "description": "The SWPC space weather message code, copied from the live product family (WATA20 and WATA30 geomagnetic watches, WARK04 to WARK07 K-index warnings, ALTK04 to ALTK07 K-index alerts, ALTXMF X-ray alert, ALTEF3 electron flux alert, SUM10R proton summary, SUMX01 X-ray summary).",
+      "examples": ["WATA20"],
+      "x-translate": false
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "Serial number of the message, a plain integer as text.",
+      "examples": ["36"],
+      "x-translate": false
+    },
+    "issueTime": {
+      "type": "string",
+      "description": "Issue time in UTC as the products write it: year, month abbreviation, day, hour and minute, then UTC.",
+      "examples": ["2026 Nov 05 1558 UTC"],
+      "x-translate": false
+    },
+    "productKind": {
+      "type": "string",
+      "enum": ["WATCH", "WARNING", "ALERT", "SUMMARY"],
+      "description": "A watch is elevated risk with uncertain timing, a warning is an event that is occurring, imminent or likely, an alert says a threshold has been crossed, a summary reports what was observed."
+    },
+    "headline": {
+      "type": "string",
+      "description": "The headline after the product kind, with the level or threshold.",
+      "examples": ["Geomagnetic Storm Category G4 Predicted"]
+    },
+    "dayLevels": {
+      "type": "array",
+      "description": "Watch only: the highest storm level predicted for each UTC day.",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["day", "level"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "Day as month abbreviation and number.",
+            "examples": ["Nov 06"],
+            "x-translate": false
+          },
+          "level": {
+            "type": "string",
+            "description": "Level with its name.",
+            "examples": ["G4 (Severe)"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "details": {
+      "type": "array",
+      "description": "Labeled lines such as Threshold Reached, Valid From, Valid To, Observed, Synoptic Period, Station, Warning Condition, Active Warning, Supersedes.",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The line label.",
+            "examples": ["Valid From"]
+          },
+          "value": {
+            "type": "string",
+            "description": "The line value; times in UTC.",
+            "examples": ["2026 Nov 06 0300 UTC"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "noaaScale": {
+      "type": "string",
+      "description": "The NOAA Space Weather Scale level with its name when the message states one; G to Kp, R to X-ray class, S to proton flux.",
+      "examples": ["G4 - Severe"],
+      "x-translate": false
+    },
+    "potentialImpacts": {
+      "type": "array",
+      "description": "Potential impacts by area (Area of Impact, Induced Currents, Spacecraft, Navigation, Radio, Aurora, Radiation); stated as potential effects.",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Impact area.",
+            "examples": ["Induced Currents"]
+          },
+          "text": {
+            "type": "string",
+            "description": "The stated potential effect at this level.",
+            "examples": [
+              "Possible widespread voltage control problems; some protective systems may mistakenly trip key assets out of the grid."
+            ]
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line; keep the exercise statement.",
+      "examples": ["Exercise product. Not an official NOAA message."]
+    }
+  }
+}

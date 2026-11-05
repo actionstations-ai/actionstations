@@ -1,0 +1,31 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.airline}}</div>
+    <h1>{{t 'Reroute notice'}}: {{fields.flight}}</h1>
+    <div class="sw-sub">{{t 'Issued'}} {{fields.issueTime}}</div>
+  </header>
+  <div class="sw-body">
+    <dl class="sw-kv">
+      <dt>{{t 'Original route'}}</dt>
+      <dd>{{fields.originalRoute}}</dd>
+      <dt>{{t 'New route'}}</dt>
+      <dd><strong>{{fields.newRoute}}</strong></dd>
+      <dt>{{t 'Reason'}}</dt>
+      <dd>{{fields.reason}}</dd>
+      {{#if fields.communications}}
+      <dt>{{t 'Communications'}}</dt>
+      <dd>{{fields.communications}}</dd>
+      {{/if}} {{#if fields.impact}}
+      <dt>{{t 'Time and fuel'}}</dt>
+      <dd>{{fields.impact}}</dd>
+      {{/if}}
+    </dl>
+    {{#if fields.dispatcher}}
+    <p><b>{{t 'Dispatcher'}}:</b> {{fields.dispatcher}}</p>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise notice. The airline and flight are fictional."}}
+  </div>
+</div>

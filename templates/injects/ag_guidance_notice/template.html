@@ -1,0 +1,33 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.sender}}</div>
+    <h1>{{fields.headline}}</h1>
+    <div class="sw-sub">{{fields.issueTime}}</div>
+  </header>
+  <div class="sw-body">
+    <p>{{fields.observed}}</p>
+    {{#if fields.affected.length}}
+    <div class="sw-h2">{{t 'Equipment affected'}}</div>
+    <ul class="sw-list">
+      {{#each fields.affected}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    <div class="sw-h2">{{t 'What to do'}}</div>
+    <ul class="sw-list">
+      {{#each fields.advice}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{#if fields.duration}}
+    <p><b>{{t 'How long'}}:</b> {{fields.duration}}</p>
+    {{/if}} {{#if fields.nextUpdate}}
+    <p><b>{{fields.nextUpdate}}</b></p>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Exercise notice. The cooperative is fictional."}}
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.entity}}</div>
+    <h1>{{t 'Post-event summary: geomagnetic disturbance'}}</h1>
+    <div class="sw-sub">{{fields.period}}</div>
+  </header>
+  <div class="sw-body">
+    <div class="sw-h2">{{t 'Space weather conditions'}}</div>
+    <dl class="sw-kv">
+      {{#each fields.conditions}}
+      <dt>{{label}}</dt>
+      <dd>{{value}}</dd>
+      {{/each}}
+    </dl>
+    <div class="sw-h2">{{t 'Observed on the system'}}</div>
+    <dl class="sw-kv">
+      {{#each fields.observations}}
+      <dt>{{label}}</dt>
+      <dd>{{value}}</dd>
+      {{/each}}
+    </dl>
+    {{#if fields.procedureSummary}}
+    <div class="sw-h2">{{t 'Operating procedure'}}</div>
+    <p>{{fields.procedureSummary}}</p>
+    {{/if}}
+    <div class="sw-h2">{{t 'Follow-up items'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Item'}}</th>
+          <th scope="col">{{t 'Owner'}}</th>
+          <th scope="col">{{t 'Due'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.followUps}}
+        <tr>
+          <td>{{item}}</td>
+          <td>{{owner}}</td>
+          <td>{{due}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="sw-foot">{{default fields.footer "Exercise summary. Fictional readings."}}</div>
+</div>

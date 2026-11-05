@@ -1,0 +1,42 @@
+{
+  "fields": {
+    "organization": "Lakeshore Regional Network, timing operations",
+    "asOf": "2026 Nov 06 2230 UTC",
+    "summary": "Three of six sites have lost GNSS lock. One site has under two hours of holdover left.",
+    "sites": [
+      {
+        "site": "Harbor central office",
+        "source": "GNSS (primary)",
+        "state": "Holdover",
+        "satellites": "3",
+        "timeError": "180 ns",
+        "holdoverRemaining": "1 h 40 min"
+      },
+      {
+        "site": "Northfield hub",
+        "source": "Fiber time transfer",
+        "state": "Failed over",
+        "satellites": "4",
+        "timeError": "12 ns",
+        "holdoverRemaining": "not applicable"
+      },
+      {
+        "site": "Cedar Point tower",
+        "source": "GNSS (primary)",
+        "state": "Holdover",
+        "satellites": "2",
+        "timeError": "95 ns",
+        "holdoverRemaining": "5 h 10 min"
+      },
+      {
+        "site": "Pine Ridge tower",
+        "source": "GNSS (primary)",
+        "state": "Locked",
+        "satellites": "7",
+        "timeError": "8 ns",
+        "holdoverRemaining": "not applicable"
+      }
+    ],
+    "footer": "Simulated values for exercise use. Not a prediction of receiver performance."
+  }
+}

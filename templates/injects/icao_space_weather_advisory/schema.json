@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICAO space weather advisory",
+  "description": "An ICAO space weather advisory for international air navigation in the fixed line layout (SWX ADVISORY, DTG, SWXC, ADVISORY NR, SWX EFFECT, OBS SWX, FCST SWX +6 HR to +24 HR, RMK, NXT ADVISORY). Effects are HF COM, GNSS, RADIATION or SATCOM at MOD or SEV. The layout follows the ICAO Annex 3 example and should be checked against the current edition. Written by a space weather center for dispatchers and air traffic services.",
+  "type": "object",
+  "required": ["dtg", "swxc", "advisoryNumber", "effect", "obs", "forecasts", "nextAdvisory"],
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Optional status line value.",
+      "examples": ["EXERCISE"],
+      "x-translate": false
+    },
+    "dtg": {
+      "type": "string",
+      "description": "Date and time of issue as YYYYMMDD/HHMMZ.",
+      "examples": ["20261105/1630Z"],
+      "x-translate": false
+    },
+    "swxc": {
+      "type": "string",
+      "description": "Name of the issuing space weather center.",
+      "examples": ["EXAMPLE SWXC"],
+      "x-translate": false
+    },
+    "advisoryNumber": {
+      "type": "string",
+      "description": "Advisory number as YYYY/N.",
+      "examples": ["2026/12"],
+      "x-translate": false
+    },
+    "effect": {
+      "type": "string",
+      "description": "Space weather effect and severity, such as HF COM MOD, GNSS MOD, RADIATION SEV, SATCOM MOD, joined with AND.",
+      "examples": ["HF COM MOD AND GNSS MOD"],
+      "x-translate": false
+    },
+    "obs": {
+      "type": "string",
+      "description": "Observed space weather: day and time, latitude band and longitude range, and flight level for radiation.",
+      "examples": ["05/1630Z HNH HSH E18000 - W18000"],
+      "x-translate": false
+    },
+    "forecasts": {
+      "type": "array",
+      "description": "The four forecast lines, +6, +12, +18 and +24 hours.",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["hours", "text"],
+        "properties": {
+          "hours": {
+            "type": "string",
+            "description": "Lead time label.",
+            "examples": ["+6 HR"],
+            "x-translate": false
+          },
+          "text": {
+            "type": "string",
+            "description": "Day and time then the same band layout, or NO SWX EXP.",
+            "examples": ["05/2230Z HNH HSH E18000 - W18000"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "rmk": {
+      "type": "string",
+      "description": "Remark in capital letters; state that the exercise is not real.",
+      "examples": ["GEOMAGNETIC STORM IN PROGRESS. EXERCISE ADVISORY."],
+      "x-translate": false
+    },
+    "nextAdvisory": {
+      "type": "string",
+      "description": "Next advisory time or WILL BE ISSUED BY.",
+      "examples": ["20261105/2230Z"],
+      "x-translate": false
+    }
+  }
+}

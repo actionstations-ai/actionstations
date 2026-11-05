@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GIC and reactive power status",
+  "description": "A status board for a geomagnetic disturbance in the control room: neutral current readings at monitored transformers with their trend and alarm state, and the reactive power reserve by area. States are words, not colors alone. Readings in an exercise are simulated and the report says so.",
+  "type": "object",
+  "required": ["entity", "asOf", "transformers"],
+  "additionalProperties": false,
+  "properties": {
+    "entity": {
+      "type": "string",
+      "description": "The utility.",
+      "examples": ["Lakeshore Transmission Operations"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of the readings in UTC.",
+      "examples": ["2026 Nov 06 2030 UTC"],
+      "x-translate": false
+    },
+    "transformers": {
+      "type": "array",
+      "description": "Monitored transformers.",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["site", "neutralCurrentA", "trend", "state"],
+        "properties": {
+          "site": {
+            "type": "string",
+            "description": "Substation and transformer.",
+            "examples": ["Harbor 345 kV T2"],
+            "x-translate": false
+          },
+          "neutralCurrentA": {
+            "type": "string",
+            "description": "Neutral current in amperes with sign as read.",
+            "examples": ["38"],
+            "x-translate": false
+          },
+          "trend": {
+            "type": "string",
+            "description": "Rising, Steady or Falling.",
+            "examples": ["Rising"]
+          },
+          "state": {
+            "type": "string",
+            "description": "Normal, Watch or Alarm.",
+            "examples": ["Alarm"]
+          },
+          "note": {
+            "type": "string",
+            "description": "Short note.",
+            "examples": ["Engineer called"]
+          }
+        }
+      }
+    },
+    "reactive": {
+      "type": "array",
+      "description": "Reactive power reserve by area.",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["area", "availableMvar", "inUseMvar"],
+        "properties": {
+          "area": {
+            "type": "string",
+            "description": "Area.",
+            "examples": ["North corridor"],
+            "x-translate": false
+          },
+          "availableMvar": {
+            "type": "string",
+            "description": "Reserve available in Mvar.",
+            "examples": ["420"],
+            "x-translate": false
+          },
+          "inUseMvar": {
+            "type": "string",
+            "description": "In use in Mvar.",
+            "examples": ["310"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "One or two sentences on the overall state.",
+      "examples": [
+        "Neutral currents are rising at two of five monitored transformers. Reactive reserve in the north corridor is 420 Mvar with 310 Mvar in use."
+      ]
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer line.",
+      "examples": ["Simulated readings for exercise use. Not engineering data."]
+    }
+  }
+}

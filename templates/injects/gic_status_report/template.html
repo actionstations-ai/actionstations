@@ -1,0 +1,60 @@
+<div class="sw">
+  <div class="sw-ex">{{t 'Exercise product'}}</div>
+  <header class="sw-head">
+    <div class="sw-org">{{fields.entity}}</div>
+    <h1>{{t 'GIC and reactive power status'}}</h1>
+    <div class="sw-sub">{{t 'As of'}} {{fields.asOf}}</div>
+  </header>
+  <div class="sw-body">
+    {{#if fields.summary}}
+    <p>{{fields.summary}}</p>
+    {{/if}}
+    <div class="sw-h2">{{t 'Transformer neutral current'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Transformer'}}</th>
+          <th scope="col">{{t 'Neutral current (A)'}}</th>
+          <th scope="col">{{t 'Trend'}}</th>
+          <th scope="col">{{t 'State'}}</th>
+          <th scope="col">{{t 'Note'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.transformers}}
+        <tr>
+          <th scope="row">{{site}}</th>
+          <td>{{neutralCurrentA}}</td>
+          <td>{{trend}}</td>
+          <td><strong>{{upper state}}</strong></td>
+          <td>{{note}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{#if fields.reactive.length}}
+    <div class="sw-h2">{{t 'Reactive power reserve'}}</div>
+    <table class="sw-table">
+      <thead>
+        <tr>
+          <th scope="col">{{t 'Area'}}</th>
+          <th scope="col">{{t 'Available (Mvar)'}}</th>
+          <th scope="col">{{t 'In use (Mvar)'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.reactive}}
+        <tr>
+          <th scope="row">{{area}}</th>
+          <td>{{availableMvar}}</td>
+          <td>{{inUseMvar}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+  <div class="sw-foot">
+    {{default fields.footer "Simulated readings for exercise use. Not engineering data."}}
+  </div>
+</div>
