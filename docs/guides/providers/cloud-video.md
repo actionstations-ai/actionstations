@@ -50,6 +50,7 @@ Tips for choosing:
 
 - Start with a fast, low-cost model to see the result for your scenario, then move up.
 - Prefer an **image-to-video** model. The clip starts from the scene image the app already generated, so the video matches the still shown in the inject. A model that needs a starting image cannot run when no scene image exists.
+- The scene image is sent inside the request, so a large one is shrunk first (to about 1 MB for fal.ai) by saving a smaller JPEG copy. The inject keeps its original image. If it cannot be made small enough, the job stops with "The starting image is too large for this service".
 - The clip length in the media brief is rounded to the nearest length the model accepts (a 7 second request becomes 5 seconds on Kling 2.5).
 - Model ids and what they offer change on fal.ai. If a model is retired, pick another from fal.ai's model gallery.
 
@@ -124,7 +125,7 @@ Replicate bills each generation to your account, and prices differ by model, so 
 
 Short jobs finish within a single request. Longer ones show progress in the jobs tray until they finish. **Cancel** stops the job, and the app also asks Replicate to stop it. A video that takes longer than 15 minutes (3 minutes for an image) is cancelled and reported as failed. Downloads are limited to 200 MB for a video and 30 MB for an image, and only a real video or image is accepted.
 
-Replicate accepts the scene image inside the request, which works well for the small stills the app makes; a very large scene image may be refused by the model.
+Replicate takes the scene image inside the request, and only a small one (about 250 KB). The app shrinks the image for you: it saves it again as a JPEG, lowering the quality and, if needed, the size (never above 1280 pixels on the long side). The picture you see in the inject is not changed. If the image still cannot be made small enough, the job stops with "The starting image is too large for this service" and nothing is sent.
 
 ### Troubleshooting
 

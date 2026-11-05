@@ -20,7 +20,8 @@ import {
   type ModelInputs,
 } from '../cloud-video/inputs'
 import { downloadMedia } from '../cloud-video/download'
-import { dataUri, saveDownloaded } from '../cloud-video/files'
+import { saveDownloaded } from '../cloud-video/files'
+import { fitStartingImage, IMAGE_BUDGET } from '../cloud-video/image-fit'
 import { pollUntil, type PollStep } from '../cloud-video/poll'
 
 export const FAL_BASE_URL = 'https://queue.fal.run'
@@ -158,7 +159,10 @@ export class FalMediaProvider implements MediaProvider {
         : job.brief.imagePrompt
     )?.trim()
     if (!prompt) throw new AppError('VALIDATION', `The media brief has no ${job.kind} prompt`)
-    const imageUri = map.image && job.inputImagePath ? await dataUri(job.inputImagePath) : undefined
+    const imageUri =
+      map.image && job.inputImagePath
+        ? await fitStartingImage(job.inputImagePath, IMAGE_BUDGET.fal)
+        : undefined
     if (job.kind === 'video' && map.imageRequired && !imageUri)
       throw new AppError(
         'VALIDATION',
