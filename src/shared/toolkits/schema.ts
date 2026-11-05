@@ -84,6 +84,26 @@ export const DecisionField = z
   })
 export type DecisionField = z.infer<typeof DecisionField>
 
+/**
+ * A regulatory clock trigger a recorded decision fires (spec 0426, spec 0459 FR-8): the trigger
+ * of a regulation, optionally only when a choice field holds one of its labels. Firing is
+ * recorded once per decision and only for a regulation the project has switched on.
+ */
+export const DecisionTrigger = z
+  .object({
+    regulation: z.string().regex(/^[a-z][a-z0-9_]{0,63}$/),
+    trigger: z.string().regex(/^[a-z][a-z0-9_]{0,63}$/),
+    /** A choice field of this form; with `equals`, the trigger fires only for that choice. */
+    field: Key.optional(),
+    /** The label of the choice that fires it. */
+    equals: Short.optional(),
+  })
+  .refine((t) => (t.field === undefined) === (t.equals === undefined), {
+    message: 'field and equals go together',
+    path: ['equals'],
+  })
+export type DecisionTrigger = z.infer<typeof DecisionTrigger>
+
 /** A structured decision players make or the facilitator records ("Order an evacuation"). */
 export const DecisionForm = z
   .object({
@@ -91,11 +111,27 @@ export const DecisionForm = z
     label: Short,
     description: Prose.default(''),
     fields: z.array(DecisionField).max(30).default([]),
+    /** Regulatory clock triggers a recorded decision of this form fires. */
+    firesTriggers: z.array(DecisionTrigger).max(10).optional(),
   })
   .refine((f) => new Set(f.fields.map((x) => x.id)).size === f.fields.length, {
     message: 'field ids must be unique within a form',
     path: ['fields'],
   })
+  .refine(
+    (f) =>
+      (f.firesTriggers ?? []).every(
+        (t) =>
+          t.field === undefined ||
+          f.fields.some(
+            (x) => x.id === t.field && x.kind === 'choice' && x.choices.includes(t.equals ?? ''),
+          ),
+      ),
+    {
+      message: 'a trigger names a choice field of the form and one of its choices',
+      path: ['firesTriggers'],
+    },
+  )
 export type DecisionForm = z.infer<typeof DecisionForm>
 
 /** What the generator needs to write the field correctly, as prompt fragments. */

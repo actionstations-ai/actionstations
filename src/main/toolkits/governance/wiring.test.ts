@@ -2,7 +2,7 @@
 // decision forms convert to valid live forms, its format rules run through the field lint
 // registry, and its metrics read the datasets the simulator writes and the decisions the forms
 // record.
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
@@ -190,5 +190,45 @@ describe('SEC EDGAR connector through the fetch path', () => {
     expect(new Set(agents)).toEqual(new Set(['ActionStations/0.0.1 (person@example.org)']))
     expect(manifest.datasets[0]!.shape).toBe('ground-truth')
     expect(manifest.datasets[0]!.provenance.origin).toBe('historical')
+  })
+})
+
+describe('decisions that start regulatory clocks', () => {
+  const forms = liveFormsOf([toolkit]).map((f) => LiveDecisionForm.parse(f))
+  it('the materiality form fires the Form 8-K trigger for "Material" only', () => {
+    const form = forms.find((f) => f.id === 'gov_materiality_determination')!
+    expect(form.fires).toEqual([
+      {
+        regulationId: 'sec_8k_105',
+        triggerId: 'materiality_determined',
+        fieldId: 'determination',
+        optionId: 'material',
+      },
+    ])
+  })
+  it('the ransom form fires the NYDFS payment trigger when the payment is made', () => {
+    const form = forms.find((f) => f.id === 'gov_ransom_payment')!
+    expect(form.fires).toEqual([
+      {
+        regulationId: 'nydfs_500_17',
+        triggerId: 'extortion_payment_made',
+        fieldId: 'decision',
+        optionId: 'pay',
+      },
+    ])
+  })
+  it('every trigger a form names exists in a bundled regulation', () => {
+    const regs = new Map(
+      readdirSync(resolve('packs/regulations')).map((f) => {
+        const r = JSON.parse(readFileSync(resolve('packs/regulations', f), 'utf8')) as {
+          id: string
+          triggers: { id: string }[]
+        }
+        return [r.id, r.triggers.map((t) => t.id)] as const
+      }),
+    )
+    for (const form of forms)
+      for (const t of form.fires ?? [])
+        expect(regs.get(t.regulationId), `${form.id} ${t.triggerId}`).toContain(t.triggerId)
   })
 })

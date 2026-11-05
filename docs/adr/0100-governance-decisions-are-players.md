@@ -15,4 +15,4 @@ The governance toolkit (spec 0459) works the materiality call for a cyber incide
 ## Consequences
 
 - The toolkit cannot say a team decided wrongly, only when and with what record. Practitioners review the guidance before use.
-- Firing the clock trigger from a recorded determination stays a facilitator action until the framework can map a recorded decision to a compliance trigger.
+- A decision form can name the clock triggers it fires (`firesTriggers` in the toolkit, `fires` in the live form), optionally for one choice only. Facilitate fires each once per decision, for regulations the project has on, at the decision's exercise time. The app still never decides the answer; it only starts the clock the players' own decision calls for.

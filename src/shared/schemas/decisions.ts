@@ -84,6 +84,25 @@ export const DecisionForm = z
     fields: z.array(DecisionField).min(1).max(DECISION_LIMITS.fields),
     /** Seats (role ids) that may use the form; absent means every player seat. */
     seats: z.array(SafeId).min(1).max(64).optional(),
+    /**
+     * Regulatory clock triggers a recorded decision fires: the regulation and trigger ids, and,
+     * with `fieldId` and `optionId`, only when that choice was made.
+     */
+    fires: z
+      .array(
+        z
+          .strictObject({
+            regulationId: Id,
+            triggerId: Id,
+            fieldId: Id.optional(),
+            optionId: Id.optional(),
+          })
+          .refine((t) => (t.fieldId === undefined) === (t.optionId === undefined), {
+            message: 'fieldId and optionId go together',
+          }),
+      )
+      .max(10)
+      .optional(),
   })
   .superRefine((form, ctx) => {
     if (duplicates(form.fields.map((f) => f.id)))

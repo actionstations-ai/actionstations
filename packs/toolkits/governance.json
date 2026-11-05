@@ -216,6 +216,14 @@
           "kind": "text",
           "required": true
         }
+      ],
+      "firesTriggers": [
+        {
+          "regulation": "sec_8k_105",
+          "trigger": "materiality_determined",
+          "field": "determination",
+          "equals": "Material"
+        }
       ]
     },
     {
@@ -319,6 +327,14 @@
           "label": "Basis for the decision",
           "kind": "text",
           "required": true
+        }
+      ],
+      "firesTriggers": [
+        {
+          "regulation": "nydfs_500_17",
+          "trigger": "extortion_payment_made",
+          "field": "decision",
+          "equals": "Pay"
         }
       ]
     },

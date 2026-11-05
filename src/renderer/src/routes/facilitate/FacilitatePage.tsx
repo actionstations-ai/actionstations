@@ -41,6 +41,7 @@ import {
 import { availability, pathFor } from './branching'
 import { audioAsset, imageAsset, screenAsset } from './delivery'
 import { fireRowTriggers } from './compliance'
+import { useDecisionTriggers } from './use-decision-triggers'
 import { ExerciseClock } from './ExerciseClock'
 import { CaseClock } from './CaseClock'
 import { RegulatoryClocks } from './RegulatoryClocks'
@@ -221,7 +222,7 @@ function useCompliance(projectPath: string, scenario: Scenario, state: Facilitat
         }),
     [enabled, all],
   )
-  return { regulations, start, fireRow, startsClocks }
+  return { regulations, enabled, start, fireRow, startsClocks }
 }
 
 /** Tracker flags, answers, the commitment dialog and the "Deliver to…" picker (spec 0428). */
@@ -285,6 +286,15 @@ function useFacilitate(p: ViewProps) {
   const compliance = useCompliance(projectPath, scenario, state)
   const now = useNow(isRunning(state))
   const minutes = clockMinutes(state, now)
+  useDecisionTriggers({
+    projectPath,
+    scenarioId: scenario.id,
+    state,
+    update,
+    minutes,
+    enabled: compliance.enabled,
+    start: compliance.start.at,
+  })
   const live = useLiveDelivery(projectPath, scenario.id)
   const base = useMemo(
     () => buildEntries(projectPath, scenario, injects, state, minutes),

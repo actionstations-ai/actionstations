@@ -12,6 +12,8 @@ import {
   type FiredTrigger,
   type Regulation,
 } from '@shared/schemas/compliance'
+import { decisionTriggers } from '@shared/decisions/triggers'
+import type { DecisionForm, DecisionRecord } from '@shared/schemas/decisions'
 import type { MselRow } from '@shared/schemas/scenario'
 
 let seq = 0
@@ -175,4 +177,46 @@ export function parseScenarioInput(text: string, now: Date): Date | undefined {
   if (!time) return undefined
   const day = now.toISOString().slice(0, 10)
   return parseLocal(`${day}T${time[1]!.padStart(2, '0')}:${time[2]}`)
+}
+
+/** The marker a decision-fired trigger carries in its note, so a decision fires it only once. */
+export const decisionMarker = (decisionId: string): string => `decision:${decisionId}`
+
+const minutesOfExerciseTime = (t: string | undefined): number | undefined => {
+  const m = t && /^(\d{1,2}):([0-5]\d)$/.exec(t)
+  return m ? Number(m[1]) * 60 + Number(m[2]) : undefined
+}
+
+/**
+ * Fire the triggers that recorded decisions carry (their form's `fires`), for the regulations the
+ * project has on. A decision fires each trigger once, at the exercise time it was recorded (the
+ * exercise minute now when it has none). Returns the same state object when nothing is new, so a
+ * caller can run it on every change without looping.
+ */
+export function fireDecisionTriggers(
+  s: FacilitatorState,
+  forms: readonly Pick<DecisionForm, 'id' | 'fires'>[],
+  decisions: readonly Pick<DecisionRecord, 'id' | 'formId' | 'fields' | 'exerciseTime'>[],
+  enabled: ReadonlySet<string>,
+  nowMin: number,
+  start: Date,
+): FacilitatorState {
+  let next = s
+  for (const d of decisions) {
+    const form = forms.find((f) => f.id === d.formId)
+    for (const t of decisionTriggers(form, d)) {
+      if (!enabled.has(t.regulationId)) continue
+      const note = decisionMarker(d.id)
+      const done = sessionOf(next).fired.some(
+        (f) => f.note === note && f.regulationId === t.regulationId && f.triggerId === t.triggerId,
+      )
+      if (done) continue
+      next = fireTrigger(
+        next,
+        { ...t, exerciseMin: minutesOfExerciseTime(d.exerciseTime) ?? nowMin, by: 'live', note },
+        start,
+      )
+    }
+  }
+  return next
 }
