@@ -58,8 +58,8 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
     return new Set<MediaCapability>(['audio'])
   }
 
-  private get model(): string {
-    const m = stringOption(this.config, 'ttsModel') ?? this.config.defaultModel
+  private modelFor(job: MediaJob): string {
+    const m = job.model ?? stringOption(this.config, 'ttsModel') ?? this.config.defaultModel
     if (!m)
       throw new AppError('VALIDATION', `Provider "${this.config.label}" has no TTS model selected`)
     return m
@@ -90,7 +90,7 @@ export class OpenAiCompatibleSpeechProvider implements MediaProvider {
       )
     const lines = (job.brief.voiceLines ?? []).filter((l) => l.text.trim())
     if (!lines.length) throw new AppError('VALIDATION', 'Media brief has no voice lines to speak')
-    const model = this.model
+    const model = this.modelFor(job)
     await fs.mkdir(job.outDir, { recursive: true })
     const cloneModel = await this.cloneModelFor(model, lines, job.signal)
     const refs = new Map<string, SpeakerRef>()

@@ -4,6 +4,7 @@
 import { promises as fs } from 'node:fs'
 import { basename, join } from 'node:path'
 import type { Brand, Inject, MediaBrief, Scenario } from '@shared/schemas'
+import type { MediaConfirmProvider } from '@shared/ipc/media-confirm'
 import type { ResolvedMedia } from '../../providers/resolve'
 import type { RenderedInject } from '../../render/inject'
 import type { LoadedTemplate, FieldIssue } from '../../render/templates'
@@ -62,10 +63,12 @@ export interface InjectDeps extends PipelineDeps {
   templates: TemplateDeps
   renderer: InjectRenderer
   resolveMediaProvider(task: MediaTask, projectPath?: string): Promise<ResolvedMedia>
+  /** Ask before paid media calls; throws CANCELLED when the user declines. */
+  confirmPaidMedia(providers: MediaConfirmProvider[], signal?: AbortSignal): Promise<void>
   applyPostFx?: ApplyPostFx
 }
 
-type OwnKey = 'injects' | 'templates' | 'renderer' | 'resolveMediaProvider'
+type OwnKey = 'injects' | 'templates' | 'renderer' | 'resolveMediaProvider' | 'confirmPaidMedia'
 
 let overrides: Partial<InjectDeps> = {}
 
@@ -119,10 +122,18 @@ async function realInjectDeps(missing: OwnKey[]): Promise<Partial<InjectDeps>> {
   if (need('resolveMediaProvider')) {
     out.resolveMediaProvider = (await import('../../providers/resolve')).resolveMediaProvider
   }
+  if (need('confirmPaidMedia'))
+    out.confirmPaidMedia = (await import('./media-confirm')).confirmPaidMedia
   return out
 }
 
-const OWN_KEYS: OwnKey[] = ['injects', 'templates', 'renderer', 'resolveMediaProvider']
+const OWN_KEYS: OwnKey[] = [
+  'injects',
+  'templates',
+  'renderer',
+  'resolveMediaProvider',
+  'confirmPaidMedia',
+]
 
 export async function injectDeps(): Promise<InjectDeps> {
   const base = await pipelineDeps()

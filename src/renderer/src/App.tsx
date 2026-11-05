@@ -19,6 +19,7 @@ import { ExerciseOpenRequests } from './routes/regional/ExerciseOpenRequests'
 import { DomainsGate, DomainsSync } from './state/domains'
 import { InjectTypesSync } from './state/inject-types'
 import { ApprovalHost } from './components/privacy/ApprovalHost'
+import { MediaConfirmHost } from './components/MediaConfirmDialog'
 
 function ThemeSync() {
   const settings = useIpcQuery('settings:get', undefined)
@@ -116,6 +117,7 @@ export function App() {
               <PackOpenRequests />
               <ExerciseOpenRequests />
               <ApprovalHost />
+              <MediaConfirmHost />
               <div className="shell">
                 <Sidebar />
                 <main className="main" id="main">

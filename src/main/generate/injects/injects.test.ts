@@ -545,6 +545,84 @@ describe('generate:media', () => {
     })
   })
 
+  describe('routed model and paid-media confirmation', () => {
+    /** Route every media task to a fake remote provider; record the jobs it receives. */
+    function routeRemote(model: string | undefined, confirm: (n: number) => Promise<void>) {
+      const seen: MediaJob[] = []
+      const asked: number[] = []
+      const real = resolveMediaProvider
+      setInjectDeps({
+        renderer: fakeRenderer,
+        applyPostFx: undefined,
+        confirmPaidMedia: async (providers) => {
+          const n = providers.reduce(
+            (a, p) => a + p.counts.image + p.counts.audio + p.counts.video,
+            0,
+          )
+          asked.push(n)
+          await confirm(n)
+        },
+        resolveMediaProvider: async (task, root) => {
+          const r = await real(task, root)
+          const provider = {
+            ...r.provider,
+            config: {
+              ...r.provider.config,
+              id: 'cloud-media',
+              label: 'Cloud media',
+              baseUrl: 'https://media.example.com',
+              options: { network: 'remote' },
+            },
+            capabilities: () => r.provider.capabilities(),
+            generate: (job: MediaJob, onProgress?: (p: { progress: number }) => void) => {
+              seen.push(job)
+              return r.provider.generate(job, onProgress)
+            },
+          }
+          return { ...r, ...(model ? { model } : {}), provider }
+        },
+      })
+      return { seen, asked }
+    }
+
+    it('passes the routed model to the media generator and asks once for the batch', async () => {
+      await generateInjects(['I-04'])
+      const { seen, asked } = routeRemote('routed-image-model', async () => undefined)
+      const { jobId } = await invoke('generate:media', S())
+      expect((await jobs.wait(jobId)).status).toBe('done')
+      expect(asked).toHaveLength(1)
+      expect(asked[0]).toBeGreaterThan(0)
+      expect(seen.length).toBeGreaterThan(0)
+      expect(seen.every((j) => j.model === 'routed-image-model')).toBe(true)
+    })
+
+    it('makes no paid call when the user cancels', async () => {
+      await generateInjects(['I-04'])
+      const { seen } = routeRemote(undefined, async () => {
+        throw Object.assign(new Error('Media generation cancelled'), { code: 'CANCELLED' })
+      })
+      const { jobId } = await invoke('generate:media', S())
+      const job = await jobs.wait(jobId)
+      expect(job.status).not.toBe('done')
+      expect(seen).toEqual([])
+    })
+
+    it('does not ask for local providers', async () => {
+      await generateInjects(['I-04'])
+      let asked = 0
+      setInjectDeps({
+        renderer: fakeRenderer,
+        applyPostFx: undefined,
+        confirmPaidMedia: async () => {
+          asked += 1
+        },
+      })
+      const { jobId } = await invoke('generate:media', S())
+      expect((await jobs.wait(jobId)).status).toBe('done')
+      expect(asked).toBe(0)
+    })
+  })
+
   it('fails the job when nothing could be rendered', async () => {
     await generateInjects(['I-06'])
     setInjectDeps({

@@ -107,12 +107,13 @@ async function generate(
   task: MediaTask,
   extra: JobExtras = {},
 ): Promise<MediaOutput> {
-  const { provider, providerId } = await step.deps.resolveMediaProvider(task, step.root)
+  const { provider, providerId, model } = await step.deps.resolveMediaProvider(task, step.root)
   if (!provider.capabilities().has(task))
     throw new AppError('VALIDATION', `Provider "${providerId}" cannot generate ${task}`)
   const outputs = await provider.generate(
     {
       kind: task,
+      ...(model ? { model } : {}),
       injectId: step.inject.id,
       brief: step.brief,
       outDir: step.outDir,

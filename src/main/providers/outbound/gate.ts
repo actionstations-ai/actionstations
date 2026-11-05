@@ -555,7 +555,7 @@ class GuardedMediaProvider implements MediaProvider {
     const { body, parts } = redactBrief(raw, (t) => redactText(t, enabled, ctx, registry))
     const { digest, images } = await inputImage(job.inputImagePath)
     const host = providerHost(this.config)
-    const model = this.config.defaultModel ?? ''
+    const model = job.model ?? this.config.defaultModel ?? ''
     const hash = mediaHash(this.config, host, model, body, digest)
     const manifest = buildManifest({
       ...base(this.config, host, 'media', job.kind, model, settings, hash, at),
@@ -577,7 +577,7 @@ class GuardedMediaProvider implements MediaProvider {
       this.prepare(job, at),
     )
     const { digest } = await inputImage(prepared.body.inputImagePath)
-    const model = this.config.defaultModel ?? ''
+    const model = job.model ?? this.config.defaultModel ?? ''
     const host = providerHost(this.config)
     assertApproved(approvedHash, mediaHash(this.config, host, model, prepared.body, digest))
     await this.deps.log(

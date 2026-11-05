@@ -121,7 +121,7 @@ export class SystemVoiceProvider implements MediaProvider {
     const lines = linesOf(job)
     const found = this.requireEngine()
     await fs.mkdir(job.outDir, { recursive: true })
-    const voices = await this.voiceMap(lines, found, job.signal)
+    const voices = await this.voiceMap(lines, found, job.signal, job.model)
     const clips: Uint8Array[] = []
     for (const [i, line] of lines.entries()) {
       onProgress?.({
@@ -155,10 +155,13 @@ export class SystemVoiceProvider implements MediaProvider {
     lines: Line[],
     found: FoundEngine,
     signal?: AbortSignal,
+    jobModel?: string,
   ): Promise<Map<string, string>> {
     const speakers = [...new Set(lines.map((l) => l.speaker))]
     const configured = configuredVoices(this.config)
-    const base = safeVoice(stringOption(this.config, 'voice') ?? this.config.defaultModel)
+    const base = safeVoice(
+      jobModel ?? stringOption(this.config, 'voice') ?? this.config.defaultModel,
+    )
     const out = new Map<string, string>()
     const unmapped = speakers.filter((s) => !configured[s])
     let pool: string[] = []

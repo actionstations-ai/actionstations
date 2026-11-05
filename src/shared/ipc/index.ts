@@ -41,6 +41,7 @@ import { translateChannels } from './translate'
 import { simcellChannels, simcellEvents } from './simcell'
 import { mapsChannels } from './maps'
 import { hazardChannels } from './hazards'
+import { mediaConfirmChannels, MediaConfirmNeededEvent } from './media-confirm'
 import { JobDoneEvent, JobProgressEvent, JobTokenEvent } from '../schemas/job'
 
 export * from './define'
@@ -189,6 +190,7 @@ export const channels = mergeChannels(
   simcellChannels,
   mapsChannels,
   hazardChannels,
+  mediaConfirmChannels,
 )
 
 export type Channels = typeof channels
@@ -222,6 +224,8 @@ export const events = {
   'outbound:approval-needed': ApprovalNeededEvent,
   /** A pending cloud request was answered or dropped (cancelled job): refetch privacy:pending. */
   'outbound:approval-settled': z.object({ requestId: z.string() }),
+  /** A media batch will call paid providers: ask before it starts. */
+  'media:confirm-needed': MediaConfirmNeededEvent,
   /** A live session started, stopped or changed its device count (#407): refetch live:session-status. */
   'live:changed': LiveChangedEvent,
   /** Maps or places in a project changed (#436): refetch maps:get. */

@@ -168,10 +168,16 @@ const SPEECH_SAMPLE =
   'This is a test of the exercise voice. All flights from Concourse A are delayed.'
 
 /** Synthesize one line into a temp dir (never a project) and return it as a data URL. */
+async function routedAudioModel(config: ProviderConfig): Promise<string | undefined> {
+  const ref = (await getRoutingView()).global.audio
+  return ref?.providerId === config.id ? ref.model : undefined
+}
+
 async function runSpeechTest(config: ProviderConfig, text?: string, voiceStyle?: string) {
   const started = Date.now()
   const outDir = await fs.mkdtemp(join(tmpdir(), 'ttx-speech-'))
   try {
+    const model = await routedAudioModel(config)
     // A cloud voice gets the line through the outbound gate: it may be text the user typed (#454).
     const provider = isRemoteProvider(config)
       ? await mediaProviderFor(config)
@@ -181,6 +187,7 @@ async function runSpeechTest(config: ProviderConfig, text?: string, voiceStyle?:
     const line = (text?.trim() || SPEECH_SAMPLE).slice(0, SPEECH_MAX_CHARS)
     const [out] = await provider.generate({
       kind: 'audio',
+      ...(model ? { model } : {}),
       injectId: 'speech-test',
       brief: {
         paths: ['tts'],

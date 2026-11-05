@@ -144,7 +144,7 @@ export class ComfyMediaProvider implements MediaProvider {
       throw new AppError('PROVIDER', `ComfyUI workflow "${sidecar.name}" produced no output files`)
     const provenance = {
       provider: this.id,
-      ...optional('model', modelNameOf(bound)),
+      ...optional('model', modelNameOf(bound) ?? job.model),
       workflowHash: workflowSha256(bound),
       ...optional(
         'prompt',

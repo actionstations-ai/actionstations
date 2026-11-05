@@ -344,6 +344,35 @@ describe('outbound gate: embeddings and media', () => {
     expect(logged.map((l) => l.approval)).toEqual(['asked', 'job-approval'])
   })
 
+  it('hashes the request with the routed model and passes it on', async () => {
+    const { deps, needed, approvals } = setup('every-request')
+    const generate = vi.fn(async (job: MediaJob) => [
+      { kind: job.kind, filePath: '/x.png', mimeType: 'image/png', provenance: {} },
+    ])
+    const config = { ...REMOTE, defaultModel: 'default-model' }
+    const inner = {
+      id: 'cloud',
+      kind: 'mock',
+      config,
+      capabilities: () => new Set(['image']),
+      health: async () => ({ ok: true }),
+      generate,
+    } as unknown as MediaProvider
+    const job: MediaJob = {
+      kind: 'image',
+      model: 'routed-model',
+      injectId: 'i1',
+      brief: { paths: ['ai_image'], imagePrompt: 'A flooded pump house at night' },
+      outDir: '/tmp/out',
+    }
+    const pending = guardMedia(inner, config, deps).generate(job)
+    const m = await waitFor(needed)
+    expect(m.model).toBe('routed-model')
+    approvals.decide(m.requestId, m.requestHash, 'send')
+    await pending
+    expect(generate.mock.calls[0]![0]).toMatchObject({ model: 'routed-model' })
+  })
+
   it('previews media prompts and sends the job as it is', async () => {
     const { deps, needed, approvals } = setup('every-request')
     const generate = vi.fn(async (job: MediaJob) => [
