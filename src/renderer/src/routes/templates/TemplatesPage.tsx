@@ -110,7 +110,7 @@ function TemplateCard(props: { template: TemplateInfo; onOpen: () => void }) {
   return (
     <li>
       <button type="button" className="card card--interactive tpl-card" onClick={props.onOpen}>
-        <TemplatePreview template={template} scale={0.5} alt="" />
+        <TemplatePreview template={template} scale={0.5} alt="" lazy />
         <span className="tpl-card__title">{template.label}</span>
         {provenance && <ProvenanceBadge provenance={provenance} className="tpl-card__source" />}
         {note && <span className="muted tpl-card__source">{note}</span>}

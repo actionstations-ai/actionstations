@@ -125,6 +125,7 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 ### Fixed
 
 - The MSEL editor keyboard test no longer fails on a busy machine: it holds the 700 ms save debounce on a fake clock while keys are typed, so the save cannot fire between the two edits, and checks that nothing is saved until the debounce runs out (#999).
+- The Templates gallery opens quickly however many packs are installed: each card's preview renders as the card scrolls into view, at most three at a time with cards on screen first, behind a placeholder of the preview's size. With all bundled packs (379 cards) a card near the end of the list now shows its preview about a quarter of a second after it is scrolled to, down from about 16 seconds (#1070).
 - Humanitarian Data Exchange operational presence works without setup: the app identifies itself to HDX with its own name and help@actionstations.ai, and a name and contact you enter in Settings replace them. ReliefWeb still needs a name it has approved (#1099).
 - SEC EDGAR case data no longer refuses to fetch until you enter your own email: the app sends its contact, help@actionstations.ai, unless you set one under Settings, Case data (#1097).
 - The app now names itself `AS/<version> (+https://actionstations.ai)` in every request it makes (hazard data, connectors, maps, the update check and setup downloads). The USGS geomagnetism service refused the previous `ActionStations/<version>` name, so the space weather magnetometer connector could not fetch (#1095).

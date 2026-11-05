@@ -1,13 +1,51 @@
 // @vitest-environment happy-dom
-import { cleanup, screen, waitFor, within } from '@testing-library/react'
+import { act, cleanup, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { TemplateInfo } from '@shared/ipc'
 import { builtinProfile, registerPackProfiles } from '@shared/domains'
 import TemplatesPage from './TemplatesPage'
 import { categoriesPresent, filterTemplates, fitsDomain, schemaFields } from './gallery'
 import { mockTtx, PROJECT, renderAt } from '../documents/test-utils'
 import { useProjectUi } from '../../state/project'
+import { GALLERY_RENDER_LIMIT, galleryRenders } from './render-queue'
+
+/**
+ * A stand-in IntersectionObserver (the test DOM never reports intersections). By default every
+ * observed element is on screen; `screenShows` puts only the matching ones there (#1070).
+ */
+class FakeObserver {
+  static all = new Set<FakeObserver>()
+  static onScreen: (el: Element) => boolean = () => true
+  readonly els = new Set<Element>()
+  constructor(private readonly cb: IntersectionObserverCallback) {
+    FakeObserver.all.add(this)
+  }
+  observe(el: Element) {
+    this.els.add(el)
+    queueMicrotask(() => this.report(el))
+  }
+  report(el: Element) {
+    if (!this.els.has(el)) return
+    const entry = { target: el, isIntersecting: FakeObserver.onScreen(el) }
+    this.cb([entry as IntersectionObserverEntry], this as unknown as IntersectionObserver)
+  }
+  disconnect() {
+    this.els.clear()
+    FakeObserver.all.delete(this)
+  }
+}
+
+/** Scroll: only cards whose text matches are on screen now. */
+function screenShows(match: RegExp | null) {
+  FakeObserver.onScreen = (el) => !!match && match.test(el.closest('li')?.textContent ?? '')
+  act(() => FakeObserver.all.forEach((o) => o.els.forEach((el) => o.report(el))))
+}
+
+beforeEach(() => {
+  FakeObserver.onScreen = () => true
+  vi.stubGlobal('IntersectionObserver', FakeObserver)
+})
 
 const TIME_JUMP: TemplateInfo = {
   type: 'time_jump_card',
@@ -46,6 +84,7 @@ const FIDS: TemplateInfo = { ...TWEET, type: 'fids_board', label: 'FIDS board', 
 
 afterEach(() => {
   cleanup()
+  vi.unstubAllGlobals()
   useProjectUi.setState({ projectPath: null })
 })
 
@@ -213,6 +252,79 @@ describe('TemplatesPage', () => {
     } finally {
       registerPackProfiles([])
     }
+  })
+
+  it('renders a card preview only once the card is on screen (#1070)', async () => {
+    const ttx = setup()
+    screenShows(null)
+    renderAt('/templates', '/templates', TemplatesPage)
+    const grid = await screen.findByRole('list', { name: '2 templates' })
+    await new Promise((r) => setTimeout(r, 20))
+    expect(ttx.calls('render:preview')).toEqual([])
+    // The waiting placeholder keeps the preview's shape and stays out of the card's name.
+    const card = within(grid).getByRole('button', { name: /Time jump card/ })
+    const placeholder = card.querySelector<HTMLElement>('.tpl-preview--loading')!
+    expect(placeholder.style.aspectRatio).toBe('816 / 1056')
+    expect(placeholder.getAttribute('aria-hidden')).toBe('true')
+    expect(card.textContent).not.toMatch(/Rendering/)
+
+    screenShows(/Tweet/)
+    await waitFor(() =>
+      expect(ttx.calls('render:preview')).toEqual([
+        { type: 'tweet', fields: { text: 'hi' }, scale: 0.5 },
+      ]),
+    )
+    const tweet = within(grid).getByRole('button', { name: /Tweet \/ X post/ })
+    await waitFor(() => expect(tweet.querySelector('img')?.getAttribute('src')).toMatch(/tweet/))
+    // Scrolled away again, a rendered preview stays.
+    screenShows(/Time jump/)
+    await waitFor(() => expect(ttx.calls('render:preview')).toHaveLength(2))
+    expect(tweet.querySelector('img')).toBeTruthy()
+  })
+
+  it('renders every preview where IntersectionObserver is missing (#1070)', async () => {
+    vi.stubGlobal('IntersectionObserver', undefined)
+    const ttx = setup()
+    renderAt('/templates', '/templates', TemplatesPage)
+    await waitFor(() => expect(ttx.calls('render:preview')).toHaveLength(2))
+  })
+
+  it('keeps at most a few gallery renders in flight (#1070)', async () => {
+    const many = Array.from({ length: 8 }, (_, i) => ({
+      ...TWEET,
+      type: `tweet_${i}`,
+      label: `Post ${i}`,
+    }))
+    const pending: (() => void)[] = []
+    const ttx = mockTtx({
+      'templates:list': () => many,
+      'render:preview': (req: { type: string }) =>
+        new Promise((resolve) =>
+          pending.push(() =>
+            resolve({ dataUrl: `data:image/png;base64,${req.type}`, width: 1, height: 1 }),
+          ),
+        ),
+    })
+    renderAt('/templates', '/templates', TemplatesPage)
+    await screen.findByRole('list', { name: '8 templates' })
+    await waitFor(() => expect(ttx.calls('render:preview')).toHaveLength(GALLERY_RENDER_LIMIT))
+    await new Promise((r) => setTimeout(r, 20))
+    expect(ttx.calls('render:preview')).toHaveLength(GALLERY_RENDER_LIMIT)
+    // Each finished render lets one more start, never more than the limit at once.
+    let done = 0
+    while (done < 8) {
+      await waitFor(() => expect(pending.length).toBeGreaterThan(0))
+      act(() => pending.shift()!())
+      done++
+      await waitFor(() =>
+        expect(ttx.calls('render:preview')).toHaveLength(Math.min(8, done + GALLERY_RENDER_LIMIT)),
+      )
+      expect(ttx.calls('render:preview').length - done).toBeLessThanOrEqual(GALLERY_RENDER_LIMIT)
+    }
+    const grid = screen.getByRole('list', { name: '8 templates' })
+    await waitFor(() => expect(grid.querySelectorAll('img')).toHaveLength(8))
+    expect(galleryRenders.running).toBe(0)
+    expect(ttx.calls('render:preview')).toHaveLength(8)
   })
 
   it('shows render errors in place of the preview', async () => {

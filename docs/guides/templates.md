@@ -301,7 +301,7 @@ At generation time the media stage stores the image as an asset whose id starts 
 
 ## The authoring loop
 
-1. **Look at it in the app.** `pnpm dev`, then **Templates** in the sidebar. The gallery renders every template's `preview.json` and lists its fields and variants. Templates are re-read whenever a file in their folder changes, so reopening a template shows your edits.
+1. **Look at it in the app.** `pnpm dev`, then **Templates** in the sidebar. The gallery renders each template's `preview.json` as its card scrolls into view (a few at a time, cards on screen first), and the template's page lists its fields and variants. Templates are re-read whenever a file in their folder changes, so reopening a template shows your edits.
 
    ![The Templates gallery](images/templates.png)
 
