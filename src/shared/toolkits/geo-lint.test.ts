@@ -40,16 +40,18 @@ describe('alert_level_color_pair', () => {
 describe('volcano_notice_syntax', () => {
   const id = 'volcano_notice_syntax'
   const good = [
-    'VOLCANO OBSERVATORY NOTICE FOR AVIATION',
-    'ISSUED: 20261105/1815Z',
+    'VOLCANO OBSERVATORY NOTICE FOR AVIATION (VONA)',
+    'DTG: 20261105/1815Z',
     'VOLCANO: HOLLIS 999999',
-    'CURRENT AVIATION COLOR CODE: ORANGE',
-    'PREVIOUS AVIATION COLOR CODE: YELLOW',
-    'SOURCE: Observatory',
+    'PSN: N4652 W12145',
+    'NOTICE NR: 2026/147',
+    'CURRENT COLOUR CODE: ORANGE',
+    'PREVIOUS COLOUR CODE: YELLOW',
+    'SVO: CASCADE VOLCANO OBSERVATORY',
   ].join('\n')
   it('accepts a complete VONA', () => expect(rules(good, id)).toEqual([]))
   it('flags missing lines and a bad time format', () => {
-    expect(rules(good.replace('SOURCE: Observatory', ''), id)).toHaveLength(1)
+    expect(rules(good.replace('SVO: CASCADE VOLCANO OBSERVATORY', ''), id)).toHaveLength(1)
     expect(rules(good.replace('20261105/1815Z', '2026-11-05 18:15'), id)[0]).toMatch(/YYYYMMDD/)
   })
   it('ignores other text', () => expect(rules('Nothing here', id)).toEqual([]))

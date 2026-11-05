@@ -27,6 +27,7 @@ import { shutdownRenderPool } from './render/window'
 import { initPacks } from './packs/state'
 import { initTemplateRegistry } from './render/template-registry'
 import { registerFloodingToolkit } from './toolkits/flooding'
+import { registerGeoscienceToolkits } from './toolkits/geoscience/register'
 import { registerMediaToolkit } from './toolkits/media'
 import { registerWeatherToolkit } from './toolkits/weather'
 import { installToolkitDecisionForms } from './toolkits/decision-forms'
@@ -216,6 +217,8 @@ void app.whenReady().then(async () => {
   registerMediaProtocol()
   registerAppProtocol(rendererRoot(import.meta.dirname))
   registerIpc(isAppUrl)
+  // Code-backed parts of the bundled toolkits (generators, connectors).
+  registerGeoscienceToolkits()
   registerMediaToolkit()
   registerFloodingToolkit()
   registerWeatherToolkit()

@@ -81,26 +81,25 @@ const alertLevelColorPair: Rule = (text) => {
 
 const volcanoNoticeSyntax: Rule = (text) => {
   const out: { message: string; match: string }[] = []
-  if (!/VOLCANO OBSERVATORY NOTICE FOR AVIATION|VOLCANIC ASH ADVISORY/i.test(text)) return out
   const vona = /VOLCANO OBSERVATORY NOTICE FOR AVIATION/i.test(text)
+  if (!vona && !/VOLCANIC ASH ADVISORY/i.test(text)) return out
   const required = vona
     ? [
-        'ISSUED:',
+        'DTG:',
         'VOLCANO:',
-        'CURRENT AVIATION COLOR CODE:',
-        'PREVIOUS AVIATION COLOR CODE:',
-        'SOURCE:',
+        'PSN:',
+        'NOTICE NR:',
+        'CURRENT COLOUR CODE:',
+        'PREVIOUS COLOUR CODE:',
+        'SVO:',
       ]
     : ['DTG:', 'VAAC:', 'VOLCANO:', 'PSN:', 'ADVISORY NR:', 'INFO SOURCE:']
   for (const label of required)
     if (!text.includes(label))
       out.push({ message: `The notice is missing its "${label}" line.`, match: label })
-  const stamp = text.match(/(?:ISSUED|DTG):\s*(\S+)/)
+  const stamp = text.match(/DTG:\s*(\S+)/)
   if (stamp && !/^\d{8}\/\d{4}Z$/.test(stamp[1]!))
-    out.push({
-      message: 'The issue time is written YYYYMMDD/HHMMZ in UTC.',
-      match: stamp[0],
-    })
+    out.push({ message: 'The issue time is written YYYYMMDD/HHMMZ in UTC.', match: stamp[0] })
   return out
 }
 
