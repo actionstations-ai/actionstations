@@ -1,0 +1,47 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'remote_hearing')}}Remote hearing notice{{else if (eq variant
+      'jury_notice')}}Jury notice{{else if (eq variant 'bar_notice')}}Notice to the
+      bar{{else}}E-filing outage notice{{/if}}
+    </div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <p class="summary">{{fields.summary}}</p>
+  {{#if fields.audience}}
+  <div class="meta">
+    <span><b>For:</b> {{fields.audience}}</span>
+  </div>
+  {{/if}} {{#if fields.affected.length}}
+  <h2>What is affected</h2>
+  <ul>
+    {{#each fields.affected}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="callout">
+    <strong>What to do</strong>
+    <ol>
+      {{#each fields.whatToDo}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ol>
+  </div>
+  <p class="contact">
+    {{fields.contact}}{{#if fields.nextUpdate}} · Next update: {{fields.nextUpdate}}{{/if}}
+  </p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Court notice · issued {{fields.issuedAt}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

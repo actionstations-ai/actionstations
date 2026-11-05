@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence chain-of-custody log and audit discrepancy memo",
+  "description": "A chain-of-custody log for fictional evidence items, or a memo that reports an audit discrepancy: counts expected against counted, the items affected, the cases they touch and the actions taken. Item and case numbers are fictional.",
+  "type": "object",
+  "required": ["agency", "headline", "items"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Chain of custody log for item PR-26-0881"]
+    },
+    "auditPeriod": {
+      "type": "string",
+      "description": "Period",
+      "examples": ["October 1 to October 27, 2026"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 14,
+      "description": "Items or log lines",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One line",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Fictional item number",
+            "examples": ["PR-26-0881"],
+            "x-translate": false
+          },
+          "caseNo": {
+            "type": "string",
+            "description": "Fictional case number",
+            "examples": ["26-CR-1450"],
+            "x-translate": false
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["Oct 12, 09:10"],
+            "x-translate": false
+          },
+          "event": {
+            "type": "string",
+            "description": "Event",
+            "examples": ["Checked in by Officer Kim to shelf C-4"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Logged"],
+            "enum": ["Logged", "Not logged", "Missing", "Found"]
+          }
+        }
+      }
+    },
+    "expected": {
+      "type": "integer",
+      "description": "Expected count in the audit",
+      "examples": [412]
+    },
+    "counted": {
+      "type": "integer",
+      "description": "Counted in the audit",
+      "examples": [409]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary",
+      "examples": [
+        "Three items shown as on shelf C-4 were not found. Two are linked to open cases."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Actions taken",
+      "items": {
+        "type": "string",
+        "examples": ["Prosecutor notified with a list of the two affected cases"]
+      }
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Evidence unit supervisor Sgt. Dale Moreno"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

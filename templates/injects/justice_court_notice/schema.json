@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Court notices: e-filing outage, remote hearing, jury and notice to the bar",
+  "description": "A plain-language notice from a court to the public, jurors or the bar during an outage or closure: what is affected, what to do, where to file, and when the next update comes. It states confirmed facts only and carries no technical detail about the attack.",
+  "type": "object",
+  "required": ["agency", "headline", "summary", "whatToDo"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Electronic filing is unavailable"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "What happened, confirmed facts only",
+      "examples": [
+        "The court’s electronic filing system is unavailable. The court is working to restore it and has not set a time."
+      ]
+    },
+    "affected": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What is affected",
+      "items": {
+        "type": "string",
+        "examples": ["E-filing and the online case search"]
+      }
+    },
+    "whatToDo": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What to do",
+      "items": {
+        "type": "string",
+        "examples": ["File on paper at the south security entrance, 8:00 a.m. to 4:00 p.m."]
+      }
+    },
+    "audience": {
+      "type": "string",
+      "description": "Who this is for",
+      "examples": ["Attorneys and self-represented parties"]
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact",
+      "examples": ["Clerk’s office line (555) 014-5500"],
+      "x-translate": false
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Next update",
+      "examples": ["Daily at noon at marstoncourt.example/status"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["October 28, 2026, 7:30 p.m."],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

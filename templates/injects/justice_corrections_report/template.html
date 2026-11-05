@@ -1,0 +1,83 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'lockdown_notice')}}Lockdown notice{{else if (eq variant
+      'notification_list')}}Notification list{{else}}Incident report{{/if}}
+    </div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <div class="meta">
+    <span><b>Facility:</b> {{fields.facility}}</span
+    ><span><b>Report:</b> {{fields.reportNumber}}</span
+    ><span><b>Occurred:</b> <span class="mono">{{fields.occurredAt}}</span></span
+    ><span><b>Area:</b> {{fields.area}}</span>
+  </div>
+  {{#if fields.summary}}
+  <p>{{fields.summary}}</p>
+  {{/if}} {{#if fields.lockdown.scope}}
+  <div class="callout">
+    <strong>Lockdown: {{fields.lockdown.scope}}</strong> from
+    <span class="mono">{{fields.lockdown.effective}}</span><br />{{fields.lockdown.expected}}
+    <ul>
+      {{#each fields.lockdown.affected}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}} {{#if fields.actions.length}}
+  <h2>Actions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 12%">Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.actions}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.action}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.notified.length}}
+  <h2>External notification</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Who</th>
+        <th style="width: 12%">Time</th>
+        <th style="width: 16%">Method</th>
+        <th style="width: 16%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.notified}}
+      <tr>
+        <td>{{this.who}}</td>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.method}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.preparedBy}}
+  <p class="contact">Prepared by {{fields.preparedBy}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>{{fields.facility}} · {{fields.reportNumber}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

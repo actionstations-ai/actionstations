@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Corrections incident report, lockdown notice and external notification list",
+  "description": "A facility incident report, a lockdown notice to staff and visitors, a medical emergency report or an external notification list. Facts, times, areas and who was notified; it never describes control techniques or how security measures work.",
+  "type": "object",
+  "required": ["agency", "facility", "reportNumber", "headline"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "facility": {
+      "type": "string",
+      "description": "Facility",
+      "examples": ["Marston County Detention Center"],
+      "x-translate": false
+    },
+    "reportNumber": {
+      "type": "string",
+      "description": "Fictional report number",
+      "examples": ["IR-26-0412"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Disturbance in Housing Unit 4 and medical emergency"]
+    },
+    "occurredAt": {
+      "type": "string",
+      "description": "Occurred",
+      "examples": ["14:41"],
+      "x-translate": false
+    },
+    "area": {
+      "type": "string",
+      "description": "Housing area",
+      "examples": ["Housing Unit 4"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary at the facility level",
+      "examples": [
+        "An alarm in Housing Unit 4 at shift change brought a response from the incoming and outgoing shifts. One person needed medical care and was moved to Medical."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Actions and times",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One action",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:44"],
+            "x-translate": false
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Shift commander declared an incident and called in off-duty staff"]
+          }
+        }
+      }
+    },
+    "notified": {
+      "type": "array",
+      "maxItems": 12,
+      "description": "Notifications",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One notification",
+        "properties": {
+          "who": {
+            "type": "string",
+            "description": "Who",
+            "examples": ["Sheriff"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["14:50"],
+            "x-translate": false
+          },
+          "method": {
+            "type": "string",
+            "description": "Method",
+            "examples": ["Phone"]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Done"],
+            "enum": ["Done", "Pending", "Not required"]
+          }
+        }
+      }
+    },
+    "lockdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Lockdown notice",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "Scope",
+          "examples": ["Housing Unit 4 only"]
+        },
+        "effective": {
+          "type": "string",
+          "description": "Effective",
+          "examples": ["14:44"],
+          "x-translate": false
+        },
+        "affected": {
+          "type": "array",
+          "maxItems": 5,
+          "description": "What is affected",
+          "items": {
+            "type": "string",
+            "examples": ["Visits to Housing Unit 4 are suspended"]
+          }
+        },
+        "expected": {
+          "type": "string",
+          "description": "Expected duration",
+          "examples": ["Until the count is clear; next update at 16:00"]
+        }
+      }
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Shift Commander Lt. R. Vance"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

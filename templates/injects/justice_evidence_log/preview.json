@@ -1,0 +1,82 @@
+{
+  "variant": "custody_log",
+  "fields": {
+    "agency": "Marston Police Department",
+    "division": "Evidence and Property Unit",
+    "headline": "Chain of custody log for item PR-26-0881",
+    "items": [
+      {
+        "item": "PR-26-0881",
+        "caseNo": "26-CR-1450",
+        "time": "Oct 12, 09:10",
+        "event": "Checked in by Officer Kim to shelf C-4",
+        "status": "Logged"
+      },
+      {
+        "item": "PR-26-0881",
+        "caseNo": "26-CR-1450",
+        "time": "Oct 15, 13:30",
+        "event": "Checked out to the crime laboratory by Det. Ruiz",
+        "status": "Logged"
+      },
+      {
+        "item": "PR-26-0881",
+        "caseNo": "26-CR-1450",
+        "time": "Oct 19, 10:05",
+        "event": "Returned from the laboratory; no check-in entry",
+        "status": "Not logged"
+      },
+      {
+        "item": "PR-26-0881",
+        "caseNo": "26-CR-1450",
+        "time": "Oct 27, 14:00",
+        "event": "Not found on shelf C-4 at audit",
+        "status": "Missing"
+      }
+    ],
+    "actions": [
+      "Laboratory asked for its receiving record",
+      "Prosecutor to be told if the item is not found by October 29"
+    ],
+    "preparedBy": "Evidence unit supervisor Sgt. Dale Moreno"
+  },
+  "variants": {
+    "audit_memo": {
+      "fields": {
+        "headline": "Audit discrepancy: shelf C-4",
+        "auditPeriod": "October 1 to October 27, 2026",
+        "expected": 412,
+        "counted": 409,
+        "summary": "Three items shown as on shelf C-4 were not found. Two are linked to open cases. The log has no entries for any of the three after October 19.",
+        "items": [
+          {
+            "item": "PR-26-0881",
+            "caseNo": "26-CR-1450",
+            "time": "Oct 19",
+            "event": "Last entry: returned from laboratory",
+            "status": "Missing"
+          },
+          {
+            "item": "PR-26-0884",
+            "caseNo": "26-CR-1462",
+            "time": "Oct 21",
+            "event": "Last entry: checked in",
+            "status": "Missing"
+          },
+          {
+            "item": "PR-26-0790",
+            "caseNo": "25-CR-3302",
+            "time": "Oct 3",
+            "event": "Case closed; disposal pending",
+            "status": "Found"
+          }
+        ],
+        "actions": [
+          "Prosecutor notified with the two affected cases on October 27 at 16:30",
+          "Access to shelf C-4 limited to the unit supervisor until the review ends",
+          "Chief asked for an outside review of the log process"
+        ]
+      }
+    }
+  }
+}

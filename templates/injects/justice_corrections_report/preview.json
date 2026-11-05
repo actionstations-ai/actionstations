@@ -1,0 +1,117 @@
+{
+  "variant": "incident_report",
+  "fields": {
+    "agency": "Marston County Sheriff’s Office",
+    "division": "Detention Center",
+    "facility": "Marston County Detention Center",
+    "reportNumber": "IR-26-0412",
+    "headline": "Disturbance in Housing Unit 4 and medical emergency",
+    "occurredAt": "14:41",
+    "area": "Housing Unit 4",
+    "summary": "An alarm in Housing Unit 4 at shift change brought a response from the incoming and outgoing shifts. One person needed medical care and was moved to Medical. The count is being reconciled.",
+    "actions": [
+      {
+        "time": "14:41",
+        "action": "Control room reports an alarm in Housing Unit 4"
+      },
+      {
+        "time": "14:44",
+        "action": "Shift commander declares an incident and calls in off-duty staff"
+      },
+      {
+        "time": "14:48",
+        "action": "Health services moves one person to Medical"
+      },
+      {
+        "time": "14:55",
+        "action": "Sheriff’s patrol asked to stand by for transport support"
+      }
+    ],
+    "notified": [
+      {
+        "who": "Sheriff",
+        "time": "14:50",
+        "method": "Phone",
+        "status": "Done"
+      },
+      {
+        "who": "Health services administrator",
+        "time": "14:46",
+        "method": "Radio",
+        "status": "Done"
+      },
+      {
+        "who": "Court security (transport schedule)",
+        "time": "15:05",
+        "method": "Phone",
+        "status": "Pending"
+      }
+    ],
+    "preparedBy": "Shift Commander Lt. R. Vance"
+  },
+  "variants": {
+    "lockdown_notice": {
+      "fields": {
+        "headline": "Lockdown of Housing Unit 4",
+        "summary": "Housing Unit 4 is locked down while staff reconcile the count and a medical emergency is handled. All other areas continue normal operations.",
+        "actions": [],
+        "notified": [],
+        "lockdown": {
+          "scope": "Housing Unit 4 only",
+          "effective": "14:44",
+          "affected": [
+            "Visits to Housing Unit 4 are suspended",
+            "Court transport from Housing Unit 4 is delayed",
+            "Meals for Housing Unit 4 are served in the unit"
+          ],
+          "expected": "Until the count is clear. Next update at 16:00."
+        }
+      }
+    },
+    "notification_list": {
+      "fields": {
+        "headline": "External notification list",
+        "summary": "Notifications required or recommended after the incident, with status at 15:30.",
+        "actions": [],
+        "notified": [
+          {
+            "who": "Sheriff",
+            "time": "14:50",
+            "method": "Phone",
+            "status": "Done"
+          },
+          {
+            "who": "County administrator",
+            "time": "15:10",
+            "method": "Phone",
+            "status": "Done"
+          },
+          {
+            "who": "Presiding judge (court schedule)",
+            "time": "15:20",
+            "method": "Phone",
+            "status": "Done"
+          },
+          {
+            "who": "State oversight agency",
+            "time": "",
+            "method": "Written report",
+            "status": "Pending"
+          },
+          {
+            "who": "Families of those in the unit",
+            "time": "",
+            "method": "Hotline message",
+            "status": "Pending"
+          },
+          {
+            "who": "Public information officer",
+            "time": "15:00",
+            "method": "Radio",
+            "status": "Done"
+          }
+        ]
+      }
+    }
+  }
+}
