@@ -132,6 +132,70 @@
       "title": "Healthcare Facilities and Power Outages (FEMA)"
     }
   ],
+  "metrics": [
+    {
+      "id": "clinical_judgment_profile",
+      "label": "Clinical judgment profile",
+      "config": {}
+    },
+    {
+      "id": "handoff_quality",
+      "label": "Handoff quality",
+      "config": {}
+    },
+    {
+      "id": "time_to_escalation",
+      "label": "Time to escalation",
+      "config": {
+        "targetMinutes": 15
+      },
+      "groundTruth": "clinical-events"
+    },
+    {
+      "id": "triage_accuracy",
+      "label": "Triage accuracy",
+      "config": {},
+      "groundTruth": "clinical-events"
+    },
+    {
+      "id": "evacuation_order",
+      "label": "Evacuation order against the priority list",
+      "config": {
+        "topN": 3
+      },
+      "groundTruth": "clinical-events"
+    },
+    {
+      "id": "staffing_ratio_exceedances",
+      "label": "Staffing ratio exceedances",
+      "config": {
+        "targetRatio": 5
+      }
+    },
+    {
+      "id": "infection_control_decisions",
+      "label": "Infection control decisions",
+      "config": {},
+      "groundTruth": "clinical-events"
+    },
+    {
+      "id": "disclosure_timing",
+      "label": "Disclosure timing",
+      "config": {
+        "targetMinutes": 60
+      },
+      "groundTruth": "clinical-events"
+    },
+    {
+      "id": "downtime_workflow_time",
+      "label": "Time to downtime workflows",
+      "config": {
+        "decisionKind": "start_downtime_workflow",
+        "targetMinutes": 30
+      },
+      "groundTruth": "clinical-events"
+    }
+  ],
   "decisionForms": [
     {
       "id": "assign_nurse",
@@ -522,7 +586,9 @@
       "A staffing grid shows needed, scheduled, called in and agency counts per shift and the resulting nurse-to-patient ratio; the numbers add up.",
       "An evacuation list has one row per patient with bed, name, acuity and dependency (ventilator, infusion, bariatric, infant), the equipment that goes with the patient, the destination and the time out.",
       "Times use the 24-hour clock; weights and doses use the metric system; temperatures state Celsius or Fahrenheit.",
-      "A case study stage shows only data the learner would have at that point; it never reveals the next stage's results."
+      "A case study stage shows only data the learner would have at that point; it never reveals the next stage's results.",
+      "Exercise evaluation guides for nursing exercises name critical tasks a nurse can be observed doing. Mass Care Services: assign beds, nurses and supplies to arriving patients and keep ratios within the plan. Public Health, Healthcare and EMS: triage and reassess casualties, isolate and cohort infectious patients, notify public health.",
+      "More critical tasks for nursing evaluation guides. Operational Coordination: escalate a staffing shortage to the house supervisor with a number and a request. Operational Communications: give a structured SBAR report with read-back, and notify the provider of a critical result. Situational Assessment: reassess vital signs and the early warning score at the stated interval and keep the census and patient tracking current."
     ],
     "realismRules": [
       "Vital signs, labs and findings follow one coherent physiologic story; a patient in septic shock does not have a normal lactate and a normal blood pressure unless the case says why.",

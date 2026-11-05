@@ -100,6 +100,26 @@ async function datasetFile(root: string, scenarioId: string, id: string | undefi
   return dataset.file
 }
 
+/**
+ * What a field metric reads beyond ground truth and decisions (case study runs, a dataset the
+ * generic loader does not know). A field registers one provider per metric id.
+ */
+export type MetricInputProvider = (ctx: {
+  root: string
+  scenarioId: string
+  ref: ToolkitMetric
+}) => Promise<Partial<MetricInputBag>>
+
+const providers = new Map<string, MetricInputProvider>()
+
+/** Add a provider for a metric id. The same provider twice is a no-op; another under a taken id throws. */
+export function registerMetricInputProvider(metricId: string, provider: MetricInputProvider): void {
+  const existing = providers.get(metricId)
+  if (existing && existing !== provider)
+    throw new Error(`Metric input provider for "${metricId}" is already registered`)
+  providers.set(metricId, provider)
+}
+
 async function inputBag(
   root: string,
   scenarioId: string,
@@ -118,7 +138,8 @@ async function inputBag(
   if (truth) bag.events = await readGroundTruth(dir, truth)
   const series = await datasetFile(root, scenarioId, ref.series)
   if (series) bag.series = await readModeledSeries(dir, series)
-  return bag
+  const extra = await providers.get(ref.id)?.({ root, scenarioId, ref })
+  return extra ? { ...bag, ...extra } : bag
 }
 
 async function sessionDecisions(root: string, scenarioId: string, sessionId: string | undefined) {

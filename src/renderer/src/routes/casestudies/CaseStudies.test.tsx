@@ -9,6 +9,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { PlayView } from '@shared/ipc'
 import { mockTtx, renderAt, PROJECT } from '../documents/test-utils'
 import CaseStudiesPage from './CaseStudiesPage'
+import { ClassSession } from './ClassSession'
 import { EducationPanel } from './EducationPanel'
 import { PlayerView } from './PlayerView'
 
@@ -346,6 +347,96 @@ describe('the education record', () => {
       done: true,
       by: 'A. Brooks',
     })
+    expect(await violations()).toEqual([])
+  })
+})
+
+describe('a class session', () => {
+  const study = {
+    ...caseStudy,
+    stages: [
+      {
+        id: 's1',
+        title: 'Presentation',
+        time: '',
+        narrative: 'You take over care.',
+        data: { figures: {}, tables: [], statements: [] },
+        prompts: [],
+      },
+      {
+        id: 's2',
+        title: 'First assessment',
+        time: '',
+        narrative: 'You reassess.',
+        data: { figures: {}, tables: [], statements: [] },
+        prompts: [],
+      },
+    ],
+  }
+  const results = (reveal: boolean) => ({
+    surveyId: 'cs-case1-s1',
+    stageId: 's1',
+    stageTitle: 'Presentation',
+    responses: 4,
+    minResponses: 3,
+    prompts: [
+      {
+        promptId: 'p1',
+        step: 'recognize_cues' as const,
+        stepLabel: 'Recognize cues',
+        text: 'Which cues matter?',
+        answered: 4,
+        meanScore: 0.75,
+        options: [
+          { id: 'c1', text: 'Text of c1', count: 3 },
+          { id: 'c2', text: 'Text of c2', count: 1 },
+        ],
+        suppressed: false,
+        ...(reveal
+          ? { reveal: { bestAnswer: 'Text of c1', rationale: 'Cues tie to the story.' } }
+          : {}),
+      },
+    ],
+    notes: { score: 'Scores use this app’s own scale.', anonymity: 'Answers are anonymous.' },
+  })
+
+  it('sends a stage, shows the room, reveals only on request and has no axe violations', async () => {
+    let revealed = false
+    const ttx = mockTtx({
+      'casestudy:get': () => study as never,
+      'scenarios:list': () => [{ id: 'scn1', title: 'Class scenario' }] as never,
+      'surveys:live-status': () => [],
+      'casestudy:class-results': (req: { reveal: boolean }) => {
+        revealed = req.reveal
+        return results(req.reveal) as never
+      },
+      'casestudy:class-profile': () => [],
+      'casestudy:class-open': () => ({ deliveryId: 'd1' }) as never,
+    })
+    renderAt('/x', '/x', () => (
+      <ClassSession projectPath={PROJECT} caseId="case1" onClose={vi.fn()} />
+    ))
+    await screen.findByText('Stage 1 of 2: Presentation')
+    await screen.findByText('Text of c1')
+    expect(screen.getByText(/4 devices have answered/)).toBeTruthy()
+    expect(screen.getByText(/mean score 75%/)).toBeTruthy()
+    expect(screen.queryByText(/Cues tie to the story/)).toBeNull()
+    expect(screen.getByText(/anonymous/)).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Send this stage to devices' }))
+    await waitFor(() => expect(ttx.calls('casestudy:class-open')).toHaveLength(1))
+    expect(ttx.calls('casestudy:class-open')[0]).toMatchObject({
+      scenarioId: 'scn1',
+      caseId: 'case1',
+      stageId: 's1',
+    })
+    fireEvent.click(screen.getByLabelText(/Reveal the best answers/))
+    await screen.findByText(/Cues tie to the story/)
+    expect(revealed).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Next stage' }))
+    await screen.findByText('Stage 2 of 2: First assessment')
+    expect(
+      ((await screen.findByLabelText(/Reveal the best answers/)) as HTMLInputElement).checked,
+    ).toBe(false)
     expect(await violations()).toEqual([])
   })
 })

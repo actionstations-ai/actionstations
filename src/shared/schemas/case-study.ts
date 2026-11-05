@@ -30,6 +30,10 @@ export const CJMM_LABELS: Record<CjmmStep, string> = {
   evaluate_outcomes: 'Evaluate outcomes',
 }
 
+/** The survey id of a stage in a class session: stable, so reopening a stage reuses its answers. */
+export const classSurveyId = (caseId: string, stageId: string): string =>
+  `cs-${caseId}-${stageId}`.slice(0, 120)
+
 export const CASE_STUDY_SCORE_NOTE =
   'Scores use this app’s own scale for practice. They are not NCLEX scores and make no claim of equivalence to them.'
 

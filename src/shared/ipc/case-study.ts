@@ -13,6 +13,7 @@ import {
   StepScore,
 } from '../schemas/case-study'
 import { Cornerstone, EducationRecord } from '../schemas/education-record'
+import { LiveSurveyView } from '../schemas/live'
 
 const P = z.object({ projectPath: z.string().min(1) })
 
@@ -103,6 +104,40 @@ export const PlayView = z.object({
   notes: z.object({ score: z.string(), privacy: z.string() }),
 })
 export type PlayView = z.infer<typeof PlayView>
+
+export const ClassStageResults = z.object({
+  surveyId: SafeId,
+  stageId: SafeId,
+  stageTitle: z.string(),
+  responses: z.number().int(),
+  minResponses: z.number().int(),
+  prompts: z.array(
+    z.object({
+      promptId: SafeId,
+      step: CjmmStep,
+      stepLabel: z.string(),
+      text: z.string(),
+      answered: z.number().int(),
+      meanScore: z.number().nullable(),
+      options: z
+        .array(z.object({ id: SafeId, text: z.string(), count: z.number().int().nullable() }))
+        .optional(),
+      reveal: z.object({ bestAnswer: z.string(), rationale: z.string() }).optional(),
+      suppressed: z.boolean(),
+    }),
+  ),
+  notes: z.object({ score: z.string(), anonymity: z.string() }),
+})
+export type ClassStageResults = z.infer<typeof ClassStageResults>
+
+export const ClassStepProfile = z.array(
+  z.object({
+    step: CjmmStep,
+    label: z.string(),
+    answers: z.number().int(),
+    percent: z.number().int().nullable(),
+  }),
+)
 
 export const caseStudyChannels = {
   'casestudy:list': channel(P, z.array(CaseStudyListItem)),
@@ -200,5 +235,34 @@ export const caseStudyChannels = {
       program: z.string().max(200).optional(),
     }),
     z.object({ path: z.string() }),
+  ),
+  /**
+   * Send one stage of a reviewed case study to the room's devices as a live survey in the
+   * running scenario. Keys and rationales never leave this computer; answers are anonymous.
+   */
+  'casestudy:class-open': channel(
+    P.extend({
+      scenarioId: SafeId,
+      caseId: SafeId,
+      stageId: SafeId,
+      targets: z.array(z.string()).optional(),
+      durationSec: z.number().int().min(30).max(7200).optional(),
+    }),
+    LiveSurveyView,
+  ),
+  /** The room's answers to a stage so far; the best answer and rationale only with `reveal`. */
+  'casestudy:class-results': channel(
+    P.extend({
+      scenarioId: SafeId,
+      caseId: SafeId,
+      stageId: SafeId,
+      reveal: z.boolean().default(false),
+    }),
+    ClassStageResults,
+  ),
+  /** The room's mean score at each of the six steps across the stages opened so far. */
+  'casestudy:class-profile': channel(
+    P.extend({ scenarioId: SafeId, caseId: SafeId }),
+    ClassStepProfile,
   ),
 }
