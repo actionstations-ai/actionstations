@@ -109,7 +109,7 @@ test('hazard data: off by default, consent dialog, fetch, snapshot, ideas with c
     await expect(page.getByText('Flood Watch issued October 28')).toBeVisible()
     await expect(page.getByRole('table', { name: 'Result of each source' })).toBeVisible()
     expect(await axeViolations(page)).toEqual([])
-    expect(new Set(agents)).toEqual(new Set(['ActionStations/0.9.0 (+https://actionstations.ai)']))
+    expect(new Set(agents)).toEqual(new Set(['AS/0.9.0 (+https://actionstations.ai)']))
     const requested = server.hits.slice(before)
     expect(requested.some((p) => p.startsWith('/api.weather.gov/'))).toBe(true)
     expect(requested.some((p) => p.startsWith('/www.fema.gov/'))).toBe(true)

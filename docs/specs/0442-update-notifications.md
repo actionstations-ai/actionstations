@@ -34,7 +34,7 @@ The app can tell the user that a newer release of Action Stations exists, show i
 ### Non-functional requirements
 
 - **NFR-1** Cost: the public GitHub REST API needs no token or account; nothing to host (Project rules 1).
-- **NFR-2** Privacy: no request until the user turns the check on or presses Check now (Project rules 3). The request carries no cookies, no token, no query string and a plain `User-Agent: ActionStations/<version>` naming the app and its version (owner decision; no platform). GitHub sees the IP address, the time and the app version; the setting's description says so. The OS, projects and settings never leave the computer.
+- **NFR-2** Privacy: no request until the user turns the check on or presses Check now (Project rules 3). The request carries no cookies, no token, no query string and a plain `User-Agent: AS/<version>` naming the app and its version (owner decision; no platform). GitHub sees the IP address, the time and the app version; the setting's description says so. The OS, projects and settings never leave the computer.
 - **NFR-3** Accessibility: WCAG 2.2 AA. The banner is a `region` with a heading, not a modal; it does not take focus; result changes in Settings are announced with `aria-live="polite"`; all controls work by keyboard; light and dark themes.
 - **NFR-4** Offline and performance: the check runs in main, times out after 15 s without bytes, reads at most 1 MB, and never delays startup or blocks the UI. With the setting off the app works fully offline, as today.
 - **NFR-5** Platforms: macOS, Windows and Linux; asset matching by file name suffix only.
@@ -87,7 +87,7 @@ export const UpdateSettings = z.object({
 ### Main process: `src/main/updates/`
 
 - `release.ts`: the zod schema for the part of the GitHub response the app reads (`tag_name`, `name`, `html_url`, `published_at`, `body`, `draft`, `prerelease`, `assets[].name`, `assets[].size`), as a `z.looseObject` so extra fields are ignored. `toLatestRelease()` validates `tag_name` as `SemVer` after stripping one leading `v`, refuses `draft` or `prerelease` true, and checks `html_url` with `isReleasePageUrl` (https, host `github.com`, path starting `/actionstations-ai/actionstations/releases/`).
-- `fetch-release.ts`: one GET with `redirect: 'error'`, `credentials: 'omit'`, headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `User-Agent: ActionStations/<version>`. It reuses `idleAbort`, `readCapped` and `redact` from `src/main/packs/fetch.ts` (15 s idle, 1 MB cap counted on received bytes). HTTP 403/429 with `x-ratelimit-remaining: 0` becomes a rate-limit error carrying `x-ratelimit-reset`; other non-2xx become `PROVIDER` errors with the status. `fetchImpl` is injectable for tests. The URL is a constant; in unpackaged runs `TTX_UPDATE_URL` may point it at a loopback test server (refused when packaged, like `TTX_APP_VERSION` in `src/main/packs/app-version.ts`).
+- `fetch-release.ts`: one GET with `redirect: 'error'`, `credentials: 'omit'`, headers `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `User-Agent: AS/<version>`. It reuses `idleAbort`, `readCapped` and `redact` from `src/main/packs/fetch.ts` (15 s idle, 1 MB cap counted on received bytes). HTTP 403/429 with `x-ratelimit-remaining: 0` becomes a rate-limit error carrying `x-ratelimit-reset`; other non-2xx become `PROVIDER` errors with the status. `fetchImpl` is injectable for tests. The URL is a constant; in unpackaged runs `TTX_UPDATE_URL` may point it at a loopback test server (refused when packaged, like `TTX_APP_VERSION` in `src/main/packs/app-version.ts`).
 - `check.ts`: `checkForUpdate({ reason: 'startup' | 'manual' })` runs one check at a time (a second call joins the first), stores the result through `updateSettings`, and emits `updates:changed`. `scheduleStartupCheck()` reads the settings and does nothing unless `check === 'on'` and 24 hours have passed.
 - `upgrade-notes.ts`: `UPGRADE_NOTES: { from: string; to: string; platform?: NodeJS.Platform; text: string }[]` with semver ranges written as `>=a <b`, and `notesFor(installed, latest, platform)`. A small range matcher built on `compareSemver`; no new dependency.
 - `src/main/index.ts`: after `ready-to-show`, `setTimeout(scheduleStartupCheck, 10_000)`.
@@ -152,7 +152,7 @@ What leaves the computer: one HTTPS GET to `api.github.com`, only with the user'
 
 ## Implementation notes
 
-- User-Agent: `ActionStations/<version>` instead of a fixed string without the version, as the owner asked when the work was assigned (NFR-2 updated).
+- User-Agent: `AS/<version>` instead of a fixed string without the version, as the owner asked when the work was assigned (NFR-2 updated).
 - Release-notes links are not clickable (FR-8 updated): the pack description renderer shows a link as its text plus address, so release notes cannot open URLs. `PackDescription` gained an optional `topHeading` so notes that start at `##` become h3 under the dialog's h2 (heading order, WCAG 1.3.1).
 - The wizard's Done step has no Finish button, so the checkbox saves as it changes, and reaching the step stores `off` when the setting is still `ask` (FR-2: the wizard never leaves `ask`).
 - Check now is also limited in main: a manual check within 60 seconds of the last one returns the stored result without a request.

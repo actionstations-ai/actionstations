@@ -17,8 +17,8 @@ off until you turn it on, and nothing is fetched until you press **Fetch**.
 ## What is sent where
 
 The Fetch dialog lists each source with its host, what it sends and what comes back. You tick
-the ones you want. Every request carries only the user agent `ActionStations/<version>
-(+https://actionstations.ai)`. No project text, document, name or email address is sent.
+the ones you want. Every request carries only the user agent `AS/<version>
+(+https://actionstations.ai)` (AS for Action Stations). No project text, document, name or email address is sent.
 
 | Source                            | Host                         | Sent                                               | Needs                |
 | --------------------------------- | ---------------------------- | -------------------------------------------------- | -------------------- |

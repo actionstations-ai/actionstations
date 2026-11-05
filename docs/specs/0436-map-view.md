@@ -93,7 +93,7 @@ is started by the user, verified, resumable and attributed.
 - **FR-11** OpenStreetMap standard tiles follow the
   [tile usage policy](https://operations.osmfoundation.org/policies/tiles/):
   - HTTPS URL only, and the URL is configurable.
-  - Requests send the distinct User-Agent `ActionStations/<version> (+https://actionstations.ai)`.
+  - Requests send the distinct User-Agent `AS/<version> (+https://actionstations.ai)`.
   - The cache honours `Cache-Control`, `Expires` and `ETag` (conditional requests), and keeps a
     tile at least 7 days when the headers do not say.
   - Attribution "© OpenStreetMap contributors" is visible and links to

@@ -2,9 +2,8 @@
 // observatory for a past period, one minute or hourly values of H, D, Z and F. The request
 // carries the observatory code, the dates and the sampling period, nothing else. The response is
 // validated because the service has changed shape before; missing samples (null) stay missing.
-// Checked 2026-11-05: the service answered HTTP 404 to this app's User-Agent string and 200 to
-// others. The app does not change its User-Agent to get around that; the live test below fails
-// until USGS allows it or the owner decides otherwise.
+// The service answers 404 to a User-Agent that starts with "Action" and holds an http(s) URL,
+// which is why the app names itself AS/<version> (#1095).
 import { z } from 'zod'
 import { AppError } from '../../lib/errors'
 import { getJson } from './json'

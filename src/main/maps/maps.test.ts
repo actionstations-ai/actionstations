@@ -190,9 +190,7 @@ describe('the state map catalog', () => {
       installed: true,
       updateAvailable: false,
     })
-    expect(srv.seen[0]!.headers['user-agent']).toBe(
-      'ActionStations/1.2.3 (+https://actionstations.ai)',
-    )
+    expect(srv.seen[0]!.headers['user-agent']).toBe('AS/1.2.3 (+https://actionstations.ai)')
   })
 
   it('downloads the new version before removing the old one when a newer release exists', async () => {
@@ -399,7 +397,7 @@ describe('area planning (OpenFreeMap offline limits)', () => {
     expect(archive).toMatchObject({ kind: 'area', format: 'mbtiles', schema: 'openmaptiles' })
     expect(archive.attribution).toBe('OpenFreeMap © OpenMapTiles Data from OpenStreetMap')
     for (const s of srv.seen)
-      expect(s.headers['user-agent']).toBe('ActionStations/1.2.3 (+https://actionstations.ai)')
+      expect(s.headers['user-agent']).toBe('AS/1.2.3 (+https://actionstations.ai)')
     const r = await archives.openArchiveFile(
       join(store.archivesDir(), `${archive.sha256}.mbtiles`),
       'mbtiles',
@@ -489,7 +487,7 @@ describe('online maps and the OpenStreetMap tile policy', () => {
     const t0 = 1_000_000
     await online.fetchOnline(`${srv.origin}/3/1/2.png`, { settings: s, now: t0 })
     const h = srv.seen[0]!.headers
-    expect(h['user-agent']).toBe('ActionStations/1.2.3 (+https://actionstations.ai)')
+    expect(h['user-agent']).toBe('AS/1.2.3 (+https://actionstations.ai)')
     expect(h.cookie).toBeUndefined()
     expect(h.referer).toBeUndefined()
     const again = await online.fetchOnline(`${srv.origin}/3/1/2.png`, {

@@ -18,4 +18,4 @@ A replay needs real Kp, flux, magnetometer data and the messages SWPC issued. Th
 ## Consequences
 
 - A format change is a one-file fix with a fixture update; opt-in live tests (`LIVE=1`) catch it.
-- The USGS geomagnetism service answered 404 to the app's User-Agent when checked; the connector is built and tested on recorded responses, and its live test fails until that is resolved with USGS.
+- The USGS geomagnetism service answered 404 to a User-Agent starting with "Action" and holding an http(s) URL. The app now names itself `AS/<version> (+https://actionstations.ai)` everywhere, which it accepts (#1095).

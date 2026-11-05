@@ -43,8 +43,10 @@ describe('hazardGet', () => {
       fetchImpl: f.impl,
     })
     const headers = f.calls[0]!.init.headers as Record<string, string>
-    expect(headers['user-agent']).toBe('ActionStations/0.9.0 (+https://actionstations.ai)')
+    expect(headers['user-agent']).toBe('AS/0.9.0 (+https://actionstations.ai)')
     expect(userAgent('1.0.0')).not.toMatch(/@/)
+    // geomag.usgs.gov refuses an agent that starts with "Action" and holds an http(s) URL.
+    expect(userAgent('1.0.0')).not.toMatch(/^Action/i)
     expect(f.calls[0]!.init.credentials).toBe('omit')
     expect(f.calls[0]!.init.redirect).toBe('manual')
   })

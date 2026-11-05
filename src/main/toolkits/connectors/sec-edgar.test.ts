@@ -129,9 +129,7 @@ describe('fair access', () => {
   })
 
   it('puts the user-set contact in the User-Agent and never a built-in one', () => {
-    expect(caseUserAgent('1.0.0', 'person@example.org')).toBe(
-      'ActionStations/1.0.0 (person@example.org)',
-    )
+    expect(caseUserAgent('1.0.0', 'person@example.org')).toBe('AS/1.0.0 (person@example.org)')
     expect(caseUserAgent('1.0.0')).not.toMatch(/@/)
   })
 
@@ -158,7 +156,7 @@ describe('fair access', () => {
     })
     for (let i = 0; i < 4; i++) await get('https://efts.sec.gov/LATEST/search-index?q=x')
     expect(waits).toEqual([120, 120, 120])
-    expect(seen[0]!['user-agent']).toBe('ActionStations/1.0.0 (person@example.org)')
+    expect(seen[0]!['user-agent']).toBe('AS/1.0.0 (person@example.org)')
   })
 })
 
