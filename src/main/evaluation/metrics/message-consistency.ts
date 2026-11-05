@@ -4,13 +4,20 @@
 // statements from message text (see suggest.ts) but a suggestion counts only once the evaluator
 // has confirmed it, so the score never rests on a model's reading alone.
 import { z } from 'zod'
-import { NOT_AVAILABLE, ratio, ratioText, type Metric, type MetricOutput } from './types'
+import {
+  NOT_AVAILABLE,
+  ratio,
+  ratioText,
+  stringList,
+  type Metric,
+  type MetricOutput,
+} from './types'
 
 export const MessageConsistencyConfig = z.object({
   /** Numbers within this absolute difference count as the same value. */
   numericTolerance: z.number().min(0).default(0),
   /** Partners expected to state every fact; a missing statement is listed. */
-  partners: z.array(z.string()).default([]),
+  partners: stringList.default([]),
 })
 export type MessageConsistencyConfig = z.infer<typeof MessageConsistencyConfig>
 

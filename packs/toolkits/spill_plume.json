@@ -155,7 +155,8 @@
       "A trajectory gives a time window per site with the model run time, not one time.",
       "A countermeasure is a request, then a decision by the FOSC with conditions and time.",
       "Boom plans give site, length, type, anchoring, who deploys and when.",
-      "Wildlife counts: oiled live, oiled dead, hazed, in rehabilitation, released."
+      "Wildlife counts: oiled live, oiled dead, hazed, in rehabilitation, released.",
+      "Critical tasks to evaluate: notify the NRC and the state on time, activate the OSRO, rank sensitive areas, boom before landfall, decide the countermeasure request, keep messages consistent."
     ],
     "realismRules": [
       "The responsible party calls the NRC; the NRC sends no responders and approves nothing.",
@@ -168,5 +169,329 @@
       "Use a fictional responsible party and 555-01xx phone numbers; real geography is fine."
     ]
   },
-  "lintRules": []
+  "lintRules": [],
+  "decisionForms": [
+    {
+      "id": "make_notifications",
+      "label": "Make notifications",
+      "description": "Record who was notified and when.",
+      "fields": [
+        {
+          "id": "who",
+          "label": "Who was notified",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "National Response Center",
+            "Qualified Individual",
+            "Oil spill removal organization",
+            "Coast Guard Sector or EPA",
+            "State environmental agency",
+            "Downstream water utility",
+            "Local emergency management"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "label": "What was said",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "activate_osro",
+      "label": "Activate the OSRO and assign equipment",
+      "description": "Call out the response contractor and say what it should bring.",
+      "fields": [
+        {
+          "id": "equipment",
+          "label": "Equipment and crews requested",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "staging",
+          "label": "Staging area",
+          "kind": "area"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "set_protection_priorities",
+      "label": "Set protection priorities",
+      "description": "Rank a sensitive area and say how it will be protected.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Sensitive area",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "priority",
+          "label": "Priority (1 is first)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "strategy",
+          "label": "Strategy",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Exclusion boom",
+            "Deflection boom",
+            "Containment boom",
+            "Wildlife hazing",
+            "Intake closure",
+            "Natural recovery"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "deploy_protective_boom",
+      "label": "Deploy protective boom",
+      "description": "Send boom to a site: where, how much and when it will be in place.",
+      "fields": [
+        {
+          "id": "site",
+          "label": "Site",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "length",
+          "label": "Boom length (feet)",
+          "kind": "number",
+          "required": true
+        },
+        {
+          "id": "type",
+          "label": "Strategy",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Exclusion", "Deflection", "Containment"]
+        },
+        {
+          "id": "time",
+          "label": "Time boom will be in place",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "request_countermeasure",
+      "label": "Request a countermeasure",
+      "description": "Ask the Federal On-Scene Coordinator to approve a dispersant, chemical agent or in-situ burn.",
+      "fields": [
+        {
+          "id": "countermeasure",
+          "label": "Countermeasure",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Dispersant", "Chemical agent", "In-situ burn"]
+        },
+        {
+          "id": "zone",
+          "label": "Zone",
+          "kind": "area"
+        },
+        {
+          "id": "justification",
+          "label": "Net environmental benefit",
+          "kind": "text"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "close_water_intake",
+      "label": "Close a water intake",
+      "description": "Close a drinking water intake against the predicted arrival.",
+      "fields": [
+        {
+          "id": "intake",
+          "label": "Intake",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        },
+        {
+          "id": "alternate",
+          "label": "Alternate supply",
+          "kind": "text"
+        }
+      ]
+    },
+    {
+      "id": "close_fishery_or_shoreline",
+      "label": "Close fishing or a shoreline",
+      "description": "A state or local authority closes a fishery, beach or shoreline.",
+      "fields": [
+        {
+          "id": "what",
+          "label": "What is closed",
+          "kind": "choice",
+          "required": true,
+          "choices": [
+            "Commercial fishing",
+            "Recreational fishing",
+            "Shellfish harvest",
+            "Beach or shoreline"
+          ]
+        },
+        {
+          "id": "area",
+          "label": "Area",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "set_safety_zone",
+      "label": "Set a safety zone",
+      "description": "Restrict vessels or the public around the release.",
+      "fields": [
+        {
+          "id": "area",
+          "label": "Zone",
+          "kind": "area",
+          "required": true
+        },
+        {
+          "id": "radius",
+          "label": "Radius (yards)",
+          "kind": "number"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "escalate_imt",
+      "label": "Escalate the IMT",
+      "description": "Move from a local team to a regional or national team.",
+      "fields": [
+        {
+          "id": "level",
+          "label": "Level",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Regional team", "National team", "International team"]
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "issue_public_statement",
+      "label": "Issue a public statement",
+      "description": "Release a statement through the Joint Information Center.",
+      "fields": [
+        {
+          "id": "audience",
+          "label": "Audience",
+          "kind": "choice",
+          "required": true,
+          "choices": ["Media", "Fishers and boaters", "Water customers", "Shoreline residents"]
+        },
+        {
+          "id": "message",
+          "label": "Message",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "kind": "time",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "decision_timing",
+      "label": "Notification timeliness",
+      "config": {
+        "decisionKinds": "make_notifications",
+        "eventKinds": "notification_due",
+        "leadWindowMin": 60,
+        "graceWindowMin": 0,
+        "matchArea": false
+      }
+    },
+    {
+      "id": "threshold_timing",
+      "label": "Protective boom before oil arrives",
+      "config": {
+        "actionKind": "deploy_protective_boom",
+        "threshold": 1,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "protection_coverage",
+      "label": "Sensitive areas protected before landfall",
+      "config": {
+        "actionKinds": "deploy_protective_boom, close_water_intake, close_fishery_or_shoreline",
+        "threshold": 1,
+        "clearanceMin": 0
+      }
+    },
+    {
+      "id": "message_consistency",
+      "label": "Message consistency across the responsible party, unified command and the JIC",
+      "config": {
+        "numericTolerance": 0,
+        "partners": "Responsible party, Unified command, Joint Information Center"
+      }
+    }
+  ]
 }

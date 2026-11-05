@@ -25,6 +25,15 @@ Compares an action with the time a measured or modeled quantity crossed a thresh
 
 The result is only as good as the series behind it. The inputs list says which one was used.
 
+## Protection coverage
+
+Checks how many of the places the modeled hazard reaches had a protective action in time: for an oil spill, the share of the sensitive areas that had boom, a closed intake or a closure before the oil arrived.
+
+- Each area has a modeled series. Its **landfall** is the first time the series reaches the threshold; areas the hazard never reaches are left out.
+- An area counts as **protected in time** when a decision of one of the protective kinds names that area and was made at least the **clearance time** before landfall. One made later reads "Protected too late"; none reads "No protective action".
+- A decision that does not name an area protects nothing: protection is a place.
+- The summary gives the share protected in time, with the count behind it.
+
 ## Message consistency
 
 Checks whether partners told the same story on the key facts: landfall time, evacuation zones, shelter locations, a hotline number.

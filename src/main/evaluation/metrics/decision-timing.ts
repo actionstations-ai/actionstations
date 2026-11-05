@@ -13,15 +13,16 @@ import {
   ratio,
   ratioText,
   sameArea,
+  stringList,
   type Metric,
   type MetricOutput,
 } from './types'
 
 export const DecisionTimingConfig = z.object({
   /** Decision kinds that count as warnings; all kinds when empty. */
-  decisionKinds: z.array(z.string()).default([]),
+  decisionKinds: stringList.default([]),
   /** Event kinds that are scored; all kinds when empty. */
-  eventKinds: z.array(z.string()).default([]),
+  eventKinds: stringList.default([]),
   /** A decision this many minutes before an event, at most, can match it. */
   leadWindowMin: z.number().min(0).default(120),
   /** A decision this many minutes after the event began can still match it (zero lead or less). */
