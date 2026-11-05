@@ -1,0 +1,57 @@
+{
+  "fields": {
+    "heading": "Notification clocks",
+    "source": "Exercise data, simulated",
+    "figures": {
+      "main": {
+        "kind": "lab_notification_clock_board",
+        "data": {
+          "title": "Notification clocks",
+          "asOf": "Wed 21 Oct 2026 11:00",
+          "rows": [
+            {
+              "notification": "Immediate notice of theft or loss",
+              "recipient": "CDC or APHIS",
+              "rule": "Immediately (exercise window 60 minutes)",
+              "due": "Wed 21 Oct 2026 10:15",
+              "status": "made",
+              "made": "Wed 21 Oct 2026 09:40, 35 m early"
+            },
+            {
+              "notification": "Notice to law enforcement of theft or loss",
+              "recipient": "Campus police",
+              "rule": "Immediately (exercise window 60 minutes)",
+              "due": "Wed 21 Oct 2026 10:15",
+              "status": "made_late",
+              "made": "Wed 21 Oct 2026 10:40, 25 m late"
+            },
+            {
+              "notification": "Form 3 for theft or loss",
+              "recipient": "CDC or APHIS",
+              "rule": "Within 7 calendar days",
+              "due": "Wed 28 Oct 2026 09:15",
+              "status": "open"
+            },
+            {
+              "notification": "IBC report to NIH OSP",
+              "recipient": "NIH Office of Science Policy",
+              "rule": "Within 30 calendar days",
+              "due": "",
+              "status": "not_started",
+              "note": "Waiting for the trigger"
+            },
+            {
+              "notification": "PI reports to the biosafety officer",
+              "recipient": "Biosafety officer",
+              "rule": "Within 24 hours",
+              "due": "Wed 21 Oct 2026 08:00",
+              "status": "late"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "variant": "notification_clock_board",
+  "variants": {}
+}

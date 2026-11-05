@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IBC incident minutes",
+  "description": "Institutional biosafety committee minutes for an incident item: meeting date, attendance, what was reported, the discussion in general terms, the decisions (classification, reporting, corrective action) and the action items with owners.",
+  "type": "object",
+  "required": ["organization", "headline", "meetingDate"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Incident review: Room 214 possible exposure"]
+    },
+    "meetingDate": {
+      "type": "string",
+      "description": "Meeting",
+      "examples": ["2026-10-28 14:00"],
+      "x-translate": false
+    },
+    "chair": {
+      "type": "string",
+      "description": "Chair",
+      "examples": ["Dr. Helena Voss"],
+      "x-translate": false
+    },
+    "quorum": {
+      "type": "string",
+      "description": "Quorum",
+      "examples": ["Present (7 of 9 members)"],
+      "x-translate": false
+    },
+    "incidentRef": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "attendees": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Present",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Dr. Helena Voss (chair)",
+          "Marcus Lindqvist (biosafety officer)",
+          "Nurse Abena Mensah (Occupational Health)",
+          "Dr. Tomas Alvarez (principal investigator, for this item)"
+        ]
+      ]
+    },
+    "discussion": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Discussion",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "The biosafety officer reported the facts and the timeline.",
+          "Members asked whether the event meets the NIH reporting threshold."
+        ]
+      ]
+    },
+    "decisions": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Decisions",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Classify the event as a minor incident with no overt exposure.",
+          "Report to the institutional official in the quarterly summary.",
+          "Approve the corrective action plan."
+        ]
+      ]
+    },
+    "actionItems": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Action items",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Circulate the lessons-learned memo"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Biosafety officer"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due",
+            "examples": ["2026-11-04"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "item": "Circulate the lessons-learned memo",
+            "owner": "Biosafety officer",
+            "due": "2026-11-04"
+          }
+        ]
+      ]
+    }
+  }
+}

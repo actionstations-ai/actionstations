@@ -1,0 +1,76 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Corrective action plan</div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  <table class="facts">
+    <tbody>
+      {{#if fields.incidentRef}}
+      <tr>
+        <th>Incident reference</th>
+        <td>{{fields.incidentRef}}</td>
+      </tr>
+      {{/if}} {{#if fields.owner}}
+      <tr>
+        <th>Plan owner</th>
+        <td>{{fields.owner}}</td>
+      </tr>
+      {{/if}} {{#if fields.approvedBy}}
+      <tr>
+        <th>Approved by</th>
+        <td>{{fields.approvedBy}}</td>
+      </tr>
+      {{/if}} {{#if fields.reviewDate}}
+      <tr>
+        <th>Next review</th>
+        <td>{{fields.reviewDate}}</td>
+      </tr>
+      {{/if}}
+    </tbody>
+  </table>
+  {{#if fields.findings}}
+  <h2>Findings</h2>
+  <ul>
+    {{#each fields.findings}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.actions}}
+  <h2>Actions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Action</th>
+        <th>Owner</th>
+        <th>Due</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.actions}}
+      <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.action}}</td>
+        <td>{{this.owner}}</td>
+        <td>{{this.due}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Corrective action plan · {{fields.incidentRef}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

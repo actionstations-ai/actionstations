@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Occupational health exposure evaluation",
+  "description": "Occupational health evaluation of a worker after a possible laboratory exposure: when it happened, the route in general terms, the agent as a generic class, the response steps taken, the recommendations and the follow-up schedule. It is a coordination record, not clinical care, and gives no agent detail.",
+  "type": "object",
+  "required": ["organization", "headline", "reference"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Evaluation after a possible sharps exposure"]
+    },
+    "reference": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "worker": {
+      "type": "string",
+      "description": "Worker",
+      "examples": ["Dev Raman, research technician"],
+      "x-translate": false
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "description": "Evaluated",
+      "examples": ["2026-10-21 17:30"],
+      "x-translate": false
+    },
+    "exposureTime": {
+      "type": "string",
+      "description": "Time of exposure",
+      "examples": ["2026-10-21 16:35"],
+      "x-translate": false
+    },
+    "route": {
+      "type": "string",
+      "description": "Route, in general terms",
+      "examples": ["Percutaneous (sharps injury)"]
+    },
+    "agentClass": {
+      "type": "string",
+      "description": "Agent, as a generic class",
+      "examples": ["a Risk Group 2 bacterium, BSL-2 work"],
+      "x-translate": false
+    },
+    "evaluator": {
+      "type": "string",
+      "description": "Evaluated by",
+      "examples": ["Nurse Abena Mensah, Occupational Health"],
+      "x-translate": false
+    },
+    "responseSteps": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Response steps taken",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Site washed at the laboratory sink before evaluation.",
+          "Worker evaluated within one hour of the exposure."
+        ]
+      ]
+    },
+    "recommendations": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Recommendations",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Worker may return to non-laboratory duties.",
+          "Biosafety officer to confirm the classification before work resumes in Room 214."
+        ]
+      ]
+    },
+    "followUp": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Follow-up schedule",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "when": {
+            "type": "string",
+            "description": "When",
+            "examples": ["2026-10-22"]
+          },
+          "what": {
+            "type": "string",
+            "description": "What",
+            "examples": ["Telephone check"]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner",
+            "examples": ["Occupational Health"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "when": "2026-10-22",
+            "what": "Telephone check",
+            "owner": "Occupational Health"
+          }
+        ]
+      ]
+    },
+    "reporting": {
+      "type": "array",
+      "maxItems": 4,
+      "description": "Reports to make",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Occupational Health to the biosafety officer today.",
+          "Employee injury report to Human Resources within the institution deadline."
+        ]
+      ]
+    }
+  }
+}

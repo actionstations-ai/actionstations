@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stop-work order",
+  "description": "Written stop-work order for a laboratory room or suite: who ordered it, when, the scope, the reason in general terms, what must happen before work resumes and who has been told.",
+  "type": "object",
+  "required": ["organization", "headline", "orderNumber"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Stop work in Room 214"]
+    },
+    "orderNumber": {
+      "type": "string",
+      "description": "Order number",
+      "examples": ["SW-2026-017"],
+      "x-translate": false
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Issued by",
+      "examples": ["Marcus Lindqvist, biosafety officer"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Issued",
+      "examples": ["2026-10-21 16:55"],
+      "x-translate": false
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scope",
+      "examples": ["Room 214 only; Rooms 212 and 216 are not affected"]
+    },
+    "incidentRef": {
+      "type": "string",
+      "description": "Incident reference",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "liftedBy": {
+      "type": "string",
+      "description": "May be lifted by",
+      "examples": ["Biosafety officer, with the IBC chair informed"],
+      "x-translate": false
+    },
+    "reasons": {
+      "type": "array",
+      "maxItems": 4,
+      "description": "Reason",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["A possible exposure was reported in Room 214 and the room has not yet been checked."]
+      ]
+    },
+    "beforeResuming": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Required before work resumes",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Biosafety officer inspection of the room.",
+          "Training records for everyone working in the room are current.",
+          "Written agreement of the principal investigator."
+        ]
+      ]
+    },
+    "told": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Who has been told",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "who": {
+            "type": "string",
+            "description": "Who",
+            "examples": ["Principal investigator"]
+          },
+          "how": {
+            "type": "string",
+            "description": "How",
+            "examples": ["Telephone"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["17:00"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "who": "Principal investigator",
+            "how": "Telephone",
+            "time": "17:00"
+          }
+        ]
+      ]
+    }
+  }
+}

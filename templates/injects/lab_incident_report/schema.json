@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Laboratory incident report",
+  "description": "Internal laboratory incident report: who reported what, when and where; the biosafety level and agent class only as a generic class; immediate actions, people involved and the notifications made with their times. It states facts and times and gives no method or agent detail.",
+  "type": "object",
+  "required": ["organization", "headline", "reference"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Possible needlestick exposure in Room 214"]
+    },
+    "reference": {
+      "type": "string",
+      "description": "Report number",
+      "examples": ["LI-2026-0142"],
+      "x-translate": false
+    },
+    "discoveredAt": {
+      "type": "string",
+      "description": "Discovered",
+      "examples": ["2026-10-21 16:40"],
+      "x-translate": false
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Reported by",
+      "examples": ["Priya Nair, laboratory manager, Room 214"],
+      "x-translate": false
+    },
+    "reportedTo": {
+      "type": "string",
+      "description": "Reported to",
+      "examples": ["Marston State University Biosafety Office"],
+      "x-translate": false
+    },
+    "location": {
+      "type": "string",
+      "description": "Location",
+      "examples": ["Room 214, Whitfield Hall"],
+      "x-translate": false
+    },
+    "biosafetyLevel": {
+      "type": "string",
+      "description": "Biosafety level of the room",
+      "examples": ["BSL-2"],
+      "x-translate": false
+    },
+    "agentClass": {
+      "type": "string",
+      "description": "Agent, as a generic class",
+      "examples": ["a Risk Group 2 bacterium"],
+      "x-translate": false
+    },
+    "incidentType": {
+      "type": "string",
+      "description": "Incident type",
+      "examples": ["Potential exposure (sharps injury)"]
+    },
+    "whatHappened": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "What happened",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "At about 16:35 a technician reported a needlestick while disposing of a sharps container.",
+          "The technician washed the site and told the laboratory manager."
+        ]
+      ]
+    },
+    "immediateActions": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Immediate actions",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Work stopped in Room 214 and the door was posted.",
+          "The technician was sent to Occupational Health.",
+          "The biosafety officer was called at 16:50."
+        ]
+      ]
+    },
+    "people": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "People involved",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Person",
+            "examples": ["Dev Raman"]
+          },
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "examples": ["Research technician"]
+          },
+          "assessment": {
+            "type": "string",
+            "description": "Exposure assessment",
+            "examples": ["Possible percutaneous exposure"]
+          },
+          "action": {
+            "type": "string",
+            "description": "Action",
+            "examples": ["Sent to Occupational Health"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "name": "Dev Raman",
+            "role": "Research technician",
+            "assessment": "Possible percutaneous exposure",
+            "action": "Sent to Occupational Health"
+          }
+        ]
+      ]
+    },
+    "notifications": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Notifications",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "party": {
+            "type": "string",
+            "description": "Party",
+            "examples": ["Biosafety officer"]
+          },
+          "how": {
+            "type": "string",
+            "description": "How",
+            "examples": ["Telephone"]
+          },
+          "time": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["16:50"]
+          },
+          "due": {
+            "type": "string",
+            "description": "Due by",
+            "examples": ["Within 24 hours"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "party": "Biosafety officer",
+            "how": "Telephone",
+            "time": "16:50",
+            "due": "Within 24 hours"
+          }
+        ]
+      ]
+    },
+    "followUp": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Follow-up",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Biosafety officer to inspect the room on October 22.",
+          "Occupational Health to schedule follow-up visits."
+        ]
+      ]
+    }
+  }
+}

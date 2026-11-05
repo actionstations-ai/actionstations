@@ -11,6 +11,7 @@ export const LAB_OWN_INJECT_TYPES = [
   'lab_ibc_minutes',
   'lab_data_breach_notice',
   'lab_responder_briefing',
+  'lab_figure',
 ] as const
 
 export const LAB_TEXT_INJECT_TYPES = [

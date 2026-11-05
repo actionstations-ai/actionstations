@@ -1,0 +1,64 @@
+{
+  "id": "nih_guidelines_incident_reporting",
+  "label": "NIH Guidelines: incident reporting by the institutional biosafety committee",
+  "jurisdiction": "US",
+  "authority": "NIH Office of Science Policy",
+  "citation": "NIH Guidelines Section IV-B-2-b-(7); Appendix G-II-B-2-k",
+  "sources": [
+    {
+      "title": "NIH biosafety and biosecurity policy",
+      "url": "https://osp.od.nih.gov/policies/biosafety-and-biosecurity-policy/"
+    }
+  ],
+  "status": "in_force",
+  "statusNote": "Read from NIH Office of Science Policy summaries and institutional policies; open the Guidelines text before relying on it. A draft policy would replace the Guidelines (see the draft policy clock).",
+  "verifiedOn": "2026-11-04",
+  "calendar": "none",
+  "triggers": [
+    {
+      "id": "significant_event_aware",
+      "label": "Significant problem, violation or accident known",
+      "hint": "The IBC or biosafety officer learns of a significant problem, a violation of the Guidelines or a significant research-related accident or illness."
+    },
+    {
+      "id": "bl2_overt_exposure",
+      "label": "Overt exposure in a BL2 laboratory",
+      "hint": "A spill or accident in a BL2 laboratory that results in an overt exposure."
+    }
+  ],
+  "clocks": [
+    {
+      "id": "ibc_report_30",
+      "label": "IBC report to NIH OSP",
+      "recipient": "NIH Office of Science Policy",
+      "dueAt": [
+        {
+          "from": "significant_event_aware",
+          "amount": 30,
+          "unit": "calendar_days"
+        }
+      ],
+      "rule": "Within 30 days.",
+      "injectTypes": ["regulatory_notice"]
+    },
+    {
+      "id": "overt_exposure_immediate",
+      "label": "Immediate report of an overt exposure",
+      "recipient": "NIH Office of Science Policy",
+      "dueAt": [
+        {
+          "from": "bl2_overt_exposure",
+          "amount": 1,
+          "unit": "minutes"
+        }
+      ],
+      "rule": "Immediately. Marked as 1 minute for 'at once'.",
+      "injectTypes": ["phone_call", "regulatory_notice"]
+    }
+  ],
+  "controls": [],
+  "appliesTo": {
+    "threatFamilies": ["lab_exposure"],
+    "note": "Institutions that receive NIH funds for recombinant or synthetic nucleic acid research."
+  }
+}

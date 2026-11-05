@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Emergency responder briefing sheet",
+  "description": "One-page sheet for fire, hazmat and police responders arriving at a laboratory building: the building and its rooms by general hazard class, where to enter, what not to enter without the biosafety officer, utilities and the contacts on scene. It covers facility hazards only and gives no agent detail.",
+  "type": "object",
+  "required": ["organization", "headline", "building"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"]
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization",
+      "examples": ["Marston State University (fictional)"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Office or unit",
+      "examples": ["Office of Biosafety"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Whitfield Hall: laboratory floors 1 to 3"]
+    },
+    "building": {
+      "type": "string",
+      "description": "Building",
+      "examples": ["Whitfield Hall, Marston State University"],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Office of Environmental Health and Safety"],
+      "x-translate": false
+    },
+    "updated": {
+      "type": "string",
+      "description": "Last updated",
+      "examples": ["2026-09-15"],
+      "x-translate": false
+    },
+    "commandPost": {
+      "type": "string",
+      "description": "Responder meeting point",
+      "examples": ["Loading dock, east side"],
+      "x-translate": false
+    },
+    "onSceneContact": {
+      "type": "string",
+      "description": "Contact on scene",
+      "examples": ["Marcus Lindqvist, biosafety officer, (555) 014-2290"],
+      "x-translate": false
+    },
+    "utilities": {
+      "type": "string",
+      "description": "Utility shutoffs",
+      "examples": [
+        "Gas: east mechanical room. Power: panel room 001. Ventilation: building control office, Room 104"
+      ],
+      "x-translate": false
+    },
+    "rooms": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Rooms by general hazard",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One row",
+        "properties": {
+          "room": {
+            "type": "string",
+            "description": "Room",
+            "examples": ["118"]
+          },
+          "use": {
+            "type": "string",
+            "description": "Use",
+            "examples": ["Registered storage"]
+          },
+          "hazards": {
+            "type": "string",
+            "description": "Hazards for responders",
+            "examples": ["-80 degC freezers"]
+          },
+          "entry": {
+            "type": "string",
+            "description": "Entry",
+            "examples": ["With the responsible official only"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "room": "118",
+            "use": "Registered storage",
+            "hazards": "-80 degC freezers",
+            "entry": "With the responsible official only"
+          }
+        ]
+      ]
+    },
+    "access": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Access",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        ["Badge readers fail open on fire alarm.", "Floor plans are at the meeting point."]
+      ]
+    },
+    "doNotEnter": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Do not enter without the biosafety officer",
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Room 118", "Rooms posted with a stop-work sign"]]
+    }
+  }
+}
