@@ -8,6 +8,7 @@
 // Exit code 0 when everything asked for succeeded, 1 otherwise.
 import { promises as fs } from 'node:fs'
 import { join, resolve } from 'node:path'
+import { APP_CONTACT } from '../../case-data/http'
 import { DocumentsManifest } from './manifest'
 import { applyPins, fetchDocuments, manualDownloadLines, type FetchResult } from './fetch'
 import { buildLibraryPacks, syncCoreDocuments } from './library-build'
@@ -93,10 +94,8 @@ function summarize(results: readonly FetchResult[]): string {
 
 /** SEC asks scripted clients to declare who they are (sec.gov fair-access policy). */
 function hostHeaders(): Record<string, Record<string, string>> {
-  const contact = process.env.DOCUMENTS_CONTACT
-  return contact
-    ? { 'www.sec.gov': { 'User-Agent': `Action Stations documents fetcher ${contact}` } }
-    : {}
+  const contact = process.env.DOCUMENTS_CONTACT || APP_CONTACT
+  return { 'www.sec.gov': { 'User-Agent': `AS documents fetcher ${contact}` } }
 }
 
 export async function runFetchCli(

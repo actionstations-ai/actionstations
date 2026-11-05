@@ -67,9 +67,10 @@ export function CaseDataSection() {
             onChange={(e) => setContactDraft(e.target.value)}
           />
           <p id="case-contact-help" className="muted">
-            Some public archives, such as SEC EDGAR, ask every user to identify themselves. If you
-            fetch from one, this address is sent in the request header to that archive only. Nothing
-            is sent until you agree to a fetch, and the app never fills it in.
+            Some public archives, such as SEC EDGAR, ask every caller for a contact. If you fetch
+            from one, this address is sent in the request header to that archive only; left empty,
+            the app sends help@actionstations.ai instead. Nothing is sent until you agree to a
+            fetch.
           </p>
         </div>
       </form>

@@ -161,17 +161,27 @@ describe('SEC EDGAR connector through the fetch path', () => {
     'utf8',
   )
 
-  it('is named by the toolkit and refuses to fetch until the user has set a contact', async () => {
+  it('is named by the toolkit and sends the app contact when the user has set none', async () => {
     expect(toolkit.connectors).toContain('sec-edgar-8k')
     const root = mkdtempSync(join(tmpdir(), 'gov-edgar-'))
     const plan = await planFetch(root, 's1', 'sec-edgar-8k', q, deps)
     expect(plan.hosts).toEqual(['efts.sec.gov', 'www.sec.gov'])
-    await expect(runFetch(root, 's1', plan.estimateId, true, deps)).rejects.toThrow(
-      /contact email under Settings/,
-    )
+    const agents: string[] = []
+    const fetchImpl = (async (url: string | URL | Request, init?: RequestInit) => {
+      agents.push((init?.headers as Record<string, string>)['user-agent']!)
+      return new Response(String(url).includes('efts.sec.gov') ? search : '<p>Item 1.05. x</p>', {
+        status: 200,
+      })
+    }) as unknown as typeof fetch
+    await runFetch(root, 's1', plan.estimateId, true, {
+      ...deps,
+      fetchImpl,
+      sleep: async () => undefined,
+    })
+    expect(new Set(agents)).toEqual(new Set(['AS/0.0.1 (help@actionstations.ai)']))
   })
 
-  it('sends the contact the user set, then stores facilitator-only data', async () => {
+  it('sends the contact the user set instead, then stores facilitator-only data', async () => {
     const root = mkdtempSync(join(tmpdir(), 'gov-edgar-'))
     const plan = await planFetch(root, 's2', 'sec-edgar-8k', q, deps)
     const agents: string[] = []

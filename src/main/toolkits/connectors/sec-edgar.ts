@@ -6,8 +6,8 @@
 // reference those) and generated exercise documents never name the real company. Only the
 // item, the dates and an optional phrase leave the machine; nothing about the scenario does.
 //
-// Fair access (sec.gov/os/webmaster-faq#developers): a declared User-Agent with the user's own
-// contact (set in Settings, never built in: `contact: 'required'`), at most 10 requests a
+// Fair access (sec.gov/os/webmaster-faq#developers): a declared User-Agent with a contact (the
+// user's own from Settings, else the app's: `contact: 'required'`), at most 10 requests a
 // second (`minIntervalMs`), and two fixed hosts. No key or account is needed.
 import { AppError } from '../../lib/errors'
 import type { Connector, ConnectorQuery, ConnectorResult, FetchContext } from './registry'
@@ -189,7 +189,7 @@ export const secEdgar8k: Connector = {
   label: 'SEC EDGAR Form 8-K filings (Item 1.05 or 8.01), for the facilitator',
   source: 'U.S. Securities and Exchange Commission, EDGAR full-text search and filing archive',
   terms:
-    'Public filings on sec.gov. Fair access: a declared User-Agent with your contact and at most 10 requests a second. For the facilitator as reference only; generated exercise documents never name the real company.',
+    'Public filings on sec.gov. Fair access: a declared User-Agent with a contact (yours if set in Settings, else help@actionstations.ai) and at most 10 requests a second. For the facilitator as reference only; generated exercise documents never name the real company.',
   hosts: [SEARCH_HOST, ARCHIVE_HOST],
   contact: 'required',
   minIntervalMs: EDGAR_MIN_INTERVAL_MS,
