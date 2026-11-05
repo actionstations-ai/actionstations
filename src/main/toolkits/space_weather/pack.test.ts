@@ -93,3 +93,30 @@ describe('space weather toolkit', () => {
     }
   })
 })
+
+describe('space weather library', () => {
+  const manifest = read('packs/documents/manifest.json') as {
+    libraries: Record<string, { domain: string }>
+    documents: { pack: string; slug: string; license: string; sha256: string | null }[]
+    links: { pack: string; title: string; reason: string }[]
+  }
+  const lib = manifest.documents.filter((d) => d.pack === 'space-weather-library')
+  it('bundles only pinned US government works and explains every link', () => {
+    expect(manifest.libraries['space-weather-library']?.domain).toBe('space_weather')
+    expect(lib.length).toBeGreaterThan(0)
+    for (const d of lib) {
+      expect(d.license).toBe('LicenseRef-US-Government-Work')
+      expect(d.sha256, d.slug).toMatch(/^[0-9a-f]{64}$/)
+    }
+    const links = manifest.links.filter((l) => l.pack === 'space-weather-library')
+    expect(links.length).toBeGreaterThan(0)
+    for (const l of links) expect(l.reason.length, l.title).toBeGreaterThan(10)
+  })
+  it('is what the toolkit points to', () => {
+    expect(toolkit.documents.length).toBeGreaterThan(0)
+    for (const ref of toolkit.documents) {
+      expect(ref.packId).toBe('ai.actionstations.space-weather-library')
+      expect(lib.map((d) => d.slug)).toContain(ref.documentId)
+    }
+  })
+})

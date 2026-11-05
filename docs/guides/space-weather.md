@@ -38,6 +38,10 @@ Players record structured decisions: apply or end the operating procedure, tell 
 
 The evaluation measures compare them with the clocks: the operating procedure applied before Kp reaches the condition, time source failover before holdover expires, safe mode before the proton flux threshold, whether messages from the utility, airline, telecom and public agree, and whether each entity named in your plan was told, with the time. The list of entities and the target are yours to set. The log helps with compliance evidence but does not replace an entity's own records.
 
+## Reference library
+
+The **Space weather reference library** pack (installed from the catalog) carries the NOAA Space Weather Scales and a USGS fact sheet on geomagnetic monitoring, both US government works. Other useful material could not be carried and is listed with links and the reason in the pack's README: the national strategy, action plan and benchmarks reports (their graphics are reserved to other holders), two further USGS fact sheets, the DHS Resilient PNT framework, the 2024 exercise report summary, and the NERC and ICAO documents, which are copyrighted.
+
 ## Limits
 
 - Simulated series are illustrations, not NOAA products and not engineering data.
