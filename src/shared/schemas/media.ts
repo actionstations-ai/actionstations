@@ -33,6 +33,8 @@ export const MediaAsset = z.object({
   height: z.number().int().optional(),
   durationSec: z.number().optional(),
   sha256: z.string().optional(),
+  /** Synthetic exercise media (spec 0467 FR-6): a generated voice, face or scene, marked everywhere. */
+  synthetic: z.boolean().optional(),
   provenance: Provenance,
 })
 export type MediaAsset = z.infer<typeof MediaAsset>

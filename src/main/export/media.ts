@@ -3,6 +3,7 @@
 import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
+import { SYNTHETIC_HEADER_FILE, syntheticHeaderPage } from '@shared/synthetic-media'
 import { toMp3 } from '../providers/media/audio-fx'
 import { ensureDir, safeJoinReal, writeFileAtomic } from '../lib/fs'
 import type { ExportModel } from './model'
@@ -88,5 +89,19 @@ export async function exportMedia(
       onFile?.(f)
     }
   }
+  await writeSyntheticHeader(dir, files, model)
   return { files, warnings }
+}
+
+/** The header page that goes beside exported synthetic media (spec 0467 FR-6b). */
+async function writeSyntheticHeader(
+  dir: string,
+  files: ExportedFile[],
+  model: ExportModel,
+): Promise<void> {
+  const synthetic = new Set(model.media.filter((m) => m.asset.synthetic).map((m) => m.fileName))
+  const written = files.filter((f) => synthetic.has(f.file.replace(/^media\//, '')))
+  if (!written.length) return
+  const body = syntheticHeaderPage(written.map((f) => f.file))
+  await writeFileAtomic(join(dir, SYNTHETIC_HEADER_FILE), new TextEncoder().encode(body))
 }

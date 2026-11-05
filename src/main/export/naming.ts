@@ -2,6 +2,7 @@
 // (e.g. S3-I05b-radio_call.wav); documents are <Title>-<Document>.pdf.
 import { extname } from 'node:path'
 import type { Inject, MediaAsset, Scenario, ScenarioMeta } from '@shared/schemas'
+import { syntheticFileName } from '@shared/synthetic-media'
 
 /** "Flight to Nowhere: Data & FIDS" → "Flight-to-Nowhere-Data-FIDS" (case kept, ≤ 60 chars). */
 export function fileTitle(title: string): string {
@@ -86,9 +87,12 @@ export function planMediaFiles(scenarioNo: string, injects: Inject[]): PlannedMe
     for (const asset of inject.assets) {
       const stem = `${base}${assetSuffix(asset)}`
       const ext = extOf(asset)
-      const planned: PlannedMedia = { inject, asset, fileName: unique(stem, ext) }
-      if (asset.posterPath) planned.posterName = unique(`${stem}-poster`, 'png')
-      if (asset.kind === 'audio' && ext === 'wav' && !hasMp3) planned.mp3Name = unique(stem, 'mp3')
+      // Synthetic exercise media carries the marking in every file name (spec 0467 FR-6b).
+      const mark = asset.synthetic ? syntheticFileName : (s: string) => s
+      const planned: PlannedMedia = { inject, asset, fileName: unique(mark(stem), ext) }
+      if (asset.posterPath) planned.posterName = unique(mark(`${stem}-poster`), 'png')
+      if (asset.kind === 'audio' && ext === 'wav' && !hasMp3)
+        planned.mp3Name = unique(mark(stem), 'mp3')
       out.push(planned)
     }
   }

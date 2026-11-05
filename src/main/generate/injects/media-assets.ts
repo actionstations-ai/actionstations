@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import { extname, join } from 'node:path'
 import type { Brand, Inject, MediaAsset, MediaBrief, Provenance } from '@shared/schemas'
+import { isSyntheticInject, realPersonInBrief } from '@shared/synthetic-media'
 import type { RenderPath } from '@shared/taxonomy'
 import type { JobContext } from '../../jobs/manager'
 import { AppError } from '../../lib/errors'
@@ -69,6 +70,7 @@ async function stored(
     role: 'generated',
     ...meta,
     sha256: sha256(bytes),
+    ...(isSyntheticInject(step.inject) && kind !== 'pdf' ? { synthetic: true } : {}),
     provenance: { ...provenance, createdAt: nowIso() },
   }
 }
@@ -100,6 +102,20 @@ function onProgress(step: StepContext, label: string): (p: MediaProgress) => voi
     )
 }
 
+/**
+ * Synthetic media never imitates a real person (spec 0467 FR-6a): a brief that names one, or asks
+ * for a likeness, stops before any provider call.
+ */
+export function assertFictionalLikeness(step: Pick<StepContext, 'inject' | 'brief'>): void {
+  if (!isSyntheticInject(step.inject)) return
+  const hit = realPersonInBrief(step.brief)
+  if (hit)
+    throw new AppError(
+      'VALIDATION',
+      `Synthetic media must use a fictional voice and face. The media brief refers to "${hit}"; describe a fictional person instead (age, build, voice quality).`,
+    )
+}
+
 type JobExtras = Partial<Pick<MediaJob, 'width' | 'height' | 'inputImagePath' | 'seed'>>
 
 async function generate(
@@ -107,6 +123,7 @@ async function generate(
   task: MediaTask,
   extra: JobExtras = {},
 ): Promise<MediaOutput> {
+  assertFictionalLikeness(step)
   const { provider, providerId, model } = await step.deps.resolveMediaProvider(task, step.root)
   if (!provider.capabilities().has(task))
     throw new AppError('VALIDATION', `Provider "${providerId}" cannot generate ${task}`)

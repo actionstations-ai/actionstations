@@ -174,6 +174,31 @@ function leakProblems(files: PackTree, roots: readonly string[]): PackProblem[] 
   return problems
 }
 
+/** Project paths of synthetic exercise media (spec 0467 FR-6c): assets flagged `synthetic`. */
+export function collectSyntheticPaths(value: unknown, out = new Set<string>()): Set<string> {
+  if (Array.isArray(value)) for (const v of value) collectSyntheticPaths(v, out)
+  else if (value && typeof value === 'object') {
+    const o = value as Record<string, unknown>
+    if (o.synthetic === true)
+      for (const k of ['path', 'posterPath']) if (typeof o[k] === 'string') out.add(o[k])
+    for (const v of Object.values(o)) collectSyntheticPaths(v, out)
+  }
+  return out
+}
+
+async function syntheticMediaPaths(root: string, rels: string[]): Promise<Set<string>> {
+  const out = new Set<string>()
+  for (const rel of rels) {
+    if (!rel.startsWith('scenarios/') || !rel.endsWith('.json')) continue
+    try {
+      collectSyntheticPaths(JSON.parse(await fs.readFile(join(root, rel), 'utf8')), out)
+    } catch {
+      // A file that is not valid JSON is reported when it is read for the copy.
+    }
+  }
+  return out
+}
+
 /** Copy a project into examples/<slug>/ of a pack tree, with example.json. */
 export async function collectExample(input: ExampleInput): Promise<ExampleOutput> {
   const { root, example } = input
@@ -183,7 +208,20 @@ export async function collectExample(input: ExampleInput): Promise<ExampleOutput
   const skipped: Skipped[] = []
   const problems: PackProblem[] = []
   let domainProfile: string | undefined
-  for (const { rel, kind } of await walk(root)) {
+  const entries = await walk(root)
+  const synthetic = await syntheticMediaPaths(
+    root,
+    entries.map((e) => e.rel),
+  )
+  for (const { rel, kind } of entries) {
+    if (synthetic.has(rel)) {
+      problems.push({
+        path: rel,
+        message:
+          'is synthetic exercise media. It stays in the project and is never shipped in a pack: remove the item (or its inject) and export again.',
+      })
+      continue
+    }
     const packPath = `${base}/project/${rel}`
     const reason = leaveOutReason(rel, packPath, kind)
     if (reason === null) continue
