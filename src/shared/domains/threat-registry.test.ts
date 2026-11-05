@@ -20,7 +20,7 @@ import {
 } from './index'
 import { freightRailEntry, freightRailProfile } from './pack-fixtures'
 
-const cyber = threatFamily('cyber')
+const REGISTERED = allThreatFamilies().length
 
 /** A minimal valid family a pack could add. */
 function flood(over: Partial<ThreatFamily> = {}): ThreatFamily {

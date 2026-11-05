@@ -129,7 +129,8 @@ describe('environmental_response domain', () => {
 
   it('offers the toolkit products, the toolkit itself, and the incident command roles', () => {
     expect(domain.suggestedToolkits).toEqual(['spill_plume'])
-    for (const id of toolkit.injectTypes) expect(domain.injectTypes).toContain(id)
+    // The products arrive through the toolkit, not the profile's own list.
+    for (const id of toolkit.injectTypes) expect(domain.injectTypes).not.toContain(id)
     const abbreviations = domain.roles.map((r) => r.abbreviation)
     expect(abbreviations).toEqual(
       expect.arrayContaining(['QI', 'FOSC', 'ENVL', 'SSC', 'PIO', 'OSRO']),
