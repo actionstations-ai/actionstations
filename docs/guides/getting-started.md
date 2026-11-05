@@ -42,6 +42,8 @@ The Projects screen shows a **Tip** card: one short tip about a feature, with a 
 
 **Settings** also holds the default projects folder, the theme, the tip of the day, the embedding mode and **Generation → Write injects and render media automatically after generation** (see step 8).
 
+The sidebar has two parts: application screens (Projects, Providers, Prompts, Templates, Workflows, Settings) and, once a project is open, that project's screens. These are grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing). Advanced starts closed, remembers whether you opened it, and stays open while you are on one of its pages.
+
 ### Updates
 
 The app can tell you when a newer release is out. The check is off until you turn it on: the setup wizard's last step has an unticked box **Check for new versions of Action Stations when the app starts**, and if you skipped the wizard, the Projects screen asks once (**Turn on** or **No thanks**; unanswered, it asks on three launches and then counts as no). Change it any time in **Settings → Updates**.
@@ -55,12 +57,6 @@ When a newer release exists, the Projects screen shows **Action Stations X.Y.Z i
 3. The installers are not code-signed yet, so your operating system warns. macOS: on macOS 15 and later open System Settings → **Privacy & Security** and click **Open Anyway** (on macOS 14 and earlier, right-click the app and choose **Open**). Windows: "Windows protected your PC" → **More info** → **Run anyway**. Linux: `chmod +x` the AppImage and run it.
 
 If you installed 0.5.0 on Windows, uninstall it before installing a later version: the app id changed in 0.5.1, so Windows would otherwise keep two copies. Your settings and projects stay. The banner and the release notes say so when it applies.
-
-### Updating from Tabletop Generator
-
-The app was called Tabletop Generator before version 0.2.0. The first launch after updating moves its settings folder (`~/Library/Application Support/Tabletop Generator` on macOS, `%APPDATA%\Tabletop Generator` on Windows, `~/.config/Tabletop Generator` on Linux) to `Action Stations` in the same place, and moves `Documents/Tabletop Generator` to `Documents/Action Stations`; recent projects follow. If a folder cannot be moved, it is copied and the old one is kept; if the copy fails too, the app keeps using the old folder. Saved API keys normally carry over. A key that cannot be unlocked under the new name is kept aside, encrypted, and **Providers** shows a notice and a **Key needs re-entry** badge on that provider: open it with **Edit** and paste the key again.
-
-The sidebar has two parts: application screens (Projects, Providers, Prompts, Templates, Workflows, Settings) and, once a project is open, that project's screens. These are grouped into **Build** (Overview, Documents, Facility facts, Generate, Scenarios, Facilitate) and a collapsible **Advanced** group (Search index, Prompt overrides, Provider routing). Advanced starts closed, remembers whether you opened it, and stays open while you are on one of its pages.
 
 ## 2. Create a project
 
