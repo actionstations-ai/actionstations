@@ -47,9 +47,22 @@ describe('spill_plume toolkit', () => {
   })
 
   it('is on the suggested list of the domains it extends', () => {
-    for (const id of ['port_maritime', 'chemical', 'industrial']) {
+    for (const id of toolkit.appliesTo.domains.filter((d) => d !== 'environmental_response')) {
       const d = DomainProfile.parse(readJson('packs', 'domains', `${id}.json`))
-      expect(d.suggestedToolkits).toContain('spill_plume')
+      expect(d.suggestedToolkits, id).toContain('spill_plume')
+    }
+  })
+
+  it('points every document it lists at a pinned or catalogued library entry', () => {
+    const manifest = readJson('packs', 'documents', 'manifest.json') as {
+      documents: { pack: string; slug: string; sha256?: string }[]
+    }
+    expect(toolkit.documents.length).toBeGreaterThan(0)
+    for (const ref of toolkit.documents) {
+      const entry = manifest.documents.find((d) => d.slug === ref.documentId)
+      expect(entry, ref.documentId).toBeDefined()
+      expect(`ai.actionstations.${entry?.pack}`).toBe(ref.packId)
+      expect(entry?.sha256).toMatch(/^[0-9a-f]{64}$/)
     }
   })
 })
