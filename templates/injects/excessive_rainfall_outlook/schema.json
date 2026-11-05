@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Excessive rainfall outlook (WPC)",
+  "description": "A WPC excessive rainfall discussion with the risk category for Day 1 to 3. The map is a separate figure inject. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "office", "issued", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["FOUS30 KWNH 211600"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["QPFERD"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title",
+      "examples": ["Excessive Rainfall Discussion"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["NWS Weather Prediction Center College Park MD"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["1200 PM EDT Wed Oct 21 2026"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as in the product (SYNOPSIS, NEAR TERM...)",
+            "examples": ["DAY 1 VALID 16Z WED OCT 21 2026 - 12Z THU OCT 22 2026"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text",
+            "examples": [
+              "...THERE IS A MODERATE RISK OF EXCESSIVE RAINFALL FOR PORTIONS OF THE MIDDLE OHIO VALLEY..."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "DAY 1 VALID 16Z WED OCT 21 2026 - 12Z THU OCT 22 2026",
+            "text": "...THERE IS A MODERATE RISK OF EXCESSIVE RAINFALL FOR PORTIONS OF THE MIDDLE OHIO VALLEY..."
+          },
+          {
+            "heading": "MIDDLE OHIO VALLEY",
+            "text": "Training thunderstorms along a slow-moving front will produce rainfall rates over 2 inches per hour. Soils are saturated from rain earlier this week, so flash flooding is likely, especially in urban areas and small streams."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

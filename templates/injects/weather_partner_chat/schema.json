@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Partner chat (NWSChat style)",
+  "description": "A partner chat transcript between the forecast office, emergency managers and broadcasters; each message has a time, a name with organization and text. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["room", "messages"],
+  "properties": {
+    "room": {
+      "type": "string",
+      "description": "Chat room name",
+      "examples": ["ILN Partner Room"],
+      "maxLength": 60
+    },
+    "messages": {
+      "type": "array",
+      "description": "Messages in order (up to 12)",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "name", "text"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Time local",
+            "examples": ["3:12 PM"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name",
+            "examples": ["Kowalski (NWS ILN)"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Message text",
+            "examples": [
+              "Tornado warning for central Haldane County until 3:45 PM. Rotating storm near Milford."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "time": "3:12 PM",
+            "name": "Kowalski (NWS ILN)",
+            "text": "Tornado warning for central Haldane County until 3:45 PM."
+          }
+        ]
+      ]
+    }
+  }
+}

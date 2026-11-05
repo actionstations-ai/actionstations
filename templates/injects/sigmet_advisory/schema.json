@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SIGMET, convective SIGMET or center weather advisory",
+  "description": "A SIGMET, convective SIGMET, AIRMET or center weather advisory as text lines, as issued by the Aviation Weather Center or a center weather service unit. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "lines"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WSUS31 KKCI 211855"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["SIGE"],
+      "x-translate": false
+    },
+    "kind": {
+      "type": "string",
+      "description": "Advisory kind",
+      "enum": ["Convective SIGMET", "SIGMET", "AIRMET", "Center Weather Advisory"],
+      "examples": ["Convective SIGMET"]
+    },
+    "lines": {
+      "type": "array",
+      "description": "The advisory text lines, upper case, as issued",
+      "maxItems": 14,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["CONVECTIVE SIGMET 45E"],
+        "x-translate": false
+      },
+      "examples": [
+        [
+          "CONVECTIVE SIGMET 45E",
+          "VALID UNTIL 2055Z",
+          "OH KY",
+          "FROM 20SW CVG-30NE LUK",
+          "AREA SEV EMBD TS MOV FROM 25025KT. TOPS ABV FL450.",
+          "TORNADOES...HAIL TO 2 IN...WIND GUSTS TO 60KT POSS."
+        ]
+      ]
+    }
+  }
+}

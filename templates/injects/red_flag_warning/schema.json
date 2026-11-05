@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Red flag warning (NWS)",
+  "description": "A Red Flag Warning text product with affected area, winds, humidity and impacts. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["office", "issued", "until", "affected", "winds", "humidity", "impacts", "actions"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WWUS75 KILN 211000"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["RFWILN"],
+      "x-translate": false
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["600 AM EDT Wed Oct 21 2026"]
+    },
+    "vtec": {
+      "type": "string",
+      "description": "P-VTEC line",
+      "examples": ["/O.NEW.KILN.FW.W.0003.261021T1600Z-261022T0000Z/"],
+      "maxLength": 80,
+      "x-translate": false
+    },
+    "ugc": {
+      "type": "string",
+      "description": "UGC line",
+      "examples": ["OHZ070-071-220000-"],
+      "maxLength": 80,
+      "x-translate": false
+    },
+    "until": {
+      "type": "string",
+      "description": "Until line",
+      "examples": ["8 PM EDT this evening"],
+      "maxLength": 60
+    },
+    "affected": {
+      "type": "string",
+      "description": "AFFECTED AREA",
+      "examples": ["Fire weather zones 070 and 071 in southwest Ohio."]
+    },
+    "winds": {
+      "type": "string",
+      "description": "WINDS",
+      "examples": ["Southwest 15 to 25 mph with gusts up to 35 mph."]
+    },
+    "humidity": {
+      "type": "string",
+      "description": "RELATIVE HUMIDITY",
+      "examples": ["As low as 22 percent."]
+    },
+    "impacts": {
+      "type": "string",
+      "description": "IMPACTS",
+      "examples": [
+        "Any fires that develop will spread rapidly. Outdoor burning is not recommended."
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Precautionary actions",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": [
+          "A Red Flag Warning means that critical fire weather conditions are either occurring now or will shortly. A combination of strong winds, low relative humidity and warm temperatures can contribute to extreme fire behavior."
+        ]
+      },
+      "examples": [
+        [
+          "A Red Flag Warning means that critical fire weather conditions are either occurring now or will shortly. A combination of strong winds, low relative humidity and warm temperatures can contribute to extreme fire behavior."
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">Aviation Weather</div>
+      <div class="tag">Terminal forecasts</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Forecasts › TAF</div>
+  <div class="product">
+    <div class="ln">TAF</div>
+    {{#if fields.station}}
+    <div class="ln">{{fields.station}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="raw">{{nl2br fields.taf}}</div>
+    <div class="gap"></div>
+    {{#if fields.note}}
+    <div class="p">{{fields.note}}</div>
+    {{/if}}
+  </div>
+</div>

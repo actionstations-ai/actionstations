@@ -1,0 +1,17 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">NWSChat</div>
+      <div class="tag">Partner conversation</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Chat room</div>
+  <div class="product">
+    <ul class="chat">
+      {{#each fields.messages}}
+      <li><span class="t">{{time}}</span> <span class="n">{{name}}</span> {{text}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

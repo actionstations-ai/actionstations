@@ -1,0 +1,48 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">National Weather Service</div>
+      <div class="tag">Wilmington, Ohio</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Text Products › Red Flag Warning</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}} {{#if fields.ugc}}
+    <div class="ln">{{fields.ugc}}</div>
+    {{/if}} {{#if fields.vtec}}
+    <div class="ln">{{fields.vtec}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">Red Flag Warning</div>
+    {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="b hang">* Red Flag Warning in effect until {{fields.until}}.</div>
+    <div class="gap"></div>
+    <div class="b hang">* AFFECTED AREA...{{fields.affected}}</div>
+    <div class="gap"></div>
+    <div class="b hang">* WINDS...{{fields.winds}}</div>
+    <div class="gap"></div>
+    <div class="b hang">* RELATIVE HUMIDITY...{{fields.humidity}}</div>
+    <div class="gap"></div>
+    <div class="b hang">* IMPACTS...{{fields.impacts}}</div>
+    <div class="gap"></div>
+    <div class="ln">PRECAUTIONARY/PREPAREDNESS ACTIONS...</div>
+    {{#each fields.actions}}
+    <div class="p">{{this}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    <div class="ln">$$</div>
+    {{#if fields.forecaster}}
+    <div class="ln">{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

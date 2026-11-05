@@ -1,0 +1,44 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">NOAA / NWS Storm Prediction Center</div>
+      <div class="tag">Norman, Oklahoma</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Watches › Watch Text</div>
+  <div class="product">
+    {{#if fields.wmoHeader}}
+    <div class="ln">{{fields.wmoHeader}}</div>
+    {{/if}} {{#if fields.awipsId}}
+    <div class="ln">{{fields.awipsId}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">URGENT - IMMEDIATE BROADCAST REQUESTED</div>
+    <div class="ln">{{fields.watchType}} Number {{fields.number}}</div>
+    {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    <div class="ln">The NWS Storm Prediction Center has issued a</div>
+    <div class="gap"></div>
+    <div class="b hang">* {{fields.watchType}} for {{fields.area}}</div>
+    <div class="gap"></div>
+    <div class="b hang">* Effective {{fields.effective}}.</div>
+    <div class="gap"></div>
+    <div class="ln">* Primary threats include...</div>
+    {{#each fields.primaryThreats}}
+    <div class="i">{{this}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    {{#if fields.summary}}
+    <div class="kv"><b>SUMMARY...</b>{{fields.summary}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.forecaster}}
+    <div class="ln">..{{fields.forecaster}}</div>
+    {{/if}}
+  </div>
+</div>

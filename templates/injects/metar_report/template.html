@@ -1,0 +1,24 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">Aviation Weather</div>
+      <div class="tag">Surface observations</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Observations › METAR</div>
+  <div class="product">
+    <div class="ln">METAR / SPECI</div>
+    {{#if fields.station}}
+    <div class="ln">{{fields.station}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#each fields.reports}}
+    <div class="ln">{{this}}</div>
+    {{/each}}
+    <div class="gap"></div>
+    {{#if fields.note}}
+    <div class="p">{{fields.note}}</div>
+    {{/if}}
+  </div>
+</div>

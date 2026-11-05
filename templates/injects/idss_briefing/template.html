@@ -1,0 +1,50 @@
+<div class="wxdoc">
+  <p class="exbar">EXERCISE · NOT AN OPERATIONAL PRODUCT</p>
+  <div class="brief">
+    <p class="kicker">Impact-based decision support</p>
+    <h1>Briefing for {{fields.audience}}</h1>
+    <p class="meta">{{fields.issued}}</p>
+    <h2>Bottom line</h2>
+    <p class="bl">{{fields.bottomLine}}</p>
+    <h2>Timing</h2>
+    <table class="grid">
+      <tbody>
+        {{#each fields.timeline}}
+        <tr>
+          <th scope="row">{{time}}</th>
+          <td>{{event}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <h2>Impacts</h2>
+    <ul>
+      {{#each fields.impacts}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <h2>Confidence</h2>
+    <p>{{fields.confidence}}</p>
+    {{#if fields.decisionPoints}}
+    <h2>Decisions ahead</h2>
+    <table class="grid">
+      <thead>
+        <tr>
+          <th scope="col">Decision</th>
+          <th scope="col">By</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fields.decisionPoints}}
+        <tr>
+          <td>{{decision}}</td>
+          <td>{{when}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}} {{#if fields.nextBriefing}}
+    <p class="next">{{fields.nextBriefing}}</p>
+    {{/if}}
+  </div>
+</div>

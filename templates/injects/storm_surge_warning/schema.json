@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Storm surge watch or warning (NWS)",
+  "description": "A storm surge watch or warning text product with inundation, timing and actions. Typed VTEC and UGC lines are optional. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["product", "office", "issued", "areas", "inundation", "timing", "actions"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WGUS84 KLCH 212130"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["SSWLCH"],
+      "x-translate": false
+    },
+    "product": {
+      "type": "string",
+      "description": "Product name",
+      "enum": ["Storm Surge Warning", "Storm Surge Watch"],
+      "examples": ["Storm Surge Warning"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Lake Charles LA"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["430 PM CDT Wed Oct 21 2026"]
+    },
+    "vtec": {
+      "type": "string",
+      "description": "P-VTEC line",
+      "examples": ["/O.NEW.KLCH.SS.W.0004.261021T2130Z-000000T0000Z/"],
+      "maxLength": 80,
+      "x-translate": false
+    },
+    "ugc": {
+      "type": "string",
+      "description": "UGC line",
+      "examples": ["LAZ073-074-220600-"],
+      "maxLength": 80,
+      "x-translate": false
+    },
+    "areas": {
+      "type": "array",
+      "description": "Areas under the product",
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["Coastal Haldane Parish"]
+      },
+      "examples": [["Coastal Haldane Parish"]]
+    },
+    "inundation": {
+      "type": "string",
+      "description": "Forecast inundation",
+      "examples": [
+        "Life-threatening inundation of 6 to 9 feet above ground is expected within the surge zones."
+      ]
+    },
+    "timing": {
+      "type": "string",
+      "description": "Timing",
+      "examples": ["The highest water levels are expected between 6 AM and 2 PM Thursday."]
+    },
+    "actions": {
+      "type": "array",
+      "description": "Preparedness actions",
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": [
+          "Follow evacuation orders from local officials. Do not wait until the water rises."
+        ]
+      },
+      "examples": [
+        ["Follow evacuation orders from local officials. Do not wait until the water rises."]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Pelletier"],
+      "maxLength": 40
+    }
+  }
+}

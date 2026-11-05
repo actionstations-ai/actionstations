@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hurricane local statement (NWS)",
+  "description": "An NWS hurricane local statement: local watches and warnings, situation, impacts and actions for one office's area. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "office", "issued", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WTUS84 KLCH 212130"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["HLSLCH"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title",
+      "examples": ["Hurricane Marlena Local Statement Advisory Number 12"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Lake Charles LA AL042026"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["430 PM CDT Wed Oct 21 2026"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as in the product (SYNOPSIS, NEAR TERM...)",
+            "examples": ["NEW INFORMATION"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text",
+            "examples": [
+              "A Hurricane Warning and a Storm Surge Warning have been issued for the coast of Haldane Parish."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "NEW INFORMATION",
+            "text": "A Hurricane Warning and a Storm Surge Warning have been issued for the coast of Haldane Parish."
+          },
+          {
+            "heading": "WATCHES AND WARNINGS",
+            "text": "A Hurricane Warning and a Storm Surge Warning are in effect for Haldane Parish. Tropical storm conditions are expected to begin early Thursday."
+          },
+          {
+            "heading": "SITUATION OVERVIEW",
+            "text": "Hurricane Marlena is moving north at 10 mph and is forecast to make landfall late Thursday."
+          },
+          {
+            "heading": "POTENTIAL IMPACTS",
+            "text": "WIND: Extensive damage to roofs and trees. SURGE: Life-threatening inundation of 6 to 9 feet above ground. FLOODING RAIN: 8 to 12 inches. TORNADOES: A few possible."
+          },
+          {
+            "heading": "PRECAUTIONARY/PREPAREDNESS ACTIONS",
+            "text": "Complete evacuations in surge zones A and B by sunset Wednesday. Follow instructions from local officials."
+          },
+          {
+            "heading": "NEXT UPDATE",
+            "text": "The next local statement will be issued by 1000 PM CDT."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

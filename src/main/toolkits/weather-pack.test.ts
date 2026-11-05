@@ -10,6 +10,8 @@ import {
   profileThreatFamilies,
   resolveThreat,
 } from '@shared/domains'
+import { existsSync } from 'node:fs'
+import { fieldLintIssues, fieldLintRuleIds } from './lint-rules'
 import { ToolkitSchema, suggestToolkits, toolkitKnowledge } from '@shared/toolkits'
 
 const root = join(__dirname, '../../..')
@@ -120,5 +122,25 @@ describe('weather toolkit', () => {
     expect(suggestToolkits({ ...base, profileSuggested: ['weather'] })[0]?.toolkitId).toBe(
       'weather',
     )
+  })
+})
+
+describe('weather product templates', () => {
+  it('ships a template for each added inject type, and its preview passes the toolkit lint rules', () => {
+    const builtin = new Set(['nws_weather_warning', 'cap_alert', 'eas_broadcast'])
+    for (const type of toolkit.injectTypes) {
+      const dir = `templates/injects/${type}`
+      expect(existsSync(join(root, dir, 'template.html')), type).toBe(true)
+      const preview = json(`${dir}/preview.json`) as { fields: Record<string, unknown> }
+      expect(fieldLintIssues(type, preview.fields), type).toEqual([])
+      if (!builtin.has(type)) {
+        const meta = json(`${dir}/meta.json`) as { taxonomy?: unknown }
+        expect(meta.taxonomy, `${type} taxonomy`).toBeDefined()
+      }
+    }
+  })
+
+  it('names only lint rules the app registers', () => {
+    for (const id of toolkit.lintRules) expect(fieldLintRuleIds(), id).toContain(id)
   })
 })

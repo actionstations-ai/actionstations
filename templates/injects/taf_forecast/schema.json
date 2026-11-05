@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TAF (terminal aerodrome forecast)",
+  "description": "A TAF as raw text with FM, TEMPO, BECMG and PROB groups. Times are UTC; the valid period is DDHH/DDHH. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["station", "taf"],
+  "properties": {
+    "station": {
+      "type": "string",
+      "description": "Station id and name",
+      "examples": ["KILN Wilmington Air Park, OH"],
+      "maxLength": 80
+    },
+    "taf": {
+      "type": "string",
+      "description": "The raw TAF, one group line per line",
+      "examples": [
+        "TAF KILN 211720Z 2118/2224 24010KT P6SM SCT050\n  FM212100 22015G25KT 3SM TSRA BKN025CB\n  TEMPO 2121/2124 1SM +TSRA OVC015CB\n  FM220000 30008KT P6SM SKC"
+      ],
+      "x-translate": false
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note (amendment reason)",
+      "examples": ["AMD: thunderstorm timing moved up one hour."],
+      "maxLength": 200
+    }
+  }
+}

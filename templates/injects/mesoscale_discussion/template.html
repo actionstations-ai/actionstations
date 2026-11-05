@@ -1,0 +1,62 @@
+<div class="wx">
+  <header class="nws">
+    <div>
+      <div class="agency">NOAA / NWS Storm Prediction Center</div>
+      <div class="tag">Norman, Oklahoma</div>
+    </div>
+    <div class="ex">EXERCISE</div>
+  </header>
+  <div class="crumb">Mesoscale Discussions › Mesoscale Discussion</div>
+  <div class="product">
+    <div class="ln">Mesoscale Discussion {{fields.number}}</div>
+    {{#if fields.office}}
+    <div class="ln">{{fields.office}}</div>
+    {{/if}} {{#if fields.issued}}
+    <div class="ln">{{fields.issued}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.areasAffected}}
+    <div class="kv"><b>Areas affected...</b>{{fields.areasAffected}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.concerning}}
+    <div class="kv"><b>Concerning...</b>{{fields.concerning}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.valid}}
+    <div class="kv"><b>Valid...</b>{{fields.valid}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.watchProbability}}
+    <div class="kv"><b>Probability of Watch Issuance...</b>{{fields.watchProbability}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.summary}}
+    <div class="kv"><b>SUMMARY...</b>{{fields.summary}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.discussion}}
+    <div class="ln">DISCUSSION...</div>
+    {{#each fields.discussion}}
+    <div class="p">{{this}}</div>
+    {{/each}}{{/if}}
+    <div class="gap"></div>
+    {{#if fields.forecaster}}
+    <div class="ln">..{{fields.forecaster}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.attn}}
+    <div class="ln">{{fields.attn}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.latLon}}
+    <div class="ln">{{fields.latLon}}</div>
+    {{/if}}
+    <div class="gap"></div>
+    {{#if fields.peakWind}}
+    <div class="ln">{{fields.peakWind}}</div>
+    {{/if}} {{#if fields.peakHail}}
+    <div class="ln">{{fields.peakHail}}</div>
+    {{/if}}
+  </div>
+</div>

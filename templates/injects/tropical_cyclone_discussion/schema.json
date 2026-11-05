@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tropical cyclone forecast discussion (NHC)",
+  "description": "An NHC forecast discussion for a fictional storm, followed by the forecast positions and maximum winds. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "office", "issued", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WTNT44 KNHC 212100"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["TCDAT4"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title",
+      "examples": ["Hurricane Marlena Discussion Number 12"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["NWS National Hurricane Center Miami FL AL042026"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["400 PM CDT Wed Oct 21 2026"]
+    },
+    "forecastTable": {
+      "type": "array",
+      "description": "Forecast positions and maximum winds",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "position", "wind"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Valid time",
+            "examples": ["21/2100Z"]
+          },
+          "position": {
+            "type": "string",
+            "description": "Position",
+            "examples": ["25.1N 90.2W"]
+          },
+          "wind": {
+            "type": "string",
+            "description": "Max wind in kt and mph",
+            "examples": ["85 KT 100 MPH"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "time": "INIT 21/2100Z",
+            "position": "25.1N 90.2W",
+            "wind": "85 KT 100 MPH"
+          }
+        ]
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as in the product (SYNOPSIS, NEAR TERM...)",
+            "examples": ["DISCUSSION"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text",
+            "examples": [
+              "Satellite images show Marlena has a well-defined eye. The initial intensity is set at 85 kt, based on Air Force reconnaissance data. Warm water and low shear favor additional strengthening before landfall."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "DISCUSSION",
+            "text": "Satellite images show Marlena has a well-defined eye. The initial intensity is set at 85 kt, based on Air Force reconnaissance data. Warm water and low shear favor additional strengthening before landfall."
+          },
+          {
+            "heading": "GUIDANCE",
+            "text": "The track models are tightly clustered and the forecast follows the consensus toward the northern Gulf coast. The risk of storm surge is high near and east of the center."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

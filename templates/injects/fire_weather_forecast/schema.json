@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fire weather planning forecast (NWS)",
+  "description": "An NWS fire weather planning forecast with discussion and period forecasts. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "office", "issued", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["FNUS53 KILN 211000"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["FWFILN"],
+      "x-translate": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Product title",
+      "examples": ["Fire Weather Planning Forecast"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office",
+      "examples": ["National Weather Service Wilmington OH"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["600 AM EDT Wed Oct 21 2026"]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Section heading as in the product (SYNOPSIS, NEAR TERM...)",
+            "examples": ["DISCUSSION"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Section text",
+            "examples": [
+              "Dry air and gusty southwest winds will keep fire danger elevated through the afternoon. A Red Flag Warning is in effect."
+            ]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "DISCUSSION",
+            "text": "Dry air and gusty southwest winds will keep fire danger elevated through the afternoon. A Red Flag Warning is in effect."
+          },
+          {
+            "heading": "TODAY",
+            "text": "Sunny. Highs in the upper 70s. Minimum relative humidity 24 percent. Southwest winds 15 to 25 mph with gusts to 35 mph. Mixing height 4500 feet."
+          },
+          {
+            "heading": "TONIGHT",
+            "text": "Clear. Lows in the lower 50s. Maximum relative humidity 70 percent. Southwest winds 10 to 15 mph."
+          }
+        ]
+      ]
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname or initials",
+      "examples": ["Kowalski"],
+      "maxLength": 40
+    }
+  }
+}

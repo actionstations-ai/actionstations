@@ -291,3 +291,23 @@ describe('orgNameIssues (#221)', () => {
     ])
   })
 })
+
+describe('field lint rules in contentIssues', () => {
+  const facts = extractFacilityFacts(['Runways 5/23.'])
+  const warning = row('I-03', 'Weather office', 'Warning with a bad polygon', 'nws_weather_warning')
+  const base = {
+    type: 'nws_weather_warning',
+    fields: { latLon: 'LAT...LON 4148 8166 4139' },
+    schema: schemaOf('nws_weather_warning'),
+    row: warning,
+    facility: facts,
+    storyTexts: [],
+  }
+
+  it('runs the field lint rules for the inject type', () => {
+    const issues = contentIssues(base)
+    expect(issues).toEqual([
+      expect.objectContaining({ path: 'fields.latLon', message: expect.stringMatching(/Polygon/) }),
+    ])
+  })
+})

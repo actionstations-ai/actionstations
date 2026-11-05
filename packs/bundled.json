@@ -1082,7 +1082,10 @@
       "summary": "Public transit agency domain (bus and rail): profile and the rider service alert template.",
       "tags": ["transit"],
       "domains": ["transit"],
-      "contents": { "templates": ["rider_service_alert"], "domains": ["transit"] }
+      "contents": {
+        "templates": ["rider_service_alert"],
+        "domains": ["transit"]
+      }
     },
     {
       "id": "ai.actionstations.water-dam",
@@ -1178,7 +1181,10 @@
       "summary": "Seaport and terminal domain: profile and the USCG MSIB / Captain of the Port order template.",
       "tags": ["port", "maritime"],
       "domains": ["port_maritime"],
-      "contents": { "templates": ["msib_cotp_order"], "domains": ["port_maritime"] }
+      "contents": {
+        "templates": ["msib_cotp_order"],
+        "domains": ["port_maritime"]
+      }
     },
     {
       "id": "ai.actionstations.municipal",
@@ -1218,7 +1224,10 @@
       "summary": "Freight railroad domain (Class I, regional, short line): profile and the track bulletin / track warrant template.",
       "tags": ["rail", "freight", "hazmat"],
       "domains": ["freight_rail"],
-      "contents": { "templates": ["track_bulletin"], "domains": ["freight_rail"] }
+      "contents": {
+        "templates": ["track_bulletin"],
+        "domains": ["freight_rail"]
+      }
     },
     {
       "id": "ai.actionstations.gas-pipeline",
@@ -1226,7 +1235,10 @@
       "summary": "Natural gas distribution, transmission and pipeline domain: profile and the Corwin Valley Gas example.",
       "tags": ["gas", "pipeline", "energy"],
       "domains": ["gas_pipeline"],
-      "contents": { "domains": ["gas_pipeline"], "examples": ["gas-distribution"] }
+      "contents": {
+        "domains": ["gas_pipeline"],
+        "examples": ["gas-distribution"]
+      }
     },
     {
       "id": "ai.actionstations.chemical",
@@ -1234,7 +1246,10 @@
       "summary": "Chemical plant, distributor and fertilizer site domain (RMP / PSM): profile and the Corbin Falls Works RMP tabletop example.",
       "tags": ["chemical", "hazmat"],
       "domains": ["chemical"],
-      "contents": { "domains": ["chemical"], "examples": ["chemical-rmp"] }
+      "contents": {
+        "domains": ["chemical"],
+        "examples": ["chemical-rmp"]
+      }
     },
     {
       "id": "ai.actionstations.public-health",
@@ -1242,7 +1257,10 @@
       "summary": "Local and state health department domain: profile and the Marston County Health Department example.",
       "tags": ["public-health", "health"],
       "domains": ["public_health"],
-      "contents": { "domains": ["public_health"], "examples": ["county-public-health"] }
+      "contents": {
+        "domains": ["public_health"],
+        "examples": ["county-public-health"]
+      }
     },
     {
       "id": "ai.actionstations.toolkit-epidemiology",
@@ -1268,7 +1286,9 @@
       "summary": "Epidemiology program, infection prevention and public health laboratory domain: roles and outbreak threat families with phase arcs, from foodborne to laboratory surge.",
       "tags": ["epidemiology", "outbreak", "public-health", "infection-prevention"],
       "domains": ["epidemiology"],
-      "contents": { "domains": ["epidemiology"] }
+      "contents": {
+        "domains": ["epidemiology"]
+      }
     },
     {
       "id": "ai.actionstations.emergency-communications",
@@ -1276,7 +1296,10 @@
       "summary": "PSAP / emergency communications center domain: profile and the Rook County 911 example.",
       "tags": ["911", "dispatch", "public-safety"],
       "domains": ["emergency_communications"],
-      "contents": { "domains": ["emergency_communications"], "examples": ["county-911"] }
+      "contents": {
+        "domains": ["emergency_communications"],
+        "examples": ["county-911"]
+      }
     },
     {
       "id": "ai.actionstations.elections",
@@ -1296,7 +1319,9 @@
       "summary": "Federal executive branch continuity exercise domain: profile with essential functions, relocation and devolution sites, continuity teams and the continuity-focused EEG capabilities.",
       "tags": ["continuity", "coop", "federal", "government"],
       "domains": ["federal_continuity"],
-      "contents": { "domains": ["federal_continuity"] }
+      "contents": {
+        "domains": ["federal_continuity"]
+      }
     },
     {
       "id": "ai.actionstations.k12-schools",
@@ -1304,7 +1329,10 @@
       "summary": "School district domain (elementary, middle and high schools, buses, nutrition, athletics): profile and the Halverson Unified School District example.",
       "tags": ["k12", "education", "schools"],
       "domains": ["k12_schools"],
-      "contents": { "domains": ["k12_schools"], "examples": ["k12-district"] }
+      "contents": {
+        "domains": ["k12_schools"],
+        "examples": ["k12-district"]
+      }
     },
     {
       "id": "ai.actionstations.commercial-facilities",
@@ -1312,7 +1340,9 @@
       "summary": "Retail, mall, hotel and casino domain: profile.",
       "tags": ["retail", "lodging", "casino"],
       "domains": ["commercial_facilities"],
-      "contents": { "domains": ["commercial_facilities"] }
+      "contents": {
+        "domains": ["commercial_facilities"]
+      }
     },
     {
       "id": "ai.actionstations.food-agriculture",
@@ -1320,7 +1350,9 @@
       "summary": "Food processor, cold storage, feed mill and grain cooperative domain: profile.",
       "tags": ["food", "agriculture"],
       "domains": ["food_agriculture"],
-      "contents": { "domains": ["food_agriculture"] }
+      "contents": {
+        "domains": ["food_agriculture"]
+      }
     },
     {
       "id": "ai.actionstations.telecom",
@@ -1328,7 +1360,9 @@
       "summary": "Regional carrier, cable operator, ISP and 911 service provider domain: profile.",
       "tags": ["telecom", "communications"],
       "domains": ["telecom"],
-      "contents": { "domains": ["telecom"] }
+      "contents": {
+        "domains": ["telecom"]
+      }
     },
     {
       "id": "ai.actionstations.data-center-it",
@@ -1336,7 +1370,9 @@
       "summary": "Managed service provider, colocation, hosting and enterprise data center domain: profile.",
       "tags": ["data-center", "msp", "it"],
       "domains": ["data_center_it"],
-      "contents": { "domains": ["data_center_it"] }
+      "contents": {
+        "domains": ["data_center_it"]
+      }
     },
     {
       "id": "ai.actionstations.financial-services",
@@ -1344,14 +1380,39 @@
       "summary": "Community bank and credit union domain: profile.",
       "tags": ["finance", "banking"],
       "domains": ["financial_services"],
-      "contents": { "domains": ["financial_services"] }
+      "contents": {
+        "domains": ["financial_services"]
+      }
     },
     {
       "id": "ai.actionstations.weather",
       "name": "Weather toolkit",
-      "summary": "Weather expertise any exercise can use: product formats, outside parties, an advisor role and realism rules for forecasts, watches, warnings and advisories.",
+      "summary": "Weather expertise any exercise can use: forecast, watch, warning, hurricane, fire weather and aviation product templates with format checks, outside parties, an advisor role and realism rules.",
       "tags": ["weather", "toolkit", "meteorology"],
-      "contents": { "toolkits": ["weather"] }
+      "contents": {
+        "templates": [
+          "area_forecast_discussion",
+          "convective_outlook",
+          "excessive_rainfall_outlook",
+          "fire_weather_forecast",
+          "hazardous_weather_outlook",
+          "idss_briefing",
+          "local_storm_report",
+          "mesoscale_discussion",
+          "metar_report",
+          "public_information_statement",
+          "red_flag_warning",
+          "sigmet_advisory",
+          "spc_watch",
+          "storm_surge_warning",
+          "taf_forecast",
+          "tropical_cyclone_advisory",
+          "tropical_cyclone_discussion",
+          "tropical_cyclone_local_statement",
+          "weather_partner_chat"
+        ],
+        "toolkits": ["weather"]
+      }
     },
     {
       "id": "ai.actionstations.meteorology",
@@ -1359,7 +1420,9 @@
       "summary": "Forecast and warning operations domain: a forecast office, broadcast weather team or embedded meteorologist, with hazard and service degradation threat families.",
       "tags": ["meteorology", "weather", "forecast"],
       "domains": ["meteorology"],
-      "contents": { "domains": ["meteorology"] }
+      "contents": {
+        "domains": ["meteorology"]
+      }
     },
     {
       "id": "ai.actionstations.clinical-systems",
@@ -1385,7 +1448,9 @@
       "summary": "Clinical IT desk of a hospital or health system: CIO, CMIO, CNIO, EHR and interface analysts, HIM and clinical engineering; downtime, interface failure and identity threat families.",
       "tags": ["healthcare", "informatics", "ehr"],
       "domains": ["health_informatics"],
-      "contents": { "domains": ["health_informatics"] }
+      "contents": {
+        "domains": ["health_informatics"]
+      }
     },
     {
       "id": "ai.actionstations.crisis-comms",

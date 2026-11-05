@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tropical cyclone public advisory (NHC)",
+  "description": "An NHC tropical cyclone public advisory for a fictional named storm: headlines, current information, watches and warnings, outlook and hazards. Exercise product: the template adds an exercise banner. Real NWS office, center and station identifiers; the county, places and people are fictional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["stormTitle", "office", "issued", "headlines", "summaryInfo", "sections"],
+  "properties": {
+    "wmoHeader": {
+      "type": "string",
+      "description": "WMO heading: TTAAii CCCC DDHHMM (UTC)",
+      "examples": ["WTNT34 KNHC 212100"],
+      "x-translate": false
+    },
+    "awipsId": {
+      "type": "string",
+      "description": "AWIPS product id",
+      "examples": ["MIATCPAT4"],
+      "x-translate": false
+    },
+    "stormTitle": {
+      "type": "string",
+      "description": "Storm and advisory number line",
+      "examples": ["Hurricane Marlena Advisory Number 12"]
+    },
+    "office": {
+      "type": "string",
+      "description": "Issuing office line",
+      "examples": ["NWS National Hurricane Center Miami FL AL042026"]
+    },
+    "issued": {
+      "type": "string",
+      "description": "Issuance line",
+      "examples": ["400 PM CDT Wed Oct 21 2026"]
+    },
+    "headlines": {
+      "type": "array",
+      "description": "Headline lines, each starting and ending with ...",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "description": "One line or paragraph",
+        "examples": ["...MARLENA STRENGTHENS TO A CATEGORY 2 HURRICANE..."]
+      },
+      "examples": [
+        [
+          "...MARLENA STRENGTHENS TO A CATEGORY 2 HURRICANE...",
+          "...HURRICANE WARNING ISSUED FOR THE NORTHERN GULF COAST..."
+        ]
+      ]
+    },
+    "summaryInfo": {
+      "type": "array",
+      "description": "Summary of current information as label/value lines",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Label",
+            "examples": ["LOCATION"]
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["25.1N 90.2W"]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "label": "LOCATION",
+            "value": "25.1N 90.2W"
+          }
+        ]
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Sections with a heading and text",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["heading", "text"],
+        "properties": {
+          "heading": {
+            "type": "string",
+            "description": "Heading, upper case",
+            "examples": ["WATCHES AND WARNINGS"]
+          },
+          "text": {
+            "type": "string",
+            "description": "Text",
+            "examples": ["A Hurricane Warning is in effect for the coast of the fictional parish."]
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "heading": "WATCHES AND WARNINGS",
+            "text": "A Hurricane Warning is in effect for the coast."
+          }
+        ]
+      ]
+    },
+    "nextAdvisory": {
+      "type": "string",
+      "description": "Next advisory line",
+      "examples": ["Next complete advisory at 1000 PM CDT."],
+      "maxLength": 120
+    },
+    "forecaster": {
+      "type": "string",
+      "description": "Forecaster surname",
+      "examples": ["Beven"],
+      "maxLength": 40
+    }
+  }
+}

@@ -7,5 +7,6 @@ import './flooding/register-lint'
 import './ems/register-lint'
 import './media/register-lint'
 import './spill/lint'
+import './weather/lint'
 
 export { fieldLintIssues, fieldLintRuleIds } from './field-lint'
