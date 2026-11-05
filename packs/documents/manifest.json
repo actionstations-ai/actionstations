@@ -235,6 +235,12 @@
       "summary": "EPA RMP exercise and emergency response guidance, the CISA hazmat and emergency services tabletop packages, and the NTSB and CSB reports on a derailment release and a chemical plant fire.",
       "domain": "ems_fire",
       "version": "1.0.0"
+    },
+    "governance-library": {
+      "name": "Governance and business continuity reference library",
+      "summary": "SEC cyber disclosure rule and fact sheet, ransomware and insider threat exercise manuals, NIST incident response and contingency planning, FFIEC continuity, OFAC advisory and Ready.gov BIA tools.",
+      "domain": "governance",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -316,6 +322,7 @@
     },
     {
       "pack": "core",
+      "alsoIn": [],
       "slug": "nist-csf-2",
       "file": "nist-csf-2.pdf",
       "title": "The NIST Cybersecurity Framework (CSF) 2.0, NIST CSWP 29",
@@ -376,6 +383,7 @@
     },
     {
       "pack": "core",
+      "alsoIn": [],
       "slug": "ctep-ransomware",
       "file": "ctep-ransomware.docx",
       "title": "CISA Tabletop Exercise Package: Ransomware, Situation Manual",
@@ -1154,6 +1162,7 @@
     },
     {
       "pack": "data-center-it-library",
+      "alsoIn": ["governance-library"],
       "slug": "nist-sp-800-61r3",
       "file": "nist-sp-800-61r3.pdf",
       "title": "Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile, NIST SP 800-61 Rev. 3",
@@ -1179,7 +1188,8 @@
       "size": 952921,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): NIST",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["governance-library"]
     },
     {
       "pack": "data-center-it-library",
@@ -1267,7 +1277,7 @@
     },
     {
       "pack": "data-center-it-library",
-      "alsoIn": ["financial-services-library"],
+      "alsoIn": ["financial-services-library", "governance-library"],
       "slug": "sec-33-11216",
       "file": "sec-33-11216.pdf",
       "title": "Cybersecurity Risk Management, Strategy, Governance, and Incident Disclosure (final rule, Release 33-11216)",
@@ -1283,6 +1293,7 @@
     },
     {
       "pack": "data-center-it-library",
+      "alsoIn": ["governance-library"],
       "slug": "fema-continuity-guidance-circular",
       "file": "fema-continuity-guidance-circular.pdf",
       "title": "Continuity Guidance Circular",
@@ -1327,6 +1338,7 @@
     },
     {
       "pack": "data-center-it-library",
+      "alsoIn": ["governance-library"],
       "slug": "ctep-insider-threat",
       "file": "ctep-insider-threat.docx",
       "title": "CISA Tabletop Exercise Package: Insider Threat, Situation Manual",
@@ -1968,6 +1980,7 @@
     },
     {
       "pack": "financial-services-library",
+      "alsoIn": ["governance-library"],
       "slug": "ffiec-bcm-booklet",
       "file": "ffiec-bcm-booklet.pdf",
       "title": "FFIEC IT Examination Handbook: Business Continuity Management",
@@ -2073,6 +2086,7 @@
     },
     {
       "pack": "financial-services-library",
+      "alsoIn": ["governance-library"],
       "slug": "ofac-ransomware-advisory-2021",
       "file": "ofac-ransomware-advisory-2021.pdf",
       "title": "Updated Advisory on Potential Sanctions Risks for Facilitating Ransomware Payments",
@@ -5652,6 +5666,51 @@
       "basis": "US federal government work (17 U.S.C. §105): NOAA",
       "note": "The manual only; the 137 MB Mobile Bay data set is linked, not bundled.",
       "pinned": "2026-11-05"
+    },
+    {
+      "pack": "governance-library",
+      "slug": "sec-33-11216-fact-sheet",
+      "file": "sec-33-11216-fact-sheet.pdf",
+      "title": "Fact Sheet: Public Company Cybersecurity Disclosures (Release 33-11216)",
+      "publisher": "US Securities and Exchange Commission",
+      "edition": "26 July 2023",
+      "url": "https://www.sec.gov/files/33-11216-fact-sheet.pdf",
+      "landing": "https://www.sec.gov/rules-regulations/2023/07/s7-09-22",
+      "sha256": "a93e1a5dc30bf409f6cd4d49e57fbae0815019960570de56a5d72e4cf163f3cc",
+      "size": 230938,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): SEC",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "governance-library",
+      "slug": "ready-bia-worksheet",
+      "file": "ready-bia-worksheet.pdf",
+      "title": "Business Impact Analysis Worksheet (Ready Business)",
+      "publisher": "FEMA, Ready.gov",
+      "edition": "July 2020",
+      "url": "https://www.ready.gov/sites/default/files/2020-07/business-impact-analysis-worksheet.pdf",
+      "landing": "https://www.ready.gov/business/planning/impact-analysis",
+      "sha256": "a4392d43a2b80964ede0a113d5dbb51d594855123aeec44a0023470c301f24a0",
+      "size": 38318,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): a FEMA Ready Campaign publication. The document carries no copyright statement or third-party credit (read 2026-11-05); the Ready.gov terms page could not be read.",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "governance-library",
+      "slug": "ready-business-continuity-plan",
+      "file": "ready-business-continuity-plan.pdf",
+      "title": "Business Continuity Plan template (Ready Business)",
+      "publisher": "FEMA, Ready.gov",
+      "edition": "March 2020",
+      "url": "https://www.ready.gov/sites/default/files/2020-03/business-continuity-plan.pdf",
+      "landing": "https://www.ready.gov/business/planning/continuity-plan",
+      "sha256": "9945e3bb8bb0d45507e97de3d6f31a1b5a9bc90d454e95b8b8731b975bef259b",
+      "size": 149128,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): a FEMA Ready Campaign publication. The document carries no copyright statement or third-party credit (read 2026-11-05); the Ready.gov terms page could not be read.",
+      "pinned": "2026-11-05"
     }
   ],
   "links": [
@@ -8517,6 +8576,34 @@
       "publisher": "NFPA, NENA, APCO",
       "url": "https://www.nfpa.org/",
       "reason": "Copyrighted; named, not bundled"
+    },
+    {
+      "pack": "governance-library",
+      "title": "CISA Tabletop Exercise Package: Executives and Senior Leadership, Situation Manual (August 2024)",
+      "publisher": "CISA",
+      "url": "https://www.cisa.gov/resources-tools/resources/cybersecurity-scenarios",
+      "reason": "Listed as a Word file on CISA's scenarios page; the direct file address was not confirmed, so it is linked and not bundled"
+    },
+    {
+      "pack": "governance-library",
+      "title": "Form 8-K Compliance and Disclosure Interpretations (Items 1.05 questions 104B.01 to 104B.09)",
+      "publisher": "SEC",
+      "url": "https://www.sec.gov/rules-regulations/staff-guidance/compliance-disclosure-interpretations/exchange-act-form-8-k",
+      "reason": "A web page of staff guidance, not a document with an edition to pin"
+    },
+    {
+      "pack": "governance-library",
+      "title": "23 NYCRR 500.17 Notices to superintendent (Cornell LII text)",
+      "publisher": "Cornell Legal Information Institute",
+      "url": "https://www.law.cornell.edu/regulations/new-york/23-NYCRR-500.17",
+      "reason": "State regulation text on a university site; reuse terms not verified"
+    },
+    {
+      "pack": "governance-library",
+      "title": "ISO 22301:2019 Business continuity management systems",
+      "publisher": "ISO",
+      "url": "https://www.iso.org/standard/75106.html",
+      "reason": "Licensed standard, never bundled"
     }
   ]
 }
