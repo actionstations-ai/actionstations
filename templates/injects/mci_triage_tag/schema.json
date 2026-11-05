@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Triage tag",
+  "description": "A mass casualty triage tag for one fictional patient: the priority as a word and a color, the tag number, the vitals the triage method uses and the injuries. The priority word is always printed, so the tag reads without color.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tagNumber", "priority"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency that issued the tag.",
+      "examples": ["Rook County EMS"]
+    },
+    "tagNumber": {
+      "type": "string",
+      "description": "Tag number, unique at the incident.",
+      "examples": ["T-014"],
+      "x-translate": false
+    },
+    "priority": {
+      "type": "string",
+      "description": "Triage priority. Immediate is red, Delayed yellow, Minor green, Expectant black, Deceased white with a border.",
+      "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"]
+    },
+    "triageMethod": {
+      "type": "string",
+      "description": "Triage method the players use.",
+      "enum": ["START", "SALT", "Local method"]
+    },
+    "ageSex": {
+      "type": "string",
+      "description": "Approximate age and sex. No name: patients are fictional and unnamed.",
+      "examples": ["34 M"],
+      "x-translate": false
+    },
+    "canWalk": {
+      "type": "string",
+      "description": "Whether the patient could walk when found.",
+      "enum": ["Yes", "No"]
+    },
+    "respirations": {
+      "type": "string",
+      "description": "Breaths per minute, or 'Absent'.",
+      "examples": ["34"],
+      "x-translate": false
+    },
+    "perfusion": {
+      "type": "string",
+      "description": "Capillary refill or radial pulse as the method uses it.",
+      "examples": ["Refill over 2 seconds"]
+    },
+    "mentalStatus": {
+      "type": "string",
+      "description": "Whether the patient follows simple commands.",
+      "enum": ["Obeys commands", "Does not obey", "Unresponsive"]
+    },
+    "injuries": {
+      "type": "string",
+      "description": "Injuries and lifesaving actions taken, in plain words.",
+      "examples": ["Open femur fracture, tourniquet applied 10:24"]
+    },
+    "foundAt": {
+      "type": "string",
+      "description": "Where the patient was found.",
+      "examples": ["Bus, row 4, aisle side"]
+    },
+    "triagedAt": {
+      "type": "string",
+      "description": "Time triaged, 24-hour.",
+      "examples": ["10:24"],
+      "x-translate": false
+    },
+    "triagedBy": {
+      "type": "string",
+      "description": "Unit or provider who triaged.",
+      "examples": ["Medic 4"],
+      "x-translate": false
+    },
+    "destination": {
+      "type": "string",
+      "description": "Hospital, once assigned.",
+      "examples": ["Rook County Trauma Center"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the bottom.",
+      "examples": ["EXERCISE - NOT A REAL PATIENT"]
+    }
+  }
+}

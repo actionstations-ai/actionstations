@@ -1,0 +1,103 @@
+<article class="sheet">
+  <p class="marking">{{default fields.marking "EXERCISE - NOT A REAL INCIDENT"}}</p>
+  <header class="top">
+    <div>
+      <p class="org">{{fields.agency}}</p>
+      <h1>Hospital Call Record</h1>
+      <p class="sub">Medical communications: what a hospital can take, and who was sent.</p>
+    </div>
+    <p class="inc"><span>Incident</span>{{fields.incidentName}}</p>
+  </header>
+  <dl class="facts" style="--cols: 4">
+    <div class="wide">
+      <dt>Hospital</dt>
+      <dd>{{fields.hospital}}</dd>
+    </div>
+    <div>
+      <dt>Status</dt>
+      <dd>{{fields.status}}</dd>
+    </div>
+    <div>
+      <dt>Call time</dt>
+      <dd>{{fields.callTime}}</dd>
+    </div>
+    <div>
+      <dt>Medical communications</dt>
+      <dd>{{fields.coordinator}}</dd>
+    </div>
+    <div class="wide">
+      <dt>Hospital contact</dt>
+      <dd>{{fields.spokesperson}}</dd>
+    </div>
+  </dl>
+  <div class="body">
+    <section class="tbl">
+      <h2>What the hospital can take</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Available</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.capacity}}
+          <tr>
+            <td>{{this.category}}</td>
+            <td class="num">{{this.available}}</td>
+            <td>{{this.notes}}</td>
+          </tr>
+          {{/each}} {{#times 1}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    <section class="tbl">
+      <h2>Patients assigned</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Tag</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Unit</th>
+            <th scope="col">ETA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fields.assigned}}
+          <tr>
+            <td>{{this.tagNumber}}</td>
+            <td class="pri" data-p="{{this.priority}}">
+              <span class="pw">{{this.priority}}</span>
+            </td>
+            <td>{{this.unit}}</td>
+            <td class="num">{{this.eta}}</td>
+          </tr>
+          {{/each}} {{#times 2}}
+          <tr class="blank">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {{/times}}
+        </tbody>
+      </table>
+    </section>
+    {{#if fields.notes}}
+    <section class="note">
+      <h2>Notes</h2>
+      <p>{{nl2br fields.notes}}</p>
+    </section>
+    {{/if}}
+  </div>
+  <footer class="foot">
+    <span>Exercise material. Not clinical or hazmat guidance for a real incident.</span>
+  </footer>
+</article>

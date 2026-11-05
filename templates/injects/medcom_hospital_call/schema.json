@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Medical communications hospital call record",
+  "description": "Record of one call between the Medical Communications Coordinator and a receiving hospital during a mass casualty incident: the hospital status, the beds it can offer by category and the patients assigned to it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["hospital", "capacity"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County EMS"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "hospital": {
+      "type": "string",
+      "description": "Receiving hospital.",
+      "examples": ["Rook County Trauma Center"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Hospital status on this call.",
+      "enum": ["Open", "Limited intake", "Diversion", "Closed"],
+      "examples": ["Limited intake"]
+    },
+    "callTime": {
+      "type": "string",
+      "description": "Time of the call, 24-hour.",
+      "examples": ["10:44"],
+      "x-translate": false
+    },
+    "coordinator": {
+      "type": "string",
+      "description": "Who made the call.",
+      "examples": ["Dispatcher Cole"],
+      "x-translate": false
+    },
+    "spokesperson": {
+      "type": "string",
+      "description": "Fictional name and role of the person at the hospital.",
+      "examples": ["Dr. Ellis Park, charge physician (fictional)"],
+      "x-translate": false
+    },
+    "capacity": {
+      "type": "array",
+      "description": "Beds or capacity offered, by category.",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Kind of bed or capability.",
+            "examples": ["Trauma bay"]
+          },
+          "available": {
+            "type": "integer",
+            "description": "Number available now.",
+            "examples": [1],
+            "x-translate": false
+          },
+          "notes": {
+            "type": "string",
+            "description": "Conditions on the offer.",
+            "examples": ["Second bay opens when the OR clears, about 20 minutes"]
+          }
+        }
+      }
+    },
+    "assigned": {
+      "type": "array",
+      "description": "Patients sent to this hospital after the call.",
+      "minItems": 0,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tagNumber", "priority"],
+        "properties": {
+          "tagNumber": {
+            "type": "string",
+            "description": "Triage tag number.",
+            "examples": ["T-011"],
+            "x-translate": false
+          },
+          "priority": {
+            "type": "string",
+            "description": "Triage priority.",
+            "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+            "examples": ["Immediate"]
+          },
+          "unit": {
+            "type": "string",
+            "description": "Transporting unit.",
+            "examples": ["Medic 4"],
+            "x-translate": false
+          },
+          "eta": {
+            "type": "string",
+            "description": "Estimated arrival, 24-hour.",
+            "examples": ["11:02"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Anything the hospital asked for or warned about.",
+      "examples": ["Hospital asks for a call before any further Immediate patients are sent."]
+    }
+  }
+}

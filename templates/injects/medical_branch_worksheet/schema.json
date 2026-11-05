@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Medical Branch worksheet",
+  "description": "Worksheet of the Medical Branch or Medical Group at a mass casualty incident: who runs triage, treatment, transportation and medical communications, the counts by priority, and the ambulances and other resources.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["supervisor", "groups", "counts", "resources"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County EMS"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "supervisor": {
+      "type": "string",
+      "description": "Name and unit of the Medical Group Supervisor.",
+      "examples": ["Medic Supervisor 2 / Okafor"],
+      "x-translate": false
+    },
+    "mciDeclaredAt": {
+      "type": "string",
+      "description": "Time the incident was declared a mass casualty incident, 24-hour.",
+      "examples": ["10:19"],
+      "x-translate": false
+    },
+    "triageMethod": {
+      "type": "string",
+      "description": "The method the players use.",
+      "enum": ["START", "SALT", "Local method"],
+      "examples": ["START"]
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this update, 24-hour.",
+      "examples": ["10:50"],
+      "x-translate": false
+    },
+    "groups": {
+      "type": "array",
+      "description": "The medical groups and who leads them.",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["group"],
+        "properties": {
+          "group": {
+            "type": "string",
+            "description": "Group name.",
+            "enum": ["Triage", "Treatment", "Transportation", "Medical communications", "Staging"],
+            "examples": ["Triage"]
+          },
+          "leader": {
+            "type": "string",
+            "description": "Name and unit.",
+            "examples": ["Medic 4 / Alvarez"],
+            "x-translate": false
+          },
+          "location": {
+            "type": "string",
+            "description": "Where the group works.",
+            "examples": ["Roadway and ditch"]
+          },
+          "status": {
+            "type": "string",
+            "description": "One-line status.",
+            "examples": ["28 tagged, sweep of the rear seats pending"]
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "array",
+      "description": "Patients by priority and stage.",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["priority"],
+        "properties": {
+          "priority": {
+            "type": "string",
+            "description": "Triage priority.",
+            "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+            "examples": ["Immediate"]
+          },
+          "triaged": {
+            "type": "integer",
+            "description": "Number triaged.",
+            "examples": [4],
+            "x-translate": false
+          },
+          "inTreatment": {
+            "type": "integer",
+            "description": "Number in treatment.",
+            "examples": [2],
+            "x-translate": false
+          },
+          "transported": {
+            "type": "integer",
+            "description": "Number already transported.",
+            "examples": [2],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "array",
+      "description": "Ambulances, buses, air and supplies.",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["resource"],
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Resource kind.",
+            "examples": ["ALS ambulances"]
+          },
+          "requested": {
+            "type": "integer",
+            "description": "Number requested.",
+            "examples": [8],
+            "x-translate": false
+          },
+          "onScene": {
+            "type": "integer",
+            "description": "Number on scene.",
+            "examples": [5],
+            "x-translate": false
+          },
+          "eta": {
+            "type": "string",
+            "description": "Time or minutes for the next one.",
+            "examples": ["10:55"],
+            "x-translate": false
+          }
+        }
+      }
+    },
+    "concerns": {
+      "type": "string",
+      "description": "Open problems for the Medical Group Supervisor.",
+      "examples": [
+        "Trauma center reports one open trauma bay. Pediatric patients need the children's hospital, 25 minutes by road."
+      ]
+    }
+  }
+}

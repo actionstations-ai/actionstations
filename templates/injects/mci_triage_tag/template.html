@@ -1,0 +1,56 @@
+<article class="tag" data-p="{{fields.priority}}">
+  <header class="band">
+    <p class="agency">{{fields.agency}}</p>
+    <p class="word">{{upper fields.priority}}</p>
+    <p class="num"><span>Tag</span>{{fields.tagNumber}}</p>
+  </header>
+  <dl class="rows">
+    <div>
+      <dt>Method</dt>
+      <dd>{{fields.triageMethod}}</dd>
+    </div>
+    <div>
+      <dt>Age / sex</dt>
+      <dd>{{fields.ageSex}}</dd>
+    </div>
+    <div>
+      <dt>Walking</dt>
+      <dd>{{fields.canWalk}}</dd>
+    </div>
+    <div>
+      <dt>Breaths per minute</dt>
+      <dd>{{fields.respirations}}</dd>
+    </div>
+    <div>
+      <dt>Perfusion</dt>
+      <dd>{{fields.perfusion}}</dd>
+    </div>
+    <div>
+      <dt>Mental status</dt>
+      <dd>{{fields.mentalStatus}}</dd>
+    </div>
+    <div class="tall">
+      <dt>Injuries and actions</dt>
+      <dd>{{fields.injuries}}</dd>
+    </div>
+    <div>
+      <dt>Found at</dt>
+      <dd>{{fields.foundAt}}</dd>
+    </div>
+    <div>
+      <dt>Triaged</dt>
+      <dd>{{fields.triagedAt}} by {{fields.triagedBy}}</dd>
+    </div>
+    <div>
+      <dt>Destination</dt>
+      <dd>{{fields.destination}}</dd>
+    </div>
+  </dl>
+  <ol class="scale" aria-label="Priority scale">
+    <li class="s-Immediate{{#if (eq fields.priority 'Immediate')}} on{{/if}}">Immediate</li>
+    <li class="s-Delayed{{#if (eq fields.priority 'Delayed')}} on{{/if}}">Delayed</li>
+    <li class="s-Minor{{#if (eq fields.priority 'Minor')}} on{{/if}}">Minor</li>
+    <li class="s-Expectant{{#if (eq fields.priority 'Expectant')}} on{{/if}}">Expectant</li>
+  </ol>
+  <p class="foot">{{default fields.marking "EXERCISE - NOT A REAL PATIENT"}}</p>
+</article>

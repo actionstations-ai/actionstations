@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Patient transportation log",
+  "description": "Log kept by the Patient Transportation Group Supervisor at a mass casualty incident: one row per transport with the tag number, the priority, the unit, ground or air, the destination and the reason for that destination.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["supervisor", "transports"],
+  "properties": {
+    "agency": {
+      "type": "string",
+      "description": "Agency or unit that keeps this record.",
+      "examples": ["Rook County EMS"]
+    },
+    "incidentName": {
+      "type": "string",
+      "description": "Incident name as command announced it.",
+      "examples": ["Route 9 school bus collision"]
+    },
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking printed at the top and bottom. Defaults to the standard exercise marking.",
+      "examples": ["EXERCISE - NOT A REAL INCIDENT"]
+    },
+    "supervisor": {
+      "type": "string",
+      "description": "Name and unit.",
+      "examples": ["Medic 9 / Idowu"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time of this update, 24-hour.",
+      "examples": ["10:50"],
+      "x-translate": false
+    },
+    "transported": {
+      "type": "integer",
+      "description": "Number of patients transported so far.",
+      "examples": [5]
+    },
+    "remaining": {
+      "type": "integer",
+      "description": "Number of patients still waiting for transport.",
+      "examples": [9]
+    },
+    "transports": {
+      "type": "array",
+      "description": "One row per transport, in the order patients left the scene.",
+      "minItems": 1,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["time", "tagNumber", "priority", "destination"],
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "Departure time, 24-hour.",
+            "examples": ["10:31"],
+            "x-translate": false
+          },
+          "tagNumber": {
+            "type": "string",
+            "description": "Triage tag number.",
+            "examples": ["T-001"],
+            "x-translate": false
+          },
+          "priority": {
+            "type": "string",
+            "description": "Triage priority.",
+            "enum": ["Immediate", "Delayed", "Minor", "Expectant", "Deceased"],
+            "examples": ["Immediate"]
+          },
+          "unit": {
+            "type": "string",
+            "description": "Transporting unit.",
+            "examples": ["Medic 9"],
+            "x-translate": false
+          },
+          "mode": {
+            "type": "string",
+            "description": "Ground or air.",
+            "enum": ["Ground", "Air"],
+            "examples": ["Ground"]
+          },
+          "destination": {
+            "type": "string",
+            "description": "Receiving hospital.",
+            "examples": ["Rook County Trauma Center"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for the destination.",
+            "examples": ["Trauma center, open bay confirmed"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Diversion changes, patients redirected in transit, or problems at loading.",
+      "examples": [
+        "Trauma center reported limited intake at 10:44. Mercy Community Hospital accepts up to six more delayed patients."
+      ]
+    }
+  }
+}

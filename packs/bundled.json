@@ -1446,6 +1446,25 @@
           "substantial_damage_letter"
         ]
       }
+    },
+    {
+      "id": "ai.actionstations.ems-fire",
+      "name": "EMS, fire and hazardous materials",
+      "summary": "EMS, fire, hazmat and dispatch domain with the mass casualty and triage toolkit: triage tags, patient lists, Medical Branch worksheets, the transportation log and hospital calls.",
+      "tags": ["ems", "fire", "hazmat", "mass-casualty", "triage"],
+      "domains": ["ems_fire"],
+      "contents": {
+        "domains": ["ems_fire"],
+        "toolkits": ["mci_triage"],
+        "templates": [
+          "mci_triage_tag",
+          "mci_patient_list",
+          "medical_branch_worksheet",
+          "treatment_area_assignments",
+          "patient_transport_log",
+          "medcom_hospital_call"
+        ]
+      }
     }
   ]
 }

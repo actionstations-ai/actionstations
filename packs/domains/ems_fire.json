@@ -1,0 +1,681 @@
+{
+  "id": "ems_fire",
+  "label": "EMS, fire and hazardous materials response",
+  "description": "The agencies that respond on the street: an EMS agency, a fire department, a hazardous materials team, technical rescue, the dispatch center as it sends those units, and the regional healthcare coalition on the hospital side of a mass casualty incident. Roles are grouped in teams (Command, Medical, Fire and rescue, Hazmat, Dispatch, Healthcare coalition) so an exercise can use the whole roster or only the teams it needs.",
+  "aliases": [
+    "ems",
+    "ambulance",
+    "paramedic",
+    "emt",
+    "fire_department",
+    "fire_rescue",
+    "firefighter",
+    "fire_chief",
+    "fire_district",
+    "hazmat_team",
+    "haz_mat",
+    "hazardous_materials",
+    "technical_rescue",
+    "usar",
+    "mci",
+    "mass_casualty",
+    "ems_agency",
+    "healthcare_coalition",
+    "911_responder"
+  ],
+  "vocabulary": {
+    "facility": "the incident scene (the hot, warm and cold zones, the command post, the staging area and the treatment areas)",
+    "public": "patients, bystanders, residents inside the protective action zone, families looking for relatives, and the receiving hospitals",
+    "frontline": "paramedics and EMTs, firefighters, company officers, hazmat technicians, telecommunicators",
+    "operationsCenter": "the incident command post"
+  },
+  "factCategories": [
+    {
+      "id": "stations",
+      "label": "Stations",
+      "noun": "Stations?|Firehouses?",
+      "idShape": "number",
+      "lint": true,
+      "complete": true
+    },
+    {
+      "id": "apparatus",
+      "label": "Apparatus / units",
+      "pattern": "\\b((?:Engine|Ladder|Medic|Ambulance|Rescue|Squad|Battalion|Truck|Tower|Hazmat|Brush|Tanker|Utility|Air|Chief|Medical Supervisor)[- ]?\\d{1,3})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "hospitals",
+      "label": "Receiving hospitals",
+      "pattern": "\\b([A-Z][a-z]+ (?:[A-Z][a-z]+ )?(?:Medical Center|Hospital|Trauma Center))\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "un_numbers",
+      "label": "UN / NA numbers",
+      "pattern": "\\b((?:UN|NA) ?\\d{4})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "guide_numbers",
+      "label": "Guidebook guide numbers",
+      "pattern": "\\bGuide (\\d{3}P?)\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    },
+    {
+      "id": "cad_incidents",
+      "label": "CAD incident numbers",
+      "pattern": "\\bCAD ?#? ?(\\d{2}-\\d{4,7})\\b",
+      "idShape": "token",
+      "lint": false,
+      "complete": false
+    }
+  ],
+  "systems": {
+    "it": [
+      "computer-aided dispatch (CAD), mobile data terminals and automatic vehicle location",
+      "station alerting and tone-out",
+      "electronic patient care records (ePCR)",
+      "regional hospital capacity and patient tracking system",
+      "medical communications center and hospital status board",
+      "geographic information system, hydrant and pre-incident plan maps",
+      "records management and fire incident reporting",
+      "mass notification and alert systems used for protective actions",
+      "county network, email and the exercise-day laptops"
+    ],
+    "ot": [
+      "conventional, trunked and interoperability radio channels, and portable radios",
+      "multi-gas meters, photoionization detectors, radiation detectors and chemical identification instruments",
+      "plume modeling software and wind sensors",
+      "thermal imaging cameras and self-contained breathing apparatus",
+      "personnel accountability boards and tags",
+      "triage tags, wristbands and patient tracking equipment",
+      "apparatus pumps, aerial devices and water supply",
+      "decontamination corridors, shelters and lighting",
+      "structural monitoring and shoring for collapse"
+    ]
+  },
+  "roles": [
+    {
+      "key": "ic",
+      "name": "Incident Commander",
+      "abbreviation": "IC",
+      "team": "Command",
+      "description": "Owns strategy, declares the incident type (including a mass casualty incident), transfers command with a briefing, and requests mutual aid and state resources."
+    },
+    {
+      "key": "safety",
+      "name": "Safety Officer",
+      "abbreviation": "SO",
+      "team": "Command",
+      "description": "Owns hot, warm and cold zones, the PPE level, collapse and secondary-device concerns, rehab and personnel accountability."
+    },
+    {
+      "key": "pio",
+      "name": "Public Information Officer",
+      "abbreviation": "PIO",
+      "team": "Command",
+      "description": "Owns casualty counts, hospital information, family reunification and the public message on protective actions."
+    },
+    {
+      "key": "ops",
+      "name": "Operations Section Chief",
+      "abbreviation": "OPS",
+      "team": "Fire and rescue",
+      "description": "Owns tactics across suppression, rescue, EMS and hazmat branches, and the staging of arriving units."
+    },
+    {
+      "key": "fire",
+      "name": "Fire Suppression Group Supervisor",
+      "abbreviation": "FIRE",
+      "team": "Fire and rescue",
+      "description": "Owns attack, search, ventilation, water supply and accountability reports for the companies inside."
+    },
+    {
+      "key": "med",
+      "name": "Medical Group Supervisor (Medical Branch Director)",
+      "abbreviation": "MED",
+      "team": "Medical",
+      "description": "Establishes the triage, treatment and transportation groups, sets the triage method, and owns hospital capacity and destination decisions."
+    },
+    {
+      "key": "trans",
+      "name": "Patient Transportation Group Supervisor",
+      "abbreviation": "TRANS",
+      "team": "Medical",
+      "description": "Owns ambulance staging and loading, the order patients leave in, destination assignment and air resources."
+    },
+    {
+      "key": "haz",
+      "name": "Hazmat Group Supervisor",
+      "abbreviation": "HAZMAT",
+      "team": "Hazmat",
+      "description": "Owns identification of the material, isolation and protective action recommendations, entry, decontamination and product control, at the responder level the team is trained to."
+    },
+    {
+      "key": "disp",
+      "name": "Dispatcher (Telecommunicator)",
+      "abbreviation": "DISP",
+      "team": "Dispatch",
+      "description": "Owns unit assignment, tone-outs, mutual aid alerts, call load across the rest of the county and the radio channels."
+    },
+    {
+      "key": "md",
+      "name": "EMS Medical Director",
+      "abbreviation": "MD",
+      "team": "Medical",
+      "description": "Advises on protocol deviations, triage and treatment policy during a mass casualty incident, and field termination of resuscitation."
+    },
+    {
+      "key": "hcc",
+      "name": "Healthcare Coalition Liaison",
+      "abbreviation": "HCC",
+      "team": "Healthcare coalition",
+      "description": "Reports regional bed counts, diversion and patient tracking from the hospital side, and relays what the hospitals can take."
+    }
+  ],
+  "outsideParties": [
+    "the 911 center and neighboring dispatch centers",
+    "receiving hospitals and the regional healthcare coalition",
+    "the medical examiner or coroner",
+    "the American Red Cross and mass care providers",
+    "the county health department and public health",
+    "gas, electric and water utilities (shutoffs)",
+    "the chemical facility and its emergency coordinator",
+    "CHEMTREC and the shipper or carrier",
+    "the state fire marshal and the state emergency management agency",
+    "NTSB or CSB investigators",
+    "law enforcement",
+    "schools, venues and neighbors inside the protective action zone",
+    "the media"
+  ],
+  "mediaChannels": [
+    "a bystander's video posted to social media within minutes",
+    "the local TV assignment desk and a news helicopter",
+    "a scanner stream with listener comments",
+    "a neighborhood app post from a resident near the plume",
+    "a family member's post asking where the injured were taken",
+    "a reporter's call to the PIO for the number of patients"
+  ],
+  "sceneAnchors": {
+    "public": "bystanders held back behind yellow tape at a street intersection, ambulances and fire engines with their lights on, a paramedic kneeling beside a patient on a backboard, dusk",
+    "control": "a mobile incident command post: a command vehicle with a whiteboard of unit assignments on a folding table, a chief in a white helmet with a radio, a map taped to the window",
+    "exterior": "a roadway incident scene with fire engines and ambulances parked at angles, hose lines on the pavement, responders in turnout gear, a ladder truck at the edge of the frame, overcast sky"
+  },
+  "injectTypes": [
+    "911_cad_entry",
+    "radio_call",
+    "avl_fleet_map",
+    "status_board",
+    "phone_call",
+    "voicemail",
+    "text_message",
+    "field_report",
+    "sitrep",
+    "ics_201_prefill",
+    "ics_203_prefill",
+    "ics_213_general_message",
+    "ics_214_activity_log",
+    "map_annotation",
+    "scene_photo",
+    "cctv_still",
+    "sds_excerpt",
+    "emergency_declaration",
+    "incident_alert_notification",
+    "reunification_notice",
+    "press_release",
+    "facebook_post",
+    "tweet",
+    "news_article",
+    "news_chyron_still",
+    "media_inquiry_phone_slip",
+    "email",
+    "memo",
+    "pa_announcement",
+    "alarm_summary",
+    "downtime_notice",
+    "simcell_script"
+  ],
+  "threatFamilies": [
+    "mass_casualty_incident",
+    "hazmat_response",
+    "structure_fire_command",
+    "technical_rescue",
+    "response_degradation",
+    "natural_hazard",
+    "infrastructure_failure",
+    "mass_gathering",
+    "physical_security"
+  ],
+  "addedThreatFamilies": [
+    {
+      "id": "mass_casualty_incident",
+      "label": "Mass casualty incident",
+      "description": "A bus crash, explosion, collapse or crowd event produces more patients than the first units can treat, and triage, treatment, transport and hospital destinations decide who lives.",
+      "keywords": [
+        "mass casualty",
+        "mci",
+        "triage",
+        "bus crash",
+        "multiple patients",
+        "multi-vehicle",
+        "explosion",
+        "patients",
+        "casualties",
+        "ambulances"
+      ],
+      "phaseArc": [
+        {
+          "title": "Dispatch and size-up",
+          "goal": "The first units find more patients than they can handle and say so.",
+          "beats": [
+            "the first unit gives a size-up with a patient count that is only a guess",
+            "the dispatcher sends the next alarm and tells the hospitals",
+            "the scene is not yet safe"
+          ]
+        },
+        {
+          "title": "MCI declaration, command and triage",
+          "goal": "Command is established, the incident is declared an MCI, and triage starts with a named method.",
+          "beats": [
+            "the incident commander declares an MCI and sets the triage method",
+            "the Medical Group and its triage, treatment and transportation groups are filled by whoever is there",
+            "the tag count outruns the number of ambulances"
+          ]
+        },
+        {
+          "title": "Treatment, transport and destinations",
+          "goal": "Patients leave in the right order for the right hospitals while hospital capacity changes.",
+          "beats": [
+            "Immediate patients go first but the trauma center says it is full",
+            "a hospital reports diversion and the next ambulance is already loaded",
+            "an expectant patient's family arrives at the treatment area"
+          ]
+        },
+        {
+          "title": "Surge, reunification and demobilization",
+          "goal": "Counts reconcile, families are told, and responders are released.",
+          "beats": [
+            "the casualty count given to the media differs from the tag count",
+            "the family reunification center opens",
+            "critical incident stress and rehab for the crews"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "send the next Immediate patient to the closer community hospital that can stabilize, or hold for the trauma center that has just reported diversion",
+        "keep treating an expectant patient or redirect the crew to a delayed patient who is deteriorating",
+        "declare the incident an MCI and activate the regional plan now, or wait for a second unit to confirm the count"
+      ],
+      "clueKinds": "a revised patient count, a tag count that does not match the transport log, a hospital status change, a bystander who says more people were on the bus",
+      "hurdleKinds": "ambulances stuck behind apparatus, a hospital that goes on diversion mid-transport, a radio channel overloaded with traffic, triage tags running out",
+      "keyCoordination": "the Medical Communications Coordinator and the receiving hospitals through the healthcare coalition",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "triage|destination|hospital|transport|treatment|mutual aid|MCI|mass casualty",
+          "description": "the medical side: triage, treatment, transport, a hospital destination or a mutual aid request"
+        }
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "DECISION_POINT": 15,
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "NOISE": 15
+      },
+      "promptGuidance": "Name the triage method the players use in the first phase (START, SALT or the local method); the exercise does not pick one for them. Keep patient counts consistent between the CAD, the tags, the transport log and what the PIO says, unless an inject is meant to make them differ. Sequence transport with Immediate patients first and never abandon expectant patients. Use fictional patients with invented names and ages; no real patient data."
+    },
+    {
+      "id": "hazmat_response",
+      "label": "Hazardous materials release",
+      "description": "A transportation or fixed-facility release forces responders to identify the material, set isolation and protective actions as the wind changes, decontaminate, and coordinate with the facility and the hospitals.",
+      "keywords": [
+        "hazmat",
+        "hazardous materials",
+        "chemical release",
+        "tank car",
+        "tanker",
+        "placard",
+        "shelter in place",
+        "isolation zone",
+        "protective action",
+        "decontamination",
+        "toxic gas"
+      ],
+      "phaseArc": [
+        {
+          "title": "Call and identification",
+          "goal": "Responders learn what is leaking from the placard, the shipping paper and the people who know.",
+          "beats": [
+            "the caller reports a smell and a vapor cloud but no placard",
+            "the shipping papers are in a cab no one can reach",
+            "the first-arriving company stages upwind and uphill"
+          ]
+        },
+        {
+          "title": "Isolation and protective action",
+          "goal": "The isolation zone and the downwind protective action are chosen, announced and then revisited as the wind moves.",
+          "beats": [
+            "the incident commander chooses between shelter in place and evacuation for the downwind area",
+            "the wind shifts and the plume points at a school or care facility",
+            "the public message is ready after the first sirens"
+          ]
+        },
+        {
+          "title": "Entry, rescue and decontamination",
+          "goal": "Entry teams work at their level of training, victims are decontaminated before they reach the ambulances, and the hospitals are warned.",
+          "beats": [
+            "a technician team is needed but only operations-level crews are on scene",
+            "victims walk out of the warm zone before decontamination is set up",
+            "the hospital asks what the patients are contaminated with"
+          ]
+        },
+        {
+          "title": "Product control and recovery",
+          "goal": "The leak is controlled, zones are reduced and the investigation begins.",
+          "beats": [
+            "the carrier's contractor arrives",
+            "residents ask when they can go home",
+            "the facility's emergency coordinator asks for the exercise report"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "order the downwind neighborhood to shelter in place, or evacuate it through a road that may cross the plume",
+        "extend the protective action zone as the wind shifts toward the elementary school, or hold the current lines and watch the monitors",
+        "send an entry team to attempt a rescue now, or wait for the technician team and accept the delay"
+      ],
+      "clueKinds": "a placard number, a shipping paper line, a monitor reading, a wind observation, a victim's symptoms, a call from the facility's emergency coordinator",
+      "hurdleKinds": "a wind shift, a blocked evacuation route, a meter that reads off scale, decontamination water supply, an entry team below the required level",
+      "keyCoordination": "the facility's emergency coordinator, the shipper through CHEMTREC, and the receiving hospitals",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "isolat|protective action|shelter|evacuat|zone|entry|decon|PPE",
+          "description": "an isolation or protective action, entry, decontamination or PPE choice"
+        }
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "DECISION_POINT": 15,
+        "CLUE": 25,
+        "PRESSURE": 20,
+        "NOISE": 15
+      },
+      "promptGuidance": "Players are told to use their own copy of the Emergency Response Guidebook for real decisions. Never invent distances for a real UN number: use the isolation and protective action numbers the facilitator entered, or a fictional material with clearly labeled exercise distances. Keep players at their responder level: awareness, operations, technician, specialist or incident commander. The initial isolation zone is a circle; the protective action zone is a downwind square."
+    },
+    {
+      "id": "structure_fire_command",
+      "label": "Structure fire and command transfer",
+      "description": "A working fire escalates, a mayday is called, and command changes hands while accountability is kept.",
+      "keywords": [
+        "structure fire",
+        "working fire",
+        "mayday",
+        "command transfer",
+        "accountability",
+        "firefighter down",
+        "second alarm",
+        "flashover",
+        "collapse zone"
+      ],
+      "phaseArc": [
+        {
+          "title": "Dispatch and size-up",
+          "goal": "The first company sizes up the building and commits to an attack.",
+          "beats": [
+            "the first officer gives a size-up and takes command",
+            "water supply is a long lay",
+            "a bystander says someone may be inside"
+          ]
+        },
+        {
+          "title": "Attack, accountability and mayday",
+          "goal": "Companies work inside, and a firefighter's call for help tests accountability.",
+          "beats": [
+            "conditions worsen and the incident commander orders a personnel accountability report",
+            "a firefighter calls a mayday",
+            "the rapid intervention team deploys"
+          ]
+        },
+        {
+          "title": "Command transfer and mutual aid",
+          "goal": "Command passes to a higher-ranking officer with a briefing while mutual aid arrives.",
+          "beats": [
+            "the battalion chief arrives and takes command",
+            "the old and new commanders disagree on the strategy",
+            "mutual aid companies need assignments and a radio channel"
+          ]
+        },
+        {
+          "title": "Overhaul and investigation",
+          "goal": "The fire is out, the accountability review runs, and the investigation begins.",
+          "beats": [
+            "the fire marshal asks to hold the scene",
+            "the accountability review shows a gap in the tag system",
+            "the PIO is asked about the injured firefighter"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "go defensive and pull every company out, or commit another crew to a rescue that may already be lost",
+        "transfer command now with a hurried briefing, or finish the rescue first under the original commander",
+        "call for a personnel accountability report on the main channel and risk tying it up during a mayday"
+      ],
+      "clueKinds": "a size-up report, an accountability tag count, a mayday radio message, a thermal image reading, a water supply status",
+      "hurdleKinds": "a radio channel that is overloaded, a collapse warning, a hydrant that is out of service, an incoming company with the wrong equipment",
+      "keyCoordination": "the dispatcher, the rapid intervention team, and the mutual aid companies",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "command|mayday|accountab|PAR\\b|defensive|offensive|withdraw|rapid intervention|RIT",
+          "description": "command, accountability, a mayday or a switch between offensive and defensive operations"
+        }
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "DECISION_POINT": 15,
+        "CLUE": 15,
+        "PRESSURE": 25,
+        "NOISE": 15
+      },
+      "promptGuidance": "Stay at the coordination and decision level: who commands, who is accountable, what is announced on which channel and when. Do not write step-by-step fireground tactics or building-specific attack instructions. A command transfer always names who is giving command, who is taking it, the time, and the briefing."
+    },
+    {
+      "id": "technical_rescue",
+      "label": "Technical rescue",
+      "description": "A trench, confined space, collapse or rope rescue where access, stabilization and a medical handoff are the hard parts.",
+      "keywords": [
+        "technical rescue",
+        "trench collapse",
+        "confined space",
+        "structural collapse",
+        "rope rescue",
+        "extrication",
+        "usar",
+        "shoring",
+        "trapped worker"
+      ],
+      "phaseArc": [
+        {
+          "title": "Access and stabilization",
+          "goal": "The scene is made safe enough to work in.",
+          "beats": [
+            "the first unit reports a victim and an unstable structure or trench wall",
+            "bystanders have already tried to dig",
+            "the rescue team is paged"
+          ]
+        },
+        {
+          "title": "Rescue plan",
+          "goal": "The team chooses an approach and a safety margin.",
+          "beats": [
+            "the team leader proposes a plan and the safety officer objects",
+            "a utility line is in the way",
+            "the family arrives"
+          ]
+        },
+        {
+          "title": "Extrication",
+          "goal": "The victim is reached while conditions change.",
+          "beats": [
+            "a secondary collapse changes the plan",
+            "the air monitor reads low in the confined space",
+            "the medical unit stages for the handoff"
+          ]
+        },
+        {
+          "title": "Medical handoff",
+          "goal": "The patient moves to the ambulance with a hand-off report.",
+          "beats": [
+            "the patient is entrapped longer than expected",
+            "the hospital is told what to expect",
+            "the investigation begins"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "continue the rescue under a wall the engineer has not cleared, or wait for shoring at a cost to the victim",
+        "send in a second rescuer after a monitor alarm, or hold until the space is ventilated",
+        "ask for the regional rescue team now or wait to see whether local resources can finish"
+      ],
+      "clueKinds": "a shoring inspection, an air monitor reading, a utility locate, a bystander's account of how long the victim has been trapped",
+      "hurdleKinds": "ground conditions, a utility strike, a long haul for equipment, a medical unit that cannot reach the staging point",
+      "keyCoordination": "the structural or trench specialist and the utility owner",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "operations",
+        "decisionMustMention": {
+          "pattern": "rescue|shoring|stabiliz|collapse|monitor|entry|team|safety officer",
+          "description": "the rescue plan, stabilization, monitoring, entry or the safety officer"
+        }
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 30,
+        "DECISION_POINT": 15,
+        "CLUE": 20,
+        "PRESSURE": 20,
+        "NOISE": 15
+      },
+      "promptGuidance": "Stay at the coordination and decision level. Do not write rescue techniques, load calculations or shoring dimensions."
+    },
+    {
+      "id": "response_degradation",
+      "label": "Response system degradation",
+      "description": "The systems that move responders fail or saturate: CAD or radio, a hospital diversion cascade, a staffing shortage, or several incidents at once.",
+      "keywords": [
+        "cad failure",
+        "radio failure",
+        "diversion",
+        "simultaneous incidents",
+        "staffing shortage",
+        "mutual aid exhausted",
+        "no ambulances",
+        "surge"
+      ],
+      "phaseArc": [
+        {
+          "title": "First signs",
+          "goal": "A small failure is noticed by the people who feel it first.",
+          "beats": [
+            "units stop receiving CAD updates on their mobile terminals",
+            "a hospital goes on diversion",
+            "a second call comes in from across the county"
+          ]
+        },
+        {
+          "title": "Workaround",
+          "goal": "Dispatch and responders fall back to voice and paper.",
+          "beats": [
+            "run cards come out and the dispatcher works from the whiteboard",
+            "radio traffic jams the main channel",
+            "a unit is sent to the wrong address"
+          ]
+        },
+        {
+          "title": "Cascade",
+          "goal": "Resources run short as more incidents arrive.",
+          "beats": [
+            "the closest ambulance is committed and the next is twenty minutes away",
+            "the neighboring county cannot send mutual aid",
+            "diversion spreads to a second hospital"
+          ]
+        },
+        {
+          "title": "Recovery",
+          "goal": "Systems return and the gaps are measured.",
+          "beats": [
+            "CAD comes back with a backlog of unsynchronized records",
+            "response times are reviewed",
+            "the director faces the press"
+          ]
+        }
+      ],
+      "decisionPointExamples": [
+        "pull a unit out of one district to cover a worse call in another, leaving the first uncovered",
+        "send the ambulance to a diverted hospital that is closer, or to an open one that is 25 minutes farther",
+        "request state resources now or wait for the neighboring county's answer"
+      ],
+      "clueKinds": "a status board that stopped updating, an unanswered unit, a hospital status call, a call-load number",
+      "hurdleKinds": "a radio channel that is saturated, a unit that is out of position, a whiteboard that does not match the real unit list",
+      "keyCoordination": "the dispatch center and the healthcare coalition",
+      "lint": {
+        "clueRequired": false,
+        "clueRole": "technical"
+      },
+      "purposeMix": {
+        "CORE_NARRATIVE": 25,
+        "DECISION_POINT": 15,
+        "CLUE": 20,
+        "TECH_HURDLE": 15,
+        "PRESSURE": 15,
+        "NOISE": 10
+      },
+      "promptGuidance": "The 911 center's own response to a CAD failure belongs to the emergency communications domain; here show what the responders and the dispatchers who send them see and decide."
+    }
+  ],
+  "noiseExamples": [
+    "a car alarm that keeps going off down the block",
+    "a resident asking whether the smoke is from the fire",
+    "a unit radioing for a meal break during a quiet stretch",
+    "an unrelated lift-assist call from the other side of the county",
+    "a vendor calling about an apparatus delivery date"
+  ],
+  "pressureExamples": [
+    "a reporter on the line asking how many are dead before the count is known",
+    "a bystander video that shows a patient left on the ground",
+    "a council member asking why the neighboring department was not called sooner",
+    "a family member in the treatment area demanding to ride in the ambulance",
+    "a facility manager insisting there is no danger beyond the fence"
+  ],
+  "rolePatterns": {
+    "technical": "dispatch|telecommunicator|\\bdisp\\b|medcom",
+    "security": "safety|\\bso\\b",
+    "operations": "incident commander|\\bic\\b|operations|\\bops\\b",
+    "public": "public information|\\bpio\\b"
+  },
+  "agencyPattern": "CHEMTREC|NTSB|CSB|PHMSA|OSHA|EPA|FEMA|Red Cross|HCC|healthcare coalition|medical examiner|coroner|fire marshal",
+  "coreCapabilities": [
+    "operational_coordination",
+    "public_health_healthcare_and_emergency_medical_services",
+    "environmental_response_health_and_safety",
+    "fire_management_and_suppression",
+    "mass_search_and_rescue_operations",
+    "operational_communications",
+    "logistics_and_supply_chain_management",
+    "public_information_and_warning"
+  ],
+  "suggestedToolkits": ["mci_triage", "hazmat", "dispatch", "media_environment"]
+}
