@@ -8,32 +8,16 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-05
+
 ### Added
 
+- Player apps for iPhone, iPad and Android (#620, spec 0446): scan the room's QR code, play full screen, keep the screen on, and grant the camera, microphone and files once. The page still comes from the session's own server, so the app and the facilitator's version always match. **Try a demo** runs a short practice session inside the app with no network. Android ships as a signed APK on each release (once the upload key is set) and an AAB for Google Play; iOS as an unsigned IPA for sideloading, with App Store and Google Play listings to follow (#617, #618, #619).
+- Invite links carry the session certificate's pin (#616): the player apps trust exactly the facilitator's LAN certificate (or a self-signed own server's) without a browser warning; the player page ignores it. The Facilitate page's fingerprint and the pin always match.
+- Hosted model providers (#634, spec 0447): **OpenAI**, **Google Gemini**, **OpenRouter**, **Mistral**, **Groq**, **DeepSeek**, **xAI**, **Together AI** and **Azure OpenAI** presets for text and embeddings, with **Advanced** prices per million tokens so runs show their estimated cost (#635).
+- Cloud media generators: OpenAI and Gemini images and OpenAI speech with a voice per speaker (#637); **ElevenLabs** voices with a voice per speaker, an optional sound-effects track and a voice list loaded from the account (#638); **fal.ai** (#639) and **Replicate** (#640) for scene images and short video clips, with suggested models and an editable input mapping for others. The model chosen in **Routing** now reaches image, video and audio generators (#636).
+- Before a batch that calls a paid media service, the app shows how many image, video and audio calls it will make per provider (or "up to" when injects have no media plan yet), with an estimate when a price per call is set, and asks to continue; a per-provider setting turns the question off (#636).
 - Model profiles: each model family's recommended sampling (temperature, top_p, top_k, min_p) from its model card is sent with every request to LM Studio and Ollama, with a per-model reasoning level (gpt-oss, Qwen3.8, and the Qwen3.5/3.6 and Nemotron thinking switch) and an optional draft model for speculative decoding. Unknown models are called as before. The benchmark records the profile in each run file and prefers MLX builds on Apple Silicon. See `docs/guides/model-profiles.md` (#585).
-
-### Fixed
-
-- Moving to a page no longer pulls keyboard focus back to the page heading when you have already moved focus while the page was still loading (for example arrowing along the Facilitate tabs) (#582).
-- Stages no longer run out of output tokens while a thinking model is still reasoning: a profile's `reasoning.tokens` is added to the stage cap when thinking is on, the request never exceeds what the loaded context leaves after the prompt, a reply cut off at the length limit is retried once with a larger cap, and the caps of `controller_handbook`, `msel_phase` and `critique` are raised (#591).
-- The review revision keeps rows its note does not name. A row changes only when a critique note names it, and a missing-decision-point note converts one row (never a PRESSURE, NOISE, RED_HERRING, MISINFORMATION or DISTRACTION row) and keeps its sender; any other change is reverted and logged, with the original kept (#601, extends the #590 guard in `revision-guard.ts`).
-- The review step no longer "corrects" deliberate content. The critique prompt (v7) gets each purpose tag with its meaning, treats PRESSURE, NOISE, RED_HERRING, MISINFORMATION and DISTRACTION rows as intentionally false, and checks design (order, duplicates, decision points, outside parties deciding, timing, players acting in injects) before documents. The revision pass rejects a rewrite that changes a number or identifier in those rows or changes who sends or receives, and drops notes that only object to such content; each case is logged (#590).
-- OpenAI-compatible providers: a structured reply whose `content` is empty but whose `reasoning_content` holds the JSON (Qwen3.5 under LM Studio's `json_schema` mode) is now read instead of failing with "no JSON" (#503). gpt-oss-120b starts from `json_schema`, because under `json_object` LM Studio failed its replies with a 500 (#503).
-- The Facilitate side panel's tab strip keeps each label on one line and scrolls sideways when the tabs do not fit, with a fade at the hidden edge; the focused or selected tab scrolls into view, so the last tab (Hot wash board) is reachable at laptop widths (#578).
-
-### Changed
-
-- Benchmark critique scoring (scoring version 2, #592, ADR-0070): a planted defect counts as found when a note names it or the revision removed it, damage to correct rows (pressure, misinformation and clue rows weigh triple) is scored, and critique is advisory: the recommendation floor uses drafting, drafting reliability and ideation, and the report shows critique recall, fixed and damage with a warning. `pnpm bench:rescore <run-dir>` scores saved runs again without a model. Four held-out critique cases are kept out of the exported task set. Runs at scoring version 1 are archived.
-- Benchmark: the local judge measured at weighted kappa 0.039 against the 60 reference rows (old sampling settings), below the 0.6 bar, so its scores stay unpublished (#503).
-- The model benchmark runs cases in parallel (`--concurrency N`, default 1, one app instance per worker), has a `--triage` screen (standard suite, one repeat, pass or miss against the floor) and stops a three-repeat run after repeat 2 when both repeats miss the floor on the same criterion (the median can no longer reach it), recording why. Output tokens per second come from a separate single-request pass. Scores are unchanged (#584).
-- Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).
-
-### Security
-
-- Cleared the remaining copies of minimatch below 11.0.1 (GHSA-g3hv-75wg-m249, Dependabot alert 3, #569): pnpm overrides move each consumer in the electron-builder, eslint and exceljs trees to minimatch 11, and two small patches (`patches/`) switch `@electron/asar` and `dir-compare` from the old default import to the named `minimatch` export. Packaging, the packaged-app smoke test and the xlsx export and import tests pass.
-
-### Added
-
 - Tabletop Mini Benchmark (#604, spec 0445, ADR-0071): `pnpm bench:mini -- --models <a,b,c>` (or `pnpm bench -- --suite mini`) screens a model in a few minutes with four calls on fixed inputs (format, a long MSEL-phase prompt, a long handbook, a review of planted defects) plus speed, using the full benchmark's scorers, and says will work, risky or won't work with the reasons. LM Studio models are loaded and unloaded one at a time. `pnpm bench:mini:replay` checks the Mini against saved full runs with no model call.
 - Tabletop Mini Benchmark scoring (#606, spec 0445, ADR-0072): the Mini score is Quality x Completion, from fixed criteria against the Scenario 3 reference and the chance a full scenario drafts with no failed stage, with review damage and draft time shown beside it, three bands from stated requirements (Recommended, Usable with editing, Not recommended), two runs of every probe with ranges and ties, and a full 18-row phase for the long-prompt probe. There is no per-call time cap: an opt-in stream guard in the OpenAI-compatible and Ollama adapters ends a call only on a stall or a loop and keeps the raw tail of the reply; the app's own timeouts are unchanged. Stage runs record `lengthRetries`. `pnpm bench:mini:replay` scores the saved Mini runs again and names what it cannot recompute. The `--cap` switch is removed.
 - Tabletop Benchmark (#586, spec 0444, ADR-0069): `pnpm bench:export` writes the benchmark's task set with a sha256 hash, and run files carry `taskSetHash`, so the public benchmark repository, Hugging Face dataset and site page can pin and check exactly what was asked. Scoring stays here.
@@ -41,9 +25,31 @@ as `#NN`. Releasing: rename `[Unreleased]` to the new version with the release d
 - Automated checks for seven WCAG 2.2 criteria the Section 508 ACR had rated Partially Supports (#568): `e2e/acr-checks.spec.ts` covers text spacing, content on hover or focus, focus not obscured, pointer cancellation, dragging alternatives, target size and consistent help on 16 desktop screens. The ACR rates the desktop app Supports for six of them and Partially Supports for 2.5.2.
 - MSEL rows have **Move up** and **Move down** in their actions menu, and the site plan has **Pan** buttons, so reordering and panning no longer need dragging (#568).
 
+### Changed
+
+- The user guides are written for users: references to internal records, issue numbers, test files and source paths are gone, and a check keeps them out (#633). The note about updating from Tabletop Generator is removed (#630).
+- Benchmark critique scoring (scoring version 2, #592, ADR-0070): a planted defect counts as found when a note names it or the revision removed it, damage to correct rows (pressure, misinformation and clue rows weigh triple) is scored, and critique is advisory: the recommendation floor uses drafting, drafting reliability and ideation, and the report shows critique recall, fixed and damage with a warning. `pnpm bench:rescore <run-dir>` scores saved runs again without a model. Four held-out critique cases are kept out of the exported task set. Runs at scoring version 1 are archived.
+- Benchmark: the local judge measured at weighted kappa 0.039 against the 60 reference rows (old sampling settings), below the 0.6 bar, so its scores stay unpublished (#503).
+- The model benchmark runs cases in parallel (`--concurrency N`, default 1, one app instance per worker), has a `--triage` screen (standard suite, one repeat, pass or miss against the floor) and stops a three-repeat run after repeat 2 when both repeats miss the floor on the same criterion (the median can no longer reach it), recording why. Output tokens per second come from a separate single-request pass. Scores are unchanged (#584).
+- Repository stats are recorded daily by a workflow (#574, ADR-0067). It commits `docs/stats/` to the `stats` branch; the README chart and badge load from there. Releases no longer take a snapshot, and the macOS stats reminder (`pnpm stats:reminder`) is removed (#563).
+
 ### Fixed
 
+- The player page no longer scrolls sideways when the scenario title is long (#621).
+- Benchmark: `--resume` starts each unfinished case from the clean example instead of planting defects twice (#603); the Mini is labeled v1, its tokens-per-second figures are separate lower bounds from each call's own timings, and band reasons never round across a threshold (#609, #610, #611).
+- Provider options refuse any credential, by name or value, including inside custom headers, so a key cannot end up in plain settings (#635).
+- The format check now checks files when run from a git worktree (#631).
+- Moving to a page no longer pulls keyboard focus back to the page heading when you have already moved focus while the page was still loading (for example arrowing along the Facilitate tabs) (#582).
+- Stages no longer run out of output tokens while a thinking model is still reasoning: a profile's `reasoning.tokens` is added to the stage cap when thinking is on, the request never exceeds what the loaded context leaves after the prompt, a reply cut off at the length limit is retried once with a larger cap, and the caps of `controller_handbook`, `msel_phase` and `critique` are raised (#591).
+- The review revision keeps rows its note does not name. A row changes only when a critique note names it, and a missing-decision-point note converts one row (never a PRESSURE, NOISE, RED_HERRING, MISINFORMATION or DISTRACTION row) and keeps its sender; any other change is reverted and logged, with the original kept (#601, extends the #590 guard in `revision-guard.ts`).
+- The review step no longer "corrects" deliberate content. The critique prompt (v7) gets each purpose tag with its meaning, treats PRESSURE, NOISE, RED_HERRING, MISINFORMATION and DISTRACTION rows as intentionally false, and checks design (order, duplicates, decision points, outside parties deciding, timing, players acting in injects) before documents. The revision pass rejects a rewrite that changes a number or identifier in those rows or changes who sends or receives, and drops notes that only object to such content; each case is logged (#590).
+- OpenAI-compatible providers: a structured reply whose `content` is empty but whose `reasoning_content` holds the JSON (Qwen3.5 under LM Studio's `json_schema` mode) is now read instead of failing with "no JSON" (#503). gpt-oss-120b starts from `json_schema`, because under `json_object` LM Studio failed its replies with a 500 (#503).
+- The Facilitate side panel's tab strip keeps each label on one line and scrolls sideways when the tabs do not fit, with a fade at the hidden edge; the focused or selected tab scrolls into view, so the last tab (Hot wash board) is reachable at laptop widths (#578).
 - Export checkboxes and radio buttons are 24 px square instead of 13 px (#568).
+
+### Security
+
+- Cleared the remaining copies of minimatch below 11.0.1 (GHSA-g3hv-75wg-m249, Dependabot alert 3, #569): pnpm overrides move each consumer in the electron-builder, eslint and exceljs trees to minimatch 11, and two small patches (`patches/`) switch `@electron/asar` and `dir-compare` from the old default import to the named `minimatch` export. Packaging, the packaged-app smoke test and the xlsx export and import tests pass.
 
 ## [0.6.2] - 2026-11-02
 
