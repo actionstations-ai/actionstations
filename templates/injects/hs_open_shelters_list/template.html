@@ -1,0 +1,61 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Open shelters</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.asOf}}
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    {{/if}} {{#if fields.source}}
+    <div>
+      <dt>Source</dt>
+      <dd>{{fields.source}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.shelters}}
+  <h2>Shelters</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Shelter</th>
+        <th>Area</th>
+        <th>Status</th>
+        <th>Capacity</th>
+        <th>Population</th>
+        <th>Accepts</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.shelters}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.area}}</td>
+        <td>{{this.status}}</td>
+        <td>{{this.capacity}}</td>
+        <td>{{this.population}}</td>
+        <td>{{this.accepts}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.note}}
+  <h2>Notes</h2>
+  <div class="body">{{fields.note}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Open shelters list</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

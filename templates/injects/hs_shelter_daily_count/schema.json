@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter daily count",
+  "description": "The daily count a shelter reports: residents by night, arrivals, departures, meals served, staff and a reconciliation that residents at the start plus arrivals minus departures equals residents at the end. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "count"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "reportDate": {
+      "type": "string",
+      "description": "Date",
+      "examples": ["Nov 3, 2026"],
+      "x-translate": false
+    },
+    "reporter": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Registration and Reporting Lead"],
+      "x-translate": false
+    },
+    "count": {
+      "type": "array",
+      "description": "Residents reconciliation",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Count row",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "description": "Measure",
+            "examples": ["Residents at start of day"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["142"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "measure": "Residents at start of day",
+            "value": "142"
+          }
+        ]
+      ]
+    },
+    "meals": {
+      "type": "array",
+      "description": "Meals and services",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Meals and services row",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Meals served"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["412"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "item": "Meals served",
+            "value": "412"
+          }
+        ]
+      ]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes",
+      "examples": ["Bus service from the north side arrived at 14:10 with 29 residents."]
+    }
+  },
+  "additionalProperties": false
+}

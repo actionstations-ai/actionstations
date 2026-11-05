@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter health referral",
+  "description": "A referral from a shelter health services lead: the need described by function, urgency and where the person is referred, using an exercise reference. It gives no diagnosis detail beyond what the receiving service needs and no real patient identifier. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "need"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "referralId": {
+      "type": "string",
+      "description": "Referral id",
+      "examples": ["HR-0311-09"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "referredAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 21:30"],
+      "x-translate": false
+    },
+    "urgency": {
+      "type": "string",
+      "description": "ROUTINE, SAME DAY or URGENT as a word",
+      "examples": ["SAME DAY"],
+      "x-translate": false
+    },
+    "resident": {
+      "type": "string",
+      "description": "Exercise reference",
+      "examples": ["R-114"],
+      "x-translate": false
+    },
+    "referredTo": {
+      "type": "string",
+      "description": "Receiving service (fictional)",
+      "examples": ["Bayfront County Medical Clinic"],
+      "x-translate": false
+    },
+    "need": {
+      "type": "string",
+      "description": "What the person needs, described by function",
+      "examples": [
+        "Needs a medication refill and an evaluation of breathing difficulty that began today."
+      ]
+    },
+    "sent": {
+      "type": "array",
+      "description": "What accompanies the person",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [["Medication list from the resident", "Transport arranged by the shelter"]]
+    },
+    "followUp": {
+      "type": "string",
+      "description": "How the shelter will follow up",
+      "examples": ["Health lead will call the clinic at 23:00 and update the manager."]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,102 @@
+{
+  "id": "mass_care",
+  "name": "Mass care and shelter operations",
+  "description": "Shelter team expertise: status report, open shelters list, functional needs support requests, registration, daily count, incident report, health referral, closing report and the EOC mass care request, with the rule that general population shelters integrate people with access and functional needs.",
+  "appliesTo": {
+    "keywords": [
+      "shelter",
+      "general population shelter",
+      "mass care",
+      "access and functional needs",
+      "fnss",
+      "evacuees",
+      "congregate care",
+      "pet sheltering",
+      "registration",
+      "service animal"
+    ],
+    "domains": [
+      "human_services",
+      "municipal",
+      "k12_schools",
+      "campus",
+      "healthcare",
+      "public_health",
+      "stadium_venue",
+      "emergency_communications"
+    ]
+  },
+  "injectTypes": [
+    "hs_shelter_status_report",
+    "hs_open_shelters_list",
+    "hs_fnss_support_request",
+    "hs_shelter_registration_form",
+    "hs_shelter_daily_count",
+    "hs_shelter_incident_report",
+    "hs_shelter_health_referral",
+    "hs_shelter_closing_report",
+    "hs_eoc_mass_care_request"
+  ],
+  "outsideParties": [
+    "the county EOC mass care branch",
+    "the Red Cross and other voluntary organizations",
+    "the county disability services office",
+    "pet and animal services"
+  ],
+  "advisorRoles": [
+    {
+      "key": "mass_care_advisor",
+      "name": "Mass care advisor",
+      "abbreviation": "MCA",
+      "team": "Advisors",
+      "description": "Answers shelter questions as an experienced shelter manager would."
+    },
+    {
+      "key": "fnss_advisor",
+      "name": "Disability integration advisor",
+      "abbreviation": "FNSS",
+      "team": "Advisors",
+      "description": "Advises on supports for people with access and functional needs, in place, in the general population area."
+    }
+  ],
+  "lintRules": ["hs_fnss_integration"],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "FNSS",
+        "definition": "Functional needs support services: supports that let people with access and functional needs use a general population shelter, such as communication access, durable medical equipment, personal assistance and supervision. FEMA guidance, November 2010; it does not change legal obligations."
+      },
+      {
+        "term": "ESF #6",
+        "definition": "Emergency Support Function 6, mass care, emergency assistance, temporary housing and human services (FEMA annex, 2016)."
+      },
+      {
+        "term": "Daily count",
+        "definition": "Registration and reporting lead's count: residents at start plus arrivals minus departures equals residents at end."
+      }
+    ],
+    "productConventions": [
+      "Shelter names are fictional and a place is given by general area, not a street address; residents are exercise references, never names.",
+      "Status words are OPEN, FULL, CLOSING; supply status words are OK, LOW, OUT; each pairs with its number.",
+      "Needs are counted by category (equipment, communication access, personal assistance, medication, supervision); a need is a support requested, not a diagnosis."
+    ],
+    "realismRules": [
+      "General population shelters integrate people with access and functional needs and support them in place; do not create a separate tier or call the shelter a special needs shelter.",
+      "Electricity-dependent residents (oxygen, mobility, refrigerated medicine) set the first-night priorities and the generator fuel plan.",
+      "Service animals are welcome; pets are sheltered in a co-located area where the plan allows.",
+      "Counts reconcile between registration and the daily count."
+    ]
+  },
+  "capabilities": [
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Open the shelter within the decision-to-open target and register arrivals",
+        "Meet functional needs requests in place in the general population area",
+        "Report population, needs and supplies to the EOC on a schedule",
+        "Plan consolidation or closing with transition support for residents"
+      ],
+      "mappings": []
+    }
+  ]
+}

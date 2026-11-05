@@ -1,0 +1,55 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Supervisor escalation</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.escalationId}}
+    <div>
+      <dt>Escalation</dt>
+      <dd>{{fields.escalationId}}</dd>
+    </div>
+    {{/if}} {{#if fields.raisedAt}}
+    <div>
+      <dt>Raised</dt>
+      <dd>{{fields.raisedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.from}}
+    <div>
+      <dt>From</dt>
+      <dd>{{fields.from}}</dd>
+    </div>
+    {{/if}} {{#if fields.to}}
+    <div>
+      <dt>To</dt>
+      <dd>{{fields.to}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.issue}}
+  <h2>Issue</h2>
+  <div class="body">{{fields.issue}}</div>
+  {{/if}} {{#if fields.tried}}
+  <h2>Already tried</h2>
+  <ul>
+    {{#each fields.tried}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.needed}}
+  <h2>Decision or help needed</h2>
+  <div class="callout">{{fields.needed}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Supervisor escalation</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

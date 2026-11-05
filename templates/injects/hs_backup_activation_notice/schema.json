@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Backup activation notice",
+  "description": "A notice that a center, a state or the network has activated backup or overflow arrangements: who activated, from when, which contact types and what the backup centers will and will not answer. States times, not guarantees. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "reason", "arrangements"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Operations"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice id",
+      "examples": ["BA-2026-017"],
+      "x-translate": false
+    },
+    "activatedAt": {
+      "type": "string",
+      "description": "Date and time of activation",
+      "examples": ["Nov 3, 2026, 19:42"],
+      "x-translate": false
+    },
+    "activatedBy": {
+      "type": "string",
+      "description": "Role and organization",
+      "examples": ["Crisis Center Director, Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why backup was activated, with the measure that triggered it",
+      "examples": [
+        "The text queue exceeded 25 contacts for 15 minutes and two counselors called out."
+      ]
+    },
+    "arrangements": {
+      "type": "array",
+      "description": "One row per backup arrangement",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Arrangements row",
+        "properties": {
+          "contactType": {
+            "type": "string",
+            "description": "Calls, texts or chats",
+            "examples": ["Texts"],
+            "x-translate": false
+          },
+          "backup": {
+            "type": "string",
+            "description": "Backup center or overflow arrangement (fictional)",
+            "examples": ["Lakeshore Crisis Center (state backup)"],
+            "x-translate": false
+          },
+          "from": {
+            "type": "string",
+            "description": "Start time",
+            "examples": ["19:42"],
+            "x-translate": false
+          },
+          "limits": {
+            "type": "string",
+            "description": "What the backup cannot take",
+            "examples": ["Spanish-language contacts cannot be rerouted"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "contactType": "Texts",
+            "backup": "Lakeshore Crisis Center (state backup)",
+            "from": "19:42",
+            "limits": "Spanish-language contacts cannot be rerouted"
+          }
+        ]
+      ]
+    },
+    "localActions": {
+      "type": "array",
+      "description": "Actions the center took at the same time",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Outbound follow-up calls paused.",
+          "Supervisors moved to the floor to take contacts.",
+          "Call-in list worked for the overnight shift."
+        ]
+      ]
+    },
+    "reviewAt": {
+      "type": "string",
+      "description": "When the activation will be reviewed",
+      "examples": ["Review at 22:00 or when the queue is under 10 for 30 minutes."]
+    }
+  },
+  "additionalProperties": false
+}

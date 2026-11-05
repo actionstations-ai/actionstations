@@ -1,0 +1,64 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Children in care: contact status</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.agency}}
+    <div>
+      <dt>Agency</dt>
+      <dd>{{fields.agency}}</dd>
+    </div>
+    {{/if}} {{#if fields.asOf}}
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    {{/if}} {{#if fields.inArea}}
+    <div>
+      <dt>In affected area</dt>
+      <dd>{{fields.inArea}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.children}}
+  <h2>Children</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Placement</th>
+        <th>County</th>
+        <th>Last contact</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.children}}
+      <tr>
+        <td>{{this.code}}</td>
+        <td>{{this.placement}}</td>
+        <td>{{this.county}}</td>
+        <td>{{this.lastContact}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.summary}}
+  <h2>Summary</h2>
+  <div class="callout">{{fields.summary}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Displaced children in care list</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

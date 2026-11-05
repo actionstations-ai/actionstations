@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter incident report",
+  "description": "An incident report from a shelter: what happened, when, who responded and what was done, with exercise references and no real names. It states facts, not blame, and does not describe any injury or abuse in graphic detail. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "whatHappened"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "incidentId": {
+      "type": "string",
+      "description": "Incident id",
+      "examples": ["INC-0311-03"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "occurredAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 22:15"],
+      "x-translate": false
+    },
+    "category": {
+      "type": "string",
+      "description": "Dispute, medical, safety, lost item, other",
+      "examples": ["Dispute between residents"],
+      "x-translate": false
+    },
+    "whatHappened": {
+      "type": "string",
+      "description": "Factual account in a few sentences, no names",
+      "examples": [
+        "Two residents argued over a charging outlet near the quiet area. Voices were raised for several minutes. No one was hurt."
+      ]
+    },
+    "response": {
+      "type": "array",
+      "description": "Who responded and what they did",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Shelter manager separated the two residents and offered a quiet space.",
+          "Mental health lead offered each resident a conversation.",
+          "A second charging station was set up."
+        ]
+      ]
+    },
+    "followUp": {
+      "type": "string",
+      "description": "Follow-up needed and by whom",
+      "examples": [
+        "Manager to check in with both residents in the morning. Report to the EOC with the daily count."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,68 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Crisis counseling request</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.state}}
+    <div>
+      <dt>State</dt>
+      <dd>{{fields.state}}</dd>
+    </div>
+    {{/if}} {{#if fields.disaster}}
+    <div>
+      <dt>Disaster</dt>
+      <dd>{{fields.disaster}}</dd>
+    </div>
+    {{/if}} {{#if fields.requestedAt}}
+    <div>
+      <dt>Requested</dt>
+      <dd>{{fields.requestedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.program}}
+    <div>
+      <dt>Program</dt>
+      <dd>{{fields.program}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.areas}}
+  <h2>Area and need</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>County</th>
+        <th>Population</th>
+        <th>Services</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.areas}}
+      <tr>
+        <td>{{this.county}}</td>
+        <td>{{this.population}}</td>
+        <td>{{this.services}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.providers}}
+  <h2>Providers</h2>
+  <div class="body">{{fields.providers}}</div>
+  {{/if}} {{#if fields.duration}}
+  <h2>Duration</h2>
+  <div class="callout">{{fields.duration}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Crisis counseling immediate services request</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

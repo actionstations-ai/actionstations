@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter status report",
+  "description": "Status report of one general population shelter to the county EOC: population against capacity, needs counts by category, supplies and staffing, and issues. The population equals the registration count; needs counts are counts of residents or requests, not of people with a disability. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "population", "needs"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter \u00b7 daily report"],
+      "x-translate": false
+    },
+    "shelterName": {
+      "type": "string",
+      "description": "Shelter name (fictional)",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 18:00"],
+      "x-translate": false
+    },
+    "manager": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Shelter Manager"],
+      "x-translate": false
+    },
+    "population": {
+      "type": "array",
+      "description": "Population and capacity",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Population row",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "description": "Measure",
+            "examples": ["Residents registered"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["186"],
+            "x-translate": false
+          },
+          "note": {
+            "type": "string",
+            "description": "Note",
+            "examples": ["Capacity 220; 34 open spaces"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "measure": "Residents registered",
+            "value": "186",
+            "note": "Capacity 220; 34 open spaces"
+          }
+        ]
+      ]
+    },
+    "needs": {
+      "type": "array",
+      "description": "Counts of needs by category with how many are met",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Needs by category row",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Need category",
+            "examples": ["Electricity for medical equipment"],
+            "x-translate": false
+          },
+          "open": {
+            "type": "string",
+            "description": "Open requests",
+            "examples": ["3"],
+            "x-translate": false
+          },
+          "met": {
+            "type": "string",
+            "description": "Requests met",
+            "examples": ["5"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "category": "Electricity for medical equipment",
+            "open": "3",
+            "met": "5"
+          }
+        ]
+      ]
+    },
+    "supplies": {
+      "type": "array",
+      "description": "Supply status",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Supplies row",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Item",
+            "examples": ["Generator fuel"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status as a word",
+            "examples": ["LOW"],
+            "x-translate": false
+          },
+          "detail": {
+            "type": "string",
+            "description": "Detail",
+            "examples": ["9 hours at current load"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "item": "Generator fuel",
+            "status": "LOW",
+            "detail": "9 hours at current load"
+          }
+        ]
+      ]
+    },
+    "issues": {
+      "type": "string",
+      "description": "Issues that need the EOC",
+      "examples": [
+        "Request fuel delivery before 02:00. One resident who uses oxygen needs a backup concentrator."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reunification roster",
+  "description": "The roster at a reunification site: each student by exercise reference, grade, status (at site, retrieved, released, pending, exception) and who the student was released to. Status is written as a word. Students are fictional and identified by exercise references, never by real names. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "students"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Reunification"],
+      "x-translate": false
+    },
+    "site": {
+      "type": "string",
+      "description": "Site",
+      "examples": ["Millbrook Community Church hall (relocation site)"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 17:20"],
+      "x-translate": false
+    },
+    "onRoster": {
+      "type": "string",
+      "description": "Total students on the roster",
+      "examples": ["41"],
+      "x-translate": false
+    },
+    "students": {
+      "type": "array",
+      "description": "One row per student",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Students row",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Exercise reference",
+            "examples": ["S-017"],
+            "x-translate": false
+          },
+          "grade": {
+            "type": "string",
+            "description": "Grade",
+            "examples": ["4"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "AT SITE, RETRIEVED, RELEASED, PENDING or EXCEPTION as a word",
+            "examples": ["RELEASED"],
+            "x-translate": false
+          },
+          "releasedTo": {
+            "type": "string",
+            "description": "Relationship only",
+            "examples": ["Mother"],
+            "x-translate": false
+          },
+          "time": {
+            "type": "string",
+            "description": "Release time",
+            "examples": ["16:32"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "ref": "S-017",
+            "grade": "4",
+            "status": "RELEASED",
+            "releasedTo": "Mother",
+            "time": "16:32"
+          }
+        ]
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Counts by status that add up to the roster total",
+      "examples": ["Released 29, retrieved 2, at site 6, pending 2, exceptions 2. Total 41."]
+    }
+  },
+  "additionalProperties": false
+}

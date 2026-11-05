@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Crisis line daily contact report",
+  "description": "Daily report of a crisis center: contacts offered, answered and abandoned, answer rate, average and longest wait by contact type (calls, texts, chats). Numbers add up: answered plus abandoned does not exceed offered, and the answer rate is answered divided by offered. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "byType"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Daily report \u00b7 all contact types"],
+      "x-translate": false
+    },
+    "reportDate": {
+      "type": "string",
+      "description": "Date covered",
+      "examples": ["Nov 3, 2026"],
+      "x-translate": false
+    },
+    "period": {
+      "type": "string",
+      "description": "Hours covered",
+      "examples": ["00:00 to 23:59"],
+      "x-translate": false
+    },
+    "preparedBy": {
+      "type": "string",
+      "description": "Role that prepared the report",
+      "examples": ["Workforce / Operations Manager"],
+      "x-translate": false
+    },
+    "byType": {
+      "type": "array",
+      "description": "One row per contact type",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Contacts by type row",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Contact type",
+            "examples": ["Calls"],
+            "x-translate": false
+          },
+          "offered": {
+            "type": "string",
+            "description": "Contacts offered to the center",
+            "examples": ["812"],
+            "x-translate": false
+          },
+          "answered": {
+            "type": "string",
+            "description": "Contacts answered",
+            "examples": ["703"],
+            "x-translate": false
+          },
+          "abandoned": {
+            "type": "string",
+            "description": "Contacts abandoned before answer",
+            "examples": ["61"],
+            "x-translate": false
+          },
+          "rate": {
+            "type": "string",
+            "description": "Answered divided by offered",
+            "examples": ["86.6%"],
+            "x-translate": false
+          },
+          "avgWait": {
+            "type": "string",
+            "description": "Average time to answer",
+            "examples": ["0:48"],
+            "x-translate": false
+          },
+          "longestWait": {
+            "type": "string",
+            "description": "Longest wait",
+            "examples": ["14:20"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "type": "Calls",
+            "offered": "812",
+            "answered": "703",
+            "abandoned": "61",
+            "rate": "86.6%",
+            "avgWait": "0:48",
+            "longestWait": "14:20"
+          }
+        ]
+      ]
+    },
+    "notes": {
+      "type": "string",
+      "description": "What explains the numbers: staffing, events, outages, rerouting",
+      "examples": [
+        "Two counselors called out on the evening shift. Texts queued longest between 19:00 and 21:00. Rerouting to backup began at 19:42."
+      ]
+    },
+    "standards": {
+      "type": "string",
+      "description": "The targets the center compares against and where they come from",
+      "examples": [
+        "Answer-rate goal for texts and chats: above 90% (federal goal, September 2026). Center targets for calls are set by the state contract."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

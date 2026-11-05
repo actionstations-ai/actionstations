@@ -1,0 +1,70 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Shelter closing report</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.shelter}}
+    <div>
+      <dt>Shelter</dt>
+      <dd>{{fields.shelter}}</dd>
+    </div>
+    {{/if}} {{#if fields.openedAt}}
+    <div>
+      <dt>Opened</dt>
+      <dd>{{fields.openedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.closedAt}}
+    <div>
+      <dt>Closed</dt>
+      <dd>{{fields.closedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.peak}}
+    <div>
+      <dt>Peak population</dt>
+      <dd>{{fields.peak}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.outcomes}}
+  <h2>Outcomes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Measure</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.outcomes}}
+      <tr>
+        <td>{{this.measure}}</td>
+        <td>{{this.value}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.needsSummary}}
+  <h2>Needs</h2>
+  <div class="body">{{fields.needsSummary}}</div>
+  {{/if}} {{#if fields.lessons}}
+  <h2>Lessons</h2>
+  <ul>
+    {{#each fields.lessons}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Shelter closing report</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

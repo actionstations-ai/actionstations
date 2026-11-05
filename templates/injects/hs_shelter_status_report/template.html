@@ -1,0 +1,100 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Shelter status report</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.shelterName}}
+    <div>
+      <dt>Shelter</dt>
+      <dd>{{fields.shelterName}}</dd>
+    </div>
+    {{/if}} {{#if fields.asOf}}
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    {{/if}} {{#if fields.manager}}
+    <div>
+      <dt>Manager</dt>
+      <dd>{{fields.manager}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.population}}
+  <h2>Population</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Measure</th>
+        <th>Value</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.population}}
+      <tr>
+        <td>{{this.measure}}</td>
+        <td>{{this.value}}</td>
+        <td>{{this.note}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.needs}}
+  <h2>Needs by category</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Open</th>
+        <th>Met</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.needs}}
+      <tr>
+        <td>{{this.category}}</td>
+        <td>{{this.open}}</td>
+        <td>{{this.met}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.supplies}}
+  <h2>Supplies</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Status</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.supplies}}
+      <tr>
+        <td>{{this.item}}</td>
+        <td>{{this.status}}</td>
+        <td>{{this.detail}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.issues}}
+  <h2>Issues and requests</h2>
+  <div class="callout">{{fields.issues}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Shelter status report</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

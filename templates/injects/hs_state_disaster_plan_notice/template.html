@@ -1,0 +1,65 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Disaster plan activation</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.noticeId}}
+    <div>
+      <dt>Notice</dt>
+      <dd>{{fields.noticeId}}</dd>
+    </div>
+    {{/if}} {{#if fields.activatedAt}}
+    <div>
+      <dt>Activated</dt>
+      <dd>{{fields.activatedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.counties}}
+    <div>
+      <dt>Counties</dt>
+      <dd>{{fields.counties}}</dd>
+    </div>
+    {{/if}} {{#if fields.lead}}
+    <div>
+      <dt>Lead</dt>
+      <dd>{{fields.lead}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.elements}}
+  <h2>Plan elements</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>First action</th>
+        <th>Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.elements}}
+      <tr>
+        <td>{{this.element}}</td>
+        <td>{{this.action}}</td>
+        <td>{{this.due}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.reporting}}
+  <h2>Reporting</h2>
+  <div class="body">{{fields.reporting}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>State child welfare disaster plan activation notice</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

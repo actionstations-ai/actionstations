@@ -1,0 +1,64 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Release log</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.site}}
+    <div>
+      <dt>Site</dt>
+      <dd>{{fields.site}}</dd>
+    </div>
+    {{/if}} {{#if fields.page}}
+    <div>
+      <dt>Page</dt>
+      <dd>{{fields.page}}</dd>
+    </div>
+    {{/if}} {{#if fields.releaseLead}}
+    <div>
+      <dt>Release lead</dt>
+      <dd>{{fields.releaseLead}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.entries}}
+  <h2>Releases</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Student</th>
+        <th>Released to</th>
+        <th>ID checked</th>
+        <th>Released by</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.entries}}
+      <tr>
+        <td>{{this.time}}</td>
+        <td>{{this.student}}</td>
+        <td>{{this.adult}}</td>
+        <td>{{this.idChecked}}</td>
+        <td>{{this.staff}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.exceptions}}
+  <h2>Exceptions sent to commander</h2>
+  <div class="body">{{fields.exceptions}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Reunification release log</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

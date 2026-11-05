@@ -1,0 +1,61 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Queue and wait times</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.asOf}}
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    {{/if}} {{#if fields.shift}}
+    <div>
+      <dt>Shift</dt>
+      <dd>{{fields.shift}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.queues}}
+  <h2>Queues</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Waiting</th>
+        <th>Longest wait</th>
+        <th>Answer rate (hour)</th>
+        <th>Staff on</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.queues}}
+      <tr>
+        <td>{{this.type}}</td>
+        <td>{{this.waiting}}</td>
+        <td>{{this.longest}}</td>
+        <td>{{this.rate}}</td>
+        <td>{{this.staff}}</td>
+        <td>{{this.state}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.banner}}
+  <h2>Message on the board</h2>
+  <div class="callout">{{fields.banner}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Queue wait-time board</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

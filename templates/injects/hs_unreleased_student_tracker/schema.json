@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unaccompanied and unreleased student tracker",
+  "description": "A board that tracks students still at a reunification site: each student by exercise reference, how long they have waited, what is being done to reach a guardian and who is with them. Status is a word. It is for the site commander and counselors. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "students"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Millbrook Unified School District"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Reunification"],
+      "x-translate": false
+    },
+    "site": {
+      "type": "string",
+      "description": "Site",
+      "examples": ["Millbrook Community Church hall (relocation site)"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time",
+      "examples": ["18:10"],
+      "x-translate": false
+    },
+    "stillHere": {
+      "type": "string",
+      "description": "Number of students not yet released",
+      "examples": ["3"],
+      "x-translate": false
+    },
+    "students": {
+      "type": "array",
+      "description": "One row per student",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Students row",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Exercise reference",
+            "examples": ["S-031"],
+            "x-translate": false
+          },
+          "waiting": {
+            "type": "string",
+            "description": "Time at site",
+            "examples": ["3 h 05 m"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "CONTACTING GUARDIAN, EXCEPTION or NO GUARDIAN REACHED as a word",
+            "examples": ["EXCEPTION"],
+            "x-translate": false
+          },
+          "actions": {
+            "type": "string",
+            "description": "What is being done",
+            "examples": ["Calling second contact; counselor with student"],
+            "x-translate": false
+          },
+          "with": {
+            "type": "string",
+            "description": "Staff role with the student",
+            "examples": ["Counselor"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "ref": "S-031",
+            "waiting": "3 h 05 m",
+            "status": "EXCEPTION",
+            "actions": "Calling second contact; counselor with student",
+            "with": "Counselor"
+          }
+        ]
+      ]
+    },
+    "rules": {
+      "type": "string",
+      "description": "Rule for students who remain",
+      "examples": [
+        "No student is left alone. If no guardian is reached by 20:00 the commander contacts law enforcement and social services under district policy."
+      ]
+    }
+  },
+  "additionalProperties": false
+}

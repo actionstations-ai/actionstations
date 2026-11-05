@@ -1,0 +1,77 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Mass care request</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.requestId}}
+    <div>
+      <dt>Request</dt>
+      <dd>{{fields.requestId}}</dd>
+    </div>
+    {{/if}} {{#if fields.requestedAt}}
+    <div>
+      <dt>Requested</dt>
+      <dd>{{fields.requestedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.from}}
+    <div>
+      <dt>From</dt>
+      <dd>{{fields.from}}</dd>
+    </div>
+    {{/if}} {{#if fields.to}}
+    <div>
+      <dt>To</dt>
+      <dd>{{fields.to}}</dd>
+    </div>
+    {{/if}} {{#if fields.priority}}
+    <div>
+      <dt>Priority</dt>
+      <dd>{{fields.priority}}</dd>
+    </div>
+    {{/if}} {{#if fields.approvedBy}}
+    <div>
+      <dt>Approved by</dt>
+      <dd>{{fields.approvedBy}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.items}}
+  <h2>Resources</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Quantity</th>
+        <th>Deliver to</th>
+        <th>Needed by</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.items}}
+      <tr>
+        <td>{{this.item}}</td>
+        <td>{{this.quantity}}</td>
+        <td>{{this.deliverTo}}</td>
+        <td>{{this.needBy}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.justification}}
+  <h2>Why</h2>
+  <div class="body">{{fields.justification}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>EOC mass care request</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

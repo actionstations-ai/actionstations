@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shelter closing report",
+  "description": "The report when a shelter closes or consolidates: dates open, peak population, residents served, needs met, where residents went, supplies returned and lessons. Residents served equals those who left plus those transferred. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "outcomes"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "shelter": {
+      "type": "string",
+      "description": "Shelter name",
+      "examples": ["Eastside High School shelter"],
+      "x-translate": false
+    },
+    "openedAt": {
+      "type": "string",
+      "description": "Date and time opened",
+      "examples": ["Nov 2, 2026, 14:00"],
+      "x-translate": false
+    },
+    "closedAt": {
+      "type": "string",
+      "description": "Date and time closed",
+      "examples": ["Nov 6, 2026, 12:00"],
+      "x-translate": false
+    },
+    "peak": {
+      "type": "string",
+      "description": "Highest population",
+      "examples": ["231"],
+      "x-translate": false
+    },
+    "outcomes": {
+      "type": "array",
+      "description": "Counts at close",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Outcomes row",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "description": "Measure",
+            "examples": ["Residents served"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["312"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "measure": "Residents served",
+            "value": "312"
+          }
+        ]
+      ]
+    },
+    "needsSummary": {
+      "type": "string",
+      "description": "How needs were met, with counts",
+      "examples": [
+        "84 of 91 functional needs requests were met; the seven open ones were transferred to the receiving shelter."
+      ]
+    },
+    "lessons": {
+      "type": "array",
+      "description": "Lessons for the plan",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Order fuel for the generator at 50% of use, not at 25%.",
+          "Place the health station near the accessible entrance.",
+          "Name an interpreter coordinator on day one."
+        ]
+      ]
+    }
+  },
+  "additionalProperties": false
+}

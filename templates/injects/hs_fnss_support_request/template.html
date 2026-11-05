@@ -1,0 +1,70 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">FNSS support request</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.requestId}}
+    <div>
+      <dt>Request</dt>
+      <dd>{{fields.requestId}}</dd>
+    </div>
+    {{/if}} {{#if fields.shelter}}
+    <div>
+      <dt>Shelter</dt>
+      <dd>{{fields.shelter}}</dd>
+    </div>
+    {{/if}} {{#if fields.requestedAt}}
+    <div>
+      <dt>Requested</dt>
+      <dd>{{fields.requestedAt}}</dd>
+    </div>
+    {{/if}} {{#if fields.priority}}
+    <div>
+      <dt>Priority</dt>
+      <dd>{{fields.priority}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.needs}}
+  <h2>Needs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Need</th>
+        <th>Resident ref</th>
+        <th>Needed by</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.needs}}
+      <tr>
+        <td>{{this.category}}</td>
+        <td>{{this.need}}</td>
+        <td>{{this.resident}}</td>
+        <td>{{this.needBy}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.requestedResource}}
+  <h2>Resource requested</h2>
+  <div class="body">{{fields.requestedResource}}</div>
+  {{/if}} {{#if fields.inPlace}}
+  <h2>Support in place</h2>
+  <div class="callout">{{fields.inPlace}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>FNSS support request</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

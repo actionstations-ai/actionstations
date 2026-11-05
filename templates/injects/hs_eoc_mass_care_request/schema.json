@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EOC mass care request",
+  "description": "A request from the EOC mass care branch for resources, staff or shelter capacity, with the need, quantity, location and time, and the authority approving it. Standard resource request form fields; no real addresses. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "items", "justification"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Bayfront County Emergency Management"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Mass care branch"],
+      "x-translate": false
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Request id",
+      "examples": ["MC-1103-12"],
+      "x-translate": false
+    },
+    "requestedAt": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 3, 2026, 19:30"],
+      "x-translate": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Mass Care Branch Director"],
+      "x-translate": false
+    },
+    "to": {
+      "type": "string",
+      "description": "To",
+      "examples": ["State mass care coordinator"],
+      "x-translate": false
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority as a word",
+      "examples": ["HIGH"],
+      "x-translate": false
+    },
+    "items": {
+      "type": "array",
+      "description": "One row per resource",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Resources row",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "Resource",
+            "examples": ["Cots"],
+            "x-translate": false
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity",
+            "examples": ["200"],
+            "x-translate": false
+          },
+          "deliverTo": {
+            "type": "string",
+            "description": "Place, general area only",
+            "examples": ["Ridge Middle School"],
+            "x-translate": false
+          },
+          "needBy": {
+            "type": "string",
+            "description": "Time",
+            "examples": ["Nov 4, 06:00"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "item": "Cots",
+            "quantity": "200",
+            "deliverTo": "Ridge Middle School",
+            "needBy": "Nov 4, 06:00"
+          }
+        ]
+      ]
+    },
+    "justification": {
+      "type": "string",
+      "description": "Why the resources are needed, with the number driving it",
+      "examples": [
+        "Forecast population across shelters reaches 540 by morning against 400 spaces open."
+      ]
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Role",
+      "examples": ["Emergency Manager"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

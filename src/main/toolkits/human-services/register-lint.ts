@@ -9,6 +9,12 @@ import {
   lintSafeMessaging,
   type SafeguardProblem,
 } from './safeguards-lint'
+import {
+  lint988Routing,
+  lintCrisisCounselingDurations,
+  lintFnssIntegration,
+  lintReleaseIdentity,
+} from './lint'
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -52,6 +58,32 @@ const TEXT_TYPES = [
   'hs_state_coordinator_briefing',
   'hs_network_surge_notice',
   'hs_backup_activation_notice',
+  'hs_daily_contact_report',
+  'hs_queue_wait_board',
+  'hs_staffing_coverage_summary',
+] as const
+
+/** Shelter and reunification products, which the broader text rules also read. */
+const SHELTER_TYPES = [
+  'hs_shelter_status_report',
+  'hs_open_shelters_list',
+  'hs_fnss_support_request',
+  'hs_shelter_registration_form',
+  'hs_shelter_daily_count',
+  'hs_shelter_incident_report',
+  'hs_shelter_health_referral',
+  'hs_shelter_closing_report',
+  'hs_eoc_mass_care_request',
+] as const
+
+const CRISIS_COUNSELING_TYPES = [
+  'hs_crisis_counseling_request',
+  'hs_state_disaster_plan_notice',
+  'sitrep',
+  'memo',
+  'email',
+  'press_release',
+  'official_letter',
 ] as const
 
 /** Types the public sees: a real helpline number there needs the banner. */
@@ -68,7 +100,7 @@ const PUBLIC_TYPES = [
   'reunification_notice',
   'pfa_handout',
   'content_notice_card',
-  'hs_network_surge_notice',
+  'hs_parent_notification_text',
 ] as const
 
 function rule(
@@ -86,10 +118,25 @@ function rule(
   }
 }
 
+export const HS_FORMAT_RULES: FieldLintRule[] = [
+  rule('hs_988_routing', TEXT_TYPES, lint988Routing),
+  rule('hs_fnss_integration', [...SHELTER_TYPES, ...TEXT_TYPES], lintFnssIntegration),
+  rule('hs_crisis_counseling_duration', CRISIS_COUNSELING_TYPES, lintCrisisCounselingDurations),
+  {
+    id: 'hs_release_identity',
+    injectTypes: ['hs_release_log'],
+    check: (fields): FieldLintIssue[] =>
+      lintReleaseIdentity(fields.entries).map((p) => ({
+        path: 'fields.entries',
+        message: p.message,
+      })),
+  },
+]
+
 export const HS_SAFEGUARD_RULES = [
   rule('hs_safe_messaging', TEXT_TYPES, lintSafeMessaging),
   rule('hs_exercise_helpline', PUBLIC_TYPES, lintHelplineBanner),
   rule('hs_no_real_line_for_players', TEXT_TYPES, lintNoRealLineForPlayers),
 ]
 
-for (const r of HS_SAFEGUARD_RULES) registerFieldLintRule(r)
+for (const r of [...HS_SAFEGUARD_RULES, ...HS_FORMAT_RULES]) registerFieldLintRule(r)

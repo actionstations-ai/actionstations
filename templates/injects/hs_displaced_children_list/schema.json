@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Displaced children in care list",
+  "description": "A child welfare agency list of children in care who are displaced by a disaster: exercise code, placement type, county, last contact method and time, and status (located, contacted, placed, unknown) as a word. It uses exercise codes, no names, and no case detail beyond placement and contact. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "children"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["State Children and Family Services (exercise)"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Disaster coordination"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Agency",
+      "examples": ["State Children and Family Services (exercise)"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Date and time",
+      "examples": ["Nov 5, 2026, 12:00"],
+      "x-translate": false
+    },
+    "inArea": {
+      "type": "string",
+      "description": "Total in the list",
+      "examples": ["86"],
+      "x-translate": false
+    },
+    "children": {
+      "type": "array",
+      "description": "One row per child",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Children row",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Exercise code",
+            "examples": ["C-0412"],
+            "x-translate": false
+          },
+          "placement": {
+            "type": "string",
+            "description": "Foster home, kinship, group home or other",
+            "examples": ["Foster home"],
+            "x-translate": false
+          },
+          "county": {
+            "type": "string",
+            "description": "County (fictional)",
+            "examples": ["Bayfront"],
+            "x-translate": false
+          },
+          "lastContact": {
+            "type": "string",
+            "description": "Method and time",
+            "examples": ["Phone, provider, Nov 5 09:40"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "LOCATED, CONTACTED, PLACED or UNKNOWN as a word",
+            "examples": ["LOCATED"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "code": "C-0412",
+            "placement": "Foster home",
+            "county": "Bayfront",
+            "lastContact": "Phone, provider, Nov 5 09:40",
+            "status": "LOCATED"
+          }
+        ]
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Counts by status that add up to the total",
+      "examples": ["Located 51, contacted 19, placed 7, unknown 9. Total 86."]
+    }
+  },
+  "additionalProperties": false
+}

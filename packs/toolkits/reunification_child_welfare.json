@@ -1,0 +1,109 @@
+{
+  "id": "reunification_child_welfare",
+  "name": "Reunification and child welfare",
+  "description": "Expertise for reuniting children with families and for child welfare continuity in a disaster: the plan and site layout, roster, release log, parent text, call script, unreleased student tracker, displaced children list, state plan activation notice and crisis counseling request.",
+  "appliesTo": {
+    "keywords": [
+      "reunification",
+      "reunify",
+      "relocation site",
+      "unaccompanied",
+      "release log",
+      "where is my child",
+      "child welfare",
+      "foster",
+      "children in care",
+      "displaced children",
+      "crisis counseling program"
+    ],
+    "domains": [
+      "human_services",
+      "k12_schools",
+      "campus",
+      "healthcare",
+      "stadium_venue",
+      "municipal",
+      "public_health"
+    ]
+  },
+  "injectTypes": [
+    "hs_reunification_plan",
+    "hs_reunification_roster",
+    "hs_release_log",
+    "hs_parent_notification_text",
+    "hs_where_is_my_child_script",
+    "hs_unreleased_student_tracker",
+    "hs_displaced_children_list",
+    "hs_state_disaster_plan_notice",
+    "hs_crisis_counseling_request"
+  ],
+  "outsideParties": [
+    "the school district office",
+    "the national missing and exploited children center",
+    "the state child welfare agency",
+    "courts and juvenile justice",
+    "the federal behavioral health agency"
+  ],
+  "advisorRoles": [
+    {
+      "key": "reunification_advisor",
+      "name": "Reunification advisor",
+      "abbreviation": "RA",
+      "team": "Advisors",
+      "description": "Answers questions about site flow, roles and release authority as a school safety director would."
+    },
+    {
+      "key": "child_welfare_advisor",
+      "name": "Child welfare disaster advisor",
+      "abbreviation": "CWA",
+      "team": "Advisors",
+      "description": "Answers questions about locating children in care and the state disaster plan."
+    }
+  ],
+  "lintRules": ["hs_release_identity", "hs_crisis_counseling_duration"],
+  "knowledge": {
+    "glossary": [
+      {
+        "term": "Reunification roles",
+        "definition": "Check-in (verify the guardian), retrieval (bring the student), release (hand over and log), exceptions (cases that do not fit). Release authority is verified by identity."
+      },
+      {
+        "term": "Child welfare disaster plan",
+        "definition": "State plans cover how the state identifies, locates and continues services for children displaced by a disaster, responds to new cases in the area and stays in contact with displaced staff (Social Security Act title IV-B, 42 U.S.C. 622(b)(16))."
+      },
+      {
+        "term": "Crisis counseling program",
+        "definition": "FEMA funds crisis counseling in presidentially declared disasters (Stafford Act section 416, 44 CFR 206.171): immediate services up to 60 days, regular services up to nine months."
+      }
+    ],
+    "productConventions": [
+      "Students and children are exercise references (S-017, C-0412), never names; status words are written out (RELEASED, PENDING, EXCEPTION, LOCATED, UNKNOWN).",
+      "Roster, release log and summary counts must add up to the roster total.",
+      "Name trademarked school reunification methods only as references; do not copy their forms."
+    ],
+    "realismRules": [
+      "Release only to a guardian on the release card verified by photo identification; no release by phone.",
+      "Parents arrive faster than staff can verify; rumors name the wrong site; plan for both.",
+      "No student is left alone; a student with no guardian reached goes to the commander, counselors and social services under district policy."
+    ]
+  },
+  "capabilities": [
+    {
+      "coreCapability": "mass_care_services",
+      "criticalTasks": [
+        "Activate the reunification site with named roles and a single release authority",
+        "Release every student only to a verified guardian and log each release",
+        "Handle exceptions and unreleased students without leaving a student alone"
+      ],
+      "mappings": []
+    },
+    {
+      "coreCapability": "health_and_social_services",
+      "criticalTasks": [
+        "Identify and locate every displaced child in care within the plan targets",
+        "Continue hotline intake and visits from temporary sites",
+        "Request crisis counseling immediate services for affected communities"
+      ]
+    }
+  ]
+}

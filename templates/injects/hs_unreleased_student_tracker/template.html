@@ -1,0 +1,64 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.organization}}</div>
+      {{#if fields.subtitle}}
+      <div class="sub">{{fields.subtitle}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">Unreleased students</div>
+  </header>
+  <dl class="facts">
+    {{#if fields.site}}
+    <div>
+      <dt>Site</dt>
+      <dd>{{fields.site}}</dd>
+    </div>
+    {{/if}} {{#if fields.asOf}}
+    <div>
+      <dt>As of</dt>
+      <dd>{{fields.asOf}}</dd>
+    </div>
+    {{/if}} {{#if fields.stillHere}}
+    <div>
+      <dt>Still here</dt>
+      <dd>{{fields.stillHere}}</dd>
+    </div>
+    {{/if}}
+  </dl>
+  {{#if fields.students}}
+  <h2>Students</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Ref</th>
+        <th>Waiting</th>
+        <th>Status</th>
+        <th>Actions</th>
+        <th>With</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.students}}
+      <tr>
+        <td>{{this.ref}}</td>
+        <td>{{this.waiting}}</td>
+        <td>{{this.status}}</td>
+        <td>{{this.actions}}</td>
+        <td>{{this.with}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.rules}}
+  <h2>Rules</h2>
+  <div class="callout">{{fields.rules}}</div>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Unaccompanied and unreleased student tracker</span
+    ><span>Exercise material. All people, places and numbers are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

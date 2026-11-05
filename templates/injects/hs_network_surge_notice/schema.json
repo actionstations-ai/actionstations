@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Network surge notice",
+  "description": "A notice from the 988 network administrator to centers that contact volumes are rising nationally or in a region and what backup capacity is doing. States numbers and the time of issue; makes no promise of backup answer times. Never includes method detail or a real helpline number outside the exercise marking. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "summary"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["National 988 network administrator (exercise)"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Network operations"],
+      "x-translate": false
+    },
+    "noticeId": {
+      "type": "string",
+      "description": "Notice id",
+      "examples": ["NS-2026-044"],
+      "x-translate": false
+    },
+    "issuedAt": {
+      "type": "string",
+      "description": "Date and time issued",
+      "examples": ["Nov 3, 2026, 19:15"],
+      "x-translate": false
+    },
+    "region": {
+      "type": "string",
+      "description": "States or regions affected",
+      "examples": ["Midwest and Great Lakes"],
+      "x-translate": false
+    },
+    "summary": {
+      "type": "string",
+      "description": "Plain statement of the surge and its likely cause (a news event), with the volume change against the same hour last week",
+      "examples": [
+        "Offered texts and chats in the Midwest are 2.1 times the same hour last week after a widely reported community tragedy. Calls are 1.6 times."
+      ]
+    },
+    "measures": {
+      "type": "array",
+      "description": "Current network measures",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Network measures row",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "description": "Measure name",
+            "examples": ["Texts in queue network-wide"],
+            "x-translate": false
+          },
+          "value": {
+            "type": "string",
+            "description": "Value",
+            "examples": ["412"],
+            "x-translate": false
+          },
+          "trend": {
+            "type": "string",
+            "description": "Trend",
+            "examples": ["Rising"],
+            "x-translate": false
+          }
+        }
+      },
+      "examples": [
+        [
+          {
+            "measure": "Texts in queue network-wide",
+            "value": "412",
+            "trend": "Rising"
+          }
+        ]
+      ]
+    },
+    "requested": {
+      "type": "array",
+      "description": "Actions asked of centers",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "description": "Entry"
+      },
+      "examples": [
+        [
+          "Confirm backup activation status by 20:00.",
+          "Report staffing shortfalls through the state coordinator.",
+          "Keep outbound work paused until further notice."
+        ]
+      ]
+    },
+    "reroutingNote": {
+      "type": "string",
+      "description": "A reminder of rerouting timers with their date",
+      "examples": [
+        "As of March 2026: unanswered calls reroute to backup after about 2 minutes, texts and chats after about 5 minutes, and Spanish-language contacts cannot be rerouted."
+      ]
+    },
+    "nextUpdate": {
+      "type": "string",
+      "description": "Time of the next notice",
+      "examples": ["21:00"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

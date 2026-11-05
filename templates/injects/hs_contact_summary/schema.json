@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "De-identified contact summary",
+  "description": "A fictional, de-identified summary of one contact handled at a crisis center, for supervisors and training: contact type, duration, category of need and the supervisor action. It never states a method, means or place, never names a person and never presents suicide as a solution. It is marked as a fictional exercise record. Everything is fictional and marked as an exercise product; a real helpline number never appears without the EXERCISE marking, and no real person or address is used.",
+  "type": "object",
+  "required": ["organization", "situation"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE \u00b7 EXERCISE \u00b7 EXERCISE"],
+      "x-translate": false
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization (fictional)",
+      "examples": ["Harbor County Crisis Services"],
+      "x-translate": false
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Line under the organization: unit, site, period",
+      "examples": ["Supervisor review"],
+      "x-translate": false
+    },
+    "summaryId": {
+      "type": "string",
+      "description": "Exercise record id",
+      "examples": ["EX-C-0417"],
+      "x-translate": false
+    },
+    "contactType": {
+      "type": "string",
+      "description": "Call, text or chat",
+      "examples": ["Text"],
+      "x-translate": false
+    },
+    "duration": {
+      "type": "string",
+      "description": "Length of the contact",
+      "examples": ["46 minutes"],
+      "x-translate": false
+    },
+    "time": {
+      "type": "string",
+      "description": "Time of day",
+      "examples": ["20:40"],
+      "x-translate": false
+    },
+    "situation": {
+      "type": "string",
+      "description": "One or two plain sentences about the person's circumstances, with no identifying detail and no method or means",
+      "examples": [
+        "The texter said they were overwhelmed after a recent loss in their community and had little support nearby."
+      ]
+    },
+    "counselorActions": {
+      "type": "string",
+      "description": "What the counselor did, in general terms (listening, exploring supports, safety planning, linking to services)",
+      "examples": [
+        "The counselor listened, explored supports and agreed on a next step with the texter."
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Outcome category only",
+      "examples": ["Contact ended with a plan to talk with a family member tonight"],
+      "x-translate": false
+    },
+    "supervisorNote": {
+      "type": "string",
+      "description": "A supervisor action: consult, debrief or wellbeing check for the counselor",
+      "examples": ["Supervisor offered the counselor a break and a debrief after the contact."]
+    },
+    "notice": {
+      "type": "string",
+      "description": "The standing notice that the record is fictional",
+      "examples": ["Fictional exercise record. No real person is described."]
+    }
+  },
+  "additionalProperties": false
+}
