@@ -175,6 +175,12 @@
       "summary": "USGS fact sheets on early warning, PAGER, aftershock forecasts, lahars and post-fire debris flows.",
       "domain": "geoscience",
       "version": "1.0.0"
+    },
+    "nursing-library": {
+      "name": "Nursing reference library",
+      "summary": "CMS emergency preparedness guidance, FEMA healthcare power outage guidance and the AHRQ TeamSTEPPS pocket guide (SBAR, handoffs, debriefs).",
+      "domain": "nursing",
+      "version": "1.0.0"
     }
   },
   "documents": [
@@ -2819,7 +2825,8 @@
       "size": 817397,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): CMS",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["nursing-library"]
     },
     {
       "pack": "healthcare-library",
@@ -2847,7 +2854,8 @@
       "size": 831893,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): FEMA",
-      "pinned": "2026-10-24"
+      "pinned": "2026-10-24",
+      "alsoIn": ["nursing-library"]
     },
     {
       "pack": "healthcare-library",
@@ -5158,6 +5166,22 @@
       "size": 6440961,
       "license": "LicenseRef-US-Government-Work",
       "basis": "US federal government work (17 U.S.C. §105): USGS; the publication credits its photographs to the USGS",
+      "pinned": "2026-11-05"
+    },
+    {
+      "pack": "nursing-library",
+      "slug": "ahrq-teamstepps-pocket-guide",
+      "file": "ahrq-teamstepps-pocket-guide.pdf",
+      "title": "TeamSTEPPS Pocket Guide: Team Strategies & Tools to Enhance Performance and Patient Safety",
+      "publisher": "AHRQ",
+      "edition": "AHRQ Pub. No. 14-0001-2, revised December 2013",
+      "url": "https://www.ahrq.gov/sites/default/files/publications/files/pocketguide.pdf",
+      "landing": "https://www.ahrq.gov/teamstepps-program/resources/pocket-guide/index.html",
+      "sha256": "dd63988df90d13a7cf4f96b3fa650dc199862ed60d5abb323fb8fb1c3c49fbee",
+      "size": 885519,
+      "license": "LicenseRef-US-Government-Work",
+      "basis": "US federal government work (17 U.S.C. §105): AHRQ; the document carries no copyright notice and AHRQ states that its government works are public domain in the United States",
+      "note": "TeamSTEPPS is a registered mark of AHRQ and the Department of Defense; the mark is not a copyright. Check the AHRQ site for a newer TeamSTEPPS 3.0 guide.",
       "pinned": "2026-11-05"
     }
   ],
@@ -7625,6 +7649,76 @@
       "publisher": "ICAO",
       "url": "https://www.icao.int/",
       "reason": "Copyrighted by ICAO; not public domain"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "AHRQ Communication and Optimal Resolution (CANDOR) toolkit",
+      "publisher": "AHRQ",
+      "url": "https://www.ahrq.gov/patient-safety/settings/hospital/candor/index.html",
+      "reason": "Eight modules with slides and facilitator notes; web toolkit pages not verified for bundling. Used for the medication error and disclosure scenario."
+    },
+    {
+      "pack": "nursing-library",
+      "title": "AHRQ Hospital Evacuation Decision Guide (AHRQ Pub. 10-0009, 2010), archived copy",
+      "publisher": "AHRQ (web archive)",
+      "url": "https://webarchive.library.unt.edu/web/20130227124217/http:/archive.ahrq.gov/prep/hospevacguide/hospevac.pdf",
+      "reason": "The AHRQ program ended in 2011 and only archived copies remain; the archive serves a wrapper page, so it is linked, not bundled."
+    },
+    {
+      "pack": "nursing-library",
+      "title": "Healthcare Facility Evacuation/Sheltering Topic Collection (2016)",
+      "publisher": "ASPR TRACIE",
+      "url": "https://asprtracie.hhs.gov/documents/healthcare-facility-evacuation-shelter.pdf",
+      "reason": "ASPR TRACIE documents are link-only"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "Hospital Readiness and Response Online Guidebook: Sheltering, Relocation, and Evacuation",
+      "publisher": "ASPR TRACIE",
+      "url": "https://files.asprtracie.hhs.gov/documents/hrrog-evacuation-sheltering-relocation.pdf",
+      "reason": "ASPR TRACIE documents are link-only"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "Mass Casualty Trauma Triage: Paradigms and Pitfalls (2019)",
+      "publisher": "ASPR TRACIE",
+      "url": "https://files.asprtracie.hhs.gov/documents/aspr-tracie-mass-casualty-triage-final-508.pdf",
+      "reason": "ASPR TRACIE documents are link-only"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "Patient Movement and Tracking Topic Collection (2017)",
+      "publisher": "ASPR TRACIE",
+      "url": "https://files.asprtracie.hhs.gov/documents/patient-movement-and-tracking.pdf",
+      "reason": "ASPR TRACIE documents are link-only"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "2007 Guideline for Isolation Precautions (CDC and HICPAC)",
+      "publisher": "CDC",
+      "url": "https://www.cdc.gov/infection-control/hcp/isolation-precautions/executive-summary.html",
+      "reason": "A CDC publication; its PDF could not be fetched to pin a hash when this library was built, so it is linked"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "NCSBN Clinical Judgment Measurement Model and simulation guidelines",
+      "publisher": "NCSBN",
+      "url": "https://www.ncsbn.org/",
+      "reason": "Copyrighted; cited, not bundled"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "INACSL Healthcare Simulation Standards of Best Practice",
+      "publisher": "INACSL",
+      "url": "https://www.inacsl.org/",
+      "reason": "Copyrighted; cited, not bundled"
+    },
+    {
+      "pack": "nursing-library",
+      "title": "NEWS2 (Royal College of Physicians) early warning score",
+      "publisher": "Royal College of Physicians",
+      "url": "https://www.rcp.ac.uk/improving-care/resources/national-early-warning-score-news-2/",
+      "reason": "Reproduction terms unconfirmed; not bundled, and no score chart is drawn from it"
     }
   ]
 }
