@@ -1,0 +1,103 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'alert_text')}}Alert text{{else if (eq variant 'tip_log')}}Tip
+      log{{else}}AMBER Alert worksheet{{/if}}
+    </div>
+  </header>
+  <div class="meta">
+    <span><b>Case:</b> {{fields.caseRef}}</span>{{#if fields.child}}<span
+      ><b>Child:</b> {{fields.child}}</span
+    >{{/if}}
+  </div>
+  {{#if fields.criteria.length}}
+  <h1>Criteria checklist</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 36%">Criterion</th>
+        <th style="width: 13%">Status</th>
+        <th>Basis</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.criteria}}
+      <tr>
+        <td>{{inc @index}}. {{this.criterion}}</td>
+        <td>
+          <span
+            class="pill {{#if (eq this.status 'Met')}}met{{else if (eq this.status 'Unclear')}}unclear{{else}}not-met{{/if}}"
+            >{{this.status}}</span
+          >
+        </td>
+        <td>{{this.basis}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.criteria.length}} {{#if fields.database}}
+  <h2>Database entry</h2>
+  <div class="meta">
+    <span><b>Entered:</b> <span class="mono">{{fields.database.enteredAt}}</span></span
+    ><span><b>By:</b> {{fields.database.enteredBy}}</span
+    ><span><b>Child Abduction flag:</b> {{fields.database.abductionFlag}}</span
+    ><span>{{fields.database.confirmation}}</span>
+  </div>
+  {{/if}} {{#if fields.decision}}
+  <h2>Decision</h2>
+  <div class="callout">
+    <strong>{{fields.decision.outcome}}</strong><br />
+    Decided by {{fields.decision.decidedBy}} at
+    <span class="mono">{{fields.decision.decidedAt}}</span>{{#if fields.decision.alertIssuedAt}} ·
+    Alert issued <span class="mono">{{fields.decision.alertIssuedAt}}</span>{{/if}}
+  </div>
+  {{/if}} {{/if}} {{#if fields.alertText}}
+  <h1>{{fields.alertText.headline}}</h1>
+  <div class="callout">
+    <p>{{fields.alertText.body}}</p>
+    <p class="contact">
+      <strong>Area:</strong> {{fields.alertText.area}} ·
+      <strong>Call:</strong> {{fields.alertText.contact}}
+    </p>
+  </div>
+  {{/if}} {{#if fields.tips.length}}
+  <h1>Tips</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 11%">Time</th>
+        <th style="width: 14%">Source</th>
+        <th>Summary</th>
+        <th style="width: 12%">Priority</th>
+        <th style="width: 16%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each fields.tips}}
+      <tr>
+        <td class="mono">{{this.time}}</td>
+        <td>{{this.source}}</td>
+        <td>{{this.summary}}</td>
+        <td>{{this.priority}}</td>
+        <td>{{this.status}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{#if fields.stateNote}}
+  <p class="contact">{{fields.stateNote}}</p>
+  {{/if}}
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Case {{fields.caseRef}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>

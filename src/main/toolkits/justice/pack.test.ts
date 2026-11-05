@@ -74,6 +74,38 @@ describe('justice domain', () => {
   })
 })
 
+describe('justice templates (command, family, negotiation, AMBER)', () => {
+  const own = [
+    'justice_command_briefing',
+    'justice_family_notice',
+    'justice_negotiation_log',
+    'justice_amber_worksheet',
+  ]
+  it('are in the toolkit with a taxonomy block and a golden for every variant', () => {
+    for (const id of own) {
+      expect(toolkit.injectTypes).toContain(id)
+      const meta = read(`templates/injects/${id}/meta.json`) as {
+        taxonomy?: unknown
+        variants: string[]
+      }
+      expect(meta.taxonomy).toBeTruthy()
+      for (const v of meta.variants)
+        expect(
+          existsSync(resolve(`templates/injects/${id}/__golden__/${v}.png`)),
+          `${id}/${v}`,
+        ).toBe(true)
+    }
+  })
+  it('amber worksheet lists the five criteria with met, not met or unclear', () => {
+    const preview = read('templates/injects/justice_amber_worksheet/preview.json') as {
+      fields: { criteria: { status: string }[] }
+    }
+    expect(preview.fields.criteria).toHaveLength(5)
+    for (const c of preview.fields.criteria)
+      expect(['Met', 'Not met', 'Unclear']).toContain(c.status)
+  })
+})
+
 describe('justice toolkit', () => {
   it('has the stable id other fields reuse and names the three guardrail rules', () => {
     expect(toolkit.id).toBe('justice')

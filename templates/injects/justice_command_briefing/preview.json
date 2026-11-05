@@ -1,0 +1,145 @@
+{
+  "variant": "unified_command",
+  "fields": {
+    "agency": "Marston Police Department",
+    "division": "Incident Command Post",
+    "incident": "CAD-26-004821, Marston Central High School",
+    "asOf": "14:35",
+    "headline": "Unified command briefing: Marston Central High School",
+    "summary": "Units from three agencies are on scene. A single command post is staffed in the main office lot. Fire and EMS are staged at the south lot and a joint information center is being formed.",
+    "commandPost": {
+      "location": "Main office parking lot, Marston Central High School",
+      "incidentCommander": "Capt. Dana Reyes, Marston Police Department",
+      "channel": "Interoperability channel 3"
+    },
+    "agencies": [
+      {
+        "agency": "Marston Police Department",
+        "role": "Incident command, investigation lead",
+        "representative": "Capt. Dana Reyes",
+        "atCommandPost": "Yes"
+      },
+      {
+        "agency": "Marston County Sheriff’s Office",
+        "role": "Outer perimeter, traffic, county dispatch link",
+        "representative": "Lt. Marcus Bell",
+        "atCommandPost": "Yes"
+      },
+      {
+        "agency": "Marston County Fire and EMS",
+        "role": "Medical care, transport and hospital destinations",
+        "representative": "Battalion Chief Amy Okafor",
+        "atCommandPost": "Yes"
+      },
+      {
+        "agency": "State Patrol",
+        "role": "Traffic on the highway, air support request",
+        "representative": "Sgt. Luis Ortega",
+        "atCommandPost": "Not yet"
+      },
+      {
+        "agency": "Marston School District",
+        "role": "Student rosters, reunification staff",
+        "representative": "Asst. Supt. Helen Park",
+        "atCommandPost": "Yes"
+      }
+    ],
+    "objectives": [
+      "Keep one command post and one set of objectives for every agency on scene.",
+      "Fire and EMS lead medical care, transport and destinations; hospitals are notified of the count.",
+      "Open one reunification site before families arrive at the perimeter in large numbers.",
+      "Release one public message from the joint information center, with the same numbers from every agency."
+    ],
+    "decisionsNeeded": [
+      "Approve the second reunification entrance and the staffing it needs.",
+      "Decide whether to ask the state for a second incident commander for the long investigation."
+    ],
+    "issuedBy": "Planning Section Chief, Lt. Marcus Bell"
+  },
+  "variants": {
+    "mutual_aid": {
+      "fields": {
+        "agency": "Marston Police Department",
+        "division": "Operations Section",
+        "headline": "Mutual aid request to Harlan County Sheriff’s Office",
+        "summary": "Marston Police asks for deputies and a field supervisor to relieve units at the outer perimeter and to staff the reunification site. Report to staging and check in with the Staging Manager.",
+        "agencies": [],
+        "objectives": [],
+        "sites": [
+          {
+            "name": "Staging",
+            "purpose": "Check in, assignment and briefing",
+            "location": "Marston Stadium lot, east side",
+            "status": "Open, Staging Manager on site"
+          }
+        ],
+        "resources": [
+          {
+            "resource": "Deputies",
+            "quantity": "6",
+            "from": "Harlan County Sheriff’s Office",
+            "neededBy": "15:10",
+            "status": "Requested 14:38"
+          },
+          {
+            "resource": "Field supervisor",
+            "quantity": "1",
+            "from": "Harlan County Sheriff’s Office",
+            "neededBy": "15:10",
+            "status": "Requested 14:38"
+          },
+          {
+            "resource": "Victim services staff",
+            "quantity": "4",
+            "from": "Harlan County Victim Services",
+            "neededBy": "15:30",
+            "status": "Requested 14:42"
+          }
+        ],
+        "decisionsNeeded": [
+          "Harlan County to confirm the response through the agreed channel and the number of units sent."
+        ]
+      }
+    },
+    "site_plan": {
+      "fields": {
+        "agency": "Marston Police Department",
+        "division": "Planning Section",
+        "headline": "Staging and reunification site plan",
+        "summary": "Three sites are in use. Families go only to the reunification site; the media area is separate from both. Site managers report status to the command post every 30 minutes.",
+        "agencies": [],
+        "resources": [],
+        "objectives": [],
+        "sites": [
+          {
+            "name": "Staging",
+            "purpose": "Arriving units check in and receive assignments",
+            "location": "Marston Stadium lot, east side",
+            "status": "Open"
+          },
+          {
+            "name": "Reunification site",
+            "purpose": "Parents and guardians meet students; victim services on site",
+            "location": "Marston Community College gymnasium",
+            "status": "Opening 15:30"
+          },
+          {
+            "name": "Family assistance",
+            "purpose": "Private area for families waiting for information",
+            "location": "Marston Community College, library",
+            "status": "Planned"
+          },
+          {
+            "name": "Media area",
+            "purpose": "Briefings by the public information officer",
+            "location": "Corner of Mill Street and 5th Avenue",
+            "status": "Open"
+          }
+        ],
+        "decisionsNeeded": [
+          "Confirm that the district buses carry students only to the reunification site."
+        ]
+      }
+    }
+  }
+}

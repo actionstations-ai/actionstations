@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unified command briefing, mutual aid request and site plan",
+  "description": "A command post document at the coordination level: who is in command, which agencies are in unified command, the objectives, resources requested through mutual aid, and the staging and reunification sites with their building-level locations and status. It never carries tactical detail, positions inside a building or security weaknesses.",
+  "type": "object",
+  "required": ["agency", "incident", "asOf", "headline"],
+  "properties": {
+    "marking": {
+      "type": "string",
+      "description": "Exercise marking",
+      "examples": ["EXERCISE · EXERCISE · EXERCISE"],
+      "x-translate": false
+    },
+    "agency": {
+      "type": "string",
+      "description": "Issuing agency or court",
+      "examples": ["Marston County Sheriff’s Office"],
+      "x-translate": false
+    },
+    "division": {
+      "type": "string",
+      "description": "Unit, section or bureau",
+      "examples": ["Incident Command Post"],
+      "x-translate": false
+    },
+    "incident": {
+      "type": "string",
+      "description": "Incident name or fictional CAD number",
+      "examples": ["CAD-26-004821, Marston Central High School"],
+      "x-translate": false
+    },
+    "asOf": {
+      "type": "string",
+      "description": "Time the briefing is current",
+      "examples": ["14:35"],
+      "x-translate": false
+    },
+    "headline": {
+      "type": "string",
+      "description": "Headline",
+      "examples": ["Unified command briefing: Marston Central High School"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Status in two or three sentences at the coordination level",
+      "examples": [
+        "Units from three agencies are on scene. A single command post is staffed in the main office lot. Fire and EMS are staged at the south lot."
+      ]
+    },
+    "commandPost": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Command post",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Building-level location",
+          "examples": ["Main office parking lot, Marston Central High School"],
+          "x-translate": false
+        },
+        "incidentCommander": {
+          "type": "string",
+          "description": "Incident commander (name and agency)",
+          "examples": ["Capt. Dana Reyes, Marston Police Department"],
+          "x-translate": false
+        },
+        "channel": {
+          "type": "string",
+          "description": "Radio channel or phone",
+          "examples": ["Interoperability channel 3"],
+          "x-translate": false
+        }
+      }
+    },
+    "agencies": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Agencies in unified command",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One agency",
+        "properties": {
+          "agency": {
+            "type": "string",
+            "description": "Agency",
+            "examples": ["Marston County Fire and EMS"],
+            "x-translate": false
+          },
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "examples": ["Medical care, transport and hospital destinations"]
+          },
+          "representative": {
+            "type": "string",
+            "description": "Representative at the command post",
+            "examples": ["Battalion Chief Amy Okafor"],
+            "x-translate": false
+          },
+          "atCommandPost": {
+            "type": "string",
+            "description": "At the command post",
+            "examples": ["Yes"],
+            "enum": ["Yes", "Not yet"]
+          }
+        }
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "maxItems": 6,
+      "description": "Incident objectives",
+      "items": {
+        "type": "string",
+        "examples": ["One public message from every agency through the joint information center"]
+      }
+    },
+    "resources": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Resources requested",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One request",
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Resource",
+            "examples": ["Deputies with a field supervisor"]
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Quantity",
+            "examples": ["6 and 1"],
+            "x-translate": false
+          },
+          "from": {
+            "type": "string",
+            "description": "Requested from",
+            "examples": ["Harlan County Sheriff’s Office"],
+            "x-translate": false
+          },
+          "neededBy": {
+            "type": "string",
+            "description": "Needed by",
+            "examples": ["15:10"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Requested"]
+          }
+        }
+      }
+    },
+    "sites": {
+      "type": "array",
+      "maxItems": 8,
+      "description": "Sites",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One site",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Site",
+            "examples": ["Reunification site"]
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Purpose",
+            "examples": ["Parents and guardians meet students"]
+          },
+          "location": {
+            "type": "string",
+            "description": "Building-level location",
+            "examples": ["Marston Community College gymnasium"],
+            "x-translate": false
+          },
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "examples": ["Opening at 15:30"]
+          }
+        }
+      }
+    },
+    "decisionsNeeded": {
+      "type": "array",
+      "maxItems": 5,
+      "description": "Decisions the command post needs",
+      "items": {
+        "type": "string",
+        "examples": ["Approve the second reunification entrance and the staffing it needs"]
+      }
+    },
+    "issuedBy": {
+      "type": "string",
+      "description": "Prepared by",
+      "examples": ["Planning Section Chief, Lt. Marcus Bell"],
+      "x-translate": false
+    }
+  },
+  "additionalProperties": false
+}

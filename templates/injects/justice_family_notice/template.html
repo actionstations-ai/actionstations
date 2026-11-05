@@ -1,0 +1,56 @@
+<section class="page">
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+  <header class="head">
+    <div>
+      <div class="agency">{{fields.agency}}</div>
+      {{#if fields.division}}
+      <div class="sub">{{fields.division}}</div>
+      {{/if}}
+    </div>
+    <div class="doc-title">
+      {{#if (eq variant 'family_assistance')}}Family assistance{{else}}Reunification notice{{/if}}
+    </div>
+  </header>
+  <h1>{{fields.headline}}</h1>
+  {{#if fields.intro}}
+  <p class="summary">{{fields.intro}}</p>
+  {{/if}}
+  <div class="callout">
+    <strong>{{fields.site.name}}:</strong> {{fields.site.location}}<br />
+    <strong>Opens:</strong> {{fields.site.opensAt}}{{#if fields.site.entrance}} ·
+    {{fields.site.entrance}}{{/if}}
+  </div>
+  <h2>What to do</h2>
+  <ol>
+    {{#each fields.steps}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+  {{#if fields.bring.length}}
+  <h2>What to bring</h2>
+  <ul>
+    {{#each fields.bring}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.pleaseDoNot.length}}
+  <h2>Please do not</h2>
+  <ul>
+    {{#each fields.pleaseDoNot}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+  {{/if}} {{#if fields.supportNote}}
+  <p class="contact">{{fields.supportNote}}</p>
+  {{/if}}
+  <p class="contact">
+    Family information line: <strong>{{fields.hotline}}</strong>{{#if fields.nextUpdate}} · Next
+    update: {{fields.nextUpdate}}{{/if}}
+  </p>
+  <div class="spacer"></div>
+  <div class="foot">
+    <span>Family notice · issued {{fields.issuedAt}}</span
+    ><span>Exercise material. All people and places are fictional.</span>
+  </div>
+  <p class="marking">{{default fields.marking "EXERCISE · EXERCISE · EXERCISE"}}</p>
+</section>
